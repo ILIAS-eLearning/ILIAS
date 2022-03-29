@@ -21,6 +21,9 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 {
     private bool $confirm_change = false;
     private ilClaimingPermissionHelper $permissions;
+    /**
+     * @var array<string,int>
+     */
     private array $perm_map;
     protected \ILIAS\User\StandardGUIRequest $request;
 
@@ -68,13 +71,16 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
             $DIC->refinery()
         );
     }
-    
+
+    /**
+     * @param array<string,string> $a_set
+     * @throws ilTemplateException
+     */
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
         $ilCtrl = $DIC['ilCtrl'];
         
         $field = $a_set["field_id"];

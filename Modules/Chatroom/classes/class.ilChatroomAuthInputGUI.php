@@ -183,7 +183,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
             $DIC->ctrl()->setParameterByClass('ilformpropertydispatchgui', 'postvar', $this->getPostVar());
             $tpl->setVariable(
                 'URL',
-                $DIC->ctrl()->getLinkTargetByClass($this->ctrl_path, 'getRandomValues', '', true, false)
+                $DIC->ctrl()->getLinkTargetByClass($this->ctrl_path, 'getRandomValues', '', true)
             );
             $tpl->setVariable('ID_BTN', $this->getFieldId() . '_btn');
             $tpl->setVariable('TXT_BTN', $DIC->language()->txt('chatroom_auth_btn_txt'));

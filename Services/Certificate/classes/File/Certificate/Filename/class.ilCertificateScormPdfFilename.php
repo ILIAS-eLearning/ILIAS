@@ -33,12 +33,10 @@ class ilCertificateScormPdfFilename implements ilCertificateFilename
             ]));
         }
 
-        $fileName = implode('_', array_filter([
+        return implode('_', array_filter([
             strftime('%y%m%d', time()),
             $fileNameParts,
             $fileName
         ]));
-
-        return $fileName;
     }
 }

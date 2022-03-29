@@ -23,7 +23,6 @@ use Psr\Http\Message\RequestInterface;
  */
 class WrapperFactory
 {
-    
     private RequestInterface $request;
     
     /**

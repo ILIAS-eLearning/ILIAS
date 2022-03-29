@@ -14,7 +14,6 @@
 */
 class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 {
-
     public function setFields(array $a_fields) : void
     {
         $fields = [];

@@ -16,7 +16,7 @@
  * @author  Stefan Meyer <meyer@leifos.de>
  * @ingroup ServicesPrivacySecurity
  */
-class ilObjPrivacySecurityAccess extends \ilObjectAccess
+class ilObjPrivacySecurityAccess extends ilObjectAccess
 {
     /**
      * Overwritten checkAccess

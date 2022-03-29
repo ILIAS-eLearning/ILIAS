@@ -28,10 +28,10 @@ abstract class ilFileSystemAbstractionStorage
     private const FACTOR = 100;
     private const MAX_EXPONENT = 3;
     private const SECURED_DIRECTORY = "sec";
-    private $container_id;
-    private $storage_type;
+    private int $container_id;
+    private int $storage_type;
     private bool $path_conversion = false;
-    protected $path;
+    protected ?string $path;
     protected \ILIAS\Filesystem\Filesystems $file_system_service;
 
     /**

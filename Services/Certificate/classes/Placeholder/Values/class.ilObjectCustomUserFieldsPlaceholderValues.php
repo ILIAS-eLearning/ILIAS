@@ -6,25 +6,14 @@
  */
 class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private array $placeholder;
     private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $ilUtilHelper;
 
-    public function __construct(
-        ?ilCertificateObjectHelper $objectHelper = null,
-        ?ilCertificateUtilHelper $ilUtilHelper = null
-    ) {
-        $this->placeholder = [];
-
+    public function __construct(?ilCertificateObjectHelper $objectHelper = null)
+    {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
-
-        if (null === $ilUtilHelper) {
-            $ilUtilHelper = new ilCertificateUtilHelper();
-        }
-        $this->ilUtilHelper = $ilUtilHelper;
     }
 
     /**

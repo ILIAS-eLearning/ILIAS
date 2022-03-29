@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\UI\Component\Input\Field\Section;
+
 /**
  * User privacy settings (currently located under "Profile and Privacy")
  * @author Alexander Killing <killing@leifos.de>
@@ -21,7 +23,7 @@ class ilUserPrivacySettingsGUI
 {
     private const PROP_ENABLE_OSC = 'chat_osc_accept_msg';
     private const PROP_ENABLE_BROWSER_NOTIFICATIONS = 'chat_osc_browser_notifications';
-    private const PROP_ENABLE_SOUND = 'play_invitation_sound';
+    private const PROP_ENABLE_SOUND = 'play_sound';
     private const PROP_ENABLE_BROADCAST_TYPING = 'chat_broadcast_typing';
 
     protected ilLanguage $lng;
@@ -159,6 +161,7 @@ class ilUserPrivacySettingsGUI
         $this->populateWithAwarenessSettingsSection($sections);
         $this->populateWithContactsSettingsSection($sections);
         $this->populateWithChatSettingsSection($sections);
+        $this->populateWithNotificationSettingsSection($sections);
 
         $form_action = $this->ctrl->getLinkTarget($this, "savePrivacySettings");
 
@@ -166,7 +169,7 @@ class ilUserPrivacySettingsGUI
             ->container()
             ->form()
             ->standard($form_action, $sections)
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(static function ($values) : array {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(static function (array $values) : array {
                 return call_user_func_array('array_merge', $values);
             }));
     }
@@ -177,29 +180,11 @@ class ilUserPrivacySettingsGUI
             $this->chatSettings->get('chat_enabled', false)
         );
     }
-    private function shouldShowNotificationOptions() : bool
-    {
-        return (
-            $this->shouldDisplayChatSection() &&
-            $this->notificationSettings->get('enable_osd', false) &&
-            $this->chatSettings->get('play_invitation_sound', false)
-        );
-    }
 
-    private function shouldShowOnScreenChatOptions() : bool
+    public function shouldDisplayNotificationSection() : bool
     {
         return (
-            $this->shouldDisplayChatSection() &&
-            $this->chatSettings->get('enable_osc', false) &&
-            !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
-        );
-    }
-
-    private function shouldShowChatTypingBroadcastOption() : bool
-    {
-        return (
-            $this->shouldDisplayChatSection() &&
-            !(bool) $this->settings->get('usr_settings_hide_chat_broadcast_typing', false)
+            $this->notificationSettings->get('enable_osd', false)
         );
     }
 
@@ -264,6 +249,32 @@ class ilUserPrivacySettingsGUI
             );
 
         $formSections['contacts_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('mm_contacts'));
+    }
+
+    /**
+     * @param Section[] $formSections
+     */
+    protected function populateWithNotificationSettingsSection(array &$formSections) : void
+    {
+        if (!$this->shouldDisplayNotificationSection()) {
+            return;
+        }
+
+        $fields = [];
+
+        $this->lng->loadLanguageModule('notification_adm');
+        if ($this->shouldShowNotificationOptions()) {
+            $fields[self::PROP_ENABLE_SOUND] = $this->uiFactory->input()->field()
+                ->checkbox($this->lng->txt('play_sound'), $this->lng->txt('play_sound_desc'))
+                ->withValue((bool) $this->user->getPref('play_sound'));
+        }
+
+        if ($fields !== []) {
+            $formSections['notification_sec'] = $this->uiFactory->input()->field()->section(
+                $fields,
+                $this->lng->txt('notification_settings')
+            );
+        }
     }
 
     protected function populateWithChatSettingsSection(
@@ -336,13 +347,6 @@ class ilUserPrivacySettingsGUI
             $fields[self::PROP_ENABLE_OSC] = $enabledOsc;
         }
 
-        if ($this->shouldShowNotificationOptions()) {
-            $fields[self::PROP_ENABLE_SOUND] = $fieldFactory
-                ->checkbox($this->lng->txt('play_invitation_sound'), $this->lng->txt('play_invitation_sound_info'))
-                ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
-                ->withValue((bool) $this->user->getPref('chat_play_invitation_sound'));
-        }
-
         if ($this->shouldShowChatTypingBroadcastOption()) {
             $fields[self::PROP_ENABLE_BROADCAST_TYPING] = $fieldFactory
                 ->checkbox($this->lng->txt('chat_broadcast_typing'), $this->lng->txt('chat_broadcast_typing_info'))
@@ -390,18 +394,19 @@ class ilUserPrivacySettingsGUI
 
             $user->update();
 
-            if ($this->shouldDisplayChatSection()) {
-                $preferencesUpdated = false;
-
+            if ($this->shouldDisplayNotificationSection()) {
                 if ($this->shouldShowNotificationOptions()) {
-                    $oldPlaySoundValue = (int) $this->user->getPref('chat_play_invitation_sound');
+                    $oldPlaySoundValue = (int) $this->user->getPref('play_sound');
                     $playASound = (int) ($formData[self::PROP_ENABLE_SOUND] ?? 0);
 
                     if ($oldPlaySoundValue !== $playASound) {
-                        $this->user->setPref('chat_play_invitation_sound', $playASound);
-                        $preferencesUpdated = true;
+                        $this->user->setPref('play_sound', $playASound);
                     }
                 }
+            }
+
+            if ($this->shouldDisplayChatSection()) {
+                $preferencesUpdated = false;
 
                 if ($this->shouldShowOnScreenChatOptions()) {
                     $oldEnableOscValue = ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'));

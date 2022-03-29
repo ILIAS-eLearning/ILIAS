@@ -303,7 +303,7 @@ class ilPageObjectGUI
         return $this->page_config;
     }
     
-    public function setPageObject(ilPageObject $a_pg_obj)
+    public function setPageObject(ilPageObject $a_pg_obj) : void
     {
         $this->obj = $a_pg_obj;
     }
@@ -2013,7 +2013,7 @@ class ilPageObjectGUI
         $this->displayMedia(true);
     }
 
-    public function displayMedia($a_fullscreen = false) : void
+    public function displayMedia(bool $a_fullscreen = false) : void
     {
         $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $tpl->setCurrentBlock("ilMedia");
@@ -2444,9 +2444,9 @@ class ilPageObjectGUI
     /**
     * display validation error
     *
-    * @param	string		$a_error		error string
+    * @param	string|array		$a_error		error string
     */
-    public function displayValidationError($a_error)
+    public function displayValidationError($a_error) : void
     {
         if (is_array($a_error)) {
             $error_str = "<b>Error(s):</b><br>";
@@ -3012,7 +3012,7 @@ class ilPageObjectGUI
     /**
      * Add resources to template
      */
-    protected function addResourcesToTemplate(ilGlobalTemplateInterface $tpl)
+    protected function addResourcesToTemplate(ilGlobalTemplateInterface $tpl) : void
     {
         $collector = new \ILIAS\COPage\ResourcesCollector($this->getOutputMode(), $this->getPageObject());
 

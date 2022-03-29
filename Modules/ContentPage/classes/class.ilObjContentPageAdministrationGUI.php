@@ -22,9 +22,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private GlobalHttpState $http;
     private Factory $uiFactory;
     private Renderer $uiRenderer;
-    protected ILIAS\Refinery\Factory $refinery;
     private Storage $settingsStorage;
-    protected ilErrorHandling $error;
 
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -37,8 +35,6 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
-        $this->error = $DIC['ilErr'];
         $this->settingsStorage = new StorageImpl($DIC->settings());
     }
 

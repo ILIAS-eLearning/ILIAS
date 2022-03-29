@@ -24,9 +24,9 @@ class ilForumXMLWriter extends ilXmlWriter
         parent::__construct();
     }
 
-    public function setForumId($id) : void
+    public function setForumId(int $id) : void
     {
-        $this->forum_id = (int) $id;
+        $this->forum_id = $id;
     }
 
     public function setFileTargetDirectories(string $a_rel, string $a_abs) : void

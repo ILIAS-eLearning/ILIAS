@@ -28,6 +28,9 @@ class ilUserPasswordManager
     protected ?ilSetting $settings = null;
     protected ?ilDBInterface $db = null;
     protected ?string $encoderName = null;
+    /**
+     * @var array<string, mixed>
+     */
     protected array $config = [];
 
     /**
@@ -35,6 +38,7 @@ class ilUserPasswordManager
      * The constructor is still public because of the unit tests
      * @param array<string, mixed> $config
      * @throws ilUserException
+     * @throws JsonException
      */
     public function __construct(array $config = [])
     {

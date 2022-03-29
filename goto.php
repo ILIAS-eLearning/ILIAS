@@ -69,8 +69,10 @@ if (!ilStartUpGUI::_checkGoto($_GET["target"])) {
                 ),
                 true
             );
+        } else {
+            global $DIC;
+            $DIC->ui()->mainTemplate()->setOnScreenMessage($lng->txt('permission_denied'), true);
         }
-    
         ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
     }
 }

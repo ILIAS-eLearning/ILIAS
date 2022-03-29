@@ -47,11 +47,17 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
         return $this->label;
     }
 
+    /**
+     * @param ilUsersGalleryUser[] $items
+     */
     public function setItems(array $items) : void
     {
         $this->users = $items;
     }
 
+    /**
+     * @return ilUsersGalleryUser[]
+     */
     public function getItems() : array
     {
         return $this->users;

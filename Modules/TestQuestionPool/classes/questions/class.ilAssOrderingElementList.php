@@ -77,7 +77,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return ilAssOrderingElementList
      */
-    public function getClone()
+    public function getClone() : ilAssOrderingElementList
     {
         $that = clone $this;
         return $that;
@@ -86,7 +86,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return integer
      */
-    public function getQuestionId()
+    public function getQuestionId() : ?int
     {
         return $this->questionId;
     }
@@ -169,22 +169,22 @@ class ilAssOrderingElementList implements Iterator
         }
     }
     
-    public function countElements()
+    public function countElements() : int
     {
         return count($this->elements);
     }
     
-    public function hasElements()
+    public function hasElements() : bool
     {
         return (bool) $this->countElements();
     }
     
-    public function isFirstElementPosition($position)
+    public function isFirstElementPosition($position) : bool
     {
         return $position == 0;
     }
     
-    public function isLastElementPosition($position)
+    public function isLastElementPosition($position) : bool
     {
         return $position == ($this->countElements() - 1);
     }
@@ -257,7 +257,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return array[ilAssOrderingElement]
      */
-    public function getElements()
+    public function getElements() : array
     {
         return $this->elements;
     }
@@ -265,7 +265,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return array
      */
-    public function getRandomIdentifierIndexedElements()
+    public function getRandomIdentifierIndexedElements() : array
     {
         return $this->getIndexedElements(self::IDENTIFIER_TYPE_RANDOM);
     }
@@ -273,7 +273,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return array
      */
-    public function getRandomIdentifierIndex()
+    public function getRandomIdentifierIndex() : array
     {
         return array_keys($this->getRandomIdentifierIndexedElements());
     }
@@ -281,7 +281,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return array
      */
-    public function getSolutionIdentifierIndexedElements()
+    public function getSolutionIdentifierIndexedElements() : array
     {
         return $this->getIndexedElements(self::IDENTIFIER_TYPE_SOLUTION);
     }
@@ -289,7 +289,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return array
      */
-    public function getSolutionIdentifierIndex()
+    public function getSolutionIdentifierIndex() : array
     {
         return array_keys($this->getSolutionIdentifierIndexedElements());
     }
@@ -297,7 +297,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return array
      */
-    protected function getIndexedElements($identifierType)
+    protected function getIndexedElements($identifierType) : array
     {
         $elements = array();
         
@@ -324,7 +324,7 @@ class ilAssOrderingElementList implements Iterator
      * @param $randomIdentifier
      * @return ilAssOrderingElement
      */
-    public function getElementByPosition($position)
+    public function getElementByPosition($position) : ?ilAssOrderingElement
     {
         if (isset($this->elements[$position])) {
             return $this->elements[$position];
@@ -337,7 +337,7 @@ class ilAssOrderingElementList implements Iterator
      * @param $position
      * @return bool
      */
-    public function elementExistByPosition($position)
+    public function elementExistByPosition($position) : bool
     {
         return ($this->getElementByPosition($position) !== null);
     }
@@ -346,7 +346,7 @@ class ilAssOrderingElementList implements Iterator
      * @param $randomIdentifier
      * @return ilAssOrderingElement
      */
-    public function getElementByRandomIdentifier($randomIdentifier)
+    public function getElementByRandomIdentifier($randomIdentifier) : ?ilAssOrderingElement
     {
         foreach ($this as $element) {
             if ($element->getRandomIdentifier() != $randomIdentifier) {
@@ -363,7 +363,7 @@ class ilAssOrderingElementList implements Iterator
      * @param $randomIdentifier
      * @return bool
      */
-    public function elementExistByRandomIdentifier($randomIdentifier)
+    public function elementExistByRandomIdentifier($randomIdentifier) : bool
     {
         return ($this->getElementByRandomIdentifier($randomIdentifier) !== null);
     }
@@ -372,7 +372,7 @@ class ilAssOrderingElementList implements Iterator
      * @param $randomIdentifier
      * @return ilAssOrderingElement
      */
-    public function getElementBySolutionIdentifier($solutionIdentifier)
+    public function getElementBySolutionIdentifier($solutionIdentifier) : ?ilAssOrderingElement
     {
         foreach ($this as $element) {
             if ($element->getSolutionIdentifier() != $solutionIdentifier) {
@@ -388,7 +388,7 @@ class ilAssOrderingElementList implements Iterator
      * @param $solutionIdentifier
      * @return bool
      */
-    public function elementExistBySolutionIdentifier($solutionIdentifier)
+    public function elementExistBySolutionIdentifier($solutionIdentifier) : bool
     {
         return ($this->getElementBySolutionIdentifier($solutionIdentifier) !== null);
     }
@@ -396,7 +396,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return array
      */
-    protected function getRegisteredSolutionIdentifiers()
+    protected function getRegisteredSolutionIdentifiers() : array
     {
         return $this->getRegisteredIdentifiers(self::IDENTIFIER_TYPE_SOLUTION);
     }
@@ -404,7 +404,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return array
      */
-    protected function getRegisteredRandomIdentifiers()
+    protected function getRegisteredRandomIdentifiers() : array
     {
         return $this->getRegisteredIdentifiers(self::IDENTIFIER_TYPE_RANDOM);
     }
@@ -413,7 +413,7 @@ class ilAssOrderingElementList implements Iterator
      * @param string $identifierType
      * @return array
      */
-    protected function getRegisteredIdentifiers($identifierType)
+    protected function getRegisteredIdentifiers($identifierType) : array
     {
         if (!isset(self::$identifierRegistry[$identifierType][$this->getQuestionId()])) {
             return array();
@@ -426,7 +426,7 @@ class ilAssOrderingElementList implements Iterator
      * @param ilAssOrderingElement $element
      * @return bool
      */
-    protected function hasValidIdentifiers(ilAssOrderingElement $element)
+    protected function hasValidIdentifiers(ilAssOrderingElement $element) : bool
     {
         $identifier = $this->fetchIdentifier($element, self::IDENTIFIER_TYPE_SOLUTION);
 
@@ -500,7 +500,7 @@ class ilAssOrderingElementList implements Iterator
      * @return bool
      * @throws ilTestQuestionPoolException
      */
-    protected function isIdentifierRegistered(ilAssOrderingElement $element, $identifierType)
+    protected function isIdentifierRegistered(ilAssOrderingElement $element, $identifierType) : bool
     {
         if (!isset(self::$identifierRegistry[$identifierType][$this->getQuestionId()])) {
             return false;
@@ -521,13 +521,14 @@ class ilAssOrderingElementList implements Iterator
      * @return int
      * @throws ilTestQuestionPoolException
      */
-    protected function fetchIdentifier(ilAssOrderingElement $element, $identifierType)
+    protected function fetchIdentifier(ilAssOrderingElement $element, $identifierType) : int
     {
-        switch ($identifierType) {
-            case self::IDENTIFIER_TYPE_SOLUTION: return $element->getSolutionIdentifier();
-            case self::IDENTIFIER_TYPE_RANDOM: return $element->getRandomIdentifier();
+        if ($identifierType == self::IDENTIFIER_TYPE_SOLUTION) {
+            return $element->getSolutionIdentifier();
+        } else {
+            return $element->getRandomIdentifier();
         }
-        
+
         $this->throwUnknownIdentifierTypeException($identifierType);
     }
     
@@ -545,13 +546,8 @@ class ilAssOrderingElementList implements Iterator
             default: $this->throwUnknownIdentifierTypeException($identifierType);
         }
     }
-    
-    /**
-     * @param string $identifierType
-     * @param $identifier
-     * @return mixed
-     * @throws ilTestQuestionPoolException
-     */
+
+    /** @noinspection PhpInconsistentReturnPointsInspection */
     protected function isValidIdentifier($identifierType, $identifier)
     {
         switch ($identifierType) {
@@ -565,16 +561,13 @@ class ilAssOrderingElementList implements Iterator
         $this->throwUnknownIdentifierTypeException($identifierType);
     }
     
-    /**
-     * @param string $identifierType
-     * @return integer
-     * @throws ilTestQuestionPoolException
-     */
-    protected function buildIdentifier($identifierType)
+    protected function buildIdentifier($identifierType) : int
     {
         switch ($identifierType) {
-            case self::IDENTIFIER_TYPE_SOLUTION: return $this->buildSolutionIdentifier();
-            case self::IDENTIFIER_TYPE_RANDOM: return $this->buildRandomIdentifier();
+            case self::IDENTIFIER_TYPE_SOLUTION:
+                return $this->buildSolutionIdentifier();
+            case self::IDENTIFIER_TYPE_RANDOM:
+                return $this->buildRandomIdentifier();
         }
         
         $this->throwUnknownIdentifierTypeException($identifierType);
@@ -628,7 +621,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return integer|null $lastSolutionIdentifier
      */
-    protected function getLastSolutionIdentifier()
+    protected function getLastSolutionIdentifier() : ?int
     {
         $lastSolutionIdentifier = null;
         
@@ -646,7 +639,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return integer|null $nextSolutionIdentifier
      */
-    protected function buildSolutionIdentifier()
+    protected function buildSolutionIdentifier() : ?int
     {
         $lastSolutionIdentifier = $this->getLastSolutionIdentifier();
         
@@ -663,7 +656,7 @@ class ilAssOrderingElementList implements Iterator
      * @return int $randomIdentifier
      * @throws ilTestQuestionPoolException
      */
-    protected function buildRandomIdentifier()
+    protected function buildRandomIdentifier() : int
     {
         $usedTriesCounter = 0;
         
@@ -685,7 +678,7 @@ class ilAssOrderingElementList implements Iterator
         return $randomIdentifier;
     }
     
-    public static function isValidSolutionIdentifier($identifier)
+    public static function isValidSolutionIdentifier($identifier) : bool
     {
         if (!is_numeric($identifier)) {
             return false;
@@ -702,7 +695,7 @@ class ilAssOrderingElementList implements Iterator
         return true;
     }
     
-    public static function isValidRandomIdentifier($identifier)
+    public static function isValidRandomIdentifier($identifier) : bool
     {
         if (!is_numeric($identifier)) {
             return false;
@@ -723,12 +716,12 @@ class ilAssOrderingElementList implements Iterator
         return true;
     }
     
-    public static function isValidPosition($position)
+    public static function isValidPosition($position) : bool
     {
         return self::isValidSolutionIdentifier($position); // this was the position earlier
     }
     
-    public static function isValidIndentation($indentation)
+    public static function isValidIndentation($indentation) : bool
     {
         return self::isValidPosition($indentation); // horizontal position ^^
     }
@@ -747,7 +740,7 @@ class ilAssOrderingElementList implements Iterator
      * @param ilAssOrderingElementList $otherList
      * @return bool $hasSameElements
      */
-    public function hasSameElementSetByRandomIdentifiers(self $otherList)
+    public function hasSameElementSetByRandomIdentifiers(self $otherList) : bool
     {
         $numIntersectingElements = count(array_intersect(
             $otherList->getRandomIdentifierIndex(),
@@ -785,7 +778,7 @@ class ilAssOrderingElementList implements Iterator
         return $this->countElements() == $otherList->countElements();
     }
     
-    public function getParityTrueElementList(self $otherList)
+    public function getParityTrueElementList(self $otherList) : ilAssOrderingElementList
     {
         if (!$this->hasSameElementSetByRandomIdentifiers($otherList)) {
             throw new ilTestQuestionPoolException('cannot compare lists having different element sets');
@@ -815,7 +808,6 @@ class ilAssOrderingElementList implements Iterator
     
     /**
      * @param $randomIdentifiers
-     * @return ilAssOrderingElementList
      * @throws ilTestQuestionPoolException
      */
     public function reorderByRandomIdentifiers($randomIdentifiers)
@@ -859,7 +851,7 @@ class ilAssOrderingElementList implements Iterator
      * @param ilAssOrderingElementList $otherElementList
      * @return $differenceElementList ilAssOrderingElementList
      */
-    public function getDifferenceElementList(self $otherElementList)
+    public function getDifferenceElementList(self $otherElementList) : ilAssOrderingElementList
     {
         $differenceRandomIdentifierIndex = $this->getDifferenceRandomIdentifierIndex($otherElementList);
         
@@ -878,7 +870,7 @@ class ilAssOrderingElementList implements Iterator
      * @param ilAssOrderingElementList $other
      * @return array
      */
-    protected function getDifferenceRandomIdentifierIndex(self $otherElementList)
+    protected function getDifferenceRandomIdentifierIndex(self $otherElementList) : array
     {
         $differenceRandomIdentifierIndex = array_diff(
             $this->getRandomIdentifierIndex(),
@@ -909,13 +901,13 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return ilAssOrderingElement
      */
-    public function current()
+    public function current() : ilAssOrderingElement
     {
         return current($this->elements);
     }
     
     /**
-     * @return ilAssOrderingElement
+     * @return ilAssOrderingElement|false
      */
     public function next()
     {
@@ -933,7 +925,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return bool
      */
-    public function valid()
+    public function valid() : bool
     {
         return ($this->key() !== null);
     }
@@ -941,7 +933,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return ilAssOrderingElement
      */
-    public function rewind()
+    public function rewind() : ilAssOrderingElement
     {
         return reset($this->elements);
     }
@@ -949,7 +941,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @return ilAssOrderingElement
      */
-    public static function getFallbackDefaultElement()
+    public static function getFallbackDefaultElement() : ilAssOrderingElement
     {
         $element = new ilAssOrderingElement();
         $element->setRandomIdentifier(self::FALLBACK_DEFAULT_ELEMENT_RANDOM_IDENTIFIER);
@@ -962,7 +954,7 @@ class ilAssOrderingElementList implements Iterator
      * @param array[ilAssOrderingElement] $orderingElements
      * @return ilAssOrderingElementList
      */
-    public static function buildInstance($questionId, $orderingElements = array())
+    public static function buildInstance($questionId, $orderingElements = array()) : ilAssOrderingElementList
     {
         $elementList = new self();
         
@@ -972,7 +964,7 @@ class ilAssOrderingElementList implements Iterator
         return $elementList;
     }
     
-    public function getHash()
+    public function getHash() : string
     {
         $items = array();
         

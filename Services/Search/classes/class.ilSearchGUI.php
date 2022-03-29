@@ -44,30 +44,32 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
         $this->form->checkInput();
         
-        $new_search = isset($_POST['cmd']['performSearch']) ? true : false;
+        $new_search = isset($_POST['cmd']['performSearch']) ? true : false;// @TODO: PHP8 Review: Direct access to $_POST.
 
         $enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
         foreach ($enabled_types as $type => $pval) {
-            if ($_POST['filter_type'][$type] == 1) {
-                $_POST["search"]["details"][$type] = $_POST['filter_type'][$type];
+            if ($_POST['filter_type'][$type] == 1) {// @TODO: PHP8 Review: Direct access to $_POST.
+                $_POST["search"]["details"][$type] = $_POST['filter_type'][$type];// @TODO: PHP8 Review: Direct access to $_POST.
             }
         }
 
-        $_POST["search"]["string"] = $_POST["term"];
-        $_POST["search"]["combination"] = $_POST["combination"];
-        $_POST["search"]["type"] = $_POST["type"];
-        $_SESSION['search_root'] = $_POST["area"];
+        $_POST["search"]["string"] = $_POST["term"];// @TODO: PHP8 Review: Direct access to $_POST.
+        $_POST["search"]["combination"] = $_POST["combination"];// @TODO: PHP8 Review: Direct access to $_POST.
+        $_POST["search"]["type"] = $_POST["type"];// @TODO: PHP8 Review: Direct access to $_POST.
+        ilSession::set('search_root', $_POST['area']);// @TODO: PHP8 Review: Direct access to $_POST.
 
-        $this->root_node = (int) ($_SESSION['search_root'] ?? ROOT_FOLDER_ID);
-        $this->setType((int) ($_POST['search']['type'] ?? $_SESSION['search']['type']));
+        $this->root_node = (int) (ilSession::get('search_root') ?? ROOT_FOLDER_ID);
+
+        $session_search = ilSession::get('search') ?? [];
+        $this->setType((int) ($_POST['search']['type'] ?? ($session_search['type'] ?? ilSearchBaseGUI::SEARCH_FAST)));// @TODO: PHP8 Review: Direct access to $_POST.
 
         $this->setCombination(
             ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ?
                 self::SEARCH_AND :
                 self::SEARCH_OR
         );
-        $this->setString((string) ($_POST['search']['string'] ?? $_SESSION['search']['string']));
-        $this->setDetails($new_search ? $_POST['search']['details'] : $_SESSION['search']['details']);
+        $this->setString((string) ($_POST['search']['string'] ?? ($session_search['string'] ?? '')));// @TODO: PHP8 Review: Direct access to $_POST.
+        $this->setDetails($new_search ? $_POST['search']['details'] : ($session_search['details'] ?? []));// @TODO: PHP8 Review: Direct access to $_POST.
     }
 
 
@@ -92,7 +94,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
-                                $cp = new ilObjectCopyGUI($this);
+                                $cp = new ilObjectCopyGUI($this);// @TODO: PHP8 Review: Invalid argument.
                 $this->ctrl->forwardCommand($cp);
                 break;
             
@@ -112,8 +114,11 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setType(int $a_type) : void
     {
-        $_SESSION['search']['type'] = $this->type = $a_type;
+        $session_search = ilSession::get('saerch');
+        $session_search['type'] = $this->type = $a_type;
+        ilSession::set('search', $session_search);
     }
+
     public function getType() : int
     {
         return $this->type ?? ilSearchBaseGUI::SEARCH_FAST;
@@ -124,7 +129,9 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setCombination(string $a_combination) : void
     {
-        $_SESSION['search']['combination'] = $this->combination = $a_combination;
+        $session_search = ilSession::get('search') ?? [];
+        $session_search['combination'] = $this->combination = $a_combination;
+        ilSession::set('search', $session_search);
     }
     public function getCombination() : string
     {
@@ -136,7 +143,9 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setString(string $a_str) : void
     {
-        $_SESSION['search']['string'] = $this->string = $a_str;
+        $session_search = ilSession::get('search') ?? [];
+        $session_search['string'] = $this->string = $a_str;
+        ilSession::set('search', $session_search);
     }
     public function getString() : string
     {
@@ -148,7 +157,9 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setDetails(array $a_details) : void
     {
-        $_SESSION['search']['details'] = $this->details = $a_details;
+        $session_search = ilSession::get('search') ?? [];
+        $session_search['details'] = $this->details = $a_details;
+        ilSession::set('search', $session_search);
     }
     public function getDetails() : array
     {
@@ -160,9 +171,10 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         return $this->root_node ?: ROOT_FOLDER_ID;
     }
+
     public function setRootNode(int $a_node_id) : void
     {
-        $_SESSION['search_root'] = $this->root_node = $a_node_id;
+        ilSession::set('search_root', $this->root_node = $a_node_id);
     }
         
     
@@ -207,7 +219,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function autoComplete() : void
     {
-        if ((int) $_REQUEST['search_type'] == -1) {
+        if ((int) $_REQUEST['search_type'] == -1) {// @TODO: PHP8 Review: Direct access to $_REQUEST.
             $a_fields = array('login','firstname','lastname','email');
             $result_field = 'login';
 
@@ -221,7 +233,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $auto->enableFieldSearchableCheck(true);
             $auto->setUserLimitations(true);
 
-            $res = $auto->getList($_REQUEST['term']);
+            $res = $auto->getList($_REQUEST['term']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
             
             $res_obj = json_decode($res);
             
@@ -234,7 +246,7 @@ class ilSearchGUI extends ilSearchBaseGUI
                 exit;
             }
         } else {
-            $q = $_REQUEST["term"];
+            $q = $_REQUEST["term"];// @TODO: PHP8 Review: Direct access to $_REQUEST.
             $list = ilSearchAutoComplete::getList($q);
             ilLoggerFactory::getLogger('sea')->dump(json_decode($list));
             echo $list;
@@ -322,7 +334,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
-            unset($_SESSION['max_page']);
+            ilSession::clear('max_page');
             $this->search_cache->deleteCachedEntries();
         }
 

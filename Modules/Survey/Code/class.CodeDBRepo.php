@@ -57,7 +57,7 @@ class CodeDBRepo
     {
         $db = $this->db;
 
-        if ($code != "") {
+        if ($code !== "") {
             $db->manipulateF(
                 "DELETE FROM svy_anonymous WHERE " .
                 " survey_fi = %s AND survey_key = %s",
@@ -77,7 +77,7 @@ class CodeDBRepo
         mt_srand();
         $code = "";
         for ($i = 1; $i <= 5; $i++) {
-            $index = mt_rand(0, strlen($codestring) - 1);
+            $index = random_int(0, strlen($codestring) - 1);
             $code .= substr($codestring, $index, 1);
         }
         // uniqueness
@@ -132,7 +132,7 @@ class CodeDBRepo
     ) : int {
         $db = $this->db;
 
-        if ($code == "") {
+        if ($code === "") {
             $code = $this->getNew($survey_id);
         }
         if ($this->exists($survey_id, $code)) {
@@ -141,7 +141,7 @@ class CodeDBRepo
 
         $user_key = $this->getUserKey($user_id);
 
-        if ($tstamp == 0) {
+        if ($tstamp === 0) {
             $tstamp = time();
         }
 
@@ -156,7 +156,7 @@ class CodeDBRepo
             "sent" => ["integer", $sent]
         ]);
 
-        if ($email != "" || $last_name != "" || $first_name != "") {
+        if ($email !== "" || $last_name !== "" || $first_name !== "") {
             $this->updateExternalData(
                 $next_id,
                 $email,
@@ -199,7 +199,7 @@ class CodeDBRepo
 
         $email = trim($email);
 
-        if (($email && !\ilUtil::is_email($email)) || $email == "") {
+        if ($email === "" || ($email && !\ilUtil::is_email($email))) {
             return false;
         }
 
@@ -261,14 +261,14 @@ class CodeDBRepo
         $codes = [];
         while ($rec = $db->fetchAssoc($set)) {
             $codes[] = $this->data->code($rec["survey_key"])
-                ->withId($rec["anonymous_id"])
-                ->withSurveyId($rec["survey_fi"])
-                ->withUserKey($rec["user_key"])
-                ->withTimestamp($rec["tstamp"])
-                ->withSent($rec["sent"])
-                ->withEmail($rec["email"])
-                ->withFirstName($rec["firstname"])
-                ->withLastName($rec["lastname"]);
+                ->withId((int) $rec["anonymous_id"])
+                ->withSurveyId((int) $rec["survey_fi"])
+                ->withUserKey((string) $rec["user_key"])
+                ->withTimestamp((int) $rec["tstamp"])
+                ->withSent((int) $rec["sent"])
+                ->withEmail((string) $rec["email"])
+                ->withFirstName((string) $rec["firstname"])
+                ->withLastName((string) $rec["lastname"]);
         }
 
         return $codes;
@@ -288,7 +288,7 @@ class CodeDBRepo
         );
 
         if ($rec = $db->fetchAssoc($set)) {
-            $ext_data = unserialize((string) $rec["externaldata"]);
+            $ext_data = unserialize((string) $rec["externaldata"], ["allowed_classes" => false]);
             return $this->data->code($rec["survey_key"])
                                   ->withId((int) $rec["anonymous_id"])
                                   ->withSurveyId((int) $rec["survey_fi"])

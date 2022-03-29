@@ -45,7 +45,7 @@ class ilMyTestResultsGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -61,7 +61,7 @@ class ilMyTestResultsGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ilTestAccess
     {
         return $this->testAccess;
     }
@@ -77,7 +77,7 @@ class ilMyTestResultsGUI
     /**
      * @return ilTestSession
      */
-    public function getTestSession()
+    public function getTestSession() : ilTestSession
     {
         return $this->testSession;
     }
@@ -93,7 +93,7 @@ class ilMyTestResultsGUI
     /**
      * @return ilTestObjectiveOrientedContainer
      */
-    public function getObjectiveParent()
+    public function getObjectiveParent() : ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }

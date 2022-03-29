@@ -56,7 +56,7 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
         return $users;
     }
 
-    public function getGroupedCollections() : array
+    public function getGroupedCollections() : array // Missing array type.
     {
         /**
          * @var $DIC ILIAS\DI\Container

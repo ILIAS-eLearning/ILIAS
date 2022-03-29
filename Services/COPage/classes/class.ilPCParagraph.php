@@ -1968,7 +1968,7 @@ class ilPCParagraph extends ilPageContent
     public static function autoLinkGlossariesPage(
         ilPageObject $a_page,
         array $a_terms
-    ) {
+    ) : void {
         $a_page->buildDom();
         $a_dom = $a_page->getDom();
 

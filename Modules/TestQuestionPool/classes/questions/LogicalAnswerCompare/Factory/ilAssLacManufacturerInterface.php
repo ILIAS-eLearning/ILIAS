@@ -15,7 +15,7 @@ interface ilAssLacManufacturerInterface
      *
      * @return ilAssLacManufacturerInterface
      */
-    public static function _getInstance();
+    public static function _getInstance() : ?ilAssLacManufacturerInterface;
 
     /**
      * Create a new specific Composite object which is representing the delivered Attribute
@@ -29,7 +29,7 @@ interface ilAssLacManufacturerInterface
     /**
      * @return string
      */
-    public function getPattern();
+    public function getPattern() : string;
 
     /**
      * Matches a delivered string with a the pattern returned by getPattern implemented in the explicit Manufacturer
@@ -39,5 +39,5 @@ interface ilAssLacManufacturerInterface
      * @see ManufacturerInterface::getPattern()
      * @return array
      */
-    public function match($subject);
+    public function match($subject) : array;
 }

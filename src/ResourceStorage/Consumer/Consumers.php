@@ -25,7 +25,6 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
  */
 class Consumers
 {
-
     private \ILIAS\ResourceStorage\Consumer\ConsumerFactory $consumer_factory;
     private \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
 

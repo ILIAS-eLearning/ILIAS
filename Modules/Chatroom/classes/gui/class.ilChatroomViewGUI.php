@@ -18,7 +18,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $this->gui->switchToVisibleMode();
         $this->setupTemplate();
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
         $failure = true;
         $username = '';
@@ -65,7 +65,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->mainTpl->addJavaScript('node_modules/jquery-outside-events/jquery.ba-outside-events.js');
         $this->mainTpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
 
-        $this->mainTpl->addCSS('Modules/Chatroom/templates/default/style.css');
+        $this->mainTpl->addCss('Modules/Chatroom/templates/default/style.css');
     }
 
     /**
@@ -307,14 +307,18 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('read');
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
  
         $state = 0;
         if ($this->http->wrapper()->post()->has('state')) {
             $state = $this->http->wrapper()->post()->retrieve('state', $this->refinery->kindlyTo()->int());
         }
-        
-        ilObjUser::_writePref($this->ilUser->getId(), 'chat_hide_automsg_' . $room->getRoomId(), (int) (!(bool) $state));
+
+        ilObjUser::_writePref(
+            $this->ilUser->getId(),
+            'chat_hide_automsg_' . $room->getRoomId(),
+            (string) ((int) (!(bool) $state))
+        );
 
         $this->http->saveResponse(
             $this->http->response()
@@ -418,7 +422,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->ilCtrl->getFormAction($this->gui, 'view-joinWithCustomName')
         );
 
-        $this->mainTpl->setVariable('ADM_CONTENT', $selectionForm->getHtml());
+        $this->mainTpl->setVariable('ADM_CONTENT', $selectionForm->getHTML());
     }
 
     /**
@@ -440,7 +444,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             exit;
         }
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         if (!$room->getSetting('allow_anonymous') && $this->ilUser->isAnonymous()) {
             $this->cancelJoin($this->ilLng->txt('chat_anonymous_not_allowed'));
@@ -469,7 +473,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirect($this->gui, 'settings-general');
         }
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
 
         $user_id = $this->getRequestValue('usr_id', $this->refinery->kindlyTo()->int());
@@ -526,10 +530,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $response = [];
 
-        if (!$this->ilUser) {
-            $this->sendResponse($response);
-        }
-
         $usr_ids = null;
         if ($this->hasRequestValue('usr_ids')) {
             $usr_ids = $this->getRequestValue('usr_ids', $this->refinery->kindlyTo()->string());
@@ -544,7 +544,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         
         $user_ids = array_filter(array_map('intval', array_map('trim', explode(',', $usr_ids))));
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $chatRoomUserDetails = ilChatroomUser::getUserInformation($user_ids, $room->getRoomId());
         $chatRoomUserDetailsByUsrId = array_combine(
             array_map(

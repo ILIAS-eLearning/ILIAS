@@ -39,7 +39,7 @@ class ilQueryParser
      */
     public const MIN_WORD_LENGTH = 3;
     public const QP_COMBINATION_AND = 'and';
-    public const QP_COMBINATION_OR  = 'or';
+    public const QP_COMBINATION_OR = 'or';
 
     protected ilLanguage $lng;
     protected ilSearchSettings $settings;

@@ -21,10 +21,8 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
         $this->sanitizer = new ilFileServicesFilenameSanitizer($settings);
     }
     
-    public function prepareFileNameForConsumer(string $filename_with_extension): string
+    public function prepareFileNameForConsumer(string $filename_with_extension) : string
     {
-        return $this->sanitizer->sanitize($filename_with_extension);
+        return $this->sanitizer->sanitize(basename($filename_with_extension));
     }
-    
 }
-

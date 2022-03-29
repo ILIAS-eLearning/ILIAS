@@ -52,7 +52,7 @@ interface ilComponentRepository
      *
      * Keys are the ids.
      *
-     * @return Iterator <string, ilPluginSlotInfo>
+     * @return Iterator<string, ilPluginSlotInfo>
      */
     public function getPluginSlots() : Iterator;
 
@@ -73,7 +73,7 @@ interface ilComponentRepository
      *
      * Keys are the ids.
      *
-     * @return Iterator <string, ilPluginInfo>
+     * @return Iterator<string, ilPluginInfo>
      */
     public function getPlugins() : Iterator;
 

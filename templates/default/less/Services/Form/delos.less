@@ -37,11 +37,24 @@ form.form-inline {
 
 .form-control:focus-visible {
 	.box-shadow(none);
-	outline: @il-focus-outline;
+	outline: @il-focus-outline-inner;
 }
 
-.btn-file:focus-within {
-	outline: @il-focus-outline;
+input[type="file"]:focus:focus-visible::after,
+input[type="radio"]:focus:focus-visible::after,
+input[type="checkbox"]:focus:focus-visible::after {
+	content: none;
+}
+
+input.btn.btn-default:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: @il-focus-outline-inner-width;
+}
+
+.btn-file:focus-within, .btn-file:hover:focus-within {
+    z-index: 3;
+    outline: @il-focus-outline-inner;
+    outline-offset: @il-focus-outline-inner-width;
 }
 
 textarea.form-control {
@@ -68,7 +81,7 @@ select.form-control {
 	.control-label {
 		//padding-top: 0;
 		//line-height: 24px;
-		padding-bottom: (@padding-base-vertical + 1);
+		padding-bottom: (@il-padding-base-vertical + 1);
 		min-height: (@line-height-computed + @font-size-base);
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			min-height: auto;
@@ -121,6 +134,12 @@ td.form-inline > div.form-group {
 	padding: 4px 0;
 }
 
+input[type="radio"]:focus:focus-visible,
+input[type="checkbox"]:focus:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: @il-focus-outline-outer-width;
+}
+
 input[type="file"].form-control {
 	border: none;
 	height: auto;
@@ -153,7 +172,7 @@ input[type="file"].form-control {
 	.form-group {
 		margin: 0;
 		@media (max-width: @grid-float-breakpoint-max) {
-			margin: @padding-large-vertical 0;
+			margin: @il-margin-large-vertical 0;
 		}
 	}
 	.col-sm-9.il_textarea {
@@ -298,7 +317,7 @@ div.ilFormInfo {
 }
 
 input:invalid {
-	background-color: #ffebeb;
+	background-color:  #ffebeb;
 	border-color: @il-danger-color;
 }
 

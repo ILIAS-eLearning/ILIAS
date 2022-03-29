@@ -20,7 +20,7 @@
 class ilRoleAssignmentTableGUI extends ilTable2GUI
 {
     protected ilPathGUI $path_gui;
-    protected array $filter;
+    protected array $filter; // Missing array type.
     
     public function __construct(
         object $a_parent_obj,
@@ -88,7 +88,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->filter["role_filter"] = $si->getValue();
     }
     
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         global $DIC;
 

@@ -45,7 +45,6 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     protected string $backUrl = '';
     protected ilObjUser $actor;
     protected GlobalHttpState $http;
-    private ilForumProperties $forumProperties;
     protected ObjectFacade $content_style_domain;
 
     public function __construct(
@@ -54,7 +53,6 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         ilTabsGUI $tabs,
         ilLanguage $lng,
         ilObjForum $parentObject,
-        ilForumProperties $forumProperties,
         ilObjUser $actor,
         ObjectFacade $content_style_domain
     ) {
@@ -63,7 +61,6 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
         $this->tabs = $tabs;
         $this->lng = $lng;
         $this->parentObject = $parentObject;
-        $this->forumProperties = $forumProperties;
         $this->actor = $actor;
         $this->content_style_domain = $content_style_domain;
 

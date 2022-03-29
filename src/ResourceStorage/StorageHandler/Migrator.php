@@ -81,7 +81,7 @@ class Migrator
         return false;
     }
 
-    public function removeEmptySubFolders($path) : bool
+    public function removeEmptySubFolders(string $path) : bool
     {
         $empty = true;
         foreach (glob($path . DIRECTORY_SEPARATOR . "*") as $file) {

@@ -263,7 +263,7 @@ class ilObjTestXMLParser extends ilSaxParser
         if ($derive_from_obj_id) {
             $ref_ids = ilObject::_getAllReferences($effective_pool_id);
             $ref_id = current($ref_ids);
-            $sourcePoolDefinition->setPoolRefId($ref_id ? (int) $ref_id : null);
+            $sourcePoolDefinition->setPoolRefId($ref_id ? $ref_id : null);
         }
 
         $sourcePoolDefinition->setPoolQuestionCount((int) $attr['poolQuestCount']);

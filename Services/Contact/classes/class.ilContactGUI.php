@@ -360,6 +360,7 @@ class ilContactGUI
      */
     public function submitInvitation() : void
     {
+        $usr_ids = [];
         try {
             $usr_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()
@@ -407,7 +408,7 @@ class ilContactGUI
 
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
-            if (!$login || $login === '') {
+            if ($login === '') {
                 $no_login[$usr_id] = $usr_id;
                 continue;
             }

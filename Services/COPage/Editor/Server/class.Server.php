@@ -48,9 +48,10 @@ class Server
     public function reply() : void
     {
         $query = $this->request->getQueryParams();
+        $post = $this->request->getParsedBody();
 
-        if (is_array($_POST) && count($_POST) > 0) {
-            $body = $this->request->getParsedBody();
+        if (isset($post) && is_array($post) && count($post) > 0) {
+            $body = $post;
         } else {
             $body = json_decode($this->request->getBody()->getContents(), true);
         }

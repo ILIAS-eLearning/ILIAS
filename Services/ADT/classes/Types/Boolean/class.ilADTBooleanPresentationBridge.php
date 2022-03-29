@@ -20,7 +20,7 @@ class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: cast to int ?

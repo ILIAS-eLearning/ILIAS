@@ -35,7 +35,7 @@ class ilAssLacQuestionNotReachable extends ilAssLacException implements ilAssLac
     /**
      * @return int
      */
-    public function getQuestionIndex()
+    public function getQuestionIndex() : int
     {
         return $this->question_index;
     }
@@ -44,7 +44,7 @@ class ilAssLacQuestionNotReachable extends ilAssLacException implements ilAssLac
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng) : string
     {
         return sprintf(
             $lng->txt("ass_lac_question_not_reachable"),

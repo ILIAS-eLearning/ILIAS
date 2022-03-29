@@ -95,7 +95,7 @@ class ilLuceneQueryParser
      * @throws ilLuceneQueryParserException
      * @todo add multi byte query validation.
      */
-    public static function validateQuery($a_query)
+    public static function validateQuery($a_query) : bool
     {
         #ilLuceneQueryParser::checkAllowedCharacters($a_query);
         #ilLuceneQueryParser::checkAsterisk($a_query);

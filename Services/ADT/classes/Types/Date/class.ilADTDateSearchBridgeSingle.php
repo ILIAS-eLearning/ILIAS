@@ -31,7 +31,10 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($date);
     }
 
-    protected function shouldBeImportedFromPost(mixed $a_post) : bool
+    /**
+     * @inheritDoc
+     */
+    protected function shouldBeImportedFromPost($a_post) : bool
     {
         return (bool) $a_post["tgl"];
     }

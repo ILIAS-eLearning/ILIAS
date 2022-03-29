@@ -91,7 +91,7 @@ class ilSurveyExport
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
 
         // write xml file
-        $xmlFile = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->filename, "w");
+        $xmlFile = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->filename, 'wb');
         fwrite($xmlFile, $this->survey_obj->toXML());
         fclose($xmlFile);
 

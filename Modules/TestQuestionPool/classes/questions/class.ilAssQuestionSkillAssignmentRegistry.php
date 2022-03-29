@@ -32,7 +32,7 @@ class ilAssQuestionSkillAssignmentRegistry
     /**
      * @return int
      */
-    public function getChunkSize()
+    public function getChunkSize() : int
     {
         return $this->chunkSize;
     }
@@ -54,7 +54,7 @@ class ilAssQuestionSkillAssignmentRegistry
      * @param string $key
      * @return int
      */
-    protected function getNumberOfChunksByKey($key)
+    protected function getNumberOfChunksByKey($key) : int
     {
         return (int) $this->settings->get($key . '_num', 0);
     }

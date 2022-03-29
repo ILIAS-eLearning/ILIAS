@@ -33,8 +33,4 @@ include_once('Services/Exceptions/classes/class.ilException.php');
 */
 class ilCurlConnectionException extends ilException
 {
-    public function __construct($a_message, $a_errno = 0)
-    {
-        parent::__construct($a_message, $a_errno);
-    }
 }

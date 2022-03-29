@@ -33,10 +33,8 @@
 
 class ilLikeWebresourceSearch extends ilWebresourceSearch
 {
-
     public function __createWhereCondition() : string
     {
-
         $concat = ' title ';
 
         $and = "  WHERE  ";

@@ -92,6 +92,9 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
     }
 
+    /**
+     * @param string|int $number
+     */
     protected function isDecimal($number) : bool
     {
         $number = (string) $number;

@@ -123,16 +123,22 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
             $this->tpl->setVariable("FINISHED", "&nbsp;");
         }
     }
-    
-    protected function formatTime($timeinseconds)
+
+    /**
+     * @param mixed $timeinseconds
+     * @return string
+     */
+    protected function formatTime($timeinseconds) : string
     {
         if (is_null($timeinseconds)) {
             return " ";
-        } elseif ($timeinseconds == 0) {
-            return $this->lng->txt('not_available');
-        } else {
-            return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
         }
+
+        if ($timeinseconds == 0) {
+            return $this->lng->txt('not_available');
+        }
+
+        return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
     }
 
     public function numericOrdering(string $a_field) : bool

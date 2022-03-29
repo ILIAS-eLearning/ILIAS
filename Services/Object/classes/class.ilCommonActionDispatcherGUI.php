@@ -252,7 +252,7 @@ class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
     /**
      * Add callback for rating gui
      */
-    public function setRatingCallback(ilObjectGUI $gui, string $cmd) : void
+    public function setRatingCallback(object $gui, string $cmd) : void
     {
         $this->rating_callback = array($gui, $cmd);
     }

@@ -68,7 +68,12 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     */
     public function saveToDb($original_id = "") : void
     {
-        $this->saveQuestionDataToDb($original_id);
+        if ($original_id == "") {
+            $this->saveQuestionDataToDb();
+        } else {
+            $this->saveQuestionDataToDb($original_id);
+        }
+
         $this->saveAdditionalQuestionDataToDb();
         parent::saveToDb();
     }
@@ -76,7 +81,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     /**
      * @return string
      */
-    public function getAnswerSeparator()
+    public function getAnswerSeparator() : string
     {
         return $this->answer_separator;
     }
@@ -102,15 +107,15 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             include_once("./Services/RTE/classes/class.ilRTE.php");
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setOrderText($data["ordertext"]);
             $this->setTextSize($data["textsize"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
@@ -182,11 +187,10 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     /**
     * Copies an assOrderingHorizontal object
     */
-    public function copyObject($target_questionpool_id, $title = "")
+    public function copyObject($target_questionpool_id, $title = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
         $clone = $this;
@@ -209,11 +213,10 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -262,7 +265,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false) : int
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -293,7 +296,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      *
      * @return array
      */
-    public function splitAndTrimOrderElementText($in_string, $separator)
+    public function splitAndTrimOrderElementText($in_string, $separator) : array
     {
         $result = array();
         include_once "./Services/Utilities/classes/class.ilStr.php";
@@ -412,7 +415,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return string The additional table name
     */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return "qpl_qst_horder";
     }
@@ -422,7 +425,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return string The answer table name
     */
-    public function getAnswerTableName()
+    public function getAnswerTableName() : string
     {
         return "";
     }
@@ -468,7 +471,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQTIItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -500,7 +503,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return array An associated array containing the best solution
     */
-    public function getBestSolution($active_id, $pass)
+    public function getBestSolution($active_id, $pass) : array
     {
         $user_solution = array();
         return $user_solution;
@@ -511,7 +514,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return array Ordering elements
     */
-    public function getOrderingElements()
+    public function getOrderingElements() : array
     {
         return $this->splitAndTrimOrderElementText($this->getOrderText(), $this->separator);
     }
@@ -521,7 +524,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return array Ordering elements
     */
-    public function getRandomOrderingElements()
+    public function getRandomOrderingElements() : array
     {
         $elements = $this->getOrderingElements();
         $elements = $this->getShuffler()->transform($elements);
@@ -533,7 +536,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return string Order text
     */
-    public function getOrderText()
+    public function getOrderText() : string
     {
         return $this->ordertext;
     }
@@ -551,7 +554,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     /**
     * Get text size
     *
-    * @return double Text size in percent
+    * @return double Text size in percent maybe
     */
     public function getTextSize()
     {
@@ -575,7 +578,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return string Separator
     */
-    public function getSeparator()
+    public function getSeparator() : string
     {
         return $this->separator;
     }
@@ -590,9 +593,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $this->separator = $a_value;
     }
 
-    /**
-    * Object getter
-    */
     public function __get($value)
     {
         switch ($value) {
@@ -605,10 +605,8 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             case "separator":
                 return $this->getSeparator();
                 break;
-            default:
-                return parent::__get($value);
-                break;
         }
+        return null;
     }
 
     /**
@@ -625,9 +623,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
                 break;
             case "separator":
                 $this->setSeparator($value);
-                break;
-            default:
-                parent::__set($key, $value);
                 break;
         }
     }
@@ -649,12 +644,12 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
-        $result['id'] = (int) $this->getId();
+        $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = (string) $this->getTitle();
+        $result['title'] = $this->getTitle();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
-        $result['nr_of_tries'] = (int) $this->getNrOfTries();
-        $result['shuffle'] = (bool) true;
+        $result['nr_of_tries'] = $this->getNrOfTries();
+        $result['shuffle'] = true;
         $result['points'] = (bool) $this->getPoints();
         $result['textsize'] = ((int) $this->getTextSize()) // #10923
             ? (int) $this->getTextSize()
@@ -687,7 +682,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression)
+    public function getOperators($expression) : array
     {
         require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -697,7 +692,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes()
+    public function getExpressionTypes() : array
     {
         return array(
             iQuestionCondition::PercentageResultExpression,
@@ -715,7 +710,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass)
+    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;
@@ -790,7 +785,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @param $value
      * @return int
      */
-    protected function calculateReachedPointsForSolution($value)
+    protected function calculateReachedPointsForSolution($value) : int
     {
         $value = $this->splitAndTrimOrderElementText($value, $this->answer_separator);
         $value = join($this->answer_separator, $value);

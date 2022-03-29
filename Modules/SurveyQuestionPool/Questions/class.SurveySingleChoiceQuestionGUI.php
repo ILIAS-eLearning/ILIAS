@@ -86,7 +86,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                 );
             }
         }
-        if ($this->request->getNeutral() != "") {
+        if ($this->request->getNeutral() !== "") {
             $this->object->getCategories()->addCategory($this->request->getNeutral(), 0, 1, null, $this->request->getNeutralScale());
         }
     }
@@ -119,7 +119,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
             // "other" options have to be last or horizontal will be screwed
             $idx = $cat->other . "_" . $value;
             
-            if (!$a_only_user_anwers || $checked == "checked") {
+            if (!$a_only_user_anwers || $checked === "checked") {
                 $options[$idx] = array(
                     "value" => $value
                     ,"title" => trim($cat->title)
@@ -155,7 +155,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                         $template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_RADIO", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_RADIO", $this->lng->txt($option["checked"]));
-                        $template->setVariable("OTHER_LABEL",
+                        $template->setVariable(
+                            "OTHER_LABEL",
                             ilLegacyFormElementsUtil::prepareFormOutput($option["title"])
                         );
                         $template->setVariable("OTHER_ANSWER", $option["textanswer"]
@@ -183,7 +184,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                 foreach ($options as $option) {
                     if ($option["other"]) {
                         $template->setCurrentBlock("other_text_col");
-                        $template->setVariable("OTHER_LABEL",
+                        $template->setVariable(
+                            "OTHER_LABEL",
                             ilLegacyFormElementsUtil::prepareFormOutput($option["title"])
                         );
                         $template->setVariable("OTHER_ANSWER", $option["textanswer"]
@@ -201,7 +203,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                     $template->setCurrentBlock("comborow");
                     $template->setVariable("TEXT_SC", ilLegacyFormElementsUtil::prepareFormOutput($option["title"]));
                     $template->setVariable("VALUE_SC", $option["value"]);
-                    if ($option["checked"] == "checked") {
+                    if ($option["checked"] === "checked") {
                         $template->setVariable("SELECTED_SC", ' selected="selected"');
                     }
                     $template->parseCurrentBlock();
@@ -238,12 +240,12 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
     ) : string {
         $orientation = $this->object->orientation;
         $template_file = "tpl.il_svy_out_sc.html";
-        if ($compress_view && $orientation == 1) {
+        if ($compress_view && $orientation === 1) {
             $template_file = "tpl.il_svy_out_sc_comp.html";
             $orientation = 3;
         }
         $template = new ilTemplate($template_file, true, true, "Modules/SurveyQuestionPool");
-        if ($this->getMaterialOutput() != "") {
+        if ($this->getMaterialOutput() !== "") {
             $template->setCurrentBlock("material");
             $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
             $template->parseCurrentBlock();
@@ -270,8 +272,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                                     if ($value["value"] == $cat->scale - 1) {
                                         if (strlen($value['textanswer'])) {
                                             $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
-                                                    $value['textanswer']
-                                                ) . '"');
+                                                $value['textanswer']
+                                            ) . '"');
                                         }
                                         if (!($value['uncheck'] ?? false)) {
                                             $template->setVariable("CHECKED_SC", " checked=\"checked\"");
@@ -290,7 +292,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                         $template->setVariable("QUESTION_ID", $this->object->getId());
                         if (is_array($working_data)) {
                             foreach ($working_data as $value) {
-                                if (strcmp($value["value"], "") != 0) {
+                                if (strcmp($value["value"], "") !== 0) {
                                     if ($value["value"] == $cat->scale - 1) {
                                         if (!($value['uncheck'] ?? false)) {
                                             $template->setVariable("CHECKED_SC", " checked=\"checked\"");
@@ -320,7 +322,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                     $template->setVariable("QUESTION_ID", $this->object->getId());
                     if (is_array($working_data)) {
                         foreach ($working_data as $value) {
-                            if (strcmp($value["value"], "") != 0) {
+                            if (strcmp($value["value"], "") !== 0) {
                                 if ($value["value"] == $cat->scale - 1) {
                                     if (!($value['uncheck'] ?? false)) {
                                         $template->setVariable("CHECKED_SC", " checked=\"checked\"");
@@ -349,8 +351,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                                 if (strlen($value["value"])) {
                                     if ($value["value"] == $cat->scale - 1 && strlen($value['textanswer'])) {
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
-                                                $value['textanswer']
-                                            ) . '"');
+                                            $value['textanswer']
+                                        ) . '"');
                                     }
                                 }
                             }
@@ -380,7 +382,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                     $template->setVariable("TEXT_SC", $cat->title);
                     $template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
                     if (is_array($working_data)) {
-                        if (strcmp($working_data[0]["value"], "") != 0) {
+                        if (strcmp($working_data[0]["value"], "") !== 0) {
                             if ($working_data[0]["value"] == $cat->scale - 1) {
                                 $template->setVariable("SELECTED_SC", " selected=\"selected\"");
                             }
@@ -411,8 +413,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                                 if (strlen($value["value"])) {
                                     if ($value["value"] == $cat->scale - 1 && strlen($value['textanswer'])) {
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
-                                                $value['textanswer']
-                                            ) . '"');
+                                            $value['textanswer']
+                                        ) . '"');
                                     }
                                 }
                             }
@@ -429,7 +431,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                     $template->setVariable("QUESTION_ID", $this->object->getId());
                     if (is_array($working_data)) {
                         foreach ($working_data as $value) {
-                            if (strcmp($value["value"], "") != 0) {
+                            if (strcmp($value["value"], "") !== 0) {
                                 if ($value["value"] == $cat->scale - 1) {
                                     if (!($value['uncheck'] ?? false)) {
                                         $template->setVariable("CHECKED_SC", " checked=\"checked\"");
@@ -463,7 +465,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
             $template->setVariable("QUESTION_TITLE", $this->object->getTitle());
         }
         $template->setCurrentBlock("question_data");
-        if (strcmp($error_message, "") != 0) {
+        if (strcmp($error_message, "") !== 0) {
             $template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
         }
         if ($show_questiontext) {

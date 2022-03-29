@@ -76,7 +76,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      * @param integer $a_obj_id
      * @return boolean $online
      */
-    public static function isOnline($a_obj_id)
+    public static function isOnline($a_obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

@@ -54,7 +54,7 @@ class ilTestScoring
     /**
      * @return boolean
      */
-    public function getPreserveManualScores()
+    public function getPreserveManualScores() : bool
     {
         return $this->preserve_manual_scores;
     }
@@ -62,7 +62,7 @@ class ilTestScoring
     /**
      * @return int
      */
-    public function getQuestionId()
+    public function getQuestionId() : int
     {
         return $this->questionId;
     }
@@ -178,7 +178,7 @@ class ilTestScoring
     /**
      * @return string HTML with the best solution output.
      */
-    public function calculateBestSolutionForTest()
+    public function calculateBestSolutionForTest() : string
     {
         $solution = '';
         foreach ($this->test->getAllQuestions() as $question) {
@@ -195,7 +195,7 @@ class ilTestScoring
         $this->recalculatedPasses = array();
     }
     
-    public function getRecalculatedPassesByActives()
+    public function getRecalculatedPassesByActives() : array
     {
         return $this->recalculatedPasses;
     }
@@ -236,7 +236,7 @@ class ilTestScoring
     /**
      * @return int
      */
-    public function getNumManualScorings()
+    public function getNumManualScorings() : int
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

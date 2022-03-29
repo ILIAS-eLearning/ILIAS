@@ -1,13 +1,20 @@
-.il-toast-wrapper {
-    position: absolute;
+.il-toast-container {
+    position: fixed;
     z-index: 1;
-    top: 0;
+    top: @il-toast-container-top;
     right: 0;
+    width: @il-toast-width;
+}
+
+.il-toast-container:empty {
+    display: none;
+}
+
+.il-toast-wrapper {
     overflow: hidden;
 }
 
 .il-toast {
-    width: @il-toast-width;
     margin: @il-toast-margin;
     padding: @il-padding-base;
     background-color: white;

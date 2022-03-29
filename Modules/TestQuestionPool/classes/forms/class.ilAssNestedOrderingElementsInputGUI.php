@@ -109,7 +109,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param $questionId
      * @return ilAssOrderingElementList
      */
-    public function getElementList($questionId)
+    public function getElementList($questionId) : ilAssOrderingElementList
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
@@ -129,7 +129,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         $this->setElementList($elementList);
     }
     
-    public function getInstanceId()
+    public function getInstanceId() : string
     {
         if (!$this->getContext() || !$this->getUniquePrefix()) {
             return parent::getInstanceId();
@@ -141,7 +141,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @return string
      */
-    public function getContext()
+    public function getContext() : ?string
     {
         return $this->context;
     }
@@ -197,7 +197,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @return string
      */
-    public function getElementImagePath()
+    public function getElementImagePath() : ?string
     {
         return $this->elementImagePath;
     }
@@ -213,7 +213,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @return string
      */
-    public function getThumbPrefix()
+    public function getThumbPrefix() : string
     {
         return $this->thumbnailFilenamePrefix;
     }
@@ -229,7 +229,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @return bool
      */
-    public function isShowCorrectnessIconsEnabled()
+    public function isShowCorrectnessIconsEnabled() : bool
     {
         return $this->showCorrectnessIconsEnabled;
     }
@@ -238,7 +238,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param bool $correctness
      * @return string
      */
-    public function getCorrectnessIconFilename($correctness)
+    public function getCorrectnessIconFilename($correctness) : string
     {
         return $this->correctnessIcons[(bool) $correctness];
     }
@@ -256,7 +256,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param bool $correctness
      * @return string
      */
-    public function getCorrectnessLangVar($correctness)
+    public function getCorrectnessLangVar($correctness) : string
     {
         return $this->correctnessLngVars[(bool) $correctness];
     }
@@ -274,7 +274,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param bool $correctness
      * @return string
      */
-    public function getCorrectnessText($correctness)
+    public function getCorrectnessText($correctness) : string
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC['lng'];
@@ -284,7 +284,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @return ilAssOrderingElementList
      */
-    public function getCorrectnessTrueElementList()
+    public function getCorrectnessTrueElementList() : ?ilAssOrderingElementList
     {
         return $this->correctnessTrueElementList;
     }
@@ -301,7 +301,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param $identifier
      * @return bool
      */
-    protected function getCorrectness($identifier)
+    protected function getCorrectness($identifier) : bool
     {
         return $this->getCorrectnessTrueElementList()->elementExistByRandomIdentifier($identifier);
     }
@@ -309,25 +309,23 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @return ilTemplate
      */
-    protected function getItemTemplate()
+    protected function getItemTemplate() : ilTemplate
     {
         return new ilTemplate('tpl.prop_ass_nested_order_elem.html', true, true, 'Modules/TestQuestionPool');
     }
     
     /**
-     * @param array $element
      * @return string
      */
-    protected function getThumbnailFilename($element)
+    protected function getThumbnailFilename($element) : string
     {
         return $this->getThumbPrefix() . $element['content'];
     }
     
     /**
-     * @param array $element
      * @return string
      */
-    protected function getThumbnailSource($element)
+    protected function getThumbnailSource($element) : string
     {
         return $this->getElementImagePath() . $this->getThumbnailFilename($element);
     }
@@ -335,12 +333,12 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param ilAssOrderingElement $element
      * @param string $identifier
-     * @param iunteger $position
+     * @param int $position
      * @param string $itemSubFieldPostVar
      * @param string $itemSubFieldId
      * @return string
      */
-    protected function getItemHtml($element, $identifier, $position, $itemSubFieldPostVar, $itemSubFieldId)
+    protected function getItemHtml($element, $identifier, $position, $itemSubFieldPostVar, $itemSubFieldId) : string
     {
         $tpl = $this->getItemTemplate();
         
@@ -384,7 +382,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param integer $elementCounter
      * @return integer $currentDepth
      */
-    protected function getCurrentIndentation($elementValues, $elementCounter)
+    protected function getCurrentIndentation($elementValues, $elementCounter) : int
     {
         if (!isset($elementValues[$elementCounter])) {
             return 0;
@@ -398,7 +396,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param integer $elementCounter
      * @return integer $nextDepth
      */
-    protected function getNextIndentation($elementValues, $elementCounter)
+    protected function getNextIndentation($elementValues, $elementCounter) : int
     {
         if (!isset($elementValues[$elementCounter + 1])) {
             return 0;
@@ -407,7 +405,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         return $elementValues[$elementCounter + 1]['ordering_indentation'];
     }
     
-    public function isPostSubmit($data)
+    public function isPostSubmit($data) : bool
     {
         if (!is_array($data)) {
             return false;

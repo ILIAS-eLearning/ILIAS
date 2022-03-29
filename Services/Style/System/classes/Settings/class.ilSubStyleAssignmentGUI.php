@@ -38,7 +38,7 @@ class ilSubStyleAssignmentGUI
         $this->request_wrapper = $request_wrapper;
         $this->refinery = $refinery;
         $this->ui_factory = $ui_factory;
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
     }
 
     /**

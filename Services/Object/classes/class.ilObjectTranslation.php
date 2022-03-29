@@ -206,13 +206,13 @@ class ilObjectTranslation
     {
         $sql =
             "SELECT obj_id, master_lang, fallback_lang" . PHP_EOL
-            ."FROM obj_content_master_lng" . PHP_EOL
-            ."WHERE obj_id = " . $this->db->quote($this->getObjId(), "integer") . PHP_EOL
+            . "FROM obj_content_master_lng" . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($this->getObjId(), "integer") . PHP_EOL
         ;
         $result = $this->db->query($sql);
         if ($row = $this->db->fetchAssoc($result)) {
             $this->setMasterLanguage($row["master_lang"]);
-            $this->setFallbackLanguage($row["fallback_lang"]);
+            $this->setFallbackLanguage($row["fallback_lang"] ?? '');
             $this->setContentActivated(true);
         } else {
             $this->setContentActivated(false);
@@ -222,8 +222,8 @@ class ilObjectTranslation
 
         $sql =
             "SELECT title, description, lang_code, lang_default" . PHP_EOL
-            ."FROM object_translation" . PHP_EOL
-            ."WHERE obj_id = " . $this->db->quote($this->getObjId(), "integer") . PHP_EOL
+            . "FROM object_translation" . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($this->getObjId(), "integer") . PHP_EOL
         ;
         $result = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($result)) {

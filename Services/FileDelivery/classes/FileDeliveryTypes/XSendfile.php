@@ -49,7 +49,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file): bool
+    public function doesFileExists(string $path_to_file) : bool
     {
         return is_readable($path_to_file);
     }
@@ -58,7 +58,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file): bool
+    public function prepare(string $path_to_file) : bool
     {
         //	Nothing has to be done here
         return true;
@@ -68,9 +68,9 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete): bool
+    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void
     {
-        $delivery = function () use ($path_to_file): void {
+        $delivery = function () use ($path_to_file) : void {
             $response = $this->httpService->response()
                 ->withHeader(self::X_SENDFILE, realpath($path_to_file));
             $this->httpService->saveResponse($response);
@@ -82,15 +82,13 @@ final class XSendfile implements ilFileDeliveryType
         } else {
             $delivery();
         }
-
-        return true;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery(): bool
+    public function supportsInlineDelivery() : bool
     {
         return true;
     }
@@ -99,7 +97,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery(): bool
+    public function supportsAttachmentDelivery() : bool
     {
         return true;
     }
@@ -108,7 +106,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming(): bool
+    public function supportsStreaming() : bool
     {
         return true;
     }
@@ -117,8 +115,8 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file): void
+    public function handleFileDeletion(string $path_to_file) : bool
     {
-        unlink($path_to_file);
+        return unlink($path_to_file);
     }
 }

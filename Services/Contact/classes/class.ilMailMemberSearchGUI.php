@@ -29,11 +29,11 @@ class ilMailMemberSearchGUI
 
     /**
      * ilMailMemberSearchGUI constructor.
-     * @param ilObjGroupGUI|ilObjCourseGUI $gui
+     * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
      * @param int $ref_id
      * @param ilAbstractMailMemberRoles $objMailMemberRoles
      */
-    public function __construct($gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
+    public function __construct(object $gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
     {
         global $DIC;
 

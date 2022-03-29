@@ -23,5 +23,4 @@ use LogicException;
  */
 class RevisionExistsException extends LogicException
 {
-
 }

@@ -26,9 +26,10 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
  */
 class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 {
-    public const SHOW_HELP_TOOL = 'show_help_tool';
     use ilHelpDisplayed;
     use Hasher;
+
+    public const SHOW_HELP_TOOL = 'show_help_tool';
 
     public function isInterestedInContexts() : ContextCollection
     {
@@ -67,7 +68,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
                                             ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden) : ILIAS\UI\Component\Component {
                                                 if ($c instanceof LegacySlate) {
                                                     $signal_id = $c->getToggleSignal()->getId();
-                                                    return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed, $hidden) {
+                                                    return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
                                                         return "
                                                  $('body').on('il-help-toggle-slate', function(){
                                                     if (!$('#$id').hasClass('disengaged')) {
@@ -106,7 +107,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $help_gui->initHelp($main_tpl, $ctrl->getLinkTargetByClass("ilhelpgui", "", "", true));
 
         $html = "";
-        if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1) {
+        if ((defined("OH_REF_ID") && OH_REF_ID > 0) || (defined('DEVMODE') && (int) DEVMODE === 1)) {
             $html = "<div class='ilHighlighted small'>Screen ID: " . $help_gui->getScreenId() . "</div>";
         }
 

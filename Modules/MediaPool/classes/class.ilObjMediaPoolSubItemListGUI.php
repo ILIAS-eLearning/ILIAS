@@ -25,7 +25,10 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
         
         $lng->loadLanguageModule('content');
         foreach ($this->getSubItemIds(true) as $sub_item) {
-            if (is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(), $sub_item))) {
+            if (
+                is_object($this->getHighlighter()) &&
+                $this->getHighlighter()->getContent($this->getObjId(), $sub_item) !== ''
+            ) {
                 $this->tpl->setCurrentBlock('sea_fragment');
                 $this->tpl->setVariable('TXT_FRAGMENT', $this->getHighlighter()->getContent($this->getObjId(), $sub_item));
                 $this->tpl->parseCurrentBlock();
@@ -81,7 +84,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
     {
         $sub_id = ilMediaPoolItem::lookupForeignId($a_sub_id);
         // output thumbnail (or mob icon)
-        if (ilObject::_lookupType($sub_id) == "mob") {
+        if (ilObject::_lookupType($sub_id) === "mob") {
             $mob = new ilObjMediaObject($sub_id);
             $med = $mob->getMediaItem("Standard");
             $target = $med->getThumbnailTarget();
@@ -102,7 +105,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
             } else {
                 $this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img(ilUtil::getImagePath("icon_" . "mob" . ".gif")));
             }
-            if (ilUtil::deducibleSize($med->getFormat()) && $med->getLocationType() == "Reference") {
+            if (ilUtil::deducibleSize($med->getFormat()) && $med->getLocationType() === "Reference") {
                 $size = getimagesize($med->getLocation());
                 if ($size[0] > 0 && $size[1] > 0) {
                     $wr = $size[0] / 80;

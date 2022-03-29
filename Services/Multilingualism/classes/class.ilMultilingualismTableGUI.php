@@ -88,7 +88,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($this->master_lang == "") {
+        if ($this->master_lang === "") {
             $this->tpl->setCurrentBlock("rb");
             $this->tpl->setVariable("RB_NR", $this->nr);
             if ($a_set["default"]) {

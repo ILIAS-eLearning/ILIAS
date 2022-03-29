@@ -51,8 +51,8 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUITest extends 
         $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
-        $this->parentObj_mock = $this->createMock(ilObjTestGUI::class);
-        $this->parentObj_mock->object = $objTest_mock;
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($objTest_mock);
 
         $this->tableGui = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this->parentObj_mock, "");
     }

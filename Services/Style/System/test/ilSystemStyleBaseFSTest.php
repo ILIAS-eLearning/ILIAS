@@ -14,26 +14,28 @@ abstract class ilSystemStyleBaseFSTest extends TestCase
     protected ilFileSystemHelper $file_system;
     protected ?ILIAS\DI\Container $save_dic = null;
     protected ilLanguage $lng;
+    protected ilSystemStyleMessageStack $message_stack;
     
     protected function setUp() : void
     {
         global $DIC;
         $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
         $this->system_style_config = new ilSystemStyleConfigMock();
+        $this->message_stack = new ilSystemStyleMessageStack($DIC['tpl']);
 
         if (!file_exists($this->system_style_config->test_skin_temp_path)) {
             mkdir($this->system_style_config->test_skin_temp_path);
         }
         $this->lng = new ilLanguageMock();
 
-        $this->file_system = new ilFileSystemHelper($this->lng);
+        $this->file_system = new ilFileSystemHelper($this->lng, $this->message_stack);
         $this->file_system->recursiveCopy(
             $this->system_style_config->test_skin_original_path,
             $this->system_style_config->test_skin_temp_path
         );
 
         $factory = new ilSkinFactory($this->lng, $this->system_style_config);
-        $this->container = $factory->skinStyleContainerFromId('skin1');
+        $this->container = $factory->skinStyleContainerFromId('skin1', $this->message_stack);
         $this->style = $this->container->getSkin()->getStyle('style1');
     }
 

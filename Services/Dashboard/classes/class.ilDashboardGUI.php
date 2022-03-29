@@ -50,7 +50,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function __construct()
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
@@ -59,16 +58,13 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->rbacsystem = $DIC->rbac()->system();
         $this->help = $DIC["ilHelp"];
         $tpl = $DIC["tpl"];
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $ilUser = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
 
         $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
 
-        $ilCtrl->setContextObject(
-            $ilUser->getId(),
+        $this->ctrl->setContextObject(
+            $this->user->getId(),
             "user"
         );
 

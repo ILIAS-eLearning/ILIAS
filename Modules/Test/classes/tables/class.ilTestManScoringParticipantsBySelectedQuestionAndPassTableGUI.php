@@ -17,8 +17,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     const PARENT_RESET_FILTER_CMD = 'resetManScoringByQuestionFilter';
     const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
     
-    private $manPointsPostData = array();
-    
     private $curQuestionMaxPoints = null;
     
     /**
@@ -40,7 +38,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $ilCtrl = $DIC->ctrl();
         $tpl = $DIC->ui()->mainTemplate();
         $tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
-        $this->setId('man_scor_by_qst_' . $parentObj->object->getId());
+        $this->setId('man_scor_by_qst_' . $parentObj->getObject()->getId());
 
         parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
 
@@ -71,10 +69,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $available_questions = new ilSelectInputGUI($this->lng->txt('question'), 'question');
         $select_questions = array();
-        if (!$this->getParentObject()->object->isRandomTest()) {
-            $questions = $this->getParentObject()->object->getTestQuestions();
+        if (!$this->getParentObject()->getObject()->isRandomTest()) {
+            $questions = $this->getParentObject()->getObject()->getTestQuestions();
         } else {
-            $questions = $this->getParentObject()->object->getPotentialRandomTestQuestions();
+            $questions = $this->getParentObject()->getObject()->getPotentialRandomTestQuestions();
         }
         $scoring = ilObjAssessmentFolder::_getManualScoring();
         foreach ($questions as $data) {
@@ -102,7 +100,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         $pass = new ilSelectInputGUI($this->lng->txt('pass'), 'pass');
         $passes = array();
-        $max_pass = $this->getParentObject()->object->getMaxPassOfTest();
+        $max_pass = $this->getParentObject()->getObject()->getMaxPassOfTest();
         for ($i = 1; $i <= $max_pass; $i++) {
             $passes[$i] = $i;
         }

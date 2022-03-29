@@ -21,7 +21,7 @@ require_once 'Modules/Test/classes/class.ilTestOutputGUI.php';
  */
 class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 {
-    protected function buildTestPassQuestionList()
+    protected function buildTestPassQuestionList() : ilAssQuestionList
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];

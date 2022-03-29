@@ -16,7 +16,7 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->setId('tst_pers_def_set_' . $parentObj->object->getId());
+        $this->setId('tst_pers_def_set_' . $parentObj->getObject()->getId());
 
         parent::__construct($parentObj, $cmd);
 

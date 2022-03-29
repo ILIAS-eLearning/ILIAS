@@ -47,7 +47,7 @@ class ilSystemStyleLessGUI
         $this->refinery = $refinery;
         $this->style_id = $style_id;
 
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
 
         $this->style_container = $factory->skinStyleContainerFromId($skin_id, $this->message_stack);
         $this->less_file = new ilSystemStyleLessFile($this->style_container->getLessVariablesFilePath($style_id));

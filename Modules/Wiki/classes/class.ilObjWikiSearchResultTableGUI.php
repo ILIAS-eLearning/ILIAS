@@ -20,7 +20,7 @@
  */
 class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableGUI
 {
-    public function parse()
+    public function parse() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -53,7 +53,8 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
         if ($this->getSettings()->enabledLucene()) {
             $this->tpl->setVariable('RELEVANCE', $this->getRelevanceHTML($a_set['relevance']));
         }
-        if (strlen($a_set['content'])) {
+
+        if ($a_set['content'] !== '') {
             $this->tpl->setVariable('HIGHLIGHT_CONTENT', $a_set['content']);
         }
     }

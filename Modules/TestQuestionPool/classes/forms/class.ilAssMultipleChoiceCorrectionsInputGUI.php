@@ -116,10 +116,12 @@ class ilAssMultipleChoiceCorrectionsInputGUI extends ilMultipleChoiceWizardInput
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("POINTS_POST_VAR", $this->getPostVar());
             $tpl->setVariable("POINTS_ROW_NUMBER", $i);
-            $tpl->setVariable("PROPERTY_VALUE_CHECKED",
+            $tpl->setVariable(
+                "PROPERTY_VALUE_CHECKED",
                 ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsChecked())
             );
-            $tpl->setVariable("PROPERTY_VALUE_UNCHECKED",
+            $tpl->setVariable(
+                "PROPERTY_VALUE_UNCHECKED",
                 ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsUnchecked())
             );
             $tpl->parseCurrentBlock();

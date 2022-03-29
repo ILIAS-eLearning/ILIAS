@@ -28,10 +28,6 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set Value.
-    * @param    $a_value Value
-    */
     public function setValue($a_value) : void
     {
         $this->pairs = array();
@@ -43,16 +39,16 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
             if (is_array($a_value['term'])) {
                 foreach ($a_value['term'] as $idx => $term) {
-                    array_push($this->pairs, new assAnswerMatchingPair(new assAnswerMatchingTerm('', '', $term), new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]), $a_value['points'][$idx]));
+                    $this->pairs[] = new assAnswerMatchingPair(new assAnswerMatchingTerm('', '', $term), new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]), $a_value['points'][$idx]);
                 }
             }
             $term_ids = explode(",", $a_value['term_id']);
             foreach ($term_ids as $id) {
-                array_push($this->terms, new assAnswerMatchingTerm('', '', $id));
+                $this->terms[] = new assAnswerMatchingTerm('', '', $id);
             }
             $definition_ids = explode(",", $a_value['definition_id']);
             foreach ($definition_ids as $id) {
-                array_push($this->definitions, new assAnswerMatchingDefinition('', '', $id));
+                $this->definitions[] = new assAnswerMatchingDefinition('', '', $id);
             }
         }
     }
@@ -102,7 +98,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }

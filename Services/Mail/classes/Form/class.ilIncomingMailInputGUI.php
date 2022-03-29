@@ -150,7 +150,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
             } else {
                 $email_info[] = $DIC->user()->getEmail();
             }
-            if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1') {
+            if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $sub_mail_opt1->setDisabled(true);
                 $sub_mail_opt3->setDisabled(true);
                 $sub_both_opt1->setDisabled(true);
@@ -165,7 +165,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
             } else {
                 $email_info[] = $DIC->user()->getSecondEmail();
             }
-            if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1') {
+            if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $sub_mail_opt2->setDisabled(true);
                 $sub_mail_opt3->setDisabled(true);
                 $sub_both_opt2->setDisabled(true);

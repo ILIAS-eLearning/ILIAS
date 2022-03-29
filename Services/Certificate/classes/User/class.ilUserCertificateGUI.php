@@ -38,12 +38,12 @@ class ilUserCertificateGUI
     private Filesystem $filesystem;
 
     public function __construct(
-        ?ilTemplate $template = null,
+        ?ilGlobalTemplateInterface $template = null,
         ?ilCtrl $ctrl = null,
         ?ilLanguage $language = null,
         ?ilObjUser $user = null,
         ?ilUserCertificateRepository $userCertificateRepository = null,
-        ?GuzzleHttp\Psr7\Request $request = null,
+        ?ServerRequestInterface $request = null,
         ?ilLogger $certificateLogger = null,
         ?ilSetting $certificateSettings = null,
         ?Factory $uiFactory = null,
@@ -148,7 +148,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilDateTimeException
-     * @throws ilWACException|JsonException
+     * @throws ilWACException
      */
     public function listCertificates() : void
     {
@@ -162,7 +162,6 @@ class ilUserCertificateGUI
         $provider = new ilUserCertificateTableProvider(
             $DIC->database(),
             $this->certificateLogger,
-            $this->ctrl,
             $this->language->txt('certificate_no_object_title')
         );
 
@@ -229,7 +228,7 @@ class ilUserCertificateGUI
                 $objectTypeIcon = $this->uiFactory
                     ->symbol()
                     ->icon()
-                    ->standard($certificateData['obj_type'], $certificateData['obj_type'], 'small');
+                    ->standard($certificateData['obj_type'], $certificateData['obj_type']);
 
                 $objectTitle = $certificateData['title'];
                 $refIds = ilObject::_getAllReferences((int) $certificateData['obj_id']);
@@ -290,7 +289,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilWACException
-     * @throws ilDateTimeException|JsonException
+     * @throws ilDateTimeException
      */
     protected function applySortation() : void
     {
@@ -304,7 +303,7 @@ class ilUserCertificateGUI
     }
 
     /**
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function download() : void
     {

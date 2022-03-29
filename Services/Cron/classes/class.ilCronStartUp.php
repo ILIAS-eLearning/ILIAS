@@ -30,13 +30,14 @@ class ilCronStartUp
         $this->client = $a_client_id;
         $this->username = $a_login;
         $this->password = $a_password;
-
+    
+        /** @noRector  */
         require_once './Services/Context/classes/class.ilContext.php';
         ilContext::init(ilContext::CONTEXT_CRON);
 
         // @see mantis 20371: To get rid of this, the authentication service has to provide a mechanism to pass the client_id
         $_GET['client_id'] = $this->client;
-
+        /** @noRector  */
         require_once './include/inc.header.php';
 
         if (null === $authSession) {

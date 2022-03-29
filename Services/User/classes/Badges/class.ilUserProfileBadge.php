@@ -37,7 +37,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
         return false;
     }
     
-    public function getValidObjectTypes() : array
+    public function getValidObjectTypes() : array // Missing array type.
     {
         return array("bdga");
     }
@@ -47,7 +47,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
         return new ilUserProfileBadgeGUI();
     }
     
-    public function evaluate(int $a_user_id, array $a_params, array $a_config) : bool
+    public function evaluate(int $a_user_id, array $a_params, array $a_config) : bool // Missing array type.
     {
         global $DIC;
 

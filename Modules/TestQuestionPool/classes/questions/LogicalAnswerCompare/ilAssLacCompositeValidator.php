@@ -204,7 +204,7 @@ class ilAssLacCompositeValidator
      *
      * @return bool
      */
-    private function isResultOfAnswerExpression($expression)
+    private function isResultOfAnswerExpression($expression) : bool
     {
         if ($expression instanceof ilAssLacResultOfAnswerOfQuestionExpression) {
             return true;
@@ -245,7 +245,7 @@ class ilAssLacCompositeValidator
         }
     }
     
-    protected function getNonShuffler()
+    protected function getNonShuffler() : \ILIAS\Refinery\Transformation
     {
         return $this->randomGroup->dontShuffle();
     }

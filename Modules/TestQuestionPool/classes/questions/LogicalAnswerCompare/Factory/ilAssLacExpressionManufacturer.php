@@ -27,7 +27,7 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return ilAssLacExpressionManufacturer
      */
-    public static function _getInstance()
+    public static function _getInstance() : ?ilAssLacExpressionManufacturer
     {
         if (self::$instance == null) {
             self::$instance = new ilAssLacExpressionManufacturer();
@@ -110,7 +110,7 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return string
      */
-    public function getPattern()
+    public function getPattern() : string
     {
         return
             "/" .

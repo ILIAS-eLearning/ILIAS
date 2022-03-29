@@ -78,5 +78,4 @@ class ClonedRevisionInfoResolver implements InfoResolver
     {
         return $this->info->getSize();
     }
-
 }

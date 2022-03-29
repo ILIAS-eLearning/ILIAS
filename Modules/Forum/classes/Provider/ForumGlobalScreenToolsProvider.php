@@ -48,7 +48,7 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                     ->tool($iff('Forum|Tree'))
                     ->withTitle($title)
                     ->withSymbol($icon)
-                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root, $additionalData) : Component {
+                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root) : Component {
                         $exp = new ilForumExplorerGUI(
                             'frm_exp_' . $thread->getId(),
                             $controller,
@@ -56,8 +56,6 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                             $thread,
                             $root
                         );
-
-                        $exp->setCurrentPage((int) $additionalData->get(self::PAGE));
 
                         return $l($exp->getHTML(true));
                     });

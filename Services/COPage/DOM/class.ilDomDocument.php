@@ -73,7 +73,7 @@ class ilDomDocument
         string $a_file = null,
         int $a_line = null,
         array $a_context = null
-    ) {
+    ) : void {
         $pos = strpos($a_string, "]:");
         $err = trim(substr($a_string, $pos + 2));
         $this->errors[] = $err;

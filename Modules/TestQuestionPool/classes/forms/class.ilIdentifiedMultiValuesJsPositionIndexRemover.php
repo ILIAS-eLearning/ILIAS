@@ -47,9 +47,8 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
         return $this->removePositionIndexLevels($submitValues);
     }
     
-    protected function cleanSubmitCommandFromPossibleIdentifierIndicators(
-        ?array $cmdArrayLevel
-    ) : ?array {
+    protected function cleanSubmitCommandFromPossibleIdentifierIndicators($cmdArrayLevel)
+    {
         if (is_array($cmdArrayLevel)) {
             $currentKey = key($cmdArrayLevel);
             $nextLevel = current($cmdArrayLevel);
@@ -89,7 +88,7 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
         return $values;
     }
     
-    protected function isPositionIndexLevel($val)
+    protected function isPositionIndexLevel($val) : bool
     {
         if (!is_array($val)) {
             return false;
@@ -102,7 +101,7 @@ class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManip
         return true;
     }
     
-    protected function isValueIdentifier($key)
+    protected function isValueIdentifier($key) : bool
     {
         $indicatorPrefixLength = self::IDENTIFIER_INDICATOR_PREFIX;
         

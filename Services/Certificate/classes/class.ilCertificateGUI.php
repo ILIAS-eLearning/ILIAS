@@ -55,11 +55,9 @@ class ilCertificateGUI
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     private ilCertificateTemplateRepository $templateRepository;
-    private ilFormFieldParser $formFieldParser;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private int $objectId;
     private ilCertificateFormRepository $settingsFormFactory;
-    private ilCertificatePlaceholderValues $placeholderValuesObject;
     private ilXlsFoParser $xlsFoParser;
     private ilCertificateDeleteAction $deleteAction;
     private ilCertificateTemplateExportAction $exportAction;
@@ -81,7 +79,6 @@ class ilCertificateGUI
         ?ilCertificateTemplateRepository $templateRepository = null,
         ?ilPageFormats $pageFormats = null,
         ?ilXlsFoParser $xlsFoParser = null,
-        ?ilFormFieldParser $formFieldParser = null,
         ?ilCertificateTemplateExportAction $exportAction = null,
         ?ilCertificateBackgroundImageUpload $upload = null,
         ?ilCertificateTemplatePreviewAction $previewAction = null,
@@ -112,8 +109,6 @@ class ilCertificateGUI
 
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
-        $this->placeholderValuesObject = $placeholderValuesObject;
-
         $this->objectId = $objectId;
 
         $logger = $DIC->logger()->cert();
@@ -141,11 +136,6 @@ class ilCertificateGUI
             $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
         }
         $this->deleteAction = $deleteAction;
-
-        if (null === $formFieldParser) {
-            $formFieldParser = new ilFormFieldParser();
-        }
-        $this->formFieldParser = $formFieldParser;
 
         if (null === $pageFormats) {
             $pageFormats = new ilPageFormats($DIC->language());
@@ -412,7 +402,7 @@ class ilCertificateGUI
 
             /** @var ilObject $object */
             $object = ilObjectFactory::getInstanceByObjId($this->objectId);
-            if (ilLPObjSettings::LP_MODE_DEACTIVATED == $mode && $object->getType() !== 'crs') {
+            if (ilLPObjSettings::LP_MODE_DEACTIVATED === $mode && $object->getType() !== 'crs') {
                 global $DIC;
 
                 $renderer = $DIC->ui()->renderer();
@@ -601,7 +591,7 @@ class ilCertificateGUI
             $format = $this->settings->get('pageformat', '');
             $formats = $this->pageFormats->fetchPageFormats();
 
-            $formFieldArray = [
+            return [
                 'pageformat' => $format,
                 'pagewidth' => $formats['width'],
                 'pageheight' => $formats['height'],
@@ -611,8 +601,6 @@ class ilCertificateGUI
                 'margin_body_left' => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
                 'certificate_text' => $certificateTemplate->getCertificateContent()
             ];
-
-            return $formFieldArray;
         }
         return $this->settingsFormFactory->fetchFormFieldData($certificateTemplate->getCertificateContent());
     }

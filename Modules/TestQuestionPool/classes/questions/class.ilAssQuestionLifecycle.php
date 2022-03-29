@@ -35,7 +35,7 @@ class ilAssQuestionLifecycle
     /**
      * @return string
      */
-    public function getIdentifier()
+    public function getIdentifier() : string
     {
         return $this->identifier;
     }
@@ -51,7 +51,7 @@ class ilAssQuestionLifecycle
     /**
      * @return string[]
      */
-    public function getValidIdentifiers()
+    public function getValidIdentifiers() : array
     {
         return [self::DRAFT, self::REVIEW, self::REJECTED, self::FINAL, self::SHARABLE, self::OUTDATED];
     }
@@ -59,7 +59,7 @@ class ilAssQuestionLifecycle
     /**
      * @return string
      */
-    public function getMappedLomLifecycle()
+    public function getMappedLomLifecycle() : string
     {
         switch ($this->getIdentifier()) {
             case self::OUTDATED:
@@ -84,7 +84,7 @@ class ilAssQuestionLifecycle
      * @param ilLanguage $lng
      * @return string
      */
-    public function getTranslation(ilLanguage $lng)
+    public function getTranslation(ilLanguage $lng) : string
     {
         return $this->getTranslationByIdentifier($lng, $this->getIdentifier());
     }
@@ -93,7 +93,7 @@ class ilAssQuestionLifecycle
      * @param ilLanguage $lng
      * @return string
      */
-    protected function getTranslationByIdentifier(ilLanguage $lng, $identifier)
+    protected function getTranslationByIdentifier(ilLanguage $lng, $identifier) : string
     {
         switch ($identifier) {
             case self::DRAFT:
@@ -128,7 +128,7 @@ class ilAssQuestionLifecycle
      * @param ilLanguage $lng
      * @return array
      */
-    public function getSelectOptions(ilLanguage $lng)
+    public function getSelectOptions(ilLanguage $lng) : array
     {
         $selectOptions = [];
         
@@ -157,7 +157,7 @@ class ilAssQuestionLifecycle
      * @return ilAssQuestionLifecycle
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public static function getInstance($identifier)
+    public static function getInstance($identifier) : ilAssQuestionLifecycle
     {
         $lifecycle = new self();
         $lifecycle->validateIdentifier($identifier);
@@ -169,7 +169,7 @@ class ilAssQuestionLifecycle
     /**
      * @return ilAssQuestionLifecycle
      */
-    public static function getDraftInstance()
+    public static function getDraftInstance() : ilAssQuestionLifecycle
     {
         $lifecycle = new self();
         $lifecycle->setIdentifier(self::DRAFT);

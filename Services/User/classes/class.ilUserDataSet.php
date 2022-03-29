@@ -18,11 +18,11 @@
  */
 class ilUserDataSet extends ilDataSet
 {
-    protected array $temp_picture_dirs = array();
-    public array $multi = array();
-    protected array $users;
+    protected array $temp_picture_dirs = array(); // Missing array type.
+    public array $multi = array(); // Missing array type.
+    protected array $users; // Missing array type.
     
-    public function getSupportedVersions() : array
+    public function getSupportedVersions() : array // Missing array type.
     {
         return array("4.3.0", "4.5.0", "5.1.0", "5.2.0", "5.3.0");
     }
@@ -32,7 +32,7 @@ class ilUserDataSet extends ilDataSet
         return "https://www.ilias.de/xml/Services/User/" . $a_entity;
     }
     
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version) : array // Missing array type.
     {
         // user profile type
         if ($a_entity == "usr_profile") {
@@ -118,12 +118,10 @@ class ilUserDataSet extends ilDataSet
         return [];
     }
 
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array // Missing array type.
     {
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
-        
         if ($a_entity == "usr_profile") {
             $tmp_dir = ilFileUtils::ilTempnam();
             ilFileUtils::makeDir($tmp_dir);
@@ -147,7 +145,7 @@ class ilUserDataSet extends ilDataSet
         return $a_set;
     }
 
-    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set) : void
+    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set) : void // Missing array type.
     {
         if ($a_entity == "usr_profile") {
             // cleanup temp dirs for pictures
@@ -158,7 +156,7 @@ class ilUserDataSet extends ilDataSet
         }
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void // Missing array type.
     {
         global $DIC;
 

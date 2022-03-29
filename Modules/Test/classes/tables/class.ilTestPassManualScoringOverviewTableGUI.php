@@ -13,12 +13,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 {
-    /**
-     * @global	ilCtrl		$ilCtrl
-     * @global	ilLanguage	$lng
-     * @param	ilObjectGUI	$parentObj
-     * @param	string		$parentCmd
-     */
     public function __construct($parentObj, $parentCmd)
     {
         parent::__construct($parentObj, $parentCmd);

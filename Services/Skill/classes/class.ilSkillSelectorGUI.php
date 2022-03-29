@@ -32,7 +32,6 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     protected $select_gui = "";
     protected string $select_cmd = "";
     protected string $select_par = "";
-    protected bool $select_multi = false;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected array $requested_selected_ids = [];
 

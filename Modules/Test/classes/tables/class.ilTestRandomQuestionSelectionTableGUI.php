@@ -53,8 +53,8 @@ class ilTestRandomQuestionSelectionTableGUI extends \ilTable2GUI
         }
         $this->setData($data);
 
-        $this->addHiddenInput('nr_of_questions', $numberOfQuestions);
-        $this->addHiddenInput('sel_qpl', $selectedPool);
+        $this->addHiddenInput('nr_of_questions', (string) $numberOfQuestions);
+        $this->addHiddenInput('sel_qpl', (string) $selectedPool);
         $this->addHiddenInput('chosen_questions', implode(',', $questionIds));
 
         $this->addColumn($this->lng->txt('tst_question_title'));

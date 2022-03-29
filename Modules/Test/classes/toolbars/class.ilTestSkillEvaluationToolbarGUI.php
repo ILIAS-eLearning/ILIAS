@@ -81,7 +81,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         $this->addFormButton($this->lng->txt("select"), $this->parentCMD);
     }
 
-    private function buildEvaluationModeOptionsArray()
+    private function buildEvaluationModeOptionsArray() : array
     {
         $options = array();
 
@@ -97,7 +97,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         return $options;
     }
 
-    public static function fetchSkillProfileParam($postData)
+    public static function fetchSkillProfileParam($postData) : int
     {
         if (isset($postData[self::SKILL_PROFILE_PARAM])) {
             return (int) $postData[self::SKILL_PROFILE_PARAM];

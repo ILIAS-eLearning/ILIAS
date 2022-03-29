@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Revision\RevisionCollection;
  */
 interface StorableResource
 {
-
     public function getIdentification() : ResourceIdentification;
 
     public function getCurrentRevision() : Revision;

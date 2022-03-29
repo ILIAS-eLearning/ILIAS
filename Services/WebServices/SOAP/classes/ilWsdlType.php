@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Interface ilWsdlType
  */
 interface ilWsdlType
 {
-
     /**
      * @return string
      */

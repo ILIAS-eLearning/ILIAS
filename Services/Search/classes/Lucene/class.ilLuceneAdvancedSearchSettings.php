@@ -55,7 +55,7 @@ class ilLuceneAdvancedSearchSettings
     /**
      * check if field is active
      */
-    public function isActive($a_field) : bool
+    public function isActive($a_field) : bool// @TODO: PHP8 Review: Missing parameter type.
     {
         return $this->fields[$a_field] ?: false;
     }

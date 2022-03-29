@@ -40,9 +40,11 @@ class ilMultilingualism
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected int $obj_id;
-    protected array $languages = array();
+    /** @var array<string, array{lang_code: string, lang_default: bool, title: string, description: string}> */
+    protected array $languages = [];
     protected string $type = "";
-    protected static array $instances = array();
+    /** @var array<string, array<int, self>> */
+    protected static array $instances = [];
 
     /**
      * @throws ilObjectException
@@ -91,7 +93,8 @@ class ilMultilingualism
     }
 
     /**
-     * @param array $a_val array of language codes
+     * @param array<string, array{lang_code: string, lang_default: bool, title: string, description: string}> $a_val
+     * @return void
      */
     public function setLanguages(array $a_val) : void
     {
@@ -99,9 +102,9 @@ class ilMultilingualism
     }
 
     /**
-     * @return array array of language codes
+     * @return array<string, array{lang_code: string, lang_default: bool, title: string, description: string}>
      */
-    public function getLanguages() : string
+    public function getLanguages() : array
     {
         return $this->languages;
     }
@@ -146,14 +149,18 @@ class ilMultilingualism
         bool $a_default,
         bool $a_force = false
     ) : void {
-        if ($a_lang != "" && (!isset($this->languages[$a_lang]) || $a_force)) {
+        if ($a_lang !== "" && (!isset($this->languages[$a_lang]) || $a_force)) {
             if ($a_default) {
                 foreach ($this->languages as $k => $l) {
                     $this->languages[$k]["lang_default"] = false;
                 }
             }
-            $this->languages[$a_lang] = array("lang_code" => $a_lang, "lang_default" => $a_default,
-                "title" => $a_title, "description" => $a_description);
+            $this->languages[$a_lang] = [
+                "lang_code" => $a_lang,
+                "lang_default" => $a_default,
+                "title" => $a_title,
+                "description" => $a_description
+            ];
         }
     }
 
@@ -214,7 +221,7 @@ class ilMultilingualism
      */
     public function removeLanguage(string $a_lang) : void
     {
-        if ($a_lang != $this->getDefaultLanguage()) {
+        if ($a_lang !== $this->getDefaultLanguage()) {
             unset($this->languages[$a_lang]);
         }
     }
@@ -228,7 +235,12 @@ class ilMultilingualism
             " AND id_type = " . $this->db->quote($this->getType(), "text")
         );
         while ($rec = $this->db->fetchAssoc($set)) {
-            $this->addLanguage($rec["lang_code"], $rec["title"], $rec["description"], $rec["lang_default"]);
+            $this->addLanguage(
+                $rec["lang_code"],
+                (string) $rec["title"],
+                (string) $rec["description"],
+                (bool) $rec["lang_default"]
+            );
         }
     }
 
@@ -295,7 +307,7 @@ class ilMultilingualism
      * xml import
      * @param SimpleXMLElement $root
      */
-    public function fromXML(SimpleXMLElement $root)
+    public function fromXML(SimpleXMLElement $root) : void
     {
         if ($root->translations) {
             $root = $root->translations;
@@ -306,7 +318,7 @@ class ilMultilingualism
                 trim($trans["language"]),
                 trim($trans->title),
                 trim($trans->description),
-                (int) $trans["default"] != 0
+                (int) $trans["default"] !== 0
             );
         }
     }

@@ -38,7 +38,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @return integer $requestsPoints
      */
-    public function getRequestsPoints()
+    public function getRequestsPoints() : ?int
     {
         return $this->requestsPoints;
     }
@@ -60,7 +60,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @return integer $requestsCount
      */
-    public function getRequestsCount()
+    public function getRequestsCount() : ?int
     {
         return $this->requestsCount;
     }

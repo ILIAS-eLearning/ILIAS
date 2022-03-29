@@ -31,20 +31,13 @@ class ilSkinStyleContainer
     public function __construct(
         ilLanguage $lng,
         ilSkin $skin,
-        ilSystemStyleMessageStack $message_stack = null,
+        ilSystemStyleMessageStack $message_stack,
         ilSystemStyleConfig $system_styles_conf = null,
         ilFileSystemHelper $file_system = null
-
     ) {
         $this->lng = $lng;
-
         $this->skin = $skin;
-
-        if (!$message_stack) {
-            $this->setMessageStack(new ilSystemStyleMessageStack());
-        } else {
-            $this->setMessageStack($message_stack);
-        }
+        $this->setMessageStack($message_stack);
 
         if (!$system_styles_conf) {
             $this->setSystemStylesConf(new ilSystemStyleConfig());
@@ -53,7 +46,7 @@ class ilSkinStyleContainer
         }
 
         if (!$file_system) {
-            $this->file_system = new ilFileSystemHelper($this->lng);
+            $this->file_system = new ilFileSystemHelper($this->lng, $message_stack);
         } else {
             $this->file_system = $file_system;
         }

@@ -52,7 +52,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     /**
      * @Test
      */
-    public function testCreatePHPFileDeliveryWhichShouldSucceed(): void
+    public function testCreatePHPFileDeliveryWhichShouldSucceed() : void
     {
         $result = $this->subject->getInstance(DeliveryMethod::PHP);
 
@@ -62,7 +62,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     /**
      * @Test
      */
-    public function testCreatePHPChunkedFileDeliveryWhichShouldSucceed(): void
+    public function testCreatePHPChunkedFileDeliveryWhichShouldSucceed() : void
     {
         $result = $this->subject->getInstance(DeliveryMethod::PHP_CHUNKED);
 
@@ -73,7 +73,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     /**
      * @Test
      */
-    public function testCreatePHPFileDeliveryTypeWhichShouldYieldTheSameInstance(): void
+    public function testCreatePHPFileDeliveryTypeWhichShouldYieldTheSameInstance() : void
     {
         //fetch the php file delivery type two times to check that only one instance is created.
         $firstResult = $this->subject->getInstance(DeliveryMethod::PHP);
@@ -85,7 +85,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     /**
      * @Test
      */
-    public function testCreateAnUnknownFileDeliveryTypeWhichShouldFail(): void
+    public function testCreateAnUnknownFileDeliveryTypeWhichShouldFail() : void
     {
         //get instance should throw an exception if the file delivery type is not known.
         $type = 'unknown file delivery type';

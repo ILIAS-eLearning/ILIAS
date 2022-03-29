@@ -40,13 +40,13 @@ class ilWaitingListTest extends TestCase
         parent::setUp();
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $obj_id = 0;
         $some_waiting_list = new class($obj_id) extends ilWaitingList {
         };
         $instance = new $some_waiting_list($obj_id);
-        $this->assertTrue($instance instanceof ilWaitingList);
+        $this->assertInstanceOf(ilWaitingList::class, $instance);
     }
 
     protected function initDependencies() : void
@@ -68,5 +68,4 @@ class ilWaitingListTest extends TestCase
             return $value;
         };
     }
-
 }

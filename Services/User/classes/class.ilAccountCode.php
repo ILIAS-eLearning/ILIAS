@@ -100,7 +100,10 @@ class ilAccountCode
         }
         return array("cnt" => $cnt, "set" => $result);
     }
-    
+
+    /**
+     * @return array<string,string>[]
+     */
     public static function loadCodesByIds(array $ids) : array
     {
         global $DIC;
@@ -114,7 +117,10 @@ class ilAccountCode
         }
         return $result;
     }
-    
+
+    /**
+     * @param string[] $ids
+     */
     public static function deleteCodes(array $ids) : bool
     {
         global $DIC;
@@ -126,7 +132,10 @@ class ilAccountCode
         }
         return false;
     }
-    
+
+    /**
+     * @return string[]
+     */
     public static function getGenerationDates() : array
     {
         global $DIC;
@@ -200,10 +209,6 @@ class ilAccountCode
 
     public static function getCodeValidUntil(string $code) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $code_data = ilRegistrationCode::getCodeData($code);
         
         if ($code_data["alimit"]) {

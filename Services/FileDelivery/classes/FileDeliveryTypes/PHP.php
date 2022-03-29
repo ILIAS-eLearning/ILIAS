@@ -52,7 +52,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file): bool
+    public function doesFileExists(string $path_to_file) : bool
     {
         return is_readable($path_to_file);
     }
@@ -61,17 +61,19 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file): void
+    public function prepare(string $path_to_file) : bool
     {
         set_time_limit(0);
         $this->file = fopen($path_to_file, "rb");
+        
+        return true;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete): void
+    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void
     {
         $this->httpService->sendResponse();
         fpassthru($this->file);
@@ -83,7 +85,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery(): bool
+    public function supportsInlineDelivery() : bool
     {
         return true;
     }
@@ -92,7 +94,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery(): bool
+    public function supportsAttachmentDelivery() : bool
     {
         return true;
     }
@@ -101,7 +103,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming(): bool
+    public function supportsStreaming() : bool
     {
         return false;
     }
@@ -110,7 +112,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file): bool
+    public function handleFileDeletion(string $path_to_file) : bool
     {
         return unlink($path_to_file);
     }

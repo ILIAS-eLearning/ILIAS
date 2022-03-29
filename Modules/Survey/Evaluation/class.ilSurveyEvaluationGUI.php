@@ -147,7 +147,7 @@ class ilSurveyEvaluationGUI
             );
         }
 
-        if ($this->object->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
+        if ($this->object->getMode() !== ilObjSurvey::MODE_IND_FEEDB) {
             $ilTabs->addSubTabTarget(
                 "svy_eval_cumulated",
                 $this->ctrl->getLinkTarget($this, "evaluation"),
@@ -194,8 +194,8 @@ class ilSurveyEvaluationGUI
     {
         $ilUser = $this->user;
         
-        if ($this->object->getAnonymize() == 1 &&
-            $this->evaluation_manager->getAnonEvaluationAccess() == $this->request->getRefId()) {
+        if ($this->object->getAnonymize() === 1 &&
+            $this->evaluation_manager->getAnonEvaluationAccess() === $this->request->getRefId()) {
             return true;
         }
         
@@ -203,13 +203,13 @@ class ilSurveyEvaluationGUI
             ilObject::_lookupObjId($this->request->getRefId()),
             $ilUser->getId()
         )) {
-            if ($this->object->getAnonymize() == 1) {
+            if ($this->object->getAnonymize() === 1) {
                 $this->evaluation_manager->setAnonEvaluationAccess($this->request->getRefId());
             }
             return true;
         }
         
-        if ($this->object->getAnonymize() == 1) {
+        if ($this->object->getAnonymize() === 1) {
             // autocode
             $surveycode = $this->object->getUserAccessCode($ilUser->getId());
             if ($this->object->isAnonymizedParticipant($surveycode)) {
@@ -276,7 +276,7 @@ class ilSurveyEvaluationGUI
     /**
      * Show the detailed evaluation
      */
-    protected function evaluationdetails()
+    protected function evaluationdetails() : void
     {
         $this->evaluation(1);
     }
@@ -291,7 +291,7 @@ class ilSurveyEvaluationGUI
                 $this->ctrl->redirect($this, $details ? "evaluationdetails" : "evaluation");
             }
             $finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
-            if (!sizeof($finished_ids)) {
+            if (!count($finished_ids)) {
                 $finished_ids = array(-1);
             }
         }
@@ -333,7 +333,7 @@ class ilSurveyEvaluationGUI
                 $excel = new ilExcel();
                 $excel->addSheet($this->lng->txt("svy_eval_cumulated"));
                 $excel->setCellArray(array($title_row), "A1");
-                $excel->setBold("A1:" . $excel->getColumnCoord(sizeof($title_row) - 1) . "1");
+                $excel->setBold("A1:" . $excel->getColumnCoord(count($title_row) - 1) . "1");
                 break;
             
             case self::TYPE_SPSS:
@@ -396,7 +396,7 @@ class ilSurveyEvaluationGUI
                 $separator = ";";
                 foreach ($csvfile as $csvrow) {
                     $csvrow = $this->processCSVRow($csvrow, true, $separator);
-                    $csv .= join($separator, $csvrow) . "\n";
+                    $csv .= implode($separator, $csvrow) . "\n";
                 }
                 ilUtil::deliverData($csv, $surveyname . ".csv");
                 exit();
@@ -446,8 +446,8 @@ class ilSurveyEvaluationGUI
         // :TODO: present subtypes (hrz/vrt, mc/sc mtx, metric scale)?
 
         // answered and skipped users
-        $kv[$this->lng->txt("users_answered")] = (int) $question_res->getUsersAnswered();
-        $kv[$this->lng->txt("users_skipped")] = (int) $question_res->getUsersSkipped();		// #0021671
+        $kv[$this->lng->txt("users_answered")] = $question_res->getUsersAnswered();
+        $kv[$this->lng->txt("users_skipped")] = $question_res->getUsersSkipped();		// #0021671
                 
         $excel_row = 1;
         
@@ -504,7 +504,7 @@ class ilSurveyEvaluationGUI
             $counter = 0;
             $cats = $question->getColumns();
             foreach ($cats->getCategories() as $cat) {
-                $a_excel->setColors($a_excel->getCoordByColumnAndRow(1 + $counter, $excel_row), ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
+                $a_excel->setColors($a_excel->getCoordByColumnAndRow(1 + $counter, $excel_row), self::EXCEL_SUBTITLE);
                 $a_excel->setCell($excel_row, 1 + $counter, $cat->title);
                 $counter++;
             }
@@ -567,7 +567,7 @@ class ilSurveyEvaluationGUI
         // grid
         if ($a_grid) {
             // header
-            $a_excel->setColors("B" . $a_excel_row . ":E" . $a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
+            $a_excel->setColors("B" . $a_excel_row . ":E" . $a_excel_row, self::EXCEL_SUBTITLE);
             $a_excel->setCell($a_excel_row, 0, $this->lng->txt("categories"));
             foreach ($a_grid["cols"] as $col_idx => $col) {
                 $a_excel->setCell($a_excel_row, $col_idx + 1, $col);
@@ -590,13 +590,13 @@ class ilSurveyEvaluationGUI
             
             // mc/sc
             if (!is_array($a_text_answers[""])) {
-                $a_excel->setColors("B" . $a_excel_row . ":C" . $a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
+                $a_excel->setColors("B" . $a_excel_row . ":C" . $a_excel_row, self::EXCEL_SUBTITLE);
                 $a_excel->setCell($a_excel_row, 1, $this->lng->txt("title"));
                 $a_excel->setCell($a_excel_row++, 2, $this->lng->txt("answer"));
             }
             // mtx (row), txt
             else {
-                $a_excel->setColors("B" . $a_excel_row . ":B" . $a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
+                $a_excel->setColors("B" . $a_excel_row . ":B" . $a_excel_row, self::EXCEL_SUBTITLE);
                 $a_excel->setCell($a_excel_row++, 1, $this->lng->txt("answer"));
             }
             
@@ -615,7 +615,7 @@ class ilSurveyEvaluationGUI
     
     public function exportData() : void
     {
-        if (strlen($this->request->getExportFormat())) {
+        if ($this->request->getExportFormat() !== '') {
             $this->exportCumulatedResults(0);
         } else {
             $this->ctrl->redirect($this, 'evaluation');
@@ -624,7 +624,7 @@ class ilSurveyEvaluationGUI
     
     public function exportDetailData() : void
     {
-        if (strlen($this->request->getExportFormat())) {
+        if ($this->request->getExportFormat() !== '') {
             $this->exportCumulatedResults(1);
         } else {
             $this->ctrl->redirect($this, 'evaluation');
@@ -716,7 +716,7 @@ class ilSurveyEvaluationGUI
                 
             switch ($this->object->getEvaluationAccess()) {
                 case ilObjSurvey::EVALUATION_ACCESS_OFF:
-                    if ($this->object->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
+                    if ($this->object->getMode() !== ilObjSurvey::MODE_IND_FEEDB) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"));
                         return;
                     }
@@ -974,7 +974,7 @@ class ilSurveyEvaluationGUI
                 $this->ctrl->redirect($this, "evaluationuser");
             }
             $finished_ids = $this->object->getFinishedIdsForAppraiseeId($appr_id);
-            if (!sizeof($finished_ids)) {
+            if (!count($finished_ids)) {
                 $finished_ids = array(-1);
             }
         }
@@ -1000,7 +1000,7 @@ class ilSurveyEvaluationGUI
             
             if ($user["finished"]) {
                 $dt = new ilDateTime($user["finished_tstamp"], IL_CAL_UNIX);
-                $row[] = ($this->request->getExportFormat() == self::TYPE_XLS)
+                $row[] = ($this->request->getExportFormat() === self::TYPE_XLS)
                     ? $dt
                     : ilDatePresentation::formatDate($dt);
             } else {
@@ -1032,7 +1032,7 @@ class ilSurveyEvaluationGUI
                         $excel->setCell($row_idx + 1, $col_idx, $col);
                     }
                     if (!$row_idx) {
-                        $excel->setBold("A1:" . $excel->getColumnCoord(sizeof($row) - 1) . "1");
+                        $excel->setBold("A1:" . $excel->getColumnCoord(count($row) - 1) . "1");
                     }
                 }
                 $excel->sendToClient($surveyname);
@@ -1043,7 +1043,7 @@ class ilSurveyEvaluationGUI
                 $separator = ";";
                 foreach ($rows as $csvrow) {
                     $csvrow = str_replace("\n", " ", $this->processCSVRow($csvrow, true, $separator));
-                    $csv .= join($separator, $csvrow) . "\n";
+                    $csv .= implode($separator, $csvrow) . "\n";
                 }
                 ilUtil::deliverData($csv, "$surveyname.csv");
                 exit();
@@ -1058,7 +1058,7 @@ class ilSurveyEvaluationGUI
         $ilToolbar = $this->toolbar;
 
         if (!$this->hasResultsAccess() &&
-            $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
+            $this->object->getMode() !== ilObjSurvey::MODE_SELF_EVAL) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
@@ -1119,7 +1119,7 @@ class ilSurveyEvaluationGUI
 
         $appr_id = $this->getAppraiseeId();
 
-        if ($appr_id == 0) {
+        if ($appr_id === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("svy_no_appraisees_found"));
             return;
         }
@@ -1163,7 +1163,7 @@ class ilSurveyEvaluationGUI
         // if one competence does not match any profiles
         // -> add "competences of survey" alternative
         foreach ($skills as $sk) {
-            if (count($sk["profiles"]) == 0) {
+            if (count($sk["profiles"]) === 0) {
                 $eval_modes["skills_of_survey"] = $lng->txt("svy_all_survey_competences");
             }
         }
@@ -1187,14 +1187,14 @@ class ilSurveyEvaluationGUI
 
         $pskills_gui = new ilPersonalSkillsGUI();
         $rater = $this->evaluation_manager->getCurrentRater();
-        if ($rater != "") {
-            if (substr($rater, 0, 1) == "u") {
+        if ($rater !== "") {
+            if (strpos($rater, "u") === 0) {
                 $rater = substr($rater, 1);
             }
             $pskills_gui->setTriggerUserFilter([$rater]);
         }
 
-        if (substr($comp_eval_mode, 0, 4) == "gap_") {
+        if (strpos($comp_eval_mode, "gap_") === 0) {
             // gap analysis
             $profile_id = (int) substr($comp_eval_mode, 4);
             
@@ -1211,8 +1211,8 @@ class ilSurveyEvaluationGUI
             $html = $pskills_gui->getGapAnalysisHTML($appr_id);
         } else { // must be all survey competences
             #23743
-            if ($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL &&
-                $survey->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
+            if ($survey->getMode() !== ilObjSurvey::MODE_SELF_EVAL &&
+                $survey->getMode() !== ilObjSurvey::MODE_IND_FEEDB) {
                 $pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
             }
             if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0) {
@@ -1252,7 +1252,7 @@ class ilSurveyEvaluationGUI
         $ilToolbar = $this->toolbar;
 
         if (!$this->hasResultsAccess() &&
-            $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
+            $this->object->getMode() !== ilObjSurvey::MODE_SELF_EVAL) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }

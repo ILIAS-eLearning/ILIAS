@@ -41,7 +41,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         $this->tree = $tree;
         $this->obj_def = $objDefinition;
 
-        $this->item_group_items = new ilItemGroupItems($a_parent_obj->object->getRefId());
+        $this->item_group_items = new ilItemGroupItems($a_parent_obj->getObject()->getRefId());
         $this->items = $this->item_group_items->getItems();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);

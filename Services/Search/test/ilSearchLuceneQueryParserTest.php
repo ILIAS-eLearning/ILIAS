@@ -3,7 +3,6 @@
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
-
 /**
  * Unit tests for class ilDidacticTemplate
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -11,6 +10,10 @@ use ILIAS\DI\Container;
  */
 class ilSearchLuceneQueryParserTest extends TestCase
 {
+    /**
+     * Inherited
+     * @var bool
+     */
     protected $backupGlobals = false;
 
     protected Container $dic;

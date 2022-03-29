@@ -26,8 +26,8 @@ class ilUserTableGUI extends ilTable2GUI
     private ?int $mode = null;
     private int $user_folder_id = 0;
     protected \ILIAS\User\StandardGUIRequest $user_request;
-    protected array $udf_fields = array();
-    protected array $filter = array();
+    protected array $udf_fields = array(); // Missing array type.
+    protected array $filter = array(); // Missing array type.
 
     public function __construct(
         object $a_parent_obj,
@@ -139,7 +139,7 @@ class ilUserTableGUI extends ilTable2GUI
     /**
      * Get user defined field
      */
-    public function getUserDefinedField(string $a_key) : array
+    public function getUserDefinedField(string $a_key) : array // Missing array type.
     {
         if (isset($this->udf_fields[$a_key])) {
             return $this->udf_fields[$a_key];
@@ -155,7 +155,7 @@ class ilUserTableGUI extends ilTable2GUI
         return false;
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns() : array // Missing array type.
     {
         global $DIC;
 
@@ -352,12 +352,12 @@ class ilUserTableGUI extends ilTable2GUI
         $this->setData($usr_data["set"]);
     }
 
-    public function addFilterItemValue($filter, $value) : void
+    public function addFilterItemValue($filter, $value) : void // Missing parameter types.
     {
         $this->filter[$filter] = $value;
     }
         
-    public function getUserIdsForFilter() : array
+    public function getUserIdsForFilter() : array // Missing array type.
     {
         if ($this->getMode() == self::MODE_USER_FOLDER) {
             // All accessible users
@@ -603,7 +603,7 @@ class ilUserTableGUI extends ilTable2GUI
         return $item;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         global $DIC;
 

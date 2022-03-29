@@ -34,7 +34,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         $this->db = $db;
     }
 
-    public function isAssessmentLogEnabled()
+    public function isAssessmentLogEnabled() : bool
     {
         return $this->assessmentLogEnabled;
     }
@@ -47,7 +47,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringAssessmentLog()
+    private function getTablesUsedDuringAssessmentLog() : array
     {
         return array(
             array('name' => 'qpl_questions', 'sequence' => false),
@@ -60,7 +60,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringSolutionUpdate()
+    private function getTablesUsedDuringSolutionUpdate() : array
     {
         return array(
             array('name' => 'tst_solutions', 'sequence' => true)
@@ -70,7 +70,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringResultUpdate()
+    private function getTablesUsedDuringResultUpdate() : array
     {
         return array(
             array('name' => 'tst_test_result', 'sequence' => true)

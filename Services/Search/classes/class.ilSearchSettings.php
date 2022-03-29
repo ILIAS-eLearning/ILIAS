@@ -327,7 +327,7 @@ class ilSearchSettings
     }
     
     
-    public function setLastIndexTime(ilDateTime $time)
+    public function setLastIndexTime(ilDateTime $time) : void
     {
         $this->last_index_date = $time;
     }
@@ -361,7 +361,7 @@ class ilSearchSettings
      * are inactive user visible in user search
      * @return bool
      */
-    public function isInactiveUserVisible():bool
+    public function isInactiveUserVisible() : bool
     {
         return $this->show_inactiv_user;
     }
@@ -405,7 +405,7 @@ class ilSearchSettings
         $this->setting->set('auto_complete_length', (string) $this->getAutoCompleteLength());
         $this->setting->set('lucene_item_filter_enabled', (string) $this->isLuceneItemFilterEnabled());
         $this->setting->set('lucene_item_filter', serialize($this->getLuceneItemFilter()));
-        $this->setting->set('lucene_offline_filter', (string)  $this->isLuceneOfflineFilterEnabled());
+        $this->setting->set('lucene_offline_filter', (string) $this->isLuceneOfflineFilterEnabled());
         $this->setting->set('lucene_mime_filter', serialize($this->getLuceneMimeFilter()));
         $this->setting->set('lucene_sub_relevance', (string) $this->isSubRelevanceVisible());
         $this->setting->set('lucene_mime_filter_enabled', (string) $this->isLuceneMimeFilterEnabled());

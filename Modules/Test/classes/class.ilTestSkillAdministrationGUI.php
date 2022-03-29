@@ -126,7 +126,7 @@ class ilTestSkillAdministrationGUI
         }
     }
     
-    private function isAssignmentEditingRequired()
+    private function isAssignmentEditingRequired() : bool
     {
         if (!$this->testOBJ->isFixedTest()) {
             return false;
@@ -165,7 +165,7 @@ class ilTestSkillAdministrationGUI
         $this->tabs->activateSubTab($activeSubTabId);
     }
 
-    private function isAccessDenied()
+    private function isAccessDenied() : bool
     {
         if (!$this->testOBJ->isSkillServiceEnabled()) {
             return true;
@@ -182,7 +182,7 @@ class ilTestSkillAdministrationGUI
         return false;
     }
     
-    private function getQuestionContainerId()
+    private function getQuestionContainerId() : ?int
     {
         if ($this->testOBJ->isDynamicTest()) {
             $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
@@ -200,7 +200,7 @@ class ilTestSkillAdministrationGUI
         return $this->testOBJ->getId();
     }
     
-    private function getRequiredQuestionInstanceTypeFilter()
+    private function getRequiredQuestionInstanceTypeFilter() : ?string
     {
         if ($this->testOBJ->isDynamicTest()) {
             return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS;
@@ -213,7 +213,7 @@ class ilTestSkillAdministrationGUI
         return null;
     }
     
-    private function buildAssignmentConfigurationInPoolHintMessage()
+    private function buildAssignmentConfigurationInPoolHintMessage() : string
     {
         $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,

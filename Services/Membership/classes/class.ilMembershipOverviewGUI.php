@@ -37,7 +37,7 @@ class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
                 break;
 
             default:
-                if (in_array($cmd, array("show"))) {
+                if ($cmd === "show") {
                     $this->$cmd();
                 }
         }

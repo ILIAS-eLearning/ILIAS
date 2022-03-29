@@ -21,24 +21,24 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("RESPONSEVAR_EQUAL", "1");
-define("RESPONSEVAR_LT", "2");
-define("RESPONSEVAR_LTE", "3");
-define("RESPONSEVAR_GT", "4");
-define("RESPONSEVAR_GTE", "5");
-define("RESPONSEVAR_SUBSET", "6");
-define("RESPONSEVAR_INSIDE", "7");
-define("RESPONSEVAR_SUBSTRING", "8");
+const RESPONSEVAR_EQUAL = "1";
+const RESPONSEVAR_LT = "2";
+const RESPONSEVAR_LTE = "3";
+const RESPONSEVAR_GT = "4";
+const RESPONSEVAR_GTE = "5";
+const RESPONSEVAR_SUBSET = "6";
+const RESPONSEVAR_INSIDE = "7";
+const RESPONSEVAR_SUBSTRING = "8";
 
-define("CASE_YES", "1");
-define("CASE_NO", "2");
+const CASE_YES = "1";
+const CASE_NO = "2";
 
-define("SETMATCH_PARTIAL", "1");
-define("SETMATCH_EXACT", "2");
+const SETMATCH_PARTIAL = "1";
+const SETMATCH_EXACT = "2";
 
-define("AREATYPE_ELLIPSE", "1");
-define("AREATYPE_RECTANGLE", "2");
-define("AREATYPE_BOUNDED", "3");
+const AREATYPE_ELLIPSE = "1";
+const AREATYPE_RECTANGLE = "2";
+const AREATYPE_BOUNDED = "3";
 
 /**
 * QTI response variable class
@@ -50,30 +50,52 @@ define("AREATYPE_BOUNDED", "3");
 */
 class ilQTIResponseVar
 {
+    /** @var string|null */
     public $vartype;
+
+    /** @var string|null */
     public $case;
+
+    /** @var string|null */
     public $respident;
+
+    /** @var string|null */
     public $index;
+
+    /** @var string|null */
     public $setmatch;
+
+    /** @var string|null */
     public $areatype;
+
+    /** @var string|null */
     public $content;
     
     public function __construct($a_vartype)
     {
         $this->setVartype($a_vartype);
     }
-    
-    public function setVartype($a_vartype)
+
+    /**
+     * @param string $a_vartype
+     */
+    public function setVartype($a_vartype) : void
     {
         $this->vartype = $a_vartype;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getVartype()
     {
         return $this->vartype;
     }
-    
-    public function setCase($a_case)
+
+    /**
+     * @param string $a_case
+     */
+    public function setCase($a_case) : void
     {
         switch (strtolower($a_case)) {
             case "1":
@@ -86,33 +108,51 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getCase()
     {
         return $this->case;
     }
-    
-    public function setRespident($a_respident)
+
+    /**
+     * @param string $a_respident
+     */
+    public function setRespident($a_respident) : void
     {
         $this->respident = $a_respident;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getRespident()
     {
         return $this->respident;
     }
-    
-    public function setIndex($a_index)
+
+    /**
+     * @param string $a_index
+     */
+    public function setIndex($a_index) : void
     {
         $this->index = $a_index;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getIndex()
     {
         return $this->index;
     }
-    
-    public function setSetmatch($a_setmatch)
+
+    /**
+     * @param string $a_setmatch
+     */
+    public function setSetmatch($a_setmatch) : void
     {
         switch (strtolower($a_setmatch)) {
             case "1":
@@ -125,13 +165,19 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getSetmatch()
     {
         return $this->setmatch;
     }
-    
-    public function setAreatype($a_areatype)
+
+    /**
+     * @param string $a_areatype
+     */
+    public function setAreatype($a_areatype) : void
     {
         switch (strtolower($a_areatype)) {
             case "1":
@@ -148,17 +194,26 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getAreatype()
     {
         return $this->areatype;
     }
-    
-    public function setContent($a_content)
+
+    /**
+     * @param string $a_content
+     */
+    public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContent()
     {
         return $this->content;

@@ -108,7 +108,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function getItemsRaw()
+    public function getItemsRaw() : array
     {
         return $this->items;
     }
@@ -122,7 +122,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function getItemCount()
+    public function getItemCount() : int
     {
         return count($this->items);
     }
@@ -247,7 +247,7 @@ class assClozeGap
      * @see $items
      * @return assAnswerCloze|null
      */
-    public function getItem($a_index)
+    public function getItem($a_index) : ?assAnswerCloze
     {
         if (array_key_exists($a_index, $this->items)) {
             return $this->items[$a_index];
@@ -286,7 +286,7 @@ class assClozeGap
      *
      * @return boolean Shuffle state
      */
-    public function getShuffle()
+    public function getShuffle() : bool
     {
         return $this->shuffle;
     }
@@ -299,7 +299,7 @@ class assClozeGap
     * @return integer The maximum width of the gap defined by the longest answer
     * @access public
     */
-    public function getMaxWidth()
+    public function getMaxWidth() : int
     {
         $maxwidth = 0;
         foreach ($this->items as $item) {
@@ -318,7 +318,7 @@ class assClozeGap
     * @return array The indexs of the best solutions
     * @access public
     */
-    public function getBestSolutionIndexes()
+    public function getBestSolutionIndexes() : array
     {
         $maxpoints = 0;
         foreach ($this->items as $key => $item) {
@@ -340,7 +340,7 @@ class assClozeGap
      * @param null | array $combinations
      * @return string
      */
-    public function getBestSolutionOutput(Transformation $shuffler, $combinations = null)
+    public function getBestSolutionOutput(Transformation $shuffler, $combinations = null) : string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -394,12 +394,12 @@ class assClozeGap
     /**
      * @return int
      */
-    public function getGapSize()
+    public function getGapSize() : int
     {
         return $this->gap_size;
     }
     
-    public function numericRangeExists()
+    public function numericRangeExists() : bool
     {
         if ($this->getType() != CLOZE_NUMERIC) {
             return false;

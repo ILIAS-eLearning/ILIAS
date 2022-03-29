@@ -58,7 +58,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == "view") {
+                if (!$cmd || $cmd === "view") {
                     $cmd = "editSettings";
                 }
                 $this->$cmd();
@@ -199,7 +199,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
     protected function setSubTabs(string $a_main_tab, string $a_active_tab) : void
     {
-        if ($a_main_tab == 'settings') {
+        if ($a_main_tab === 'settings') {
             $this->tabs_gui->addSubTab(
                 self::SUB_TAB_GENERAL_SETTINGS,
                 $this->lng->txt('mem_settings_tab_' . self::SUB_TAB_GENERAL_SETTINGS),

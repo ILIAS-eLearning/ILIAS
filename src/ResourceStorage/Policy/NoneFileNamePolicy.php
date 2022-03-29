@@ -41,5 +41,4 @@ class NoneFileNamePolicy implements FileNamePolicy
     {
         return $filename_with_extension;
     }
-
 }

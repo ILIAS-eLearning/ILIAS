@@ -20,7 +20,6 @@ namespace ILIAS\ResourceStorage\Policy;
  * Class WhiteAndBlacklistedFileNamePolicy
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
- * TODO: refactor to make the renaming internal, it uses ilFileUtil currrently
  */
 abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
 {
@@ -42,22 +41,21 @@ abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
         $this->whitelisted = $whitelisted;
     }
     
-    public function isValidExtension(string $extension): bool
+    public function isValidExtension(string $extension) : bool
     {
         return in_array($extension, $this->whitelisted) && !in_array($extension, $this->blacklisted);
     }
     
-    public function isBlockedExtension(string $extension): bool
+    public function isBlockedExtension(string $extension) : bool
     {
         return in_array($extension, $this->blacklisted);
     }
     
-    public function check(string $extension): bool
+    public function check(string $extension) : bool
     {
         if ($this->isBlockedExtension($extension)) {
             throw new FileNamePolicyException("Extension '$extension' is blacklisted.");
         }
         return true;
     }
-    
 }

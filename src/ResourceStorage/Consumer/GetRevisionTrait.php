@@ -40,5 +40,4 @@ trait GetRevisionTrait
         }
         return $revision;
     }
-
 }

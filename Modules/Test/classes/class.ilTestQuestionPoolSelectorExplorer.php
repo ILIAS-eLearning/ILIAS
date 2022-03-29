@@ -21,7 +21,7 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         $this->selection_par = 'quest_pool_ref';
     }
     
-    public function getAvailableQuestionPools()
+    public function getAvailableQuestionPools() : array
     {
         return $this->availableQuestionPools;
     }
@@ -31,7 +31,7 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         $this->availableQuestionPools = $availableQuestionPools;
     }
     
-    public function isAvailableQuestionPool($qplRefId)
+    public function isAvailableQuestionPool($qplRefId) : bool
     {
         /* @var ilObjectDataCache $objCache */
         $objCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];

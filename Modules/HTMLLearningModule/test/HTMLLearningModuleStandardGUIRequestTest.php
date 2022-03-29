@@ -7,8 +7,6 @@ use PHPUnit\Framework\TestCase;
  */
 class HTMLLearningModuleStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
     protected function tearDown() : void
     {
     }
@@ -27,7 +25,7 @@ class HTMLLearningModuleStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -43,7 +41,7 @@ class HTMLLearningModuleStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testUserId()
+    public function testUserId() : void
     {
         $request = $this->getRequest(
             [

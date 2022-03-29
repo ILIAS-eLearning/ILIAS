@@ -19,7 +19,9 @@
  */
 class ilChatUserActionProvider extends ilUserActionProvider
 {
+    /** @var array<int, bool> */
     protected static array $user_access = array();
+    /** @var array<int, bool> */
     protected static array $accepts_messages_cache = array();
     protected int $pub_ref_id = 0;
     protected bool $chat_enabled = false;
@@ -43,6 +45,9 @@ class ilChatUserActionProvider extends ilUserActionProvider
         return "chtr";
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function getActionTypes() : array
     {
         return array(

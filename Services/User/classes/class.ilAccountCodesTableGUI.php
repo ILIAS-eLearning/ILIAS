@@ -19,6 +19,9 @@
  */
 class ilAccountCodesTableGUI extends ilTable2GUI
 {
+    /**
+     * @var array<string,string>
+     */
     public array $filter;
 
     public function __construct(
@@ -70,8 +73,6 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
 
         $this->determineOffsetAndOrder();
         
@@ -130,8 +131,6 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
         
         // code
         $ti = new ilTextInputGUI($lng->txt("user_account_code"), "query");
@@ -153,7 +152,10 @@ class ilAccountCodesTableGUI extends ilTable2GUI
         $si->readFromSession();
         $this->filter["generated"] = $si->getValue();
     }
-    
+
+    /**
+     * @param array<string,string> $a_set
+     */
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set["code_id"]);

@@ -37,7 +37,6 @@ class ilCertificatePathFactory
                     'The type "%s" is currently not supported for certificates',
                     $type
                 ));
-                break;
         }
 
         return $certificatePath;

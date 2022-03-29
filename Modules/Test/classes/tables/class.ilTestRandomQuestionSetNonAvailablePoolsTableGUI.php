@@ -77,7 +77,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
     
-    protected function getDerivePoolLink($poolId)
+    protected function getDerivePoolLink($poolId) : string
     {
         $this->ctrl->setParameter($this->parent_obj, 'derive_pool_id', $poolId);
         
@@ -104,7 +104,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('STATUS', $this->getStatusText($a_set['status']));
     }
     
-    protected function getStatusText($status)
+    protected function getStatusText($status) : string
     {
         return $this->lng->txt('tst_non_avail_pool_msg_status_' . $status);
     }

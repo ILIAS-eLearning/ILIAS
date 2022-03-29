@@ -107,7 +107,7 @@ class ilTestEvaluationPassData
         $this->answeredQuestions = array();
     }
 
-    public function getNrOfAnsweredQuestions()
+    public function getNrOfAnsweredQuestions() : int
     {
         return $this->nrOfAnsweredQuestions;
     }
@@ -117,7 +117,7 @@ class ilTestEvaluationPassData
         $this->nrOfAnsweredQuestions = $nrOfAnsweredQuestions;
     }
 
-    public function getReachedPoints()
+    public function getReachedPoints() : int
     {
         return $this->reachedpoints;
     }
@@ -127,7 +127,7 @@ class ilTestEvaluationPassData
         $this->reachedpoints = $reachedpoints;
     }
 
-    public function getMaxPoints()
+    public function getMaxPoints() : int
     {
         return $this->maxpoints;
     }
@@ -137,7 +137,7 @@ class ilTestEvaluationPassData
         $this->maxpoints = $maxpoints;
     }
 
-    public function getQuestionCount()
+    public function getQuestionCount() : int
     {
         return $this->questioncount;
     }
@@ -147,7 +147,7 @@ class ilTestEvaluationPassData
         $this->questioncount = $questioncount;
     }
 
-    public function getWorkingTime()
+    public function getWorkingTime() : int
     {
         return $this->workingtime;
     }
@@ -157,7 +157,7 @@ class ilTestEvaluationPassData
         $this->workingtime = $workingtime;
     }
 
-    public function getPass()
+    public function getPass() : int
     {
         return $this->pass;
     }
@@ -167,7 +167,7 @@ class ilTestEvaluationPassData
         $this->pass = $a_pass;
     }
 
-    public function getAnsweredQuestions()
+    public function getAnsweredQuestions() : array
     {
         return $this->answeredQuestions;
     }
@@ -203,7 +203,7 @@ class ilTestEvaluationPassData
         return null;
     }
 
-    public function getAnsweredQuestionCount()
+    public function getAnsweredQuestionCount() : int
     {
         return count($this->answeredQuestions);
     }
@@ -213,7 +213,7 @@ class ilTestEvaluationPassData
      *
      * @return integer $requestedHintsCount
      */
-    public function getRequestedHintsCount()
+    public function getRequestedHintsCount() : ?int
     {
         return $this->requestedHintsCount;
     }
@@ -233,7 +233,7 @@ class ilTestEvaluationPassData
      *
      * @return integer $deductedHintPoints
      */
-    public function getDeductedHintPoints()
+    public function getDeductedHintPoints() : ?int
     {
         return $this->deductedHintPoints;
     }
@@ -284,7 +284,7 @@ class ilTestEvaluationPassData
      * @throws ilTestEvaluationException
      * @return boolean
      */
-    public function areObligationsAnswered()
+    public function areObligationsAnswered() : ?bool
     {
         if (!is_null($this->obligationsAnswered)) {
             return $this->obligationsAnswered;

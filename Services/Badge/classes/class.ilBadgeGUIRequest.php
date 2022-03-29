@@ -34,37 +34,37 @@ class ilBadgeGUIRequest
     protected function initRequest(
         HTTP\Services $http,
         Refinery\Factory $refinery
-    ) {
+    ) : void {
         $this->http = $http;
         $this->refinery = $refinery;
     }
 
     // get string parameter kindly
-    protected function str($key) : string
+    protected function str(string $key) : string
     {
         $t = $this->refinery->kindlyTo()->string();
         return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
     }
 
     // get integer parameter kindly
-    protected function int($key) : int
+    protected function int(string $key) : int
     {
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
     }
 
     // get integer array kindly
-    protected function intArray($key) : array
+    protected function intArray(string $key) : array
     {
         if (!$this->isArray($key)) {
             return [];
         }
         $t = $this->refinery->custom()->transformation(
-            function ($arr) {
+            static function (array $arr) : array {
                 // keep keys(!), transform all values to int
                 return array_column(
                     array_map(
-                        function ($k, $v) {
+                        static function ($k, $v) : array {
                             return [$k, (int) $v];
                         },
                         array_keys($arr),

@@ -23,7 +23,6 @@ namespace ILIAS\FileDelivery;
  */
 interface ilFileDeliveryService
 {
-
     public static function deliverFileAttached(
         string $path_to_file,
         ?string $download_file_name = null,

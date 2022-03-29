@@ -16,7 +16,7 @@ class ilDynamicTestQuestionChangeListener implements ilQuestionChangeListener
     /**
      * @var ilDBInterface
      */
-    protected $db = null;
+    protected ?ilDBInterface $db = null;
     
     /**
      * @param ilDBInterface $db
@@ -29,7 +29,7 @@ class ilDynamicTestQuestionChangeListener implements ilQuestionChangeListener
     /**
      * @var array[integer]
      */
-    private $testObjIds = array();
+    private array $testObjIds = array();
     
     /**
      * @param integer $testObjId
@@ -42,7 +42,7 @@ class ilDynamicTestQuestionChangeListener implements ilQuestionChangeListener
     /**
      * @return array[integer]
      */
-    public function getTestObjIds()
+    public function getTestObjIds() : array
     {
         return $this->testObjIds;
     }
@@ -130,7 +130,7 @@ class ilDynamicTestQuestionChangeListener implements ilQuestionChangeListener
         }
     }
     
-    private function getActiveIds()
+    private function getActiveIds() : ?array
     {
         if (!count($this->getTestObjIds())) {
             return null;

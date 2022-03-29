@@ -125,10 +125,7 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholders['DATE_COMPLETED'] = '';
         $placeholders['DATETIME_COMPLETED'] = '';
 
-        if ($completionDate !== false &&
-            $completionDate !== null &&
-            $completionDate !== ''
-        ) {
+        if ($completionDate !== false && $completionDate !== '') {
             $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
             $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
         }

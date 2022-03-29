@@ -31,13 +31,4 @@ class ilGlossaryDefPage extends ilPageObject
             $a_page_content->autoLinkGlossaries($glos);
         }
     }
-
-    /**
-     * Get object id of repository object that contains this page,
-     * return 0 if page does not belong to a repo object
-     */
-    public function getRepoObjId() : ?int
-    {
-        return $this->getParentId();
-    }
 }

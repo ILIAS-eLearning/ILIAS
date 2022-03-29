@@ -42,7 +42,7 @@ class ilWikiPageTemplateGUI
 
         $this->wiki_gui = $a_wiki_gui;
         /** @var ilObjWiki $wiki */
-        $wiki = $this->wiki_gui->object;
+        $wiki = $this->wiki_gui->getObject();
         $this->wiki = $wiki;
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
@@ -164,7 +164,7 @@ class ilWikiPageTemplateGUI
         $this->ctrl->redirect($this, "listTemplates");
     }
     
-    public function addPageTemplateFromPageAction()
+    public function addPageTemplateFromPageAction() : void
     {
         $page_id = $this->request->getWikiPageId();
         if ($page_id) {

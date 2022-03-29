@@ -15,7 +15,7 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
     /**
      * @return string
      */
-    public function getPostVar()
+    public function getPostVar() : ?string
     {
         return $this->postVar;
     }

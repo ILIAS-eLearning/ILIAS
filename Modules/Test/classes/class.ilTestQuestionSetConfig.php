@@ -75,32 +75,32 @@ abstract class ilTestQuestionSetConfig
      */
     abstract public function deleteFromDb();
 
-    public function areDepenciesInVulnerableState()
+    public function areDepenciesInVulnerableState() : bool
     {
         return false;
     }
     
-    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng)
+    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng) : string
     {
         return '';
     }
     
-    public function areDepenciesBroken()
+    public function areDepenciesBroken() : bool
     {
         return false;
     }
     
-    public function getDepenciesBrokenMessage(ilLanguage $lng)
+    public function getDepenciesBrokenMessage(ilLanguage $lng) : string
     {
         return '';
     }
     
-    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd)
+    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd) : bool
     {
         return true;
     }
     
-    public function getHiddenTabsOnBrokenDepencies()
+    public function getHiddenTabsOnBrokenDepencies() : array
     {
         return array();
     }
@@ -133,7 +133,7 @@ abstract class ilTestQuestionSetConfig
      * @param integer $poolId
      * @return string
      */
-    public function getQuestionPoolPathString($poolId)
+    public function getQuestionPoolPathString($poolId) : string
     {
         $ref_id = current(ilObject::_getAllReferences($poolId));
 

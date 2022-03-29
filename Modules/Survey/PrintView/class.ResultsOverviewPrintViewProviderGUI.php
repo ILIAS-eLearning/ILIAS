@@ -4,7 +4,7 @@
 
 namespace ILIAS\Survey\PrintView;
 
-use \ILIAS\Export;
+use ILIAS\Export;
 use ilPropertyFormGUI;
 use ILIAS\Survey\Page\PageRenderer;
 
@@ -41,7 +41,7 @@ class ResultsOverviewPrintViewProviderGUI extends Export\AbstractPrintViewProvid
     public function getTemplateInjectors() : array
     {
         return [
-            function ($tpl) {
+            static function (\ilGlobalTemplate $tpl) : void {
                 //$tpl add js/css
             }
         ];

@@ -9,7 +9,6 @@
  */
 class ilADTExternalLinkFormBridge extends ilADTFormBridge
 {
-
     protected ilLogger $logger;
 
     public function __construct(ilADT $a_adt)

@@ -38,7 +38,6 @@ use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
  */
 class Services
 {
-
     protected \ILIAS\ResourceStorage\Manager\Manager $manager;
     protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
     protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
@@ -71,11 +70,11 @@ class Services
             $file_name_policy_stack
         );
         $this->preloader = $preloader ?? new StandardRepositoryPreloader(
-                $resource_repository,
-                $revision_repository,
-                $information_repository,
-                $stakeholder_repository
-            );
+            $resource_repository,
+            $revision_repository,
+            $information_repository,
+            $stakeholder_repository
+        );
 
         $this->manager = new Manager($b, $this->preloader);
         $this->consumers = new Consumers(
@@ -101,5 +100,4 @@ class Services
     {
         $this->preloader->preload($identification_strings);
     }
-
 }

@@ -206,12 +206,12 @@ class ilAssQuestionPreviewGUI
     /**
      * @return string
      */
-    protected function buildPreviewFormAction()
+    protected function buildPreviewFormAction() : string
     {
         return $this->ctrl->getFormAction($this, self::CMD_SHOW) . '#' . self::FEEDBACK_FOCUS_ANCHOR;
     }
     
-    protected function isCommentingRequired()
+    protected function isCommentingRequired() : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -219,7 +219,7 @@ class ilAssQuestionPreviewGUI
             return false;
         }
         
-        return (bool) $DIC->rbac()->system()->checkAccess('write', (int) $_GET['ref_id']);
+        return $DIC->rbac()->system()->checkAccess('write', (int) $_GET['ref_id']);
     }
     
     private function showCmd($notesPanelHTML = '')
@@ -416,7 +416,7 @@ class ilAssQuestionPreviewGUI
         $tpl->parseCurrentBlock();
     }
 
-    private function getQuestionNavigationHtml()
+    private function getQuestionNavigationHtml() : string
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php';
         $navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
@@ -512,7 +512,7 @@ class ilAssQuestionPreviewGUI
         return $this->previewSession->isInstantResponseActive();
     }
     
-    public function saveQuestionSolution()
+    public function saveQuestionSolution() : bool
     {
         return $this->questionOBJ->persistPreviewState($this->previewSession);
     }
@@ -552,7 +552,7 @@ class ilAssQuestionPreviewGUI
     /**
      * @return Transformation
      */
-    private function getQuestionAnswerShuffler()
+    private function getQuestionAnswerShuffler() : Transformation
     {
         if (!$this->previewSession->randomizerSeedExists()) {
             $this->previewSession->setRandomizerSeed((new RandomSeed())->createSeed());

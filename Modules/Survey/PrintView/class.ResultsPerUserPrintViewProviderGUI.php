@@ -4,7 +4,7 @@
 
 namespace ILIAS\Survey\PrintView;
 
-use \ILIAS\Export;
+use ILIAS\Export;
 use ilPropertyFormGUI;
 use ILIAS\Survey\Page\PageRenderer;
 
@@ -55,7 +55,7 @@ class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvide
     public function getTemplateInjectors() : array
     {
         return [
-            function ($tpl) {
+            static function (\ilGlobalTemplate $tpl) : void {
                 //$tpl add js/css
             }
         ];
@@ -112,7 +112,7 @@ class ResultsPerUserPrintViewProviderGUI extends Export\AbstractPrintViewProvide
         $table_gui = new \ilSurveyResultsUserTableGUI(null, '');
         $filtered_data = [];
         foreach ($data as $active_id => $d) {
-            if ($selection == "all" || in_array($active_id, $active_ids)) {
+            if ($selection === "all" || in_array($active_id, $active_ids)) {
                 $filtered_data[$active_id] = $d;
             }
         }

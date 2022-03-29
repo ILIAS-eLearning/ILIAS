@@ -156,7 +156,6 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         $doSaveResourceLink = true;
 
         $id = $this->resourceLink->primaryResourceLinkId;
-
         $shareRequest = isset($_POST['custom_share_key']) && !empty($_POST['custom_share_key']);
         if ($shareRequest) {
             if (!$this->allowSharing) {
@@ -295,8 +294,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     private function authenticate() : bool
     {
-
-// Get the consumer
+        // Get the consumer
         $doSaveConsumer = false;
         // Check all required launch parameters
         $this->ok = isset($_POST['lti_message_type']) && array_key_exists(
@@ -840,7 +838,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         if ($this->ok && isset($this->resourceLink)) {
 
 // Check if a share arrangement is in place for this resource link
-            $this->ok = $this->checkForShare();//ACHTUNG TODO UWE
+//            $this->ok = $this->checkForShare();//ACHTUNG TODO UWE
             // Persist changes to resource link
             $this->resourceLink->save();
 
@@ -855,7 +853,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->user->save();
             }
         }
-        // die ($this->reason.'---'.$this->ok);//ACHTUNG WEG!
+//        die ($this->reason.'---'.$this->ok);//ACHTUNG WEG!
         return $this->ok;
     }
 

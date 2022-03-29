@@ -41,7 +41,7 @@ trait ScalarTypeCheckAware
      * @throws \InvalidArgumentException Thrown if the variable is not of the type string.
      * @since 5.3
      */
-    private function stringTypeCheck(string $variable, string $name)
+    private function stringTypeCheck(string $variable, string $name) : void
     {
         if (!is_string($variable)) {
             $varType = gettype($variable);
@@ -53,13 +53,13 @@ trait ScalarTypeCheckAware
     /**
      * Type check for int variables.
      *
-     * @param int $variable The variable which should be tested.
+     * @param int    $variable The variable which should be tested.
      * @param string $name     The name of the variable which is tested.
      *
      * @throws \InvalidArgumentException Thrown if the variable is not of the type int.
      * @since 5.3
      */
-    private function intTypeCheck(int $variable, string $name)
+    private function intTypeCheck(int $variable, string $name) : void
     {
         if (!is_int($variable)) {
             $varType = gettype($variable);

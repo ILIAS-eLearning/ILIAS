@@ -356,8 +356,8 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $consumer->setDescription($form->getInput('description'));
             $consumer->setPrefix($form->getInput('prefix'));
             $consumer->setLanguage($form->getInput('language'));
-            $consumer->setActive($form->getInput('active'));
-            $consumer->setRole($form->getInput('role'));
+            $consumer->setActive((bool) $form->getInput('active'));
+            $consumer->setRole((int) $form->getInput('role'));
             $consumer->saveGlobalToolConsumerSettings($this->dataConnector);
             
             $this->object->saveConsumerObjectTypes(

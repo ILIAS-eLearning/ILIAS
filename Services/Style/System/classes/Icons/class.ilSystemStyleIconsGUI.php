@@ -56,11 +56,11 @@ class ilSystemStyleIconsGUI
         $this->tabs = $tabs;
         $this->upload = $upload;
         $this->style_id = $style_id;
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
         $this->skin_factory = $skin_factory;
         $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
 
-        $this->setStyleContainer($this->skin_factory->skinStyleContainerFromId($skin_id));
+        $this->setStyleContainer($this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack));
     }
 
     public function executeCommand() : void
@@ -244,7 +244,7 @@ class ilSystemStyleIconsGUI
         $style = $this->getStyleContainer()->getSkin()->getStyle($this->style_id);
         $this->getStyleContainer()->resetImages($style);
         $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($style->getId())));
-        $message_stack = new ilSystemStyleMessageStack();
+        $message_stack = new ilSystemStyleMessageStack($this->tpl);
         $message_stack->addMessage(new ilSystemStyleMessage(
             $this->lng->txt('color_reset'),
             ilSystemStyleMessage::TYPE_SUCCESS
@@ -258,7 +258,7 @@ class ilSystemStyleIconsGUI
     {
         $form = $this->initByColorForm();
         if ($form->checkInput()) {
-            $message_stack = new ilSystemStyleMessageStack();
+            $message_stack = new ilSystemStyleMessageStack($this->tpl);
 
             $color_changes = [];
             foreach ($this->getIconFolder()->getColorSet()->getColors() as $old_color) {
@@ -393,7 +393,7 @@ class ilSystemStyleIconsGUI
         $form = $this->initByIconForm($icon);
 
         if ($form->checkInput()) {
-            $message_stack = new ilSystemStyleMessageStack();
+            $message_stack = new ilSystemStyleMessageStack($this->tpl);
 
             $color_changes = [];
             foreach ($icon->getColorSet()->getColors() as $old_color) {

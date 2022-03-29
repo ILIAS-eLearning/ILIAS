@@ -33,7 +33,7 @@ class DifferenceEngine
     public $mOldRev;
     public $mNewRev;
     public $mRevisionsLoaded = false; // Have the revisions been loaded
-    public $mTextLoaded = 0; // How many text blobs have been loaded, 0, 1 or 2?
+    public $mTextLoaded = 0; // How many text blobs have been loaded, 0, 1 or 2 ?
     /**#@-*/
 
     /**

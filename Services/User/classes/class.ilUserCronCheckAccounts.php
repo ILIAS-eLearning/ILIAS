@@ -70,7 +70,6 @@ class ilUserCronCheckAccounts extends ilCronJob
 
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
-        $lng = $DIC['lng'];
         
         $status = ilCronJobResult::STATUS_NO_ACTION;
         

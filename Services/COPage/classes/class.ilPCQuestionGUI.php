@@ -31,7 +31,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -51,6 +51,10 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilCtrl->saveParameter($this, array("qpool_ref_id"));
     }
 
+    /**
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;

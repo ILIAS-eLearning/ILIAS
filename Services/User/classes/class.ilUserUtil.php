@@ -220,6 +220,7 @@ class ilUserUtil
     
     /**
      * Get all valid starting points
+     * @return array<int,string>
      */
     public static function getPossibleStartingPoints(bool $a_force_all = false) : array
     {

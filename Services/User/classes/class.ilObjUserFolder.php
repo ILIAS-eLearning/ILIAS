@@ -70,6 +70,7 @@ class ilObjUserFolder extends ilObject
 
     /**
      * Get a list of the already exported files in the export directory
+     * @return array<string,string>[]
      */
     public function getExportFiles() : array
     {
@@ -144,7 +145,7 @@ class ilObjUserFolder extends ilObject
     /**
      * Get all exportable user defined fields
      */
-    protected function getUserDefinedExportFields() : array
+    protected function getUserDefinedExportFields() : array // Missing array type.
     {
         $udf_obj = ilUserDefinedFields::_getInstance();
 
@@ -297,7 +298,7 @@ class ilObjUserFolder extends ilObject
     /**
      * @return array of exportable fields
      */
-    public static function getExportSettings() : array
+    public static function getExportSettings() : array // Missing array type.
     {
         global $DIC;
 
@@ -462,7 +463,7 @@ class ilObjUserFolder extends ilObject
      * Get profile fields
      * @deprecated use ilUserProfile() instead
      */
-    public static function getProfileFields() : array
+    public static function getProfileFields() : array // Missing array type.
     {
         $up = new ilUserProfile();
         $up->skipField("username");

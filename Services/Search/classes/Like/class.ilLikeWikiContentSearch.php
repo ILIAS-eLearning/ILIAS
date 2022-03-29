@@ -34,10 +34,8 @@
 */
 class ilLikeWikiContentSearch extends ilWikiContentSearch
 {
-
     public function __createWhereCondition() : string
     {
-
         $and = "  WHERE ( ";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {

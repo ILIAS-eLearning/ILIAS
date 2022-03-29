@@ -304,7 +304,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     protected function initFormLuceneSettings() : ilPropertyFormGUI
     {
-        $this->settings = ilSearchSettings::getInstance();
+        $this->settings = ilSearchSettings::getInstance();// @TODO: PHP8 Review: Wrong type. Instance of ilSettings expected.
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'cancel'));
 

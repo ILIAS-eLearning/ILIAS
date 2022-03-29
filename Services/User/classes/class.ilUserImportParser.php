@@ -13,20 +13,20 @@
  * https://github.com/ILIAS-eLearning
  */
 
-define("IL_EXTRACT_ROLES", 1);
-define("IL_USER_IMPORT", 2);
-define("IL_VERIFY", 3);
+const IL_EXTRACT_ROLES = 1;
+const IL_USER_IMPORT = 2;
+const IL_VERIFY = 3;
 
-define("IL_FAIL_ON_CONFLICT", 1);
-define("IL_UPDATE_ON_CONFLICT", 2);
-define("IL_IGNORE_ON_CONFLICT", 3);
+const IL_FAIL_ON_CONFLICT = 1;
+const IL_UPDATE_ON_CONFLICT = 2;
+const IL_IGNORE_ON_CONFLICT = 3;
 
-define("IL_IMPORT_SUCCESS", 1);
-define("IL_IMPORT_WARNING", 2);
-define("IL_IMPORT_FAILURE", 3);
+const IL_IMPORT_SUCCESS = 1;
+const IL_IMPORT_WARNING = 2;
+const IL_IMPORT_FAILURE = 3;
 
-define("IL_USER_MAPPING_LOGIN", 1);
-define("IL_USER_MAPPING_ID", 2);
+const IL_USER_MAPPING_LOGIN = 1;
+const IL_USER_MAPPING_ID = 2;
 
 
 /******************************************************************************
@@ -50,16 +50,16 @@ class ilUserImportParser extends ilSaxParser
 {
     protected ?string $tmp_udf_name = null;
     protected ?string $tmp_udf_id = null;
-    protected array $multi_values;
-    protected array $udf_data;
+    protected array $multi_values; // Missing array type.
+    protected array $udf_data; // Missing array type.
     protected bool $auth_mode_set;
     protected ?string $currentPrefKey = null;
-    protected array $prefs;
+    protected array $prefs; // Missing array type.
     protected string $current_role_action;
     protected string $current_role_type;
     protected ?int $current_role_id = null;
     protected string $cdata;
-    protected array $role_assign;
+    protected array $role_assign; // Missing array type.
     protected string $req_send_mail;
     protected ilAccountMail $acc_mail;
     protected int $mode;
@@ -69,9 +69,9 @@ class ilUserImportParser extends ilSaxParser
 
     public bool $updateLookAndSkin = false;
     public int $folder_id;
-    public array $roles;
+    public array $roles; // Missing array type.
     public string $action;      // "Insert","Update","Delete"
-    protected array $required_fields = [];
+    protected array $required_fields = []; // Missing array type.
 
     /**
      * The variable holds the protocol of the import.
@@ -172,7 +172,7 @@ class ilUserImportParser extends ilSaxParser
     public string $currPassword;
     public ?int $currActive = null;
     public int $userCount;
-    public array $user_mapping = [];
+    public array $user_mapping = []; // Missing array type.
     public int $mapping_mode;
 
     /**
@@ -188,7 +188,7 @@ class ilUserImportParser extends ilSaxParser
      * Cached personal picture of the actual user
      * This is used because the ilObjUser object has no field for the personal picture
      */
-    public ?array $personalPicture = null;
+    public ?array $personalPicture = null; // Missing array type.
 
     /**
      * Cached parent roles.
@@ -205,7 +205,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * User assigned styles
      */
-    public array $userStyles;
+    public array $userStyles; // Missing array type.
 
     /**
      * Indicates if the skins are hidden
@@ -237,7 +237,7 @@ class ilUserImportParser extends ilSaxParser
     ) {
         global $DIC;
 
-        $global_settings = $DIC->settings();
+        $DIC->settings();
 
         $this->roles = array();
         $this->mode = $a_mode;
@@ -304,6 +304,8 @@ class ilUserImportParser extends ilSaxParser
     * set event handler
     * should be overwritten by inherited class
     * @access	private
+    *
+    * @param resource<xml>|\XMLParser $a_xml_parser
     */
     public function setHandlers($a_xml_parser) : void
     {
@@ -333,7 +335,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * generate a tag with given name and attributes
      */
-    public function buildTag(string $type, string $name, array $attr = null) : string
+    public function buildTag(string $type, string $name, array $attr = null) : string // Missing array type.
     {
         $tag = "<";
 
@@ -374,6 +376,9 @@ class ilUserImportParser extends ilSaxParser
         $this->cdata = "";
     }
 
+    /**
+     * @param \XMLParser|resource<xml> $a_xml_parser
+     */
     public function extractRolesBeginTag(
         $a_xml_parser,
         string $a_name,
@@ -391,6 +396,9 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param \XMLParser|resource<xml> $a_xml_parser
+     */
     public function importBeginTag(
         $a_xml_parser,
         string $a_name,
@@ -545,6 +553,9 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param \XMLParser|resource<xml> $a_xml_parser
+     */
     public function verifyBeginTag(
         $a_xml_parser,
         string $a_name,
@@ -684,6 +695,9 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param \XMLParser|resource<xml> $a_xml_parser
+     */
     public function extractRolesEndTag(
         $a_xml_parser,
         string $a_name
@@ -720,8 +734,6 @@ class ilUserImportParser extends ilSaxParser
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $tree = $DIC['tree'];
 
         if (array_key_exists($a_role_id . '_courseMembersObject', $this->localRoleCache)) {
             return $this->localRoleCache[$a_role_id . '_courseMembersObject'];
@@ -758,7 +770,7 @@ class ilUserImportParser extends ilSaxParser
 
         $rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
         $obj_id = $rbacreview->getObjectOfRole($a_role_id);
-        switch ($type = ilObject::_lookupType($obj_id)) {
+        switch (ilObject::_lookupType($obj_id)) {
             case 'grp':
             case 'crs':
                 $ref_ids = ilObject::_getAllReferences($obj_id);
@@ -863,15 +875,15 @@ class ilUserImportParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param \XMLParser|resource<xml> $a_xml_parser
+     */
     public function importEndTag(
         $a_xml_parser,
         string $a_name
     ) : void {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $ilSetting = $DIC['ilSetting'];
@@ -1625,7 +1637,7 @@ class ilUserImportParser extends ilSaxParser
         if ($fh == false) {
             return "";
         }
-        $imagefile = fwrite($fh, $image_data);
+        fwrite($fh, $image_data);
         fclose($fh);
         return $tempname;
     }
@@ -1960,6 +1972,7 @@ class ilUserImportParser extends ilSaxParser
 
     /**
      * handler for character data
+     * @param \XMLParser|resource<xml> $a_xml_parser
      */
     public function handlerCharacterData(
         $a_xml_parser,
@@ -2265,7 +2278,7 @@ class ilUserImportParser extends ilSaxParser
                 break;
             case 'user_tz':
                 try {
-                    $tz = ilTimeZone::_getInstance($value);
+                    ilTimeZone::_getInstance($value);
                     return;
                 } catch (ilTimeZoneException $tze) {
                     $this->logFailure("---", "Wrong value '$value': Invalid timezone $value detected for preference $key.");

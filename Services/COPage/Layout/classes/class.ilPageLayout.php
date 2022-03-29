@@ -277,7 +277,7 @@ class ilPageLayout
         bool $a_active = false,
         bool $a_special_page = false,
         int $a_module = 0
-    ) {
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -314,7 +314,7 @@ class ilPageLayout
     public static function activeLayouts(
         bool $a_special_page = false,
         int $a_module = 0
-    ) {
+    ) : array {
         return self::getLayouts(true, $a_special_page, $a_module);
     }
     
