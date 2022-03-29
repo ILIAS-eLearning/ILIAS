@@ -400,7 +400,8 @@ abstract class ilRegistrationGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $this->initForm();
         }
-        if ($_SESSION["pending_goto"]) {
+        $pending_goto = (string) ilSession::get('pending_goto');
+        if ($pending_goto) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("reg_goto_parent_membership_info"));
         }
         $this->tpl->setContent($this->form->getHTML());

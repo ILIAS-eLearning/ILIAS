@@ -483,18 +483,6 @@ class ilObjFolderGUI extends ilContainerGUI
             );
         }
 
-        // show clipboard in repository
-        // note: this checks for !empty($_SESSION['il_rep_clipboard']) which is
-        // never set (in ILIAS 8), most probably not needed anymore (or bug)
-        /*
-        if ($_GET["baseClass"] == "ilRepositoryGUI" and !empty($_SESSION['il_rep_clipboard'])) {
-            $this->tabs_gui->addTarget(
-                "clipboard",
-                $this->ctrl->getLinkTarget($this, "clipboard"),
-                "clipboard",
-                get_class($this)
-            );
-        }*/
     }
 
     /**

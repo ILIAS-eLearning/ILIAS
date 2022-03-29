@@ -61,7 +61,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
-                $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+                $this->tabs_gui->setSubTabActive((string) ilSession::get('cal_last_tab'));
 
                 $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);

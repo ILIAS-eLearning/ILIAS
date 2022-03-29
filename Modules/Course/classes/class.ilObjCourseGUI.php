@@ -2631,7 +2631,6 @@ class ilObjCourseGUI extends ilContainerGUI
             $is_tutor = true;
         }
 
-        //if (!$_SESSION['crs_timings_panel'][$this->object->getId()] or 1) {
         if (!$this->isActiveAdministrationPanel()) {
             $this->tabs_gui->addSubTab(
                 "view_content",

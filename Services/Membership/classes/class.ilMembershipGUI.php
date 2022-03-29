@@ -460,7 +460,6 @@ class ilMembershipGUI
 
     /**
      * update members
-     * @todo refactor POST['roles']
      */
     public function updateParticipants() : void
     {
