@@ -52,7 +52,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     /**
      * @return int
      */
-    public function getQuestionIndex()
+    public function getQuestionIndex() : int
     {
         return $this->question_index;
     }
@@ -60,7 +60,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     /**
      * @return string
      */
-    public function getExpression()
+    public function getExpression() : string
     {
         return $this->expression;
     }
@@ -69,7 +69,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng) : string
     {
         if ($this->getQuestionIndex() === null) {
             return sprintf(

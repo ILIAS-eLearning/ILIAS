@@ -36,7 +36,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @return	boolean $editElementOccuranceEnabled
      */
-    public function isEditElementOccuranceEnabled()
+    public function isEditElementOccuranceEnabled() : bool
     {
         return $this->editElementOccuranceEnabled;
     }
@@ -52,7 +52,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @return boolean
      */
-    public function isEditElementOrderEnabled()
+    public function isEditElementOrderEnabled() : bool
     {
         return $this->editElementOrderEnabled;
     }
@@ -70,7 +70,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      *fetchImageTitle
      * @return	boolean		Input ok, true/false
      */
-    public function onCheckInput()
+    public function onCheckInput() : bool
     {
         $lng = $this->lng;
         
@@ -164,7 +164,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      * @param $value
      * @return bool
      */
-    protected function valueHasContentText($value)
+    protected function valueHasContentText($value) : bool
     {
         if ($value === null || is_array($value) || is_object($value)) {
             return false;
@@ -177,7 +177,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
      * @param $value
      * @return string
      */
-    protected function fetchContentTextFromValue($value)
+    protected function fetchContentTextFromValue($value) : ?string
     {
         if ($this->valueHasContentText($value)) {
             return $value;

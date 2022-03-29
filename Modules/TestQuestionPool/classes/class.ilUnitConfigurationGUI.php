@@ -9,6 +9,7 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 abstract class ilUnitConfigurationGUI
 {
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
     /**
      * @var ilPropertyFormGUI
      */
@@ -53,6 +54,7 @@ abstract class ilUnitConfigurationGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
+        $this->request = $DIC->testQuestionPool()->internal()->request();
 
         $this->repository = $repository;
         $this->lng = $lng;
@@ -66,25 +68,25 @@ abstract class ilUnitConfigurationGUI
      * @return string
      * @abstract
      */
-    abstract protected function getDefaultCommand();
+    abstract protected function getDefaultCommand() : string;
 
     /**
      * @return string
      * @abstract
      */
-    abstract public function getUnitCategoryOverviewCommand();
+    abstract public function getUnitCategoryOverviewCommand() : string;
 
     /**
      * @return boolean
      * @abstract
      */
-    abstract public function isCRUDContext();
+    abstract public function isCRUDContext() : bool;
 
     /**
      * @return string
      * @abstract
      */
-    abstract public function getUniqueId();
+    abstract public function getUniqueId() : string;
 
     /**
      * @param array $categories
@@ -96,7 +98,7 @@ abstract class ilUnitConfigurationGUI
      * @param bool $for_CRUD
      * @return assFormulaQuestionUnitCategory
      */
-    protected function getCategoryById($id, $for_CRUD = true)
+    protected function getCategoryById($id, $for_CRUD = true) : assFormulaQuestionUnitCategory
     {
         $category = $this->repository->getUnitCategoryById($id);
         if ($for_CRUD && $category->getQuestionFi() != $this->repository->getConsumerId()) {
@@ -144,12 +146,12 @@ abstract class ilUnitConfigurationGUI
      */
     protected function confirmDeleteUnit()
     {
-        if (!isset($_GET['unit_id'])) {
+        if (!$this->request->isset('unit_id')) {
             $this->showUnitsOfCategory();
             return;
         }
 
-        $_POST['unit_ids'] = array($_GET['unit_id']);
+        $_POST['unit_ids'] = array($this->request->int('unit_id'));
         $this->confirmDeleteUnits();
     }
 
@@ -316,8 +318,8 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        $category = $this->getCategoryById((int) $_GET['category_id']);
-        $unit = $this->repository->getUnit((int) $_GET['unit_id']);
+        $category = $this->getCategoryById($this->request->int('category_id'));
+        $unit = $this->repository->getUnit($this->request->int('unit_id'));
 
         if ($this->repository->isUnitInUse($unit->getId())) {
             $this->showUnitModificationForm();
@@ -351,8 +353,8 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        $category = $this->getCategoryById((int) $_GET['category_id']);
-        $unit = $this->repository->getUnit((int) $_GET['unit_id']);
+        $category = $this->getCategoryById($this->request->int('category_id'));
+        $unit = $this->repository->getUnit($this->request->int('unit_id'));
 
         $this->initUnitForm($category, $unit);
         $this->unit_form->setValuesByArray(array(
@@ -374,7 +376,7 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        $category = $this->getCategoryById((int) $_GET['category_id']);
+        $category = $this->getCategoryById($this->request->int('category_id'));
 
         $this->initUnitForm($category);
         if ($this->unit_form->checkInput()) {
@@ -409,7 +411,7 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        $category = $this->getCategoryById((int) $_GET['category_id']);
+        $category = $this->getCategoryById($this->request->int('category_id'));
 
         $this->initUnitForm($category);
         $this->unit_form->setValuesByArray(array(
@@ -425,7 +427,7 @@ abstract class ilUnitConfigurationGUI
      * @param assFormulaQuestionUnit         $unit
      * @return ilPropertyFormGUI
      */
-    protected function initUnitForm(assFormulaQuestionUnitCategory $category = null, assFormulaQuestionUnit $unit = null)
+    protected function initUnitForm(assFormulaQuestionUnitCategory $category = null, assFormulaQuestionUnit $unit = null) : ilPropertyFormGUI
     {
         if ($this->unit_form instanceof ilPropertyFormGUI) {
             return $this->unit_form;
@@ -448,7 +450,7 @@ abstract class ilUnitConfigurationGUI
         $options = array();
         $category_name = '';
         $new_category = false;
-        foreach ((array) $items as $item) {
+        foreach ($items as $item) {
             if (
                 $unit instanceof assFormulaQuestionUnit &&
                 $unit->getId() == $item->getId()
@@ -457,7 +459,7 @@ abstract class ilUnitConfigurationGUI
             }
             
             /**
-             * @var $item assFormulaQuestionUnitCategory|assFormulaQuestionUnitCategory
+             * @var $item assFormulaQuestionUnitCategory
              */
             if ($item instanceof assFormulaQuestionUnitCategory) {
                 if ($category_name != $item->getDisplayString()) {
@@ -511,7 +513,7 @@ abstract class ilUnitConfigurationGUI
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
 
-        $category = $this->getCategoryById((int) $_GET['category_id'], false);
+        $category = $this->getCategoryById($this->request->int('category_id'), false);
 
         $this->tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
         $this->tpl->addJavaScript("./Services/Form/js/Form.js");
@@ -573,11 +575,11 @@ abstract class ilUnitConfigurationGUI
      */
     protected function confirmDeleteCategory()
     {
-        if (!isset($_GET['category_id'])) {
+        if (!$this->request->isset('category_id')) {
             $this->{$this->getUnitCategoryOverviewCommand()}();
             return;
         }
-        $_POST['category_ids'] = array($_GET['category_id']);
+        $_POST['category_ids'] = array($this->request->int('category_id'));
 
         $this->confirmDeleteCategories();
     }
@@ -718,7 +720,7 @@ abstract class ilUnitConfigurationGUI
      * @param assFormulaQuestionUnitCategory $cat
      * @return ilPropertyFormGUI
      */
-    protected function initUnitCategoryForm(assFormulaQuestionUnitCategory $cat = null)
+    protected function initUnitCategoryForm(assFormulaQuestionUnitCategory $cat = null) : ilPropertyFormGUI
     {
         if ($this->unit_cat_form instanceof ilPropertyFormGUI) {
             return $this->unit_cat_form;
@@ -801,7 +803,7 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        $category = $this->getCategoryById((int) $_GET['category_id']);
+        $category = $this->getCategoryById($this->request->int('category_id'));
 
         $this->initUnitCategoryForm($category);
         if ($this->unit_cat_form->checkInput()) {
@@ -833,7 +835,7 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        $category = $this->getCategoryById((int) $_GET['category_id']);
+        $category = $this->getCategoryById($this->request->int('category_id'));
 
         $this->initUnitCategoryForm($category);
         $this->unit_cat_form->setValuesByArray(array(

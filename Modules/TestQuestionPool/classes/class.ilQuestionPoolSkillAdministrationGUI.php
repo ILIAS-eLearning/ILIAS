@@ -75,7 +75,7 @@ class ilQuestionPoolSkillAdministrationGUI
         $this->refId = $refId;
     }
 
-    private function isAccessDenied()
+    private function isAccessDenied() : bool
     {
         if (!$this->poolOBJ->isSkillServiceEnabled()) {
             return true;

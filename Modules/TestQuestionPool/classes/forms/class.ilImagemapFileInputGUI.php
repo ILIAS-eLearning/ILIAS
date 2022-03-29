@@ -40,7 +40,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $this->pointsUncheckedFieldEnabled = (bool) $pointsUncheckedFieldEnabled;
     }
     
-    public function getPointsUncheckedFieldEnabled()
+    public function getPointsUncheckedFieldEnabled() : bool
     {
         return $this->pointsUncheckedFieldEnabled;
     }
@@ -50,7 +50,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $this->areas = $a_areas;
     }
     
-    public function getLineColor()
+    public function getLineColor() : string
     {
         return $this->line_color;
     }
@@ -60,7 +60,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $this->line_color = $a_color;
     }
     
-    public function getImagePath()
+    public function getImagePath() : string
     {
         return $this->image_path;
     }
@@ -70,7 +70,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $this->image_path = $a_path;
     }
     
-    public function getImagePathWeb()
+    public function getImagePathWeb() : string
     {
         return $this->image_path_web;
     }
@@ -101,11 +101,17 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
                     -1,
                     $pointsUnchecked
                 ));
+
+                $imagemap = new ASS_AnswerImagemap($name, $a_areas['points'][$idx], $idx, 0, -1);
+                $imagemap->setCoords($a_areas['coords'][$idx]);
+                $imagemap->setArea($a_areas['shape'][$idx]);
+                $imagemap->setPointsUnchecked($pointsUnchecked);
+                array_push($this->areas, $imagemap);
             }
         }
     }
     
-    public function getAreas()
+    public function getAreas() : array
     {
         return $this->areas;
     }
@@ -117,8 +123,12 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     */
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar() . '_name']);
-        $this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
+        if (isset($a_value[$this->getPostVar() . '_name'])) {
+            $this->setValue($a_values[$this->getPostVar() . '_name']);
+        }
+        if (isset($a_value[$this->getPostVar()]['coords'])) {
+            $this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
+        }
     }
 
     public function setValue($a_value) : void
@@ -208,9 +218,9 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         }
         
         $max = 0;
-        if (is_array($_POST[$this->getPostVar()]['coords']['name'])) {
+        if (isset($_POST[$this->getPostVar()]['coords']) && is_array($_POST[$this->getPostVar()]['coords']['name'])) {
             foreach ($_POST[$this->getPostVar()]['coords']['name'] as $idx => $name) {
-                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired)) {
+                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired())) {
                     $this->setAlert($lng->txt('form_msg_area_missing_points'));
                     return false;
                 }

@@ -35,7 +35,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             $newObj->setOnline(true);
 
-            $_SESSION['qpl_import_subdir'] = $this->getImportPackageName();
+            ilSession::set('qpl_import_subdir', $this->getImportPackageName());
 
             $newObj->setOnline(true);
         } elseif ($new_id = $a_mapping->getMapping('Modules/TestQuestionPool', 'qpl', "new_id")) {
@@ -80,9 +80,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': xml file: ' . $xml_file . ", qti file:" . $qti_file);
         
-        if (isset($_SESSION["qpl_import_idents"])) {
-            $idents = $_SESSION["qpl_import_idents"];
-            unset($_SESSION["qpl_import_idents"]);
+        if (ilSession::get("qpl_import_idents") !== null) {
+            $idents = ilSession::get("qpl_import_idents");
+            ilSession::clear("qpl_import_idents");
         } else {
             $idents = null;
         }
@@ -90,7 +90,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         // start parsing of QTI files
         include_once "./Services/QTI/classes/class.ilQTIParser.php";
         $qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, $newObj->getId(), $idents);
-        $result = $qtiParser->startParsing();
+        $qtiParser->startParsing();
 
         // import page data
         if (strlen($xml_file)) {
@@ -173,7 +173,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      * Create qti and xml file name
      * @return array
      */
-    protected function parseXmlFileNames()
+    protected function parseXmlFileNames() : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
@@ -186,14 +186,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         return array($xml,$qti);
     }
 
-    private function getImportDirectoryContainer()
+    private function getImportDirectoryContainer() : string
     {
         $dir = $this->getImportDirectory();
         $dir = dirname($dir);
         return $dir;
     }
 
-    private function getImportPackageName()
+    private function getImportPackageName() : string
     {
         $dir = $this->getImportDirectory();
         $name = basename($dir);

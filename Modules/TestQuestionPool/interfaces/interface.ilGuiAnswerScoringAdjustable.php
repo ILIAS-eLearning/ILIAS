@@ -45,5 +45,5 @@ interface ilGuiAnswerScoringAdjustable
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars();
+    public function getAfterParticipationSuppressionAnswerPostVars() : array;
 }

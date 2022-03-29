@@ -55,7 +55,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -71,7 +71,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @return string
      */
-    public function getCategory()
+    public function getCategory() : string
     {
         return $this->category;
     }
@@ -87,7 +87,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @return int
      */
-    public function getQuestionFi()
+    public function getQuestionFi() : int
     {
         return $this->question_fi;
     }
@@ -95,7 +95,7 @@ class assFormulaQuestionUnitCategory
     /**
      * @return string
      */
-    public function getDisplayString()
+    public function getDisplayString() : string
     {
         /**
          * @var $lng ilLanguage

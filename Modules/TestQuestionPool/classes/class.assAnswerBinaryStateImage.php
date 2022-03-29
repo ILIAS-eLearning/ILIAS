@@ -39,8 +39,6 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      * @param integer $state      A integer value indicating the state of the answer
      * @param string  $a_image    The image filename
      * @param integer $id         The database id of the answer
-     *
-     * @return ASS_AnswerBinaryStateImage
      */
     public function __construct($answertext = "", $points = 0.0, $order = 0, $state = 0, $a_image = "", $id = -1)
     {
@@ -56,7 +54,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      * @return string The image filename
      * @see $image
      */
-    public function getImage()
+    public function getImage() : string
     {
         return $this->image;
     }

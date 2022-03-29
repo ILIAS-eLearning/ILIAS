@@ -41,7 +41,7 @@ class ilTestParticipantsTimeExtensionGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -57,7 +57,7 @@ class ilTestParticipantsTimeExtensionGUI
     /**
      * @return bool
      */
-    protected function isExtraTimeFeatureAvailable()
+    protected function isExtraTimeFeatureAvailable() : bool
     {
         if (!($this->getTestObj()->getProcessingTimeInSeconds() > 0)) {
             return false;
@@ -160,7 +160,7 @@ class ilTestParticipantsTimeExtensionGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildTimingForm()
+    protected function buildTimingForm() : ilPropertyFormGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

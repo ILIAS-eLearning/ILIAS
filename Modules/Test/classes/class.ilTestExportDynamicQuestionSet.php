@@ -19,12 +19,12 @@ class ilTestExportDynamicQuestionSet extends ilTestExport
     {
     }
 
-    protected function getQuestionsQtiXml()
+    protected function getQuestionsQtiXml() : string
     {
         return '';
     }
     
-    protected function getQuestionIds()
+    protected function getQuestionIds() : array
     {
         return array();
     }

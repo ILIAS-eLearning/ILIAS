@@ -38,7 +38,7 @@ class ilTestPersonalSkillsGUI
         $this->testId = $testId;
     }
 
-    public function getHTML()
+    public function getHTML() : string
     {
         $gui = new ilPersonalSkillsGUI();
 
@@ -101,7 +101,7 @@ class ilTestPersonalSkillsGUI
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->testId;
     }

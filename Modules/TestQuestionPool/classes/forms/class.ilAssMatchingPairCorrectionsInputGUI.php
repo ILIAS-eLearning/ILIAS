@@ -12,7 +12,7 @@
  */
 class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
 {
-    public function getPairs()
+    public function getPairs() : array
     {
         return $this->pairs;
     }

@@ -55,7 +55,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    public function isManageResultsCommandsEnabled()
+    public function isManageResultsCommandsEnabled() : bool
     {
         return $this->manageResultsCommandsEnabled;
     }
@@ -71,7 +71,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    public function isManageInviteesCommandsEnabled()
+    public function isManageInviteesCommandsEnabled() : bool
     {
         return $this->manageInviteesCommandsEnabled;
     }
@@ -93,7 +93,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getRowKeyDataField()
+    public function getRowKeyDataField() : string
     {
         return $this->rowKeyDataField;
     }
@@ -125,7 +125,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    public function isParticipantHasSolutionsFilterEnabled()
+    public function isParticipantHasSolutionsFilterEnabled() : bool
     {
         return $this->participantHasSolutionsFilterEnabled;
     }
@@ -149,7 +149,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         ));
     }
     
-    protected function needsCheckboxColumn()
+    protected function needsCheckboxColumn() : bool
     {
         return $this->isManageInviteesCommandsEnabled();
     }
@@ -256,7 +256,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param array $data
      * @return ilAdvancedSelectionListGUI
      */
-    protected function buildActionsMenu($data)
+    protected function buildActionsMenu($data) : ilAdvancedSelectionListGUI
     {
         $asl = new ilAdvancedSelectionListGUI();
         
@@ -273,7 +273,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    protected function isActionsColumnRequired()
+    protected function isActionsColumnRequired() : bool
     {
         if ($this->isManageResultsCommandsEnabled()) {
             return true;
@@ -286,7 +286,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function fetchRowKey($data)
+    protected function fetchRowKey($data) : string
     {
         return $data[$this->getRowKeyDataField()];
     }
@@ -295,7 +295,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function fetchTriesValue($data)
+    protected function fetchTriesValue($data) : string
     {
         if ($data['tries'] < 1) {
             return '';
@@ -312,7 +312,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param $data
      * @return string
      */
-    protected function buildUnfinishedPassesStatusString($data)
+    protected function buildUnfinishedPassesStatusString($data) : string
     {
         if ($data['unfinished']) {
             return $this->lng->txt('yes');
@@ -324,7 +324,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    protected function buildOkIcon()
+    protected function buildOkIcon() : string
     {
         return "<img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("ok") . "\" />";
     }
@@ -333,7 +333,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param $data
      * @return string
      */
-    protected function buildFormattedAccessDate($data)
+    protected function buildFormattedAccessDate($data) : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($data['access'], IL_CAL_DATETIME));
     }

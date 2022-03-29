@@ -307,7 +307,7 @@ class assKprimChoiceExport extends assQuestionExport
         return 0;
     }
     
-    private function getMaxPoints()
+    private function getMaxPoints() : float
     {
         return $this->object->getPoints();
     }

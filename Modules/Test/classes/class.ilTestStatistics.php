@@ -22,9 +22,6 @@ class ilTestStatistics
     * ilTestStatistics constructor
     *
     * The constructor takes the id of an existing test object
-    *
-    * @param integer $eval_data Complete test data as ilTestEvaluationData object
-    * @access public
     */
     public function __construct($eval_data)
     {
@@ -39,7 +36,7 @@ class ilTestStatistics
     * @access public
     * @see $statistics
     */
-    public function getStatistics()
+    public function getStatistics() : ?object
     {
         return $this->statistics;
     }
@@ -55,7 +52,7 @@ class ilTestStatistics
         $median_array = array();
 
         foreach ($eval_data->getParticipantIds() as $active_id) {
-            $participant = &$eval_data->getParticipant($active_id);
+            $participant = $eval_data->getParticipant($active_id);
             array_push($median_array, $participant->getReached());
         }
 

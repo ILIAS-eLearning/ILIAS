@@ -25,14 +25,14 @@ interface iQuestionCondition
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression);
+    public function getOperators($expression) : array;
 
     /**
      * Get all available expression types for a specific question
      *
      * @return array
      */
-    public function getExpressionTypes();
+    public function getExpressionTypes() : array;
 
     /**
      * Get the user solution for a question by active_id and the test pass
@@ -42,15 +42,13 @@ interface iQuestionCondition
      *
      * @return ilUserQuestionResult
      */
-    public function getUserQuestionResult($active_id, $pass);
+    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult;
 
     /**
      * If index is null, the function returns an array with all anwser options
      * Else it returns the specific answer option
      *
      * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null);
 }

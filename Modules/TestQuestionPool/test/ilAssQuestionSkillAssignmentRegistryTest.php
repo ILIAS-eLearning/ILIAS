@@ -45,7 +45,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
 
         $settingsMock->expects($this->any())->method('get')->will(
             $this->returnCallback(function ($key, $value) {
-                return isset($this->storage[$key]) ? $this->storage[$key] : $value;
+                return $this->storage[$key] ?? $value;
             })
         );
 
@@ -96,7 +96,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
      * @param callable $post
      * @return array
      */
-    protected function getTestData(callable $pre, callable $post)
+    protected function getTestData(callable $pre, callable $post) : array
     {
         $data = [];
 
@@ -138,7 +138,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     /**
      * @return array
      */
-    public function serializedData()
+    public function serializedData() : array
     {
         $pre = function ($value) {
             return \serialize($value);

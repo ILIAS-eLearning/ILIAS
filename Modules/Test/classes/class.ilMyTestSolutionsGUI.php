@@ -38,7 +38,7 @@ class ilMyTestSolutionsGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -54,7 +54,7 @@ class ilMyTestSolutionsGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ilTestAccess
     {
         return $this->testAccess;
     }
@@ -70,7 +70,7 @@ class ilMyTestSolutionsGUI
     /**
      * @return ilTestObjectiveOrientedContainer
      */
-    public function getObjectiveParent()
+    public function getObjectiveParent() : ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }

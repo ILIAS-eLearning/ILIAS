@@ -95,7 +95,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         $props = parent::getProperties();
 
         // we cannot use ilObjTestAccess::_isOffline() because of text messages
-        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->id);
+        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->getId());
         if ($onlineaccess !== true) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                 "value" => $onlineaccess);
@@ -157,7 +157,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         return $commands;
     }
 
-    private function isObjectiveTest()
+    private function isObjectiveTest() : bool
     {
         require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
         return ilLOSettings::isObjectiveTest($this->ref_id);
@@ -193,7 +193,6 @@ class ilObjTestListGUI extends ilObjectListGUI
      *
      * @access public
      * @param array (param => value)
-     * @return
      */
     public function addCommandLinkParameter($a_param)
     {

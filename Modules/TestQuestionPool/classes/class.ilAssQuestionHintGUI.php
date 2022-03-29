@@ -186,7 +186,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilLanguage			$lng
      * @return	ilPropertyFormGUI	$form
      */
-    private function buildForm(ilAssQuestionHint $questionHint = null)
+    private function buildForm(ilAssQuestionHint $questionHint = null) : ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

@@ -17,6 +17,6 @@ class RandomSeed extends GivenSeed
         $array = explode(' ', microtime());
         $seed = $array[1] + ($array[0] * 100000);
 
-        return $seed;
+        return (int) $seed;
     }
 }

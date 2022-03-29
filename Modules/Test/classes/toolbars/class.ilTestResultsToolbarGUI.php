@@ -101,7 +101,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         }
     }
 
-    private function getPdfExportLabel()
+    private function getPdfExportLabel() : string
     {
         return $this->lng->txt('pdf_export');
     }
@@ -111,7 +111,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         $this->pdfExportLinkTarget = $pdfExportLinkTarget;
     }
 
-    public function getPdfExportLinkTarget()
+    public function getPdfExportLinkTarget() : ?string
     {
         return $this->pdfExportLinkTarget;
     }
@@ -121,7 +121,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         $this->certificateLinkTarget = $certificateLinkTarget;
     }
 
-    public function getCertificateLinkTarget()
+    public function getCertificateLinkTarget() : ?string
     {
         return $this->certificateLinkTarget;
     }
@@ -131,7 +131,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         $this->showBestSolutionsLinkTarget = $showBestSolutionsLinkTarget;
     }
 
-    public function getShowBestSolutionsLinkTarget()
+    public function getShowBestSolutionsLinkTarget() : ?string
     {
         return $this->showBestSolutionsLinkTarget;
     }
@@ -141,7 +141,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         $this->hideBestSolutionsLinkTarget = $hideBestSolutionsLinkTarget;
     }
 
-    public function getHideBestSolutionsLinkTarget()
+    public function getHideBestSolutionsLinkTarget() : ?string
     {
         return $this->hideBestSolutionsLinkTarget;
     }
@@ -151,12 +151,12 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         $this->participantSelectorOptions = $participantSelectorOptions;
     }
 
-    public function getParticipantSelectorOptions()
+    public function getParticipantSelectorOptions() : array
     {
         return $this->participantSelectorOptions;
     }
     
-    public function getParticipantSelectorOptionsWithHintOption()
+    public function getParticipantSelectorOptionsWithHintOption() : array
     {
         $options = array($this->lng->txt('tst_res_jump_to_participant_hint_opt'));
         

@@ -20,7 +20,7 @@ class ASS_Mark
     *
     * @var string
     */
-    public $short_name;
+    public string $short_name;
 
     /**
     * The official name of the mark
@@ -29,7 +29,7 @@ class ASS_Mark
     *
     * @var string
     */
-    public $official_name;
+    public string $official_name;
 
     /**
     * The minimum percentage level reaching the mark
@@ -38,7 +38,7 @@ class ASS_Mark
     *
     * @var double
     */
-    public $minimum_level = 0;
+    public float $minimum_level = 0;
 
     /**
     * The passed status of the mark
@@ -47,7 +47,7 @@ class ASS_Mark
     *
     * @var integer
     */
-    public $passed;
+    public int $passed;
 
     /**
     * ASS_Mark constructor
@@ -80,7 +80,7 @@ class ASS_Mark
     * @access public
     * @see $short_name
     */
-    public function getShortName()
+    public function getShortName() : string
     {
         return $this->short_name;
     }
@@ -108,7 +108,7 @@ class ASS_Mark
     * @access public
     * @see $official_name
     */
-    public function getOfficialName()
+    public function getOfficialName() : string
     {
         return $this->official_name;
     }

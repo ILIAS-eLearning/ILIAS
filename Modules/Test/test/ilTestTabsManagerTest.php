@@ -11,9 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTestTabsManagerTest extends ilTestBaseTestCase
 {
     private ilTestTabsManager $testObj;
-    /**
-     * @var ilTabsGUI|mixed|MockObject
-     */
+
     private $tabs_mock;
 
     protected function setUp() : void

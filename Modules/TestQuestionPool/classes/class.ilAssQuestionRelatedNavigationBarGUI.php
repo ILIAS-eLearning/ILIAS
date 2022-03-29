@@ -110,7 +110,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->instantResponseCmd;
     }
 
-    public function getHTML()
+    public function getHTML() : string
     {
         $navTpl = new ilTemplate('tpl.qst_question_related_navigation.html', true, true, 'Modules/TestQuestionPool');
 

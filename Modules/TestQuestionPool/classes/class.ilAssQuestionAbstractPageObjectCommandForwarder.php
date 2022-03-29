@@ -80,9 +80,6 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
     
     /**
      * instantiates, initialises and returns a page object gui object
-     *
-     * @access protected
-     * @return page object gui object
      */
     abstract protected function getPageObjectGUI($pageObjectType, $pageObjectId);
 }

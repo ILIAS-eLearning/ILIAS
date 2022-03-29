@@ -14,13 +14,8 @@ class assAnswerSimpleTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
     public function test_instantiateObject_shouldReturnInstance()
@@ -38,7 +33,7 @@ class assAnswerSimpleTest extends assBaseTestCase
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
-        $instance = new ASS_AnswerSimple();
+        $instance = new ASS_AnswerSimple("", 0.0, 0, -1, 0);
         $expected = 1;
 
         // Act
@@ -53,7 +48,7 @@ class assAnswerSimpleTest extends assBaseTestCase
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
-        $instance = new ASS_AnswerSimple();
+        $instance = new ASS_AnswerSimple("", 0.0, 0, -1, 0);
         $expected = 'The answer, of course, is 42.';
 
         // Act
@@ -68,7 +63,7 @@ class assAnswerSimpleTest extends assBaseTestCase
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
-        $instance = new ASS_AnswerSimple();
+        $instance = new ASS_AnswerSimple("", 0.0, 0, -1, 0);
         $expected = 42;
 
         // Act
@@ -100,7 +95,7 @@ class assAnswerSimpleTest extends assBaseTestCase
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
-        $instance = new ASS_AnswerSimple();
+        $instance = new ASS_AnswerSimple("", 0.0, 0, -1, 0);
         $expected = 42;
 
         // Act

@@ -28,7 +28,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand() : string
     {
         return 'showManScoringByQuestionParticipantsTable';
     }
@@ -36,7 +36,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     /**
      * @return string
      */
-    protected function getActiveSubTabId()
+    protected function getActiveSubTabId() : string
     {
         return 'man_scoring_by_qst';
     }
@@ -338,8 +338,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
     protected function getAnswerDetail()
     {
-        $active_id = (int) $_GET['active_id'];
-        $pass = (int) $_GET['pass_id'];
+        $active_id = $this->testrequest->getActiveId();
+        $pass = $this->testrequest->getPassId();
         $question_id = (int) $_GET['qst_id'];
         
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {
@@ -624,7 +624,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
      * @param $pass
      * @return bool
      */
-    protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass)
+    protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass) : bool
     {
         return (
             isset($_POST[$post_value][$pass][$active_id][$qst_id]) &&
