@@ -15,8 +15,9 @@
  *****************************************************************************/
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
-class ilAuthShibbolethTest extends TestCase
+class ilServicesAuthShibbolethTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;
     
@@ -25,6 +26,7 @@ class ilAuthShibbolethTest extends TestCase
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
         
+        $DIC = new Container();
         $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
     }
     
