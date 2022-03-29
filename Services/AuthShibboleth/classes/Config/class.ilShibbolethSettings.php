@@ -33,7 +33,6 @@ class ilShibbolethSettings
 
     /** @var array<string, bool> */
     protected array $user_fields = [
-        'login' => true,
         'firstname' => true,
         'lastname' => true,
         'email' => true,
