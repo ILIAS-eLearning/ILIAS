@@ -72,7 +72,7 @@ final class XAccel implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete) : void
+    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void
     {
         // There is currently no way to delete the file after delivery
         if (strpos($path_to_file, './' . self::DATA . '/') === 0) {
