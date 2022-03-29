@@ -16303,6 +16303,7 @@ ui#:#ui_invalid_url#:#Invalid URL-format
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_numeric_only#:#Please insert a whole number.
+ui#:#ui_tag_required#:#Please insert at least one tag.
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
 user#:#clipboard_add_btn#:#Add to Clipboard
