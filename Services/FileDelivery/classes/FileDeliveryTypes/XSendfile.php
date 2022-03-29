@@ -49,7 +49,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file) : bool// @TODO: PHP8 Review: Signatur missmatch.
+    public function doesFileExists($path_to_file) : bool
     {
         return is_readable($path_to_file);
     }
@@ -58,7 +58,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file) : bool
+    public function prepare(string $path_to_file) : bool
     {
         //	Nothing has to be done here
         return true;
@@ -68,7 +68,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete) : bool// @TODO: PHP8 Review: Signatur missmatch.
+    public function deliver($path_to_file, $file_marked_to_delete) : void
     {
         $delivery = function () use ($path_to_file) : void {
             $response = $this->httpService->response()
@@ -82,8 +82,6 @@ final class XSendfile implements ilFileDeliveryType
         } else {
             $delivery();
         }
-
-        return true;
     }
 
 
@@ -117,8 +115,8 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file) : void
+    public function handleFileDeletion(string $path_to_file) : bool
     {
-        unlink($path_to_file);
+        return unlink($path_to_file);
     }
 }

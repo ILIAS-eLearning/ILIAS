@@ -46,7 +46,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file) : bool// @TODO: PHP8 Review: Signatur missmatch.
+    public function doesFileExists($path_to_file) : bool
     {
         return is_readable($path_to_file);
     }
@@ -55,8 +55,9 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file) : bool
+    public function prepare(string $path_to_file) : bool
     {
+        // nothing to do here
         return true;
     }
 
@@ -64,7 +65,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete) : bool// @TODO: PHP8 Review: Signatur missmatch.
+    public function deliver($path_to_file, $file_marked_to_delete) : void
     {
         $file = $path_to_file;
         $fp = @fopen($file, 'rb');
@@ -96,7 +97,7 @@ final class PHPChunked implements ilFileDeliveryType
             $c_end = $end;
 
             // Extract the range string
-            list(, $range) = explode('=', $server['HTTP_RANGE'], 2);
+            [, $range] = explode('=', $server['HTTP_RANGE'], 2);
             // Make sure the client hasn't sent us a multibyte range
             if (strpos($range, ',') !== false) {
                 // (?) Shoud this be issued here, or should the first
@@ -167,8 +168,6 @@ final class PHPChunked implements ilFileDeliveryType
         } // fim do while
 
         fclose($fp);
-
-        return true;
     }
 
 
@@ -210,7 +209,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file) : bool
+    public function handleFileDeletion(string $path_to_file) : bool
     {
         return unlink($path_to_file);
     }

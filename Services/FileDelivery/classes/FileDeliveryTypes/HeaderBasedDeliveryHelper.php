@@ -40,7 +40,7 @@ trait HeaderBasedDeliveryHelper
      *                          $response = $response->withHeader(self::X_SENDFILE,
      *                          realpath($path_to_file));
      */
-    protected function sendFileUnbufferedUsingHeaders(\Closure $closure)// @TODO: PHP8 Review: Missing return type.
+    protected function sendFileUnbufferedUsingHeaders(\Closure $closure) : void
     {
         ignore_user_abort(true);
         set_time_limit(0);

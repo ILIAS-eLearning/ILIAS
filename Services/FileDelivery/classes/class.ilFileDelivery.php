@@ -114,18 +114,18 @@ final class ilFileDelivery implements ilFileDeliveryService
     /**
      * @deprecated
      */
-    public static function deliverFileLegacy(// @TODO: PHP8 Review: Missing return type.
+    public static function deliverFileLegacy(
         string $a_file,
         ?string $a_filename = null,
         ?string $a_mime = null,
         ?bool $isInline = false,
         ?bool $removeAfterDelivery = false,
         ?bool $a_exit_after = true
-    ) {
+    ) : void {
         global $DIC;
         // should we fail silently?
         if (!file_exists($a_file)) {
-            return false;
+            return;
         }
         $delivery = new Delivery($a_file, $DIC->http());
 
@@ -144,7 +144,5 @@ final class ilFileDelivery implements ilFileDeliveryService
         $delivery->setDeleteFile($removeAfterDelivery);
         $delivery->setExitAfter($a_exit_after);
         $delivery->deliver();
-
-        // @TODO: PHP8 Review: Missing return statement.
     }
 }
