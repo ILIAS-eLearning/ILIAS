@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Tagging\Provider;
+<?php declare(strict_types=1);
+
+namespace ILIAS\Tagging\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
