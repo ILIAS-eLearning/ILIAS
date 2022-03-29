@@ -23,7 +23,7 @@ class SurveyImportParser extends ilSaxParser
     protected int $showQuestiontext;
     protected int $showBlocktitle;
     protected int $compressView;
-    public $path;
+    public $path;// TODO PHP8-Review All types below are not typed
     public $depth;
     public $activequestion;
     public $spl;
@@ -74,7 +74,7 @@ class SurveyImportParser extends ilSaxParser
     public function __construct($a_spl_id, ?string $a_xml_file = '', $spl_exists = false, $a_mapping = null)
     {
         parent::__construct($a_xml_file);
-        $this->spl_id = $a_spl_id;
+        $this->spl_id = $a_spl_id;// TODO PHP8-Review This property is dynamically declared
         $this->has_error = false;
         $this->characterbuffer = "";
         $this->survey_status = 0;
@@ -106,7 +106,7 @@ class SurveyImportParser extends ilSaxParser
         $this->showBlocktitle = 0;
         $this->compressView = 0;
         $this->questionblocktitle = "";
-        $this->mapping = $a_mapping;
+        $this->mapping = $a_mapping;// TODO PHP8-Review This property is dynamically declared
     }
 
     /**
@@ -139,10 +139,10 @@ class SurveyImportParser extends ilSaxParser
     }
 
     /**
-    * parse xml file
-    *
-    * @access	private
-    */
+     * @param resource|XMLParser $a_xml_parser
+     * @param resource|null $a_fp
+     * @return void
+     */
     public function parse($a_xml_parser, $a_fp = null) : void
     {
         switch ($this->getInputType()) {

@@ -137,7 +137,7 @@ class SurveyTextQuestion extends SurveyQuestion
     public function toXML(
         bool $a_include_header = true,
         bool $obligatory_state = false
-    ) {
+    ) : string {
         $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
         $this->insertXML($a_xml_writer, $a_include_header);

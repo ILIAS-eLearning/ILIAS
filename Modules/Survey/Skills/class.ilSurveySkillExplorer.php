@@ -26,8 +26,8 @@ class ilSurveySkillExplorer extends ilExplorer
     protected array $force_open_path;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
-    protected $all_nodes = [];
-    protected $child_nodes = [];
+    protected array $all_nodes = [];
+    protected array $child_nodes = [];
 
     public function __construct(
         string $a_target,
