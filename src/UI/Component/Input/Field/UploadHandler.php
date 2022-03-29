@@ -14,8 +14,9 @@ interface UploadHandler
 {
     public const DEFAULT_FILE_ID_PARAMETER = 'file_id';
 
+
     /**
-     * @return string, defaults to self::DEFAULT_FILE_ID_PARAMETER
+     * @return string defaults to self::DEFAULT_FILE_ID_PARAMETER
      */
     public function getFileIdentifierParameterName() : string;
 
@@ -44,6 +45,7 @@ interface UploadHandler
 
     /**
      * @param array $file_ids
+     *
      * @return BasicFileInfoResult[]
      */
     public function getInfoForExistingFiles(array $file_ids) : array;

@@ -19,7 +19,6 @@ abstract class Form implements C\Input\Container\Form\Form
 {
     use ComponentHelper;
 
-    protected Input\NameSource $name_source;
     protected C\Input\Field\Group $input_group;
     protected ?Transformation $transformation;
     protected ?string $error = null;
@@ -29,6 +28,7 @@ abstract class Form implements C\Input\Container\Form\Form
      */
     public function __construct(
         Input\Field\Factory $field_factory,
+        Input\NameSource $name_source,
         array $inputs
     ) {
         $classes = [CI\Input\Field\Input::class];
@@ -37,7 +37,7 @@ abstract class Form implements C\Input\Container\Form\Form
 
         $this->input_group = $field_factory->group(
             $inputs
-        )->withNameFrom(new Input\FormInputNameSource());
+        )->withNameFrom($name_source);
 
         $this->transformation = null;
     }

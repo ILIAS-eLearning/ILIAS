@@ -244,7 +244,7 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
 
         if ($component->getValue()) {
-            $tpl->touchBlock('value');
+            $tpl->touchBlock("value");
         }
 
         $this->maybeDisable($component, $tpl);
@@ -870,9 +870,9 @@ class Renderer extends AbstractComponentRenderer
     }
 
     protected function initClientsideRenderer(
-        FI\DynamicInputsAware $input,
+        FI\HasDynamicInputs $input,
         string $template_html
-    ) : FI\DynamicInputsAware {
+    ) : FI\HasDynamicInputs {
         $dynamic_inputs_template_html = $this->replaceTemplateIds($template_html);
         $dynamic_input_count = count($input->getDynamicInputs());
 

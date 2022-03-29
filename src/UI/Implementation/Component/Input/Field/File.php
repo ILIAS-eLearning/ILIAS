@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
-
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field\Input as InputInterface;
@@ -13,16 +11,18 @@ use Closure;
 use ilLanguage;
 
 /**
- * @author Fabian Schmid <fs@studer-raimann.ch>
- * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * Class File
+ * @package ILIAS\UI\Implementation\Component\Input\Field
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class File extends DynamicInputsAwareInput implements C\Input\Field\File
+class File extends HasDynamicInputs implements C\Input\Field\File
 {
     // ===============================================
     // BEGIN IMPLEMENTATION OF FileUploadAware
     // ===============================================
 
-    use FileUploadAwareHelper;
+    use FileUploadHelper;
 
     public function __construct(
         ilLanguage $language,
@@ -61,7 +61,7 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
      * Maps generated dynamic inputs to their file-id, which must be
      * provided in or as $value.
      */
-    public function withValue($value) : DynamicInputsAwareInput
+    public function withValue($value) : HasDynamicInputs
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
 

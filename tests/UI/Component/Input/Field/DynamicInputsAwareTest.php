@@ -4,9 +4,9 @@
 
 namespace ILIAS\Tests\UI\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\Field\DynamicInputsAwareInput;
+use ILIAS\UI\Implementation\Component\Input\Field\HasDynamicInputs;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Field\DynamicInputsAware;
+use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 use ILIAS\UI\Component\Input\Field\Input;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Constraint;
@@ -20,7 +20,7 @@ use Closure;
  */
 class DynamicInputsAwareTest extends TestCase
 {
-    protected DynamicInputsAware $input;
+    protected HasDynamicInputs $input;
     protected DataFactory $data_factory;
     protected ilLanguage $language;
     protected Refinery $refinery;
@@ -37,7 +37,7 @@ class DynamicInputsAwareTest extends TestCase
             'test_input_name',
             $this->getTestInputTemplate(),
             'test_byline'
-        ) extends DynamicInputsAwareInput {
+        ) extends HasDynamicInputs {
             public function getUpdateOnLoadCode() : Closure
             {
                 return static function () {

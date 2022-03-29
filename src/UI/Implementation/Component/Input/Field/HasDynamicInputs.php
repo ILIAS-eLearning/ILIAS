@@ -9,7 +9,7 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field\Input as InputInterface;
-use ILIAS\UI\Component\Input\Field\DynamicInputsAware;
+use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use InvalidArgumentException;
@@ -19,7 +19,7 @@ use ilLanguage;
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAware
+abstract class HasDynamicInputs extends Input implements HasDynamicInputs
 {
     // ==========================================
     // BEGIN IMPLEMENTATION OF DynamicInputsAware

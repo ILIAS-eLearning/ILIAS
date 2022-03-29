@@ -8449,12 +8449,12 @@ ul.dropdown-menu > li > .btn:focus {
   float: left;
 }
 .ui-input-file-input-dropzone {
-  border: 1px dashed #A8A8A8;
-  padding: 3px;
+  border: 1px dashed #757575;
+  padding: 3px 8px;
 }
 .ui-input-file-input-dropzone button {
   font-size: 14px;
-  margin-left: 3px;
+  margin-left: 8px;
 }
 .ui-input-file-input-error-msg {
   font-size: 14px;
@@ -8467,23 +8467,23 @@ ul.dropdown-menu > li > .btn:focus {
   background: none;
 }
 .ui-input-file-input {
-  border: 1px dashed #A8A8A8;
-  margin-bottom: 5px;
-  padding: 3px;
+  border: 1px dashed #757575;
+  margin-bottom: 6px;
+  padding: 8px;
 }
 .ui-input-file-input .glyph[aria-label="Close"],
 .ui-input-file-input .glyph[aria-label="Close Disabled"] {
-  margin-right: 3px;
+  margin-right: 8px;
   float: right;
 }
 .ui-input-file-input .glyph[aria-label="Expand Content"],
 .ui-input-file-input .glyph[aria-label="Collapse Content"] {
-  margin: 3px 0;
+  margin: 8px 0;
 }
 .ui-input-file-info span[data-dz-name],
 .ui-input-file-info span[data-dz-size] {
   font-size: 14px;
-  margin-left: 3px;
+  margin-left: 8px;
 }
 .ui-input-file-info span[data-dz-size] {
   font-style: italic;

@@ -13,6 +13,7 @@ use ilLanguage;
 
 /**
  * Class Factory
+ *
  * @package ILIAS\UI\Implementation\Component\Input\Field
  */
 class Factory implements Field\Factory
