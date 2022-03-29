@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use ILIAS\FileDelivery\Delivery as Delivery;
+use ILIAS\FileDelivery\Delivery;
 use ILIAS\FileDelivery\HttpServiceAware;
 use ILIAS\FileUpload\MimeType;
 

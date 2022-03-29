@@ -130,12 +130,12 @@ final class ilFileDelivery implements ilFileDeliveryService
         $delivery = new Delivery($a_file, $DIC->http());
 
         if ($isInline) {
-            $delivery->setDisposition(ilFileDelivery::DISP_INLINE);
+            $delivery->setDisposition(self::DISP_INLINE);
         } else {
-            $delivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
+            $delivery->setDisposition(self::DISP_ATTACHMENT);
         }
 
-        if ($a_mime !== null && strlen($a_mime)) {
+        if ($a_mime !== null && $a_mime !== '') {
             $delivery->setMimeType($a_mime);
         }
 
