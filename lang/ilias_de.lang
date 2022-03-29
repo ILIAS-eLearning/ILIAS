@@ -12,10 +12,23 @@
 * https://www.ilias.de
 * https://github.com/ILIAS-eLearning
 *
-/**
-* ILIAS language file (All entries)
-*
+********************************************************************
 */
+/**
+* ILIAS language file
+*
+* @module		language file German
+* @modulegroup	language
+* @author 		Matthias Kunkel <mkunkel@me.com>
+* @version		$Id$
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
@@ -2096,7 +2109,6 @@ auth#:#login_page_editor_switched#:#Der aktive Seiteneditor wurde geändert
 auth#:#login_page_switch_ipe#:#ILIAS Seiteneditor verwenden
 auth#:#login_page_switch_rte#:#Rich-Text-Editor verwenden
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
-* @author			Matthias Kunkel <mkunkel@me.com>
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Jetzt online
 awrn#:#awareness_settings#:#Einstellungen
@@ -11804,8 +11816,6 @@ mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
 mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
 mob#:#mob_url#:#URL
-* @modulegroup		language
-* @module			language file German
 mst#:#mst_cert_issued_on#:#Ausgestellt am
 mst#:#mst_courses_of#:#Einschreibungen von %s
 mst#:#mst_download_certificate#:#Zertifikat herunterladen
@@ -16484,7 +16494,6 @@ validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als 
 validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
 validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
 validation#:#not_numeric#:#'%s' ist nicht nummerisch.
-* @version			$Id$
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 webr#:#invalid_links_tbl#:#Ungültige Links
 webr#:#webr_active#:#Aktiv
