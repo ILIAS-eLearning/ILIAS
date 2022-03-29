@@ -82,5 +82,4 @@ class ilServicesActiveRecordConnectorTest extends TestCase
         arConnectorMap::register($ar, $cache_connector);
         $this->assertEquals($cache_connector, arConnectorMap::get($ar));
     }
-    
 }

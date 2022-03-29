@@ -19,7 +19,6 @@
  */
 class arConnectorCache extends arConnector
 {
-
     private \arConnector $arConnectorDB;
     private \ilGlobalCache $cache;
     const CACHE_TTL_SECONDS = 180;

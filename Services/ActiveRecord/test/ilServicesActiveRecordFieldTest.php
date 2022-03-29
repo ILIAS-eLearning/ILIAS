@@ -68,7 +68,6 @@ class ilServicesActiveRecordFieldTest extends TestCase
             {
                 return 'table_name';
             }
-            
         };
         
         $field_list = arFieldList::getInstance($test_ar);
@@ -87,5 +86,4 @@ class ilServicesActiveRecordFieldTest extends TestCase
         $this->assertEquals(true, $string_field->getIndex());
         $this->assertEquals(false, $string_field->getPrimary());
     }
-    
 }

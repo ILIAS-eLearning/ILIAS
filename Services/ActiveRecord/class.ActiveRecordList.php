@@ -24,7 +24,6 @@
  */
 class ActiveRecordList
 {
-
     protected \arWhereCollection $arWhereCollection;
     protected \arJoinCollection $arJoinCollection;
     protected \arOrderCollection $arOrderCollection;
@@ -171,8 +170,14 @@ class ActiveRecordList
         string $operator = '=',
         bool $both_external = false
     ) : self {
-        return $this->innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator,
-            $both_external);
+        return $this->innerjoin(
+            $ar->getConnectorContainerName(),
+            $on_this,
+            $on_external,
+            $fields,
+            $operator,
+            $both_external
+        );
     }
 
     /**
