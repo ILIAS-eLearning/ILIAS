@@ -160,7 +160,7 @@ class CronJobScheduleTest extends TestCase
             'Monthly Schedule / Did not run this Month' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_MONTHLY, null, ilCronJob::SCHEDULE_TYPE_MONTHLY, null),
                 false,
-                $this->now->modify('-1 month'),
+                $this->now->modify('last day of last month'),
                 ilCronJob::SCHEDULE_TYPE_MONTHLY,
                 null,
                 true
@@ -283,7 +283,8 @@ class CronJobScheduleTest extends TestCase
     ) : void {
         $this->assertSame(
             $expected_result,
-            $job_instance->isDue($last_run_datetime, $schedule_type, $schedule_value, $is_manual_run)
+            $job_instance->isDue($last_run_datetime, $schedule_type, $schedule_value, $is_manual_run),
+            'Last run: ' . ($last_run_datetime ? $last_run_datetime->format(DATE_ATOM) : 'never')
         );
     }
 }
