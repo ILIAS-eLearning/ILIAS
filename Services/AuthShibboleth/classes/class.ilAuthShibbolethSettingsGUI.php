@@ -53,7 +53,6 @@ class ilAuthShibbolethSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ref_id = $a_auth_ref_id;
         $this->component_repository = $DIC["component.repository"];
-
         $this->shib_settings = new ilShibbolethSettings();
     }
 
@@ -130,7 +129,7 @@ class ilAuthShibbolethSettingsGUI
 
     protected function confirmDeleteRules() : bool
     {
-        if (!is_array($_POST['rule_ids'])) {
+        if (!$this->wrapper->post()->has('rule_ids')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->roleAssignment();
 
@@ -143,7 +142,12 @@ class ilAuthShibbolethSettingsGUI
         $c_gui->setHeaderText($this->lng->txt("shib_confirm_del_role_ass"));
         $c_gui->setCancel($this->lng->txt("cancel"), "roleAssignment");
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteRules");
-        foreach ($_POST["rule_ids"] as $rule_id) {
+    
+        $rule_ids = $this->wrapper->post()->retrieve(
+            'rule_ids',
+            $this->refinery->to()->listOf($this->refinery->to()->int())
+        );
+        foreach ($rule_ids as $rule_id) {
             $rule = new ilShibbolethRoleAssignmentRule($rule_id);
             $info = ilObject::_lookupTitle($rule->getRoleId());
             $info .= " (";
@@ -157,13 +161,17 @@ class ilAuthShibbolethSettingsGUI
 
     protected function deleteRules() : bool
     {
-        if (!is_array($_POST['rule_ids'])) {
+        if (!$this->wrapper->post()->has('rule_ids')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_once'));
             $this->roleAssignment();
 
             return false;
         }
-        foreach ($_POST["rule_ids"] as $rule_id) {
+        $rule_ids = $this->wrapper->post()->retrieve(
+            'rule_ids',
+            $this->refinery->to()->listOf($this->refinery->to()->int())
+        );
+        foreach ($rule_ids as $rule_id) {
             $rule = new ilShibbolethRoleAssignmentRule($rule_id);
             $rule->delete();
         }
@@ -275,8 +283,6 @@ class ilAuthShibbolethSettingsGUI
 
             return true;
         }
-        // Redirects if required
-        $this->showLocalRoleSelection();
         $this->rule->add();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->roleAssignment();
@@ -313,7 +319,9 @@ class ilAuthShibbolethSettingsGUI
         }
         $this->initFormRoleAssignment();
         $err = false;
-        if (!$this->form->checkInput() || ($err = $this->checkInput((int) $_REQUEST[self::PARAM_RULE_ID]))) {
+        $role_id = $this->wrapper->query()->retrieve(self::PARAM_RULE_ID, $this->refinery->kindlyTo()->int());
+    
+        if (!$this->form->checkInput() || $err = $this->checkInput($role_id)) {
             if ($err) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt($err));
             }
@@ -329,7 +337,6 @@ class ilAuthShibbolethSettingsGUI
 
             return true;
         }
-        $this->showLocalRoleSelection();
         $this->rule->update();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->roleAssignment();
@@ -402,63 +409,6 @@ class ilAuthShibbolethSettingsGUI
         $this->loadRule($a_rule_id);
 
         return $this->rule->validate();
-    }
-
-    private function showLocalRoleSelection() : void
-    {
-        if ($this->rule->getRoleId() > 0) {
-            return;
-        }
-        $_SESSION['shib_role_ass'][self::PARAM_RULE_ID] = $_REQUEST[self::PARAM_RULE_ID] ?: 0;
-        $_SESSION['shib_role_ass']['search'] = $this->form->getInput('role_search');
-        $_SESSION['shib_role_ass']['add_on_update'] = $this->rule->isAddOnUpdateEnabled();
-        $_SESSION['shib_role_ass']['remove_on_update'] = $this->rule->isRemoveOnUpdateEnabled();
-        $_SESSION['shib_role_ass']['name'] = $this->rule->getName();
-        $_SESSION['shib_role_ass']['value'] = $this->rule->getValue();
-        $_SESSION['shib_role_ass']['plugin'] = $this->rule->isPluginActive();
-        $_SESSION['shib_role_ass']['plugin_id'] = $this->rule->getPluginId();
-        $this->ctrl->redirect($this, 'chooseRole');
-    }
-
-    protected function chooseRole() : bool
-    {
-        $this->tabs_gui->setSubTabActive('shib_role_assignment');
-        $parser = new ilQueryParser($_SESSION['shib_role_ass']['search']);
-        $parser->setMinWordLength(1);
-        $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
-        $parser->parse();
-        $object_search = new ilLikeObjectSearch($parser);
-        $object_search->setFilter(array('role'));
-        $res = $object_search->performSearch();
-        $entries = $res->getEntries();
-        $table = new ilRoleSelectionTableGUI($this, 'chooseRole');
-        $table->setTitle($this->lng->txt('shib_role_selection'));
-        $table->addMultiCommand('saveRoleSelection', $this->lng->txt('shib_choose_role'));
-        $table->addCommandButton('roleAssignment', $this->lng->txt('cancel'));
-        $table->parse($entries);
-        $this->tpl->setContent($table->getHTML());
-
-        return true;
-    }
-
-    protected function saveRoleSelection() : void
-    {
-        $rule = new ilShibbolethRoleAssignmentRule($_SESSION['shib_role_ass'][self::PARAM_RULE_ID]);
-        $rule->setRoleId((int) $_POST['role_id']);
-        $rule->setName($_SESSION['shib_role_ass']['name']);
-        $rule->setValue($_SESSION['shib_role_ass']['value']);
-        $rule->enablePlugin($_SESSION['shib_role_ass']['plugin']);
-        $rule->setPluginId($_SESSION['shib_role_ass']['plugin_id']);
-        $rule->enableAddOnUpdate($_SESSION['shib_role_ass']['add_on_update']);
-        $rule->enableRemoveOnUpdate($_SESSION['shib_role_ass']['remove_on_update']);
-        if ($rule->getRuleId() !== 0) {
-            $rule->update();
-        } else {
-            $rule->add();
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-        unset($_SESSION['shib_role_ass']);
-        $this->roleAssignment();
     }
 
     /**

@@ -177,7 +177,7 @@ class ilShibbolethRoleAssignmentRule
             . $this->db->quote($next_id, 'integer') . ', ' . $this->db->quote($this->getRoleId(), 'integer') . ', '
             . $this->db->quote($this->getName(), 'text') . ', ' . $this->db->quote($this->getValue(), 'text') . ', '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . $this->db->quote(
-                $this->getPluginId(),
+                $this->getPluginId() ?? 0,
                 'integer'
             ) . ', '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', '
@@ -199,7 +199,7 @@ class ilShibbolethRoleAssignmentRule
                 'text'
             ) . ', ' . 'plugin = '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . 'plugin_id = '
-            . $this->db->quote($this->getPluginId(), 'integer') . ', ' . 'add_on_update = '
+            . $this->db->quote($this->getPluginId() ?? 0, 'integer') . ', ' . 'add_on_update = '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', ' . 'remove_on_update = '
             . $this->db->quote((int) $this->isRemoveOnUpdateEnabled(), 'integer') . ' '
             . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');

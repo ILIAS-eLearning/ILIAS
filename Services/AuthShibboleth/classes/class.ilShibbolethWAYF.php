@@ -34,13 +34,15 @@ class ilShibbolethWAYF
     protected WrapperFactory $wrapper;
     protected ilLanguage $lng;
     protected ilSetting $settings;
-
+    protected \ILIAS\Refinery\Factory $refinery;
+    
     public function __construct()
     {
         global $DIC;
 
         // Was the WAYF form submitted?
         $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
         $this->settings = $DIC->settings();
         $this->is_selection = $this->wrapper->post()->has('home_organization_selection');
         $this->lng = $DIC->isDependencyAvailable('language')
@@ -79,7 +81,8 @@ class ilShibbolethWAYF
 
     public function generateSelection() : string
     {
-        $idp_cookie = $this->generateCookieArray($_COOKIE['_saml_idp']);
+        $_saml_idp = $this->wrapper->cookie()->retrieve('_saml_idp', $this->refinery->kindlyTo()->string());
+        $idp_cookie = $this->generateCookieArray($_saml_idp);
 
         $selectedIDP = null;
         if ($idp_cookie !== [] && isset($this->idp_list[end($idp_cookie)])) {
@@ -111,7 +114,10 @@ class ilShibbolethWAYF
     public function redirect() : void
     {
         // Where to return after the authentication process
-        $target = trim(ILIAS_HTTP_PATH, '/') . '/shib_login.php?target=' . $_POST["il_target"];
+        $target = $this->wrapper->post()->has('il_target')
+            ? $this->wrapper->post()->retrieve('il_target', $this->refinery->kindlyTo()->string())
+            : '';
+        $target = trim(ILIAS_HTTP_PATH, '/') . '/shib_login.php?target=' . $target;
         $idp_data = $this->idp_list[$this->selected_idp];
         if (isset($idp_data[1])) {
             ilUtil::redirect($idp_data[1] . '?providerId=' . urlencode($this->selected_idp) . '&target='
@@ -129,7 +135,8 @@ class ilShibbolethWAYF
      */
     public function setSAMLCookie() : void
     {
-        $arr_idps = isset($_COOKIE['_saml_idp']) ? $this->generateCookieArray($_COOKIE['_saml_idp']) : array();
+        $_saml_idp = $this->wrapper->cookie()->retrieve('_saml_idp', $this->refinery->kindlyTo()->string());
+        $arr_idps = $_saml_idp ? $this->generateCookieArray($_saml_idp) : [];
         $arr_idps = $this->appendCookieValue($this->selected_idp, $arr_idps);
         setcookie('_saml_idp', $this->generateCookieValue($arr_idps), time() + (100 * 24 * 3600), '/');
     }
