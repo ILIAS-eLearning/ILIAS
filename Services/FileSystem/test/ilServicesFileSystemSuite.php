@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -12,27 +13,20 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * @deprecated
- */
-class ilFileData extends ilFile
+
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
+class ilServicesFileSystemSuite extends TestSuite
 {
-    public function __construct()
+    public static function suite() : self
     {
-        $this->path = defined('CLIENT_DATA_DIR') ? CLIENT_DATA_DIR : '';
-    }
-
-    public function checkPath(string $a_path) : bool
-    {
-        if (is_writable($a_path)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function getPath() : string
-    {
-        return $this->path;
+        $suite = new self();
+        
+        require_once("./Services/FileSystem/test/ilServicesFileSystemTest.php");
+        $suite->addTestSuite("ilServicesFileSystemTest");
+        
+        return $suite;
     }
 }
