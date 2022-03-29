@@ -11,9 +11,9 @@
 		text-align: left;
 		margin: 0;
 		font-weight: @il-standard-page-breadcrumbs-font-weight;
-		font-size: @font-size-small;
-		padding: (@il-padding-small-vertical * 2);
-		padding-left: @il-standard-page-content-padding;
+		font-size: @il-font-size-small;
+		padding: @il-padding-small-vertical;
+		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
 
 		span.crumb a {
 			color: @il-standard-page-breadcrumbs-color;
@@ -77,7 +77,7 @@
 
 .breadcrumb {
 	margin: @il-breadcrumb-margin-top @il-breadcrumb-margin-right @il-breadcrumb-margin-bottom @il-breadcrumb-margin-left;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 
 	> li + li:before {
 		font-family: 'il-icons';
