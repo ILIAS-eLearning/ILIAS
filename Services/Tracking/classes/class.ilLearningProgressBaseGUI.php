@@ -285,7 +285,7 @@ class ilLearningProgressBaseGUI
      * @return string
      * @todo separate string int
      */
-    public static function _getImagePathForStatus($a_status) : string
+    public static function _getImagePathForStatus(string|int $a_status) : string
     {
         // constants are either number or string, so make comparison string-based
         switch ($a_status) {

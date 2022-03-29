@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -740,7 +740,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
      * @param false $a_force_number
      * @return mixed
      */
-    protected function anonymizeValue($a_value, bool $a_force_number = false)
+    protected function anonymizeValue(mixed $a_value, bool $a_force_number = false) : mixed
     {
         // currently inactive
         return $a_value;

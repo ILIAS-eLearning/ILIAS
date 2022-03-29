@@ -1,5 +1,4 @@
 <?php declare(strict_types=0);
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -22,7 +21,6 @@ class ilLPStatusFactory
             self::$instance = new self();
         }
         return self::$instance;
-
     }
 
     private function __construct()

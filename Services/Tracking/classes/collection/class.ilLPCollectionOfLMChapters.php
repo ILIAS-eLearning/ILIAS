@@ -1,5 +1,4 @@
 <?php declare(strict_types=0);
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,7 +10,7 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 {
     protected static array $possible_items = array();
 
-    public function getPossibleItems($a_ref_id)
+    public function getPossibleItems(int $a_ref_id)
     {
         if (!isset(self::$possible_items[$a_ref_id])) {
             $obj_id = ilObject::_lookupObjectId($a_ref_id);
