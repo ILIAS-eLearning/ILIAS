@@ -20,7 +20,6 @@ namespace ILIAS\ResourceStorage\Policy;
  * Class WhiteAndBlacklistedFileNamePolicy
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
- * TODO: refactor to make the renaming internal, it uses ilFileUtil currrently
  */
 abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
 {

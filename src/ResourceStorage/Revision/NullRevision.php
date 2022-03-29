@@ -68,7 +68,7 @@ class NullRevision implements Revision
         return new FileInformation();
     }
 
-    public function setInformation(Information $information)
+    public function setInformation(Information $information) : void
     {
     }
 
@@ -93,7 +93,7 @@ class NullRevision implements Revision
     public function setTitle(string $title) : Revision
     {
         // do nothing
-        // @TODO: PHP8 Review: Missing return statement.
+        return $this;
     }
 
     public function getTitle() : string

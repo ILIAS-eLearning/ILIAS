@@ -68,7 +68,7 @@ class CloneRevision implements Revision
         return $this->information ?? new FileInformation();
     }
 
-    public function setInformation(Information $information)
+    public function setInformation(Information $information) : void
     {
         $this->information = $information;
     }

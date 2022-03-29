@@ -46,7 +46,7 @@ class SrcConsumer
         $base64 = base64_encode($stream->getContents());
         $mime = $revision->getInformation()->getMimeType();
 
-        return "data:{$mime};base64,{$base64}";
+        return "data:$mime;base64,$base64";
     }
 
     /**
