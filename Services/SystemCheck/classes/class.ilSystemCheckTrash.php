@@ -23,9 +23,9 @@ class ilSystemCheckTrash
         global $DIC;
 
         $this->logger = $DIC->logger()->sysc();
-        $this->db     = $DIC->database();
-        $this->tree   = $DIC->repositoryTree();
-        $this->admin  = $DIC->rbac()->admin();
+        $this->db = $DIC->database();
+        $this->tree = $DIC->repositoryTree();
+        $this->admin = $DIC->rbac()->admin();
 
         $this->limit_age = new ilDate(0, IL_CAL_UNIX);
     }
@@ -101,7 +101,7 @@ class ilSystemCheckTrash
 
         foreach ($deleted as $tmp_num => $deleted_info) {
             $child_id = (int) ($deleted_info['child'] ?? 0);
-            $ref_obj  = ilObjectFactory::getInstanceByRefId($child_id, false);
+            $ref_obj = ilObjectFactory::getInstanceByRefId($child_id, false);
             if (!$ref_obj instanceof ilObject) {
                 continue;
             }
@@ -109,7 +109,7 @@ class ilSystemCheckTrash
             $this->tree->deleteNode((int) ($deleted_info['tree'] ?? 0), $child_id);
             $this->logger->info('Object tree entry deleted');
 
-            if ($ref_obj->getType() != 'rolf') {
+            if ($ref_obj->getType() !== 'rolf') {
                 $this->admin->revokePermission($child_id);
                 $ref_obj->putInTree(RECOVERY_FOLDER_ID);
                 $ref_obj->setPermissions(RECOVERY_FOLDER_ID);
@@ -120,7 +120,6 @@ class ilSystemCheckTrash
 
     protected function removeSelectedFromSystem() : void
     {
-
         $deleted = $this->readSelectedDeleted();
         foreach ($deleted as $del_num => $deleted_info) {
             $sub_nodes = $this->readDeleted((int) ($deleted_info['tree'] ?? 0));
@@ -139,7 +138,6 @@ class ilSystemCheckTrash
 
     protected function readSelectedDeleted() : array
     {
-
         $and_types = '';
         $this->logger->dump($this->getTypesLimit());
 
@@ -153,7 +151,7 @@ class ilSystemCheckTrash
             $and_types = 'AND ' . $this->db->in('o.type', $this->getTypesLimit(), false, ilDBConstants::T_TEXT) . ' ';
         }
 
-        $and_age   = '';
+        $and_age = '';
         $age_limit = $this->getAgeLimit()->get(IL_CAL_UNIX);
         if ($age_limit > 0) {
             $and_age = 'AND r.deleted < ' . $this->db->quote($this->getAgeLimit()->get(IL_CAL_DATETIME)) . ' ';
@@ -176,10 +174,10 @@ class ilSystemCheckTrash
         $this->logger->info($query);
 
         $deleted = array();
-        $res     = $this->db->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $deleted[] = array(
-                'tree'  => $row->tree,
+                'tree' => $row->tree,
                 'child' => $row->child
             );
         }
@@ -188,7 +186,6 @@ class ilSystemCheckTrash
 
     protected function readDeleted(?int $tree_id = null) : array
     {
-
         $query = 'SELECT child,tree FROM tree t JOIN object_reference r ON child = r.ref_id ' .
             'JOIN object_data o on r.obj_id = o.obj_id ';
 
@@ -204,7 +201,7 @@ class ilSystemCheckTrash
         $deleted = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $deleted[] = array(
-                'tree'  => $row->tree,
+                'tree' => $row->tree,
                 'child' => $row->child
             );
         }

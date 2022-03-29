@@ -8,8 +8,7 @@
  */
 class ilSCGroups
 {
-
-    private static ilSCGroups $instance;
+    private static ?ilSCGroups $instance = null;
 
     private array $groups = array();
 
@@ -25,16 +24,13 @@ class ilSCGroups
 
     public static function getInstance() : ilSCGroups
     {
-        if (!self::$instance instanceof ilSCGroups) {
-            return self::$instance = new self();
-        }
-        return self::$instance;
+        return self::$instance ?? (self::$instance = new self());
     }
 
     public function updateFromComponentDefinition(string $a_component_id) : int
     {
         foreach ($this->getGroups() as $group) {
-            if ($group->getComponentId() == $a_component_id) {
+            if ($group->getComponentId() === $a_component_id) {
                 return $group->getId();
             }
         }
@@ -48,10 +44,9 @@ class ilSCGroups
 
     public function lookupGroupByComponentId(string $a_component_id) : int
     {
-
         $query = 'SELECT id FROM sysc_groups ' .
             'WHERE component = ' . $this->db->quote($a_component_id, ilDBConstants::T_TEXT);
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->id;
         }
@@ -68,10 +63,9 @@ class ilSCGroups
 
     protected function read() : void
     {
-
         $query = 'SELECT id FROM sysc_groups ' .
             'ORDER BY id ';
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
 
         $this->groups = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

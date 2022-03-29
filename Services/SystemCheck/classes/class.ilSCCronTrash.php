@@ -15,8 +15,8 @@ class ilSCCronTrash extends ilCronJob
     {
         global $DIC;
 
-        $this->lng           = $DIC->language();
-        $this->tree          = $DIC->repositoryTree();
+        $this->lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
         $this->objDefinition = $DIC['objDefinition'];
         $this->lng->loadLanguageModule('sysc');
     }
@@ -72,9 +72,8 @@ class ilSCCronTrash extends ilCronJob
         return true;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
-
         $this->lng->loadLanguageModule('sysc');
 
         $settings = new ilSetting('sysc');
@@ -85,7 +84,7 @@ class ilSCCronTrash extends ilCronJob
         $num->setSize(10);
         $num->setMinValue(1);
         $num->setValue($settings->get('num', ''));
-        $form->addItem($num);
+        $a_form->addItem($num);
 
         $age = new ilNumberInputGUI($this->lng->txt('sysc_trash_limit_age'), 'age');
         $age->setInfo($this->lng->txt('purge_age_limit_desc'));
@@ -97,16 +96,16 @@ class ilSCCronTrash extends ilCronJob
             $age->setValue($settings->get('age', ''));
         }
 
-        $form->addItem($age);
+        $a_form->addItem($age);
 
         // limit types
-        $types       = new ilSelectInputGUI($this->lng->txt('sysc_trash_limit_type'), 'types');
+        $types = new ilSelectInputGUI($this->lng->txt('sysc_trash_limit_type'), 'types');
         $sub_objects = $this->tree->lookupTrashedObjectTypes();
 
-        $options    = array();
+        $options = array();
         $options[0] = '';
         foreach ($sub_objects as $obj_type) {
-            if (!$this->objDefinition->isRBACObject($obj_type) or !$this->objDefinition->isAllowedInRepository($obj_type)) {
+            if (!$this->objDefinition->isRBACObject($obj_type) || !$this->objDefinition->isAllowedInRepository($obj_type)) {
                 continue;
             }
             $options[$obj_type] = $this->lng->txt('obj_' . $obj_type);
@@ -114,12 +113,11 @@ class ilSCCronTrash extends ilCronJob
         asort($options);
         $types->setOptions($options);
         $types->setValue($settings->get('types', ''));
-        $form->addItem($types);
+        $a_form->addItem($types);
     }
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
-
         $settings = new ilSetting('sysc');
 
         $settings->set('num', $a_form->getInput('number'));
@@ -131,7 +129,6 @@ class ilSCCronTrash extends ilCronJob
 
     public function run() : ilCronJobResult
     {
-
         $trash = new ilSystemCheckTrash();
         $trash->setMode(ilSystemCheckTrash::MODE_TRASH_REMOVE);
 
