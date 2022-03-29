@@ -23,13 +23,15 @@ use function _PHPStan_e04cc8dfb\RingCentral\Psr7\str;
  */
 class ilShibbolethSettings
 {
-    const PREFIX = 'shib_';
-    const DEFAULT_IDP_LIST = "urn:mace:organization1:providerID, Example Organization 1\nurn:mace:organization2:providerID, Example Organization 2, /Shibboleth.sso/WAYF/SWITCHaai";
-    const DEFAULT_LOGIN_BUTTON = "templates/default/images/shib_login_button.png";
-    const DEFAULT_ORGANISATION_SELECTION = "external_wayf";
+    private const PREFIX = 'shib_';
+    private const DEFAULT_IDP_LIST = "urn:mace:organization1:providerID, Example Organization 1\nurn:mace:organization2:providerID, Example Organization 2, /Shibboleth.sso/WAYF/SWITCHaai";
+    private const DEFAULT_LOGIN_BUTTON = "templates/default/images/shib_login_button.png";
+    private const DEFAULT_ORGANISATION_SELECTION = "external_wayf";
+
     protected ilSetting $settings;
     protected array $data = [];
 
+    /** @var array<string, bool> */
     protected array $user_fields = [
         'login' => true,
         'firstname' => true,
@@ -53,12 +55,13 @@ class ilShibbolethSettings
     public function __construct()
     {
         global $DIC;
+
         $this->settings = $DIC->settings();
         $this->read();
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, bool>
      */
     public function getUserFields() : array
     {
@@ -67,7 +70,11 @@ class ilShibbolethSettings
 
     public function read() : void
     {
-        $filtered_data = array_filter($this->settings->getAll(), fn ($value, string $key) : bool => strpos($key, self::PREFIX) === 0, ARRAY_FILTER_USE_BOTH);
+        $filtered_data = array_filter(
+            $this->settings->getAll(),
+            static fn ($value, string $key) : bool => strpos($key, self::PREFIX) === 0,
+            ARRAY_FILTER_USE_BOTH
+        );
 
         array_walk($filtered_data, function ($v, string $k) : void {
             $this->data[str_replace(self::PREFIX, '', $k)] = $v === '' ? null : $v;
@@ -78,13 +85,9 @@ class ilShibbolethSettings
     {
         $a_keyword = str_replace(self::PREFIX, '', $a_keyword);
 
-        return (string) isset($this->data[$a_keyword]) ?? $a_default_value;
+        return (string) ($this->data[$a_keyword] ?? $a_default_value);
     }
-
-    public function delete(string $a_keyword) : void
-    {
-        // TODO: Implement delete() method.
-    }
+    
 
     /**
      * @return mixed[]
@@ -107,7 +110,6 @@ class ilShibbolethSettings
         }
     }
 
-    //
     public function getDefaultRole() : int
     {
         return $this->data['user_default_role'] ?? 4;

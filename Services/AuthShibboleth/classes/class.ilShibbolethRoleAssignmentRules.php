@@ -53,7 +53,7 @@ class ilShibbolethRoleAssignmentRules
         $query = "SELECT COUNT(*) num FROM shib_role_assignment ";
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return (int) $row->num ?? 0;
+        return (int) ($row->num ?? 0);
     }
 
     public static function updateAssignments(int $a_usr_id, array $a_data) : bool
