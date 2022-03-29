@@ -176,9 +176,10 @@ class ilSearchResultPresentation
     
     protected function hasMoreReferences(int $a_ref_id) : bool
     {
+        $references = ilSession::get('vis_references') ?? [];
         if (!isset($this->has_more_ref_ids[$a_ref_id]) or
             !$this->has_more_ref_ids[$a_ref_id] or
-            isset($_SESSION['vis_references'][$a_ref_id])) {// @TODO: PHP8 Review: Direct access to $_SESSION.
+            array_key_exists($a_ref_id, $references)) {
             return false;
         }
         return $this->has_more_ref_ids[$a_ref_id];
@@ -186,7 +187,8 @@ class ilSearchResultPresentation
     
     protected function getAllReferences(int $a_ref_id) : array
     {
-        if (isset($_SESSION['vis_references'][$a_ref_id])) {// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $references = ilSession::get('vis_references') ?? [];
+        if (array_key_exists($a_ref_id, $references)) {
             return $this->all_references[$a_ref_id] ?: array();
         } else {
             return array($a_ref_id);
@@ -410,8 +412,10 @@ class ilSearchResultPresentation
     
     protected function initReferences() : void
     {
+        $session_references = ilSession::get('vis_references') ?? [];
         if (isset($_REQUEST['refs'])) {// @TODO: PHP8 Review: Direct access to $_REQUEST.
-            $_SESSION['vis_references'][(int) $_REQUEST['refs']] = (int) $_REQUEST['refs'];// @TODO: PHP8 Review: Direct access to $_REQUEST.// @TODO: PHP8 Review: Direct access to $_SESSION.
+            $session_references[(int) $_REQUEST['refs']] = (int) $_REQUEST['refs'];
+            ilSession::set('vis_references', $session_references);
         }
     }
 }

@@ -192,7 +192,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
             $this->showSavedResults();
             return;
         }
-        unset($_SESSION['max_page']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        ilSession::clear('max_page');
         $this->search_cache->deleteCachedEntries();
         
         // Reset details
@@ -216,8 +216,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
      */
     protected function performSearch() : void
     {
-        unset($_SESSION['vis_references']);// @TODO: PHP8 Review: Direct access to $_SESSION.
-        
+        ilSession::clear('vis_references');
         $qp = new ilLuceneAdvancedQueryParser($this->search_cache->getQuery());
         $qp->parse();
         if (!strlen(trim($qp->getQuery()))) {

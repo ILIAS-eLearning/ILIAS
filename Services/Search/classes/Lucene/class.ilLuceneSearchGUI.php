@@ -216,8 +216,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             $this->showSearchForm();
             return;
         }
-
-        unset($_SESSION['max_page']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        ilSession::clear('max_page');
         $this->search_cache->deleteCachedEntries();
 
         // Reset details
@@ -230,8 +229,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function performSearch() : void
     {
-        unset($_SESSION['vis_references']);// @TODO: PHP8 Review: Direct access to $_SESSION.
-
+        ilSession::clear('vis_references');
         $filter_query = '';
         if ($this->search_cache->getItemFilter() and ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
             $filter_settings = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();

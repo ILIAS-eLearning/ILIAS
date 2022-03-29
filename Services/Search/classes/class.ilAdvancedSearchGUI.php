@@ -97,7 +97,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             default:
                 $this->initUserSearchCache();
                 if (!$cmd) {
-                    switch ($_SESSION['search_last_sub_section']) {// @TODO: PHP8 Review: Direct access to $_SESSION.
+                    $last_sub_section = (int) ilSession::get('search_last_sub_section');
+                    switch ($last_sub_section) {
                         case self::TYPE_ADV_MD:
                             $cmd = "showSavedAdvMDResults";
                             break;
@@ -127,7 +128,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->initSearchType(self::TYPE_LOM);
         $this->search_mode = 'in_results';
         $this->search_cache->setResultPageNumber(1);
-        unset($_SESSION['adv_max_page']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        ilSession::clear('adv_max_page');
         $this->performSearch();
 
         return true;
@@ -167,7 +168,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->initSearchType(self::TYPE_LOM);
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
-            unset($_SESSION['adv_max_page']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+            ilSession::clear('adv_max_page');
             $this->search_cache->deleteCachedEntries();
         }
 
@@ -308,7 +309,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->initSearchType(self::TYPE_ADV_MD);
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
-            unset($_SESSION['adv_max_page']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+            ilSession::clear('adv_max_page');
             $this->search_cache->delete();
         }
         $res = new ilSearchResult();
@@ -350,8 +351,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     
     public function showAdvMDSearch() : bool
     {
-        if (isset($_SESSION['search_adv_md'])) {// @TODO: PHP8 Review: Direct access to $_SESSION.
-            $this->options = $_SESSION['search_adv_md'];// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $session_options = ilSession::get('search_adv_md');
+        if ($session_options !== null) {
+            $this->options = $session_options;
         }
         $this->setSubTabs();
         $this->tabs_gui->setSubTabActive('search_adv_md');
@@ -808,11 +810,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         if (isset($_POST['cmd']['performSearch'])) {// @TODO: PHP8 Review: Direct access to $_POST.
-            $this->options = $_SESSION['search_adv'] = $query;// @TODO: PHP8 Review: Direct access to $_SESSION.
+            $this->options = $query;
+            ilSession::set('search_adv', $this->options);
         } elseif (isset($_POST['cmd']['performAdvMDSearch'])) {// @TODO: PHP8 Review: Direct access to $_POST.
-            $this->options = $_SESSION['search_adv_md'] = $_POST;// @TODO: PHP8 Review: Direct access to $_POST.// @TODO: PHP8 Review: Direct access to $_SESSION.
+            $this->options = (array) $this->http->request()->getParsedBody();
+            ilSession::set('search_adv_md', $this->options);
         } else {
-            $this->options = ($_SESSION['search_adv'] ?? array());// @TODO: PHP8 Review: Direct access to $_SESSION.
+            $this->options = ilSession::get('search_adv') ?? [];
         }
         $this->filter = array();
 
@@ -948,10 +952,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     private function initSearchType(int $type) : void
     {
         if ($type == self::TYPE_LOM) {
-            $_SESSION['search_last_sub_section'] = self::TYPE_LOM;// @TODO: PHP8 Review: Direct access to $_SESSION.
+            ilSession::set('search_last_sub_section', self::TYPE_LOM);
             $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
         } else {
-            $_SESSION['search_last_sub_section'] = self::TYPE_ADV_MD;// @TODO: PHP8 Review: Direct access to $_SESSION.
+            ilSession::set('search_last_sub_section', self::TYPE_ADV_MD);
             $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_MD_SEARCH);
         }
     }

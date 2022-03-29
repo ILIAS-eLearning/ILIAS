@@ -51,12 +51,11 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         }
         
         $this->setLastClass($default);
-        
-        return $_SESSION['search_last_class'] ?: $default;// @TODO: PHP8 Review: Direct access to $_SESSION.
+        return ilSession::get('search_last_class') ?? $default;
     }
     public function setLastClass(string $a_class) : void
     {
-        $_SESSION['search_last_class'] = $a_class;// @TODO: PHP8 Review: Direct access to $_SESSION.
+        ilSession::set('search_last_class', $a_class);
     }
 
     public function executeCommand() : void
