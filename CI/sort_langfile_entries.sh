@@ -1,11 +1,29 @@
 #!/bin/sh
 
-echo "sorting langfile entries"
-LANGFILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.lang')
-for FILE in $LANGFILES
+header_end='<!-- language file start -->'
+langfiles=$(git diff --cached --name-only --diff-filter=ACM -- '*.lang')
+
+for file in $langfiles
 do
-	HEADER_LENGTH=$(awk '/<!-- language file start -->/ {print FNR}' ${FILE})
-	(head -n $HEADER_LENGTH ${FILE} && tail ${FILE} -n +$((HEADER_LENGTH + 1)) | sort ) > ${FILE}.tmp
-	mv ${FILE}.tmp ${FILE}
+	header_length=1
+	while [ true ]
+	do
+		header_length=$(($header_length + 1))
+		line=$(head $file -n ${header_length} | tail -n1)
+
+		if [ "$line" = "$header_end" ]; then
+		    break
+		fi
+
+		if [ $header_length -gt 64 ]; then
+			echo "no proper header-marker found in ${file}; maybe check on line endings?" 
+		    break
+		fi
+	done
+
+	echo  "sorting entries in ${file}";
+	(head ${file} -n $header_length && tail ${file} -n +$((header_length + 1)) | sort ) > ${file}.tmp
+	mv ${file}.tmp ${file}
+
 done
 exit 0
