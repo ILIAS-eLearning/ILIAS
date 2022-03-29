@@ -135,8 +135,8 @@ final class Delivery
         $this->setDispositionHeaders();
         $response = $this->http->response()->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
         $this->http->saveResponse($response);
-        if ($this->getDeliveryType() == DeliveryMethod::PHP
-            && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+        if ($this->getDeliveryType() === DeliveryMethod::PHP
+            && $this->getPathToFile() !== self::DIRECT_PHP_OUTPUT
         ) {
             $response = $this->http->response()->withHeader(ResponseHeader::CONTENT_LENGTH, (string) filesize($this->getPathToFile()));
             $this->http->saveResponse($response);
@@ -220,12 +220,12 @@ final class Delivery
         }
         $ilRuntime = \ilRuntime::getInstance();
         if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM())
-            && $this->getDeliveryType() == DeliveryMethod::XACCEL
+            && $this->getDeliveryType() === DeliveryMethod::XACCEL
         ) {
             $this->setDeliveryType(DeliveryMethod::PHP);
         }
 
-        if ($this->getDeliveryType() == DeliveryMethod::XACCEL
+        if ($this->getDeliveryType() === DeliveryMethod::XACCEL
             && strpos($this->getPathToFile(), './data') !== 0
         ) {
             $this->setDeliveryType(DeliveryMethod::PHP);
@@ -457,7 +457,7 @@ final class Delivery
 
     private function checkExisting() : void
     {
-        if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+        if ($this->getPathToFile() !== self::DIRECT_PHP_OUTPUT
             && !file_exists($this->getPathToFile())
         ) {
             $this->close();
@@ -482,7 +482,7 @@ final class Delivery
      *
      * @return string ASCII-Filename
      */
-    public static function returnASCIIFileName($original_filename) : string
+    public static function returnASCIIFileName(string $original_filename) : string
     {
         // The filename must be converted to ASCII, as of RFC 2183,
         // section 2.3.

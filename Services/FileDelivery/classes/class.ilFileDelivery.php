@@ -106,7 +106,7 @@ final class ilFileDelivery implements ilFileDeliveryService
      * @param array  $arguments The function arguments passed to the function which was not existent
      *                          on the current object.
      */
-    public function __call($name, array $arguments)
+    public function __call(string $name, array $arguments)
     {
         throw new LogicException('');
     }
