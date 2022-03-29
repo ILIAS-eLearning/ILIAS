@@ -65,7 +65,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete) : void
+    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void
     {
         $file = $path_to_file;
         $fp = @fopen($file, 'rb');
