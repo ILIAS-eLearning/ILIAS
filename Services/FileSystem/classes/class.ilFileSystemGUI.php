@@ -78,7 +78,7 @@ class ilFileSystemGUI
     }
 
     /**
-     * @param mixed[] $a_suffixes
+     * @param string[] $a_suffixes
      */
     public function setAllowedSuffixes(array $a_suffixes) : void
     {
@@ -86,7 +86,7 @@ class ilFileSystemGUI
     }
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     public function getAllowedSuffixes() : array
     {
@@ -94,7 +94,7 @@ class ilFileSystemGUI
     }
 
     /**
-     * @param mixed[] $a_suffixes
+     * @param string[] $a_suffixes
      */
     public function setForbiddenSuffixes(array $a_suffixes) : void
     {
@@ -102,7 +102,7 @@ class ilFileSystemGUI
     }
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     public function getForbiddenSuffixes() : array
     {
@@ -190,7 +190,7 @@ class ilFileSystemGUI
     }
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     public function getLastPerformedCommand() : array
     {
@@ -326,7 +326,7 @@ class ilFileSystemGUI
     }
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     protected function getIncomingFiles() : array
     {
@@ -577,12 +577,20 @@ class ilFileSystemGUI
 
         ilFileUtils::renameExecutables($this->main_dir);
         if (is_dir($dir . $new_name)) {
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_dir_renamed"), true);// @TODO: PHP8 Review: Undefined variable.
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt("cont_dir_renamed"),
+                true
+            );
             $this->setPerformedCommand("rename_dir", [self::PARAM_OLD_NAME => $old_name,
                                                       self::POST_PARAM_NEW_NAME => $new_name
             ]);
         } else {
-            $this->tpl->setOnScreenMessage('success', $lng->txt("cont_file_renamed"), true);// @TODO: PHP8 Review: Undefined variable.
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt("cont_file_renamed"),
+                true
+            );
             $this->setPerformedCommand("rename_file", array(self::PARAM_OLD_NAME => $old_name,
                                                             self::POST_PARAM_NEW_NAME => $new_name
             ));
@@ -855,7 +863,7 @@ class ilFileSystemGUI
     }
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     public function getActionCommands() : array
     {
