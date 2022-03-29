@@ -205,7 +205,7 @@ final class Delivery
         }
 
         if (function_exists('apache_get_modules')
-            && in_array('mod_xsendfile', apache_get_modules())
+            && in_array('mod_xsendfile', apache_get_modules(), true)
         ) {
             $this->setDeliveryType(DeliveryMethod::XSENDFILE);
         }
@@ -414,13 +414,12 @@ final class Delivery
 
     public static function isDEBUG() : bool
     {
-        return (bool) self::$DEBUG;
+        return self::$DEBUG;
     }
 
 
     public static function setDEBUG(bool $DEBUG) : void
     {
-        assert(is_bool($DEBUG));
         self::$DEBUG = $DEBUG;
     }
 
@@ -530,13 +529,12 @@ final class Delivery
 
     public function isDeleteFile() : bool
     {
-        return (bool) $this->delete_file;
+        return $this->delete_file;
     }
 
 
     public function setDeleteFile(bool $delete_file) : void
     {
-        assert(is_bool($delete_file));
         $this->delete_file = $delete_file;
     }
 
