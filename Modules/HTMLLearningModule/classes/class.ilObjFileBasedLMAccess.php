@@ -22,7 +22,8 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
     protected ilLanguage $lng;
     protected ilRbacSystem $rbacsystem;
     protected ilAccessHandler $access;
-    public static $startfile;
+    /** @var array<int, string>  */
+    public static array $startfile = [];
 
     public function __construct()
     {
