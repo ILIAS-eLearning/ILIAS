@@ -102,6 +102,8 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getMigrations() : array
     {
-        return [];
+        return [
+            new Setup\ilMysqlMyIsamToInnoDbMigration()
+        ];
     }
 }

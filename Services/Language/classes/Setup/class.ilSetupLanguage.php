@@ -183,7 +183,7 @@ class ilSetupLanguage extends ilLanguage
                 }
             }
         }
-
+return true;
         return ($err_lang) ? $err_lang : true;
     }
 
