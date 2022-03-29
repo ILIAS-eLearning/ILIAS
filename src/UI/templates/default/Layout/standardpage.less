@@ -327,19 +327,14 @@ footer {
 	// main grid without slates
 	.il-layout-page {
 		background: @body-bg;
-		display: -ms-grid;
-		display: grid;
-		grid-gap: 0px;
-		-ms-grid-columns: 1fr;
-	    grid-template-columns: 1fr;
-		-ms-grid-rows: @il-standard-page-small-header-height auto 1fr;
-	    grid-template-rows: @il-standard-page-small-header-height auto 1fr;
-	    height: 100%;
-		overflow: hidden;
+		display: block;
+		overflow: initial;
 		width: 100%;
 		.nav.il-maincontrols {
-			grid-row: 4;
-			grid-column: 1;
+			position: fixed;
+			bottom: 0;
+			z-index: @il-standard-page-zindex-maincontrols;
+			width: 100%;
 			.il-maincontrols-mainbar {
 				display: grid;
 				display: -ms-grid;
@@ -374,7 +369,7 @@ footer {
 				-ms-grid-row: 3;
 				grid-column: 1;
 				grid-row: 3;
-				height: 100%; // calc(100% - (@il-standard-page-small-header-height + @il-standard-page-breadcrumbs-height);
+				height: calc(100% - @il-standard-page-small-header-height);
 				.il-maincontrols-mainbar {
 					-ms-grid-columns: 1fr;
 				    grid-template-columns: 1fr;
@@ -412,15 +407,15 @@ footer {
 
 	// metabar
 	header {
-		-ms-grid-column: 1;
-		-ms-grid-row: 1;
-		grid-column: 1;
-		grid-row: 1;
-		z-index: @il-standard-page-zindex-header;
+		position: -webkit-sticky;
+		position: sticky;
+		width: 100%;
+		top: 0;
 	}
 
 	// head-container with logo and metabar
 	.header-inner {
+		position: relative;
 	    height: @il-standard-page-small-header-height;
 	    padding: 0;
 	    width: 100%;
@@ -570,16 +565,13 @@ footer {
 	}
 
 	.il-layout-page-content {
-		-ms-grid-column: 1;
-		-ms-grid-row: 3;
-		grid-column: 1;
-		grid-row: 3;
-		overflow: auto;
-	}
-
-	div.il-system-infos {
-		grid-column: 1;
-		-ms-grid-column: 1;
+		display: flex;
+		flex-direction: column;
+		min-height: calc(100vh -  @il-standard-page-small-header-height);
+		padding-bottom: @il-standard-page-small-mainbar-height;
+		> div {
+			flex-grow: 1;
+		}
 	}
 }
 

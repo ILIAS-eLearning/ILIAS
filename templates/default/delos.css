@@ -9270,20 +9270,15 @@ footer {
 @media only screen and (max-width: 768px) {
   .il-layout-page {
     background: #f0f0f0;
-    display: -ms-grid;
-    display: grid;
-    grid-gap: 0px;
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
-    -ms-grid-rows: 45px auto 1fr;
-    grid-template-rows: 45px auto 1fr;
-    height: 100%;
-    overflow: hidden;
+    display: block;
+    overflow: initial;
     width: 100%;
   }
   .il-layout-page .nav.il-maincontrols {
-    grid-row: 4;
-    grid-column: 1;
+    position: fixed;
+    bottom: 0;
+    z-index: 997;
+    width: 100%;
   }
   .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar {
     display: grid;
@@ -9318,7 +9313,7 @@ footer {
     -ms-grid-row: 3;
     grid-column: 1;
     grid-row: 3;
-    height: 100%;
+    height: calc(100% - 45px);
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
     -ms-grid-columns: 1fr;
@@ -9349,13 +9344,13 @@ footer {
     display: none;
   }
   header {
-    -ms-grid-column: 1;
-    -ms-grid-row: 1;
-    grid-column: 1;
-    grid-row: 1;
-    z-index: 999;
+    position: -webkit-sticky;
+    position: sticky;
+    width: 100%;
+    top: 0;
   }
   .header-inner {
+    position: relative;
     height: 45px;
     padding: 0;
     width: 100%;
@@ -9465,15 +9460,13 @@ footer {
     display: block;
   }
   .il-layout-page-content {
-    -ms-grid-column: 1;
-    -ms-grid-row: 3;
-    grid-column: 1;
-    grid-row: 3;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 45px);
+    padding-bottom: 50px;
   }
-  div.il-system-infos {
-    grid-column: 1;
-    -ms-grid-column: 1;
+  .il-layout-page-content > div {
+    flex-grow: 1;
   }
 }
 /*
@@ -11844,6 +11837,14 @@ body {
 @media only screen and (max-width: 768px) {
   html {
     -webkit-text-size-adjust: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  html,
+  body {
+    overflow: initial;
+    height: auto;
+    min-height: 100vh;
   }
 }
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
