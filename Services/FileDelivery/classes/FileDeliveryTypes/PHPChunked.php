@@ -46,7 +46,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file) : bool
+    public function doesFileExists(string $path_to_file) : bool
     {
         return is_readable($path_to_file);
     }
