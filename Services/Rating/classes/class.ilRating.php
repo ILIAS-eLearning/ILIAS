@@ -46,7 +46,8 @@ class ilRating
         if ($a_user_id == ANONYMOUS_USER_ID) {
             return;
         }
-        
+    
+        // CR: Lines 50-66 should be eventually rebuild with if-else
         if ($a_category_id) {
             $ilDB->manipulate("DELETE FROM il_rating WHERE " .
                 "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
@@ -245,7 +246,8 @@ class ilRating
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+    
+        // CR: $tmp_user is defined as array but not used. It can be removed
         $tmp = $res = $tmp_user = $res_user = array();
         
         // collapse by categories
