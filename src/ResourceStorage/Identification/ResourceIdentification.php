@@ -59,7 +59,7 @@ class ResourceIdentification implements Serializable
     /**
      * @inheritDoc
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->serialize();
     }
