@@ -31,7 +31,6 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
         $lng = $DIC['lng'];
 
         $this->user_settings_config = new ilUserSettingsConfig();
@@ -69,6 +68,10 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         );
     }
 
+    /**
+     * @param array<string,mixed> $a_set
+     * @throws ilTemplateException
+     */
     protected function fillRow(array $a_set) : void
     {
         global $DIC;

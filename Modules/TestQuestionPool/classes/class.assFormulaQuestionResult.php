@@ -39,7 +39,7 @@ class assFormulaQuestionResult
      * @param double  $range_min     Range minimum
      * @param double  $range_max     Range maximum
      * @param double  $tolerance     Tolerance of the result in percent
-     * @param object  $unit          Unit
+     * @param mixed  $unit          Unit
      * @param string  $formula       The formula to calculate the result
      * @param double  $points        The maximum available points for the result
      * @param integer $precision     Number of decimal places of the value
@@ -218,9 +218,9 @@ class assFormulaQuestionResult
     }
 
     /**
-     * @param      $variables      formula variables containing units
-     * @param      $results        formula results containing units
-     * @param      $value          user input value
+     * @param      $variables      array formula variables containing units
+     * @param      $results        array formula results containing units
+     * @param      $value          string user input value
      * @param null $unit           user input unit
      * @return bool
      */

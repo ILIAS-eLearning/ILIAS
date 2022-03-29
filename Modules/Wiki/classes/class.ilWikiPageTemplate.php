@@ -40,10 +40,10 @@ class ilWikiPageTemplate
         int $a_type = self::TYPE_ALL
     ) : array {
         $and = "";
-        if ($a_type == self::TYPE_NEW_PAGES) {
+        if ($a_type === self::TYPE_NEW_PAGES) {
             $and = " AND t.new_pages = " . $this->db->quote(1, "integer");
         }
-        if ($a_type == self::TYPE_ADD_TO_PAGE) {
+        if ($a_type === self::TYPE_ADD_TO_PAGE) {
             $and = " AND t.add_to_page = " . $this->db->quote(1, "integer");
         }
 

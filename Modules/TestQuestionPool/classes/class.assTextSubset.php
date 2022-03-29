@@ -706,8 +706,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
     * Returns the answers of the question as a comma separated string
     *
-    * @return string The answer string
-    * @access public
     */
     public function &joinAnswers()
     {
@@ -949,8 +947,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * Else it returns the specific answer option
      *
      * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null)
     {

@@ -50,7 +50,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         parent::__construct($a_object);
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
@@ -497,7 +497,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++) {
             $finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
             if ($finishdate > 0) {
-                if (($DIC->access()->checkAccess('write', '', (int) $_GET['ref_id']))) {
+                if (($DIC->access()->checkAccess('write', '', $this->testrequest->getRefId()))) {
                     $this->ctrl->setParameter($this, 'statistics', '1');
                     $this->ctrl->setParameter($this, 'active_id', $active_id);
                     $this->ctrl->setParameter($this, 'pass', $pass);
@@ -510,7 +510,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 require_once 'Modules/Test/classes/tables/class.ilTestDetailedEvaluationStatisticsTableGUI.php';
                 $table = new ilTestDetailedEvaluationStatisticsTableGUI($this, 'detailedEvaluation', ($pass + 1) . '_' . $this->object->getId());
                 $table->setTitle(sprintf($this->lng->txt("tst_eval_question_points"), $pass + 1));
-                if (($DIC->access()->checkAccess('write', '', (int) $_GET['ref_id']))) {
+                if (($DIC->access()->checkAccess('write', '', $this->testrequest->getRefId()))) {
                     $table->addCommandButton('outParticipantsPassDetails', $this->lng->txt('tst_show_answer_sheet'));
                 }
 
@@ -979,14 +979,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->ctrl->setParameter($this, 'pdf', '');
 
         if (isset($_GET['show_best_solutions'])) {
-            $_SESSION['tst_results_show_best_solutions'] = true;
+            ilSession::set('tst_results_show_best_solutions', true);
         } elseif (isset($_GET['hide_best_solutions'])) {
-            $_SESSION['tst_results_show_best_solutions'] = false;
-        } elseif (!isset($_SESSION['tst_results_show_best_solutions'])) {
-            $_SESSION['tst_results_show_best_solutions'] = false;
+            ilSession::set('tst_results_show_best_solutions', true);
+        } elseif (ilSession::get('tst_results_show_best_solutions') !== null) {
+            ilSession::set('tst_results_show_best_solutions', false);
         }
 
-        if ($_SESSION['tst_results_show_best_solutions']) {
+        if (ilSession::get('tst_results_show_best_solutions')) {
             $this->ctrl->setParameter($this, 'hide_best_solutions', '1');
             $toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'outParticipantsPassDetails'));
             $this->ctrl->setParameter($this, 'hide_best_solutions', '');
@@ -1008,7 +1008,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $template->parseCurrentBlock();
         }
 
-        $list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, $_SESSION['tst_results_show_best_solutions'], false, false, false, true, $objectivesList, $testResultHeaderLabelBuilder);
+        $list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, ilSession::get('tst_results_show_best_solutions'), false, false, false, true, $objectivesList, $testResultHeaderLabelBuilder);
         $template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
         $template->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
@@ -2034,7 +2034,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         
         if ($this->object->isDynamicTest()) {
             require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php';
-            unset($_SESSION['form_' . ilTestDynamicQuestionSetStatisticTableGUI::FILTERED_TABLE_ID]);
+            ilSession::clear('form_' . ilTestDynamicQuestionSetStatisticTableGUI::FILTERED_TABLE_ID);
         }
 
         $this->redirectToPassDeletionContext($context);
@@ -2189,9 +2189,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     protected function finishTestPass($active_id, $obj_id)
     {
-        $this->processLockerFactory->setActiveId($active_id);
-        $processLocker = $this->processLockerFactory->getLocker();
-        
+        $processLocker = $this->processLockerFactory->withContextId((int) $active_id)->getLocker();
+
         $test_pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
         $test_pass_finisher->performFinishTasks($processLocker);
     }

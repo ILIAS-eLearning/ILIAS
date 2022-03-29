@@ -43,7 +43,7 @@ class ilSurveySkillDeterminationGUI
         
         $cmd = $ilCtrl->getCmd("listSkillChanges");
         
-        if ($cmd == "listSkillChanges") {
+        if ($cmd === "listSkillChanges") {
             $this->$cmd();
         }
     }

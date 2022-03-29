@@ -15,12 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSParticipantSettings
 {
@@ -35,11 +30,8 @@ class ilECSParticipantSettings
     
     /**
      * Constructor (Singleton)
-     *
-     * @access private
-     *
      */
-    private function __construct($a_server_id)
+    private function __construct(int $a_server_id)
     {
         global $DIC;
 
@@ -50,10 +42,8 @@ class ilECSParticipantSettings
 
     /**
      * Get instance by server id
-     * @param int $a_server_id
-     * @return ilECSParticipantSettings
      */
-    public static function getInstanceByServerId($a_server_id)
+    public static function getInstanceByServerId(int $a_server_id) : ilECSParticipantSettings
     {
         if (isset(self::$instances[$a_server_id])) {
             return self::$instances[$a_server_id];
@@ -63,9 +53,9 @@ class ilECSParticipantSettings
     
     /**
      * Get all available mids
-     * @return type
+     * @return int[] membership id
      */
-    public function getAvailabeMids()
+    public function getAvailabeMids() : array
     {
         $query = 'SELECT mid FROM ecs_part_settings ' .
             'WHERE sid = ' . $this->db->quote($this->server_id, 'integer');
@@ -97,16 +87,14 @@ class ilECSParticipantSettings
 
     /**
      * Get server id
-     * @return int
      */
-    public function getServerId()
+    public function getServerId() : int
     {
         return $this->server_id;
     }
 
     /**
      * Read stored entry
-     * @return <type>
      */
     private function read()
     {
@@ -125,8 +113,6 @@ class ilECSParticipantSettings
 
     /**
      * Check if import is allowed for specific mid
-     * @param array $a_mids
-     * @return <type>
      */
     public function isImportAllowed(array $a_mids)
     {
@@ -141,7 +127,6 @@ class ilECSParticipantSettings
     /**
      * get number of participants that are enabled
      *
-     * @access public
      * @deprecated
      */
     public function getEnabledParticipants()
@@ -159,7 +144,6 @@ class ilECSParticipantSettings
     /**
      * is participant enabled
      *
-     * @access public
      * @param int mid
      * @deprecated
      *
@@ -172,7 +156,6 @@ class ilECSParticipantSettings
     /**
      * set enabled participants by community
      *
-     * @access public
      * @param int community id
      * @param array participant ids
      */

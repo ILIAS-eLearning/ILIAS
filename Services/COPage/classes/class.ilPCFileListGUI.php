@@ -30,7 +30,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -115,14 +115,9 @@ class ilPCFileListGUI extends ilPageContentGUI
         }
     }
 
-    /**
-    * Select file
-    */
-    public function selectFile()
+    public function selectFile() : void
     {
         $ilTabs = $this->tabs;
-        $ilUser = $this->user;
-        
         $this->setTabs();
         $ilTabs->setSubTabActive("cont_file_from_repository");
 

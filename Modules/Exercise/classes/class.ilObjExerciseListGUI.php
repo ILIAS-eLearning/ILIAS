@@ -49,14 +49,8 @@ class ilObjExerciseListGUI extends ilObjectListGUI
         return $props;
     }
 
-
-    /**
-     * Get command link url.
-     * @param string $a_cmd command
-     * @return string command url
-     */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
-        return "ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$a_cmd";
+        return "ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
     }
 }

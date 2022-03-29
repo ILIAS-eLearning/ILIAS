@@ -18,7 +18,7 @@
  */
 class ilObjMediaPoolListGUI extends ilObjectListGUI
 {
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -33,10 +33,10 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
         $this->commands = ilObjMediaPoolAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $cmd_link = "ilias.php?baseClass=ilMediaPoolPresentationGUI" .
-            "&ref_id=" . $this->ref_id . '&cmd=' . $a_cmd;
+            "&ref_id=" . $this->ref_id . '&cmd=' . $cmd;
         return $cmd_link;
     }
 }

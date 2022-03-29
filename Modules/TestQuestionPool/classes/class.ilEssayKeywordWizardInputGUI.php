@@ -5,10 +5,6 @@ include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInput
 
 class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
-    /**
-     * Set Value.
-     * @param    $a_value Value
-     */
     public function setValue($a_value) : void
     {
         $this->values = array();

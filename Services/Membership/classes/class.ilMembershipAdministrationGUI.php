@@ -26,15 +26,15 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
     abstract protected function getAdministrationFormId() : int;
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt("no_permission"), $this->ilErr->WARNING);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
         }
 
         switch ($next_class) {
@@ -58,18 +58,17 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == "view") {
+                if (!$cmd || $cmd === "view") {
                     $cmd = "editSettings";
                 }
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
@@ -77,7 +76,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbacsystem->checkAccess("edit_permission", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("edit_permission", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"),
@@ -200,7 +199,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
     protected function setSubTabs(string $a_main_tab, string $a_active_tab) : void
     {
-        if ($a_main_tab == 'settings') {
+        if ($a_main_tab === 'settings') {
             $this->tabs_gui->addSubTab(
                 self::SUB_TAB_GENERAL_SETTINGS,
                 $this->lng->txt('mem_settings_tab_' . self::SUB_TAB_GENERAL_SETTINGS),

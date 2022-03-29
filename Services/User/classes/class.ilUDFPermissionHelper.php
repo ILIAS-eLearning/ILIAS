@@ -47,7 +47,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
     
     // caching
         
-    protected function readContextIds(int $a_context_type) : array
+    protected function readContextIds(int $a_context_type) : array // Missing array type.
     {
         global $DIC;
 
@@ -76,7 +76,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
     
     // permissions
     
-    protected function buildPermissionMap() : array
+    protected function buildPermissionMap() : array // Missing array type.
     {
         return array(
             self::CONTEXT_UDF => array(
@@ -117,7 +117,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
     
     // plugins
     
-    protected function getActivePlugins() : array
+    protected function getActivePlugins() : array // Missing array type.
     {
         global $DIC;
         $component_factory = $DIC["component.factory"];

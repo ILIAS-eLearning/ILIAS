@@ -90,7 +90,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         if (count($roleIds) > 0) {
             $this->logger->debug(sprintf(
                 "Found the following role ids for address '%s': %s",
-                (string) $this->address,
+                $this->address,
                 implode(', ', array_unique($roleIds))
             ));
 
@@ -103,19 +103,19 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
             if (count($usrIds) > 0) {
                 $this->logger->debug(sprintf(
                     "Found the following user ids for roles determined by address '%s': %s",
-                    (string) $this->address,
+                    $this->address,
                     implode(', ', array_unique($usrIds))
                 ));
             } else {
                 $this->logger->debug(sprintf(
                     "Did not find any assigned users for roles determined by '%s'",
-                    (string) $this->address
+                    $this->address
                 ));
             }
         } else {
             $this->logger->debug(sprintf(
                 "Did not find any role (and user ids) for address '%s'",
-                (string) $this->address
+                $this->address
             ));
         }
 

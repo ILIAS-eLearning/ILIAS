@@ -172,11 +172,7 @@ class ilTestParticipantsGUI
         }
     }
     
-    /**
-     * @param array $a_user_ids
-     * @return bool
-     */
-    public function addParticipants($a_user_ids = array()) : bool
+    public function addParticipants($a_user_ids = array())
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -207,6 +203,7 @@ class ilTestParticipantsGUI
         }
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW);
+        return null;
     }
     
     /**
@@ -308,7 +305,7 @@ class ilTestParticipantsGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
-        $sess_filter = $_SESSION['form_tst_participants_' . $this->getTestObj()->getRefId()]['selection'];
+        $sess_filter = ilSession::get('form_tst_participants_' . $this->getTestObj()->getRefId())['selection'];
         $sess_filter = str_replace('"', '', $sess_filter);
         $sess_filter = explode(':', $sess_filter);
         $filter = substr($sess_filter[2], 0, strlen($sess_filter[2]) - 1);

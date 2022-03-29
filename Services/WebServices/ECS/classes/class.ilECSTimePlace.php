@@ -31,13 +31,6 @@ class ilECSTimePlace
     private string $end = '';
     private string $cycle = '';
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
     public function __construct()
     {
         global $DIC;

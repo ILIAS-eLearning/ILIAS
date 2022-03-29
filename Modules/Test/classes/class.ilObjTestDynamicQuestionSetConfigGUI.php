@@ -188,7 +188,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 
         if ($this->testOBJ->participantDataExist()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"), true);
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
         }
         
         $errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
@@ -196,7 +196,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 
         if ($errors) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            return $this->showFormCmd($form);
+            $this->showFormCmd($form);
         }
         
         $this->performSaveForm($form);

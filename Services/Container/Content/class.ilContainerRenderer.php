@@ -399,7 +399,6 @@ class ilContainerRenderer
         }
             
         asort($this->block_pos);
-        
         return array_keys($this->block_pos);
     }
     
@@ -455,7 +454,7 @@ class ilContainerRenderer
             // determine view mode and tile size
             $view_mode = $this->getViewMode();
             if ($view_mode == ilContainerContentGUI::VIEW_MODE_TILE) {
-                $tile_size = ilContainer::_lookupContainerSetting($this->container_gui->object->getId(), "tile_size");
+                $tile_size = ilContainer::_lookupContainerSetting($this->container_gui->getObject()->getId(), "tile_size");
             }
             if (is_numeric($a_block_id)) {
                 $item_group = new ilObjItemGroup($a_block_id);
@@ -475,7 +474,7 @@ class ilContainerRenderer
 
                 $order_id = (!$a_is_single && $this->active_block_ordering)
                     ? $a_block_id
-                    : 0;
+                    : "";
                 $this->addHeaderRow(
                     $a_block_tpl,
                     $a_block["type"] ?? '',
@@ -579,14 +578,18 @@ class ilContainerRenderer
         return new ilTemplate("tpl.container_list_block.html", true, true, "Services/Container");
     }
     
-    // Render block header
+    /**
+     * Render block header
+     * @param string     $a_order_id item group id or type, e.g. "crs"
+     * @throws ilTemplateException
+     */
     protected function addHeaderRow(
         ilTemplate $a_tpl,
         string $a_type = "",
         string $a_text = "",
         array $a_types_in_block = null,
         string $a_commands_html = "",
-        int $a_order_id = 0,
+        string $a_order_id = "",
         array $a_data = []
     ) : void {
         $lng = $this->lng;
@@ -644,7 +647,7 @@ class ilContainerRenderer
             $a_tpl->setCurrentBlock("container_header_row");
         }
     
-        if ($a_order_id) {
+        if ($a_order_id != "") {
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NAME", "position[blocks][" . $a_order_id . "]");
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt) * 10);
         }

@@ -18,7 +18,6 @@
  * Mapping utils
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSMappingUtils
 {

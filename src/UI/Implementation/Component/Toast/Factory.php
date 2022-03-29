@@ -21,4 +21,9 @@ class Factory implements \ILIAS\UI\Component\Toast\Factory
     {
         return new Toast($title, $icon, $this->signal_generator);
     }
+
+    public function container() : Container
+    {
+        return new Container();
+    }
 }

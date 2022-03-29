@@ -18,7 +18,6 @@
  * Auth prvider for ecs auth
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterface
 {
@@ -64,8 +63,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
     
     /**
      * get mid
-     *
-     * @access public
      */
     public function getMID() : int
     {
@@ -79,16 +76,14 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 
     /**
      * Set current server
-     * @param ilECSSetting $server
      */
-    public function setCurrentServer(ilECSSetting $server = null)
+    public function setCurrentServer(ilECSSetting $server) : void
     {
         $this->currentServer = $server;
     }
 
     /**
      * Get current server
-     * @return ilECSSetting
      */
     public function getCurrentServer() : ilECSSetting
     {
@@ -97,7 +92,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 
     /**
      * Get server settings
-     * @return ilECSServerSettings
      */
     public function getServerSettings() : ilECSServerSettings
     {
@@ -107,8 +101,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 
     /**
      * Try ecs authentication
-     * @param \ilAuthStatus $status
-     * @return boolean
      */
     public function doAuthentication(\ilAuthStatus $status) : bool
     {
@@ -140,8 +132,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
     
     /**
      * Called from base class after successful login
-     *
-     * @param string username
      */
     public function handleLogin()
     {
@@ -174,13 +164,8 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
     
     /**
      * Validate ECS hash
-     *
-     * @access public
-     * @param string username
-     * @param string pass
-     *
      */
-    public function validateHash()
+    public function validateHash() : bool
     {
         // fetch hash
         if (isset($_GET['ecs_hash']) and strlen($_GET['ecs_hash'])) {
@@ -189,7 +174,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         if (isset($_GET['ecs_hash_url'])) {
             $hashurl = urldecode($_GET['ecs_hash_url']);
             $hash = basename(parse_url($hashurl, PHP_URL_PATH));
-            //$hash = urldecode($_GET['ecs_hash_url']);
         }
         
         $this->getLogger()->info('Using ecs hash: ' . $hash);
@@ -246,21 +230,16 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
     
     /**
      * Init ECS Services
-     * @access private
-     * @param
-     *
      */
-    private function initECSServices()
+    private function initECSServices() : void
     {
         $this->servers = ilECSServerSettings::getInstance();
     }
     
     /**
      * create new user
-     *
-     * @access protected
      */
-    protected function createUser(ilECSUser $user)
+    protected function createUser(ilECSUser $user) : string
     {
         $userObj = new ilObjUser();
         $userObj->setOwner(SYSTEM_USER_ID);
@@ -294,9 +273,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         $userObj->setTimeLimitFrom(time() - 5);
         $userObj->setTimeLimitUntil(time() + $this->clientIniFile->readVariable("session", "expire"));
 
-        #$now = new ilDateTime(time(), IL_CAL_UNIX);
-        #$userObj->setAgreeDate($now->get(IL_CAL_DATETIME));
-
         // Create user in DB
         $userObj->setOwner(6);
         $userObj->create();
@@ -321,10 +297,8 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
     
     /**
      * update existing user
-     *
-     * @access protected
      */
-    protected function updateUser(ilECSUser $user, $a_local_user_id)
+    protected function updateUser(ilECSUser $user, int $a_local_user_id) : string
     {
         $user_obj = new ilObjUser($a_local_user_id);
         $user_obj->setFirstname($user->getFirstname());
@@ -360,7 +334,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      * Reset mail options to "local only"
      *
      */
-    protected function resetMailOptions($a_usr_id)
+    protected function resetMailOptions(int $a_usr_id) : void
     {
         $options = new ilMailOptions($a_usr_id);
         $options->setIncomingType(ilMailOptions::INCOMING_LOCAL);

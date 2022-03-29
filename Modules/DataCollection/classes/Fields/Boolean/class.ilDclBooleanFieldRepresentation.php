@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclFileuploadFieldRepresentaion
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -16,10 +15,10 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
+            false, $this->getField()->getId());
         $input->setOptions(
             array(
                 "" => $this->lng->txt("dcl_any"),
@@ -32,7 +31,6 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
 
         return $this->getFilterInputFieldValue($input);
     }
-
 
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
     {

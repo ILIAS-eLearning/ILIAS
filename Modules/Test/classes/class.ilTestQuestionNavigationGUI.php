@@ -626,13 +626,13 @@ class ilTestQuestionNavigationGUI
     {
         switch ($a_purpose) {
             case 'toolbar':
-        return new ilTemplate(
-            'tpl.tst_question_navigation.html',
-            true,
-            true,
-            'Modules/Test'
-        );
-
+                return new ilTemplate(
+                    'tpl.tst_question_navigation.html',
+                    true,
+                    true,
+                    'Modules/Test'
+                );
+            default:
             case 'actions':
                 return new ilTemplate(
                     'tpl.tst_question_actions.html',
@@ -640,7 +640,7 @@ class ilTestQuestionNavigationGUI
                     true,
                     'Modules/Test'
                 );
-    }
+        }
     }
     // fau.
 

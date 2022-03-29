@@ -34,6 +34,10 @@ class AppraiseeDBRepository
             : $db;
     }
 
+    /**
+     * @param int $rater_id
+     * @return @return array{survey_id: int, appr_id: int}[]
+     */
     public function getAppraiseesForRater(
         int $rater_id
     ) : array {
@@ -48,8 +52,8 @@ class AppraiseeDBRepository
         $appraisee = [];
         while ($rec = $db->fetchAssoc($set)) {
             $appraisee[] = [
-                "survey_id" => $rec["obj_id"],
-                "appr_id" => $rec["appr_id"]
+                "survey_id" => (int) $rec["obj_id"],
+                "appr_id" => (int) $rec["appr_id"]
             ];
         }
         return $appraisee;
@@ -59,7 +63,7 @@ class AppraiseeDBRepository
     /**
      * Get closed appraisees for a number of surveys
      * @param int[] $survey_ids
-     * @return array
+     * @return array{survey_id: int, appr_id: int}[]
      */
     public function getClosedAppraiseesForSurveys(
         array $survey_ids
@@ -76,8 +80,8 @@ class AppraiseeDBRepository
         $closed_appraisees = [];
         while ($rec = $db->fetchAssoc($set)) {
             $closed_appraisees[] = [
-                "survey_id" => $rec["obj_id"],
-                "appr_id" => $rec["user_id"]
+                "survey_id" => (int) $rec["obj_id"],
+                "appr_id" => (int) $rec["user_id"]
             ];
         }
         return $closed_appraisees;
@@ -101,7 +105,7 @@ class AppraiseeDBRepository
         );
         $unclosed_surveys = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $unclosed_surveys[] = $rec["obj_id"];
+            $unclosed_surveys[] = (int) $rec["obj_id"];
         }
         return $unclosed_surveys;
     }

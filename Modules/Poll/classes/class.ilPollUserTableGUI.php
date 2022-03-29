@@ -26,7 +26,7 @@ class ilPollUserTableGUI extends ilTable2GUI
 {
     protected array $answer_ids = [];
     
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
@@ -105,9 +105,9 @@ class ilPollUserTableGUI extends ilTable2GUI
         $a_csv->addColumn((string) ($a_set["firstname"] ?? ''));
         foreach ($this->answer_ids as $answer_id) {
             if ($a_set["answer" . $answer_id]) {
-                $a_csv->addColumn(true);
+                $a_csv->addColumn('1');
             } else {
-                $a_csv->addColumn(false);
+                $a_csv->addColumn('');
             }
         }
         $a_csv->addRow();

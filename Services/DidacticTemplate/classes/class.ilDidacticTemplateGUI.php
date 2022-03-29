@@ -63,7 +63,7 @@ class ilDidacticTemplateGUI
     public function appendToolbarSwitch(ilToolbarGUI $toolbar, string $a_obj_type, int $a_ref_id) : bool
     {
         $tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
-        $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId());
+        $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId());
 
         if (!count($tpls) && !$value) {
             return false;
@@ -120,7 +120,7 @@ class ilDidacticTemplateGUI
     {
         // Check if template is changed
         $new_tpl_id = $this->requested_template_id;
-        if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId())) {
+        if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId())) {
             $this->logger->debug('Template id: ' . $new_tpl_id);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('didactic_not_changed'), true);
             $this->ctrl->returnToParent($this);
@@ -154,7 +154,7 @@ class ilDidacticTemplateGUI
                 '<div class="il_Description">' .
                 sprintf(
                     $this->lng->txt('didactic_default_type_info'),
-                    $this->lng->txt('objs_' . $this->getParentObject()->object->getType())
+                    $this->lng->txt('objs_' . $this->getParentObject()->getObject()->getType())
                 ) .
                 '</div>'
             );

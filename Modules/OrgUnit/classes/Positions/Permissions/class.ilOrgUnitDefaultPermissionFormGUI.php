@@ -4,7 +4,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitDefaultPermissionFormGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
@@ -18,26 +17,32 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
      * @var \ilOrgUnitPermission[]
      */
     protected $ilOrgUnitPermissions = [];
-
+    /**
+     * @var ilObjectDefinition
+     */
+    protected $objectDefinition;
 
     /**
      * ilOrgUnitDefaultPermissionFormGUI constructor.
-     *
      * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
      * @param ilOrgUnitPermission[]                        $ilOrgUnitPermissionsFilter
+     * @param ilObjectDefinition                           $objectDefinition
      */
-    public function __construct(BaseCommands $parent_gui, array $ilOrgUnitPermissionsFilter)
-    {
+    public function __construct(
+        BaseCommands $parent_gui,
+        array $ilOrgUnitPermissionsFilter,
+        ilObjectDefinition $objectDefinition
+    ) {
         $this->parent_gui = $parent_gui;
         $this->ilOrgUnitPermissions = $ilOrgUnitPermissionsFilter;
         $this->dic()->ctrl()->saveParameter($parent_gui, 'arid');
         $this->setFormAction($this->dic()->ctrl()->getFormAction($this->parent_gui));
+        $this->objectDefinition = $objectDefinition;
         $this->initFormElements();
         $this->initButtons();
         $this->setTarget('_top');
         parent::__construct();
     }
-
 
     /**
      * @return int ID of the object
@@ -54,7 +59,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-
     protected function initButtons()
     {
         $this->setTitle($this->txt("form_title_org_default_permissions_"
@@ -63,25 +67,23 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->addCommandButton(BaseCommands::CMD_CANCEL, $this->txt(BaseCommands::CMD_CANCEL));
     }
 
-
     protected function initFormElements()
     {
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
             $header = new ilFormSectionHeaderGUI();
             $context = $ilOrgUnitPermission->getContext()->getContext();
-            $header->setTitle($this->txt("obj_{$context}", false));
+            $header->setTitle($this->getTitleForFormHeaderByContext($context));
             $this->addItem($header);
 
             // Checkboxes
             foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
-                $title = $this->txt("org_op_{$operation->getOperationString()}", false);
+                $title = $this->txt("org_op_{$operation->getOperationString()}");
                 $id = $operation->getOperationId();
                 $cb = new ilCheckboxInputGUI($title, "operations[{$context}][{$id}]");
                 $this->addItem($cb);
             }
         }
     }
-
 
     public function fillForm()
     {
@@ -95,7 +97,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         }
         $this->setValuesByArray($operations);
     }
-
 
     protected function fillObject()
     {
@@ -118,7 +119,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-
     /**
      * @return \ilOrgUnitPermission[]
      */
@@ -126,7 +126,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     {
         return $this->ilOrgUnitPermissions;
     }
-
 
     /**
      * @param \ilOrgUnitPermission[] $ilOrgUnitPermissions
@@ -136,7 +135,6 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->ilOrgUnitPermissions = $ilOrgUnitPermissions;
     }
 
-
     /**
      * @return \ILIAS\DI\Container
      */
@@ -145,14 +143,22 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         return $GLOBALS["DIC"];
     }
 
-
     /**
      * @param $key
-     *
      * @return mixed
      */
     protected function txt($key)
     {
         return $this->parent_gui->txt($key);
+    }
+
+    protected function getTitleForFormHeaderByContext(string $context)
+    {
+        $lang_code = "obj_{$context}";
+        if ($this->objectDefinition->isPlugin($context)) {
+            return ilObjectPlugin::lookupTxtById($context, $lang_code);
+        }
+
+        return $this->txt($lang_code);
     }
 }

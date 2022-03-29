@@ -294,9 +294,9 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             }
         }
         if (!is_array($solutions) || count($solutions) == 0) {
-            $_SESSION['qst_ordering_horizontal_elements'] = $elements;
+            ilSession::set('qst_ordering_horizontal_elements', $elements);
         } else {
-            unset($_SESSION['qst_ordering_horizontal_elements']);
+            ilSession::clear('qst_ordering_horizontal_elements');
         }
         foreach ($elements as $id => $element) {
             $template->setCurrentBlock("element");
@@ -383,7 +383,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -399,7 +399,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");

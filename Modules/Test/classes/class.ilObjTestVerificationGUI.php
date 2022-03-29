@@ -13,6 +13,16 @@
  */
 class ilObjTestVerificationGUI extends ilObject2GUI
 {
+
+    private \ILIAS\Test\InternalRequestService $testrequest;
+
+    public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
+    {
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
+        parent::__construct($id, $id_type, $parent_node_id);
+    }
+
     public function getType() : string
     {
         return "tstv";

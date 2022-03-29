@@ -17,7 +17,10 @@
 	vertical-align: top;
 
 	&.engaged {
-		font-weight: @il-btn-toggle-label-font-weight;
+		background-color: @il-vc-pagination-btn-active-bg;
+		padding: 0px @il-padding-small-horizontal 0px @il-padding-small-horizontal;
+		border: 1px solid @il-main-color;
+		font-weight: normal;
 	}
 }
 
@@ -34,10 +37,19 @@
 
 }
 
-.il-viewcontrol-pagination, .il-viewcontrol-mode{
+.il-viewcontrol-pagination, .il-viewcontrol-mode {
 	.engaged{
 		pointer-events: none;
 		cursor: default;
+	}
+}
+
+.il-viewcontrol-mode {
+	.btn + .btn {
+		border-left-color: @il-main-border-color;
+	}
+	.btn:not(:last-child):hover {
+		border-right-color: @il-main-border-color;
 	}
 }
 

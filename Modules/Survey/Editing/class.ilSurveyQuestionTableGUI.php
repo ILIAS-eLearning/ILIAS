@@ -51,8 +51,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
         if (!$this->read_only) {
             // command dropdown
-            if (count($edit_manager->getMoveSurveyQuestions()) == 0 ||
-                $edit_manager->getMoveSurveyId() != $this->object->getId()) {
+            if (count($edit_manager->getMoveSurveyQuestions()) === 0 ||
+                $edit_manager->getMoveSurveyId() !== $this->object->getId()) {
                 $this->addMultiCommand("createQuestionblock", $lng->txt("define_questionblock"));
                 $this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
                 $this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));
@@ -118,7 +118,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
                     if (!$this->read_only) {
                         // order
-                        if (sizeof($survey_questions) > 1) {
+                        if (count($survey_questions) > 1) {
                             $position += 10;
                             $table_data[$id]["position"] = $position;
                         }
@@ -146,7 +146,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
                 // question type
                 foreach ($questiontypes as $trans => $typedata) {
-                    if (strcmp($typedata["type_tag"], $data["type_tag"]) == 0) {
+                    if (strcmp($typedata["type_tag"], $data["type_tag"]) === 0) {
                         $table_data[$id]["question_type"] = $trans;
                     }
                 }
@@ -172,7 +172,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                     }
 
                     // order
-                    if (sizeof($survey_questions) > 1) {
+                    if (count($survey_questions) > 1) {
                         if (!$data["questionblock_id"]) {
                             $position += 10;
                             $table_data[$id]["position"] = $position;
@@ -310,7 +310,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                     "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "removeheading")
                 );
-            } elseif ($a_set["type"] == "question") {
+            } elseif ($a_set["type"] === "question") {
                 $list->addItem(
                     $lng->txt("add_heading"),
                     "",

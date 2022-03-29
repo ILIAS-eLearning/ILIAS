@@ -35,29 +35,29 @@ class ilObjGlossaryAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case "read":
-                if (!ilObjGlossaryAccess::_lookupOnline($a_obj_id)
-                    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
+                if (!self::_lookupOnline($obj_id)
+                    && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 break;
 
             case "visible":
-                if (!ilObjGlossaryAccess::_lookupOnline($a_obj_id) &&
-                    (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))) {
+                if (!self::_lookupOnline($obj_id) &&
+                    (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
@@ -68,7 +68,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
         return true;
     }
     
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show",
@@ -118,13 +118,13 @@ class ilObjGlossaryAccess extends ilObjectAccess
     }
 
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if (($t_arr[0] != "glo" && $t_arr[0] != "git") || ((int) $t_arr[1]) <= 0) {
             return false;

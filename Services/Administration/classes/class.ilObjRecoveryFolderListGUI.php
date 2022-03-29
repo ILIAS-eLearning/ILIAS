@@ -18,7 +18,7 @@
  */
 class ilObjRecoveryFolderListGUI extends ilObjectListGUI
 {
-    public function init()
+    public function init() : void
     {
         $this->type = "recf";
         $this->gui_class_name = "ilobjrecoveryfoldergui";

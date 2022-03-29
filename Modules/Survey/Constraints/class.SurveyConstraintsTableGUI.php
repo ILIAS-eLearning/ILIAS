@@ -95,7 +95,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
             if ($show) {
                 $id = $content = $parsed = $conjunction = null;
                 
-                if ($counter == 1) {
+                if ($counter === 1) {
                     $content = $lng->txt("constraints_first_question_description");
                 } else {
                     $constraints = $a_survey->getConstraints($data["question_id"]);
@@ -118,7 +118,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
                         }
                     }
                 }
-                if ($counter != 1) {
+                if ($counter !== 1) {
                     $id = $counter;
                 }
                 

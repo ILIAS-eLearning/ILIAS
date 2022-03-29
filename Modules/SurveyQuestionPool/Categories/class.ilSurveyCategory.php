@@ -21,6 +21,7 @@
  */
 class ilSurveyCategory
 {
+    /** @var array{title: ?string, other: int, neutral: int, label: ?string, scale: ?int} */
     private array $arrData;
 
     public function __construct(
@@ -38,8 +39,9 @@ class ilSurveyCategory
             "scale" => $scale
         );
     }
-    
+
     /**
+     * @param string $value
      * @return mixed
      */
     public function __get(string $value)
@@ -49,18 +51,16 @@ class ilSurveyCategory
             case 'neutral':
                 return ($this->arrData[$value]) ? 1 : 0;
             default:
-                if (array_key_exists($value, $this->arrData)) {
-                    return $this->arrData[$value];
-                } else {
-                    return null;
-                }
+                return $this->arrData[$value] ?? null;
         }
     }
 
     /**
+     * @param string $key
      * @param mixed $value
+     * @return void
      */
-    public function __set(string $key, $value)
+    public function __set(string $key, $value) : void
     {
         switch ($key) {
             default:

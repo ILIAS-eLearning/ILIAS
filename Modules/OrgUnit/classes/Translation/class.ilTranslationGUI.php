@@ -3,12 +3,9 @@
 
 /**
  * Class ilTranslationGUI
- *
  * Based on methods of ilObjCategoryGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilTranslationGUI
 {
@@ -38,7 +35,6 @@ class ilTranslationGUI
      */
     protected $ilObjectOrgUnit;
 
-
     public function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
         global $DIC;
@@ -66,13 +62,11 @@ class ilTranslationGUI
         }
     }
 
-
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd();
         $this->$cmd();
     }
-
 
     public function editTranslations($a_get_post_values = false, $a_add = false)
     {
@@ -104,7 +98,6 @@ class ilTranslationGUI
         }
         $this->tpl->setContent($table->getHTML());
     }
-
 
     /**
      * Save title and translations
@@ -142,14 +135,14 @@ class ilTranslationGUI
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
-                    ($_POST["default"] == $k)?1:0
+                    ($_POST["default"] == $k) ? 1 : 0
                 );
             } else {
                 $this->ilObjectOrgUnit->addTranslation(
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
-                    ($_POST["default"] == $k)?1:0
+                    ($_POST["default"] == $k) ? 1 : 0
                 );
             }
         }
@@ -157,7 +150,6 @@ class ilTranslationGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editTranslations");
     }
-
 
     /**
      * Add a translation
@@ -173,7 +165,6 @@ class ilTranslationGUI
             $this->editTranslations(false, true);
         }
     }
-
 
     /**
      * Remove translation

@@ -15,42 +15,42 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class AlphanumericTest extends TestCase
 {
-    public function testSimpleStringIsCorrectAlphanumericValueAndCanBeConvertedToString()
+    public function testSimpleStringIsCorrectAlphanumericValueAndCanBeConvertedToString() : void
     {
         $value = new Alphanumeric('hello');
 
         $this->assertSame('hello', $value->asString());
     }
 
-    public function testIntegerIsAlphanumericValueAndCanBeConvertedToString()
+    public function testIntegerIsAlphanumericValueAndCanBeConvertedToString() : void
     {
         $value = new Alphanumeric(6);
 
         $this->assertSame('6', $value->asString());
     }
 
-    public function testIntegerIsAlphanumericValue()
+    public function testIntegerIsAlphanumericValue() : void
     {
         $value = new Alphanumeric(6);
 
         $this->assertSame(6, $value->getValue());
     }
 
-    public function testFloatIsAlphanumericValueAndCanBeConvertedToString()
+    public function testFloatIsAlphanumericValueAndCanBeConvertedToString() : void
     {
         $value = new Alphanumeric(6.0);
 
         $this->assertSame('6', $value->asString());
     }
 
-    public function testFloatIsAlphanumericValue()
+    public function testFloatIsAlphanumericValue() : void
     {
         $value = new Alphanumeric(6.0);
 
         $this->assertSame(6.0, $value->getValue());
     }
 
-    public function testTextIsNotAlphanumericAndWillThrowException()
+    public function testTextIsNotAlphanumericAndWillThrowException() : void
     {
         $this->expectNotToPerformAssertions();
 

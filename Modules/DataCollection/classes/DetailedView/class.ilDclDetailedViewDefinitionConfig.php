@@ -4,7 +4,6 @@
 
 /**
  * View definition page configuration
- *
  * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ModulesDataCollection

@@ -22,9 +22,6 @@ class ilTestStatistics
     * ilTestStatistics constructor
     *
     * The constructor takes the id of an existing test object
-    *
-    * @param integer $eval_data Complete test data as ilTestEvaluationData object
-    * @access public
     */
     public function __construct($eval_data)
     {

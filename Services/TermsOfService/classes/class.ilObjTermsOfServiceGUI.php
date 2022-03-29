@@ -48,8 +48,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         switch (strtolower($nextClass)) {
             case strtolower(ilTermsOfServiceDocumentGUI::class):
+                /** @var ilObjTermsOfService $obj */
+                $obj = $this->object;
                 $documentGui = new ilTermsOfServiceDocumentGUI(
-                    $this->object,
+                    $obj,
                     $this->dic['tos.criteria.type.factory'],
                     $this->dic->ui()->mainTemplate(),
                     $this->dic->user(),
@@ -72,8 +74,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                 break;
 
             case strtolower(ilTermsOfServiceAcceptanceHistoryGUI::class):
+                /** @var ilObjTermsOfService $obj */
+                $obj = $this->object;
                 $documentGui = new ilTermsOfServiceAcceptanceHistoryGUI(
-                    $this->object,
+                    $obj,
                     $this->dic['tos.criteria.type.factory'],
                     $this->dic->ui()->mainTemplate(),
                     $this->dic->ctrl(),
@@ -147,8 +151,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
     protected function getSettingsForm() : ilTermsOfServiceSettingsFormGUI
     {
+        /** @var ilObjTermsOfService $obj */
+        $obj = $this->object;
         $form = new ilTermsOfServiceSettingsFormGUI(
-            $this->object,
+            $obj,
             $this->ctrl->getFormAction($this, 'saveSettings'),
             'saveSettings',
             $this->rbacsystem->checkAccess('write', $this->object->getRefId())

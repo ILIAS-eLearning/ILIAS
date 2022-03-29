@@ -6,7 +6,6 @@ include_once("./Services/Exceptions/classes/class.ilException.php");
 
 /**
  * Class ilObjDataCollectionTest
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilObjDataCollectionTest //extends TestCase
@@ -71,7 +70,7 @@ class ilObjDataCollectionTest //extends TestCase
     {
         $tables = $this->root_object->getTables();
         $this->assertEquals(count($tables), 1);
-        
+
         $table = array_shift($tables);
         $this->assertTrue($table instanceof ilDclTable);
         return $table;
@@ -90,7 +89,8 @@ class ilObjDataCollectionTest //extends TestCase
         $this->assertEmpty($table->getRecordFields());
         $this->assertEquals(count($table->getFields()), count($table->getStandardFields()));
 
-        $this->assertTrue($this->root_object->_hasTableByTitle($this->root_object->getTitle(), $this->root_object_obj_id));
+        $this->assertTrue($this->root_object->_hasTableByTitle($this->root_object->getTitle(),
+            $this->root_object_obj_id));
     }
 
     /**

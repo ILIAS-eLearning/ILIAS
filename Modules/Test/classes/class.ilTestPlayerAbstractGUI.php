@@ -84,7 +84,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $lng = $DIC['lng'];
         require_once 'Modules/Test/classes/class.ilTestPasswordChecker.php';
         $this->passwordChecker = new ilTestPasswordChecker($rbacsystem, $ilUser, $this->object, $lng);
-        
+
         $this->processLocker = null;
         $this->testSession = null;
         $this->assSettings = null;
@@ -150,10 +150,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         
         require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $processLockerFactory = new ilTestProcessLockerFactory($this->assSettings, $ilDB);
-
-        $processLockerFactory->setActiveId($activeId);
-        
-        $this->processLocker = $processLockerFactory->getLocker();
+        $this->processLocker = $processLockerFactory->withContextId((int) $activeId)->getLocker();
     }
 
     /**
@@ -176,20 +173,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     public function updateWorkingTime()
     {
-        if ($_SESSION["active_time_id"]) {
-            $this->object->updateWorkingTime($_SESSION["active_time_id"]);
+        if (ilSession::get("active_time_id") != null) {
+            $this->object->updateWorkingTime(ilSession::get("active_time_id"));
         }
         
-        $_SESSION["active_time_id"] = $this->object->startWorkingTime(
+        ilSession::set(
+            "active_time_id",
+            $this->object->startWorkingTime(
             $this->testSession->getActiveId(),
             $this->testSession->getPass()
+        )
         );
     }
 
     // fau: testNav - new function removeIntermediateSolution()
     /**
      * remove an auto-saved solution of the current question
-     * @return mixed	number of rows or db error
      */
     public function removeIntermediateSolution()
     {
@@ -492,7 +491,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function initTestCmd()
     {
         if ($this->object->checkMaximumAllowedUsers() == false) {
-            return $this->showMaximumAllowedUsersReachedMessage();
+            $this->showMaximumAllowedUsersReachedMessage();
+            return;
         }
 
         if ($this->testSession->isAnonymousUser() && !$this->testSession->getActiveId()) {
@@ -755,7 +755,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public function finishTestCmd($requires_confirmation = true)
     {
-        unset($_SESSION["tst_next"]);
+        ilSession::clear("tst_next");
 
         $active_id = $this->testSession->getActiveId();
         $actualpass = ilObjTest::_getPass($active_id);
@@ -794,7 +794,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // Last try in limited tries & !confirmed
         if (($requires_confirmation) && ($actualpass == $this->object->getNrOfTries() - 1)) {
             // show confirmation page
-            return $this->confirmFinishTestCmd();
+            $this->confirmFinishTestCmd();
+            return;
         }
 
         // Last try in limited tries & confirmed?
@@ -813,10 +814,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         // Non-last try finish
-        if (!$_SESSION['tst_pass_finish']) {
-            if (!$_SESSION['tst_pass_finish']) {
-                $_SESSION['tst_pass_finish'] = 1;
-            }
+        if (ilSession::get('tst_pass_finish') == null) {
+            ilSession::set('tst_pass_finish', 1);
             if ($this->object->getMailNotificationType() == 1) {
                 switch ($this->object->getMailNotification()) {
                     case 1:
@@ -1238,9 +1237,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $instantResponse && $this->object->getSpecificAnswerFeedback()
         );
 
-        if (isset($_GET['save_error']) && $_GET['save_error'] == 1 && isset($_SESSION['previouspost'])) {
-            $userPostSolution = $_SESSION['previouspost'];
-            unset($_SESSION['previouspost']);
+        if (isset($_GET['save_error']) && $_GET['save_error'] == 1 && ilSession::get('previouspost') != null) {
+            $userPostSolution = ilSession::get('previouspost');
+            ilSession::clear('previouspost');
         } else {
             $userPostSolution = false;
         }
@@ -1634,12 +1633,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     
     public function outQuestionSummaryWithObligationsInfoCmd()
     {
-        return $this->outQuestionSummaryCmd(true, true, true, false);
+        $this->outQuestionSummaryCmd(true, true, true, false);
     }
     
     public function outObligationsOnlySummaryCmd()
     {
-        return $this->outQuestionSummaryCmd(true, true, true, true);
+        $this->outQuestionSummaryCmd(true, true, true, true);
     }
     
     public function showMaximumAllowedUsersReachedMessage()
@@ -1864,7 +1863,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     
     protected function populateKioskHead()
     {
-        $this->tpl->setOnScreenMessage('info'); // ???
+        $this->tpl->setOnScreenMessage('info', ''); // ???
         
         $head = $this->getKioskHead();
         
@@ -2439,11 +2438,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function saveNavigationPreventConfirmation()
     {
         if (!empty($_POST['save_on_navigation_prevent_confirmation'])) {
-            $_SESSION['save_on_navigation_prevent_confirmation'] = true;
+            ilSession::set('save_on_navigation_prevent_confirmation', true);
         }
         
         if (!empty($_POST[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM])) {
-            $_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM] = true;
+            ilSession::set(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM, true);
         }
     }
     // fau.
@@ -2693,7 +2692,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         return; // usibility fix: get rid of popup
         
-        if (!empty($_SESSION['save_on_navigation_prevent_confirmation'])) {
+        if (ilSession::get('save_on_navigation_prevent_confirmation') == null) {
             return;
         }
 
@@ -2803,16 +2802,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     
     protected function setFollowUpQuestionLocksConfirmationPrevented()
     {
-        $_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM] = true;
+        ilSession::set(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM, true);
     }
     
     protected function isFollowUpQuestionLocksConfirmationPrevented()
     {
-        if (!isset($_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM])) {
+        if (ilSession::get(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM) == null) {
             return false;
         }
         
-        return $_SESSION[self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM];
+        return ilSession::set(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
     }
         
     // fau: testNav - new function populateQuestionEditControl
@@ -2893,24 +2892,26 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     
     protected function registerForcedFeedbackNavUrl($forcedFeedbackNavUrl)
     {
-        if (!isset($_SESSION['forced_feedback_navigation_url'])) {
-            $_SESSION['forced_feedback_navigation_url'] = array();
+        if (ilSession::get('forced_feedback_navigation_url') == null) {
+            ilSession::set('forced_feedback_navigation_url', array());
         }
-        
-        $_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()] = $forcedFeedbackNavUrl;
+        $forced_feeback_navigation_url = ilSession::get('forced_feedback_navigation_url');
+        $forced_feeback_navigation_url[$this->testSession->getActiveId()] = $forcedFeedbackNavUrl;
+        ilSession::set('forced_feedback_navigation_url', $forced_feeback_navigation_url);
+        //$_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()] = $forcedFeedbackNavUrl;
     }
     
     protected function getRegisteredForcedFeedbackNavUrl()
     {
-        if (!isset($_SESSION['forced_feedback_navigation_url'])) {
+        if (ilSession::get('forced_feedback_navigation_url') == null) {
+            return null;
+        }
+        $forced_feedback_navigation_url = ilSession::get('forced_feedback_navigation_url');
+        if (!isset($forced_feedback_navigation_url[$this->testSession->getActiveId()])) {
             return null;
         }
         
-        if (!isset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()])) {
-            return null;
-        }
-        
-        return $_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()];
+        return $forced_feedback_navigation_url[$this->testSession->getActiveId()];
     }
     
     protected function isForcedFeedbackNavUrlRegistered() : bool
@@ -2920,8 +2921,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     
     protected function unregisterForcedFeedbackNavUrl()
     {
-        if (isset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()])) {
-            unset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]);
+        $forced_feedback_navigation_url = ilSession::get('forced_feedback_navigation_url');
+        if (isset($forced_feedback_navigation_url[$this->testSession->getActiveId()])) {
+            unset($forced_feedback_navigation_url[$this->testSession->getActiveId()]);
+            ilSession::set('forced_feedback_navigation_url', $forced_feedback_navigation_url);
         }
     }
 }

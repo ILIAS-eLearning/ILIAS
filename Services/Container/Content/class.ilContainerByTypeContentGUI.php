@@ -34,7 +34,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         $this->user = $DIC->user();
         parent::__construct($container_gui_obj);
         $this->initDetails();
-        $this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->object->getId(), "block_limit");
+        $this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->getObject()->getId(), "block_limit");
         $this->container_user_filter = $container_user_filter;
     }
     

@@ -24,14 +24,6 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     protected $suffixes = array();
     protected $hideImages = false;
 
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     *
-     * @return \ilMatchingWizardInputGUI
-     */
     public function __construct($a_title = "", $a_postvar = "")
     {
         global $DIC;
@@ -144,10 +136,6 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         return $this->allowMove;
     }
 
-    /**
-    * Set Value.
-    * @param    $a_value Value
-    */
     public function setValue($a_value) : void
     {
         $this->values = array();

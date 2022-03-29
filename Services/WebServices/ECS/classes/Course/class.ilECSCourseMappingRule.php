@@ -27,7 +27,7 @@ class ilECSCourseMappingRule
     private ilLanguage $lng;
     private ilDBInterface $db;
     
-    private $rid;
+    private int $rid;
     private $sid;
     private $mid;
     private $attribute;
@@ -39,11 +39,7 @@ class ilECSCourseMappingRule
     private int $subdir_type = self::SUBDIR_VALUE;
     private string $directory = '';
     
-    /**
-     * Constructor
-     * @param int $a_rid
-     */
-    public function __construct($a_rid = 0)
+    public function __construct(int $a_rid = 0)
     {
         global $DIC;
         
@@ -58,10 +54,9 @@ class ilECSCourseMappingRule
     
     /**
      * Lookup existing attributes
-     * @param type $a_attributes
      * @return array
      */
-    public static function lookupLastExistingAttribute($a_sid, $a_mid, $a_ref_id)
+    public static function lookupLastExistingAttribute(int $a_sid, int $a_mid, int $a_ref_id)
     {
         global $DIC;
 
@@ -81,12 +76,7 @@ class ilECSCourseMappingRule
         return $attributes;
     }
     
-    /**
-     *
-     * @param type $a_sid
-     * @param type $a_mid
-     */
-    public static function getRuleRefIds($a_sid, $a_mid)
+    public static function getRuleRefIds(int $a_sid, int $a_mid)
     {
         global $DIC;
 
@@ -121,7 +111,7 @@ class ilECSCourseMappingRule
      * @param type $a_ref_id
      * @return int[]
      */
-    public static function getRulesOfRefId($a_sid, $a_mid, $a_ref_id)
+    public static function getRulesOfRefId(int $a_sid, int $a_mid, int $a_ref_id) : array
     {
         global $DIC;
 
@@ -132,14 +122,14 @@ class ilECSCourseMappingRule
                 'AND mid = ' . $ilDB->quote($a_mid, 'integer') . ' ' .
                 'AND ref_id = ' . $ilDB->quote($a_ref_id, 'integer');
         $res = $ilDB->query($query);
-        $rids = array();
+        $rids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $rids = $row->rid;
         }
-        return (array) $rids;
+        return $rids;
     }
     
-    public static function hasRules($a_sid, $a_mid, $a_ref_id)
+    public static function hasRules(int $a_sid, int $a_mid, int $a_ref_id) : bool
     {
         global $DIC;
 

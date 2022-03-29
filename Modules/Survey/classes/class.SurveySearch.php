@@ -71,32 +71,32 @@ class SurveySearch
         
         $where = "";
         $fields = array();
-        if (strcmp($this->search_type, "all") != 0) {
+        if (strcmp($this->search_type, "all") !== 0) {
             $where = "svy_qtype.type_tag = " . $ilDB->quote($this->search_type, 'text');
         }
         foreach ($this->search_terms as $term) {
-            $fields["$term"] = array();
+            $fields[(string) $term] = array();
             switch ($this->search_field) {
                 case "all":
-                    $fields["$term"][] = $ilDB->like("svy_question.title", 'text', "%" . $term . "%");
-                    $fields["$term"][] = $ilDB->like("svy_question.description", 'text', "%" . $term . "%");
-                    $fields["$term"][] = $ilDB->like("svy_question.author", 'text', "%" . $term . "%");
-                    $fields["$term"][] = $ilDB->like("svy_question.questiontext", 'text', "%" . $term . "%");
+                    $fields[(string) $term][] = $ilDB->like("svy_question.title", 'text', "%" . $term . "%");
+                    $fields[(string) $term][] = $ilDB->like("svy_question.description", 'text', "%" . $term . "%");
+                    $fields[(string) $term][] = $ilDB->like("svy_question.author", 'text', "%" . $term . "%");
+                    $fields[(string) $term][] = $ilDB->like("svy_question.questiontext", 'text', "%" . $term . "%");
                     break;
                 default:
-                    $fields["$term"][] = $ilDB->like("svy_question." . $this->search_field, 'text', "%" . $term . "%");
+                    $fields[(string) $term][] = $ilDB->like("svy_question." . $this->search_field, 'text', "%" . $term . "%");
                     break;
             }
         }
         $cumulated_fields = array();
         foreach ($fields as $params) {
-            $cumulated_fields[] = "(" . join(" OR ", $params) . ")";
+            $cumulated_fields[] = "(" . implode(" OR ", $params) . ")";
         }
         $str_where = "";
-        if ($this->concatenation == self::CONCAT_AND) {
-            $str_where = "(" . join(" AND ", $cumulated_fields) . ")";
+        if ($this->concatenation === self::CONCAT_AND) {
+            $str_where = "(" . implode(" AND ", $cumulated_fields) . ")";
         } else {
-            $str_where = "(" . join(" OR ", $cumulated_fields) . ")";
+            $str_where = "(" . implode(" OR ", $cumulated_fields) . ")";
         }
         if ($str_where) {
             $str_where = " AND $str_where";
@@ -112,7 +112,7 @@ class SurveySearch
         $rbacsystem = $this->rbacsystem;
         if ($result->numRows() > 0) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                if (($row["complete"] == 1) and ($rbacsystem->checkAccess('write', $row["ref_id"]))) {
+                if (((int) $row["complete"]) === 1 && $rbacsystem->checkAccess('write', $row["ref_id"])) {
                     $result_array[] = $row;
                 }
             }

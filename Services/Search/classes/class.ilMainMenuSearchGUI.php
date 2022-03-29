@@ -47,7 +47,7 @@ class ilMainMenuSearchGUI
     {
         $this->ref_id = ROOT_FOLDER_ID;
         if ($this->http->wrapper()->query()->has('ref_id')) {
-            $this->ref_id  = $this->http->wrapper()->query()->retrieve(
+            $this->ref_id = $this->http->wrapper()->query()->retrieve(
                 'ref_id',
                 $this->refinery->kindlyTo()->int()
             );
@@ -96,7 +96,8 @@ class ilMainMenuSearchGUI
         );
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
-        $this->tpl->setVariable('AC_DATASOURCE',
+        $this->tpl->setVariable(
+            'AC_DATASOURCE',
             $this->ctrl->getLinkTargetByClass(
                 ilSearchControllerGUI::class,
                 'autoComplete',

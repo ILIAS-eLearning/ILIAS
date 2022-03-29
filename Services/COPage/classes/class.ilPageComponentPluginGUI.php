@@ -23,7 +23,6 @@ abstract class ilPageComponentPluginGUI
     protected ilLanguage $lng;
     protected ilPageComponentPlugin $plugin;
     protected ilPCPluggedGUI $pc_gui;
-    protected $pc;
 
     public function __construct()
     {
@@ -84,12 +83,12 @@ abstract class ilPageComponentPluginGUI
         string $plugin_version
     ) : string;
     
-    public function createElement(array $a_properties)
+    public function createElement(array $a_properties) : bool
     {
         return $this->getPCGUI()->createElement($a_properties);
     }
     
-    public function updateElement(array $a_properties)
+    public function updateElement(array $a_properties) : bool
     {
         return $this->getPCGUI()->updateElement($a_properties);
     }

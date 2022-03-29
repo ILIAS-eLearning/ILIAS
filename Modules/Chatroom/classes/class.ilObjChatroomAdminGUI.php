@@ -36,7 +36,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements ilCtrlBaseCla
         );
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = strtolower($this->ctrl->getNextClass());
 

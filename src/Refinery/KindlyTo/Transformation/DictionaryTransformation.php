@@ -36,14 +36,14 @@ class DictionaryTransformation implements Transformation
 
         $result = [];
         foreach ($from as $key => $value) {
-            if (!is_string($key)) {
+            if (!(is_int($key) || is_string($key))) {
                 throw new ConstraintViolationException(
-                    'Key is not a string',
-                    'key_is_no_string'
+                    'Key is not a string or int',
+                    'key_is_no_string_or_int'
                 );
             }
             $transformedValue = $this->transformation->transform($value);
-            $result[$key] = $transformedValue;
+            $result[(string) $key] = $transformedValue;
         }
         return $result;
     }

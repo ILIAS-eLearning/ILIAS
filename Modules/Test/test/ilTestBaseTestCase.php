@@ -27,7 +27,30 @@ class ilTestBaseTestCase extends TestCase
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
+        $this->addGlobal_tpl();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_ilias();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilErr();
+        $this->addGlobal_tree();
+        $this->addGlobal_ilAppEventHandler();
+        $this->addGlobal_objDefinition();
+        $DIC['logger'] = $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
+        $this->dic['logger'] = $DIC['logger'];
 
+        $http_mock = $this->getMockBuilder(\ILIAS\HTTP\Services::class)->disableOriginalConstructor()->onlyMethods(array('request','wrapper'))->getMock();
+
+        $request_mock = $this->getMockBuilder(\GuzzleHttp\Psr7\ServerRequest::class)->disableOriginalConstructor()->onlyMethods(array('getParsedBody'))->getMock();
+        $request_mock->expects($this->any())->method('getParsedBody')->willReturn(array());
+        $http_mock->expects($this->any())->method('request')->willReturn($request_mock);
+
+        $wrapper_mock = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
+        $http_mock->expects($this->any())->method('wrapper')->willReturn($wrapper_mock);
+
+        $DIC['http'] = $http_mock;
+        $this->dic['http'] = $DIC['http'];
+        $DIC['refinery'] = $this->getMockBuilder(ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock();
+        $this->dic['refinery'] = $DIC['refinery'];
         parent::setUp();
     }
 

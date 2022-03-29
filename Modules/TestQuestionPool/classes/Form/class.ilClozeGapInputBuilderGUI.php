@@ -8,6 +8,7 @@ require_once 'Modules/TestQuestionPool/classes/class.assClozeTest.php';
 class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 {
     private $value_combination;
+    private $value;
 
     /**
      * Set Value.
@@ -37,10 +38,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $this->value_combination = $value;
     }
 
-    /**
-     * Get Value.
-     * @return    string    Value
-     */
     public function getValueCombination()
     {
         $editOrOpen = $this->value;

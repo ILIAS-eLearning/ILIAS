@@ -54,7 +54,6 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 
     public function __createContributeWhereCondition() : string
     {
-        
         $concat = ' entity ';
         $where = " WHERE (";
         $counter = 0;
@@ -99,7 +98,6 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 
     public function __createDescriptionWhereCondition() : string
     {
-        
         $concat = ' description ';
         $where = " WHERE (";
         $counter = 0;

@@ -3,23 +3,15 @@
 
 /**
  * Class ilCloudUtil
- *
  * Some utility function, mostly for path handling.
- *
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id$
- *
  * @ingroup ModulesCloud
  */
 class ilCloudUtil
 {
-
-    /**
-     * @param $path
-     *
-     * @return string
-     */
-    public static function normalizePath($path)
+    public static function normalizePath(string $path): string
     {
         if ($path == "." || $path == "/" || $path == "") {
             $path = "/";
@@ -30,14 +22,7 @@ class ilCloudUtil
         return $path;
     }
 
-
-    /**
-     * @param $path1
-     * @param $path2
-     *
-     * @return string
-     */
-    public static function joinPaths($path1, $path2)
+    public static function joinPaths(string $path1, string $path2): string
     {
         $path1 = ilCloudUtil::normalizePath($path1);
         $path2 = ilCloudUtil::normalizePath($path2);
@@ -45,16 +30,10 @@ class ilCloudUtil
         return ilCloudUtil::normalizePath(str_replace('//', '/', $path1 . $path2));
     }
 
-
     /**
      * With trailing and leading slashes
-     *
-     * @param $path1
-     * @param $path2
-     *
-     * @return string
      */
-    public static function joinPathsAbsolute($path1, $path2)
+    public static function joinPathsAbsolute(string $path1, string $path2): string
     {
         $path = ilCloudUtil::normalizePath(str_replace('//', '/', $path1 . $path2));
         if ($path == "/") {

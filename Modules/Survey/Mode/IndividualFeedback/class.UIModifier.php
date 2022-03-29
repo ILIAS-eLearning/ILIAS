@@ -72,7 +72,8 @@ class UIModifier extends Mode\AbstractUIModifier
         $cb->setValue("1");
         $cb->setChecked(in_array(
             $survey->getReminderTarget(),
-            array(\ilObjSurvey::NOTIFICATION_APPRAISEES, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS)
+            array(\ilObjSurvey::NOTIFICATION_APPRAISEES, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS),
+            true
         ));
         $items[] = $cb;
 
@@ -83,7 +84,8 @@ class UIModifier extends Mode\AbstractUIModifier
         $cb->setValue("1");
         $cb->setChecked(in_array(
             $survey->getReminderTarget(),
-            array(\ilObjSurvey::NOTIFICATION_RATERS, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS)
+            array(\ilObjSurvey::NOTIFICATION_RATERS, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS),
+            true
         ));
         $items[] = $cb;
 
@@ -120,6 +122,7 @@ class UIModifier extends Mode\AbstractUIModifier
         );
 
         $this->addExportAndPrintButton(
+            $survey,
             $toolbar,
             true
         );
@@ -226,7 +229,7 @@ class UIModifier extends Mode\AbstractUIModifier
             "SurveyMultipleChoiceQuestion",
             "SurveyMetricQuestion",
             "SurveyTextQuestion"
-        ])) {
+        ], true)) {
             //var_dump($q->getQuestionType());
             //var_dump($answers);
             //exit;
@@ -294,13 +297,13 @@ class UIModifier extends Mode\AbstractUIModifier
 
                     // answer
                     $a_tpl->setCurrentBlock("grid_col_bl");
-                    if ($q->getQuestionType() == "SurveyTextQuestion") {
+                    if ($q->getQuestionType() === "SurveyTextQuestion") {
                         $a_tpl->setVariable(
                             "COL_CAPTION",
                             $a_results->getScaleText($answer["text"])
                         );
                     } else {
-                        $scale_texts = array_map(function ($v) use ($a_results) {
+                        $scale_texts = array_map(static function ($v) use ($a_results) : string {
                             return $a_results->getScaleText($v);
                         }, $answer["value"]);
                         $a_tpl->setVariable(
@@ -383,7 +386,7 @@ class UIModifier extends Mode\AbstractUIModifier
     protected function getParticipantByActiveId(array $participants, int $active_id) : ?array
     {
         foreach ($participants as $part) {
-            if ((int) $part["active_id"] == $active_id) {
+            if ((int) $part["active_id"] === $active_id) {
                 return $part;
             }
         }

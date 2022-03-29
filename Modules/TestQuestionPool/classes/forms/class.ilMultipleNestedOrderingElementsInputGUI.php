@@ -155,25 +155,16 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->htmlListTag = $htmlListTag;
     }
     
-    /**
-     * @return ilTemplate
-     */
     protected function getGlobalTpl()
     {
         return isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
     }
     
-    /**
-     * @return ilTemplate
-     */
-    public function getListTpl() : ?ilTemplate
+    public function getListTpl()
     {
         return $this->listTpl;
     }
     
-    /**
-     * @param ilTemplate $listTpl
-     */
     public function setListTpl($listTpl)
     {
         $this->listTpl = $listTpl;

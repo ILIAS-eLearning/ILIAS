@@ -1,5 +1,12 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\FileUpload\Exception\IllegalStateException;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 
 interface ilObjectCustomIcon
 {
@@ -9,17 +16,16 @@ interface ilObjectCustomIcon
     public function getSupportedFileExtensions() : array;
 
     /**
-     * @param string $sourceFilePath
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
     public function saveFromSourceFile(string $sourceFilePath) : void;
 
     /**
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IllegalStateException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
     public function saveFromHttpRequest() : void;
 
@@ -42,10 +48,9 @@ interface ilObjectCustomIcon
     public function getFullPath() : string;
 
     /**
-     * @param string $source_dir
-     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
     public function createFromImportDir(string $source_dir) : void;
 }

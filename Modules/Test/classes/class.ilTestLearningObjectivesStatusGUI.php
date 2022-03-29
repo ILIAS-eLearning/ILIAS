@@ -11,6 +11,7 @@
  */
 class ilTestLearningObjectivesStatusGUI
 {
+    private \ILIAS\Test\InternalRequestService $testrequest;
     /**
      * @var ilLanguage
      */
@@ -28,6 +29,8 @@ class ilTestLearningObjectivesStatusGUI
 
     public function __construct(ilLanguage $lng)
     {
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->lng = $lng;
     }
 
@@ -122,7 +125,7 @@ class ilTestLearningObjectivesStatusGUI
                 // (!) we need to set an explicit ref_id param for ilObjTestGUI again to keep the things running (!)
                 
                 global $DIC; /* @var \ILIAS\DI\Container $DIC */
-                $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', (int) $_GET['ref_id']);
+                $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', $this->testrequest->getRefId());
             }
 
             $tpl->parseCurrentBlock();

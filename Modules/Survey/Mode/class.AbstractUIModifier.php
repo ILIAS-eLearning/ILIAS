@@ -264,9 +264,9 @@ abstract class AbstractUIModifier implements UIModifier
                 $options[""] = $lng->txt("please_select");
             }
 
-            foreach ($evaluation_manager->getSelectableAppraisees() as $user_id) {
-                $options[$user_id] = \ilUserUtil::getNamePresentation(
-                    $user_id,
+            foreach ($evaluation_manager->getSelectableAppraisees() as $appraisee_usr_id) {
+                $options[$appraisee_usr_id] = \ilUserUtil::getNamePresentation(
+                    $appraisee_usr_id,
                     false,
                     false,
                     "",

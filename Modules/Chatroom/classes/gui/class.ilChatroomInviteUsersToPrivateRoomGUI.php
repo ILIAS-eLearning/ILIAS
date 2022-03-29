@@ -24,7 +24,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('read');
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);

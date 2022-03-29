@@ -35,7 +35,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
     }
 
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -51,7 +51,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
     }
 
 
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -73,33 +73,31 @@ class ilObjSurveyListGUI extends ilObjectListGUI
                     "property" => $lng->txt("svy_participation"),
                     "value" => $lng->txt("svy_warning_survey_not_complete"),
                     'propertyNameVisible' => false);
-            } else {
-                if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                    $mode = ilObjSurveyAccess::_lookupMode($this->obj_id);
-                    if ($mode == ilObjSurvey::MODE_360) {
-                        $props[] = array("alert" => false, "property" => $lng->txt("type"),
-                                         "value" => $lng->txt("survey_360_mode"), 'propertyNameVisible' => true);
-                    } elseif ($mode == ilObjSurvey::MODE_SELF_EVAL) {
-                        $props[] = array("alert" => false, "property" => $lng->txt("type"),
-                                         "value" => $lng->txt("survey_360_self_evaluation"), 'propertyNameVisible' => true);
-                    } else {
-                        $finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
+            } elseif ($ilUser->getId() !== ANONYMOUS_USER_ID) {
+                $mode = ilObjSurveyAccess::_lookupMode($this->obj_id);
+                if ($mode === ilObjSurvey::MODE_360) {
+                    $props[] = array("alert" => false, "property" => $lng->txt("type"),
+                                     "value" => $lng->txt("survey_360_mode"), 'propertyNameVisible' => true);
+                } elseif ($mode === ilObjSurvey::MODE_SELF_EVAL) {
+                    $props[] = array("alert" => false, "property" => $lng->txt("type"),
+                                     "value" => $lng->txt("survey_360_self_evaluation"), 'propertyNameVisible' => true);
+                } else {
+                    $finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->getId());
 
-                        // finished
-                        if ($finished === 1) {
-                            $stat = $this->lng->txt("svy_finished");
-                        }
-                        // not finished
-                        elseif ($finished === 0) {
-                            $stat = $this->lng->txt("svy_not_finished");
-                        }
-                        // not started
-                        else {
-                            $stat = $this->lng->txt("svy_not_started");
-                        }
-                        $props[] = array("alert" => false, "property" => $lng->txt("svy_participation"),
-                            "value" => $stat, 'propertyNameVisible' => true);
+                    // finished
+                    if ($finished === 1) {
+                        $stat = $this->lng->txt("svy_finished");
                     }
+                    // not finished
+                    elseif ($finished === 0) {
+                        $stat = $this->lng->txt("svy_not_finished");
+                    }
+                    // not started
+                    else {
+                        $stat = $this->lng->txt("svy_not_started");
+                    }
+                    $props[] = array("alert" => false, "property" => $lng->txt("svy_participation"),
+                        "value" => $stat, 'propertyNameVisible' => true);
                 }
             }
             // END Usability Distinguish between status and participation
@@ -108,9 +106,9 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         return "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
-            "&amp;cmd=$a_cmd";
+            "&amp;cmd=$cmd";
     }
 }

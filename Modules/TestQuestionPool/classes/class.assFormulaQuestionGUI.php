@@ -22,11 +22,6 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoring
 class assFormulaQuestionGUI extends assQuestionGUI
 {
     /**
-     * @var null
-     */
-    private $newUnitId;
-
-    /**
      * assFormulaQuestionGUI constructor
      * The constructor takes possible arguments an creates an instance of the assFormulaQuestionGUI object.
      * @param integer $id The database id of a multiple choice question object
@@ -36,7 +31,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
     {
         parent::__construct();
         $this->object = new assFormulaQuestion();
-        $this->newUnitId = null;
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
@@ -66,7 +60,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -82,7 +76,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
 
             if ($classname) {
@@ -333,7 +327,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         $variables = $this->object->getVariables();
         $categorized_units = $this->object->getUnitrepository()->getCategorizedUnits();
-        $result_units = $this->object->__get('resultunits');
+        $result_units = $this->object->getAllResultUnits();
         
         $unit_options = array();
         $category_name = '';
@@ -865,8 +859,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                     $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
                 }
-                if (isset($_SEESION['info']) && strcmp($_SESSION["info"], "") != 0) {
-                    $this->tpl->setOnScreenMessage('success', $_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
+                if (ilSession::get('info') != null) {
+                    $this->tpl->setOnScreenMessage('success', ilSession::get('info') . "<br />" . $this->lng->txt("msg_obj_modified"), true);
                 } else {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 }

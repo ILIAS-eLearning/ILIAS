@@ -67,7 +67,7 @@ abstract class ilContainerContentGUI
 
         $this->container_gui = $container_gui_obj;
         /** @var $obj ilContainer */
-        $obj = $this->container_gui->object;
+        $obj = $this->container_gui->getObject();
         $this->container_obj = $obj;
 
         $tpl->addJavaScript("./Services/Container/js/Container.js");
@@ -340,7 +340,7 @@ abstract class ilContainerContentGUI
         }
 
         // unique js-ids
-        $item_list_gui->setParentRefId($item_data["parent"]);
+        $item_list_gui->setParentRefId((int) $item_data["parent"] ?? 0);
         
         $item_list_gui->setDefaultCommandParameters(array());
         $item_list_gui->disableTitleLink(false);
@@ -501,7 +501,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableCheckbox(true);
         } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
             // display multi download checkboxes
-            $item_list_gui->enableDownloadCheckbox($a_item_data["ref_id"], true);
+            $item_list_gui->enableDownloadCheckbox((int) $a_item_data["ref_id"]);
         }
         
         if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI')) {
@@ -569,7 +569,7 @@ abstract class ilContainerContentGUI
                 $item_list_gui2->enableItemDetailLinks(false);
                 
                 // unique js-ids
-                $item_list_gui2->setParentRefId($a_item_data['ref_id']);
+                $item_list_gui2->setParentRefId((int) $a_item_data['ref_id'] ?? 0);
                 
                 // @see mantis 10488
                 if (!$item_readable and !$ilAccess->checkAccess('write', '', $item['ref_id'])) {
@@ -580,7 +580,7 @@ abstract class ilContainerContentGUI
                     $item_list_gui2->enableCheckbox(true);
                 } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
                     // display multi download checkbox
-                    $item_list_gui2->enableDownloadCheckbox($item['ref_id'], true);
+                    $item_list_gui2->enableDownloadCheckbox((int) $item['ref_id']);
                 }
 
                 if ($this->getContainerGUI()->isActiveItemOrdering()) {
@@ -629,7 +629,7 @@ abstract class ilContainerContentGUI
             $a_item_data['ref_id'],
             $a_item_data['obj_id'],
             $a_item_data['title'],
-            $a_item_data['description'],
+            (string) $a_item_data['description'],
             $asynch,
             false,
             $asynch_url
@@ -654,7 +654,7 @@ abstract class ilContainerContentGUI
             ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
             $a_item_data['ref_id'],
             $a_item_data['type'],
-            $a_item_data['obj_id']
+            (int) $a_item_data['obj_id']
         ));
         $item_list_gui->initItem(
             $a_item_data['ref_id'],

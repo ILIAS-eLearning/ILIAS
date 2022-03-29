@@ -20,15 +20,11 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
-        if (!is_string($a_target)) {
-            return false;
-        }
-
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
 
         if ($t_arr[0] !== 'chtr' || !isset($t_arr[1]) || ((int) $t_arr[1]) <= 0) {
             return false;

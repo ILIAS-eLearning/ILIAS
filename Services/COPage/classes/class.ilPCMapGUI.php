@@ -24,7 +24,7 @@ class ilPCMapGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -69,7 +69,7 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function getValues()
+    public function getValues() : array
     {
         $values = array();
         
@@ -83,8 +83,8 @@ class ilPCMapGUI extends ilPageContentGUI
         
         $this->form->setValuesByArray($values);
     }
-    
-    public function initForm($a_mode)
+
+    public function initForm(string $a_mode) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -157,7 +157,6 @@ class ilPCMapGUI extends ilPageContentGUI
             $this->form->addCommandButton("update_map", $lng->txt("save"));
             $this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
         }
-        //$html = $form->getHTML();
     }
 
     public function create() : void

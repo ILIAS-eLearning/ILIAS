@@ -220,7 +220,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $max = 0;
         if (isset($_POST[$this->getPostVar()]['coords']) && is_array($_POST[$this->getPostVar()]['coords']['name'])) {
             foreach ($_POST[$this->getPostVar()]['coords']['name'] as $idx => $name) {
-                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired)) {
+                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired())) {
                     $this->setAlert($lng->txt('form_msg_area_missing_points'));
                     return false;
                 }

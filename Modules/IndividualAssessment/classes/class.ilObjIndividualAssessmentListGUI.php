@@ -26,18 +26,18 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
     /**
     * Get command target frame
     *
-    * @param	string		$a_cmd			command
+    * @param	string		$cmd			command
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd) : string
+    public function getCommandFrame(string $cmd) : string
     {
         return ilFrameTargetInfo::_getFrame("MainContent");
     }
 
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'edit':
                 $return = $this->ctrl->getLinkTargetByClass(
                     array($this->gui_class_name,'ilIndividualassessmentsettingsgui'),
@@ -48,7 +48,7 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
                 $return = $this->ctrl->getLinkTargetByClass($this->gui_class_name, "view");
                 break;
             default:
-                $return = parent::getCommandLink($a_cmd);
+                $return = parent::getCommandLink($cmd);
         }
 
         return $return;

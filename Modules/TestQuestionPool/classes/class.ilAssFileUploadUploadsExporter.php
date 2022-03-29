@@ -136,10 +136,7 @@ class ilAssFileUploadUploadsExporter
         $this->question = $question;
     }
 
-    /**
-     * @return string
-     */
-    public function build() : string
+    public function build() : void
     {
         $this->initFilenames();
         
@@ -154,7 +151,7 @@ class ilAssFileUploadUploadsExporter
         $this->removeFileUploadCollection();
     }
     
-    private function initFilenames()
+    private function initFilenames() : void
     {
         $this->tempDirPath = ilFileUtils::ilTempnam();
         

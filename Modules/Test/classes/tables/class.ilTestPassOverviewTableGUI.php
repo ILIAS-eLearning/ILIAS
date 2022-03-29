@@ -46,7 +46,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
      */
     public function __construct($parent, $cmd)
     {
-        $this->setId('tst_pass_overview_' . $parent->object->getId());
+        $this->setId('tst_pass_overview_' . $parent->getObject()->getId());
         $this->setDefaultOrderField('pass');
         $this->setDefaultOrderDirection('ASC');
 

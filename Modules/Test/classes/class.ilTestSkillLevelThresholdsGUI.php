@@ -125,7 +125,8 @@ class ilTestSkillLevelThresholdsGUI
 
             if (!$valid) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-                return $this->showSkillThresholdsCmd($table);
+                $this->showSkillThresholdsCmd($table);
+                return;
             }
 
             $threshold = array();
@@ -168,7 +169,8 @@ class ilTestSkillLevelThresholdsGUI
                     count($thresholds_by_level) != count(array_unique($thresholds_by_level))
                 ) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ass_competence_respect_level_ordering'));
-                    return $this->showSkillThresholdsCmd($table);
+                    $this->showSkillThresholdsCmd($table);
+                    return;
                 }
             }
 

@@ -38,7 +38,7 @@ class ExcelTest extends TestCase
     {
     }
 
-    public function testCoordByColumnAndRow()
+    public function testCoordByColumnAndRow() : void
     {
         $excel = new ilExcel();
 

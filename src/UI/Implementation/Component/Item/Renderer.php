@@ -193,7 +193,12 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.item_notification.html", true, true);
         $this->renderTitle($component, $default_renderer, $tpl);
-        $this->renderDescription($component, $tpl);
+        $desc = $component->getDescription();
+        if (!is_null($desc) && trim($desc) != "") {
+            $tpl->setCurrentBlock("desc");
+            $tpl->setVariable("DESC", $desc);
+            $tpl->parseCurrentBlock();
+        }
         $this->renderProperties($component, $default_renderer, $tpl);
         $tpl->setVariable("LEAD_ICON", $default_renderer->render($component->getLeadIcon()));
 

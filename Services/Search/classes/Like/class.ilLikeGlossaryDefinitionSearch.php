@@ -36,7 +36,6 @@ class ilLikeGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 {
     public function __createWhereCondition() : string
     {
-        
         $concat = " term ";
 
         $and = "  WHERE ( ";

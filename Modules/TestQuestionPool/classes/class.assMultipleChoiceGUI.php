@@ -670,7 +670,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -685,7 +685,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $this->addTab_QuestionPreview($ilTabs);
         }
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
@@ -988,13 +988,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         return $tpl;
     }
 
-    /**
-     * @param $user_solution
-     * @param $answer_id
-     * @param $template
-     * @return array
-     */
-    private function populateSpecificFeedbackInline($user_solution, $answer_id, $template) : array
+    private function populateSpecificFeedbackInline($user_solution, $answer_id, $template)
     {
         if ($this->object->getSpecificFeedbackSetting() == 2) {
             foreach ($user_solution as $mc_solution) {

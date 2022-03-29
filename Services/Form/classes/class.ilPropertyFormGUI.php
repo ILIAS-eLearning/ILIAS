@@ -449,7 +449,7 @@ class ilPropertyFormGUI extends ilFormGUI
     ) {
         // this check ensures, that checkInput has been called (incl. stripSlashes())
         if (!$this->check_input_called && $ensureValidation) {
-            die("Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.");
+            throw new LogicException('Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.');
         }
 
         $item = $this->getItemByPostVar($a_post_var);

@@ -27,9 +27,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
      */
     private $globalToolbar;
 
-    /**
-     * @var ilDB
-     */
     protected $db;
 
     /**

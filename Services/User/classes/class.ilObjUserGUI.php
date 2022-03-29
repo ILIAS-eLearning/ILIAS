@@ -22,7 +22,7 @@
 class ilObjUserGUI extends ilObjectGUI
 {
     protected bool $update;
-    protected array $selectable_roles;
+    protected array $selectable_roles; // Missing array type.
     protected int $default_role;
     protected ilUserDefinedFields $user_defined_fields;
     /**
@@ -35,7 +35,7 @@ class ilObjUserGUI extends ilObjectGUI
     protected ILIAS\UI\Factory $uiFactory;
     protected ILIAS\UI\Renderer $uiRenderer;
     public ilCtrl $ilCtrl;
-    public array $gender;
+    public array $gender; // Missing array type.
     public int $user_ref_id;
     protected string $requested_letter = "";
     protected string $requested_baseClass = "";
@@ -258,7 +258,8 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->tpl->setVariable("FIELD_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($old));
             } else {
                 $this->tpl->setCurrentBlock("field_select");
-                $this->tpl->setVariable("SELECT_BOX",
+                $this->tpl->setVariable(
+                    "SELECT_BOX",
                     ilLegacyFormElementsUtil::formSelect(
                         $old,
                         'udf[' . $definition['field_id'] . ']',
@@ -407,7 +408,7 @@ class ilObjUserGUI extends ilObjectGUI
             $userObj->setDescription($userObj->getEmail());
 
             $udf = array();
-            foreach ($_POST as $k => $v) {
+            foreach ($this->request->getParsedBody() as $k => $v) {
                 if (substr($k, 0, 4) == "udf_") {
                     $udf[substr($k, 4)] = $v;
                 }
@@ -819,7 +820,7 @@ class ilObjUserGUI extends ilObjectGUI
             $this->loadValuesFromForm('update');
 
             $udf = array();
-            foreach ($_POST as $k => $v) {
+            foreach ($this->request->getParsedBody() as $k => $v) {
                 if (substr($k, 0, 4) == "udf_") {
                     $udf[substr($k, 4)] = $v;
                 }
@@ -1394,7 +1395,7 @@ class ilObjUserGUI extends ilObjectGUI
             $all_defs = $user_defined_fields->getChangeableLocalUserAdministrationDefinitions();
         }
 
-        foreach ($all_defs as $field_id => $definition) {
+        foreach ($all_defs as $definition) {
             $f_property = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition, true);
             if ($f_property instanceof ilFormPropertyGUI) {
                 $this->form_gui->addItem($f_property);
@@ -1791,9 +1792,7 @@ class ilObjUserGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
         $rbacsystem = $DIC['rbacsystem'];
-        $ilUser = $DIC['ilUser'];
         $ilTabs = $DIC['ilTabs'];
         $access = $DIC->access();
 
@@ -1899,7 +1898,7 @@ class ilObjUserGUI extends ilObjectGUI
         return "";
     }
 
-    public function __toUnix(array $a_time_arr) : int
+    public function __toUnix(array $a_time_arr) : int // Missing array type.
     {
         return mktime(
             $a_time_arr["hour"],
@@ -1934,17 +1933,11 @@ class ilObjUserGUI extends ilObjectGUI
         );
     }
 
-    protected function hitsperpageObject() : void
-    {
-        parent::hitsperpageObject();
-        $this->roleassignmentObject();
-    }
-
     /**
      * should be overwritten to add object specific items
      * (repository items are preloaded)
      */
-    protected function addAdminLocatorItems($a_do_not_add_object = false)
+    protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
     {
         global $DIC;
 
@@ -2126,7 +2119,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
 
         $user_defined_fields = ilUserDefinedFields::_getInstance();
-        foreach ($user_defined_fields->getDefinitions() as $field_id => $definition) {
+        foreach ($user_defined_fields->getDefinitions() as $definition) {
             $elm = $this->form_gui->getItemByPostVar('udf_' . $definition['field_id']);
 
             if (!$elm) {

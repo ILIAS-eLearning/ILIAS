@@ -3,6 +3,26 @@
 This service should contain standard datatypes for ILIAS that are used in many
 locations in the system and do not belong to a certain service.
 
+The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
+“SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be
+interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
+**Table of Contents**
+* [Result](#result)
+* [Color](#color)
+* [URI](#uri)
+* [DataSize](#datasize)
+* [Password](#password)
+* [ClientId](#clientid)
+* [ReferenceId](#referenceid)
+* [ObjectId](#objectid)
+* [Alphanumeric](#alphanumeric)
+* [PositiveInteger](#positiveinteger)
+* [DateFormat](#dateformat)
+* [Range](#Range)
+* [Order](#order)
+* [Clock](#clock)
+
 Other examples for data types that could (and maybe should) be added here:
 
 * Option (akin to rusts type)
@@ -385,5 +405,53 @@ $join = $order2->join('sort', function($pre, $k, $v) { return "$pre $k $v,"; });
 assert($order1->get() === ['subject1' => 'ASC']);
 assert($order2->get() === ['subject1' => 'ASC', 'subject2' => 'DESC']);
 assert($join === 'sort subject1 ASC, subject2 DESC,');
+?>
+```
+
+## Clock
+
+This package provides a fully psr-20 compliant clock handling.
+
+### Example
+
+#### System Clock
+
+The `\ILIAS\Data\Clock\SystemClock` returns a `\DateTimeImmutable` instance always referring to the
+current default system timezone.
+
+```php
+<?php
+$f = new \ILIAS\Data\Factory;
+
+$clock = $f->clock()->system();
+$now = $clock->now();
+?>
+```
+
+#### UTC Clock
+
+The `\ILIAS\Data\Clock\UtcClock` returns a `\DateTimeImmutable` instance always referring to the
+`UTC` timezone.
+
+```php
+<?php
+$f = new \ILIAS\Data\Factory;
+
+$clock = $f->clock()->utc();
+$now = $clock->now();
+?>
+```
+
+#### Local Clock
+
+The `\ILIAS\Data\Clock\UtcClock` returns a `\DateTimeImmutable` instance always referring to the
+timezone passed to the factory method.
+
+```php
+<?php
+$f = new \ILIAS\Data\Factory;
+
+$clock = $f->clock()->local(new \DateTimeZone('Europe/Berlin'));
+$now = $clock->now();
 ?>
 ```

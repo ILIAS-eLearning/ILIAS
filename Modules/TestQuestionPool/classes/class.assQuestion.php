@@ -2248,8 +2248,8 @@ abstract class assQuestion
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
                     if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->write("File could not be duplicated!!!!", $this->ilLog->ERROR);
-                        $this->ilLog->write("object: " . print_r($this, true), $this->ilLog->ERROR);
+                        $this->ilLog->root()->error("File could not be duplicated!!!!");
+                        $this->ilLog->root()->error("object: " . print_r($this, true));
                     }
                 }
             }
@@ -2269,8 +2269,8 @@ abstract class assQuestion
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
                     if (!@copy($filepath . $filename, $filepath_original . $filename)) {
-                        $this->ilLog->write("File could not be duplicated!!!!", $this->ilLog->ERROR);
-                        $this->ilLog->write("object: " . print_r($this, true), $this->ilLog->ERROR);
+                        $this->ilLog->root()->error("File could not be duplicated!!!!");
+                        $this->ilLog->root()->error("object: " . print_r($this, true));
                     }
                 }
             }
@@ -2289,8 +2289,8 @@ abstract class assQuestion
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
                     if (!copy($filepath_original . $filename, $filepath . $filename)) {
-                        $this->ilLog->write("File could not be copied!!!!", $this->ilLog->ERROR);
-                        $this->ilLog->write("object: " . print_r($this, true), $this->ilLog->ERROR);
+                        $this->ilLog->root()->error("File could not be copied!!!!");
+                        $this->ilLog->root()->error("object: " . print_r($this, true));
                     }
                 }
             }
@@ -2849,6 +2849,7 @@ abstract class assQuestion
     public function QTIMaterialToString(ilQTIMaterial $a_material) : string
     {
         $result = "";
+        $mobs = array();
         for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
             $material = $a_material->getMaterial($i);
             if (strcmp($material["type"], "mattext") == 0) {
@@ -2858,15 +2859,16 @@ abstract class assQuestion
                 $matimage = $material["material"];
                 if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
                     // import an mediaobject which was inserted using tiny mce
-                    if (!is_array($_SESSION["import_mob_xhtml"])) {
-                        $_SESSION["import_mob_xhtml"] = array();
-                    }
-                    $_SESSION["import_mob_xhtml"][] = array("mob" => $matimage->getLabel(),
+                    //if (!is_array(ilSession::get("import_mob_xhtml"))) {
+                    //    ilSession::set("import_mob_xhtml", array());
+                    //}
+                    $mobs[] = array("mob" => $matimage->getLabel(),
                                                             "uri" => $matimage->getUri()
                     );
                 }
             }
         }
+        ilSession::set('import_mob_xhtml', $mobs);
         return $result;
     }
     
@@ -3960,9 +3962,9 @@ abstract class assQuestion
         $sec = 0;
         $time_array = explode(':', $time);
         if (count($time_array) == 3) {
-            $sec += $time_array[0] * 3600;
-            $sec += $time_array[1] * 60;
-            $sec += $time_array[2];
+            $sec += (int) $time_array[0] * 3600;
+            $sec += (int) $time_array[1] * 60;
+            $sec += (int) $time_array[2];
         }
         return $sec;
     }

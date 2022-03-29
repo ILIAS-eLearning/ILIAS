@@ -30,10 +30,7 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
 {
     public static function hasBackgroundImage() : bool
     {
-        if (is_file(self::getBackgroundImagePath()) && filesize(self::getBackgroundImagePath()) > 0) {
-            return true;
-        }
-        return false;
+        return is_file(self::getBackgroundImagePath()) && filesize(self::getBackgroundImagePath()) > 0;
     }
 
     public static function getBackgroundImageDefaultFolder() : string

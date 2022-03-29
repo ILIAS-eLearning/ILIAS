@@ -124,7 +124,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->addBasicQuestionFormProperties($form);
 
         $this->populateQuestionSpecificFormPart($form);
-        $this->populateAnswerSpecificFormPart($form);
+        //$this->populateAnswerSpecificFormPart($form);
 
         $this->populateTaxonomyFormSection($form);
 
@@ -402,7 +402,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
 
         if ($_GET["q_id"]) {
-            if ($this->rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $this->ilTabs->addTarget(
                     "edit_page",
@@ -418,7 +418,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
 
         $force_active = false;
-        if ($this->rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");

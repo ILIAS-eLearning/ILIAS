@@ -41,13 +41,9 @@ class ilModulesTestSuite extends TestSuite
             define('ANONYMOUS_USER_ID', 13);
         }
 
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
+
 
         $suite = new ilModulesTestSuite();
 

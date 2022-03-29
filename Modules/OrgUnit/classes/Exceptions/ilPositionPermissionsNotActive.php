@@ -2,7 +2,6 @@
 
 /**
  * Class ilPositionPermissionsNotActive
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
 class ilPositionPermissionsNotActive extends ilOrguException
@@ -11,10 +10,8 @@ class ilPositionPermissionsNotActive extends ilOrguException
     /** @var string */
     protected $object_type = "";
 
-
     /**
      * ilPositionPermissionsNotActive constructor.
-     *
      * @param string $message
      * @param string $type
      * @param int    $code
@@ -25,7 +22,6 @@ class ilPositionPermissionsNotActive extends ilOrguException
 
         $this->object_type = $type;
     }
-
 
     /**
      * @return string

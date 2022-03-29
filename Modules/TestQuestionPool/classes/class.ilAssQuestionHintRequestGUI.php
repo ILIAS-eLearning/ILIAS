@@ -53,13 +53,6 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         parent::__construct($questionGUI);
     }
     
-    /**
-     * Execute Command
-     *
-     * @access	public
-     * @global	ilCtrl	$ilCtrl
-     * @return	mixed
-     */
     public function executeCommand()
     {
         global $DIC;
@@ -85,6 +78,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
                 return $this->$cmd();
                 break;
         }
+        return '';
     }
     
     /**

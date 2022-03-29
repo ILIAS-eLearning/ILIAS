@@ -155,6 +155,7 @@ var mainbar = function() {
                     after_render();
                 }
                 mb.persistence.store(mb.model.getState());
+                mb.renderer.dispatchResizeNotification();
             });
         }
     },
@@ -177,7 +178,10 @@ var mainbar = function() {
             return false;
         }
     },
-    adjustToScreenSize = function() {
+    adjustToScreenSize = function(event) {
+         if(event.detail && event.detail.mainbar_induced) {
+            return;
+        }
         var mb = il.UI.maincontrols.mainbar,
             amount = mb.renderer.calcAmountOfButtons();
 

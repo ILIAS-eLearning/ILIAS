@@ -61,7 +61,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
 
-    public function addJS(ilGlobalTemplate $a_tpl) : void
+    public function addJS(ilGlobalTemplateInterface $a_tpl) : void
     {
         $this->prepareElements();
         foreach ($this->elements as $element) {

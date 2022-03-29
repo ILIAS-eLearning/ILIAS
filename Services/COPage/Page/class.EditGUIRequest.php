@@ -75,17 +75,17 @@ class EditGUIRequest
         return $this->strArray("ids");
     }
 
-    public function getString($key) : string
+    public function getString(string $key) : string
     {
         return $this->str($key);
     }
 
-    public function getInt($key) : int
+    public function getInt(string $key) : int
     {
         return $this->int($key);
     }
 
-    public function getStringArray($key) : array
+    public function getStringArray(string $key) : array
     {
         return $this->strArray($key);
     }

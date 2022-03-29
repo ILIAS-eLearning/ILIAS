@@ -336,7 +336,7 @@ class ilForumNotification
             return;
         }
 
-        $ref_id = $move_tree_event['source_id'];
+        $ref_id = (int) $move_tree_event['source_id'];
         $is_parent = self::_isParentNodeGrpCrs($ref_id);
 
         if ($is_parent) {

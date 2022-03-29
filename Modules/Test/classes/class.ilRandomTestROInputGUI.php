@@ -68,10 +68,8 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
 
     /**
     * Insert property html
-    *
-    * @return	int	Size
     */
-    public function insert(&$a_tpl) : int
+    public function insert($a_tpl)
     {
         global $DIC;
         $lng = $DIC['lng'];

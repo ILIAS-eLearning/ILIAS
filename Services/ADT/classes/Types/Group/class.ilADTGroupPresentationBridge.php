@@ -39,7 +39,7 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable($delimiter = ";") : mixed
+    public function getSortable($delimiter = ";")
     {
         $res = array();
 

@@ -94,7 +94,7 @@ class InvitationsDBRepository
         );
 
         while ($rec = $db->fetchAssoc($set)) {
-            $items[] = $rec["user_id"];
+            $items[] = (int) $rec["user_id"];
         }
         return $items;
     }

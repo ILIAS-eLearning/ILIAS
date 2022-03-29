@@ -4,7 +4,6 @@
 
 /**
  * Class for advanced editing exception handling in ILIAS.
- *
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTaxonomyException extends ilException

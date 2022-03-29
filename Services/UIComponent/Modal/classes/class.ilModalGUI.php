@@ -136,11 +136,7 @@ class ilModalGUI
     {
         global $DIC;
 
-        if ($a_main_tpl != null) {
-            $tpl = $a_main_tpl;
-        } else {
-            $tpl = $DIC["tpl"];
-        }
+        $tpl = $a_main_tpl ?? $DIC["tpl"];
 
         $tpl->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
     }

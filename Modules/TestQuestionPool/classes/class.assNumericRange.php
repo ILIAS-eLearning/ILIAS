@@ -64,8 +64,6 @@ class assNumericRange
      * @param double    $upperlimit     The upper limit of the range
      * @param double    $points         The number of points given for the correct range
      * @param integer   $order          A nonnegative value representing a possible display or sort order
-     *
-     * @return assNumericRange
      */
     public function __construct($lowerlimit = 0.0, $upperlimit = 0.0, $points = 0.0, $order = 0)
     {

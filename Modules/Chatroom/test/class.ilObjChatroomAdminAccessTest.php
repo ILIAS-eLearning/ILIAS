@@ -55,12 +55,6 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
         $this->assertTrue($this->adminAccess::_checkGoto('chtr_5'));
     }
 
-    public function testGotoCheckFailsWithTargetNotBeingOfTypeString() : void
-    {
-        $this->assertFalse($this->adminAccess::_checkGoto(['chtr', '5']));
-        $this->assertFalse($this->adminAccess::_checkGoto(5));
-    }
-
     protected function setUp() : void
     {
         parent::setUp();

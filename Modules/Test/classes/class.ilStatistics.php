@@ -251,7 +251,7 @@ class ilStatistics
     */
     public function geometric_mean()
     {
-        $prod = $this->product();
+        $prod = $this->product(1);
         if (($prod === false) or ($prod === 0)) {
             return false;
         }

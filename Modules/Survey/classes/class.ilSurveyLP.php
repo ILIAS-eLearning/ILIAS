@@ -20,7 +20,7 @@
  */
 class ilSurveyLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -46,7 +46,7 @@ class ilSurveyLP extends ilObjectLP
         return ilObjSurveyAccess::_lookupAnonymize($this->obj_id);
     }
 
-    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
+    protected static function isLPMember(array &$res, int $usr_id, array $obj_ids) : bool
     {
         global $DIC;
 
@@ -56,10 +56,10 @@ class ilSurveyLP extends ilObjectLP
         $set = $ilDB->query("SELECT ss.obj_fi" .
             " FROM svy_finished sf" .
             " JOIN svy_svy ss ON (ss.survey_id = sf.survey_fi)" .
-            " WHERE " . $ilDB->in("ss.obj_fi", $a_obj_ids, "", "integer") .
-            " AND sf.user_fi = " . $ilDB->quote($a_usr_id, "integer"));
+            " WHERE " . $ilDB->in("ss.obj_fi", $obj_ids, "", "integer") .
+            " AND sf.user_fi = " . $ilDB->quote($usr_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
-            $a_res[$row["obj_fi"]] = true;
+            $res[(int) $row["obj_fi"]] = true;
         }
         
         return true;

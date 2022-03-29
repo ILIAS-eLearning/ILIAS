@@ -21,6 +21,7 @@ class ilFileDataMail extends ilFileData
     protected Filesystem $tmpDirectory;
     protected Filesystem $storageDirectory;
     protected ilDBInterface $db;
+    protected ILIAS $ilias;
 
     public function __construct(int $a_user_id = 0)
     {
@@ -37,6 +38,7 @@ class ilFileDataMail extends ilFileData
         $this->db = $DIC->database();
         $this->tmpDirectory = $DIC->filesystem()->temp();
         $this->storageDirectory = $DIC->filesystem()->storage();
+        $this->ilias = $DIC['ilias'];
 
         $this->initAttachmentMaxUploadSize();
     }
@@ -64,7 +66,7 @@ class ilFileDataMail extends ilFileData
             return null;
         }
 
-        return (float) $this->ilias->getSetting('mail_maxsize_attach', 0) * 1024;
+        return (float) $this->ilias->getSetting('mail_maxsize_attach', '0') * 1024;
     }
 
     public function getMailPath() : string
@@ -144,15 +146,11 @@ class ilFileDataMail extends ilFileData
      */
     public function adoptAttachments(array $a_attachments, int $a_mail_id) : string
     {
-        if (is_array($a_attachments)) {
-            foreach ($a_attachments as $file) {
-                $path = $this->getAttachmentPath($file, $a_mail_id);
-                if (!copy($path, $this->getMailPath() . '/' . $this->user_id . '_' . $file)) {
-                    return 'ERROR: ' . $this->getMailPath() . '/' . $this->user_id . '_' . $file . ' cannot be created';
-                }
+        foreach ($a_attachments as $file) {
+            $path = $this->getAttachmentPath($file, $a_mail_id);
+            if (!copy($path, $this->getMailPath() . '/' . $this->user_id . '_' . $file)) {
+                return 'ERROR: ' . $this->getMailPath() . '/' . $this->user_id . '_' . $file . ' cannot be created';
             }
-        } else {
-            return "ARRAY REQUIRED";
         }
 
         return '';
@@ -276,13 +274,12 @@ class ilFileDataMail extends ilFileData
      */
     public function unlinkFiles(array $a_filenames) : string
     {
-        if (is_array($a_filenames)) {
-            foreach ($a_filenames as $file) {
-                if (!$this->unlinkFile($file)) {
-                    return $file;
-                }
+        foreach ($a_filenames as $file) {
+            if (!$this->unlinkFile($file)) {
+                return $file;
             }
         }
+
         return '';
     }
 

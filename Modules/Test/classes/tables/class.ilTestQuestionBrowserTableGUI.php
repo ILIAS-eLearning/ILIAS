@@ -31,7 +31,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     const CMD_APPLY_FILTER = 'applyFilter';
     const CMD_RESET_FILTER = 'resetFilter';
     const CMD_INSERT_QUESTIONS = 'insertQuestions';
-    
+    private \ILIAS\Test\InternalRequestService $testrequest;
+
     protected $writeAccess = false;
 
     /**
@@ -103,7 +104,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->access = $access;
 
         $this->setId('qpl_brows_tabl_' . $this->testOBJ->getId());
-
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
         parent::__construct($this, self::CMD_BROWSE_QUESTIONS);
         $this->setFilterCommand(self::CMD_APPLY_FILTER);
         $this->setResetCommand(self::CMD_RESET_FILTER);

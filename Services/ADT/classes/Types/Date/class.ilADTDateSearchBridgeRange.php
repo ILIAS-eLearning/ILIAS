@@ -52,7 +52,6 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 
             $this->addToParentElement($check);
         } else {
-
             $item = new ilCombinationInputGUI($this->getTitle(), $this->getElementId());
 
             $lower = new ilDateTimeInputGUI("", $this->addToElementId("lower"));
@@ -75,7 +74,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         }
     }
 
-    protected function shouldBeImportedFromPost(mixed $a_post) : bool
+    protected function shouldBeImportedFromPost($a_post) : bool
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             return (bool) $a_post["tgl"];
@@ -128,12 +127,16 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         if (!$this->isNull() && $this->isValid()) {
             $sql = array();
             if (!$this->getLowerADT()->isNull()) {
-                $sql[] = $a_element_id . " >= " . $this->db->quote($this->getLowerADT()->getDate()->get(IL_CAL_DATE),
-                        "date");
+                $sql[] = $a_element_id . " >= " . $this->db->quote(
+                    $this->getLowerADT()->getDate()->get(IL_CAL_DATE),
+                    "date"
+                );
             }
             if (!$this->getUpperADT()->isNull()) {
-                $sql[] = $a_element_id . " <= " . $this->db->quote($this->getUpperADT()->getDate()->get(IL_CAL_DATE),
-                        "date");
+                $sql[] = $a_element_id . " <= " . $this->db->quote(
+                    $this->getUpperADT()->getDate()->get(IL_CAL_DATE),
+                    "date"
+                );
             }
             return "(" . implode(" AND ", $sql) . ")";
         }

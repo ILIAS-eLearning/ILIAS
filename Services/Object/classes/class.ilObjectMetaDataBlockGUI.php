@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -10,18 +10,17 @@
  */
 class ilObjectMetaDataBlockGUI extends ilBlockGUI
 {
-    public static $block_type = "advmd";
-    
-    protected $record; // [ilAdvancedMDRecord]
-    protected $values; // [ilAdvancedMDValues]
-    protected $callback; // [string]
-    
-    protected static $records = array(); // [array]
-    
+    public static string $block_type = "advmd";
+    protected static array $records = [];
+
+    protected ilAdvancedMDRecord $record;
+    protected ilAdvancedMDValues $values;
+    protected ?string $callback;
+
     /**
     * Constructor
     */
-    public function __construct(ilAdvancedMDRecord $a_record, $a_decorator_callback = null)
+    public function __construct(ilAdvancedMDRecord $record, string $decorator_callback = null)
     {
         global $DIC;
 
@@ -31,8 +30,8 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 
         parent::__construct();
                         
-        $this->record = $a_record;
-        $this->callback = $a_decorator_callback;
+        $this->record = $record;
+        $this->callback = $decorator_callback;
 
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
         $this->setTitle($translations->getTitleForLanguage($this->lng->getLangKey()));
@@ -73,17 +72,11 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $ilCtrl = $this->ctrl;
-
-        $next_class = $ilCtrl->getNextClass();
-        $cmd = $ilCtrl->getCmd("getHTML");
-
-        switch ($next_class) {
-            default:
-                return $this->$cmd();
-        }
+        $this->ctrl->getNextClass();
+        $cmd = $this->ctrl->getCmd("getHTML");
+        $this->$cmd();
     }
 
     /**
@@ -128,7 +121,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
                 $value = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
 
                 if ($element instanceof ilADTLocation) {
-                    $value->setSize("100%", "200px");
+                    $value->setSize(100, 200);
                 }
                 
                 if (in_array($element->getType(), array("MultiEnum", "Enum", "Text"))) {

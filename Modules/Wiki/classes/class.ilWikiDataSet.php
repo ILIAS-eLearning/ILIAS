@@ -48,7 +48,7 @@ class ilWikiDataSet extends ilDataSet
     
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "wiki") {
+        if ($a_entity === "wiki") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -134,7 +134,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wpg") {
+        if ($a_entity === "wpg") {
             switch ($a_version) {
                 case "4.1.0":
                     return array(
@@ -165,7 +165,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wiki_imp_page") {
+        if ($a_entity === "wiki_imp_page") {
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
@@ -187,7 +187,7 @@ class ilWikiDataSet extends ilDataSet
             $a_ids = array($a_ids);
         }
                 
-        if ($a_entity == "wiki") {
+        if ($a_entity === "wiki") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, description," .
@@ -230,7 +230,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wpg") {
+        if ($a_entity === "wpg") {
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, wiki_id" .
@@ -269,7 +269,7 @@ class ilWikiDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "wiki_imp_page") {
+        if ($a_entity === "wiki_imp_page") {
             switch ($a_version) {
                 case "5.1.0":
                 case "5.4.0":
@@ -370,8 +370,8 @@ class ilWikiDataSet extends ilDataSet
             case "wiki_imp_page":
                 $wiki_id = $a_mapping->getMapping("Modules/Wiki", "wiki", $a_rec["WikiId"]);
                 $page_id = $a_mapping->getMapping("Modules/Wiki", "wpg", $a_rec["PageId"]);
-                if ($wiki_id > 0 && $page_id > 0 && is_object($this->current_obj) && $this->current_obj->getId() == $wiki_id) {
-                    $this->current_obj->addImportantPage($page_id, $a_rec["Ord"], $a_rec["Indent"]);
+                if ($wiki_id > 0 && $page_id > 0 && is_object($this->current_obj) && $this->current_obj->getId() === (int) $wiki_id) {
+                    $this->current_obj->addImportantPage((int) $page_id, (int) $a_rec["Ord"], (int) $a_rec["Indent"]);
                 }
                 break;
         }

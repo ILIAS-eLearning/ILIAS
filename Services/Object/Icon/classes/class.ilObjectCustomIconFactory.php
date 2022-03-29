@@ -2,15 +2,18 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\FileUpload;
+
 class ilObjectCustomIconFactory
 {
-    protected \ILIAS\Filesystem\Filesystem $webDirectory;
-    protected \ILIAS\FileUpload\FileUpload $uploadService;
+    protected Filesystem $webDirectory;
+    protected FileUpload $uploadService;
     protected ilObjectDataCache $objectCache;
 
     public function __construct(
-        \ILIAS\Filesystem\Filesystem $webDirectory,
-        \ILIAS\FileUpload\FileUpload $uploadService,
+        Filesystem $webDirectory,
+        FileUpload $uploadService,
         ilObjectDataCache $objectCache
     ) {
         $this->webDirectory = $webDirectory;

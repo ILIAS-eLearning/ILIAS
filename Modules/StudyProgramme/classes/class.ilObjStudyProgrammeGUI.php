@@ -47,7 +47,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     /**
      * @var ilObjStudyProgramme
      */
-    public $object;
+    public ?ilObject $object;
 
     protected ViewManager $container_view_manager;
 
@@ -681,7 +681,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         }
     }
 
-    protected function initHeaderAction($sub_type = null, $sub_id = null)
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
     {
         $lg = parent::initHeaderAction($sub_type, $sub_id);
         $validator = new ilCertificateDownloadValidator();

@@ -30,8 +30,6 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      * The constructor takes possible arguments an creates an instance of the assNumericGUI object.
      *
      * @param integer $id The database id of a Numeric question object
-     *
-     * @return assNumericGUI
      */
     public function __construct($id = -1)
     {
@@ -279,6 +277,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $solutions = null;
         // get the solution of the user for the active pass or from the last pass if allowed
         if ($use_post_solutions !== false) {
+            /** @noinspection PhpArrayAccessOnIllegalTypeInspection */
             $solutions = array(
                 array('value1' => $use_post_solutions['numeric_result'])
             );
@@ -336,7 +335,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -352,7 +351,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");

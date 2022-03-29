@@ -274,7 +274,7 @@ class ilChatroomTabGUIFactory
             return;
         }
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         $config = [
             'view' => [

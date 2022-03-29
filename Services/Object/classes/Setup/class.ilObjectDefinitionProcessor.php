@@ -4,11 +4,11 @@
 
 class ilObjectDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     protected ?string $component;
     protected ?string $current_object;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }

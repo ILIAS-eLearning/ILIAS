@@ -18,8 +18,6 @@
  * Collection of ECS settings
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @author Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
- *
- * @ingroup ServicesWebServicesECS
  */
 class ilECSServerSettings
 {

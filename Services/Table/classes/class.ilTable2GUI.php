@@ -112,7 +112,7 @@ class ilTable2GUI extends ilTableGUI
     protected string $custom_prev = "";
     protected string $custom_next = "";
     protected ?array $raw_post_data = null;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         ?object $a_parent_obj,

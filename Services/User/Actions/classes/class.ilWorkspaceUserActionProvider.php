@@ -38,6 +38,9 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         return "pwsp";
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function getActionTypes() : array
     {
         return array(

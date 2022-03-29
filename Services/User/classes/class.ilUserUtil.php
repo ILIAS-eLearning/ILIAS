@@ -14,6 +14,7 @@
  */
 
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 
 /**
  * Class ilUserUtil
@@ -219,6 +220,7 @@ class ilUserUtil
     
     /**
      * Get all valid starting points
+     * @return array<int,string>
      */
     public static function getPossibleStartingPoints(bool $a_force_all = false) : array
     {
@@ -238,7 +240,7 @@ class ilUserUtil
             $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
         }
 
-        if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff()) {
+        if ((new ilMyStaffCachedAccessDecorator($DIC, ilMyStaffAccess::getInstance()))->hasCurrentUserAccessToMyStaff()) {
             $all[self::START_PD_MYSTAFF] = 'my_staff';
         }
     

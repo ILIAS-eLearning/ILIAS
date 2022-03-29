@@ -16,9 +16,9 @@ class DataFactoryTest extends TestCase
 {
 
     /**
-     * @var Data\Factory
+     * @var Data\Factory|null
      */
-    private $f;
+    private ?Data\Factory $f;
 
     protected function setUp() : void
     {
@@ -30,7 +30,7 @@ class DataFactoryTest extends TestCase
         $this->f = null;
     }
 
-    public function testOk()
+    public function testOk() : void
     {
         $result = $this->f->ok(3.154);
         $this->assertInstanceOf(Data\Result::class, $result);
@@ -38,7 +38,7 @@ class DataFactoryTest extends TestCase
         $this->assertFalse($result->isError());
     }
 
-    public function testError()
+    public function testError() : void
     {
         $result = $this->f->error("Something went wrong");
         $this->assertInstanceOf(Data\Result::class, $result);
@@ -46,31 +46,31 @@ class DataFactoryTest extends TestCase
         $this->assertFalse($result->isOk());
     }
 
-    public function testPassword()
+    public function testPassword() : void
     {
         $pwd = $this->f->password("secret");
         $this->assertInstanceOf(Data\Password::class, $pwd);
     }
 
-    public function testAlphanumeric()
+    public function testAlphanumeric() : void
     {
         $dataType = $this->f->alphanumeric('someValue');
         $this->assertInstanceOf(Data\Alphanumeric::class, $dataType);
     }
 
-    public function testPositiveInteger()
+    public function testPositiveInteger() : void
     {
         $dataType = $this->f->positiveInteger(100);
         $this->assertInstanceOf(Data\PositiveInteger::class, $dataType);
     }
 
-    public function testDataSize1()
+    public function testDataSize1() : void
     {
         $dataType = $this->f->dataSize(10, "MB");
         $this->assertInstanceOf(Data\DataSize::class, $dataType);
     }
 
-    public function testDataSize2()
+    public function testDataSize2() : void
     {
         $dataType = $this->f->dataSize("10G");
         $this->assertEquals(10, $dataType->getSize());

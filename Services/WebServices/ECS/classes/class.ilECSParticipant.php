@@ -16,38 +16,25 @@
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesWebServicesECS
 */
 class ilECSParticipant
 {
-    protected $json_obj;
-    protected $cid;
-    protected $pid;
+    protected object $json_obj;
+    protected int $cid;
+    protected int $pid;
     protected $mid;
     protected $email;
     protected $certid;
     protected $dns;
     protected $description;
     protected $participantname;
-    protected $is_self;
+    protected bool $is_self;
 
-    /**
-     * @var null | \ilLogger
-     */
+    private ilECSOrganisation $org;
+
     private ilLogger $logger;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($json_obj, $a_cid)
+    public function __construct(object $json_obj, int $a_cid)
     {
         global $DIC;
 
@@ -60,21 +47,14 @@ class ilECSParticipant
     
     /**
      * get community id
-     *
-     * @access public
-     *
      */
-    public function getCommunityId()
+    public function getCommunityId() : int
     {
         return $this->cid;
     }
     
     /**
      * get mid
-     *
-     * @access public
-     * @param
-     *
      */
     public function getMID()
     {
@@ -83,9 +63,6 @@ class ilECSParticipant
     
     /**
      * get email
-     *
-     * @access public
-     *
      */
     public function getEmail()
     {
@@ -95,10 +72,6 @@ class ilECSParticipant
     
     /**
      * get dns
-     *
-     * @access public
-     * @param
-     *
      */
     public function getDNS()
     {
@@ -107,9 +80,6 @@ class ilECSParticipant
     
     /**
      * get description
-     *
-     * @access public
-     *
      */
     public function getDescription()
     {
@@ -118,9 +88,6 @@ class ilECSParticipant
 
     /**
      * get participant name
-     *
-     * @access public
-     *
      */
     public function getParticipantName()
     {
@@ -129,9 +96,6 @@ class ilECSParticipant
     
     /**
      * get abbreviation of participant
-     *
-     * @access public
-     *
      */
     public function getAbbreviation()
     {
@@ -140,35 +104,26 @@ class ilECSParticipant
 
     /**
      * Get pid
-     * @return int
      */
-    public function getPid()
+    public function getPid() : int
     {
         return $this->pid;
     }
     
     /**
      * is publishable (enabled and mid with own cert id)
-     *
-     * @access public
-     * @param
-     *
      */
-    public function isPublishable()
+    public function isPublishable() : bool
     {
         return $this->isSelf();
     }
     
     /**
      * is self
-     *
-     * @access public
-     * @param
-     *
      */
-    public function isSelf()
+    public function isSelf() : bool
     {
-        return (bool) $this->is_self;
+        return $this->is_self;
     }
     
     
@@ -189,18 +144,15 @@ class ilECSParticipant
      * Get organisation
      * @return ilECSOrganisation $org
      */
-    public function getOrganisation()
+    public function getOrganisation() : ilECSOrganisation
     {
         return $this->org;
     }
 
     /**
      * Read
-     *
-     * @access private
-     *
      */
-    private function read()
+    private function read() : bool
     {
         $this->pid = $this->json_obj->pid;
         $this->mid = $this->json_obj->mid;

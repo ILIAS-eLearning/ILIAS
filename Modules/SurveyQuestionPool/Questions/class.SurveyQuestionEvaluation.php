@@ -122,7 +122,7 @@ abstract class SurveyQuestionEvaluation
         array $a_answers,
         SurveyCategories $a_categories = null
     ) : void {
-        $num_users_answered = sizeof($a_answers);
+        $num_users_answered = count($a_answers);
 
         $a_results->setUsersAnswered($num_users_answered);
         $a_results->setUsersSkipped($this->getNrOfParticipants() - $num_users_answered);
@@ -132,7 +132,7 @@ abstract class SurveyQuestionEvaluation
         $selections = array();
         foreach ($a_answers as $active_id => $answers) {
             // :TODO:
-            if (sizeof($answers) > 1) {
+            if (count($answers) > 1) {
                 $has_multi = true;
             }
             foreach ($answers as $answer) {
@@ -180,7 +180,7 @@ abstract class SurveyQuestionEvaluation
                         $median[] = $value;
                     }
                 }
-                if ($total % 2 == 0) {
+                if ($total % 2 === 0) {
                     $lower = $median[($total / 2) - 1];
                     $upper = $median[($total / 2)];
                     $median_value = 0.5 * ($lower + $upper);
@@ -443,7 +443,7 @@ abstract class SurveyQuestionEvaluation
         $ilDB = $this->db;
         
         if (count($this->finished_ids) > 0) {
-            return sizeof($this->finished_ids);
+            return count($this->finished_ids);
         }
         
         $set = $ilDB->query("SELECT finished_id FROM svy_finished" .

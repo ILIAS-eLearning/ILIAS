@@ -12,4 +12,5 @@ return array(
     'ilCtrlBaseClass2TestGUI' => $data_dir . '/GUI/class.ilCtrlBaseClass2TestGUI.php',
     'ilCtrlCommandClass1TestGUI' => $data_dir . '/GUI/class.ilCtrlCommandClass1TestGUI.php',
     'ilCtrlCommandClass2TestGUI' => $data_dir . '/GUI/class.ilCtrlCommandClass2TestGUI.php',
+    'ILIAS\\Tests\\Ctrl\\ilCtrlNamespacedTestGUI' => $data_dir . '/GUI/class.ilCtrlNamespacedTestGUI.php',
 );

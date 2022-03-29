@@ -492,6 +492,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $feedback .= '<td class="text-nowrap">' . $ordinal . '. ' . $element . ':</td>';
             
             foreach ($this->object->getErrorData() as $idx => $ans) {
+                /** @var assAnswerErrorText $ans */
                 if (isset($matchedIndexes[$idx])) {
                     continue;
                 }

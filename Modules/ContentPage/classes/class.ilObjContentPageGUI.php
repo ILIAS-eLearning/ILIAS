@@ -28,24 +28,11 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
-    /** @var GlobalHttpState */
-    protected $http;
-    /** @var Refinery */
-    protected $refinery;
+    protected GlobalHttpState $http;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
-    /** @var ilCtrl */
-    protected $ctrl;
-    /** @var ilAccessHandler */
-    protected $access;
-    /** @var ilSetting */
-    protected $settings;
-    /** @var ilObjUser */
-    protected $user;
     private ilTabsGUI $tabs;
-    private ilObjectService $obj_service;
     private ilNavigationHistory $navHistory;
-    private ilErrorHandling $error;
     private Container $dic;
     private bool $infoScreenEnabled = false;
     private PageMetricsService $pageMetricsService;
@@ -60,15 +47,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
         $this->dic = $DIC;
         $this->http = $this->dic->http();
-        $this->refinery = $this->dic->refinery();
         $this->settings = $this->dic->settings();
-        $this->access = $this->dic->access();
-        $this->ctrl = $this->dic->ctrl();
         $this->tabs = $this->dic->tabs();
-        $this->user = $this->dic->user();
-        $this->obj_service = $this->dic->object();
         $this->navHistory = $this->dic['ilNavigationHistory'];
-        $this->error = $this->dic['ilErr'];
         $this->help = $DIC['ilHelp'];
         $this->uiServices = $DIC->ui();
 
@@ -189,7 +170,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW);
@@ -247,12 +228,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
 
+                /** @var ilObjContentPage $obj */
+                $obj = $this->object;
                 $forwarder = new ilContentPagePageCommandForwarder(
                     $this->http,
                     $this->ctrl,
                     $this->tabs,
                     $this->lng,
-                    $this->object,
+                    $obj,
                     $this->user,
                     $this->refinery,
                     $this->content_style_domain
@@ -275,7 +258,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
             case strtolower(ilInfoScreenGUI::class):
                 if (!$this->infoScreenEnabled) {
-                    return null;
+                    return;
                 }
                 $this->prepareOutput();
 
@@ -364,9 +347,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->ctrl->setCmd($cmd . 'Object');
                 }
 
-                return parent::executeCommand();
+                parent::executeCommand();
         }
-        return null;
     }
 
     public function addToNavigationHistory() : void
@@ -524,16 +506,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $new_object) : void
     {
-        $a_new_object->getObjectTranslation()->addLanguage(
+        $new_object->getObjectTranslation()->addLanguage(
             $this->lng->getDefaultLanguage(),
-            $a_new_object->getTitle(),
-            $a_new_object->getDescription(),
+            $new_object->getTitle(),
+            $new_object->getDescription(),
             true,
             true
         );
-        $a_new_object->getObjectTranslation()->save();
+        $new_object->getObjectTranslation()->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->redirect($this, 'edit');
@@ -555,7 +537,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
         $a_form->addItem($presentationHeader);
 
-        $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+        $this->object_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
 
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt('obj_features'));
@@ -587,18 +569,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form) : void
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
-        $this->object->setOfflineStatus(!(bool) $a_form->getInput('activation_online'));
+        $this->object->setOfflineStatus(!(bool) $form->getInput('activation_online'));
         $this->object->update();
 
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
-            $a_form,
+            $form,
             [
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
             ]
         );
-        $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+        $this->object_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
     }
 }

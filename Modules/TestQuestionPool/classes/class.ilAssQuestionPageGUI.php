@@ -25,17 +25,18 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     private $questionInfoHTML = '';
     private $questionActionsHTML = '';
     // fau.
+    protected \ILIAS\TestQuestionPool\InternalRequestService $testrequest;
 
     /**
      * Constructor
      *
      * @param int $a_id
      * @param int $a_old_nr
-     *
-     * @return \ilAssQuestionPageGUI
      */
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
+        global $DIC;
+        $this->testrequest = $DIC->testQuestionPool()->internal()->request();
         parent::__construct('qpl', $a_id, $a_old_nr);
         $this->setEnabledPageFocus(false);
     }

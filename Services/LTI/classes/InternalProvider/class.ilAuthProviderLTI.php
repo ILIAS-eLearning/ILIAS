@@ -79,7 +79,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                 $this->getLogger()->debug("push new lti ref_id: " . $this->ref_id);
                 $lti_context_ids[] = $this->ref_id;
                 $_SESSION['lti_context_ids'] = $lti_context_ids;
-                $this->getLogger()->debug(var_export(true), $_SESSION['lti_context_ids']);
+                $this->getLogger()->debug((string) var_export(true), $_SESSION['lti_context_ids']);
             }
         } else {
             $this->getLogger()->debug("lti_context_ids is not set. Create new array...");
@@ -92,8 +92,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         // store POST into Consumer Session
         $_SESSION['lti_' . $this->ref_id . '_post_data'] = $_POST;
-
-        $_GET['target'] = ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id;
+//        $_GET['target'] = ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id;//Todo Uwe
+        $_SESSION['lti_init_target'] = ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id;
 
         // lti service activation
         if (!$consumer->enabled) {
@@ -277,12 +277,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 //        todo ?
         $userObj->setTimeLimitUntil(time() + (int) $ilClientIniFile->readVariable("session", "expire"));
 
-
         // Create user in DB
         $userObj->setOwner(6);
         $userObj->create();
         $userObj->setActive(true);
-        $userObj->updateOwner();
+//        $userObj->updateOwner();
+        $userObj->setLastPasswordChangeTS(time());
         $userObj->saveAsNew();
         $userObj->writePrefs();
 
@@ -464,13 +464,13 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     /**
      * Get auth id by auth mode
      * @param string $a_auth_mode
-     * @return string|null
+     * @return int|null
      */
-    public static function getServerIdByAuthMode(string $a_auth_mode) : ?string
+    public static function getServerIdByAuthMode(string $a_auth_mode) : ?int
     {
         if (self::isAuthModeLTI($a_auth_mode)) {
             $auth_arr = explode('_', $a_auth_mode);
-            return $auth_arr[1];
+            return (int) $auth_arr[1];
         }
         return null;
     }
@@ -487,7 +487,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             return false;
         }
         $auth_arr = explode('_', $a_auth_mode);
-//        todo ?
         return ($auth_arr[0] == ilAuthUtils::AUTH_PROVIDER_LTI) and $auth_arr[1];
     }
 }

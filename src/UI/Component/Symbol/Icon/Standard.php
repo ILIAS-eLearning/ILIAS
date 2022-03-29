@@ -157,9 +157,9 @@ interface Standard extends Icon
     public const PEUSR = 'peusr';   //Page Editor User
     public const LSO = 'lso';       //Learning Sequence
     public const ADN = 'adn';       //Administrative Notification
+    public const NOTA = 'nota';     //Notification Command
     public const CON = 'con';	    //Conversaion
     public const GCON = 'gcon';	    //Group Conversaion
-
 
     /**
      * Is this an outlined Icon?

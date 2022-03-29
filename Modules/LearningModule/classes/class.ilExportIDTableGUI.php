@@ -28,7 +28,7 @@ class ilExportIDTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     public bool $online_help_mode = false;
     protected EditingGUIRequest $request;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         object $a_parent_obj,

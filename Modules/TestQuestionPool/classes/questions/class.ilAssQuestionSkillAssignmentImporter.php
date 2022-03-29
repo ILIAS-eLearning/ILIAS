@@ -175,11 +175,8 @@ class ilAssQuestionSkillAssignmentImporter
         $results[] = array("skill_id" => $rec["obj_id"], "tref_id" => $t,
         "creation_date" => $rec["creation_date"]);
     */
-    
-    /**
-     * @return bool
-     */
-    public function import() : bool
+
+    public function import()
     {
         foreach ($this->getImportAssignmentList() as $assignment) {
             $foundSkillId = $this->getSkillIdMapping(

@@ -150,7 +150,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
             return '';
         }
 
-        $obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
+        $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
         $tracking = new ilObjUserTracking();
 
         switch ($placeholder_id) {

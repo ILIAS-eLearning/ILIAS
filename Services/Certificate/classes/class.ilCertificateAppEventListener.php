@@ -139,7 +139,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
             $objectId = $this->parameters['obj_id'] ?? 0;
             $userId = $this->parameters['usr_id'] ?? 0;
 
-            $type = $this->objectDataCache->lookupType($objectId);
+            $type = $this->objectDataCache->lookupType((int) $objectId);
 
             $this->logger->info(sprintf(
                 "Certificate evaluation triggered, received 'completed' learning progress for: usr_id: %s/obj_id: %s/type: %s",
@@ -288,7 +288,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
      * @param ilSetting             $settings
      * @throws ilDatabaseException
      * @throws ilException
-     * @throws ilInvalidCertificateException|JsonException
+     * @throws ilInvalidCertificateException
      */
     private function processEntry(
         $type,

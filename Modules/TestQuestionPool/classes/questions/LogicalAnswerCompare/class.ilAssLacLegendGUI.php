@@ -52,17 +52,14 @@ class ilAssLacLegendGUI
     }
 
     /**
-     * @return iQuestionCondition|null
+     * @return assQuestion|null
      */
     public function getQuestionOBJ() : ? iQuestionCondition
     {
         return $this->questionOBJ;
     }
 
-    /**
-     * @param iQuestionCondition $questionOBJ
-     */
-    public function setQuestionOBJ(iQuestionCondition $questionOBJ) : void
+    public function setQuestionOBJ(assQuestion $questionOBJ) : void
     {
         $this->questionOBJ = $questionOBJ;
     }

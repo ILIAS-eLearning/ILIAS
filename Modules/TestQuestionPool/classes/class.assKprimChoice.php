@@ -533,6 +533,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 return $lng->txt('option_label_adequate');
 
             case self::OPTION_LABEL_CUSTOM:
+            default:
                 return $this->getCustomTrueOptionLabel();
         }
     }
@@ -553,6 +554,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 return $lng->txt('option_label_not_adequate');
 
             case self::OPTION_LABEL_CUSTOM:
+            default:
                 return $this->getCustomFalseOptionLabel();
         }
     }
@@ -1037,6 +1039,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
                 $this->answers[$i] = $targetAnswer;
             }
         }
+        return true;
     }
     
     public function moveAnswerUp($position) : bool

@@ -71,7 +71,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
     {
         $relativePath = $previousTemplate->getBackgroundImagePath();
 
-        if (null === $relativePath || '' === $relativePath) {
+        if ('' === $relativePath) {
             $relativePath = '/certificates/default/background.jpg';
         }
 

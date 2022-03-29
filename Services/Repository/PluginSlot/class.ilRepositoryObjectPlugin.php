@@ -49,7 +49,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 
         $component_repository = $DIC["component.repository"];
 
-        $plugin = $component_repository->getPluginName($a_pname);
+        $plugin = $component_repository->getPluginByName($a_pname);
         $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
 
         $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();

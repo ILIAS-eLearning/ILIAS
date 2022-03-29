@@ -3,76 +3,47 @@
 
 /**
  * Class ilCloudPluginGUI
- *
  * Abstract base class for all GUI classes that can be extended by the plugin.
- *
  * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id$
- *
  * @ingroup ModulesCloud
  */
 abstract class ilCloudPluginGUI
 {
+    protected ?ilCloudPluginService $service = null;
 
-    /**
-     * @var ilCloudPluginService $service
-     */
-    protected $service = null;
-
-
-    /**
-     * @param $service_name
-     * @param $obj_id
-     */
-    public function __construct($plugin_service_class)
+    public function __construct(string $plugin_service_class)
     {
         $this->service = $plugin_service_class;
     }
 
-
-    /**
-     * @return ilCloudPlugin
-     */
-    public function getPluginObject()
+    public function getPluginObject() : ilCloudPlugin
     {
         return $this->service->getPluginObject();
     }
 
-
-    /**
-     * @return ilCloudHookPlugin
-     */
-    public function getPluginHookObject()
+    public function getPluginHookObject() : ilCloudHookPlugin
     {
         return $this->getPluginObject()->getPluginHookObject();
     }
 
-
-    public function getAdminConfigObject()
+    public function getAdminConfigObject() : ilCloudPluginConfig
     {
         return $this->getPluginObject()->getAdminConfigObject();
     }
 
-
-    /**
-     * @return ilCloudPluginService
-     */
-    public function getService()
+    public function getService() : ilCloudPluginService
     {
         return $this->service;
     }
 
-
-    /**
-     * @param string $var
-     */
-    public function txt($var = "")
+    public function txt(string $var = "") : string
     {
         return $this->getPluginHookObject()->txt($var);
     }
 
-
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

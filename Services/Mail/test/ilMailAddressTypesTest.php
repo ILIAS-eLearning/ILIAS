@@ -31,7 +31,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $mailingLists = $this->getMockBuilder(ilMailingLists::class)->disableOriginalConstructor()->getMock();
         $roleMailboxSearch = $this->getMockBuilder(ilRoleMailboxSearch::class)->disableOriginalConstructor()->getMock();
 
-        $mailAddressTypeFactory = new ilMailAddressTypeFactory(
+        return new ilMailAddressTypeFactory(
             $groupNameValidatorMock,
             $logger,
             $rbacsystem,
@@ -40,8 +40,6 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             $mailingLists,
             $roleMailboxSearch
         );
-
-        return $mailAddressTypeFactory;
     }
 
     private function getWrappedAddressType(ilMailAddressType $type) : ilMailAddressType

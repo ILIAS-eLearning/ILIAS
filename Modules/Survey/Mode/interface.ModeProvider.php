@@ -23,7 +23,7 @@ use ILIAS\Survey\InternalService;
  */
 interface ModeProvider
 {
-    public function setInternalService(InternalService $service);
+    public function setInternalService(InternalService $service) : void;
 
     public function getId() : int;
 

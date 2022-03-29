@@ -80,9 +80,9 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                 }
             }
             return $scale + 1;
-        } else {
-            return 99;
         }
+
+        return 99;
     }
     
     public function setShowNeutralCategory(bool $a_value) : void
@@ -120,7 +120,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         }
         if (array_key_exists('neutral', $a_value)) {
             $scale = $this->str($this->postvar . '_neutral_scale');
-            $scale = ($scale == "")
+            $scale = ($scale === "")
                 ? null
                 : (int) $scale;
             $this->values->addCategory(
@@ -232,7 +232,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                     }
                 }
                 //scales no duplicates.
-                if (count(array_unique($foundvalues['scale'])) != count($foundvalues['scale'])) {
+                if (count(array_unique($foundvalues['scale'])) !== count($foundvalues['scale'])) {
                     $this->setAlert($lng->txt("msg_duplicate_scale"));
                     return false;
                 }
@@ -287,7 +287,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                     $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($cat->title));
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_scale_propval");
-                    $tpl->setVariable("PROPERTY_VALUE",
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
                         ilLegacyFormElementsUtil::prepareFormOutput($this->values->getScale($i))
                     );
                     $tpl->parseCurrentBlock();
@@ -357,15 +358,17 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         if ($this->getShowNeutralCategory()) {
             if (is_object($neutral_category) && strlen($neutral_category->title)) {
                 $tpl->setCurrentBlock("prop_text_neutral_propval");
-                $tpl->setVariable("PROPERTY_VALUE",
+                $tpl->setVariable(
+                    "PROPERTY_VALUE",
                     ilLegacyFormElementsUtil::prepareFormOutput($neutral_category->title)
                 );
                 $tpl->parseCurrentBlock();
             }
-            if (strlen($this->getNeutralCategoryTitle())) {
+            if ($this->getNeutralCategoryTitle() !== '') {
                 $tpl->setCurrentBlock("neutral_category_title");
                 $tpl->setVariable("NEUTRAL_COLS", ($this->getUseOtherAnswer()) ? 4 : 3);
-                $tpl->setVariable("CATEGORY_TITLE",
+                $tpl->setVariable(
+                    "CATEGORY_TITLE",
                     ilLegacyFormElementsUtil::prepareFormOutput($this->getNeutralCategoryTitle())
                 );
                 $tpl->parseCurrentBlock();

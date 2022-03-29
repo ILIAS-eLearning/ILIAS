@@ -2,8 +2,8 @@
 
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
-    protected $width;
-    protected $height;
+    protected int $width = 0;
+    protected int $height = 0;
 
     protected function isValidADT(ilADT $a_adt) : bool
     {
@@ -30,10 +30,10 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
                     ->setEnableCentralMarker(true);
 
             if ($this->width) {
-                $map_gui->setWidth($this->width);
+                $map_gui->setWidth((string) $this->width);
             }
             if ($this->height) {
-                $map_gui->setHeight($this->height);
+                $map_gui->setHeight((string) $this->height);
             }
 
             return $this->decorate($map_gui->getHtml());
@@ -50,7 +50,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: probably does not make much sense

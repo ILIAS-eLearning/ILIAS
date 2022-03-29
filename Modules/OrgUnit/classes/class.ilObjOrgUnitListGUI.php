@@ -3,20 +3,12 @@
 
 /**
  * Class ilObjOrgUnitListGUI
- *
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilObjOrgUnitListGUI extends ilObjectListGUI
 {
-
-    /**
-     * @var ilTemplate
-     */
     protected $tpl;
-
 
     public function __construct()
     {
@@ -27,11 +19,10 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         //$this->enableComments(false, false);
     }
 
-
     /**
      * initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -48,29 +39,26 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         $this->commands = ilObjOrgUnitAccess::_getCommands();
     }
 
-
     /**
      * no timing commands needed in orgunits.
      */
-    public function insertTimingsCommand()
+    public function insertTimingsCommand() : void
     {
         return;
     }
-
 
     /**
      * no social commands needed in orgunits.
      */
-    public function insertCommonSocialCommands($a_header_actions = false)
+    public function insertCommonSocialCommands(bool $header_actions = false) : void
     {
         return;
     }
 
-
     /**
      * insert info screen command
      */
-    public function insertInfoScreenCommand()
+    public function insertInfoScreenCommand() : void
     {
         if ($this->std_cmd_only) {
             return;
@@ -78,24 +66,18 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         $cmd_link = $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
         $cmd_frame = $this->getCommandFrame("infoScreen");
 
-        $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame, ilUtil::getImagePath("icon_info.svg"));
+        $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
+            ilUtil::getImagePath("icon_info.svg"));
     }
 
-
-    /**
-     * @param string $a_cmd
-     *
-     * @return string
-     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $this->ref_id);
 
-        return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
+        return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $cmd);
     }
 
-
-    public function insertIconsAndCheckboxes()
+    public function insertIconsAndCheckboxes() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -132,7 +114,8 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
 
             parent::insertIconsAndCheckboxes();
             $this->tpl->setCurrentBlock("icon");
-            $this->tpl->setVariable("ALT_ICON", $lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
+            $this->tpl->setVariable("ALT_ICON",
+                $lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
             $this->tpl->setVariable("SRC_ICON", $icon_file);
             $this->tpl->parseCurrentBlock();
             $this->enableIcon(true);

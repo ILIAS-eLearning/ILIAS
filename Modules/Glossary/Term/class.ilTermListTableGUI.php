@@ -36,7 +36,7 @@ class ilTermListTableGUI extends ilTable2GUI
     ) {
         global $DIC;
         
-        $this->glossary = $a_parent_obj->object;
+        $this->glossary = $a_parent_obj->getObject();
         $this->setId("glotl" . $this->glossary->getId());
         $this->tax_node = $a_tax_node;
 
@@ -78,10 +78,8 @@ class ilTermListTableGUI extends ilTable2GUI
         foreach ($this->adv_cols_order as $c) {
             if ($c["id"] == 0) {
                 $this->addColumn($this->lng->txt("cont_term"), "term");
-            } else {
-                if (in_array("md_" . $c["id"], $this->selected_cols)) {
-                    $this->addColumn($c["text"], "md_" . $c["id"]);
-                }
+            } elseif (in_array("md_" . $c["id"], $this->selected_cols)) {
+                $this->addColumn($c["text"], "md_" . $c["id"]);
             }
         }
 
@@ -143,7 +141,7 @@ class ilTermListTableGUI extends ilTable2GUI
 
     public function numericOrdering(string $a_field) : bool
     {
-        if (substr($a_field, 0, 3) == "md_") {
+        if (strpos($a_field, "md_") === 0) {
             $md_id = (int) substr($a_field, 3);
             if ($this->adv_fields[$md_id]["type"] == ilAdvancedMDFieldDefinition::TYPE_DATE) {
                 return true;
@@ -209,7 +207,7 @@ class ilTermListTableGUI extends ilTable2GUI
         }
 
 
-        for ($j = 0; $j < count($defs); $j++) {
+        for ($j = 0, $jMax = count($defs); $j < $jMax; $j++) {
             $def = $defs[$j];
 
 
@@ -295,22 +293,20 @@ class ilTermListTableGUI extends ilTable2GUI
                 $this->tpl->setCurrentBlock("td");
                 $this->tpl->setVariable("TD_VAL", $a_set["term"]);
                 $this->tpl->parseCurrentBlock();
-            } else {
-                if (in_array("md_" . $c["id"], $this->selected_cols)) {
-                    $id = (int) $c["id"];
-                    
-                    $val = " ";
-                    if (isset($a_set["md_" . $id . "_presentation"])) {
-                        $pb = $a_set["md_" . $id . "_presentation"]->getHTML();
-                        if ($pb) {
-                            $val = $pb;
-                        }
+            } elseif (in_array("md_" . $c["id"], $this->selected_cols)) {
+                $id = (int) $c["id"];
+                
+                $val = " ";
+                if (isset($a_set["md_" . $id . "_presentation"])) {
+                    $pb = $a_set["md_" . $id . "_presentation"]->getHTML();
+                    if ($pb) {
+                        $val = $pb;
                     }
-                                        
-                    $this->tpl->setCurrentBlock("td");
-                    $this->tpl->setVariable("TD_VAL", $val);
-                    $this->tpl->parseCurrentBlock();
                 }
+                                    
+                $this->tpl->setCurrentBlock("td");
+                $this->tpl->setVariable("TD_VAL", $val);
+                $this->tpl->parseCurrentBlock();
             }
         }
     }

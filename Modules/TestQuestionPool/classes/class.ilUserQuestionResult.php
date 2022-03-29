@@ -38,11 +38,6 @@ class ilUserQuestionResult
      */
     protected $solutions = array();
 
-    /**
-     * @param iQuestionCondition $question
-     * @param int $active_id
-     * @param int $pass
-     */
     public function __construct($question, $active_id, $pass)
     {
         $this->question = $question;

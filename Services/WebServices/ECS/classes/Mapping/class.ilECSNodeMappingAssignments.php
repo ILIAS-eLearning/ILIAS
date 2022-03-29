@@ -15,10 +15,7 @@
  *****************************************************************************/
 
 /**
- *
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSNodeMappingAssignments
 {
@@ -32,6 +29,9 @@ class ilECSNodeMappingAssignments
     {
         global $DIC;
 
+        /**
+         * @var ilDBInterface $ilDB
+         */
         $ilDB = $DIC['ilDB'];
         
         $query = 'SELECT ref_id FROM ecs_node_mapping_a ' .
@@ -40,10 +40,7 @@ class ilECSNodeMappingAssignments
             'AND cs_root = ' . $ilDB->quote($a_tree_id, 'integer') . ' ' .
             'AND ref_id > 0';
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return true;
-        }
-        return false;
+        return $res->rowCount() > 0;
     }
     
     /**

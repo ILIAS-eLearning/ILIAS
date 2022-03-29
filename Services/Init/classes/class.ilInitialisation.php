@@ -6,6 +6,7 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
@@ -807,7 +808,7 @@ class ilInitialisation
         define("RECOVERY_FOLDER_ID", (int) $ilSetting->get("recovery_folder_id"));
 
         // installation id
-        define("IL_INST_ID", $ilSetting->get("inst_id", 0));
+        define("IL_INST_ID", $ilSetting->get("inst_id", '0'));
 
         // define default suffix replacements
         define("SUFFIX_REPL_DEFAULT", "php,php3,php4,inc,lang,phtml,htaccess");
@@ -1398,6 +1399,17 @@ class ilInitialisation
             ilContext::getType() == ilContext::CONTEXT_WAC) {
             throw new Exception("Authentication failed.");
         }
+
+        if (($DIC->http()->request()->getQueryParams()['cmdMode'] ?? 0) === 'asynch') {
+            $DIC->language()->loadLanguageModule('init');
+            $DIC->http()->saveResponse(
+                $DIC->http()->response()
+                    ->withStatus(403)
+                    ->withBody(Streams::ofString($DIC->language()->txt('init_error_authentication_fail')))
+            );
+            $DIC->http()->sendResponse();
+            $DIC->http()->close();
+        }
         if (
             $DIC['ilAuthSession']->isExpired() &&
             !\ilObjUser::_isAnonymous($DIC['ilAuthSession']->getUserId())
@@ -1480,10 +1492,22 @@ class ilInitialisation
      */
     protected static function replaceSuperGlobals(\ILIAS\DI\Container $container) : void
     {
-        $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
-        $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
-        $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
-        $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
+        /** @var ilIniFile $client_ini */
+        $client_ini = $container['ilClientIniFile'];
+
+        $replace_super_globals = (
+            !$client_ini->variableExists('system', 'prevent_super_global_replacement') ||
+            !(bool) $client_ini->readVariable('system', 'prevent_super_global_replacement')
+        );
+
+        if ($replace_super_globals) {
+            $throwOnValueAssignment = defined('DEVMODE') && DEVMODE;
+
+            $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET, $throwOnValueAssignment);
+            $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST, $throwOnValueAssignment);
+            $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE, $throwOnValueAssignment);
+            $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST, $throwOnValueAssignment);
+        }
     }
 
     protected static function initComponentService(\ILIAS\DI\Container $container) : void

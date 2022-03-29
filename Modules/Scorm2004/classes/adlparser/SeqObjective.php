@@ -24,7 +24,7 @@
         
         public bool $mContributesToRollup = false;
         
-        public $mMaps = null;
+        public ?array $mMaps = null;
         
         public function __construct()
         {

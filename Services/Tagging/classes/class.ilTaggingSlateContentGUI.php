@@ -176,7 +176,15 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         ), $items);
         $panel = $f->panel()->secondary()->listing("", $item_groups);
 
-        return $ui->renderer()->renderAsync([$back_button, $panel]);
+        $components = [$back_button, $panel];
+        if (count($items) == 0) {
+            $mbox = $f->messageBox()->info(
+                sprintf($lng->txt("tagging_no_obj_for_tag"), ilUtil::secureString($tag))
+            );
+            $components = [$back_button, $mbox];
+        }
+
+        return $ui->renderer()->renderAsync($components);
     }
 
     /**

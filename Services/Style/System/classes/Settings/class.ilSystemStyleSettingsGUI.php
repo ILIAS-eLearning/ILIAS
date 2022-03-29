@@ -59,9 +59,9 @@ class ilSystemStyleSettingsGUI
         $this->renderer = $renderer;
         $this->user = $user;
         $this->request = $request;
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
 
-        $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id);
+        $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
     }
 
     public function executeCommand() : void

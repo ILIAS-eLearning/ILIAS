@@ -12,6 +12,7 @@ require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
  */
 class ilMarkSchemaTableGUI extends ilTable2GUI
 {
+    private ?ilMarkSchemaAware $object;
 
     /**
      * @var bool

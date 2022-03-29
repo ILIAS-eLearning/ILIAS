@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
-use ILIAS\Refinery\Random\RandomSeed;
+use ILIAS\Refinery\Random\Seed;
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
@@ -1161,7 +1161,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $output .= $incorrect_feedback;
             }
         }
-        $test = new ilObjTest($this->object->active_id);
+        //$test = new ilObjTest($this->object->active_id);
         return $this->object->prepareTextareaOutput($output, true);
     }
 
@@ -1462,7 +1462,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
             if ($gap->type == CLOZE_TEXT) {
                 $present_elements = array();
-                foreach ($gap->getItems($this->randomGroup->shuffleArray(new RandomSeed())) as $item) {
+                foreach ($gap->getItems($this->randomGroup->shuffleArray(new Seed\RandomSeed())) as $item) {
                     /** @var assAnswerCloze $item */
                     $present_elements[] = $item->getAnswertext();
                 }
@@ -1608,7 +1608,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 return $answer;
 
             case CLOZE_SELECT:
-
+            default:
                 $items = $gap->getItems($this->randomGroup->dontShuffle());
                 return $items[$answer]->getAnswertext();
         }

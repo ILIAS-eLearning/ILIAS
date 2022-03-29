@@ -225,7 +225,7 @@ class ilPageEditorGUI
         if ($com[0] == "insert" || $com[0] == "create") {
             // Step CM (creation mode handling)
             $cmd = $com[0];
-            $ctype = $com[1];				// note ctype holds type if cmdclass is empty, but also subcommands if not (e.g. applyFilter in ilpcmediaobjectgui)
+            $ctype = $com[1] ?? "";				// note ctype holds type if cmdclass is empty, but also subcommands if not (e.g. applyFilter in ilpcmediaobjectgui)
             $add_type = $this->request->getString("pluginName");
             if ($ctype == "mob") {
                 $ctype = "media";
@@ -444,7 +444,7 @@ class ilPageEditorGUI
 
         $this->log->debug("end ---");
 
-        return $ret;
+        return (string) $ret;
     }
 
     public function activatePage() : void

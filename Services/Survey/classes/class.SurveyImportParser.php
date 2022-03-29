@@ -20,6 +20,9 @@
  */
 class SurveyImportParser extends ilSaxParser
 {
+    protected int $showQuestiontext;
+    protected int $showBlocktitle;
+    protected int $compressView;
     public $path;
     public $depth;
     public $activequestion;
@@ -100,6 +103,8 @@ class SurveyImportParser extends ilSaxParser
         $this->questionblocks = array();
         $this->questionblock = array();
         $this->showQuestiontext = 1;
+        $this->showBlocktitle = 0;
+        $this->compressView = 0;
         $this->questionblocktitle = "";
         $this->mapping = $a_mapping;
     }
@@ -188,10 +193,18 @@ class SurveyImportParser extends ilSaxParser
                 $this->questionblock = array();
                 $this->questionblocktitle = "";
                 $this->showQuestiontext = 1;
+                $this->showBlocktitle = 0;
+                $this->compressView = 0;
                 foreach ($a_attribs as $attrib => $value) {
                     switch ($attrib) {
                         case "showQuestiontext":
                             $this->showQuestiontext = $value;
+                            break;
+                        case "showBlocktitle":
+                            $this->showBlocktitle = $value;
+                            break;
+                        case "compressView":
+                            $this->compressView = $value;
                             break;
                     }
                 }
@@ -420,7 +433,13 @@ class SurveyImportParser extends ilSaxParser
                             foreach ($questionblock as $question_id) {
                                 array_push($qblock, $this->questions[$question_id]);
                             }
-                            $this->survey->createQuestionblock($title, $this->showQuestiontext, false, $qblock);
+                            $this->survey->createQuestionblock(
+                                $title,
+                                $this->showQuestiontext,
+                                $this->showBlocktitle,
+                                $qblock,
+                                $this->compressView
+                            );
                         }
                     }
 

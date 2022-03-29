@@ -1,13 +1,11 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Services/Object/classes/class.ilObjectGUI.php';
-require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
-require_once 'Services/Notifications/classes/class.ilNotificationHandler.php';
+use ILIAS\DI\Container;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
- * @author            Jan Posselt <jposselt@databay.de.de>
- * @version           $Id$
+ * @author            Jan Posselt <jposselt@databay.de.de> Ingmar Szmais <iszmais@databay.de>
  * @ilCtrl_Calls      ilNotificationGUI:
  * @ilCtrl_IsCalledBy ilNotificationGUI: ilPersonalProfileGUI, ilDashboardGUI
  * @ingroup           ServicesNotifications
@@ -15,6 +13,8 @@ require_once 'Services/Notifications/classes/class.ilNotificationHandler.php';
 class ilNotificationGUI implements ilCtrlBaseClassInterface
 {
     private $handler = array();
+
+    private Container $dic;
 
     /** @var ilObjUser|ilUser */
     private $user;
@@ -52,6 +52,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
             global $DIC;
             $dic = $DIC;
         }
+        $this->dic = $dic;
 
         if ($user === null) {
             $user = $dic->user();
@@ -77,10 +78,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
             $locatorGUI = $dic['ilLocator'];
         }
         $this->locatorGUI = $locatorGUI;
-
         $this->type = "not";
-
-        require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
     }
 
     public static function _forwards()
@@ -120,16 +118,11 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
      * @global ilUser $ilUser
      * @return string
      */
-    public function getOSDNotificationsObject()
+    public function getOSDNotificationsObject() : void
     {
+        $settings = new ilSetting('notifications');
+
         ilSession::enableWebAccessWithoutSession(true);
-
-        if ($this->user->getId() == ANONYMOUS_USER_ID) {
-            return '{}';
-        }
-
-        require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php';
-        require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
 
         $notifications = ilNotificationOSDHandler::getNotificationsForUser(
             $this->user->getId(),
@@ -139,20 +132,42 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
 
         $result = new stdClass();
         $result->notifications = $notifications;
-        $result->server_time = time();
-        echo json_encode($result);
-        exit;
+        $toasts = [];
+        foreach ($result->notifications as $notification) {
+            $toast = $this->dic->ui()->factory()->toast()->standard(
+                $notification['data']->title,
+                $this->dic->ui()->factory()->symbol()->icon()->custom($notification['data']->iconPath, ''))
+            ->withAction('ilias.php?' . http_build_query([
+                    'baseClass' => 'ilNotificationGUI',
+                    'cmd' => 'removeOSDNotifications',
+                    'cmdMode' => 'asynch',
+                    'notification_id' => $notification['notification_osd_id']
+            ]))
+            ->withDescription($notification['data']->shortDescription)
+            ->withVanishTime($settings->get('osd_vanish') * 1000)
+            ->withDelayTime($settings->get('osd_delay'));
+            foreach ($notification['data']->links as $link) {
+                $toast = $toast->withAdditionalLink($this->dic->ui()->factory()->link()->standard(
+                    $link->getTitle(),
+                    $link->getUrl()
+                ));
+            }
+            $toasts[] = $toast;
+        }
+        $this->dic->http()->saveResponse(
+            $this->dic->http()->response()
+                ->withBody(Streams::ofString(
+                    $this->dic->ui()->renderer()->renderAsync($toasts)
+                ))
+        );
+        $this->dic->http()->sendResponse();
+        $this->dic->http()->close();
     }
 
     public function removeOSDNotificationsObject()
     {
         ilSession::enableWebAccessWithoutSession(true);
-
-        require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php';
-        require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
-
         ilNotificationOSDHandler::removeNotification($_REQUEST['notification_id']);
-
         exit;
     }
 
@@ -178,14 +193,10 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
 
     public function showSettingsObject()
     {
-        require_once 'Services/Notifications/classes/class.ilNotificationSettingsTable.php';
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-
         $userTypes = ilNotificationDatabaseHandler::loadUserConfig($this->user->getId());
 
         $this->language->loadLanguageModule('notification');
 
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $chk = new ilCheckboxInputGUI($this->language->txt('enable_custom_notification_configuration'), 'enable_custom_notification_configuration');
         $chk->setValue('1');
@@ -226,8 +237,6 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
 
     private function saveSettingsObject()
     {
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-
         ilNotificationDatabaseHandler::setUserConfig(
             $this->user->getId(),
             $_REQUEST['notification'] ? $_REQUEST['notification'] : array()

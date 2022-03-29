@@ -982,7 +982,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQTIItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -1073,9 +1073,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $this->allowedextensions = strtolower(trim($a_value));
     }
 
-    /**
-    * Object getter
-    */
     public function __get($value)
     {
         switch ($value) {
@@ -1088,10 +1085,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             case 'completion_by_submission':
                 return $this->isCompletionBySubmissionEnabled();
                 break;
-            default:
-                return parent::__get($value);
-                break;
         }
+        return null;
     }
 
     /**
@@ -1108,9 +1103,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                 break;
             case 'completion_by_submission':
                 $this->setCompletionBySubmission($value);
-                break;
-            default:
-                parent::__set($key, $value);
                 break;
         }
     }

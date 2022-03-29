@@ -4,6 +4,9 @@
 
 namespace ILIAS\Data;
 
+use ILIAS\Data\Clock\ClockFactory;
+use ILIAS\Data\Clock\ClockFactoryImpl;
+
 /**
  * Builds data types.
  *
@@ -22,7 +25,7 @@ class Factory
     /**
      * Get an ok result.
      *
-     * @param  mixed  $value
+     * @param mixed $value
      */
     public function ok($value) : Result
     {
@@ -32,7 +35,7 @@ class Factory
     /**
      * Get an error result.
      *
-     * @param  string|\Exception $error
+     * @param string|\Exception $e
      * @return Result
      */
     public function error($e) : Result
@@ -44,7 +47,7 @@ class Factory
      * Color is a data type representing a color in HTML.
      * Construct a color with a hex-value or list of RGB-values.
      *
-     * @param  string|int[] $value
+     * @param string|int[] $value
      */
     public function color($value) : Color
     {
@@ -67,7 +70,7 @@ class Factory
     /**
      * Represents the size of some data.
      *
-     * @param   string|int  $size   string might be a string like "126 MB"
+     * @param string|int $size string might be a string like "126 MB"
      * @throw   \InvalidArgumentException if first argument is int and second is not a valid unit.
      * @throw   \InvalidArgumentException if string size can't be interpreted
      */
@@ -142,7 +145,7 @@ class Factory
     }
 
     /**
-     * @param   string $version in the form \d+([.]\d+([.]\d+)?)?
+     * @param string $version in the form \d+([.]\d+([.]\d+)?)?
      * @throws  \InvalidArgumentException if version string does not match \d+([.]\d+([.]\d+)?)?
      */
     public function version(string $version) : Version
@@ -153,5 +156,10 @@ class Factory
     public function link(string $label, URI $url) : Link
     {
         return new Link($label, $url);
+    }
+
+    public function clock() : ClockFactory
+    {
+        return new ClockFactoryImpl();
     }
 }

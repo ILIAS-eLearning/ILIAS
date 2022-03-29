@@ -71,7 +71,7 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
             $obj_id = ilObject::_lookupObjId($this->requested_ref_id);
             $title = ilObject::_lookupTitle($obj_id);
 
-            if ($this->requested_page != "") {
+            if ($this->requested_page !== "") {
                 $page = $this->requested_page;
             } else {
                 $page = ilObjWiki::_lookupStartPage($obj_id);
@@ -85,7 +85,7 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
                 
                 $title .= ": " . $ptitle;
                 
-                $append = ($this->requested_page != "")
+                $append = ($this->requested_page !== "")
                     ? "_" . ilWikiUtil::makeUrlTitle($page)
                     : "";
                 $goto = ilLink::_getStaticLink(

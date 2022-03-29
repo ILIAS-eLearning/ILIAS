@@ -15,12 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSTaskScheduler
 {
@@ -364,10 +359,10 @@ class ilECSTaskScheduler
 
         if ($soap_client->init() and 0) {
             $this->log->info('Calling soap handleECSTasks method...');
-            $res = $soap_client->call('handleECSTasks', array($new_session_id . '::' . $client_id,$this->settings->getServerId()));
+            $soap_client->call('handleECSTasks', array($new_session_id . '::' . $client_id,$this->settings->getServerId()));
         } else {
             $this->log->info('SOAP call failed. Calling clone method manually. ');
-            $res = ilSoapFunctions::handleECSTasks($new_session_id . '::' . $client_id, $this->settings->getServerId());
+            ilSoapFunctions::handleECSTasks($new_session_id . '::' . $client_id, $this->settings->getServerId());
         }
     }
 }

@@ -62,7 +62,7 @@ class ilWikiExporter extends ilXmlExporter
         foreach ($a_ids as $id) {
             $rec_ids = $this->getActiveAdvMDRecords($id);
             $this->wiki_log->debug("advmd rec ids: wiki id:" . $id . ", adv rec ids" . print_r($rec_ids, true));
-            if (sizeof($rec_ids)) {
+            if (count($rec_ids)) {
                 foreach ($rec_ids as $rec_id) {
                     $advmd_ids[] = $id . ":" . $rec_id;
                 }
@@ -71,7 +71,7 @@ class ilWikiExporter extends ilXmlExporter
 
         $this->wiki_log->debug("advmd ids: " . print_r($advmd_ids, true));
 
-        if (sizeof($advmd_ids)) {
+        if (count($advmd_ids)) {
             $deps[] = array(
                 "component" => "Services/AdvancedMetaData",
                 "entity" => "advmd",
@@ -106,7 +106,7 @@ class ilWikiExporter extends ilXmlExporter
 
         foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType("wiki", "wpg") as $record_obj) {
             // local ones and globally activated for the object
-            if ($record_obj->getParentObject() == $a_id || in_array($record_obj->getRecordId(), $sel_globals)) {
+            if ($record_obj->getParentObject() === $a_id || in_array($record_obj->getRecordId(), $sel_globals)) {
                 $active[] = $record_obj->getRecordId();
             }
         }

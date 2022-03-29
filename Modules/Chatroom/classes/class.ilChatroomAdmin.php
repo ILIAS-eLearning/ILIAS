@@ -172,10 +172,6 @@ class ilChatroomAdmin
         if (($row = $DIC->database()->fetchAssoc($DIC->database()->query($query))) && $row['client_settings']) {
             $settings = json_decode($row['client_settings'], true, 512, JSON_THROW_ON_ERROR);
 
-            if (!$settings['osd_intervall']) {
-                $settings['osd_intervall'] = 60;
-            }
-
             if (!isset($settings['client']) || !is_string($settings['client']) || $settings['client'] === '') {
                 $settings['client'] = CLIENT_ID;
             }

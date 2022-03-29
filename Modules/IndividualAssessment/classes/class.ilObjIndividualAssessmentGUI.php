@@ -381,10 +381,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         }
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $this->tpl->setOnScreenMessage("success", $this->txt("iass_added"), true);
-        $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+        $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         $this->ctrl->redirectToUrl($this->ctrl->getLinkTargetByClass(
             'ilIndividualassessmentsettingsgui',
             'edit',

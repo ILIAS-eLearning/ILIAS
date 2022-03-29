@@ -18,47 +18,32 @@
  * Presentation of ecs uril (http://...campusconnect/courselinks)
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesWebServicesECS
  */
 class ilECSUriList
 {
     public array $uris = array();
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-
-
-    /**
      * Add uri
-     * @param  string $a_uri
-     * @param int $a_link_id
      */
-    public function add($a_uri, $a_link_id)
+    public function add(string $a_uri, int $a_link_id)
     {
         $this->uris[$a_link_id] = $a_uri;
     }
 
     /**
      * Get link ids
-     * @return <type>
      */
-    public function getLinkIds()
+    public function getLinkIds() : array
     {
-        return (array) array_keys($this->uris);
+        return array_keys($this->uris);
     }
 
     /**
      * Get uris
-     * @return array
      */
-    public function getUris()
+    public function getUris() : array
     {
-        return (array) $this->uris;
+        return $this->uris;
     }
 }

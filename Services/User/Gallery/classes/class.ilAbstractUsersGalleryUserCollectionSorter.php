@@ -17,7 +17,7 @@ abstract class ilAbstractUsersGalleryUserCollectionSorter implements ilUsersGall
 {
     abstract protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right) : int;
 
-    final public function sort(array $users) : array
+    final public function sort(array $users) : array // Missing array type.
     {
         uasort($users, function (ilUsersGalleryUser $left, ilUsersGalleryUser $right) : int {
             return $this->compare($left, $right);

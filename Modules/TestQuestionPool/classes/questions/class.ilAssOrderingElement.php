@@ -359,7 +359,7 @@ class ilAssOrderingElement
             
             case OQ_TERMS:
             case OQ_PICTURES:
-                
+            default:
                 return $this->getSolutionIdentifier();
         }
     }
@@ -374,7 +374,7 @@ class ilAssOrderingElement
             
             case OQ_TERMS:
             case OQ_PICTURES:
-                
+            default:
                 return $this->getPosition() + 1;
         }
     }

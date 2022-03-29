@@ -37,12 +37,12 @@ class ilObjRemoteLearningModule extends ilRemoteObjectBase
         $this->type = "rlm";
     }
     
-    protected function getTableName()
+    protected function getTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
     
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return "/campusconnect/learningmodules";
     }
@@ -95,7 +95,7 @@ class ilObjRemoteLearningModule extends ilRemoteObjectBase
         return false;
     }
     
-    protected function doCreateCustomFields(array &$a_fields)
+    protected function doCreateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", 0);
     }

@@ -38,7 +38,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
         $this->lng->loadLanguageModule('chatroom');
 
-        $room = ilChatroom::byObjectId((int) $this->obj_id);
+        $room = ilChatroom::byObjectId($this->obj_id);
         if ($room) {
             $props[] = [
                 'alert' => false,

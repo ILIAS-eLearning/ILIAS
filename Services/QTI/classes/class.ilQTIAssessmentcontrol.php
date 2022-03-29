@@ -31,9 +31,16 @@
 */
 class ilQTIAssessmentcontrol
 {
+    /** @var string */
     public $hintswitch;
+
+    /** @var string */
     public $solutionswitch;
+
+    /** @var string */
     public $view;
+
+    /** @var string */
     public $feedbackswitch;
     
     public function __construct()
@@ -43,8 +50,11 @@ class ilQTIAssessmentcontrol
         $this->view = "All";
         $this->feedbackswitch = "";
     }
-    
-    public function setView($a_view)
+
+    /**
+     * @param string $a_view
+     */
+    public function setView($a_view) : void
     {
         switch ($a_view) {
             case "Administrator":
@@ -63,61 +73,58 @@ class ilQTIAssessmentcontrol
                 break;
         }
     }
-    
+
+    /**
+     * @return string
+     */
     public function getView()
     {
         return $this->view;
     }
 
-    public function setHintswitch($a_hintswitch)
+    /**
+     * @param string $a_hintswitch
+     */
+    public function setHintswitch($a_hintswitch) : void
     {
-        switch ($a_hintswitch) {
-            case "Yes":
-            case "No":
-                $this->hintswitch = $a_hintswitch;
-                break;
-            default:
-                $this->hintswitch = "Yes";
-                break;
-        }
+        $this->hintswitch = 'No' === $a_hintswitch ? 'No' : 'Yes';
     }
-    
+
+    /**
+     * @return string
+     */
     public function getHintswitch()
     {
         return $this->hintswitch;
     }
-    
-    public function setSolutionswitch($a_solutionswitch)
+
+    /**
+     * @param string $a_solutionswitch
+     */
+    public function setSolutionswitch($a_solutionswitch) : void
     {
-        switch ($a_solutionswitch) {
-            case "Yes":
-            case "No":
-                $this->solutionswitch = $a_solutionswitch;
-                break;
-            default:
-                $this->solutionswitch = "Yes";
-                break;
-        }
+        $this->solutionswitch = 'No' === $a_solutionswitch ? 'No' : 'Yes';
     }
-    
+
+    /**
+     * @return string
+     */
     public function getSolutionswitch()
     {
         return $this->solutionswitch;
     }
 
-    public function setFeedbackswitch($a_feedbackswitch)
+    /**
+     * @param string $a_feedbackswitch
+     */
+    public function setFeedbackswitch($a_feedbackswitch) : void
     {
-        switch ($a_feedbackswitch) {
-            case "Yes":
-            case "No":
-                $this->feedbackswitch = $a_feedbackswitch;
-                break;
-            default:
-                $this->feedbackswitch = "Yes";
-                break;
-        }
+        $this->feedbackswitch = 'No' === $a_feedbackswitch ? 'No' : 'Yes';
     }
-    
+
+    /**
+     * @return string
+     */
     public function getFeedbackswitch()
     {
         return $this->feedbackswitch;

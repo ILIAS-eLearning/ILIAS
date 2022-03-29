@@ -14,13 +14,9 @@ class ilFileSystemHelper
     protected ilSystemStyleMessageStack $message_stack;
     protected ilLanguage $lng;
 
-    public function __construct(ilLanguage $lng, ?ilSystemStyleMessageStack $message_stack = null)
+    public function __construct(ilLanguage $lng, ilSystemStyleMessageStack $message_stack)
     {
-        if (!$message_stack) {
-            $this->setMessageStack(new ilSystemStyleMessageStack());
-        } else {
-            $this->setMessageStack($message_stack);
-        }
+        $this->setMessageStack($message_stack);
         $this->lng = $lng;
     }
 

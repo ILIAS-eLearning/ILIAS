@@ -36,7 +36,7 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         /* @var ilObjectDataCache $objCache */
         $objCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];
 
-        $qplObjId = $objCache->lookupObjId($qplRefId);
+        $qplObjId = $objCache->lookupObjId((int) $qplRefId);
         return in_array($qplObjId, $this->getAvailableQuestionPools());
     }
     

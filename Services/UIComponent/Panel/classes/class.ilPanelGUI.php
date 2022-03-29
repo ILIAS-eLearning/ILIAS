@@ -107,7 +107,7 @@ class ilPanelGUI
         $tpl = new ilTemplate("tpl.panel.html", true, true, "Services/UIComponent/Panel");
 
         $head_outer_div_style = "";
-        if ($this->getHeading() != "") {
+        if ($this->getHeading() !== "") {
             $tpl->setCurrentBlock("heading");
             $tpl->setVariable("HEADING", $this->getHeading());
 
@@ -129,7 +129,7 @@ class ilPanelGUI
 
         $tpl->setVariable("BODY", $this->getBody());
         
-        if ($this->getFooter() != "") {
+        if ($this->getFooter() !== "") {
             $tpl->setCurrentBlock("footer");
             $tpl->setVariable("FOOTER", $this->getFooter());
             

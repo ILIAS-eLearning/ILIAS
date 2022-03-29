@@ -192,7 +192,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $pass = key($_POST['scoring']);
         $activeData = current($_POST['scoring']);
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-        $oneExceededMaxPoints = false;
         $manPointsPost = [];
         $skipParticipant = [];
         $maxPointsByQuestionId = [];
@@ -217,8 +216,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             }
             
             foreach ((array) $questions as $qst_id => $reached_points) {
-                $this->saveFeedback($active_id, $qst_id, $pass, $ajax);
-
                 if (false == isset($manPointsPost[$pass])) {
                     $manPointsPost[$pass] = [];
                 }
@@ -228,17 +225,13 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
                 $manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
-                    $oneExceededMaxPoints = true;
+                    ilUtil::sendFailure(sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
+                    $this->showManScoringByQuestionParticipantsTable($manPointsPost);
+                    return;
                 }
             }
         }
-        
-        if ($oneExceededMaxPoints) {
-            $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
-            $this->showManScoringByQuestionParticipantsTable($manPointsPost);
-            return;
-        }
-        
+
         $changed_one = false;
         $lastAndHopefullyCurrentQuestionId = null;
 
@@ -345,8 +338,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
     protected function getAnswerDetail()
     {
-        $active_id = (int) $_GET['active_id'];
-        $pass = (int) $_GET['pass_id'];
+        $active_id = $this->testrequest->getActiveId();
+        $pass = $this->testrequest->getPassId();
         $question_id = (int) $_GET['qst_id'];
         
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {

@@ -42,9 +42,9 @@ class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
 
     /**
      * Get soratable
-     * @return mixed
+     * @return
      */
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             return $this->getADT()->getUrl();

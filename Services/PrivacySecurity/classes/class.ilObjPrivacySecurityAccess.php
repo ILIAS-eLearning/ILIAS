@@ -16,12 +16,12 @@
  * @author  Stefan Meyer <meyer@leifos.de>
  * @ingroup ServicesPrivacySecurity
  */
-class ilObjPrivacySecurityAccess extends \ilObjectAccess
+class ilObjPrivacySecurityAccess extends ilObjectAccess
 {
     /**
      * Overwritten checkAccess
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         return true;
     }

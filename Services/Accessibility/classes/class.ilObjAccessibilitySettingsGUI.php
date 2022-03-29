@@ -48,7 +48,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -107,7 +107,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
     protected function getSettingsForm() : ilPropertyFormGUI

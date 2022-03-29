@@ -60,6 +60,9 @@ class ilUserClipboardTableGUI extends ilTable2GUI
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
+    /**
+     * @param array<string,mixed> $a_set
+     */
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_POSTNAME', 'uids');

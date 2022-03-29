@@ -24,7 +24,7 @@ class MapValuesTest extends TestCase
         $language = $this->createMock('\ilLanguage');
 
         $this->f = new ILIAS\Refinery\Factory($dataFactory, $language);
-        $this->map_values = $this->f->container()->mapValues($this->f->custom()->transformation(fn($v) => $v*2));
+        $this->map_values = $this->f->container()->mapValues($this->f->custom()->transformation(fn ($v) => $v * 2));
     }
 
     public function testTransform() : void

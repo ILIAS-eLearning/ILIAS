@@ -38,6 +38,9 @@ class Renderer extends AbstractComponentRenderer
     ) : string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
+        if ($component->hasOverlay()) {
+            $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
+        }
         if ($component->hasMetabar()) {
             $tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
         }
@@ -83,6 +86,13 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
+        }
+    
+        foreach ($component->getMetaData() as $meta_key => $meta_value) {
+            $tpl->setCurrentBlock('meta_datum');
+            $tpl->setVariable('META_KEY', $meta_key);
+            $tpl->setVariable('META_VALUE', $meta_value);
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();

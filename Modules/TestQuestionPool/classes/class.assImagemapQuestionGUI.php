@@ -31,8 +31,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * The constructor takes possible arguments an creates an instance of the assImagemapQuestionGUI object.
      *
      * @param integer $id The database id of a image map question object.
-     *
-     * @return \assImagemapQuestionGUI
      */
     public function __construct($id = -1)
     {
@@ -156,9 +154,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     /**
      * @param ilPropertyFormGUI|null $form
-     * @return bool
      */
-    public function editQuestion(ilPropertyFormGUI $form = null) : bool
+    public function editQuestion(ilPropertyFormGUI $form = null) : void
     {
         if (null === $form) {
             $form = $this->buildEditForm();
@@ -799,7 +796,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -815,7 +812,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");

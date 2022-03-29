@@ -6,6 +6,7 @@ use ilDashboardGUI;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\MyStaff\ListUsers\ilMStListUsers;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMStListCertificatesGUI;
@@ -18,7 +19,6 @@ use ilUtil;
 
 /**
  * Class StaffMainBarProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StaffMainBarProvider extends AbstractStaticMainMenuProvider
@@ -27,16 +27,15 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    final public function getStaticTopItems() : array
     {
         return [];
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    final public function getStaticSubItems() : array
     {
         $this->dic->language()->loadLanguageModule('mst');
         $dic = $this->dic;
@@ -44,7 +43,8 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
         $top = StandardTopItemsProvider::getInstance()->getOrganisationIdentification();
 
         $title = $this->dic->language()->txt("mm_staff_list");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_stff.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_stff.svg"),
+            $title);
 
         // My Staff
         $items[] = $this->mainmenu->link($this->if->identifier('mm_pd_mst'))
@@ -63,13 +63,16 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             )
             ->withVisibilityCallable(
-                static function () {
-                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                function () : bool {
+                    return (
+                        new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
+                    )->hasCurrentUserAccessToMyStaff();
                 }
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 
         $title = $this->dic->language()->txt("mm_enrolments");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_enrl.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_enrl.svg"),
+            $title);
 
         // My Enrolments
         $items[] = $this->mainmenu->link($this->if->identifier('mm_pd_enrol'))
@@ -88,8 +91,10 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             )
             ->withVisibilityCallable(
-                function () {
-                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                function () : bool {
+                    return (
+                        new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
+                    )->hasCurrentUserAccessToMyStaff();
                 }
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 
@@ -112,10 +117,11 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )
             ->withVisibilityCallable(
                 function () : bool {
-                    return boolval(ilMyStaffAccess::getInstance()->hasCurrentUserAccessToCertificates());
+                    return (
+                        new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
+                    )->hasCurrentUserAccessToCertificates();
                 }
             )->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt("component_not_active")}"));
-
 
         // My Competences
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title)->withIsOutlined(true);
@@ -136,10 +142,11 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )
             ->withVisibilityCallable(
                 function () : bool {
-                    return boolval(ilMyStaffAccess::getInstance()->hasCurrentUserAccessToCompetences());
+                    return (
+                        new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
+                    )->hasCurrentUserAccessToCompetences();
                 }
             )->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt("component_not_active")}"));
-
 
         return $items;
     }

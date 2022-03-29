@@ -73,25 +73,16 @@ abstract class assBaseTestCase extends TestCase
         $DIC[$name] = $GLOBALS[$name];
     }
 
-    /**
-     * @return \ilTemplate|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getGlobalTemplateMock()
     {
         return $this->getMockBuilder(\ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return \ilDBInterface|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getDatabaseMock()
     {
         return $this->getMockBuilder(\ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return \ILIAS|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getIliasMock()
     {
         $mock = $this->getMockBuilder(\ILIAS::class)->disableOriginalConstructor()->getMock();

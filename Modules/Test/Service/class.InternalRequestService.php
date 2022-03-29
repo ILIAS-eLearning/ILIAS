@@ -34,6 +34,16 @@ class InternalRequestService
         );
     }
 
+    public function isset(string $key) : bool
+    {
+        return $this->raw($key) !== null;
+    }
+
+    public function hasRefId() : int
+    {
+        return $this->raw('ref_id') !== null;
+    }
+
     public function getRefId() : int
     {
         return $this->int("ref_id");
@@ -43,5 +53,35 @@ class InternalRequestService
     public function getIds() : array
     {
         return $this->strArray("id");
+    }
+
+    public function hasQuestionId() : bool
+    {
+        return $this->raw('q_id') !== null;
+    }
+
+    public function getQuestionId() : int
+    {
+        return $this->int('q_id');
+    }
+
+    public function getCallingTest() : int
+    {
+        return $this->int('calling_test');
+    }
+
+    public function getNextCommand() : string
+    {
+        return $this->str('nextCommand');
+    }
+
+    public function getActiveId() : int
+    {
+        return $this->int('active_id');
+    }
+
+    public function getPassId() : int
+    {
+        return $this->int('pass_id');
     }
 }

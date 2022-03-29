@@ -11,13 +11,6 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  */
 class ilQuestionPoolExportTableGUI extends ilExportTableGUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);

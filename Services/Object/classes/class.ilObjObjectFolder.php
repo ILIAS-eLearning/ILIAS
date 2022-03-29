@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -10,15 +10,13 @@
 class ilObjObjectFolder extends ilObject
 {
     /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id, $a_call_by_reference = true)
+     * @param	integer	reference_id or object_id
+     * @param	boolean	treat the id as reference_id (true) or object_id (false)
+     */
+    public function __construct(int $id, bool $call_by_reference = true)
     {
         $this->type = "objf";
-        parent::__construct($a_id, $a_call_by_reference);
+        parent::__construct($id, $call_by_reference);
     }
 
 
@@ -43,4 +41,4 @@ class ilObjObjectFolder extends ilObject
         // always call parent delete function at the end!!
         return true;
     }
-} // END class.ilObjObjectFolder
+}

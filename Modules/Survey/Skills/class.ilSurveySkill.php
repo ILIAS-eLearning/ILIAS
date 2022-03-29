@@ -22,8 +22,9 @@ class ilSurveySkill
     protected ilObjSurvey $survey;
     protected ilDBInterface $db;
 
-    // key: question id, value:
-    // array("base_skill_id" =>..., "tref_id" =>... )
+    /**
+     * @var array<int, array{q_id: int, base_skill_id: int, tref_id: int}>
+     */
     protected array $q_skill = array();
     protected ilLogger $log;
 
@@ -48,9 +49,11 @@ class ilSurveySkill
         
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (SurveyQuestion::_questionExists($rec["q_id"])) {
-                $this->q_skill[$rec["q_id"]] = array("q_id" => $rec["q_id"],
-                    "base_skill_id" => $rec["base_skill_id"],
-                    "tref_id" => $rec["tref_id"]);
+                $this->q_skill[(int) $rec["q_id"]] = array(
+                    "q_id" => (int) $rec["q_id"],
+                    "base_skill_id" => (int) $rec["base_skill_id"],
+                    "tref_id" => (int) $rec["tref_id"]
+                );
             }
         }
     }
@@ -58,15 +61,12 @@ class ilSurveySkill
     /**
      * Get skill for question
      * @param int $a_question_id question id
-     * @return ?array skill array
+     * @return ?array{q_id: int, base_skill_id: int, tref_id: int} skill array
      */
     public function getSkillForQuestion(
         int $a_question_id
     ) : ?array {
-        if (isset($this->q_skill[$a_question_id])) {
-            return $this->q_skill[$a_question_id];
-        }
-        return null;
+        return $this->q_skill[$a_question_id] ?? null;
     }
     
     /**
@@ -79,8 +79,8 @@ class ilSurveySkill
     ) : array {
         $q_ids = array();
         foreach ($this->q_skill as $q_id => $s) {
-            if ($s["base_skill_id"] == $a_base_skill_id &&
-                $s["tref_id"] == $a_tref_id) {
+            if ($s["base_skill_id"] === $a_base_skill_id &&
+                $s["tref_id"] === $a_tref_id) {
                 $q_ids[] = $q_id;
             }
         }
@@ -110,9 +110,11 @@ class ilSurveySkill
                 "tref_id" => array("integer", $a_tref_id)
                 )
         );
-        $this->q_skill[$a_question_id] = array("q_id" => $a_question_id,
+        $this->q_skill[$a_question_id] = array(
+            "q_id" => $a_question_id,
             "base_skill_id" => $a_base_skill_id,
-            "tref_id" => $a_tref_id);
+            "tref_id" => $a_tref_id
+        );
         
         // add usage
         ilSkillUsage::setUsage($this->survey->getId(), $a_base_skill_id, $a_tref_id);
@@ -130,8 +132,10 @@ class ilSurveySkill
         );
         $skills = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $skills[] = array("skill_id" => $rec["base_skill_id"],
-                "tref_id" => $rec["tref_id"]);
+            $skills[] = array(
+                "skill_id" => $rec["base_skill_id"],
+                "tref_id" => $rec["tref_id"]
+            );
         }
         
         // remove assignment of question
@@ -151,7 +155,7 @@ class ilSurveySkill
         int $a_question_id,
         int $a_obj_id
     ) : void {
-        if (ilObject::_lookupType($a_obj_id) == "svy") {
+        if (ilObject::_lookupType($a_obj_id) === "svy") {
             // mantis 11691
             $svy = new ilObjSurvey($a_obj_id, false);
             $svy_skill = new ilSurveySkill($svy);
@@ -177,7 +181,7 @@ class ilSurveySkill
         
         // now remove all usages that have been confirmed
         foreach ($a_skills as $skill) {
-            if (!in_array($skill["skill_id"] . ":" . $skill["tref_id"], $used_skills)) {
+            if (!in_array($skill["skill_id"] . ":" . $skill["tref_id"], $used_skills, true)) {
                 ilSkillUsage::setUsage($this->survey->getId(), $skill["skill_id"], $skill["tref_id"], false);
             }
         }
@@ -209,8 +213,7 @@ class ilSurveySkill
     {
         $skills = array();
         foreach ($this->q_skill as $sk) {
-            $skills[$sk["base_skill_id"] . ":" . $sk["tref_id"]] =
-                ilBasicSkill::_lookupTitle($sk["base_skill_id"]);
+            $skills[$sk["base_skill_id"] . ":" . $sk["tref_id"]] = ilBasicSkill::_lookupTitle($sk["base_skill_id"]);
         }
         return $skills;
     }
@@ -240,7 +243,7 @@ class ilSurveySkill
                 "tref_id" => (int) $k[1],
                 "skill_title" => $title,
                 "level_data" => $ld
-                );
+            );
         }
 
         $finished_ids = [];
@@ -281,7 +284,7 @@ class ilSurveySkill
                         $scale_values = array_keys($answer); // scale values of the answer
                         $this->log->debug("User answer (scale values): " . print_r($scale_values, true));
                         $sum += array_sum($scale_values);
-                        $cnt += sizeof($scale_values); // nr of answers (always one in the case of single choice)
+                        $cnt += count($scale_values); // nr of answers (always one in the case of single choice)
                     }
                     if ($cnt > 0) {
                         $qmean = $sum / $cnt;
@@ -378,6 +381,10 @@ class ilSurveySkill
             }
         }
 
+        //write profile completion entries if fulfilment status has changed
+        $prof_manager = new ilSkillProfileCompletionManager($user_id);
+        $prof_manager->writeCompletionEntryForAllProfiles();
+
         // write self evaluation
         $this->writeAndAddSelfEvalSkills($user_id);
     }
@@ -418,7 +425,7 @@ class ilSurveySkill
     public function writeAndAddSelfEvalSkills(
         int $user_id
     ) : void {
-        if ($user_id > 0 && in_array($this->survey->getMode(), [ilObjSurvey::MODE_SELF_EVAL, ilObjSurvey::MODE_360])) {
+        if ($user_id > 0 && in_array($this->survey->getMode(), [ilObjSurvey::MODE_SELF_EVAL, ilObjSurvey::MODE_360], true)) {
             $new_levels = $this->determineSkillLevelsForAppraisee($user_id, true);
             foreach ($new_levels as $nl) {
                 if ($nl["new_level_id"] > 0) {

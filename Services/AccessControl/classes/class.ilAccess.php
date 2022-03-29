@@ -566,7 +566,7 @@ class ilAccess implements ilAccessHandler
         }
         $item_data = ilObjectActivation::getItem($a_ref_id);
         // if activation isn't enabled
-        if ($item_data === null ||
+        if ($item_data === null || (is_array($item_data) && count($item_data) == 0) ||
             $item_data['timing_type'] != ilObjectActivation::TIMINGS_ACTIVATION) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;

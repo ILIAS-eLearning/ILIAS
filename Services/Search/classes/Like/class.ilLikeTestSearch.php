@@ -36,7 +36,6 @@ class ilLikeTestSearch extends ilTestSearch
 {
     public function __createWhereCondition() : string
     {
-
         foreach ($this->getFields() as $field) {
             $tmp_field[$field] = 'text';
         }

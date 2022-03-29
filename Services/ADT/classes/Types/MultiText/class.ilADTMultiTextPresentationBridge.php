@@ -21,7 +21,7 @@ class ilADTMultiTextPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             return implode(";", $this->getADT()->getTextElements());

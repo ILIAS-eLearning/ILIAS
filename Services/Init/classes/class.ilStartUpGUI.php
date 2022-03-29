@@ -802,7 +802,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 'SHIB_FORMACTION',
                 './shib_login.php'
             ); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
-
+            $federation_name = $this->setting->get("shib_federation_name");
+            $admin_mail = ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt(
+                    "administrator"
+                ) . '</a>.';
             if ($this->setting->get("shib_hos_type") == 'external_wayf') {
                 $tpl->setCurrentBlock("shibboleth_login");
                 $tpl->setVariable("TXT_SHIB_LOGIN", $this->lng->txt("login_to_ilias_via_shibboleth"));
@@ -813,8 +816,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     "TXT_SHIB_LOGIN_INSTRUCTIONS",
                     sprintf(
                         $this->lng->txt("shib_general_login_instructions"),
-                        $this->setting->get("shib_federation_name")
-                    ) . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.'
+                        $federation_name,
+                        $admin_mail
+                    )
                 );
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $this->setting->get("shib_login_instructions"));
                 $tpl->parseCurrentBlock();
@@ -838,7 +842,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $this->lng->txt("shib_home_organization"));
                 $tpl->setVariable(
                     "TXT_SHIB_LOGIN_INSTRUCTIONS",
-                    $this->lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.'
+                    sprintf(
+                        $this->lng->txt("shib_general_wayf_login_instructions"),
+                        $admin_mail
+                    )
                 );
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $this->setting->get("shib_login_instructions"));
 

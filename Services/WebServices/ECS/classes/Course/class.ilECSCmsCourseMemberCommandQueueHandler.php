@@ -207,27 +207,22 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
      */
     protected function readAssignments($course, $course_member)
     {
-        $put_in_course = true;
-        
+        //TODO check if this switch is still needed
         switch ((int) $course->groupScenario) {
             case ilECSMappingUtils::PARALLEL_ONE_COURSE:
                 $this->log->debug('Parallel group scenario one course.');
-                $put_in_course = true;
                 break;
                 
             case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
                 $this->log->debug('Parallel group scenario groups in courses.');
-                $put_in_course = false;
                 break;
                 
             case ilECSMappingUtils::PARALLEL_ALL_COURSES:
                 $this->log->debug('Parallel group scenario only courses.');
-                $put_in_course = false;
                 break;
-            
+
             default:
                 $this->log->debug('Parallel group scenario undefined.');
-                $put_in_course = true;
                 break;
         }
         
@@ -438,7 +433,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
     
     /**
      * Create user account
-     * @param type $a_person_id
      */
     private function createMember($a_person_id)
     {
@@ -483,7 +477,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 
     /**
      * Read course from ecs
-     * @return boolean
      */
     private function readCourseMember(ilECSSetting $server, $a_content_id)
     {
@@ -499,7 +492,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
     
     /**
      * Read course from ecs
-     * @return boolean
      */
     private function readCourse($course_member)
     {

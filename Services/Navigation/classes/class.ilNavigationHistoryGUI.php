@@ -86,9 +86,9 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
             if ($cnt++ > 20) {
                 break;
             }
-            if (!isset($item["ref_id"]) || $this->request->getRefId() == 0 ||
+            if (!isset($item["ref_id"]) || $this->request->getRefId() === 0 ||
                 $item["ref_id"] != $this->request->getRefId() || $k > 0) {			// do not list current item
-                $obj_id = ilObject::_lookupObjId($item["ref_id"]);
+                $obj_id = ilObject::_lookupObjId((int) $item["ref_id"]);
                 $selection->addItem(
                     $item["title"],
                     $item["ref_id"],
@@ -101,7 +101,7 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
         }
         $html = $selection->getHTML();
         
-        if ($html == "") {
+        if ($html === "") {
             $selection->addItem(
                 $lng->txt("no_items"),
                 "",
@@ -121,7 +121,7 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
         $ilNavigationHistory = $this->nav_history;
         $ilCtrl = $this->ctrl;
         
-        if ($this->request->getTarget() == "navi_request") {
+        if ($this->request->getTarget() === "navi_request") {
             $items = $ilNavigationHistory->getItems();
             foreach ($items as $item) {
                 if ($item["ref_id"] == $this->request->getUrlRefId()) {
@@ -130,10 +130,10 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
             }
             reset($items);
             $item = current($items);
-            if ($this->request->getUrlRefId() == 0 && $item["ref_id"] == $this->request->getRefId()) {
+            if ($this->request->getUrlRefId() === 0 && $item["ref_id"] == $this->request->getRefId()) {
                 $item = next($items);		// omit current item
             }
-            if ($this->request->getUrlRefId() == 0 && $item["link"] != "") {
+            if ($this->request->getUrlRefId() === 0 && $item["link"] != "") {
                 ilUtil::redirect($item["link"]);
             }
             

@@ -163,20 +163,16 @@ class ilAdvancedMDSettingsGUI
     }
 
     /**
-     * @return array<int, int>
+     * @return array<string, float>
      */
     protected function getPositionsFromPost() : array
     {
         if ($this->http->wrapper()->post()->has('position')) {
-            $custom_int_key_float_value_transformation =
-                $this->refinery->custom()->transformation(
-                    function ($array) {
-                        return $array;
-                    }
-                );
             return $this->http->wrapper()->post()->retrieve(
                 'position',
-                $custom_int_key_float_value_transformation
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->float()
+                )
             );
         }
         return [];
@@ -658,7 +654,7 @@ class ilAdvancedMDSettingsGUI
         $sorted_positions = [];
         $i = 1;
         foreach ($positions as $record_id => $pos) {
-            $sorted_positions[$record_id] = $i++;
+            $sorted_positions[(int) $record_id] = $i++;
         }
         $selected_global = array();
         foreach ($this->getParsedRecordObjects() as $item) {
@@ -921,7 +917,7 @@ class ilAdvancedMDSettingsGUI
         )) {
             $positions_flipped = array_flip(array_keys($positions));
             foreach ($fields as $field) {
-                $field->setPosition($positions_flipped[$field->getFieldId()]);
+                $field->setPosition((int) $positions_flipped[$field->getFieldId()]);
                 $field->update();
             }
         }

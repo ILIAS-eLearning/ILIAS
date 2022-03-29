@@ -635,7 +635,7 @@ class ilForumPost
         global $DIC;
         $ilDB = $DIC->database();
 
-        $res = $ilDB->queryf(
+        $res = $ilDB->queryF(
             'SELECT pos_message FROM frm_posts WHERE pos_pk = %s',
             ['integer'],
             [$post_id]

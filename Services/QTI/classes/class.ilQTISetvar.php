@@ -21,11 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("ACTION_SET", "1");
-define("ACTION_ADD", "2");
-define("ACTION_SUBTRACT", "3");
-define("ACTION_MULTIPLY", "4");
-define("ACTION_DIVIDE", "5");
+const ACTION_SET = "1";
+const ACTION_ADD = "2";
+const ACTION_SUBTRACT = "3";
+const ACTION_MULTIPLY = "4";
+const ACTION_DIVIDE = "5";
 
 /**
 * QTI setvar class
@@ -37,25 +37,39 @@ define("ACTION_DIVIDE", "5");
 */
 class ilQTISetvar
 {
+    /** @var string|null */
     public $varname;
+
+    /** @var string|null */
     public $action;
+
+    /** @var string|null */
     public $content;
     
     public function __construct()
     {
     }
 
-    public function setVarname($a_varname)
+    /**
+     * @param string $a_varname
+     */
+    public function setVarname($a_varname) : void
     {
         $this->varname = $a_varname;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getVarname()
     {
         return $this->varname;
     }
-    
-    public function setAction($a_action)
+
+    /**
+     * @param string $a_action
+     */
+    public function setAction($a_action) : void
     {
         switch (strtolower($a_action)) {
             case "set":
@@ -80,17 +94,26 @@ class ilQTISetvar
                 break;
         }
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getAction()
     {
         return $this->action;
     }
-    
-    public function setContent($a_content)
+
+    /**
+     * @param string $a_content
+     */
+    public function setContent($a_content) : void
     {
         $this->content = $a_content;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getContent()
     {
         return $this->content;

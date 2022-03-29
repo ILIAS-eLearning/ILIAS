@@ -44,6 +44,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     protected \ILIAS\Survey\Execution\RunManager $run_manager;
     protected \ILIAS\Survey\Participants\StatusManager $status_manager;
     protected ?ilObjSurvey $survey = null;
+    protected ilRbacSystem $rbacsystem;
 
     public function __construct()
     {
@@ -82,10 +83,10 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         parent::__construct("", $this->execution_request->getRefId(), true, false);
 
-        if ($this->object->getType() != "svy") {
+        if ($this->object->getType() !== "svy") {
             $this->setCreationMode(true);
         }
-        if ($this->object && $this->object->getType() == "svy") {
+        if ($this->object && $this->object->getType() === "svy") {
             /** @var $survey \ilObjSurvey */
             $survey = $this->object;
             $this->survey = $survey;
@@ -124,12 +125,12 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $cmd = $this->ctrl->getCmd("properties");
         
         // workaround for bug #6288, needs better solution
-        if ($cmd == "saveTags") {
+        if ($cmd === "saveTags") {
             $this->ctrl->setCmdClass("ilinfoscreengui");
         }
         
         // deep link from repository - "redirect" to page view
-        if (!$this->ctrl->getCmdClass() && $cmd == "questionsrepo") {
+        if (!$this->ctrl->getCmdClass() && $cmd === "questionsrepo") {
             $this->ctrl->setParameterByClass("ilsurveyeditorgui", "pgov", "1");
             $this->ctrl->redirectByClass("ilsurveyeditorgui", "questions");
         }
@@ -274,8 +275,8 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 break;
         }
 
-        if (strtolower($this->edit_request->getBaseClass()) != "iladministrationgui" &&
-            $this->getCreationMode() != true) {
+        if (strtolower($this->edit_request->getBaseClass()) !== "iladministrationgui" &&
+            $this->getCreationMode() !== true) {
             $this->tpl->printToStdout();
 
             //cherry pick conflict with d97cf1c77b
@@ -312,7 +313,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl->redirect($eval_gui, "evaluation");
     }
 
-    protected function addDidacticTemplateOptions(array &$a_options)
+    protected function addDidacticTemplateOptions(array &$a_options) : void
     {
         $templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
         if ($templates) {
@@ -335,34 +336,34 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->lng->txt("svy_ind_feedb_info"));
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         // #16446
-        $a_new_object->loadFromDb();
+        $new_object->loadFromDb();
         
         //set the mode depending on didactic template
         if ($this->getDidacticTemplateVar("svy360")) {
-            $a_new_object->setMode(ilObjSurvey::MODE_360);
+            $new_object->setMode(ilObjSurvey::MODE_360);
         } elseif ($this->getDidacticTemplateVar("svyselfeval")) {
-            $a_new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
+            $new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
         } elseif ($this->getDidacticTemplateVar("individfeedb")) {
-            $a_new_object->setMode(ilObjSurvey::MODE_IND_FEEDB);
+            $new_object->setMode(ilObjSurvey::MODE_IND_FEEDB);
         }
 
-        $svy_mode = $a_new_object->getMode();
-        if ($svy_mode == ilObjSurvey::MODE_360) {
+        $svy_mode = $new_object->getMode();
+        if ($svy_mode === ilObjSurvey::MODE_360) {
             // this should rather be ilObjSurvey::ANONYMIZE_ON - see ilObjSurvey::getUserDataFromActiveId()
-            $a_new_object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
-            $a_new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
-        } elseif ($svy_mode == ilObjSurvey::MODE_SELF_EVAL) {
-            $a_new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
+            $new_object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+            $new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
+        } elseif ($svy_mode === ilObjSurvey::MODE_SELF_EVAL) {
+            $new_object->setEvaluationAccess(ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS);
         }
-        $a_new_object->saveToDB();
+        $new_object->saveToDB();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" .
-            $a_new_object->getRefId() . "&cmd=properties");
+            $new_object->getRefId() . "&cmd=properties");
     }
     
     protected function getTabs() : void
@@ -422,7 +423,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         // questions
         if ($this->checkPermissionBool("write") &&
-            $this->object->getMode() == ilObjSurvey::MODE_STANDARD) {
+            $this->object->getMode() === ilObjSurvey::MODE_STANDARD) {
             // constraints (tab called routing)
             $this->tabs_gui->addTab(
                 "constraints",
@@ -543,7 +544,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function addSubTabs(
         string $a_section
     ) : void {
-        if ($a_section == 'settings') {
+        if ($a_section === 'settings') {
             $this->tabs_gui->addSubTabTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, 'properties')
@@ -608,7 +609,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     // IMPORT/EXPORT
     //
     
-    protected function initImportForm($a_new_type)
+    protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
@@ -659,7 +660,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->log->debug("form->getInput(spl) = " . $form->getInput("spl"));
 
             $error = $newObj->importObject($_FILES["importfile"], $form->getInput("spl"));
-            if (strlen($error)) {
+            if ($error !== '') {
                 $newObj->delete();
                 $this->tpl->setOnScreenMessage('failure', $error);
                 return;
@@ -687,8 +688,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->tpl->setVariable("TXT_TEMPLATE_OPTION", $item["title"]);
                     $this->tpl->parseCurrentBlock();
 
-                    $desc = str_replace("\n", "", nl2br($item["description"]));
-                    $desc = str_replace("\r", "", $desc);
+                    $desc = str_replace(["\n", "\r"], "", nl2br($item["description"]));
 
                     $this->tpl->setCurrentBlock("js_data");
                     $this->tpl->setVariable("JS_DATA_ID", $item["id"]);
@@ -800,7 +800,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $ctrl = $DIC->ctrl();
 
         // see ilObjSurveyAccess::_checkGoto()
-        if (strlen($a_access_code)) {
+        if ($a_access_code !== '') {
             $sess = $DIC->survey()->internal()->repo()
                 ->execution()->runSession();
             $sess->setCode(ilObject::_lookupObjId($a_target), $a_access_code);
@@ -834,7 +834,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     ) : string {
         $rtpl = new ilTemplate("tpl.svy_view_user_results.html", true, true, "Modules/Survey");
         
-        $show_titles = (bool) $this->object->getShowQuestionTitles();
+        $show_titles = $this->object->getShowQuestionTitles();
         
         foreach ($this->object->getSurveyPages() as $page) {
             if (count($page) > 0) {
@@ -950,10 +950,10 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                         true
                     );
 
-                    if (sizeof($answers)) {
+                    if (count($answers)) {
                         $multiline = false;
-                        if (sizeof($answers) > 1 ||
-                            get_class($question_gui) == "SurveyTextQuestionGUI") {
+                        if (count($answers) > 1 ||
+                            get_class($question_gui) === "SurveyTextQuestionGUI") {
                             $multiline = true;
                         }
 

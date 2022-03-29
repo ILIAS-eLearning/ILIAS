@@ -3,6 +3,19 @@
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
@@ -78,8 +91,8 @@ class ilWebDAVMountInstructionsGUI
         $view_control = $f->viewControl()->mode($view_control_actions, "mount-instruction-buttons")->withActive($selected);
 
         // Add view control and legacy add the beginning of the array (so they will be rendered first)
-        $header_components = [
-            $f->legacy("<div style='text-align: center'>"),
+        $header_components = [ 
+            $f->legacy("<div class='webdav-view-control'>"),
             $view_control,
             $f->legacy("</div>"),
             $js_function_legacy];

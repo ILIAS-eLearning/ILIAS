@@ -76,6 +76,41 @@ class ilObjectCustomUserFieldsGUI
         $this->ref_id = end($refs);
     }
 
+    protected function initMemberIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('member_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'member_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initFielIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('field_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'field_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initRequiredStatusFromPost() : array
+    {
+        if ($this->http->wrapper()->post()->has('required')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'required',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->bool()
+                )
+            );
+        }
+        return [];
+    }
+
     public function executeCommand() : void
     {
         if (!$this->accessHandler->checkAccess('write', '', $this->ref_id)) {
@@ -121,7 +156,7 @@ class ilObjectCustomUserFieldsGUI
     {
         $fields = ilCourseDefinedFieldDefinition::_getFields($this->getObjId());
         foreach ($fields as $field_obj) {
-            $field_obj->enableRequired(isset($_POST['required'][$field_obj->getId()]));
+            $field_obj->enableRequired($this->initRequiredStatusFromPost()[$field_obj->getId()] ?? false);
             $field_obj->update();
         }
 
@@ -218,13 +253,13 @@ class ilObjectCustomUserFieldsGUI
 
     protected function editField() : void
     {
-        if (!$_REQUEST['field_id']) {
+        if (!$this->initMemberIdFromQuery()) {
             $this->listFields();
             return;
         }
 
         $this->initFieldForm(self::MODE_UPDATE);
-        $udf = new ilCourseDefinedFieldDefinition($this->getObjId(), (int) $_REQUEST['field_id']);
+        $udf = new ilCourseDefinedFieldDefinition($this->getObjId(), $this->initFielIdFromQuery());
         $this->form->getItemByPostVar('na')->setValue($udf->getName());
         $this->form->getItemByPostVar('ty')->setValue($udf->getType());
         $this->form->getItemByPostVar('re')->setChecked($udf->isRequired());
@@ -237,7 +272,7 @@ class ilObjectCustomUserFieldsGUI
     {
         $this->initFieldForm(self::MODE_UPDATE);
         if ($this->form->checkInput()) {
-            $udf = new ilCourseDefinedFieldDefinition($this->getObjId(), (int) $_REQUEST['field_id']);
+            $udf = new ilCourseDefinedFieldDefinition($this->getObjId(), $this->initFielIdFromQuery());
             $udf->setName($this->form->getInput('na'));
             $udf->setType($this->form->getInput('ty'));
             $prepared = $udf->prepareValues($this->form->getInput('va'));
@@ -258,7 +293,7 @@ class ilObjectCustomUserFieldsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function initFieldForm($a_mode) : ilPropertyFormGUI
+    protected function initFieldForm(int $a_mode) : ilPropertyFormGUI
     {
         if ($this->form instanceof ilPropertyFormGUI) {
             return $this->form;
@@ -274,7 +309,7 @@ class ilObjectCustomUserFieldsGUI
                 break;
 
             case self::MODE_UPDATE:
-                $this->ctrl->setParameter($this, 'field_id', (int) $_REQUEST['field_id']);
+                $this->ctrl->setParameter($this, 'field_id', $this->initFielIdFromQuery());
                 $this->form->setFormAction($this->ctrl->getFormAction($this));
                 $this->form->setTitle($this->lng->txt('ps_cdf_edit_field'));
                 $this->form->addCommandButton('updateField', $this->lng->txt('save'));
@@ -294,7 +329,7 @@ class ilObjectCustomUserFieldsGUI
         $ty->setRequired(true);
         $this->form->addItem($ty);
 
-        if ($a_mode == self::MODE_UPDATE) {
+        if ($a_mode === self::MODE_UPDATE) {
             $ty->setDisabled(true); // #14888
         }
 
@@ -316,13 +351,14 @@ class ilObjectCustomUserFieldsGUI
 
         // Required
         $re = new ilCheckboxInputGUI($this->lng->txt('ps_cdf_required'), 're');
-        $re->setValue((string) 1);
+        $re->setValue("1");
         $this->form->addItem($re);
         return $this->form;
     }
 
     protected function editMember(?ilPropertyFormGUI $form = null) : void
     {
+        $member_id = $this->initMemberIdFromQuery();
         $this->ctrl->saveParameter($this, 'member_id');
 
         $this->tabs_gui->clearTargets();
@@ -338,23 +374,24 @@ class ilObjectCustomUserFieldsGUI
             ilMemberAgreementGUI::setCourseDefinedFieldValues(
                 $form,
                 $this->getObjId(),
-                (int) $_REQUEST['member_id']
+                $member_id
             );
         }
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function cancelEditMember()
+    protected function cancelEditMember() : void
     {
         $this->ctrl->returnToParent($this);
     }
 
     protected function initMemberForm() : ilPropertyFormGUI
     {
+        $member_id = $this->initMemberIdFromQuery();
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $title = $this->lng->txt(ilObject::_lookupType($this->getObjId()) . '_cdf_edit_member');
-        $name = ilObjUser::_lookupName((int) $_REQUEST['member_id']);
+        $name = ilObjUser::_lookupName($member_id);
         $title .= (': ' . $name['lastname'] . ', ' . $name['firstname']);
         $form->setTitle($title);
 
@@ -371,17 +408,18 @@ class ilObjectCustomUserFieldsGUI
 
     protected function saveMember() : void
     {
+        $member_id = $this->initMemberIdFromQuery();
         $this->ctrl->saveParameter($this, 'member_id');
 
         $form = $this->initMemberForm();
         if ($form->checkInput()) {
             // save history
-            $history = new ilObjectCustomUserFieldHistory($this->getObjId(), (int) $_REQUEST['member_id']);
+            $history = new ilObjectCustomUserFieldHistory($this->getObjId(), $member_id);
             $history->setEditingTime(new ilDateTime(time(), IL_CAL_UNIX));
             $history->setUpdateUser($this->user->getId());
             $history->save();
 
-            ilMemberAgreementGUI::saveCourseDefinedFields($form, $this->getObjId(), (int) $_REQUEST['member_id']);
+            ilMemberAgreementGUI::saveCourseDefinedFields($form, $this->getObjId(), $member_id);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->returnToParent($this);
             return;

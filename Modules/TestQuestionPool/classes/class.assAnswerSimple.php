@@ -53,8 +53,6 @@ class ASS_AnswerSimple
      * @param double  $points     The number of points given for the selected answer
      * @param integer $order      A nonnegative value representing a possible display or sort order
      * @param integer $id         The database id of the answer
-     *
-     * @return ASS_AnswerSimple
      */
     public function __construct($answertext = "", $points = 0.0, $order = 0, $id = -1)
     {

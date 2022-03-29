@@ -18,7 +18,7 @@ class ilSoapHook
      *
      * @return ilSoapMethod[]
      */
-    public function getSoapMethods()
+    public function getSoapMethods() : array
     {
         static $methods = null;
         if ($methods !== null) {
@@ -38,7 +38,7 @@ class ilSoapHook
      *
      * @return ilWsdlType[]
      */
-    public function getWsdlTypes()
+    public function getWsdlTypes() : array
     {
         static $types = null;
         if ($types !== null) {
@@ -62,9 +62,8 @@ class ilSoapHook
      */
     public function getMethodByName(string $name) : ?ilSoapMethod
     {
-        $array = array_filter($this->getSoapMethods(), function ($method) use ($name) {
-            /** @var ilSoapMethod $method */
-            return ($method->getName() == $name);
+        $array = array_filter($this->getSoapMethods(), static function (ilSoapMethod $method) use ($name) {
+            return ($method->getName() === $name);
         });
         return array_pop($array);
     }

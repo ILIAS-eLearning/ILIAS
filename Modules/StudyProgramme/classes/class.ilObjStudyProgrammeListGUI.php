@@ -48,27 +48,27 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
     /**
      * @inheritdoc
      */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $this->ctrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $this->ref_id);
 
-        return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammegui", $a_cmd);
+        return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammegui", $cmd);
     }
 
     /**
     * @inheritdoc
     */
     public function getListItemHTML(
-        $a_ref_id,
-        $a_obj_id,
-        $a_title,
-        $a_description,
-        $a_use_asynch = false,
-        $a_get_asynch_commands = false,
-        $a_asynch_url = "",
-        $a_context = self::CONTEXT_REPOSITORY
-    ) {
-        $prg = new ilObjStudyProgramme((int) $a_ref_id);
+        int $ref_id,
+        int $obj_id,
+        string $title,
+        string $description,
+        bool $use_async = false,
+        bool $get_async_commands = false,
+        string $async_url = "",
+        int $context = self::CONTEXT_REPOSITORY
+    ) : string {
+        $prg = new ilObjStudyProgramme($ref_id);
         $assignments = $prg->getAssignments();
         if ($this->getCheckboxStatus() && count($assignments) > 0) {
             $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
@@ -78,13 +78,13 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
         }
 
         return parent::getListItemHTML(
-            $a_ref_id,
-            $a_obj_id,
-            $a_title,
-            $a_description,
-            $a_use_asynch,
-            $a_get_asynch_commands,
-            $a_asynch_url
+            $ref_id,
+            $obj_id,
+            $title,
+            $description,
+            $use_async,
+            $get_async_commands,
+            $async_url
         );
     }
 }

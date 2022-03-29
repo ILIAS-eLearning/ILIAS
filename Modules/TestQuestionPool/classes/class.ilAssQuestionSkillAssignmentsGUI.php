@@ -657,7 +657,7 @@ class ilAssQuestionSkillAssignmentsGUI
         return $this->questionList->isInList($questionId);
     }
 
-    private function checkSolutionCompareExpressionInput(ilLogicalAnswerComparisonExpressionInputGUI $input, assQuestion $question) : bool
+    private function checkSolutionCompareExpressionInput($input, assQuestion $question) : bool
     {
         $errors = array();
 

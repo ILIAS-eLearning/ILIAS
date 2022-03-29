@@ -32,10 +32,6 @@ class ilImageWizardInputGUI extends ilTextInputGUI
         $this->validationRegexp = "";
     }
 
-    /**
-    * Set Value.
-    * @param    $a_value Value
-    */
     public function setValue($a_value) : void
     {
         $this->values = array();

@@ -88,7 +88,7 @@ class ilUserSearchCache
         $this->read();
     }
     
-    public static function _getInstance($a_usr_id) : ilUserSearchCache
+    public static function _getInstance($a_usr_id) : ilUserSearchCache// @TODO: PHP8 Review: Missing parameter type.
     {
         if (self::$instance instanceof ilUserSearchCache) {
             return self::$instance;
@@ -200,7 +200,7 @@ class ilUserSearchCache
      * @access public
      * @return array array(ref_id => obj_id)
      */
-    public function getCheckedItems():array
+    public function getCheckedItems() : array
     {
         return $this->checked ?: array();
     }
@@ -263,7 +263,7 @@ class ilUserSearchCache
     /**
      * set root node of search
      */
-    public function setRoot(int $a_root)
+    public function setRoot(int $a_root) : void
     {
         $this->root = $a_root;
     }
@@ -374,7 +374,6 @@ class ilUserSearchCache
     
     public function delete() : bool
     {
-
         $query = "DELETE FROM usr_search " .
             "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer') . " " .
             "AND search_type = " . $this->db->quote($this->search_type, 'integer');
@@ -425,19 +424,19 @@ class ilUserSearchCache
 
     public function saveForAnonymous() : void
     {
-        unset($_SESSION['usr_search_cache']);
+        unset($_SESSION['usr_search_cache']);// @TODO: PHP8 Review: Direct access to $_SESSION.
 
-        $_SESSION['usr_search_cache'][$this->search_type]['search_result'] = $this->search_result;
-        $_SESSION['usr_search_cache'][$this->search_type]['checked'] = $this->checked;
-        $_SESSION['usr_search_cache'][$this->search_type]['failed'] = $this->failed;
-        $_SESSION['usr_search_cache'][$this->search_type]['page'] = $this->page_number;
-        $_SESSION['usr_search_cache'][$this->search_type]['query'] = $this->getQuery();
-        $_SESSION['usr_search_cache'][$this->search_type]['root'] = $this->getRoot();
-        $_SESSION['usr_search_cache'][$this->search_type]['item_filter'] = $this->getItemFilter();
-        $_SESSION['usr_search_cache'][$this->search_type]['mime_filter'] = $this->getMimeFilter();
-        $_SESSION['usr_search_cache'][$this->search_type]['creation_filter'] = $this->getCreationFilter();
+        $_SESSION['usr_search_cache'][$this->search_type]['search_result'] = $this->search_result;// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $_SESSION['usr_search_cache'][$this->search_type]['checked'] = $this->checked;// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $_SESSION['usr_search_cache'][$this->search_type]['failed'] = $this->failed;// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $_SESSION['usr_search_cache'][$this->search_type]['page'] = $this->page_number;// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $_SESSION['usr_search_cache'][$this->search_type]['query'] = $this->getQuery();// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $_SESSION['usr_search_cache'][$this->search_type]['root'] = $this->getRoot();// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $_SESSION['usr_search_cache'][$this->search_type]['item_filter'] = $this->getItemFilter();// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $_SESSION['usr_search_cache'][$this->search_type]['mime_filter'] = $this->getMimeFilter();// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $_SESSION['usr_search_cache'][$this->search_type]['creation_filter'] = $this->getCreationFilter();// @TODO: PHP8 Review: Direct access to $_SESSION.
 
-        $_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] = $this->getQuery();
+        $_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] = $this->getQuery();// @TODO: PHP8 Review: Direct access to $_SESSION.
     }
     
     
@@ -485,15 +484,15 @@ class ilUserSearchCache
      */
     private function readAnonymous() : void
     {
-        $this->search_result = (array) $_SESSION['usr_search_cache'][$this->search_type]['search_result'];
-        $this->checked = (array) $_SESSION['usr_search_cache'][$this->search_type]['checked'];
-        $this->failed = (array) $_SESSION['usr_search_cache'][$this->search_type]['failed'];
-        $this->page_number = $_SESSION['usr_search_cache'][$this->search_type]['page_number'];
+        $this->search_result = (array) $_SESSION['usr_search_cache'][$this->search_type]['search_result'];// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $this->checked = (array) $_SESSION['usr_search_cache'][$this->search_type]['checked'];// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $this->failed = (array) $_SESSION['usr_search_cache'][$this->search_type]['failed'];// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $this->page_number = $_SESSION['usr_search_cache'][$this->search_type]['page_number'];// @TODO: PHP8 Review: Direct access to $_SESSION.
 
-        $this->setQuery($_SESSION['usr_search_cache'][$this->search_type]['query']);
-        $this->setRoot((int) $_SESSION['usr_search_cache'][$this->search_type]['root']);
-        $this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);
-        $this->setMimeFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['mime_filter']);
-        $this->setCreationFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['creation_filter']);
+        $this->setQuery($_SESSION['usr_search_cache'][$this->search_type]['query']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $this->setRoot((int) $_SESSION['usr_search_cache'][$this->search_type]['root']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $this->setMimeFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['mime_filter']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $this->setCreationFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['creation_filter']);// @TODO: PHP8 Review: Direct access to $_SESSION.
     }
 }

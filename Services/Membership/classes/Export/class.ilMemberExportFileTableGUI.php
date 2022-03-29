@@ -45,7 +45,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         return in_array($a_field, array('size', 'date'));
     }
 
-    protected function getFiles(ilFileSystemStorage $a_fss_export) : void
+    protected function getFiles(ilFileSystemAbstractionStorage $a_fss_export) : void
     {
         $data = [];
         foreach ($a_fss_export->getMemberExportFiles() as $exp_file) {

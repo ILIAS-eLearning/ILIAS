@@ -76,7 +76,7 @@ class ilSurveyImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ) : void {
-        if ($a_entity == "svy") {
+        if ($a_entity === "svy") {
             // Container import => test object already created
             if (!($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id))) {    // case ii, non container
                 $new_id = $a_mapping->getMapping("Modules/Survey", "svy", 0);
@@ -86,7 +86,7 @@ class ilSurveyImporter extends ilXmlImporter
             $this->setSurvey($newObj);
 
 
-            list($xml_file) = $this->parseXmlFileNames();
+            [$xml_file] = $this->parseXmlFileNames();
 
             if (!file_exists($xml_file)) {
                 $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
@@ -117,7 +117,7 @@ class ilSurveyImporter extends ilXmlImporter
                         $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
 
                         // survey mob
-                        if ($mob["type"] == "svy:html") {
+                        if ($mob["type"] === "svy:html") {
                             ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $newObj->getId());
                             $this->svy_log->debug("old introduction: " . $newObj->getIntroduction());
                             $newObj->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getIntroduction()));

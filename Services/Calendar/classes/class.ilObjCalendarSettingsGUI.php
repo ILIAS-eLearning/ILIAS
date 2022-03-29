@@ -45,7 +45,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $this->type = 'cals';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->initCalendarSettings();
-        $this->dic = $DIC;
+	$this->dic = $DIC;
+
         $this->lng->loadLanguageModule('dateplaner');
         $this->lng->loadLanguageModule('jscalendar');
     }
@@ -57,8 +58,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         switch ($next_class) {
@@ -79,7 +80,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -101,8 +102,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
     public function settings(?ilPropertyFormGUI $form = null) : void
     {
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
         $this->tabs_gui->setTabActive('settings');
         if (!$form instanceof ilPropertyFormGUI) {
@@ -198,7 +199,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $sync_min = new ilNumberInputGUI('', 'webcal_hours');
         $sync_min->setSize(2);
         $sync_min->setMaxLength(3);
-        $sync_min->setValue($this->calendar_settings->getWebCalSyncHours());
+        $sync_min->setValue((string) $this->calendar_settings->getWebCalSyncHours());
         $sync_min->setSuffix($this->lng->txt('hours'));
         $sync->addSubItem($sync_min);
 
@@ -402,7 +403,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $cache->addOption($sync_cache);
 
         $cache_t = new ilNumberInputGUI('', 'sync_cache_time');
-        $cache_t->setValue($this->calendar_settings->getSynchronisationCacheMinutes());
+        $cache_t->setValue((string) $this->calendar_settings->getSynchronisationCacheMinutes());
         $cache_t->setMinValue(0);
         $cache_t->setSize(3);
         $cache_t->setMaxLength(3);
@@ -424,7 +425,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $cache->addOption($sync_cache);
 
         $cache_t = new ilNumberInputGUI('', 'cache_time');
-        $cache_t->setValue($this->calendar_settings->getCacheMinutes());
+        $cache_t->setValue((string) $this->calendar_settings->getCacheMinutes());
         $cache_t->setMinValue(0);
         $cache_t->setSize(3);
         $cache_t->setMaxLength(3);

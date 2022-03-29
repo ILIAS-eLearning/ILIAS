@@ -31,7 +31,7 @@ class ilTestImporter extends ilXmlImporter
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             // container content
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            $_SESSION['tst_import_subdir'] = $this->getImportPackageName();
+            ilSession::set('tst_import_subdir', $this->getImportPackageName());
             $newObj->saveToDb(); // this generates test id first time
             $questionParentObjId = $newObj->getId();
             $newObj->setOfflineStatus(false);
@@ -41,7 +41,7 @@ class ilTestImporter extends ilXmlImporter
             $new_id = $a_mapping->getMapping('Modules/Test', 'tst', 'new_id');
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
 
-            $questionParentObjId = $_SESSION['tst_import_qst_parent'] ?? $newObj->getId();
+            $questionParentObjId = ilSession::get('tst_import_qst_parent') ?? $newObj->getId();
         }
 
         $newObj->loadFromDb();
@@ -65,7 +65,7 @@ class ilTestImporter extends ilXmlImporter
         // this method from ilObjTestGUI and ilTestImporter
         $newObj->mark_schema->flush();
 
-        $idents = $_SESSION['tst_import_idents'] ?? null;
+        $idents = ilSession::get('tst_import_idents');
 
         // start parsing of QTI files
         include_once "./Services/QTI/classes/class.ilQTIParser.php";
@@ -108,9 +108,9 @@ class ilTestImporter extends ilXmlImporter
         }
 
         // import test results
-        if (@file_exists($_SESSION["tst_import_results_file"])) {
+        if (@file_exists(ilSession::get("tst_import_results_file"))) {
             include_once("./Modules/Test/classes/class.ilTestResultsImportParser.php");
-            $results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
+            $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'quest'));
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'rnd_src_pool_def'));
             $results->startParsing();

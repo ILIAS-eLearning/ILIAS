@@ -3,7 +3,7 @@ require_once 'Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExp
 class assLongMenuExport extends assQuestionExport
 {
     /**
-     * @var assKprimChoice
+     * @var assLongMenu
      */
     public $object;
 

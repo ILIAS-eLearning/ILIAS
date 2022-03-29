@@ -60,6 +60,9 @@ class ilMembershipRegistrationCodeUtils
      * @param string $a_code
      * @param int    $a_endnode Reference id of node in tree
      * @return void
+     * @throws ilDatabaseException
+     * @throws ilMembershipRegistrationException
+     * @throws ilObjectNotFoundException
      * @todo: throw an error if registration fails (max members, availibility...)
      */
     protected static function useCode(string $a_code, int $a_endnode) : void
@@ -72,14 +75,15 @@ class ilMembershipRegistrationCodeUtils
         $obj_ids = self::lookupObjectsByCode($a_code);
 
         if (!$obj_ids) {
-            throw new ilMembershipRegistrationException('Admission code is not valid',
-                ilMembershipRegistrationException::ADMISSION_LINK_INVALID);
+            throw new ilMembershipRegistrationException(
+                'Admission code is not valid',
+                ilMembershipRegistrationException::ADMISSION_LINK_INVALID
+            );
         }
 
         foreach ($tree->getPathId($a_endnode) as $ref_id) {
             if (in_array(ilObject::_lookupObjId($ref_id), $obj_ids)) {
-                $factory = new ilObjectFactory();
-                $member_obj = $factory->getInstanceByRefId($ref_id, false);
+                $member_obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
                 if ($member_obj instanceof ilObjCourse) {
                     $member_obj->register($ilUser->getId(), ilCourseConstants::CRS_MEMBER);
                 }
@@ -101,7 +105,7 @@ class ilMembershipRegistrationCodeUtils
         $code = "";
         $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
-            $code .= $map[mt_rand(0, $max)];
+            $code .= $map[random_int(0, $max)];
         }
         return $code;
     }

@@ -41,8 +41,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * The constructor takes possible arguments an creates an instance of the assOrderingQuestionGUI object.
      *
      * @param integer $id The database id of a ordering question object
-     *
-     * @return assOrderingQuestionGUI
      */
     public function __construct($id = -1)
     {
@@ -610,7 +608,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -626,7 +624,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");

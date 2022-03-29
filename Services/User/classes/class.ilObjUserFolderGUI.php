@@ -46,7 +46,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private Container $dic;
     protected ilPropertyFormGUI $loginSettingsForm;
     protected ilPropertyFormGUI $form;
-    protected array $requested_ids;
+    protected array $requested_ids; // Missing array type.
     protected string $selected_action;
     protected \ILIAS\User\StandardGUIRequest $user_request;
     protected int $user_owner_id;
@@ -400,9 +400,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     protected function addUserAutoCompleteObject() : void
     {
         $auto = new ilUserAutoComplete();
-        $auto->addUserAccessFilterCallable(function ($usrIds) {
-            return $this->filterUserIdsByRbacOrPositionOfCurrentUser($usrIds);
-        });
+        $auto->addUserAccessFilterCallable(\Closure::fromCallable([$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']));
         // [$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']);
         $auto->setSearchFields(array('login', 'firstname', 'lastname', 'email', 'second_email'));
         $auto->enableFieldSearchableCheck(false);
@@ -534,14 +532,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * show possible subobjects (pulldown menu)
      * overwritten to prevent displaying of role templates in local role folders
      */
-    protected function showPossibleSubObjects() : bool
+    protected function showPossibleSubObjects() : void
     {
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
         $subobj = null;
 
-        $d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
+        $d = $this->obj_definition->getCreatableSubObjects($this->object->getType());
 
         if (!$rbacsystem->checkAccess(
             'create_usr',
@@ -588,11 +586,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->lng->txt("add")
             );
             $this->tpl->parseCurrentBlock();
-
-            return true;
         }
-
-        return false;
     }
 
     public function cancelUserFolderActionObject() : void
@@ -1462,7 +1456,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $l_roles = array();
 
             // create a search array with  .
-            $l_roles_mailbox_searcharray = array();
             foreach ($loc_roles as $key => $loc_role) {
                 // fetch context path of role
                 $rolf = $rbacreview->getFoldersAssignedToRole(
@@ -1964,12 +1957,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function hitsperpageObject() : void
-    {
-        parent::hitsperpageObject();
-        $this->viewObject();
-    }
-
     /**
      * Show user account general settings
      */
@@ -2050,7 +2037,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    private function getPasswordPolicySettingsMap(\ilSecuritySettings $security) : array
+    private function getPasswordPolicySettingsMap(\ilSecuritySettings $security) : array // Missing array type.
     {
         return [
             'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0,
@@ -2070,7 +2057,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
 
         $this->initFormGeneralSettings();
@@ -2686,7 +2672,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
         $ilTabs = $DIC['ilTabs'];
 
         $lng->loadLanguageModule("administration");
@@ -3626,12 +3611,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function setSubTabs($a_tab) : void
+    public function setSubTabs(string $a_tab) : void
     {
         global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilUser = $DIC['ilUser'];
 
         switch ($a_tab) {
             case "settings":
@@ -3887,7 +3869,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function searchUserAccessFilterCallable(array $a_user_ids) : array
+    public function searchUserAccessFilterCallable(array $a_user_ids) : array // Missing array type.
     {
         global $DIC;
         $access = $DIC->access();
@@ -3932,7 +3914,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function getUserMultiCommands(bool $a_search_form = false) : array
+    public function getUserMultiCommands(bool $a_search_form = false) : array // Missing array type.
     {
         global $DIC;
 
@@ -4182,7 +4164,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array
+    public function addToExternalSettingsForm(int $a_form_id) : array // Missing array type.
     {
         global $DIC;
 

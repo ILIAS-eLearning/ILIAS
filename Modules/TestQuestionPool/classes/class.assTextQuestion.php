@@ -924,9 +924,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             return;
         }
         $answer = $this->answers[$index];
-        if (strlen($answer->getImage())) {
-            $this->deleteImage($answer->getImage());
-        }
+        //if (strlen($answer->getImage())) {
+        //    $this->deleteImage($answer->getImage());
+        //}
         unset($this->answers[$index]);
         $this->answers = array_values($this->answers);
         for ($i = 0; $i < count($this->answers); $i++) {

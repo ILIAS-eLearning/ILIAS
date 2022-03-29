@@ -76,7 +76,7 @@ class ilSurveyEvaluationResults
     public function setMode(
         $a_value,
         int $a_nr_of_selections
-    ) {
+    ) : void {
         $this->mode_value = is_array($a_value)
             ? $a_value
             : trim($a_value);
@@ -154,12 +154,12 @@ class ilSurveyEvaluationResults
         
         if (!is_array($this->median)) {
             return $this->getScaleText($this->median);
-        } else {
-            return $lng->txt("median_between") . " " .
-                $this->getScaleText($this->median[0]) . " " .
-                $lng->txt("and") . " " .
-                $this->getScaleText($this->median[1]);
         }
+
+        return $lng->txt("median_between") . " " .
+            $this->getScaleText($this->median[0]) . " " .
+            $lng->txt("and") . " " .
+            $this->getScaleText($this->median[1]);
     }
     
     public function addVariable(
@@ -187,7 +187,7 @@ class ilSurveyEvaluationResults
     public function getScaleText(
         int $a_value
     ) : string {
-        if (!sizeof($this->variables)) {
+        if (!count($this->variables)) {
             return $a_value;
         } else {
             foreach ($this->variables as $var) {
@@ -202,7 +202,7 @@ class ilSurveyEvaluationResults
     protected function getCatTitle(
         int $a_value
     ) : string {
-        if (!sizeof($this->variables)) {
+        if (!count($this->variables)) {
             return $a_value;
         } else {
             foreach ($this->variables as $var) {

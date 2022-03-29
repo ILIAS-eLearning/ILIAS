@@ -9,7 +9,6 @@ use ILIAS\DI\Container;
  */
 class ilObjPersistentCertificateVerificationGUI
 {
-    private Container $dic;
     private ilPortfolioCertificateFileService $fileService;
     private ilLanguage $language;
 
@@ -22,7 +21,6 @@ class ilObjPersistentCertificateVerificationGUI
             global $DIC;
             $dic = $DIC;
         }
-        $this->dic = $dic;
 
         if (null === $fileService) {
             $fileService = new ilPortfolioCertificateFileService();

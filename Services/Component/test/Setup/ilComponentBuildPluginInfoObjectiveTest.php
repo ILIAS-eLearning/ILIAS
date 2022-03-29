@@ -14,7 +14,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->files = [];
         $this->added = [];
         $this->builder = new class($this) extends ilComponentBuildPluginInfoObjective {
-            const BASE_PATH = "";
+            protected const BASE_PATH = "";
             protected ilComponentBuildPluginInfoObjectiveTest $test;
             public function __construct($test)
             {
@@ -23,10 +23,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
             protected function scanDir(string $dir) : array
             {
                 $this->test->scanned[] = $dir;
-                if (isset($this->test->dirs[$dir])) {
-                    return $this->test->dirs[$dir];
-                }
-                return [];
+                return $this->test->dirs[$dir] ?? [];
             }
             public function _scanDir(string $dir) : array
             {

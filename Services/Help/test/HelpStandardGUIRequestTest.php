@@ -9,13 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class HelpStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -34,7 +27,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -49,7 +42,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testHelpModuleId()
+    public function testHelpModuleId() : void
     {
         $request = $this->getRequest(
             [
@@ -64,7 +57,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testTerm()
+    public function testTerm() : void
     {
         $request = $this->getRequest(
             [
@@ -79,7 +72,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testIds()
+    public function testIds() : void
     {
         $request = $this->getRequest(
             [
@@ -95,7 +88,7 @@ class HelpStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testHelpScreenId()
+    public function testHelpScreenId() : void
     {
         $request = $this->getRequest(
             [

@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitOperationQueries
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitOperationQueries
@@ -18,11 +17,13 @@ class ilOrgUnitOperationQueries
      *                        use a more specific for your object type but the related context must
      *                        exist. Register a new context using
      *                        ilOrgUnitOperationContext::registerNewContext() for plugins
-     *
      * @throws \ilException
      */
-    public static function registerNewOperation($operation_name, $description, $context = ilOrgUnitOperationContext::CONTEXT_OBJECT)
-    {
+    public static function registerNewOperation(
+        $operation_name,
+        $description,
+        $context = ilOrgUnitOperationContext::CONTEXT_OBJECT
+    ) {
         $contextList = ilOrgUnitOperationContext::where(array('context' => $context));
         if (!$contextList->hasSets()) {
             throw new ilException('Context does not exist! register context first using ilOrgUnitOperationContext::registerNewContext()');
@@ -46,12 +47,10 @@ class ilOrgUnitOperationQueries
         $operation->create();
     }
 
-
     /**
      * @param       $operation_name
      * @param       $description
      * @param array $contexts
-     *
      * @see registerNewOperation
      */
     public static function registerNewOperationForMultipleContexts($operation_name, $description, array $contexts)
@@ -61,10 +60,8 @@ class ilOrgUnitOperationQueries
         }
     }
 
-
     /**
      * @param $context_name
-     *
      * @return ilOrgUnitOperation[]
      */
     public static function getOperationsForContextName($context_name)
@@ -75,13 +72,11 @@ class ilOrgUnitOperationQueries
         $context = ilOrgUnitOperationContextQueries::findByName($context_name);
 
         return ilOrgUnitOperation::where(array('context_id' => $context->getPopulatedContextIds()))
-            ->get();
+                                 ->get();
     }
-
 
     /**
      * @param $context_id
-     *
      * @return \ilOrgUnitOperation[]
      */
     public static function getOperationsForContextId($context_id)
@@ -92,13 +87,11 @@ class ilOrgUnitOperationQueries
         $context = ilOrgUnitOperationContextQueries::findById($context_id);
 
         return ilOrgUnitOperation::where(array('context_id' => $context->getPopulatedContextIds()))
-            ->get();
+                                 ->get();
     }
-
 
     /**
      * @param int $operation_id
-     *
      * @return \ilOrgUnitOperation
      */
     public static function findById($operation_id)
@@ -106,16 +99,16 @@ class ilOrgUnitOperationQueries
         return ilOrgUnitOperation::findOrFail($operation_id);
     }
 
-
     /**
      * @param string $operation_string
-     *
      * @return \ilOrgUnitOperation
      */
     public static function findByOperationString($operation_string, $context_name)
     {
         $context = ilOrgUnitOperationContextQueries::findByName($context_name);
 
-        return ilOrgUnitOperation::where(['operation_string' => $operation_string, 'context_id' => $context->getId()])->first();
+        return ilOrgUnitOperation::where(['operation_string' => $operation_string,
+                                          'context_id' => $context->getId()
+        ])->first();
     }
 }

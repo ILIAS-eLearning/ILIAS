@@ -79,7 +79,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         }
     }
 
-    protected function shouldBeImportedFromPost(mixed $a_post) : bool
+    protected function shouldBeImportedFromPost($a_post) : bool
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             return (bool) $a_post["tgl"];
@@ -92,9 +92,8 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         $post = $this->extractPostValues($a_post);
 
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            $start = ilCalendarUtil::parseIncomingDate($post["lower"], 1);
-            $end = ilCalendarUtil::parseIncomingDate($post["upper"], 1);
-
+            $start = ilCalendarUtil::parseIncomingDate($post["lower"], true);
+            $end = ilCalendarUtil::parseIncomingDate($post["upper"], true);
             if ($start && $end && $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX)) {
                 $tmp = $start;
                 $start = $end;
@@ -129,16 +128,19 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-
         if (!$this->isNull() && $this->isValid()) {
             $sql = array();
             if (!$this->getLowerADT()->isNull()) {
-                $sql[] = $a_element_id . " >= " . $this->db->quote($this->getLowerADT()->getDate()->get(IL_CAL_DATETIME),
-                        "timestamp");
+                $sql[] = $a_element_id . " >= " . $this->db->quote(
+                    $this->getLowerADT()->getDate()->get(IL_CAL_DATETIME),
+                    "timestamp"
+                );
             }
             if (!$this->getUpperADT()->isNull()) {
-                $sql[] = $a_element_id . " <= " . $this->db->quote($this->getUpperADT()->getDate()->get(IL_CAL_DATETIME),
-                        "timestamp");
+                $sql[] = $a_element_id . " <= " . $this->db->quote(
+                    $this->getUpperADT()->getDate()->get(IL_CAL_DATETIME),
+                    "timestamp"
+                );
             }
             return "(" . implode(" AND ", $sql) . ")";
         }

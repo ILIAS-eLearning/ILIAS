@@ -66,9 +66,10 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                 if (!is_array($quotedWords)) {
                     return $a_element_id . " = " . $this->db->quote($quotedWords, "text");
                 } else {
-                    return $this->db->in($a_element_id, $quotedWords, "", "text");
+                    return $this->db->in($a_element_id, $quotedWords, false, "text");
                 }
 
+                // no break
             case self::SQL_LIKE:
                 if (!is_array($quotedWords)) {
                     return $this->db->like($a_element_id, "text", "%" . $quotedWords . "%");

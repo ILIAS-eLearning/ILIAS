@@ -65,13 +65,10 @@ class ilTestParticipantList implements Iterator
             
             return $participant;
         }
+        return null;
     }
     
-    /**
-     * @param $activeId
-     * @return ilTestParticipant
-     */
-    public function getParticipantByActiveId($activeId) : ilTestParticipant
+    public function getParticipantByActiveId($activeId) : ?ilTestParticipant
     {
         foreach ($this as $participant) {
             if ($participant->getActiveId() != $activeId) {
@@ -80,6 +77,7 @@ class ilTestParticipantList implements Iterator
             
             return $participant;
         }
+        return null;
     }
     
     /**

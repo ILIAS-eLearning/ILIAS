@@ -271,7 +271,6 @@ class ilObjAssessmentFolder extends ilObject
     * @param string $logtext The textual description for the log entry
     * @param integer $question_id The database id of a modified question (optional)
     * @param integer $original_id The database id of the original of a modified question (optional)
-    * @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
     */
     public static function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = false, $test_ref_id = null)
     {

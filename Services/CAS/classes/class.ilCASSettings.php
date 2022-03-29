@@ -142,7 +142,7 @@ class ilCASSettings
     /**
      * Save settings
      */
-    public function save()
+    public function save() : void
     {
         $this->getStorage()->set('cas_server', $this->getServer());
         $this->getStorage()->set('cas_port', (string) $this->getPort());
@@ -157,7 +157,7 @@ class ilCASSettings
     /**
      * Read settings
      */
-    private function read()
+    private function read() : void
     {
         $this->setServer($this->getStorage()->get('cas_server', $this->server));
         $this->setPort((int) $this->getStorage()->get('cas_port', (string) $this->port));
@@ -174,7 +174,6 @@ class ilCASSettings
 
     /**
      * Get storage object
-     * @return ilSetting
      */
     private function getStorage() : ilSetting
     {

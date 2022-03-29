@@ -84,8 +84,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param integer $owner    A numerical ID to identify the owner/creator
      * @param string  $question The question string of the matching question
      * @param int     $matching_type
-     *
-     * @return \assMatchingQuestion
      */
     public function __construct(
         $title = "",
@@ -1581,8 +1579,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * Else it returns the specific answer option
      *
      * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null)
     {
