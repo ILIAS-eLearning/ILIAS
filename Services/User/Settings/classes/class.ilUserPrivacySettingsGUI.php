@@ -174,6 +174,21 @@ class ilUserPrivacySettingsGUI
             }));
     }
 
+    private function shouldShowOnScreenChatOptions() : bool
+    {
+        return (
+            $this->chatSettings->get('enable_osc', false) &&
+            !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
+        );
+    }
+
+    private function shouldShowChatTypingBroadcastOption() : bool
+    {
+        return (
+            !(bool) $this->settings->get('usr_settings_hide_chat_broadcast_typing', false)
+        );
+    }
+
     public function shouldDisplayChatSection() : bool
     {
         return (
@@ -181,11 +196,14 @@ class ilUserPrivacySettingsGUI
         );
     }
 
+    private function shouldShowNotificationOptions() : bool
+    {
+        return $this->notificationSettings->get('play_sound', false);
+    }
+
     public function shouldDisplayNotificationSection() : bool
     {
-        return (
-            $this->notificationSettings->get('enable_osd', false)
-        );
+        return $this->notificationSettings->get('enable_osd', false);
     }
 
     protected function populateWithAwarenessSettingsSection(
@@ -262,11 +280,11 @@ class ilUserPrivacySettingsGUI
 
         $fields = [];
 
-        $this->lng->loadLanguageModule('notification_adm');
-        if ($this->shouldShowNotificationOptions()) {
+        if($this->shouldShowNotificationOptions()) {
+            $this->lng->loadLanguageModule('notification_adm');
             $fields[self::PROP_ENABLE_SOUND] = $this->uiFactory->input()->field()
-                ->checkbox($this->lng->txt('play_sound'), $this->lng->txt('play_sound_desc'))
-                ->withValue((bool) $this->user->getPref('play_sound'));
+                                                               ->checkbox($this->lng->txt('play_sound'), $this->lng->txt('play_sound_desc'))
+                                                               ->withValue((bool) $this->user->getPref('play_sound'));
         }
 
         if ($fields !== []) {
@@ -398,11 +416,11 @@ class ilUserPrivacySettingsGUI
                 if ($this->shouldShowNotificationOptions()) {
                     $oldPlaySoundValue = (int) $this->user->getPref('play_sound');
                     $playASound = (int) ($formData[self::PROP_ENABLE_SOUND] ?? 0);
-
                     if ($oldPlaySoundValue !== $playASound) {
                         $this->user->setPref('play_sound', $playASound);
                     }
                 }
+
             }
 
             if ($this->shouldDisplayChatSection()) {
