@@ -558,7 +558,10 @@ class ilBadgeManagementGUI
     //
     // badges multi action
     //
-            
+
+    /**
+     * @return int[]
+     */
     protected function getBadgesFromMultiAction() : array
     {
         $ilCtrl = $this->ctrl;

@@ -29,7 +29,7 @@ class ilBadge
     protected string $desc = "";
     protected string $image = "";
     protected string $valid = "";
-    protected array $config = [];
+    protected array $config = [];// @TODO: PHP8 Review: According to `\ilBadge::setConfiguration` this can also be `null`. Please adjust the type and handle the consumers accordingly.
     protected string $criteria = "";
     
     public function __construct(
@@ -276,14 +276,13 @@ class ilBadge
     
     public function setConfiguration(array $a_value = null) : void
     {
-        if (is_array($a_value) &&
-            !count($a_value)) {
-            $a_value = null;
+        if (is_array($a_value) && !count($a_value)) {
+            $a_value = null;// @TODO: PHP8 Review: This is not correct if the `config` property is of type `array`
         }
         $this->config = $a_value;
     }
     
-    public function getConfiguration() : array
+    public function getConfiguration() : array// @TODO: PHP8 Review: According to `\ilBadge::setConfiguration` this can also be `null`. Please adjust the type and handle the consumers accordingly.
     {
         return $this->config;
     }
@@ -454,27 +453,33 @@ class ilBadge
         $ilDB->manipulate("DELETE FROM badge_badge" .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
     }
-    
+
+    /**
+     * @return array<string, array>
+     */
     protected function getPropertiesForStorage() : array
     {
-        return array(
-            "active" => array("integer", $this->isActive()),
-            "title" => array("text", $this->getTitle()),
-            "descr" => array("text", $this->getDescription()),
-            "crit" => array("text", $this->getCriteria()),
-            "image" => array("text", $this->getImage()),
-            "valid" => array("text", $this->getValid()),
-            "conf" => array("text", $this->getConfiguration()
-                ? serialize($this->getConfiguration())
-                : null)
-        );
+        return [
+            "active" => ["integer", $this->isActive()],
+            "title" => ["text", $this->getTitle()],
+            "descr" => ["text", $this->getDescription()],
+            "crit" => ["text", $this->getCriteria()],
+            "image" => ["text", $this->getImage()],
+            "valid" => ["text", $this->getValid()],
+            "conf" => [
+                "text", $this->getConfiguration() ? serialize($this->getConfiguration()) : null
+            ]
+        ];
     }
     
     
     //
     // helper
     //
-    
+
+    /**
+     * @return array{id: int, type: string, title: string, deleted: bool}
+     */
     public function getParentMeta() : array
     {
         $parent_type = ilObject::_lookupType($this->getParentId());
@@ -492,12 +497,12 @@ class ilBadge
             $deleted = true;
         }
         
-        return array(
+        return [
             "id" => $this->getParentId(),
             "type" => $parent_type,
             "title" => $parent_title,
             "deleted" => $deleted
-        );
+        ];
     }
     
     

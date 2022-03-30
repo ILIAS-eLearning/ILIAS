@@ -212,21 +212,20 @@ class ilBadgeImageTemplate
             $this->importDBRow($row);
         }
     }
-    
-    protected function readTypes(int $a_id) : array
+
+    protected function readTypes(int $a_id) : array// @TODO: PHP8 Review: According to the code below $res can also be `null`. Please adjust the type and handle the consumers accordingly.
     {
         $ilDB = $this->db;
         
         $res = array();
         
-        $set = $ilDB->query("SELECT * FROM badge_image_templ_type" .
-            " WHERE tmpl_id = " . $ilDB->quote($a_id, "integer"));
+        $set = $ilDB->query("SELECT * FROM badge_image_templ_type WHERE tmpl_id = " . $ilDB->quote($a_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = $row["type_id"];
         }
-        
+
         if (!count($res)) {
-            $res = null;
+            $res = null; // @TODO: PHP8 Review: This does not match the return type
         }
         
         return $res;
@@ -289,18 +288,21 @@ class ilBadgeImageTemplate
         }
         
         $path = $this->getFilePath($this->getId());
-        ilUtil::delDir($path);// @TODO: PHP8 Review: Undefined method.
+        ilFileUtils::delDir($path);
         
         $ilDB->manipulate("DELETE FROM badge_image_template" .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
     }
-    
+
+    /**
+     * @return array<string, array>
+     */
     protected function getPropertiesForStorage() : array
     {
-        return array(
-            "title" => array("text", $this->getTitle()),
-            "image" => array("text", $this->getImage())
-        );
+        return [
+            "title" => ["text", $this->getTitle()],
+            "image" => ["text", $this->getImage()]
+        ];
     }
     
     protected function saveTypes() : void

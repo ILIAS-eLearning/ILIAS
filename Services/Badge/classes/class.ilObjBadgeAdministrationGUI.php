@@ -264,7 +264,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $handler = ilBadgeHandler::getInstance();
             $inactive = [];
             foreach ($handler->getInactiveTypes() as $type) {
-                if (!in_array($type, $ids)) {// @TODO: PHP8 3rd parameter could be set to `true` if $ids are from of type `string`
+                if (!in_array($type, $ids)) {// @TODO: PHP8 Review: 3rd parameter could be set to `true` if $ids are from of type `string`
                     $inactive[] = $type;
                 }
             }

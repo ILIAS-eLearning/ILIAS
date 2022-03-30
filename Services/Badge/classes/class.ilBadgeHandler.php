@@ -386,7 +386,7 @@ class ilBadgeHandler
             if ($badge->isActive()) {
                 // already assigned?
                 if (!ilBadgeAssignment::exists($badge->getId(), $a_user_id)) {
-                    if ($type->evaluate($a_user_id, (array) $a_params, (array) $badge->getConfiguration())) {
+                    if ($type->evaluate($a_user_id, (array) $a_params, $badge->getConfiguration())) {
                         $ass = new ilBadgeAssignment($badge->getId(), $a_user_id);
                         $ass->store();
                         
@@ -398,7 +398,13 @@ class ilBadgeHandler
         
         $this->sendNotification($new_badges);
     }
-    
+
+    /**
+     * @param int $a_parent_ref_id
+     * @param int|null $a_parent_obj_id
+     * @param string|null $a_parent_type
+     * @return int[]
+     */
     public function getUserIds(
         int $a_parent_ref_id,
         int $a_parent_obj_id = null,

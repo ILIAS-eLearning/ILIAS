@@ -178,10 +178,10 @@ class ilBadgeAssignment
     public static function getAssignedUsers(
         int $a_badge_id
     ) : array {
-        $res = array();
+        $res = [];
         
         foreach (self::getInstancesByBadgeId($a_badge_id) as $ass) {
-            $res[] = (int) $ass->getUserId();
+            $res[] = $ass->getUserId();
         }
         
         return $res;
@@ -279,14 +279,17 @@ class ilBadgeAssignment
             $this->importDBRow($row);
         }
     }
-    
+
+    /**
+     * @return array<string, array>
+     */
     protected function getPropertiesForStorage() : array
     {
-        return array(
-            "tstamp" => array("integer", $this->stored ? $this->getTimestamp() : time()),
-            "awarded_by" => array("integer", $this->getAwardedBy()),
-            "pos" => array("integer", $this->getPosition())
-        );
+        return [
+            "tstamp" => ["integer", $this->stored ? $this->getTimestamp() : time()],
+            "awarded_by" => ["integer", $this->getAwardedBy()],
+            "pos" => ["integer", $this->getPosition()]
+        ];
     }
     
     public function store() : void
@@ -369,7 +372,13 @@ class ilBadgeAssignment
             }
         }
     }
-    
+
+    /**
+     * @param int $a_user_id
+     * @param int $a_ts_from
+     * @param int $a_ts_to
+     * @return array[]
+     */
     public static function getBadgesForUser(
         int $a_user_id,
         int $a_ts_from,
