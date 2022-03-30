@@ -19,7 +19,7 @@ use ilLanguage;
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-abstract class HasDynamicInputs extends Input implements HasDynamicInputs
+abstract class HasDynamicInputsBase extends Input implements HasDynamicInputs
 {
     // ==========================================
     // BEGIN IMPLEMENTATION OF DynamicInputsAware

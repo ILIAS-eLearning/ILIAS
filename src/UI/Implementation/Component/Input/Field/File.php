@@ -16,7 +16,7 @@ use ilLanguage;
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class File extends HasDynamicInputs implements C\Input\Field\File
+class File extends HasDynamicInputsBase implements C\Input\Field\File
 {
     // ===============================================
     // BEGIN IMPLEMENTATION OF FileUploadAware
@@ -61,7 +61,7 @@ class File extends HasDynamicInputs implements C\Input\Field\File
      * Maps generated dynamic inputs to their file-id, which must be
      * provided in or as $value.
      */
-    public function withValue($value) : HasDynamicInputs
+    public function withValue($value) : HasDynamicInputsBase
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
 
