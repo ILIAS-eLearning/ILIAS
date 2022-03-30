@@ -58,10 +58,12 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         if ($this->params["langmode"]) {
             $this->tpl->setCurrentBlock("comment");
-            $this->tpl->setVariable("COM_ID",
+            $this->tpl->setVariable(
+                "COM_ID",
                 ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment")
             );
-            $this->tpl->setVariable("COM_NAME",
+            $this->tpl->setVariable(
+                "COM_NAME",
                 ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment")
             );
             $this->tpl->setVariable("COM_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["comment"]));
@@ -71,7 +73,8 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock("hidden_comment");
-            $this->tpl->setVariable("COM_NAME",
+            $this->tpl->setVariable(
+                "COM_NAME",
                 ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment")
             );
             $this->tpl->setVariable("COM_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["comment"]));

@@ -21,27 +21,27 @@ class ilServicesLanguageSuite extends TestSuite
      * @return self
      * @throws ReflectionException
      */
-    public static function suite(): self
+    public static function suite() : self
     {
         $suite = new self();
 
         foreach (new RegExIterator(
-                new RecursiveIteratorIterator(
-                        new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                        RecursiveIteratorIterator::LEAVES_ONLY
+            new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                    RecursiveIteratorIterator::LEAVES_ONLY
                 ),
-                '/BaseTest\.php$/'
+            '/BaseTest\.php$/'
         ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
         }
 
         foreach (new RegExIterator(
-                new RecursiveIteratorIterator(
-                        new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                        RecursiveIteratorIterator::LEAVES_ONLY
+            new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                    RecursiveIteratorIterator::LEAVES_ONLY
                 ),
-                '/(?<!Base)Test\.php$/'
+            '/(?<!Base)Test\.php$/'
         ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();

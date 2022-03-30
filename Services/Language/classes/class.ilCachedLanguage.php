@@ -140,7 +140,7 @@ class ilCachedLanguage
         $this->loaded = $loaded;
     }
 
-    public function getLoaded(): bool
+    public function getLoaded() : bool
     {
         return $this->loaded;
     }
@@ -148,7 +148,7 @@ class ilCachedLanguage
     /**
      * Set translations
      */
-    public function setTranslations(array $translations): void
+    public function setTranslations(array $translations) : void
     {
         $this->translations = $translations;
     }
@@ -156,7 +156,7 @@ class ilCachedLanguage
     /**
      * Return translations as array
      */
-    public function getTranslations(): array
+    public function getTranslations() : array
     {
         return $this->translations;
     }

@@ -32,7 +32,7 @@ class ilSetupLanguageTest extends ilLanguageBaseTest
      */
     private $langInstalled;
 
-    public function setUp(): void
+    public function setUp() : void
     {
         $this->langSetupObj = $this->getMockBuilder(ilSetupLanguage::class)->disableOriginalConstructor()->getMock();
 
@@ -46,7 +46,7 @@ class ilSetupLanguageTest extends ilLanguageBaseTest
     /**
      *
      */
-    public function testRetrieveLanguageKey(): void
+    public function testRetrieveLanguageKey() : void
     {
         $this->assertEquals('de', $this->newLangSetupDe->lang_key);
     }
@@ -54,9 +54,9 @@ class ilSetupLanguageTest extends ilLanguageBaseTest
     /**
      *
      */
-    public function testRetrieveInstalledLanguage(): void
+    public function testRetrieveInstalledLanguage() : void
     {
-        foreach($this->langInstalled as $languageAsKey) {
+        foreach ($this->langInstalled as $languageAsKey) {
             $languagesAsKeys[] = $languageAsKey->lang_key;
         }
         $this->assertContains('es', $languagesAsKeys);

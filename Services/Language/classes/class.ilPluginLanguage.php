@@ -24,7 +24,8 @@ class ilPluginLanguage
 {
     protected ilPluginInfo $plugin_info;
 
-    public function __construct(ilPluginInfo $plugin_info) {
+    public function __construct(ilPluginInfo $plugin_info)
+    {
         $this->plugin_info = $plugin_info;
     }
 
@@ -54,7 +55,7 @@ class ilPluginLanguage
             }
 
             // directories
-            if (@is_file($directory. "/" . $file)) {
+            if (@is_file($directory . "/" . $file)) {
                 if (
                     substr($file, 0, 6) == "ilias_"
                     && substr($file, strlen($file) - 5) == ".lang"
@@ -114,7 +115,7 @@ class ilPluginLanguage
             }
 
             $txt = file($this->getLanguageDirectory() . "/" . $lang["file"]);
-            $lang_array = []; 
+            $lang_array = [];
 
             // get locally changed variables of the module (these should be kept)
             $local_changes = ilObjLanguage::_getLocalChangesByModule($lang['key'], $prefix);

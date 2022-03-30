@@ -188,7 +188,9 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
+        //Todo-PHP8-Review Begin: variable $plugin_admin is not defined
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
+        //Todo-PHP8-Review End
         $GLOBALS["DIC"]["ilCtrl"] = new ilCtrl();
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
@@ -219,7 +221,9 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             }
         };
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
+            //Todo-PHP8-Review Begin: variable is defined as public array $prefs = [];
             public $prefs = [];
+            //Todo-PHP8-Review End
 
             public function __construct()
             {
