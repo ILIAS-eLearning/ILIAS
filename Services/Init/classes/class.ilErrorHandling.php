@@ -3,7 +3,6 @@
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Environment/classes/class.ilRuntime.php';
 
 /**
  * Error Handling & global info handling
@@ -18,9 +17,6 @@ require_once 'Services/Environment/classes/class.ilRuntime.php';
  * @todo        This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
  */
 
-require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
-require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
-require_once("Services/Exceptions/classes/class.ilTestingHandler.php");
 
 use Whoops\Run;
 use Whoops\RunInterface;
