@@ -27,7 +27,7 @@ class ilUserDataSet extends ilDataSet
         return array("4.3.0", "4.5.0", "5.1.0", "5.2.0", "5.3.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Services/User/" . $a_entity;
     }
