@@ -54,7 +54,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
                 };
             }
 
-            public static function getLogger($a) : ilLogger
+            public static function getLogger(string $a_component_id) : ilLogger
             {
                 return new class() extends ilLogger {
                     public function __construct()
