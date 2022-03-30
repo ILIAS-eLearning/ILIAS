@@ -160,8 +160,7 @@ class ilObjLanguage extends ilObject
             }
         }
 
-        if (($this->isInstalled() == false) ||
-                ($this->isInstalled() == true && $this->isLocal() == false && !empty($scope))) {
+        if (!$this->isInstalled() || (!$this->isLocal() && !empty($scope))) {
             if ($this->check($scope)) {
                 // lang-file is ok. Flush data in db and...
                 if (empty($scope)) {
@@ -212,14 +211,14 @@ class ilObjLanguage extends ilObject
      */
     public function refresh() : bool
     {
-        if ($this->isInstalled() == true && $this->check()) {
+        if ($this->isInstalled() && $this->check()) {
             $this->flush("keep_local");
             $this->insert();
             $this->setTitle($this->getKey());
             $this->setDescription($this->getStatus());
             $this->update();
 
-            if ($this->isLocal() == true && $this->check("local")) {
+            if ($this->isLocal() && $this->check("local")) {
                 $this->insert("local");
                 $this->setTitle($this->getKey());
                 $this->setDescription($this->getStatus());
@@ -319,10 +318,10 @@ class ilObjLanguage extends ilObject
         global $DIC;
         $ilDB = $DIC->database();
 
-        if ($a_min_date == "") {
+        if ($a_min_date === "") {
             $a_min_date = "1980-01-01 00:00:00";
         }
-        if ($a_max_date == "") {
+        if ($a_max_date === "") {
             $a_max_date = "2200-01-01 00:00:00";
         }
 
@@ -607,18 +606,18 @@ class ilObjLanguage extends ilObject
         // avoid a cache flush here (see mantis #28818)
         // ilGlobalCache::flushAll();
 
-        if (isset($a_remarks)) {
+        if (is_string($a_remarks) && $a_remarks !== '') {
             $a_remarks = substr($a_remarks, 0, 250);
         }
-        if ($a_remarks == '') {
+
+        if ($a_remarks === '') {
             $a_remarks = null;
         }
 
-        if (isset($a_value)) {
-            $a_value = substr($a_value, 0, 4000);
-        }
-        if ($a_value === '') {
+        if ($a_value === "") {
             $a_value = null;
+        } else {
+            $a_value = substr($a_value, 0, 4000);
         }
 
         $ilDB->replace(
@@ -805,7 +804,7 @@ class ilObjLanguage extends ilObject
             $separated = explode($this->separator, trim($val));
             $num = count($separated);
             ++$n;
-            if ($num != 3) {
+            if ($num !== 3) {
                 $line = $n + 36;
                 $this->ilias->raiseError("Wrong parameter count in " . $lang_file . " in line $line (Value: $val)! Please check your language file!", $this->ilias->error_obj->MESSAGE);
             }

@@ -57,7 +57,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             $local_file = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_STABLE,
                 Setup\Metrics\Metric::TYPE_BOOL,
-                in_array($lang, $local_languages),
+                in_array($lang, $local_languages, true),
                 "Is there a local language file for the language?"
             );
             $local_changes = new Setup\Metrics\Metric(

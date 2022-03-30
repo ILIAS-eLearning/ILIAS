@@ -76,7 +76,7 @@ class ilSetupLanguage extends ilLanguage
             return "";
         }
 
-        $translation = $this->text[$a_topic];
+        $translation = $this->text[$a_topic] ?? '';
         
         //get position of the comment_separator
         $pos = strpos($translation, $this->comment_separator);
@@ -86,12 +86,12 @@ class ilSetupLanguage extends ilLanguage
             $translation = substr($translation, 0, $pos);
         }
 
-        if ($translation == "") {
+        if ($translation === "") {
             $log->writeLanguageLog($a_topic, $this->lang_key);
             return "-" . $a_topic . "-";
-        } else {
-            return $translation;
         }
+
+        return $translation;
     }
 
     /**
@@ -122,7 +122,7 @@ class ilSetupLanguage extends ilLanguage
                 $this->flushLanguage($lang_key, "keep_local");
                 $this->insertLanguage($lang_key);
                 
-                if (in_array($lang_key, $a_local_keys) && is_dir($this->cust_lang_path)) {
+                if (in_array($lang_key, $a_local_keys, true) && is_dir($this->cust_lang_path)) {
                     if ($this->checkLanguage($lang_key, "local")) {
                         $this->insertLanguage($lang_key, "local");
                     } else {
@@ -132,7 +132,7 @@ class ilSetupLanguage extends ilLanguage
                 
                 // register language first time install
                 if (!array_key_exists($lang_key, $db_langs)) {
-                    if (in_array($lang_key, $a_local_keys)) {
+                    if (in_array($lang_key, $a_local_keys, true)) {
                         $itype = "installed_local";
                     } else {
                         $itype = "installed";
@@ -158,9 +158,9 @@ class ilSetupLanguage extends ilLanguage
         }
         
         foreach ($db_langs as $key => $val) {
-            if (!in_array($key, $err_lang)) {
-                if (in_array($key, $a_lang_keys)) {
-                    if (in_array($key, $a_local_keys)) {
+            if (!in_array($key, $err_lang, true)) {
+                if (in_array($key, $a_lang_keys, true)) {
+                    if (in_array($key, $a_local_keys, true)) {
                         $ld = "installed_local";
                     } else {
                         $ld = "installed";
@@ -304,7 +304,7 @@ return true;
             $separated = explode($this->separator, trim($val));
             $num = count($separated);
 
-            if ($num != 3) {
+            if ($num !== 3) {
                 chdir($tmpPath);
                 return false;
             }
@@ -383,10 +383,10 @@ return true;
     {
         global $ilDB;
         
-        if ($a_min_date == "") {
+        if ($a_min_date === "") {
             $a_min_date = "1980-01-01 00:00:00";
         }
-        if ($a_max_date == "") {
+        if ($a_max_date === "") {
             $a_max_date = "2200-01-01 00:00:00";
         }
         

@@ -143,7 +143,7 @@ class ilLanguageFile
                 $separated = explode($this->separator, trim($line));
                 
                 // not a valid line with module, identifier and value?
-                if (count($separated) != 3) {
+                if (count($separated) !== 3) {
                     $this->error_message =
                             $lng->txt("file_not_valid") . " "
                             . $lng->txt("err_in_line") . " " . $line_num . ". "

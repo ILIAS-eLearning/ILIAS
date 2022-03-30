@@ -107,7 +107,7 @@ class ilPluginLanguage
 
         foreach ($langs as $lang) {
             // check if the language should be updated, otherwise skip it
-            if (!in_array($lang['key'], $a_lang_keys)) {
+            if (!in_array($lang['key'], $a_lang_keys, true)) {
                 continue;
             }
 

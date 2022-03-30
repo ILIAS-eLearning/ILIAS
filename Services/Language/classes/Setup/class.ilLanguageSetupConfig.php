@@ -22,7 +22,7 @@ class ilLanguageSetupConfig implements Setup\Config
         foreach ($install_local_languages as $l) {
             $this->checkLanguageName($l);
         }
-        if (!in_array($default_language, $install_languages)) {
+        if (!in_array($default_language, $install_languages, true)) {
             throw new \InvalidArgumentException(
                 "Default language '$default_language' is not in the languages to be installed."
             );

@@ -384,7 +384,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             // example key of comment: 'common#:#access#:#comment'
             $keys = explode($this->lng->separator, ilUtil::stripSlashes($key, false));
 
-            if (count($keys) == 2) {
+            if (count($keys) === 2) {
                 // avoid line breaks
                 $value = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $value);
                 $value = ilUtil::stripSlashes($value, false);

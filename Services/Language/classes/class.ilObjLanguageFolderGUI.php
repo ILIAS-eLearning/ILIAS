@@ -242,7 +242,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         foreach ($_POST["id"] as $id) {
             $langObj = new ilObjLanguage((int) $id, false);
 
-            if ($langObj->isInstalled() == true) {
+            if ($langObj->isInstalled()) {
                 if ($langObj->check()) {
                     $langObj->flush("all");
                     $langObj->insert();
@@ -312,7 +312,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
 
-        if (count($_POST["id"]) != 1) {
+        if (count($_POST["id"]) !== 1) {
             $this->ilias->raiseError($this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -324,7 +324,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("meta_l_" . $newUserLangObj->getKey()) . " " . $this->lng->txt("is_already_your") . " " . $this->lng->txt("user_language") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
         }
 
-        if ($newUserLangObj->isInstalled() == false) {
+        if (!$newUserLangObj->isInstalled()) {
             $this->ilias->raiseError($this->lng->txt("meta_l_" . $newUserLangObj->getKey()) . " " . $this->lng->txt("language_not_installed") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -350,7 +350,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
 
-        if (count($_POST["id"]) != 1) {
+        if (count($_POST["id"]) !== 1) {
             $this->ilias->raiseError($this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -362,7 +362,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("meta_l_" . $newSysLangObj->getKey()) . " is already the system language!<br>Action aborted!", $this->ilias->error_obj->MESSAGE);
         }
 
-        if ($newSysLangObj->isInstalled() == false) {
+        if (!$newSysLangObj->isInstalled()) {
             $this->ilias->raiseError($this->lng->txt("meta_l_" . $newSysLangObj->getKey()) . " is not installed. Please install that language first.<br>Action aborted!", $this->ilias->error_obj->MESSAGE);
         }
 
@@ -453,7 +453,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $ids = array();
         foreach ($languages as $lang) {
             $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
-            if ($langObj->isInstalled() == true) {
+            if ($langObj->isInstalled()) {
                 $ids[] = $lang["obj_id"];
             }
         }

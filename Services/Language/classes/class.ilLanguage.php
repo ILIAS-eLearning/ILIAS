@@ -83,7 +83,7 @@ class ilLanguage
 
         $langs = $this->getInstalledLanguages();
 
-        if (!in_array($this->lang_key, $langs)) {
+        if (!in_array($this->lang_key, $langs, true)) {
             $this->lang_key = $this->lang_default;
         }
 
@@ -162,7 +162,7 @@ class ilLanguage
 
         $translation = $this->text[$a_topic] ?? "";
 
-        if ($translation == "" && $a_default_lang_fallback_mod != "") {
+        if ($translation === "" && $a_default_lang_fallback_mod !== "") {
             // #13467 - try current language first (could be missing module)
             if ($this->lang_key != $this->lang_default) {
                 $translation = self::_lookupEntry(
@@ -172,7 +172,7 @@ class ilLanguage
                 );
             }
             // try default language last
-            if ($translation == "" || $translation == "-" . $a_topic . "-") {
+            if ($translation === "" || $translation === "-" . $a_topic . "-") {
                 $translation = self::_lookupEntry(
                     $this->lang_default,
                     $a_default_lang_fallback_mod,
@@ -182,17 +182,18 @@ class ilLanguage
         }
 
 
-        if ($translation == "") {
+        if ($translation === "") {
             if (ILIAS_LOG_ENABLED && is_object($this->log)) {
                 $this->log->debug("Language (" . $this->lang_key . "): topic -" . $a_topic . "- not present");
             }
             return "-" . $a_topic . "-";
-        } else {
-            if ($this->usage_log_enabled) {
-                self::logUsage($this->map_modules_txt[$a_topic], $a_topic);
-            }
-            return $translation;
         }
+
+        if ($this->usage_log_enabled) {
+            self::logUsage($this->map_modules_txt[$a_topic], $a_topic);
+        }
+
+        return $translation;
     }
 
     /**
@@ -211,7 +212,7 @@ class ilLanguage
         global $DIC;
         $ilDB = $DIC->database();
 
-        if (in_array($a_module, $this->loaded_modules)) {
+        if (in_array($a_module, $this->loaded_modules, true)) {
             return;
         }
 
@@ -483,7 +484,7 @@ class ilLanguage
      */
     protected static function logUsage(string $a_module, string $a_identifier) : void
     {
-        if ($a_module != "" && $a_identifier != "") {
+        if ($a_module !== "" && $a_identifier !== "") {
             self::$lng_log[$a_identifier] = $a_module;
         }
     }
@@ -509,7 +510,7 @@ class ilLanguage
         }
 
         if (!$ilClientIniFile->variableExists("system", "LANGUAGE_LOG")) {
-            return $ilClientIniFile->readVariable("system", "LANGUAGE_LOG") == 1;
+            return (int) $ilClientIniFile->readVariable("system", "LANGUAGE_LOG") === 1;
         }
         return false;
     }
@@ -532,7 +533,7 @@ class ilLanguage
             $wave[] = "(" . $ilDB->quote($module, "text") . ', ' . $ilDB->quote($identifier, "text") . ")";
             unset(self::$lng_log[$identifier]);
 
-            if (count($wave) == 150 || (count(self::$lng_log) == 0 && count($wave) > 0)) {
+            if (count($wave) === 150 || (count(self::$lng_log) === 0 && count($wave) > 0)) {
                 $query = "REPLACE INTO lng_log (module, identifier) VALUES " . implode(", ", $wave);
                 $ilDB->manipulate($query);
 

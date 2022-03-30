@@ -32,7 +32,7 @@ class ilLanguageDetection
         foreach ($this->factory->getValidInstances() as $detector) {
             try {
                 $language = $detector->getIso2LanguageCode();
-                if (in_array($language, $installed_languages)) {
+                if (in_array($language, $installed_languages, true)) {
                     $detected_language = $language;
                 }
             } catch (ilLanguageException $e) {
