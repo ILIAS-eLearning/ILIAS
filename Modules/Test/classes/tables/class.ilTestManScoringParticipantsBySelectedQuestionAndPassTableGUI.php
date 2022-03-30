@@ -48,20 +48,29 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
         $this->setShowRowsSelector(true);
 
+	$this->initOrdering();
         $this->initColumns();
         $this->initFilter();
     }
 
     private function initColumns()
     {
-        $this->addColumn($this->lng->txt('name'), 'lastname');
+        $this->addColumn($this->lng->txt('name'), 'name');
         $this->addColumn($this->lng->txt('tst_reached_points'), 'reached_points');
-        $this->addColumn($this->lng->txt('tst_maximum_points'), 'max_points');
+        $this->addColumn($this->lng->txt('tst_maximum_points'), 'maximum_points');
         $this->addColumn($this->lng->txt('tst_feedback'), 'feedback', '30%');
         $this->addColumn($this->lng->txt('finalized_evaluation'), 'finalized_evaluation');
-        $this->addColumn($this->lng->txt('finalized_by'), 'finalized_by');
-        $this->addColumn($this->lng->txt('finalized_on'), 'finalized_on');
+        $this->addColumn($this->lng->txt('finalized_by'), 'finalized_by_uid');
+        $this->addColumn($this->lng->txt('finalized_on'), 'finalized_tstamp');
         $this->addColumn('', '');
+    }
+
+    private function initOrdering()
+    {
+        $this->enable('sort');
+
+        $this->setDefaultOrderField("name");
+        $this->setDefaultOrderDirection("asc");
     }
 
     public function initFilter()
@@ -134,7 +143,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $ilCtrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
 
-        $this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
         if (
             $this->getParentObject()->object->anonymity == 1 ||
             (
@@ -143,28 +151,29 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             )
         ) {
             $this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
-        }
+        } else {
+            $this->tpl->setVariable('VAL_NAME', $row['name']);
+	}
 
         if (!$this->first_row_rendered) {
             $this->first_row_rendered = true;
             $this->tpl->touchBlock('row_js');
         }
 
-        $this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
         $this->tpl->setVariable('VAL_REACHED_POINTS', $row['reached_points']);
         $this->tpl->setVariable('VAL_MAX_POINTS', $row['maximum_points']);
-        $finalized = (isset($row['feedback']['finalized_evaluation']) && $row['feedback']['finalized_evaluation'] == 1);
+        $finalized = (isset($row['finalized_evaluation']) && $row['finalized_evaluation'] == 1);
         $this->tpl->setVariable(
             'VAL_EVALUATED',
             ($finalized) ? $this->lng->txt('yes') : $this->lng->txt('no')
         );
-        $fin_usr_id = $row['feedback']['finalized_by_usr_id'];
+        $fin_usr_id = $row['finalized_by_usr_id'];
 
-        $this->tpl->setVariable('VAL_MODAL_CORRECTION', $row['feedback']['feedback']);
+        $this->tpl->setVariable('VAL_MODAL_CORRECTION', $row['feedback']);
         if ($fin_usr_id > 0) {
             $this->tpl->setVariable('VAL_FINALIZED_BY', ilObjUser::_lookupFullname($fin_usr_id));
         }
-        $fin_timestamp = $row['feedback']['finalized_tstamp'];
+        $fin_timestamp = $row['finalized_tstamp'];
         if ($fin_timestamp > 0) {
             $time = new ilDateTime($fin_timestamp, 3);
             $this->tpl->setVariable('VAL_FINALIZED_ON', \ilDatePresentation::formatDate($time));
@@ -188,7 +197,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $ilCtrl->setParameter($this->getParentObject(), 'active_id', '');
         $ilCtrl->setParameter($this->getParentObject(), 'pass_id', '');
         $this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
-        $this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of') . ': ' . $row['participant']->getName());
+        $this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of') . ': ' . $row['name']);
     }
     
     public function setManualScoringPointsPostData($manPointsPostData)
