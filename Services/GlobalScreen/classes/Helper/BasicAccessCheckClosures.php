@@ -4,6 +4,8 @@ namespace ILIAS\GlobalScreen\Helper;
 
 use Closure;
 use ReflectionFunction;
+use Throwable;
+use InvalidArgumentException;
 
 /******************************************************************************
  *
@@ -59,9 +61,9 @@ class BasicAccessCheckClosures
         if (!isset($repo_read)) {
             $is_user_logged_in = $this->isUserLoggedIn()();
             if (!$is_user_logged_in) {
-                $repo_read = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+                $repo_read = $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
             } else {
-                $repo_read = (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+                $repo_read = $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
             }
         }
         
@@ -76,9 +78,9 @@ class BasicAccessCheckClosures
         if (!isset($repo_visible)) {
             $is_user_logged_in = $this->isUserLoggedIn()();
             if (!$is_user_logged_in) {
-                $repo_visible = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
+                $repo_visible = $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
             } else {
-                $repo_visible = (bool) $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
+                $repo_visible = $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
             }
         }
         
@@ -91,7 +93,7 @@ class BasicAccessCheckClosures
     {
         static $is_anonymous;
         if (!isset($is_anonymous)) {
-            $is_anonymous = (bool) $this->dic->user()->isAnonymous() || ($this->dic->user()->getId() == 0);
+            $is_anonymous = $this->dic->user()->isAnonymous() || ($this->dic->user()->getId() == 0);
         }
         
         return $this->getClosureWithOptinalClosure(static function () use ($is_anonymous) : bool {
@@ -103,7 +105,7 @@ class BasicAccessCheckClosures
     {
         static $has_admin_access;
         if (!isset($has_admin_access)) {
-            $has_admin_access = (bool) ($this->dic->rbac()->system()->checkAccess('visible', \SYSTEM_FOLDER_ID));
+            $has_admin_access = ($this->dic->rbac()->system()->checkAccess('visible', SYSTEM_FOLDER_ID));
         }
         return $this->getClosureWithOptinalClosure(static function () use ($has_admin_access) : bool {
             return $has_admin_access;
@@ -119,12 +121,12 @@ class BasicAccessCheckClosures
     {
         try {
             $r = new ReflectionFunction($c);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return false;
         }
         
         if (!$r->hasReturnType() || !$r->getReturnType()->isBuiltin()) {
-            throw new \InvalidArgumentException('the additional Closure MUST return a bool dy declaration');
+            throw new InvalidArgumentException('the additional Closure MUST return a bool dy declaration');
         }
         return true;
     }
