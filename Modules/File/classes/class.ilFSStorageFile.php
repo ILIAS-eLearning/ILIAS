@@ -31,7 +31,7 @@ class ilFSStorageFile extends ilFileSystemAbstractionStorage
     }
 
 
-    protected function getPathPostfix(): string
+    protected function getPathPostfix() : string
     {
         return 'file';
     }
@@ -40,7 +40,7 @@ class ilFSStorageFile extends ilFileSystemAbstractionStorage
     /**
      * @return string
      */
-    protected function getPathPrefix(): string
+    protected function getPathPrefix() : string
     {
         return 'ilFile';
     }
