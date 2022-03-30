@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilUserBaseTest extends TestCase
 {
-    protected function assertException(string $exception_class)
+    protected function assertException(string $exception_class)// @TODO: PHP8 Review: Missing return type.
     {
         $this->expectException($exception_class);
     }

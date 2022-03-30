@@ -454,7 +454,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $operations = array();
         //var_dump($this->actions);
-        if ($this->actions == "") {
+        if ($this->actions == "") {// @TODO: PHP8 Review: Undefined property.
             $d = array(
                 "delete" => array("name" => "delete", "lng" => "delete"),
                 "activate" => array("name" => "activate", "lng" => "activate"),
@@ -464,7 +464,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 "export" => array("name" => "export", "lng" => "export")
             );
         } else {
-            $d = $this->actions;
+            $d = $this->actions;// @TODO: PHP8 Review: Undefined property.
         }
         foreach ($d as $row) {
             if ($rbacsystem->checkAccess(
@@ -507,7 +507,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         if ($with_subobjects === true) {
-            $subobjs = $this->showPossibleSubObjects();
+            $subobjs = $this->showPossibleSubObjects();// @TODO: PHP8 Review: Void result used.
         }
 
         if ((count($operations) > 0) or $subobjs === true) {
@@ -1184,7 +1184,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    protected function inAdministration()
+    protected function inAdministration()// @TODO: PHP8 Review: Missing return type.
     {
         return (strtolower($this->user_request->getBaseClass()) == 'iladministrationgui');
     }

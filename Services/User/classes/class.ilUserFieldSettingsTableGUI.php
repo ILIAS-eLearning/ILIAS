@@ -206,7 +206,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_FIELD", $lng->txt($lv));
     }
 
-    public function setConfirmChange()
+    public function setConfirmChange()// @TODO: PHP8 Review: Missing return type.
     {
         $this->confirm_change = true;
     }

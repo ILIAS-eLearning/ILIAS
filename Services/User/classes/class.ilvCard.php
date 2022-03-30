@@ -1017,7 +1017,7 @@ class ilvCard
      * @param string $latitude  The latitude of the position
      * @param string $longitude The longitude of the position
      */
-    public function setPosition(string $latitude = "", string $longitude = "")
+    public function setPosition(string $latitude = "", string $longitude = "")// @TODO: PHP8 Review: Missing return type.
     {
         $this->types["GEO"] = array(
             "LAT" => $latitude,
@@ -1167,7 +1167,7 @@ class ilvCard
      * (ASCII decimal 44).
      * @access    public
      */
-    public function setCategories(string $categories)
+    public function setCategories(string $categories)// @TODO: PHP8 Review: Missing return type.
     {
         $categories = join(",", $this->explodeVar($categories));
         $this->types["CATEGORIES"] = $categories;

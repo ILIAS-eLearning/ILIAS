@@ -471,7 +471,7 @@ class ilUserDefinedFields
         return $field_id;
     }
 
-    public function delete(int $a_id)
+    public function delete(int $a_id)// @TODO: PHP8 Review: Missing return type.
     {
         global $DIC;
 

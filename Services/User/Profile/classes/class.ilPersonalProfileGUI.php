@@ -509,7 +509,7 @@ class ilPersonalProfileGUI
                         true,
                         0,
                         '',
-                        '',
+                        '',// @TODO: PHP8 Review: Invalid argument.
                         $disabled
                     )
                 );

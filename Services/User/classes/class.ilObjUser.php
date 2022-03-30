@@ -1641,7 +1641,7 @@ class ilObjUser extends ilObject
     {
         return $this->agree_date;
     }
-    public function setAgreeDate(?string $a_str)
+    public function setAgreeDate(?string $a_str)// @TODO: PHP8 Review: Missing return type.
     {
         $this->agree_date = $a_str;
     }
