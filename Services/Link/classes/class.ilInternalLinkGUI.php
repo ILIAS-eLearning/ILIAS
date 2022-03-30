@@ -35,13 +35,15 @@ class ilInternalLinkGUI
     protected string $link_target = "";		// "New"
     protected string $base_link_type = "";	// "PageObject"
     public string $set_link_script = "";
-    // @var array link types
-    protected array $ltypes = array();
+    /** @var array<string, string> array link types */
+    protected array $ltypes = [];
     // @var array parent object types for link base types
-    protected array $parent_type = array();
+    /** @var array<string, string> parent object types for link base types */
+    protected array $parent_type = [];
     public ilCtrl $ctrl;
     protected bool $filter_white_list = false;
-    protected array $filter_link_types = array();
+    /** @var string[] */
+    protected array $filter_link_types = [];
     protected ilTree $tree;
     protected ilLanguage $lng;
     protected ilObjUser $user;
@@ -140,14 +142,14 @@ class ilInternalLinkGUI
         } else {
             $ltypes = array();
             foreach ($this->ltypes as $k => $l) {
-                if (in_array($k, $this->filter_link_types)) {
+                if (in_array($k, $this->filter_link_types, true)) {
                     $ltypes[$k] = $l;
                 }
             }
             $this->ltypes = $ltypes;
         }
         // determine link type and target
-        $this->link_type = ($this->request->getLinkType() == "")
+        $this->link_type = ($this->request->getLinkType() === "")
             ? $this->default_link_type
             : $this->request->getLinkType();
         $ltype_arr = explode("_", $this->link_type);
@@ -166,12 +168,12 @@ class ilInternalLinkGUI
             case "WikiPage":
             case "PortfolioPage":
             case "PortfolioTemplatePage":
-                if ($this->parent_ref_id == 0 && $this->parent_obj_id == 0
-                    && $def_type == $this->parent_type[$this->base_link_type]) {
+                if ($this->parent_ref_id === 0 && $this->parent_obj_id === 0
+                    && $def_type === $this->parent_type[$this->base_link_type]) {
                     $this->parent_ref_id = $this->default_parent_ref_id;
                     $this->parent_obj_id = $this->default_parent_obj_id;
-                    $ctrl->setParameter($this, "link_par_obj_id", (int) $this->parent_obj_id);
-                    $ctrl->setParameter($this, "link_par_ref_id", (int) $this->parent_ref_id);
+                    $ctrl->setParameter($this, "link_par_obj_id", $this->parent_obj_id);
+                    $ctrl->setParameter($this, "link_par_ref_id", $this->parent_ref_id);
                 }
                 break;
         }
@@ -235,7 +237,7 @@ class ilInternalLinkGUI
 
     public function closeLinkHelp() : void
     {
-        if ($this->return == "") {
+        if ($this->return === "") {
             $this->ctrl->returnToParent($this);
         } else {
             ilUtil::redirect($this->return);
@@ -261,12 +263,12 @@ class ilInternalLinkGUI
 
 
         $parent_type = $this->parent_type[$this->base_link_type];
-        if ((in_array($this->base_link_type, array("GlossaryItem", "WikiPage", "PageObject", "StructureObject")) &&
-            ($this->parent_ref_id == 0))
+        if ((in_array($this->base_link_type, array("GlossaryItem", "WikiPage", "PageObject", "StructureObject"), true) &&
+            ($this->parent_ref_id === 0))
             ||
             (($this->parent_ref_id > 0) &&
-                ilObject::_lookupType($this->parent_ref_id, true) != $parent_type)) {
-            if ($parent_type != "") {
+                ilObject::_lookupType($this->parent_ref_id, true) !== $parent_type)) {
+            if ($parent_type !== "") {
                 $this->changeTargetObject($parent_type);
             }
         }
@@ -330,7 +332,7 @@ class ilInternalLinkGUI
                 $tpl->parseCurrentBlock();
 
                 foreach ($nodes as $node) {
-                    if ($node["type"] == "st") {
+                    if ($node["type"] === "st") {
                         $tpl->setCurrentBlock("header_row");
                         $tpl->setVariable("TXT_HEADER", $node["title"]);
                         $tpl->parseCurrentBlock();
@@ -338,7 +340,7 @@ class ilInternalLinkGUI
                         $tpl->parseCurrentBlock();
                     }
 
-                    if ($node["type"] == "pg") {
+                    if ($node["type"] === "pg") {
                         $this->renderLink(
                             $tpl,
                             $node["title"],
@@ -386,7 +388,7 @@ class ilInternalLinkGUI
             case "StructureObject":
             
                 // check whether current object matchs to type
-                if (ilObject::_lookupType($this->parent_ref_id, true) != "lm") {
+                if (ilObject::_lookupType($this->parent_ref_id, true) !== "lm") {
                     $this->changeTargetObject("lm");
                 }
 
@@ -405,7 +407,7 @@ class ilInternalLinkGUI
                 $tpl->parseCurrentBlock();
 
                 foreach ($nodes as $node) {
-                    if ($node["type"] == "st") {
+                    if ($node["type"] === "st") {
                         $this->renderLink(
                             $tpl,
                             $node["title"],
@@ -454,7 +456,7 @@ class ilInternalLinkGUI
             case "Media":
                 //$tpl->setVariable("TARGET2", " target=\"content\" ");
                 // content object id = 0 --> get clipboard objects
-                if ($this->parent_ref_id == 0) {
+                if ($this->parent_ref_id === 0) {
                     $tpl->setCurrentBlock("change_cont_obj");
                     $tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
                     $tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
@@ -535,7 +537,7 @@ class ilInternalLinkGUI
                         $tpl->parseCurrentBlock();
                     }
                     foreach ($objs as $obj) {
-                        if ($obj["type"] == "fold") {
+                        if ($obj["type"] === "fold") {
                             $tpl->setCurrentBlock("icon");
                             $tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.svg"));
                             $tpl->parseCurrentBlock();
@@ -557,7 +559,7 @@ class ilInternalLinkGUI
                             $tpl->parseCurrentBlock();
                         } else {
                             $fid = ilMediaPoolItem::lookupForeignId($obj["child"]);
-                            if (ilObject::_lookupType($fid) == "mob") {
+                            if (ilObject::_lookupType($fid) === "mob") {
                                 $this->renderLink(
                                     $tpl,
                                     $obj["title"],
@@ -745,7 +747,7 @@ class ilInternalLinkGUI
         $med = $mob->getMediaItem("Standard");
         $target = $med->getThumbnailTarget("small");
         $suff = "";
-        if ($this->getSetLinkTargetScript() != "") {
+        if ($this->getSetLinkTargetScript() !== "") {
             $tpl->setCurrentBlock("thumbnail_link");
             $suff = "_link";
         } else {
@@ -753,7 +755,7 @@ class ilInternalLinkGUI
             $suff = "_js";
         }
 
-        if ($target != "") {
+        if ($target !== "") {
             $tpl->setCurrentBlock("thumb" . $suff);
             $tpl->setVariable("SRC_THUMB", $target);
             $tpl->parseCurrentBlock();
@@ -761,7 +763,7 @@ class ilInternalLinkGUI
             $tpl->setVariable("NO_THUMB", "&nbsp;");
         }
         
-        if ($this->getSetLinkTargetScript() != "") {
+        if ($this->getSetLinkTargetScript() !== "") {
             $tpl->setCurrentBlock("thumbnail_link");
         } else {
             $tpl->setCurrentBlock("thumbnail_js");
@@ -775,7 +777,7 @@ class ilInternalLinkGUI
 
         $ctrl->setParameter($this, "link_type", $this->request->getLinkType());
         $base_type = explode("_", $this->request->getLinkType())[0];
-        if ($this->parent_type[$base_type] != ilObject::_lookupType($this->parent_ref_id, true)) {
+        if ($this->parent_type[$base_type] !== ilObject::_lookupType($this->parent_ref_id, true)) {
             $ctrl->setParameter($this, "link_par_ref_id", 0);
             $ctrl->setParameter($this, "link_par_obj_id", 0);
         }
@@ -807,7 +809,7 @@ class ilInternalLinkGUI
 
         $white[] = $a_type;
         $exp->setClickableType($a_type);
-        if ($a_type == "prtf") {
+        if ($a_type === "prtf") {
             $white[] = "prtt";
             $exp->setClickableType("prtt");
         }
@@ -830,8 +832,8 @@ class ilInternalLinkGUI
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameter($this, "link_par_fold_id", "");
-        if ($this->request->getDo() == "set") {
-            $ilCtrl->setParameter($this, "link_par_ref_id", (int) $this->request->getSelectedId());
+        if ($this->request->getDo() === "set") {
+            $ilCtrl->setParameter($this, "link_par_ref_id", $this->request->getSelectedId());
             $ilCtrl->redirect($this, "showLinkHelp", "", true);
             return;
         }
@@ -849,7 +851,7 @@ class ilInternalLinkGUI
         $tpl->setVariable("BTN_RESET", "resetLinkList");
         $tpl->setVariable("TXT_RESET", $this->lng->txt("back"));
 
-        if ($this->parent_type[$this->base_link_type] == "mep") {
+        if ($this->parent_type[$this->base_link_type] === "mep") {
             $tpl->setCurrentBlock("sel_clipboard");
             $this->ctrl->setParameter($this, "do", "set");
             if ($ilCtrl->isAsynch()) {
@@ -949,13 +951,13 @@ class ilInternalLinkGUI
         $chapterRowBlock = "chapter_row_js";
         $anchor_row_block = "anchor_link_js";
 
-        $target_str = ($this->link_target == "")
+        $target_str = ($this->link_target === "")
             ? ""
             : " target=\"" . $this->link_target . "\"";
 
         if (count($a_anchors) > 0) {
             foreach ($a_anchors as $anchor) {
-                if ($this->getSetLinkTargetScript() != "") {
+                if ($this->getSetLinkTargetScript() !== "") {
                     // not implemented yet (anchors that work with map areas)
 
                     /*$tpl->setCurrentBlock("anchor_link");
@@ -980,9 +982,9 @@ class ilInternalLinkGUI
             }
         }
 
-        if ($this->getSetLinkTargetScript() != "") {
+        if ($this->getSetLinkTargetScript() !== "") {
             ilImageMapEditorGUI::_recoverParameters();
-            if ($a_type == "MediaObject") {
+            if ($a_type === "MediaObject") {
                 $this->outputThumbnail($tpl, $a_obj_id);
             }
             $tpl->setCurrentBlock("link_row");
@@ -998,12 +1000,12 @@ class ilInternalLinkGUI
             );
         } else {
             $tpl->setCurrentBlock($chapterRowBlock);
-            if ($a_type == "MediaObject") {
+            if ($a_type === "MediaObject") {
                 $this->outputThumbnail($tpl, $a_obj_id);
                 $tpl->setCurrentBlock($chapterRowBlock);
             }
             $tpl->setVariable("TXT_CHAPTER", $a_title);
-            if ($a_type == "MediaObject" && empty($target_str)) {
+            if ($a_type === "MediaObject" && empty($target_str)) {
                 $tpl->setVariable(
                     "LINK_BEGIN",
                     $this->prepareJavascriptOutput("[iln " . $a_bb_type . "=\"" . $a_obj_id . "\"/]")
@@ -1073,7 +1075,7 @@ class ilInternalLinkGUI
         $form->checkInput();
 
         $users = ilInternalLink::searchUsers($form->getInput("usr_search_str"));
-        if (count($users) == 0) {
+        if (count($users) === 0) {
             return ilUtil::getSystemMessageHTML($lng->txt("cont_user_search_did_not_match"), "info");
         }
 
