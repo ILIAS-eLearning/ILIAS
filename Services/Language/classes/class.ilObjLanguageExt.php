@@ -25,7 +25,7 @@ class ilObjLanguageExt extends ilObjLanguage
     * Read and get the global language file as an object
     * @return  object  global language file
     */
-    public function getGlobalLanguageFile()
+    public function getGlobalLanguageFile() : object
     {
         require_once "./Services/Language/classes/class.ilLanguageFile.php";
         return ilLanguageFile::_getGlobalLanguageFile($this->key);
@@ -149,7 +149,7 @@ class ilObjLanguageExt extends ilObjLanguage
     * $a_topics        list of topics
     * Return array     module.separator.topic => value
     */
-    public function getAddedValues(array $a_modules = array(), string $a_pattern = '', array $a_topics = array())
+    public function getAddedValues(array $a_modules = array(), string $a_pattern = '', array $a_topics = array()) : array
     {
         $global_file_obj = $this->getGlobalLanguageFile();
         $global_values = $global_file_obj->getAllValues();
@@ -369,10 +369,10 @@ class ilObjLanguageExt extends ilObjLanguage
         if ($a_pattern) {
             $q .= " AND " . $ilDB->like("value", "text", "%" . $a_pattern . "%");
         }
-        if ($a_state == "changed") {
+        if ($a_state === "changed") {
             $q .= " AND NOT local_change IS NULL ";
         }
-        if ($a_state == "unchanged") {
+        if ($a_state === "unchanged") {
             $q .= " AND local_change IS NULL ";
         }
         $q .= " ORDER BY module, identifier";
@@ -447,7 +447,7 @@ class ilObjLanguageExt extends ilObjLanguage
             ));
             $row = $ilDB->fetchAssoc($set);
 
-            $arr = unserialize($row["lang_array"]);
+            $arr = unserialize($row["lang_array"], ["allowed_classes" => false]);
             if (is_array($arr)) {
                 $entries = array_merge($arr, $entries);
             }
@@ -498,7 +498,7 @@ class ilObjLanguageExt extends ilObjLanguage
             ));
             $row = $ilDB->fetchAssoc($set);
 
-            $arr = unserialize($row["lang_array"]);
+            $arr = unserialize($row["lang_array"], ["allowed_classes" => false]);
             if (is_array($arr)) {
                 $entries = array_diff_key($arr, $entries);
             }

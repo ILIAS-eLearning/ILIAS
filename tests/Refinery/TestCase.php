@@ -28,7 +28,7 @@ class ilLanguageMock extends \ilLanguage
     {
     }
     public $lang_module = 'common';
-    public function loadLanguageModule($lang_module)
+    public function loadLanguageModule(string $a_module) : void
     {
     }
 }

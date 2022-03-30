@@ -92,7 +92,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $langObj = new ilObjLanguage($obj_id);
             $key = $langObj->install();
 
-            if ($key != "") {
+            if ($key !== "") {
                 $lang_installed[] = $key;
             }
 
@@ -100,9 +100,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         if (isset($lang_installed)) {
-            if (count($lang_installed) == 1) {
+            if (count($lang_installed) === 1) {
                 $this->data = $this->lng->txt("meta_l_" . $lang_installed[0]) . " " . strtolower($this->lng->txt("installed")) . ".";
             } else {
+                $langnames = [];
                 foreach ($lang_installed as $lang_key) {
                     $langnames[] = $this->lng->txt("meta_l_" . $lang_key);
                 }
@@ -132,7 +133,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $langObj = new ilObjLanguage($obj_id);
             $key = $langObj->install();
 
-            if ($key != "") {
+            if ($key !== "") {
                 $lang_installed[] = $key;
             }
 
@@ -141,7 +142,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $langObj = new ilObjLanguage($obj_id);
             $key = $langObj->install("local");
 
-            if ($key != "") {
+            if ($key !== "") {
                 $local_installed[] = $key;
             }
 
@@ -149,9 +150,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         if (isset($lang_installed)) {
-            if (count($lang_installed) == 1) {
+            if (count($lang_installed) === 1) {
                 $this->data = $this->lng->txt("meta_l_" . $lang_installed[0]) . " " . strtolower($this->lng->txt("installed")) . ".";
             } else {
+                $langnames = [];
                 foreach ($lang_installed as $lang_key) {
                     $langnames[] = $this->lng->txt("meta_l_" . $lang_key);
                 }
@@ -160,9 +162,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         if (isset($local_installed)) {
-            if (count($local_installed) == 1) {
+            if (count($local_installed) === 1) {
                 $this->data .= " " . $this->lng->txt("meta_l_" . $local_installed[0]) . " " . $this->lng->txt("local_language_file") . " " . strtolower($this->lng->txt("installed")) . ".";
             } else {
+                $langnames = [];
                 foreach ($local_installed as $lang_key) {
                     $langnames[] = $this->lng->txt("meta_l_" . $lang_key);
                 }
@@ -188,15 +191,16 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
 
+        $sys_lang = false;
+        $usr_lang = false;
+
         // uninstall all selected languages
         foreach ($_POST["id"] as $obj_id) {
             $langObj = new ilObjLanguage($obj_id);
-            if (!($sys_lang = $langObj->isSystemLanguage())) {
-                if (!($usr_lang = $langObj->isUserLanguage())) {
-                    $key = $langObj->uninstall();
-                    if ($key != "") {
-                        $lang_uninstalled[] = $key;
-                    }
+            if (!($sys_lang = $langObj->isSystemLanguage()) && !($usr_lang = $langObj->isUserLanguage())) {
+                $key = $langObj->uninstall();
+                if ($key !== "") {
+                    $lang_uninstalled[] = $key;
                 }
             }
             unset($langObj);
@@ -204,9 +208,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         // generate output message
         if (isset($lang_uninstalled)) {
-            if (count($lang_uninstalled) == 1) {
+            if (count($lang_uninstalled) === 1) {
                 $this->data = $this->lng->txt("meta_l_" . $lang_uninstalled[0]) . " " . $this->lng->txt("uninstalled");
             } else {
+                $langnames = [];
                 foreach ($lang_uninstalled as $lang_key) {
                     $langnames[] = $this->lng->txt("meta_l_" . $lang_key);
                 }
@@ -398,7 +403,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     * get tabs
     * @param   object   tabs gui object
     */
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addTab("settings", $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "view"));
@@ -461,6 +466,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
 
+        $header = '';
+        $ids = [];
         if (!empty($a_ids)) {
             $ids = $a_ids;
             $header = $this->lng->txt("lang_refresh_confirm");

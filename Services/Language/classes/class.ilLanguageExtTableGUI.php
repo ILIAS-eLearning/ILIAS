@@ -29,7 +29,8 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         // set the compare language
         $compare = $this->getFilterItemByPostVar("compare")->getValue();
-        if ($compare == $this->params["lang_key"]) {
+        $compare_note = '';
+        if ($compare === $this->params["lang_key"]) {
             $compare_note = " " . $lng->txt("language_default_entries");
         }
 

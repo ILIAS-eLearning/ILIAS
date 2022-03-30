@@ -55,8 +55,8 @@ class ilSetupLanguage extends ilLanguage
 
     public function __construct(string $a_lang_key)
     {
-        $this->lang_key = ($a_lang_key) ? $a_lang_key : $this->lang_default;
-        $il_absolute_path = realpath(dirname(__FILE__) . "/../../../../");
+        $this->lang_key = $a_lang_key ?: $this->lang_default;
+        $il_absolute_path = realpath(__DIR__ . "/../../../../");
         $this->lang_path = $il_absolute_path . "/lang";
         $this->cust_lang_path = $il_absolute_path . "/Customizing/global/lang";
     }
@@ -269,7 +269,7 @@ return true;
     {
         $scopeExtension = "";
         if (!empty($scope)) {
-            if ($scope == "global") {
+            if ($scope === "global") {
                 $scope = "";
             } else {
                 $scopeExtension = "." . $scope;
@@ -277,7 +277,7 @@ return true;
         }
         
         $path = $this->lang_path;
-        if ($scope == "local") {
+        if ($scope === "local") {
             $path = $this->cust_lang_path;
         }
 
@@ -329,7 +329,7 @@ return true;
     protected function cut_header(array $content)
     {
         foreach ($content as $key => $val) {
-            if (trim($val) == "<!-- language file start -->") {
+            if (trim($val) === "<!-- language file start -->") {
                 return array_slice($content, $key + 1);
             }
         }
@@ -345,9 +345,9 @@ return true;
     {
         global $ilDB;
         
-        ilSetupLanguage::_deleteLangData($a_lang_key, ($a_mode == "keep_local"));
+        self::_deleteLangData($a_lang_key, ($a_mode === "keep_local"));
 
-        if ($a_mode == "all") {
+        if ($a_mode === "all") {
             $ilDB->manipulate("DELETE FROM lng_modules WHERE lang_key = " .
                 $ilDB->quote($a_lang_key, "text"));
         }
@@ -422,7 +422,7 @@ return true;
         
         $scopeExtension = "";
         if (!empty($scope)) {
-            if ($scope == "global") {
+            if ($scope === "global") {
                 $scope = "";
             } else {
                 $scopeExtension = "." . $scope;
@@ -430,7 +430,7 @@ return true;
         }
 
         $path = $this->lang_path;
-        if ($scope == "local") {
+        if ($scope === "local") {
             $path = $this->cust_lang_path;
         }
         
@@ -438,6 +438,7 @@ return true;
         chdir($path);
 
         $lang_file = "ilias_" . $lang_key . ".lang" . $scopeExtension;
+        $change_date = null;
 
         if (is_file($lang_file)) {
             // initialize the array for updating lng_modules below
@@ -449,7 +450,7 @@ return true;
                 // get the local changes from the database
                 if (empty($scope)) {
                     $local_changes = $this->getLocalChanges($lang_key);
-                } elseif ($scope == "local") {
+                } elseif ($scope === "local") {
                     // set the change date to import time for a local file
                     // get the modification date of the local file
                     // get the newer local changes for a local file
@@ -482,13 +483,13 @@ return true;
                     }
 
                     if (empty($scope)) {
-                        if ($local_value != "" and $local_value != $separated[2]) {
+                        if ($local_value !== "" && $local_value != $separated[2]) {
                             // keep the locally changed value
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
                         } else {
                             // insert a new value if no local value exists
                             // reset local_change if the values are equal
-                            ilSetupLanguage::replaceLangEntry(
+                            self::replaceLangEntry(
                                 $separated[0],
                                 $separated[1],
                                 $lang_key,
@@ -497,13 +498,13 @@ return true;
 
                             $lang_array[$separated[0]][$separated[1]] = $separated[2];
                         }
-                    } elseif ($scope == "local") {
-                        if ($local_value != "") {
+                    } elseif ($scope === "local") {
+                        if ($local_value !== "") {
                             // keep a locally changed value that is newer than the local file
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
                         } else {
                             // UPDATE because the global values have already been INSERTed
-                            ilSetupLanguage::updateLangEntry(
+                            self::updateLangEntry(
                                 $separated[0],
                                 $separated[1],
                                 $lang_key,
@@ -517,18 +518,18 @@ return true;
             }
 
             foreach ($lang_array as $module => $lang_arr) {
-                if ($scope == "local") {
+                if ($scope === "local") {
                     $q = "SELECT * FROM lng_modules WHERE " .
                         " lang_key = " . $ilDB->quote($lang_key, "text") .
                         " AND module = " . $ilDB->quote($module, "text");
                     $set = $ilDB->query($q);
                     $row = $ilDB->fetchAssoc($set);
-                    $arr2 = unserialize($row["lang_array"]);
+                    $arr2 = unserialize($row["lang_array"], ["allowed_classes" => false]);
                     if (is_array($arr2)) {
                         $lang_arr = array_merge($arr2, $lang_arr);
                     }
                 }
-                ilSetupLanguage::replaceLangModule($lang_key, $module, $lang_arr);
+                self::replaceLangModule($lang_key, $module, $lang_arr);
             }
         }
 
@@ -668,14 +669,14 @@ return true;
      */
     public function setDbHandler($a_db_handler) : bool
     {
-        if (empty($a_db_handler) or !is_object($a_db_handler)) {
+        if (empty($a_db_handler) || !is_object($a_db_handler)) {
             return false;
         }
-        $this->db = &$a_db_handler;
+        $this->db = &$a_db_handler;// Todo-PHP8-Review This property is not defined
         return true;
     }
     
-    public function loadLanguageModule(string $a_module)
+    public function loadLanguageModule(string $a_module) : void
     {
     }
 }

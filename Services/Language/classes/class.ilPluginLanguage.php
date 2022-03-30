@@ -50,21 +50,18 @@ class ilPluginLanguage
 
         $dir = opendir($directory);
         while ($file = readdir($dir)) {
-            if ($file == "." || $file == "..") {
+            if ($file === "." || $file === "..") {
                 continue;
             }
 
             // directories
-            if (@is_file($directory . "/" . $file)) {
-                if (
-                    substr($file, 0, 6) == "ilias_"
-                    && substr($file, strlen($file) - 5) == ".lang"
-                ) {
-                    $langs[] = array(
-                        "key" => substr($file, 6, 2),
-                        "file" => $file
-                    );
-                }
+            if (@is_file($directory . "/" . $file) &&
+                strpos($file, "ilias_") === 0 &&
+                substr($file, strlen($file) - 5) === ".lang") {
+                $langs[] = [
+                    "key" => substr($file, 6, 2),
+                    "file" => $file
+                ];
             }
         }
 
@@ -90,7 +87,7 @@ class ilPluginLanguage
      *
      * @var array|null $a_lang_keys keys of languages to be updated (null for all)
      */
-    public function updateLanguages($a_lang_keys = null)
+    public function updateLanguages(?array $a_lang_keys = null) : void
     {
         ilGlobalCache::flushAll();
 
@@ -123,7 +120,7 @@ class ilPluginLanguage
             // get language data
             if (is_array($txt)) {
                 foreach ($txt as $row) {
-                    if ($row[0] != "#" && strpos($row, "#:#") > 0) {
+                    if ($row[0] !== "#" && strpos($row, "#:#") > 0) {
                         $a = explode("#:#", trim($row));
                         $identifier = $prefix . "_" . trim($a[0]);
                         $value = trim($a[1]);
@@ -143,7 +140,7 @@ class ilPluginLanguage
         }
     }
 
-    public function uninstall()
+    public function uninstall() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -166,7 +163,7 @@ class ilPluginLanguage
     /**
      * Load language module for plugin
      */
-    public function loadLanguageModule()
+    public function loadLanguageModule() : void
     {
         global $DIC;
         $lng = $DIC->language();

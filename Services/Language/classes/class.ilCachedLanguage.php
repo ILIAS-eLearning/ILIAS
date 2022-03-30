@@ -90,7 +90,7 @@ class ilCachedLanguage
         $translations = array();
         while ($set = $ilDB->fetchObject($res)) {
             try {
-                $lang_array = unserialize($set->lang_array);
+                $lang_array = unserialize($set->lang_array, ['allowed_classes' => false]);
             } catch (Throwable $t) {
                 continue;
             }

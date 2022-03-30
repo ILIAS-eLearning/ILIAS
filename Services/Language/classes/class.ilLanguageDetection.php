@@ -11,7 +11,7 @@ require_once "Services/Language/classes/class.ilLanguageDetectorFactory.php";
  */
 class ilLanguageDetection
 {
-    protected $factory;
+    protected ilLanguageDetectorFactory $factory;
 
     public function __construct()
     {

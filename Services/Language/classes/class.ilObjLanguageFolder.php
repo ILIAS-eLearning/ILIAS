@@ -92,6 +92,8 @@ class ilObjLanguageFolder extends ilObject
         $tmpPath = getcwd();
         chdir($this->lang_path);
 
+        $languages = [];
+
         // get available lang-files
         while ($entry = $d->read()) {
             if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry))) {
@@ -100,12 +102,7 @@ class ilObjLanguageFolder extends ilObject
             }
         }
 
-        // ensure that arrays are initiated when no lang file was found
-        if (!array($languages)) {
-            $language = array();
-            $tmp_array = array();
-        }
-
+        $language = array();
         $tmp_array = array_keys($languages);
         $lang_keys = array();
 
@@ -121,11 +118,11 @@ class ilObjLanguageFolder extends ilObject
                 $languages[$lang_key]["status"] = "";
 
                 // determine default language and language of current user
-                if ($lang_key == $this->lang_user) {
+                if ($lang_key === $this->lang_user) {
                     $languages[$lang_key]["status"] = "in_use";
                 }
 
-                if ($lang_key == $this->lang_default) {
+                if ($lang_key === $this->lang_default) {
                     $languages[$lang_key]["status"] = "system_language";
                 }
 

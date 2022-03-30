@@ -7,7 +7,6 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
-//this doesn't seem to be doing anything
 require_once __DIR__ . '/bootstrap.php';
 
 /**

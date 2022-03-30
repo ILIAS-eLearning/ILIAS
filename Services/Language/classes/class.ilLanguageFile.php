@@ -74,7 +74,7 @@ class ilLanguageFile
         $this->params["module"] = "language file";
         $this->params["modulegroup"] = "language";
         
-        if ($this->scope == "local") {
+        if ($this->scope === "local") {
             $this->params["based_on"] = "";
         } else {
             $this->params["author"] = "";
@@ -111,7 +111,7 @@ class ilLanguageFile
                 $this->header .= $line . "\n";
 
                 // check header end
-                if (trim($line) == $this->file_start) {
+                if (trim($line) === $this->file_start) {
                     $in_header = false;
                     continue;
                 } else {
@@ -182,7 +182,7 @@ class ilLanguageFile
     */
     public function write(string $a_header = "") : void
     {
-        $fp = fopen($this->lang_file, "w");
+        $fp = fopen($this->lang_file, 'wb');
         fwrite($fp, $this->build($a_header));
         fclose($fp);
     }

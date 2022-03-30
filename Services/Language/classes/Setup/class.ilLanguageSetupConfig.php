@@ -43,7 +43,7 @@ class ilLanguageSetupConfig implements Setup\Config
      */
     protected function checkLanguageName(string $l) : void
     {
-        if (!strlen($l) == 2) {
+        if (strlen($l) !== 2) {
             throw new \InvalidArgumentException(
                 "'$l' is not a valid language id."
             );
