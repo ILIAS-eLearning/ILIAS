@@ -501,7 +501,7 @@ class ilUserAutoComplete
         
         // "," means fixed search for lastname, firstname
         if (strpos($a_query, ',')) {
-            $comma_separated = (array) explode(',', $a_query);
+            $comma_separated = explode(',', $a_query);
             
             if (count($comma_separated) == 2) {
                 if (trim($comma_separated[0])) {
@@ -512,7 +512,7 @@ class ilUserAutoComplete
                 }
             }
         } else {
-            $whitespace_separated = (array) explode(' ', $a_query);
+            $whitespace_separated = explode(' ', $a_query);
             foreach ($whitespace_separated as $part) {
                 if (trim($part)) {
                     $query['parts'][] = trim($part);

@@ -1583,6 +1583,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // new account mail
         $this->lng->loadLanguageModule("mail");
         $amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
+        $mail_section = null;
         if (trim($amail["body"]) != "" && trim($amail["subject"]) != "") {
             $send_checkbox = $ui->input()->field()->checkbox($this->lng->txt("user_send_new_account_mail"))
                                 ->withValue(true);
@@ -1640,7 +1641,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $form_elements["conflict_action"] = $conflict_action_section;
 
-        if (!empty($mail_section)) {
+        if ($mail_section !== null) {
             $form_elements["send_mail"] = $mail_section;
         }
 

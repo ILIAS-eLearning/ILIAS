@@ -233,7 +233,7 @@ class ilAccountCode
         $code_data = ilRegistrationCode::getCodeData($code);
         if ($code_data["role_local"]) {
             $code_local_roles = explode(";", $code_data["role_local"]);
-            foreach ((array) $code_local_roles as $role_id) {
+            foreach ($code_local_roles as $role_id) {
                 $GLOBALS['DIC']['rbacadmin']->assignUser($role_id, $user->getId());
                 
                 // patch to remove for 45 due to mantis 21953

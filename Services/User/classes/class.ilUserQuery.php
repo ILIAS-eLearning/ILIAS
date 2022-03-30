@@ -304,8 +304,7 @@ class ilUserQuery
             " FROM usr_data" .
             $join;
 
-        $count_query = $count_query . " " .
-            $join;
+        $count_query .= " " . $join;
 
         // filter
         $query .= " WHERE usr_data.usr_id <> " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");

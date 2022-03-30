@@ -253,7 +253,7 @@ class ilUserXMLWriter extends ilXmlWriter
         if (count($prefs)) {
             $this->xmlStartTag("Prefs");
             foreach ($prefs as $key => $value) {
-                if (ilUserXMLWriter::isPrefExportable($key)) {
+                if (self::isPrefExportable($key)) {
                     $this->xmlElement("Pref", array("key" => $key), $value);
                 }
             }
@@ -400,6 +400,6 @@ class ilUserXMLWriter extends ilXmlWriter
      */
     public static function isPrefExportable(string $key) : bool
     {
-        return in_array($key, ilUserXMLWriter::getExportablePreferences());
+        return in_array($key, self::getExportablePreferences());
     }
 }

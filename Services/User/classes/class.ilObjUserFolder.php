@@ -376,7 +376,7 @@ class ilObjUserFolder extends ilObject
 
         //get data
         //$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
-        $settings = $this->getExportSettings();
+        $settings = self::getExportSettings();
         
         // user languages
         $query = "SELECT * FROM usr_pref WHERE keyword = " . $ilDB->quote('language', 'text');

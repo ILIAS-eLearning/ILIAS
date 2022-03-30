@@ -684,10 +684,7 @@ class ilPersonalProfileGUI
                             $ilUser->setSecondEmail($value);
                             break;
                         default:
-                            $m = ucfirst($f);
-                            if (isset($map[$f])) {
-                                $m = $map[$f];
-                            }
+                            $m = $map[$f] ?? ucfirst($f);
                             $ilUser->{"set" . $m}($value);
                             break;
                     }

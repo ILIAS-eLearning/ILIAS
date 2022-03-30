@@ -515,10 +515,10 @@ class ilObjUserGUI extends ilObjectGUI
                 $acc_mail->setUser($userObj);
 
                 if ($acc_mail->send()) {
-                    $msg = $msg . '<br />' . $this->lng->txt('mail_sent');
+                    $msg .= '<br />' . $this->lng->txt('mail_sent');
                     $this->tpl->setOnScreenMessage('success', $msg, true);
                 } else {
-                    $msg = $msg . '<br />' . $this->lng->txt('mail_not_sent');
+                    $msg .= '<br />' . $this->lng->txt('mail_not_sent');
                     $this->tpl->setOnScreenMessage('info', $msg, true);
                 }
             } else {
@@ -1050,7 +1050,6 @@ class ilObjUserGUI extends ilObjectGUI
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-        $styleDefinition = $DIC['styleDefinition'];
         $ilSetting = $DIC['ilSetting'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
         $ilUser = $DIC['ilUser'];
@@ -1453,10 +1452,8 @@ class ilObjUserGUI extends ilObjectGUI
                 $lng->txt("skin_style"),
                 'skin_style'
             );
-            /**
-             * @var ilStyleDefinition $styleDefinition
-             */
-            $skins = $styleDefinition->getAllSkins();
+
+            $skins = ilStyleDefinition::getAllSkins();
 
             $options = array();
             if (is_array($skins)) {
@@ -1890,7 +1887,7 @@ class ilObjUserGUI extends ilObjectGUI
                     $start = date('Y', time());
                 }
 
-                for ($i = $start; $i < date("Y", time()) + 11; ++$i) {
+                for ($i = $start; $i < ((int) date("Y", time()) + 11); ++$i) {
                     $year[$i] = $i;
                 }
                 return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $year, false, true);

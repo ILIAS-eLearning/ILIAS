@@ -2070,7 +2070,7 @@ class ilUserImportParser extends ilSaxParser
                 if ($reason == "") {
                     $reason = $message;
                 } else {
-                    $reason = $reason . "<br>" . $message;
+                    $reason .= "<br>" . $message;
                 }
             }
             $block->setVariable("MESSAGE_ID", $login);
