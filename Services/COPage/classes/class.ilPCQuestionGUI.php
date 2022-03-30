@@ -360,7 +360,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
 
-        if ($this->content_obj != "") {
+        if ($this->content_obj != "") {// @TODO: PHP8 Review: This is either null or an object, but the object does not implement __toString)
             $q_ref = $this->content_obj->getQuestionReference();
         }
         
