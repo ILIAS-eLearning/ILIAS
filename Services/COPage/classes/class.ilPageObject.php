@@ -986,7 +986,7 @@ s     */
         $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $or_id = $res->nodeset[$i]->get_attribute("OriginId");
 
             $inst_id = ilInternalLink::_extractInstOfTarget($or_id);
@@ -1017,7 +1017,7 @@ s     */
         $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $or_id = $res->nodeset[$i]->get_attribute("OriginId");
 
             $inst_id = ilInternalLink::_extractInstOfTarget($or_id);
@@ -1049,7 +1049,7 @@ s     */
         $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
 
             $inst_id = ilInternalLink::_extractInstOfTarget($qref);
@@ -1085,7 +1085,7 @@ s     */
         $path = "//Question";
         $xpc = xpath_new_context($temp_dom);
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $parent_node = $res->nodeset[$i]->parent_node();
             $parent_node->unlink_node($parent_node);
         }
@@ -1137,7 +1137,7 @@ s     */
                     if ($a_omit_pageobject_tag) {
                         $xml = "";
                         $childs = $this->node->child_nodes();
-                        for ($i = 0; $i < count($childs); $i++) {
+                        for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                             $xml .= $this->dom->dump_node($childs[$i]);
                         }
                     } else {
@@ -1342,7 +1342,7 @@ s     */
         $path = "//MediaObject/MediaAlias";
         $res = xpath_eval($xpc, $path);
         $mob_ids = array();
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
             $mob_id = $id_arr[count($id_arr) - 1];
             $mob_ids[$mob_id] = $mob_id;
@@ -1352,7 +1352,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//InteractiveImage/MediaAlias";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
             $mob_id = $id_arr[count($id_arr) - 1];
             $mob_ids[$mob_id] = $mob_id;
@@ -1363,7 +1363,7 @@ s     */
         $path = "//IntLink[@Type = 'MediaObject']";
         $res = xpath_eval($xpc, $path);
 
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             if (($res->nodeset[$i]->get_attribute("TargetFrame") == "") ||
                 (!$a_inline_only)) {
                 $target = $res->nodeset[$i]->get_attribute("Target");
@@ -1395,7 +1395,7 @@ s     */
 
         $links = array();
         $cnt_multiple = 1;
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $add = "";
             if ($a_cnt_multiple) {
                 $add = ":" . $cnt_multiple;
@@ -1433,7 +1433,7 @@ s     */
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
 
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $oid = $res->nodeset[$i]->get_attribute("OriginId");
             if (substr($oid, 0, 4) == "il__") {
                 $id_arr = explode("_", $oid);
@@ -1532,7 +1532,7 @@ s     */
         }
 
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $cnode = $res->nodeset[$i];
             $ctag = $cnode->node_name();
 
@@ -1603,7 +1603,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//PageObject";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {    // should only be 1
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
             $res->nodeset[$i]->set_attribute("HierId", "pg");
             $this->hier_ids[] = "pg";
         }
@@ -1663,7 +1663,7 @@ s     */
             $xpc = xpath_new_context($this->dom);
             $path = "//*[@HierId]";
             $res = xpath_eval($xpc, $path);
-            for ($i = 0; $i < count($res->nodeset); $i++) {    // should only be 1
+            for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
                 if ($res->nodeset[$i]->has_attribute("HierId")) {
                     $res->nodeset[$i]->remove_attribute("HierId");
                 }
@@ -1686,7 +1686,7 @@ s     */
             $xpc = xpath_new_context($this->dom);
             $path = "//*[@PCID]";
             $res = xpath_eval($xpc, $path);
-            for ($i = 0; $i < count($res->nodeset); $i++) {    // should only be 1
+            for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
                 $pc_id = $res->nodeset[$i]->get_attribute("PCID");
                 if (in_array($pc_id, $a_pc_ids)) {
                     $ret[$pc_id] = $res->nodeset[$i]->get_attribute("HierId");
@@ -1718,7 +1718,7 @@ s     */
             $xpc = xpath_new_context($this->dom);
             $path = "//*[@HierId]";
             $res = xpath_eval($xpc, $path);
-            for ($i = 0; $i < count($res->nodeset); $i++) {    // should only be 1
+            for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {    // should only be 1
                 $hier_id = $res->nodeset[$i]->get_attribute("HierId");
                 if (in_array($hier_id, $hier_ids)) {
                     $ret[$hier_id] = $res->nodeset[$i]->get_attribute("PCID");
@@ -1744,14 +1744,14 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//FileItem";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $cnode = $res->nodeset[$i];
             $size_node = $this->dom->create_element("Size");
             $size_node = $cnode->append_child($size_node);
 
             $childs = $cnode->child_nodes();
             $size = "";
-            for ($j = 0; $j < count($childs); $j++) {
+            for ($j = 0, $jMax = count($childs); $j < $jMax; $j++) {
                 if ($childs[$j]->node_name() == "Identifier") {
                     if ($childs[$j]->has_attribute("Entry")) {
                         $entry = $childs[$j]->get_attribute("Entry");
@@ -1781,7 +1781,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $target = $res->nodeset[$i]->get_attribute("Target");
             $type = $res->nodeset[$i]->get_attribute("Type");
 
@@ -1818,7 +1818,7 @@ s     */
         $res = xpath_eval($xpc, $path);
         //echo "<br><b>page::resolve</b><br>";
         //echo "Content:".htmlentities($this->getXMLFromDOM()).":<br>";
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $orig_id = $res->nodeset[$i]->get_attribute("OriginId");
             $id_arr = explode("_", $orig_id);
             $mob_id = $id_arr[count($id_arr) - 1];
@@ -1841,7 +1841,7 @@ s     */
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
         $changed = false;
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             // get the ID of the import file from the xml
             $old_id = $res->nodeset[$i]->get_attribute("OriginId");
             $old_id = explode("_", $old_id);
@@ -1896,7 +1896,7 @@ s     */
         $path = "//InteractiveImage/MediaAlias";
         $res = xpath_eval($xpc, $path);
         $changed = false;
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $old_id = $res->nodeset[$i]->get_attribute("OriginId");
             if ($a_mapping[$old_id] > 0) {
                 $res->nodeset[$i]->set_attribute("OriginId", "il__mob_" . $a_mapping[$old_id]);
@@ -1920,7 +1920,7 @@ s     */
         $path = "//FileItem/Identifier";
         $res = xpath_eval($xpc, $path);
         $changed = false;
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $old_id = $res->nodeset[$i]->get_attribute("Entry");
             $old_id = explode("_", $old_id);
             $old_id = $old_id[count($old_id) - 1];
@@ -1946,7 +1946,7 @@ s     */
         $path = "//Question";
         $res = xpath_eval($xpc, $path);
         $updated = false;
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
 
             if (isset($a_mapping[$qref])) {
@@ -1975,7 +1975,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $target = $res->nodeset[$i]->get_attribute("Target");
             $type = $res->nodeset[$i]->get_attribute("Type");
             $obj_id = ilInternalLink::_extractObjIdOfTarget($target);
@@ -2002,7 +2002,7 @@ s     */
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
 
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $media_object_node = $res->nodeset[$i]->parent_node();
             $page_content_node = $media_object_node->parent_node();
             $c_hier_id = $page_content_node->get_attribute("HierId");
@@ -2157,7 +2157,7 @@ s     */
         $path = "//IntLink";
         $res = xpath_eval($xpc, $path);
         //echo "1";
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             //echo "2";
             $target = $res->nodeset[$i]->get_attribute("Target");
             $type = $res->nodeset[$i]->get_attribute("Type");
@@ -2190,7 +2190,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $target = $res->nodeset[$i]->get_attribute("Target");
             $type = $res->nodeset[$i]->get_attribute("Type");
             $this->log->debug("Target: " . $target);
@@ -2214,7 +2214,7 @@ s     */
                         $new_node = $source_node->clone_node(true);
                         $new_node->unlink_node($new_node);
                         $childs = $new_node->child_nodes();
-                        for ($j = 0; $j < count($childs); $j++) {
+                        for ($j = 0, $jMax = count($childs); $j < $jMax; $j++) {
                             $this->log->debug("... move node $j " . $childs[$j]->node_name() . " before " . $source_node->node_name());
                             $source_node->insert_before($childs[$j], $source_node);
                         }
@@ -2230,7 +2230,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//ExtLink";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $href = $res->nodeset[$i]->get_attribute("Href");
             $this->log->debug("Href: " . $href);
 
@@ -2304,7 +2304,7 @@ s     */
                         $new_node = $source_node->clone_node(true);
                         $new_node->unlink_node($new_node);
                         $childs = $new_node->child_nodes();
-                        for ($j = 0; $j < count($childs); $j++) {
+                        for ($j = 0, $jMax = count($childs); $j < $jMax; $j++) {
                             $this->log->debug("... move node $j " . $childs[$j]->node_name() . " before " . $source_node->node_name());
                             $source_node->insert_before($childs[$j], $source_node);
                         }
@@ -3564,7 +3564,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $target = $res->nodeset[$i]->get_attribute("Target");
             $type = $res->nodeset[$i]->get_attribute("Type");
 
@@ -3604,7 +3604,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $origin_id = $res->nodeset[$i]->get_attribute("OriginId");
             if (substr($origin_id, 0, 4) == "il__") {
                 $new_id = "il_" . $a_inst . "_" . substr($origin_id, 4, strlen($origin_id) - 4);
@@ -3617,7 +3617,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//FileItem/Identifier";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $origin_id = $res->nodeset[$i]->get_attribute("Entry");
             if (substr($origin_id, 0, 4) == "il__") {
                 $new_id = "il_" . $a_inst . "_" . substr($origin_id, 4, strlen($origin_id) - 4);
@@ -3630,7 +3630,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//Question";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
             //echo "<br>setted:".$qref;
             if (substr($qref, 0, 4) == "il__") {
@@ -3645,7 +3645,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//ContentInclude";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $ci = $res->nodeset[$i]->get_attribute("InstId");
             if ($ci == "") {
                 $res->nodeset[$i]->set_attribute("InstId", $a_inst);
@@ -3698,7 +3698,7 @@ s     */
         $xpc = xpath_new_context($mydom);
         $res = xpath_eval($xpc, $path);
 
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $node = $res->nodeset[$i];
             $pcids[] = $node->get_attribute("PCID");
         }
@@ -3722,7 +3722,7 @@ s     */
         $xpc = xpath_new_context($mydom);
         $res = xpath_eval($xpc, $path);
 
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $node = $res->nodeset[$i];
             $pc_id = $node->get_attribute("PCID");
             if ($pc_id != "") {
@@ -3777,7 +3777,7 @@ s     */
         $xpc = xpath_new_context($mydom);
         $res = xpath_eval($xpc, $path);
 
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $id = self::randomhash();
             $res->nodeset[$i]->set_attribute("PCID", $id);
         }
@@ -3798,7 +3798,7 @@ s     */
         $res = xpath_eval($xpc, $path);
 
         $hashes = array();
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $hier_id = $res->nodeset[$i]->get_attribute("HierId");
             $pc_id = $res->nodeset[$i]->get_attribute("PCID");
             $dump = $mydom->dump_node($res->nodeset[$i]);
@@ -3840,7 +3840,7 @@ s     */
         $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
             $inst_id = ilInternalLink::_extractInstOfTarget($qref);
             $obj_id = ilInternalLink::_extractObjIdOfTarget($qref);
@@ -3879,7 +3879,7 @@ s     */
 
         $childs = $context_node->child_nodes();
 
-        for ($j = 0; $j < count($childs); $j++) {
+        for ($j = 0, $jMax = count($childs); $j < $jMax; $j++) {
             $content .= $mydom->dump_node($childs[$j]);
         }
 
@@ -4568,7 +4568,7 @@ s     */
             if (count($res->nodeset) > 0) {
                 $init_node = $res->nodeset[0];
                 $childs = $init_node->child_nodes();
-                for ($i = 0; $i < count($childs); $i++) {
+                for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                     if ($childs[$i]->node_name() == "IntLink") {
                         $il_node = $childs[$i];
                     }
@@ -4605,7 +4605,7 @@ s     */
         if (count($res->nodeset) > 0) {
             $init_node = $res->nodeset[0];
             $childs = $init_node->child_nodes();
-            for ($i = 0; $i < count($childs); $i++) {
+            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                 if ($childs[$i]->node_name() == "IntLink") {
                     $il_node = $childs[$i];
                 }
@@ -5023,7 +5023,7 @@ s     */
         $xpc = xpath_new_context($this->dom);
         $path = "//FileItem/Identifier";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $file_obj_ids[] = $res->nodeset[$i]->get_attribute("Entry");
         }
         unset($xpc);

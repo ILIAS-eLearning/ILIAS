@@ -187,7 +187,7 @@ class ilPCParagraph extends ilPageContent
         string $a_text,
         bool $a_auto_split = false
     ) {
-        if (!is_array($a_text)) {
+        if (!is_array($a_text)) {// @TODO: PHP8 Review: Condition is always true
             $text = array(array("level" => 0, "text" => $a_text));
         } else {
             $text = $a_text;
