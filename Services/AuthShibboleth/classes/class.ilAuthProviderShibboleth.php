@@ -48,8 +48,8 @@ class ilAuthProviderShibboleth extends ilAuthProvider
                 }
                 $shibUser = ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($shibUser);
                 $shibUser->create();
-                $shibUser->updateOwner();
                 $shibUser->saveAsNew();
+                $shibUser->updateOwner();
                 $shibUser->writePrefs();
                 $shibUser = ilShibbolethPluginWrapper::getInstance()->afterCreateUser($shibUser);
                 ilShibbolethRoleAssignmentRules::doAssignments($shibUser->getId(), $_SERVER);

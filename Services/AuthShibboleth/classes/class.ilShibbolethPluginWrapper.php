@@ -21,7 +21,7 @@
 class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
 {
     protected ilComponentFactory $component_factory;
-    protected ilLog $log;
+    protected ilComponentLogger $log;
     protected static ?ilShibbolethPluginWrapper $cache = null;
 
     protected function __construct()
