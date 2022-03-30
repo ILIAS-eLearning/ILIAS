@@ -592,8 +592,8 @@ class ilTrQuery
             unset($rec["e_comment"]);
             
             $date = ilDatePresentation::formatPeriod(
-                new ilDateTime($rec["e_start"], IL_CAL_DATETIME),
-                new ilDateTime($rec["e_end"], IL_CAL_DATETIME)
+                new ilDateTime($rec["e_start"], IL_CAL_DATETIME, ilTimeZone::UTC),
+                new ilDateTime($rec["e_end"], IL_CAL_DATETIME, ilTimeZone::UTC)
             );
 
             if ($rec["title"]) {
