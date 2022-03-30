@@ -63,13 +63,12 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
                 // Toggle Button for auto language detection (toggle off)
                 $toggleButton = $DIC->ui()->factory()->button()->toggle("", $DIC->ctrl()->getLinkTarget($this, "enableLanguageDetection"), $DIC->ctrl()->getLinkTarget($this, "disableLanguageDetection"), false)
                     ->withLabel($this->lng->txt("language_detection"))->withAriaLabel($this->lng->txt("lng_enable_language_detection"));
-                $this->toolbar->addComponent($toggleButton);
             } else {
                 // Toggle Button for auto language detection (toggle on)
                 $toggleButton = $DIC->ui()->factory()->button()->toggle("", $DIC->ctrl()->getLinkTarget($this, "enableLanguageDetection"), $DIC->ctrl()->getLinkTarget($this, "disableLanguageDetection"), true)
                     ->withLabel($this->lng->txt("language_detection"))->withAriaLabel($this->lng->txt("lng_disable_language_detection"));
-                $this->toolbar->addComponent($toggleButton);
             }
+            $this->toolbar->addComponent($toggleButton);
         }
 
         $ltab = new ilLanguageTableGUI($this, "view", $this->object);

@@ -113,7 +113,6 @@ class ilLanguageFile
                 // check header end
                 if (trim($line) === $this->file_start) {
                     $in_header = false;
-                    continue;
                 } else {
                     // get header params
                     $pos_par = strpos($line, "* @");
@@ -170,9 +169,9 @@ class ilLanguageFile
         if ($in_header) {
             $this->error_message = $lng->txt("file_not_valid") . " " . $lng->txt("err_wrong_header");
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
     
     /**

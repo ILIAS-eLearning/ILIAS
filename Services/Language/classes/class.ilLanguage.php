@@ -379,7 +379,10 @@ class ilLanguage
     public static function getGlobalInstance() : self
     {
         global $DIC;
+
         $ilSetting = $DIC->settings();
+
+        $ilUser = null;
         if ($DIC->offsetExists("ilUser")) {
             $ilUser = $DIC->user();
         }
@@ -410,8 +413,8 @@ class ilLanguage
 
         // check whether lang selection is valid
         $langs = self::_getInstalledLanguages();
-        if (!in_array(ilSession::get("lang"), $langs)) {
-            if ($ilSetting instanceof ilSetting && $ilSetting->get("language") != "") {
+        if (!in_array(ilSession::get("lang"), $langs, true)) {
+            if ($ilSetting instanceof ilSetting && (string) $ilSetting->get("language", '') !== "") {
                 ilSession::set("lang", $ilSetting->get("language"));
             } else {
                 ilSession::set("lang", $langs[0]);

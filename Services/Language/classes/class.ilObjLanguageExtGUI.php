@@ -63,7 +63,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         if (!is_array($_SESSION["lang_ext_maintenance"])) {
             $_SESSION["lang_ext_maintenance"] = array();
         }
-        $this->session = &$_SESSION["lang_ext_maintenance"];// Todo-PHP8-Review This property is not defined
+        $this->session = &$_SESSION["lang_ext_maintenance"];// Todo-PHP8-Review This property is not defined, here and in other methods in this class
 
 
         // read the lang mode
@@ -736,10 +736,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     {
         $modules = ilObjLanguageExt::_getModules($this->object->key);
 
-        $data = array();
-        $total = array("module" => "","all" => 0,"changed" => 0, "unchanged" => 0);
+        $data = [];
+        $total = [];
         foreach ($modules as $module) {
-            $row = array();
+            $row = [];
             $row["module"] = $module;
             $row["all"] = count($this->object->getAllValues(array($module)));
             $row["changed"] = count($this->object->getChangedValues(array($module)));
