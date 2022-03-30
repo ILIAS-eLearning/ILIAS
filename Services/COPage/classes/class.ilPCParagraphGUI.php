@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use \ILIAS\Style;
+use ILIAS\Style;
 
 /**
  * Class ilPCParagraphGUI

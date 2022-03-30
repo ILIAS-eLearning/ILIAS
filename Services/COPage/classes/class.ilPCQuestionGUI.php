@@ -388,7 +388,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 $tabCommands = assQuestionGUI::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
                 $tabLink = ilUtil::appendUrlParameterString(
                     $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW),
-                    "q_id=" . (int) $q_id
+                    "q_id=" . $q_id
                 );
                 $ilTabs->addTarget('feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
             }

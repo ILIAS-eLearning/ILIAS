@@ -2096,7 +2096,7 @@ class ilPageObjectGUI
         }
 
         $page_heads = array();
-        foreach ($offsets as $os) {
+        foreach ($offsets as $os) {// @TODO: PHP8 Review: Array is always empty
             $level = (int) substr($a_output, $os + 10, 1);
             if (in_array($level, array(1,2,3))) {
                 $anchor = str_replace(

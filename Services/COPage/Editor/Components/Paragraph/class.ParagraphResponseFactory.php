@@ -51,7 +51,7 @@ class ParagraphResponseFactory
                     if (is_array($msg)) {
                         $error .= implode("<br />", $msg);
                     } else {
-                        $error .= (string) $msg;
+                        $error .= $msg;
                     }
                 }
             } elseif (is_string($updated)) {

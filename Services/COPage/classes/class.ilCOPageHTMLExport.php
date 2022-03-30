@@ -305,7 +305,7 @@ class ilCOPageHTMLExport
                 switch ($a_type) {
                     case "prtf:pg":
                         $page = new ilPortfolioPage($a_id);
-                        $user_id = $page->create_user;
+                        $user_id = $page->create_user;//@TODO: PHP8 Review: The property is dynamically declared and is probably undefined.
                         break;
                     
                     default:
