@@ -20,7 +20,6 @@
  */
 class arConnectorMap
 {
-
     protected static array $map = array();
 
     public static function register(ActiveRecord $ar, arConnector $connector) : void

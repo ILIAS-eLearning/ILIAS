@@ -20,7 +20,6 @@
  */
 class arHaving extends arStatement
 {
-
     protected string $table_name = '';
     protected string $fieldname = '';
     /**

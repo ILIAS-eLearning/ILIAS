@@ -20,7 +20,6 @@
  */
 class arFieldCache
 {
-
     protected static array $cache = array();
 
     public static function isCached(ActiveRecord $ar) : bool

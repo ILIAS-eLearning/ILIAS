@@ -20,7 +20,6 @@
  */
 class arLimit extends arStatement
 {
-
     protected int $start = 0;
     protected int $end = 0;
 

@@ -43,8 +43,10 @@ abstract class ActiveRecord
      */
     public static function returnDbTableName() : string
     {
-        throw new arException(arException::UNKNONWN_EXCEPTION,
-            'Implement getConnectorContainerName in your child-class');
+        throw new arException(
+            arException::UNKNONWN_EXCEPTION,
+            'Implement getConnectorContainerName in your child-class'
+        );
     }
 
     /**
@@ -485,8 +487,14 @@ abstract class ActiveRecord
         string $operator = '=',
         $both_external = false
     ) : \ActiveRecordList {
-        return self::innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator,
-            $both_external);
+        return self::innerjoin(
+            $ar->getConnectorContainerName(),
+            $on_this,
+            $on_external,
+            $fields,
+            $operator,
+            $both_external
+        );
     }
 
     /**
@@ -596,7 +604,8 @@ abstract class ActiveRecord
 
     public static function getCollection() : \ActiveRecordList
     {
-        return new ActiveRecordList(self::getCalledClass());;
+        return new ActiveRecordList(self::getCalledClass());
+        ;
     }
 
     public static function last() : ?\ActiveRecord
@@ -669,13 +678,13 @@ abstract class ActiveRecord
             $str[0] = strtoupper($str[0]);
         }
 
-        return preg_replace_callback('/_([a-z])/', fn($c) => strtoupper($c[1]), $str);
+        return preg_replace_callback('/_([a-z])/', fn ($c) => strtoupper($c[1]), $str);
     }
 
     protected static function fromCamelCase(string $str) : ?string
     {
         $str[0] = strtolower($str[0]);
 
-        return preg_replace_callback('/([A-Z])/', fn($c) => "_" . strtolower($c[1]), $str);
+        return preg_replace_callback('/([A-Z])/', fn ($c) => "_" . strtolower($c[1]), $str);
     }
 }

@@ -74,8 +74,7 @@ class ilGlobalCacheSettings implements Setup\Config
             )
         );
         $this->setLogLevel(
-            (int) $ilIniFile->readVariable
-            (
+            (int) $ilIniFile->readVariable(
                 self::INI_HEADER_CACHE,
                 self::INI_FIELD_LOG_LEVEL
             )
@@ -163,8 +162,8 @@ class ilGlobalCacheSettings implements Setup\Config
     public function areAllComponentActivated() : bool
     {
         return count($this->activated_components) === count(
-                ilGlobalCache::getAvailableComponents()
-            );
+            ilGlobalCache::getAvailableComponents()
+        );
     }
 
     public function getService() : int
@@ -226,9 +225,9 @@ class ilGlobalCacheSettings implements Setup\Config
                 $this->getService()
             ) : 'none');
         $activated = 'Activated Components: ' . implode(
-                ', ',
-                $this->getActivatedComponents()
-            );
+            ', ',
+            $this->getActivatedComponents()
+        );
         $log_level = 'Log Level: ' . $this->getLogLevelName();
         
         return implode("\n", ['', '', $service, $activated, $log_level, '']);
