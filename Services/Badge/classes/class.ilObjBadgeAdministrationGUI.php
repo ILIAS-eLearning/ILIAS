@@ -74,7 +74,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
@@ -355,7 +355,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $img = new ilImageFileInputGUI($lng->txt("image"), "img");
         $img->setSuffixes(array("png", "svg"));
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $img->setRequired(true);
         }
         $img->setAllowDeletion(false);
@@ -379,7 +379,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $types->addOption(new ilCheckboxOption($type->getCaption(), $id));
         }
         
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $form->addCommandButton("saveImageTemplate", $lng->txt("save"));
         } else {
             $form->addCommandButton("updateImageTemplate", $lng->txt("save"));
@@ -477,7 +477,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $tmpl->setTitle($form->getInput("title"));
             
-            if ($form->getInput("tmode") != "all") {
+            if ($form->getInput("tmode") !== "all") {
                 $tmpl->setTypes($form->getInput("type"));
             } else {
                 $tmpl->setTypes(null);

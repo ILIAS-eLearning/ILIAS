@@ -188,10 +188,11 @@ class ilBadgeHandler
         $parts = explode("/", $a_id);
         $comp_id = $parts[0];
         $type_id = $parts[1];
+
         $provider = $this->getProviderInstance($comp_id);
         if ($provider) {
             foreach ($provider->getBadgeTypes() as $type) {
-                if ($type->getId() == $type_id) {
+                if ($type->getId() === $type_id) {
                     return $type;
                 }
             }
@@ -245,14 +246,14 @@ class ilBadgeHandler
     
     /**
      * Get valid badges types for object type
-     * @return ilBadgeType[]
+     * @return array<string, ilBadgeType>
      */
     public function getAvailableTypesForObjType(string $a_object_type) : array
     {
         $res = array();
         
         foreach ($this->getAvailableTypes() as $id => $type) {
-            if (in_array($a_object_type, $type->getValidObjectTypes())) {
+            if (in_array($a_object_type, $type->getValidObjectTypes(), true)) {
                 $res[$id] = $type;
             }
         }
@@ -275,10 +276,10 @@ class ilBadgeHandler
         }
 
         $badges = ilBadge::getInstancesByParentId($a_parent_obj_id);
-        foreach (ilBadgeHandler::getInstance()->getAvailableTypesForObjType($a_parent_obj_type) as $type_id => $type) {
+        foreach (self::getInstance()->getAvailableTypesForObjType($a_parent_obj_type) as $type_id => $type) {
             if (!$type instanceof ilBadgeAuto) {
                 foreach ($badges as $badge) {
-                    if ($badge->getTypeId() == $type_id &&
+                    if ($badge->getTypeId() === $type_id &&
                         $badge->isActive()) {
                         $res[$badge->getId()] = $badge->getTitle();
                     }
@@ -339,16 +340,14 @@ class ilBadgeHandler
             $a_obj_type = ilObject::_lookupType($a_obj_id);
         }
 
-        if ($a_obj_type != "bdga") {
-            if (!ilContainer::_lookupContainerSetting(
-                $a_obj_id,
-                ilObjectServiceSettingsGUI::BADGES,
-                false
-            )) {
-                return false;
-            }
+        if ($a_obj_type !== "bdga" && !ilContainer::_lookupContainerSetting(
+            $a_obj_id,
+            ilObjectServiceSettingsGUI::BADGES,
+            false
+        )) {
+            return false;
         }
-                
+
         return true;
     }
     
@@ -508,7 +507,7 @@ class ilBadgeHandler
         $url = ILIAS_HTTP_PATH . substr($path, 1);
         
         if (!file_exists($path)) {
-            $json = json_encode($this->prepareIssuerJson($url));
+            $json = json_encode($this->prepareIssuerJson($url), JSON_THROW_ON_ERROR);
             file_put_contents($path, $json);
         }
         

@@ -115,7 +115,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
             $parent = null;
             if ($badge->getParentId()) {
                 $parent = $badge->getParentMeta();
-                if ($parent["type"] == "bdga") {
+                if ($parent["type"] === "bdga") {
                     $parent = null;
                 } else {
                     $filter_parent[$parent["id"]] =

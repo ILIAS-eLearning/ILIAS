@@ -164,7 +164,7 @@ class ilBadgeManagementGUI
             if ($valid_types) {
                 $options = array();
                 foreach ($valid_types as $id => $type) {
-                    $options[$id] = ($this->parent_obj_type != "bdga")
+                    $options[$id] = ($this->parent_obj_type !== "bdga")
                         ? ilBadge::getExtendedTypeCaption($type)
                         : $type->getCaption();
                 }
@@ -295,7 +295,7 @@ class ilBadgeManagementGUI
         $crit->setRequired(true);
         $form->addItem($crit);
         
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             // upload
     
             $img_mode = new ilRadioGroupInputGUI($lng->txt("image"), "img_mode");
@@ -349,7 +349,7 @@ class ilBadgeManagementGUI
         
         // :TODO: valid date/period
         
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $form->addCommandButton("saveBadge", $lng->txt("save"));
         } else {
             $form->addCommandButton("updateBadge", $lng->txt("save"));
@@ -398,7 +398,7 @@ class ilBadgeManagementGUI
                         
             $badge->create();
             
-            if ($form->getInput("img_mode") == "up") {
+            if ($form->getInput("img_mode") === "up") {
                 $badge->uploadImage($_FILES["img"]);
             } else {
                 $tmpl = new ilBadgeImageTemplate($form->getInput("tmpl"));
@@ -616,7 +616,7 @@ class ilBadgeManagementGUI
         $ilCtrl = $this->ctrl;
 
         $clip_ids = $this->session_repo->getBadgeIds();
-        if (!$this->hasWrite() || count($clip_ids) == 0) {
+        if (!$this->hasWrite() || count($clip_ids) === 0) {
             $ilCtrl->redirect($this, "listBadges");
         }
         
@@ -719,7 +719,7 @@ class ilBadgeManagementGUI
         }
         
         $back_target = "listUsers";
-        if ($this->request->getTgt() == "bdgl") {
+        if ($this->request->getTgt() === "bdgl") {
             $ilCtrl->saveParameter($this, "tgt");
             $back_target = "listBadges";
         }

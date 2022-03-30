@@ -58,7 +58,7 @@ class ilBadgeAssignment
 
 
         // if no last check exists, we use last 24 hours
-        if ($last == 0) {
+        if ($last === 0) {
             $last = time() - (24 * 60 * 60);
         }
 
@@ -453,7 +453,7 @@ class ilBadgeAssignment
         $baked = null;
         $exp = explode(".", basename($a_badge_image_path));
         $suffix = strtolower(array_pop($exp));
-        if ($suffix == "png") {
+        if ($suffix === "png") {
             // using chamilo baker lib
             $png = new PNGImageBaker(file_get_contents($a_badge_image_path));
             
@@ -472,9 +472,9 @@ class ilBadgeAssignment
             if (is_array($verify)) {
                 return true;
             }
-        } elseif ($suffix == "svg") {
+        } elseif ($suffix === "svg") {
             // :TODO: not really sure if this is correct
-            $svg = simplexml_load_file($a_badge_image_path);
+            $svg = simplexml_load_string(file_get_contents($a_badge_image_path));// This can be affected by a PHP bug #62577 (https://bugs.php.net/bug.php?id=62577)
             $ass = $svg->addChild("openbadges:assertion", "", "https://openbadges.org");
             $ass->addAttribute("verify", $a_assertion_url);
             $baked = $svg->asXML();
@@ -497,7 +497,7 @@ class ilBadgeAssignment
         $url = ILIAS_HTTP_PATH . substr($path, 1);
         
         if (!file_exists($path)) {
-            $json = json_encode($this->prepareJson($url));
+            $json = json_encode($this->prepareJson($url), JSON_THROW_ON_ERROR);
             file_put_contents($path, $json);
         }
         

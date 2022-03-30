@@ -43,7 +43,12 @@ class ilBadge
             $this->read($a_id);
         }
     }
-    
+
+    /**
+     * @param int $a_parent_id
+     * @param array|null $a_filter
+     * @return self[]
+     */
     public static function getInstancesByParentId(
         int $a_parent_id,
         array $a_filter = null
@@ -521,7 +526,7 @@ class ilBadge
             $exp = explode(".", $this->getImage());
             $img_suffix = array_pop($exp);
             
-            $json = json_encode($this->prepareJson($base_url, $img_suffix));
+            $json = json_encode($this->prepareJson($base_url, $img_suffix), JSON_THROW_ON_ERROR);
             file_put_contents($path . "class.json", $json);
             
             // :TODO: scale?

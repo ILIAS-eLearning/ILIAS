@@ -115,10 +115,8 @@ class ilBadgeGUIRequest
     public function getBadgeIds() : array
     {
         $badge_ids = $this->intArray("badge_id");
-        if (count($badge_ids) == 0) {
-            if ($this->int("badge_id") > 0) {
-                $badge_ids = [$this->int("badge_id")];
-            }
+        if (count($badge_ids) === 0 && $this->int("badge_id") > 0) {
+            $badge_ids = [$this->int("badge_id")];
         }
         return $badge_ids;
     }

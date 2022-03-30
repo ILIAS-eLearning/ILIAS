@@ -41,7 +41,7 @@ class ilBadgeBackpack
         );
         
         if (!isset($json->status) ||
-            $json->status != "okay") {
+            $json->status !== "okay") {
             return false;
         }
         
@@ -78,7 +78,7 @@ class ilBadgeBackpack
             );
             
             if ($json->status &&
-                $json->status == "missing") {
+                $json->status === "missing") {
                 return null;
             }
             
@@ -151,6 +151,6 @@ class ilBadgeBackpack
             return null;
         }
         
-        return json_decode($answer);
+        return json_decode($answer, false, 512, JSON_THROW_ON_ERROR);
     }
 }

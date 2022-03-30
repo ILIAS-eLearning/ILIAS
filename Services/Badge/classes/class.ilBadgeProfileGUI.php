@@ -170,7 +170,7 @@ class ilBadgeProfileGUI
                 $url
             );
 
-            if ($badge["object"]["type"] != "bdga") {
+            if ($badge["object"]["type"] !== "bdga") {
                 $parent_icon = $this->factory->symbol()->icon()->custom(
                     ilObject::_getIcon((int) $badge["object"]["id"], "big", $badge["object"]["type"]),
                     $this->lng->txt("obj_" . $badge["object"]["type"]),
@@ -347,7 +347,7 @@ class ilBadgeProfileGUI
         $titles = [];
         foreach ($this->getMultiSelection() as $ass) {
             $url = $this->prepareBadge($ass->getBadgeId());
-            if ($url != "") {
+            if ($url !== "") {
                 $badge = new ilBadge($ass->getBadgeId());
                 $titles[] = $badge->getTitle();
                 $res[] = $url;
@@ -492,7 +492,7 @@ class ilBadgeProfileGUI
             $res->message = "missing badge id";
         }
         
-        echo json_encode($res);
+        echo json_encode($res, JSON_THROW_ON_ERROR);
         exit();
     }
     
