@@ -35,7 +35,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->setId(self::USER_EXPORT_TABLE_ID);
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-        $this->logger = $DIC->logger()->user();
+        $this->logger = $DIC->logger()->user();// @TODO: PHP8 Review: Wrong magic logger method called / Should be `usr` IMO.
     }
 
     public function init() : void
