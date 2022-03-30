@@ -92,6 +92,10 @@ class ilBadgeAssignment
         return (int) $rec["maxts"];
     }
 
+    /**
+     * @param int $a_user_id
+     * @return self[]
+     */
     public static function getInstancesByUserId(
         int $a_user_id
     ) : array {
@@ -113,7 +117,10 @@ class ilBadgeAssignment
         return $res;
     }
 
-    
+    /**
+     * @param int $a_badge_id
+     * @return self[]
+     */
     public static function getInstancesByBadgeId(
         int $a_badge_id
     ) : array {
@@ -133,7 +140,11 @@ class ilBadgeAssignment
         
         return $res;
     }
-    
+
+    /**
+     * @param int $a_parent_obj_id
+     * @return self[]
+     */
     public static function getInstancesByParentId(
         int $a_parent_obj_id
     ) : array {
@@ -159,7 +170,11 @@ class ilBadgeAssignment
         
         return $res;
     }
-    
+
+    /**
+     * @param int $a_badge_id
+     * @return int[]
+     */
     public static function getAssignedUsers(
         int $a_badge_id
     ) : array {

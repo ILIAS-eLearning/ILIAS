@@ -81,7 +81,11 @@ class ilBadge
                 
         return $res;
     }
-    
+
+    /**
+     * @param string $a_type_id
+     * @return self[]
+     */
     public static function getInstancesByType(
         string $a_type_id
     ) : array {
@@ -102,7 +106,7 @@ class ilBadge
                 
         return $res;
     }
-    
+
     public function getTypeInstance() : ?ilBadgeType
     {
         if ($this->getTypeId()) {
@@ -133,7 +137,11 @@ class ilBadge
             }
         }
     }
-    
+
+    /**
+     * @param array<string, mixed>|null $a_filter
+     * @return array[]
+     */
     public static function getObjectInstances(
         array $a_filter = null
     ) : array {
@@ -173,13 +181,11 @@ class ilBadge
             $row["deleted"] = true;
             $raw[] = $row;
         }
-        
+
         foreach ($raw as $row) {
-            // :TODO:
-            
             $res[] = $row;
         }
-        
+
         return $res;
     }
     
@@ -329,9 +335,9 @@ class ilBadge
             $suffix = strtolower(array_pop($exp));
             if ($a_full_path) {
                 return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
-            } else {
-                return "img" . $this->getId() . "." . $suffix;
             }
+
+            return "img" . $this->getId() . "." . $suffix;
         }
         return "";
     }

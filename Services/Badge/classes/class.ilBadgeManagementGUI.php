@@ -594,16 +594,19 @@ class ilBadgeManagementGUI
         $this->session_repo->clear();
         $ilCtrl->redirect($this, "listBadges");
     }
-    
+
+    /**
+     * @return ilBadge[]
+     */
     protected function getValidBadgesFromClipboard() : array
     {
-        $res = array();
+        $res = [];
         
         $valid_types = array_keys(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($this->parent_obj_type));
-            
+
         foreach ($this->session_repo->getBadgeIds() as $badge_id) {
             $badge = new ilBadge($badge_id);
-            if (in_array($badge->getTypeId(), $valid_types)) {
+            if (in_array($badge->getTypeId(), $valid_types, true)) {
                 $res[] = $badge;
             }
         }
@@ -714,7 +717,7 @@ class ilBadgeManagementGUI
         }
         
         $manual = array_keys(ilBadgeHandler::getInstance()->getAvailableManualBadges($this->parent_obj_id, $this->parent_obj_type));
-        if (!in_array($bid, $manual)) {
+        if (!in_array($bid, $manual, true)) {
             $ilCtrl->redirect($this, "listUsers");
         }
         

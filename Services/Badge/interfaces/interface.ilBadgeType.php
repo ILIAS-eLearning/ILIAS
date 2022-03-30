@@ -33,6 +33,7 @@ interface ilBadgeType
 
     /**
      * Get valid (repository) "parent" object types
+     * @return string[]
      */
     public function getValidObjectTypes() : array;
         

@@ -259,12 +259,12 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $this->assertActive();
         
-        $ids = $this->badge_request->getIds();
+        $ids = $this->badge_request->getIds();// @TODO: PHP8 Review: Are you sure the type ids are of type `int` IMO they are of type `string`
         if ($this->checkPermissionBool("write") && count($ids) > 0) {
             $handler = ilBadgeHandler::getInstance();
-            $inactive = array();
+            $inactive = [];
             foreach ($handler->getInactiveTypes() as $type) {
-                if (!in_array($type, $ids)) {
+                if (!in_array($type, $ids)) {// @TODO: PHP8 3rd parameter could be set to `true` if $ids are from of type `string`
                     $inactive[] = $type;
                 }
             }

@@ -105,20 +105,28 @@ class ilBadgeHandler
     {
         $this->settings->set("obi_salt", trim($a_value));
     }
-    
+
+    /**
+     * @return string[]
+     */
     public function getComponents() : array
     {
         $components = $this->settings->get("components", null);
         if ($components) {
             return unserialize($components, ["allowed_classes" => false]);
         }
-        return array();
+
+        return [];
     }
-    
+
+
+    /**
+     * @param string[]|null $a_components
+     * @return void
+     */
     public function setComponents(array $a_components = null) : void
     {
-        if (is_array($a_components) &&
-            !count($a_components)) {
+        if (is_array($a_components) && !count($a_components)) {
             $a_components = null;
         }
         $this->settings->set("components", $a_components !== null
@@ -199,16 +207,24 @@ class ilBadgeHandler
         }
         return null;
     }
-    
+
+    /**
+     * @return string[]
+     */
     public function getInactiveTypes() : array
     {
         $types = $this->settings->get("inactive_types", null);
         if ($types) {
             return unserialize($types, ["allowed_classes" => false]);
         }
-        return array();
+
+        return [];
     }
-    
+
+    /**
+     * @param string[]|null $a_types
+     * @return void
+     */
     public function setInactiveTypes(array $a_types = null) : void
     {
         if (is_array($a_types) &&
@@ -222,19 +238,19 @@ class ilBadgeHandler
     
     /**
      * Get badges types
-     * @return ilBadgeType[]
+     * @return array<string, ilBadgeType>
      */
     public function getAvailableTypes() : array
     {
-        $res = array();
-        
+        $res = [];
+
         $inactive = $this->getInactiveTypes();
         foreach ($this->getComponents() as $component_id) {
             $provider = $this->getProviderInstance($component_id);
             if ($provider) {
                 foreach ($provider->getBadgeTypes() as $type) {
                     $id = $this->getUniqueTypeId($component_id, $type);
-                    if (!in_array($id, $inactive)) {
+                    if (!in_array($id, $inactive, true)) {
                         $res[$id] = $type;
                     }
                 }
@@ -250,7 +266,7 @@ class ilBadgeHandler
      */
     public function getAvailableTypesForObjType(string $a_object_type) : array
     {
-        $res = array();
+        $res = [];
         
         foreach ($this->getAvailableTypes() as $id => $type) {
             if (in_array($a_object_type, $type->getValidObjectTypes(), true)) {
@@ -263,14 +279,14 @@ class ilBadgeHandler
         
     /**
      * Get available manual badges for object id
-     * @return array<int,string>
+     * @return array<int, string>
      */
     public function getAvailableManualBadges(
         int $a_parent_obj_id,
         string $a_parent_obj_type = null
     ) : array {
-        $res = array();
-        
+        $res = [];
+
         if (!$a_parent_obj_type) {
             $a_parent_obj_type = ilObject::_lookupType($a_parent_obj_id);
         }
@@ -286,7 +302,7 @@ class ilBadgeHandler
                 }
             }
         }
-        
+
         asort($res);
         return $res;
     }
@@ -316,7 +332,7 @@ class ilBadgeHandler
         $handler = self::getInstance();
         $components = $handler->getComponents();
         foreach ($components as $idx => $component) {
-            if ($component == $a_component_id) {
+            if ($component === $a_component_id) {
                 unset($components[$idx]);
             }
         }
@@ -356,11 +372,10 @@ class ilBadgeHandler
         int $a_user_id,
         array $a_params = null
     ) : void {
-        if (!$this->isActive() ||
-            in_array($a_type_id, $this->getInactiveTypes())) {
+        if (!$this->isActive() || in_array($a_type_id, $this->getInactiveTypes(), true)) {
             return;
         }
-                        
+
         $type = $this->getTypeInstanceByUniqueId($a_type_id);
         if (!$type instanceof ilBadgeAuto) {
             return;
@@ -466,7 +481,7 @@ class ilBadgeHandler
         foreach (glob($a_path . "/*") as $item) {
             if (is_dir($item)) {
                 $this->countStaticBadgeInstancesHelper($a_cnt, $item);
-            } elseif (substr($item, -5) == ".json") {
+            } elseif (substr($item, -5) === ".json") {
                 $a_cnt++;
             }
         }

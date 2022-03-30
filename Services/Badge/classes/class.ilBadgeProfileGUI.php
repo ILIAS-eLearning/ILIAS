@@ -256,10 +256,10 @@ class ilBadgeProfileGUI
             }
             
             return $res;
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"), true);
-            $ilCtrl->redirect($this, "manageBadges");
         }
+
+        $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"), true);
+        $ilCtrl->redirect($this, "manageBadges");
         return [];
     }
     
@@ -409,14 +409,11 @@ class ilBadgeProfileGUI
         $bp = new ilBadgeBackpack($this->getBackpackMail());
         $bp_groups = $bp->getGroups();
 
-        if (!is_array($bp_groups)) {
-            $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("badge_backpack_connect_failed"), $this->getBackpackMail()));
-            return;
-        } elseif (!count($bp_groups)) {
+        if (!count($bp_groups)) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("badge_backpack_no_groups"));
             return;
         }
-        
+
         $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 
         $tmpl->setVariable("BACKPACK_TITLE", $lng->txt("badge_backpack_list"));
