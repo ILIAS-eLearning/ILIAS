@@ -280,7 +280,7 @@ class ilUserPrivacySettingsGUI
 
         $fields = [];
 
-        if($this->shouldShowNotificationOptions()) {
+        if ($this->shouldShowNotificationOptions()) {
             $this->lng->loadLanguageModule('notification_adm');
             $fields[self::PROP_ENABLE_SOUND] = $this->uiFactory->input()->field()
                                                                ->checkbox($this->lng->txt('play_sound'), $this->lng->txt('play_sound_desc'))
@@ -416,11 +416,11 @@ class ilUserPrivacySettingsGUI
                 if ($this->shouldShowNotificationOptions()) {
                     $oldPlaySoundValue = (int) $this->user->getPref('play_sound');
                     $playASound = (int) ($formData[self::PROP_ENABLE_SOUND] ?? 0);
+
                     if ($oldPlaySoundValue !== $playASound) {
                         $this->user->setPref('play_sound', $playASound);
                     }
                 }
-
             }
 
             if ($this->shouldDisplayChatSection()) {
