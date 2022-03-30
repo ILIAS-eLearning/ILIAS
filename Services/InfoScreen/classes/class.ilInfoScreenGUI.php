@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,13 +59,8 @@ class ilInfoScreenGUI
     protected StandardGUIRequest $request;
 
 
-    /**
-     * ilInfoScreenGUI constructor.
-     * @param object|null $a_gui_object GUI instance of related object
-     */
     public function __construct(?object $a_gui_object = null)
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -310,16 +305,13 @@ class ilInfoScreenGUI
         string $a_position = "top"
     ) : void {
         if ($a_position == "top") {
-            array_push(
-                $this->top_formbuttons,
-                array("command" => $a_command, "title" => $a_title)
-            );
+            $this->top_formbuttons[] = array("command" => $a_command, "title" => $a_title);
         }
     }
 
     public function addHiddenElement(string $a_name, string $a_value) : void
     {
-        array_push($this->hiddenelements, array("name" => $a_name, "value" => $a_value));
+        $this->hiddenelements[] = array("name" => $a_name, "value" => $a_value);
     }
 
     public function addMetaDataSections(int $a_rep_obj_id, int $a_obj_id, string $a_type) : void
@@ -451,7 +443,7 @@ class ilInfoScreenGUI
         $ilAccess = $this->access;
         $tree = $this->tree;
 
-        // ressource bookings
+        // resource bookings
         if ($this->booking_enabled) {
             $booking_adapter = new ilBookingInfoScreenAdapter($this);
             $booking_adapter->add();
@@ -563,7 +555,7 @@ class ilInfoScreenGUI
                     $this->addProperty($this->lng->txt("readcount_users"), $count_user_reads);
                 }
                 if ($count_users > 0) {
-                    $this->addProperty($this->lng->txt("accesscount_registered_users"), $count_users);
+                    $this->addProperty($this->lng->txt("accesscount_registered_users"), (string) $count_users);
                 }
             }
         }
@@ -967,8 +959,8 @@ class ilInfoScreenGUI
             $ref_id = $this->gui_object->getObject()->getRefId();
             $has_write = $ilAccess->checkAccess("write", "", $ref_id);
             
-            if ($has_write && $ilSetting->get("comments_del_tutor", 1)) {
-                $notes_gui->enablePublicNotesDeletion(true);
+            if ($has_write && $ilSetting->get("comments_del_tutor", "1")) {
+                $notes_gui->enablePublicNotesDeletion();
             }
             
             /* should probably be discussed further
@@ -1165,7 +1157,7 @@ class ilInfoScreenGUI
         $num_optional_required =
             $num_required - count($conditions) + count(ilConditionHandler::getEffectiveOptionalConditionsOfTarget($obj->getRefId(), $obj->getId()));
 
-        // Check if all conditions are fullfilled
+        // Check if all conditions are fulfilled
         $visible_conditions = array();
         $passed_optional = 0;
         foreach ($conditions as $condition) {
