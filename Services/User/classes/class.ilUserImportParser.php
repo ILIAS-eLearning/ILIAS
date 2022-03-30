@@ -315,14 +315,6 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-    * start the parser
-    */
-    public function startParsing() : void
-    {
-        parent::startParsing();
-    }
-
-    /**
     * set import to local role assignemt
     *
     * @param	array		role assignment (key: import id; value: local role id)
@@ -388,7 +380,7 @@ class ilUserImportParser extends ilSaxParser
             case "Role":
                 // detect numeric, ilias id (then extract role id) or alphanumeric
                 $this->current_role_id = $a_attribs["Id"];
-                if ($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID) > 0) {
+                if (($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID)) > 0) {
                     $this->current_role_id = $internal_id;
                 }
                 $this->current_role_type = $a_attribs["Type"];
@@ -412,7 +404,7 @@ class ilUserImportParser extends ilSaxParser
         switch ($a_name) {
             case "Role":
                 $this->current_role_id = $a_attribs["Id"];
-                if ($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID) > 0) {
+                if (($internal_id = ilUtil::__extractId($this->current_role_id, IL_INST_ID)) > 0) {
                     $this->current_role_id = $internal_id;
                 }
                 $this->current_role_type = $a_attribs["Type"];
@@ -789,7 +781,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * Get array of parent role ids from cache.
      * If necessary, create a new cache entry.
-     * @return mixed[]
+     * @return array[]
      */
     public function getParentRoleIds(int $a_role_id) : array
     {
@@ -1004,7 +996,7 @@ class ilUserImportParser extends ilSaxParser
                         break;
                 }
 
-                if (sizeof($this->multi_values)) {
+                if (count($this->multi_values)) {
                     if (isset($this->multi_values["GeneralInterest"])) {
                         $this->userObj->setGeneralInterests($this->multi_values["GeneralInterest"]);
                     }
@@ -1988,7 +1980,7 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-     * @return mixed[]
+     * @return array[]
      */
     public function getCollectedRoles() : array
     {
@@ -2051,7 +2043,7 @@ class ilUserImportParser extends ilSaxParser
      * Keys are login names.
      * Values are non-associative arrays. Each array element contains an error
      * message.
-     * @return mixed[]
+     * @return array[]
      */
     public function getProtocol() : array
     {
@@ -2160,7 +2152,7 @@ class ilUserImportParser extends ilSaxParser
     }
 
     /**
-     * @return mixed[]
+     * @return array[]
      */
     private function readRequiredFields() : array
     {

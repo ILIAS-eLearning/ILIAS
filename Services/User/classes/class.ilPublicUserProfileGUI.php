@@ -446,7 +446,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                     }
                 }
             }
-            if (sizeof($address)) {
+            if (count($address)) {
                 $tpl->setCurrentBlock("address_line");
                 foreach ($address as $line) {
                     if (trim($line)) {
@@ -691,7 +691,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $webspace_dir = ilFileUtils::getWebspaceDir("output");
         $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image");
         if ($user->getPref("public_upload") == "y" && is_file($imagefile)) {
-            $fh = fopen($imagefile, "r");
+            $fh = fopen($imagefile, 'rb');
             if ($fh) {
                 $image = fread($fh, filesize($imagefile));
                 fclose($fh);
@@ -761,7 +761,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
         
         if (count($org)) {
-            $vcard->setOrganization(join(";", $org));
+            $vcard->setOrganization(implode(";", $org));
         }
         if (count($adr)) {
             $vcard->setAddress($adr[0], $adr[1], $adr[2], $adr[3], $adr[4], $adr[5], $adr[6]);

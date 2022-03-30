@@ -501,7 +501,7 @@ class ilUserQuery
         
         $ilDB->setLimit($limit, $offset);
         
-        if (sizeof($multi_fields)) {
+        if (count($multi_fields)) {
             $usr_ids = array();
         }
         
@@ -511,13 +511,13 @@ class ilUserQuery
 
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec;
-            if (sizeof($multi_fields)) {
+            if (count($multi_fields)) {
                 $usr_ids[] = $rec["usr_id"];
             }
         }
 
         // add multi-field-values to user-data
-        if (sizeof($multi_fields) && sizeof($usr_ids)) {
+        if (count($multi_fields) && count($usr_ids)) {
             $usr_multi = array();
             $set = $ilDB->query("SELECT * FROM usr_data_multi" .
                 " WHERE " . $ilDB->in("usr_id", $usr_ids, "", "integer"));

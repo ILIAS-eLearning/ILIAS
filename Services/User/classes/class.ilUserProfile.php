@@ -672,7 +672,7 @@ class ilUserProfile
                             }
                             // registration form validation will take care of missing field / value
                             if ($options) {
-                                if (sizeof($options) > 1) {
+                                if (count($options) > 1) {
                                     $ta = new ilSelectInputGUI($lng->txt('default_role'), "usr_" . $f);
                                     $ta->setOptions($options);
                                     $ta->setRequired((bool) $ilSetting->get("require_" . $f));

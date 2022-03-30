@@ -1880,10 +1880,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             SYSTEM_ROLE_ID,
                             $roles_of_user
                         )) {
-                            if ($role_id == SYSTEM_ROLE_ID && !in_array(
+                            if (($role_id == SYSTEM_ROLE_ID && !in_array(
                                 SYSTEM_ROLE_ID,
                                 $roles_of_user
-                            )
+                            ))
                                 || ($this->object->getRefId() != USER_FOLDER_ID
                                     && !ilObjRole::_getAssignUsersStatus($role_id))
                             ) {
@@ -2877,7 +2877,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $field,
                 $fixed_required_fields
             );
-            if ($is_fixed && $fixed_required_fields[$field] || !$is_fixed && ($checked["required_" . $field] ?? false)) {
+            if (($is_fixed && $fixed_required_fields[$field]) || (!$is_fixed && ($checked["required_" . $field] ?? false))) {
                 $ilias->setSetting(
                     "require_" . $field,
                     "1"

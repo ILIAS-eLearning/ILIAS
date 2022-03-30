@@ -31,7 +31,6 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-        $lng = $DIC['lng'];
 
         $this->user_settings_config = new ilUserSettingsConfig();
 

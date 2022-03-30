@@ -1006,7 +1006,7 @@ class ilPersonalProfileGUI
                     }
                 }
 
-                if (sizeof($badge_options) > 1) {
+                if (count($badge_options) > 1) {
                     $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos" . $key_suffix);
                     $badge_order->setMultiValues($badge_options);
                     $badge_order->setValue(array_shift($badge_options));

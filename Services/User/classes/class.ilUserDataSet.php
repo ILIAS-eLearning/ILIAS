@@ -271,15 +271,6 @@ class ilUserDataSet extends ilDataSet
         }
     }
 
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
-    }
-    
     public function importRecord(
         string $a_entity,
         array $a_types,

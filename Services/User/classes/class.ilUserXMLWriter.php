@@ -268,7 +268,7 @@ class ilUserXMLWriter extends ilXmlWriter
         ?string $settingsname = null,
         bool $requiredTag = false
     ) : void {
-        if (is_array($value) && sizeof($value)) {
+        if (is_array($value) && count($value)) {
             foreach ($value as $item) {
                 $this->__addElement($tagname, $item, $attrs, $settingsname, $requiredTag);
             }

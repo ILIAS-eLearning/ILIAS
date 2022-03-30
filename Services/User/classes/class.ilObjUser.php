@@ -3254,7 +3254,7 @@ class ilObjUser extends ilObject
                 if (strlen($rec["feed_hash"]) == 32) {
                     return $rec["feed_hash"];
                 } elseif ($a_create) {
-                    $hash = md5(rand(1, 9999999) + str_replace(" ", "", microtime()));
+                    $hash = md5(random_int(1, 9999999) + str_replace(" ", "", microtime()));
                     $ilDB->manipulateF(
                         "UPDATE usr_data SET feed_hash = %s" .
                         " WHERE usr_id = %s",
@@ -3803,7 +3803,7 @@ class ilObjUser extends ilObject
         do {
             $continue = false;
             
-            $hashcode = substr(md5(uniqid(rand(), true)), 0, 16);
+            $hashcode = substr(md5(uniqid(mt_rand(), true)), 0, 16);
             
             $res = $ilDB->queryf(
                 '
@@ -3860,8 +3860,8 @@ class ilObjUser extends ilObject
         while ($row = $ilDB->fetchAssoc($res)) {
             $oRegSettigs = new ilRegistrationSettings();
             
-            if ((int) $oRegSettigs->getRegistrationHashLifetime() != 0 &&
-               time() - (int) $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
+            if ($oRegSettigs->getRegistrationHashLifetime() != 0 &&
+               time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
                 throw new ilRegConfirmationLinkExpiredException('reg_confirmation_hash_life_time_expired', $row['usr_id']);
             }
             
@@ -4358,7 +4358,7 @@ class ilObjUser extends ilObject
         );
         
         foreach ($map as $id => $values) {
-            if (is_array($values) && sizeof($values)) {
+            if (is_array($values) && count($values)) {
                 foreach ($values as $value) {
                     $value = trim($value);
                     if ($value) {

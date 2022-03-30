@@ -58,7 +58,7 @@ class ilAccountCode
         $code = "";
         $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
-            $code .= $map[mt_rand(0, $max)];
+            $code .= $map[random_int(0, $max)];
         }
         return $code;
     }
@@ -127,7 +127,7 @@ class ilAccountCode
 
         $ilDB = $DIC['ilDB'];
 
-        if (sizeof($ids)) {
+        if (count($ids)) {
             return $ilDB->manipulate("DELETE FROM " . self::DB_TABLE . " WHERE " . $ilDB->in("code_id", $ids, false, "integer"));
         }
         return false;
@@ -169,7 +169,7 @@ class ilAccountCode
         if ($filter_generated) {
             $where[] = "generated = " . $ilDB->quote($filter_generated, "text");
         }
-        if (sizeof($where)) {
+        if (count($where)) {
             return " WHERE " . implode(" AND ", $where);
         } else {
             return "";
@@ -270,7 +270,7 @@ class ilAccountCode
                         
                 case "relative":
 
-                    $rel = unserialize($code_data["alimitdt"]);
+                    $rel = unserialize($code_data["alimitdt"], ["allowed_classes" => false]);
                     
                     $end = new ilDateTime(time(), IL_CAL_UNIX);
 

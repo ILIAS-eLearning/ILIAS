@@ -78,7 +78,7 @@ class ilObjUserFolder extends ilObject
 
         // quit if export dir not available
         if (!is_dir($dir) or
-            !is_writeable($dir)) {
+            !is_writable($dir)) {
             return array();
         }
 
@@ -127,7 +127,7 @@ class ilObjUserFolder extends ilObject
         $ilDB = $DIC['ilDB'];
         $log = $DIC['log'];
 
-        $file = fopen($filename, "w");
+        $file = fopen($filename, 'wb');
 
         if (is_array($data)) {
             $xmlWriter = new ilUserXMLWriter();
@@ -177,9 +177,9 @@ class ilObjUserFolder extends ilObject
         }
 
         $separator = ";";
-        $file = fopen($filename, "w");
+        $file = fopen($filename, 'wb');
         $formattedrow = &ilCSVUtil::processCSVRow($headerrow, true, $separator);
-        fwrite($file, join($separator, $formattedrow) . "\n");
+        fwrite($file, implode($separator, $formattedrow) . "\n");
         foreach ($data as $row) {
             $csvrow = array();
             foreach ($settings as $header) {	// standard fields
@@ -201,7 +201,7 @@ class ilObjUserFolder extends ilObject
             }
 
             $formattedrow = &ilCSVUtil::processCSVRow($csvrow, true, $separator);
-            fwrite($file, join($separator, $formattedrow) . "\n");
+            fwrite($file, implode($separator, $formattedrow) . "\n");
         }
         fclose($file);
     }
@@ -266,7 +266,7 @@ class ilObjUserFolder extends ilObject
                     case "interests_general":
                     case "interests_help_offered":
                     case "interests_help_looking":
-                        if (is_array($value) && sizeof($value)) {
+                        if (is_array($value) && count($value)) {
                             $value = implode(", ", $value);
                         } else {
                             $value = null;
