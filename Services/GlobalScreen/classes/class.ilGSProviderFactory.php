@@ -30,27 +30,17 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  */
 class ilGSProviderFactory implements ProviderFactory
 {
-    
     /**
      * @var ProviderCollection[]
      */
-    private $plugin_provider_collections = null;
-    /**
-     * @var array
-     */
-    private $class_loader;
-    /**
-     * @var Container
-     */
-    private $dic;
-    /**
-     * @var ItemInformation
-     */
-    private $main_menu_item_information = null;
+    private ?array $plugin_provider_collections = null;
+    private array $class_loader;
+    private Container $dic;
+    private ItemInformation $main_menu_item_information;
     /**
      * @var Provider[]
      */
-    protected $all_providers;
+    protected array $all_providers;
     
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
@@ -219,7 +209,6 @@ class ilGSProviderFactory implements ProviderFactory
                 try {
                     $array_of_providers[] = new $class_name($this->dic);
                 } catch (Throwable $e) {
-                    $i = $e;
                 }
             }
         }
@@ -239,7 +228,7 @@ class ilGSProviderFactory implements ProviderFactory
     public function getProviderByClassName(string $class_name) : Provider
     {
         if (!$this->isInstanceCreationPossible($class_name) || !$this->isRegistered($class_name)) {
-            throw new \LogicException("the GlobalScreen-Provider $class_name is not available");
+            throw new LogicException("the GlobalScreen-Provider $class_name is not available");
         }
         
         return $this->all_providers[$class_name];
@@ -252,7 +241,7 @@ class ilGSProviderFactory implements ProviderFactory
     {
         try {
             return class_exists($class_name);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }
