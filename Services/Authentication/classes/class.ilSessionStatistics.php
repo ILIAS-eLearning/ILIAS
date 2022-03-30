@@ -571,7 +571,7 @@ class ilSessionStatistics
         $ilUser = $DIC['ilUser'];
         
         $new_value = (int) $a_new_value;
-        $old_value = (int) $ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);
+        $old_value = (int) $ilSetting->get("session_max_count", (string) ilSessionControl::DEFAULT_MAX_COUNT);
         
         if ($new_value != $old_value) {
             $fields = array(
