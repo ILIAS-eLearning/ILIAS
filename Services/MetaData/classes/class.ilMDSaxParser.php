@@ -33,6 +33,19 @@ include_once './Services/Xml/classes/class.ilSaxParser.php';
  */
 class ilMDSaxParser extends ilSaxParser
 {
+    /**
+     * array(
+     *      'en' => [
+     *          'Title' => 'some val',
+     *          'Description' => 'some val',
+     *          'Default' => true,
+     *      ]
+     * );
+     *
+     * @var array<string, array<string, mixed>>
+     */
+    public $i18n = [];
+
     public $md_in_md = false;
     public $md_chr_data = '';
 
@@ -58,10 +71,20 @@ class ilMDSaxParser extends ilSaxParser
     protected $meta_log;
 
     /**
-    * Constructor
-    *
-    * @access	public
-    */
+     * @var string|null
+     */
+    protected $current_lang_code;
+
+    /**
+     * @var string|null
+     */
+    protected $first_title;
+
+    /**
+     * Constructor
+     *
+     * @access    public
+     */
     public function __construct($a_xml_file = '')
     {
         global $DIC;
@@ -102,11 +125,11 @@ class ilMDSaxParser extends ilSaxParser
     }
 
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
+     * set event handlers
+     *
+     * @param resource    reference to the xml parser
+     * @access    private
+     */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -114,11 +137,9 @@ class ilMDSaxParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-
-
     /**
-    * handler for begin of element
-    */
+     * handler for begin of element
+     */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -152,6 +173,8 @@ class ilMDSaxParser extends ilSaxParser
             case 'Title':
                 $par = &$this->__getParent();
                 $par->setTitleLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                $this->addLangEntry($a_attribs['Language']);
+                $this->current_lang_code = $a_attribs['Language'];
                 break;
 
             case 'Language':
@@ -160,23 +183,27 @@ class ilMDSaxParser extends ilSaxParser
                 $this->md_lan->setLanguage(new ilMDLanguageItem($a_attribs['Language']));
                 $this->md_lan->save();
                 $this->__pushParent($this->md_lan);
+                $this->addLangEntry($a_attribs['Language']);
+                $this->addLangValue($a_attribs['Language'], 'Default', true);
+                // Language has no value to be processed, no need to remember the language.
+                $this->current_lang_code = null;
                 break;
 
             case 'Description':
                 $par = &$this->__getParent();
-                
                 if (strtolower(get_class($par)) == 'ilmdrights' or
-                   strtolower(get_class($par)) == 'ilmdannotation' or
-                   strtolower(get_class($par)) == 'ilmdclassification') {
+                    strtolower(get_class($par)) == 'ilmdannotation' or
+                    strtolower(get_class($par)) == 'ilmdclassification') {
                     $par->setDescriptionLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                    break;
                 } else {
                     $this->md_des = &$par->addDescription();
                     $this->md_des->setDescriptionLanguage(new ilMDLanguageItem($a_attribs['Language']));
                     $this->md_des->save();
                     $this->__pushParent($this->md_des);
-                    break;
+                    $this->addLangEntry($a_attribs['Language']);
+                    $this->current_lang_code = $a_attribs['Language'];
                 }
+                break;
 
                 // no break
             case 'Keyword':
@@ -417,6 +444,12 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'General':
                 $par = &$this->__getParent();
+                $title_lang = $this->findDefaultLang();
+                if (null !== $title_lang) {
+                    $par->setTitle($this->i18n[$title_lang]['Title'] ?? $this->first_title);
+                } else {
+                    $par->setTitle($this->first_title);
+                }
                 $par->update();
                 $this->__popParent();
                 break;
@@ -428,8 +461,10 @@ class ilMDSaxParser extends ilSaxParser
                 break;
 
             case 'Title':
-                $par = &$this->__getParent();
-                $par->setTitle($this->__getCharacterData());
+                // we cannot set the title yet, because we must know the default language.
+                $this->addLangValue($this->current_lang_code, 'Title', $this->__getCharacterData());
+                $this->first_title = $this->first_title ?? $this->__getCharacterData();
+                $this->current_lang_code = null;
                 break;
 
             case 'Language':
@@ -446,6 +481,8 @@ class ilMDSaxParser extends ilSaxParser
                     );
                 } else {
                     $par->setDescription($this->__getCharacterData());
+                    $this->addLangValue($this->current_lang_code, 'Description', $this->__getCharacterData());
+                    $this->current_lang_code = null;
                 }
                 $par->update();
                 if ($par instanceof ilMDDescription) {
@@ -684,8 +721,54 @@ class ilMDSaxParser extends ilSaxParser
         $this->meta_log->debug(is_object($class) ? get_class($class) : 'null');
         unset($class);
     }
+
     public function __getParent()
     {
         return $this->md_parent[count($this->md_parent) - 1];
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function getI18NContent() : array
+    {
+        return $this->i18n;
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function findDefaultLang() : ?string
+    {
+        foreach ($this->i18n as $language => $translations) {
+            if (isset($translations['Default'])) {
+                return $language;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $lang_code
+     * @param string $attribute
+     * @param mixed  $value
+     * @return void
+     */
+    protected function addLangValue(string $lang_code, string $attribute, $value) : void
+    {
+        $this->addLangEntry($lang_code);
+        $this->i18n[$lang_code][$attribute] = $value;
+    }
+
+    /**
+     * @param string $lang_code
+     * @return void
+     */
+    protected function addLangEntry(string $lang_code) : void
+    {
+        if (!isset($this->i18n[$lang_code])) {
+            $this->i18n[$lang_code] = [];
+        }
     }
 }
