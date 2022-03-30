@@ -176,11 +176,11 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
-            public static function getLogger($a)
+            public static function getLogger(string $a_component_id) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
