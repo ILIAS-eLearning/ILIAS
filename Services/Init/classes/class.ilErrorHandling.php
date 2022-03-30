@@ -3,7 +3,6 @@
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Environment/classes/class.ilRuntime.php';
 
 /**
  * Error Handling & global info handling
@@ -18,9 +17,6 @@ require_once 'Services/Environment/classes/class.ilRuntime.php';
  * @todo        This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
  */
 
-require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
-require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
-require_once("Services/Exceptions/classes/class.ilTestingHandler.php");
 
 use Whoops\Run;
 use Whoops\RunInterface;
@@ -285,7 +281,7 @@ class ilErrorHandling extends PEAR
     {
         // php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
-            global $lng;
+            global $DIC;
 
             require_once("Services/Logging/classes/error/class.ilLoggingErrorSettings.php");
             require_once("Services/Logging/classes/error/class.ilLoggingErrorFileStorage.php");
@@ -303,13 +299,13 @@ class ilErrorHandling extends PEAR
             }
 
             //Use $lng if defined or fallback to english
-            if ($lng !== null) {
-                $lng->loadLanguageModule('logging');
-                $message = sprintf($lng->txt("log_error_message"), $file_name);
+            if ($DIC->isDependencyAvailable('language')) {
+                $DIC->language()->loadLanguageModule('logging');
+                $message = sprintf($DIC->language()->txt("log_error_message"), $file_name);
 
                 if ($logger->mail()) {
                     $message .= " " . sprintf(
-                        $lng->txt("log_error_message_send_mail"),
+                        $DIC->language()->txt("log_error_message_send_mail"),
                         $logger->mail(),
                         $file_name,
                         $logger->mail()
@@ -322,9 +318,14 @@ class ilErrorHandling extends PEAR
                     $message .= ' ' . 'Please send a mail to <a href="mailto:' . $logger->mail() . '?subject=code: ' . $file_name . '">' . $logger->mail() . '</a>';
                 }
             }
-            $GLOBALS['DIC']->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
-            
-            ilUtil::redirect("error.php");
+            if ($DIC->isDependencyAvailable('ui') && $DIC->isDependencyAvailable('ctrl')) {
+                $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
+                $DIC->ctrl()->redirectToURL("error.php");
+            } else {
+                ilSession::set('failure', $message);
+                header("Location: error.php");
+                exit;
+            }
         });
     }
 

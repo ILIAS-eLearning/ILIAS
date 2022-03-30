@@ -40,8 +40,7 @@ abstract class BaseConsumer implements DeliveryConsumer
         StorableResource $resource,
         StorageHandler $storage_handler,
         FileNamePolicy $file_name_policy
-    )
-    {
+    ) {
         $this->resource = $resource;
         $this->storage_handler = $storage_handler;
         $this->file_name_policy = $file_name_policy;
@@ -64,5 +63,4 @@ abstract class BaseConsumer implements DeliveryConsumer
         $this->file_name = $file_name;
         return $this;
     }
-
 }

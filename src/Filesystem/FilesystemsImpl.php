@@ -27,7 +27,6 @@ namespace ILIAS\Filesystem;
  */
 final class FilesystemsImpl implements Filesystems
 {
-
     private Filesystem $node_modules;
     private Filesystem $libs;
     private Filesystem $storage;

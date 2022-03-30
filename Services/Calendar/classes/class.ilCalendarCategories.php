@@ -904,7 +904,7 @@ class ilCalendarCategories
 
     /**
      * Lookup private categories of user
-     * @return int[]
+     * @return array[]
      */
     public static function lookupPrivateCategories(int $a_user_id) : array
     {

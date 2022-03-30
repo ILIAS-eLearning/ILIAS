@@ -14,9 +14,21 @@
 *
 ********************************************************************
 */
-*
-*/
 /**
+* ILIAS language file
+*
+* @module		language file English
+* @modulegroup	language
+* @author 		Matthias Kunkel <mkunkel@me.com>
+* @version		$Id$
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
 acc#:#acc_add_document_btn_label#:#Add Document
@@ -2094,7 +2106,6 @@ auth#:#login_page_editor_switched#:#The active page editor has been changed
 auth#:#login_page_switch_ipe#:#Use ILIAS page editor
 auth#:#login_page_switch_rte#:#Use Rich-text editor
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
-* @author 		Matthias Kunkel <mkunkel@me.com>
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Online Now
 awrn#:#awareness_settings#:#Settings
@@ -9668,7 +9679,6 @@ forum#:#thread#:#Thread
 forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
-// from the first line to the HTML-comment. After editing paste the lines in place again.
 glo#:#glo_add_from_other#:#Collect Terms
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
@@ -9968,7 +9978,6 @@ iass#:#iass_usr_view#:#Participant Record
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
-* ILIAS language file
 impr#:#impr_page_type_impr#:#Imprint
 init#:#init_error_authentication_fail#:#Authentication failed.
 init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.
@@ -10058,8 +10067,6 @@ jscalendar#:#time#:#Time
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
-<!-- language file start -->
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
@@ -11780,8 +11787,6 @@ mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory,
 mob#:#mob_upload_multi_srt#:#Upload as ZIP
 mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
 mob#:#mob_url#:#URL
-* @modulegroup	language
-* @module		language file English
 mst#:#mst_cert_issued_on#:#Issued On
 mst#:#mst_courses_of#:#Course Memberships of %s
 mst#:#mst_download_certificate#:#Download Certificate
@@ -11933,7 +11938,6 @@ notes#:#notes_sort_desc#:#Sort Descending
 notes#:#note_update_comment#:#Update Comment
 notes#:#note_update_note#:#Update Note
 notes#:#note_without_object#:#Without reference
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 notification_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.
 notification_adm#:#enable_osd#:#Enable On-Screen Notifications
 notification_adm#:#notification_settings#:#Notifciation Settings
@@ -15963,8 +15967,6 @@ tbl#:#tbl_template_create#:#Save Current View
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
-// The language file starts beyond the HTML-comment below. DO NOT modify this line!
-// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
@@ -16040,7 +16042,6 @@ tos#:#tos_tbl_hist_head_login#:#Login
 tos#:#tos_tos_settings#:#Settings
 tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal
 tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.
-// to the corresponding mode!
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'
@@ -16455,7 +16456,6 @@ validation#:#not_max_length#:#The entered text has a length more than '%s'.
 validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.
 validation#:#not_numeric_empty_string#:#Your input is not numeric.
 validation#:#not_numeric#:#'%s' is not numeric.
-* @version		$Id$
 violation#:#not_a_string#:#Given value is not a String
 webr#:#invalid_links_tbl#:#Invalid Links
 webr#:#webr_active#:#Active

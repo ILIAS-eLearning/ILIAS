@@ -24,12 +24,13 @@
  */
 class ilShibbolethRoleAssignmentRule
 {
-    const ERR_MISSING_NAME = 'shib_missing_attr_name';
-    const ERR_MISSING_VALUE = 'shib_missing_attr_value';
-    const ERR_MISSING_ROLE = 'shib_missing_role';
-    const ERR_MISSING_PLUGIN_ID = 'shib_missing_plugin_id';
-    const TABLE_NAME = 'shib_role_assignment';
-    protected ilDBInterface $db;
+    private const ERR_MISSING_NAME = 'shib_missing_attr_name';
+    private const ERR_MISSING_VALUE = 'shib_missing_attr_value';
+    private const ERR_MISSING_ROLE = 'shib_missing_role';
+    private const ERR_MISSING_PLUGIN_ID = 'shib_missing_plugin_id';
+    private const TABLE_NAME = 'shib_role_assignment';
+
+    private ilDBInterface $db;
     private int $rule_id;
     private int $role_id = 0;
     private string $attribute_name = '';
@@ -48,9 +49,6 @@ class ilShibbolethRoleAssignmentRule
         $this->read();
     }
 
-    /**
-     * @param $a_id
-     */
     public function setRuleId(int $a_id) : void
     {
         $this->rule_id = $a_id;
@@ -61,9 +59,6 @@ class ilShibbolethRoleAssignmentRule
         return $this->rule_id;
     }
 
-    /**
-     * @param $a_id
-     */
     public function setRoleId(int $a_id) : void
     {
         $this->role_id = $a_id;
@@ -74,9 +69,6 @@ class ilShibbolethRoleAssignmentRule
         return $this->role_id;
     }
 
-    /**
-     * @param $a_name
-     */
     public function setName(string $a_name) : void
     {
         $this->attribute_name = $a_name;
@@ -87,9 +79,6 @@ class ilShibbolethRoleAssignmentRule
         return $this->attribute_name;
     }
 
-    /**
-     * @param $a_value
-     */
     public function setValue(string $a_value) : void
     {
         $this->attribute_value = $a_value;
@@ -100,9 +89,6 @@ class ilShibbolethRoleAssignmentRule
         return $this->attribute_value;
     }
 
-    /**
-     * @param $a_status
-     */
     public function enablePlugin(bool $a_status) : void
     {
         $this->plugin_active = $a_status;
@@ -113,9 +99,6 @@ class ilShibbolethRoleAssignmentRule
         return $this->plugin_active;
     }
 
-    /**
-     * @param $a_status
-     */
     public function enableAddOnUpdate(bool $a_status) : void
     {
         $this->add_on_update = $a_status;
@@ -126,9 +109,6 @@ class ilShibbolethRoleAssignmentRule
         return $this->add_on_update;
     }
 
-    /**
-     * @param $a_status
-     */
     public function enableRemoveOnUpdate(bool $a_status) : void
     {
         $this->remove_on_update = $a_status;
@@ -149,18 +129,15 @@ class ilShibbolethRoleAssignmentRule
         return $this->plugin_id;
     }
 
-    /**
-     * @return string
-     */
-    public function conditionToString()
+    public function conditionToString() : ?string
     {
         global $DIC;
         $lng = $DIC['lng'];
         if ($this->isPluginActive()) {
             return $lng->txt('shib_plugin_id') . ': ' . $this->getPluginId();
-        } else {
-            return $this->getName() . '=' . $this->getValue();
         }
+
+        return $this->getName() . '=' . $this->getValue();
     }
 
     public function validate() : string
@@ -200,7 +177,7 @@ class ilShibbolethRoleAssignmentRule
             . $this->db->quote($next_id, 'integer') . ', ' . $this->db->quote($this->getRoleId(), 'integer') . ', '
             . $this->db->quote($this->getName(), 'text') . ', ' . $this->db->quote($this->getValue(), 'text') . ', '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . $this->db->quote(
-                $this->getPluginId(),
+                $this->getPluginId() ?? 0,
                 'integer'
             ) . ', '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', '
@@ -222,7 +199,7 @@ class ilShibbolethRoleAssignmentRule
                 'text'
             ) . ', ' . 'plugin = '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . 'plugin_id = '
-            . $this->db->quote($this->getPluginId(), 'integer') . ', ' . 'add_on_update = '
+            . $this->db->quote($this->getPluginId() ?? 0, 'integer') . ', ' . 'add_on_update = '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', ' . 'remove_on_update = '
             . $this->db->quote((int) $this->isRemoveOnUpdateEnabled(), 'integer') . ' '
             . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');
@@ -232,12 +209,9 @@ class ilShibbolethRoleAssignmentRule
     }
 
     /**
-     * @param $a_data
-     *
-     * @return bool
      * @deprecated
      */
-    public function matches($a_data)
+    public function matches(array $a_data) : bool
     {
         if ($this->isPluginActive()) {
             return ilShibbolethRoleAssignmentRules::callPlugin($this->getPluginId(), $a_data);
@@ -249,53 +223,47 @@ class ilShibbolethRoleAssignmentRule
         $values = $a_data[$this->getName()];
         if (is_array($values)) {
             return in_array($this->getValue(), $values);
-        } else {
-            return $this->wildcardCompare($this->getValue(), $values);
         }
+
+        return $this->wildcardCompare($this->getValue(), $values);
     }
 
     /**
-     * @param $a_str1
-     * @param $a_str2
-     *
      * @deprecated
      */
-    protected function wildcardCompare($a_str1, $a_str2) : bool
+    protected function wildcardCompare(string $a_str1, string $a_str2) : bool
     {
         $pattern = str_replace('*', '.*?', $a_str1);
 
         return (bool) preg_match("/" . $pattern . "/us", $a_str2);
     }
 
-    /**
-     * @return bool
-     */
-    public function doesMatch(array $a_data)
+    public function doesMatch(array $a_data) : bool
     {
         if ($this->isPluginActive()) {
             return ilShibbolethRoleAssignmentRules::callPlugin($this->getPluginId(), $a_data);
         }
+
         if (!isset($a_data[$this->getName()])) {
             return false;
         }
+
         $values = $a_data[$this->getName()];
         if (is_array($values)) {
             return in_array($this->getValue(), $values);
-        } else {
-            $pattern = str_replace('*', '.*?', $this->getValue());
-
-            return (bool) preg_match('/^' . $pattern . '$/us', $values);
         }
+
+        $pattern = str_replace('*', '.*?', $this->getValue());
+
+        return (bool) preg_match('/^' . $pattern . '$/us', $values);
     }
 
-    /**
-     * @return bool
-     */
-    private function read()
+    private function read() : void
     {
         if ($this->getRuleId() === 0) {
-            return true;
+            return;
         }
+
         $query = 'SELECT * FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote(
             $this->getRuleId(),
             'integer'

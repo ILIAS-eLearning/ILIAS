@@ -23,7 +23,7 @@ class ilSplitButtonGUI extends ilButtonBase
     /**
      * @var ilSplitButtonMenuItem[]
      */
-    protected $menu_items = array();
+    protected array $menu_items = [];
 
     protected function __construct(int $a_type)
     {

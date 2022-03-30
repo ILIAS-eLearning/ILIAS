@@ -424,19 +424,19 @@ class ilUserSearchCache
 
     public function saveForAnonymous() : void
     {
-        unset($_SESSION['usr_search_cache']);// @TODO: PHP8 Review: Direct access to $_SESSION.
-
-        $_SESSION['usr_search_cache'][$this->search_type]['search_result'] = $this->search_result;// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $_SESSION['usr_search_cache'][$this->search_type]['checked'] = $this->checked;// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $_SESSION['usr_search_cache'][$this->search_type]['failed'] = $this->failed;// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $_SESSION['usr_search_cache'][$this->search_type]['page'] = $this->page_number;// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $_SESSION['usr_search_cache'][$this->search_type]['query'] = $this->getQuery();// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $_SESSION['usr_search_cache'][$this->search_type]['root'] = $this->getRoot();// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $_SESSION['usr_search_cache'][$this->search_type]['item_filter'] = $this->getItemFilter();// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $_SESSION['usr_search_cache'][$this->search_type]['mime_filter'] = $this->getMimeFilter();// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $_SESSION['usr_search_cache'][$this->search_type]['creation_filter'] = $this->getCreationFilter();// @TODO: PHP8 Review: Direct access to $_SESSION.
-
-        $_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] = $this->getQuery();// @TODO: PHP8 Review: Direct access to $_SESSION.
+        ilSession::clear('usr_search_cache');
+        $session_usr_search = [];
+        $session_usr_search[$this->search_type]['search_result'] = $this->search_result;
+        $session_usr_search[$this->search_type]['checked'] = $this->checked;
+        $session_usr_search[$this->search_type]['failed'] = $this->failed;
+        $session_usr_search[$this->search_type]['page'] = $this->page_number;
+        $session_usr_search[$this->search_type]['query'] = $this->getQuery();
+        $session_usr_search[$this->search_type]['root'] = $this->getRoot();
+        $session_usr_search[$this->search_type]['item_filter'] = $this->getItemFilter();
+        $session_usr_search[$this->search_type]['mime_filter'] = $this->getMimeFilter();
+        $session_usr_search[$this->search_type]['creation_filter'] = $this->getCreationFilter();
+        $session_usr_search[self::LAST_QUERY]['query'] = $this->getQuery();
+        ilSession::set('usr_search_cache', $session_usr_search);
     }
     
     
@@ -484,15 +484,16 @@ class ilUserSearchCache
      */
     private function readAnonymous() : void
     {
-        $this->search_result = (array) $_SESSION['usr_search_cache'][$this->search_type]['search_result'];// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $this->checked = (array) $_SESSION['usr_search_cache'][$this->search_type]['checked'];// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $this->failed = (array) $_SESSION['usr_search_cache'][$this->search_type]['failed'];// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $this->page_number = $_SESSION['usr_search_cache'][$this->search_type]['page_number'];// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $usr_search_cache = ilSession::get('usr_search_cache') ?? [];
 
-        $this->setQuery($_SESSION['usr_search_cache'][$this->search_type]['query']);// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $this->setRoot((int) $_SESSION['usr_search_cache'][$this->search_type]['root']);// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $this->setMimeFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['mime_filter']);// @TODO: PHP8 Review: Direct access to $_SESSION.
-        $this->setCreationFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['creation_filter']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        $this->search_result = (array) ($usr_search_cache[$this->search_type]['search_result'] ?? []);
+        $this->checked = (array) ($usr_search_cache[$this->search_type]['checked'] ?? []);
+        $this->failed = (array) ($usr_search_cache[$this->search_type]['failed'] ?? []);
+        $this->page_number = (int) ($usr_search_cache[$this->search_type]['page_number'] ?? 1);
+        $this->setQuery((string) ($usr_search_cache[$this->search_type]['query'] ?? ''));
+        $this->setRoot((int) ($usr_search_cache[$this->search_type]['root'] ?? ROOT_FOLDER_ID));
+        $this->setItemFilter((array) ($usr_search_cache[$this->search_type]['item_filter'] ?? []));
+        $this->setMimeFilter((array) ($usr_search_cache[$this->search_type]['mime_filter'] ?? []));
+        $this->setCreationFilter((array) ($usr_search_cache[$this->search_type]['creation_filter'] ?? []));
     }
 }

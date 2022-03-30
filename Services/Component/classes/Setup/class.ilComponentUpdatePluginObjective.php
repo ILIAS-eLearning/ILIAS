@@ -201,7 +201,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
-            public static function getLogger($a_component_id) : ilLogger
+            public static function getLogger(string $a_component_id) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }

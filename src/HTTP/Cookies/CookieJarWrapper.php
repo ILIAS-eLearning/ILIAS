@@ -30,7 +30,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class CookieJarWrapper implements CookieJar
 {
-
     private SetCookies $cookies;
 
 

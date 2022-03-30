@@ -38,14 +38,14 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilSh
         }
         if (is_array($a_user_data[$a_keyword])) {
             foreach ($a_user_data[$a_keyword] as $values) {
-                if (strcasecmp(trim($values), $a_value) == 0) {
+                if (strcasecmp(trim($values), $a_value) === 0) {
                     return true;
                 }
             }
 
             return false;
         }
-        return strcasecmp(trim($a_user_data[$a_keyword]), trim($a_value)) == 0;
+        return strcasecmp(trim($a_user_data[$a_keyword]), trim($a_value)) === 0;
     }
 
 

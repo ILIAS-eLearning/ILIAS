@@ -52,7 +52,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param string    new value, a space separated list of filename extensions.
      */
-    public function setInlineFileExtensions($newValue): void
+    public function setInlineFileExtensions($newValue) : void
     {
         $this->inlineFileExtensions = $newValue;
     }
@@ -74,7 +74,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param boolean
      */
-    public function setDownloadWithUploadedFilename($newValue): void
+    public function setDownloadWithUploadedFilename($newValue) : void
     {
         $this->downloadWithUploadedFilename = $newValue;
     }
@@ -98,7 +98,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    integer        object id
      */
-    public function create(): int
+    public function create() : int
     {
         $id = parent::create();
         $this->write();
@@ -112,7 +112,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    boolean    true on success
      */
-    public function update(): bool
+    public function update() : bool
     {
         parent::update();
         $this->write();
@@ -126,7 +126,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param boolean
      */
-    private function write(): void
+    private function write() : void
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -153,7 +153,7 @@ class ilObjFileAccessSettings extends ilObject
     /**
      * read object data from db into object
      */
-    public function read(): void
+    public function read() : void
     {
         parent::read();
 
@@ -173,7 +173,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return int Upload Max Filesize in bytes.
      */
-    private function getUploadMaxFilesize(): int
+    private function getUploadMaxFilesize() : int
     {
         $val = ini_get('upload_max_filesize');
 

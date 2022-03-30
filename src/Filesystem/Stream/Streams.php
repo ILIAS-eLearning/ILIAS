@@ -87,7 +87,5 @@ final class Streams
 
     public function ofZipResource(\ZipArchive $zip, int $index) : void
     {
-
     }
-
 }

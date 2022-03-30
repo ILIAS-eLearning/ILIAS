@@ -94,8 +94,11 @@ class {CLASS_NAME} extends ActiveRecord {
 		return '{TABLE_NAME}';
 	}
 ";
-        $txt = str_replace(['{CLASS_NAME}', '{TABLE_NAME}'], [$this->getClassName(), $this->getTableName()],
-            $header);
+        $txt = str_replace(
+            ['{CLASS_NAME}', '{TABLE_NAME}'],
+            [$this->getClassName(), $this->getTableName()],
+            $header
+        );
         $all_members = '';
         foreach ($this->getStructure() as $str) {
             $member = "/**

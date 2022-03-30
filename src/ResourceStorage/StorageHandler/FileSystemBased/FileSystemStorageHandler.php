@@ -53,5 +53,4 @@ class FileSystemStorageHandler extends AbstractFileSystemStorageHandler
     {
         return false;
     }
-
 }

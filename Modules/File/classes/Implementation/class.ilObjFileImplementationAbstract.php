@@ -16,5 +16,4 @@
  */
 abstract class ilObjFileImplementationAbstract implements ilObjFileImplementationInterface
 {
-
 }

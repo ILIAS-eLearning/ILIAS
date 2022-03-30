@@ -21,7 +21,6 @@
  */
 class arConnectorDB extends arConnector
 {
-
     protected function returnDB() : ilDBInterface
     {
         global $DIC;
@@ -83,8 +82,11 @@ class arConnectorDB extends arConnector
         $ilDB = $this->returnDB();
         foreach ($ar->getArFieldList()->getFields() as $field) {
             if (!$ilDB->tableColumnExists($ar->getConnectorContainerName(), $field->getName())) {
-                $ilDB->addTableColumn($ar->getConnectorContainerName(), $field->getName(),
-                    $field->getAttributesForConnector());
+                $ilDB->addTableColumn(
+                    $ar->getConnectorContainerName(),
+                    $field->getName(),
+                    $field->getAttributesForConnector()
+                );
             }
         }
         $this->updateIndices($ar);

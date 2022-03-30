@@ -50,5 +50,4 @@ abstract class AbstractInfoResolver implements InfoResolver
     {
         return $this->revision_title;
     }
-
 }

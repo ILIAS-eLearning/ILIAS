@@ -98,8 +98,10 @@ class ilSetupLanguage extends ilLanguage
      * install languages
      *
      * $a_lang_keys    array with lang_keys of languages to install
+     *
+     * @return array|bool
      */
-    public function installLanguages(array $a_lang_keys, array $a_local_keys) : bool
+    public function installLanguages(array $a_lang_keys, array $a_local_keys)
     {
         global $ilDB;
         

@@ -374,7 +374,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initPropertiesForm($mode = "create"): ilPropertyFormGUI
+    protected function initPropertiesForm($mode = "create") : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
@@ -728,7 +728,7 @@ class ilObjFileGUI extends ilObject2GUI
      * Initializes the upload form for multiple files.
      * @return object The created property form.
      */
-    public function initMultiUploadForm(): ilPropertyFormGUI
+    public function initMultiUploadForm() : ilPropertyFormGUI
     {
         $dnd_form_gui = new ilPropertyFormGUI();
         $dnd_form_gui->setMultipart(true);

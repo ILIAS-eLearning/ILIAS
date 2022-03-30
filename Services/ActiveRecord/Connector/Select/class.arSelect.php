@@ -20,7 +20,6 @@
  */
 class arSelect extends arStatement
 {
-
     protected string $table_name = '';
     protected string $as = '';
     protected string $field_name = '';

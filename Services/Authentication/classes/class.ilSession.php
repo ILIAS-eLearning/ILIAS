@@ -93,7 +93,6 @@ class ilSession
     
     /**
      * Lookup expire time for a specific session
-     * @global ilDB $ilDB
      * @param string $a_session_id
      * @return int expired unix timestamp
      */
@@ -332,7 +331,7 @@ class ilSession
             ilSession::_writeData($new_session, $row->data);
             return $new_session;
         }
-        return false;
+        return "";
     }
     
     /**
@@ -361,6 +360,7 @@ class ilSession
             $max_idle = $ilSetting->get('session_max_idle') ?? ilSessionControl::DEFAULT_MAX_IDLE;
             return time() + (int) $max_idle * 60;
         }
+        return time() + ilSessionControl::DEFAULT_MAX_IDLE * 60;
     }
 
     /**
@@ -384,6 +384,7 @@ class ilSession
             // load dependent session settings
             return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
         }
+        return ilSessionControl::DEFAULT_MAX_IDLE * 60;
     }
     
     /**

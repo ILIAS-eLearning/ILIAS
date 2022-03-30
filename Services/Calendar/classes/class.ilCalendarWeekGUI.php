@@ -54,7 +54,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                 break;
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
-                $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+                $this->tabs_gui->setSubTabActive((string) ilSession::get('cal_last_tab'));
 
                 // initial date for new calendar appointments
                 $idate = new ilDate($this->initInitialDateFromQuery(), IL_CAL_DATE);

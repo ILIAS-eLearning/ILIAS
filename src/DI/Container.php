@@ -47,7 +47,7 @@ class Container extends \Pimple\Container
     /**
      * Get the interface to the control structure.
      */
-    public function ctrl() : \ilCtrl
+    public function ctrl() : \ilCtrlInterface
     {
         return $this["ilCtrl"];
     }

@@ -26,7 +26,7 @@ class ilTermListTableGUI extends ilTable2GUI
     protected array $adv_fields;
     protected int $tax_node;
     protected ilObjGlossary $glossary;
-    protected $term_perm;
+    protected ilGlossaryTermPermission $term_perm;
     protected array $filter;
 
     public function __construct(

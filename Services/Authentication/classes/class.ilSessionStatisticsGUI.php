@@ -111,6 +111,7 @@ class ilSessionStatisticsGUI
         
                 
         switch ($mode) {
+            default:
             case self::MODE_TODAY:
                 $time_from = strtotime("today");
                 $time_to = strtotime("tomorrow") - 1;
@@ -216,6 +217,7 @@ class ilSessionStatisticsGUI
         $measure = (string) $_REQUEST["smm"];
                                 
         switch ($mode) {
+            default:
             case self::MODE_DAY:
                 $time_from = $time_to - 60 * 60 * 24;
                 $scale = self::SCALE_DAY;
@@ -290,6 +292,7 @@ class ilSessionStatisticsGUI
         $mode = (int) $_REQUEST["smd"];
         
         switch ($mode) {
+            default:
             case self::MODE_WEEK:
                 $time_from = $time_to - 60 * 60 * 24 * 7;
                 $scale = self::SCALE_WEEK;
@@ -400,14 +403,14 @@ class ilSessionStatisticsGUI
     {
         // basic data - not time related
         
-        $active = (int) ilSessionControl::getExistingSessionCount(ilSessionControl::$session_types_controlled);
+        $active = ilSessionControl::getExistingSessionCount(ilSessionControl::$session_types_controlled);
         
-        $control_active = ($this->settings->get('session_handling_type', 0) == 1);
+        $control_active = ((int) $this->settings->get('session_handling_type', "0") == 1);
         if ($control_active) {
-            $control_max_sessions = (int) $this->settings->get('session_max_count', ilSessionControl::DEFAULT_MAX_COUNT);
-            $control_min_idle = (int) $this->settings->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE);
-            $control_max_idle = (int) $this->settings->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE);
-            $control_max_idle_first = (int) $this->settings->get('session_max_idle_after_first_request', ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST);
+            $control_max_sessions = (int) $this->settings->get('session_max_count', (string) ilSessionControl::DEFAULT_MAX_COUNT);
+            $control_min_idle = (int) $this->settings->get('session_min_idle', (string) ilSessionControl::DEFAULT_MIN_IDLE);
+            $control_max_idle = (int) $this->settings->get('session_max_idle', (string) ilSessionControl::DEFAULT_MAX_IDLE);
+            $control_max_idle_first = (int) $this->settings->get('session_max_idle_after_first_request', (string) ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST);
         }
         
         $last_maxed_out = new ilDateTime(ilSessionStatistics::getLastMaxedOut(), IL_CAL_UNIX);
@@ -577,7 +580,7 @@ class ilSessionStatisticsGUI
     
         $chart->setColors($colors);
         
-        $chart_data = $this->adaptDataToScale($a_scale, $a_data, 700);
+        $chart_data = $this->adaptDataToScale($a_scale, $a_data);
         unset($a_data);
         
         $scale = ceil(sizeof($chart_data) / 5);
@@ -613,12 +616,12 @@ class ilSessionStatisticsGUI
                         $date = $day_value + $hour * 60 * 60 + $min * 60;
                         
                         // 6-hour interval labels
-                        if ($hour != $old_hour && $hour && $hour % 6 == 0) {
+                        if (isset($old_hour) && $hour != $old_hour && $hour && $hour % 6 == 0) {
                             $labels[$date] = $hour;
                             $old_hour = $hour;
                         }
                         // day label
-                        if ($day != $old_day) {
+                        if (isset($old_day) && $day != $old_day) {
                             $labels[$date] = ilCalendarUtil::_numericDayToString((int) $day, false);
                             $old_day = $day;
                         }
@@ -631,7 +634,7 @@ class ilSessionStatisticsGUI
                 $act_line[$measure]->addPoint($date, $value);
             }
             
-            if ($a_scale != self::SCALE_PERIODIC_WEEK) {
+            if (isset($max_line) && $a_scale != self::SCALE_PERIODIC_WEEK) {
                 $max_line->addPoint($date, (int) $item["max_sessions"]);
             }
         }
@@ -639,7 +642,7 @@ class ilSessionStatisticsGUI
         foreach ($act_line as $line) {
             $chart->addData($line);
         }
-        if ($a_scale != self::SCALE_PERIODIC_WEEK) {
+        if (isset($max_line) && $a_scale != self::SCALE_PERIODIC_WEEK) {
             $chart->addData($max_line);
         }
         
@@ -667,6 +670,7 @@ class ilSessionStatisticsGUI
             
             // aggregate slots for scale
             switch ($a_scale) {
+                default:
                 case self::SCALE_MONTH:
                     // aggregate to hours => 720 values
                     $slot = mktime($date_parts["hours"], 0, 0, $date_parts["mon"], $date_parts["mday"], $date_parts["year"]);
@@ -772,7 +776,7 @@ class ilSessionStatisticsGUI
         $csv->addRow();
         
         // aggregate data
-        $aggr_data = $this->adaptDataToScale($a_scale, $a_data["active"], 700);
+        $aggr_data = $this->adaptDataToScale($a_scale, $a_data["active"]);
         unset($a_data);
         
         // header
@@ -816,7 +820,7 @@ class ilSessionStatisticsGUI
         }
         
         // send
-        $filename .= "session_statistics_" . date("Ymd", $now) . ".csv";
+        $filename = "session_statistics_" . date("Ymd", $now) . ".csv";
         header("Content-type: text/comma-separated-values");
         header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
         header("Expires: 0");
