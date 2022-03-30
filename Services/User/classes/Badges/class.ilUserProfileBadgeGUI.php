@@ -62,7 +62,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
     {
         $fields = array();
         foreach (array_keys($this->request->getParsedBody()) as $id) {
-            if (substr($id, 0, 4) == "chk_") {
+            if (strpos($id, "chk_") === 0) {
                 $fields[] = $id;
             }
         }

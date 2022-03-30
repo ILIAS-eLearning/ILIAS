@@ -85,7 +85,7 @@ class ilUserDefinedFields
         }
         if ($parts[3]) {
             // Check if field exists
-            if (is_array($this->definitions["$parts[3]"])) {
+            if (is_array($this->definitions[$parts[3]])) {
                 return $parts[3];
             }
         }

@@ -146,7 +146,7 @@ class ilUserTableGUI extends ilTable2GUI
 
     public function isUdfColumn(string $a_key) : bool
     {
-        if (substr($a_key, 0, 4) == "udf_") {
+        if (strpos($a_key, "udf_") === 0) {
             return true;
         }
         return false;
@@ -285,14 +285,14 @@ class ilUserTableGUI extends ilTable2GUI
 
         $udf_filter = array();
         foreach ($this->filter as $k => $v) {
-            if (substr($k, 0, 4) == "udf_") {
+            if (strpos($k, "udf_") === 0) {
                 $udf_filter[$k] = $v;
             }
         }
 
         $query = new ilUserQuery();
         $order_field = $this->getOrderField();
-        if (substr($order_field, 0, 4) != "udf_" || isset($additional_fields[$order_field])) {
+        if (strpos($order_field, "udf_") !== 0 || isset($additional_fields[$order_field])) {
             $query->setOrderField($order_field);
             $query->setOrderDirection($this->getOrderDirection());
         }

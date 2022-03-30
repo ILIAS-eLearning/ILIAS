@@ -696,7 +696,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 $image = fread($fh, filesize($imagefile));
                 fclose($fh);
                 $mimetype = ilObjMediaObject::getMimeType($imagefile);
-                if (preg_match("/^image/", $mimetype)) {
+                if (0 === strpos($mimetype, "image")) {
                     $type = $mimetype;
                 }
                 $vcard->setPhoto($image, $type);

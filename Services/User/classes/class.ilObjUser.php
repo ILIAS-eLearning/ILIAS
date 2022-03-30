@@ -2146,7 +2146,7 @@ class ilObjUser extends ilObject
         }
         // This is a temporary hack to search users by their role
         // See Mantis #338. This is a hack due to Mantis #337.
-        if (strtolower(substr($a_search_str, 0, 5)) == "role:") {
+        if (stripos($a_search_str, "role:") === 0) {
             $query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email " .
                 "FROM object_data,rbac_ua,usr_data " .
                 "WHERE " . $ilDB->like("object_data.title", "text", "%" . substr($a_search_str, 5) . "%") .
@@ -2247,7 +2247,7 @@ class ilObjUser extends ilObject
             $ilDB->in("usr_id", $a_user_ids, false, "integer"));
         $user_data = [];
         while ($row = $ilDB->fetchAssoc($res)) {
-            $user_data["$row[usr_id]"] = $row;
+            $user_data[$row['usr_id']] = $row;
         }
         return $user_data;
     }
@@ -2453,7 +2453,7 @@ class ilObjUser extends ilObject
         $ilDB = $DIC['ilDB'];
 
         if ($a_time == 0) {
-            $a_time = date("Y-m-d H:i:s", time());
+            $a_time = date("Y-m-d H:i:s");
         }
 
         $item_set = $ilDB->queryF(
@@ -2493,7 +2493,7 @@ class ilObjUser extends ilObject
     ) : void {
         $ilDB = $this->db;
         if ($a_time == 0) {
-            $a_time = date("Y-m-d H:i:s", time());
+            $a_time = date("Y-m-d H:i:s");
         }
         ilSession::set("user_pc_clip", true);
         $ilDB->insert("personal_pc_clipboard", array(

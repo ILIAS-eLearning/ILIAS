@@ -492,9 +492,8 @@ class ilUserAutoComplete
     {
         $query = array();
         
-        if (!stristr($a_query, '\\')) {
-            $a_query = str_replace('%', '\%', $a_query);
-            $a_query = str_replace('_', '\_', $a_query);
+        if (strpos($a_query, '\\') === false) {
+            $a_query = str_replace(['%', '_'], ['\%', '\_'], $a_query);
         }
 
         $query['query'] = trim($a_query);

@@ -553,7 +553,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $count = 0;
                 if ($row["max"] > 0) {
                     //how many elements are present?
-                    for ($i = 0; $i < count($this->data["ctrl"]); $i++) {
+                    for ($i = 0, $iMax = count($this->data["ctrl"]); $i < $iMax; $i++) {
                         if ($this->data["ctrl"][$i]["type"] == $row["name"]) {
                             $count++;
                         }
@@ -1431,11 +1431,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $roleMailboxSearch = new \ilRoleMailboxSearch(new \ilMailRfc822AddressParserFactory());
                 foreach ($roles as $role_id => $role) {
                     if ($role["type"] == "Local") {
-                        $searchName = (substr(
-                            $role['name'],
-                            0,
-                            1
-                        ) == '#') ? $role['name'] : '#' . $role['name'];
+                        $searchName = (strpos($role['name'], '#') === 0) ? $role['name'] : '#' . $role['name'];
                         $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                         foreach ($matching_role_ids as $mid) {
                             if (!in_array(
@@ -1523,11 +1519,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 if ($role["type"] == "Local") {
                     /*$this->tpl->setCurrentBlock("local_role");
                     $this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);*/
-                    $searchName = (substr(
-                        $role['name'],
-                        0,
-                        1
-                    ) == '#') ? $role['name'] : '#' . $role['name'];
+                    $searchName = (strpos($role['name'], '#') === 0) ? $role['name'] : '#' . $role['name'];
                     $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                     $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "ignore";
 
@@ -3295,7 +3287,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $langs = $lng->getInstalledLanguages();
         foreach ($langs as $lang_key) {
-            $amail = $this->object->_lookupNewAccountMail($lang_key);
+            $amail = ilObjUserFolder::_lookupNewAccountMail($lang_key);
 
             $title = $lng->txt("meta_l_" . $lang_key);
             if ($lang_key == $lng->getDefaultLanguage()) {
@@ -3491,7 +3483,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $langs = $lng->getInstalledLanguages();
         foreach ($langs as $lang_key) {
-            $this->object->_writeNewAccountMail(
+            ilObjUserFolder::_writeNewAccountMail(
                 $lang_key,
                 $this->user_request->getMailSubject($lang_key),
                 $this->user_request->getMailSalutation("g", $lang_key),
@@ -3501,7 +3493,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
 
             if ($_FILES["att_" . $lang_key]["tmp_name"]) {
-                $this->object->_updateAccountMailAttachment(
+                ilObjUserFolder::_updateAccountMailAttachment(
                     $lang_key,
                     $_FILES["att_" . $lang_key]["tmp_name"],
                     $_FILES["att_" . $lang_key]["name"]
@@ -3509,7 +3501,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
 
             if ($this->user_request->getMailAttDelete($lang_key)) {
-                $this->object->_deleteAccountMailAttachment($lang_key);
+                ilObjUserFolder::_deleteAccountMailAttachment($lang_key);
             }
         }
 
@@ -3901,10 +3893,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->requested_ids = $a_usr_ids;
 
         // no real confirmation here
-        if (stristr(
-            $a_cmd,
-            "export"
-        )) {
+        if (stripos($a_cmd, "export") !== false) {
             $cmd = $a_cmd . "Object";
             return $this->$cmd();
         }

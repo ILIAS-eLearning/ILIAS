@@ -110,9 +110,7 @@ class ilObjUserFolder extends ilObject
 
     protected function escapeXML(string $value) : string
     {
-        $value = str_replace("&", "&amp;", $value);
-        $value = str_replace("<", "&lt;", $value);
-        $value = str_replace(">", "&gt;", $value);
+        $value = str_replace(["&", "<", ">"], ["&amp;", "&lt;", "&gt;"], $value);
         return $value;
     }
 

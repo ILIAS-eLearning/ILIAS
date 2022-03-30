@@ -110,7 +110,7 @@ class ilvCard
     {
         $folded_string = "";
         preg_match_all("/(.{1,74})/", $string, $matches);
-        for ($i = 0; $i < count($matches[1]); $i++) {
+        for ($i = 0, $iMax = count($matches[1]); $i < $iMax; $i++) {
             if ($i < (count($matches[1]) - 1)) {
                 $matches[1][$i] .= "\n";
             }
@@ -558,7 +558,7 @@ class ilvCard
         $escape = "=";
         $output = "";
 
-        for ($j = 0; $j < count($lines); $j++) {
+        for ($j = 0, $jMax = count($lines); $j < $jMax; $j++) {
             $line = $lines[$j];
             $linlen = strlen($line);
             $newline = "";
@@ -570,7 +570,7 @@ class ilvCard
                 } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
                     $h2 = floor($dec / 16);
                     $h1 = floor($dec % 16);
-                    $c = $escape . $hex["$h2"] . $hex["$h1"];
+                    $c = $escape . $hex[(string) $h2] . $hex[(string) $h1];
                 }
                 if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
                     $output .= $newline . $escape . $eol; // soft line break; " =\r\n" is okay
@@ -650,8 +650,8 @@ class ilvCard
             ";" .
             implode(",", $suffixes);
 
-        $this->filename = "$given_name" . "_" . "$family_name" . ".vcf";
-        if (strcmp($this->types["FN"], "") == 0) {
+        $this->filename = $given_name . "_" . $family_name . ".vcf";
+        if (strcmp($this->types["FN"], "") === 0) {
             $fn = trim("$honorific_prefixes $given_name $additional_names $family_name $honorific_suffixes");
             $fn = preg_replace("/\s{2,10}/", " ", $fn);
             $this->setFormattedName($fn);
