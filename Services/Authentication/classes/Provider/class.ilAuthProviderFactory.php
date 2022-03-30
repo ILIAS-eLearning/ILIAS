@@ -50,7 +50,7 @@ class ilAuthProviderFactory
         $sequence = $auth_determination->getAuthModeSequence($credentials->getUsername());
         
         $providers = array();
-        foreach ((array) $sequence as $position => $authmode) {
+        foreach ($sequence as $position => $authmode) {
             $provider = $this->getProviderByAuthMode($credentials, $authmode);
             if ($provider instanceof ilAuthProviderInterface) {
                 $providers[] = $provider;
@@ -61,9 +61,8 @@ class ilAuthProviderFactory
     
     /**
      * Get provider by auth mode
-     * @return \ilAuthProvide
      */
-    public function getProviderByAuthMode(ilAuthCredentials $credentials, $a_authmode) : ilAuthProviderInterface
+    public function getProviderByAuthMode(ilAuthCredentials $credentials, $a_authmode) : ?ilAuthProviderInterface
     {
         switch ((int) $a_authmode) {
             case ilAuthUtils::AUTH_LDAP:
@@ -112,7 +111,7 @@ class ilAuthProviderFactory
                 return new ilAuthProviderOpenIdConnect($credentials);
 
             default:
-                $this->getLogger('Plugin authentication: ' . $a_authmode);
+                $this->logger->debug('Plugin authentication: ' . $a_authmode);
                 foreach (ilAuthUtils::getAuthPlugins() as $pl) {
                     $provider = $pl->getProvider($credentials, $a_authmode);
                     if ($provider instanceof ilAuthProviderInterface) {

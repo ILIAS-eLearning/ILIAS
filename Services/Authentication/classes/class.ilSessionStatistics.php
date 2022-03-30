@@ -30,7 +30,7 @@ class ilSessionStatistics
 
         $ilSetting = $DIC['ilSetting'];
         
-        return (bool) $ilSetting->get('session_statistics', (string) 1);
+        return (bool) $ilSetting->get('session_statistics', "1");
     }
     
     /**
@@ -187,10 +187,6 @@ class ilSessionStatistics
     
     /**
      * Read raw data for timespan
-     *
-     * @param integer $a_begin
-     * @param integer $a_end
-     * @return array
      */
     protected static function getRawData(int $a_begin, int $a_end) : array
     {
@@ -271,10 +267,8 @@ class ilSessionStatistics
     /**
      * Aggregate statistics data for one slot
      *
-     * @param timestamp $a_begin
-     * @param timestamp $a_end
      */
-    public static function aggregateRawHelper($a_begin, $a_end)
+    public static function aggregateRawHelper(int $a_begin, int $a_end)
     {
         global $DIC;
 
@@ -387,7 +381,7 @@ class ilSessionStatistics
             "closed_limit" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_LIMIT] ?? 0)),
             "closed_login" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0)),
             "closed_misc" => array("integer", (int) ($closed_counter[0] ?? 0)),
-            "max_sessions" => array("integer", (int) $max_sessions)
+            "max_sessions" => array("integer", $max_sessions)
         );
         $ilDB->update(
             "usr_session_stats",
@@ -418,9 +412,9 @@ class ilSessionStatistics
     /**
      * Get latest slot during which sessions were maxed out
      *
-     * @return int timestamp
+     * @return ?int timestamp
      */
-    public static function getLastMaxedOut()
+    public static function getLastMaxedOut() : ?int
     {
         global $DIC;
 
@@ -434,16 +428,15 @@ class ilSessionStatistics
         if ($row["latest"]) {
             return $row["latest"];
         }
+        return null;
     }
     
     /**
      * Get maxed out duration in given timeframe
      *
-     * @param int $a_from
-     * @param int $a_to
-     * @return int seconds
+     * @return ?int seconds
      */
-    public static function getMaxedOutDuration($a_from, $a_to)
+    public static function getMaxedOutDuration(int $a_from, int $a_to) : ?int
     {
         global $DIC;
 
@@ -459,6 +452,7 @@ class ilSessionStatistics
         if ($row["dur"]) {
             return $row["dur"];
         }
+        return null;
     }
     
     /**
@@ -515,9 +509,9 @@ class ilSessionStatistics
     /**
      * Get timestamp of last aggregation
      *
-     * @return timestamp
+     * @return ?int timestamp
      */
-    public static function getLastAggregation()
+    public static function getLastAggregation() : ?int
     {
         global $DIC;
 
@@ -529,15 +523,14 @@ class ilSessionStatistics
         if ($row["latest"]) {
             return $row["latest"];
         }
+        return null;
     }
     
     /**
      * Get max session setting for given timestamp
      *
-     * @param timestamp $a_timestamp
-     * @return int
      */
-    public static function getLimitForSlot($a_timestamp)
+    public static function getLimitForSlot(int $a_timestamp) : int
     {
         global $DIC;
 

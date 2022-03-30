@@ -37,7 +37,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 
         $tbl_data = array();
         $counter = 0;
-        foreach (array_values($installed) as $langkey) {
+        foreach ($installed as $langkey) {
             $tbl_data[$counter]['key'] = $langkey;
             $tbl_data[$counter]['id'] = ilLanguage::lookupId($langkey);
             $tbl_data[$counter]['status'] = ilAuthLoginPageEditorSettings::getInstance()->isIliasEditorEnabled($langkey);

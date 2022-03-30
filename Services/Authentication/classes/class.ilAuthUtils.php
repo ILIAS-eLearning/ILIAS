@@ -100,7 +100,7 @@ class ilAuthUtils
         if (isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url'])) {
             $credentials = new ilAuthFrontendCredentials();
             $credentials->setUsername($_GET['ecs_login']);
-            $credentials->setAuthMode(self::AUTH_ECS);
+            $credentials->setAuthMode((string) self::AUTH_ECS);
             
             $provider_factory = new ilAuthProviderFactory();
             $providers = $provider_factory->getProviders($credentials);
@@ -472,17 +472,12 @@ class ilAuthUtils
             $options[$default]['checked'] = true;
         }
 
-        return $options ? $options : array();
+        return $options ?: array();
     }
 
     /**
      * Check if an external account name is required.
      * That's the case if Radius,LDAP, CAS or SOAP is active
-     *
-     * @access public
-     * @static
-     *
-     * @param
      */
     public static function _isExternalAccountEnabled()
     {
@@ -616,7 +611,7 @@ class ilAuthUtils
                 return false;
 
             case ilAuthUtils::AUTH_SAML:
-                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($a_authmode));
+                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode((string) $a_authmode));
                 return $idp->isActive() && $idp->allowLocalAuthentication();
 
             case ilAuthUtils::AUTH_SHIBBOLETH:
@@ -649,7 +644,8 @@ class ilAuthUtils
         
         //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
-            // No local passwords for these auth modes
+            // No local passwords for these auth modes and default
+            default:
             case ilAuthUtils::AUTH_LDAP:
             case ilAuthUtils::AUTH_RADIUS:
             case ilAuthUtils::AUTH_ECS:
@@ -659,7 +655,7 @@ class ilAuthUtils
                 return false;
 
             case ilAuthUtils::AUTH_SAML:
-                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($a_authmode));
+                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode((string) $a_authmode));
                 return $idp->isActive() && $idp->allowLocalAuthentication();
             
             // Always for and local
@@ -696,7 +692,7 @@ class ilAuthUtils
             case ilAuthUtils::AUTH_SAML:
             case ilAuthUtils::AUTH_SOAP:
             case ilAuthUtils::AUTH_CAS:
-                if (!ilAuthUtils::isPasswordModificationEnabled($a_authmode)) {
+                if (!ilAuthUtils::isPasswordModificationEnabled((int) $a_authmode)) {
                     return ilAuthUtils::LOCAL_PWV_NO;
                 }
                 return ilAuthUtils::LOCAL_PWV_USER;
