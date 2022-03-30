@@ -4936,7 +4936,7 @@ s     */
         }
 
         // THIS IS BUGGY AS IT MIGHT BREAK AN OPEN TAG AT THE END
-        if (!sizeof($open_tags)) {
+        if (!count($open_tags)) {
             // if the words shouldn't be cut in the middle...
             if (!$a_exact) {
                 // ...search the last occurance of a space...

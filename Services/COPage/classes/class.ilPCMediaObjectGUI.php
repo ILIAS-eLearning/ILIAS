@@ -1253,9 +1253,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
 
         if (count($options) > 0) {
-            $current_value = $this->content_obj->getCaptionClass()
-                ? $this->content_obj->getCaptionClass()
-                : "MediaCaption";
+            $current_value = $this->content_obj->getCaptionClass() ?: "MediaCaption";
             $cap_style->setValue($current_value);
             $form->addItem($cap_style);
         }

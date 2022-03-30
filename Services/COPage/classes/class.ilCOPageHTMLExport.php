@@ -337,7 +337,7 @@ class ilCOPageHTMLExport
                         foreach ($level_data as $k => $v) {
                             // get assigned materials from personal skill
                             $mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref_id"], $v["id"]);
-                            if (sizeof($mat)) {
+                            if (count($mat)) {
                                 foreach ($mat as $item) {
                                     $wsp_id = $item["wsp_id"];
                                     $obj_id = $ws_tree->lookupObjectId($wsp_id);
