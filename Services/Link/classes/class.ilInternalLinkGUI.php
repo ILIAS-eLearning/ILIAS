@@ -37,7 +37,6 @@ class ilInternalLinkGUI
     public string $set_link_script = "";
     /** @var array<string, string> array link types */
     protected array $ltypes = [];
-    // @var array parent object types for link base types
     /** @var array<string, string> parent object types for link base types */
     protected array $parent_type = [];
     public ilCtrl $ctrl;
