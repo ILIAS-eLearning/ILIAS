@@ -109,14 +109,13 @@ class ilGroupAddToGroupActionGUI
     }
     public function show() : void
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
         $toolbar = new ilToolbarGUI();
 
         // button use existing group
-        $url1 = $ctrl->getLinkTarget($this, "selectGroup", "", true, false);
+        $url1 = $ctrl->getLinkTarget($this, "selectGroup", "", true);
         $button1 = $this->ui->factory()->button()->standard($lng->txt("grp_use_existing"), "#")
             ->withOnLoadCode(function ($id) use ($url1) {
                 return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url1', 'il_grp_action_modal_content'); return false;})";
@@ -124,7 +123,7 @@ class ilGroupAddToGroupActionGUI
         $toolbar->addComponent($button1);
 
         // button create new group
-        $url2 = $ctrl->getLinkTarget($this, "selectParent", "", true, false);
+        $url2 = $ctrl->getLinkTarget($this, "selectParent", "", true);
         $button2 = $this->ui->factory()->button()->standard($lng->txt("grp_create_new"), "#")
             ->withOnLoadCode(function ($id) use ($url2) {
                 return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url2', 'il_grp_action_modal_content'); return false;})";
@@ -174,7 +173,7 @@ class ilGroupAddToGroupActionGUI
 
         $exp->setClickableType("grp");
         $exp->setTypeWhiteList(array("root", "cat", "crs", "fold", "grp"));
-        $exp->setPathOpen((int) $tree->readRootId());
+        $exp->setPathOpen($tree->readRootId());
 
         if (!$exp->handleCommand()) {
             $this->sendResponse($exp->getHTML());
@@ -185,7 +184,6 @@ class ilGroupAddToGroupActionGUI
     public function confirmAddUser() : void
     {
         $ctrl = $this->ctrl;
-        $tpl = $this->tpl;
         $lng = $this->lng;
 
         $ref_id = $this->initGroupRefIdFromQuery();
@@ -193,7 +191,7 @@ class ilGroupAddToGroupActionGUI
 
         $participants = ilParticipants::getInstanceByObjId(ilObject::_lookupObjId($ref_id));
         if ($participants->isMember($user_id)) {
-            $url = $ctrl->getLinkTarget($this, "selectGroup", "", true, false);
+            $url = $ctrl->getLinkTarget($this, "selectGroup", "", true);
             $button = $this->ui->factory()->button()->standard($lng->txt("back"), "#")
                 ->withOnLoadCode(function ($id) use ($url) {
                     return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;})";
@@ -210,7 +208,7 @@ class ilGroupAddToGroupActionGUI
 
         // button create new group
         $ctrl->setParameter($this, "grp_act_ref_id", $ref_id);
-        $url = $ctrl->getLinkTarget($this, "addUser", "", true, false);
+        $url = $ctrl->getLinkTarget($this, "addUser", "", true);
         $button = $this->ui->factory()->button()->standard($lng->txt("grp_add_user"), "#")
             ->withOnLoadCode(function ($id) use ($url) {
                 return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;})";
@@ -226,7 +224,6 @@ class ilGroupAddToGroupActionGUI
 
     public function addUser() : void
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
 
         $ref_id = $this->initGroupRefIdFromQuery();
@@ -253,15 +250,14 @@ class ilGroupAddToGroupActionGUI
     {
         $tree = $this->tree;
         $lng = $this->lng;
-        $tpl = $this->tpl;
 
         $exp = new ilGroupActionTargetExplorerGUI($this, "selectParent", true);
 
         $exp->setTypeWhiteList(array("root", "cat", "crs"));
-        $exp->setPathOpen((int) $tree->readRootId());
+        $exp->setPathOpen($tree->readRootId());
 
         if (!$exp->handleCommand()) {
-            $this->sendResponse(ilUtil::getSystemMessageHTML($lng->txt("grp_no_perm_to_add_create_first"), "info") .
+            $this->sendResponse(ilUtil::getSystemMessageHTML($lng->txt("grp_no_perm_to_add_create_first")) .
                 $exp->getHTML());
         }
 
@@ -270,7 +266,6 @@ class ilGroupAddToGroupActionGUI
 
     public function createGroup($form = null) : void
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
 
         $ref_id = $this->initGroupRefIdFromQuery();
@@ -279,7 +274,7 @@ class ilGroupAddToGroupActionGUI
             $form = $this->getGroupCreationForm();
         }
         $this->ctrl->saveParameter($this, "grp_act_par_ref_id");
-        $form->setFormAction($this->ctrl->getLinkTarget($this, "confirmCreateGroupAndAddUser", "", true, false));
+        $form->setFormAction($this->ctrl->getLinkTarget($this, "confirmCreateGroupAndAddUser", "", true));
 
         echo ilUtil::getSystemMessageHTML(str_replace("%1", ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)), $lng->txt("grp_create_new_grp_in")), "info") .
             $form->getHTML();
@@ -294,7 +289,7 @@ class ilGroupAddToGroupActionGUI
         $ref_id = $this->initGroupRefIdFromQuery();
 
         $group_gui = new ilObjGroupGUI("", 0, true);
-        $group_gui->setCreationMode(true);
+        $group_gui->setCreationMode();
         // workaround for bug #22748 (which is triggered, if a didactic template for groups exist which is limited to a rep node)
         $ref_id = $_GET["ref_id"];
         $_GET["ref_id"] = $ref_id;
@@ -308,8 +303,6 @@ class ilGroupAddToGroupActionGUI
 
     public function confirmCreateGroupAndAddUser() : void
     {
-        $ctrl = $this->ctrl;
-        $tpl = $this->tpl;
         $lng = $this->lng;
 
         $user_id = $this->initUserIdFromQuery();
@@ -330,7 +323,7 @@ class ilGroupAddToGroupActionGUI
         }
 
         $this->ctrl->saveParameter($this, "grp_act_par_ref_id");
-        $form->setFormAction($this->ctrl->getLinkTarget($this, "createGroupAndAddUser", "", true, false));
+        $form->setFormAction($this->ctrl->getLinkTarget($this, "createGroupAndAddUser", "", true));
         $form->setValuesByPost();
 
         $button = $this->ui->factory()->button()->standard($lng->txt("grp_create_and_add_user"), "#")
@@ -351,7 +344,6 @@ class ilGroupAddToGroupActionGUI
     public function createGroupAndAddUser() : void
     {
         $lng = $this->lng;
-        $tpl = $this->tpl;
 
         $user_id = $this->initUserIdFromQuery();
         $ref_id = $this->initGroupRefIdFromQuery();

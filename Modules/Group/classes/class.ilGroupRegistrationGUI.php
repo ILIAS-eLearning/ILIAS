@@ -32,16 +32,8 @@
 */
 class ilGroupRegistrationGUI extends ilRegistrationGUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object container object
-     */
-    public function __construct($a_container)
+    public function __construct(ilObject $a_container)
     {
-        global $DIC;
-
         parent::__construct($a_container);
     }
     
@@ -81,7 +73,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
     }
     
     /**
-     * show informations about the registration period
+     * show information about the registration period
      */
     protected function fillRegistrationPeriod() : void
     {
@@ -134,7 +126,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
     }
     
     /**
-     * fill max member informations
+     * fill max member information
      * @access protected
      * @return void
      */
@@ -220,9 +212,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         }
         $this->form->addItem($max);
     }
-    
-    /**
-     */
+
     protected function fillRegistrationType() : void
     {
         if ($this->getWaitingList()->isOnList($this->user->getId())) {
@@ -380,9 +370,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
     /**
      * add user
      */
-    protected function add()
+    protected function add() : void
     {
-        // set aggreement accepted
+        // set agreement accepted
         $this->setAccepted(true);
         
         $free = max(0, $this->container->getMaxMembers() - $this->participants->getCountMembers());

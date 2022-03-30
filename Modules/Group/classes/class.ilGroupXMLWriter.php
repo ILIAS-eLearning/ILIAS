@@ -43,8 +43,6 @@ class ilGroupXMLWriter extends ilXmlWriter
     private ilSetting $settings;
     private ilAccessHandler $access;
 
-    private string $xml;
-
     private ilObjGroup $group_obj;
     private ilGroupParticipants $participants;
     private bool $attach_users = true;
@@ -309,6 +307,6 @@ class ilGroupXMLWriter extends ilXmlWriter
 
     public function setAttachUsers(bool $value)
     {
-        $this->attach_users = (bool) $value;
+        $this->attach_users = $value;
     }
 }

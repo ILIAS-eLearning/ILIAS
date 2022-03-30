@@ -216,7 +216,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
      */
     protected function getDefaultRole() : ?int
     {
-        return $this->getParentGUI()->object->getDefaultMemberRole();
+        return $this->getParentGUI()->getObject()->getDefaultMemberRole();
     }
     
     public function getPrintMemberData(array $a_members) : array

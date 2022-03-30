@@ -35,7 +35,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
 {
     protected ilRbacSystem $rbacsystem;
 
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
+    public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         global $DIC;
 
