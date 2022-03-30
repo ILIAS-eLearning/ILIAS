@@ -33,8 +33,8 @@ class ilAuthLoginPageEditorGUI
     private ilRbacSystem $rbacsystem;
     private ilSetting $setting;
     private ilErrorHandling $ilErr;
-    private ilLogger $logger;
-   
+    private ?ilPropertyFormGUI $form;
+
     private int $ref_id = 0;
     private ilAuthLoginPageEditorSettings $settings;
     private ?ilSetting $loginSettings = null;
@@ -51,8 +51,7 @@ class ilAuthLoginPageEditorGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->setting = $DIC->settings();
         $this->ilErr = $DIC['ilErr'];
-        $this->logger = $DIC->logger()->auth();
-        
+
         $this->lng = $DIC['lng'];
         
         $this->lng->loadLanguageModule('auth');
@@ -115,7 +114,7 @@ class ilAuthLoginPageEditorGUI
     protected function forwardToPageObject() : void
     {
         $key = (int) $_REQUEST['key'];
-        $this->ctrl->saveParameter($this, 'key', $key);
+        $this->ctrl->saveParameter($this, 'key');
 
         $this->lng->loadLanguageModule("content");
 
@@ -305,7 +304,7 @@ class ilAuthLoginPageEditorGUI
                 }
             }
             if ($this->form->getInput('default_auth_mode')) {
-                $this->setting->set('default_auth_mode', (int) $this->form->getInput('default_auth_mode'));
+                $this->setting->set('default_auth_mode', $this->form->getInput('default_auth_mode'));
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("login_information_settings_saved"), true);
@@ -329,7 +328,7 @@ class ilAuthLoginPageEditorGUI
         $rad_settings = ilRadiusSettings::_getInstance();
         if ($ldap_id = ilLDAPServer::_getFirstActiveServer() or $rad_settings->isActive()) {
             $select = new ilSelectInputGUI($this->lng->txt('default_auth_mode'), 'default_auth_mode');
-            $select->setValue($this->setting->get('default_auth_mode', ilAuthUtils::AUTH_LOCAL));
+            $select->setValue($this->setting->get('default_auth_mode', (string) ilAuthUtils::AUTH_LOCAL));
             $select->setInfo($this->lng->txt('default_auth_mode_info'));
             $options[ilAuthUtils::AUTH_LOCAL] = $this->lng->txt('auth_local');
             if ($ldap_id) {
@@ -375,7 +374,7 @@ class ilAuthLoginPageEditorGUI
             $lang_key = substr($key, strrpos($key, "_") + 1, strlen($key) - strrpos($key, "_"));
 
             $textarea = new ilTextAreaInputGUI(
-                $this->lng->txt("meta_l_" . $lang_key) . $add,
+                $this->lng->txt("meta_l_" . $lang_key),
                 'login_message_' . $lang_key
             );
             $textarea->setRows(10);
