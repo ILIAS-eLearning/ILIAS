@@ -362,14 +362,12 @@ class ilTagging
     /**
      * Count tags for given object ids
      * @param int[]    $a_obj_ids
-     * @param ?int $a_user_id
-     * @param bool     $a_divide
      * @return array
      */
     public static function _getTagCloudForObjects(
         array $a_obj_ids,
-        int $a_user_id = null,
-        bool $a_divide = false
+        ?int $a_user_id = null,
+        int $a_divide = 0
     ) : array {
         global $DIC;
 
@@ -390,7 +388,7 @@ class ilTagging
             if ($a_obj_ids[$row["obj_id"]] == $row["obj_type"]) {
                 $tag = $row["tag"];
                     
-                if ($a_divide) {
+                if ($a_divide > 0) {
                     if ($row["user_id"] == $a_divide) {
                         $res["personal"][$tag] = isset($res["personal"][$tag])
                             ? $res["personal"][$tag]++
