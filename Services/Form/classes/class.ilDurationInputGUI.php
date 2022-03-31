@@ -193,7 +193,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
                     true,
                     0,
                     '',
-                    '',
+                    [],
                     $this->getDisabled()
                 )
             );
@@ -216,7 +216,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
                     true,
                     0,
                     '',
-                    '',
+                    [],
                     $this->getDisabled()
                 )
             );
@@ -239,7 +239,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
                     true,
                     0,
                     '',
-                    '',
+                    [],
                     $this->getDisabled()
                 )
             );
@@ -262,7 +262,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
                     true,
                     0,
                     '',
-                    '',
+                    [],
                     $this->getDisabled()
                 )
             );
@@ -285,7 +285,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
                     true,
                     0,
                     '',
-                    '',
+                    [],
                     $this->getDisabled()
                 )
             );
