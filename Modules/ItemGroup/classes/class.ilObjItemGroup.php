@@ -127,7 +127,7 @@ class ilObjItemGroup extends ilObject2
         }
     }
     
-    protected function doCloneObject($new_obj, $a_target_id, ?int $a_copy_id = null, bool $a_omit_tree = false) : void
+    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, bool $a_omit_tree = false) : void
     {
         $new_obj->setHideTitle($this->getHideTitle());
         $new_obj->setBehaviour($this->getBehaviour());
