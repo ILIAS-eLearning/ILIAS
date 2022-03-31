@@ -95,7 +95,7 @@ class ilDBConstants
     /**
      * @return string[]
      */
-    public static function getInstallableTypes(): array
+    public static function getInstallableTypes() : array
     {
         return array(
             // Main
@@ -107,11 +107,7 @@ class ilDBConstants
         );
     }
 
-
-    /**
-     * @return mixed[]
-     */
-    public static function getAvailableTypes(bool $with_descriptions = true): array
+    public static function getAvailableTypes(bool $with_descriptions = true) : array
     {
         $types = self::getSupportedTypes();
         if ($with_descriptions) {
@@ -126,7 +122,7 @@ class ilDBConstants
     }
 
 
-    public static function getSupportedTypes(): array
+    public static function getSupportedTypes() : array
     {
         return array(
             ilDBConstants::TYPE_MYSQL,
@@ -139,7 +135,7 @@ class ilDBConstants
     /**
      * @return string[]
      */
-    public static function getAvailableCollations(): array
+    public static function getAvailableCollations() : array
     {
         return [
             ilDBConstants::MYSQL_COLLATION_UTF8,
@@ -167,7 +163,7 @@ class ilDBConstants
     /**
      * @param $type
      */
-    public static function describe($type): string
+    public static function describe($type) : string
     {
         return self::$descriptions[$type];
     }

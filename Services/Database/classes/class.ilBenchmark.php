@@ -19,7 +19,6 @@
  */
 class ilBenchmark
 {
-
     private ?ilDBInterface $db = null;
     private ?ilSetting $settings = null;
     private ?ilObjUser $user = null;
@@ -39,8 +38,8 @@ class ilBenchmark
     public function __construct()
     {
         global $DIC;
-        $this->bench_max_records = (int) $this->retrieveSetting("bench_max_records") ?? 0;
-        $this->general_bechmark_enabled = (bool) $this->retrieveSetting("enable_bench") ?? false;
+        $this->bench_max_records = (int) ($this->retrieveSetting("bench_max_records") ?? 0);
+        $this->general_bechmark_enabled = (bool) ($this->retrieveSetting("enable_bench") ?? false);
     }
 
     private function retrieveSetting(string $identifier) : ?string
@@ -84,10 +83,10 @@ class ilBenchmark
 
     private function microtimeDiff(string $t1, string $t2) : string
     {
-        $t1 = explode(" ", $t1);
-        $t2 = explode(" ", $t2);
+        $partials1 = explode(" ", $t1);
+        $partials2 = explode(" ", $t2);
 
-        return $t2[0] - $t1[0] + $t2[1] - $t1[1];
+        return (string) ((int) $partials2[0] - (int) $partials1[0] + (int) $partials2[1] - (int) $partials1[1]);
     }
 
     /**
@@ -96,7 +95,10 @@ class ilBenchmark
     public function clearData() : void
     {
         if ($this->isDBavailable()) {
-            $this->retrieveDB()->manipulate("DELETE FROM benchmark");
+            $db = $this->retrieveDB();
+            if ($db !== null) {
+                $db->manipulate("DELETE FROM benchmark");
+            }
         }
     }
 
@@ -131,14 +133,17 @@ class ilBenchmark
             if (is_array($this->collected_db_benchmarks)) {
                 $this->stop_db_recording = true;
 
-                $this->retrieveDB()->manipulate("DELETE FROM benchmark");
-                foreach ($this->collected_db_benchmarks as $b) {
-                    $id = $this->retrieveDB()->nextId('benchmark');
-                    $this->retrieveDB()->insert("benchmark", array(
-                        "id" => array("integer", $id),
-                        "duration" => array("float", $this->microtimeDiff($b["start"], $b["stop"])),
-                        "sql_stmt" => array("clob", $b["sql"])
-                    ));
+                $db = $this->retrieveDB();
+                if ($db !== null) {
+                    $db->manipulate("DELETE FROM benchmark");
+                    foreach ($this->collected_db_benchmarks as $b) {
+                        $id = $db->nextId('benchmark');
+                        $db->insert("benchmark", array(
+                            "id" => array("integer", $id),
+                            "duration" => array("float", $this->microtimeDiff($b["start"], $b["stop"])),
+                            "sql_stmt" => array("clob", $b["sql"])
+                        ));
+                    }
                 }
             }
             $this->disableDbBenchmark();
@@ -150,13 +155,15 @@ class ilBenchmark
      */
     private function getCurrentRecordNumber() : int
     {
-        if (!$this->isDBavailable()) {
-            return 0;
+        if ($this->isDBavailable()) {
+            $db = $this->retrieveDB();
+            if ($db !== null) {
+                $cnt_set = $db->query("SELECT COUNT(*) AS cnt FROM benchmark");
+                $cnt_rec = $db->fetchAssoc($cnt_set);
+                return (int) $cnt_rec["cnt"];
+            }
         }
-        $cnt_set = $this->retrieveDB()->query("SELECT COUNT(*) AS cnt FROM benchmark");
-        $cnt_rec = $this->retrieveDB()->fetchAssoc($cnt_set);
-
-        return (int ) $cnt_rec["cnt"];
+        return 0;
     }
 
     /**
@@ -203,7 +210,7 @@ class ilBenchmark
     /**
      * Check wether benchmarking is enabled or not
      */
-    public function isDbBenchEnabled()
+    public function isDbBenchEnabled() : bool
     {
         return $this->db_bechmark_enabled && $this->isDBavailable();
     }
@@ -226,17 +233,14 @@ class ilBenchmark
 
     /**
      * start measurement
-     *
-     *
-     * @return bool|int
      */
-    public function startDbBench(string $a_sql)
+    public function startDbBench(string $a_sql) : void //i assume this should be void but could also be int and missing its return value
     {
         if (
-            $this->isDbBenchEnabled()
+            !$this->stop_db_recording
+            && $this->isDbBenchEnabled()
             && $this->isUserAvailable()
             && $this->db_bechmark_user_id === $this->user->getId()
-            && !$this->stop_db_recording
         ) {
             $this->start = microtime();
             $this->temporary_sql_storage = $a_sql;
@@ -245,10 +249,12 @@ class ilBenchmark
 
     public function stopDbBench() : bool
     {
-        if ($this->isDbBenchEnabled()
-                && $this->isUserAvailable()
+        if (
+            !$this->stop_db_recording
+            && $this->isDbBenchEnabled()
+            && $this->isUserAvailable()
             && $this->db_bechmark_user_id === $this->user->getId()
-            && !$this->stop_db_recording) {
+        ) {
             $this->collected_db_benchmarks[] = array(
                 "start" => $this->start,
                 "stop" => microtime(),
@@ -263,17 +269,20 @@ class ilBenchmark
 
     public function getDbBenchRecords() : array
     {
-        if (!$this->isDBavailable()) {
-            return [];
+        if ($this->isDBavailable()) {
+            $db = $this->retrieveDB();
+            if ($db !== null) {
+                $set = $db->query("SELECT * FROM benchmark");
+                $b = [];
+                while ($rec = $db->fetchAssoc($set)) {
+                    $b[] = [
+                        "sql" => $rec["sql_stmt"],
+                        "time" => $rec["duration"]
+                    ];
+                }
+                return $b;
+            }
         }
-        $set = $this->retrieveDB()->query("SELECT * FROM benchmark");
-        $b = [];
-        while ($rec = $this->retrieveDB()->fetchAssoc($set)) {
-            $b[] = [
-                "sql" => $rec["sql_stmt"],
-                "time" => $rec["duration"]
-            ];
-        }
-        return $b;
+        return [];
     }
 }

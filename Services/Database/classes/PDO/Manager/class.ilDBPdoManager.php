@@ -6,7 +6,6 @@
  */
 class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 {
-
     protected \PDO $pdo;
     protected \ilDBPdo $db_instance;
     protected ?\ilQueryUtils $query_utils = null;
@@ -46,7 +45,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 
         $sequence_identifier = "_seq";
         while ($data = $r->fetchColumn()) {
-            if (!preg_match("/{$sequence_identifier}$/um", $data)) {
+            if (!preg_match("/$sequence_identifier$/um", $data)) {
                 $tables[] = $data;
             }
         }
@@ -84,8 +83,10 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             }
         }
         if ($this->db_instance->options['portability'] ?? null) {
-            $result = array_map(($this->db_instance->options['field_case'] === CASE_LOWER ? 'strtolower' : 'strtoupper'),
-                $result);
+            $result = array_map(
+                ($this->db_instance->options['field_case'] === CASE_LOWER ? 'strtolower' : 'strtoupper'),
+                $result
+            );
         }
 
         return $result;
@@ -193,7 +194,10 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                 if ($query !== '') {
                     $query .= ', ';
                 }
-                $query .= 'ADD ' . $db->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
+                $fd = $db->getFieldDefinition();
+                if ($fd !== null) {
+                    $query .= 'ADD ' . $db->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
+                }
             }
         }
 
@@ -226,9 +230,15 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                     $old_field_name = $field_name;
                 }
                 $old_field_name = $db->quoteIdentifier($old_field_name);
-                $query .= "CHANGE $old_field_name " . $this->db_instance->getFieldDefinition()
-                                                                        ->getDeclaration($field['definition']['type'],
-                                                                            $field_name, $field['definition']);
+                $fd = $this->db_instance->getFieldDefinition();
+                if ($fd !== null) {
+                    $query .= "CHANGE $old_field_name " . $fd
+                            ->getDeclaration(
+                                $field['definition']['type'],
+                                $field_name,
+                                $field['definition']
+                            );
+                }
             }
         }
 
@@ -239,10 +249,15 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                 }
                 $field = $changes['rename'][$renamed_field];
                 $renamed_field = $db->quoteIdentifier($renamed_field);
-                $query .= 'CHANGE ' . $renamed_field . ' ' . $this->db_instance->getFieldDefinition()
-                                                                               ->getDeclaration($field['definition']['type'],
-                                                                                   $field['name'],
-                                                                                   $field['definition']);
+                $fd = $this->db_instance->getFieldDefinition();
+                if ($fd !== null) {
+                    $query .= 'CHANGE ' . $renamed_field . ' ' . $fd
+                            ->getDeclaration(
+                                $field['definition']['type'],
+                                $field['name'],
+                                $field['definition']
+                            );
+                }
             }
         }
 
@@ -274,9 +289,6 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return $this->db_instance->getSequenceName($sqn);
     }
 
-    /**
-     * @return mixed[]
-     */
     public function listTableFields(string $table) : array
     {
         $table = $this->db_instance->quoteIdentifier($table);

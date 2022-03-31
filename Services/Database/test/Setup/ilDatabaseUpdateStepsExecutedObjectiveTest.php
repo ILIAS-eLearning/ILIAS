@@ -11,15 +11,14 @@ use ILIAS\Setup\Objective;
 
 class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
-    public $called = [];
+    public array $called = [];
 
-    protected ?\ilDBInterface $db = null;
+    protected ?ilDBInterface $db = null;
 
-    public function prepare(\ilDBInterface $db)
+    public function prepare(ilDBInterface $db)
     {
         $this->db = $db;
     }
-
 
     public function step_1()
     {
@@ -93,7 +92,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
     public function testUsesExecutionLock()
     {
         $execution_log = new class($this) implements ilDatabaseUpdateStepExecutionLog {
-            protected $test;
+            protected $test;//PHP8Review: Missing complex/object typehint
 
             public function __construct($test)
             {

@@ -6,7 +6,6 @@
  */
 class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
 {
-
     protected array $options = array(
         'default_text_field_length' => 4096,
         'decimal_places' => 2,
@@ -106,8 +105,6 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
     }
 
     /**
-     * @param $field
-     * @return mixed[]
      * @throws \ilDatabaseException
      */
     protected function mapNativeDatatypeInternal($field) : array

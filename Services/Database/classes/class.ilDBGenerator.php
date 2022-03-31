@@ -11,7 +11,6 @@
  */
 class ilDBGenerator
 {
-
     protected string $target_encoding = 'UTF-8';
     protected array $whitelist = array();
     protected array $blacklist = array();
@@ -204,16 +203,7 @@ class ilDBGenerator
     protected function openFile(string $a_path)
     {
         $start = '';
-        if (1) {
-            $file = fopen($a_path, 'wb');
-            $start .= "\t" . 'global $ilDB;' . "\n\n";
-            fwrite($file, $start);
-
-            return $file;
-        }
-
         $file = fopen($a_path, 'wb');
-        $start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
         $start .= "\t" . 'global $ilDB;' . "\n\n";
         fwrite($file, $start);
 
@@ -222,14 +212,6 @@ class ilDBGenerator
 
     protected function closeFile($fp) : void
     {
-        if (1) {
-            fclose($fp);
-
-            return;
-        }
-
-        $end = "\n}\n?>\n";
-        fwrite($fp, $end);
         fclose($fp);
     }
 
@@ -291,7 +273,7 @@ class ilDBGenerator
                 // inserts
                 if ($is_dir) {
                     $this->buildInsertStatement($table, $path);
-                    #$this->buildInsertStatementsXML($table,$path);
+                #$this->buildInsertStatementsXML($table,$path);
                 } else {
                     $this->buildInsertStatements($table, $file);
                 }
@@ -453,7 +435,6 @@ class ilDBGenerator
                 }
                 $in_st .= ");\n";
                 $in_st .= '$ilDB->addUniqueConstraint("' . $a_table . '", $in_fields, "' . $i["name"] . '");' . "\n";
-
             }
             $this->printOrWrite($in_st, $file_handle);
         }
@@ -510,8 +491,10 @@ class ilDBGenerator
         $row = 0;
 
         umask(0000);
-        if (!mkdir($concurrentDirectory = $a_basedir . '/' . $a_table . '_inserts',
-                fileperms($a_basedir)) && !is_dir($concurrentDirectory)) {
+        if (!mkdir(
+            $concurrentDirectory = $a_basedir . '/' . $a_table . '_inserts',
+            fileperms($a_basedir)
+        ) && !is_dir($concurrentDirectory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
         }
 
@@ -573,18 +556,15 @@ class ilDBGenerator
             $values = array();
             $i_str = array();
             foreach ($rec as $f => $v) {
-                $fields[] = $f;
-                $types[] = '"' . $this->fields[$f]["type"] . '"';
                 $v = str_replace('\\', '\\\\', $v);
-                $values[] = "'" . str_replace("'", "\'", $v) . "'";
-                $i_str[] = "'" . $f . "' => array('" . $this->fields[$f]["type"] . "', '" . str_replace("'", "\'",
-                        $v) . "')";
+                $i_str[] = "'" . $f . "' => array('" . $this->fields[$f]["type"] . "', '" . str_replace(
+                    "'",
+                    "\'",
+                    $v
+                ) . "')";
             }
             $ins_st = "\n" . '$ilDB->insert("' . $a_table . '", array(' . "\n";
             $ins_st .= implode(", ", $i_str) . "));\n";
-            //$ins_st.= "\t".$fields_str."\n";
-            //$ins_st.= "\t".'VALUES '."(%s".str_repeat(",%s", count($fields) - 1).')"'.",\n";
-            //$ins_st.= "\t".$types_str.','.$values_str.');'."\n";
 
             $this->printOrWrite($ins_st, $file_handle);
             $ins_st = "";

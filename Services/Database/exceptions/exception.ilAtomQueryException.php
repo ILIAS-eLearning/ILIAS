@@ -22,7 +22,7 @@ class ilAtomQueryException extends ilDatabaseException
     /**
      * @param $code
      */
-    protected function tranlateException($code): string
+    protected function tranlateException($code) : string
     {
         $message = 'An undefined Exception occured';
         switch ($code) {

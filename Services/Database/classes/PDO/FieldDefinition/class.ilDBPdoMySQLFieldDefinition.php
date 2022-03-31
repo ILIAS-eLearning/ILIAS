@@ -12,7 +12,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
      * @param $field
      * @return \ilDBPdo|string
      */
-    public function getTypeDeclaration($field): string
+    public function getTypeDeclaration($field) : string
     {
         $db = $this->getDBInstance();
 
@@ -114,7 +114,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
      * @return \ilDBPdo|string
      * @throws \ilDatabaseException
      */
-    protected function getIntegerDeclaration($name, $field): string
+    protected function getIntegerDeclaration($name, $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -142,11 +142,11 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
      * @param $field
      * @throws \ilDatabaseException
      */
-    protected function mapNativeDatatypeInternal($field): array
+    protected function mapNativeDatatypeInternal($field) : array
     {
         $db_type = strtolower($field['type']);
         $db_type = strtok($db_type, '(), ');
-        if ($db_type == 'national') {
+        if ($db_type === 'national') {
             $db_type = strtok('(), ');
         }
         if (!empty($field['length'])) {
@@ -206,7 +206,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                     }
                 } elseif (strpos($db_type, 'text') !== false) {
                     $type[] = 'clob';
-                    if ($decimal == 'binary') {
+                    if ($decimal === 'binary') {
                         $type[] = 'blob';
                     }
                 }
@@ -223,7 +223,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                     foreach ($matches[0] as $value) {
                         $length = max($length, strlen($value) - 2);
                     }
-                    if ($length == '1' && count($matches[0]) == 2) {
+                    if ($length == '1' && count($matches[0]) === 2) {
                         $type[] = 'boolean';
                         if (preg_match('/^(is|has)/', $field['name'])) {
                             $type = array_reverse($type);

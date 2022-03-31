@@ -8,11 +8,11 @@ declare(strict_types=1);
  */
 class ilArrayTableDataParser
 {
-    protected $dir;
+    protected string $dir;
 
     protected string $value = '';
 
-    public function __construct($data_dir)
+    public function __construct(string $data_dir)
     {
         $this->dir = $data_dir;
     }
@@ -34,7 +34,7 @@ class ilArrayTableDataParser
         $ilLogger->log(__METHOD__ . ': Reading table data from: ' . $this->dir);
         while (false !== ($file = readdir($dp))) {
             $ilLogger->log(__METHOD__ . ': Handling file: ' . $file);
-            if (substr($file, -5) != '.data') {
+            if (substr($file, -5) !== '.data') {
                 $ilLogger->log(__METHOD__ . ': Ignoring file: ' . $file);
                 continue;
             }

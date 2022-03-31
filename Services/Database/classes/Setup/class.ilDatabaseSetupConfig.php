@@ -28,6 +28,8 @@ class ilDatabaseSetupConfig implements Setup\Config
 
     protected string $path_to_db_dump;
 
+    public ilDatabaseSetupConfig $config;
+
     public function __construct(
         string $type,
         string $host,

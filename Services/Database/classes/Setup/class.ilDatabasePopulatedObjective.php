@@ -111,7 +111,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         return
             $number_of_tables > self::MIN_NUMBER_OF_ILIAS_TABLES
-            && count(array_intersect($tables, $probe_tables)) == $number_of_probe_tables;
+            && count(array_intersect($tables, $probe_tables)) === $number_of_probe_tables;
     }
 
     /**

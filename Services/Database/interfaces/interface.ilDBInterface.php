@@ -81,10 +81,6 @@ interface ilDBInterface
      */
     public function query(string $query) : ilDBStatement;
 
-    /**
-     * @param ilDBStatement $query_result
-     * @return mixed[]
-     */
     public function fetchAll(ilDBStatement $statement, int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC) : array;
 
     /**
@@ -143,7 +139,7 @@ interface ilDBInterface
     public function numRows(ilDBStatement $statement) : int;
 
     /**
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function quote($value, string $type) : string;
 
@@ -181,16 +177,12 @@ interface ilDBInterface
     public function in(string $field, array $values, bool $negate = false, string $type = "") : string;
 
     /**
-     * @param $query  string
      * @param $types  string[]
-     * @param $values mixed[]
      */
     public function queryF(string $query, array $types, array $values) : ilDBStatement;
 
     /**
-     * @param $query  string
      * @param $types  string[]
-     * @param $values mixed[]
      * @return int The number of rows affected by the manipulation
      */
     public function manipulateF(string $query, array $types, array $values) : int;
@@ -204,9 +196,8 @@ interface ilDBInterface
 
     /**
      * Generate a like subquery.
-     * @param mixed $value
      */
-    public function like(string $column, string $type, $value = "?", bool $case_insensitive = true) : string;
+    public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true) : string;
 
     /**
      * @return string the now statement
@@ -222,13 +213,7 @@ interface ilDBInterface
      */
     public function replace(string $table, array $primary_keys, array $other_columns) : int;
 
-    /**
-     * @param $columns
-     * @param $value
-     * @param $type
-     * @return string
-     */
-    public function equals($columns, $value, $type, bool $emptyOrNull = false);
+    public function equals($columns, $value, $type, bool $emptyOrNull = false) : string;
 
     public function setDBUser(string $user) : void;
 
@@ -277,8 +262,6 @@ interface ilDBInterface
      */
     public function listSequences() : array;
 
-
-
     public function supports(string $feature) : bool;
 
     public function supportsFulltext() : bool;
@@ -306,7 +289,7 @@ interface ilDBInterface
 
     public function concat(array $values, bool $allow_null = true) : string;
 
-    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string;
+    public function locate(string $needle, string $string, int $start_pos = 1) : string;
 
     public function quoteIdentifier(string $identifier, bool $check_option = false) : string;
 
@@ -353,10 +336,7 @@ interface ilDBInterface
 
     public function getStorageEngine() : string;
 
-    /**
-     * @return \ilAtomQuery
-     */
-    public function buildAtomQuery();
+    public function buildAtomQuery() : ilAtomQuery;
 
     public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null) : string;
 

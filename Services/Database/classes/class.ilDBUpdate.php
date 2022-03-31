@@ -85,7 +85,7 @@ class ilDBUpdate
         }
     }
 
-    public function initStep(int $i): void
+    public function initStep(int $i) : void
     {
         //
     }
@@ -332,7 +332,7 @@ class ilDBUpdate
      * @param int nr number what patch to apply (Reference: Patch for https://mantis.ilias.de/view.php?id=28550)
      * @access private
      */
-    public function applyUpdateNr(&$nr, $hotfix = false, $custom_update = false) : bool
+    public function applyUpdateNr($nr, $hotfix = false, $custom_update = false) : bool
     {
         $ilCtrlStructureReader = null;
         $ilMySQLAbstraction = null;
@@ -355,7 +355,7 @@ class ilDBUpdate
         }
 
         //update not found
-        if ($i == count($this->filecontent)) {
+        if ($i === count($this->filecontent)) {
             $this->error = "update_not_found";
 
             return false;
@@ -378,7 +378,7 @@ class ilDBUpdate
         foreach ($update as $row) {
             if (preg_match("/<\?php/", $row)) {
                 if (count($sql) > 0) {
-                    if ($this->execQuery($this->db, implode("\n", $sql)) == false) {
+                    if ($this->execQuery($this->db, implode("\n", $sql)) === false) {
                         return false;
                     }
                     $sql = array();
@@ -396,18 +396,18 @@ class ilDBUpdate
                 }
                 $mode = "sql";
             } else {
-                if ($mode == "sql") {
+                if ($mode === "sql") {
                     $sql[] = $row;
                 }
 
-                if ($mode == "php") {
+                if ($mode === "php") {
                     $php[] = $row;
                 }
             } //else
         } //foreach
 
-        if ($mode == "sql" && count($sql) > 0) {
-            if ($this->execQuery($this->db, implode("\n", $sql)) == false) {
+        if ($mode === "sql" && count($sql) > 0) {
+            if ($this->execQuery($this->db, implode("\n", $sql)) === false) {
                 $this->error = "dump_error: " . $this->error;
 
                 return false;
@@ -463,9 +463,7 @@ class ilDBUpdate
     public function getTableStatus($table)
     {
         $query = "ANALYZE TABLE " . $table;
-        $res = $this->db->query($query);
-
-        return $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+        return $this->db->query($query)->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
     }
 
 
@@ -474,9 +472,8 @@ class ilDBUpdate
     ////
     /**
      * Get current hotfix version
-     * @return null
      */
-    public function getHotfixCurrentVersion()
+    public function getHotfixCurrentVersion() : ?int
     {
         $this->readHotfixInfo();
 
@@ -500,9 +497,8 @@ class ilDBUpdate
 
     /**
      * Get current hotfix version
-     * @return null
      */
-    public function getHotfixFileVersion()
+    public function getHotfixFileVersion() : ?int
     {
         $this->readHotfixInfo();
 
@@ -530,7 +526,7 @@ class ilDBUpdate
     /**
      * Get status of hotfix file
      */
-    public function readHotfixInfo($a_force = false): void
+    public function readHotfixInfo($a_force = false) : void
     {
         if (isset($this->hotfix_info_read) && $this->hotfix_info_read && !$a_force) {
             return;
@@ -579,7 +575,7 @@ class ilDBUpdate
             for ($i = ($c + 1); $i <= $f; $i++) {
                 $this->filecontent = $this->hotfix_content;
 
-                if ($this->applyUpdateNr($i, true) == false) {
+                if ($this->applyUpdateNr($i, true) === false) {
                     $msg[] = array("msg" => "update_error: " . $this->error,
                                    "nr" => $i,
                     );
@@ -604,7 +600,7 @@ class ilDBUpdate
     /**
      * @return mixed|int|null
      */
-    public function getCustomUpdatesCurrentVersion(): ?int
+    public function getCustomUpdatesCurrentVersion() : ?int
     {
         $this->readCustomUpdatesInfo();
 
@@ -645,7 +641,7 @@ class ilDBUpdate
         return (int) $version;
     }
 
-    public function readCustomUpdatesInfo($a_force = false): void
+    public function readCustomUpdatesInfo($a_force = false) : void
     {
         if ($this->custom_updates_info_read && !$a_force) {
             return;
@@ -655,7 +651,7 @@ class ilDBUpdate
         $custom_updates_file = $this->PATH . "setup/sql/dbupdate_custom.php";
         if (is_file($custom_updates_file)) {
             $this->custom_updates_content = @file($custom_updates_file);
-            $this->custom_updates_current_version = (int) $this->custom_updates_setting->get('db_version_custom', 0);
+            $this->custom_updates_current_version = (int) $this->custom_updates_setting->get('db_version_custom', "0");
             $this->custom_updates_file_version = $this->readCustomUpdatesFileVersion($this->custom_updates_content);
         }
         $this->custom_updates_info_read = true;
@@ -683,7 +679,7 @@ class ilDBUpdate
             for ($i = ($c + 1); $i <= $f; $i++) {
                 $this->filecontent = $this->custom_updates_content;
 
-                if ($this->applyUpdateNr($i, false, true) == false) {
+                if ($this->applyUpdateNr($i, false, true) === false) {
                     $msg[] = array("msg" => "update_error: " . $this->error,
                                    "nr" => $i,
                     );
@@ -786,7 +782,7 @@ class ilDBUpdate
         }
 
         //update not found
-        if ($i == count($this->filecontent)) {
+        if ($i === count($this->filecontent)) {
             return false;
         }
 

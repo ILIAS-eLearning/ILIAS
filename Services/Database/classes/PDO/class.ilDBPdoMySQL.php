@@ -7,7 +7,10 @@
  */
 abstract class ilDBPdoMySQL extends ilDBPdo
 {
-    protected $modes = [
+    /**
+     * @var string[]
+     */
+    protected array $modes = [
         'STRICT_TRANS_TABLES',
         'STRICT_ALL_TABLES',
         'IGNORE_SPACE',
@@ -63,9 +66,9 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         $tables = $this->listTables();
         array_walk($tables, function (string $table_name) use (&$errors, $engine) {
             try {
-                $this->pdo->exec("ALTER TABLE {$table_name} ENGINE={$engine}");
+                $this->pdo->exec("ALTER TABLE $table_name ENGINE=$engine");
                 if ($this->sequenceExists($table_name)) {
-                    $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE={$engine}");
+                    $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE=$engine");
                 }
             } catch (Exception $e) {
                 $errors[$table_name] = $e->getMessage();

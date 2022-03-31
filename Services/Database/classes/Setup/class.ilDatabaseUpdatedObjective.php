@@ -57,17 +57,17 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             {
                 $this->io = $io;
             }
-            public function write(): void
+            public function write() : void
             {
             }
-            public function info(): void
+            public function info() : void
             {
             }
-            public function warning($msg): void
+            public function warning($msg) : void
             {
                 $this->io->inform($msg);
             }
-            public function error($msg): void
+            public function error($msg) : void
             {
                 throw new Setup\UnachievableException(
                     "Problem in DB-Update: $msg"
@@ -76,20 +76,20 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger(): object
+            public function getRootLogger() : object
             {
                 return new class() {
-                    public function write(): void
+                    public function write() : void
                     {
                     }
                 };
             }
         };
         $GLOBALS["ilCtrlStructureReader"] = new class() {
-            public function getStructure(): void
+            public function getStructure() : void
             {
             }
-            public function setIniFile(): void
+            public function setIniFile() : void
             {
             }
         };

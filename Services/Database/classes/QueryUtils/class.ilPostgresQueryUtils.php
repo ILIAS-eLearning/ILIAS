@@ -19,9 +19,15 @@ class ilPostgresQueryUtils extends ilQueryUtils
             throw new ilDatabaseException('no fields specified for table "' . $name . '"');
         }
         $query_fields_array = array();
-        foreach ($fields as $field_name => $field) {
-            $query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration($field['type'],
-                $field_name, $field);
+        $fd = $this->db_instance->getFieldDefinition();
+        if ($fd !== null) {
+            foreach ($fields as $field_name => $field) {
+                $query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration(
+                    $field['type'],
+                    $field_name,
+                    $field
+                );
+            }
         }
 
         $query_fields = implode(', ', $query_fields_array);
@@ -65,13 +71,13 @@ class ilPostgresQueryUtils extends ilQueryUtils
      */
     public function in(string $field, array $values, bool $negate = false, string $type = "") : string
     {
-        if (count($values) == 0) {
+        if (count($values) === 0) {
             // BEGIN fixed mantis #0014191:
             //return " 1=2 ";		// return a false statement on empty array
             return $negate ? ' 1=1 ' : ' 1=2 ';
             // END fixed mantis #0014191:
         }
-        if ($type == "") {        // untyped: used ? for prepare/execute
+        if ($type === "") {        // untyped: used ? for prepare/execute
             $str = $field . (($negate) ? " NOT" : "") . " IN (?" . str_repeat(",?", count($values) - 1) . ")";
         } else {                    // typed, use values for query/manipulate
             $str = $field . (($negate) ? " NOT" : "") . " IN (";
@@ -87,10 +93,9 @@ class ilPostgresQueryUtils extends ilQueryUtils
     }
 
     /**
-     * @param mixed       $value
-     * @param string|null $type
+     * @param mixed $value
      */
-    public function quote($value, string $type = null) : string
+    public function quote($value, ?string $type = null) : string
     {
         return $this->db_instance->quote($value, $type);
     }
@@ -189,18 +194,12 @@ class ilPostgresQueryUtils extends ilQueryUtils
         return " " . $column . " LIKE(" . $this->quote($value, 'text') . ")";
     }
 
-    /**
-     * @return string
-     */
-    public function now()
+    public function now() : string
     {
         return "now()";
     }
 
-    /**
-     * @return string
-     */
-    public function lock(array $tables)
+    public function lock(array $tables) : string
     {
         $lock = 'LOCK TABLES ';
 
@@ -236,21 +235,14 @@ class ilPostgresQueryUtils extends ilQueryUtils
         return $lock;
     }
 
-    /**
-     * @return string
-     */
-    public function unlock()
+    public function unlock() : string
     {
         return 'UNLOCK TABLES';
     }
 
-    /**
-     * @param $a_name
-     * @return string
-     */
-    public function createDatabase($a_name, string $a_charset = "utf8", string $a_collation = "")
+    public function createDatabase($a_name, string $a_charset = "utf8", string $a_collation = "") : string
     {
-        if ($a_collation != "") {
+        if ($a_collation !== "") {
             $sql = "CREATE DATABASE " . $a_name . " CHARACTER SET " . $a_charset . " COLLATE " . $a_collation;
         } else {
             $sql = "CREATE DATABASE " . $a_name . " CHARACTER SET " . $a_charset;
@@ -259,16 +251,15 @@ class ilPostgresQueryUtils extends ilQueryUtils
         return $sql;
     }
 
-    /**
-     * @return string
-     */
-    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null)
+    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null) : string
     {
         if ($a_order === null) {
             $sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . ")";
         } else {
-            $sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator,
-                    "text") . " ORDER BY " . $a_order . ")";
+            $sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote(
+                $a_seperator,
+                "text"
+            ) . " ORDER BY " . $a_order . ")";
         }
         return $sql;
     }
@@ -276,8 +267,12 @@ class ilPostgresQueryUtils extends ilQueryUtils
     /**
      * @inheritdoc
      */
-    public function cast(string $a_field_name, $a_dest_type)
+    public function cast(string $a_field_name, $a_dest_type) : string
     {
-        return "CAST({$a_field_name} AS " . $this->db_instance->getFieldDefinition()->getTypeDeclaration(array("type" => $a_dest_type)) . ")";
+        $fd = $this->db_instance->getFieldDefinition();
+        if ($fd !== null) {
+            return "CAST($a_field_name AS " . $this->db_instance->getFieldDefinition()->getTypeDeclaration(array("type" => $a_dest_type)) . ")";
+        }
+        return "";
     }
 }

@@ -31,7 +31,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Transformation
     {
         // TODO: Migrate this to refinery-methods once possible.
-        return $this->refinery->custom()->transformation(function ($data): \ilDatabaseSetupConfig {
+        return $this->refinery->custom()->transformation(function ($data) : \ilDatabaseSetupConfig {
             $data["password"] = $data["password"] ?? null; // password can be empty
             $password = $this->refinery->to()->data("password");
             return new \ilDatabaseSetupConfig(
