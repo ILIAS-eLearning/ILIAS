@@ -23,13 +23,14 @@
  */
 class SurveyImportParser extends ilSaxParser
 {
+    protected \ILIAS\SurveyQuestionPool\Export\ImportSessionRepository $session_repo;
     protected ?ilImportMapping $mapping = null;
     protected int $spl_id = 0;
     protected int $showQuestiontext;
     protected int $showBlocktitle;
     protected int $compressView;
     public array $path = [];
-    public array $depth = [];
+    public int $depth = 0;
     public ?SurveyQuestion $activequestion;
     /**
      * @var false|int
@@ -82,6 +83,8 @@ class SurveyImportParser extends ilSaxParser
         bool $spl_exists = false,
         array $a_mapping = null
     ) {
+        global $DIC;
+
         parent::__construct($a_xml_file);
         $this->spl_id = $a_spl_id;
         $this->has_error = false;
@@ -116,6 +119,8 @@ class SurveyImportParser extends ilSaxParser
         $this->compressView = 0;
         $this->questionblocktitle = "";
         $this->mapping = $a_mapping;
+        $this->session_repo = $DIC->surveyQuestionPool()->internal()
+            ->repo()->import();
     }
 
     public function setSurveyObject(ilObjSurvey $a_svy) : void
@@ -327,13 +332,11 @@ class SurveyImportParser extends ilSaxParser
                     if (array_key_exists("label", $a_attribs)) {
                         if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"], $matches)) {
                             // import an mediaobject which was inserted using tiny mce
-                            if (!is_array($_SESSION["import_mob_xhtml"])) {
-                                $_SESSION["import_mob_xhtml"] = array();
-                            }
-                            $_SESSION["import_mob_xhtml"][] = array("mob" => $a_attribs["label"],
-                                                                    "uri" => $a_attribs["uri"],
-                                                                    "type" => $a_attribs["type"],
-                                                                    "id" => $a_attribs["id"]
+                            $this->session_repo->addMob(
+                                $a_attribs["label"],
+                                $a_attribs["uri"],
+                                $a_attribs["type"],
+                                $a_attribs["id"]
                             );
                         }
                     }
