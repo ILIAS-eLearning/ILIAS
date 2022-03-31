@@ -24,8 +24,8 @@ class ilUserBadgeProvider implements ilBadgeProvider
      */
     public function getBadgeTypes() : array
     {
-        return array(
+        return [
             new ilUserProfileBadge()
-        );
+        ];
     }
 }

@@ -74,7 +74,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
@@ -259,12 +259,12 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $this->assertActive();
         
-        $ids = $this->badge_request->getIds();
+        $ids = $this->badge_request->getIds();// @TODO: PHP8 Review: Are you sure the type ids are of type `int` IMO they are of type `string`
         if ($this->checkPermissionBool("write") && count($ids) > 0) {
             $handler = ilBadgeHandler::getInstance();
-            $inactive = array();
+            $inactive = [];
             foreach ($handler->getInactiveTypes() as $type) {
-                if (!in_array($type, $ids)) {
+                if (!in_array($type, $ids)) {// @TODO: PHP8 Review: 3rd parameter could be set to `true` if $ids are from of type `string`
                     $inactive[] = $type;
                 }
             }
@@ -355,7 +355,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $img = new ilImageFileInputGUI($lng->txt("image"), "img");
         $img->setSuffixes(array("png", "svg"));
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $img->setRequired(true);
         }
         $img->setAllowDeletion(false);
@@ -379,7 +379,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $types->addOption(new ilCheckboxOption($type->getCaption(), $id));
         }
         
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $form->addCommandButton("saveImageTemplate", $lng->txt("save"));
         } else {
             $form->addCommandButton("updateImageTemplate", $lng->txt("save"));
@@ -477,7 +477,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $tmpl->setTitle($form->getInput("title"));
             
-            if ($form->getInput("tmode") != "all") {
+            if ($form->getInput("tmode") !== "all") {
                 $tmpl->setTypes($form->getInput("type"));
             } else {
                 $tmpl->setTypes(null);
@@ -724,7 +724,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $badge_id,
                 $container . " - " .
                 $badge->getTitle() .
-                " (" . sizeof(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")"
+                " (" . count(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")"
             );
         }
 

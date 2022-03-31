@@ -58,7 +58,7 @@ class ilBadgeAssignment
 
 
         // if no last check exists, we use last 24 hours
-        if ($last == 0) {
+        if ($last === 0) {
             $last = time() - (24 * 60 * 60);
         }
 
@@ -92,6 +92,10 @@ class ilBadgeAssignment
         return (int) $rec["maxts"];
     }
 
+    /**
+     * @param int $a_user_id
+     * @return self[]
+     */
     public static function getInstancesByUserId(
         int $a_user_id
     ) : array {
@@ -113,7 +117,10 @@ class ilBadgeAssignment
         return $res;
     }
 
-    
+    /**
+     * @param int $a_badge_id
+     * @return self[]
+     */
     public static function getInstancesByBadgeId(
         int $a_badge_id
     ) : array {
@@ -133,7 +140,11 @@ class ilBadgeAssignment
         
         return $res;
     }
-    
+
+    /**
+     * @param int $a_parent_obj_id
+     * @return self[]
+     */
     public static function getInstancesByParentId(
         int $a_parent_obj_id
     ) : array {
@@ -147,7 +158,7 @@ class ilBadgeAssignment
         foreach (ilBadge::getInstancesByParentId($a_parent_obj_id) as $badge) {
             $badge_ids[] = $badge->getId();
         }
-        if (sizeof($badge_ids)) {
+        if (count($badge_ids)) {
             $set = $ilDB->query("SELECT * FROM badge_user_badge" .
             " WHERE " . $ilDB->in("badge_id", $badge_ids, "", "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
@@ -159,14 +170,18 @@ class ilBadgeAssignment
         
         return $res;
     }
-    
+
+    /**
+     * @param int $a_badge_id
+     * @return int[]
+     */
     public static function getAssignedUsers(
         int $a_badge_id
     ) : array {
-        $res = array();
+        $res = [];
         
         foreach (self::getInstancesByBadgeId($a_badge_id) as $ass) {
-            $res[] = (int) $ass->getUserId();
+            $res[] = $ass->getUserId();
         }
         
         return $res;
@@ -264,14 +279,17 @@ class ilBadgeAssignment
             $this->importDBRow($row);
         }
     }
-    
+
+    /**
+     * @return array<string, array>
+     */
     protected function getPropertiesForStorage() : array
     {
-        return array(
-            "tstamp" => array("integer", $this->stored ? $this->getTimestamp() : time()),
-            "awarded_by" => array("integer", $this->getAwardedBy()),
-            "pos" => array("integer", $this->getPosition())
-        );
+        return [
+            "tstamp" => ["integer", $this->stored ? $this->getTimestamp() : time()],
+            "awarded_by" => ["integer", $this->getAwardedBy()],
+            "pos" => ["integer", $this->getPosition()]
+        ];
     }
     
     public function store() : void
@@ -354,7 +372,13 @@ class ilBadgeAssignment
             }
         }
     }
-    
+
+    /**
+     * @param int $a_user_id
+     * @param int $a_ts_from
+     * @param int $a_ts_to
+     * @return array[]
+     */
     public static function getBadgesForUser(
         int $a_user_id,
         int $a_ts_from,
@@ -453,7 +477,7 @@ class ilBadgeAssignment
         $baked = null;
         $exp = explode(".", basename($a_badge_image_path));
         $suffix = strtolower(array_pop($exp));
-        if ($suffix == "png") {
+        if ($suffix === "png") {
             // using chamilo baker lib
             $png = new PNGImageBaker(file_get_contents($a_badge_image_path));
             
@@ -472,9 +496,9 @@ class ilBadgeAssignment
             if (is_array($verify)) {
                 return true;
             }
-        } elseif ($suffix == "svg") {
+        } elseif ($suffix === "svg") {
             // :TODO: not really sure if this is correct
-            $svg = simplexml_load_file($a_badge_image_path);
+            $svg = simplexml_load_string(file_get_contents($a_badge_image_path));// This can be affected by a PHP bug #62577 (https://bugs.php.net/bug.php?id=62577)
             $ass = $svg->addChild("openbadges:assertion", "", "https://openbadges.org");
             $ass->addAttribute("verify", $a_assertion_url);
             $baked = $svg->asXML();
@@ -497,7 +521,7 @@ class ilBadgeAssignment
         $url = ILIAS_HTTP_PATH . substr($path, 1);
         
         if (!file_exists($path)) {
-            $json = json_encode($this->prepareJson($url));
+            $json = json_encode($this->prepareJson($url), JSON_THROW_ON_ERROR);
             file_put_contents($path, $json);
         }
         

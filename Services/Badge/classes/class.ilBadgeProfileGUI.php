@@ -170,7 +170,7 @@ class ilBadgeProfileGUI
                 $url
             );
 
-            if ($badge["object"]["type"] != "bdga") {
+            if ($badge["object"]["type"] !== "bdga") {
                 $parent_icon = $this->factory->symbol()->icon()->custom(
                     ilObject::_getIcon((int) $badge["object"]["id"], "big", $badge["object"]["type"]),
                     $this->lng->txt("obj_" . $badge["object"]["type"]),
@@ -256,10 +256,10 @@ class ilBadgeProfileGUI
             }
             
             return $res;
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"), true);
-            $ilCtrl->redirect($this, "manageBadges");
         }
+
+        $this->tpl->setOnScreenMessage('failure', $lng->txt("select_one"), true);
+        $ilCtrl->redirect($this, "manageBadges");
         return [];
     }
     
@@ -347,7 +347,7 @@ class ilBadgeProfileGUI
         $titles = [];
         foreach ($this->getMultiSelection() as $ass) {
             $url = $this->prepareBadge($ass->getBadgeId());
-            if ($url != "") {
+            if ($url !== "") {
                 $badge = new ilBadge($ass->getBadgeId());
                 $titles[] = $badge->getTitle();
                 $res[] = $url;
@@ -409,14 +409,11 @@ class ilBadgeProfileGUI
         $bp = new ilBadgeBackpack($this->getBackpackMail());
         $bp_groups = $bp->getGroups();
 
-        if (!is_array($bp_groups)) {
-            $this->tpl->setOnScreenMessage('info', sprintf($lng->txt("badge_backpack_connect_failed"), $this->getBackpackMail()));
-            return;
-        } elseif (!sizeof($bp_groups)) {
+        if (!count($bp_groups)) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("badge_backpack_no_groups"));
             return;
         }
-        
+
         $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 
         $tmpl->setVariable("BACKPACK_TITLE", $lng->txt("badge_backpack_list"));
@@ -425,7 +422,7 @@ class ilBadgeProfileGUI
 
         foreach ($bp_groups as $group_id => $group) {
             $bp_badges = $bp->getBadges($group_id);
-            if (sizeof($bp_badges)) {
+            if (count($bp_badges)) {
                 foreach ($bp_badges as $idx => $badge) {
                     $tmpl->setCurrentBlock("badge_bl");
                     $tmpl->setVariable("BADGE_TITLE", $badge["title"]);
@@ -492,7 +489,7 @@ class ilBadgeProfileGUI
             $res->message = "missing badge id";
         }
         
-        echo json_encode($res);
+        echo json_encode($res, JSON_THROW_ON_ERROR);
         exit();
     }
     
