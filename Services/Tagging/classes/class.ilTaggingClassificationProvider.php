@@ -281,7 +281,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 ? null
                 : $ilUser->getId();
             
-            return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());// TODO PHP8-Review Maybe wrong argument order?
+            return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());
         }
         return [];
     }

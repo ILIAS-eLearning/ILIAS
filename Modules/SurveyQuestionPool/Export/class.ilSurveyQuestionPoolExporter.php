@@ -20,8 +20,6 @@
  */
 class ilSurveyQuestionPoolExporter extends ilXmlExporter
 {
-    private $ds;// TODO PHP8-REVIEW A type is missing here
-
     public function init() : void
     {
     }

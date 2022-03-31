@@ -37,7 +37,7 @@ class ImportSessionRepository
         return $entries;
     }
 
-    public function addMob(string $label, string $uri) : void
+    public function addMob(string $label, string $uri, string $type = "", string $id = "") : void
     {
         $entries = [];
         if (\ilSession::has(self::KEY_BASE)) {
@@ -45,7 +45,9 @@ class ImportSessionRepository
         }
         $entries[] = [
             "mob" => $label,
-            "uri" => $uri
+            "uri" => $uri,
+            "type" => $type,
+            "id" => $id
         ];
         \ilSession::set(self::KEY_BASE, $entries);
     }
