@@ -13,7 +13,7 @@ class ilMailGlobalServices
 {
     public const CACHE_TYPE_REF_ID = 0;
     public const CACHE_TYPE_NEW_MAILS = 1;
-    protected static $global_mail_services_cache = [];
+    protected static array $global_mail_services_cache = [];
 
     public static function getMailObjectRefId() : int
     {

@@ -407,18 +407,21 @@ class ilSamlSettingsGUI
         return $form;
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function prepareRoleSelection() : array
     {
-        $global_roles = ilUtil::_sortIds(
+        $global_roles = array_map('intval', ilUtil::_sortIds(
             $this->rbac->review()->getGlobalRoles(),
             'object_data',
             'title',
             'obj_id'
-        );
+        ));
 
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
-            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
+            $select[$role_id] = ilObject::_lookupTitle($role_id);
         }
 
         return $select;

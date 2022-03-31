@@ -21,6 +21,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     protected string $instructionText = '';
     protected string $adviseText = '';
     protected ilGlobalTemplateInterface $tpl;
+    /** @var mixed */
     protected $value;
 
     public function __construct(string $dependencyElementId)
