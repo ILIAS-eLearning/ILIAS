@@ -41,6 +41,10 @@ class ilObjRepositorySettings extends ilObject
 
         $ilDB = $DIC->database();
         
+        // 3 queries?
+        // how about:
+  //    INSERT INTO il_new_item_grp(id, pos, type) SELECT $seq, (MAX(pos)+10), self::NEW_ITEM_GROUP_TYPE_SEPARATOR FROM il_new_item_grp;
+        
         // append
         $pos = $ilDB->query("SELECT max(pos) mpos FROM il_new_item_grp");
         $pos = $ilDB->fetchAssoc($pos);
@@ -63,6 +67,10 @@ class ilObjRepositorySettings extends ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
+        
+        // 3 queries?
+        // how about:
+  //    INSERT INTO il_new_item_grp(id, titles, pos, type) SELECT $seq, '$title',(MAX(pos)+10), self::NEW_ITEM_GROUP_TYPE_GROUP FROM il_new_item_grp;
         
         // append
         $pos = $ilDB->query("SELECT max(pos) mpos FROM il_new_item_grp");
@@ -103,9 +111,17 @@ class ilObjRepositorySettings extends ilObject
         
         // move subitems to unassigned
         $sub_items = self::getNewItemGroupSubItems();
+        // PATCH-START: remove implicit type-cast: if ($sub_items)
+        /*
         $sub_items = $sub_items[$a_id];
         if ($sub_items) {
             foreach ($sub_items as $obj_type) {
+        */
+        if (isset( $sub_items[ $a_id ] ) ) {
+            $items = $sub_items[ $a_id ];            
+            foreach ($items as $obj_type) {
+        // PATCH-END 
+                
                 $old_pos = $ilSetting->get("obj_add_new_pos_" . $obj_type);
                 if (strlen($old_pos) == 8) {
                     $new_pos = "9999" . substr($old_pos, 4);
