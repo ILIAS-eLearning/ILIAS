@@ -60,7 +60,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
             $this->setCurrentRecipient($rcp);
             $this->initLanguageByIso2Code();
         } elseif ($rcp instanceof ilObjUser) {
-            /** @var $rcp ilObjUser */
             $this->setCurrentRecipient($rcp->getEmail());
             $this->initLanguage($rcp->getId());
         } else {

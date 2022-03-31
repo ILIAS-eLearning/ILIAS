@@ -4,6 +4,7 @@
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Delete orphaned mails
@@ -223,7 +224,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $processor->processDeletion();
     }
     
-    private function emptyStringOrFloatOrIntToEmptyOrIntegerString() : \ILIAS\Refinery\Transformation
+    private function emptyStringOrFloatOrIntToEmptyOrIntegerString() : Transformation
     {
         $empty_string_or_null_to_stirng_trafo = $this->refinery->custom()->transformation(static function ($value) : string {
             if ($value === '' || null === $value) {
