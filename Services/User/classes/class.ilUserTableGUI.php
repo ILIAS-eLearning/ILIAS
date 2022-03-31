@@ -40,7 +40,7 @@ class ilUserTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        $this->user_folder_id = $a_parent_obj->object->getRefId();
+        $this->user_folder_id = $a_parent_obj->getObject()->getRefId();
 
         $this->setMode($a_mode);
         $this->setId("user" . $this->getUserFolderId());
