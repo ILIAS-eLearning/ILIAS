@@ -24,11 +24,10 @@ class ilObjUserFolderAccess extends ilObjectAccess
 
         $ilAccess = $DIC->access();
 
-        $target = USER_FOLDER_ID;
-
-        if ($ilAccess->checkAccess("read", "", $target)) {
+        if ($ilAccess->checkAccess("read", "", USER_FOLDER_ID)) {
             return true;
         }
+
         return false;
     }
 }

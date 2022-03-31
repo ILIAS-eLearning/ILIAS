@@ -70,7 +70,7 @@ class ilUserQuery
 
         $definitions = \ilUserDefinedFields::_getInstance()->getDefinitions();
         foreach ($a_val as $udf_name => $udf_value) {
-            list($udf_string, $udf_id) = explode('_', $udf_name);
+            [$udf_string, $udf_id] = explode('_', $udf_name);
             if (array_key_exists((int) $udf_id, $definitions)) {
                 $valid_udfs[$udf_name] = $udf_value;
             }
@@ -246,10 +246,10 @@ class ilUserQuery
         if (is_array($this->additional_fields)) {
             foreach ($this->additional_fields as $f) {
                 if (!in_array($f, $this->default_fields)) {
-                    if ($f == "online_time") {
+                    if ($f === "online_time") {
                         $this->default_fields[] = "ut_online.online_time";
                         $join = " LEFT JOIN ut_online ON (usr_data.usr_id = ut_online.usr_id) ";
-                    } elseif (substr($f, 0, 4) == "udf_") {
+                    } elseif (substr($f, 0, 4) === "udf_") {
                         $udf_fields[] = (int) substr($f, 4);
                     } else {
                         $this->default_fields[] = $f;
@@ -287,7 +287,7 @@ class ilUserQuery
             
             if (in_array($field, $all_multi_fields)) {
                 $multi_fields[] = $field;
-            } elseif (!stristr($field, ".")) {
+            } elseif (strpos($field, ".") === false) {
                 $sql_fields[] = "usr_data." . $field;
             } else {
                 $sql_fields[] = $field;
@@ -304,8 +304,7 @@ class ilUserQuery
             " FROM usr_data" .
             $join;
 
-        $count_query = $count_query . " " .
-            $join;
+        $count_query .= " " . $join;
 
         // filter
         $query .= " WHERE usr_data.usr_id <> " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
@@ -340,7 +339,7 @@ class ilUserQuery
         }
         
         if ($this->activation != "") {		// activation
-            if ($this->activation == "inactive") {
+            if ($this->activation === "inactive") {
                 $add = $where . " usr_data.active = " . $ilDB->quote(0, "integer") . " ";
             } else {
                 $add = $where . " usr_data.active = " . $ilDB->quote(1, "integer") . " ";
@@ -449,7 +448,7 @@ class ilUserQuery
         // order by
         switch ($this->order_field) {
             case  "access_until":
-                if ($this->order_dir == "desc") {
+                if ($this->order_dir === "desc") {
                     $query .= " ORDER BY usr_data.active DESC, usr_data.time_limit_unlimited DESC, usr_data.time_limit_until DESC";
                 } else {
                     $query .= " ORDER BY usr_data.active ASC, usr_data.time_limit_unlimited ASC, usr_data.time_limit_until ASC";
@@ -457,7 +456,7 @@ class ilUserQuery
                 break;
                 
             case "online_time":
-                if ($this->order_dir == "desc") {
+                if ($this->order_dir === "desc") {
                     $query .= " ORDER BY ut_online.online_time DESC";
                 } else {
                     $query .= " ORDER BY ut_online.online_time ASC";
@@ -465,10 +464,10 @@ class ilUserQuery
                 break;
                 
             default:
-                if ($this->order_dir != "asc" && $this->order_dir != "desc") {
+                if ($this->order_dir !== "asc" && $this->order_dir !== "desc") {
                     $this->order_dir = "asc";
                 }
-                if (substr($this->order_field, 0, 4) == "udf_") {
+                if (substr($this->order_field, 0, 4) === "udf_") {
                     // #25311 check if order field is in field list
                     if (is_array($this->getUdfFilter()) && array_key_exists($this->order_field, $this->getUdfFilter())) {
                         $query .= " ORDER BY ud_" . ((int) substr($this->order_field, 4)) . ".value " . strtoupper($this->order_dir);
@@ -501,7 +500,7 @@ class ilUserQuery
         
         $ilDB->setLimit($limit, $offset);
         
-        if (sizeof($multi_fields)) {
+        if (count($multi_fields)) {
             $usr_ids = array();
         }
         
@@ -511,13 +510,13 @@ class ilUserQuery
 
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec;
-            if (sizeof($multi_fields)) {
+            if (count($multi_fields)) {
                 $usr_ids[] = $rec["usr_id"];
             }
         }
 
         // add multi-field-values to user-data
-        if (sizeof($multi_fields) && sizeof($usr_ids)) {
+        if (count($multi_fields) && count($usr_ids)) {
             $usr_multi = array();
             $set = $ilDB->query("SELECT * FROM usr_data_multi" .
                 " WHERE " . $ilDB->in("usr_id", $usr_ids, "", "integer"));
@@ -538,7 +537,7 @@ class ilUserQuery
      * Get data for user administration list.
      * @deprecated
      */
-    public static function getUserListData(
+    public static function getUserListData(// @TODO: PHP8 Review: Missing return type.
         string $a_order_field,
         string $a_order_dir,
         int $a_offset,

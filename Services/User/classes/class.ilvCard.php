@@ -110,7 +110,7 @@ class ilvCard
     {
         $folded_string = "";
         preg_match_all("/(.{1,74})/", $string, $matches);
-        for ($i = 0; $i < count($matches[1]); $i++) {
+        for ($i = 0, $iMax = count($matches[1]); $i < $iMax; $i++) {
             if ($i < (count($matches[1]) - 1)) {
                 $matches[1][$i] .= "\n";
             }
@@ -235,7 +235,7 @@ class ilvCard
                                     if (($address["TYPE"] & ADR_TYPE_PREF) > 0) {
                                         $adr_types[] = "pref";
                                     }
-                                    $adr .= ";TYPE=" . join(",", $adr_types);
+                                    $adr .= ";TYPE=" . implode(",", $adr_types);
                                 }
                                 $adr .= ":" . $address["POBOX"] . ";" . $address["EXTENDED_ADDRESS"] .
                                     ";" . $address["STREET_ADDRESS"] . ";" . $address["LOCALITY"] .
@@ -278,7 +278,7 @@ class ilvCard
                                 if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_PREF) > 0) {
                                     $adr_types[] = "pref";
                                 }
-                                $label .= ";TYPE=" . join(",", $adr_types);
+                                $label .= ";TYPE=" . implode(",", $adr_types);
                             }
                             $label .= ":" . $this->types["LABEL"]["LABEL"];
                             $label = $this->fold($label) . "\n";
@@ -335,7 +335,7 @@ class ilvCard
                                     if (($phone["TYPE"] & TEL_TYPE_PCS) > 0) {
                                         $tel_types[] = "pcs";
                                     }
-                                    $tel .= ";TYPE=" . join(",", $tel_types);
+                                    $tel .= ";TYPE=" . implode(",", $tel_types);
                                 }
                                 $tel .= ":" . $phone["TEL"];
                                 $tel = $this->fold($tel) . "\n";
@@ -364,7 +364,7 @@ class ilvCard
                                     if (($mail["TYPE"] & EMAIL_TYPE_PREF) > 0) {
                                         $adr_types[] = "pref";
                                     }
-                                    $email .= ";TYPE=" . join(",", $adr_types);
+                                    $email .= ";TYPE=" . implode(",", $adr_types);
                                 }
                                 $email .= ":" . $mail["EMAIL"];
                                 $email = $this->fold($email) . "\n";
@@ -558,7 +558,7 @@ class ilvCard
         $escape = "=";
         $output = "";
 
-        for ($j = 0; $j < count($lines); $j++) {
+        for ($j = 0, $jMax = count($lines); $j < $jMax; $j++) {
             $line = $lines[$j];
             $linlen = strlen($line);
             $newline = "";
@@ -570,7 +570,7 @@ class ilvCard
                 } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
                     $h2 = floor($dec / 16);
                     $h1 = floor($dec % 16);
-                    $c = $escape . $hex["$h2"] . $hex["$h1"];
+                    $c = $escape . $hex[(string) $h2] . $hex[(string) $h1];
                 }
                 if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
                     $output .= $newline . $escape . $eol; // soft line break; " =\r\n" is okay
@@ -640,18 +640,18 @@ class ilvCard
         $suffixes = $this->explodeVar($honorific_suffixes);
 
         $this->types["N"] =
-            join(",", $familynames) .
+            implode(",", $familynames) .
             ";" .
-            join(",", $givennames) .
+            implode(",", $givennames) .
             ";" .
-            join(",", $addnames) .
+            implode(",", $addnames) .
             ";" .
-            join(",", $prefixes) .
+            implode(",", $prefixes) .
             ";" .
-            join(",", $suffixes);
+            implode(",", $suffixes);
 
-        $this->filename = "$given_name" . "_" . "$family_name" . ".vcf";
-        if (strcmp($this->types["FN"], "") == 0) {
+        $this->filename = $given_name . "_" . $family_name . ".vcf";
+        if (strcmp($this->types["FN"], "") === 0) {
             $fn = trim("$honorific_prefixes $given_name $additional_names $family_name $honorific_suffixes");
             $fn = preg_replace("/\s{2,10}/", " ", $fn);
             $this->setFormattedName($fn);
@@ -674,7 +674,7 @@ class ilvCard
     public function setNickname(string $nickname) : void
     {
         $nicknames = $this->explodeVar($nickname);
-        $this->types["NICKNAME"] = join(",", $nicknames);
+        $this->types["NICKNAME"] = implode(",", $nicknames);
     }
 
     /**
@@ -810,13 +810,13 @@ class ilvCard
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
-        $po_box = join(",", $this->explodeVar($po_box));
-        $extended_address = join(",", $this->explodeVar($extended_address));
-        $street_address = join(",", $this->explodeVar($street_address));
-        $locality = join(",", $this->explodeVar($locality));
-        $region = join(",", $this->explodeVar($region));
-        $postal_code = join(",", $this->explodeVar($postal_code));
-        $country = join(",", $this->explodeVar($country));
+        $po_box = implode(",", $this->explodeVar($po_box));
+        $extended_address = implode(",", $this->explodeVar($extended_address));
+        $street_address = implode(",", $this->explodeVar($street_address));
+        $locality = implode(",", $this->explodeVar($locality));
+        $region = implode(",", $this->explodeVar($region));
+        $postal_code = implode(",", $this->explodeVar($postal_code));
+        $country = implode(",", $this->explodeVar($country));
         $this->types["ADR"][] = array(
             "POBOX" => $po_box,
             "EXTENDED_ADDRESS" => $extended_address,
@@ -1017,7 +1017,7 @@ class ilvCard
      * @param string $latitude  The latitude of the position
      * @param string $longitude The longitude of the position
      */
-    public function setPosition(string $latitude = "", string $longitude = "")
+    public function setPosition(string $latitude = "", string $longitude = "")// @TODO: PHP8 Review: Missing return type.
     {
         $this->types["GEO"] = array(
             "LAT" => $latitude,
@@ -1148,7 +1148,7 @@ class ilvCard
      */
     public function setOrganization(string $organization = "") : void
     {
-        $organization = join(";", $this->explodeVar($organization, ";"));
+        $organization = implode(";", $this->explodeVar($organization, ";"));
         $this->types["ORG"] = $organization;
     }
 
@@ -1167,9 +1167,9 @@ class ilvCard
      * (ASCII decimal 44).
      * @access    public
      */
-    public function setCategories(string $categories)
+    public function setCategories(string $categories)// @TODO: PHP8 Review: Missing return type.
     {
-        $categories = join(",", $this->explodeVar($categories));
+        $categories = implode(",", $this->explodeVar($categories));
         $this->types["CATEGORIES"] = $categories;
     }
 

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilServicesUserSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite()// @TODO: PHP8 Review: Missing return type.
     {
         $suite = new ilServicesUserSuite();
 

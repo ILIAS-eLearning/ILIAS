@@ -358,8 +358,8 @@ class ilUserStartingPointGUI
                         $parser = new ilQueryParser('"' . $form->getInput('role_search') . '"');
 
                         // TODO: Handle minWordLength
-                        $parser->setMinWordLength(1, true);
-                        $parser->setCombination(QP_COMBINATION_AND);
+                        $parser->setMinWordLength(1);
+                        $parser->setCombination(QP_COMBINATION_AND);// @TODO: PHP8 Review: Undefined constant.
                         $parser->parse();
 
                         $object_search = new ilLikeObjectSearch($parser);
@@ -447,7 +447,7 @@ class ilUserStartingPointGUI
         string $start_object
     ) : void {
         $parser = new ilQueryParser($role_search);
-        $parser->setMinWordLength(1, true);
+        $parser->setMinWordLength(1);
         $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $parser->parse();
 

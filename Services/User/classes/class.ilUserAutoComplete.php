@@ -47,7 +47,7 @@ class ilUserAutoComplete
         $this->setSearchType(self::SEARCH_TYPE_LIKE);
         $this->setPrivacyMode(self::PRIVACY_MODE_IGNORE_USER_SETTING);
         
-        $this->logger = $DIC->logger()->user();
+        $this->logger = $DIC->logger()->user();// @TODO: PHP8 Review: Wrong magic logger method called / Should be `usr` IMO.
     }
 
     public function respectMinimumSearchCharacterCount(bool $a_status) : void
@@ -492,16 +492,15 @@ class ilUserAutoComplete
     {
         $query = array();
         
-        if (!stristr($a_query, '\\')) {
-            $a_query = str_replace('%', '\%', $a_query);
-            $a_query = str_replace('_', '\_', $a_query);
+        if (strpos($a_query, '\\') === false) {
+            $a_query = str_replace(['%', '_'], ['\%', '\_'], $a_query);
         }
 
         $query['query'] = trim($a_query);
         
         // "," means fixed search for lastname, firstname
         if (strpos($a_query, ',')) {
-            $comma_separated = (array) explode(',', $a_query);
+            $comma_separated = explode(',', $a_query);
             
             if (count($comma_separated) == 2) {
                 if (trim($comma_separated[0])) {
@@ -512,7 +511,7 @@ class ilUserAutoComplete
                 }
             }
         } else {
-            $whitespace_separated = (array) explode(' ', $a_query);
+            $whitespace_separated = explode(' ', $a_query);
             foreach ($whitespace_separated as $part) {
                 if (trim($part)) {
                     $query['parts'][] = trim($part);

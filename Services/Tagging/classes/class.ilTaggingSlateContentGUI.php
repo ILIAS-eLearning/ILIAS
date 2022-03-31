@@ -43,7 +43,6 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
     /**
      * Constructor
      */
-
     public function __construct()
     {
         global $DIC;

@@ -164,7 +164,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
                 }
             }
 
-            if (substr($role["title"], 0, 3) == "il_") {
+            if (strpos($role["title"], "il_") === 0) {
                 if (!$assignable) {
                     $rolf_arr = $rbacreview->getFoldersAssignedToRole($role["obj_id"], true);
                     $rolf2 = $rolf_arr[0];

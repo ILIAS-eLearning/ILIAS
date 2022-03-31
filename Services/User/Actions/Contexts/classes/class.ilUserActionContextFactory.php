@@ -40,9 +40,7 @@ class ilUserActionContextFactory
         $contexts = array();
 
         foreach (self::$contexts as $p) {
-            $dir = (isset($p["dir"]))
-                ? $p["dir"]
-                : "classes";
+            $dir = $p["dir"] ?? "classes";
             $contexts[] = new $p["class"]();
         }
 

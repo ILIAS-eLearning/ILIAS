@@ -79,7 +79,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
     /**
      * Convert access array to DB columns
      */
-    protected static function handleAccesss(
+    protected static function handleAccesss(// @TODO: PHP8 Review: Missing return type.
         array &$fields,
         ?array $a_access = null,
         ? array $a_existing = null

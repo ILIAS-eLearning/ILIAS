@@ -176,8 +176,7 @@ class ilPersonalProfileGUI
                 } else {        // cam capture png
                     $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
                     $img = $this->profile_request->getUserFileCapture();
-                    $img = str_replace('data:image/png;base64,', '', $img);
-                    $img = str_replace(' ', '+', $img);
+                    $img = str_replace(['data:image/png;base64,', ' '], ['', '+'], $img);
                     $data = base64_decode($img);
                     $success = file_put_contents($uploaded_file, $data);
                     if (!$success) {
@@ -509,7 +508,7 @@ class ilPersonalProfileGUI
                         true,
                         0,
                         '',
-                        '',
+                        '',// @TODO: PHP8 Review: Invalid argument.
                         $disabled
                     )
                 );
@@ -684,10 +683,7 @@ class ilPersonalProfileGUI
                             $ilUser->setSecondEmail($value);
                             break;
                         default:
-                            $m = ucfirst($f);
-                            if (isset($map[$f])) {
-                                $m = $map[$f];
-                            }
+                            $m = $map[$f] ?? ucfirst($f);
                             $ilUser->{"set" . $m}($value);
                             break;
                     }
@@ -1006,7 +1002,7 @@ class ilPersonalProfileGUI
                     }
                 }
 
-                if (sizeof($badge_options) > 1) {
+                if (count($badge_options) > 1) {
                     $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos" . $key_suffix);
                     $badge_order->setMultiValues($badge_options);
                     $badge_order->setValue(array_shift($badge_options));
@@ -1120,9 +1116,8 @@ class ilPersonalProfileGUI
     {
         $checked_values = [];
         foreach ($this->request->getParsedBody() as $k => $v) {
-            if (substr($k, 0, 4) == "chk_") {
-                $k = str_replace("-1", "", $k);
-                $k = str_replace("-2", "", $k);
+            if (strpos($k, "chk_") === 0) {
+                $k = str_replace(["-1", "-2"], "", $k);
                 $checked_values[$k] = $v;
             }
         }
