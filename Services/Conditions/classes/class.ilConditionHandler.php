@@ -460,9 +460,10 @@ class ilConditionHandler
      */
     public function getOperatorsByTriggerType(string $a_type) : array
     {
-        global $DIC;
+        // removed global
+//        global $DIC;
 
-        $objDefinition = $DIC['objDefinition'];
+        $objDefinition = $this->objDefinition; // $DIC['objDefinition'];
 
         switch ($a_type) {
             case 'crsg':
@@ -1094,7 +1095,9 @@ class ilConditionHandler
         $a_usr_id = $a_usr_id ?: $ilUser->getId();
         $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($a_target_ref_id, $a_target_id,
             $a_target_type);
-        if (!count($conditions)) {
+        // removed implicit type-cast
+//        if (!count($conditions)) {
+        if (count($conditions) == 0) {
             return true;
         }
 
