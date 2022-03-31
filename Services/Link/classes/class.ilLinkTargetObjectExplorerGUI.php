@@ -45,7 +45,7 @@ class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
      *
      * @return string clickable type
      */
-    public function getClickableType()
+    public function getClickableType() : string
     {
         return $this->clickable_type;
     }
@@ -71,7 +71,7 @@ class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
      */
     public function isNodeClickable($a_node) : bool
     {
-        if ($a_node["type"] == $this->getClickableType()) {
+        if ($a_node["type"] === $this->getClickableType()) {
             return true;
         }
         return false;
