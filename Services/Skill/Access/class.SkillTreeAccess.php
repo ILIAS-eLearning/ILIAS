@@ -37,6 +37,8 @@ class SkillTreeAccess
         $this->obj_type = \ilObject::_lookupType($this->ref_id, true);
         $this->usr_id = $usr_id;
     }
+    
+    // why the param $a_usr_id ? isnt that set in teh constructor?
 
     public function hasVisibleTreePermission(int $a_usr_id = 0) : bool
     {

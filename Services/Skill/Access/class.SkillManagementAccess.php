@@ -36,6 +36,8 @@ class SkillManagementAccess
         $this->usr_id = $usr_id;
     }
 
+    // why the param $a_usr_id ? isnt that set in teh constructor?
+    
     public function hasReadManagementPermission(int $a_usr_id = 0) : bool
     {
         if ($a_usr_id == 0) {
