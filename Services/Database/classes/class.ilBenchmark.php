@@ -234,7 +234,7 @@ class ilBenchmark
     /**
      * start measurement
      */
-    public function startDbBench(string $a_sql) : void //i assume this should be void but could also be int and missing its return value
+    public function startDbBench(string $a_sql) : void //PHP8Review: i assume this should be void but could also be int and missing its return value
     {
         if (
             !$this->stop_db_recording
