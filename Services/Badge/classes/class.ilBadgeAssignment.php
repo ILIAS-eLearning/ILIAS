@@ -498,7 +498,7 @@ class ilBadgeAssignment
             }
         } elseif ($suffix === "svg") {
             // :TODO: not really sure if this is correct
-            $svg = simplexml_load_string(file_get_contents($a_badge_image_path));// This can be affected by a PHP bug #62577 (https://bugs.php.net/bug.php?id=62577)
+            $svg = simplexml_load_string(file_get_contents($a_badge_image_path));// simplexml_load_file could be affected by a PHP bug #62577 (https://bugs.php.net/bug.php?id=62577)
             $ass = $svg->addChild("openbadges:assertion", "", "https://openbadges.org");
             $ass->addAttribute("verify", $a_assertion_url);
             $baked = $svg->asXML();
