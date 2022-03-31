@@ -115,7 +115,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
             $parent = null;
             if ($badge->getParentId()) {
                 $parent = $badge->getParentMeta();
-                if ($parent["type"] == "bdga") {
+                if ($parent["type"] === "bdga") {
                     $parent = null;
                 } else {
                     $filter_parent[$parent["id"]] =
@@ -139,7 +139,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         
         if ($this->filter["title"]) {
             foreach ($data as $idx => $row) {
-                if (!stristr($row["title"], $this->filter["title"])) {
+                if (stripos($row["title"], $this->filter["title"]) === false) {
                     unset($data[$idx]);
                 }
             }
@@ -151,10 +151,8 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
                     if (!$row["parent"] || $row["parent"]["id"] != $this->filter["obj"]) {
                         unset($data[$idx]);
                     }
-                } else {
-                    if ($row["parent"]) {
-                        unset($data[$idx]);
-                    }
+                } elseif ($row["parent"]) {
+                    unset($data[$idx]);
                 }
             }
         }

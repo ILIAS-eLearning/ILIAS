@@ -36,7 +36,7 @@ class BadgeNotificationProvider extends AbstractNotificationProvider
         };
 
         $new_badges = \ilBadgeAssignment::getNewCounter($user->getId());
-        if ($new_badges == 0) {
+        if ($new_badges === 0) {
             return [];
         }
 
@@ -64,7 +64,7 @@ class BadgeNotificationProvider extends AbstractNotificationProvider
                 )
                 ->withNewAmount($new_badges)
             )
-            ->withOpenedCallable(function () {
+            ->withOpenedCallable(static function () {
                 // Stuff we do, when the notification is opened
             });
 

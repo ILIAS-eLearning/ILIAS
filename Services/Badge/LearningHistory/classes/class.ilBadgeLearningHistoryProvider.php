@@ -62,7 +62,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $entries = [];
         foreach ($completions as $c) {
             $title = $this->getEmphasizedTitle($c["title"]);
-            if ($this->current_user->getId() == $this->getUserId()) {
+            if ($this->current_user->getId() === $this->getUserId()) {
                 $title = $this->ui->renderer()->render($this->ui->factory()->link()->standard(
                     $title,
                     $url = ilLink::_getLink($this->getUserId(), "usr", array(), "_bdg")
