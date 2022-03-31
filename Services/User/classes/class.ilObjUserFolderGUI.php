@@ -443,92 +443,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     }
 
     /**
-     * show possible action (form buttons)
-     */
-    public function showActions(bool $with_subobjects = false) : void
-    {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $subobjs = null;
-
-        $operations = array();
-        //var_dump($this->actions);
-        if ($this->actions == "") {// @TODO: PHP8 Review: Undefined property.
-            $d = array(
-                "delete" => array("name" => "delete", "lng" => "delete"),
-                "activate" => array("name" => "activate", "lng" => "activate"),
-                "deactivate" => array("name" => "deactivate", "lng" => "deactivate"),
-                "accessRestrict" => array("name" => "accessRestrict", "lng" => "accessRestrict"),
-                "accessFree" => array("name" => "accessFree", "lng" => "accessFree"),
-                "export" => array("name" => "export", "lng" => "export")
-            );
-        } else {
-            $d = $this->actions;// @TODO: PHP8 Review: Undefined property.
-        }
-        foreach ($d as $row) {
-            if ($rbacsystem->checkAccess(
-                $row["name"],
-                $this->object->getRefId()
-            )) {
-                $operations[] = $row;
-            }
-        }
-
-        if (count($operations) > 0) {
-            $select = "<select name=\"selectedAction\">\n";
-            foreach ($operations as $val) {
-                $select .= "<option value=\"" . $val["name"] . "\"";
-                if (strcmp(
-                    $this->user_request->getSelectedAction(),
-                    $val["name"]
-                ) == 0) {
-                    $select .= " selected=\"selected\"";
-                }
-                $select .= ">";
-                $select .= $this->lng->txt($val["lng"]);
-                $select .= "</option>";
-            }
-            $select .= "</select>";
-            $this->tpl->setCurrentBlock("tbl_action_select");
-            $this->tpl->setVariable(
-                "SELECT_ACTION",
-                $select
-            );
-            $this->tpl->setVariable(
-                "BTN_NAME",
-                "userAction"
-            );
-            $this->tpl->setVariable(
-                "BTN_VALUE",
-                $this->lng->txt("submit")
-            );
-            $this->tpl->parseCurrentBlock();
-        }
-
-        if ($with_subobjects === true) {
-            $subobjs = $this->showPossibleSubObjects();// @TODO: PHP8 Review: Void result used.
-        }
-
-        if ((count($operations) > 0) or $subobjs === true) {
-            $this->tpl->setCurrentBlock("tbl_action_row");
-            $this->tpl->setVariable(
-                "COLUMN_COUNTS",
-                count($this->data["cols"])
-            );
-            $this->tpl->setVariable(
-                "IMG_ARROW",
-                ilUtil::getImagePath("arrow_downright.svg")
-            );
-            $this->tpl->setVariable(
-                "ALT_ARROW",
-                $this->lng->txt("actions")
-            );
-            $this->tpl->parseCurrentBlock();
-        }
-    }
-
-    /**
      * show possible subobjects (pulldown menu)
      * overwritten to prevent displaying of role templates in local role folders
      */
@@ -1184,9 +1098,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    protected function inAdministration()// @TODO: PHP8 Review: Missing return type.
+    protected function inAdministration() : bool
     {
-        return (strtolower($this->user_request->getBaseClass()) == 'iladministrationgui');
+        return (strtolower($this->user_request->getBaseClass()) === 'iladministrationgui');
     }
 
     public function importCancelledObject() : void

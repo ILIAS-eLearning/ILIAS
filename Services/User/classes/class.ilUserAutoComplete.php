@@ -47,7 +47,7 @@ class ilUserAutoComplete
         $this->setSearchType(self::SEARCH_TYPE_LIKE);
         $this->setPrivacyMode(self::PRIVACY_MODE_IGNORE_USER_SETTING);
         
-        $this->logger = $DIC->logger()->user();// @TODO: PHP8 Review: Wrong magic logger method called / Should be `usr` IMO.
+        $this->logger = $DIC->logger()->user();
     }
 
     public function respectMinimumSearchCharacterCount(bool $a_status) : void

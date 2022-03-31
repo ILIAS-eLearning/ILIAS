@@ -359,7 +359,7 @@ class ilUserStartingPointGUI
 
                         // TODO: Handle minWordLength
                         $parser->setMinWordLength(1);
-                        $parser->setCombination(QP_COMBINATION_AND);// @TODO: PHP8 Review: Undefined constant.
+                        $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
                         $parser->parse();
 
                         $object_search = new ilLikeObjectSearch($parser);

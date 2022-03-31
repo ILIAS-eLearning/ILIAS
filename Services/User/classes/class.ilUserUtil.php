@@ -47,6 +47,7 @@ class ilUserUtil
      * if $a_user_id is an array of user ids the method returns an array of
      * "id" => "NamePresentation" pairs.
      * @param int|int[]    $a_user_id
+     * @param string|array $a_ctrl_path
      * @return array|false|mixed
      * @throws ilWACException
      */
@@ -59,7 +60,7 @@ class ilUserUtil
         bool $a_omit_login = false,
         bool $a_sortable = true,
         bool $a_return_data_array = false,
-        string $a_ctrl_path = "ilpublicuserprofilegui"
+        $a_ctrl_path = "ilpublicuserprofilegui"
     ) {
         global $DIC;
 
@@ -67,7 +68,7 @@ class ilUserUtil
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
 
-        if (!is_array($a_ctrl_path)) {// @TODO: PHP8 Review: Variable is always true
+        if (!is_array($a_ctrl_path)) {
             $a_ctrl_path = array($a_ctrl_path);
         }
 

@@ -1637,7 +1637,7 @@ class ilObjUser extends ilObject
     {
         return $this->agree_date;
     }
-    public function setAgreeDate(?string $a_str)// @TODO: PHP8 Review: Missing return type.
+    public function setAgreeDate(?string $a_str) : void
     {
         $this->agree_date = $a_str;
     }
@@ -2081,133 +2081,6 @@ class ilObjUser extends ilObject
     {
         $login = self::_lookupLogin($a_userid);
         return $login ?: null;
-    }
-
-    /**
-     * @param bool     $active Search only for active users
-     * @param bool     $a_return_ids_only Return only an array of user id's instead of id, login, name, active status
-     */
-    public static function searchUsers(
-        string $a_search_str,
-        bool $active = true,
-        bool $a_return_ids_only = false,
-        ?int $filter_settings = null
-    ) : array {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-
-        $query = "SELECT usr_data.usr_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.email, usr_data.active FROM usr_data ";
-        
-        $without_anonymous_users = true;
-
-        // determine join filter
-        $join_filter = " WHERE ";
-        if (!is_null($filter_settings) && $filter_settings > 0) {
-            switch ($filter_settings) {
-                case 3:
-                    // show only users without courses
-                    $join_filter = " LEFT JOIN obj_members ON usr_data.usr_id = obj_members.usr_id WHERE obj_members.usr_id IS NULL AND ";
-                    break;
-                case 5:
-                    // show only users with a certain course membership
-                    $ref_id = ilSession::get('user_filter_data');
-                    if ($ref_id) {
-                        $join_filter = " LEFT JOIN obj_members ON usr_data.usr_id = obj_members.usr_id WHERE obj_members.obj_id = " .
-                            "(SELECT obj_id FROM object_reference WHERE ref_id = " . $ilDB->quote($ref_id, "integer") . ") AND ";
-                    }
-                    break;
-                case 6:
-                    global $DIC;
-
-                    $rbacreview = $DIC['rbacreview'];
-                    $ref_id = ilSession::get('user_filter_data');
-                    if ($ref_id) {
-                        $local_roles = $rbacreview->getRolesOfRoleFolder($ref_id, false);
-                        if (is_array($local_roles) && count($local_roles)) {
-                            $join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE " .
-                                $ilDB->in("rbac_ua.rol_id", $local_roles, false, $local_roles) . " AND ";
-                        }
-                    }
-                    break;
-                case 7:
-                    global $DIC;
-
-                    $rbacreview = $DIC['rbacreview'];
-                    $rol_id = ilSession::get('user_filter_data');
-                    if ($rol_id) {
-                        $join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = " .
-                            $ilDB->quote($rol_id, "integer") . " AND ";
-                        $without_anonymous_users = false;
-                    }
-                    break;
-            }
-        }
-        // This is a temporary hack to search users by their role
-        // See Mantis #338. This is a hack due to Mantis #337.
-        if (stripos($a_search_str, "role:") === 0) {
-            $query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email " .
-                "FROM object_data,rbac_ua,usr_data " .
-                "WHERE " . $ilDB->like("object_data.title", "text", "%" . substr($a_search_str, 5) . "%") .
-                " AND object_data.type = 'role' " .
-                "AND rbac_ua.rol_id = object_data.obj_id " .
-                "AND usr_data.usr_id = rbac_ua.usr_id " .
-                "AND rbac_ua.usr_id != " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
-        } else {
-            $query .= $join_filter .
-                "(" . $ilDB->like("usr_data.login", "text", "%" . $a_search_str . "%") . " " .
-                "OR " . $ilDB->like("usr_data.firstname", "text", "%" . $a_search_str . "%") . " " .
-                "OR " . $ilDB->like("usr_data.lastname", "text", "%" . $a_search_str . "%") . " " .
-                "OR " . $ilDB->like("usr_data.email", "text", "%" . $a_search_str . "%") . ") ";
-
-            if ($filter_settings !== false && strlen($filter_settings)) {
-                switch ($filter_settings) {
-                    case 0:
-                        $query .= " AND usr_data.active = " . $ilDB->quote(0, "integer") . " ";
-                        break;
-                    case 1:
-                        $query .= " AND usr_data.active = " . $ilDB->quote(1, "integer") . " ";
-                        break;
-                    case 2:
-                        $query .= " AND usr_data.time_limit_unlimited = " . $ilDB->quote(0, "integer") . " ";
-                        break;
-                    case 4:
-                        $session_data = ilSession::get('user_filter_data');
-                        $date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $session_data["m"], $session_data["d"], $session_data["y"]));
-                        $query .= " AND last_login < " . $ilDB->quote($date, "timestamp") . " ";
-                        break;
-                }
-            }
-                
-            if ($without_anonymous_users) {
-                $query .= "AND usr_data.usr_id != " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
-            }
-
-            // @TODO: PHP8 Review: Variable is always false
-            if (is_numeric($active) && $active > -1 && $filter_settings === false) {//
-                $query .= " AND active = " . $ilDB->quote($active, "integer") . " ";
-            }
-        }
-        $ilLog->write($query);
-        $res = $ilDB->query($query);
-        $ids = [];
-        $users = [];
-        while ($row = $ilDB->fetchObject($res)) {
-            $users[] = array(
-                "usr_id" => $row->usr_id,
-                "login" => $row->login,
-                "firstname" => $row->firstname,
-                "lastname" => $row->lastname,
-                "email" => $row->email,
-                "active" => $row->active);
-            $ids[] = $row->usr_id;
-        }
-        if ($a_return_ids_only) {
-            return $ids ?: array();
-        } else {
-            return $users ?: array();
-        }
     }
 
     /**
@@ -3724,10 +3597,8 @@ class ilObjUser extends ilObject
         
         $where = array();
 
-        if ($a_user_id == 0) {
+        if ($a_user_id === 0) {
             $where[] = 'user_id > 0';
-        } elseif (is_array($a_user_id)) {// @TODO: PHP8 Review: Variable is always false
-            $where[] = $ilDB->in("user_id", $a_user_id, false, "integer");
         } else {
             $where[] = 'user_id = ' . $ilDB->quote($a_user_id, 'integer');
         }

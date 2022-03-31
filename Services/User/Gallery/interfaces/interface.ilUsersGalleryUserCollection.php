@@ -20,7 +20,7 @@ interface ilUsersGalleryUserCollection extends Iterator, Countable
 
     public function getLabel() : string;
 
-    public function setLabel(string $label);// @TODO: PHP8 Review: Missing return type.
+    public function setLabel(string $label) : void;
 
     /**
      * @param ilUsersGalleryUser[] $items

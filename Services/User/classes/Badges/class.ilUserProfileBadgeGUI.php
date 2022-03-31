@@ -27,7 +27,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
     {
         global $DIC;
 
-        $this->request = $this->http()->request();// @TODO: PHP8 Review: Undefined method.
+        $this->request = $DIC->http()->request();
     }
 
     public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void

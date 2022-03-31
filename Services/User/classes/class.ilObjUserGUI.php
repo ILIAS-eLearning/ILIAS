@@ -1044,7 +1044,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Init user form
      */
-    public function initForm(string $a_mode)// @TODO: PHP8 Review: Missing return type.
+    public function initForm(string $a_mode) : void
     {
         global $DIC;
 

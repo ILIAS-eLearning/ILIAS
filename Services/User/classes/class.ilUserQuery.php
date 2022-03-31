@@ -537,7 +537,7 @@ class ilUserQuery
      * Get data for user administration list.
      * @deprecated
      */
-    public static function getUserListData(// @TODO: PHP8 Review: Missing return type.
+    public static function getUserListData(
         string $a_order_field,
         string $a_order_dir,
         int $a_offset,
@@ -554,7 +554,7 @@ class ilUserQuery
         array $a_user_filter = null,
         string $a_first_letter = "",
         string $a_authentication_filter = ""
-    ) {
+    ) : array {
         $query = new ilUserQuery();
         $query->setOrderField($a_order_field);
         $query->setOrderDirection($a_order_dir);
