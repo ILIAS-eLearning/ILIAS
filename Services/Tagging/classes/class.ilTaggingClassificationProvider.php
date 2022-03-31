@@ -60,7 +60,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     protected function init() : void
     {
         $tags_set = new ilSetting("tags");
-        $this->enable_all_users = (bool) $tags_set->get("enable_all_users", false);
+        $this->enable_all_users = (bool) $tags_set->get("enable_all_users", '0');
     }
 
     /**
@@ -80,12 +80,12 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         $valid = ilContainer::_lookupContainerSetting(
             $a_parent_obj_id,
             ilObjectServiceSettingsGUI::TAG_CLOUD,
-            false
+            '0'
         );
         
         if ($valid) {
             $tags_set = new ilSetting("tags");
-            if (!$tags_set->get("enable_all_users", false) &&
+            if (!$tags_set->get("enable_all_users", '0') &&
                 $ilUser->getId() == ANONYMOUS_USER_ID) {
                 $valid = false;
             }
@@ -280,7 +280,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 ? null
                 : $ilUser->getId();
             
-            return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());
+            return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());// TODO PHP8-Review Maybe wrong argument order?
         }
         return [];
     }
