@@ -25,6 +25,19 @@ class ilRandom
         }
     }
 
+    // int and "null"?
+    // why not(you can delete isnull($min)also):
+//  public function int(int $min = 0, int $max = 0) : int
+
+// since this also throws exceptions, i added phpdoc    
+    /**
+     * Generate a random INT-Number.
+     * 
+     * @param int $min
+     * @param int $max
+     * @return int
+     * @throws Throwable
+     */
     public function int(int $min = null, int $max = null) : int
     {
         if (is_null($min)) {
