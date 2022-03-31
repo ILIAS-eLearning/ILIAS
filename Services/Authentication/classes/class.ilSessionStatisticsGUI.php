@@ -19,20 +19,20 @@
  */
 class ilSessionStatisticsGUI
 {
-    const MODE_TODAY = 1;
-    const MODE_LAST_DAY = 2;
-    const MODE_LAST_WEEK = 3;
-    const MODE_LAST_MONTH = 4;
-    const MODE_DAY = 5;
-    const MODE_WEEK = 6;
-    const MODE_MONTH = 7;
-    const MODE_YEAR = 8;
-    
-    const SCALE_DAY = 1;
-    const SCALE_WEEK = 2;
-    const SCALE_MONTH = 3;
-    const SCALE_YEAR = 4;
-    const SCALE_PERIODIC_WEEK = 5;
+    private const MODE_TODAY = 1;
+    private const MODE_LAST_DAY = 2;
+    private const MODE_LAST_WEEK = 3;
+    private const MODE_LAST_MONTH = 4;
+    private const MODE_DAY = 5;
+    private const MODE_WEEK = 6;
+    private const MODE_MONTH = 7;
+    private const MODE_YEAR = 8;
+
+    private const SCALE_DAY = 1;
+    private const SCALE_WEEK = 2;
+    private const SCALE_MONTH = 3;
+    private const SCALE_YEAR = 4;
+    private const SCALE_PERIODIC_WEEK = 5;
     
     private ilCtrl $ilCtrl;
     private ilTabsGUI $ilTabs;
@@ -44,7 +44,7 @@ class ilSessionStatisticsGUI
     private ilIniFile $clientIniFile;
     private ilObjUser $user;
     
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         global $DIC;
 
@@ -69,7 +69,7 @@ class ilSessionStatisticsGUI
         return true;
     }
     
-    protected function setSubTabs()
+    protected function setSubTabs() : void
     {
         $this->ilTabs->addSubTab(
             "current",
@@ -93,7 +93,7 @@ class ilSessionStatisticsGUI
         );
     }
     
-    protected function current($a_export = false)
+    protected function current($a_export = false) : void
     {
         $this->ilTabs->activateSubTab("current");
         
@@ -167,7 +167,7 @@ class ilSessionStatisticsGUI
 
             $this->toolbar->addFormButton($this->lng->txt("ok"), "current");
             
-            if (sizeof($data["active"])) {
+            if (count($data["active"])) {
                 $this->toolbar->addSeparator();
                 $this->toolbar->addFormButton($this->lng->txt("export"), "currentExport");
             }
@@ -180,7 +180,7 @@ class ilSessionStatisticsGUI
         }
     }
     
-    protected function currentExport()
+    protected function currentExport() : void
     {
         $this->current(true);
     }
@@ -197,7 +197,7 @@ class ilSessionStatisticsGUI
             : $a_default;
     }
         
-    protected function short($a_export = false)
+    protected function short($a_export = false) : void
     {
         $this->ilTabs->activateSubTab("short");
         
@@ -262,7 +262,7 @@ class ilSessionStatisticsGUI
 
             $this->toolbar->addFormButton($this->lng->txt("ok"), "short");
             
-            if (sizeof($data["active"])) {
+            if (count($data["active"])) {
                 $this->toolbar->addSeparator();
                 $this->toolbar->addFormButton($this->lng->txt("export"), "shortExport");
             }
@@ -273,12 +273,12 @@ class ilSessionStatisticsGUI
         }
     }
     
-    protected function shortExport()
+    protected function shortExport() : void
     {
         $this->short(true);
     }
     
-    protected function long($a_export = false)
+    protected function long($a_export = false) : void
     {
         $this->ilTabs->activateSubTab("long");
         
@@ -333,7 +333,7 @@ class ilSessionStatisticsGUI
 
             $this->toolbar->addFormButton($this->lng->txt("ok"), "long");
             
-            if (sizeof($data["active"])) {
+            if (count($data["active"])) {
                 $this->toolbar->addSeparator();
                 $this->toolbar->addFormButton($this->lng->txt("export"), "longExport");
             }
@@ -344,12 +344,12 @@ class ilSessionStatisticsGUI
         }
     }
     
-    protected function longExport()
+    protected function longExport() : void
     {
         $this->long(true);
     }
     
-    protected function periodic($a_export = false)
+    protected function periodic($a_export = false) : void
     {
         $this->ilTabs->activateSubTab("periodic");
         
@@ -383,7 +383,7 @@ class ilSessionStatisticsGUI
 
             $this->toolbar->addFormButton($this->lng->txt("ok"), "periodic");
             
-            if (sizeof($data["active"])) {
+            if (count($data["active"])) {
                 $this->toolbar->addSeparator();
                 $this->toolbar->addFormButton($this->lng->txt("export"), "periodicExport");
             }
@@ -394,18 +394,18 @@ class ilSessionStatisticsGUI
         }
     }
     
-    protected function periodicExport()
+    protected function periodicExport() : void
     {
         $this->periodic(true);
     }
     
-    protected function renderCurrentBasics()
+    protected function renderCurrentBasics() : string
     {
         // basic data - not time related
         
         $active = ilSessionControl::getExistingSessionCount(ilSessionControl::$session_types_controlled);
         
-        $control_active = ((int) $this->settings->get('session_handling_type', "0") == 1);
+        $control_active = ((int) $this->settings->get('session_handling_type', "0") === 1);
         if ($control_active) {
             $control_max_sessions = (int) $this->settings->get('session_max_count', (string) ilSessionControl::DEFAULT_MAX_COUNT);
             $control_min_idle = (int) $this->settings->get('session_min_idle', (string) ilSessionControl::DEFAULT_MIN_IDLE);
@@ -463,7 +463,7 @@ class ilSessionStatisticsGUI
         return $left->get();
     }
     
-    protected function buildData($a_time_from, $a_time_to, $a_title)
+    protected function buildData($a_time_from, $a_time_to, $a_title) : array// TODO PHP8-REVIEW Type hints missing
     {
         // basic data - time related
         
@@ -471,10 +471,9 @@ class ilSessionStatisticsGUI
         $counters = ilSessionStatistics::getNumberOfSessionsByType($a_time_from, $a_time_to);
         $opened = (int) $counters["opened"];
         $closed_limit = (int) $counters["closed_limit"];
-        unset($counters["opened"]);
-        unset($counters["closed_limit"]);
-        
-        
+        unset($counters["opened"], $counters["closed_limit"]);
+
+
         // build center column
         
         $data = array();
@@ -499,7 +498,7 @@ class ilSessionStatisticsGUI
         return $data;
     }
     
-    protected function render($a_data, $a_scale, $a_measure = null)
+    protected function render($a_data, $a_scale, $a_measure = null) : string// TODO PHP8-REVIEW Type hints missing
     {
         $center = new ilTemplate("tpl.session_statistics_center.html", true, true, "Services/Authentication");
         
@@ -545,10 +544,10 @@ class ilSessionStatisticsGUI
      * @param array $a_measure
      * @return string
      */
-    protected function getChart($a_data, $a_title, $a_scale = self::SCALE_DAY, $a_measure = null)
+    protected function getChart($a_data, $a_title, $a_scale = self::SCALE_DAY, $a_measure = null) : string// TODO PHP8-REVIEW Type hints missing
     {
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
-        $chart->setsize(700, 500);
+        $chart->setSize(700, 500);
         $chart->setYAxisToInteger(true);
         
         $legend = new ilChartLegend();
@@ -581,9 +580,8 @@ class ilSessionStatisticsGUI
         $chart->setColors($colors);
         
         $chart_data = $this->adaptDataToScale($a_scale, $a_data);
-        unset($a_data);
-        
-        $scale = ceil(sizeof($chart_data) / 5);
+
+        $scale = ceil(count($chart_data) / 5);
         $labels = array();
         foreach ($chart_data as $idx => $item) {
             $date = $item["slot_begin"];
@@ -651,7 +649,7 @@ class ilSessionStatisticsGUI
         return $chart->getHTML();
     }
     
-    protected function adaptDataToScale($a_scale, array $a_data)
+    protected function adaptDataToScale($a_scale, array $a_data) : array// TODO PHP8-REVIEW Type hints missing
     {
         // can we use original data?
         switch ($a_scale) {
@@ -714,14 +712,14 @@ class ilSessionStatisticsGUI
         }
         
         foreach ($tmp as $slot => $attr) {
-            $tmp[$slot]["active_avg"] = (int) round(array_sum($attr["active_avg"]) / sizeof($attr["active_avg"]));
+            $tmp[$slot]["active_avg"] = (int) round(array_sum($attr["active_avg"]) / count($attr["active_avg"]));
             $tmp[$slot]["slot_begin"] = $slot;
         }
         ksort($tmp);
         return array_values($tmp);
     }
     
-    protected function adminSync()
+    protected function adminSync() : void
     {
         // see ilSession::_writeData()
         $now = time();
@@ -732,7 +730,7 @@ class ilSessionStatisticsGUI
         $this->ilCtrl->redirect($this);
     }
     
-    protected function exportCSV(array $a_data, $a_scale)
+    protected function exportCSV(array $a_data, $a_scale) : void
     {
         ilDatePresentation::setUseRelativeDates(false);
         
@@ -777,14 +775,13 @@ class ilSessionStatisticsGUI
         
         // aggregate data
         $aggr_data = $this->adaptDataToScale($a_scale, $a_data["active"]);
-        unset($a_data);
-        
+
         // header
         $first = $aggr_data;
         $first = array_keys(array_shift($first));
         foreach ($first as $column) {
             // split weekday and time slot again
-            if ($a_scale == self::SCALE_PERIODIC_WEEK && $column == "slot_begin") {
+            if ($a_scale == self::SCALE_PERIODIC_WEEK && $column === "slot_begin") {
                 $csv->addColumn("weekday");
                 $csv->addColumn("time");
             } else {

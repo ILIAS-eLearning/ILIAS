@@ -24,7 +24,7 @@ class ilAuthFactory
     /**
      * Web based authentication
      */
-    const CONTEXT_WEB = 1;
+    public const CONTEXT_WEB = 1;
 
     /**
      * HTTP Auth used for WebDAV and CalDAV
@@ -32,39 +32,39 @@ class ilAuthFactory
      * overwrite ilAuthHTTP with ilAuthCalDAV and create new
      * constants.
      */
-    const CONTEXT_HTTP = 2;
+    public const CONTEXT_HTTP = 2;
     
     
     /**
      * SOAP based authentication
      */
-    const CONTEXT_SOAP = 3;
+    public const CONTEXT_SOAP = 3;
 
-    const CONTEXT_CAS = 5;
+    public const CONTEXT_CAS = 5;
     
     /**
      * Maybe not required. HTTP based authentication for calendar access
      */
-    const CONTEXT_CALENDAR = 6;
+    public const CONTEXT_CALENDAR = 6;
     
     
     /**
      * Calendar authentication with auth token
      */
-    const CONTEXT_CALENDAR_TOKEN = 7;
+    public const CONTEXT_CALENDAR_TOKEN = 7;
     
     
     /**
      * Calendar authentication with auth token
      */
-    const CONTEXT_ECS = 8;
+    public const CONTEXT_ECS = 8;
     
     
 
     /**
      * Apache based authentication
      */
-    const CONTEXT_APACHE = 10;
+    public const CONTEXT_APACHE = 10;
 
     private static int $context = self::CONTEXT_WEB;
 

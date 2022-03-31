@@ -21,8 +21,8 @@
 
 class ilAuthModeDetermination
 {
-    const TYPE_MANUAL = 0;
-    const TYPE_AUTOMATIC = 1;
+    private const TYPE_MANUAL = 0;
+    private const TYPE_AUTOMATIC = 1;
     
     private static ?ilAuthModeDetermination $instance = null;
     
@@ -69,7 +69,7 @@ class ilAuthModeDetermination
      */
     public function isManualSelection() : bool
     {
-        return $this->kind == self::TYPE_MANUAL;
+        return $this->kind === self::TYPE_MANUAL;
     }
 
     /**
@@ -97,7 +97,7 @@ class ilAuthModeDetermination
      */
     public function getAuthModeSequence(string $a_username = '') : array
     {
-        if (!strlen($a_username)) {
+        if ($a_username === '') {
             return $this->position ?: array();
         }
         $sorted = array();
@@ -163,7 +163,7 @@ class ilAuthModeDetermination
     /**
      * Read settings
      */
-    private function read()
+    private function read() : void
     {
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
 
@@ -233,35 +233,25 @@ class ilAuthModeDetermination
         // begin-patch ldap_multiple
         foreach (ilLDAPServer::_getActiveServerList() as $sid) {
             $server = ilLDAPServer::getInstanceByServerId($sid);
-            if ($server->isActive()) {
-                if (!in_array(ilAuthUtils::AUTH_LDAP . '_' . $sid, $this->position)) {
-                    $this->position[] = (ilAuthUtils::AUTH_LDAP . '_' . $sid);
-                }
+            if ($server->isActive() && !in_array(ilAuthUtils::AUTH_LDAP . '_' . $sid, $this->position)) {
+                $this->position[] = (ilAuthUtils::AUTH_LDAP . '_' . $sid);
             }
         }
         // end-patch ldap_multiple
-        if ($rad_active) {
-            if (!in_array(ilAuthUtils::AUTH_RADIUS, $this->position)) {
-                $this->position[] = ilAuthUtils::AUTH_RADIUS;
-            }
+        if ($rad_active && !in_array(ilAuthUtils::AUTH_RADIUS, $this->position)) {
+            $this->position[] = ilAuthUtils::AUTH_RADIUS;
         }
-        if ($soap_active) {
-            if (!in_array(ilAuthUtils::AUTH_SOAP, $this->position)) {
-                $this->position[] = ilAuthUtils::AUTH_SOAP;
-            }
+        if ($soap_active && !in_array(ilAuthUtils::AUTH_SOAP, $this->position)) {
+            $this->position[] = ilAuthUtils::AUTH_SOAP;
         }
-        if ($apache_active) {
-            if (!in_array(ilAuthUtils::AUTH_APACHE, $this->position)) {
-                $this->position[] = ilAuthUtils::AUTH_APACHE;
-            }
+        if ($apache_active && !in_array(ilAuthUtils::AUTH_APACHE, $this->position)) {
+            $this->position[] = ilAuthUtils::AUTH_APACHE;
         }
         // begin-patch auth_plugin
         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
             foreach ($pl->getAuthIds() as $auth_id) {
-                if ($pl->isAuthActive($auth_id)) {
-                    if (!in_array($auth_id, $this->position)) {
-                        $this->position[] = $auth_id;
-                    }
+                if ($pl->isAuthActive($auth_id) && !in_array($auth_id, $this->position)) {
+                    $this->position[] = $auth_id;
                 }
             }
         }

@@ -23,11 +23,11 @@ class ilSessionControl
      * default value for settings that have not
      * been defined in setup or administration yet
      */
-    const DEFAULT_MAX_COUNT = 0;
-    const DEFAULT_MIN_IDLE = 15;
-    const DEFAULT_MAX_IDLE = 30;
-    const DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST = 1;
-    const DEFAULT_ALLOW_CLIENT_MAINTENANCE = 1;
+    public const DEFAULT_MAX_COUNT = 0;
+    public const DEFAULT_MIN_IDLE = 15;
+    public const DEFAULT_MAX_IDLE = 30;
+    public const DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST = 1;
+    public const DEFAULT_ALLOW_CLIENT_MAINTENANCE = 1;
 
     /**
      * all fieldnames that are saved in settings table
@@ -47,11 +47,11 @@ class ilSessionControl
      * session types from which one is
      * assigned to each session
      */
-    const SESSION_TYPE_UNKNOWN = 0;
-    const SESSION_TYPE_SYSTEM = 1;
-    const SESSION_TYPE_ADMIN = 2;
-    const SESSION_TYPE_USER = 3;
-    const SESSION_TYPE_ANONYM = 4;
+    private const SESSION_TYPE_UNKNOWN = 0;
+    private const SESSION_TYPE_SYSTEM = 1;
+    private const SESSION_TYPE_ADMIN = 2;
+    private const SESSION_TYPE_USER = 3;
+    private const SESSION_TYPE_ANONYM = 4;
 
     /**
      * all session types that will be involved when count of sessions
@@ -92,7 +92,7 @@ class ilSessionControl
         $ilSetting = $DIC['ilSetting'];
         
         // do not check session in fixed duration mode
-        if ($ilSetting->get('session_handling_type', 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
             return;
         }
 
@@ -108,7 +108,7 @@ class ilSessionControl
 
             $sid = null;
 
-            if (!isset($_COOKIE[session_name()]) || !strlen($_COOKIE[session_name()])) {
+            if (!isset($_COOKIE[session_name()]) || $_COOKIE[session_name()] === '') {
                 self::debug('Browser did not send a sid cookie');
             } else {
                 $sid = $_COOKIE[session_name()];
@@ -147,7 +147,7 @@ class ilSessionControl
         $ilSetting = $DIC['ilSetting'];
         
         // do not init session type in fixed duration mode
-        if ($ilSetting->get('session_handling_type', 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
             return;
         }
         
@@ -164,7 +164,7 @@ class ilSessionControl
      * type regarding to the sessions user context.
      * when session is not allowed to be created it will be destroyed.
      */
-    public static function handleLoginEvent(string $a_login, ilAuthSession $auth_session)
+    public static function handleLoginEvent(string $a_login, ilAuthSession $auth_session) : bool
     {
         global $DIC;
 
@@ -179,7 +179,7 @@ class ilSessionControl
                 $type = self::SESSION_TYPE_SYSTEM;
                 break;
 
-            case $user_id == ANONYMOUS_USER_ID:
+            case $user_id === ANONYMOUS_USER_ID:
                 $type = self::SESSION_TYPE_ANONYM;
                 break;
 
@@ -196,11 +196,11 @@ class ilSessionControl
         self::debug(__METHOD__ . " --> update sessions type to (" . $type . ")");
                 
         // do not handle login event in fixed duration mode
-        if ((int) $ilSetting->get('session_handling_type', "0") != 1) {
+        if ((int) $ilSetting->get('session_handling_type', "0") !== 1) {
             return true;
         }
                 
-        if (in_array($type, self::$session_types_controlled)) {
+        if (in_array($type, self::$session_types_controlled, true)) {
             self::checkCurrentSessionIsAllowed($auth_session, $user_id);
             return true;
         }
@@ -218,7 +218,7 @@ class ilSessionControl
         $ilSetting = $DIC['ilSetting'];
         
         // do not handle logout event in fixed duration mode
-        if ($ilSetting->get('session_handling_type', 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
             return;
         }
         
@@ -330,9 +330,7 @@ class ilSessionControl
                     "AND " . $ilDB->in('type', $a_types, false, 'integer');
     
         $res = $ilDB->queryF($query, array('integer'), array($ts));
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-
-        return $row->num_sessions;
+        return $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num_sessions;
     }
 
     /**
@@ -386,7 +384,7 @@ class ilSessionControl
 
         $max_idle_after_first_request = (int) $ilSetting->get('session_max_idle_after_first_request') * 60;
 
-        if ((int) $max_idle_after_first_request == 0) {
+        if ((int) $max_idle_after_first_request === 0) {
             return;
         }
 
@@ -440,19 +438,19 @@ class ilSessionControl
             }
         }
 
-        if (count($sessions) == 1) {
+        if (count($sessions) === 1) {
             self::debug(__METHOD__ . ' --> Exact one valid session found for session id (' . $a_sid . ')');
 
             return true;
-        } else {
-            if (count($sessions) > 1) {
-                self::debug(__METHOD__ . ' --> Strange!!! More than one sessions found for given session id! (' . $a_sid . ')');
-            } else {
-                self::debug(__METHOD__ . ' --> No valid session found for session id (' . $a_sid . ')');
-            }
-
-            return false;
         }
+
+        if (count($sessions) > 1) {
+            self::debug(__METHOD__ . ' --> Strange!!! More than one sessions found for given session id! (' . $a_sid . ')');
+        } else {
+            self::debug(__METHOD__ . ' --> No valid session found for session id (' . $a_sid . ')');
+        }
+
+        return false;
     }
 
     /**

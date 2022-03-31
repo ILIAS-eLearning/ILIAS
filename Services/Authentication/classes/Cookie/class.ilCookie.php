@@ -22,20 +22,20 @@
  */
 class ilCookie
 {
-    private $name = '';
-    private $value = '';
-    private $expire = 0;
-    private $path = '';
-    private $domain = '';
-    private $secure = false;
-    private $http_only = false;
+    private $name = '';// TODO PHP8-REVIEW Property type missing
+    private $value = '';// TODO PHP8-REVIEW Property type missing
+    private $expire = 0;// TODO PHP8-REVIEW Property type missing
+    private $path = '';// TODO PHP8-REVIEW Property type missing
+    private $domain = '';// TODO PHP8-REVIEW Property type missing
+    private $secure = false;// TODO PHP8-REVIEW Property type missing
+    private $http_only = false;// TODO PHP8-REVIEW Property type missing
     
-    public function __construct($a_name)
+    public function __construct($a_name)// TODO PHP8-REVIEW Type hints missing
     {
         $this->setName($a_name);
     }
     
-    public function setName($a_name)
+    public function setName($a_name) : void// TODO PHP8-REVIEW Type hints missing
     {
         $this->name = $a_name;
     }
@@ -44,7 +44,7 @@ class ilCookie
      * Get name
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -54,62 +54,62 @@ class ilCookie
      * RFC 2965 suggests a minimum of 4096 bytes
      * @param string $a_value
      */
-    public function setValue($a_value)
+    public function setValue($a_value) : void// TODO PHP8-REVIEW Type hints missing
     {
         $this->value = $a_value;
     }
     
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
     
-    public function setExpire($a_expire)
+    public function setExpire($a_expire) : void// TODO PHP8-REVIEW Type hints missing
     {
         $this->expire = (int) $a_expire;
     }
     
-    public function getExpire()
+    public function getExpire() : int
     {
         return $this->expire;
     }
     
-    public function setPath($a_path)
+    public function setPath($a_path) : void// TODO PHP8-REVIEW Type hints missing
     {
         $this->path = $a_path;
     }
     
-    public function getPath()
+    public function getPath() : string
     {
         return $this->path;
     }
     
-    public function setDomain($a_domain)
+    public function setDomain($a_domain) : void/// TODO PHP8-REVIEW Type hints missing
     {
         $this->domain = $a_domain;
     }
     
-    public function getDomain()
+    public function getDomain() : string
     {
         return $this->domain;
     }
     
-    public function setSecure($a_status)
+    public function setSecure($a_status) : void// TODO PHP8-REVIEW Type hints missing
     {
         $this->secure = (bool) $a_status;
     }
     
-    public function isSecure()
+    public function isSecure() : bool
     {
         return $this->secure;
     }
     
-    public function setHttpOnly($a_http_only)
+    public function setHttpOnly($a_http_only) : void// TODO PHP8-REVIEW Type hints missing
     {
         $this->http_only = $a_http_only;
     }
     
-    public function isHttpOnly()
+    public function isHttpOnly() : bool
     {
         return $this->http_only;
     }

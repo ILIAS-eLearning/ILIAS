@@ -28,7 +28,7 @@ class ilSession
      * @var integer
      *
      */
-    const SESSION_HANDLING_FIXED = 0;
+    public const SESSION_HANDLING_FIXED = 0;
     
     /**
      *
@@ -37,24 +37,24 @@ class ilSession
      * @var integer
      *
      */
-    const SESSION_HANDLING_LOAD_DEPENDENT = 1;
+    public const SESSION_HANDLING_LOAD_DEPENDENT = 1;
     
     /**
      * Constant for reason of session destroy
      *
      * @var integer
      */
-    const SESSION_CLOSE_USER = 1;  // manual logout
-    const SESSION_CLOSE_EXPIRE = 2;  // has expired
-    const SESSION_CLOSE_FIRST = 3;  // kicked by session control (first abidencer)
-    const SESSION_CLOSE_IDLE = 4;  // kickey by session control (ilde time)
-    const SESSION_CLOSE_LIMIT = 5;  // kicked by session control (limit reached)
-    const SESSION_CLOSE_LOGIN = 6;  // anonymous => login
-    const SESSION_CLOSE_PUBLIC = 7;  // => anonymous
-    const SESSION_CLOSE_TIME = 8;  // account time limit reached
-    const SESSION_CLOSE_IP = 9;  // wrong ip
-    const SESSION_CLOSE_SIMUL = 10; // simultaneous login
-    const SESSION_CLOSE_INACTIVE = 11; // inactive account
+    public const SESSION_CLOSE_USER = 1;  // manual logout
+    public const SESSION_CLOSE_EXPIRE = 2;  // has expired
+    public const SESSION_CLOSE_FIRST = 3;  // kicked by session control (first abidencer)
+    public const SESSION_CLOSE_IDLE = 4;  // kickey by session control (ilde time)
+    public const SESSION_CLOSE_LIMIT = 5;  // kicked by session control (limit reached)
+    public const SESSION_CLOSE_LOGIN = 6;  // anonymous => login
+    public const SESSION_CLOSE_PUBLIC = 7;  // => anonymous
+    public const SESSION_CLOSE_TIME = 8;  // account time limit reached
+    public const SESSION_CLOSE_IP = 9;  // wrong ip
+    public const SESSION_CLOSE_SIMUL = 10; // simultaneous login
+    public const SESSION_CLOSE_INACTIVE = 11; // inactive account
 
     private static ?int $closing_context = null;
 
@@ -150,13 +150,11 @@ class ilSession
             $fields["remote_addr"] = array("text", $_SERVER["REMOTE_ADDR"]);
         }
 
-        if (ilSession::_exists($a_session_id)) {
+        if (self::_exists($a_session_id)) {
             // note that we do this only when inserting the new record
             // updating may get us other contexts for the same session, especially ilContextWAC, which we do not want
-            if (class_exists("ilContext")) {
-                if (ilContext::isSessionMainContext()) {
-                    $fields["context"] = array("text", ilContext::getType());
-                }
+            if (class_exists("ilContext") && ilContext::isSessionMainContext()) {
+                $fields["context"] = array("text", ilContext::getType());
             }
 
             $ilDB->update(
@@ -177,8 +175,8 @@ class ilSession
             $ilDB->insert("usr_session", $fields);
         
             // check type against session control
-            $type = $fields["type"][1];
-            if (in_array($type, ilSessionControl::$session_types_controlled)) {
+            $type = (int) $fields["type"][1];
+            if (in_array($type, ilSessionControl::$session_types_controlled, true)) {
                 ilSessionStatistics::createRawEntry(
                     $fields["session_id"][1],
                     $type,
@@ -190,7 +188,7 @@ class ilSession
         
         // finally delete deprecated sessions
         $random = new \ilRandom();
-        if ($random->int(0, 50) == 2) {
+        if ($random->int(0, 50) === 2) {
             // get time _before_ destroying expired sessions
             self::_destroyExpiredSessions();
             ilSessionStatistics::aggretateRaw($now);
@@ -229,7 +227,7 @@ class ilSession
     * @param	int					closing context
     * @param	int|bool			expired at timestamp
     */
-    public static function _destroy($a_session_id, ?int $a_closing_context = null, $a_expired_at = null)
+    public static function _destroy($a_session_id, ?int $a_closing_context = null, $a_expired_at = null) : bool
     {
         global $DIC;
 
@@ -265,7 +263,7 @@ class ilSession
     *
     * @param	int 		user id
     */
-    public static function _destroyByUserId(int $a_user_id)
+    public static function _destroyByUserId(int $a_user_id) : bool
     {
         global $DIC;
 
@@ -328,7 +326,7 @@ class ilSession
         $res = $ilDB->query($query);
 
         while ($row = $ilDB->fetchObject($res)) {
-            ilSession::_writeData($new_session, $row->data);
+            self::_writeData($new_session, $row->data);
             return $new_session;
         }
         return "";
@@ -353,9 +351,9 @@ class ilSession
         }
 
         $ilSetting = $DIC['ilSetting'];
-        if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_FIXED) {
+        if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_FIXED) {
             return time() + self::getIdleValue($fixedMode);
-        } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
+        } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
             $max_idle = $ilSetting->get('session_max_idle') ?? ilSessionControl::DEFAULT_MAX_IDLE;
             return time() + (int) $max_idle * 60;
@@ -377,10 +375,10 @@ class ilSession
         $ilSetting = $DIC['ilSetting'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
         
-        if ($fixedMode || $ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_FIXED) {
+        if ($fixedMode || $ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_FIXED) {
             // fixed session
             return (int) $ilClientIniFile->readVariable('session', 'expire');
-        } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
+        } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
             return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
         }

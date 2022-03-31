@@ -22,9 +22,9 @@
 //TODO check why authfront does not include frontendInterface
 class ilAuthFrontend
 {
-    const MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
-    const MIG_TRIGGER_AUTHMODE = 'mig_trigger_auth_mode';
-    const MIG_DESIRED_AUTHMODE = 'mig_desired_auth_mode';
+    public const MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
+    public const MIG_TRIGGER_AUTHMODE = 'mig_trigger_auth_mode';
+    public const MIG_DESIRED_AUTHMODE = 'mig_desired_auth_mode';
     
     private ilLogger $logger;
     private ilSetting $settings;
@@ -32,12 +32,19 @@ class ilAuthFrontend
 
     private ilAuthCredentials $credentials;
     private ilAuthStatus $status;
+    /** @var ilAuthProvider[] */
     private array $providers;
     private ilAuthSession $auth_session;
     private ilAppEventHandler $ilAppEventHandler;
     
-    private $authenticated = false;
+    private bool $authenticated = false;
 
+    /**
+     * @param ilAuthSession $session
+     * @param ilAuthStatus $status
+     * @param ilAuthCredentials $credentials
+     * @param ilAuthProvider[] $providers
+     */
     public function __construct(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
     {
         global $DIC;
@@ -105,9 +112,8 @@ class ilAuthFrontend
             $this->logger->warning('Desired user account is not authenticated');
             return false;
         }
-        $user_factory = new ilObjectFactory();
-        $user = $user_factory->getInstanceByObjId($session->getUserId(), false);
-        
+        $user = ilObjectFactory::getInstanceByObjId($session->getUserId(), false);
+
         if (!$user instanceof ilObjUser) {
             $this->logger->info('Cannot instantiate user account for account migration: ' . $session->getUserId());
             return false;
@@ -127,7 +133,7 @@ class ilAuthFrontend
             }
             $this->getCredentials()->setUsername(ilSession::get(static::MIG_EXTERNAL_ACCOUNT));
             $provider->migrateAccount($this->getStatus());
-            if ($this->getStatus()->getStatus() == ilAuthStatus::STATUS_AUTHENTICATED) {
+            if ($this->getStatus()->getStatus() === ilAuthStatus::STATUS_AUTHENTICATED) {
                 return $this->handleAuthenticationSuccess($provider);
             }
         }
@@ -146,10 +152,9 @@ class ilAuthFrontend
             }
             $provider->createNewAccount($this->getStatus());
 
-            if ($this->getStatus()->getStatus() == ilAuthStatus::STATUS_AUTHENTICATED) {
-                if ($provider instanceof ilAuthProviderInterface) {
-                    return $this->handleAuthenticationSuccess($provider);
-                }
+            if ($provider instanceof ilAuthProviderInterface &&
+                $this->getStatus()->getStatus() === ilAuthStatus::STATUS_AUTHENTICATED) {
+                return $this->handleAuthenticationSuccess($provider);
             }
         }
         return $this->handleAuthenticationFail();
@@ -179,9 +184,9 @@ class ilAuthFrontend
                     $this->logger->notice("Account migration required.");
                     if ($provider instanceof ilAuthProviderAccountMigrationInterface) {
                         return $this->handleAccountMigration($provider);
-                    } else {
-                        $this->logger->error('Authentication migratittion required but provider does not support interface' . get_class($provider));
                     }
+
+                    $this->logger->error('Authentication migratittion required but provider does not support interface' . get_class($provider));
                     break;
                 case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 default:
@@ -219,8 +224,7 @@ class ilAuthFrontend
      */
     protected function handleAuthenticationSuccess(ilAuthProviderInterface $provider) : bool
     {
-        $factory = new ilObjectFactory();
-        $user = $factory->getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(), false);
+        $user = ilObjectFactory::getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(), false);
         
         // reset expired status
         $this->getAuthSession()->setExpired(false);
@@ -293,8 +297,8 @@ class ilAuthFrontend
         // check if profile is complete
         if (
             ilUserProfile::isProfileIncomplete($user) &&
-            ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_ECS &&
-            ilContext::getType() != ilContext::CONTEXT_LTI_PROVIDER
+            ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS &&
+            ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
         ) {
             ilLoggerFactory::getLogger('auth')->info('User profile is incomplete.');
             $user->setProfileIncomplete(true);
@@ -365,7 +369,7 @@ class ilAuthFrontend
 
     protected function checkExceededLoginAttempts(ilObjUser $user) : bool
     {
-        if ($user->getId() == ANONYMOUS_USER_ID) {
+        if ($user->getId() === ANONYMOUS_USER_ID) {
             return true;
         }
 
@@ -400,10 +404,9 @@ class ilAuthFrontend
     protected function checkIp(ilObjUser $user) : bool
     {
         $clientip = $user->getClientIP();
-        if (trim($clientip) != "") {
+        if (trim($clientip) !== "") {
             $clientip = preg_replace("/[^0-9.?*,:]+/", "", $clientip);
-            $clientip = str_replace(".", "\\.", $clientip);
-            $clientip = str_replace(array("?","*",","), array("[0-9]","[0-9]*","|"), $clientip);
+            $clientip = str_replace([".", "?", "*", ","], ["\\.", "[0-9]", "[0-9]*", "|"], $clientip);
             
             ilLoggerFactory::getLogger('auth')->debug('Check ip ' . $clientip . ' against ' . $_SERVER['REMOTE_ADDR']);
 

@@ -93,7 +93,7 @@ class ilAuthLoginPageEditorGUI
                     '_top'
                 );
 
-                if ($_GET["redirectSource"] != "ilinternallinkgui") {
+                if ($_GET["redirectSource"] !== "ilinternallinkgui") {
                     $this->forwardToPageObject();
                 }
                 break;
@@ -150,7 +150,7 @@ class ilAuthLoginPageEditorGUI
         // style tab
         //$page_gui->setTabHook($this, "addPageTabs");
 
-        if ($this->ctrl->getCmd() == 'editPage') {
+        if ($this->ctrl->getCmd() === 'editPage') {
             $this->ctrl->setCmd('edit');
         }
         $html = $this->ctrl->forwardCommand($page_gui);
@@ -234,7 +234,7 @@ class ilAuthLoginPageEditorGUI
     {
         $settings = ilAuthLoginPageEditorSettings::getInstance();
         foreach ((array) $_POST['visible_languages'] as $lang_key) {
-            $settings->enableIliasEditor($lang_key, in_array($lang_key, (array) $_POST['languages']));
+            $settings->enableIliasEditor($lang_key, in_array($lang_key, (array) $_POST['languages'], true));
         }
         $settings->update();
 
@@ -260,7 +260,7 @@ class ilAuthLoginPageEditorGUI
      * @global ilSetting $ilSetting
      * @author Michael Jansen
      */
-    protected function showRichtextEditor()
+    protected function showRichtextEditor() : void
     {
         if (!$this->rbacsystem->checkAccess("visible,read", $this->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
@@ -326,7 +326,7 @@ class ilAuthLoginPageEditorGUI
         $this->form->addCommandButton('saveLoginInfo', $this->lng->txt('save'));
 
         $rad_settings = ilRadiusSettings::_getInstance();
-        if ($ldap_id = ilLDAPServer::_getFirstActiveServer() or $rad_settings->isActive()) {
+        if (($ldap_id = ilLDAPServer::_getFirstActiveServer()) || $rad_settings->isActive()) {
             $select = new ilSelectInputGUI($this->lng->txt('default_auth_mode'), 'default_auth_mode');
             $select->setValue($this->setting->get('default_auth_mode', (string) ilAuthUtils::AUTH_LOCAL));
             $select->setInfo($this->lng->txt('default_auth_mode_info'));
@@ -381,7 +381,7 @@ class ilAuthLoginPageEditorGUI
             $textarea->setValue($message);
             $textarea->setUseRte(true);
             $textarea->setRteTagSet("extended");
-            if (!in_array($lang_key, $languages)) {
+            if (!in_array($lang_key, $languages, true)) {
                 $textarea->setAlert($this->lng->txt("not_installed"));
             }
             $this->form->addItem($textarea);
@@ -399,21 +399,21 @@ class ilAuthLoginPageEditorGUI
      * @author Michael Jansen
      *
      */
-    protected function setDefLangFirst($a_def_language, $a_languages)
+    protected function setDefLangFirst($a_def_language, $a_languages) : array// TODO PHP8-REVIEW Type hints missing
     {
         if (is_array($a_languages) && $a_def_language != "") {
             $languages = array();
             $languages[] = $a_def_language;
 
             foreach ($a_languages as $val) {
-                if (!in_array($val, $languages)) {
+                if (!in_array($val, $languages, true)) {
                     $languages[] = $val;
                 }
             }
 
             return $languages;
-        } else {
-            return array();
         }
+
+        return array();
     }
 }

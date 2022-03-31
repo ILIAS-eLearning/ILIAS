@@ -22,10 +22,10 @@
  */
 abstract class ilAuthProvider implements ilAuthProviderInterface
 {
-    const STATUS_UNDEFINED = 0;
-    const STATUS_AUTHENTICATION_SUCCESS = 1;
-    const STATUS_AUTHENTICATION_FAILED = 2;
-    const STATUS_MIGRATION = 3;
+    private const STATUS_UNDEFINED = 0;
+    private const STATUS_AUTHENTICATION_SUCCESS = 1;
+    private const STATUS_AUTHENTICATION_FAILED = 2;
+    private const STATUS_MIGRATION = 3;
     
     
     private ilLogger $logger;
@@ -65,7 +65,7 @@ abstract class ilAuthProvider implements ilAuthProviderInterface
      * Handle failed authentication
      * @param string $a_reason
      */
-    protected function handleAuthenticationFail(ilAuthStatus $status, $a_reason) : bool
+    protected function handleAuthenticationFail(ilAuthStatus $status, $a_reason) : bool// TODO PHP8-REVIEW Type hints missing
     {
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
         $status->setReason($a_reason);

@@ -22,8 +22,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ilSessionTest //extends TestCase
 {
-    protected $backupGlobals = false;
-
     protected function setUp() : void
     {
     }
@@ -31,7 +29,7 @@ class ilSessionTest //extends TestCase
     /**
      * @group IL_Init
      */
-    public function testBasicSessionBehaviour()
+    public function testBasicSessionBehaviour() : void
     {
         global $DIC;
 
@@ -42,11 +40,11 @@ class ilSessionTest //extends TestCase
         if (ilSession::_exists("123456")) {
             $result .= "exists-";
         }
-        if (ilSession::_getData("123456") == "Testdata") {
+        if (ilSession::_getData("123456") === "Testdata") {
             $result .= "write-get-";
         }
         $duplicate = ilSession::_duplicate("123456");
-        if (ilSession::_getData($duplicate) == "Testdata") {
+        if (ilSession::_getData($duplicate) === "Testdata") {
             $result .= "duplicate-";
         }
         ilSession::_destroy("123456");
@@ -62,13 +60,13 @@ class ilSessionTest //extends TestCase
         if (!ilSession::_exists($duplicate)) {
             $result .= "destroyByUser-";
         }
-        $this->assertEquals("exists-write-get-duplicate-destroy-destroyExp-destroyByUser-", $result);
+        $this->assertEquals("exists-write-get-duplicate-destroy-destroyExp-destroyByUser-", $result);// TODO PHP8-REVIEW This method does not exists (because this class has no parent class)
     }
 
     /**
      * @group IL_Init
      */
-    public function testPasswordAssisstanceSession()
+    public function testPasswordAssisstanceSession() : void
     {
         global $DIC;
 
@@ -81,13 +79,13 @@ class ilSessionTest //extends TestCase
         
         // find
         $res = db_pwassist_session_find($ilUser->getId());
-        if ($res["pwassist_id"] == "12345") {
+        if ($res["pwassist_id"] === "12345") {
             $result .= "find-";
         }
         
         // read
         $res = db_pwassist_session_read("12345");
-        if ($res["user_id"] == $ilUser->getId()) {
+        if ((int) $res["user_id"] === $ilUser->getId()) {
             $result .= "read-";
         }
         
@@ -100,6 +98,6 @@ class ilSessionTest //extends TestCase
 
         db_pwassist_session_gc();
 
-        $this->assertEquals("find-read-destroy-", $result);
+        $this->assertEquals("find-read-destroy-", $result);// TODO PHP8-REVIEW This method does not exists (because this class has no parent class)
     }
 }

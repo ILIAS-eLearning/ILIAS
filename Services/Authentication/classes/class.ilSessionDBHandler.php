@@ -41,7 +41,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * @param string $path
      * @param string $name session name [PHPSESSID]
      */
-    public function open($path, $name)
+    public function open($path, $name) : bool// TODO PHP8-REVIEW Type hints missing
     {
         return true;
     }
@@ -62,7 +62,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * returned
      * @param string $id
      */
-    public function read($id) : string
+    public function read($id) : string// TODO PHP8-REVIEW Type hints missing
     {
         return ilSession::_getData($id);
     }
@@ -72,7 +72,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * @param string $id session id
      * @param string $data session data
      */
-    public function write($id, $data)
+    public function write($id, $data) : bool// TODO PHP8-REVIEW Type hints missing
     {
         chdir(IL_INITIAL_WD);
 
@@ -83,7 +83,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * Destroys session
      * @param string $id session id
      */
-    public function destroy($id)
+    public function destroy($id) : bool// TODO PHP8-REVIEW Type hints missing
     {
         return ilSession::_destroy($id);
     }
