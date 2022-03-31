@@ -108,7 +108,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
 
         $this->getQuestionTemplate();
-        $this->tpl->addCss('Modules/Test/templates/default/ta.css');
 
         $this->tpl->setVariable("QUESTION_DATA", $this->ctrl->getHTML($form));
     }
@@ -496,7 +495,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $this->object->getId(),
                 0,
                 $index
-                ) . '</td> </tr>';
+            ) . '</td> </tr>';
         }
         $feedback .= '</tbody></table>';
         return $this->object->prepareTextareaOutput($feedback, true);
