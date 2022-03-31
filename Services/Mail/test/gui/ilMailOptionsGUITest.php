@@ -4,6 +4,8 @@
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
  * Class ilMailOptionsGUITest
@@ -15,7 +17,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
      * @throws ReflectionException
      */
     protected function getMailOptionsGUI(
-        \ILIAS\HTTP\GlobalHttpState $httpState,
+        GlobalHttpState $httpState,
         ilCtrl $ctrl,
         ilSetting $settings
     ) : ilMailOptionsGUI {
@@ -34,7 +36,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
             $httpState,
             $mail,
             $mailBox,
-            new \ILIAS\Refinery\Factory(new \ILIAS\Data\Factory(), $lng)
+            new Factory(new \ILIAS\Data\Factory(), $lng)
         );
     }
 
@@ -55,7 +57,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         $request->method('getQueryParams')->willReturn([]);
         $wrapper = new WrapperFactory($request);
 
-        $http = $this->getMockBuilder(\ILIAS\HTTP\GlobalHttpState::class)->getMock();
+        $http = $this->getMockBuilder(GlobalHttpState::class)->getMock();
         $http->method('wrapper')->willReturn($wrapper);
 
         $gui = $this->getMailOptionsGUI($http, $ctrl, $settings);
@@ -79,7 +81,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         $request->method('getQueryParams')->willReturn([]);
         $wrapper = new WrapperFactory($request);
 
-        $http = $this->getMockBuilder(\ILIAS\HTTP\GlobalHttpState::class)->getMock();
+        $http = $this->getMockBuilder(GlobalHttpState::class)->getMock();
         $http->method('wrapper')->willReturn($wrapper);
 
         $ctrl->expects($this->once())->method('redirectByClass')->with(ilMailGUI::class);
@@ -110,7 +112,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         ]);
         $wrapper = new WrapperFactory($request);
 
-        $http = $this->getMockBuilder(\ILIAS\HTTP\GlobalHttpState::class)->getMock();
+        $http = $this->getMockBuilder(GlobalHttpState::class)->getMock();
         $http->method('wrapper')->willReturn($wrapper);
 
         $gui = $this->getMailOptionsGUI($http, $ctrl, $settings);

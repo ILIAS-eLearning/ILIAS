@@ -524,7 +524,7 @@ class ilObjMailGUI extends ilObjectGUI
             ['placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')],
             ['placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
         ];
-        foreach ($placeholder_list as $key => $value) {
+        foreach ($placeholder_list as $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);
         }
         $placeholders->setDisabled(!$this->isEditingAllowed());
