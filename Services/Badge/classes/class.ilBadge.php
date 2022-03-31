@@ -29,7 +29,7 @@ class ilBadge
     protected string $desc = "";
     protected string $image = "";
     protected string $valid = "";
-    protected array $config = [];// @TODO: PHP8 Review: According to `\ilBadge::setConfiguration` this can also be `null`. Please adjust the type and handle the consumers accordingly.
+    protected ?array $config = null;
     protected string $criteria = "";
     
     public function __construct(
@@ -277,12 +277,12 @@ class ilBadge
     public function setConfiguration(array $a_value = null) : void
     {
         if (is_array($a_value) && !count($a_value)) {
-            $a_value = null;// @TODO: PHP8 Review: This is not correct if the `config` property is of type `array`
+            $a_value = null;
         }
         $this->config = $a_value;
     }
     
-    public function getConfiguration() : array// @TODO: PHP8 Review: According to `\ilBadge::setConfiguration` this can also be `null`. Please adjust the type and handle the consumers accordingly.
+    public function getConfiguration() : ?array
     {
         return $this->config;
     }
@@ -527,27 +527,6 @@ class ilBadge
         return $json;
     }
     
-    public function getStaticUrl() : string
-    {
-        $path = ilBadgeHandler::getInstance()->getBadgePath($this);
-        
-        $base_url = ILIAS_HTTP_PATH . substr($path, 1);
-        
-        if (!file_exists($path . "class.json")) {
-            $exp = explode(".", $this->getImage());
-            $img_suffix = array_pop($exp);
-            
-            $json = json_encode($this->prepareJson($base_url, $img_suffix), JSON_THROW_ON_ERROR);
-            file_put_contents($path . "class.json", $json);
-            
-            // :TODO: scale?
-            copy($this->getImagePath(), $path . "image." . $img_suffix);
-            
-            file_put_contents($path . "criteria.txt", $this->getCriteria());
-        }
-        
-        return $base_url . "class.json";
-    }
 
     public function deleteStaticFiles() : void
     {

@@ -161,19 +161,9 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
-            $obi = $form->getInput("act")
-                ? (bool) $form->getInput("obi")
-                : null;
-        
             $handler = ilBadgeHandler::getInstance();
             $handler->setActive((bool) $form->getInput("act"));
-            $handler->setObiActive($obi);
-            $handler->setObiOrganisation(trim($form->getInput("obi_org")));
-            $handler->setObiContact(trim($form->getInput("obi_cont")));
-            $handler->setObiSalt(trim($form->getInput("obi_salt")));
-            
-            $handler->rebuildIssuerStaticUrl();
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
@@ -199,37 +189,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $act->setInfo($this->lng->txt("badge_service_activate_info"));
         $form->addItem($act);
 
-        /* see bug #0020124
-        $obi = new ilCheckboxInputGUI($this->lng->txt("badge_obi_activate"), "obi");
-        $obi->setInfo($this->lng->txt("badge_obi_activate_info"));
-        $form->addItem($obi);
-
-            $obi_org = new ilTextInputGUI($this->lng->txt("badge_obi_organisation"), "obi_org");
-            $obi_org->setRequired(true);
-            $obi_org->setInfo($this->lng->txt("badge_obi_organisation_info"));
-            $obi->addSubItem($obi_org);
-
-            $obi_contact = new ilEmailInputGUI($this->lng->txt("badge_obi_contact"), "obi_cont");
-            $obi_contact->setRequired(true);
-            $obi_contact->setInfo($this->lng->txt("badge_obi_contact_info"));
-            $obi->addSubItem($obi_contact);
-
-            $obi_salt = new ilTextInputGUI($this->lng->txt("badge_obi_salt"), "obi_salt");
-            $obi_salt->setRequired(true);
-            $obi_salt->setInfo($this->lng->txt("badge_obi_salt_info"));
-            $obi->addSubItem($obi_salt);
-        */
 
         $handler = ilBadgeHandler::getInstance();
         $act->setChecked($handler->isActive());
 
-        /* see bug 0020124
-        $obi->setChecked($handler->isObiActive());
-        $obi_org->setValue($handler->getObiOrganistation());
-        $obi_contact->setValue($handler->getObiContact());
-        $obi_salt->setValue($handler->getObiSalt());
-        */
-        
         return $form;
     }
     
@@ -259,12 +222,12 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $this->assertActive();
         
-        $ids = $this->badge_request->getIds();// @TODO: PHP8 Review: Are you sure the type ids are of type `int` IMO they are of type `string`
+        $ids = $this->badge_request->getIds();
         if ($this->checkPermissionBool("write") && count($ids) > 0) {
             $handler = ilBadgeHandler::getInstance();
             $inactive = [];
             foreach ($handler->getInactiveTypes() as $type) {
-                if (!in_array($type, $ids)) {// @TODO: PHP8 Review: 3rd parameter could be set to `true` if $ids are from of type `string`
+                if (!in_array($type, $ids)) {
                     $inactive[] = $type;
                 }
             }

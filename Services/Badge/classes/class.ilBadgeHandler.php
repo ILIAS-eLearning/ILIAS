@@ -62,49 +62,6 @@ class ilBadgeHandler
     {
         $this->settings->set("active", (string) $a_value);
     }
-    
-    public function isObiActive() : bool
-    {
-        // see bug #20124
-        return false;
-
-        //return $this->settings->get("obi_active", false);
-    }
-    
-    public function setObiActive(bool $a_value) : void
-    {
-        $this->settings->set("obi_active", $a_value);
-    }
-    
-    public function getObiOrganistation() : string
-    {
-        return $this->settings->get("obi_organisation", "");
-    }
-    
-    public function setObiOrganisation(string $a_value) : void
-    {
-        $this->settings->set("obi_organisation", trim($a_value));
-    }
-    
-    public function getObiContact() : string
-    {
-        return $this->settings->get("obi_contact", "");
-    }
-    
-    public function setObiContact(string $a_value) : void
-    {
-        $this->settings->set("obi_contact", trim($a_value));
-    }
-    
-    public function getObiSalt() : string
-    {
-        return $this->settings->get("obi_salt", "");
-    }
-    
-    public function setObiSalt(string $a_value) : void
-    {
-        $this->settings->set("obi_salt", trim($a_value));
-    }
 
     /**
      * @return string[]
@@ -506,45 +463,7 @@ class ilBadgeHandler
         return $path;
     }
     
-    protected function prepareIssuerJson(string $a_url) : stdClass
-    {
-        $json = new stdClass();
-        $json->{"@context"} = "https://w3id.org/openbadges/v1";
-        $json->type = "Issuer";
-        $json->id = $a_url;
-        $json->name = $this->getObiOrganistation();
-        $json->url = ILIAS_HTTP_PATH . "/";
-        $json->email = $this->getObiContact();
-        
-        return $json;
-    }
-    
-    public function getIssuerStaticUrl() : string
-    {
-        $path = $this->getBasePath() . "issuer/";
-        ilFileUtils::makeDirParents($path);
-        $path .= "issuer.json";
-        
-        $url = ILIAS_HTTP_PATH . substr($path, 1);
-        
-        if (!file_exists($path)) {
-            $json = json_encode($this->prepareIssuerJson($url), JSON_THROW_ON_ERROR);
-            file_put_contents($path, $json);
-        }
-        
-        return $url;
-    }
-    
-    public function rebuildIssuerStaticUrl() : void
-    {
-        $path = $this->getBasePath() . "issuer/issuer.json";
-        if (file_exists($path)) {
-            unlink($path);
-        }
-        $this->getIssuerStaticUrl();
-    }
-    
-    
+
     //
     // notification
     //

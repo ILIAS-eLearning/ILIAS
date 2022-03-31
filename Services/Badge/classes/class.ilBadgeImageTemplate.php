@@ -213,7 +213,7 @@ class ilBadgeImageTemplate
         }
     }
 
-    protected function readTypes(int $a_id) : array// @TODO: PHP8 Review: According to the code below $res can also be `null`. Please adjust the type and handle the consumers accordingly.
+    protected function readTypes(int $a_id) : ?array
     {
         $ilDB = $this->db;
         
@@ -225,7 +225,7 @@ class ilBadgeImageTemplate
         }
 
         if (!count($res)) {
-            $res = null; // @TODO: PHP8 Review: This does not match the return type
+            $res = null;
         }
         
         return $res;
