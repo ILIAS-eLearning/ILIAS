@@ -77,20 +77,20 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         
         // we currently only check for the parent object setting
         // might change later on (parent containers)
-        $valid = ilContainer::_lookupContainerSetting(
+        $valid = (bool) ilContainer::_lookupContainerSetting(
             $a_parent_obj_id,
             ilObjectServiceSettingsGUI::TAG_CLOUD,
             '0'
         );
-        
+
         if ($valid) {
             $tags_set = new ilSetting("tags");
             if (!$tags_set->get("enable_all_users", '0') &&
-                $ilUser->getId() == ANONYMOUS_USER_ID) {
+                $ilUser->getId() === ANONYMOUS_USER_ID) {
                 $valid = false;
             }
         }
-        
+
         return $valid;
     }
 
@@ -252,6 +252,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 
     protected function getSubTreeTags() : array
     {
+        return [];
         $tree = $this->tree;
         $ilUser = $this->user;
         $sub_ids = array();
@@ -280,7 +281,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 ? null
                 : $ilUser->getId();
             
-            return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());// TODO PHP8-Review Maybe wrong argument order?
+            return ilTagging::_getTagCloudForObjects($sub_ids, 6, false);// TODO PHP8-Review Maybe wrong argument order?
         }
         return [];
     }
