@@ -68,6 +68,8 @@ class ilCategoryExporter extends ilXmlExporter
     {
         $all_ref = ilObject::_getAllReferences($a_id);
         $cat_ref_id = end($all_ref);
+        
+        // try/catch? getInstanceByRefId throws 2 types of exceptions ... that also would make the instanceof below obsolete 
         $category = ilObjectFactory::getInstanceByRefId($cat_ref_id, false);
 
         if (!$category instanceof ilObjCategory) {

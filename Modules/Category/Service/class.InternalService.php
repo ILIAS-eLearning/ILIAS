@@ -30,6 +30,7 @@ class InternalService
 
     public function __construct(DI\Container $DIC)
     {
+        // service impl is empty and no inheritance
         $this->data = new InternalDataService();
 
         $this->repo = new InternalRepoService(

@@ -67,6 +67,7 @@ class ilCategoryImportParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
+    // obsolete
     public function startParsing() : void
     {
         parent::startParsing();
@@ -97,6 +98,9 @@ class ilCategoryImportParser extends ilSaxParser
         return $tag;
     }
 
+    // vars in parameters are without type
+    // maybe refactor switch/case to inheritance
+    // https://refactoring.guru/replace-conditional-with-polymorphism
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         switch ($a_name) {
@@ -119,7 +123,9 @@ class ilCategoryImportParser extends ilSaxParser
         }
     }
 
-
+    // vars in parameters are without type
+    // maybe refactor switch/case to inheritance
+    // https://refactoring.guru/replace-conditional-with-polymorphism
     public function handlerEndTag($a_xml_parser, $a_name) : void
     {
         switch ($a_name) {
@@ -157,6 +163,7 @@ class ilCategoryImportParser extends ilSaxParser
         $this->cdata = "";
     }
 
+    // vars in parameters are without type
     public function handlerCharacterData($a_xml_parser, $a_data) : void
     {
         // i don't know why this is necessary, but
