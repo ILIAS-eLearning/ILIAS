@@ -20,6 +20,7 @@
  */
 class ilCategoryReferenceExporter extends ilContainerReferenceExporter
 {
+    // param and @var different ilObjCategoryReference $ref 
     protected function initWriter(ilContainerReference $ref) : ilContainerReferenceXmlWriter
     {
         /** @var ilObjCategoryReference $ref */
