@@ -3,36 +3,13 @@
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
- *
+ * TODO All these utility functions could be moved to some kind of decorator once a mail is an elaborated object and not an array anymore
  */
 class ilFormatMail extends ilMail
 {
     public function __construct(int $a_user_id)
     {
         parent::__construct($a_user_id);
-    }
-
-    public function formatReplyMessage() : string
-    {
-        if (empty($this->mail_data)) {
-            return '';
-        }
-
-        $bodylines = preg_split("/\r\n|\n|\r/", $this->mail_data['m_message']);
-        foreach ($bodylines as $i => $iValue) {
-            $bodylines[$i] = '> ' . $iValue;
-        }
-
-        return $this->mail_data['m_message'] = implode(chr(10), $bodylines);
-    }
-
-    public function formatReplySubject() : string
-    {
-        if (empty($this->mail_data)) {
-            return '';
-        }
-
-        return $this->mail_data['m_subject'] = 'RE: ' . $this->mail_data['m_subject'];
     }
 
     public function formatReplyRecipientsForCC() : string
@@ -72,15 +49,6 @@ class ilFormatMail extends ilMail
 
         $user = new ilObjUser((int) $this->mail_data['sender_id']);
         return $this->mail_data['rcp_to'] = $user->getLogin();
-    }
-
-    public function formatForwardSubject() : string
-    {
-        if (empty($this->mail_data)) {
-            return '';
-        }
-
-        return $this->mail_data['m_subject'] = '[FWD: ' . $this->mail_data['m_subject'] . ']';
     }
 
     /**
@@ -130,23 +98,40 @@ class ilFormatMail extends ilMail
         return implode(chr(10), $formatted);
     }
 
-    public function appendSignature() : string
+    public function appendSignature(string $message) : string
     {
-        $message = (string) ($this->mail_data['m_message'] ?? '');
         $message .= chr(13) . chr(10) . $this->mail_options->getSignature();
 
         return $message;
     }
 
-    public function prependSignature() : string
+    public function prependSignature(string $message) : string
     {
-        $message = (string) ($this->mail_data['m_message'] ?? '');
-
         return $this->mail_options->getSignature() .
             chr(13) .
             chr(10) .
             chr(13) .
             chr(10) .
             $message;
+    }
+
+    public function formatReplyMessage(string $message) : string
+    {
+        $bodylines = preg_split("/\r\n|\n|\r/", $message);
+        foreach ($bodylines as $i => $iValue) {
+            $bodylines[$i] = '> ' . $iValue;
+        }
+
+        return implode(chr(10), $bodylines);
+    }
+
+    public function formatReplySubject(string $subject) : string
+    {
+        return 'RE: ' . $subject;
+    }
+
+    public function formatForwardSubject(string $subject) : string
+    {
+        return '[FWD: ' . $subject . ']';
     }
 }
