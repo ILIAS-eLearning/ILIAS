@@ -21,9 +21,9 @@ class ilSetupConfig implements Setup\Config
         $this->register_nic = $register_nic;
     }
 
-    public function getClientId() : string
+    public function getClientId() : \ILIAS\Data\ClientId
     {
-        return $this->client_id->toString();
+        return $this->client_id;
     }
 
     public function getServerTimeZone() : \DateTimeZone

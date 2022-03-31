@@ -88,6 +88,6 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
 
     protected function getClientDir() : string
     {
-        return dirname(__DIR__, 2) . "/data/" . $this->config->getClientId();
+        return dirname(__DIR__, 2) . "/data/" . ((string) $this->config->getClientId());
     }
 }
