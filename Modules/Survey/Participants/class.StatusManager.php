@@ -31,7 +31,7 @@ class StatusManager
     protected int $user_id;
     protected \ILIAS\Survey\Access\AccessManager $access;
     protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
-    protected $repo_service;
+    protected InternalRepoService $repo_service;
 
     public function __construct(
         InternalDomainService $domain_service,
