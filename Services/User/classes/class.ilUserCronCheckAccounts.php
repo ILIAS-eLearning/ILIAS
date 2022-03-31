@@ -154,7 +154,7 @@ class ilUserCronCheckAccounts extends ilCronJob
         $res = $ilDB->queryF(
             $query,
             array('text', 'integer', 'timestamp'),
-            array('', 0, date('Y-m-d H:i:s', time() - (int) $oRegSettigs->getRegistrationHashLifetime()))
+            array('', 0, date('Y-m-d H:i:s', time() - $oRegSettigs->getRegistrationHashLifetime()))
         );
         while ($row = $ilDB->fetchAssoc($res)) {
             $oUser = ilObjectFactory::getInstanceByObjId((int) $row['usr_id']);

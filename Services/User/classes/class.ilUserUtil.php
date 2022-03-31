@@ -46,7 +46,7 @@ class ilUserUtil
      * modifications by jposselt at databay . de :
      * if $a_user_id is an array of user ids the method returns an array of
      * "id" => "NamePresentation" pairs.
-     * @param int|array    $a_user_id
+     * @param int|int[]    $a_user_id
      * @return array|false|mixed
      * @throws ilWACException
      */
@@ -67,7 +67,7 @@ class ilUserUtil
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
 
-        if (!is_array($a_ctrl_path)) {
+        if (!is_array($a_ctrl_path)) {// @TODO: PHP8 Review: Variable is always true
             $a_ctrl_path = array($a_ctrl_path);
         }
 

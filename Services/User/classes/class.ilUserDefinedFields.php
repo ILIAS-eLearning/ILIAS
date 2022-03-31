@@ -85,7 +85,7 @@ class ilUserDefinedFields
         }
         if ($parts[3]) {
             // Check if field exists
-            if (is_array($this->definitions["$parts[3]"])) {
+            if (is_array($this->definitions[$parts[3]])) {
                 return $parts[3];
             }
         }
@@ -471,7 +471,7 @@ class ilUserDefinedFields
         return $field_id;
     }
 
-    public function delete(int $a_id)
+    public function delete(int $a_id)// @TODO: PHP8 Review: Missing return type.
     {
         global $DIC;
 
@@ -533,7 +533,7 @@ class ilUserDefinedFields
             // #16953
             $tmp = $sort = array();
             $is_numeric = true;
-            foreach ((array) unserialize($row->field_values) as $item) {
+            foreach ((array) unserialize($row->field_values, ['allowed_classes' => false]) as $item) {
                 if (!is_numeric($item)) {
                     $is_numeric = false;
                 }

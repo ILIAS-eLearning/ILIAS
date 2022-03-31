@@ -167,10 +167,10 @@ class ilUserLPTableGUI extends ilTable2GUI
         $rest = $seconds % 86400;
 
         $hours = floor($rest / 3600);
-        $rest = $rest % 3600;
+        $rest %= 3600;
 
         $minutes = floor($rest / 60);
-        $rest = $rest % 60;
+        $rest %= 60;
 
         return sprintf("%02d:%02d:%02d:%02d", $days, $hours, $minutes, $rest);
     }

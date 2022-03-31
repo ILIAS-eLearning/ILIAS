@@ -141,15 +141,12 @@ class ilUserTableGUI extends ilTable2GUI
      */
     public function getUserDefinedField(string $a_key) : array // Missing array type.
     {
-        if (isset($this->udf_fields[$a_key])) {
-            return $this->udf_fields[$a_key];
-        }
-        return array();
+        return $this->udf_fields[$a_key] ?? array();
     }
 
     public function isUdfColumn(string $a_key) : bool
     {
-        if (substr($a_key, 0, 4) == "udf_") {
+        if (strpos($a_key, "udf_") === 0) {
             return true;
         }
         return false;
@@ -212,9 +209,7 @@ class ilUserTableGUI extends ilTable2GUI
         foreach ($ufs as $f => $fd) {
             if (!isset($cols[$f]) && (!isset($fd["lists_hide"]) || !$fd["lists_hide"])) {
                 // #18795
-                $caption = (isset($fd["lang_var"]))
-                    ? $fd["lang_var"]
-                    : $f;
+                $caption = $fd["lang_var"] ?? $f;
                 $cols[$f] = array(
                     "txt" => $lng->txt($caption),
                     "default" => false);
@@ -278,24 +273,26 @@ class ilUserTableGUI extends ilTable2GUI
         }
 
         $additional_fields = $this->getSelectedColumns();
-        unset($additional_fields["firstname"]);
-        unset($additional_fields["lastname"]);
-        unset($additional_fields["email"]);
-        unset($additional_fields["second_email"]);
-        unset($additional_fields["last_login"]);
-        unset($additional_fields["access_until"]);
-        unset($additional_fields['org_units']);
+        unset(
+            $additional_fields["firstname"],
+            $additional_fields["lastname"],
+            $additional_fields["email"],
+            $additional_fields["second_email"],
+            $additional_fields["last_login"],
+            $additional_fields["access_until"],
+            $additional_fields['org_units']
+        );
 
         $udf_filter = array();
         foreach ($this->filter as $k => $v) {
-            if (substr($k, 0, 4) == "udf_") {
+            if (strpos($k, "udf_") === 0) {
                 $udf_filter[$k] = $v;
             }
         }
 
         $query = new ilUserQuery();
         $order_field = $this->getOrderField();
-        if (substr($order_field, 0, 4) != "udf_" || isset($additional_fields[$order_field])) {
+        if (strpos($order_field, "udf_") !== 0 || isset($additional_fields[$order_field])) {
             $query->setOrderField($order_field);
             $query->setOrderDirection($this->getOrderDirection());
         }

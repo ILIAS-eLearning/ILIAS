@@ -76,9 +76,9 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
         foreach ($a_config["profile"] as $field) {
             $field = substr($field, 4);
             
-            if (substr($field, 0, 4) == "udf_") {
+            if (substr($field, 0, 4) === "udf_") {
                 $udf_field_id = substr($field, 4);
-                if ($user->getPref("public_udf_" . $udf_field_id) != "y") {
+                if ($user->getPref("public_udf_" . $udf_field_id) !== "y") {
                     return false;
                 }
                 $udf = $user->getUserDefinedData();
@@ -88,10 +88,10 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
             }
             // picture
             else {
-                if ($user->getPref("public_" . $field) != "y") {
+                if ($user->getPref("public_" . $field) !== "y") {
                     return false;
                 }
-                if ($field == "upload") {
+                if ($field === "upload") {
                     if (!ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true)) {
                         return false;
                     }
