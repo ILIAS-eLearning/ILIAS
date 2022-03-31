@@ -69,7 +69,7 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function getValues() : array
+    public function getValues() : void
     {
         $values = array();
         
@@ -78,12 +78,10 @@ class ilPCMapGUI extends ilPageContentGUI
         $values["location"]["zoom"] = $this->content_obj->getZoom();
         $values["width"] = $this->content_obj->getWidth();
         $values["height"] = $this->content_obj->getHeight();
-        $values["caption"] = $this->content_obj->handleCaptionFormOutput($this->content_obj->getCaption());
+        $values["caption"] = ilPCMap::handleCaptionFormOutput($this->content_obj->getCaption());
         $values["horizontal_align"] = $this->content_obj->getHorizontalAlign();
         
         $this->form->setValuesByArray($values);
-
-        // @TODO: PHP8 Review: Missing return statement.
     }
 
     public function initForm(string $a_mode) : void

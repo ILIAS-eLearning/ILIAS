@@ -187,11 +187,7 @@ class ilPCParagraph extends ilPageContent
         string $a_text,
         bool $a_auto_split = false
     ) {
-        if (!is_array($a_text)) {// @TODO: PHP8 Review: Condition is always true
-            $text = array(array("level" => 0, "text" => $a_text));
-        } else {
-            $text = $a_text;
-        }
+        $text = $a_text;
         if ($a_auto_split) {
             $text = $this->autoSplit($a_text);
         }
@@ -276,7 +272,7 @@ class ilPCParagraph extends ilPageContent
             $text = '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text . '</Paragraph>';
             //echo htmlentities($text);
             $doc->loadXML($text);
-            $error = $doc->errors;
+            $error = $doc->getErrors();
             $estr = "";
             foreach ($error as $e) {
                 $e = str_replace(" in Entity", "", $e);

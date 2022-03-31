@@ -46,6 +46,7 @@ define("IL_INSERT_CHILD", 2);
  */
 abstract class ilPageObject
 {
+    protected int $create_user = 0;
     /**
      * @var string[]
      */
@@ -244,6 +245,11 @@ abstract class ilPageObject
         return $this->show_page_act_info;
     }
 
+    public function getCreationUserId() : int
+    {
+        return $this->create_user;
+    }
+
     /**
      * Read page data
      */
@@ -277,8 +283,8 @@ abstract class ilPageObject
 
         $this->xml = $this->page_record["content"];
         $this->setParentId((int) $this->page_record["parent_id"]);
-        $this->last_change_user = $this->page_record["last_change_user"];
-        $this->create_user = $this->page_record["create_user"];//@TODO: PHP8 Review: The property is dynamically declared
+        $this->last_change_user = (int) $this->page_record["last_change_user"];
+        $this->create_user = (int) $this->page_record["create_user"];
         $this->setRenderedContent((string) $this->page_record["rendered_content"]);
         $this->setRenderMd5((string) $this->page_record["render_md5"]);
         $this->setRenderedTime((string) $this->page_record["rendered_time"]);
@@ -2996,7 +3002,7 @@ s     */
 
             // @todo 1: hook
             // do not delete question nodes in assessment pages
-            if (!$this->checkForTag("Question", $a_hid[0], $a_hid[1]) || $a_self_ass) {
+            if (!$this->checkForTag("Question", $a_hid[0], (string) $a_hid[1]) || $a_self_ass) {
                 $curr_node = $this->getContentNode($a_hid[0], $a_hid[1]);
                 if (is_object($curr_node)) {
                     $parent_node = $curr_node->parent_node();
@@ -3154,7 +3160,7 @@ s     */
                     $cont_obj = $this->getContentObject($a_hid[0], $a_hid[1]);
                     if ($cont_obj->isEnabled()) {
                         // do not deactivate question nodes in assessment pages
-                        if (!$this->checkForTag("Question", $a_hid[0], $a_hid[1]) || $a_self_ass) {
+                        if (!$this->checkForTag("Question", $a_hid[0], (string) $a_hid[1]) || $a_self_ass) {
                             $cont_obj->disable();
                         }
                     } else {

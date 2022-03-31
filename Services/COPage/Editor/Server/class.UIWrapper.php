@@ -153,7 +153,7 @@ class UIWrapper
 
     /**
      * Send whole page as response
-     * @param bool|array $updated
+     * @param bool|array|string $updated
      * @throws \ilDateTimeException
      */
     public function sendPage(
@@ -168,7 +168,7 @@ class UIWrapper
         if ($updated !== true) {
             if (is_array($updated)) {
                 $error = implode("<br />", $updated);
-            } elseif (is_string($updated)) {// @TODO: PHP8 Review: Condition is always false
+            } elseif (is_string($updated)) {
                 $error = $updated;
             } else {
                 $error = print_r($updated, true);

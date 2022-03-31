@@ -305,7 +305,7 @@ class ilCOPageHTMLExport
                 switch ($a_type) {
                     case "prtf:pg":
                         $page = new ilPortfolioPage($a_id);
-                        $user_id = $page->create_user;//@TODO: PHP8 Review: The property is dynamically declared and is probably undefined.
+                        $user_id = $page->getCreationUserId();
                         break;
                     
                     default:
@@ -322,7 +322,8 @@ class ilCOPageHTMLExport
                     }
 
                     // walk skill tree
-                    $vtree = new ilVirtualSkillTree();// @TODO: PHP8 Review: Missing argument.
+                    // @todo TF, please have a look at this
+                    $vtree = new ilVirtualSkillTree();
                     $tref_id = 0;
                     $skill_id = (int) $skill_id;
                     if (ilSkillTreeNode::_lookupType($skill_id) == "sktr") {
@@ -608,7 +609,7 @@ class ilCOPageHTMLExport
             $term_gui = new ilGlossaryTermGUI($term_id);
             $term_gui->setPageLinker($this->page_linker);
             $term_gui->setOfflineDirectory($this->exp_dir);
-            $term_gui->output(true, $tpl);// @TODO: PHP8 Review: Invalid argument.
+            $term_gui->output(true, $tpl);
 
             // write file
             $html = $tpl->printToString();

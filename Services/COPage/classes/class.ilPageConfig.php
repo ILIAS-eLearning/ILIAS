@@ -175,12 +175,7 @@ abstract class ilPageConfig
         $lng = $this->lng;
         
         $this->setLocalizationLanguage($lng->getLangKey());
-        if (is_array($a_val)) {// @TODO: PHP8 Review: Condition is always false
-            $this->int_link_filter =
-                array_merge($a_val, $this->int_link_filter);
-        } else {
-            $this->int_link_filter[] = $a_val;
-        }
+        $this->int_link_filter[] = $a_val;
     }
     
     public function removeIntLinkFilter(string $a_val) : void

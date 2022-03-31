@@ -224,7 +224,7 @@ class ilPCQuestion extends ilPageContent
                 // this exports the questions which is needed below
                 $qhtml = $this->getQuestionJsOfPage($a_mode == "edit", $a_mode);
                                                             
-                $a_output = "<script>" . ilQuestionExporter::questionsJS($q_ids) . "</script>" . $a_output;// @TODO: PHP8 Review: Undefined class.
+                $a_output = "<script>" . ilQuestionExporter::questionsJS($q_ids) . "</script>" . $a_output;
                 if (!self::$initial_done) {
                     $a_output = "<script>var ScormApi=null; var questions = new Array();</script>" . $a_output;
                     self::$initial_done = true;
@@ -376,7 +376,7 @@ class ilPCQuestion extends ilPageContent
         $js = array();
         if (count($q_ids) > 0) {
             foreach ($q_ids as $q_id) {
-                $q_exporter = new ilQuestionExporter($a_no_interaction);// @TODO: PHP8 Review: Undefined class.
+                $q_exporter = new ilQuestionExporter($a_no_interaction);
                 $image_path = "";
                 if ($a_mode == "offline") {
                     if ($this->getPage()->getParentType() == "sahs") {

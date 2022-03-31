@@ -177,110 +177,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
         return $ret;
     }
 
-    /**
-     * edit paragraph form
-     */
-    public function edit(bool $a_insert = false) : string
-    {
-        $ilUser = $this->user;
-        $s_text = "";
-        
-        // add paragraph edit template
-        $tpl = new ilTemplate("tpl.paragraph_edit.html", true, true, "Services/COPage");
-
-        // help text
-        $this->insertHelp($tpl);
-        
-        // operations
-        $tpl->setCurrentBlock("commands");
-        if ($a_insert) {
-            $tpl->setVariable("BTN_NAME", "create_par");
-            $tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-            $tpl->setVariable("BTN_CANCEL", "cancelCreate");
-            $tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-            $tpl->parseCurrentBlock();
-            /*$tpl->setCurrentBlock("commands2");
-            $tpl->setVariable("BTN_NAME", "create_par");
-            $tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-            $tpl->setVariable("BTN_CANCEL", "cancelCreate");
-            $tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-            $tpl->parseCurrentBlock();*/
-            $tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
-        } else {
-            $tpl->setVariable("BTN_NAME", "update");
-            $tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-            $tpl->setVariable("BTN_CANCEL", "cancelUpdate");
-            $tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-            $tpl->parseCurrentBlock();
-            /*$tpl->setCurrentBlock("commands2");
-            $tpl->setVariable("BTN_NAME", "update");
-            $tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-            $tpl->setVariable("BTN_CANCEL", "cancelUpdate");
-            $tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-            $tpl->parseCurrentBlock();*/
-            $tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
-        }
-
-        // language and characteristic selection
-        $s_char = $this->determineCharacteristic($a_insert);
-        $cmd = $this->ctrl->getCmd();
-        if (!$a_insert) {
-            if ($cmd == "update") {
-                $s_lang = $this->request->getString("par_language");
-            } else {
-                $s_lang = $this->content_obj->getLanguage();
-            }
-        } else {
-            if ($cmd == "create_par") {
-                $s_lang = $this->request->getString("par_language");
-            } else {
-                if ($this->getCurrentTextLang()) {
-                    $s_lang = $this->getCurrentTextLang();
-                } else {
-                    $s_lang = $ilUser->getLanguage();
-                }
-            }
-        }
-
-        $this->insertStyleSelectionList($tpl, $s_char);
-        //		$this->insertCharacteristicTable($tpl, $s_char);
-        
-        
-        $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        
-        $tpl->setVariable("PAR_TA_NAME", "par_content");
-        $tpl->setVariable("BB_MENU", $this->getBBMenu());
-        $this->tpl->addJavaScript("./Services/COPage/phpBB/3_0_5/editor.js");
-        $this->tpl->addJavaScript("./Services/COPage/js/paragraph_editing.js");
-        $this->setStyle();
-
-        $this->displayValidationError();
-
-        $tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-        $tpl->setVariable("TXT_ANCHOR", $this->lng->txt("cont_anchor"));
-
-        $lang = ilMDLanguageItem::_getLanguages();
-        $select_lang = ilLegacyFormElementsUtil::formSelect($s_lang, "par_language", $lang, false, true);
-        $tpl->setVariable("SELECT_LANGUAGE", $select_lang);
-        
-        $tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
-
-        if ($cmd == "update" || $cmd == "create_par") {
-            $s_text = $this->request->getRaw("par_content");
-            // prevent curly brackets from being swallowed up by template engine
-            $s_text = str_replace("{", "&#123;", $s_text);
-            $s_text = str_replace("}", "&#125;", $s_text);
-        } elseif (!$a_insert) {
-            $s_text = $this->content_obj->xml2output($this->content_obj->getText());
-        }
-
-        $tpl->setVariable("PAR_TA_CONTENT", $s_text);
-
-        $tpl->parseCurrentBlock();
-        
-        $this->tpl->setContent($tpl->get());
-        return $tpl->get();
-    }
 
     /**
      * Determine current characteristic
@@ -434,49 +330,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
         );
 
         return $s_text;
-    }
-
-
-    /**
-     * Save paragraph by JS call
-     */
-    public function saveJS() : void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $this->log->debug("start");
-
-        $this->updated = $this->content_obj->saveJS(
-            $this->pg_obj,
-            $this->request->getRaw("ajaxform_content"),
-            $this->request->getString("ajaxform_char"),
-            $this->request->getString("pc_id_str")
-        );
-
-        $this->log->debug("ilPCParagraphGUI, saveJS: got updated value " . $this->updated);
-
-        if ($this->request->getString("quick_save")) {
-            if ($this->updated === true) {
-                $a_pc_id_str = $this->content_obj->getLastSavedPCId($this->pg_obj, true);
-                $this->log->debug("ilPCParagraphGUI, saveJS: echoing pc_id_str " . $a_pc_id_str . " (and exit)");
-                echo $a_pc_id_str;
-                exit;
-            }
-        }
-
-        if ($this->updated !== true && is_array($this->updated)) {
-            $this->outputError($this->updated);
-        }
-
-        $a_pc_id_str = $this->content_obj->getLastSavedPCId($this->pg_obj, true);
-
-        $ilCtrl->setParameterByClass(
-            $ilCtrl->getReturnClass($this),// @TODO: PHP8 Review: Undefined method.
-            "updated_pc_id_str",
-            urlencode($a_pc_id_str)
-        );
-        $this->log->debug("ilPCParagraphGUI, saveJS: redirecting to edit command of " . $ilCtrl->getReturnClass($this) . ".");// @TODO: PHP8 Review: Undefined method.
-        $ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);// @TODO: PHP8 Review: Undefined method.
     }
 
     /**
@@ -652,11 +505,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         //$selection->setSelectedValue($a_selected);
         $selection->setUseImages(false);
         $selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP);
-        if (is_string($a_use_callback)) {// @TODO: PHP8 Review: Thje
-            $selection->setSelectCallback($a_use_callback);
-        } elseif ($a_use_callback === true) {
-            $selection->setSelectCallback("ilCOPage.setCharacterClass");
-        }
+        $selection->setSelectCallback("ilCOPage.setCharacterClass");
 
         //$chars = $a_chars;
         //$title_char = ($chars[$a_selected] != "")
@@ -820,48 +669,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
         } else {
             $this->insert();
         }
-    }
-
-    /**
-     * Create paragraph per JS
-     */
-    public function createJS() : void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $this->log->debug("ilPCParagraphGUI, createJS(): start");
-
-        $this->content_obj = new ilPCParagraph($this->getPage());
-        $this->updated = $this->content_obj->saveJS(
-            $this->pg_obj,
-            $this->request->getRaw("ajaxform_content"),
-            $this->request->getString("ajaxform_char"),
-            $this->request->getString("pc_id_str"),
-            $this->request->getString("insert_at_id")
-        );
-        if ($this->request->getString("quick_save")) {
-            if ($this->updated) {
-                $a_pc_id_str = $this->content_obj->getLastSavedPCId($this->pg_obj, true);
-                echo $a_pc_id_str;
-                $this->log->debug("ilPCParagraphGUI, createJS(): echo pc id and exit: " . $a_pc_id_str);
-                exit;
-            }
-        }
-
-        if ($this->updated !== true && is_array($this->updated)) {
-            $this->outputError($this->updated);
-        }
-
-        // e.g. e.g. ###3:110dad8bad6df8620071a0a693a2d328###
-        $a_pc_id_str = $this->content_obj->getLastSavedPCId($this->pg_obj, true);
-        $ilCtrl->setParameterByClass(
-            $ilCtrl->getReturnClass($this),// @TODO: PHP8 Review: Undefined method.
-            "updated_pc_id_str",
-            urlencode($a_pc_id_str)
-        );
-        $this->log->debug("ilPCParagraphGUI, createJS(): return to edit cmd of " . $ilCtrl->getReturnClass($this));// @TODO: PHP8 Review: Undefined method.
-
-        $ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);// @TODO: PHP8 Review: Undefined method.
     }
 
     /**

@@ -216,13 +216,9 @@ class ilPCFileListGUI extends ilPageContentGUI
             $fileObj->setTitle($_FILES["file"]["name"]);
             $fileObj->setDescription("");
             $fileObj->setFileName($_FILES["file"]["name"]);
-            $fileObj->setFileType($_FILES["file"]["type"]);
-            $fileObj->setFileSize($_FILES["file"]["size"]);
             $fileObj->setMode("filelist");
             $fileObj->create();
             // upload file to filesystem
-            $fileObj->createDirectory();// @TODO: PHP8 Review: Undefined method.
-            $fileObj->raiseUploadError(false);// @TODO: PHP8 Review: Undefined method.
 
             $upload = $DIC->upload();
             if ($upload->hasBeenProcessed() !== true) {
@@ -686,12 +682,9 @@ class ilPCFileListGUI extends ilPageContentGUI
         $fileObj->setTitle($_FILES["file"]["name"]);
         $fileObj->setDescription("");
         $fileObj->setFileName($_FILES["file"]["name"]);
-        $fileObj->setFileType($_FILES["file"]["type"]);
-        $fileObj->setFileSize($_FILES["file"]["size"]);
         $fileObj->setMode("filelist");
         $fileObj->create();
         // upload file to filesystem
-        $fileObj->createDirectory();// @TODO: PHP8 Review: Undefined method.
 
         $upload = $DIC->upload();
         if ($upload->hasBeenProcessed() !== true) {
