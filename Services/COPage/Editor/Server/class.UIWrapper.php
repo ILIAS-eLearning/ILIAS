@@ -168,7 +168,7 @@ class UIWrapper
         if ($updated !== true) {
             if (is_array($updated)) {
                 $error = implode("<br />", $updated);
-            } elseif (is_string($updated)) {
+            } elseif (is_string($updated)) {// @TODO: PHP8 Review: Condition is always false
                 $error = $updated;
             } else {
                 $error = print_r($updated, true);

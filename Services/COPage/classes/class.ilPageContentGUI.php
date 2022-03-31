@@ -16,7 +16,7 @@
 use ILIAS\COPage\PC\EditGUIRequest;
 use ILIAS\COPage\Editor\EditSessionRepository;
 
-use \ILIAS\Style;
+use ILIAS\Style;
 
 /**
  * User Interface for Editing of Page Content Objects (Paragraphs, Tables, ...)

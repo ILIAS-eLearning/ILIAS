@@ -83,7 +83,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
         $fileObj->setMode("filelist");
         $fileObj->create();
         // upload file to filesystem
-        $fileObj->createDirectory();
+        $fileObj->createDirectory();// @TODO: PHP8 Review: Undefined method.
         global $DIC;
         $upload = $DIC->upload();
         if ($upload->hasBeenProcessed() !== true) {

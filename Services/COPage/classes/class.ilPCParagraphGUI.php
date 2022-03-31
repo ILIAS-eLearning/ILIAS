@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use \ILIAS\Style;
+use ILIAS\Style;
 
 /**
  * Class ilPCParagraphGUI
@@ -471,12 +471,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
         $a_pc_id_str = $this->content_obj->getLastSavedPCId($this->pg_obj, true);
 
         $ilCtrl->setParameterByClass(
-            $ilCtrl->getReturnClass($this),
+            $ilCtrl->getReturnClass($this),// @TODO: PHP8 Review: Undefined method.
             "updated_pc_id_str",
             urlencode($a_pc_id_str)
         );
-        $this->log->debug("ilPCParagraphGUI, saveJS: redirecting to edit command of " . $ilCtrl->getReturnClass($this) . ".");
-        $ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);
+        $this->log->debug("ilPCParagraphGUI, saveJS: redirecting to edit command of " . $ilCtrl->getReturnClass($this) . ".");// @TODO: PHP8 Review: Undefined method.
+        $ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);// @TODO: PHP8 Review: Undefined method.
     }
 
     /**
@@ -652,7 +652,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         //$selection->setSelectedValue($a_selected);
         $selection->setUseImages(false);
         $selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP);
-        if (is_string($a_use_callback)) {
+        if (is_string($a_use_callback)) {// @TODO: PHP8 Review: Thje
             $selection->setSelectCallback($a_use_callback);
         } elseif ($a_use_callback === true) {
             $selection->setSelectCallback("ilCOPage.setCharacterClass");
@@ -855,13 +855,13 @@ class ilPCParagraphGUI extends ilPageContentGUI
         // e.g. e.g. ###3:110dad8bad6df8620071a0a693a2d328###
         $a_pc_id_str = $this->content_obj->getLastSavedPCId($this->pg_obj, true);
         $ilCtrl->setParameterByClass(
-            $ilCtrl->getReturnClass($this),
+            $ilCtrl->getReturnClass($this),// @TODO: PHP8 Review: Undefined method.
             "updated_pc_id_str",
             urlencode($a_pc_id_str)
         );
-        $this->log->debug("ilPCParagraphGUI, createJS(): return to edit cmd of " . $ilCtrl->getReturnClass($this));
+        $this->log->debug("ilPCParagraphGUI, createJS(): return to edit cmd of " . $ilCtrl->getReturnClass($this));// @TODO: PHP8 Review: Undefined method.
 
-        $ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);
+        $ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);// @TODO: PHP8 Review: Undefined method.
     }
 
     /**

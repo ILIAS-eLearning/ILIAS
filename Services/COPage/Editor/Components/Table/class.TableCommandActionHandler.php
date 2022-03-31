@@ -114,7 +114,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
 
         $data = [];
         $updated = true;
-        if (is_array($content)) {
+        if (is_array($content)) {// @TODO: PHP8 Review: Condition is always true
             foreach ($content as $i => $row) {
                 if (is_array($row)) {
                     foreach ($row as $j => $cell) {

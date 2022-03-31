@@ -82,6 +82,8 @@ class ilPCMapGUI extends ilPageContentGUI
         $values["horizontal_align"] = $this->content_obj->getHorizontalAlign();
         
         $this->form->setValuesByArray($values);
+
+        // @TODO: PHP8 Review: Missing return statement.
     }
 
     public function initForm(string $a_mode) : void

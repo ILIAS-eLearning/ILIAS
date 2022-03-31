@@ -61,7 +61,7 @@ class ilDomDocument
      */
     public function __set(string $a_mem, $a_val) : void
     {
-        $this->_delegate->$a_mem = $a_val;
+        $this->_delegate->$a_mem = $a_val;//@TODO: PHP8 Review: The property is dynamically declared
     }
 
     /**
