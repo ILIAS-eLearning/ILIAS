@@ -83,7 +83,7 @@ class ilShibbolethSettings
 
     public function delete(string $a_keyword) : void
     {
-        // TODO: Implement delete() method.
+        /** @todo Implement delete() method. */
     }
 
     /**

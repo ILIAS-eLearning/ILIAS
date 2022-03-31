@@ -33,7 +33,8 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilSh
      */
     protected function checkValue(array $a_user_data, string $a_keyword, $a_value) : bool
     {
-        if (!$a_user_data[$a_keyword]) {
+        // removed implicit type-cast
+        if (! isset ($a_user_data[$a_keyword])) {
             return false;
         }
         if (is_array($a_user_data[$a_keyword])) {
