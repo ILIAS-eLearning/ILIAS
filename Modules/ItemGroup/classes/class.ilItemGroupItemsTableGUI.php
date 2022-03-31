@@ -26,7 +26,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
     protected ilObjectDefinition $obj_def;
 
     public function __construct(
-        object $a_parent_obj,
+        ilObjItemGroupGUI $a_parent_obj,
         string $a_parent_cmd
     ) {
         global $DIC;
