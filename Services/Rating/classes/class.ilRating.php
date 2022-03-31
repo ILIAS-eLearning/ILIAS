@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilRating
@@ -47,7 +61,6 @@ class ilRating
             return;
         }
     
-        // CR: Lines 50-66 should be eventually rebuild with if-else
         if ($a_category_id) {
             $ilDB->manipulate("DELETE FROM il_rating WHERE " .
                 "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
@@ -247,8 +260,7 @@ class ilRating
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
     
-        // CR: $tmp_user is defined as array but not used. It can be removed
-        $tmp = $res = $tmp_user = $res_user = array();
+        $tmp = $res = $res_user = array();
         
         // collapse by categories
         $q = "SELECT obj_id, obj_type, user_id, AVG(rating) av" .
