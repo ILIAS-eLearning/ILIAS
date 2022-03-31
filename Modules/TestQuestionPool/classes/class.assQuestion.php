@@ -169,6 +169,8 @@ abstract class assQuestion
         'image/gif' => array('gif')
     );
 
+    protected ilObjUser $current_user;
+
     /**
      * assQuestion constructor
      */
@@ -186,7 +188,7 @@ abstract class assQuestion
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
 
-        $this->ilias = $ilias;
+        $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->db = $ilDB;
@@ -194,15 +196,10 @@ abstract class assQuestion
 
         $this->title = $title;
         $this->comment = $comment;
-        $this->author = $author;
+        $this->setAuthor($author);
+        $this->setOwner($owner);
+    
         $this->setQuestion($question);
-        if (!$this->author) {
-            $this->author = $DIC->user()->getFullname();
-        }
-        $this->owner = $owner;
-        if ($this->owner <= 0) {
-            $this->owner = $DIC->user()->getId();
-        }
 
         $this->id = -1;
         $this->test_id = -1;
@@ -494,7 +491,7 @@ abstract class assQuestion
     public function setAuthor(string $author = "") : void
     {
         if (!$author) {
-            $author = $this->ilias->account->fullname;
+            $author = $this->current_user->getFullname();
         }
         $this->author = $author;
     }
@@ -2086,7 +2083,7 @@ abstract class assQuestion
 
         $this->db->update('qpl_questions', array(
             'tstamp' => array('integer', time()),
-            'owner' => array('integer', ($this->getOwner() <= 0 ? $this->ilias->account->id : $this->getOwner())),
+            'owner' => array('integer', $this->getOwner()),
             'complete' => array('integer', $complete),
             'lifecycle' => array('text', $this->getLifecycle()->getIdentifier()),
         ), array(
