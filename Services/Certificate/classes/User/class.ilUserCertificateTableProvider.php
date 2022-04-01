@@ -82,7 +82,6 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
         $data = [
             'items' => [],
-            'cnt' => 0,
         ];
 
         while ($row = $this->database->fetchAssoc($query)) {
