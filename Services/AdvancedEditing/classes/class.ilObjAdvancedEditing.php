@@ -132,8 +132,7 @@ class ilObjAdvancedEditing extends ilObject
      */
     public static function _getRichTextEditor() : string
     {
-        $setting = new ilSetting("advanced_editing");
-        return $setting->get("advanced_editing_javascript_editor", "0");
+        return (new ilSetting("advanced_editing"))->get("advanced_editing_javascript_editor", "0");
     }
     
     public function setRichTextEditor(string $a_js_editor) : void
