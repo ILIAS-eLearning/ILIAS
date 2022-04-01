@@ -17,7 +17,7 @@ namespace ILIAS\DI;
  *
  *****************************************************************************/
 /**
- * Provides fluid interface to RBAC services.
+ * Provides fluid interface to LoggingServices.
  */
 class LoggingServices
 {
@@ -30,6 +30,7 @@ class LoggingServices
 
     /**
      * Get interface to the global logger.
+     * @return \ilLogger
      */
     public function root()
     {
@@ -38,10 +39,9 @@ class LoggingServices
 
     /**
      * Get a component logger.
-     *
-     * @return	\ilLogger
+     * @return \ilLogger
      */
-    public function __call($method_name, $args)
+    public function __call(string $method_name, array $args)
     {
         assert(count($args) === 0);
         return $this->container['ilLoggerFactory']->getComponentLogger($method_name);
