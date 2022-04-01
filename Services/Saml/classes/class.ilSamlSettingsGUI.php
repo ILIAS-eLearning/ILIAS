@@ -2,6 +2,9 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\DI\RBACServices;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Data\Factory;
 
 /**
  * Class ilSamlSettingsGUI
@@ -17,7 +20,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalCommands = [
+    protected static array $globalCommands = [
         self::DEFAULT_CMD,
         'showAddIdpForm',
         'showSettings',
@@ -29,7 +32,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalEntityCommands = [
+    protected static array $globalEntityCommands = [
         'deactivateIdp',
         'activateIdp',
         'confirmDeleteIdp',
@@ -39,7 +42,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $ignoredUserFields = [
+    protected static array $ignoredUserFields = [
         'mail_incoming_mail',
         'preferences',
         'hide_own_online_status',
@@ -64,11 +67,11 @@ class ilSamlSettingsGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $access;
-    protected \ILIAS\DI\RBACServices $rbac;
+    protected RBACServices $rbac;
     protected ilErrorHandling $error_handler;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected GlobalHttpState $httpState;
     protected Refinery $refinery;
     protected ilHelpGUI $help;
     protected ?ilExternalAuthUserAttributeMapping $mapping = null;
@@ -597,7 +600,7 @@ class ilSamlSettingsGUI
             $this->lng->txt('auth_saml_add_idp_md_label'),
             'metadata',
             new ilSamlIdpXmlMetadataParser(
-                new \ILIAS\Data\Factory(),
+                new Factory(),
                 new ilSamlIdpXmlMetadataErrorFormatter()
             )
         );
