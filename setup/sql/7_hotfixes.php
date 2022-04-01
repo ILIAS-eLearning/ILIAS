@@ -1404,4 +1404,34 @@ if(!$ilDB->indexExistsByFields('booking_object', ['schedule_id'])) {
     $ilDB->addIndex('booking_object', ['schedule_id'], 'i2');
 }
 ?>
+<#77>
+<?php
+if(!$ilDB->indexExistsByFields('exc_assignment', ['exc_id'])) {
+    $ilDB->addIndex('exc_assignment', ['exc_id'], 'i1');
+}
+?>
+<#78>
+<?php
+if(!$ilDB->indexExistsByFields('exc_members', ['usr_id'])) {
+    $ilDB->addIndex('exc_members', ['usr_id'], 'i1');
+}
+?>
+<#79>
+<?php
+if(!$ilDB->indexExistsByFields('exc_assignment', ['deadline_mode', 'exc_id'])) {
+    $ilDB->addIndex('exc_assignment', ['deadline_mode', 'exc_id'], 'i2');
+}
+?>
+<#80>
+<?php
+if(!$ilDB->indexExistsByFields('exc_ass_file_order', ['assignment_id'])) {
+    $ilDB->addIndex('exc_ass_file_order', ['assignment_id'], 'i1');
+}
+?>
+<#81>
+<?php
+if(!$ilDB->indexExistsByFields('il_exc_team', ['id'])) {
+    $ilDB->addIndex('il_exc_team', ['id'], 'i1');
+}
+?>
 
