@@ -20,6 +20,7 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         $this->db = $db;
     }
 
+
     public function step_1()
     {
         $this->called[] = 1;

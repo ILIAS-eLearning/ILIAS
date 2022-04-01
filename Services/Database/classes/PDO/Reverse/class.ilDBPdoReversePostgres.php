@@ -114,6 +114,7 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
                 $definition[$key]['type'] = $type;
                 $definition[$key]['mdb2type'] = $type;
             }
+
             return $definition;
         }
         return [];

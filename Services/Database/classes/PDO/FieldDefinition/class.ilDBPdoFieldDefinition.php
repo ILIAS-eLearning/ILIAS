@@ -1094,6 +1094,7 @@ abstract class ilDBPdoFieldDefinition
         if (!method_exists($this, "get{$type}Declaration")) {
             throw new ilDatabaseException('type not defined: ' . $type);
         }
+
         return $this->{"get{$type}Declaration"}($name, $field);
     }
 
