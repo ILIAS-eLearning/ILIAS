@@ -26,7 +26,7 @@ class ilObjLearningSequenceLPPollingGUI
         $this->request_wrapper = $request_wrapper;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -38,7 +38,7 @@ class ilObjLearningSequenceLPPollingGUI
         }
     }
     
-    protected function getCurrentItemLearningProgress()
+    protected function getCurrentItemLearningProgress() : void
     {
         $obj_id = $this->request_wrapper->retrieve(self::PARAM_LSO_LP_OBJID, $this->refinery->kindlyTo()->int());
         $il_lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;

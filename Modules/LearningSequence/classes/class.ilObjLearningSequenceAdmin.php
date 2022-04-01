@@ -9,7 +9,7 @@ class ilObjLearningSequenceAdmin extends ilObject2
     {
         parent::__construct($id, $call_by_reference);
     }
-
+    // TODO PHP8 Review: Missing Type-Declarations after parent has changed it.
     protected function initType()
     {
         $this->type = "lsos";

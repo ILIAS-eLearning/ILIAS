@@ -16,12 +16,12 @@ class LSUrlBuilderTest extends TestCase
         $this->ub = new LSUrlBuilder($uri);
     }
 
-    public function testDataType()
+    public function testDataType() : void
     {
         $this->assertInstanceOf(ILIAS\Data\URI::class, $this->ub->getURL('x'));
     }
 
-    public function testUrlConcatenation()
+    public function testUrlConcatenation() : void
     {
         $uri = $this->ub->getURL('command', 123);
         $expected = LSUrlBuilder::PARAM_LSO_COMMAND . '=command&'

@@ -27,12 +27,12 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
         $this->lb = new LSLocatorBuilder('cmd', $cb);
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $this->assertInstanceOf(LSLocatorBuilder::class, $this->lb);
     }
 
-    public function testItemCreation()
+    public function testItemCreation() : void
     {
         $this->lb
             ->item('item 1', 1)
@@ -42,7 +42,7 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
         $this->assertCount(3, $this->lb->getItems());
     }
 
-    public function testItemStruct()
+    public function testItemStruct() : void
     {
         $this->lb
             ->item('item 1', 1)
@@ -62,13 +62,13 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $this->lb->getItems());
     }
 
-    public function testEnd()
+    public function testEnd() : void
     {
         $cb = $this->lb->end();
         $this->assertInstanceOf(ControlBuilder::class, $cb);
     }
 
-    public function testGUI()
+    public function testGUI() : void
     {
         $data_factory = new DataFactory();
         $uri = $data_factory->uri('https://ilias.de/somepath');

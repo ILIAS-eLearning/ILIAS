@@ -37,7 +37,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         $this->setNodeOnclickEnabled(true);
     }
 
-    public function withStructure(string $json_structure)
+    public function withStructure(string $json_structure) : self
     {
         $clone = clone $this;
         $clone->structure = $clone->addIds(json_decode($json_structure, true));

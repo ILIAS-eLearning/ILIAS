@@ -49,7 +49,7 @@ class LSItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithOnline(LSItem $object)
+    public function testWithOnline(LSItem $object) : void
     {
         $new_obj = $object->withOnline(false);
 
@@ -75,7 +75,7 @@ class LSItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithOrderNumber(LSItem $object)
+    public function testWithOrderNumber(LSItem $object) : void
     {
         $new_obj = $object->withOrderNumber(20);
 
@@ -101,7 +101,7 @@ class LSItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithPostCondition(LSItem $object)
+    public function testWithPostCondition(LSItem $object) : void
     {
         $pc = new ilLSPostCondition(555, 'always');
         $new_obj = $object->withPostCondition($pc);

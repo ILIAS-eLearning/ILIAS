@@ -130,7 +130,7 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
 
         $collection = ilLPCollection::getInstanceByMode(
             $this->ls_object->getId(),
-            (int) $this->lp_settings->getMode()
+            $this->lp_settings->getMode()
         );
 
         if (!is_null($collection)) {

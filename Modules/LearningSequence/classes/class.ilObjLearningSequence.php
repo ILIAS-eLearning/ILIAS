@@ -23,7 +23,7 @@ class ilObjLearningSequence extends ilContainer
     protected ?ilLearningSequenceActivation $ls_activation = null;
     protected ?ArrayAccess $di = null;
     protected ?ArrayAccess $local_di = null;
-    protected ?ilObjLearningSequenceAccess $ls_access;
+    protected ?ilObjLearningSequenceAccess $ls_access = null;
 
     protected ArrayAccess $dic;
     protected ilCtrl $ctrl;
@@ -50,7 +50,7 @@ class ilObjLearningSequence extends ilContainer
         parent::__construct($id, $call_by_reference);
     }
 
-    public static function getInstanceByRefId(int $ref_id)
+    public static function getInstanceByRefId(int $ref_id) : ?\ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id, false);
     }
@@ -122,11 +122,11 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneMetaData($new_obj);
         $this->cloneSettings($new_obj);
         $this->cloneLPSettings($new_obj->getId());
-        $this->cloneActivation($new_obj, (int) $copy_id);
+        $this->cloneActivation($new_obj, $copy_id);
 
         $roles = $new_obj->getLSRoles();
         $roles->addLSMember(
-            (int) $this->user->getId(),
+            $this->user->getId(),
             $roles->getDefaultAdminRole()
         );
         return $new_obj;
@@ -332,7 +332,7 @@ class ilObjLearningSequence extends ilContainer
      * Update LSItems
      * @param LSItem[]
      */
-    public function storeLSItems(array $ls_items)
+    public function storeLSItems(array $ls_items) : void
     {
         $db = $this->getLSItemsDB();
         $db->storeItems($ls_items);
@@ -342,7 +342,7 @@ class ilObjLearningSequence extends ilContainer
      * Delete post conditions for ref ids.
      * @param int[]
      */
-    public function deletePostConditionsForSubObjects(array $ref_ids)
+    public function deletePostConditionsForSubObjects(array $ref_ids) : void
     {
         $rep_utils = new ilRepUtil();
         $rep_utils->deleteObjects($this->getRefId(), $ref_ids);
@@ -401,7 +401,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * Get mail to members type
      */
-    public function getMailToMembersType()
+    public function getMailToMembersType() : int
     {
         return 0;
     }
@@ -409,7 +409,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * Goto target learning sequence.
      */
-    public static function _goto(int $target, string $add = "")
+    public static function _goto(int $target, string $add = "") : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -479,7 +479,7 @@ class ilObjLearningSequence extends ilContainer
         $item->setContent("lso_news_online_txt");
         $ns->data()->save($item);
     }
-    public function announceLSOOffline()
+    public function announceLSOOffline() : void
     {
         //NYI
     }

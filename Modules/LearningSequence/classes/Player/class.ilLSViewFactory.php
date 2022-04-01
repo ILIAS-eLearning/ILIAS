@@ -31,7 +31,7 @@ class ilLSViewFactory
         }
     }
 
-    protected function getInstanceByRefId(int $ref_id) : ilObject
+    protected function getInstanceByRefId(int $ref_id) : ?\ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id, false);
     }

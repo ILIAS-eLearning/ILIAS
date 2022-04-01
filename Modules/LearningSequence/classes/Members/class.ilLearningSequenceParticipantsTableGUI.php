@@ -326,7 +326,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             }
 
             $filtered_user_ids[] = $user_id;
-            $user_data[$user_id] = array_merge($ud, (array) $lso_user_data[$user_id]);
+            $user_data[$user_id] = array_merge($ud, $lso_user_data[$user_id]);
 
             $roles = array();
             foreach ($local_roles as $role_id => $role_name) {

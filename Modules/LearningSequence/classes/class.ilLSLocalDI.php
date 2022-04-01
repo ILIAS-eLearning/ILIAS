@@ -142,7 +142,7 @@ class ilLSLocalDI extends Container
             return new LSUrlBuilder($player_base_url);
         };
 
-        $this["globalsetttings"] = function ($c) use ($dic) {
+        $this["globalsetttings"] = function ($c) use ($dic) : \LSGlobalSettings {
             $db = new ilLSGlobalSettingsDB($dic['ilSetting']);
             return $db->getSettings();
         };

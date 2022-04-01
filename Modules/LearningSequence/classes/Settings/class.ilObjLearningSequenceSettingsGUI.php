@@ -80,7 +80,7 @@ class ilObjLearningSequenceSettingsGUI
         $this->lng->loadLanguageModule('obj');
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('settings');
 

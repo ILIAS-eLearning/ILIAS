@@ -99,7 +99,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
-    public static function _goto(string $target)
+    public static function _goto(string $target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -159,7 +159,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return $DIC->access()->checkAccess($mode, '', $id);
     }
 
-    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = '')
+    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = '') : void
     {
         global $DIC;
         $ctrl = $DIC->ctrl();
@@ -587,7 +587,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public function unparticipate() : void
     {
         if ($this->checkAccess('unparticipate')) {
-            $usr_id = (int) $this->user->getId();
+            $usr_id = $this->user->getId();
             $this->getObject()->getLSRoles()->leave($usr_id);
             $this->learnerView();
         }

@@ -9,7 +9,7 @@ class ilLearningSequenceAppEventListener
 {
     private static ?ilLSLPEventHandler $lp_event_handler = null;
 
-    public static function handleEvent($component, $event, $parameter)
+    public static function handleEvent(string $component, string $event, array $parameter) : void
     {
         switch ($component) {
             case "Services/Tracking":

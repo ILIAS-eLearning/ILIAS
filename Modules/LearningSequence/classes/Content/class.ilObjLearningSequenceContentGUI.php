@@ -50,7 +50,7 @@ class ilObjLearningSequenceContentGUI
         $this->refinery = $refinery;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
 

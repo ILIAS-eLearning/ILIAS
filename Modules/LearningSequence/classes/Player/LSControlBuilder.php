@@ -291,7 +291,7 @@ class LSControlBuilder implements ControlBuilder
         return $this->start;
     }
 
-    public function getAdditionalJS() : string
+    public function getAdditionalJS() : ?string
     {
         return $this->additional_js;
     }

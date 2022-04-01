@@ -101,6 +101,7 @@ class ilLearningSequenceSettingsDB
         $result = $this->database->query($query);
 
         if ($this->database->numRows($result) !== 0) {
+            // TODO PHP8 Review: Check array building, should be $ret[] = ... IMO
             $ret = $this->database->fetchAssoc($result);
         }
 

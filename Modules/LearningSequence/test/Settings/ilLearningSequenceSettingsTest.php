@@ -14,7 +14,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     const TO_ONLINE = true;
     const TO_MEMBERS_GALLERY = true;
 
-    public function testCreate()
+    public function testCreate() : \ilLearningSequenceSettings
     {
         $object = new ilLearningSequenceSettings(
             self::TO_OBJ_ID,
@@ -38,7 +38,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithAbstract(ilLearningSequenceSettings $object)
+    public function testWithAbstract(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withAbstract("teststring");
 
@@ -60,7 +60,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithExtro(ilLearningSequenceSettings $object)
+    public function testWithExtro(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withExtro("teststring");
 
@@ -82,7 +82,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithAbstractImage(ilLearningSequenceSettings $object)
+    public function testWithAbstractImage(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withAbstractImage("teststring");
 
@@ -104,7 +104,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithExtroImage(ilLearningSequenceSettings $object)
+    public function testWithExtroImage(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withExtroImage("teststring");
 
@@ -126,7 +126,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithMembersGallery(ilLearningSequenceSettings $object)
+    public function testWithMembersGallery(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withMembersGallery(false);
 

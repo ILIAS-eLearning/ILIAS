@@ -54,7 +54,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithPostCondition(LSItem $object)
+    public function testTurnedOffWithPostCondition(LSItem $object) : void
     {
         $this->expectException(LogicException::class);
         $object->withPostCondition($this->post_condition);
@@ -63,7 +63,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithOrderNumber(LSItem $object)
+    public function testTurnedOffWithOrderNumber(LSItem $object) : void
     {
         $this->expectException(LogicException::class);
         $object->withOrderNumber(self::ORDER_NUMBER);
@@ -72,7 +72,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithOnline(LSItem $object)
+    public function testTurnedOffWithOnline(LSItem $object) : void
     {
         $this->expectException(LogicException::class);
         $object->withOnline(self::IS_ONLINE);

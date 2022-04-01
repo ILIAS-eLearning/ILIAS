@@ -122,7 +122,7 @@ class ilLSItemsDB
         $this->storePostconditions($ls_items);
     }
 
-    protected function getObjectFor(int $ref_id) : ilObject
+    protected function getObjectFor(int $ref_id) : ?\ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id);
     }

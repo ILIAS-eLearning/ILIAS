@@ -176,7 +176,7 @@ class ilLearningSequenceRoles
     /**
      * @return bool|ilObject
      */
-    protected function getRoleObject(int $obj_id)
+    protected function getRoleObject(int $obj_id) : ?\ilObject
     {
         return ilObjectFactory::getInstanceByObjId($obj_id);
     }

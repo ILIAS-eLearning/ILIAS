@@ -18,7 +18,7 @@ class GlobalSettingsTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testIntervalAttribute(LSGlobalSettings $settings)
+    public function testIntervalAttribute(LSGlobalSettings $settings) : void
     {
         $interval = 2.0;
         $settings = $settings->withPollingIntervalSeconds($interval);

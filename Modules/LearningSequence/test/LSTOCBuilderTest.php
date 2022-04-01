@@ -7,7 +7,7 @@ use ILIAS\KioskMode\ControlBuilder;
 
 class LSTOCBuilderTest extends TestCase
 {
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $cb = $this->createMock(LSControlBuilder::class);
         $tb = new LSTOCBuilder($cb, '');
@@ -17,7 +17,7 @@ class LSTOCBuilderTest extends TestCase
         );
     }
 
-    public function testRecursion()
+    public function testRecursion() : void
     {
         $cb = $this->createMock(LSControlBuilder::class);
         $tb = new LSTOCBuilder($cb, '');
@@ -55,7 +55,7 @@ class LSTOCBuilderTest extends TestCase
         );
     }
 
-    public function testToCEnd()
+    public function testToCEnd() : void
     {
         $cb = $this->createMock(LSControlBuilder::class);
         $tb = new LSTOCBuilder($cb, '');

@@ -102,7 +102,7 @@ class ilLSPostConditionDB
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($ref_ids, $ls_post_conditions) {
+            function (ilDBInterface $db) use ($ref_ids, $ls_post_conditions) : void {
                 $this->delete($ref_ids, $db);
                 $this->insert($ls_post_conditions, $db);
             }

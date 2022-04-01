@@ -9,6 +9,7 @@ class ilLSLP extends ilObjectLP
 {
     /**
      * @ineritdoc
+     * @return int[]
      */
     public static function getDefaultModes(bool $a_lp_active) : array
     {
@@ -27,6 +28,7 @@ class ilLSLP extends ilObjectLP
 
     /**
      * @ineritdoc
+     * @return int[]
      */
     public function getValidModes() : array
     {

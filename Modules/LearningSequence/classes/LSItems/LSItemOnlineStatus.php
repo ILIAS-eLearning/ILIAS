@@ -14,7 +14,7 @@ class LSItemOnlineStatus
     const S_IND_ASSESSMENT = "iass";
     const S_FILE = "file";
 
-    private static $obj_with_online_status = array(
+    private static array $obj_with_online_status = array(
         self::S_LEARNMODULE_IL,
         self::S_LEARNMODULE_HTML,
         self::S_SAHS,
@@ -22,7 +22,7 @@ class LSItemOnlineStatus
         self::S_SURVEY
     );
 
-    public function setOnlineStatus(int $ref_id, bool $status)
+    public function setOnlineStatus(int $ref_id, bool $status) : void
     {
         $obj = \ilObjectFactory::getInstanceByRefId($ref_id);
         $obj->setOfflineStatus(!$status);

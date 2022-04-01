@@ -114,7 +114,7 @@ class ilLSStateDB
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($insert_first, $lso_ref_id, $usr_id, $current_item, $serialized) {
+            function (ilDBInterface $db) use ($insert_first, $lso_ref_id, $usr_id, $current_item, $serialized) : void {
                 if ($insert_first) {
                     $this->insert($lso_ref_id, $usr_id);
                 }
