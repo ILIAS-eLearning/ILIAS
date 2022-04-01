@@ -85,7 +85,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
         ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $args);
 
         // was a temporary file created? then delete it
-        if ($filepath != $inputFile) {
+        if ($filepath !== $inputFile) {
             @unlink($inputFile);
         }
 

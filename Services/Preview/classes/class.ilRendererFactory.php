@@ -62,7 +62,7 @@ final class ilRendererFactory
     private static function loadAvailableRenderers() : void
     {
         // already loaded?
-        if (self::$renderers != null) {
+        if (self::$renderers !== null) {
             return;
         }
 
