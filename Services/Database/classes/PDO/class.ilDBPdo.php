@@ -1485,9 +1485,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     {
         $d = $this->fetchObject($this->query("SELECT VERSION() AS version"));
 
-        if ($d !== null) {
-            return ($d->version ?: 'Unknown');
+        if ($d !== null && $d->version) {
+            return $d->version;
         }
+        return 'Unknown';
     }
 
     /**

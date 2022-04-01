@@ -95,7 +95,6 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
                     $server_info = $db->getServerVersion();
 
                     if (is_array($server_info) && $server_info['major'] < 8) {
-                        /** @noinspection PhpUndefinedVariableInspection */
                         throw new ilDatabaseException('changing column type for "' . $change_name ?? 'undefined' . '\" requires PostgreSQL 8.0 or above');
                     }
 

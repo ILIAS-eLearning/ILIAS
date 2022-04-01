@@ -218,7 +218,6 @@ class ilDBGenerator
     /**
      * Build DB generation script
      * @param string        output filename, if no filename is given, script is echoed
-     * @noinspection NotOptimalIfConditionsInspection
      */
     public function buildDBGenerationScript(string $a_filename = "") : void
     {

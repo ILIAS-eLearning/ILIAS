@@ -196,7 +196,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                 }
                 $fd = $db->getFieldDefinition();
                 if ($fd !== null) {
-                    $query .= 'ADD ' . $db->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
+                    $query .= 'ADD ' . $fd->getDeclaration($field['type'], $field_name, $field);
                 }
             }
         }

@@ -207,7 +207,6 @@ class ilDBUpdate
                 //take line per line, until last char is ";"
                 if (substr($statement, -1) === ";") {
                     //query is complete
-                    /** @noinspection PhpUndefinedVariableInspection */
                     $q .= " " . substr($statement, 0, -1);
                     $check = $this->checkQuery($q);
                     if ($check === true) {
@@ -219,7 +218,6 @@ class ilDBUpdate
                     unset($q);
                 } //if
                 else {
-                    /** @noinspection PhpUndefinedVariableInspection */
                     $q .= " " . $statement;
                 } //else
             } //if

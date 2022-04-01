@@ -22,7 +22,7 @@ class ilPostgresQueryUtils extends ilQueryUtils
         $fd = $this->db_instance->getFieldDefinition();
         if ($fd !== null) {
             foreach ($fields as $field_name => $field) {
-                $query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration(
+                $query_fields_array[] = $fd->getDeclaration(
                     $field['type'],
                     $field_name,
                     $field
@@ -271,7 +271,7 @@ class ilPostgresQueryUtils extends ilQueryUtils
     {
         $fd = $this->db_instance->getFieldDefinition();
         if ($fd !== null) {
-            return "CAST($a_field_name AS " . $this->db_instance->getFieldDefinition()->getTypeDeclaration(array("type" => $a_dest_type)) . ")";
+            return "CAST($a_field_name AS " . $fd->getTypeDeclaration(array("type" => $a_dest_type)) . ")";
         }
         return "";
     }

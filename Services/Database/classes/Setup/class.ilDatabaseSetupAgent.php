@@ -53,12 +53,11 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        /** @noinspection PhpParamsInspection */
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,
-            new ilDatabaseConfigStoredObjective($config),
-            new \ilDatabasePopulatedObjective($config),
+            new ilDatabaseConfigStoredObjective($config),//PHP8Review: The parameter doesnt match the type. You may lose the typehint in ilDatabaseObjective for this
+            new \ilDatabasePopulatedObjective($config),//PHP8Review: The parameter doesnt match the type. You may lose the typehint in ilDatabaseObjective for this
             new \ilDatabaseUpdatedObjective()
         );
     }
@@ -70,8 +69,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     {
         $p = [];
         if ($config !== null) {
-            /** @noinspection PhpParamsInspection */
-            $p[] = new \ilDatabaseConfigStoredObjective($config);
+            $p[] = new \ilDatabaseConfigStoredObjective($config);//PHP8Review: The parameter doesnt match the type. You may lose the typehint in ilDatabaseObjective for this
         }
         $p[] = new \ilDatabaseUpdatedObjective();
         return new Setup\ObjectiveCollection(

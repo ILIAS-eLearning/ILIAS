@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUndefinedVariableInspection */
+<?php
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -45,7 +45,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
+            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])//PHP8Review: I assume $NOW ist defined here, but not quite sure since this is testing area. You may ignore this...
             ->getMock();
 
         $execution_db->expects($this->once())
@@ -62,7 +62,7 @@ class ilDBStepExecutionDBTest extends TestCase
     {
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
+            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])//PHP8Review: I assume $NOW ist defined here, but not quite sure since this is testing area. You may ignore this...
             ->getMock();
 
         $execution_db->expects($this->once())
@@ -87,7 +87,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
+            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])//PHP8Review: I assume $NOW ist defined here, but not quite sure since this is testing area. You may ignore this...
             ->getMock();
 
         $execution_db->expects($this->once())

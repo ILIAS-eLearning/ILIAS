@@ -1156,7 +1156,6 @@ abstract class ilDBPdoFieldDefinition
      * @param $field
      * @return \ilDBPdo|string
      * @throws \ilDatabaseException
-     * @noinspection NotOptimalIfConditionsInspection
      */
     protected function getDeclarationOptions($field) : string
     {

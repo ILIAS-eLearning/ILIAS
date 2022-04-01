@@ -233,7 +233,6 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
                 $type[] = 'integer';
                 // no break
             case 'set':
-                /** @noinspection SuspiciousAssignmentsInspection */
                 $fixed = false;
                 $type[] = 'text';
                 $type[] = 'integer';

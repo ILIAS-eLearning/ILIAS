@@ -1,4 +1,4 @@
-<?php /** @noinspection AutoloadingIssuesInspection */
+<?php
 declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -42,8 +42,7 @@ class ilArrayTableDataParser
             $content = file_get_contents($this->dir . DIRECTORY_SEPARATOR . $file);
 
             $ilLogger->log(__METHOD__ . ': Reading inserts of ' . $this->dir . '/' . $file);
-            /** @noinspection UnserializeExploitsInspection */
-            $content = unserialize($content);
+            $content = unserialize($content);//PHP8Review: Specifiy the unserialized content/classes
 
             if (!is_array($content)) {
                 $ilLogger->log(__METHOD__ . ': No entries found in ' . $this->dir . '/' . $file);

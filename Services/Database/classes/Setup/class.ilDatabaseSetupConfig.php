@@ -148,7 +148,6 @@ class ilDatabaseSetupConfig implements Setup\Config
                 }
             }
 
-            /** @noinspection MagicMethodsValidityInspection */
             public function __construct(\ilDatabaseSetupConfig $config)
             {
                 $this->config = $config;
