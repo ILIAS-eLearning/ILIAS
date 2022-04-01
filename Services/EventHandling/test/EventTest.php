@@ -84,7 +84,7 @@ class EventTest extends TestCase
     /**
      * Test event
      */
-    public function testEvent()
+    public function testEvent() : void
     {
         $handler = $this->getHandler();
 
