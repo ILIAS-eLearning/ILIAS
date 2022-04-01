@@ -834,8 +834,12 @@ class ilObject
 
                 foreach ($md_gen->getDescriptionIds() as $id) {
                     $md_des = $md_gen->getDescription($id);
-                    $this->setDescription($md_des->getDescription());
-                    break;
+                    // not that this change will handle i18n more strictly, since the
+                    // description will only be used if it matches the title's language.
+                    if ($md_des->getDescriptionLanguageCode() === $md_gen->getTitleLanguageCode()) {
+                        $this->setDescription($md_des->getDescription());
+                        break;
+                    }
                 }
                 $this->update();
                 break;
@@ -885,12 +889,16 @@ class ilObject
         // END WebDAV: meta data can be missing sometimes.
         $md_gen->setTitle($this->getTitle());
 
-        // sets first description (maybe not appropriate)
+        // sets first description (maybe not appropriate) -> nope, it's not.
         $md_des_ids = $md_gen->getDescriptionIds();
-        if (count($md_des_ids) > 0) {
-            $md_des = $md_gen->getDescription($md_des_ids[0]);
-            $md_des->setDescription($this->getLongDescription());
-            $md_des->update();
+        foreach ($md_des_ids as $id) {
+            $md_des = $md_gen->getDescription($id);
+            // Only update the description that corresponds to the title language,
+            // otherwise wrong translations might be overwritten.
+            if ($md_des->getDescriptionLanguageCode() === $md_gen->getTitleLanguageCode()) {
+                $md_des->setDescription($this->getLongDescription());
+                $md_des->update();
+            }
         }
         $md_gen->update();
     }

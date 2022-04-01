@@ -78,19 +78,36 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         include_once("Modules/Course/classes/class.ilObjCourse.php");
 
         $newObj = new ilObjCourse();
-        $newObj->setType('crs');
-        $newObj->setTitle('dummy');
-        $newObj->setDescription("");
         $newObj->create(true); // true for upload
         $newObj->createReference();
         $newObj->putInTree($target_id);
         $newObj->setPermissions($target_id);
-        
+
         include_once 'Modules/Course/classes/class.ilCourseXMLParser.php';
 
         $xml_parser = new ilCourseXMLParser($newObj);
         $xml_parser->setXMLContent($crs_xml);
         $xml_parser->startParsing();
+
+        $obj_translations = ilObjectTranslation::getInstance($newObj->getId());
+        foreach ($xml_parser->getI18NContent() as $language => $translations) {
+            // we need to force, because at this point ilObjCourse::update() has already
+            // mistaken the "first delivered" translations as default.
+            // I18N is not quite normalized or even implemented across the ilObject hierarchy,
+            // therefore we just work around it currently.
+            $obj_translations->addLanguage(
+                $language,
+                $translations['Title'] ?? '',
+                $translations['Description'] ?? '',
+                $translations['Default'] ?? false,
+                true
+            );
+        }
+
+        $obj_translations->save();
+        $newObj->setObjectTranslation($obj_translations);
+        $newObj->update();
+
         return $newObj->getRefId() ? $newObj->getRefId() : "0";
     }
 
