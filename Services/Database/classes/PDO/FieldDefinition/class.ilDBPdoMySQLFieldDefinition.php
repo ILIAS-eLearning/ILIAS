@@ -7,7 +7,6 @@
  */
 class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 {
-
     public function getTypeDeclaration(array $field) : string
     {
         $db = $this->getDBInstance();
