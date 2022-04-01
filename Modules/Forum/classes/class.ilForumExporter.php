@@ -9,7 +9,6 @@
  */
 class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
 {
-    private $ds;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function init() : void
