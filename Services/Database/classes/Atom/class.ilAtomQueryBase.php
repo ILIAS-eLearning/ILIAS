@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 declare(strict_types=1);
 
 /**
@@ -221,7 +221,7 @@ abstract class ilAtomQueryBase
         if (is_string($query)) {
             return false;
         }
-        $classname = get_class($query);
+        $classname = get_class($query);//PHP8Review: Not sure if this works at all but at least it should (get class from a callable)
         $is_a_closure = $classname === 'Closure';
         if (!$is_a_closure) {
             $ref = new ReflectionClass($query);
