@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services;
 
 /******************************************************************************
  *
@@ -24,9 +26,9 @@ class ilMMAbstractItemGUI
     const IDENTIFIER = 'identifier';
     use Hasher;
     
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIServices $ui;
     
-    protected \ILIAS\HTTP\Services $http;
+    protected Services $http;
     
     protected ilMMItemRepository $repository;
     

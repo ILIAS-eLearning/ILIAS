@@ -1,6 +1,4 @@
-<?php
-
-use ILIAS\HTTP\Services;
+<?php declare(strict_types=1);
 
 /**
  * Class ilObjMainMenuAccess

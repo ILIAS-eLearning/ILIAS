@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /******************************************************************************
  *
@@ -45,7 +46,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @inheritdoc
      */
-    public function saveFormFields(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, array $data) : bool
+    public function saveFormFields(IdentificationInterface $identification, array $data) : bool
     {
         ilMMTypeActionStorage::find($identification->serialize())->setAction((string) $data[self::F_ACTION])->setExternal((bool) $data[self::F_EXTERNAL])->update();
 
@@ -55,7 +56,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @inheritdoc
      */
-    public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification) : array
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array
     {
         global $DIC;
         /**
