@@ -476,8 +476,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     protected $exportsettings;
 
-    protected $poolUsage;
-
     private $template_id;
 
     protected $oldOnlineStatus = null;
@@ -681,7 +679,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->testSession = false;
         $this->testSequence = false;
         $this->mailnotification = 0;
-        $this->poolUsage = 1;
         
         $this->ects_grades = array(
             'A' => 90,
@@ -1314,7 +1311,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'tstamp' => array('integer', time()),
                 'enabled_view_mode' => array('text', $this->getEnabledViewMode()),
                 'template_id' => array('integer', $this->getTemplate()),
-                'pool_usage' => array('integer', $this->getPoolUsage()),
                 'print_bs_with_res' => array('integer', (int) $this->isBestSolutionPrintedWithResult()),
                 'obligations_enabled' => array('integer', (int) $this->areObligationsEnabled()),
                 'offer_question_hints' => array('integer', (int) $this->isOfferingQuestionHintsEnabled()),
@@ -1433,7 +1429,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'tstamp' => array('integer', time()),
                     'enabled_view_mode' => array('text', $this->getEnabledViewMode()),
                     'template_id' => array('integer', $this->getTemplate()),
-                    'pool_usage' => array('integer', $this->getPoolUsage()),
                     'print_bs_with_res' => array('integer', (int) $this->isBestSolutionPrintedWithResult()),
                     'obligations_enabled' => array('integer', (int) $this->areObligationsEnabled()),
                     'offer_question_hints' => array('integer', (int) $this->isOfferingQuestionHintsEnabled()),
@@ -1928,7 +1923,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setOfferingQuestionHintsEnabled($data->offer_question_hints);
             $this->setEnabledViewMode($data->enabled_view_mode);
             $this->setTemplate($data->template_id);
-            $this->setPoolUsage($data->pool_usage);
             $this->setPrintBestSolutionWithResult((bool) $data->print_bs_with_res);
             $this->setHighscoreEnabled((bool) $data->highscore_enabled);
             $this->setHighscoreAnon((bool) $data->highscore_anon);
@@ -5833,9 +5827,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 case "anonymity":
                     $this->setAnonymity($metadata["entry"]);
                     break;
-                case "use_pool":
-                    $this->setPoolUsage((int) $metadata["entry"]);
-                    break;
                 case "show_cancel":
                     $this->setShowCancel($metadata["entry"]);
                     break;
@@ -6066,11 +6057,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "anonymity");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getAnonymity()));
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "use_pool");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->getPoolUsage() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // question set type (fixed, random, dynamic, ...)
@@ -7127,7 +7113,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->mark_schema = clone $this->mark_schema;
         $newObj->setEnabledViewMode($this->getEnabledViewMode());
         $newObj->setTemplate($this->getTemplate());
-        $newObj->setPoolUsage($this->getPoolUsage());
         $newObj->setPrintBestSolutionWithResult($this->isBestSolutionPrintedWithResult());
         $newObj->setShowExamIdInTestPassEnabled($this->isShowExamIdInTestPassEnabled());
         $newObj->setShowExamIdInTestResultsEnabled($this->isShowExamIdInTestResultsEnabled());
@@ -9687,7 +9672,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             'limit_users_enabled' => $this->isLimitUsersEnabled(),
             'allowedusers' => $this->getAllowedUsers(),
             'alloweduserstimegap' => $this->getAllowedUsersTimeGap(),
-            'pool_usage' => $this->getPoolUsage(),
             'activation_limited' => $this->isActivationLimited(),
             'activation_start_time' => $this->getActivationStartingTime(),
             'activation_end_time' => $this->getActivationEndingTime(),
@@ -9838,7 +9822,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->setAllowedUsers($testsettings['allowedusers']);
         $this->setAllowedUsersTimeGap($testsettings['alloweduserstimegap']);
         $this->setUsePreviousAnswers($testsettings['use_previous_answers']);
-        $this->setPoolUsage($testsettings['pool_usage']);
         $this->setActivationLimited($testsettings['activation_limited']);
         $this->setActivationStartingTime($testsettings['activation_start_time']);
         $this->setActivationEndingTime($testsettings['activation_end_time']);
@@ -10777,16 +10760,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $this->$method(0);
             }
         }
-    }
-
-    public function getPoolUsage() : bool
-    {
-        return (boolean) $this->poolUsage;
-    }
-
-    public function setPoolUsage($usage)
-    {
-        $this->poolUsage = (boolean) $usage;
     }
     
     /**
@@ -11891,9 +11864,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
             case ilObjTest::QUESTION_SET_TYPE_RANDOM:
                 return $lng->txt('tst_question_set_type_random');
-
-            case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-                return $lng->txt('tst_question_set_type_dynamic');
         }
 
         throw new ilTestException('invalid question set type value given: ' . $questionSetType);

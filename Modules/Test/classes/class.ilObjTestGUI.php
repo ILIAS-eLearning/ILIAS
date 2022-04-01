@@ -1625,95 +1625,81 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function createQuestionObject()
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $lng = $DIC['lng'];
+        
         $this->getTabsManager()->getQuestionsSubTabs();
         $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
         //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
         $questionpools = $this->object->getAvailableQuestionpools(false, false, false, true, false, "write");
-        
-        if ($this->object->getPoolUsage()) {
-            global $DIC;
-            $lng = $DIC['lng'];
-            $ilCtrl = $DIC['ilCtrl'];
-            $tpl = $DIC['tpl'];
 
-            include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
-            $form = new ilPropertyFormGUI();
-            $form->setFormAction($ilCtrl->getFormAction($this, "executeCreateQuestion"));
-            $form->setTitle($lng->txt("ass_create_question"));
-            include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this, "executeCreateQuestion"));
+        $form->setTitle($lng->txt("ass_create_question"));
+        include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
 
-            $hidden = new ilHiddenInputGUI('sel_question_types');
-            $hidden->setValue($_REQUEST["sel_question_types"]);
-            $form->addItem($hidden);
+        $hidden = new ilHiddenInputGUI('sel_question_types');
+        $hidden->setValue($_REQUEST["sel_question_types"]);
+        $form->addItem($hidden);
 
-            // content editing mode
-            if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
-                $ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
+        // content editing mode
+        if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
+            $ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
 
-                $ri->addOption(new ilRadioOption(
-                    $lng->txt('tst_add_quest_cont_edit_mode_default'),
-                    assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
-                ));
+            $ri->addOption(new ilRadioOption(
+                $lng->txt('tst_add_quest_cont_edit_mode_default'),
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
+            ));
 
-                $ri->addOption(new ilRadioOption(
-                    $lng->txt('tst_add_quest_cont_edit_mode_page_object'),
-                    assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
-                ));
-                
-                $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
-
-                $form->addItem($ri, true);
-            } else {
-                $hi = new ilHiddenInputGUI("question_content_editing_type");
-                $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
-                $form->addItem($hi, true);
-            }
+            $ri->addOption(new ilRadioOption(
+                $lng->txt('tst_add_quest_cont_edit_mode_page_object'),
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+            ));
             
-            // use pool
-            $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
-            $usage->setRequired(true);
-            $no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
-            $usage->addOption($no_pool);
-            $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
-            $usage->addOption($existing_pool);
-            $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
-            $usage->addOption($new_pool);
-            $form->addItem($usage);
+            $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
 
-            $usage->setValue(1);
-
-            $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
-            $pools_data = array();
-            foreach ($questionpools as $key => $p) {
-                $pools_data[$key] = $p['title'];
-            }
-            $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
-            $pools->setOptions($pools_data);
-            $existing_pool->addSubItem($pools);
-
-
-            $this->lng->loadLanguageModule('rbac');
-            $name = new ilTextInputGUI($this->lng->txt("rbac_create_qpl"), "txt_qpl");
-            $name->setSize(50);
-            $name->setMaxLength(50);
-            $new_pool->addSubItem($name);
-
-            $form->addCommandButton("executeCreateQuestion", $lng->txt("submit"));
-            $form->addCommandButton("cancelCreateQuestion", $lng->txt("cancel"));
-
-            $this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+            $form->addItem($ri, true);
         } else {
-            global $DIC;
-            $ilCtrl = $DIC['ilCtrl'];
-
-            $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'sel_question_types', $_REQUEST["sel_question_types"]);
-            $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'add_quest_cont_edit_mode', $_REQUEST["add_quest_cont_edit_mode"]);
-            $link = $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'handleToolbarCommand', '', false, false);
-            ilUtil::redirect($link);
+            $hi = new ilHiddenInputGUI("question_content_editing_type");
+            $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+            $form->addItem($hi, true);
         }
+        
+        // use pool
+        $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
+        $usage->setRequired(true);
+        $no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
+        $usage->addOption($no_pool);
+        $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
+        $usage->addOption($existing_pool);
+        $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
+        $usage->addOption($new_pool);
+        $form->addItem($usage);
+
+        $usage->setValue(1);
+
+        $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
+        $pools_data = array();
+        foreach ($questionpools as $key => $p) {
+            $pools_data[$key] = $p['title'];
+        }
+        $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
+        $pools->setOptions($pools_data);
+        $existing_pool->addSubItem($pools);
+
+
+        $this->lng->loadLanguageModule('rbac');
+        $name = new ilTextInputGUI($this->lng->txt("rbac_create_qpl"), "txt_qpl");
+        $name->setSize(50);
+        $name->setMaxLength(50);
+        $new_pool->addSubItem($name);
+
+        $form->addCommandButton("executeCreateQuestion", $lng->txt("submit"));
+        $form->addCommandButton("cancelCreateQuestion", $lng->txt("cancel"));
+
+        $this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
     }
 
     /**
@@ -2030,37 +2016,35 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
             $form->addItem($hi, true);
         }
+        
+        $subScreenId[] = 'poolSelect';
+        
+        // use pool
+        $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
+        $usage->setRequired(true);
+        $no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
+        $usage->addOption($no_pool);
+        $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
+        $usage->addOption($existing_pool);
+        $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
+        $usage->addOption($new_pool);
+        $form->addItem($usage);
 
-        if ($this->object->getPoolUsage()) {
-            $subScreenId[] = 'poolSelect';
-            
-            // use pool
-            $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
-            $usage->setRequired(true);
-            $no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
-            $usage->addOption($no_pool);
-            $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
-            $usage->addOption($existing_pool);
-            $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
-            $usage->addOption($new_pool);
-            $form->addItem($usage);
+        $usage->setValue(1);
 
-            $usage->setValue(1);
-
-            $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
-            $pools_data = array();
-            foreach ($questionpools as $key => $p) {
-                $pools_data[$key] = $p['title'];
-            }
-            $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
-            $pools->setOptions($pools_data);
-            $existing_pool->addSubItem($pools);
-
-            $name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
-            $name->setSize(50);
-            $name->setMaxLength(50);
-            $new_pool->addSubItem($name);
+        $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
+        $pools_data = array();
+        foreach ($questionpools as $key => $p) {
+            $pools_data[$key] = $p['title'];
         }
+        $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
+        $pools->setOptions($pools_data);
+        $existing_pool->addSubItem($pools);
+
+        $name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
+        $name->setSize(50);
+        $name->setMaxLength(50);
+        $new_pool->addSubItem($name);
 
         $form->addCommandButton("executeCreateQuestion", $lng->txt("create"));
         $form->addCommandButton("questions", $lng->txt("cancel"));
@@ -2144,70 +2128,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 );
                 $DIC->ui()->mainTemplate()->parseCurrentBlock();
             } else {
-                global $DIC;
                 $ilToolbar = $DIC['ilToolbar'];
 
                 $ilToolbar->addButton($this->lng->txt("ass_create_question"), $this->ctrl->getLinkTarget($this, "addQuestion"));
-
-                if ($this->object->getPoolUsage()) {
-                    $ilToolbar->addSeparator();
-
-                    require_once 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php';
-
-                    $this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_LIST_VIEW);
-                }
-                /*
+                    
                 $ilToolbar->addSeparator();
-                $ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
-
-
-                global $DIC;
-                $ilAccess = $DIC['ilAccess'];
-                $ilUser = $DIC['ilUser'];
-                $lng = $DIC['lng'];
-                $ilCtrl = $DIC['ilCtrl'];
-                $online_access = false;
-                if ($this->object->getFixedParticipants()) {
-                    include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-                    $online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
-                    if ($online_access_result === true) {
-                        $online_access = true;
-                    }
-                }
-
-                if (!$this->object->getOfflineStatus() && $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig())) {
-                    if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id)) {
-                        $testSession = $this->testSessionFactory->getSession();
-                        $testSequence = $this->testSequenceFactory->getSequenceByTestSession($testSession);
-
-                        $testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
-
-                        $executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = true);
-
-                        if ($executable["executable"]) {
-                            if ($testSession->getActiveId() > 0) {
-                                // resume test
-
-                                if ($testSequence->hasStarted($testSession)) {
-                                    $execTestLabel = $this->lng->txt("tst_resume_test");
-                                    $execTestLink = $this->ctrl->getLinkTarget($testPlayerGUI, 'resumePlayer');
-                                } else {
-                                    $execTestLabel = $this->object->getStartTestLabel($testSession->getActiveId());
-                                    $execTestLink = $this->ctrl->getLinkTarget($testPlayerGUI, 'startPlayer');
-                                }
-                            } else {
-                                // start new test
-
-                                $execTestLabel = $this->object->getStartTestLabel($testSession->getActiveId());
-                                $execTestLink = $this->ctrl->getLinkTarget($testPlayerGUI, 'startPlayer');
-                            }
-
-                            $ilToolbar->addSeparator();
-                            $ilToolbar->addButton($execTestLabel, $execTestLink);
-                        }
-                    }
-                }
-                */
+                $this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_LIST_VIEW);
             }
         }
 
@@ -3068,37 +2994,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $ilToolbar->setFormAction($ilCtrl->getFormActionByClass('iltestexpresspageobjectgui', 'edit'));
 
         if ($this->object->evalTotalPersons() == 0) {
-            /*
-            include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
-            $pool = new ilObjQuestionPool();
-            $questionTypes = $pool->getQuestionTypes();$options = array();
-            foreach($questionTypes as $label => $data) {
-            $options[$data['question_type_id']] = $label;
-            }
-
-                    include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-                    $si = new ilSelectInputGUI($lng->txt("test_add_new_question"), "qtype");
-                    $si->setOptions($options);
-                    $ilToolbar->addInputItem($si, true);
-            /*
-                    // use pool
-                    if ($this->object->isExpressModeQuestionPoolAllowed()) {
-                        include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-                        $cb = new ilCheckboxInputGUI($lng->txt("test_use_pool"), "use_pool");
-                        $ilToolbar->addInputItem($cb, true);
-                    }
-            */
             $ilToolbar->addFormButton($lng->txt("ass_create_question"), "addQuestion");
 
             $ilToolbar->addSeparator();
+            
+            $this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_PAGE_VIEW);
 
-            if ($this->object->getPoolUsage()) {
-                require_once 'Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php';
-                
-                $this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_PAGE_VIEW);
-
-                $show_separator = true;
-            }
+            $show_separator = true;
         }
 
         $questions = $this->object->getQuestionTitlesAndIndexes();

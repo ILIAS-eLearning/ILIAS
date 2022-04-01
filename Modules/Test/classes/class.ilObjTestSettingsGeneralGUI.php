@@ -582,41 +582,19 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             }
         }
         $form->addItem($desc);
+        
+        $question_set_type = new ilRadioGroupInputGUI($this->lng->txt('test_question_set_type'), 'question_set_type');
 
+        $fixed = new ilRadioOption($this->lng->txt('test_question_set_type_fixed'), ilObjTest::QUESTION_SET_TYPE_FIXED);
+        $fixed->setInfo($this->lng->txt('test_question_set_type_fixed_info'));
+        $question_set_type->addOption($fixed);
 
-        // pool usage
-        $pool_usage = new ilRadioGroupInputGUI($this->lng->txt('test_question_pool_usage'), 'use_pool');
+        $random = new ilRadioOption($this->lng->txt('test_question_set_type_random'), ilObjTest::QUESTION_SET_TYPE_RANDOM);
+        $random->setInfo($this->lng->txt('test_question_set_type_random_info'));
+        $question_set_type->addOption($random);
 
-        $optional_qpl = new ilRadioOption($this->lng->txt('test_question_pool_usage_optional'), 1);
-        $optional_qpl->setInfo($this->lng->txt('test_question_pool_usage_optional_info'));
-        $pool_usage->addOption($optional_qpl);
-
-        $tst_directly = new ilRadioOption($this->lng->txt('test_question_pool_usage_tst_directly'), 0);
-        $tst_directly->setInfo($this->lng->txt('test_question_pool_usage_tst_directly_info'));
-        $pool_usage->addOption($tst_directly);
-
-        $pool_usage->setValue($this->testOBJ->getPoolUsage() ? 1 : 0);
-        $form->addItem($pool_usage);
-
-        // test mode (question set type)
-        $questSetType = new ilRadioGroupInputGUI($this->lng->txt("tst_question_set_type"), 'question_set_type');
-        $questSetTypeFixed = new ilRadioOption(
-            $this->lng->txt("tst_question_set_type_fixed"),
-            ilObjTest::QUESTION_SET_TYPE_FIXED,
-            $this->lng->txt("tst_question_set_type_fixed_desc")
-        );
-        $questSetType->addOption($questSetTypeFixed);
-        $questSetTypeRandom = new ilRadioOption(
-            $this->lng->txt("tst_question_set_type_random"),
-            ilObjTest::QUESTION_SET_TYPE_RANDOM,
-            $this->lng->txt("tst_question_set_type_random_desc")
-        );
-        $questSetType->addOption($questSetTypeRandom);
-        $questSetType->setValue($this->testOBJ->getQuestionSetType());
-        if ($this->testOBJ->participantDataExist()) {
-            $questSetType->setDisabled(true);
-        }
-        $form->addItem($questSetType);
+        $question_set_type->setValue($this->testOBJ->getQuestionSetType());
+        $form->addItem($question_set_type);
 
         // anonymity
         $anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
