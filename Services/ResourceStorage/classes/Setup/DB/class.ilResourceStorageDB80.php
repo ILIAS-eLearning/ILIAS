@@ -110,11 +110,14 @@ class ilResourceStorageDB80 implements ilDatabaseUpdateSteps
             'rid',
             $attributes
         );
-        $this->db->modifyTableColumn(
-            'file_data',
-            'rid',
-            $attributes
-        );
+        try {
+            $this->db->modifyTableColumn(
+                'file_data',
+                'rid',
+                $attributes
+            );
+        } catch (Throwable $t) {
+        }
     }
 
     public function step_4() : void
