@@ -26,9 +26,9 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
     private ?int $obj_id = null;
     private ?\ilPreview $preview = null;
     /**
-     * @var \ilWorkspaceAccessHandler|null|\ilAccessHandler
+     * @var ilWorkspaceAccessHandler|ilAccessHandler|null
      */
-    private $access_handler = null;
+    private ?object $access_handler = null;
     private ?int $context = null;
     private ?\ilCtrl $ctrl = null;
     private ?\ilLanguage $lng = null;
@@ -42,13 +42,13 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param int $a_node_id The node id.
      * @param int $a_context The context of the preview.
      * @param int $a_obj_id The object id.
-     * @param ilAccessHandler|ilWorkspaceAccessHandler $a_access_handler The access handler to use.
+     * @param ilWorkspaceAccessHandler|ilAccessHandler|null $a_access_handler The access handler to use.
      */
     public function __construct(
         ?int $a_node_id = null,
         ?int $a_context = self::CONTEXT_REPOSITORY,
         ?int $a_obj_id = null,
-        $a_access_handler = null
+        ?object $a_access_handler = null
     ) {
         global $DIC;
         // assign values
