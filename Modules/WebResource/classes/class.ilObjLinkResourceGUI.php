@@ -1121,6 +1121,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $tool = new ilToolbarGUI();
         $tool->setFormAction($this->ctrl->getFormAction($this));
 
+        $f = $DIC->ui()->factory();
+        $r = $DIC->ui()->renderer();
+
         if (
             ilLinkResourceList::checkListStatus($this->object->getId()) &&
             $this->checkPermissionBool('write')
@@ -1131,15 +1134,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             );
         }
         elseif ($this->checkPermissionBool('write')) {
-            $f = $DIC->ui()->factory();
-            $r = $DIC->ui()->renderer();
-
             $modal = $this->getLinkToListModal();
             $button = $f->button()->standard($this->lng->txt('webr_set_to_list'), '#')
                 ->withOnClick($modal->getShowSignal());
 
             $this->tpl->setVariable("MODAL", $r->render([$modal]));
-
             $tool->addComponent($button);
         }
 
