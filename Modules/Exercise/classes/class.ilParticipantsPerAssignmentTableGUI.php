@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Exercise member table
  *
@@ -114,10 +128,8 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
                     if (isset($calc_deadline["team"][$team_id])) {
                         $tmp[$team_id]["calc_deadline"] = $calc_deadline["team"][$team_id]["calculated_deadline"];
                     }
-                } else {
-                    if (isset($calc_deadline["user"][$item["usr_id"]])) {
-                        $tmp["nty" . $item["usr_id"]]["calc_deadline"] = $calc_deadline["user"][$item["usr_id"]]["calculated_deadline"];
-                    }
+                } elseif (isset($calc_deadline["user"][$item["usr_id"]])) {
+                    $tmp["nty" . $item["usr_id"]]["calc_deadline"] = $calc_deadline["user"][$item["usr_id"]]["calculated_deadline"];
                 }
             }
             
