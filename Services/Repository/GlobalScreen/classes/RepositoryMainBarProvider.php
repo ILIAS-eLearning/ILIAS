@@ -81,13 +81,16 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
 
         \ilRepositoryExplorerGUI::init();
+        $ref_id = $this->request->getRefId();
+        $top_node = \ilRepositoryExplorerGUI::getTopNodeForRefId($ref_id);
+        $asynch = ($top_node === 0);
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
             ->withVisibilityCallable($access_helper->isRepositoryVisible())
-            ->withContentWrapper(function () {
-                return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
+            ->withContentWrapper(function () use ($ref_id) {
+                return $this->dic->ui()->factory()->legacy($this->renderRepoTree($ref_id));
             })
-            ->withSupportsAsynchronousLoading(true)
+            ->withSupportsAsynchronousLoading($asynch)
             ->withTitle($title)
             ->withSymbol($icon)
             ->withParent($top)
@@ -225,15 +228,13 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         return $mbox;
     }
 
-    protected function renderRepoTree() : string
+    protected function renderRepoTree(int $ref_id) : string
     {
         global $DIC;
         $tree = $DIC->repositoryTree();
-        $ref_id = $this->request->getRefId();
         if ($this->request->getBaseClass() == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
             $ref_id = $tree->readRootId();
         }
-
         $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
         $exp->setSkipRootNode(true);
