@@ -24,13 +24,14 @@ final class ilRendererFactory
 {
     /**
      * The available renderers.
+     * @var ilFilePreviewRenderer[]|null
      */
     private static ?array $renderers = null;
 
     /**
      * Gets an array containing all available preview renderers.
      *
-     * @return array All available preview renderers.
+     * @return ilFilePreviewRenderer[] All available preview renderers.
      */
     public static function getRenderers() : array
     {
@@ -44,7 +45,7 @@ final class ilRendererFactory
      * @param ilPReview $preview The preview to get the renderer for.
      * @return ilPreviewRenderer A renderer or null if no renderer matches the preview object.
      */
-    public static function getRenderer(\ilPReview $preview) : ?ilPreviewRenderer
+    public static function getRenderer(\ilPreview $preview) : ?ilPreviewRenderer
     {
         $renderers = self::getRenderers();
 

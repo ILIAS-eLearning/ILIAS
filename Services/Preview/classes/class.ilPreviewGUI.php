@@ -248,7 +248,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param $a_cmd string The command to create.
      * @param $btn_topic string The topic to get the button text.
      * @param $loading_topic string The topic to get the loading text.
-     * @param $a_display_status array An array containing the statuses when the command should be visible.
+     * @param $a_display_status string[] An array containing the statuses when the command should be visible.
      */
     private function renderCommand(ilTemplate $tmpl, string $a_cmd, string $btn_topic, string $loading_topic, array $a_display_status) : void
     {
@@ -260,7 +260,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
         $script_args = "event, { id: '{$this->node_id}', htmlId: '$preview_html_id', url: '$link', loadingText: '$loading_text' }";
 
         $action_class = "";
-        if (!is_array($a_display_status) || !in_array($preview_status, $a_display_status)) {
+        if (!in_array($preview_status, $a_display_status, true)) {
             $action_class = "ilPreviewActionHidden";
         }
 
