@@ -264,20 +264,20 @@ class ilObjLearningSequenceSettingsGUI
 
         $lso = $this->obj;
 
-        $lso->setTitle($this->post_wrapper->retrieve(self::PROP_TITLE , $this->refinery->kindlyTo()->string()));
-        $lso->setDescription($this->post_wrapper->retrieve(self::PROP_DESC , $this->refinery->kindlyTo()->string()));
+        $lso->setTitle($this->post_wrapper->retrieve(self::PROP_TITLE, $this->refinery->kindlyTo()->string()));
+        $lso->setDescription($this->post_wrapper->retrieve(self::PROP_DESC, $this->refinery->kindlyTo()->string()));
 
         $settings = $this->settings
-            ->withAbstract($this->post_wrapper->retrieve(self::PROP_ABSTRACT , $this->refinery->kindlyTo()->string()))
-            ->withExtro($this->post_wrapper->retrieve(self::PROP_EXTRO , $this->refinery->kindlyTo()->string()))
-            ->withMembersGallery($this->post_wrapper->retrieve(self::PROP_GALLERY , $this->refinery->kindlyTo()->bool()))
+            ->withAbstract($this->post_wrapper->retrieve(self::PROP_ABSTRACT, $this->refinery->kindlyTo()->string()))
+            ->withExtro($this->post_wrapper->retrieve(self::PROP_EXTRO, $this->refinery->kindlyTo()->string()))
+            ->withMembersGallery($this->post_wrapper->retrieve(self::PROP_GALLERY, $this->refinery->kindlyTo()->bool()))
         ;
 
         $inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
         $start = $inpt->getStart();
         $end = $inpt->getEnd();
         $activation = $this->activation
-            ->withIsOnline($this->post_wrapper->retrieve(self::PROP_ONLINE , $this->refinery->kindlyTo()->bool()));
+            ->withIsOnline($this->post_wrapper->retrieve(self::PROP_ONLINE, $this->refinery->kindlyTo()->bool()));
 
         if ($start) {
             $activation = $activation

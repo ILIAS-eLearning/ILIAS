@@ -81,7 +81,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
     /**
      * @inheritdoc
      */
-    protected function getPathPrefix():string
+    protected function getPathPrefix() : string
     {
         return self::PATH_PRE;
     }
@@ -89,7 +89,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
     /**
      * @inheritdoc
      */
-    protected function getPathPostfix():string
+    protected function getPathPostfix() : string
     {
         return self::PATH_POST;
     }

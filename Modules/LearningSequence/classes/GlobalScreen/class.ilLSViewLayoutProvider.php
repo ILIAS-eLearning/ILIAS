@@ -127,17 +127,15 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         $label = $this->dic['lng']->txt('lso_player_viewmodelabel');
 
         $lnk = new URI($exit->getAction());
-
-        return $this->factory->page()
-            ->withModification(
-                function (PagePartProvider $parts) use ($label, $lnk) : Page {
-                    $p = new StandardPageBuilder();
-                    $f = $this->dic['ui.factory'];
-                    $page = $p->build($parts);
-                    $modeinfo = $f->mainControls()->modeInfo($label, $lnk);
-                    return $page->withModeInfo($modeinfo);
-                }
-            )
-            ->withHighPriority();
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->factory->page()->withModification(
+            function (PagePartProvider $parts) use ($label, $lnk) : Page {
+                $p = new StandardPageBuilder();
+                $f = $this->dic['ui.factory'];
+                $page = $p->build($parts);
+                $modeinfo = $f->mainControls()->modeInfo($label, $lnk);
+                return $page->withModeInfo($modeinfo);
+            }
+        )->withHighPriority();
     }
 }
