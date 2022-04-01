@@ -13,7 +13,7 @@
 class ilObjForum extends ilObject
 {
     public const NEWS_NEW_CONSIDERATION_WEEKS = 8;
-    
+
     public ilForum $Forum;
     /** @var array<int, int>  */
     private static array $obj_id_to_forum_id_cache = [];
@@ -24,19 +24,17 @@ class ilObjForum extends ilObject
     /** @var array<int, array>  */
     private static array $forum_last_post_cache = [];
     private \ILIAS\DI\RBACServices $rbac;
-    protected ilObjUser $user;
     private ilLogger $logger;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
 
-        $this->rbac = $DIC->rbac();
-        $this->db = $DIC->database();
-        $this->user = $DIC->user();
-        $this->logger = $DIC->logger()->root();
         $this->type = 'frm';
         parent::__construct($a_id, $a_call_by_reference);
+
+        $this->rbac = $DIC->rbac();
+        $this->logger = $DIC->logger()->root();
 
         $settings = $DIC->settings();
         $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
