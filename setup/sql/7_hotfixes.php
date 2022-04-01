@@ -1386,3 +1386,22 @@ $ilDB->replace("settings", [        // pk
 );
 
 ?>
+<#74>
+<?php
+if(!$ilDB->indexExistsByFields('booking_reservation', ['context_obj_id'])) {
+    $ilDB->addIndex('booking_reservation', ['context_obj_id'], 'i5');
+}
+?>
+<#75>
+<?php
+if(!$ilDB->indexExistsByFields('booking_schedule', ['pool_id'])) {
+    $ilDB->addIndex('booking_schedule', ['pool_id'], 'i1');
+}
+?>
+<#76>
+<?php
+if(!$ilDB->indexExistsByFields('booking_object', ['schedule_id'])) {
+    $ilDB->addIndex('booking_object', ['schedule_id'], 'i2');
+}
+?>
+
