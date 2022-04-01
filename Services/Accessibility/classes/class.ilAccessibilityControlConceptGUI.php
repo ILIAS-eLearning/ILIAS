@@ -107,7 +107,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
             );
         }
 
-        self::printToGlobalTemplate($tpl);
+        $this->printToGlobalTemplate($tpl);
     }
 
     public static function getFooterLink() : string
