@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +56,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -305,7 +304,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 
     protected static function _str($key) : string
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $w = $DIC->http()->wrapper();
@@ -613,8 +611,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 
         $childs = $this->getChilds($a_par_node["node_id"]);
         $a_childs = $childs;
-        $html = "";
-        $last_child = null;
         $ttpl = new ilTemplate("tpl.hierarchy_form_nodes.html", true, true, "Services/Form");
 
         // prepended drop area
@@ -683,7 +679,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         if (count($childs) > 0) {
             for ($i = 0; $i < count($childs); $i++) {
                 $next_sibling = ($i < (count($childs) - 1))
-                    ? $next_sibling = $childs[$i + 1]
+                    ? $childs[$i + 1]
                     : null;
 
                 $this->renderChild($ttpl, $childs[$i], $a_depth, $next_sibling);

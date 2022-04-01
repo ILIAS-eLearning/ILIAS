@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +46,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
      * Only temp fix for #8603, should go to db classes
      * @deprecated
      */
-    private function dbSupportsDisctinctUmlauts()
+    private function dbSupportsDisctinctUmlauts() : ?bool
     {
         if (!isset($this->db_supports_distinct_umlauts)) {
             $set = $this->db->query(
