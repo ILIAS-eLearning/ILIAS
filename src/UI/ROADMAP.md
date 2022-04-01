@@ -259,6 +259,13 @@ If PHP7.4 is no longer supported by ILIAS we should hint the return type for mut
 like withXYZ in interfaces to static related to this documentation `https://wiki.php.net/rfc/static_return_type`.
 This should be already documented in most of the docstrings of these methods.
 
+### Player: Improve Transcript Presentation
+
+ILIAS 8 introduces an Audio Player component presenting an optional transcript text in a Modal. There are several possible follow ups, see the open discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/4033
+- Add a player instance within the Modal enabling to control the audio while reading the transcript.
+- Introduce a KS component for transcript presentation following the structure of the WebVTT format.
+- Add support for WebVTT files to the Audio Player component.
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again
