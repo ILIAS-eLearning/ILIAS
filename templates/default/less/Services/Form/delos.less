@@ -329,3 +329,9 @@ input:invalid {
 div[id$="color-picker-menu"] {
 	z-index: 3;
 }
+
+/* This is a memento that we should get rid of the legacy UI */
+.wzdrow input[type=file]:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: 0;
+}
