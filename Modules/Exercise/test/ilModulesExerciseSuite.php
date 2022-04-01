@@ -25,6 +25,8 @@ class ilModulesExerciseSuite extends TestSuite
 {
     public static function suite()
     {
+        /** @noRector  */
+        require_once "./Modules/Exercise/test/PeerReview/ExcPeerReviewTest.php";
         $suite = new ilModulesExerciseSuite();
         $suite->addTestSuite("ExcPeerReviewTest");
 
