@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
@@ -18,6 +18,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 
 /**
  * Class ilMMAbstractItemFacade
@@ -153,7 +154,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     
     public function isAvailable() : bool
     {
-        return (bool) ($this->filtered_item->isAvailable() || $this->filtered_item->isAlwaysAvailable());
+        return $this->filtered_item->isAvailable() || $this->filtered_item->isAlwaysAvailable();
     }
     
     /**
@@ -161,7 +162,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
      */
     public function isActivated() : bool
     {
-        return (bool) ($this->mm_item->isActive() && $this->getRawItem()->isAvailable()) || $this->getRawItem()->isAlwaysAvailable();
+        return $this->mm_item->isActive() && $this->getRawItem()->isAvailable() || $this->getRawItem()->isAlwaysAvailable();
     }
     
     /**
@@ -189,7 +190,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if ($default_translation !== "") {
             return $default_translation;
         }
-        if ($this->default_title == "-" && $this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle) {
+        if ($this->default_title == "-" && $this->raw_item instanceof hasTitle) {
             $this->default_title = $this->raw_item->getTitle();
         }
         
@@ -377,7 +378,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
      * deletes all translations associated with the current identification.
      * @throws Exception
      */
-    protected function deleteAssociatedTranslations()
+    protected function deleteAssociatedTranslations() : void
     {
         $ts = ilMMItemTranslationStorage::where([
             'identification' => $this->identification->serialize(),

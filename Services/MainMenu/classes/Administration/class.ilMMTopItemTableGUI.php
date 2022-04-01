@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
@@ -85,6 +85,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $this->hash($a_set['identification']));
         
         if ($this->access->hasUserPermissionTo('write')) {
+            $items = [];
             if ($item_facade->isEditable()) {
                 $items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_EDIT));
                 $items[] = $factory->button()

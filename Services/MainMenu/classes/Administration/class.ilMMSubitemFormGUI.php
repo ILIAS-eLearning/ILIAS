@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
@@ -46,8 +46,14 @@ class ilMMSubitemFormGUI
      * @param ilMMItemFacadeInterface $item
      * @param ilMMItemRepository      $repository
      */
-    public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, ilMMItemFacadeInterface $item, ilMMItemRepository $repository)
-    {
+    public function __construct(
+        ilCtrl $ctrl,
+        Factory $ui_fa,
+        Renderer $ui_re,
+        ilLanguage $lng,
+        ilMMItemFacadeInterface $item,
+        ilMMItemRepository $repository
+    ) {
         $this->ctrl        = $ctrl;
         $this->ui_fa       = $ui_fa;
         $this->ui_re       = $ui_re;
@@ -166,7 +172,7 @@ class ilMMSubitemFormGUI
         $this->item_facade->setDefaultTitle((string) $data[0][self::F_TITLE]);
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
-        if ((bool) $data[0][self::F_ROLE_BASED_VISIBILITY] and (bool) !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
+        if ($data[0][self::F_ROLE_BASED_VISIBILITY] and !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
             $this->item_facade->setGlobalRoleIDs((array) $data[0][self::F_ROLE_BASED_VISIBILITY][0]);
         }
         if ((string) $data[0][self::F_PARENT]) {

@@ -37,7 +37,7 @@ trait DIC
     }
 
     /**
-     * @return \ilTemplate
+     * @return \ilGlobalTemplateInterface
      */
     protected function tpl()
     {

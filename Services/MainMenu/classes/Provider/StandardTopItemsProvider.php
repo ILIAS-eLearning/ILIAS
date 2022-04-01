@@ -1,4 +1,6 @@
-<?php namespace ILIAS\MainMenu\Provider;
+<?php declare(strict_types=1);
+
+namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;

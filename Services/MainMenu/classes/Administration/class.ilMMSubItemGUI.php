@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
@@ -28,7 +28,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CANCEL = 'cancel';
 
-    private function dispatchCommand($cmd) : string
+    private function dispatchCommand(string $cmd) : string
     {
         global $DIC;
         switch ($cmd) {

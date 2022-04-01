@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
@@ -77,7 +77,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         }
     }
 
-    private function initColumns()
+    private function initColumns() : void
     {
         $this->addColumn($this->lng->txt('sub_parent'));
         $this->addColumn($this->lng->txt('sub_position'));

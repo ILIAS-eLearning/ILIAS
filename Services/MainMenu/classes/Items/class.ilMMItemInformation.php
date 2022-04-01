@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\Filesystem\Exception\FileNotFoundException;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;

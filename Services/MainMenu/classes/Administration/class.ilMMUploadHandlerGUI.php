@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;

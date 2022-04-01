@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
@@ -7,6 +7,7 @@ use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\HTTP\Services;
 
 /**
  * Class ilMMTopItemFormGUI
@@ -18,7 +19,7 @@ class ilMMTopItemFormGUI
     
     private const F_ICON = 'icon';
     
-    private \ILIAS\HTTP\Services $http;
+    private Services $http;
     
     private ilMMItemRepository $repository;
     
@@ -49,7 +50,7 @@ class ilMMTopItemFormGUI
         Factory $ui_fa,
         Renderer $ui_re,
         ilLanguage $lng,
-        \ILIAS\HTTP\Services $http,
+        Services $http,
         ilMMItemFacadeInterface $item,
         ilMMItemRepository $repository
     ) {
@@ -161,7 +162,7 @@ class ilMMTopItemFormGUI
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         if ($this->item_facade->supportsRoleBasedVisibility()) {
             $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
-            if ((bool) $data[0][self::F_ROLE_BASED_VISIBILITY] and (bool) !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
+            if ($data[0][self::F_ROLE_BASED_VISIBILITY] and !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
                 $this->item_facade->setGlobalRoleIDs((array) $data[0][self::F_ROLE_BASED_VISIBILITY][0]);
             }
         }

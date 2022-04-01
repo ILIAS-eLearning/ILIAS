@@ -1,7 +1,8 @@
-<?php namespace ILIAS\MainMenu\Provider;
+<?php  declare(strict_types=1);
+
+namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\DI\Container;
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\ComplexItemRenderer;
@@ -30,6 +31,9 @@ use ilMMTypeHandlerRepositoryLink;
 use ilMMTypeHandlerSeparator;
 use ilMMTypeHandlerTopLink;
 use ilObjMainMenuAccess;
+use ilMMTopLinkItemRenderer;
+use ilMMLinkItemRenderer;
+use ilMMRepositoryLinkItemRenderer;
 
 /**
  * Class CustomMainBarProvider
@@ -37,9 +41,8 @@ use ilObjMainMenuAccess;
  */
 class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
 {
-    private BasicAccessCheckClosures $access_helper;
     private ilObjMainMenuAccess $mm_access;
-    protected \ILIAS\DI\Container $dic;
+    protected Container $dic;
 
     /**
      * @inheritDoc
@@ -48,7 +51,6 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     {
         parent::__construct($dic);
         $this->mm_access = new ilObjMainMenuAccess();
-        $this->access_helper = BasicAccessCheckClosures::getInstance();
     }
 
     /**
@@ -141,14 +143,14 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $c->add(new TypeInformation(
                 TopLinkItem::class,
                 $this->translateType(TopLinkItem::class),
-                new \ilMMTopLinkItemRenderer(),
+                new ilMMTopLinkItemRenderer(),
                 new ilMMTypeHandlerTopLink())
         );
         // Link
         $c->add(new TypeInformation(
                 Link::class,
                 $this->translateType(Link::class),
-                new \ilMMLinkItemRenderer(),
+                new ilMMLinkItemRenderer(),
                 new ilMMTypeHandlerLink())
         );
 
@@ -174,7 +176,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $c->add(new TypeInformation(
                 RepositoryLink::class,
                 $this->translateType(RepositoryLink::class),
-                new \ilMMRepositoryLinkItemRenderer(),
+                new ilMMRepositoryLinkItemRenderer(),
                 new ilMMTypeHandlerRepositoryLink())
         );
 
