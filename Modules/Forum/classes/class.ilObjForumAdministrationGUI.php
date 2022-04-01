@@ -12,7 +12,6 @@
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
     private \ILIAS\DI\RBACServices $rbac;
-    protected ilErrorHandling $error;
     private ilCronManager $cronManager;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
@@ -23,7 +22,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         global $DIC;
 
         $this->rbac = $DIC->rbac();
-        $this->error = $DIC['ilErr'];
         $this->cronManager = $DIC->cron()->manager();
 
         $this->type = 'frma';

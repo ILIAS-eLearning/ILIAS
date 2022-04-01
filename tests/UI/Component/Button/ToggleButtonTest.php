@@ -14,7 +14,7 @@ use ILIAS\UI\Component\Button\Toggle;
  */
 class ToggleButtonTest extends ILIAS_UI_TestBase
 {
-    public function getFactory()
+    public function getFactory() : \ILIAS\UI\Implementation\Component\Button\Factory
     {
         return new Factory();
     }

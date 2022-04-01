@@ -57,9 +57,7 @@ class ilUserActionProviderFactory
         $providers = array();
 
         foreach (self::$providers as $p) {
-            $dir = (isset($p["dir"]))
-                ? $p["dir"]
-                : "classes";
+            $dir = $p["dir"] ?? "classes";
             $providers[] = new $p["class"]();
         }
 

@@ -434,7 +434,7 @@ abstract class ilMailSearchObjectGUI
         $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
         foreach ($obj_ids as $obj_id) {
             $members_obj = ilParticipants::getInstanceByObjId($obj_id);
-            $usr_ids = ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id');
+            $usr_ids = array_map('intval', ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id'));
             foreach ($usr_ids as $usr_id) {
                 $user = new ilObjUser($usr_id);
                 if (!$user->getActive()) {

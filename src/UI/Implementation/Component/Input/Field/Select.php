@@ -63,12 +63,10 @@ class Select extends Input implements C\Input\Field\Select
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            return "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
-        };
     }
 
     /**

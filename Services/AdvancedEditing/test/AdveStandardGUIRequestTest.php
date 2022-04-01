@@ -9,13 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class AdveStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -37,7 +30,7 @@ class AdveStandardGUIRequestTest extends TestCase
     /**
      * Test group
      */
-    public function testGroup()
+    public function testGroup() : void
     {
         $request = $this->getRequest(
             [

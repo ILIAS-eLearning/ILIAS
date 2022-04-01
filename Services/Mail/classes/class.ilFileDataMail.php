@@ -11,7 +11,6 @@
 */
 
 use ILIAS\Filesystem\Filesystem;
-use GuzzleHttp\Psr7\UploadedFile;
 
 class ilFileDataMail extends ilFileData
 {

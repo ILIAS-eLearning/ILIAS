@@ -10,6 +10,9 @@ use ILIAS\UI\Renderer as DefaultRenderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Implementation\Render\TemplateFactory;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 
 class TestComponent implements Component
 {
@@ -28,7 +31,7 @@ class JSTestComponent implements Component, \ILIAS\UI\Component\JavaScriptBindab
     use ComponentHelper;
     use JavaScriptBindable;
 
-    public $text;
+    public string $text;
 
     public function __construct(string $text)
     {
@@ -38,7 +41,12 @@ class JSTestComponent implements Component, \ILIAS\UI\Component\JavaScriptBindab
 
 class Renderer implements ComponentRenderer
 {
-    final public function __construct($ui_factory, $tpl_factory, $lng, $js_binding)
+    public Factory $ui_factory;
+    public TemplateFactory $tpl_factory;
+    public \ilLanguage $lng;
+    public JavaScriptBinding $js_binding;
+    
+    final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding)
     {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;

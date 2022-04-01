@@ -78,12 +78,10 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
         $links = array();
         foreach ($input_labels as $label) {
-            $links[] = $f->button()->shy($label, "")->withAdditionalOnLoadCode(function ($id) {
-                return "$('#$id').on('click', function(event) {
+            $links[] = $f->button()->shy($label, "")->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 						il.UI.filter.onAddClick(event, '$id');
 						return false; // stop event propagation
-				});";
-            });
+				});");
         }
         $add_tpl->setVariable("LIST", $default_renderer->render($f->listing()->unordered($links)));
         $list = $f->legacy($add_tpl->get());
@@ -110,12 +108,10 @@ class FilterContextRenderer extends AbstractComponentRenderer
         /**
          * @var $remove_glyph Component\Symbol\Glyph\Glyph
          */
-        $remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(function ($id) {
-            return "$('#$id').on('click', function(event) {
+        $remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
-					});";
-        });
+					});");
 
         $tpl->setCurrentBlock("addon_left");
         $tpl->setVariable("LABEL", $component->getLabel());
@@ -190,12 +186,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
     protected function escapeSpecialChars() : Closure
     {
-        return function ($v) {
-            // with declare(strict_types=1) in place,
-            // htmlspecialchars will not silently convert to string anymore;
-            // therefore, the typecast must be explicit
-            return htmlspecialchars((string) $v, ENT_QUOTES);
-        };
+        return fn($v) => htmlspecialchars((string) $v, ENT_QUOTES);
     }
 
     protected function renderTextField(F\Text $component, RendererInterface $default_renderer) : string
@@ -294,10 +285,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
     }
 
     /**
-     * @param Input $input
      * @return FilterInput|JavaScriptBindable
      */
-    protected function setSignals(Input $input)
+    protected function setSignals(Input $input) : \ILIAS\UI\Implementation\Component\Input\Field\Input
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {
@@ -313,9 +303,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
             /**
              * @var $input FilterInput
              */
-            $input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
-                return "il.UI.input.setSignalsForId('$id', $signals);";
-            });
+            $input = $input->withAdditionalOnLoadCode(fn($id) => "il.UI.input.setSignalsForId('$id', $signals);");
 
             $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
         }

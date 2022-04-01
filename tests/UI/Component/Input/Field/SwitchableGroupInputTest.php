@@ -244,7 +244,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 
         $called = false;
         $new_group = $this->switchable_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) : string {
                 $called = true;
                 $this->assertEquals(["child1", ["one"]], $v);
                 return "result";
@@ -294,7 +294,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->willReturn($i18n);
 
         $new_group = $this->switchable_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () : void {
                 $this->fail("This should not happen.");
             }))
             ->withInput($input_data);
@@ -364,7 +364,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->method("getContent");
 
         $this->switchable_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () use (&$called) {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () use (&$called) : void {
                 $this->fail("This should not happen.");
             }))
             ->withInput($input_data);

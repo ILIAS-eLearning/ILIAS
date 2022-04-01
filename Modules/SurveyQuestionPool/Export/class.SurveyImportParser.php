@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Survey Question Import Parser
  *
@@ -20,67 +23,76 @@
  */
 class SurveyImportParser extends ilSaxParser
 {
+    protected \ILIAS\SurveyQuestionPool\Export\ImportSessionRepository $session_repo;
+    protected ?ilImportMapping $mapping = null;
+    protected int $spl_id = 0;
     protected int $showQuestiontext;
     protected int $showBlocktitle;
     protected int $compressView;
-    public $path;
-    public $depth;
-    public $activequestion;
-    public $spl;
-    public $error_code;
-    public $error_line;
-    public $error_col;
-    public $error_msg;
-    public $has_error;
-    public $size;
-    public $elements;
-    public $attributes;
-    public $texts;
-    public $text_size;
-    public $characterbuffer;
-    public $activetag;
-    public $material;
-    public $metadata;
-    public $responses;
-    public $variables;
-    public $response_id;
-    public $matrix;
-    public $matrixrowattribs;
-    public $is_matrix;
-    public $adjectives;
-    public $spl_exists;
-    public $in_survey;
-    public $survey;
-    public $anonymisation;
-    public $surveyaccess;
-    public $questions;
-    public $original_question_id;
-    public $constraints;
-    public $textblock;
-    public $textblocks;
-    public $survey_status;
-    public $in_questionblock;
-    public $questionblock;
-    public $questionblocks;
-    public $questionblocktitle;
-
+    public array $path = [];
+    public int $depth = 0;
+    public ?SurveyQuestion $activequestion;
     /**
-    * Constructor
-    *
-    * @param	string		$a_xml_file		xml file
-    *
-    * @access	public
-    */
-    public function __construct($a_spl_id, ?string $a_xml_file = '', $spl_exists = false, $a_mapping = null)
-    {
+     * @var false|int
+     */
+    public $error_code;
+    /**
+     * @var false|int
+     */
+    public $error_line;
+    /**
+     * @var false|int
+     */
+    public $error_col;
+    public ?string $error_msg;
+    public bool $has_error = false;
+    public int $elements = 0;
+    public int $attributes = 0;
+    public int $texts = 0;
+    public int $text_size = 0;
+    public string $characterbuffer = "";
+    public string $activetag = "";
+    public array $material = [];
+    public array $metadata = [];
+    public array $responses = [];
+    public array $variables = [];
+    public string $response_id = "";
+    public array $matrix = [];
+    public array $matrixrowattribs = [];
+    public bool $is_matrix = false;
+    public array $adjectives = [];
+    public bool $spl_exists = false;
+    public bool $in_survey = false;
+    public ?ilObjSurvey $survey = null;
+    public int $anonymisation = 0;
+    public string $surveyaccess = "";
+    public array $questions = [];
+    public string $original_question_id = "";
+    public array $constraints = [];
+    public string $textblock = "";
+    public array $textblocks = [];
+    public bool $survey_status = false;
+    public bool $in_questionblock = false;
+    public array $questionblock = [];
+    public array $questionblocks = [];
+    public string $questionblocktitle = "";
+
+    public function __construct(
+        int $a_spl_id,
+        ?string $a_xml_file = '',
+        bool $spl_exists = false,
+        array $a_mapping = null
+    ) {
+        global $DIC;
+
         parent::__construct($a_xml_file);
         $this->spl_id = $a_spl_id;
         $this->has_error = false;
         $this->characterbuffer = "";
-        $this->survey_status = 0;
+        $this->survey_status = false;
         $this->activetag = "";
         $this->material = array();
-        $this->depth = array();
+        $this->depth = 0;
         $this->path = array();
         $this->metadata = array();
         $this->responses = array();
@@ -107,22 +119,15 @@ class SurveyImportParser extends ilSaxParser
         $this->compressView = 0;
         $this->questionblocktitle = "";
         $this->mapping = $a_mapping;
+        $this->session_repo = $DIC->surveyQuestionPool()->internal()
+            ->repo()->import();
     }
 
-    /**
-    * Sets a reference to a survey object
-    * @access	public
-    */
-    public function setSurveyObject($a_svy) : void
+    public function setSurveyObject(ilObjSurvey $a_svy) : void
     {
         $this->survey = $a_svy;
     }
 
-    /**
-    * set event handler
-    * should be overwritten by inherited class
-    * @access	private
-    */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -131,18 +136,9 @@ class SurveyImportParser extends ilSaxParser
     }
 
     /**
-    * start the parser
-    */
-    public function startParsing() : void
-    {
-        parent::startParsing();
-    }
-
-    /**
-    * parse xml file
-    *
-    * @access	private
-    */
+     * @param resource $a_xml_parser
+     * @param resource|null $a_fp
+     */
     public function parse($a_xml_parser, $a_fp = null) : void
     {
         switch ($this->getInputType()) {
@@ -162,27 +158,27 @@ class SurveyImportParser extends ilSaxParser
             $this->error_code = xml_get_error_code($a_xml_parser);
             $this->error_line = xml_get_current_line_number($a_xml_parser);
             $this->error_col = xml_get_current_column_number($a_xml_parser);
-            $this->error_msg = xml_error_string($a_xml_parser);
+            $this->error_msg = xml_error_string($this->error_code);
             $this->has_error = true;
         }
     }
 
-    public function getParent($a_xml_parser)
+    public function getParent() : string
     {
-        if ($this->depth[$a_xml_parser] > 0) {
-            return $this->path[$this->depth[$a_xml_parser] - 1];
-        } else {
-            return "";
+        if ($this->depth > 0) {
+            return $this->path[$this->depth - 1];
         }
+
+        return "";
     }
 
     /**
-    * handler for begin of element
-    */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+     * @param resource $a_xml_parser
+     */
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
-        $this->depth[$a_xml_parser]++;
-        $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
+        $this->depth++;
+        $this->path[$this->depth] = strtolower($a_name);
         $this->characterbuffer = "";
         $this->activetag = $a_name;
         $this->elements++;
@@ -254,17 +250,14 @@ class SurveyImportParser extends ilSaxParser
                 }
                 break;
             case "constraint":
-                array_push(
-                    $this->constraints,
-                    array(
-                        "sourceref" => $a_attribs["sourceref"],
-                        "destref" => $a_attribs["destref"],
-                        "relation" => $a_attribs["relation"],
-                        "value" => $a_attribs["value"],
+                $this->constraints[] = array(
+                    "sourceref" => $a_attribs["sourceref"],
+                    "destref" => $a_attribs["destref"],
+                    "relation" => $a_attribs["relation"],
+                    "value" => $a_attribs["value"],
 
-                        // might be missing in old export files
-                        "conjunction" => (int) $a_attribs["conjuction"]
-                    )
+                    // might be missing in old export files
+                    "conjunction" => (int) $a_attribs["conjuction"]
                 );
                 break;
             case "question":
@@ -307,7 +300,7 @@ class SurveyImportParser extends ilSaxParser
                 }
                 $this->original_question_id = $a_attribs["id"];
                 if ($this->in_questionblock) {
-                    array_push($this->questionblock, $this->original_question_id);
+                    $this->questionblock[] = $this->original_question_id;
                 }
                 if (is_object($this->activequestion)) {
                     foreach ($a_attribs as $key => $value) {
@@ -326,23 +319,25 @@ class SurveyImportParser extends ilSaxParser
                 }
                 break;
             case "material":
-                switch ($this->getParent($a_xml_parser)) {
+                switch ($this->getParent()) {
                     case "question":
                     case "questiontext":
                         $this->material = array();
                         break;
                 }
-                array_push($this->material, array("text" => "", "image" => "", "label" => $a_attribs["label"]));
+                $this->material[] = array("text" => "", "image" => "", "label" => $a_attribs["label"]);
                 break;
             case "matimage":
                 case "label":
                     if (array_key_exists("label", $a_attribs)) {
                         if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"], $matches)) {
                             // import an mediaobject which was inserted using tiny mce
-                            if (!is_array($_SESSION["import_mob_xhtml"])) {
-                                $_SESSION["import_mob_xhtml"] = array();
-                            }
-                            array_push($_SESSION["import_mob_xhtml"], array("mob" => $a_attribs["label"], "uri" => $a_attribs["uri"], "type" => $a_attribs["type"], "id" => $a_attribs["id"]));
+                            $this->session_repo->addMob(
+                                $a_attribs["label"],
+                                $a_attribs["uri"],
+                                $a_attribs["type"],
+                                $a_attribs["id"]
+                            );
                         }
                     }
                 break;
@@ -350,7 +345,7 @@ class SurveyImportParser extends ilSaxParser
                 $this->metadata = array();
                 break;
             case "metadatafield":
-                array_push($this->metadata, array("label" => "", "entry" => ""));
+                $this->metadata[] = array("label" => "", "entry" => "");
                 break;
             case "matrix":
                 $this->is_matrix = true;
@@ -358,7 +353,7 @@ class SurveyImportParser extends ilSaxParser
                 break;
             case "matrixrow":
                 $this->material = array();
-                array_push($this->matrix, "");
+                $this->matrix[] = "";
                 $this->matrixrowattribs = array("id" => $a_attribs["id"], "label" => $a_attribs["label"], "other" => $a_attribs["other"]);
                 break;
             case "responses":
@@ -397,15 +392,15 @@ class SurveyImportParser extends ilSaxParser
                 $this->adjectives = array();
                 break;
             case "adjective":
-                array_push($this->adjectives, array("label" => $a_attribs["label"], "text" => ""));
+                $this->adjectives[] = array("label" => $a_attribs["label"], "text" => "");
                 break;
         }
     }
 
     /**
-    * handler for character data
-    */
-    public function handlerCharacterData($a_xml_parser, $a_data) : void
+     * @param resource $a_xml_parser
+     */
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         $this->texts++;
         $this->text_size += strlen($a_data);
@@ -414,9 +409,9 @@ class SurveyImportParser extends ilSaxParser
     }
 
     /**
-    * handler for end of element
-    */
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+     * @param resource $a_xml_parser
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
             case "surveyobject":
@@ -431,7 +426,7 @@ class SurveyImportParser extends ilSaxParser
                             $title = $data["title"];
                             $qblock = array();
                             foreach ($questionblock as $question_id) {
-                                array_push($qblock, $this->questions[$question_id]);
+                                $qblock[] = $this->questions[$question_id];
                             }
                             $this->survey->createQuestionblock(
                                 $title,
@@ -543,7 +538,7 @@ class SurveyImportParser extends ilSaxParser
                 break;
             case "material":
                 if ($this->in_survey) {
-                    if (strcmp($this->getParent($a_xml_parser), "objectives") == 0) {
+                    if (strcmp($this->getParent(), "objectives") == 0) {
                         if (strcmp($this->material[0]["label"], "introduction") == 0) {
                             if (is_object($this->survey)) {
                                 $this->survey->setIntroduction($this->material[0]["text"]);
@@ -557,7 +552,7 @@ class SurveyImportParser extends ilSaxParser
                         $this->material = array();
                     }
                 } else {
-                    if (strcmp($this->getParent($a_xml_parser), "question") == 0) {
+                    if (strcmp($this->getParent(), "question") == 0) {
                         $this->activequestion->setMaterial($this->material[0]["text"], true, $this->material[0]["label"]);
                     }
                 }
@@ -579,12 +574,12 @@ class SurveyImportParser extends ilSaxParser
                 $this->metadata[count($this->metadata) - 1]["entry"] = $this->characterbuffer;
                 break;
             case "metadata":
-                if (strcmp($this->getParent($a_xml_parser), "question") == 0) {
+                if (strcmp($this->getParent(), "question") == 0) {
                     if (is_object($this->activequestion)) {
                         $this->activequestion->importAdditionalMetadata($this->metadata);
                     }
                 }
-                if (strcmp($this->getParent($a_xml_parser), "survey") == 0) {
+                if (strcmp($this->getParent(), "survey") == 0) {
                     foreach ($this->metadata as $key => $value) {
                         switch ($value["label"]) {
                             case "SCORM":
@@ -607,7 +602,7 @@ class SurveyImportParser extends ilSaxParser
                                 }
                                 break;
                             case "status":
-                                $this->survey_status = $value["entry"];
+                                $this->survey_status = (bool) $value["entry"];
                                 break;
                             case "evaluation_access":
                                 $this->survey->setEvaluationAccess($value["entry"]);
@@ -652,7 +647,7 @@ class SurveyImportParser extends ilSaxParser
                     }
                 }
                 if (!$this->spl_exists) {
-                    if (strcmp($this->getParent($a_xml_parser), "surveyquestions") == 0) {
+                    if (strcmp($this->getParent(), "surveyquestions") == 0) {
                         foreach ($this->metadata as $key => $value) {
                             if (strcmp($value["label"], "SCORM") == 0) {
                                 if (strlen($value["entry"])) {
@@ -678,7 +673,7 @@ class SurveyImportParser extends ilSaxParser
                 $this->is_matrix = false;
                 break;
             case "variable":
-                array_push($this->variables, $this->characterbuffer);
+                $this->variables[] = $this->characterbuffer;
                 break;
             case "variables":
                 if (is_object($this->activequestion)) {
@@ -720,10 +715,12 @@ class SurveyImportParser extends ilSaxParser
                 break;
             case "questionblock":
                 $this->in_questionblock = false;
-                array_push($this->questionblocks, array("title" => $this->questionblocktitle, "questions" => $this->questionblock));
+                $this->questionblocks[] = array("title" => $this->questionblocktitle,
+                                                "questions" => $this->questionblock
+                );
                 break;
         }
-        $this->depth[$a_xml_parser]--;
+        $this->depth--;
     }
 
     public function getErrorCode() : ?int
@@ -751,27 +748,22 @@ class SurveyImportParser extends ilSaxParser
         return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
     }
 
-    public function getXMLSize()
-    {
-        return $this->size;
-    }
-
-    public function getXMLElements()
+    public function getXMLElements() : int
     {
         return $this->elements;
     }
 
-    public function getXMLAttributes()
+    public function getXMLAttributes() : int
     {
         return $this->attributes;
     }
 
-    public function getXMLTextSections()
+    public function getXMLTextSections() : int
     {
         return $this->texts;
     }
 
-    public function getXMLTextSize()
+    public function getXMLTextSize() : int
     {
         return $this->text_size;
     }

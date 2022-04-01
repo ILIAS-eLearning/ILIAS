@@ -281,7 +281,7 @@ class ilGlossaryTermGUI
      */
     public function output(
         bool $a_offline = false,
-        ilTemplate $a_tpl = null,
+        ilGlobalTemplateInterface $a_tpl = null,
         string $a_outputmode = "presentation"
     ) : void {
         if ($a_tpl != null) {

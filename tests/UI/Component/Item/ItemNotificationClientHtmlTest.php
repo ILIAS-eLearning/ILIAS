@@ -75,17 +75,18 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
         $item2 = $item->withDescription("Existing Description")
                       ->withProperties(["Label 1" => "Property Value 1","Label 2" => "Property Value 2"])
                       ->withAggregateNotifications([$item]);
-        $notification_slate = $f->mainControls()->slate()->notification("slate title",
-            [$item,$item2]);
+        $notification_slate = $f->mainControls()->slate()->notification(
+            "slate title",
+            [$item,$item2]
+        );
 
         $glyph = $f->symbol()->glyph()->notification()->withCounter($this->getUIFactory()->counter()->novelty(2));
-        $notifcation_center = $f->mainControls()->slate()->combined("notification center",$glyph)
+        $notifcation_center = $f->mainControls()->slate()->combined("notification center", $glyph)
                                                          ->withAdditionalEntry($notification_slate);
 
-        $this->metabar = $f->mainControls()->metaBar()->withAdditionalEntry("Test Slate",$notifcation_center);
+        $this->metabar = $f->mainControls()->metaBar()->withAdditionalEntry("Test Slate", $notifcation_center);
         $rendered_html = $this->getDefaultRenderer()->render($this->metabar);
 
         $this->assertEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($rendered_html));
-
     }
 }

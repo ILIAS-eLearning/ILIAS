@@ -127,12 +127,10 @@ class Renderer extends AbstractComponentRenderer
             $internal_signal = $component->getSelectSignal();
             $signal = $triggeredSignals[0]->getSignal();
 
-            $component = $component->withAdditionalOnLoadCode(function ($id) use ($internal_signal, $signal) {
-                return "$(document).on('$internal_signal', function(event, signalData) {
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
 							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '$signal', '$id');
 							return false;
-						})";
-            });
+						})");
         }
 
         $this->renderId($component, $tpl, "id", "ID");
@@ -174,12 +172,10 @@ class Renderer extends AbstractComponentRenderer
         if ($triggeredSignals) {
             $internal_signal = $component->getInternalSignal();
             $signal = $triggeredSignals[0]->getSignal();
-            $component = $component->withOnLoadCode(function ($id) use ($internal_signal, $signal) {
-                return "$(document).on('$internal_signal', function(event, signalData) {
+            $component = $component->withOnLoadCode(fn($id) => "$(document).on('$internal_signal', function(event, signalData) {
 							il.UI.viewcontrol.pagination.onInternalSelect(event, signalData, '$signal', '$id');
 							return false;
-						})";
-            });
+						})");
 
             $id = $this->bindJavaScript($component);
             $tpl->setVariable('ID', $id);

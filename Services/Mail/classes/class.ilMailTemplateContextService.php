@@ -115,10 +115,6 @@ class ilMailTemplateContextService
         ?string $a_path,
         bool $isCreationContext = false
     ) : ?ilMailTemplateContext {
-        global $DIC;
-
-        $mess = '';
-
         if (!$a_path) {
             $a_path = $a_component . '/classes/';
         }

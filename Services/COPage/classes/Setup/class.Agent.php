@@ -16,6 +16,8 @@
 namespace ILIAS\COPage\Setup;
 
 use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Metrics;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -25,5 +27,10 @@ class Agent extends Setup\Agent\NullAgent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilCOPageDBUpdateSteps());
+    }
+
+    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    {
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilCOPageDBUpdateSteps());
     }
 }

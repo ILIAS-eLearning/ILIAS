@@ -33,7 +33,7 @@ class ilInternalLink
         $ilDB = $DIC->database();
 
         $lang_where = "";
-        if ($a_lang != "") {
+        if ($a_lang !== "") {
             $lang_where = " AND source_lang = " . $ilDB->quote($a_lang, "text");
         }
         
@@ -141,7 +141,7 @@ class ilInternalLink
         $ilDB = $DIC->database();
 
         $lang_where = "";
-        if ($a_source_lang != "") {
+        if ($a_source_lang !== "") {
             $lang_where = " AND source_lang = " . $ilDB->quote($a_source_lang, "text");
         }
 
@@ -238,7 +238,7 @@ class ilInternalLink
                 // 26 Sep 2018: moved this under the import id handling above
                 // If an imported object is found, this is always preferred.
                 // see also bug #23324
-                if (ilInternalLink::_extractInstOfTarget($a_target) == IL_INST_ID
+                if (self::_extractInstOfTarget($a_target) == IL_INST_ID
                     && IL_INST_ID > 0) {
                     // does it have a ref id part?
                     if ($tarr[4] != "") {
@@ -283,7 +283,7 @@ class ilInternalLink
 
             case "RepositoryItem":
                 if (is_int(strpos($a_target, "_"))) {
-                    $ref_id = ilInternalLink::_extractObjIdOfTarget($a_target);
+                    $ref_id = self::_extractObjIdOfTarget($a_target);
                     return $tree->isInTree($ref_id);
                 }
                 break;

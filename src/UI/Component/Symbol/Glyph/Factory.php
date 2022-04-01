@@ -1307,5 +1307,4 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function collapseHorizontal(string $action = null) : Glyph;
-
 }

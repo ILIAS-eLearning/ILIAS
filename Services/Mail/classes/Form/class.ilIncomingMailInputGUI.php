@@ -134,7 +134,6 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
             (string) ilMailOptions::BOTH_EMAIL
         );
         $sub_both_opt3->setDisabled($this->getDisabled());
-        $email_info = [];
         if (!$this->isFreeOptionChoice()) {
             $email_info = [];
             if (

@@ -105,6 +105,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     {
         parent::initSignals();
         //signal generator from parent class
+        /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
         $this->replace_signal = $this->signal_generator->create(ReplaceSignal::class);
     }
 

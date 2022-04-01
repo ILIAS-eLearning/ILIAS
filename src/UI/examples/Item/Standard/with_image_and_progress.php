@@ -15,8 +15,8 @@ function with_image_and_progress()
                   ->withDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.")
                   ->withProgress($chart)
                   ->withLeadImage($f->image()->responsive(
-                        "src/UI/examples/Image/HeaderIconLarge.svg",
-                        "Thumbnail Example"
+                      "src/UI/examples/Image/HeaderIconLarge.svg",
+                      "Thumbnail Example"
                   ));
     return $renderer->render($app_item);
 }

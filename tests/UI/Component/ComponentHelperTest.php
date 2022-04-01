@@ -14,27 +14,27 @@ class ComponentMock
 {
     use ComponentHelper;
 
-    public function _checkArg(string $which, bool $check, string $message)
+    public function _checkArg(string $which, bool $check, string $message) : void
     {
         $this->checkArg($which, $check, $message);
     }
 
-    public function _checkStringArg(string $which, $value)
+    public function _checkStringArg(string $which, $value) : void
     {
         $this->checkStringArg($which, $value);
     }
 
-    public function _checkBoolArg(string $which, $value)
+    public function _checkBoolArg(string $which, $value) : void
     {
         $this->checkBoolArg($which, $value);
     }
 
-    public function _checkArgInstanceOf(string $which, $value, string $class)
+    public function _checkArgInstanceOf(string $which, $value, string $class) : void
     {
         $this->checkArgInstanceOf($which, $value, $class);
     }
 
-    public function _checkArgIsElement(string $which, $value, array $array, string $name)
+    public function _checkArgIsElement(string $which, $value, array $array, string $name) : void
     {
         $this->checkArgIsElement($which, $value, $array, $name);
     }
@@ -44,12 +44,12 @@ class ComponentMock
         return $this->toArray($value);
     }
 
-    public function _checkArgListElements(string $which, array &$value, $classes)
+    public function _checkArgListElements(string $which, array &$value, $classes) : void
     {
         $this->checkArgListElements($which, $value, $classes);
     }
 
-    public function _checkArgList(string $which, array &$value, Closure $check, Closure $message)
+    public function _checkArgList(string $which, array &$value, Closure $check, Closure $message) : void
     {
         $this->checkArgList($which, $value, $check, $message);
     }

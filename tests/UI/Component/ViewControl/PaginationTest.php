@@ -288,7 +288,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testGetRangeOnNull()
+    public function testGetRangeOnNull() : void
     {
         $page_size = 0;
         $current_page = 1;

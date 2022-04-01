@@ -33,7 +33,8 @@ class UITestHelper
         $data_factory = new DataFactory();
         $this->dic["refinery"] = new RefinaryFactory($data_factory, $this->dic["lng"]);
         (new InitUIFramework())->init($this->dic);
-        $this->dic["ui.template_factory"] = new ilIndependentTemplateFactory();;
+        $this->dic["ui.template_factory"] = new ilIndependentTemplateFactory();
+        ;
 
         return $this->dic;
     }

@@ -3,6 +3,7 @@
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * BlockGUI class for Personal Desktop Mail block
@@ -246,7 +247,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     protected $new_rendering = true;
 
-    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?Item
     {
         $f = $this->ui->factory();
 

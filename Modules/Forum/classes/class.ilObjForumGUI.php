@@ -37,7 +37,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private ilForumPost $objCurrentPost;
     private int $display_confirm_post_activation = 0;
     private bool $is_moderator;
-    private $replyEditForm;
+    private ?ilPropertyFormGUI $replyEditForm = null;
     private bool $hideToolbar = false;
     private $httpRequest;
     private \ILIAS\HTTP\Services $http;
@@ -50,18 +50,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private string $requestAction;
     private array $modalActionsContainer = [];
 
-    public ilAccessHandler $access;
-    public $ilObjDataCache;
-    public $tabs;
-    public ilErrorHandling $error;
-    public ilSetting $settings;
-    public $repositoryTree;
-    public $rbac;
-    public $ilHelp;
+    public ilObjectDataCache $ilObjDataCache;
+    public \ILIAS\DI\RBACServices $rbac;
+    public ilHelpGUI $ilHelp;
 
     private int $selectedSorting;
     private ilForumThreadSettingsSessionStorage $selected_post_storage;
-    protected \ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
@@ -71,31 +65,22 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ctrl = $DIC->ctrl();
         $this->ctrl->saveParameter($this, ['ref_id']);
 
-        $this->tpl = $DIC->ui()->mainTemplate();
-        $this->lng = $DIC->language();
         $this->httpRequest = $DIC->http()->request();
         $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
 
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->globalScreen = $DIC->globalScreen();
 
-        $this->access = $DIC->access();
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
-        $this->tabs = $DIC->tabs();
-        $this->error = $DIC['ilErr'];
         $this->ilNavigationHistory = $DIC['ilNavigationHistory'];
-        $this->user = $DIC->user();
-        $this->settings = $DIC->settings();
-        $this->repositoryTree = $DIC->repositoryTree();
         $this->ilHelp = $DIC['ilHelp'];
         $this->rbac = $DIC->rbac();
 
-        $this->tpl->addJavaScript('./Services/JavaScript/js/Basic.js');
-
         $this->type = 'frm';
         parent::__construct($data, $id, $call_by_reference, false);
+
+        $this->tpl->addJavaScript('./Services/JavaScript/js/Basic.js');
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');
@@ -380,7 +365,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $forwarder = new ilForumPageCommandForwarder(
                     $this->http,
                     $this->ctrl,
-                    $this->tabs,
+                    $this->tabs_gui,
                     $this->lng,
                     $obj,
                     $this->user,
@@ -398,7 +383,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
 
-                $this->tabs->activateTab('learning_progress');
+                $this->tabs_gui->activateTab('learning_progress');
 
                 $usrId = $this->user->getId();
                 if (
@@ -434,7 +419,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             case strtolower(ilRepositoryObjectSearchGUI::class):
                 $this->addHeaderAction();
                 $this->setSideBlocks();
-                $this->tabs->activateTab("forums_threads");
+                $this->tabs_gui->activateTab("forums_threads");
                 $this->ctrl->setReturn($this, 'view');
                 $search_gui = new ilRepositoryObjectSearchGUI(
                     $this->object->getRefId(),
@@ -484,7 +469,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 break;
 
             case strtolower(ilExportGUI::class):
-                $this->tabs->activateTab('export');
+                $this->tabs_gui->activateTab('export');
                 $exp = new ilExportGUI($this);
                 $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
@@ -649,7 +634,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $thread = new ilForumTopic($threadId);
         $this->ensureThreadBelongsToForum($this->object->getId(), $thread);
 
-        $this->tabs->activateTab('forums_threads');
+        $this->tabs_gui->activateTab('forums_threads');
 
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getThreadEditingForm($threadId);
@@ -720,7 +705,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public function getSubTabs($subtab = 'showThreads') : void
     {
         if ($this->is_moderator && $this->objProperties->getThreadSorting() === 1) {
-            $this->tabs->addSubTabTarget(
+            $this->tabs_gui->addSubTabTarget(
                 'show',
                 $this->ctrl->getLinkTarget($this, 'showThreads'),
                 'showThreads',
@@ -730,7 +715,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
     
             if ($this->object->getNumStickyThreads() > 1) {
-                $this->tabs->addSubTabTarget(
+                $this->tabs_gui->addSubTabTarget(
                     'sticky_threads_sorting',
                     $this->ctrl->getLinkTarget($this, 'sortThreads'),
                     'sortThreads',
@@ -848,7 +833,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $forwarder = new ilForumPageCommandForwarder(
             $GLOBALS['DIC']['http'],
             $this->ctrl,
-            $this->tabs,
+            $this->tabs_gui,
             $this->lng,
             $this->object,
             $this->user,
@@ -1366,7 +1351,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             '',
             $this->ref_id
         )) {
-            $this->tabs->addTarget(
+            $this->tabs_gui->addTarget(
                 self::UI_TAB_ID_THREADS,
                 $this->ctrl->getLinkTarget($this, 'showThreads'),
                 $this->ctrl->getCmd(),
@@ -1390,7 +1375,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
 
             $force_active = $this->ctrl->getNextClass() === 'ilinfoscreengui' || strtolower($cmdClass) === 'ilnotegui';
-            $this->tabs->addTarget(
+            $this->tabs_gui->addTarget(
                 self::UI_TAB_ID_INFO,
                 $this->ctrl->getLinkTargetByClass([__CLASS__, ilInfoScreenGUI::class], 'showSummary'),
                 ['showSummary', 'infoScreen'],
@@ -1402,7 +1387,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $force_active = $this->ctrl->getCmd() === 'edit';
-            $this->tabs->addTarget(
+            $this->tabs_gui->addTarget(
                 self::UI_TAB_ID_SETTINGS,
                 $this->ctrl->getLinkTarget($this, 'edit'),
                 'edit',
@@ -1413,7 +1398,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $this->tabs->addTarget(
+            $this->tabs_gui->addTarget(
                 self::UI_TAB_ID_MODERATORS,
                 $this->ctrl->getLinkTargetByClass(ilForumModeratorsGUI::class, 'showModerators'),
                 'showModerators',
@@ -1422,7 +1407,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
-            $this->tabs->addTab(
+            $this->tabs_gui->addTab(
                 'learning_progress',
                 $this->lng->txt('learning_progress'),
                 $this->ctrl->getLinkTargetByClass(ilLearningProgressGUI::class)
@@ -1440,7 +1425,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
             if ($hasStatisticsAccess) {
                 $force_active = $this->ctrl->getCmd() === 'showStatistics';
-                $this->tabs->addTarget(
+                $this->tabs_gui->addTarget(
                     self::UI_TAB_ID_STATS,
                     $this->ctrl->getLinkTarget($this, 'showStatistics'),
                     'showStatistics',
@@ -1452,7 +1437,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->tabs->addTarget(
+            $this->tabs_gui->addTarget(
                 self::UI_TAB_ID_EXPORT,
                 $this->ctrl->getLinkTargetByClass(ilExportGUI::class, ''),
                 '',
@@ -1461,7 +1446,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         if ($this->access->checkAccess('edit_permission', '', $this->ref_id)) {
-            $this->tabs->addTarget(
+            $this->tabs_gui->addTarget(
                 self::UI_TAB_ID_PERMISSIONS,
                 $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'),
                 ['perm', 'info', 'owner'],
@@ -1709,7 +1694,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $ref_id = $this->retrieveRefId();
 
-        $this->tabs->setBackTarget(
+        $this->tabs_gui->setBackTarget(
             $this->lng->txt('all_topics'),
             'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $ref_id
         );
@@ -4483,8 +4468,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     public function isParentObjectCrsOrGrp() : bool
     {
-        $grpRefId = $this->repositoryTree->checkForParentType($this->object->getRefId(), 'grp');
-        $crsRefId = $this->repositoryTree->checkForParentType($this->object->getRefId(), 'crs');
+        $grpRefId = $this->tree->checkForParentType($this->object->getRefId(), 'grp');
+        $crsRefId = $this->tree->checkForParentType($this->object->getRefId(), 'crs');
 
         return ($grpRefId > 0 || $crsRefId > 0);
     }

@@ -53,7 +53,7 @@ class ilInstallationInformationStoredObjective implements Setup\Objective
         $ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
         $settings->set("inst_name", (string) $this->config->getClientName());
-        $ini->setVariable("client", "name", $this->config->getClientName() ?? $common_config->getClientId());
+        $ini->setVariable("client", "name", $this->config->getClientName() ?? (string) $common_config->getClientId());
         $ini->setVariable("client", "description", (string) $this->config->getClientDescription());
         $settings->set("inst_institution", (string) $this->config->getClientInstitution());
         $settings->set("admin_firstname", (string) $this->config->getContactFirstname());
@@ -86,7 +86,7 @@ class ilInstallationInformationStoredObjective implements Setup\Objective
         $settings = $factory->settingsFor("common");
         $ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
-        $client_name = $this->config->getClientName() ?? $common_config->getClientId();
+        $client_name = $this->config->getClientName() ?? (string) $common_config->getClientId();
 
         return
             $settings->get("inst_name") !== $this->config->getClientName() ||

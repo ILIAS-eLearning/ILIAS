@@ -26,7 +26,7 @@ class ilUserActionCollection
 
     public static function getInstance() : ilUserActionCollection
     {
-        return new ilUserActionCollection();
+        return new self();
     }
 
     /**

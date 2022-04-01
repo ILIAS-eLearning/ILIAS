@@ -201,7 +201,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_minimize_button()
+    public function test_render_minimize_button() : void
     {
         $f = $this->getButtonFactory();
         $r = $this->getDefaultRenderer();
@@ -225,7 +225,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $ids = array();
         $b = $f->$factory_method("label", $ln)
-               ->withOnLoadCode(function ($id) use (&$ids) {
+               ->withOnLoadCode(function ($id) use (&$ids) : string {
                    $ids[] = $id;
                    return "";
                });
@@ -248,7 +248,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $ids = array();
         $b = $f->close()
-               ->withOnLoadCode(function ($id) use (&$ids) {
+               ->withOnLoadCode(function ($id) use (&$ids) : string {
                    $ids[] = $id;
                    return "";
                });

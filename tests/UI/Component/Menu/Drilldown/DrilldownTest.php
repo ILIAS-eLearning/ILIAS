@@ -96,7 +96,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetItems($menu)
+    public function testGetItems($menu) : void
     {
         $this->assertEquals(
             [],
@@ -123,7 +123,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         return $menu;
     }
 
-    public function testWithWrongEntry()
+    public function testWithWrongEntry() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = $this->getUIFactory();
@@ -159,7 +159,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithPersistenceId($menu)
+    public function testWithPersistenceId($menu) : void
     {
         $this->assertNull($menu->getPersistenceId()) ;
 

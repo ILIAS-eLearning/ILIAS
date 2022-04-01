@@ -25,7 +25,7 @@ abstract class ilPageConfig
     public const SEC_PROTECT_EDITABLE = 1;      // current use can edit protected sections
     public const SEC_PROTECT_PROTECTED = 2;     // current use cannot edit protected sections
 
-    protected $int_link_def_id_is_ref = false;
+    protected bool $int_link_def_id_is_ref = false;
     protected ilLanguage $lng;
     protected array $int_link_filter = array("File", "PortfolioPage", "PortfolioTemplatePage");
     protected bool $prevent_rte_usage = false;
@@ -175,12 +175,7 @@ abstract class ilPageConfig
         $lng = $this->lng;
         
         $this->setLocalizationLanguage($lng->getLangKey());
-        if (is_array($a_val)) {
-            $this->int_link_filter =
-                array_merge($a_val, $this->int_link_filter);
-        } else {
-            $this->int_link_filter[] = $a_val;
-        }
+        $this->int_link_filter[] = $a_val;
     }
     
     public function removeIntLinkFilter(string $a_val) : void

@@ -6,8 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\ObjectiveIterator;
-use ILIAS\Setup\Objective;
 
 class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
@@ -76,8 +74,11 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
                 return 0;
             }
         };
-        $db = $this->createMock(\ilDBInterface::class);
+        $steps_reader = new class() extends ilDBStepReader {
+        };
+        $db = $this->createMock(ilDBInterface::class);
         $env = new ArrayEnvironment([
+            ilDBStepReader::class => $steps_reader,
             ilDatabaseUpdateStepExecutionLog::class => $execution_log,
             Environment::RESOURCE_DATABASE => $db
         ]);
@@ -116,8 +117,11 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
                 return 0;
             }
         };
-        $db = $this->createMock(\ilDBInterface::class);
+        $steps_reader = new class() extends ilDBStepReader {
+        };
+        $db = $this->createMock(ilDBInterface::class);
         $env = new ArrayEnvironment([
+            ilDBStepReader::class => $steps_reader,
             ilDatabaseUpdateStepExecutionLog::class => $execution_log,
             Environment::RESOURCE_DATABASE => $db
         ]);
@@ -157,8 +161,11 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
                 return 1;
             }
         };
-        $db = $this->createMock(\ilDBInterface::class);
+        $steps_reader = new class() extends ilDBStepReader {
+        };
+        $db = $this->createMock(ilDBInterface::class);
         $env = new ArrayEnvironment([
+            ilDBStepReader::class => $steps_reader,
             ilDatabaseUpdateStepExecutionLog::class => $execution_log,
             Environment::RESOURCE_DATABASE => $db
         ]);
@@ -173,7 +180,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
 
     public function testExceptionOnNonMatchingStartAndFinished() : void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $execution_log = new class() implements ilDatabaseUpdateStepExecutionLog {
             public function started(string $class, int $step) : void
@@ -191,7 +198,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
                 return 1;
             }
         };
-        $db = $this->createMock(\ilDBInterface::class);
+        $db = $this->createMock(ilDBInterface::class);
         $env = new ArrayEnvironment([
             ilDatabaseUpdateStepExecutionLog::class => $execution_log,
             Environment::RESOURCE_DATABASE => $db

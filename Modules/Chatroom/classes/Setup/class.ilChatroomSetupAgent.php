@@ -13,6 +13,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     private const PORT_MIN = 1;
     private const PORT_MAX = 65535;
 
+    /** @var string[] */
     public static $LOG_LEVELS = [
         'emerg',
         'alert',
@@ -25,7 +26,8 @@ class ilChatroomSetupAgent implements Setup\Agent
         'silly'
     ];
 
-    public static $INTERVALS = [
+    /** @var string[] */
+    public static array $INTERVALS = [
         'days',
         'weeks',
         'months',

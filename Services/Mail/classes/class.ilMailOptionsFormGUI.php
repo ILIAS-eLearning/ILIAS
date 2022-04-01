@@ -17,8 +17,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
      */
     public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd)
     {
-        global $DIC;
-
         if (!method_exists($parentGui, 'executeCommand')) {
             throw new InvalidArgumentException(sprintf(
                 'Parameter $parentGui must be ilCtrl enabled by implementing executeCommand(), %s given.',

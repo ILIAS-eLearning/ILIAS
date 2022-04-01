@@ -1344,7 +1344,7 @@ class ilObjSurvey extends ilObject
     public function getQuestionpoolTitles(
         bool $could_be_offline = false,
         bool $showPath = false
-    ) {
+    ) : array {
         return ilObjSurveyQuestionPool::_getAvailableQuestionpools(true, $could_be_offline, $showPath);
     }
     

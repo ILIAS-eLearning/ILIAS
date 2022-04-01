@@ -13,6 +13,7 @@ class ilForumXMLParser extends ilSaxParser
     ];
     private ilDBInterface $db;
     private ilObjUser $aobject;
+    /** @var null|string|int  */
     private $import_install_id = null;
     private ?string $importDirectory = null;
     private ?string $schema_version = null;

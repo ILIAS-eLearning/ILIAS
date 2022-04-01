@@ -33,9 +33,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
             $this->refinery->kindlyTo()->null(),
             $this->refinery->kindlyTo()->int()
         ])
-        ->withProblemBuilder(function ($txt) {
-            return $txt("ui_numeric_only");
-        });
+        ->withProblemBuilder(fn($txt) => $txt("ui_numeric_only"));
 
         $this->setAdditionalTransformation($trafo_numericOrNull);
     }
@@ -61,12 +59,10 @@ class Numeric extends Input implements C\Input\Field\Numeric
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            return "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-        };
     }
 
     /**

@@ -58,18 +58,16 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
      */
     public function getNodeHref($a_node) : string
     {
-        if ($this->getSetLinkTargetScript() == "") {
+        if ($this->getSetLinkTargetScript() === "") {
             return "#";
-        } else {
-            $link =
-                ilUtil::appendUrlParameterString(
-                    $this->getSetLinkTargetScript(),
-                    "linktype=RepositoryItem" .
-                    "&linktarget=il__" . $a_node["type"] . "_" . $a_node["child"]
-                );
-
-            return $link;
         }
+
+        $link = ilUtil::appendUrlParameterString(
+            $this->getSetLinkTargetScript(),
+            "linktype=RepositoryItem&linktarget=il__" . $a_node["type"] . "_" . $a_node["child"]
+        );
+
+        return $link;
     }
 
     /**
@@ -78,9 +76,10 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
      */
     public function getNodeOnClick($a_node) : string
     {
-        if ($this->getSetLinkTargetScript() == "") {
+        if ($this->getSetLinkTargetScript() === "") {
             return "return il.IntLink.addInternalLink('[iln " . $a_node['type'] . "=&quot;" . $a_node['child'] . "&quot;]','[/iln]', event);";
         }
+
         return "";
     }
 }

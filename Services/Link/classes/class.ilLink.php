@@ -33,7 +33,7 @@ class ilLink
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
-        if (!strlen($a_type) && !is_null($a_ref_id)) {
+        if ($a_type === '' && !is_null($a_ref_id)) {
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
         $param_string = '';
@@ -48,7 +48,7 @@ class ilLink
                 return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?client_id=' . CLIENT_ID . $param_string . $append;
             
             default:
-                return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?target=' . $a_type . '_' . (string) $a_ref_id . $append . '&client_id=' . CLIENT_ID . $param_string;
+                return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?target=' . $a_type . '_' . $a_ref_id . $append . '&client_id=' . CLIENT_ID . $param_string;
         }
     }
 
@@ -69,17 +69,17 @@ class ilLink
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
-        if (!strlen($a_type)) {
+        if ($a_type === '') {
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
         
         $robot_settings = ilRobotSettings::getInstance();
         if (!$robot_settings->robotSupportEnabled()) {
             if ($a_fallback_goto) {
-                return ilLink::_getLink($a_ref_id, $a_type, array(), $append);
-            } else {
-                return false;
+                return self::_getLink($a_ref_id, $a_type, array(), $append);
             }
+
+            return false;
         }
         
         // urlencode for append is needed e.g. to process "/" in wiki page names correctly
