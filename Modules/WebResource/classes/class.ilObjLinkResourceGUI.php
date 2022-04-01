@@ -1117,20 +1117,20 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     {
         global $DIC;
 
-        if (!$this->checkPermissionBool('write')) {
-            return;
-        }
-        
         include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
         $tool = new ilToolbarGUI();
         $tool->setFormAction($this->ctrl->getFormAction($this));
-        if (ilLinkResourceList::checkListStatus($this->object->getId())) {
+
+        if (
+            ilLinkResourceList::checkListStatus($this->object->getId()) &&
+            $this->checkPermissionBool('write')
+        ) {
             $tool->addButton(
                 $this->lng->txt('webr_add'),
                 $this->ctrl->getLinkTarget($this, 'addLink')
             );
         }
-        else {
+        elseif ($this->checkPermissionBool('write')) {
             $f = $DIC->ui()->factory();
             $r = $DIC->ui()->renderer();
 
@@ -1142,7 +1142,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
             $tool->addComponent($button);
         }
-        
+
+        $download_button = $f->button()->standard(
+            $this->lng->txt('export_html'),
+            $this->ctrl->getLinkTarget($this, 'exportHTML')
+        );
+        $tool->addComponent($download_button);
         $this->tpl->setVariable($a_tpl_var, $tool->getHTML());
         return;
     }
