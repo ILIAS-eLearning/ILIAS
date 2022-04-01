@@ -25,7 +25,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         return false;
     }
 
-    public function initHelpers()
+    public function initHelpers() : void
     {
         $this->manager = new ilDBPdoManager($this->pdo, $this);
         $this->reverse = new ilDBPdoReverse($this->pdo, $this);
@@ -43,7 +43,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
     }
 
     /**
-     * @return int[]|bool[]
+     * @return array<int, int|bool>
      */
     protected function getAdditionalAttributes() : array
     {

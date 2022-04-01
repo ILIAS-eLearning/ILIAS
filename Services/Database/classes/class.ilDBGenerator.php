@@ -122,8 +122,6 @@ class ilDBGenerator
      * $value = mb_strcut($value,0,4000,'UTF16');
      * $value = mb_convert_encoding($value,'UTF-16','UTF-8');
      * </code>
-     * @param string $a_encoding
-     * @return
      */
     public function setTargetEncoding(string $a_encoding) : void
     {
@@ -154,7 +152,7 @@ class ilDBGenerator
      * Set Table White List.
      * Per default all tables are included in the processing. If a white
      * list ist provided, only them will be used.
-     * @param array $a_whitelist Table White List
+     * @param string[] $a_whitelist Table White List
      */
     public function setWhiteList(array $a_whitelist) : void
     {
@@ -210,6 +208,9 @@ class ilDBGenerator
         return $file;
     }
 
+    /**
+     * @param resource $fp
+     */
     protected function closeFile($fp) : void
     {
         fclose($fp);
@@ -348,7 +349,6 @@ class ilDBGenerator
     }
 
     /**
-     * @param string   $a_table
      * @param resource $a_file
      */
     public function buildAddPrimaryKeyStatement(string $a_table, $a_file = null) : void
@@ -373,6 +373,9 @@ class ilDBGenerator
         }
     }
 
+    /**
+     * @param resource $a_file
+     */
     public function buildAddIndexStatements(string $a_table, $a_file = null) : void
     {
         $ind = $this->analyzer->getIndicesInformation($a_table, true);
@@ -403,7 +406,6 @@ class ilDBGenerator
     }
 
     /**
-     * @param string   $string
      * @param resource $file_handle
      */
     private function printOrWrite(string $string, $file_handle = null) : void
@@ -416,7 +418,6 @@ class ilDBGenerator
     }
 
     /**
-     * @param string   $a_table
      * @param resource $file_handle
      */
     public function buildAddUniqueConstraintStatements(string $a_table, $file_handle = null) : void
@@ -440,7 +441,6 @@ class ilDBGenerator
     }
 
     /**
-     * @param string   $a_table
      * @param resource $file_handle
      * @throws ilDatabaseException
      */
@@ -477,7 +477,6 @@ class ilDBGenerator
 
     /**
      * Write seerialized insert data to array
-     * @return
      */
     public function buildInsertStatement(string $a_table, string $a_basedir) : bool
     {
@@ -538,7 +537,6 @@ class ilDBGenerator
     }
 
     /**
-     * @param string   $a_table
      * @param resource $file_handle
      */
     public function buildInsertStatements(string $a_table, $file_handle = null) : void

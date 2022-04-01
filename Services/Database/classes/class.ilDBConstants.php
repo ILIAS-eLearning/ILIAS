@@ -76,6 +76,9 @@ class ilDBConstants
     const PREPARE_MANIP = false;
     // Other
     const MB4_REPLACEMENT = "?";
+    /**
+     * @var string[]
+     */
     protected static array $descriptions = array(
         // Main
         ilDBConstants::TYPE_MYSQL => "MySQL 5.5.x or higher (MyISAM engine)",
@@ -159,11 +162,7 @@ class ilDBConstants
         ];
     }
 
-
-    /**
-     * @param $type
-     */
-    public static function describe($type) : string
+    public static function describe(string $type) : string
     {
         return self::$descriptions[$type];
     }

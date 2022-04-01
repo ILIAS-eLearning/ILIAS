@@ -8,11 +8,7 @@
 class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 {
 
-    /**
-     * @param $field
-     * @return \ilDBPdo|string
-     */
-    public function getTypeDeclaration($field) : string
+    public function getTypeDeclaration(array $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -109,12 +105,9 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 
 
     /**
-     * @param $name
-     * @param $field
-     * @return \ilDBPdo|string
      * @throws \ilDatabaseException
      */
-    protected function getIntegerDeclaration($name, $field) : string
+    protected function getIntegerDeclaration(string $name, array $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -139,10 +132,9 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 
 
     /**
-     * @param $field
      * @throws \ilDatabaseException
      */
-    protected function mapNativeDatatypeInternal($field) : array
+    protected function mapNativeDatatypeInternal(array $field) : array
     {
         $db_type = strtolower($field['type']);
         $db_type = strtok($db_type, '(), ');

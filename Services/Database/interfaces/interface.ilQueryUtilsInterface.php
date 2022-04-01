@@ -23,11 +23,7 @@ interface ilQueryUtilsInterface
     public function concat(array $values, bool $allow_null = true) : string;
 
 
-    /**
-     * @param $a_needle
-     * @param $a_string
-     */
-    public function locate($a_needle, $a_string, int $a_start_pos = 1) : string;
+    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string;
 
 
     public function free(ilPDOStatement $statement) : bool;

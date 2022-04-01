@@ -23,7 +23,7 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
     }
 
     /**
-     * @return \ilDatabaseExistsObjective[]|\ilIniFilesLoadedObjective[]
+     * @return array<int, \ilDatabaseExistsObjective|\ilIniFilesLoadedObjective>
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {

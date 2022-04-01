@@ -7,22 +7,19 @@
  */
 class ilAtomQueryException extends ilDatabaseException
 {
-    const DB_ATOM_GENERAL = 10900;
-    const DB_ATOM_LOCK_TABLE_NONEXISTING = 10901;
-    const DB_ATOM_LOCK_WRONG_LEVEL = 10902;
-    const DB_ATOM_CLOSURE_WRONG_FORMAT = 10903;
-    const DB_ATOM_ISO_WRONG_LEVEL = 10904;
-    const DB_ATOM_ANO_NOT_AVAILABLE = 10905;
-    const DB_ATOM_LOCK_NO_TABLE = 10906;
-    const DB_ATOM_CLOSURE_NONE = 10907;
-    const DB_ATOM_CLOSURE_ALREADY_SET = 10908;
-    const DB_ATOM_IDENTICAL_TABLES = 10909;
+    public const DB_ATOM_GENERAL = 10900;
+    public const DB_ATOM_LOCK_TABLE_NONEXISTING = 10901;
+    public const DB_ATOM_LOCK_WRONG_LEVEL = 10902;
+    public const DB_ATOM_CLOSURE_WRONG_FORMAT = 10903;
+    public const DB_ATOM_ISO_WRONG_LEVEL = 10904;
+    public const DB_ATOM_ANO_NOT_AVAILABLE = 10905;
+    public const DB_ATOM_LOCK_NO_TABLE = 10906;
+    public const DB_ATOM_CLOSURE_NONE = 10907;
+    public const DB_ATOM_CLOSURE_ALREADY_SET = 10908;
+    public const DB_ATOM_IDENTICAL_TABLES = 10909;
 
 
-    /**
-     * @param $code
-     */
-    protected function tranlateException($code) : string
+    protected function tranlateException(int $code) : string
     {
         $message = 'An undefined Exception occured';
         switch ($code) {

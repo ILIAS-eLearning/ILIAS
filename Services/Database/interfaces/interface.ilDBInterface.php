@@ -24,16 +24,10 @@ interface ilDBInterface
      */
     public static function getReservedWords() : array;
 
-    /**
-     * @param ilIniFile|null $tmpClientIniFile
-     */
-    public function initFromIniFile(ilIniFile $ini = null) : void;
+    public function initFromIniFile(?ilIniFile $ini = null) : void;
 
     public function connect(bool $return_false_on_error = false) : ?bool;
 
-    /**
-     * @param $table_name string
-     */
     public function nextId(string $table_name) : int;
 
     public function createTable(
@@ -43,32 +37,16 @@ interface ilDBInterface
         bool $ignore_erros = false
     ) : bool;
 
-    /**
-     * @param $table_name   string
-     * @param $primary_keys array
-     */
     public function addPrimaryKey(string $table_name, array $primary_keys) : bool;
 
     public function createSequence(string $table_name, int $start = 1) : bool;
 
     public function getSequenceName(string $table_name) : string;
 
-    /**
-     * @param $table_name string
-     */
     public function tableExists(string $table_name) : bool;
 
-    /**
-     * @param $table_name  string
-     * @param $column_name string
-     */
     public function tableColumnExists(string $table_name, string $column_name) : bool;
 
-    /**
-     * @param $table_name  string
-     * @param $column_name string
-     * @param $attributes  array
-     */
     public function addTableColumn(string $table_name, string $column_name, array $attributes) : bool;
 
     public function dropTable(string $table_name, bool $error_if_not_existing = true) : bool;
@@ -77,65 +55,37 @@ interface ilDBInterface
 
     /**
      * Run a (read-only) Query on the database
-     * @param $query string
      */
     public function query(string $query) : ilDBStatement;
 
     public function fetchAll(ilDBStatement $statement, int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC) : array;
 
-    /**
-     * @param $table_name string
-     */
     public function dropSequence(string $table_name) : bool;
 
-    /**
-     * @param $table_name  string
-     * @param $column_name string
-     */
     public function dropTableColumn(string $table_name, string $column_name) : bool;
 
-    /**
-     * @param $table_name      string
-     * @param $column_old_name string
-     * @param $column_new_name string
-     */
     public function renameTableColumn(string $table_name, string $column_old_name, string $column_new_name) : bool;
 
     /**
-     * @param string $table_name
-     * @param array $values
      * @return int The number of rows affected by the manipulation
      */
     public function insert(string $table_name, array $values) : int;
 
-    /**
-     * @param $query_result ilDBStatement
-     */
     public function fetchObject(ilDBStatement $query_result) : ?stdClass;
 
     /**
-     * @param $table_name string
-     * @param $values     array
-     * @param $where      array
      * @return int The number of rows affected by the manipulation
      */
     public function update(string $table_name, array $values, array $where) : int;
 
     /**
      * Run a (write) Query on the database
-     * @param $query string
      * @return int The number of rows affected by the manipulation
      */
     public function manipulate(string $query) : int;
 
-    /**
-     * @param $query_result ilDBStatement
-     */
     public function fetchAssoc(ilDBStatement $statement) : ?array;
 
-    /**
-     * @param $query_result ilDBStatement
-     */
     public function numRows(ilDBStatement $statement) : int;
 
     /**
@@ -170,10 +120,6 @@ interface ilDBInterface
      */
     public function unlockTables() : void;
 
-    /**
-     * @param $field  string
-     * @param $values array
-     */
     public function in(string $field, array $values, bool $negate = false, string $type = "") : string;
 
     /**
@@ -213,7 +159,7 @@ interface ilDBInterface
      */
     public function replace(string $table, array $primary_keys, array $other_columns) : int;
 
-    public function equals($columns, $value, $type, bool $emptyOrNull = false) : string;
+    public function equals(string $columns, $value, string $type, bool $emptyOrNull = false) : string;
 
     public function setDBUser(string $user) : void;
 
@@ -223,19 +169,10 @@ interface ilDBInterface
 
     public function setDBHost(string $host) : void;
 
-    /**
-     * @param string $a_exp
-     */
     public function upper(string $expression) : string;
 
-    /**
-     * @param string $a_exp
-     */
     public function lower(string $expression) : string;
 
-    /**
-     * @param string $a_exp
-     */
     public function substr(string $expression) : string;
 
     /**
@@ -243,10 +180,7 @@ interface ilDBInterface
      */
     public function prepare(string $a_query, array $a_types = null, array $a_result_types = null) : ilDBStatement;
 
-    /**
-     * @param array|null $a_types
-     */
-    public function prepareManip(string $a_query, array $a_types = null) : ilDBStatement;
+    public function prepareManip(string $a_query, ?array $a_types = null) : ilDBStatement;
 
     public function enableResultBuffering(bool $a_status) : void;
 
@@ -338,10 +272,7 @@ interface ilDBInterface
 
     public function buildAtomQuery() : ilAtomQuery;
 
-    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null) : string;
+    public function groupConcat(string $a_field_name, string $a_seperator = ",", ?string $a_order = null) : string;
 
-    /**
-     * @return string;
-     */
     public function cast(string $a_field_name, string $a_dest_type) : string;
 }

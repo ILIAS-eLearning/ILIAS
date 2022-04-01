@@ -8,16 +8,14 @@ interface ilDBManager
 {
 
     /**
-     * @param string|null $database
      * @return string[]
      */
-    public function listTables(string $database = null) : array;
+    public function listTables(?string $database = null) : array;
 
     /**
-     * @param string|null $database
      * @return string[]
      */
-    public function listSequences(string $database = null) : array;
+    public function listSequences(?string $database = null) : array;
 
     public function createConstraint(string $table, string $name, array $definition) : bool;
 

@@ -34,10 +34,9 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     }
 
     /**
-     * @param string|null $database
      * @return int[]|string[]
      */
-    public function listTables(string $database = null) : array
+    public function listTables(?string $database = null) : array
     {
         $str = 'SHOW TABLES ' . ($database ? ' IN ' . $database : '');
         $r = $this->pdo->query($str);

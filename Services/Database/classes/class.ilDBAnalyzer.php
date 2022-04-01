@@ -48,10 +48,9 @@ class ilDBAnalyzer
     /**
      * Get field information of a table.
      *
-     * @param    string        table name
-     * @return    array        field information array
+     * @return array field information array
      */
-    public function getFieldInformation($a_table, $a_remove_not_allowed_attributes = false) : array
+    public function getFieldInformation(string $a_table, bool $a_remove_not_allowed_attributes = false) : array
     {
         $fields = $this->manager->listTableFields($a_table);
         $inf = array();
@@ -154,10 +153,9 @@ class ilDBAnalyzer
     /**
      * Get primary key of a table
      *
-     * @param    string        table name
-     * @return    array        primary key information array
+     * @return array primary key information array
      */
-    public function getPrimaryKeyInformation($a_table) : array
+    public function getPrimaryKeyInformation(string $a_table) : array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
@@ -185,10 +183,9 @@ class ilDBAnalyzer
      * Primary key is NOT included!
      * Fulltext indices are included and marked.
      *
-     * @param    string        table name
-     * @return    array        indices information array
+     * @return array indices information array
      */
-    public function getIndicesInformation($a_table, $a_abstract_table = false) : array
+    public function getIndicesInformation(string $a_table, $a_abstract_table = false) : array//PHP8Review: Missing typehint
     {
         //$constraints = $this->manager->listTableConstraints($a_table);
         $indexes = $this->manager->listTableIndexes($a_table);
@@ -241,10 +238,9 @@ class ilDBAnalyzer
      * Primary key is NOT included!
      * Fulltext indices are included and marked.
      *
-     * @param    string        table name
-     * @return    array        indices information array
+     * @return array indices information array
      */
-    public function getConstraintsInformation($a_table, $a_abstract_table = false) : array
+    public function getConstraintsInformation(string $a_table, $a_abstract_table = false) : array//PHP8Review: Missing typehint
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 

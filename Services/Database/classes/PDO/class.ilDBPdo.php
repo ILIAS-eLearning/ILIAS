@@ -25,6 +25,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     protected ?int $offset = null;
     protected string $storage_engine = 'MyISAM';
     protected string $dsn = '';
+    /**
+     * @var int[]
+     */
     protected array $attributes = array(
         //		PDO::ATTR_EMULATE_PREPARES => true,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -55,7 +58,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return ($this->pdo->errorCode() === PDO::ERR_NONE);
     }
 
-    abstract public function initHelpers();
+    abstract public function initHelpers();//PHP8Review: missing reutrn type (probably void)
 
     protected function initSQLMode() : void
     {
@@ -111,10 +114,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->error_code;
     }
 
-    /**
-     * @param ilIniFile|null $tmpClientIniFile
-     */
-    public function initFromIniFile(ilIniFile $ini = null) : void
+    public function initFromIniFile(?ilIniFile $ini = null) : void
     {
         global $DIC;
 
@@ -181,7 +181,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->manager->createTable($table_name, $fields, array());
     }
 
-    protected function checkTableColumns($a_cols) : bool
+    protected function checkTableColumns(array $a_cols) : bool
     {
         foreach ($a_cols as $col => $def) {
             if (!$this->checkColumn($col, $def)) {
@@ -192,11 +192,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return true;
     }
 
-    /**
-     * @param $a_col
-     * @param $a_def
-     */
-    protected function checkColumn($a_col, $a_def) : bool
+    protected function checkColumn(string $a_col, array $a_def) : bool
     {
         if (!$this->checkColumnName($a_col)) {
             return false;
@@ -204,18 +200,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->checkColumnDefinition($a_def);
     }
 
-    /**
-     * @param $a_def
-     */
-    protected function checkColumnDefinition($a_def, bool $a_modify_mode = false) : bool
+    protected function checkColumnDefinition(array $a_def, bool $a_modify_mode = false) : bool
     {
         return $this->field_definition->checkColumnDefinition($a_def);
     }
 
-    /**
-     * @param $a_name
-     */
-    public function checkColumnName($a_name) : bool
+    public function checkColumnName(string $a_name) : bool
     {
         return $this->field_definition->checkColumnName($a_name);
     }
@@ -272,9 +262,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return true;
     }
 
-    /**
-     * @param $table_name string
-     */
     public function tableExists(string $table_name) : bool
     {
         $result = $this->pdo->prepare("SHOW TABLES LIKE :table_name");
@@ -285,10 +272,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $return > 0;
     }
 
-    /**
-     * @param $table_name  string
-     * @param $column_name string
-     */
     public function tableColumnExists(string $table_name, string $column_name) : bool
     {
         $fields = $this->loadModule(ilDBConstants::MODULE_MANAGER)->listTableFields($table_name);
@@ -344,7 +327,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     }
 
     /**
-     * @param $query string
      * @throws ilDatabaseException
      */
     public function query(string $query) : ilDBStatement
@@ -386,9 +368,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $return;
     }
 
-    /**
-     * @param $table_name string
-     */
     public function dropSequence(string $table_name) : bool
     {
         $this->manager->dropSequence($table_name);
@@ -456,9 +435,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return (int) $this->pdo->exec($query);
     }
 
-    /**
-     * @param $query_result ilDBStatement
-     */
     public function fetchObject(ilDBStatement $query_result) : ?stdClass
     {
         $res = $query_result->fetchObject();
@@ -572,9 +548,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return (int) $num_affected_rows;
     }
 
-    /**
-     * @param $query_result ilDBStatement
-     */
     public function fetchAssoc(ilDBStatement $statement) : ?array
     {
         $res = $statement->fetch(PDO::FETCH_ASSOC);
@@ -587,15 +560,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $res;
     }
 
-    /**
-     * @param $query_result ilDBStatement
-     */
     public function numRows(ilDBStatement $statement) : int
     {
         return $statement->rowCount();
     }
 
-    public function quote($value, string $type = null) : string
+    public function quote($value, ?string $type = null) : string
     {
         if ($value === null) {
             return 'NULL';
@@ -644,9 +614,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return false;
     }
 
-    /**
-     * @param        $index_name
-     */
     public function addIndex(string $table_name, array $fields, string $index_name = '', bool $fulltext = false) : bool
     {
         assert(is_array($fields));
@@ -707,10 +674,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return false;
     }
 
-    /**
-     * @param $index_name_base
-     */
-    public function getIndexName($index_name_base) : string
+    public function getIndexName($index_name_base) : string//PHP8Review: Missing Typehint (probably string)
     {
         return sprintf(ilDBPdoFieldDefinition::INDEX_FORMAT, preg_replace('/[^a-z0-9_\$]/i', '_', $index_name_base));
     }
@@ -739,12 +703,14 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->db_type;
     }
 
-    public function setDBType(string $type)
+    public function setDBType(string $type) : void
     {
         $this->db_type = $type;
     }
 
     /**
+     * @return string[]
+     *
      * @deprecated use
      */
     public static function getReservedWords() : array
@@ -788,17 +754,13 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         $this->pdo->exec($this->manager->getQueryUtils()->unlock());
     }
 
-    /**
-     * @param        $field  string
-     * @param        $values array
-     */
     public function in(string $field, array $values, bool $negate = false, string $type = "") : string
     {
         return $this->manager->getQueryUtils()->in($field, $values, $negate, $type);
     }
 
     /**
-     * @param \string[] $types
+     * @param string[] $types
      * @throws \ilDatabaseException
      */
     public function queryF(string $query, array $types, array $values) : ilDBStatement
@@ -816,6 +778,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     }
 
     /**
+     * @param string[] $types
      * @throws ilDatabaseException
      */
     public function manipulateF(string $query, array $types, array $values) : int
@@ -892,7 +855,10 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->manipulateF($q, $types, $values);
     }
 
-    public function equals($columns, $value, $type, bool $emptyOrNull = false) : string
+    /**
+     * @param mixed $value
+     */
+    public function equals(string $columns, $value, string $type, bool $emptyOrNull = false) : string
     {
         if (!$emptyOrNull || $value != "") {
             return $columns . " = " . $this->quote($value, $type);
@@ -906,7 +872,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->host;
     }
 
-    public function setHost(string $host)
+    public function setHost(string $host) : void
     {
         $this->host = $host;
     }
@@ -916,7 +882,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->dbname;
     }
 
-    public function setDbname(string $dbname)
+    public function setDbname(string $dbname) : void
     {
         $this->dbname = $dbname;
     }
@@ -926,7 +892,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->charset;
     }
 
-    public function setCharset(string $charset)
+    public function setCharset(string $charset) : void
     {
         $this->charset = $charset;
     }
@@ -936,7 +902,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->username;
     }
 
-    public function setUsername(string $username)
+    public function setUsername(string $username) : void
     {
         $this->username = $username;
     }
@@ -946,7 +912,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->password;
     }
 
-    public function setPassword(string $password)
+    public function setPassword(string $password) : void
     {
         $this->password = $password;
     }
@@ -956,7 +922,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->port;
     }
 
-    public function setPort(int $port)
+    public function setPort(int $port) : void
     {
         $this->port = $port;
     }
@@ -1006,20 +972,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return " SUBSTR(" . $a_exp . ", " . $a_pos . $lenstr . ") ";
     }
 
-    /**
-     * @param array|null $types
-     */
-    public function prepareManip(string $query, array $types = null) : ilDBStatement
+    public function prepareManip(string $query, ?array $types = null) : ilDBStatement
     {
         return new ilPDOStatement($this->pdo->prepare($query));
     }
 
-    /**
-     * @param            $query
-     * @param array|null $types
-     * @param array|null $result_types
-     */
-    public function prepare(string $query, array $types = null, array $result_types = null) : ilDBStatement
+    public function prepare(string $query, ?array $types = null, ?array $result_types = null) : ilDBStatement
     {
         return new ilPDOStatement($this->pdo->prepare($query));
     }
@@ -1521,7 +1479,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     /**
      * @inheritdoc
      */
-    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null) : string
+    public function groupConcat(string $a_field_name, string $a_seperator = ",", ?string $a_order = null) : string
     {
         return $this->manager->getQueryUtils()->groupConcat($a_field_name, $a_seperator, $a_order);
     }

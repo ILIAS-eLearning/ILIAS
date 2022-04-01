@@ -8,7 +8,7 @@ use ILIAS\DI;
 class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
     /**
-     * @return \ilDatabaseInitializedObjective[]|\ilIniFilesLoadedObjective[]
+     * @return array<\ilDatabaseInitializedObjective|\ilIniFilesLoadedObjective>
      */
     protected function getTentativePreconditions(Setup\Environment $environment) : array
     {

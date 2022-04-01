@@ -126,8 +126,6 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
 
     /**
      * Get a list of all steps in this class.
-     *
-     * @return int[]
      */
     protected function readSteps() : void
     {

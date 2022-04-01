@@ -131,11 +131,7 @@ class ilPostgresQueryUtils extends ilQueryUtils
         return $concat . ') ';
     }
 
-    /**
-     * @param $a_needle
-     * @param $a_string
-     */
-    public function locate($a_needle, $a_string, int $a_start_pos = 1) : string
+    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string
     {
         $locate = ' STRPOS(SUBSTR(';
         $locate .= $a_string;
@@ -162,9 +158,6 @@ class ilPostgresQueryUtils extends ilQueryUtils
     }
 
     /**
-     * @param $column
-     * @param $type
-     * @return string|void
      * @throws \ilDatabaseException
      */
     public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true) : string
@@ -240,7 +233,7 @@ class ilPostgresQueryUtils extends ilQueryUtils
         return 'UNLOCK TABLES';
     }
 
-    public function createDatabase($a_name, string $a_charset = "utf8", string $a_collation = "") : string
+    public function createDatabase(string $a_name, string $a_charset = "utf8", string $a_collation = "") : string
     {
         if ($a_collation !== "") {
             $sql = "CREATE DATABASE " . $a_name . " CHARACTER SET " . $a_charset . " COLLATE " . $a_collation;

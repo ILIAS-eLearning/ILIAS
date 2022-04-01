@@ -27,7 +27,7 @@ abstract class ilQueryUtils implements ilQueryUtilsInterface
 
     abstract public function concat(array $values, bool $allow_null = true) : string;
 
-    abstract public function locate($a_needle, $a_string, int $a_start_pos = 1) : string;
+    abstract public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string;
 
     abstract public function free(ilPDOStatement $statement) : bool;
 

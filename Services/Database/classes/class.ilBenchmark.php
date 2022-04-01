@@ -107,7 +107,7 @@ class ilBenchmark
      *
      * @deprecated
      */
-    public function start($a_module, $a_bench) : void
+    public function start($a_module, $a_bench) : void//PHP8Review: Missing Typehints
     {
     }
 
@@ -116,7 +116,7 @@ class ilBenchmark
      *
      * @deprecated
      */
-    public function stop($a_module, $a_bench) : void
+    public function stop($a_module, $a_bench) : void//PHP8Review: Missing Typehints
     {
     }
 

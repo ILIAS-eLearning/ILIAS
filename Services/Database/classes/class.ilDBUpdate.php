@@ -193,9 +193,7 @@ class ilDBUpdate
 
     /**
      * execute a query
-     * @param object    DB
-     * @param string    query
-     * @return mixed|bool
+     * @return bool
      */
     public function execQuery(ilDBInterface $db, string $str) : bool
     {
@@ -239,12 +237,7 @@ class ilDBUpdate
         return true;
     }
 
-    /**
-     * @param $ilCtrlStructureReader
-     * @param $ilMySQLAbstraction
-     * @param $ilDB
-     */
-    private function initGlobalsRequiredForUpdateSteps(&$ilCtrlStructureReader, &$ilMySQLAbstraction, &$ilDB) : void
+    private function initGlobalsRequiredForUpdateSteps(&$ilCtrlStructureReader, &$ilMySQLAbstraction, &$ilDB) : void//PHP8Review: Missing Typehints
     {
         global $DIC;
 
@@ -274,7 +267,7 @@ class ilDBUpdate
      * Apply update
      * @return bool|void
      */
-    public function applyUpdate($a_break = 0)
+    public function applyUpdate(int $a_break = 0)
     {
         $ilCtrlStructureReader = null;
         $ilMySQLAbstraction = null;
@@ -327,10 +320,10 @@ class ilDBUpdate
 
     /**
      * apply an update
-     * @param int nr number what patch to apply (Reference: Patch for https://mantis.ilias.de/view.php?id=28550)
+     * @param int $nr number what patch to apply (Reference: Patch for https://mantis.ilias.de/view.php?id=28550)
      * @access private
      */
-    public function applyUpdateNr($nr, $hotfix = false, $custom_update = false) : bool
+    public function applyUpdateNr(int $nr, $hotfix = false, $custom_update = false) : bool
     {
         $ilCtrlStructureReader = null;
         $ilMySQLAbstraction = null;
@@ -430,10 +423,7 @@ class ilDBUpdate
         return true;
     }
 
-    /**
-     * @return bool|void
-     */
-    public function getDBVersionStatus()
+    public function getDBVersionStatus() : bool
     {
         return !($this->fileVersion > $this->currentVersion);
     }
@@ -458,7 +448,10 @@ class ilDBUpdate
         return $a;
     }
 
-    public function getTableStatus($table)
+    /**
+     * @return mixed
+     */
+    public function getTableStatus(string $table)
     {
         $query = "ANALYZE TABLE " . $table;
         return $this->db->query($query)->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
@@ -481,7 +474,7 @@ class ilDBUpdate
     /**
      * Set current hotfix version
      */
-    public function setHotfixCurrentVersion($a_version) : bool
+    public function setHotfixCurrentVersion($a_version) : bool//PHP8Review: $a_version cannot be both: int and string
     {
         $this->readHotfixInfo();
         $this->hotfix_setting->set(
@@ -506,7 +499,7 @@ class ilDBUpdate
     /**
      * Set current hotfix version
      */
-    public function readHotfixFileVersion($a_file_content) : int
+    public function readHotfixFileVersion(array $a_file_content) : int
     {
         //go through filecontent and search for last occurence of <#x>
         reset($a_file_content);
@@ -524,7 +517,7 @@ class ilDBUpdate
     /**
      * Get status of hotfix file
      */
-    public function readHotfixInfo($a_force = false) : void
+    public function readHotfixInfo(bool $a_force = false) : void
     {
         if (isset($this->hotfix_info_read) && $this->hotfix_info_read && !$a_force) {
             return;
@@ -595,9 +588,6 @@ class ilDBUpdate
         return true;
     }
 
-    /**
-     * @return mixed|int|null
-     */
     public function getCustomUpdatesCurrentVersion() : ?int
     {
         $this->readCustomUpdatesInfo();
@@ -614,9 +604,6 @@ class ilDBUpdate
         return true;
     }
 
-    /**
-     * @return mixed|null
-     */
     public function getCustomUpdatesFileVersion() : ?int
     {
         $this->readCustomUpdatesInfo();
@@ -624,7 +611,7 @@ class ilDBUpdate
         return $this->custom_updates_file_version;
     }
 
-    public function readCustomUpdatesFileVersion($a_file_content) : int
+    public function readCustomUpdatesFileVersion(array $a_file_content) : int
     {
         //go through filecontent and search for last occurence of <#x>
         reset($a_file_content);
@@ -639,7 +626,7 @@ class ilDBUpdate
         return (int) $version;
     }
 
-    public function readCustomUpdatesInfo($a_force = false) : void
+    public function readCustomUpdatesInfo(bool $a_force = false) : void
     {
         if ($this->custom_updates_info_read && !$a_force) {
             return;
@@ -703,7 +690,7 @@ class ilDBUpdate
      * Get update steps as string (for presentation)
      * @return string steps from the update file
      */
-    public function getUpdateSteps($a_break = 0) : string
+    public function getUpdateSteps(int $a_break = 0) : string
     {
         $ilCtrlStructureReader = null;
         $ilMySQLAbstraction = null;
@@ -764,7 +751,7 @@ class ilDBUpdate
      * Get single update step for presentation
      * @return bool|string
      */
-    public function getUpdateStepNr($nr, $hotfix = false, $custom_update = false)
+    public function getUpdateStepNr($nr, $hotfix = false, $custom_update = false)//PHP8Review: Missing type hint
     {
         $str = "";
 

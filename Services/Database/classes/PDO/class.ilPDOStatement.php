@@ -21,7 +21,7 @@ class ilPDOStatement implements ilDBStatement
 
 
     /**
-     * @return mixed|void
+     * @return mixed
      * @throws ilDatabaseException
      */
     public function fetchRow(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
@@ -39,7 +39,7 @@ class ilPDOStatement implements ilDBStatement
 
 
     /**
-     * @return mixed|void
+     * @return mixed
      */
     public function fetch(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
     {

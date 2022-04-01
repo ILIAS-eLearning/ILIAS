@@ -10,18 +10,27 @@ declare(strict_types=1);
 abstract class ilAtomQueryBase
 {
     protected const ITERATIONS = 10;
+    /**
+     * @var int[]
+     */
     protected static array $available_isolations_levels = array(
         ilAtomQuery::ISOLATION_READ_UNCOMMITED,
         ilAtomQuery::ISOLATION_READ_COMMITED,
         ilAtomQuery::ISOLATION_REPEATED_READ,
         ilAtomQuery::ISOLATION_SERIALIZABLE,
     );
+    /**
+     * @var int[]
+     */
     protected static array $possible_anomalies = array(
         ilAtomQuery::ANO_LOST_UPDATES,
         ilAtomQuery::ANO_DIRTY_READ,
         ilAtomQuery::ANO_NON_REPEATED_READ,
         ilAtomQuery::ANO_PHANTOM,
     );
+    /**
+     * @var int[][]
+     */
     protected static array $anomalies_map = array(
         ilAtomQuery::ISOLATION_READ_UNCOMMITED => array(
             ilAtomQuery::ANO_LOST_UPDATES,
@@ -104,7 +113,6 @@ abstract class ilAtomQueryBase
      *      }
      * }
      * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
-     * @param \callable $query
      * @throws ilAtomQueryException
      */
     public function addQueryCallable(callable $query) : void
@@ -141,11 +149,9 @@ abstract class ilAtomQueryBase
     }
 
     /**
-     * @param $isolation_level
-     * @param $anomaly
      * @throws \ilAtomQueryException
      */
-    public static function isThereRiskThat($isolation_level, $anomaly) : bool
+    public static function isThereRiskThat(int $isolation_level, int $anomaly) : bool
     {
         static::checkIsolationLevel($isolation_level);
         static::checkAnomaly($anomaly);
@@ -154,10 +160,9 @@ abstract class ilAtomQueryBase
     }
 
     /**
-     * @param $isolation_level
-     * @return mixed[]
+     * @return int[]
      */
-    public static function getPossibleAnomalies($isolation_level) : array
+    public static function getPossibleAnomalies(int $isolation_level) : array
     {
         static::checkIsolationLevel($isolation_level);
 
@@ -184,10 +189,9 @@ abstract class ilAtomQueryBase
     }
 
     /**
-     * @param $anomalie
      * @throws \ilAtomQueryException
      */
-    public static function checkAnomaly($anomalie)
+    public static function checkAnomaly(int $anomalie) : void
     {
         if (!in_array($anomalie, self::$possible_anomalies)) {
             throw new ilAtomQueryException($anomalie, ilAtomQueryException::DB_ATOM_ANO_NOT_AVAILABLE);

@@ -27,7 +27,7 @@ class ilDatabaseExistsObjective extends \ilDatabaseObjective
     }
 
     /**
-     * @return \ilDatabaseServerIsConnectableObjective[]|\ilDatabaseCreatedObjective[]
+     * @return array<\ilDatabaseServerIsConnectableObjective|\ilDatabaseCreatedObjective>
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {

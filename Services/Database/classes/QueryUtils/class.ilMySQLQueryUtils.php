@@ -72,11 +72,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $concat . ') ';
     }
 
-    /**
-     * @param $a_needle
-     * @param $a_string
-     */
-    public function locate($a_needle, $a_string, int $a_start_pos = 1) : string
+    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string
     {
         $locate = ' LOCATE( ';
         $locate .= $a_needle;
@@ -161,9 +157,6 @@ class ilMySQLQueryUtils extends ilQueryUtils
     }
 
     /**
-     * @param $column
-     * @param $type
-     * @return string|void
      * @throws \ilDatabaseException
      */
     public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true) : string
