@@ -458,8 +458,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		"sub_directory" : "/chat",
 		"https" : {
 			"cert" : "/etc/ssl/certs/server.pem",
-			"key " : "/etc/ssl/private/server.key",
-			"dhparam " : "/etc/ssl/private/dhparam.pem"
+			"key" : "/etc/ssl/private/server.key",
+			"dhparam" : "/etc/ssl/private/dhparam.pem"
 		},
 		"log" : "/var/log/ilias_onscreenchat/access.log",
 		"log_level" : "info",
