@@ -57,6 +57,7 @@ class ilLSLocalDI extends Container
 
         $this["get.params"] = function ($c) : ArrayAccess {
             /** @var ArrayAccess $_GET **/
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             return $_GET;
         };
 
