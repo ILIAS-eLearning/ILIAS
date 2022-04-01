@@ -173,8 +173,10 @@ class ilMDSaxParser extends ilSaxParser
             case 'Title':
                 $par = &$this->__getParent();
                 $par->setTitleLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                $this->addLangEntry($a_attribs['Language']);
-                $this->current_lang_code = $a_attribs['Language'];
+                if ($a_attribs['Language']) {
+                    $this->addLangEntry((string) $a_attribs['Language']);
+                    $this->current_lang_code = (string) $a_attribs['Language'];
+                }
                 break;
 
             case 'Language':
@@ -183,8 +185,10 @@ class ilMDSaxParser extends ilSaxParser
                 $this->md_lan->setLanguage(new ilMDLanguageItem($a_attribs['Language']));
                 $this->md_lan->save();
                 $this->__pushParent($this->md_lan);
-                $this->addLangEntry($a_attribs['Language']);
-                $this->addLangValue($a_attribs['Language'], 'Default', true);
+                if ($a_attribs['Language']) {
+                    $this->addLangEntry((string) $a_attribs['Language']);
+                    $this->addLangValue((string) $a_attribs['Language'], 'Default', true);
+                }
                 // Language has no value to be processed, no need to remember the language.
                 $this->current_lang_code = null;
                 break;
@@ -200,8 +204,10 @@ class ilMDSaxParser extends ilSaxParser
                     $this->md_des->setDescriptionLanguage(new ilMDLanguageItem($a_attribs['Language']));
                     $this->md_des->save();
                     $this->__pushParent($this->md_des);
-                    $this->addLangEntry($a_attribs['Language']);
-                    $this->current_lang_code = $a_attribs['Language'];
+                    if ($a_attribs['Language']) {
+                        $this->addLangEntry((string) $a_attribs['Language']);
+                        $this->current_lang_code = (string) $a_attribs['Language'];
+                    }
                 }
                 break;
 
@@ -462,9 +468,11 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Title':
                 // we cannot set the title yet, because we must know the default language.
-                $this->addLangValue($this->current_lang_code, 'Title', $this->__getCharacterData());
-                $this->first_title = $this->first_title ?? $this->__getCharacterData();
-                $this->current_lang_code = null;
+                if (null !== $this->current_lang_code) {
+                    $this->addLangValue($this->current_lang_code, 'Title', $this->__getCharacterData());
+                    $this->first_title = $this->first_title ?? $this->__getCharacterData();
+                    $this->current_lang_code = null;
+                }
                 break;
 
             case 'Language':
@@ -481,8 +489,10 @@ class ilMDSaxParser extends ilSaxParser
                     );
                 } else {
                     $par->setDescription($this->__getCharacterData());
-                    $this->addLangValue($this->current_lang_code, 'Description', $this->__getCharacterData());
-                    $this->current_lang_code = null;
+                    if (null !== $this->current_lang_code) {
+                        $this->addLangValue($this->current_lang_code, 'Description', $this->__getCharacterData());
+                        $this->current_lang_code = null;
+                    }
                 }
                 $par->update();
                 if ($par instanceof ilMDDescription) {
