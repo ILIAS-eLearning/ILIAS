@@ -25,7 +25,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 {
     protected ilPropertyFormGUI $form;
     protected string $cgrp = "";
-    protected ilRbacAdmin $rbacadmin;
     protected ilTabsGUI $tabs;
     protected StandardGUIRequest $std_request;
     protected ilComponentRepository $component_repository;
@@ -38,8 +37,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->rbacadmin = $DIC->rbac()->admin();
         $this->ctrl = $DIC->ctrl();
         $this->tabs = $DIC->tabs();
         $this->tpl = $DIC["tpl"];
@@ -60,7 +57,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     
     public function executeCommand() : void
     {
-        if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $mess = str_replace("%s", $this->object->getTitle(), $this->lng->txt("msg_no_perm_read_item"));
             $this->ilias->raiseError($mess, $this->ilias->error_obj->WARNING);
         }
@@ -77,7 +74,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "" || $cmd == "view") {
+                if ($cmd === null || $cmd === "" || $cmd === "view") {
                     $cmd = "showGeneralPageEditorSettings";
                 }
                 $cmd .= "Object";
@@ -107,9 +104,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
-            !in_array($ilCtrl->getCmd(), array("showPageEditorSettings",
-                "showGeneralPageEditorSettings", "showCharSelectorSettings", "", "view"))) {
+        if ($ilCtrl->getNextClass() !== "ilpermissiongui" &&
+            !in_array($ilCtrl->getCmd(), array(
+                "showPageEditorSettings",
+                "showGeneralPageEditorSettings",
+                "showCharSelectorSettings",
+                "",
+                "view"
+            ), true)) {
             $this->tabs_gui->addSubTabTarget(
                 "adve_general_settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
@@ -220,12 +222,12 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $editor = $this->object->_getRichTextEditor();
+        $editor = self::_getRichTextEditor();
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("adve_activation"));
         $cb = new ilCheckboxInputGUI($this->lng->txt("adve_use_tiny_mce"), "use_tiny");
-        if ($editor == "tinymce") {
+        if ($editor === "tinymce") {
             $cb->setChecked(true);
         }
         $form->addItem($cb);
@@ -415,7 +417,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $grps = ilPageEditorSettings::getGroups();
         
         $this->cgrp = $this->std_request->getGroup();
-        if ($this->cgrp == "") {
+        if ($this->cgrp === "") {
             $this->cgrp = (string) key($grps);
         }
 
@@ -435,7 +437,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         
         $this->form = new ilPropertyFormGUI();
     
-        if ($this->cgrp == "test") {
+        if ($this->cgrp === "test") {
             $this->form->setTitle($lng->txt("adve_activation"));
             $cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_tst_editing"), "tst_page_edit");
             $cb->setInfo($this->lng->txt("advanced_editing_tst_editing_desc"));
@@ -447,7 +449,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $sh = new ilFormSectionHeaderGUI();
             $sh->setTitle($lng->txt("adve_text_content_features"));
             $this->form->addItem($sh);
-        } elseif ($this->cgrp == "rep") {
+        } elseif ($this->cgrp === "rep") {
             $this->form->setTitle($lng->txt("adve_activation"));
             $cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_rep_page_editing"), "cat_page_edit");
             $cb->setInfo($this->lng->txt("advanced_editing_rep_page_editing_desc"));
@@ -499,9 +501,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 );
             }
             
-            if ($this->std_request->getGroup() == "test") {
+            if ($this->std_request->getGroup() === "test") {
                 $ilSetting->set("enable_tst_page_edit", (string) $this->form->getInput("tst_page_edit"));
-            } elseif ($this->std_request->getGroup() == "rep") {
+            } elseif ($this->std_request->getGroup() === "rep") {
                 $ilSetting->set("enable_cat_page_edit", (string) $this->form->getInput("cat_page_edit"));
             }
             
@@ -581,13 +583,13 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $form->addItem($sh);
 
         $comps = iterator_to_array($this->component_repository->getComponents());
-        $comps_per_dir = array_column(array_map(function ($k, $c) {
+        $comps_per_dir = array_column(array_map(static function ($k, ilComponentInfo $c) : array {
             return [$c->getType() . "/" . $c->getName(), $c];
         }, array_keys($comps), $comps), 1, 0);
 
         $cdef = new ilCOPageObjDef();
         foreach ($cdef->getDefinitions() as $key => $def) {
-            if (in_array($key, $this->getPageObjectKeysWithOptionalHTML())) {
+            if (in_array($key, $this->getPageObjectKeysWithOptionalHTML(), true)) {
                 $comp_id = $comps_per_dir[$def["component"]]->getId();
                 $this->lng->loadLanguageModule($comp_id);
                 $cb = new ilCheckboxInputGUI($def["component"] . ": " . $this->lng->txt($comp_id . "_page_type_" . $key), "act_html_" . $key);
@@ -651,7 +653,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
                 $def = new ilCOPageObjDef();
                 foreach ($def->getDefinitions() as $key => $def) {
-                    if (in_array($key, $this->getPageObjectKeysWithOptionalHTML())) {
+                    if (in_array($key, $this->getPageObjectKeysWithOptionalHTML(), true)) {
                         $aset->set("act_html_" . $key, (string) (int) $form->getInput("act_html_" . $key));
                     }
                 }
