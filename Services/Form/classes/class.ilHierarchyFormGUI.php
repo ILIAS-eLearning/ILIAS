@@ -40,7 +40,7 @@ class ilHierarchyFormGUI extends ilFormGUI
     protected object $parent_obj;
     protected string $parent_cmd = "";
     protected ilTree $tree;
-    protected string $currenttopnodeid = "";
+    protected int $currenttopnodeid = 0;
     protected string $title = "";
     protected string $checkboxname = "";
     protected string $dragicon = "";
@@ -120,12 +120,12 @@ class ilHierarchyFormGUI extends ilFormGUI
         return $this->tree;
     }
 
-    public function setCurrentTopNodeId(string $a_currenttopnodeid) : void
+    public function setCurrentTopNodeId(int $a_currenttopnodeid) : void
     {
         $this->currenttopnodeid = $a_currenttopnodeid;
     }
 
-    public function getCurrentTopNodeId() : string
+    public function getCurrentTopNodeId() : int
     {
         return $this->currenttopnodeid;
     }
@@ -372,7 +372,7 @@ class ilHierarchyFormGUI extends ilFormGUI
      * Get all childs of current node. Standard implementation uses
      * tree object.
      */
-    public function getChilds(?string $a_node_id = null) : array
+    public function getChilds(?int $a_node_id = null) : array
     {
         if ($a_node_id == null) {
             $a_node_id = $this->getCurrentTopNodeId();
@@ -677,7 +677,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         
         // insert childs
         if (count($childs) > 0) {
-            for ($i = 0; $i < count($childs); $i++) {
+            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                 $next_sibling = ($i < (count($childs) - 1))
                     ? $childs[$i + 1]
                     : null;
