@@ -45,6 +45,7 @@ class ilExerciseManagementGUI
     public const GRADE_NOT_GRADED = "notgraded";
     public const GRADE_PASSED = "passed";
     public const GRADE_FAILED = "failed";
+    protected \ILIAS\HTTP\Services $http;
 
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
@@ -140,6 +141,7 @@ class ilExerciseManagementGUI
         $this->requested_filter_feedback = $request->getFilterFeedback();
 
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
+        $this->http = $DIC->http();
     }
 
     /**
@@ -1936,8 +1938,8 @@ class ilExerciseManagementGUI
         // form "submit"
         else {
             $tmp = array();
-            // TODO PHP8
-            foreach (array_keys($_POST) as $id) {
+            $post = $this->http->request()->getParsedBody();
+            foreach (array_keys($post) as $id) {
                 if (substr($id, 0, 3) == "dl_") {
                     $tmp[] = substr($id, 3);
                 }

@@ -264,8 +264,7 @@ class ilExSubmissionTeamGUI
         array $a_user_ids = array()
     ) : void {
         if (!$this->canEditTeam()) {
-            // TODO PHP8: wrong method call
-            $this->ctrl->redirect("submissionScreenTeam");
+            $this->ctrl->redirect($this, "submissionScreenTeam");
         }
         
         if ($a_user_ids === []) {

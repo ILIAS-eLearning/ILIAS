@@ -26,6 +26,7 @@ use ILIAS\Exercise\GUIRequest;
  */
 class ilExcCriteriaRating extends ilExcCriteria
 {
+    protected \ILIAS\HTTP\Services $http;
     protected ilGlobalTemplateInterface $tpl;
     protected ilCustomInputGUI $form_item;
     protected GUIRequest $request;
@@ -35,12 +36,12 @@ class ilExcCriteriaRating extends ilExcCriteria
      */
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->request = $DIC->exercise()->internal()->gui()->request();
+        $this->http = $DIC->http();
     }
 
     public function getType() : string
@@ -70,9 +71,8 @@ class ilExcCriteriaRating extends ilExcCriteria
         $this->form->addItem($input);
         
         // #16993 - making form checkInput() work
-        // TODO PHP8
-        if (is_array($_POST) &&
-            array_key_exists("cmd", $_POST)) {
+        $post = $this->http->request()->getParsedBody();
+        if (isset($post["cmd"])) {
             if ($this->isRequired() && !$this->hasValue($a_value)) {
                 $input->setAlert($this->lng->txt("msg_input_is_required"));
             }

@@ -45,8 +45,8 @@ class SubmissionDBRepository implements SubmissionRepositoryInterface
             " WHERE returned_id = " . $this->db->quote($submission_id, "integer");
         $usr_set = $this->db->query($q);
     
-        // TODO PHP8: return type not compatible with declared
-        return $this->db->fetchAssoc($usr_set);
+        $rec = $this->db->fetchAssoc($usr_set);
+        return (int) ($rec["user_id"] ?? 0);
     }
 
     public function hasSubmissions(int $assignment_id) : int
