@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -497,7 +497,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 // numeric id
                 if (is_numeric($parts[1])) {
                     // simple type
-                    if (preg_match("/^[a-zA-Z_]+$/", $parts[0], $matches)) {
+                    if (preg_match("/^[a-zA-Z_]+$/", $parts[0])) {
                         return true;
                     }
                 }

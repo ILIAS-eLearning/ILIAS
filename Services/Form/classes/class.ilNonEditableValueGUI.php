@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -87,7 +87,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     /**
      * @param string|array $a_value
      */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
