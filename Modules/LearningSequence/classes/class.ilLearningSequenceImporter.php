@@ -21,6 +21,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         if ($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_id)) {
+            // TODO PHP8 Review: Check/Resolve Type-Mismatch $new_id
             $this->obj = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
             $this->obj = new ilObjLearningSequence();

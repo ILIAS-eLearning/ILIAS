@@ -14,7 +14,8 @@ class ilLearningSequenceWaitingList extends ilWaitingList
         if (!parent::addToList($a_usr_id)) {
             return false;
         }
-
+    
+        /** @noinspection PhpUndefinedMethodInspection */
         $log->lso()->info('Raise new event: Modules/LearningSerquence addToList.');
         $app_event_handler->raise(
             "Modules/LearningSequence",

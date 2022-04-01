@@ -53,7 +53,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
             $delete = $settings->getExtroImage();
             $settings = $settings->withExtroImage();
         }
-
+        // TODO PHP8 Review: Undefined
         $this->deleteFile($delete);
         return $settings;
     }

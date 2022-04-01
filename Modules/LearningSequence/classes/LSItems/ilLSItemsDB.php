@@ -59,6 +59,7 @@ class ilLSItemsDB
 
     protected function getIconPathForType(string $type) : string
     {
+        // TODO PHP8 Review: Check/Resolve Type-Mismatch: First parameter must be int
         return ilObject2::_getIcon("", "big", $type);
     }
 

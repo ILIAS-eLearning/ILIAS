@@ -127,6 +127,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         $label = $this->dic['lng']->txt('lso_player_viewmodelabel');
 
         $lnk = new URI($exit->getAction());
+
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->factory->page()->withModification(
             function (PagePartProvider $parts) use ($label, $lnk) : Page {
