@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4cb17000159bc6a5526cdbed416b533",
+    "content-hash": "5d0195a1144aae64c3213e50cdea7ad6",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -639,16 +639,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.8.4",
+            "version": "1.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "902db15a551a4a415e732b622282e21ce1b508b4"
+                "reference": "1afdd860a2566ed3c2b0b4a3de6e23434a79ec85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/902db15a551a4a415e732b622282e21ce1b508b4",
-                "reference": "902db15a551a4a415e732b622282e21ce1b508b4",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/1afdd860a2566ed3c2b0b4a3de6e23434a79ec85",
+                "reference": "1afdd860a2566ed3c2b0b4a3de6e23434a79ec85",
                 "shasum": ""
             },
             "require": {
@@ -729,7 +729,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.8.4"
+                "source": "https://github.com/guzzle/psr7/tree/1.8.3"
             },
             "funding": [
                 {
@@ -745,7 +745,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-20T13:44:44+00:00"
+            "time": "2021-10-05T13:56:00+00:00"
         },
         {
             "name": "imsglobal/lti",
