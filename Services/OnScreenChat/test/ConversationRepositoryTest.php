@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\OnScreenChat\DTO\MessageDto;
 use ILIAS\OnScreenChat\Repository\Conversation;
 
 class ConversationRepositoryTest extends ilOnScreenChatBaseTest
