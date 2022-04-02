@@ -339,7 +339,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * @todo has to be refactored.
      */
-    protected function processCode()
+    protected function processCode() : ?bool
     {
         $uname = $_POST["uname"];
         $form = $this->initCodeForm($uname);
@@ -903,8 +903,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function getLoginPageEditorHTML() : string
     {
-        global $tpl;
-
         include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSettings.php';
         $lpe = ilAuthLoginPageEditorSettings::getInstance();
         $active_lang = $lpe->getIliasEditorLanguage($this->lng->getLangKey());
@@ -1315,7 +1313,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * show logout screen
      */
-    public function doLogout()
+    public function doLogout() : void
     {
         global $DIC;
 
@@ -1910,7 +1908,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * do open id connect authentication
      */
-    protected function doOpenIdConnectAuthentication()
+    protected function doOpenIdConnectAuthentication() : void
     {
         $this->getLogger()->debug('Trying openid connect authentication');
 

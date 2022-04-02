@@ -78,7 +78,7 @@ class ilPasswordAssistanceGUI
         }
 
         if ($lang != '' && $this->lng->getLangKey() != $lang) {
-            $lng = new ilLanguage($lang);
+            $lng = new ilLanguage($lang); //ToDo PHP8: I don't think this is right. $lng is never used. I believe we can get rid of the whole if-statement
         }
         $this->lng->loadLanguageModule('pwassist');
 
@@ -513,10 +513,7 @@ class ilPasswordAssistanceGUI
             }
         }
     }
-
-    /**
-     * @return ilPropertyFormGUI
-     */
+    
     protected function getUsernameAssistanceForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -540,7 +537,6 @@ class ilPasswordAssistanceGUI
      * email
      * When the user submits the form, then this script is invoked with the cmd
      * 'submitAssistanceForm'.
-     * @param ilPropertyFormGUI $form
      */
     public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null) : void
     {
@@ -615,8 +611,6 @@ class ilPasswordAssistanceGUI
      * and contains the following URL parameters:
      * client_id
      * key
-     * @param $email
-     * @param $logins
      */
     public function sendUsernameAssistanceMail(string $email, array $logins) : void
     {

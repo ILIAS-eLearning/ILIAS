@@ -707,20 +707,14 @@ class ilInitialisation
             );
         };
     }
-
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
+    
     protected static function initAvatar(\ILIAS\DI\Container $c) : void
     {
         $c["user.avatar.factory"] = function ($c) {
             return new \ilUserAvatarFactory($c);
         };
     }
-
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
+    
     protected static function initTermsOfService(\ILIAS\DI\Container $c) : void
     {
         $c['tos.criteria.type.factory'] = function (
@@ -1595,14 +1589,18 @@ class ilInitialisation
      */
     protected static function getCurrentCmd() : string
     {
+        if (!isset($_REQUEST["cmd"])) {
+            return '';
+        }
+        
         $cmd = $_REQUEST["cmd"];
         if (is_array($cmd)) {
             $keys = array_keys($cmd);
 
             return array_shift($keys);
-        } else {
-            return $cmd;
         }
+        
+        return $cmd;
     }
 
     /**

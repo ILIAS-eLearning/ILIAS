@@ -85,9 +85,8 @@ class ilErrorHandling extends PEAR
      * Initialize Error and Exception Handlers.
      * Initializes Whoops, a logging handler and a delegate handler for the late initialisation
      * of an appropriate error handler.
-     * @return void
      */
-    protected function initWhoopsHandlers()
+    protected function initWhoopsHandlers() : void
     {
         if (self::$whoops_handlers_registered) {
             // Only register whoops error handlers once.
@@ -119,8 +118,8 @@ class ilErrorHandling extends PEAR
 
         return $this->defaultHandler();
     }
-
-    public function getLastError()
+    
+    public function getLastError() // ToDo PHP8: Return type missing. You seem to have different declarations for possible error objects. I'm not sure which is the right one.
     {
         return $this->error_obj;
     }
@@ -129,7 +128,7 @@ class ilErrorHandling extends PEAR
      * defines what has to happen in case of error
      * @param object    Error
      */
-    public function errorHandler($a_error_obj)
+    public function errorHandler($a_error_obj) : void
     {
         global $log;
 
@@ -432,7 +431,7 @@ class ilErrorHandling extends PEAR
         });
     }
 
-    public function handlePreWhoops($level, $message, $file, $line)
+    public function handlePreWhoops($level, $message, $file, $line) : bool //Todo PHP8: Missing paramter types
     {
         global $ilLog;
 

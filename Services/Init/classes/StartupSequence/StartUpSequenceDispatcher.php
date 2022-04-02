@@ -19,8 +19,7 @@ use SplQueue;
  */
 class StartUpSequenceDispatcher
 {
-    /** @var Container */
-    private $dic;
+    private Container $dic;
     /** @var SplQueue|\ILIAS\Init\StartupSequence\StartUpSequenceStep[] */
     private $sequence = [];
 

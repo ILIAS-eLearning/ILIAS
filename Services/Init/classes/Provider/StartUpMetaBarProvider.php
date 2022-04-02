@@ -5,6 +5,7 @@ namespace ILIAS\Init\Provider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Class StartUpMetaBarProvider
@@ -51,8 +52,8 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
                                 ->withAvailableCallable(function () {
                                     return !$this->isUserLoggedIn();
                                 })
-                                ->withVisibilityCallable(function () {
-                                    return !$this->isUserOnLoginPage();
+                                ->withVisibilityCallable(function () use ($request) {
+                                    return !$this->isUserOnLoginPage($request->getUri());
                                 });
 
         // Language-Selection
@@ -67,7 +68,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
                                              })
                                              ->withTitle($txt('language'));
 
-        $base = $this->getBaseURL();
+        $base = $this->getBaseURL($request->getUri());
 
         /**
          * @var $language_selection TopParentItem
@@ -98,9 +99,9 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         return (!$this->dic->user()->isAnonymous() && $this->dic->user()->getId() != 0);
     }
 
-    private function isUserOnLoginPage() : bool
+    private function isUserOnLoginPage(UriInterface $uri) : bool
     {
-        $b = preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) === 1;
+        $b = preg_match("%^.*/login.php$%", $uri->getPath()) === 1;
 
         return $b;
     }
@@ -116,10 +117,9 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         return $url;
     }
 
-    private function getBaseURL() : string
+    private function getBaseURL(UriInterface $uri) : string
     {
-        $base = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
-
+        $base = substr($uri->__toString(), strrpos($uri->__toString(), "/") + 1);
         return preg_replace("/&*lang=[a-z]{2}&*/", "", $base);
     }
 }
