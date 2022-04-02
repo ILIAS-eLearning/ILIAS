@@ -804,8 +804,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
             $federation_name = $this->setting->get("shib_federation_name");
             $admin_mail = ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt(
-                    "administrator"
-                ) . '</a>.';
+                "administrator"
+            ) . '</a>.';
             if ($this->setting->get("shib_hos_type") == 'external_wayf') {
                 $tpl->setCurrentBlock("shibboleth_login");
                 $tpl->setVariable("TXT_SHIB_LOGIN", $this->lng->txt("login_to_ilias_via_shibboleth"));

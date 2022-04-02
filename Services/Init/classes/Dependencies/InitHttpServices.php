@@ -31,5 +31,4 @@ class InitHttpServices
             return new \ILIAS\HTTP\Services($c);
         };
     }
-
 }

@@ -45,8 +45,10 @@ class InitUIFrameworkTest extends TestCase
     {
         (new \InitUIFramework())->init($this->dic);
 
-        $this->assertInstanceOf("ILIAS\UI\Implementation\Component\Divider\Vertical",
-            $this->dic->ui()->factory()->divider()->vertical());
+        $this->assertInstanceOf(
+            "ILIAS\UI\Implementation\Component\Divider\Vertical",
+            $this->dic->ui()->factory()->divider()->vertical()
+        );
     }
 
     /**
