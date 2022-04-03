@@ -8,19 +8,9 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
 {
+    protected ilOrgUnitPosition $ilOrgUnitPosition;
 
-    /**
-     * @var ilOrgUnitPosition
-     */
-    protected $ilOrgUnitPosition;
-
-    /**
-     * ilOrgUnitUserAssignmentTableGUI constructor.
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_obj
-     * @param string                                       $parent_cmd
-     * @param \ilOrgUnitPosition                           $position
-     */
-    public function __construct(BaseCommands $parent_obj, $parent_cmd, ilOrgUnitPosition $position)
+    public function __construct(BaseCommands $parent_obj, string $parent_cmd, ilOrgUnitPosition $position)
     {
         $this->parent_obj = $parent_obj;
         $this->ilOrgUnitPosition = $position;
@@ -44,7 +34,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    protected function setTableHeaders()
+    private function setTableHeaders() : void
     {
         $this->addColumn($this->lng->txt("login"), "login");
         $this->addColumn($this->lng->txt("firstname"), "first_name");
@@ -52,48 +42,38 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-    public function parseData()
+    final public function parseData() : void
     {
         $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()
                                                  ->getAssignements($_GET["ref_id"], $this->ilOrgUnitPosition));
-
         $this->setData($data);
     }
 
     /**
-     * @param $user_ids
-     * @return array
+     * @param int[] $user_ids
      */
-    protected function parseRows($user_ids)
+    private function parseRows(array $user_ids) : array
     {
         $data = array();
         foreach ($user_ids as $user_id) {
-            $set = array();
-            $this->setRowForUser($set, $user_id);
-            $data[] = $set;
+            $data[] = $this->getRowForUser($user_id);
         }
-
         return $data;
     }
 
-    /**
-     * @param $set
-     * @param $user_id
-     */
-    protected function setRowForUser(&$set, $user_id)
+    private function getRowForUser(int $user_id) : array
     {
         $user = new ilObjUser($user_id);
+        $set = [];
         $set["login"] = $user->getLogin();
         $set["first_name"] = $user->getFirstname();
         $set["last_name"] = $user->getLastname();
         $set["user_object"] = $user;
         $set["user_id"] = $user_id;
+        return $set;
     }
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    final public function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -124,18 +104,10 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
                 ), ""));
         }
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
-            $this->addActions($selection);
+            $selection->addItem($this->lng->txt("remove"), "delete_from_employees",
+                $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class,
+                    ilOrgUnitUserAssignmentGUI::CMD_CONFIRM));
         }
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
-    }
-
-    /**
-     * @param $selection ilAdvancedSelectionListGUI
-     */
-    protected function addActions(&$selection)
-    {
-        $selection->addItem($this->lng->txt("remove"), "delete_from_employees",
-            $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class,
-                ilOrgUnitUserAssignmentGUI::CMD_CONFIRM));
     }
 }

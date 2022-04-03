@@ -6,19 +6,9 @@
  */
 class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 {
+    private int $ref_id = 0;
 
-    /**
-     * @var null|int
-     */
-    private $ref_id = null;
-
-    /**
-     * ilOrgUnitPermissionTableGUI constructor.
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $a_parent_obj
-     * @param string                                       $a_parent_cmd
-     * @param string                                       $a_ref_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
+    public function __construct(ilObjectGUI $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
     {
         global $ilCtrl, $tpl;
 
@@ -43,36 +33,29 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
         $this->setNoEntriesText($this->lng->txt('msg_no_roles_of_type'));
 
-        $this->addCommandButton(ilPermissionGUI::CMD_SAVE_POSITIONS_PERMISSIONS, $this->lng->txt('save'));
+        $this->addCommandButton(\ILIAS\Modules\OrgUnit\ARHelper\BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-    /**
-     * @return int
-     */
-    public function getRefId()
+    public function getRefId(): int
     {
-        return (int) $this->ref_id;
+        return $this->ref_id;
     }
 
     /**
      * @return int Object-ID of current object
      */
-    public function getObjId()
+    public function getObjId(): int
     {
-        return (int) ilObject::_lookupObjId($this->getRefId());
+        return ilObject::_lookupObjId($this->getRefId());
+    }
+
+    public function getObjType(): string
+    {
+        return ilObject::_lookupType($this->getObjId());
     }
 
     /**
-     * @return string
-     */
-    public function getObjType()
-    {
-        return (string) ilObject::_lookupType($this->getObjId());
-    }
-
-    /**
-     * @param array $a_set
-     * @return void
+     * @throws ilTemplateException
      */
     public function fillRow(array $a_set) : void
     {
@@ -92,10 +75,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         $is_plugin = $objdefinition->isPlugin($this->getObjType());
 
         foreach ($a_set as $permission) {
-            /**
-             * @var $operation \ilOrgUnitOperation
-             * @var $position  \ilOrgUnitPosition
-             */
             $position = $permission["position"];
             $op_id = $permission["op_id"];
             $operation = $permission["operation"];
@@ -123,7 +102,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         }
     }
 
-    public function collectData()
+    public function collectData(): void
     {
         $positions = ilOrgUnitPosition::get();
 
@@ -174,15 +153,9 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         }
 
         $this->setData($perms);
-
-        return;
     }
 
-    /**
-     * @param array $positions
-     * @return bool
-     */
-    protected function initColumns(array $positions)
+    protected function initColumns(array $positions): bool
     {
         foreach ($positions as $position) {
             $this->addColumn($position->getTitle(), '', '', '', false, $position->getDescription());
@@ -191,23 +164,18 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         return true;
     }
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    private function dic()
+    private function dic(): \ILIAS\DI\Container
     {
         return $GLOBALS['DIC'];
     }
 
     /**
-     * @param $row
+     * @throws ilTemplateException
      */
-    protected function fillSelectAll($row)
+    protected function fillSelectAll(array $row): void
     {
-        /**
-         * @var $position \ilOrgUnitPosition
-         */
         foreach ($row["positions"] as $position) {
+            assert($position instanceof ilOrgUnitPosition);
             $this->tpl->setCurrentBlock('position_select_all');
             $id = $position->getId();
             $this->tpl->setVariable('JS_ROLE_ID', $id);
@@ -223,13 +191,10 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param $row
+     * @throws ilTemplateException
      */
-    protected function fillHeaderCommand($row)
+    final protected function fillHeaderCommand(array $row): void
     {
-        /**
-         * @var $position \ilOrgUnitPosition
-         */
         foreach ($row["positions"] as $position) {
             $this->tpl->setCurrentBlock('header_command');
             $this->tpl->setVariable('POSITION_ID', $position->getId());

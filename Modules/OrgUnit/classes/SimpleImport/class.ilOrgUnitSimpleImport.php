@@ -8,7 +8,7 @@
  */
 class ilOrgUnitSimpleImport extends ilOrgUnitImporter
 {
-    public function simpleImport($file_path)
+    public function simpleImport(string $file_path)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -142,12 +142,10 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
     }
 
     /**
-     * @param $ref_id        int
-     * @param $parent_ref_id int
-     * @param $ou_id         mixed This is only needed for displaying the warning.
-     * @param $external_id   mixed This is only needed for displaying the warning.
+     * @param int $ou_id this is only needed for displaying the warning.
+     * @param int $external_id this is only needed for displaying the warning.
      */
-    protected function moveObject($ref_id, $parent_ref_id, $ou_id, $external_id)
+    protected function moveObject(int $ref_id, int $parent_ref_id, int $ou_id, int $external_id)
     {
         global $DIC;
         $tree = $DIC['tree'];

@@ -8,11 +8,9 @@ class ilOrgUnitOperationContextQueries
 {
 
     /**
-     * @param      $context_name
-     * @param null $parent_context
-     * @throws \ilException
+     * @throws ilException
      */
-    public static function registerNewContext($context_name, $parent_context = null)
+    public static function registerNewContext(string $context_name, ?string $parent_context = null): void
     {
         if (ilOrgUnitOperationContext::where(array('context' => $context_name))->hasSets()) {
             throw new ilException('Context already registered');
@@ -21,10 +19,10 @@ class ilOrgUnitOperationContextQueries
         $parentList = ilOrgUnitOperationContext::where(array('context' => $parent_context));
         $parent_id = 0;
         if ($parent_context !== null && $parentList->hasSets()) {
-            /**
-             * @var $parent self
-             */
             $parent = $parentList->first();
+            if ($parent === null) {
+                throw new ilException('No record found');
+            }
             $parent_id = $parent->getId();
         }
 
@@ -34,16 +32,9 @@ class ilOrgUnitOperationContextQueries
         $context->create();
     }
 
-    /**
-     * @var array
-     */
-    protected static $instance_by_name = array();
+    protected static array $instance_by_name = array();
 
-    /**
-     * @param $context_name
-     * @return \ilOrgUnitOperationContext
-     */
-    public static function findByName($context_name)
+    public static function findByName(string $context_name) : ilOrgUnitOperationContext
     {
         if (!isset(self::$instance_by_name[$context_name])) {
             self::$instance_by_name[$context_name] = ilOrgUnitOperationContext::where(array('context' => $context_name))
@@ -53,31 +44,19 @@ class ilOrgUnitOperationContextQueries
         return self::$instance_by_name[$context_name];
     }
 
-    /**
-     * @param int $id
-     * @return \ilOrgUnitOperationContext
-     */
-    public static function findById($id)
+    public static function findById(int $id) : ilOrgUnitOperationContext|ActiveRecord
     {
         return ilOrgUnitOperationContext::find($id);
     }
 
-    /**
-     * @param int $ref_id
-     * @return \ilOrgUnitOperationContext
-     */
-    public static function findByRefId($ref_id)
+    public static function findByRefId(int $ref_id) : ilOrgUnitOperationContext
     {
         $type_context = ilObject2::_lookupType($ref_id, true);
 
         return self::findByName($type_context);
     }
 
-    /**
-     * @param int $obj_id
-     * @return \ilOrgUnitOperationContext
-     */
-    public static function findByObjId($obj_id)
+    public static function findByObjId(int $obj_id) : ilOrgUnitOperationContext
     {
         $type_context = ilObject2::_lookupType($obj_id, false);
 

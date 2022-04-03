@@ -9,31 +9,12 @@
  */
 class ilTranslationGUI
 {
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilObjOrgUnitGui
-     */
-    protected $ilObjOrgUnitGui;
-    /**
-     * @var ilObjOrgUnit
-     */
-    protected $ilObjectOrgUnit;
+    protected ilCtrl $ctrl;
+    public ilTemplate $tpl;
+    protected ilAccessHandler $ilAccess;
+    protected ilLanguage $lng;
+    protected ilObjOrgUnitGui $ilObjOrgUnitGui;
+    protected ilObjOrgUnit|ilObject $ilObjectOrgUnit;
 
     public function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
@@ -44,16 +25,11 @@ class ilTranslationGUI
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
-        /**
-         * @var $tpl    ilTemplate
-         * @var $ilCtrl ilCtrl
-         * @var $ilDB   ilDB
-         */
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->ilObjOrgUnitGui = $ilObjOrgUnitGUI;
-        $this->ilObjectOrgUnit = $ilObjOrgUnitGUI->object;
+        $this->ilObjectOrgUnit = $ilObjOrgUnitGUI->getObject();
         $this->ilAccess = $ilAccess;
 
         if (!$ilAccess->checkAccess('write', '', $this->ilObjectOrgUnit->getRefId())) {
@@ -62,13 +38,13 @@ class ilTranslationGUI
         }
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $this->$cmd();
     }
 
-    public function editTranslations($a_get_post_values = false, $a_add = false)
+    public function editTranslations(bool $a_get_post_values = false, bool $a_add = false): void
     {
         $this->lng->loadLanguageModule($this->ilObjectOrgUnit->getType());
 
@@ -102,27 +78,25 @@ class ilTranslationGUI
     /**
      * Save title and translations
      */
-    public function saveTranslations()
+    public function saveTranslations(): void
     {
         // default language set?
         if (!isset($_POST["default"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
-
-            return $this->editTranslations(true);
+            $this->editTranslations(true);
         }
 
         // all languages set?
         if (array_key_exists("", $_POST["lang"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_language_selected"));
-
-            return $this->editTranslations(true);
+            $this->editTranslations(true);
         }
 
         // no single language is selected more than once?
         if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_multi_language_selected"));
 
-            return $this->editTranslations(true);
+            $this->editTranslations(true);
         }
 
         // save the stuff
@@ -154,7 +128,7 @@ class ilTranslationGUI
     /**
      * Add a translation
      */
-    public function addTranslation()
+    public function addTranslation(): void
     {
         if ($_POST["title"]) {
             $k = max(array_keys($_POST["title"]));
@@ -169,7 +143,7 @@ class ilTranslationGUI
     /**
      * Remove translation
      */
-    public function deleteTranslations()
+    public function deleteTranslations(): void
     {
         foreach ($_POST["title"] as $k => $v) {
             if ($_POST["check"][$k]) {
@@ -181,7 +155,7 @@ class ilTranslationGUI
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
 
-                    return $this->editTranslations();
+                    $this->editTranslations();
                 }
             }
         }
