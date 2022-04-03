@@ -88,9 +88,9 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         );
     }
 
-    abstract protected function run(array $params): array|string|int|bool;
+    abstract protected function run(array $params);
 
-    public function execute(array $params): array|string
+    public function execute(array $params)
     {
         $this->checkParameters($params);
         $session_id = (isset($params[0])) ? $params[0] : '';

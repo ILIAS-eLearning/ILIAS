@@ -9,7 +9,7 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
 class ilOrgUnitPositionFormGUI extends BaseForm
 {
     public const F_AUTHORITIES = "authorities";
-    protected ActiveRecord|ilOrgUnitPosition $object;
+    protected ActiveRecord $object;
     public const F_TITLE = 'title';
     public const F_DESCRIPTION = 'description';
 

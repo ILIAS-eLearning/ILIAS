@@ -67,7 +67,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
         return $this->ilObjOrgUnitTree->getSuperiors($this->parent_ref_id, $recursively);
     }
 
-    public function getOrgUnit(): ilObjOrgUnit|bool|ilObject
+    public function getOrgUnit(): ?ilObject
     {
         return ilObjectFactory::getInstanceByRefId($this->parent_ref_id);
     }

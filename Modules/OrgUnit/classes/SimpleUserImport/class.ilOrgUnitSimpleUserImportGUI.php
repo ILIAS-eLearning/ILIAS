@@ -13,7 +13,7 @@ class ilOrgUnitSimpleUserImportGUI
     protected ilToolbarGUI $toolbar;
     protected ilCtrl $ctrl;
     protected ilTemplate $tpl;
-    protected ilObjOrgUnit|ilObjCategory $parent_object;
+    protected ilObjCategory $parent_object;
     protected ilLanguage $lng;
     protected ilAccessHandler $ilAccess;
 
