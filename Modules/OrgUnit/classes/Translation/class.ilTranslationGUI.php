@@ -14,7 +14,7 @@ class ilTranslationGUI
     protected ilAccessHandler $ilAccess;
     protected ilLanguage $lng;
     protected ilObjOrgUnitGui $ilObjOrgUnitGui;
-    protected ilObjOrgUnit|ilObject $ilObjectOrgUnit;
+    protected ilObject $ilObjectOrgUnit;
 
     public function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
