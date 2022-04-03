@@ -102,7 +102,7 @@ class ilObjOrgUnit extends ilContainer
         return $this->orgu_type_id;
     }
 
-    public function getOrgUnitType() : ilOrgUnitType|null
+    public function getOrgUnitType() : ?ilOrgUnitType
     {
         return ilOrgUnitType::getInstance($this->getOrgUnitTypeId());
     }

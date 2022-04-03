@@ -12,7 +12,7 @@ class ilExtIdGUI
     protected ilPropertyFormGUI $form;
     protected ilCtrl $ctrl;
     protected ilTemplate $tpl;
-    protected ilObjOrgUnit|ilObjCategory $object;
+    protected ilObjCategory $object;
     protected ilLanguage $lng;
     protected ilAccessHandler $ilAccess;
 
