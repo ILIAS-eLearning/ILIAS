@@ -39,7 +39,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->initCSSandJS();
     }
 
-    public function getHook(string $key) : bool|string
+    public function getHook(string $key) : ?string
     {
         if (isset($this->hooks[$key])) {
             return $this->hooks[$key];
