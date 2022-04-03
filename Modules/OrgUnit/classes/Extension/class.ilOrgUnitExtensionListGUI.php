@@ -28,12 +28,12 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
      * @return bool
      */
     protected function isCommentsActivated(
-        $a_type,
-        $a_ref_id,
-        $a_obj_id,
-        $a_header_actions,
-        $a_check_write_access = true
-    ) : bool {
+        string $a_type,
+        int $a_ref_id,
+        int $a_obj_id,
+        bool $a_header_actions,
+        bool $a_check_write_access = true
+    ): bool {
         return $this->comments_enabled;
     }
 
@@ -41,22 +41,28 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
      * Comments cannot be enabled.
      * @param bool $a_value
      * @param bool $a_enable_comments_settings
+     * @return bool
      */
-    public function enableComments($a_value, $a_enable_comments_settings = true) : void
+    public function enableComments(bool $a_value, bool $a_enable_comments_settings = true): void
     {
+
     }
 
     /**
      * @param bool $a_value
+     * @return bool
      */
-    public function enableNotes($a_value) : void
+    public function enableNotes(bool $a_value): void
     {
+
     }
 
     /**
      * @param bool $a_value
+     * @return bool
      */
-    public function enableTags($a_value) : void
+    public function enableTags(bool $a_value): void
     {
+
     }
 }

@@ -8,20 +8,29 @@
  */
 class ilOrgUnitExporter extends ilCategoryExporter
 {
-    public function simpleExport($orgu_ref_id)
+    private ilTree $tree;
+
+    public function __construct()
+    {
+        global $DIC;
+        parent::__construct();
+        $this->tree = $DIC['tree'];
+    }
+
+    final public function simpleExport(int $orgu_ref_id): ilXmlWriter
     {
         $nodes = $this->getStructure($orgu_ref_id);
         $writer = new ilXmlWriter();
         $writer->xmlHeader();
         $writer->xmlStartTag("OrgUnits");
-        foreach ($nodes as $orgu_ref_id) {
-            $orgu = new ilObjOrgUnit($orgu_ref_id);
+        foreach ($nodes as $node_ref_id) {
+            $orgu = new ilObjOrgUnit($node_ref_id);
             if ($orgu->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
                 continue;
             }
             $attributes = $this->getAttributesForOrgu($orgu);
             $writer->xmlStartTag("OrgUnit", $attributes);
-            $writer->xmlElement("external_id", null, $this->getExternalId($orgu_ref_id));
+            $writer->xmlElement("external_id", null, $this->getExternalId($node_ref_id));
             $writer->xmlElement("title", null, $orgu->getTitle());
             $writer->xmlElement("description", null, $orgu->getDescription());
             $writer->xmlEndTag("OrgUnit");
@@ -31,30 +40,19 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $writer;
     }
 
-    /**
-     * @param $orgu_ref_id
-     * @return string
-     */
-    protected function getExternalId($orgu_ref_id)
+    final protected function getExternalId(int $orgu_ref_id): string
     {
         $import_id = ilObjOrgunit::_lookupImportId(ilObjOrgUnit::_lookupObjectId($orgu_ref_id));
 
         return $import_id ?: $this->buildExternalId($orgu_ref_id);
     }
 
-    /**
-     * @param $orgu_ref_id int
-     * @return string
-     */
-    protected function buildExternalId($orgu_ref_id)
+    final protected function buildExternalId(int $orgu_ref_id): string
     {
         return "orgu_" . CLIENT_ID . "_" . $orgu_ref_id;
     }
 
-    /**
-     * @param $orgu_ref_id
-     */
-    public function simpleExportExcel($orgu_ref_id)
+    final public function simpleExportExcel(int $orgu_ref_id): void
     {
         // New File and Sheet
         $file_name = "org_unit_export_" . $orgu_ref_id;
@@ -94,7 +92,7 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $worksheet->sendToClient($file_name);
     }
 
-    public function sendAndCreateSimpleExportFile()
+    final public function sendAndCreateSimpleExportFile(): array
     {
         $orgu_id = ilObjOrgUnit::getRootOrgId();
         $orgu_ref_id = ilObjOrgUnit::getRootOrgRefId();
@@ -137,17 +135,15 @@ class ilOrgUnitExporter extends ilCategoryExporter
         );
     }
 
-    private function getStructure($root_node_ref)
+    private function getStructure(int $root_node_ref): array
     {
-        global $DIC;
-        $tree = $DIC['tree'];
         $open = array($root_node_ref);
         $closed = array();
         while (count($open)) {
             $current = array_shift($open);
             $closed[] = $current;
-            foreach ($tree->getChildsByType($current, "orgu") as $new) {
-                if (!in_array($new["child"], $closed) && !in_array($new["child"], $open)) {
+            foreach ($this->tree->getChildsByType($current, "orgu") as $new) {
+                if (in_array($new["child"], $closed, true) === false && in_array($new["child"], $open, true) === false) {
                     $open[] = $new["child"];
                 }
             }
@@ -156,15 +152,9 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $closed;
     }
 
-    /**
-     * @param $orgu ilObjOrgUnit
-     * @return array
-     */
-    private function getAttributesForOrgu($orgu)
+    private function getAttributesForOrgu(ilObjOrgUnit $orgu): array
     {
-        global $DIC;
-        $tree = $DIC['tree'];
-        $parent_ref = $tree->getParentId($orgu->getRefId());
+        $parent_ref = $this->tree->getParentId($orgu->getRefId());
         if ($parent_ref != ilObjOrgUnit::getRootOrgRefId()) {
             $ou_parent_id = $this->getExternalId($parent_ref);
         } else {

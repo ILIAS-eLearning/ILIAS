@@ -11,17 +11,13 @@ use ilObjOrgUnit;
  */
 class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticTopItems() : array
     {
         return [];
     }
 
     /**
-     * @inheritDoc
+     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem[]
      */
     public function getStaticSubItems() : array
     {

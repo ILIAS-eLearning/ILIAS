@@ -12,10 +12,9 @@ class UserIdsOfPosition extends Base
 {
 
     /**
-     * @param array $params
-     * @return array
+     * @return int[]
      */
-    protected function run(array $params)
+    final protected function run(array $params) : array
     {
         $position_id = $params[self::POSITION_ID];
 
@@ -29,33 +28,21 @@ class UserIdsOfPosition extends Base
         return $usr_ids;
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return "getUserIdsOfPosition";
     }
 
-    /**
-     * @return array
-     */
-    protected function getAdditionalInputParams()
+    final protected function getAdditionalInputParams() : array
     {
         return array(self::POSITION_ID => Base::TYPE_INT);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOutputParams() : array
+    final public function getOutputParams() : array
     {
         return array(self::USR_IDS => Base::TYPE_INT_ARRAY);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDocumentation() : string
     {
         return "Returns ids of users in a position";

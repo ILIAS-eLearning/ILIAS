@@ -6,11 +6,7 @@
 
 class ilOrgUnitUserQueries implements ilOrgUnitUserQueriesInterface
 {
-
-    /**
-     * @var \ILIAS\DI\Container $dic ;
-     */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
 
     /**
      * ilOrgUnitUserQueries constructor.
@@ -22,9 +18,9 @@ class ilOrgUnitUserQueries implements ilOrgUnitUserQueriesInterface
     }
 
     /**
-     * @inheritdoc
+     * @param int[] $user_ids
      */
-    public function findAllUsersByUserIds($user_ids)
+    public function findAllUsersByUserIds(array $user_ids): array
     {
         $users = array();
         foreach ($user_ids as $user_id) {
@@ -37,9 +33,9 @@ class ilOrgUnitUserQueries implements ilOrgUnitUserQueriesInterface
     }
 
     /**
-     * @inheritdoc
+     * @return string[]
      */
-    public function getAllUserNames($users)
+    public function getAllUserNames(array $users): array
     {
         $user_names = array();
         foreach ($users as $user) {

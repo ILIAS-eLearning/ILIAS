@@ -6,28 +6,21 @@
  */
 class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
 {
+    protected static array $ref_id_obj_type_map = array();
+    private \ilOrgUnitUserAssignmentQueries $ua;
+    private \ilOrgUnitGlobalSettings $set;
+    private ilAccess $access;
+    private ilObjUser $user;
 
-    /**
-     * @var \ilOrgUnitUserAssignmentQueries
-     */
-    protected $ua;
-    /**
-     * @var \ilOrgUnitGlobalSettings
-     */
-    protected $set;
-    /**
-     * @var array
-     */
-    protected static $ref_id_obj_type_map = array();
-
-    /**
-     * ilOrgUnitPositionAccess constructor.
-     */
     public function __construct()
     {
+        global $DIC;
         $this->set = ilOrgUnitGlobalSettings::getInstance();
         $this->ua = ilOrgUnitUserAssignmentQueries::getInstance();
+        $this->access = $DIC->access();
+        $this->user = $DIC->user();
     }
+
 
     /**
      * @inheritdoc
@@ -35,20 +28,19 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, string $permission) : array
     {
         $current_user_id = $this->getCurrentUsersId();
-
         return $this->filterUserIdsForUsersPositionsAndPermission($user_ids, $current_user_id, $permission);
     }
+
 
     /**
      * @inheritdoc
      */
     public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission) : array
     {
-        // FSX TODO no permission is checked or existing
         $assignment_of_user = $this->ua->getAssignmentsOfUserId($for_user_id);
         $other_users_in_same_org_units = [];
         foreach ($assignment_of_user as $assignment) {
-            $other_users_in_same_org_units = $other_users_in_same_org_units + $this->ua->getUserIdsOfOrgUnit($assignment->getOrguId());
+            $other_users_in_same_org_units += $this->ua->getUserIdsOfOrgUnit($assignment->getOrguId());
         }
 
         return array_intersect($user_ids, $other_users_in_same_org_units);
@@ -76,6 +68,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
             && $filtered_user_ids === array_intersect($filtered_user_ids, $on_user_ids));
     }
 
+
     /**
      * @inheritdoc
      */
@@ -90,6 +83,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 
         return $this->filterUserIdsByPositionOfUser($current_user_id, $pos_perm, $ref_id, $user_ids);
     }
+
 
     /**
      * @inheritdoc
@@ -150,10 +144,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return array_intersect($user_ids, $allowed_user_ids);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function checkPositionAccess(string $pos_perm, int $ref_id) : bool
+
+    final public function checkPositionAccess(string $pos_perm, int $ref_id) : bool
     {
         // If context is not activated, return same array of $user_ids
         if (!$this->isPositionActiveForRefId($ref_id)) {
@@ -176,10 +168,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasCurrentUserAnyPositionAccess(int $ref_id) : bool
+
+    final public function hasCurrentUserAnyPositionAccess(int $ref_id) : bool
     {
         // If context is not activated, return same array of $user_ids
         if (!$this->isPositionActiveForRefId($ref_id)) {
@@ -203,9 +193,8 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
      */
     public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id) : bool
     {
-        global $DIC;
         // If RBAC allows, just return true
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return true;
         }
 
@@ -217,6 +206,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return $this->checkPositionAccess($pos_perm, $ref_id);
     }
 
+
     /**
      * @inheritdoc
      */
@@ -224,7 +214,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     {
         global $DIC;
         // If RBAC allows, just return true
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return $user_ids;
         }
         // If context is not activated, return same array of $user_ids
@@ -235,13 +225,13 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return $this->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
     }
 
+
     /**
      * @inheritdoc
      */
     public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id) : bool
     {
-        global $DIC;
-        if ($DIC->access()->checkAccess($rbac_perm, '', $ref_id)) {
+        if ($this->access->checkAccess($rbac_perm, '', $ref_id)) {
             return true;
         }
 
@@ -253,27 +243,13 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     // Helpers
     //
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    private function dic()
+    private function getCurrentUsersId() : int
     {
-        return $GLOBALS['DIC'];
+        return $this->user->getId();
     }
 
-    /**
-     * @return int
-     */
-    private function getCurrentUsersId()
-    {
-        return $this->dic()->user()->getId();
-    }
 
-    /**
-     * @param $ref_id
-     * @return mixed
-     */
-    private function getTypeForRefId($ref_id)
+    private function getTypeForRefId(int $ref_id) : string
     {
         if (!isset(self::$ref_id_obj_type_map[$ref_id])) {
             self::$ref_id_obj_type_map[$ref_id] = ilObject2::_lookupType($ref_id, true);
@@ -282,20 +258,12 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
         return self::$ref_id_obj_type_map[$ref_id];
     }
 
-    /**
-     * @param $ref_id
-     * @return int
-     */
-    private function getObjIdForRefId($ref_id)
+    private function getObjIdForRefId(int $ref_id) : int
     {
         return ilObject2::_lookupObjectId($ref_id);
     }
-
-    /**
-     * @param $ref_id
-     * @return bool
-     */
-    private function isPositionActiveForRefId($ref_id)
+    
+    private function isPositionActiveForRefId(int $ref_id) : bool
     {
         $obj_id = $this->getObjIdForRefId($ref_id); // TODO this will change to ref_id!!
 

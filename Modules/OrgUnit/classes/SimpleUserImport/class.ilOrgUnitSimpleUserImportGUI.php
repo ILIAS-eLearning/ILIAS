@@ -9,40 +9,15 @@
  */
 class ilOrgUnitSimpleUserImportGUI
 {
+    protected ilTabsGUI $tabs_gui;
+    protected ilToolbarGUI $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilTemplate $tpl;
+    protected ilObjOrgUnit|ilObjCategory $parent_object;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $ilAccess;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilObjOrgUnit|ilObjCategory
-     */
-    protected $parent_object;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-
-    /**
-     * @param $parent_gui
-     */
-    public function __construct($parent_gui)
+    public function __construct(ilObjectGUI $parent_gui)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -55,22 +30,19 @@ class ilOrgUnitSimpleUserImportGUI
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->parent_gui = $parent_gui;
-        $this->parent_object = $parent_gui->object;
-        $this->tabs_gui = $this->parent_gui->tabs_gui;
+        $this->parent_object = $parent_gui->getObject();
+        $this->tabs_gui = $DIC->tabs();
         $this->toolbar = $ilToolbar;
         $this->lng = $lng;
         $this->ilLog = $log;
         $this->ilAccess = $ilAccess;
         $this->lng->loadLanguageModule('user');
-        if (!$this->ilAccess->checkaccess('write', '', $this->parent_gui->object->getRefId())) {
+        if (!$this->ilAccess->checkaccess('write', '', $this->parent_gui->getObject()->getRefId())) {
             $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -90,31 +62,13 @@ class ilOrgUnitSimpleUserImportGUI
         return true;
     }
 
-    public function userImportScreen()
+    public function userImportScreen(): void
     {
         $form = $this->initForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @description FSX Can be deleted; Just for a single Test of a UserImport
-     */
-    protected function testImport()
-    {
-        return false;
-        $importer = new ilOrgUnitSimpleUserImport();
-        $string = '<Assignment action=\'add\'>
-						<User id_type=\'ilias_login\'>root</User>
-                        <OrgUnit id_type=\'external_id\'>imported_001</OrgUnit>
-						<Role>superior</Role>
-                    </Assignment>';
-
-        $xml = new SimpleXMLElement($string);
-        $importer->simpleUserImportElement($xml);
-        $this->tpl->setOnScreenMessage('info', '<pre>' . print_r($importer->getErrors(), 1) . '</pre>');
-    }
-
-    protected function initForm()
+    private function initForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $input = new ilFileInputGUI($this->lng->txt('import_xml_file'), 'import_file');
@@ -126,7 +80,7 @@ class ilOrgUnitSimpleUserImportGUI
         return $form;
     }
 
-    public function startImport()
+    public function startImport(): void
     {
         $form = $this->initForm();
         if (!$form->checkInput()) {
@@ -145,10 +99,7 @@ class ilOrgUnitSimpleUserImportGUI
         }
     }
 
-    /**
-     * @param $importer ilOrgUnitImporter
-     */
-    public function displayImportResults($importer)
+    public function displayImportResults(ilOrgUnitImporter $importer): void
     {
         if (!$importer->hasErrors() and !$importer->hasWarnings()) {
             $stats = $importer->getStats();
