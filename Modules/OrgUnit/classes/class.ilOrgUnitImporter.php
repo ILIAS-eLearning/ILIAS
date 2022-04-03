@@ -25,7 +25,7 @@ class ilOrgUnitImporter extends ilXmlImporter
     }
 
     /** @return bool|int */
-    protected function buildRef(int $id, string $type) : bool|int
+    protected function buildRef(int $id, string $type) /*: bool|int*/
     {
         if ($type === 'reference_id') {
             if (!ilObjOrgUnit::_exists($id, true)) {

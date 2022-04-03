@@ -44,7 +44,7 @@ class ilOrgUnitOperationContextQueries
         return self::$instance_by_name[$context_name];
     }
 
-    public static function findById(int $id) : ilOrgUnitOperationContext|ActiveRecord
+    public static function findById(int $id) : ActiveRecord /*ilOrgUnitOperationContext|ActiveRecord*/
     {
         return ilOrgUnitOperationContext::find($id);
     }

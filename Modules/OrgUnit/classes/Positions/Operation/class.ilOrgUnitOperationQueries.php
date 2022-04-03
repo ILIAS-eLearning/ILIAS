@@ -83,7 +83,7 @@ class ilOrgUnitOperationQueries
     /**
      * @throws arException
      */
-    public static function findById(int $operation_id) : ilOrgUnitOperation|ActiveRecord
+    public static function findById(int $operation_id) : ActiveRecord /* ilOrgUnitOperation|ActiveRecord */
     {
         return ilOrgUnitOperation::findOrFail($operation_id);
     }
