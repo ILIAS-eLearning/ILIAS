@@ -2,11 +2,14 @@
 
 namespace OrgUnit\User;
 
+use function PHPUnit\Framework\throwException;
+use Exception;
+
 class ilOrgUnitUser
 {
 
     /** @var self[] */
-    private static array $instances;
+    protected static array $instances;
     private int $user_id;
     private string $login;
     private string $email;
@@ -20,10 +23,26 @@ class ilOrgUnitUser
      */
     private array $superiors = [];
 
+    private function __construct(int $user_id, string $login, string $email, string $second_email)
+    {
+        $this->user_id = $user_id;
+        $this->login = $login;
+        $this->email = $email;
+        $this->second_email = $second_email;
+    }
+
+    /**
+     * @throws Exception
+     */
     final public static function getInstanceById(int $user_id) : self
     {
         if (null === static::$instances[$user_id]) {
             $org_unit_user_repository = new ilOrgUnitUserRepository();
+            $orgUnitUser = $org_unit_user_repository->getOrgUnitUser($user_id);
+            if($orgUnitUser === null) {
+                throw new Exception('no OrgUnitUser found with user_id '.$user_id);
+            }
+
             static::$instances[$user_id] = $org_unit_user_repository->getOrgUnitUser($user_id);
         }
 
@@ -33,19 +52,12 @@ class ilOrgUnitUser
     final public static function getInstance(int $user_id, string $login, string $email, string $second_email) : self
     {
         if (null === static::$instances[$user_id]) {
-            static::$instances[$user_id] = new static($user_id, $login, $email, $second_email);
+            static::$instances[$user_id] = new self($user_id, $login, $email, $second_email);
         }
 
         return static::$instances[$user_id];
     }
 
-    private function __construct(int $user_id, string $login, string $email, string $second_email)
-    {
-        $this->user_id = $user_id;
-        $this->login = $login;
-        $this->email = $email;
-        $this->second_email = $second_email;
-    }
 
     final public function addSuperior(ilOrgUnitUser $org_unit_user) : void
     {
