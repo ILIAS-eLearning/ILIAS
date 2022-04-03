@@ -22,42 +22,42 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 
     }
 
-    final public function getId() : string
+    public function getId() : string
     {
         return self::ID;
     }
 
-    final public function getTitle() : string
+    public function getTitle() : string
     {
         return $this->lng->txt("update_orgunits");
     }
 
-    final public function getDescription() : string
+    public function getDescription() : string
     {
         return $this->lng->txt("update_orgunits_desc");
     }
 
-    final public function hasAutoActivation() : bool
+    public function hasAutoActivation() : bool
     {
         return true;
     }
 
-    final public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    final  public function getDefaultScheduleType() : int
+     public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    final public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue() : ?int
     {
         return null;
     }
 
-    final public function run() : ilCronJobResult
+    public function run() : ilCronJobResult
     {
         foreach (ilOrgUnitPathStorage::getAllOrguRefIds() as $ref_id) {
             ilOrgUnitPathStorage::writePathByRefId($ref_id);

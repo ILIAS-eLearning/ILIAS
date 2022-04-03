@@ -193,7 +193,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
     /**
      * @throws ilTemplateException
      */
-    final protected function fillHeaderCommand(array $row): void
+    protected function fillHeaderCommand(array $row): void
     {
         foreach ($row["positions"] as $position) {
             $this->tpl->setCurrentBlock('header_command');

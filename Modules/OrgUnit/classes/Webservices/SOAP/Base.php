@@ -78,7 +78,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
 
     abstract protected function getAdditionalInputParams(): array;
 
-    final public function getInputParams() : array
+    public function getInputParams() : array
     {
         return array_merge(
             array(

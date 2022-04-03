@@ -42,7 +42,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-    final public function parseData() : void
+    public function parseData() : void
     {
         $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()
                                                  ->getAssignements($_GET["ref_id"], $this->ilOrgUnitPosition));
@@ -73,7 +73,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         return $set;
     }
 
-    final public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

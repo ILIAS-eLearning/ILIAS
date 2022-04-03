@@ -60,12 +60,12 @@ class ImportOrgUnitTree extends Base
         return "importOrgUnitsSimpleXML";
     }
 
-    final protected function getAdditionalInputParams(): array
+    protected function getAdditionalInputParams(): array
     {
         return array(self::ORG_UNIT_TREE => Base::TYPE_STRING);
     }
 
-    final public function getOutputParams() : array
+    public function getOutputParams() : array
     {
         return [];
     }

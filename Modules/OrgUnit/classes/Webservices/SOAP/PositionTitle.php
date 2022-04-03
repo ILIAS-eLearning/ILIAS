@@ -15,7 +15,7 @@ class PositionTitle extends Base
     /**
      * @throws \SoapFault
      */
-    final protected function run(array $params): string
+    protected function run(array $params): string
     {
         $position_id = $params[self::POSITION_ID];
 
@@ -35,17 +35,17 @@ class PositionTitle extends Base
         return "getPositionTitle";
     }
 
-    final protected function getAdditionalInputParams(): array
+    protected function getAdditionalInputParams(): array
     {
         return array(self::POSITION_ID => Base::TYPE_INT);
     }
 
-    final public function getOutputParams() : array
+    public function getOutputParams() : array
     {
         return array('title' => Base::TYPE_STRING);
     }
 
-    final public function getDocumentation() : string
+    public function getDocumentation() : string
     {
         return "Returns the title of a position for a given position id";
     }

@@ -24,7 +24,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    final public function init() : void
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -44,7 +44,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * no timing commands needed in orgunits.
      */
-    final public function insertTimingsCommand() : void
+    public function insertTimingsCommand() : void
     {
 
     }
@@ -52,7 +52,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * no social commands needed in orgunits.
      */
-    final public function insertCommonSocialCommands(bool $a_header_actions = false) : void
+    public function insertCommonSocialCommands(bool $a_header_actions = false) : void
     {
 
     }
@@ -60,7 +60,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * insert info screen command
      */
-    final public function insertInfoScreenCommand() : void
+    public function insertInfoScreenCommand() : void
     {
         if ($this->std_cmd_only) {
             return;
@@ -72,14 +72,14 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
             ilUtil::getImagePath("icon_info.svg"));
     }
 
-    final public function getCommandLink(string $a_cmd) : string
+    public function getCommandLink(string $a_cmd) : string
     {
         $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $this->ref_id);
 
         return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
     }
 
-    final public function insertIconsAndCheckboxes() : void
+    public function insertIconsAndCheckboxes() : void
     {
 
         // FSX removed $this->getCheckboxStatus() in if-Statement: 0014726

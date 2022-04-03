@@ -26,7 +26,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         }
     }
 
-    final protected function getPossibleNextClasses() : array
+    protected function getPossibleNextClasses() : array
     {
         return array(
             ilOrgUnitDefaultPermissionGUI::class,
@@ -34,12 +34,12 @@ class ilOrgUnitPositionGUI extends BaseCommands
         );
     }
 
-    final protected function getActiveTabId() : string
+    protected function getActiveTabId() : string
     {
         return ilObjOrgUnitGUI::TAB_POSITIONS;
     }
 
-    final protected function index() : void
+    protected function index() : void
     {
         self::initAuthoritiesRenderer();
         $b = ilLinkButton::getInstance();
@@ -51,13 +51,13 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->setContent($table->getHTML());
     }
 
-    final protected function add() : void
+    protected function add() : void
     {
         $form = new ilOrgUnitPositionFormGUI($this, new ilOrgUnitPosition());
         $this->tpl()->setContent($form->getHTML());
     }
 
-    final protected function create() : void
+    protected function create() : void
     {
         $form = new ilOrgUnitPositionFormGUI($this, new ilOrgUnitPosition());
         if ($form->saveObject() === true) {
@@ -68,7 +68,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->tpl()->setContent($form->getHTML());
     }
 
-    final protected function edit() : void
+    protected function edit() : void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_SETTINGS);
@@ -78,7 +78,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->tpl()->setContent($form->getHTML());
     }
 
-    final protected function update() : void
+    protected function update() : void
     {
         $position = $this->getPositionFromRequest();
         $form = new ilOrgUnitPositionFormGUI($this, $position);
@@ -91,7 +91,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->tpl()->setContent($form->getHTML());
     }
 
-    final protected function assign() : void
+    protected function assign() : void
     {
         $position = $this->getPositionFromRequest();
         if ($position->isCorePosition()) {
@@ -111,7 +111,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->main_tpl->setOnScreenMessage('success', $this->txt('msg_assignment_to_employee_done'), true);
     }
 
-    final protected function confirmDeletion() : void
+    protected function confirmDeletion() : void
     {
         $position = $this->getPositionFromRequest();
         if ($position->isCorePosition()) {
@@ -152,7 +152,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->tpl()->setContent($confirmation->getHTML());
     }
 
-    final protected function delete() : void
+    protected function delete() : void
     {
         if ($_POST['assign_users']) {
             $this->assign();
@@ -163,12 +163,12 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 
-    final protected function cancel() : void
+    protected function cancel() : void
     {
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 
-    final protected function getARIdFromRequest() : array
+    protected function getARIdFromRequest() : array
     {
         $get = $this->dic()->http()->request()->getQueryParams()[self::AR_ID];
         $post = $this->dic()->http()->request()->getParsedBody()[self::AR_ID];
@@ -176,12 +176,12 @@ class ilOrgUnitPositionGUI extends BaseCommands
         return $post ? $post : $get;
     }
 
-    final protected function getPositionFromRequest() : ilOrgUnitPosition
+    protected function getPositionFromRequest() : ilOrgUnitPosition
     {
         return ilOrgUnitPosition::find($this->getARIdFromRequest());
     }
 
-    final public static function initAuthoritiesRenderer() : string
+    public static function initAuthoritiesRenderer() : string
     {
         $lang = $GLOBALS['DIC']->language();
         $lang->loadLanguageModule('orgu');
@@ -225,7 +225,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         });
     }
 
-    final public function addSubTabs() : void
+    public function addSubTabs() : void
     {
         $this->ctrl()->saveParameter($this, 'arid');
         $this->ctrl()->saveParameterByClass(ilOrgUnitDefaultPermissionGUI::class, 'arid');

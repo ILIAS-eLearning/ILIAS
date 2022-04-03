@@ -98,7 +98,7 @@ class ilOrgUnitAuthority extends \ActiveRecord
         return (string) $renderer($this->getId());
     }
 
-    final public function __toArray(): array
+    public function __toArray(): array
     {
         return array(
             'id' => $this->getId(),

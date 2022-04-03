@@ -58,7 +58,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-    final public function parseData() : void
+    public function parseData() : void
     {
         if ($this->staff === "employee") {
             $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getEmployees($_GET["ref_id"], $this->recursive));
@@ -84,7 +84,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
     /**
      * @param string $staff Set this variable either to "employee" or "superior". It's employee by default.
      */
-    final public function setStaff(string $staff) : void
+    public function setStaff(string $staff) : void
     {
         $this->staff = $staff;
     }
