@@ -67,7 +67,7 @@ class ilDclRecordListGUI
             $this->table_id = filter_input(INPUT_GET, self::GET_TABLE_ID);
         }
 
-        $this->obj_id = $a_parent_obj->obj_id;
+        $this->obj_id = $a_parent_obj->getObject()->getId();
         $this->parent_obj = $a_parent_obj;
         $this->table_obj = ilDclCache::getTableCache($table_id);
 
@@ -75,9 +75,10 @@ class ilDclRecordListGUI
             $this->tableview_id = $tableview_id;
         } else {
             //get first visible tableview
-            $this->tableview_id = $this->table_obj->getFirstTableViewId($this->parent_obj->ref_id);
+            $this->tableview_id = $this->table_obj->getFirstTableViewId($this->parent_obj->getRefId());
             //this is for ilDclTextRecordRepresentation with link to detail page
-            $_GET[self::GET_TABLEVIEW_ID] = $this->tableview_id; //TODO: find better way
+
+           // $_GET[self::GET_TABLEVIEW_ID] = $this->tableview_id; //TODO: find better way
         }
 
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLE_ID, $this->table_id);
@@ -482,7 +483,7 @@ class ilDclRecordListGUI
      */
     protected function getAvailableTables()
     {
-        if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id)) {
+        if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId())) {
             $tables = $this->parent_obj->object->getTables();
         } else {
             $tables = $this->parent_obj->object->getVisibleTables();
@@ -570,7 +571,7 @@ class ilDclRecordListGUI
 
         //tableview switcher
         $options = array();
-        foreach ($this->table_obj->getVisibleTableViews($this->parent_obj->ref_id) as $tableview) {
+        foreach ($this->table_obj->getVisibleTableViews($this->parent_obj->getRefId()) as $tableview) {
             $options[$tableview->getId()] = $tableview->getTitle();
         }
 
@@ -594,6 +595,6 @@ class ilDclRecordListGUI
      */
     protected function checkAccess()
     {
-        return ilObjDataCollectionAccess::hasAccessTo($this->parent_obj->ref_id, $this->table_id, $this->tableview_id);
+        return ilObjDataCollectionAccess::hasAccessTo($this->parent_obj->getRefId(), $this->table_id, $this->tableview_id);
     }
 }

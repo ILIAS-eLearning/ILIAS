@@ -45,7 +45,11 @@ class ilDclTableListGUI
         $ilToolbar = $DIC['ilToolbar'];
 
         $this->parent_obj = $a_parent_obj;
-        $this->obj_id = $a_parent_obj->obj_id;
+        $this->obj_id = 0;
+        if($a_parent_obj->getRefId() >= 0) {
+            $this->obj_id = ilObject::_lookupObjectId($a_parent_obj->getRefId());
+        }
+
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
@@ -220,7 +224,7 @@ class ilDclTableListGUI
      */
     protected function checkAccess()
     {
-        $ref_id = $this->getDataCollectionObject()->getRefId();
+        $ref_id = $this->parent_obj->getRefId();
 
         return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
     }

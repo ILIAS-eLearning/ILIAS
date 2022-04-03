@@ -37,12 +37,12 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
 
-        $t_arr = explode("_", $target);
+        $t_arr = explode("_", $a_target);
 
         if ($t_arr[0] != "dcl" || ((int) $t_arr[1]) <= 0) {
             return false;
@@ -56,16 +56,13 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param ilDclTable $table
-     * @param            $ref_id
-     * @return bool
-     */
-    protected static function isTableInDataCollection($table, $ref_id)
+    protected static function isTableInDataCollection(ilDclTable $table, int $ref_id) : bool
     {
-        foreach (ilObjDataCollection::_getAllReferences($table->getObjId()) as $reference) {
-            if ($reference == $ref_id) {
-                return true;
+        if($table->getObjId() !== null) {
+            foreach (ilObjDataCollection::_getAllReferences($table->getObjId()) as $reference) {
+                if ($reference == $ref_id) {
+                    return true;
+                }
             }
         }
 
@@ -73,10 +70,16 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     }
 
     /**
-     * checks whether a user may invoke a command or not
+     * checks wether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
+     * @param string $a_cmd        command (not permission!)
+     * @param string $a_permission permission
+     * @param int    $a_ref_id     reference id
+     * @param int    $a_obj_id     object id
+     * @param int    $a_user_id    user id (if not provided, current user is taken)
+     * @return    boolean        true, if everything is ok
      */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -84,14 +87,14 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($user_id == "") {
-            $user_id = $ilUser->getId();
+        if ($a_user_id == "") {
+            $a_user_id = $ilUser->getId();
         }
-        switch ($cmd) {
+        switch ($a_cmd) {
             case "view":
 
-                if (!ilObjDataCollectionAccess::_lookupOnline($obj_id)
-                    && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)
+                if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+                    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
                 ) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -101,18 +104,18 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 
             // for permission query feature
             case "infoScreen":
-                if (!ilObjDataCollectionAccess::_lookupOnline($obj_id)) {
+                if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
         }
-        switch ($permission) {
+        switch ($a_permission) {
             case "read":
             case "visible":
-                if (!ilObjDataCollectionAccess::_lookupOnline($obj_id)
-                    && (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))
+                if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+                    && (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
                 ) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -352,12 +355,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     }
 
     /**
-     * @param $ref_id
-     * @param $table_id
-     * @param $field_id
      * @return bool
      */
-    public static function hasAccessToField($ref_id, $table_id, $field_id)
+    public static function hasAccessToField(int $ref_id, int $table_id, int $field_id): bool
     {
         $table = ilDclCache::getTableCache($table_id);
 
@@ -368,7 +368,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
      * @param int $ref_id
      * @return bool
      */
-    public static function hasPermissionToAddRecord($ref_id, $table_id)
+    public static function hasPermissionToAddRecord(int $ref_id, int $table_id): bool
     {
         $table = ilDclCache::getTableCache($table_id);
         if (!self::isTableInDataCollection($table, $ref_id)) {
