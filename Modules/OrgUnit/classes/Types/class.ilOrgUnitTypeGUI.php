@@ -7,47 +7,14 @@
  */
 class ilOrgUnitTypeGUI
 {
-
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var ilTabsGUI
-     */
-    public $tabs;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-    /**
-     * @var ilLog
-     */
-    protected $log;
-    /**
-     * @var ILIAS
-     */
-    protected $ilias;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var
-     */
-    protected $parent_gui;
+    private ilCtrl $ctrl;
+    private ilTemplate $tpl;
+    private ilTabsGUI $tabs;
+    private ilAccessHandler $access;
+    private ilToolbarGUI $toolbar;
+    private ILIAS $ilias;
+    private ilLanguage $lng;
+    private ilObjOrgUnitGUI $parent_gui;
 
     /**
      * @param ilObjOrgUnitGUI $parent_gui
@@ -68,10 +35,8 @@ class ilOrgUnitTypeGUI
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->access = $ilAccess;
-        $this->locator = $ilLocator;
         $this->toolbar = $ilToolbar;
         $this->tabs = $ilTabs;
-        $this->log = $ilLog;
         $this->lng = $lng;
         $this->ilias = $ilias;
         $this->parent_gui = $parent_gui;
@@ -81,7 +46,7 @@ class ilOrgUnitTypeGUI
         $this->checkAccess();
     }
 
-    public function executeCommand()
+    final public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -130,10 +95,7 @@ class ilOrgUnitTypeGUI
         }
     }
 
-    /**
-     * Check if user can edit types
-     */
-    protected function checkAccess()
+    private function checkAccess() : void
     {
         if (!$this->access->checkAccess("write", "", $this->parent_gui->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -141,10 +103,7 @@ class ilOrgUnitTypeGUI
         }
     }
 
-    /**
-     * Add subtabs for editing type
-     */
-    protected function setSubTabsEdit($active_tab_id)
+    private function setSubTabsEdit(string $active_tab_id) : void
     {
         $this->tabs->addSubTab('general', $this->lng->txt('meta_general'), $this->ctrl->getLinkTarget($this, 'edit'));
         if ($this->ilias->getSetting('custom_icons')) {
@@ -160,16 +119,13 @@ class ilOrgUnitTypeGUI
     /**
      * Display form for editing custom icons
      */
-    protected function editCustomIcons()
+    private function editCustomIcons() : void
     {
         $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Save icon
-     */
-    protected function updateCustomIcons()
+    private function updateCustomIcons() : void
     {
         $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
@@ -180,13 +136,13 @@ class ilOrgUnitTypeGUI
         }
     }
 
-    protected function editAMD()
+    private function editAMD() : void
     {
         $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function updateAMD()
+    private function updateAMD() : void
     {
         $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
@@ -200,7 +156,7 @@ class ilOrgUnitTypeGUI
     /**
      * Display all types in a table with actions to edit/delete
      */
-    protected function listTypes()
+    private function listTypes() : void
     {
         $button = ilLinkButton::getInstance();
         $button->setCaption('orgu_type_add');
@@ -214,7 +170,7 @@ class ilOrgUnitTypeGUI
     /**
      * Display form to create a new OrgUnit type
      */
-    protected function add()
+    private function add() : void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         $this->tpl->setContent($form->getHTML());
@@ -223,7 +179,7 @@ class ilOrgUnitTypeGUI
     /**
      * Display form to edit an existing OrgUnit type
      */
-    protected function edit()
+    private function edit() : void
     {
         $type = new ilOrgUnitType((int) $_GET['type_id']);
         $form = new ilOrgUnitTypeFormGUI($this, $type);
@@ -233,7 +189,7 @@ class ilOrgUnitTypeGUI
     /**
      * Create (save) type
      */
-    protected function create()
+    protected function create() : void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         if ($form->saveObject()) {
@@ -247,7 +203,7 @@ class ilOrgUnitTypeGUI
     /**
      * Update (save) type
      */
-    protected function update()
+    private function update() : void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
@@ -261,7 +217,7 @@ class ilOrgUnitTypeGUI
     /**
      * Delete a type
      */
-    protected function delete()
+    private function delete() : void
     {
         $type = new ilOrgUnitType((int) $_GET['type_id']);
         try {

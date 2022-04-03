@@ -20,21 +20,17 @@ class ilOrgUnitAuthority extends \ActiveRecord
     protected static $scopes
         = array(
             self::SCOPE_SAME_ORGU,
-            self::SCOPE_SUBSEQUENT_ORGUS,
-            //		self::SCOPE_ALL_ORGUS,
+            self::SCOPE_SUBSEQUENT_ORGUS
         );
 
     /**
-     * @return array
+     * @return int[]
      */
-    public static function getScopes()
+    public static function getScopes(): array
     {
         return self::$scopes;
     }
 
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return "il_orgu_authority";
@@ -49,41 +45,37 @@ class ilOrgUnitAuthority extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $id = 0;
+    protected int $id = 0;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $over = self::OVER_EVERYONE;
+    protected int $over = self::OVER_EVERYONE;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $scope = self::SCOPE_SAME_ORGU;
+    protected int $scope = self::SCOPE_SAME_ORGU;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $position_id = 0;
-    /**
-     * @var \Closure
-     */
-    protected static $name_render;
+    protected int $position_id = 0;
+    protected static \Closure $name_render;
 
     /**
      * ilOrgUnitAuthority constructor.
      * @param int               $primary_key
-     * @param \arConnector|null $connector
      */
-    public function __construct($primary_key = 0, \arConnector $connector = null)
+    public function __construct(int $primary_key = 0)
     {
-        parent::__construct($primary_key, $connector);
+        parent::__construct($primary_key);
         if (!self::$name_render) {
             self::$name_render = function($id) {
                 return $id;
@@ -99,20 +91,14 @@ class ilOrgUnitAuthority extends \ActiveRecord
         self::$name_render = $closure;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $renderer = self::$name_render;
 
-        return $renderer($this->getId());
+        return (string) $renderer($this->getId());
     }
 
-    /**
-     * @return array
-     */
-    public function __toArray()
+    final public function __toArray(): array
     {
         return array(
             'id' => $this->getId(),
@@ -122,43 +108,30 @@ class ilOrgUnitAuthority extends \ActiveRecord
         );
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getOver()
+    public function getOver(): int
     {
         return $this->over;
     }
 
     /**
      * This is either an ID of a position or ilOrgUnitAuthority::OVER_EVERYONE
-     * @param int $over
      */
-    public function setOver($over)
+    public function setOver(int $over)
     {
         $this->over = $over;
     }
 
-    /**
-     * @return int
-     */
-    public function getScope()
+    public function getScope(): int
     {
         return $this->scope;
     }
@@ -169,7 +142,7 @@ class ilOrgUnitAuthority extends \ActiveRecord
      * @param int $scope
      * @throws \ilException
      */
-    public function setScope($scope)
+    public function setScope(int $scope): void
     {
         if (!in_array($scope, self::$scopes)) {
             throw new ilException('Selected Scop in ' . self::class . ' not allowed');
@@ -177,18 +150,12 @@ class ilOrgUnitAuthority extends \ActiveRecord
         $this->scope = $scope;
     }
 
-    /**
-     * @return int
-     */
-    public function getPositionId()
+    public function getPositionId(): int
     {
         return $this->position_id;
     }
 
-    /**
-     * @param int $position_id
-     */
-    public function setPositionId($position_id)
+    public function setPositionId(int $position_id)
     {
         $this->position_id = $position_id;
     }

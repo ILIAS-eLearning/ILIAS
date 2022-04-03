@@ -2,45 +2,25 @@
 
 namespace OrgUnit\User;
 
-use OrgUnit\Positions\ilOrgUnitPosition;
-
 class ilOrgUnitUser
 {
 
+    /** @var self[] */
+    private static array $instances;
+    private int $user_id;
+    private string $login;
+    private string $email;
+    private string $second_email;
     /**
-     * @var self[]
+     * @var \ilOrgUnitPosition[]
      */
-    protected static $instances;
-    /**
-     * @var int
-     */
-    protected $user_id;
-    /**
-     * @var string
-     */
-    protected $login;
-    /**
-     * @var string
-     */
-    protected $email;
-    /**
-     * @var string
-     */
-    protected $second_email;
-    /**
-     * @var ilOrgUnitPosition[]
-     */
-    protected $org_unit_positions = [];
+    private array $org_unit_positions = [];
     /**
      * @var ilOrgUnitUser[]
      */
-    protected $superiors = [];
+    private array $superiors = [];
 
-    /**
-     * @param int $user_id
-     * @return ilOrgUnitUser
-     */
-    public static function getInstanceById(int $user_id) : self
+    final public static function getInstanceById(int $user_id) : self
     {
         if (null === static::$instances[$user_id]) {
             $org_unit_user_repository = new ilOrgUnitUserRepository();
@@ -50,13 +30,7 @@ class ilOrgUnitUser
         return static::$instances[$user_id];
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $login
-     * @param string $email
-     * @return ilOrgUnitUser
-     */
-    public static function getInstance(int $user_id, string $login, string $email, string $second_email) : self
+    final public static function getInstance(int $user_id, string $login, string $email, string $second_email) : self
     {
         if (null === static::$instances[$user_id]) {
             static::$instances[$user_id] = new static($user_id, $login, $email, $second_email);
@@ -73,18 +47,12 @@ class ilOrgUnitUser
         $this->second_email = $second_email;
     }
 
-    /**
-     * @param ilOrgUnitUser $org_unit_user
-     */
-    public function addSuperior(ilOrgUnitUser $org_unit_user)
+    final public function addSuperior(ilOrgUnitUser $org_unit_user) : void
     {
         $this->superiors[] = $org_unit_user;
     }
 
-    /**
-     * @param ilOrgUnitPosition $org_unit_position
-     */
-    public function addPositions(ilOrgUnitPosition $org_unit_position)
+    final public function addPositions(\ilOrgUnitPosition $org_unit_position)
     {
         $this->org_unit_positions[] = $org_unit_position;
     }
@@ -92,28 +60,27 @@ class ilOrgUnitUser
     /**
      * @return ilOrgUnitUser[]
      * eager loading
-     * @var array ilOrgUnitUser
      */
-    public function getSuperiors() : array
+    final public function getSuperiors() : array
     {
-        if (count($this->superiors) == 0) {
+        if (count($this->superiors) === 0) {
             $this->loadSuperiors();
         }
 
         return $this->superiors;
     }
 
-    public function loadSuperiors() : void
+    final public function loadSuperiors() : void
     {
         $org_unit_user_repository = new ilOrgUnitUserRepository();
         $org_unit_user_repository->loadSuperiors([$this->user_id]);
     }
 
     /**
-     * @return ilOrgUnitPosition[]
+     * @return \ilOrgUnitPosition[]
      * eager loading
      */
-    public function getOrgUnitPositions() : array
+    final public function getOrgUnitPositions() : array
     {
         if (count($this->org_unit_positions) == 0) {
             $this->loadOrgUnitPositions();
@@ -123,7 +90,7 @@ class ilOrgUnitUser
     }
 
     /**
-     * @return ilOrgUnitPosition[]
+     * @return \ilOrgUnitPosition[]
      * eager loading
      */
     protected function loadOrgUnitPositions() : array
@@ -132,42 +99,27 @@ class ilOrgUnitUser
         $org_unit_user_repository->loadPositions([$this->user_id]);
     }
 
-    /**
-     * @return int
-     */
-    public function getUserId() : int
+    final public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getLogin() : string
+    final  public function getLogin() : string
     {
         return $this->login;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail() : string
+    final public function getEmail() : string
     {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
-    public function getSecondEmail() : string
+    final public function getSecondEmail() : string
     {
         return $this->second_email;
     }
 
-    /**
-     * @param string $second_email
-     */
-    public function setSecondEmail(string $second_email) : void
+    final public function setSecondEmail(string $second_email) : void
     {
         $this->second_email = $second_email;
     }

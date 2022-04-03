@@ -7,34 +7,15 @@
  */
 class ilOrgUnitObjectTypePositionSetting
 {
-    const DEFAULT_OFF = 0;
-    const DEFAULT_ON = 1;
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-    /**
-     * @var string
-     */
-    private $type = '';
-    /**
-     * @var bool
-     */
-    private $active = false;
-    /**
-     * @var bool
-     */
-    private $changeable = false;
-    /**
-     * @var int
-     */
-    private $default = self::DEFAULT_OFF;
+    public const DEFAULT_OFF = 0;
+    public const DEFAULT_ON = 1;
+    private ilDBInterface $db;
+    private string $type;
+    private bool $active = false;
+    private bool $changeable = false;
+    private int $default = self::DEFAULT_OFF;
 
-    /**
-     * Constructor
-     * @param string $a_obj_type
-     */
-    public function __construct($a_obj_type)
+    public function __construct(string $a_obj_type)
     {
         $this->db = $GLOBALS['DIC']->database();
         $this->type = $a_obj_type;
@@ -44,57 +25,37 @@ class ilOrgUnitObjectTypePositionSetting
     /**
      * set active for object type
      */
-    public function setActive($a_active)
+    public function setActive(bool $a_active): void
     {
         $this->active = $a_active;
     }
 
-    /**
-     * @param int $a_default
-     */
-    public function setActivationDefault($a_default)
+    public function setActivationDefault(int $a_default): void
     {
         $this->default = $a_default;
     }
 
-    /**
-     * @param bool $a_status
-     */
-    public function setChangeableForObject($a_status)
+    public function setChangeableForObject(bool $a_status): void
     {
         $this->changeable = $a_status;
     }
 
-    /**
-     * Check if active
-     * @return bool
-     */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * Get activation default
-     * @return int
-     */
-    public function getActivationDefault()
+    public function getActivationDefault(): int
     {
         return $this->default;
     }
 
-    /**
-     * return bool
-     */
-    public function isChangeableForObject()
+    public function isChangeableForObject(): bool
     {
         return $this->changeable;
     }
 
-    /**
-     * Update type entry
-     */
-    public function update()
+    public function update(): void
     {
         $this->db->replace('orgu_obj_type_settings', [
             'obj_type' => ['text', $this->type],
@@ -105,26 +66,19 @@ class ilOrgUnitObjectTypePositionSetting
         ]);
     }
 
-    /**
-     * Read from db
-     */
-    protected function read()
+    private function read(): void
     {
         $query = 'SELECT * FROM orgu_obj_type_settings ' . 'WHERE obj_type = '
             . $this->db->quote($this->type, 'text');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->entry_exists = true;
             $this->setActive((bool) $row->active);
             $this->setActivationDefault((int) $row->activation_default);
             $this->setChangeableForObject((bool) $row->changeable);
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }

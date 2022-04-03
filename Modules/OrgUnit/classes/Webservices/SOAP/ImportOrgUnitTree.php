@@ -10,14 +10,14 @@ use ilOrgUnitSimpleImport;
  */
 class ImportOrgUnitTree extends Base
 {
-    const ORG_UNIT_TREE = 'OrgUnitTree';
+    public const ORG_UNIT_TREE = 'OrgUnitTree';
 
     /**
      * @param array $params
      * @return void
      * @throws \ilSoapPluginException
      */
-    protected function run(array $params) : void
+    protected function run(array $params) : bool
     {
         global $DIC;
         $DIC->language()->loadLanguageModule('orgu');
@@ -51,35 +51,25 @@ class ImportOrgUnitTree extends Base
 
             throw new \ilSoapPluginException(implode(" / ", $arr_msg));
         }
+
+        return true;
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return "importOrgUnitsSimpleXML";
     }
 
-    /**
-     * @return array
-     */
-    protected function getAdditionalInputParams()
+    final protected function getAdditionalInputParams(): array
     {
         return array(self::ORG_UNIT_TREE => Base::TYPE_STRING);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOutputParams() : array
+    final public function getOutputParams() : array
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDocumentation() : string
     {
         return "Imports ILIAS Organisational Units (SimpleXML)";

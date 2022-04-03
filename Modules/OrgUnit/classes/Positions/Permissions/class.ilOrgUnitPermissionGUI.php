@@ -9,8 +9,8 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitPermissionGUI extends BaseCommands
 {
-    protected function index()
+    final protected function index(): void
     {
-        $table = new ilOrgUnitPermissionTableGUI($this, self::CMD_INDEX, $this->getParentRefId());
+        new ilOrgUnitPermissionTableGUI($this, self::CMD_INDEX, $this->getParentRefId());
     }
 }
