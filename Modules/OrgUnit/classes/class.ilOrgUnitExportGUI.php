@@ -13,7 +13,7 @@ class ilOrgUnitExportGUI extends ilExportGUI
     protected ilCtrlInterface $ctrl;
     protected ilObjOrgUnit $ilObjOrgUnit;
 
-    public function __construct(ilObjOrgUnitGUI $a_parent_gui, null|ilObject|ilObjOrgUnit $a_main_obj = null)
+    public function __construct(ilObjOrgUnitGUI $a_parent_gui, /*null|ilObject|ilObjOrgUnit*/ ?ilObject $a_main_obj = null)
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
