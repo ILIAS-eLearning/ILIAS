@@ -15,8 +15,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     const PARENT_DEFAULT_CMD = 'showManScoringByQuestionParticipantsTable';
     const PARENT_APPLY_FILTER_CMD = 'applyManScoringByQuestionFilter';
     const PARENT_RESET_FILTER_CMD = 'resetManScoringByQuestionFilter';
-    const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
-    
+
     private $curQuestionMaxPoints = null;
     
     /**
