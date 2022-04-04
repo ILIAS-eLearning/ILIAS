@@ -330,7 +330,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $object_search->setFilter($types);
             $res = $object_search->performSearch();
             if ($user_id) {
-                $res->setUserId((int) $user_id);
+                $res->setUserId($user_id);
             }
             $res->setMaxHits(100);
             $res->filter(ROOT_FOLDER_ID, $combination === 'and');

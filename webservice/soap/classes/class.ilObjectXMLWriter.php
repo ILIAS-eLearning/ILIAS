@@ -270,7 +270,7 @@ class ilObjectXMLWriter extends ilXmlWriter
                 $size = ilObjFileAccess::_lookupFileSize($obj->getId());
                 $extension = ilObjFileAccess::_lookupSuffix($obj->getId());
                 $this->xmlStartTag('Properties');
-                $this->xmlElement("Property", array('name' => 'fileSize'), (int) $size);
+                $this->xmlElement("Property", array('name' => 'fileSize'), (string) $size);
                 $this->xmlElement("Property", array('name' => 'fileExtension'), (string) $extension);
                 $this->xmlElement(
                     'Property',

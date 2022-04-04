@@ -397,7 +397,7 @@ class ilSoapUtils extends ilSoapAdministration
             return 0;
         }
 
-        $orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
+        $orig = ilObjectFactory::getInstanceByRefId($source_id);
         $new_obj = $orig->cloneObject((int) $target_id, $cp_options->getCopyId());
 
         if (!is_object($new_obj)) {
@@ -431,7 +431,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
         $target_id = $mappings[$source_id];
 
-        $orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
+        $orig = ilObjectFactory::getInstanceByRefId($source_id);
         $orig->cloneDependencies($target_id, $cp_options->getCopyId());
     }
 
@@ -510,7 +510,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
         $target_id = $mappings[$parent_id];
 
-        $orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
+        $orig = ilObjectFactory::getInstanceByRefId($source_id);
         $new_ref_id = $orig->createReference();
         $orig->putInTree($target_id);
         $orig->setPermissions($target_id);
@@ -585,7 +585,7 @@ class ilSoapUtils extends ilSoapAdministration
          * a new registration with the same login name in a few seconds ;-)
          *
          */
-        if ((int) $usr_id > 0) {
+        if ($usr_id > 0) {
             $query .= 'SELECT usr_id, create_date, reg_hash FROM usr_data '
                 . 'WHERE active = 0 '
                 . 'AND reg_hash IS NOT NULL '

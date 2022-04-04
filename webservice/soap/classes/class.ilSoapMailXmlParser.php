@@ -110,7 +110,7 @@ class ilSoapMailXmlParser extends ilSaxParser
                 break;
 
             case 'Message':
-                $this->mail['body'] = (array) $this->lines;
+                $this->mail['body'] = $this->lines;
                 break;
 
             case 'P':

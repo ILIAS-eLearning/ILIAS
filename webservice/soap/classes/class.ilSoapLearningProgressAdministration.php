@@ -69,7 +69,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
         $valid_refs = array();
         $type = '';
-        foreach ((array) $ref_ids as $ref_id) {
+        foreach ($ref_ids as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);
             $type = ilObject::_lookupType($obj_id);
 
@@ -486,7 +486,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         }
 
         $query = 'DELETE FROM cmi_node ' .
-            'WHERE ' . $ilDB->in('user_id', (array) $a_usr_ids, false, 'integer') . ' ' .
+            'WHERE ' . $ilDB->in('user_id', $a_usr_ids, false, 'integer') . ' ' .
             'AND ' . $ilDB->in('cp_node_id', $scos, false, 'integer');
         $ilDB->manipulate($query);
     }
