@@ -1449,6 +1449,27 @@ class ilObjSAHSLearningModule extends ilObject
         if ($collection) {
             $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
         }
+        
+        // Certificate settings
+        $pathFactory = new ilCertificatePathFactory();
+        $templateRepository = new ilCertificateTemplateRepository($ilDB);
+        $certificateLogger = $DIC->logger()->cert();
+        $cloneAction = new ilCertificateCloneAction(
+            $ilDB,
+            $pathFactory,
+            $templateRepository,
+            $DIC->filesystem()->web(),
+            $certificateLogger,
+            new ilCertificateObjectHelper()
+        );
+    
+        $cloneAction->cloneCertificate($this, $new_obj);
+        $settings = new ilSetting('scorm');
+        $settings->set(
+            'certificate_short_name_' . $new_obj->getId(),
+            $settings->get('certificate_short_name_' . $this->getId())
+        );
+        
         return $new_obj;
     }
     
