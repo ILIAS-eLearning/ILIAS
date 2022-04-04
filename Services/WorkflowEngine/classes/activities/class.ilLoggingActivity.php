@@ -213,7 +213,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return ilNode Parent node of this element.
      */
-    public function getContext() : ilNode|ilWorkflowEngineElement
+    public function getContext()
     {
         return $this->context;
     }
