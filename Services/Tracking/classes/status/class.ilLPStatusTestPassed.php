@@ -119,7 +119,6 @@ class ilLPStatusTestPassed extends ilLPStatus
 
         if ($rec = $this->db->fetchAssoc($res)) {
             if ($rec['sequences'] > 0) {
-
                 $test_obj = new ilObjTest($a_obj_id, false);
                 $is_passed = ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
 

@@ -27,7 +27,6 @@
  */
 class ilLPStatusCollection extends ilLPStatus
 {
-
     public static function _getNotAttempted(int $a_obj_id) : array
     {
         $users = array();

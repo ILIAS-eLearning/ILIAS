@@ -140,8 +140,12 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                     $obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read");
 
                     // check for LP relevance
-                    foreach (ilObjectLP::getLPMemberships($this->tracked_user->getId(), $obj_ids, null,
-                        true) as $obj_id => $status) {
+                    foreach (ilObjectLP::getLPMemberships(
+                        $this->tracked_user->getId(),
+                        $obj_ids,
+                        null,
+                        true
+                    ) as $obj_id => $status) {
                         if (!$status) {
                             unset($obj_ids[$obj_id]);
                         }
@@ -152,21 +156,30 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         if ($obj_ids) {
             switch ($this->mode) {
                 case ilLPObjSettings::LP_MODE_SCORM:
-                    $data = ilTrQuery::getSCOsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id,
-                        $obj_ids);
+                    $data = ilTrQuery::getSCOsStatusForUser(
+                        $this->tracked_user->getId(),
+                        $this->parent_obj_id,
+                        $obj_ids
+                    );
                     break;
 
                 case ilLPObjSettings::LP_MODE_OBJECTIVES:
-                    $data = ilTrQuery::getObjectivesStatusForUser($this->tracked_user->getId(), $this->parent_obj_id,
-                        $obj_ids);
+                    $data = ilTrQuery::getObjectivesStatusForUser(
+                        $this->tracked_user->getId(),
+                        $this->parent_obj_id,
+                        $obj_ids
+                    );
                     break;
 
                 case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
                 case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
                 case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
                     if ($this->tracked_user) {
-                        $data = ilTrQuery::getSubItemsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id,
-                            $obj_ids);
+                        $data = ilTrQuery::getSubItemsStatusForUser(
+                            $this->tracked_user->getId(),
+                            $this->parent_obj_id,
+                            $obj_ids
+                        );
                     }
                     break;
 
@@ -176,8 +189,10 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                         if (!$item["status"] && !$this->filter["status"] && !$this->details) {
                             unset($data[$idx]);
                         } else {
-                            $data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($item["obj_id"],
-                                $item["type"]);
+                            $data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline(
+                                $item["obj_id"],
+                                $item["type"]
+                            );
                         }
                     }
                     break;
@@ -221,9 +236,13 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         } elseif ($this->has_object_subitems) {
             $this->tpl->setCurrentBlock("status_details");
 
-            $this->tpl->setVariable('STATUS_CHANGED_VAL',
-                ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],
-                    IL_CAL_DATETIME)));
+            $this->tpl->setVariable(
+                'STATUS_CHANGED_VAL',
+                ilDatePresentation::formatDate(new ilDateTime(
+                    $a_set['status_changed'],
+                    IL_CAL_DATETIME
+                ))
+            );
 
             $olp = ilObjectLP::getInstance($a_set["obj_id"]);
             $this->tpl->setVariable("MODE_TEXT", $olp->getModeText($a_set["u_mode"]));
@@ -282,8 +301,10 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                     $ref_id = $a_set["ref_ids"];
                     $ref_id = array_shift($ref_id);
                     $this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), 'details_id', $ref_id);
-                    $this->tpl->setVariable("HREF_COMMAND",
-                        $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), 'details'));
+                    $this->tpl->setVariable(
+                        "HREF_COMMAND",
+                        $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), 'details')
+                    );
                     $this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), 'details_id', '');
                     $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_subitems'));
                     $this->tpl->parseCurrentBlock();
@@ -349,8 +370,10 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_csv->addColumn(ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 
         ilDatePresentation::setUseRelativeDates(false);
-        $a_csv->addColumn(ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],
-            IL_CAL_DATETIME)));
+        $a_csv->addColumn(ilDatePresentation::formatDate(new ilDateTime(
+            $a_set['status_changed'],
+            IL_CAL_DATETIME
+        )));
         ilDatePresentation::resetToDefaults();
 
         if (!$this->isPercentageAvailable($a_set['obj_id'])) {

@@ -7,7 +7,6 @@
  */
 class ilLPStatusManual extends ilLPStatus
 {
-
     public static function _getInProgress(int $a_obj_id) : array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);

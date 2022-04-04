@@ -83,6 +83,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         // show back to list
         $crs_id = 0;
         if ($this->http->wrapper()->query()->has('crs_id')) {
+            // PHP8-Review: Required parameter '$transformation' missing
             $crs_id = $this->http->wrapper()->query()->retrieve(
                 $this->refinery->kindlyTo()->int()
             );
@@ -136,8 +137,17 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         if (count($obj_ids) > 0) {
             // seems obsolete
             $personal_only = !ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId());
-            $lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true,
-                $this->details_mode, $personal_only, $this->details_obj_id, $this->details_id);
+            $lp_table = new ilLPProgressTableGUI(
+                $this,
+                "details",
+                $this->tracked_user,
+                $obj_ids,
+                true,
+                $this->details_mode,
+                $personal_only,
+                $this->details_obj_id,
+                $this->details_id
+            );
             $this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
         }
 
@@ -151,8 +161,18 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         // User info
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
-        $lp_table = new ilLPProgressTableGUI($this, "", $this->tracked_user, null, false, null, false, null, null,
-            $this->getMode());
+        $lp_table = new ilLPProgressTableGUI(
+            $this,
+            "",
+            $this->tracked_user,
+            null,
+            false,
+            null,
+            false,
+            null,
+            null,
+            $this->getMode()
+        );
         $this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 
         $this->tpl->setVariable("LEGEND", $this->__getLegendHTML());

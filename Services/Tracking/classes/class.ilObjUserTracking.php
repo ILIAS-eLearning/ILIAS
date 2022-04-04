@@ -153,7 +153,7 @@ class ilObjUserTracking extends ilObject
 
     public function hasExtendedData(int $a_code) : bool
     {
-        return (bool) ($this->extended_data&$a_code);
+        return (bool) ($this->extended_data & $a_code);
     }
 
     public function updateSettings()

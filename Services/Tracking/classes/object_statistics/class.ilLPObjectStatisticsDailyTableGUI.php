@@ -139,13 +139,15 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         }
 
         if ($objects) {
-
             $yearmonth = explode("-", $this->filter["yearmonth"]);
             if (sizeof($yearmonth) == 1) {
                 $stat_objects = ilTrQuery::getObjectDailyStatistics($objects, $yearmonth[0]);
             } else {
-                $stat_objects = ilTrQuery::getObjectDailyStatistics($objects, (string) $yearmonth[0],
-                    (string) $yearmonth[1]);
+                $stat_objects = ilTrQuery::getObjectDailyStatistics(
+                    $objects,
+                    (string) $yearmonth[0],
+                    (string) $yearmonth[1]
+                );
             }
 
             foreach ($stat_objects as $obj_id => $hours) {

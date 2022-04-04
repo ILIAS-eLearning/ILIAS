@@ -380,8 +380,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 $data["set"][$idx]["title"] = $sess->getFirstAppointment()->appointmentToString();
             }
 
-            $data["set"][$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($result["obj_id"],
-                $result["type"]);
+            $data["set"][$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline(
+                $result["obj_id"],
+                $result["type"]
+            );
 
             // #13807
             if ($result["ref_ids"]) {
@@ -412,8 +414,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 "f" => $this->lng->txt("gender_f"),
             ));
             $data["set"][$idx]["city"] = $this->getItemsPercentages($result["city"], $users_no);
-            $data["set"][$idx]["sel_country"] = $this->getItemsPercentages($result["sel_country"], $users_no,
-                $this->getSelCountryCodes());
+            $data["set"][$idx]["sel_country"] = $this->getItemsPercentages(
+                $result["sel_country"],
+                $users_no,
+                $this->getSelCountryCodes()
+            );
             $data["set"][$idx]["mark"] = $this->getItemsPercentages($result["mark"], $users_no);
             $data["set"][$idx]["language"] = $this->getItemsPercentages($result["language"], $users_no, $languages);
 
@@ -636,8 +641,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
                     if (!$this->anonymized) {
                         $this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), 'details_id', $ref_id);
-                        $this->tpl->setVariable("URL_DETAILS",
-                            $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), 'details'));
+                        $this->tpl->setVariable(
+                            "URL_DETAILS",
+                            $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), 'details')
+                        );
                         $this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), 'details_id', '');
                         $this->tpl->setVariable("TXT_DETAILS", $this->lng->txt('trac_participants'));
                     } else {

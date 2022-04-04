@@ -318,7 +318,6 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
             " AND " . $this->db->in("item_id", $all_item_ids, false, "integer");
         $this->db->manipulate($query);
-
     }
 
     public function releaseGrouping(array $a_item_ids) : void

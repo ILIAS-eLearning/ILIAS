@@ -276,7 +276,6 @@ class ilLearningProgressBaseGUI
 
     public function __buildHeader() : void
     {
-    
     }
 
     /**
@@ -359,13 +358,17 @@ class ilLearningProgressBaseGUI
             }
 
             if ($mode == ilLPObjSettings::LP_MODE_VISITS) {
-                $info->addProperty($this->lng->txt('trac_required_visits'),
-                    (string) ilLPObjSettings::_lookupVisits($details_id));
+                $info->addProperty(
+                    $this->lng->txt('trac_required_visits'),
+                    (string) ilLPObjSettings::_lookupVisits($details_id)
+                );
             }
 
             if ($seconds = ilMDEducational::_getTypicalLearningTimeSeconds($details_id)) {
-                $info->addProperty($this->lng->txt('meta_typical_learning_time'),
-                    ilDatePresentation::secondsToString($seconds));
+                $info->addProperty(
+                    $this->lng->txt('meta_typical_learning_time'),
+                    ilDatePresentation::secondsToString($seconds)
+                );
             }
             return true;
         }
@@ -398,7 +401,8 @@ class ilLearningProgressBaseGUI
             // status
             $i_tpl = new ilTemplate("tpl.lp_edit_manual_info_page.html", true, true, "Services/Tracking");
             $i_tpl->setVariable("INFO_EDITED", $this->lng->txt("trac_info_edited"));
-            $i_tpl->setVariable("SELECT_STATUS",
+            $i_tpl->setVariable(
+                "SELECT_STATUS",
                 ilLegacyFormElementsUtil::formSelect(
                     (int) ilLPMarks::_hasCompleted(
                         $user_id,
@@ -603,7 +607,6 @@ class ilLearningProgressBaseGUI
     {
         $form = $this->initEditUserForm($user_id, $obj_id);
         if ($form->checkInput()) {
-
             $marks = new ilLPMarks($obj_id, $user_id);
             $marks->setMark($form->getInput("mark"));
             $marks->setComment($form->getInput("comment"));

@@ -93,8 +93,10 @@ class ilLPStatusSCORM extends ilLPStatus
         switch ($status_info['subtype']) {
             case 'hacp':
             case 'aicc':
-                $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'],
-                    $a_obj_id);
+                $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser(
+                    $status_info['scos'],
+                    $a_obj_id
+                );
 
                 foreach (ilObjAICCLearningModule::_getTrackingItems($a_obj_id) as $item) {
                     if (in_array($item['obj_id'], $status_info['scos'])) {
@@ -105,8 +107,10 @@ class ilLPStatusSCORM extends ilLPStatus
                 break;
 
             case 'scorm':
-                $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'],
-                    $a_obj_id);
+                $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser(
+                    $status_info['scos'],
+                    $a_obj_id
+                );
 
                 foreach ($status_info['scos'] as $sco_id) {
                     $status_info['scos_title'][$sco_id] = ilSCORMItem::_lookupTitle($sco_id);
@@ -115,8 +119,11 @@ class ilLPStatusSCORM extends ilLPStatus
                 break;
 
             case "scorm2004":
-                $status_info['num_completed'] = ilSCORM2004Tracking::_getCountCompletedPerUser($status_info['scos'],
-                    $a_obj_id, true);
+                $status_info['num_completed'] = ilSCORM2004Tracking::_getCountCompletedPerUser(
+                    $status_info['scos'],
+                    $a_obj_id,
+                    true
+                );
                 foreach ($status_info['scos'] as $sco_id) {
                     $status_info['scos_title'][$sco_id] = ilObjSCORM2004LearningModule::_lookupItemTitle($sco_id);
                 }

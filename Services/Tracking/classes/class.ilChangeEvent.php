@@ -105,7 +105,6 @@ class ilChangeEvent
         $a_ext_rc = null,
         $a_ext_time = null
     ) : void {
-
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

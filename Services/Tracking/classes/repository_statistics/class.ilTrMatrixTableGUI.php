@@ -266,8 +266,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 }
             }
 
-            $data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"],
-                $a_user_fields, $a_privary_fields, $check_agreement);
+            $data = ilTrQuery::getUserObjectMatrix(
+                $this->ref_id,
+                $collection["object_ids"],
+                $this->filter["name"],
+                $a_user_fields,
+                $a_privary_fields,
+                $check_agreement
+            );
             if ($collection["objectives_parent_id"] && $data["users"]) {
                 // sub-items: learning objectives
                 $objectives = ilTrQuery::getUserObjectiveMatrix($collection["objectives_parent_id"], $data["users"]);
@@ -409,8 +415,10 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                     $this->tpl->setCurrentBlock("objects");
                     $this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", (string) $status, ""));
-                    $this->tpl->setVariable("VAL_PERCENTAGE",
-                        $this->parseValue("percentage", (string) $percentage, ""));
+                    $this->tpl->setVariable(
+                        "VAL_PERCENTAGE",
+                        $this->parseValue("percentage", (string) $percentage, "")
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
 

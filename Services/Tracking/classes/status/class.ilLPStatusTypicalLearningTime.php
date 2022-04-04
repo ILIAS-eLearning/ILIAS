@@ -8,7 +8,6 @@
  */
 class ilLPStatusTypicalLearningTime extends ilLPStatus
 {
-
     public static function _getInProgress(int $a_obj_id) : array
     {
         global $DIC;
