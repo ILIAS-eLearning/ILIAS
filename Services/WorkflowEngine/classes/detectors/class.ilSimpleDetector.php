@@ -56,7 +56,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      * Returns the parent object. Type is ilNode, implements ilWorkflowEngineElement
      * @return ilNode Parent node of this element.
      */
-    public function getContext() : ilNode|ilWorkflowEngineElement
+    public function getContext()
     {
         return $this->context;
     }

@@ -51,9 +51,8 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * This holds the database id of the workflow
      *
-     * @var integer $db_id
      */
-    protected int $db_id;
+    protected ?int $db_id;
 
     /**
      * Holds the type of the workflow.
@@ -141,15 +140,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /** @var bool $require_data_persistence True, if the persistence needs to deal with data. */
     protected bool $require_data_persistence = false;
 
-    /**
-     * Default constructor
-     *
-     * Here the definition of the workflow is to be done.
-     */
-    public function __construct()
-    {
-        $this->db_id = 0;
-    }
 
     /**
      * Starts the workflow, activating the start_node.

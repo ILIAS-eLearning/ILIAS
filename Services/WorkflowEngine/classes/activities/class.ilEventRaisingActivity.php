@@ -34,7 +34,7 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
      * @param string $key
      * @param mixed  $value
      */
-    public function addFixedParam(string $key, mixed $value) : void
+    public function addFixedParam(string $key, $value) : void
     {
         $this->fixed_params[] = array('key' => $key, 'value' => $value);
     }

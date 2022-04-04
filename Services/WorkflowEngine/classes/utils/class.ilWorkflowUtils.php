@@ -31,10 +31,7 @@ class ilWorkflowUtils
         return time();
     }
 
-    /**
-     * @return mixed|string
-     */
-    public static function microtime() : mixed
+    public static function microtime()
     {
         if (defined('IL_PHPUNIT_TEST') && IL_PHPUNIT_TEST == true) {
             global $DIC;
