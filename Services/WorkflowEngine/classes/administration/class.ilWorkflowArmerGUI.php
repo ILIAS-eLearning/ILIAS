@@ -22,10 +22,10 @@ class ilWorkflowArmerGUI
     protected string $form_action;
 
     /** @var \ilLanguage $lng */
-    protected mixed $lng;
+    protected $lng;
 
     /** @var \ilTree $tree */
-    protected mixed $tree;
+    protected $tree;
 
     /**
      * ilWorkflowLauncherGUI constructor.

@@ -23,7 +23,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @var \ilEmitter Array of ilEmitter
      */
-    private ilEmitter|array $else_emitters;
+    private $else_emitters;
 
     /**
      * This holds a list of activities attached to the node.
@@ -31,7 +31,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @var \ilActivity Array of ilActivity
      */
-    private ilActivity|array $else_activities;
+    private $else_activities;
 
     /**
      * This holds the piece of code used to determine if the 'then' or the 'else'
@@ -261,7 +261,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @param ilDetector $detector ilDetector which is now satisfied.
      *
-     * @return mixed|void
+     * @return
      */
     public function notifyDetectorSatisfaction(ilDetector $detector) : void
     {

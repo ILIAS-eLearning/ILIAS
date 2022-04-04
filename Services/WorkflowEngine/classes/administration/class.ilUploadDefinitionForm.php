@@ -19,7 +19,7 @@ class ilUploadDefinitionForm
     protected ilPropertyFormGUI $form;
 
     /** @var \ilLanguage $lng */
-    protected mixed $lng;
+    protected $lng;
 
     public function __construct()
     {

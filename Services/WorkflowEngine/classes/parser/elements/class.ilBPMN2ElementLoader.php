@@ -26,11 +26,7 @@ class ilBPMN2ElementLoader
         $this->bpmn2_array = $bpmn2_array;
     }
 
-    /**
-     * @param string $element_name
-     * @return mixed
-     */
-    public function load(string $element_name) : mixed
+    public function load(string $element_name)
     {
         preg_match('/[A-Z]/', $element_name, $matches, PREG_OFFSET_CAPTURE);
         $type = strtolower(substr($element_name, (int) ($matches[0][1] ?? 0)));

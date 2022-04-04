@@ -14,18 +14,12 @@ abstract class ilBaseElement
     /** @var array $bpmn2_array */
     protected array $bpmn2_array;
 
-    /**
-     * @return mixed
-     */
-    public function getBpmn2Array() : mixed
+    public function getBpmn2Array()
     {
         return $this->bpmn2_array;
     }
 
-    /**
-     * @param mixed $bpmn2_array
-     */
-    public function setBpmn2Array(mixed $bpmn2_array)
+    public function setBpmn2Array($bpmn2_array)
     {
         $this->bpmn2_array = $bpmn2_array;
     }

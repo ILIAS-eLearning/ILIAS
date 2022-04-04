@@ -46,18 +46,12 @@ class ilCaseNode extends ilBaseNode
         $this->is_exclusive = false;
     }
 
-    /**
-     * @param mixed $is_exclusive
-     */
-    public function setIsExclusiveJoin(mixed $is_exclusive)
+    public function setIsExclusiveJoin($is_exclusive)
     {
         $this->is_exclusive_join = $is_exclusive;
     }
 
-    /**
-     * @param mixed $is_exclusive
-     */
-    public function setIsExclusiveFork(mixed $is_exclusive)
+    public function setIsExclusiveFork($is_exclusive)
     {
         $this->is_exclusive_fork = $is_exclusive;
     }

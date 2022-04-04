@@ -146,7 +146,7 @@ class ilWorkflowScaffold
     /**
      * @param mixed $workflow_name
      */
-    public function setWorkflowName(mixed $workflow_name)
+    public function setWorkflowName($workflow_name)
     {
         $this->workflow_name = $workflow_name;
     }
@@ -166,18 +166,12 @@ class ilWorkflowScaffold
         $this->auxilliary_methods = array();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getConstructorMethodContent() : mixed
+    public function getConstructorMethodContent()
     {
         return $this->constructor_method_content;
     }
 
-    /**
-     * @param mixed $constructor_method_content
-     */
-    public function setConstructorMethodContent(mixed $constructor_method_content)
+    public function setConstructorMethodContent($constructor_method_content)
     {
         $this->constructor_method_content = $constructor_method_content;
     }

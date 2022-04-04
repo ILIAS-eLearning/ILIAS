@@ -109,7 +109,7 @@ class ilBPMN2Parser
      * @param string $xml
      * @return mixed
      */
-    public function convertXmlToArray(string $xml) : mixed
+    public function convertXmlToArray(string $xml)
     {
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2ParserUtils.php';
         $xml_to_array_parser = new ilBPMN2ParserUtils();
@@ -163,7 +163,7 @@ class ilBPMN2Parser
      * @param array  $process
      * @return mixed
      */
-    public function determineWorkflowClassName(string $workflow_name, array $bpmn2_array, array $process) : mixed
+    public function determineWorkflowClassName(string $workflow_name, array $bpmn2_array, array $process)
     {
         $hasChildren = (isset($bpmn2_array['children']) && is_array($bpmn2_array['children']) && count($bpmn2_array['children']) > 0);
         if (!$workflow_name && !$hasChildren) {

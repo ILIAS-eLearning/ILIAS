@@ -21,7 +21,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @var ilWorkflowEngineElement
      */
-    private ilWorkflowEngineElement|ilNode $context;
+    private $context;
 
     /**
      * Holds the current detection state.
