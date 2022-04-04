@@ -36,6 +36,17 @@ il.UI.Input = il.UI.Input || {};
 		};
 
 		/**
+		 * Holds a list of translated messages that could be displayed to humans.
+		 * @type {{}}
+		 */
+		let I18N = {
+			invalid_mime: `Files of type '%s' are not allowed`,
+			invalid_size: `File exceeds the maximum size of %s.`,
+			invalid_amount: `You cannot upload this many files, please remove some in order to continue.`,
+			general_error: `An error occurred, check the console for more information.`,
+		}
+
+		/**
 		 * Holds whether the global event listeners were added.
 		 * @type {boolean}
 		 */
@@ -78,6 +89,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {int} max_file_size
 		 * @param {string} mime_types
 		 * @param {boolean} is_disabled
+		 * @param {string[]} translations
 		 */
 		let init = function (
 			input_id,
@@ -88,7 +100,8 @@ il.UI.Input = il.UI.Input || {};
 			max_file_amount,
 			max_file_size,
 			mime_types,
-			is_disabled
+			is_disabled,
+			translations
 		) {
 			if (typeof dropzones[input_id] !== 'undefined') {
 				console.error(`Error: tried to register input '${input_id}' as file input twice.`);
@@ -99,6 +112,9 @@ il.UI.Input = il.UI.Input || {};
 				disableActionButton(input_id);
 				return;
 			}
+
+			I18N = Object.assign(translations);
+			console.log(I18N);
 
 			// retrieve file-list and action button in vanilla js,
 			// because of dropzone.js compatibility.
@@ -286,7 +302,7 @@ il.UI.Input = il.UI.Input || {};
 			) {
 				dropzones[input_id].removeFile(file);
 				displayErrorMessage(
-					`Files of type '${file.type}' are not allowed`,
+					I18N.invalid_mime.replace('%s', file.type),
 					$(`#${input_id} ${SELECTOR.dropzone}`)
 				);
 
@@ -301,7 +317,7 @@ il.UI.Input = il.UI.Input || {};
 			if (dropzones[input_id].options.maxFileSize < file.size) {
 				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFileSize);
 				displayErrorMessage(
-					`File size exceeds the limit of ${allowed_file_size}.`,
+					I18N.invalid_size.replace('%s', allowed_file_size),
 					$(`#${input_id} ${SELECTOR.dropzone}`)
 				);
 
@@ -406,7 +422,7 @@ il.UI.Input = il.UI.Input || {};
 		let ajaxResponseFailureHook = function (response, file_preview) {
 			console.error(response.status, response.responseText);
 			displayErrorMessage(
-				'An error occurred, check the console for more information.',
+				I18N.general_error,
 				file_preview
 			);
 		}
@@ -557,7 +573,7 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let displayMaxFilesReachedMessage = function (input_id) {
 			displayErrorMessage(
-				'You cannot upload this many files, please remove a few in order to continue.',
+				I18N.invalid_amount,
 				$(`#${input_id} ${SELECTOR.dropzone}`)
 			);
 		}

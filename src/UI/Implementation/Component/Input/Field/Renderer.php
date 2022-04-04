@@ -849,6 +849,7 @@ class Renderer extends AbstractComponentRenderer
         return $input->withAdditionalOnLoadCode(
             function ($id) use ($input) {
                 $current_file_count = count($input->getDynamicInputs());
+                $translations = json_encode($input->getTranslations());
                 $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
                 return "
                     $(document).ready(function () {
@@ -861,7 +862,8 @@ class Renderer extends AbstractComponentRenderer
                             {$input->getMaxFiles()},
                             {$input->getMaxFileSize()},
                             '{$this->prepareDropzoneJsMimeTypes($input->getAcceptedMimeTypes())}',
-                            $is_disabled
+                            $is_disabled,
+                            $translations
                         );
                     });
                 ";

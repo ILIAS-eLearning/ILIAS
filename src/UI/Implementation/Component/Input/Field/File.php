@@ -87,6 +87,19 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         return $this->has_metadata_inputs;
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function getTranslations() : array
+    {
+        return [
+            'invalid_mime' => $this->language->txt('ui_file_input_invalid_mime'),
+            'invalid_size' => $this->language->txt('ui_file_input_invalid_size'),
+            'invalid_amount' => $this->language->txt('ui_file_input_invalid_amount'),
+            'general_error' => $this->language->txt('ui_file_input_general_error'),
+        ];
+    }
+
     public function getUpdateOnLoadCode() : Closure
     {
         return static function () {
