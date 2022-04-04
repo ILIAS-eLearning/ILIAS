@@ -360,5 +360,4 @@ class ilDBPdoPostgreSQL extends ilDBPdo
     ) : bool {
         return false;
     }
-    
 }

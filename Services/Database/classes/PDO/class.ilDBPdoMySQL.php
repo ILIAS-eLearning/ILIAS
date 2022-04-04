@@ -115,7 +115,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         $manager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
         $errors = [];
         foreach ($manager->listTables() as $table_name) {
-            if(!$this->migrateTableCollation($table_name, $collation)) {
+            if (!$this->migrateTableCollation($table_name, $collation)) {
                 $errors[] = $table_name;
             }
         }
