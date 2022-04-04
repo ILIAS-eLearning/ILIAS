@@ -33,21 +33,21 @@ abstract class ilBaseNode implements ilNode
      *
      * @var \ilDetector Array if ilDetector
      */
-    protected array $detectors;
+    protected $detectors;
 
     /**
      * This holds an array of emitters attached to this node.
      *
      * @var \ilEmitter Array of ilEmitter
      */
-    protected array $emitters;
+    protected $emitters;
 
     /**
      * This holds an array of activities attached to this node.
      *
      * @var \ilActivity Array of ilActivity
      */
-    protected array $activities;
+    protected $activities;
 
     /**
      * This holds the activation status of the node.
@@ -73,7 +73,7 @@ abstract class ilBaseNode implements ilNode
      *
      * @var boolean
      */
-    public bool $is_forward_condition_node;
+    public bool $is_forward_condition_node = false;
 
     /**
      * Adds a detector to the list of detectors.
@@ -88,10 +88,8 @@ abstract class ilBaseNode implements ilNode
 
     /**
      * Returns all currently set detectors
-     *
-     * @return ilDetector[] Array with objects of ilDetector
      */
-    public function getDetectors() : array
+    public function getDetectors()
     {
         return $this->detectors;
     }
@@ -108,10 +106,8 @@ abstract class ilBaseNode implements ilNode
 
     /**
      * Returns all currently set emitters
-     *
-     * @return ilEmitter[] Array with objects of ilEmitter
-     */
-    public function getEmitters(bool $else = false) : array
+      */
+    public function getEmitters(bool $else = false)
     {
         return $this->emitters;
     }
@@ -128,10 +124,8 @@ abstract class ilBaseNode implements ilNode
 
     /**
      * Returns all currently set activities
-     *
-     * @return ilActivity[] Array with objects of ilActivity
      */
-    public function getActivities() : array
+    public function getActivities()
     {
         return $this->activities;
     }

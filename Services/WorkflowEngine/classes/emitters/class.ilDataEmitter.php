@@ -22,10 +22,8 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 {
     /**
      * This holds a reference to the detector, which is to be triggered.
-     *
-     * @var ilDetector
      */
-    private ilDetector $target_detector;
+    private $target_detector;
 
     /**
      * This holds a reference to the parent ilNode.
@@ -65,10 +63,8 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
 
     /**
      * Gets the currently set target detector of this emitter.
-     *
-     * @return ilDetector Reference to the target detector.
      */
-    public function getTargetDetector() : ilDetector
+    public function getTargetDetector()
     {
         return $this->target_detector;
     }
@@ -78,7 +74,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilNode Reference to the parent node.
      */
-    public function getContext() : ilNode
+    public function getContext()
     {
         return $this->context;
     }

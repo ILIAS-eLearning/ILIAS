@@ -145,7 +145,7 @@ class ilPluginNode extends ilBaseNode
         if ($eval_function($this->detectors) === true) {
             $this->executeTransition();
             return true;
-        } else if (method_exists($this, 'executeElseTransition')){
+        } elseif (method_exists($this, 'executeElseTransition')) {
             $this->executeElseTransition();
             return true;
         }
@@ -288,7 +288,7 @@ class ilPluginNode extends ilBaseNode
      * @param boolean $else True, if else emitters should be returned.
      * @return Array Array with objects of ilEmitter
      */
-    public function getEmitters(bool $else = false ) : array
+    public function getEmitters(bool $else = false) : array
     {
         if ($else) {
             return $this->else_emitters;

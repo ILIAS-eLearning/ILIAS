@@ -159,7 +159,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @param ilNode $source_node
      */
-    public function setSourceNode(ilNode $source_node): void
+    public function setSourceNode(ilNode $source_node) : void
     {
         $this->source_node = $source_node;
     }

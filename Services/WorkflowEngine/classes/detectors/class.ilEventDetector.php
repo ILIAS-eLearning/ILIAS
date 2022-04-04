@@ -36,7 +36,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @var string Name of type of the event to be listened for.
      */
-    private string $event_type;
+    private string $event_type = '';
 
     /**
      * Holds the content of the event to listen to.
@@ -49,7 +49,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @var string Content of the event, nature, second qualifier.
      */
-    private string $event_content;
+    private string $event_content = '';
 
     /**
      * Holding the subject type of the event to be listened for.
@@ -59,7 +59,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @var string Name of the subject type.
      */
-    private string $event_subject_type;
+    private string $event_subject_type = '';
 
     /**
      * This is the actual identifier of the 'who'. If subject_type is a usr, this
@@ -68,7 +68,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @var integer Identifier of the events subject.
      *
      */
-    private $event_subject_identifier;
+    private $event_subject_identifier = 0;
 
     /**
      * Type of the event context.
@@ -80,7 +80,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @var string Type if the events context type.
      */
-    private string $event_context_type;
+    private string $event_context_type = '';
 
     /**
      * Identifier of the events context.
@@ -89,7 +89,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @var integer Identifier of the events context.
      */
-    private $event_context_identifier;
+    private $event_context_identifier = 0;
 
     /**
      * Holds the start of the listening period.
@@ -384,7 +384,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     }
 
     /** @var bool $was_activated */
-    public bool $was_activated;
+    public bool $was_activated = false;
 
     /**
      * @return bool

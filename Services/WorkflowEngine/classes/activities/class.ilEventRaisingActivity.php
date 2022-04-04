@@ -20,13 +20,13 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
     private $context;
 
     /** @var string $event_type Type of the event to be raised. */
-    protected string $event_type;
+    protected string $event_type = '';
 
     /** @var string $event_name Name of the event to be raised. */
-    protected string $event_name;
+    protected string $event_name = '';
 
     /** @var  array $fixed_params Fixed params that are always to be sent with the event. Will be overriden by context. */
-    protected array $fixed_params;
+    protected array $fixed_params = [];
 
     protected $name;
 

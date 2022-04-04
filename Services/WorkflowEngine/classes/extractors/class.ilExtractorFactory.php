@@ -14,7 +14,7 @@ class ilExtractorFactory
      * @param string $component
      * @return ilExtractor|stdClass
      */
-    public static function getExtractorByEventDescriptor(string $component) : ilExtractor|stdClass
+    public static function getExtractorByEventDescriptor(string $component)
     {
         require_once './Services/WorkflowEngine/classes/extractors/class.ilExtractedParams.php';
         $params_object = new ilExtractedParams();

@@ -137,7 +137,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      *@todo Use exceptions / internal logging.
      */
-    public function execute():void
+    public function execute() : void
     {
         /** @noinspection PhpIncludeInspection */
         require_once './' . $this->include_file;

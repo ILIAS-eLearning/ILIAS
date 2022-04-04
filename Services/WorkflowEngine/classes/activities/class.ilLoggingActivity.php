@@ -222,7 +222,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * Executes this action according to its settings.
      * @return void
      */
-    public function execute():void
+    public function execute() : void
     {
         $file_pointer = null;
         $file_pointer = $this->acquireFilePointer();
