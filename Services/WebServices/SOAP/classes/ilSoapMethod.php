@@ -19,7 +19,7 @@ interface ilSoapMethod
      * Get the input parameters. Array keys must correspond to parameter names and values must correspond
      * to a valid SOAP data-type
      * @return array
-     * @see ilNusoapUserAdministrationAdapter::__registerMethods() for examples
+     * @see ilNusoapUserAdministrationAdapter::registerMethods() for examples
      */
     public function getInputParams() : array;
 
