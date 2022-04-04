@@ -20,7 +20,6 @@
  */
 class arObjectCache
 {
-
     protected static array $cache = array();
 
     /**

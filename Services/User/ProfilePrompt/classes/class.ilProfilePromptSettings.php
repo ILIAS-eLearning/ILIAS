@@ -57,17 +57,11 @@ class ilProfilePromptSettings
 
     public function getInfoText(string $lang) : string
     {
-        if (isset($this->info_texts[$lang])) {
-            return $this->info_texts[$lang];
-        }
-        return "";
+        return $this->info_texts[$lang] ?? "";
     }
 
     public function getPromptText(string $lang) : string
     {
-        if (isset($this->prompt_texts[$lang])) {
-            return $this->prompt_texts[$lang];
-        }
-        return "";
+        return $this->prompt_texts[$lang] ?? "";
     }
 }

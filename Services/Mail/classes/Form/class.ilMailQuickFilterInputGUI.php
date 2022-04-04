@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\GlobalHttpState;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesMail
  */
 class ilMailQuickFilterInputGUI extends ilTextInputGUI
 {
-    protected ?\ILIAS\Refinery\Factory $refinery;
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected ?Factory $refinery;
+    protected GlobalHttpState $httpState;
 
     public function __construct($a_title, $a_postvar)
     {
-        /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
         
         $this->refinery = $DIC->refinery();

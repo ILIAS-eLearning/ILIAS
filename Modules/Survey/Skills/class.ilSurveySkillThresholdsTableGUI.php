@@ -85,15 +85,8 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
             $this->tref_id
         );
     }
-    
-    
-    /**
-     * Get levels
-     *
-     * @param
-     * @return
-     */
-    public function getLevels()
+
+    public function getLevels() : array
     {
         $bs = new ilBasicSkill($this->base_skill_id);
         return $bs->getLevelData();

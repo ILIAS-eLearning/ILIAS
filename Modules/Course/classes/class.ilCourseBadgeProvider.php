@@ -10,10 +10,9 @@ class ilCourseBadgeProvider implements ilBadgeProvider
 {
     public function getBadgeTypes() : array
     {
-        return array(
-            new ilCourseMeritBadge()
-            ,
+        return [
+            new ilCourseMeritBadge(),
             new ilCourseLPBadge()
-        );
+        ];
     }
 }

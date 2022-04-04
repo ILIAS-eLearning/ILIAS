@@ -74,7 +74,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
@@ -161,19 +161,9 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
-            $obi = $form->getInput("act")
-                ? (bool) $form->getInput("obi")
-                : null;
-        
             $handler = ilBadgeHandler::getInstance();
             $handler->setActive((bool) $form->getInput("act"));
-            $handler->setObiActive($obi);
-            $handler->setObiOrganisation(trim($form->getInput("obi_org")));
-            $handler->setObiContact(trim($form->getInput("obi_cont")));
-            $handler->setObiSalt(trim($form->getInput("obi_salt")));
-            
-            $handler->rebuildIssuerStaticUrl();
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
@@ -199,37 +189,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $act->setInfo($this->lng->txt("badge_service_activate_info"));
         $form->addItem($act);
 
-        /* see bug #0020124
-        $obi = new ilCheckboxInputGUI($this->lng->txt("badge_obi_activate"), "obi");
-        $obi->setInfo($this->lng->txt("badge_obi_activate_info"));
-        $form->addItem($obi);
-
-            $obi_org = new ilTextInputGUI($this->lng->txt("badge_obi_organisation"), "obi_org");
-            $obi_org->setRequired(true);
-            $obi_org->setInfo($this->lng->txt("badge_obi_organisation_info"));
-            $obi->addSubItem($obi_org);
-
-            $obi_contact = new ilEmailInputGUI($this->lng->txt("badge_obi_contact"), "obi_cont");
-            $obi_contact->setRequired(true);
-            $obi_contact->setInfo($this->lng->txt("badge_obi_contact_info"));
-            $obi->addSubItem($obi_contact);
-
-            $obi_salt = new ilTextInputGUI($this->lng->txt("badge_obi_salt"), "obi_salt");
-            $obi_salt->setRequired(true);
-            $obi_salt->setInfo($this->lng->txt("badge_obi_salt_info"));
-            $obi->addSubItem($obi_salt);
-        */
 
         $handler = ilBadgeHandler::getInstance();
         $act->setChecked($handler->isActive());
 
-        /* see bug 0020124
-        $obi->setChecked($handler->isObiActive());
-        $obi_org->setValue($handler->getObiOrganistation());
-        $obi_contact->setValue($handler->getObiContact());
-        $obi_salt->setValue($handler->getObiSalt());
-        */
-        
         return $form;
     }
     
@@ -262,7 +225,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $ids = $this->badge_request->getIds();
         if ($this->checkPermissionBool("write") && count($ids) > 0) {
             $handler = ilBadgeHandler::getInstance();
-            $inactive = array();
+            $inactive = [];
             foreach ($handler->getInactiveTypes() as $type) {
                 if (!in_array($type, $ids)) {
                     $inactive[] = $type;
@@ -355,7 +318,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         
         $img = new ilImageFileInputGUI($lng->txt("image"), "img");
         $img->setSuffixes(array("png", "svg"));
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $img->setRequired(true);
         }
         $img->setAllowDeletion(false);
@@ -379,7 +342,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $types->addOption(new ilCheckboxOption($type->getCaption(), $id));
         }
         
-        if ($a_mode == "create") {
+        if ($a_mode === "create") {
             $form->addCommandButton("saveImageTemplate", $lng->txt("save"));
         } else {
             $form->addCommandButton("updateImageTemplate", $lng->txt("save"));
@@ -477,7 +440,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $tmpl->setTitle($form->getInput("title"));
             
-            if ($form->getInput("tmode") != "all") {
+            if ($form->getInput("tmode") !== "all") {
                 $tmpl->setTypes($form->getInput("type"));
             } else {
                 $tmpl->setTypes(null);
@@ -724,7 +687,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $badge_id,
                 $container . " - " .
                 $badge->getTitle() .
-                " (" . sizeof(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")"
+                " (" . count(ilBadgeAssignment::getInstancesByBadgeId($badge_id)) . ")"
             );
         }
 

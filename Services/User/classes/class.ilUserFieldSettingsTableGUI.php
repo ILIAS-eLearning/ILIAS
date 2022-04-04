@@ -31,7 +31,6 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-        $lng = $DIC['lng'];
 
         $this->user_settings_config = new ilUserSettingsConfig();
 
@@ -206,7 +205,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_FIELD", $lng->txt($lv));
     }
 
-    public function setConfirmChange()
+    public function setConfirmChange() : void
     {
         $this->confirm_change = true;
     }

@@ -150,13 +150,13 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 
             foreach (ilBadgeAssignment::getInstancesByParentId($obj_id) as $ass) {
                 if ($a_restrict_badge_id &&
-                    $a_restrict_badge_id != $ass->getBadgeId()) {
+                    $a_restrict_badge_id !== $ass->getBadgeId()) {
                     continue;
                 }
                 
                 // when awarding we only want to see the current badge
                 if ($this->award_badge &&
-                    $ass->getBadgeId() != $this->award_badge->getId()) {
+                    $ass->getBadgeId() !== $this->award_badge->getId()) {
                     continue;
                 }
 

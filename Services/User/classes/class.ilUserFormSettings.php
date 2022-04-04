@@ -137,7 +137,7 @@ class ilUserFormSettings
         
         $this->reset();
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->settings = unserialize($row->settings);
+            $this->settings = unserialize($row->settings, ['allowed_classes' => false]);
         }
     }
         

@@ -2091,7 +2091,7 @@ class ilPageObjectGUI
         $offsets = [];
         $cpos = 0;
         while (is_int($pos = strpos($a_output, "ilPageTocH", $cpos))) {
-            $positions[] = $pos;
+            $offsets[] = $pos;
             $cpos = $pos + 1;
         }
 

@@ -196,13 +196,16 @@ class ilSessionControl
         self::debug(__METHOD__ . " --> update sessions type to (" . $type . ")");
                 
         // do not handle login event in fixed duration mode
-        if ((int) $ilSetting->get('session_handling_type', (string) 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', "0") != 1) {
             return true;
         }
                 
         if (in_array($type, self::$session_types_controlled)) {
-            return self::checkCurrentSessionIsAllowed($auth_session, $user_id);
+            self::checkCurrentSessionIsAllowed($auth_session, $user_id);
+            return true;
         }
+        //TODO make sure false does not break things
+        return false;
     }
 
     /**
@@ -235,7 +238,6 @@ class ilSessionControl
      *
      * @global ilSetting $ilSetting
      * @global ilAppEventHandler $ilAppEventHandler
-     * @param ilAuthSession $a_auth
      */
     private static function checkCurrentSessionIsAllowed(ilAuthSession $auth, int $a_user_id) : void
     {
@@ -314,10 +316,6 @@ class ilSessionControl
 
     /**
      * returns number of valid sessions relating to given session types
-     *
-     * @global ilDB $ilDB
-     * @param array $a_types
-     * @return num_sessions
      */
     public static function getExistingSessionCount(array $a_types) : int
     {
@@ -342,12 +340,9 @@ class ilSessionControl
      * and idled longer than min idle parameter, this method
      * deletes one of these sessions
      *
-     * @global ilDB $ilDB
-     * @global ilSetting $ilSetting
-     * @param array $a_types
-     * @return boolean $deletionSuccess
+     * @return boolean deletionSuccess
      */
-    private static function kickOneMinIdleSession(array $a_types) : bool
+    private static function kickOneMinIdleSession(array $a_types) : void
     {
         global $DIC;
 
@@ -373,20 +368,14 @@ class ilSessionControl
 
             self::debug(__METHOD__ . ' --> successfully deleted one min idle session');
 
-            return true;
+            return;
         }
-
         self::debug(__METHOD__ . ' --> no min idle session available for deletion');
-        
-        return false;
     }
 
     /**
      * kicks sessions of users that abidence after login
      * so people could not login and go for coffe break ;-)
-     *
-     * @global ilDB $ilDB
-     * @global ilSetting $ilSetting
      */
     private static function kickFirstRequestAbidencer(array $a_types) : void
     {
@@ -425,8 +414,6 @@ class ilSessionControl
      * checks if session exists for given id
      * and if it is still valid
      *
-     * @global	ilDB		$ilDB
-     * @global	ilSetting	$ilSetting
      * @return	boolean		session_valid
      */
     private static function isValidSession(string $a_sid) : bool
@@ -486,7 +473,7 @@ class ilSessionControl
      */
     private static function checkAdministrationPermission(int $a_user_id) : bool
     {
-        if (!(int) $a_user_id) {
+        if (!$a_user_id) {
             return false;
         }
 

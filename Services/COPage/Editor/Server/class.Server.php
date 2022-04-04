@@ -77,7 +77,7 @@ class Server
         }
 
         if ($handler === null) {
-            throw new Exception("Unknown Action " . ((string) $query));
+            throw new Exception("Unknown Component " . ((string) $query["component"]));
         }
         return $handler;
     }

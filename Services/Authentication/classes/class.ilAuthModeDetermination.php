@@ -26,7 +26,6 @@ class ilAuthModeDetermination
     
     private static ?ilAuthModeDetermination $instance = null;
     
-    private ilDBInterface $db;
     private ilLogger $logger;
     
     private ilSetting $settings;
@@ -46,7 +45,6 @@ class ilAuthModeDetermination
     {
         global $DIC;
       
-        $this->db = $DIC->database();
         $this->logger = $DIC->logger()->auth();
 
         $this->commonSettings = $DIC->settings();
@@ -100,7 +98,7 @@ class ilAuthModeDetermination
     public function getAuthModeSequence(string $a_username = '') : array
     {
         if (!strlen($a_username)) {
-            return $this->position ? $this->position : array();
+            return $this->position ?: array();
         }
         $sorted = array();
         
@@ -141,7 +139,7 @@ class ilAuthModeDetermination
      * @param array position => AUTH_MODE
      *
      */
-    public function setAuthModeSequence(array $a_pos) : int
+    public function setAuthModeSequence(array $a_pos) : void
     {
         $this->position = $a_pos;
     }
@@ -172,7 +170,7 @@ class ilAuthModeDetermination
         $rad_settings = ilRadiusSettings::_getInstance();
         $rad_active = $rad_settings->isActive();
 
-        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', (string) false);
+        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', "");
 
         // apache settings
         $apache_settings = new ilSetting('apache_auth');

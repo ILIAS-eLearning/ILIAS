@@ -28,9 +28,12 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
     private ServerRequestInterface $httpRequest;
     private ilCtrl $ctrl;
     private ilSetting $settings;
+    private ilLogger $logger;
 
     public function __construct(ServerRequestInterface $httpRequest, ilCtrl $ctrl)
     {
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = new ilSetting('apache_auth');

@@ -7,8 +7,6 @@ use PHPUnit\Framework\TestCase;
  */
 class LinkStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
     protected function tearDown() : void
     {
     }
@@ -27,7 +25,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testSelectedId()
+    public function testSelectedId() : void
     {
         $request = $this->getRequest(
             [
@@ -43,7 +41,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testDo()
+    public function testDo() : void
     {
         $request = $this->getRequest(
             [
@@ -59,7 +57,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testMediaPoolFolder()
+    public function testMediaPoolFolder() : void
     {
         $request = $this->getRequest(
             [
@@ -75,7 +73,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testLinkType()
+    public function testLinkType() : void
     {
         $request = $this->getRequest(
             [
@@ -91,7 +89,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testLinkParentObjId()
+    public function testLinkParentObjId() : void
     {
         $request = $this->getRequest(
             [
@@ -107,7 +105,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testLinkParentFolderId()
+    public function testLinkParentFolderId() : void
     {
         $request = $this->getRequest(
             [
@@ -123,7 +121,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testLinkParentRefId()
+    public function testLinkParentRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -139,7 +137,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testUserSearchString()
+    public function testUserSearchString() : void
     {
         $request = $this->getRequest(
             [

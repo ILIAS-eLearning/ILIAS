@@ -257,6 +257,7 @@ class ilPCPlugged extends ilPageContent
             }
 
             $plugin_info = $this->component_repository->getPluginByName($plugin_name);
+            $plugin_html = '';
             if ($plugin_info->isActive()) {
                 $plugin_obj = $this->component_factory->getPlugin($plugin_info->getId());
                 $plugin_obj->setPageObj($this->getPage());

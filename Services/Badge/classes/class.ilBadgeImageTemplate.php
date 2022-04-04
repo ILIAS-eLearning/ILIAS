@@ -24,6 +24,7 @@ class ilBadgeImageTemplate
     protected int $id;
     protected string $title;
     protected string $image;
+    /** @var string[] */
     protected array $types;
     
     public function __construct(int $a_id = null)
@@ -35,7 +36,10 @@ class ilBadgeImageTemplate
             $this->read($a_id);
         }
     }
-    
+
+    /**
+     * @return self[]
+     */
     public static function getInstances() : array
     {
         global $DIC;
@@ -62,18 +66,21 @@ class ilBadgeImageTemplate
                 
         return $res;
     }
-    
+
+    /**
+     * @param string $a_type_unique_id
+     * @return self[]
+     */
     public static function getInstancesByType(string $a_type_unique_id) : array
     {
-        $res = array();
-        
+        $res = [];
+
         foreach (self::getInstances() as $tmpl) {
-            if (!sizeof($tmpl->getTypes()) ||
-                in_array($a_type_unique_id, $tmpl->getTypes())) {
+            if (!count($tmpl->getTypes()) || in_array($a_type_unique_id, $tmpl->getTypes(), true)) {
                 $res[] = $tmpl;
             }
         }
-        
+
         return $res;
     }
     
@@ -106,7 +113,10 @@ class ilBadgeImageTemplate
     {
         $this->image = trim($a_value);
     }
-    
+
+    /**
+     * @return string[]
+     */
     public function getTypes() : array
     {
         return $this->types;
@@ -153,11 +163,11 @@ class ilBadgeImageTemplate
         if ($this->getId()) {
             if (is_file($this->getFilePath($this->getId()) . "img" . $this->getId())) {	// formerly (early 5.2 versino), images have been uploaded with no suffix
                 return $this->getFilePath($this->getId()) . "img" . $this->getId();
-            } else {
-                $exp = explode(".", $this->getImage());
-                $suffix = strtolower(array_pop($exp));
-                return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
             }
+
+            $exp = explode(".", $this->getImage());
+            $suffix = strtolower(array_pop($exp));
+            return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
         }
         return "";
     }
@@ -202,20 +212,19 @@ class ilBadgeImageTemplate
             $this->importDBRow($row);
         }
     }
-    
-    protected function readTypes(int $a_id) : array
+
+    protected function readTypes(int $a_id) : ?array
     {
         $ilDB = $this->db;
         
         $res = array();
         
-        $set = $ilDB->query("SELECT * FROM badge_image_templ_type" .
-            " WHERE tmpl_id = " . $ilDB->quote($a_id, "integer"));
+        $set = $ilDB->query("SELECT * FROM badge_image_templ_type WHERE tmpl_id = " . $ilDB->quote($a_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = $row["type_id"];
         }
-        
-        if (!sizeof($res)) {
+
+        if (!count($res)) {
             $res = null;
         }
         
@@ -279,18 +288,21 @@ class ilBadgeImageTemplate
         }
         
         $path = $this->getFilePath($this->getId());
-        ilUtil::delDir($path);
+        ilFileUtils::delDir($path);
         
         $ilDB->manipulate("DELETE FROM badge_image_template" .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
     }
-    
+
+    /**
+     * @return array<string, array>
+     */
     protected function getPropertiesForStorage() : array
     {
-        return array(
-            "title" => array("text", $this->getTitle()),
-            "image" => array("text", $this->getImage())
-        );
+        return [
+            "title" => ["text", $this->getTitle()],
+            "image" => ["text", $this->getImage()]
+        ];
     }
     
     protected function saveTypes() : void

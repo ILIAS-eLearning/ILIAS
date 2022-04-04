@@ -32,7 +32,7 @@ class ilCountPDFPagesPreProcessors implements PreProcessor
     /**
      * @inheritdoc
      */
-    public function process(FileStream $stream, Metadata $metadata): \ILIAS\FileUpload\DTO\ProcessingStatus
+    public function process(FileStream $stream, Metadata $metadata) : \ILIAS\FileUpload\DTO\ProcessingStatus
     {
         if ($metadata->getMimeType() == MimeType::APPLICATION__PDF
             && PATH_TO_GHOSTSCRIPT != ""

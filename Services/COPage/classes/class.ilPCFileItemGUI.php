@@ -78,12 +78,9 @@ class ilPCFileItemGUI extends ilPageContentGUI
         $fileObj->setTitle($_FILES["file"]["name"]);
         $fileObj->setDescription("");
         $fileObj->setFileName($_FILES["file"]["name"]);
-        $fileObj->setFileType($_FILES["file"]["type"]);
-        $fileObj->setFileSize($_FILES["file"]["size"]);
         $fileObj->setMode("filelist");
         $fileObj->create();
         // upload file to filesystem
-        $fileObj->createDirectory();
         global $DIC;
         $upload = $DIC->upload();
         if ($upload->hasBeenProcessed() !== true) {

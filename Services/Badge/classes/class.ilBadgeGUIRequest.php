@@ -78,6 +78,34 @@ class ilBadgeGUIRequest
         return (array) ($this->get($key, $t) ?? []);
     }
 
+    // get string array kindly
+    protected function strArray($key) : array
+    {
+        if (!$this->isArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to string
+                return array_column(
+                    array_map(
+                        function ($k, $v) {
+                            if (is_array($v)) {
+                                $v = "";
+                            }
+                            return [$k, \ilUtil::stripSlashes((string) $v)];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->get($key, $t) ?? []);
+    }
+
     /**
      * Check if parameter is an array
      */
@@ -115,10 +143,8 @@ class ilBadgeGUIRequest
     public function getBadgeIds() : array
     {
         $badge_ids = $this->intArray("badge_id");
-        if (count($badge_ids) == 0) {
-            if ($this->int("badge_id") > 0) {
-                $badge_ids = [$this->int("badge_id")];
-            }
+        if (count($badge_ids) === 0 && $this->int("badge_id") > 0) {
+            $badge_ids = [$this->int("badge_id")];
         }
         return $badge_ids;
     }
@@ -133,10 +159,10 @@ class ilBadgeGUIRequest
         return $this->int("id");
     }
 
-    /** @return int [] */
+    /** @return string[] */
     public function getIds() : array
     {
-        return $this->intArray("id");
+        return $this->strArray("id");
     }
 
     public function getType() : string

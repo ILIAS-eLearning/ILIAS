@@ -1,13 +1,16 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Filesystem\Stream\Streams;
+
 /**
  * Class ilManualPlaceholderInputGUI
  * @author Nadia Ahmad <nahmad@databay.de>
  */
 class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected GlobalHttpState $httpState;
     /**
      * @var array<string, array{placeholder: string, title: string}>
      */
@@ -18,11 +21,11 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     protected string $instructionText = '';
     protected string $adviseText = '';
     protected ilGlobalTemplateInterface $tpl;
+    /** @var mixed */
     protected $value;
 
     public function __construct(string $dependencyElementId)
     {
-        /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
 
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -118,7 +121,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
             $this->httpState->saveResponse(
                 $this->httpState
                     ->response()
-                    ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString($subtpl->get()))
+                    ->withBody(Streams::ofString($subtpl->get()))
             );
             $this->httpState->sendResponse();
             $this->httpState->close();

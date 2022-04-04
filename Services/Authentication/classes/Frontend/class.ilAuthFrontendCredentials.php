@@ -19,7 +19,7 @@
  */
 class ilAuthFrontendCredentials implements ilAuthCredentials
 {
-    protected ilLogger $logger;
+    private ilLogger $logger;
 
     private string $username = '';
     private string $password = '';
