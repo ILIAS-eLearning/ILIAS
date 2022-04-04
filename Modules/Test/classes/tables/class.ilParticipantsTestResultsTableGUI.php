@@ -135,7 +135,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("tst_tbl_col_final_mark"), 'final_mark');
         
         if ($this->isActionsColumnRequired()) {
-            $this->addColumn('', '', '');
+            $this->addColumn($this->lng->txt('actions'), '', '');
         }
     }
     
