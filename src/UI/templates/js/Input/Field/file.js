@@ -284,22 +284,43 @@ il.UI.Input = il.UI.Input || {};
 			if (dropzones[input_id].options.acceptedFiles !== null &&
 				!dropzones[input_id].options.acceptedFiles.includes(file.type)
 			) {
+				dropzones[input_id].removeFile(file);
 				displayErrorMessage(
 					`Files of type '${file.type}' are not allowed`,
 					$(`#${input_id} ${SELECTOR.dropzone}`)
-				)
+				);
+
+				// we need to remove the file manually from the dropzone becausee
+				// it (mistakenly?) gets added anyhow.
+				dropzones[input_id].removeFile(file);
+
+				return;
+			}
+
+			// abort if the given file size exceeds the max limit.
+			if (dropzones[input_id].options.maxFileSize < file.size) {
+				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFileSize);
+				displayErrorMessage(
+					`File size exceeds the limit of ${allowed_file_size}.`,
+					$(`#${input_id} ${SELECTOR.dropzone}`)
+				);
+
+				// we need to remove the file manually from the dropzone becausee
+				// it (mistakenly?) gets added anyhow.
+				dropzones[input_id].removeFile(file);
+
 				return;
 			}
 
 			let preview = il.UI.Input.DynamicInputsRenderer.render(input_id);
 			if (null === preview) {
 				console.error(`Error: could not append preview for newly added file: ${file}`);
-				return;
+				return false;
 			}
 
 			// add file info to preview and setup expansion toggles.
 			preview.find('[data-dz-name]').text(file.name);
-			preview.find('[data-dz-size]').text(beautifyFileSize(file.size));
+			preview.find('[data-dz-size]').html(dropzones[input_id].filesize(file.size));
 			setupExpansionGlyphs(preview);
 
 			// store rendered preview id temporarily in file, to retrieve
@@ -562,7 +583,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {jQuery} container
 		 */
 		let displayErrorMessage = function (message, container) {
-			container.find(SELECTOR.error_message).text(message);
+			container.find(SELECTOR.error_message).html(message);
 		}
 
 		/**
@@ -570,14 +591,6 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let removeErrorMessage = function (container) {
 			container.find(SELECTOR.error_message).text('');
-		}
-
-		/**
-		 * @param {int} bytes
-		 * @return {string}
-		 */
-		let beautifyFileSize = function (bytes) {
-			return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
 		}
 
 		// ==========================================
