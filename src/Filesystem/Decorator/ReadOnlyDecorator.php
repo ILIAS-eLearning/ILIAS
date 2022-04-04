@@ -41,7 +41,6 @@ use ILIAS\Filesystem\Visibility;
  */
 final class ReadOnlyDecorator implements Filesystem
 {
-
     private \ILIAS\Filesystem\Filesystem $filesystem;
 
 
@@ -77,7 +76,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS): void
+    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -86,7 +85,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function copyDir(string $source, string $destination): void
+    public function copyDir(string $source, string $destination) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -95,7 +94,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function deleteDir(string $path): void
+    public function deleteDir(string $path) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -187,7 +186,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function writeStream(string $path, FileStream $stream): void
+    public function writeStream(string $path, FileStream $stream) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -196,7 +195,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function putStream(string $path, FileStream $stream): void
+    public function putStream(string $path, FileStream $stream) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -205,7 +204,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function updateStream(string $path, FileStream $stream): void
+    public function updateStream(string $path, FileStream $stream) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -214,7 +213,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function write(string $path, string $content): void
+    public function write(string $path, string $content) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -223,7 +222,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function update(string $path, string $new_content): void
+    public function update(string $path, string $new_content) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -232,7 +231,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function put(string $path, string $content): void
+    public function put(string $path, string $content) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -241,7 +240,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function delete(string $path): void
+    public function delete(string $path) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -259,7 +258,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function rename(string $path, string $new_path): void
+    public function rename(string $path, string $new_path) : void
     {
         throw new IOException("FS has ready access only");
     }
@@ -268,7 +267,7 @@ final class ReadOnlyDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function copy(string $path, string $copy_path): void
+    public function copy(string $path, string $copy_path) : void
     {
         throw new IOException("FS has ready access only");
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -241,7 +241,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         return $_FILES[$this->getPostVar()];
     }
 
-    public function render($a_mode = "") : string
+    public function render(string $a_mode = "") : string
     {
         $lng = $this->lng;
         
@@ -259,7 +259,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
             $f_tpl->setVariable('TXT_FILENAME_HINT', $lng->txt('if_no_title_then_filename'));
             $f_tpl->parseCurrentBlock();
         } else {
-            if (trim($this->getValue() != "")) {
+            if (trim($this->getValue()) != "") {
                 if (!$this->getDisabled() && $this->getALlowDeletion()) {
                     $f_tpl->setCurrentBlock("delete_bl");
                     $f_tpl->setVariable("POST_VAR_D", $this->getPostVar());

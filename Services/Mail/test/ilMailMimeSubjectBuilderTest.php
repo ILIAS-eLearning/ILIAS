@@ -83,10 +83,9 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
 
     /**
      * @dataProvider subjectPrefixesProvider
-     * @param string|null $globalPrefix
      */
     public function testContextPrefixMustBePrependedWhenGivenAndPrefixShouldBeAppended(
-        $globalPrefix,
+        ?string $globalPrefix,
         string $contextPrefix,
         string $expectedSubject
     ) : void {

@@ -20,7 +20,7 @@ $GLOBALS["DIC"] = new \ILIAS\DI\Container();
  */
 class ilServicesWorkflowEngineSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilServicesWorkflowEngineSuite
     {
         error_reporting(E_ALL ^ E_NOTICE);
 

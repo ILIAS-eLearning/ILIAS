@@ -26,7 +26,7 @@ class PresentationRow implements T\PresentationRow
     protected Signal $show_signal;
     protected Signal $close_signal;
     protected Signal $toggle_signal;
-    private ?string $headline;
+    private ?string $headline = null;
     private ?string $subheadline = null;
     private array $important_fields = [];
     private Descriptive $content;

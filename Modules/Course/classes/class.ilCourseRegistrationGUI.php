@@ -399,13 +399,13 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 if ($this->container->getType() == "crs") {
                     $this->container->checkLPStatusSync($this->user->getId());
                 }
-
-                if (!$_SESSION["pending_goto"]) {
+                $pending_goto = ilSession::get('pending_goto');
+                if (!$pending_goto) {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("crs_subscription_successful"), true);
                     $this->ctrl->returnToParent($this);
                 } else {
-                    $tgt = $_SESSION["pending_goto"];
-                    unset($_SESSION["pending_goto"]);
+                    $tgt = $pending_goto;
+                    ilSession::clear('pending_goto');
                     ilUtil::redirect($tgt);
                 }
                 break;

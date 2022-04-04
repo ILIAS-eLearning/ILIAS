@@ -54,11 +54,7 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
      */
     public static function getPCProperties(string $a_id) : ?array
     {
-        if (isset(self::$pc_properties[$a_id])) {
-            return self::$pc_properties[$a_id];
-        } else {
-            return null;
-        }
+        return self::$pc_properties[$a_id] ?? null;
     }
 
     /**
@@ -77,11 +73,7 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
      */
     public static function getPCVersion(string $a_id) : ?string
     {
-        if (isset(self::$pc_version[$a_id])) {
-            return self::$pc_version[$a_id];
-        } else {
-            return null;
-        }
+        return self::$pc_version[$a_id] ?? null;
     }
 
 

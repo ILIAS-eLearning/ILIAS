@@ -93,8 +93,8 @@ class ilMailTest extends ilMailBaseTest
             ->method('getByPrefix')
             ->willReturnCallback(function ($arg) use ($loginToIdMap) {
                 return new class($arg, $loginToIdMap) implements ilMailAddressType {
-                    protected $loginToIdMap = [];
-                    protected $address;
+                    protected array $loginToIdMap = [];
+                    protected ilMailAddress $address;
 
                     public function __construct(ilMailAddress $address, $loginToIdMap)
                     {

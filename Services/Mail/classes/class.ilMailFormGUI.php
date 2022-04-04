@@ -4,6 +4,8 @@
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @author Jens Conze
@@ -32,9 +34,7 @@ class ilMailFormGUI
     private ilFileDataMail $mfile;
     private GlobalHttpState $http;
     private Refinery $refinery;
-    private int $requestMailObjId = 0;
     private ?array $requestAttachments = null;
-    private string $requestMailSubject = '';
     protected ilMailTemplateService $templateService;
     private ilMailBodyPurifier $purifier;
     private string $mail_form_type = '';
@@ -75,7 +75,7 @@ class ilMailFormGUI
         $this->ctrl->setParameter($this, 'mobj_id', $requestMailObjId);
     }
     
-    private function getQueryParam(string $name, \ILIAS\Refinery\Transformation $trafo, $default = null)
+    private function getQueryParam(string $name, Transformation $trafo, $default = null)
     {
         if ($this->http->wrapper()->query()->has($name)) {
             return $this->http->wrapper()->query()->retrieve(
@@ -87,7 +87,7 @@ class ilMailFormGUI
         return $default;
     }
 
-    private function getBodyParam(string $name, \ILIAS\Refinery\Transformation $trafo, $default = null)
+    private function getBodyParam(string $name, Transformation $trafo, $default = null)
     {
         if ($this->http->wrapper()->post()->has($name)) {
             return $this->http->wrapper()->post()->retrieve(
@@ -203,8 +203,7 @@ class ilMailFormGUI
                 '',
                 '',
                 '',
-                '',
-                false
+                ''
             );
 
             $this->ctrl->setParameterByClass(ilMailGUI::class, 'type', 'message_sent');
@@ -468,9 +467,9 @@ class ilMailFormGUI
             $this->http->saveResponse(
                 $this->http->response()
                     ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
-                    ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
+                    ->withBody(Streams::ofString(json_encode([
                         'm_subject' => $template->getSubject(),
-                        'm_message' => $template->getMessage() . $this->umail->appendSignature(),
+                        'm_message' => $this->umail->appendSignature($template->getMessage()),
                     ], JSON_THROW_ON_ERROR)))
             );
         } catch (Exception $e) {
@@ -520,10 +519,10 @@ class ilMailFormGUI
 
                 $mailData = $this->umail->getMail($mailId);
 
-                $mailData['m_subject'] = $this->umail->formatReplySubject();
-                $mailData['m_message'] = $this->umail->formatReplyMessage();
-                // TODO This looks strange, but it is correct. Further refactoring is needed.
-                $mailData['m_message'] = $this->umail->prependSignature();
+                $mailData['m_subject'] = $this->umail->formatReplySubject($mailData['m_subject'] ?? '');
+                $mailData['m_message'] = $this->umail->prependSignature(
+                    $this->umail->formatReplyMessage($mailData['m_message'] ?? '')
+                );
                 $mailData['attachments'] = [];
                 $mailData['rcp_cc'] = '';
                 $mailData['rcp_to'] = $this->umail->formatReplyRecipient();
@@ -576,8 +575,8 @@ class ilMailFormGUI
             case self::MAIL_FORM_TYPE_FORWARD:
                 $mailData = $this->umail->getMail($mailId);
                 $mailData['rcp_to'] = $mailData['rcp_cc'] = $mailData['rcp_bcc'] = '';
-                $mailData['m_subject'] = $this->umail->formatForwardSubject();
-                $mailData['m_message'] = $this->umail->prependSignature();
+                $mailData['m_subject'] = $this->umail->formatForwardSubject($mailData['m_subject'] ?? '');
+                $mailData['m_message'] = $this->umail->prependSignature($mailData['m_message'] ?? '');
                 if (is_array($mailData['attachments']) && count($mailData['attachments']) && $error = $this->mfile->adoptAttachments(
                     $mailData['attachments'],
                     $mailId
@@ -614,7 +613,7 @@ class ilMailFormGUI
                         . chr(13)
                         . chr(10);
                 }
-                $mailData['m_message'] .= $this->umail->appendSignature();
+                $mailData['m_message'] .= $this->umail->appendSignature($mailData['m_message']);
 
                 ilSession::set('rcp_to', '');
                 ilSession::set('rcp_cc', '');
@@ -659,7 +658,7 @@ class ilMailFormGUI
                 $mailData['m_message'] .= $additionalMessageText
                     . chr(13)
                     . chr(10)
-                    . $this->umail->appendSignature();
+                    . $this->umail->appendSignature($mailData['m_message']);
                 ilSession::set('mail_roles', []);
                 break;
         
@@ -798,7 +797,9 @@ class ilMailFormGUI
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
                             $template_chb->setValue($template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature();
+                            $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature(
+                                $mailData['m_message']
+                            );
                         }
                     }
                     if (isset($mailData['template_id'])) {
@@ -874,7 +875,7 @@ class ilMailFormGUI
             $this->http->saveResponse(
                 $this->http->response()
                     ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
-                    ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
+                    ->withBody(Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
             );
 
             $this->http->sendResponse();
@@ -891,7 +892,7 @@ class ilMailFormGUI
         $this->http->saveResponse(
             $this->http->response()
                 ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
-                ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
+                ->withBody(Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
         );
         $this->http->sendResponse();
         $this->http->close();

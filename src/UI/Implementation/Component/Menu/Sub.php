@@ -14,7 +14,6 @@ class Sub extends Menu implements IMenu\Sub
     protected bool $active = false;
 
     /**
-     * @param string $label
      * @param array <Sub|Component\Clickable|Component\Divider\Horizontal> $items
      */
     public function __construct(string $label, array $items)

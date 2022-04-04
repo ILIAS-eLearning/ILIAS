@@ -113,7 +113,7 @@ final class LocalConfig
     /**
      * @since 5.3
      */
-    public function getFileAccessPublic(): int
+    public function getFileAccessPublic() : int
     {
         return $this->fileAccessPublic;
     }
@@ -122,7 +122,7 @@ final class LocalConfig
     /**
      * @since 5.3
      */
-    public function getFileAccessPrivate(): int
+    public function getFileAccessPrivate() : int
     {
         return $this->fileAccessPrivate;
     }
@@ -131,7 +131,7 @@ final class LocalConfig
     /**
      * @since 5.3
      */
-    public function getDirectoryAccessPublic(): int
+    public function getDirectoryAccessPublic() : int
     {
         return $this->directoryAccessPublic;
     }
@@ -140,7 +140,7 @@ final class LocalConfig
     /**
      * @since 5.3
      */
-    public function getDirectoryAccessPrivate(): int
+    public function getDirectoryAccessPrivate() : int
     {
         return $this->directoryAccessPrivate;
     }
@@ -149,7 +149,7 @@ final class LocalConfig
     /**
      * @since 5.3
      */
-    public function getRootPath(): string
+    public function getRootPath() : string
     {
         return $this->rootPath;
     }
@@ -158,7 +158,7 @@ final class LocalConfig
     /**
      * @since 5.3
      */
-    public function getLockMode(): int
+    public function getLockMode() : int
     {
         return $this->lockMode;
     }
@@ -167,7 +167,7 @@ final class LocalConfig
     /**
      * @since 5.3
      */
-    public function getLinkBehaviour(): int
+    public function getLinkBehaviour() : int
     {
         return $this->linkBehaviour;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -70,7 +70,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
         
         $foundvalues = $this->getInput();
         if (count($foundvalues) > 0) {
-            foreach ($foundvalues as $idx => $value) {
+            foreach ($foundvalues as $value) {
                 if ($this->getRequired() && trim($value) == "") {
                     $this->setAlert($lng->txt("msg_input_is_required"));
                     return false;

@@ -42,6 +42,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
 
     public function withRequired($is_required) : Field\Input
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Input::withRequired($is_required);
     }
 

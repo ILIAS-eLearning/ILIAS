@@ -38,7 +38,7 @@ class shibConfig
     protected bool $update_street = false;
     protected string $city = '';
     protected bool $update_city = false;
-    protected int $zipcode = 0;
+    protected string $zipcode = '';
     protected bool $update_zipcode = false;
     protected string $country = '';
     protected bool $update_country = false;
@@ -60,7 +60,7 @@ class shibConfig
     protected bool $update_language = false;
     protected string $data_conv = '';
     protected bool $update_data_conv = false;
-    protected int $user_default_role = 4;
+    protected string $user_default_role = '4';
     protected bool $activate_new = false;
     protected static ?shibConfig $cache = null;
 
@@ -79,7 +79,7 @@ class shibConfig
         }
 
         if (!in_array(strtolower($this->getGender()), ['n', 'm', 'f'])) {
-            $this->setGender(null);
+            $this->setGender('');
         }
     }
 
@@ -97,6 +97,9 @@ class shibConfig
      */
     public function getValueByKey(string $key)
     {
+        if ($key === 'cache') {
+            return null;
+        }
         return $this->{$key};
     }
 
@@ -476,12 +479,12 @@ class shibConfig
         return $this->update_zipcode;
     }
 
-    public function setZipcode(int $zipcode) : void
+    public function setZipcode(string $zipcode) : void
     {
         $this->zipcode = $zipcode;
     }
 
-    public function getZipcode() : int
+    public function getZipcode() : string
     {
         return $this->zipcode;
     }

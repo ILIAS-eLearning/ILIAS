@@ -20,7 +20,6 @@
  */
 class arOrder extends arStatement
 {
-
     protected string $fieldname = '';
     protected string $direction = 'ASC';
 

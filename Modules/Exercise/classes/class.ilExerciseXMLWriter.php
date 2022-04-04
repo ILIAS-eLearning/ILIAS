@@ -2,16 +2,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * XML writer class
  * Class to simplify manual writing of xml documents.
@@ -23,14 +26,14 @@
  */
 class ilExerciseXMLWriter extends ilXmlWriter
 {
-    public static $CONTENT_ATTACH_NO = 0;
-    public static $CONTENT_ATTACH_ENCODED = 1;
-    public static $CONTENT_ATTACH_ZLIB_ENCODED = 2;
-    public static $CONTENT_ATTACH_GZIP_ENCODED = 3;
+    public static int $CONTENT_ATTACH_NO = 0;
+    public static int $CONTENT_ATTACH_ENCODED = 1;
+    public static int $CONTENT_ATTACH_ZLIB_ENCODED = 2;
+    public static int $CONTENT_ATTACH_GZIP_ENCODED = 3;
     
-    public static $STATUS_NOT_GRADED = "NOT_GRADED";
-    public static $STATUS_PASSED = "PASSED";
-    public static $STATUS_FAILED = "FAILED";
+    public static string $STATUS_NOT_GRADED = "NOT_GRADED";
+    public static string $STATUS_PASSED = "PASSED";
+    public static string $STATUS_FAILED = "FAILED";
 
     public bool $attachFileContents; // if true, file contents will be attached as base64
     public bool $attachMembers; // if true, members will be attach to xml
@@ -71,7 +74,7 @@ class ilExerciseXMLWriter extends ilXmlWriter
         
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_exc_" . $this->exercise->getId() );
         
-        if ($this->exercise->getOwner()) {
+        if ($this->exercise->getOwner() !== 0) {
             $attribs ["owner"] = "il_" . IL_INST_ID . "_usr_" . $this->exercise->getOwner();
         }
         
@@ -178,8 +181,8 @@ class ilExerciseXMLWriter extends ilXmlWriter
                 $this->xmlElement("Filename", null, $file ["name"]);
                 if ($this->attachFileContents) {
                     $filename = $file ["fullpath"];
-                    if (@is_file($filename)) {
-                        $content = @file_get_contents($filename);
+                    if (is_file($filename)) {
+                        $content = file_get_contents($filename);
                         $attribs = array("mode" => "PLAIN" );
                         if ($this->attachFileContents == ilExerciseXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED) {
                             $attribs = array("mode" => "ZLIB" );

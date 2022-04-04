@@ -39,7 +39,7 @@ class ilUploadFiles
     }
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     public static function _getUploadFiles() : array
     {

@@ -36,7 +36,7 @@ abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
      *         happens. You get the ilAuthCredentials and
      *         the user-selected (Sub-)-Mode as well.
      */
-    abstract public function getProvider(ilAuthCredentials $credentials, string $a_auth_mode) : ilAuthProviderInterface;
+    abstract public function getProvider(ilAuthCredentials $credentials, string $a_auth_id) : ilAuthProviderInterface;
 
     /**
      *
@@ -56,7 +56,7 @@ abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
      * @param string $id
      *            (can be your Mode or – if you have any – a Sub-mode.
      */
-    abstract public function isAuthActive(int $id) : bool;
+    abstract public function isAuthActive(int $a_auth_id) : bool;
 
     /**
      *

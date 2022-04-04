@@ -12,10 +12,23 @@
 * https://www.ilias.de
 * https://github.com/ILIAS-eLearning
 *
-/**
-* ILIAS language file (All entries)
-*
+********************************************************************
 */
+/**
+* ILIAS language file
+*
+* @module		language file German
+* @modulegroup	language
+* @author 		Matthias Kunkel <mkunkel@me.com>
+* @version		$Id$
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
@@ -2096,7 +2109,6 @@ auth#:#login_page_editor_switched#:#Der aktive Seiteneditor wurde geändert
 auth#:#login_page_switch_ipe#:#ILIAS Seiteneditor verwenden
 auth#:#login_page_switch_rte#:#Rich-Text-Editor verwenden
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
-* @author			Matthias Kunkel <mkunkel@me.com>
 auth#:#saml_tab_head_idp#:#IDP
 awrn#:#awareness_now_online#:#Jetzt online
 awrn#:#awareness_settings#:#Einstellungen
@@ -9694,7 +9706,6 @@ forum#:#thread#:#Thema
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
-// from the first line to the HTML-comment. After editing paste the lines in place again.
 glo#:#glo_add_from_other#:#Begriffe sammeln
 glo#:#glo_copy#:#Glossar kopieren
 glo#:#glo_copy_terms#:#Begriffe kopieren
@@ -10083,8 +10094,6 @@ jscalendar#:#time#:#Zeit
 jscalendar#:#today#:#Heute
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
-<!-- language file start -->
 ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
 ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
@@ -11804,8 +11813,6 @@ mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
 mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
 mob#:#mob_url#:#URL
-* @modulegroup		language
-* @module			language file German
 mst#:#mst_cert_issued_on#:#Ausgestellt am
 mst#:#mst_courses_of#:#Einschreibungen von %s
 mst#:#mst_download_certificate#:#Zertifikat herunterladen
@@ -11957,7 +11964,6 @@ notes#:#notes_sort_desc#:#Absteigend sortieren
 notes#:#note_update_comment#:#Kommentar aktualisieren
 notes#:#note_update_note#:#Notiz aktualisieren
 notes#:#note_without_object#:#Ohne Objektbezug
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 notification_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
 notification_adm#:#enable_osd#:#Popup-Screen Benachrichtigungen aktivieren
 notification_adm#:#notification_settings#:#Benachrichtigungseinstellungen
@@ -15990,8 +15996,6 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_templates#:#Ansicht
-// The language file starts beyond the HTML-comment below. DO NOT modify this line!
-// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 tos#:#tos_acceptance_history#:#Zustimmungshistorie
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
@@ -16067,7 +16071,6 @@ tos#:#tos_tbl_hist_head_login#:#Benutzername
 tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
 tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
-// to the corresponding mode!
 trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
 trac#:#cmix_lp_mode_when_completed#:#Abgeschlossen, wenn "completed".
@@ -16484,7 +16487,6 @@ validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als 
 validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
 validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
 validation#:#not_numeric#:#'%s' ist nicht nummerisch.
-* @version			$Id$
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 webr#:#invalid_links_tbl#:#Ungültige Links
 webr#:#webr_active#:#Aktiv

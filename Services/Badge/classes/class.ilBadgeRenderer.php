@@ -82,7 +82,7 @@ class ilBadgeRenderer
 
         if ($this->badge->getParentId()) {
             $parent = $this->badge->getParentMeta();
-            if ($parent["type"] != "bdga") {
+            if ($parent["type"] !== "bdga") {
                 $parent_icon = $this->factory->symbol()->icon()->custom(
                     ilObject::_getIcon((int) $parent["id"], "big", $parent["type"]),
                     $lng->txt("obj_" . $parent["type"])

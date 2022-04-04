@@ -79,8 +79,8 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
                         "comp" => $handler->getComponentCaption($component),
                         "name" => $badge_obj->getCaption(),
                         "manual" => (!$badge_obj instanceof ilBadgeAuto),
-                        "active" => !in_array($id, $inactive),
-                        "activity" => in_array("bdga", $badge_obj->getValidObjectTypes())
+                        "active" => !in_array($id, $inactive, true),
+                        "activity" => in_array("bdga", $badge_obj->getValidObjectTypes(), true)
                     );
                 }
             }

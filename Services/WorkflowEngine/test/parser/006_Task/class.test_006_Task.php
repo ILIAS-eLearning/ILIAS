@@ -12,20 +12,20 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 class test_006_Task extends ilWorkflowEngineBaseTest
 {
     #region Helper
-    public $base_path = './Services/WorkflowEngine/test/parser/';
-    public $suite_path = '006_Task/';
+    public string $base_path = './Services/WorkflowEngine/test/parser/';
+    public string $suite_path = '006_Task/';
 
-    public function getTestInputFilename($test_name)
+    public function getTestInputFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name)
+    public function getTestOutputFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name)
+    public function getTestGoldsampleFilename($test_name) : string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
@@ -120,7 +120,7 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public static $wasTriggered; // See test above.
+    public static bool $wasTriggered; // See test above.
 
     public static function triggerMe($context = "", $params = "") // See test above.
     {
@@ -207,11 +207,11 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public static $wasListRequestTriggered;
+    public static bool $wasListRequestTriggered;
     public static $callParams;
-    public static $retval = array(1,2,3,4,5);
+    public static array $retval = array(1, 2, 3, 4, 5);
 
-    public static function requestList($context, $params)
+    public static function requestList($context, $params) : array
     {
         self::$wasListRequestTriggered = true;
         self::$callParams = $params;
@@ -258,7 +258,7 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         }
         $this->assertTrue($all_triggered, 'Not all nodes were triggered.');
         $this->assertTrue(self::$wasListRequestTriggered, 'Static method call was not called.');
-        $this->assertEquals(self::$retval, $process->getInstanceVarById('DataObject_1'));
+        $this->assertEquals(self::$retval, $process->getInstanceVarById('DataObjectReference_1'));
 
         unlink($this->getTestOutputFilename($test_name));
     }

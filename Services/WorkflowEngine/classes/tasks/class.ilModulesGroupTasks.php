@@ -13,10 +13,9 @@ class ilModulesGroupTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function readMembersFromGroup($context, $params)
+    public static function readMembersFromGroup(ilNode $context, array $params) : array
     {
         /*
          * Modelling:
@@ -42,10 +41,9 @@ class ilModulesGroupTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function readAdminsFromGroup($context, $params)
+    public static function readAdminsFromGroup(ilNode $context, array $params) : array
     {
         /*
          * Modelling:
@@ -72,10 +70,8 @@ class ilModulesGroupTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
-     * @return array
      */
-    public static function assignMembersToGroup($context, $params)
+    public static function assignMembersToGroup(ilNode $context, array $params) : void
     {
         /*
          * Modelling:
@@ -96,15 +92,13 @@ class ilModulesGroupTasks
         foreach ($input_params['usrIdList'] as $user_id) {
             $members->add($user_id, ilParticipants::IL_GRP_MEMBER);
         }
-
-        return;
     }
 
     /**
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignAdminsToGroup($context, $params)
+    public static function assignAdminsToGroup(ilNode $context, array $params)
     {
         /*
          * Modelling:

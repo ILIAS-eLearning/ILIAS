@@ -38,7 +38,7 @@ class ilObjAuthSettings extends ilObject
             return false;
         }
 
-        $this->ilias->setSetting('ldap_active', true);
+        $this->ilias->setSetting('ldap_active', "1");
 
         return true;
     }
@@ -52,7 +52,7 @@ class ilObjAuthSettings extends ilObject
             return false;
         }
 
-        $this->ilias->setSetting('shibboleth_active', (string) true);
+        $this->ilias->setSetting('shibboleth_active', "1");
 
         return true;
     }
@@ -65,7 +65,7 @@ class ilObjAuthSettings extends ilObject
             return false;
         }
 
-        $this->ilias->setSetting('radius_active', (string) true);
+        $this->ilias->setSetting('radius_active', "1");
 
         return true;
     }
@@ -78,7 +78,7 @@ class ilObjAuthSettings extends ilObject
             return false;
         }
 
-        $this->ilias->setSetting('script_active', true);
+        $this->ilias->setSetting('script_active', "1");
 
         return true;
     }

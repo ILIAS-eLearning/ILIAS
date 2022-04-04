@@ -19,7 +19,7 @@ class Footer implements MainControls\Footer
     private array $links;
 
     /**
-     * @var array<Modal\RoundTrip, Button\Shy>
+     * @var [Modal\RoundTrip, Button\Shy][]
      */
     private array $modalsWithTriggers = [];
     protected ?URI $permanent_url = null;
@@ -54,6 +54,9 @@ class Footer implements MainControls\Footer
         return $this->permanent_url;
     }
 
+    /**
+     * @return array containing entries with [Modal\RoundTrip, Button\Shy]
+     */
     public function getModals() : array
     {
         return $this->modalsWithTriggers;

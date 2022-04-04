@@ -158,7 +158,7 @@ class ilCourseObjectivesGUI
 
     protected function listObjectives() : void
     {
-        $_SESSION['objective_mode'] = self::MODE_UNDEFINED;
+        ilSession::set('objective_mode', self::MODE_UNDEFINED);
         if (!$this->access->checkAccess("write", '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
@@ -403,7 +403,7 @@ class ilCourseObjectivesGUI
     public function create(?ilPropertyFormGUI $form) : void
     {
         $this->setSubTabs("create_obj");
-        $_SESSION['objective_mode'] = self::MODE_CREATE;
+        ilSession::set('objective_mode', self::MODE_CREATE);
 
         $this->ctrl->saveParameter($this, 'objective_id');
 
@@ -420,7 +420,7 @@ class ilCourseObjectivesGUI
 
     protected function edit(?ilPropertyFormGUI $form) : void
     {
-        $_SESSION['objective_mode'] = self::MODE_UPDATE;
+        ilSession::set('objective_mode', self::MODE_UPDATE);
         $this->setSubTabs("edit_obj");
         $this->ctrl->setParameter($this, 'objective_id', $this->initObjectiveIdFromQuery());
 
@@ -471,7 +471,7 @@ class ilCourseObjectivesGUI
             $this->create($form);
             return;
         }
-        if ($_SESSION['objective_mode'] != self::MODE_CREATE) {
+        if (ilSession::get('objective_mode') != self::MODE_CREATE) {
             $this->ctrl->returnToParent($this);
         }
         $this->ctrl->setParameter($this, 'objective_id', $objective_id);
@@ -555,7 +555,7 @@ class ilCourseObjectivesGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
-        if ($_SESSION['objective_mode'] != self::MODE_CREATE) {
+        if (ilSession::get('objective_mode') != self::MODE_CREATE) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'), true);
             $this->ctrl->returnToParent($this);
         }
@@ -650,7 +650,8 @@ class ilCourseObjectivesGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
             $this->selfAssessmentLimits();
         } else {
-            switch ($_SESSION['objective_mode']) {
+
+            switch (ilSession::get('objective_mode')) {
                 case self::MODE_CREATE:
                     $this->finalTestAssignment();
                     return;
@@ -1016,7 +1017,7 @@ class ilCourseObjectivesGUI
             $this->objectives_qst_obj->updateTest($test['test_objective_id']);
         }
 
-        if ($_SESSION['objective_mode'] != self::MODE_CREATE) {
+        if (ilSession::get('objective_mode') != self::MODE_CREATE) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         } else {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_added_objective'), true);

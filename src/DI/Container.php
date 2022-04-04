@@ -47,7 +47,7 @@ class Container extends \Pimple\Container
     /**
      * Get the interface to the control structure.
      */
-    public function ctrl() : \ilCtrl
+    public function ctrl() : \ilCtrlInterface
     {
         return $this["ilCtrl"];
     }
@@ -327,6 +327,11 @@ class Container extends \Pimple\Container
     public function testQuestionPool() : \ILIAS\TestQuestionPool\Service
     {
         return new \ILIAS\TestQuestionPool\Service($this);
+    }
+
+    public function workflowEngine() : \ILIAS\WorkflowEngine\Service
+    {
+        return new \ILIAS\WorkflowEngine\Service($this);
     }
 
     public function mediaPool() : \ILIAS\MediaPool\Service

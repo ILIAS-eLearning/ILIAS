@@ -47,6 +47,7 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider
                                    return "$('#$id').on('click', function() {
                                     console.log('trigger help slate');
                                     $('body').trigger('il-help-toggle-slate');
+                                    return false;
                                 })";
                                });
                            }

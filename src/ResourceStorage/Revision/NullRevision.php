@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Information\Information;
  */
 class NullRevision implements Revision
 {
-
     private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
     /**
@@ -69,7 +68,7 @@ class NullRevision implements Revision
         return new FileInformation();
     }
 
-    public function setInformation(Information $information)
+    public function setInformation(Information $information) : void
     {
     }
 
@@ -94,11 +93,11 @@ class NullRevision implements Revision
     public function setTitle(string $title) : Revision
     {
         // do nothing
+        return $this;
     }
 
     public function getTitle() : string
     {
         return '';
     }
-
 }

@@ -98,11 +98,13 @@ abstract class ilADTSearchBridge
         if (!$this->table_gui instanceof ilTable2GUI) {
             return;
         }
+        $session_table = (array) (ilSession::get("form_" . $this->table_gui->getId()) ?? []);
         if ($a_value !== null) {
-            $_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()] = serialize($a_value);
+            $session_table[$this->getElementId()] = serialize($a_value);
         } else {
-            unset($_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()]);
+            unset($session_table[$this->getElementId()]);
         }
+        ilSession::set("form_" . $this->table_gui->getId(), $session_table);
     }
 
     /**
@@ -114,7 +116,8 @@ abstract class ilADTSearchBridge
         if (!$this->table_gui instanceof ilTable2GUI) {
             return null;
         }
-        $value = $_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()];
+        $session_table = (array) (ilSession::get("form_" . $this->table_gui->getId()) ?? []);
+        $value = $session_table[$this->getElementId()] ?? '';
         if ($value) {
             return unserialize($value);
         }

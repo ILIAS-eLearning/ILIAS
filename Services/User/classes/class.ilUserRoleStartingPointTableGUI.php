@@ -95,7 +95,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
             }
 
             if ($point['rule_type'] == ilStartingPoint::ROLE_BASED) {
-                $options = unserialize($point['rule_options']);
+                $options = unserialize($point['rule_options'], ['allowed_classes' => false]);
 
                 $role_obj = ilObjectFactory::getInstanceByObjId($options['role_id'], false);
                 if (!($role_obj instanceof \ilObjRole)) {

@@ -16,10 +16,9 @@ class ilModulesOrgUnitExtractor extends ilBaseExtractor
     /**
      * @param string $event
      * @param array  $parameters
-     *
      * @return \ilExtractedParams
      */
-    public function extract($event, $parameters)
+    public function extract(string $event, array $parameters) : ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('orgunit');
 
@@ -43,7 +42,7 @@ class ilModulesOrgUnitExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractWithUser($parameters)
+    protected function extractWithUser(array $parameters) : void
     {
         $this->ilExtractedParams->setSubjectId($parameters['obj_id']);
         $this->ilExtractedParams->setContextType('usr_id');

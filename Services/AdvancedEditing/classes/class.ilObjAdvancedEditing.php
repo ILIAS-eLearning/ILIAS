@@ -42,70 +42,68 @@ class ilObjAdvancedEditing extends ilObject
     public static function _getUsedHTMLTags(string $a_module = "") : array
     {
         $setting = new ilSetting("advanced_editing");
-        $tags = $setting->get("advanced_editing_used_html_tags_" . $a_module);
-        if (strlen($tags)) {
-            $usedtags = unserialize($tags);
+        $tags = $setting->get("advanced_editing_used_html_tags_" . $a_module, '');
+        if ($tags !== '') {
+            $usedtags = unserialize($tags, ["allowed_classes" => false]);
+        } elseif ($a_module === 'frm_post' || $a_module === 'exc_ass') {
+            $usedtags = array(
+            "a",
+            "blockquote",
+            "br",
+            "code",
+            "div",
+            "em",
+            "img",
+            "li",
+            "ol",
+            "p",
+            "strong",
+            "u",
+            "ul",
+            "span"
+            );
         } else {
-            if ($a_module == 'frm_post' || $a_module == 'exc_ass') {
-                $usedtags = array(
-                "a",
-                "blockquote",
-                "br",
-                "code",
-                "div",
-                "em",
-                "img",
-                "li",
-                "ol",
-                "p",
-                "strong",
-                "u",
-                "ul",
-                "span"
-                );
-            } else {
-                // default: everything but tables
-                $usedtags = array(
-                "a",
-                "blockquote",
-                "br",
-                "cite",
-                "code",
-                "dd",
-                "div",
-                "dl",
-                "dt",
-                "em",
-                "h1",
-                "h2",
-                "h3",
-                "h4",
-                "h5",
-                "h6",
-                "hr",
-                "img",
-                "li",
-                "ol",
-                "p",
-                "pre",
-                "span",
-                "strike",
-                "strong",
-                "sub",
-                "sup",
-                "u",
-                "ul"
-                );
-            }
+            // default: everything but tables
+            $usedtags = array(
+            "a",
+            "blockquote",
+            "br",
+            "cite",
+            "code",
+            "dd",
+            "div",
+            "dl",
+            "dt",
+            "em",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "hr",
+            "img",
+            "li",
+            "ol",
+            "p",
+            "pre",
+            "span",
+            "strike",
+            "strong",
+            "sub",
+            "sup",
+            "u",
+            "ul"
+            );
         }
         
         // frm_posts need blockquote and div urgently
         if ($a_module === 'frm_post') {
-            if (!in_array('div', $usedtags)) {
+            if (!in_array('div', $usedtags, true)) {
                 $usedtags[] = 'div';
             }
             
-            if (!in_array('blockquote', $usedtags)) {
+            if (!in_array('blockquote', $usedtags, true)) {
                 $usedtags[] = 'blockquote';
             }
         }
@@ -121,7 +119,7 @@ class ilObjAdvancedEditing extends ilObject
     public static function _getUsedHTMLTagsAsString(string $a_module = "") : string
     {
         $result = "";
-        $tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
+        $tags = self::_getUsedHTMLTags($a_module);
         foreach ($tags as $tag) {
             $result .= "<$tag>";
         }
@@ -134,9 +132,7 @@ class ilObjAdvancedEditing extends ilObject
      */
     public static function _getRichTextEditor() : string
     {
-        $setting = new ilSetting("advanced_editing");
-        $js = $setting->get("advanced_editing_javascript_editor", "0");
-        return $js;
+        return (new ilSetting("advanced_editing"))->get("advanced_editing_javascript_editor", "0");
     }
     
     public function setRichTextEditor(string $a_js_editor) : void
@@ -157,16 +153,16 @@ class ilObjAdvancedEditing extends ilObject
     ) : void {
         $lng = $this->lng;
         
-        if (strlen($a_module)) {
+        if ($a_module !== '') {
             $auto_added_tags = array();
             
             // frm_posts need blockquote and div urgently
-            if ($a_module == 'frm_post') {
-                if (!in_array('div', $a_html_tags)) {
+            if ($a_module === 'frm_post') {
+                if (!in_array('div', $a_html_tags, true)) {
                     $auto_added_tags[] = 'div';
                 }
                 
-                if (!in_array('blockquote', $a_html_tags)) {
+                if (!in_array('blockquote', $a_html_tags, true)) {
                     $auto_added_tags[] = 'blockquote';
                 }
             }
@@ -242,7 +238,7 @@ class ilObjAdvancedEditing extends ilObject
      */
     public static function _getAllHTMLTags() : array
     {
-        $tags = array(
+        return array(
             "a",
             "abbr",
             "acronym",
@@ -330,7 +326,6 @@ class ilObjAdvancedEditing extends ilObject
             "rt",
             "rp"
         );
-        return $tags;
     }
 
     /**
@@ -353,7 +348,7 @@ class ilObjAdvancedEditing extends ilObject
         global $DIC;
 
         $ilUser = $DIC->user();
-        if (strlen($ilUser->getPref("show_rte")) > 0) {
+        if ($ilUser->getPref("show_rte") != '') {
             return (int) $ilUser->getPref("show_rte");
         }
         return 1;

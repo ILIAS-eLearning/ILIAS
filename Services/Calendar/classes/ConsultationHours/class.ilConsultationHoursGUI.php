@@ -264,8 +264,9 @@ class ilConsultationHoursGUI
      */
     public function assignUsersToAppointments(array $users)
     {
-        $unassigned_users = array();
-        foreach ($_SESSION['ch_apps'] as $app) {
+        $unassigned_users = [];
+        $ch_apps = (array) (ilSession::get('ch_apps') ?? []);
+        foreach ($ch_apps as $app) {
             $unassigned_users = array_unique(array_merge(
                 $unassigned_users,
                 $this->assignUsersToAppointment($users, $app, false)

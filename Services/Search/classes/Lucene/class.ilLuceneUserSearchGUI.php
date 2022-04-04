@@ -139,8 +139,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
             $this->showSearchForm();
             return;
         }
-        
-        unset($_SESSION['max_page']);// @TODO: PHP8 Review: Direct access to $_SESSION.
+        ilSession::clear('max_page');
         $this->search_cache->deleteCachedEntries();
         
         // Reset details

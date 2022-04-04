@@ -17,9 +17,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     protected string $thread_title = '';
     protected array $attachments = [];
     public ilForumPost $objPost;
-    private $db;
-    private $access;
-    private $user;
+    private ilDBInterface $db;
+    private ilAccessHandler $access;
+    private ilObjUser $user;
     protected bool $is_anonymized = false;
     private ilForumNotificationCache $notificationCache;
 

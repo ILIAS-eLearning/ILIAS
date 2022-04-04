@@ -8158,6 +8158,17 @@ ul.dropdown-menu > li > .btn:focus {
 .il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle.no-needle {
   stroke: transparent;
 }
+/*****************/
+/* Bar Chart */
+/*****************/
+.il-chart-bar-horizontal {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.il-chart-bar-vertical {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
 .il-standard-form {
   background-color: white;
   margin-top: 6px;
@@ -9727,35 +9738,35 @@ footer {
   line-height: 60px;
   border: 1px solid transparent;
 }
-.il-maincontrols-metabar .btn-bulky,
-.il-maincontrols-metabar .link-bulky {
+.il-maincontrols-metabar > li > .btn-bulky,
+.il-maincontrols-metabar > li > .link-bulky {
   background-color: transparent;
   height: 60px;
   min-width: 60px;
 }
 @media only screen and (max-width: 768px) {
-  .il-maincontrols-metabar .btn-bulky,
-  .il-maincontrols-metabar .link-bulky {
+  .il-maincontrols-metabar > li > .btn-bulky,
+  .il-maincontrols-metabar > li > .link-bulky {
     height: 45px;
     min-width: 45px;
   }
 }
-.il-maincontrols-metabar .btn-bulky:focus,
-.il-maincontrols-metabar .link-bulky:focus,
-.il-maincontrols-metabar .btn-bulky:active,
-.il-maincontrols-metabar .link-bulky:active {
+.il-maincontrols-metabar > li > .btn-bulky:focus,
+.il-maincontrols-metabar > li > .link-bulky:focus,
+.il-maincontrols-metabar > li > .btn-bulky:active,
+.il-maincontrols-metabar > li > .link-bulky:active {
   box-shadow: none;
 }
-.il-maincontrols-metabar .btn-bulky.engaged,
-.il-maincontrols-metabar .link-bulky.engaged {
+.il-maincontrols-metabar > li > .btn-bulky.engaged,
+.il-maincontrols-metabar > li > .link-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   border: none;
   color: initial;
   outline-color: transparent;
 }
-.il-maincontrols-metabar .btn-bulky .glyphicon,
-.il-maincontrols-metabar .link-bulky .glyphicon {
+.il-maincontrols-metabar > li > .btn-bulky .glyphicon,
+.il-maincontrols-metabar > li > .link-bulky .glyphicon {
   color: #737373;
   font-size: 2.3rem;
 }
@@ -18111,12 +18122,17 @@ span.ilProfileBadge .modal .img-responsive {
   height: auto;
 }
 .ilBadgeDeck .il-card img {
+  object-fit: contain;
   width: 75%;
-  height: auto;
+  height: 200px;
 }
 .ilBadgeDeck .icon img {
   width: 100%;
   height: auto;
+}
+.ilBadgeDeck .il-card img.medium {
+  width: 35px;
+  height: 35px;
 }
 .ilBadgeDeck .modal .img-responsive {
   margin: auto;

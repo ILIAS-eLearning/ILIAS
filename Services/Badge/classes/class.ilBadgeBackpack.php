@@ -41,7 +41,7 @@ class ilBadgeBackpack
         );
         
         if (!isset($json->status) ||
-            $json->status != "okay") {
+            $json->status !== "okay") {
             return false;
         }
         
@@ -69,7 +69,7 @@ class ilBadgeBackpack
         }
         return [];
     }
-    
+
     public function getBadges(string $a_group_id) : ?array
     {
         if ($this->authenticate()) {
@@ -77,22 +77,25 @@ class ilBadgeBackpack
                 self::URL_DISPLAYER . $this->uid . "/group/" . $a_group_id . ".json"
             );
             
-            if ($json->status &&
-                $json->status == "missing") {
+            if ($json === null) {
                 return null;
             }
-            
-            $result = array();
-            
+
+            if (property_exists($json, 'status') && $json->status === "missing") {
+                return null;
+            }
+
+            $result = [];
+
             foreach ($json->badges as $raw) {
                 $badge = $raw->assertion->badge;
-                                
+
                 // :TODO: not sure if this works reliably
                 $issued_on = is_numeric($raw->assertion->issued_on)
                     ? $raw->assertion->issued_on
                     : strtotime($raw->assertion->issued_on);
                 
-                $result[] = array(
+                $result[] = [
                     "title" => $badge->name,
                     "description" => $badge->description,
                     "image_url" => $badge->image,
@@ -100,7 +103,7 @@ class ilBadgeBackpack
                     "issuer_name" => $badge->issuer->name,
                     "issuer_url" => $badge->issuer->origin,
                     "issued_on" => new ilDate($issued_on, IL_CAL_UNIX)
-                );
+                ];
             }
             
             return $result;
@@ -134,15 +137,13 @@ class ilBadgeBackpack
 
             if ($a_is_post) {
                 $curl->setOpt(CURLOPT_POST, 1);
-                if (sizeof($a_param)) {
+                if (count($a_param)) {
                     $curl->setOpt(CURLOPT_POSTFIELDS, http_build_query($a_param));
                 }
             } else {
                 $curl->setOpt(CURLOPT_HTTPGET, 1);
-                if (sizeof($a_param)) {
-                    $a_url = $a_url .
-                        (strpos($a_url, "?") === false ? "?" : "") .
-                        http_build_query($a_param);
+                if (count($a_param)) {
+                    $a_url .= (strpos($a_url, "?") === false ? "?" : "") . http_build_query($a_param);
                 }
             }
             $curl->setOpt(CURLOPT_URL, $a_url);
@@ -153,6 +154,6 @@ class ilBadgeBackpack
             return null;
         }
         
-        return json_decode($answer);
+        return json_decode($answer, false, 512, JSON_THROW_ON_ERROR);
     }
 }

@@ -17,12 +17,9 @@
  * Shibboleth authentication provider
  *
  */
-class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderInterface
+class ilAuthProviderShibboleth extends ilAuthProvider
 {
-    /**
-     * Do apache auth
-     */
-    public function doAuthentication(\ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status) : bool
     {
         global $DIC; // for backwards compatibility of hook environment variables
         $ilias = $DIC['ilias'];
@@ -41,15 +38,18 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
                 // Modify user data before creating the user
                 // Include custom code that can be used to further modify
                 // certain Shibboleth user attributes
-                if ($ilias->getSetting('shib_data_conv') && $ilias->getSetting('shib_data_conv') != '' && is_readable($ilias->getSetting('shib_data_conv'))
+                if (
+                    $ilias->getSetting('shib_data_conv') &&
+                    $ilias->getSetting('shib_data_conv', '') !== '' &&
+                    is_readable($ilias->getSetting('shib_data_conv'))
                 ) {
                     /** @noRector */
                     include($ilias->getSetting('shib_data_conv'));
                 }
                 $shibUser = ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($shibUser);
                 $shibUser->create();
-                $shibUser->updateOwner();
                 $shibUser->saveAsNew();
+                $shibUser->updateOwner();
                 $shibUser->writePrefs();
                 $shibUser = ilShibbolethPluginWrapper::getInstance()->afterCreateUser($shibUser);
                 ilShibbolethRoleAssignmentRules::doAssignments($shibUser->getId(), $_SERVER);
@@ -57,7 +57,10 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
                 $shibUser->updateFields();
                 // Include custom code that can be used to further modify
                 // certain Shibboleth user attributes
-                if ($ilias->getSetting('shib_data_conv') && $ilias->getSetting('shib_data_conv') != '' && is_readable($ilias->getSetting('shib_data_conv'))
+                if (
+                    $ilias->getSetting('shib_data_conv') &&
+                    $ilias->getSetting('shib_data_conv') !== '' &&
+                    is_readable($ilias->getSetting('shib_data_conv'))
                 ) {
                     /** @noRector */
                     include($ilias->getSetting('shib_data_conv'));
@@ -71,11 +74,10 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
 
             $settings = new ilShibbolethSettings();
 
-
-            if (($newUser && !$settings->adminMustActivate()) || !$newUser) {
+            if (!$newUser || !$settings->adminMustActivate()) {
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
                 $status->setAuthenticatedUserId(ilObjUser::_lookupId($shibUser->getLogin()));
-            } elseif ($newUser && $settings->adminMustActivate()) {
+            } elseif ($settings->adminMustActivate()) {
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
                 $status->setReason('err_inactive');
             }
@@ -84,5 +86,7 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
         }
+
+        return true;
     }
 }

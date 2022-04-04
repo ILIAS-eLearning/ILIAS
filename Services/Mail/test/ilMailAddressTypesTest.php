@@ -22,7 +22,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             ->getMock();
     }
 
-    private function getAddressTypeFactory(PHPUnit\Framework\MockObject\MockObject $groupNameValidatorMock) : ilMailAddressTypeFactory
+    private function getAddressTypeFactory(ilGroupNameAsMailValidator $groupNameValidatorMock) : ilMailAddressTypeFactory
     {
         $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();

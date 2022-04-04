@@ -42,7 +42,6 @@ use ILIAS\Filesystem\Visibility;
  */
 final class FilesystemWhitelistDecorator implements Filesystem
 {
-
     private Filesystem $filesystem;
     private FilenameSanitizer $sanitizer;
 
@@ -81,7 +80,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS): void
+    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS) : void
     {
         $this->filesystem->createDir($path, $visibility);
     }
@@ -90,7 +89,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function copyDir(string $source, string $destination): void
+    public function copyDir(string $source, string $destination) : void
     {
         $this->ensureDirectoryExistence($source);
         $this->ensureEmptyDirectory($destination);
@@ -117,7 +116,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function deleteDir(string $path): void
+    public function deleteDir(string $path) : void
     {
         $this->filesystem->deleteDir($path);
     }
@@ -204,7 +203,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function writeStream(string $path, FileStream $stream): void
+    public function writeStream(string $path, FileStream $stream) : void
     {
         $this->filesystem->writeStream($this->sanitizer->sanitize($path), $stream);
     }
@@ -213,7 +212,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function putStream(string $path, FileStream $stream): void
+    public function putStream(string $path, FileStream $stream) : void
     {
         $this->filesystem->putStream($this->sanitizer->sanitize($path), $stream);
     }
@@ -222,7 +221,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function updateStream(string $path, FileStream $stream): void
+    public function updateStream(string $path, FileStream $stream) : void
     {
         $this->filesystem->updateStream($this->sanitizer->sanitize($path), $stream);
     }
@@ -231,7 +230,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function write(string $path, string $content): void
+    public function write(string $path, string $content) : void
     {
         $this->filesystem->write($this->sanitizer->sanitize($path), $content);
     }
@@ -240,7 +239,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function update(string $path, string $new_content): void
+    public function update(string $path, string $new_content) : void
     {
         $this->filesystem->update($this->sanitizer->sanitize($path), $new_content);
     }
@@ -249,7 +248,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function put(string $path, string $content): void
+    public function put(string $path, string $content) : void
     {
         $this->filesystem->put($this->sanitizer->sanitize($path), $content);
     }
@@ -258,7 +257,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function delete(string $path): void
+    public function delete(string $path) : void
     {
         $this->filesystem->delete($path);
     }
@@ -276,7 +275,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function rename(string $path, string $new_path): void
+    public function rename(string $path, string $new_path) : void
     {
         $this->filesystem->rename(
             $path,
@@ -288,7 +287,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
     /**
      * @inheritDoc
      */
-    public function copy(string $path, string $copy_path): void
+    public function copy(string $path, string $copy_path) : void
     {
         $this->filesystem->copy(
             $path,
@@ -304,7 +303,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
      *
      * @throws IOException Thrown if the metadata of the path can not be fetched.
      */
-    private function ensureEmptyDirectory(string $path): void
+    private function ensureEmptyDirectory(string $path) : void
     {
 
         //check if destination dir is empty
@@ -327,7 +326,7 @@ final class FilesystemWhitelistDecorator implements Filesystem
      *
      * @throws DirectoryNotFoundException Thrown if the directory was not found.
      */
-    private function ensureDirectoryExistence(string $path): void
+    private function ensureDirectoryExistence(string $path) : void
     {
         if (!$this->hasDir($path)) {
             throw new DirectoryNotFoundException("Directory \"$path\" not found.");

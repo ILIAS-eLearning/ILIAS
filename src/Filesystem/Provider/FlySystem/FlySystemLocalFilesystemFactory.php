@@ -42,7 +42,7 @@ final class FlySystemLocalFilesystemFactory
      *
      * @param LocalConfig $config The configuration which should be used to initialise the adapter.
      */
-    public function getInstance(LocalConfig $config): \ILIAS\Filesystem\FilesystemFacade
+    public function getInstance(LocalConfig $config) : \ILIAS\Filesystem\FilesystemFacade
     {
         $this->validateFileLockMode($config->getLockMode());
 
@@ -60,7 +60,7 @@ final class FlySystemLocalFilesystemFactory
                     self::PUBLIC_ACCESS_KEY => $config->getDirectoryAccessPublic()
                 ]
             ]
-            );
+        );
 
         //switch the path separator to a forward slash, see Mantis 0022554
         $reflection = new \ReflectionObject($adapter);
@@ -120,7 +120,7 @@ final class FlySystemLocalFilesystemFactory
      * @see LOCK_SH
      * @see LOCK_EX
      */
-    private function validateFileLockMode(int $code): void
+    private function validateFileLockMode(int $code) : void
     {
         if ($code === LOCK_EX || $code === LOCK_SH) {
             return;

@@ -20,7 +20,6 @@
  */
 class arBuilder
 {
-
     protected ActiveRecord $ar;
     protected ?int $step = null;
 

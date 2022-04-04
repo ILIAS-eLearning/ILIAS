@@ -4,12 +4,13 @@ namespace ILIAS\Mail\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMailGlobalServices;
 use DateTimeImmutable;
 use ilDateTime;
 use ilDatePresentation;
+use Throwable;
+use ILIAS\UI\Component\Item\Notification;
 
 /**
  * Class MailNotificationProvider
@@ -79,6 +80,7 @@ class MailNotificationProvider extends AbstractNotificationProvider
             $mailUrl
         );
 
+        /** @var Notification $notificationItem */
         $notificationItem = $this->dic->ui()->factory()
             ->item()
             ->notification($title, $icon)
@@ -91,7 +93,7 @@ class MailNotificationProvider extends AbstractNotificationProvider
                     new ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
                 ),
             ]);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
         }
 
         $group = $factory->standardGroup($id('mail_bucket_group'))

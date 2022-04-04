@@ -37,5 +37,4 @@ class AbsolutePathConsumer extends BaseConsumer
 
         $this->absolute_path = (string) $stream->getMetadata('uri');
     }
-
 }

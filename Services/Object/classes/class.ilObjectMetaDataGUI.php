@@ -207,7 +207,7 @@ class ilObjectMetaDataGUI
         return $this->tax_obj_gui;
     }
 
-    public function addMDObserver(ilObject $class, string $method, string $section) : void
+    public function addMDObserver(object $class, string $method, string $section) : void
     {
         $this->md_observers[] = [
             "class" => $class,

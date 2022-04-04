@@ -27,7 +27,6 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface InformationRepository extends LockingRepository, PreloadableRepository
 {
-    
     public function blank() : Information;
 
 

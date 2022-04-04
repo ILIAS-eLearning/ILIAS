@@ -39,7 +39,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @var string PHP code to be executed to determine the 'decision' of the node.
      */
-    private $evaluation_expression = "return null;";
+    private string $evaluation_expression = "return null;";
 
     /**
      * Default constructor.
@@ -59,7 +59,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Activates the node.
      */
-    public function activate()
+    public function activate() : void
     {
         $this->active = true;
         foreach ($this->detectors as $detector) {
@@ -72,7 +72,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Deactivates the node.
      */
-    public function deactivate()
+    public function deactivate() : void
     {
         $this->active = false;
         foreach ($this->detectors as $detector) {
@@ -83,12 +83,8 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Passes a trigger to attached detectors.
-     * @deprecated
-     *
-     * @param type $a_type
-     * @param type $a_params
      */
-    public function trigger($a_type, $a_params = null)
+    public function trigger($a_type, $a_params = null) : void
     {
         if ($this->active == true && count($this->detectors) != 0) {
             foreach ($this->detectors as $detector) {
@@ -109,7 +105,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @return boolean True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions()
+    public function checkTransitionPreconditions() : bool
     {
         // TODO Call Plugin here.
         $eval_function = function ($detectors) {
@@ -135,7 +131,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @return boolean True, if transition succeeded.
      */
-    public function attemptTransition()
+    public function attemptTransition() : bool
     {
         // TODO Call Plugin here.
         $eval_function = function ($detectors) {
@@ -149,10 +145,11 @@ class ilPluginNode extends ilBaseNode
         if ($eval_function($this->detectors) === true) {
             $this->executeTransition();
             return true;
-        } else {
+        } elseif (method_exists($this, 'executeElseTransition')) {
             $this->executeElseTransition();
             return true;
         }
+        return false;
     }
 
     /**
@@ -191,13 +188,12 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Adds an emitter to one of the lists attached to the node.
-     *
      * @param ilEmitter $emitter
      * @param boolean   $else_emitter True, if the emitter should be an 'else'-emitter.
      */
-    public function addEmitter(ilEmitter $emitter, $else_emitter = false)
+    public function addEmitter(ilEmitter $emitter, bool $else = false) : void
     {
-        if (!$else_emitter) {
+        if (!$else) {
             $this->emitters[] = $emitter;
         } else {
             $this->else_emitters[] = $emitter;
@@ -206,13 +202,12 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Adds an activity to one of the lists attached to the node.
-     *
      * @param ilActivity $activity
      * @param boolean    $else_activity True, if the activity should be an 'else'-activity.
      */
-    public function addActivity(ilActivity $activity, $else_activity = false)
+    public function addActivity(ilActivity $activity, bool $else = false) : void
     {
-        if (!$else_activity) {
+        if (!$else) {
             $this->activities[] = $activity;
         } else {
             $this->else_activities[] = $activity;
@@ -255,7 +250,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @var string PHP code to be executed to determine the 'decision' of the node.
      */
-    public function setEvaluationExpression($a_expression)
+    public function setEvaluationExpression($a_expression) : void
     {
         // TODO Rework to use a Plugin here.
         $this->evaluation_expression = $a_expression;
@@ -266,9 +261,9 @@ class ilPluginNode extends ilBaseNode
      *
      * @param ilDetector $detector ilDetector which is now satisfied.
      *
-     * @return mixed|void
+     * @return
      */
-    public function notifyDetectorSatisfaction(ilDetector $detector)
+    public function notifyDetectorSatisfaction(ilDetector $detector) : void
     {
         if ($this->isActive()) {
             $this->attemptTransition();
@@ -277,12 +272,10 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Returns all currently set activites
-     *
      * @param boolean $else True, if else activities should be returned.
-     *
      * @return Array Array with objects of ilActivity
      */
-    public function getActivities($else = false)
+    public function getActivities(bool $else = false) : array
     {
         if ($else) {
             return $this->else_activities;
@@ -292,12 +285,10 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Returns all currently set emitters
-     *
      * @param boolean $else True, if else emitters should be returned.
-     *
      * @return Array Array with objects of ilEmitter
      */
-    public function getEmitters($else = false)
+    public function getEmitters(bool $else = false) : array
     {
         if ($else) {
             return $this->else_emitters;

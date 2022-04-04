@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
@@ -52,7 +66,7 @@ class ilObjExercise extends ilObject
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -120,7 +134,7 @@ class ilObjExercise extends ilObject
     /**
      * @param string $a_val (self::PASS_MODE_NR, self::PASS_MODE_ALL, self::PASS_MODE_RANDOM)
      */
-    public function setPassMode(string $a_val)
+    public function setPassMode(string $a_val) : void
     {
         $this->pass_mode = $a_val;
     }
@@ -146,7 +160,7 @@ class ilObjExercise extends ilObject
     /**
      * @param bool $a_val whether submissions of learners should be shown to other learners after deadline
      */
-    public function setShowSubmissions(bool $a_val)
+    public function setShowSubmissions(bool $a_val) : void
     {
         $this->show_submissions = $a_val;
     }
@@ -178,17 +192,17 @@ class ilObjExercise extends ilObject
             $this->year == (int) date("Y", $this->timestamp);
     }
 
-    public function hasTutorFeedbackText() : bool
+    public function hasTutorFeedbackText() : int
     {
         return $this->tutor_feedback & self::TUTOR_FEEDBACK_TEXT;
     }
     
-    public function hasTutorFeedbackMail() : bool
+    public function hasTutorFeedbackMail() : int
     {
         return $this->tutor_feedback & self::TUTOR_FEEDBACK_MAIL;
     }
     
-    public function hasTutorFeedbackFile() : bool
+    public function hasTutorFeedbackFile() : int
     {
         return $this->tutor_feedback & self::TUTOR_FEEDBACK_FILE;
     }
@@ -198,7 +212,7 @@ class ilObjExercise extends ilObject
         return $this->tutor_feedback;
     }
     
-    public function setTutorFeedback(int $a_value)
+    public function setTutorFeedback(int $a_value) : void
     {
         $this->tutor_feedback = $a_value;
     }
@@ -427,7 +441,7 @@ class ilObjExercise extends ilObject
         $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
         $files = $storage->getFiles();
         $mfile_obj = null;
-        if (count($files)) {
+        if ($files !== []) {
             $mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
             foreach ($files as $file) {
                 $mfile_obj->copyAttachmentFile($file["fullpath"], $file["name"]);
@@ -458,7 +472,7 @@ class ilObjExercise extends ilObject
         unset($tmp_mail_obj);
 
         // remove tmp files
-        if (sizeof($file_names) && $mfile_obj) {
+        if (count($file_names) && $mfile_obj) {
             $mfile_obj->unlinkFiles($file_names);
             unset($mfile_obj);
         }
@@ -714,7 +728,7 @@ class ilObjExercise extends ilObject
     }
     
     // Enabled/Disable completion by submission
-    public function setCompletionBySubmission(bool $bool) : ilObjExercise
+    public function setCompletionBySubmission(bool $bool) : self
     {
         $this->completion_by_submission = $bool;
         
@@ -729,7 +743,7 @@ class ilObjExercise extends ilObject
         array $a_user_ids,
         bool $a_has_submitted,
         array $a_valid_submissions = null
-    ) {
+    ) : void {
         foreach ($a_user_ids as $user_id) {
             $member_status = $a_ass->getMemberStatus($user_id);
             $member_status->setReturned($a_has_submitted);
@@ -785,7 +799,7 @@ class ilObjExercise extends ilObject
      */
     public function getCertificateVisibility() : int
     {
-        return (strlen($this->certificate_visibility)) ? $this->certificate_visibility : 0;
+        return (strlen($this->certificate_visibility) !== 0) ? $this->certificate_visibility : 0;
     }
 
     /**

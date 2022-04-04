@@ -4,7 +4,6 @@
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\UI;
 
 class ilMailSetupAgent implements Setup\Agent
 {

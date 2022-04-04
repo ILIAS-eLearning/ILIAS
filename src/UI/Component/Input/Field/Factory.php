@@ -38,8 +38,8 @@ interface Factory
      *         of text-input may not be exceeded (e.g. due to database-limitations).
      *
      * ---
-     * @param    string      $label
-     * @param    string|null $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Text
      */
     public function text(string $label, string $byline = null) : Text;
@@ -63,9 +63,12 @@ interface Factory
      *         options MUST NOT be used.
      *     3: A valid input range SHOULD be specified.
      *
+     *
+     *
+     *
      * ---
-     * @param    string      $label
-     * @param    string|null $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Numeric
      */
     public function numeric(string $label, string $byline = null) : Numeric;

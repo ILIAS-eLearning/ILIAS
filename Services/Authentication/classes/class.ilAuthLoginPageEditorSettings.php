@@ -103,7 +103,6 @@ class ilAuthLoginPageEditorSettings
 
     /**
      * Check if ilias editor is enabled for a language
-     * @param string $a_langkey
      */
     public function isIliasEditorEnabled(string $a_langkey) : bool
     {
@@ -134,8 +133,8 @@ class ilAuthLoginPageEditorSettings
 
         // Language settings
         $this->languages = [];
-        foreach (array_values($this->lng->getInstalledLanguages()) as $lngkey) {
-            $this->enableIliasEditor($lngkey, (bool) $this->getStorage()->get($lngkey, (string) false));
+        foreach ($this->lng->getInstalledLanguages() as $lngkey) {
+            $this->enableIliasEditor($lngkey, (bool) $this->getStorage()->get($lngkey, ""));
         }
     }
 }

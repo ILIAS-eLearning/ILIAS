@@ -1242,7 +1242,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         );
         //$this->setBasicTableCellStyles();
         $this->setCharacteristics([]);
-        $this->getCharacteristicsOfCurrentStyle("media_caption");
+        $this->getCharacteristicsOfCurrentStyle(["media_caption"]);
         $chars = $this->getCharacteristics();
         $options = $chars;
         //$options = array_merge(array("" => $this->lng->txt("none")), $chars);
@@ -1253,9 +1253,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
 
         if (count($options) > 0) {
-            $current_value = $this->content_obj->getCaptionClass()
-                ? $this->content_obj->getCaptionClass()
-                : "MediaCaption";
+            $current_value = $this->content_obj->getCaptionClass() ?: "MediaCaption";
             $cap_style->setValue($current_value);
             $form->addItem($cap_style);
         }

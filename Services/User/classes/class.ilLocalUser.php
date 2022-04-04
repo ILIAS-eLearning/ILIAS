@@ -86,8 +86,8 @@ class ilLocalUser
         $ilDB = $DIC['ilDB'];
         switch ($a_filter) {
             case 0:
-                if (ilLocalUser::_getFolderIds()) {
-                    $where = "WHERE " . $ilDB->in("time_limit_owner", ilLocalUser::_getFolderIds(), false, "integer") . " ";
+                if (self::_getFolderIds()) {
+                    $where = "WHERE " . $ilDB->in("time_limit_owner", self::_getFolderIds(), false, "integer") . " ";
                 //$where .= '(';
                     //$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
                     //$where .= ')';

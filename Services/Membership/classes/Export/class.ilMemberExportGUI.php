@@ -266,8 +266,9 @@ class ilMemberExportGUI
     public function deliverData() : void
     {
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
-            if ($file['name'] === $_SESSION['member_export_filename']) {
-                $content = $this->fss_export->getMemberExportFile($_SESSION['member_export_filename']);
+            $member_export_filename = (string) ilSession::get('member_export_filename');
+            if ($file['name'] === $member_export_filename) {
+                $content = $this->fss_export->getMemberExportFile($member_export_filename);
                 ilUtil::deliverData(
                     $content,
                     date('Y_m_d_H-i', $file['timest']) .

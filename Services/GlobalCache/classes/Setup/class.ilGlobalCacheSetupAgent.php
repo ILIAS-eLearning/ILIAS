@@ -1,16 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\UI;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\ObjectiveConstructor;
 
 class ilGlobalCacheSetupAgent implements Setup\Agent
 {
-    use Setup\Agent\HasNoNamedObjective;
-
     protected \ILIAS\Refinery\Factory $refinery;
+
 
     public function __construct(
         Refinery\Factory $refinery
@@ -86,8 +86,8 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
         $m = new ilMemcacheServer();
         $m->setStatus($node["active"] === "1" ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
         $m->setHost($node["host"]);
-        $m->setPort($node["port"]);
-        $m->setWeight($node["weight"]);
+        $m->setPort((int) $node["port"]);
+        $m->setWeight((int) $node["weight"]);
 
         return $m;
     }
@@ -136,5 +136,17 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     public function getMigrations() : array
     {
         return [];
+    }
+    
+    public function getNamedObjectives(?Config $config = null) : array
+    {
+        return [
+            'flushAll' => new ObjectiveConstructor(
+                'flushes all GlobalCaches.',
+                function () {
+                    return new ilGlobalCacheAllFlushedObjective();
+                }
+            )
+        ];
     }
 }

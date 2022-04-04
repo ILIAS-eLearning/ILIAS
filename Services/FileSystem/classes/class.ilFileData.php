@@ -19,7 +19,7 @@ class ilFileData extends ilFile
 {
     public function __construct()
     {
-        $this->path = CLIENT_DATA_DIR;
+        $this->path = defined('CLIENT_DATA_DIR') ? CLIENT_DATA_DIR : '';
     }
 
     public function checkPath(string $a_path) : bool

@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Revision\RevisionCollection;
  */
 class StorableFileResource implements StorableResource
 {
-
     private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
     private \ILIAS\ResourceStorage\Revision\RevisionCollection $revisions;
     /**
@@ -184,5 +183,4 @@ class StorableFileResource implements StorableResource
     {
         return $this->revisions->getMax();
     }
-
 }

@@ -23,7 +23,7 @@ class ilMemcache extends ilGlobalCacheService
             if (ilMemcacheServer::count() > 0) {
                 $memcached->resetServerList();
                 $servers = [];
-                $list    = ilMemcacheServer::where(array('status' => ilMemcacheServer::STATUS_ACTIVE))
+                $list = ilMemcacheServer::where(array('status' => ilMemcacheServer::STATUS_ACTIVE))
                                            ->get();
                 foreach ($list as $ilMemcacheServer) {
                     $servers[] = array(
@@ -102,7 +102,7 @@ class ilMemcache extends ilGlobalCacheService
     
     public function getInstallationFailureReason() : string
     {
-        $stats            = $this->getMemcacheObject()->getStats();
+        $stats = $this->getMemcacheObject()->getStats();
         $server_available = false;
         foreach ($stats as $server) {
             if ($server['pid'] > 0) {

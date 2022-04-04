@@ -20,7 +20,6 @@
  */
 class arJoinCollection extends arStatementCollection
 {
-
     protected array $table_names = array();
 
     /**

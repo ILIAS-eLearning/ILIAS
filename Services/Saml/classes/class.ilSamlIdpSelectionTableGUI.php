@@ -5,7 +5,7 @@
  * Class ilSamlIdpSelectionTableGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlIdpSelectionTableGUI extends \ilTable2GUI
+class ilSamlIdpSelectionTableGUI extends ilTable2GUI
 {
     public function __construct(object $parent_gui, string $parent_cmd)
     {

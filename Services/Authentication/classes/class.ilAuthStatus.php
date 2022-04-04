@@ -25,8 +25,7 @@ class ilAuthStatus
     private static ?ilAuthStatus $instance = null;
     
     private ilLanguage $lng;
-    private ilLogger $logger;
-    
+
     const STATUS_UNDEFINED = 1;
     const STATUS_AUTHENTICATED = 2;
     const STATUS_AUTHENTICATION_FAILED = 3;
@@ -47,7 +46,6 @@ class ilAuthStatus
     {
         global $DIC;
         $this->lng = $DIC->language();
-        $this->logger = $DIC->logger()->auth();
     }
     
     /**

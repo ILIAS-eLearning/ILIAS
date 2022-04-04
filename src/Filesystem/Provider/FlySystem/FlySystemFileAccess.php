@@ -36,7 +36,6 @@ use League\Flysystem\FilesystemInterface;
  */
 class FlySystemFileAccess implements FileAccess
 {
-
     private FilesystemInterface $flySystemFS;
 
 
@@ -231,7 +230,7 @@ class FlySystemFileAccess implements FileAccess
      *
      * @throws \InvalidArgumentException Thrown if the given visibility was considered as invalid.
      */
-    private function validateVisibility(string $visibility): void
+    private function validateVisibility(string $visibility) : void
     {
         if (strcmp($visibility, Visibility::PUBLIC_ACCESS) !== 0 && strcmp($visibility, Visibility::PRIVATE_ACCESS) !== 0) {
             throw new \InvalidArgumentException("The access must be 'public' or 'private' but '$visibility' was given.");
@@ -285,7 +284,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function write(string $path, string $content): void
+    public function write(string $path, string $content) : void
     {
         try {
             if ($this->flySystemFS->write($path, $content) === false) {
@@ -311,7 +310,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function update(string $path, string $new_content): void
+    public function update(string $path, string $new_content) : void
     {
         try {
             if ($this->flySystemFS->update($path, $new_content) === false) {
@@ -335,7 +334,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function put(string $path, string $content): void
+    public function put(string $path, string $content) : void
     {
         if ($this->flySystemFS->put($path, $content) === false) {
             throw new IOException("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
@@ -355,7 +354,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function delete(string $path): void
+    public function delete(string $path) : void
     {
         try {
             if ($this->flySystemFS->delete($path) === false) {
@@ -403,7 +402,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function rename(string $path, string $new_path): void
+    public function rename(string $path, string $new_path) : void
     {
         try {
             if ($this->flySystemFS->rename($path, $new_path) === false) {
@@ -431,7 +430,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function copy(string $path, string $copy_path): void
+    public function copy(string $path, string $copy_path) : void
     {
         try {
             if ($this->flySystemFS->copy($path, $copy_path) === false) {

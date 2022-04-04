@@ -30,7 +30,7 @@ class ilForumTopic
     private float $average_rating = 0.0;
     private string $orderDirection = 'DESC';
     protected static array $possibleOrderDirections = ['ASC', 'DESC'];
-    private $user;
+    private ilObjUser $user;
     private int $num_new_posts = 0;
     private int $num_unread_posts = 0;
     private bool $user_notification_enabled = false;

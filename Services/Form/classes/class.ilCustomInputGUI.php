@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +33,7 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
         $this->setType("custom");
     }
     
-    public function setHtml(string $a_html)
+    public function setHtml(string $a_html) : void
     {
         $this->html = $a_html;
     }

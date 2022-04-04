@@ -74,6 +74,9 @@ class Toast implements ComponentInterface\Toast
         return $new;
     }
 
+    /**
+     * @return \ILIAS\UI\Component\Link\Link[]
+     */
     public function getLinks() : array
     {
         return $this->links;
