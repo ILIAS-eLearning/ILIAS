@@ -73,16 +73,16 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
                 'title' => $this->gui->getObject()->getTitle(),
                 'desc' => $this->gui->getObject()->getDescription(),
                 'access_period' => [
-                    'start' => $this->gui->getObject()->getAccessBegin() ? new ilDateTime(
+                    'start' => $this->gui->getObject()->getAccessBegin() ? (new ilDateTime(
                         $this->gui->getObject()->getAccessBegin(),
                         IL_CAL_UNIX
-                    ) : null,
-                    'end' => $this->gui->getObject()->getAccessEnd() ? new ilDateTime(
+                    ))->get(IL_CAL_DATETIME) : '',
+                    'end' => $this->gui->getObject()->getAccessEnd() ? (new ilDateTime(
                         $this->gui->getObject()->getAccessEnd(),
                         IL_CAL_UNIX
-                    ) : null
+                    ))->get(IL_CAL_DATETIME) : ''
                 ],
-                'access_visibility' => $this->gui->getObject()->getAccessVisibility()
+                'access_visibility' => (bool) $this->gui->getObject()->getAccessVisibility()
             ];
 
             $presentationHeader = new ilFormSectionHeaderGUI();

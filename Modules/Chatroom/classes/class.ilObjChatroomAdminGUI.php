@@ -7,16 +7,16 @@
  * @author            Jan Posselt <jposselt at databay.de>
  * @version           $Id$
  * @ilCtrl_Calls      ilObjChatroomAdminGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls      ilObjChatroomAdminGUI: ilExportGUI
+ * @ilCtrl_Calls      ilObjChatroomAdminGUI: ilExportGUI, ilObjChatroomGUI
  * @ilCtrl_IsCalledBy ilObjChatroomAdminGUI: ilRepositoryGUI, ilAdministrationGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
+class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 {
-    public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
+    public function __construct($data = null, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         $this->type = 'chta';
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        parent::__construct($data, $id, $call_by_reference, false);
         $this->lng->loadLanguageModule('chatroom_adm');
     }
 
@@ -41,16 +41,28 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements ilCtrlBaseCla
         $next_class = strtolower($this->ctrl->getNextClass());
 
         $tabFactory = new ilChatroomTabGUIFactory($this);
-        $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
 
         switch ($next_class) {
             case strtolower(ilPermissionGUI::class):
+                $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
                 $this->prepareOutput();
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
+            case strtolower(ilObjChatroomGUI::class):
+                $this->prepareOutput();
+                $perm_gui = new ilObjChatroomGUI(
+                    null,
+                    $this->getRefId(),
+                    true,
+                    false
+                );
+                $this->ctrl->forwardCommand($perm_gui);
+                break;
+
             default:
+                $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
                 $res = explode('-', $this->ctrl->getCmd(), 2);
                 if (!array_key_exists(1, $res)) {
                     $res[1] = '';

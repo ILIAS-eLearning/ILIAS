@@ -27,14 +27,14 @@ class ilChatroom
      */
     private array $availableSettings = [
         'object_id' => 'integer',
-        'online_status' => 'integer',
+        'online_status' => 'boolean',
         'allow_anonymous' => 'boolean',
         'allow_custom_usernames' => 'boolean',
         'enable_history' => 'boolean',
         'restrict_history' => 'boolean',
         'autogen_usernames' => 'string',
         'room_type' => 'string',
-        'allow_private_rooms' => 'integer',
+        'allow_private_rooms' => 'boolean',
         'display_past_msgs' => 'integer',
         'private_rooms_enabled' => 'boolean'
     ];
@@ -322,6 +322,9 @@ class ilChatroom
             case 'string':
                 return 'text';
 
+            case 'boolean':
+                return 'integer';
+            
             default:
                 return $type;
         }
