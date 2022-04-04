@@ -651,14 +651,14 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     }
 
     public function deleteAllOrphanedProgresses(
-        string $assignemnt_table,
+        string $assignment_table,
         string $assignment_id_field
     ) : void {
         $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
             . 'WHERE ' . self::FIELD_ASSIGNMENT_ID . PHP_EOL
             . 'NOT IN (' . PHP_EOL
             . 'SELECT ' . $this->db->quoteIdentifier($assignment_id_field)
-            . ' FROM ' . $this->db->quoteIdentifier($assignemnt_table) . PHP_EOL
+            . ' FROM ' . $this->db->quoteIdentifier($assignment_table) . PHP_EOL
             . ');' . PHP_EOL;
         $this->db->manipulate($query);
     }
