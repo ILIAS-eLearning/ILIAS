@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,15 +40,15 @@ class ilUserForTagTableGUI extends ilTable2GUI
 
         $this->setData(ilTagging::getUsersForTag($a_tag));
         $this->setTitle($this->lng->txt("tagging_users_using_tag"));
-        
+
         $this->addColumn($this->lng->txt("user"), "");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.user_for_tag_row.html", "Services/Tagging");
         $this->setEnableTitle(true);
     }
-    
+
     /**
      * @inheritDoc
      */
