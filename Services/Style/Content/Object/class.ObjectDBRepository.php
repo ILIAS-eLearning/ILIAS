@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,23 +15,20 @@
 
 namespace ILIAS\Style\Content\Object;
 
+use ilDBInterface;
+
 /**
  * This repo stores infos on repository objects that are using booking managers as a service
  * (resource management).
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ObjectDBRepository
 {
-    private const USAGE_TABLE_NAME = 'style_usage';
     const DATA_TABLE_NAME = 'style_data';
 
-    /**
-     * @var \ilDBInterface
-     */
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }
@@ -73,7 +70,7 @@ class ObjectDBRepository
             [$style_id, $obj_id]
         );
 
-        if ($rec = $db->fetchAssoc($set)) {
+        if ($db->fetchAssoc($set)) {
             return true;
         }
         return false;

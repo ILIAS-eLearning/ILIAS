@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,7 @@
 namespace ILIAS\Style\Content;
 
 use ILIAS\Style\Content\Access\StyleAccessManager;
+use ilContentStyleImageGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -36,8 +37,8 @@ class ImageUIFactory
     public function ilContentStyleImageGUI(
         StyleAccessManager $access_manager,
         ImageManager $image_manager
-    ) : \ilContentStyleImageGUI {
-        return new \ilContentStyleImageGUI(
+    ) : ilContentStyleImageGUI {
+        return new ilContentStyleImageGUI(
             $this->domain_service,
             $this->gui_service,
             $access_manager,

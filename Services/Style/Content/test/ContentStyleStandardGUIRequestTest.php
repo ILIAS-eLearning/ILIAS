@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\Style\Content\StandardGUIRequest;
+use ILIAS\Data\Factory;
 
 /**
  * Test clipboard repository
@@ -9,24 +11,17 @@ use PHPUnit\Framework\TestCase;
  */
 class ContentStyleStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Style\Content\StandardGUIRequest
+    protected function getRequest(array $get, array $post) : StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
-        $data = new \ILIAS\Data\Factory();
+        $data = new Factory();
         $refinery = new \ILIAS\Refinery\Factory($data, $lng_mock);
-        return new \ILIAS\Style\Content\StandardGUIRequest(
+        return new StandardGUIRequest(
             $http_mock,
             $refinery,
             $get,
@@ -34,7 +29,7 @@ class ContentStyleStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -50,7 +45,7 @@ class ContentStyleStandardGUIRequestTest extends TestCase
     }
 
 
-    public function testTemplateId()
+    public function testTemplateId() : void
     {
         $request = $this->getRequest(
             [
@@ -65,7 +60,7 @@ class ContentStyleStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testCharacteristics()
+    public function testCharacteristics() : void
     {
         $request = $this->getRequest(
             [

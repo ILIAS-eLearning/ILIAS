@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,17 +17,20 @@ namespace ILIAS\Style\Content;
 
 use ILIAS\Style;
 use ILIAS\Style\Content\Access;
+use ilObjStyleSheet;
+use ilTable2GUI;
+use ilObjStyleSheetGUI;
 
 /**
  * TableGUI class for characteristics
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class CharacteristicTableGUI extends \ilTable2GUI
+class CharacteristicTableGUI extends ilTable2GUI
 {
     protected Style\Content\CharacteristicManager $manager;
     protected Access\StyleAccessManager $access_manager;
-    protected \ilObjStyleSheet $style;
+    protected ilObjStyleSheet $style;
     protected string $super_type;
     protected bool $hideable;
     protected int $order_cnt = 0;
@@ -40,7 +43,7 @@ class CharacteristicTableGUI extends \ilTable2GUI
         object $a_parent_obj,
         string $a_parent_cmd,
         string $a_super_type,
-        \ilObjStyleSheet $a_style,
+        ilObjStyleSheet $a_style,
         Style\Content\CharacteristicManager $manager,
         Access\StyleAccessManager $access_manager
     ) {
@@ -54,7 +57,7 @@ class CharacteristicTableGUI extends \ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setExternalSorting(true);
-        $this->core_styles = \ilObjStyleSheet::_getCoreStyles();
+        $this->core_styles = ilObjStyleSheet::_getCoreStyles();
         $this->getItems();
         $this->setTitle($this->lng->txt("sty_" . $a_super_type . "_char"));
         $this->setLimit(9999);
@@ -62,13 +65,13 @@ class CharacteristicTableGUI extends \ilTable2GUI
         // check, whether any of the types is expandable
         $this->expandable = false;
         $this->hideable = false;
-        $all_super_types = \ilObjStyleSheet::_getStyleSuperTypes();
+        $all_super_types = ilObjStyleSheet::_getStyleSuperTypes();
         $types = $all_super_types[$this->super_type];
         foreach ($types as $t) {
-            if (\ilObjStyleSheet::_isExpandable($t)) {
+            if (ilObjStyleSheet::_isExpandable($t)) {
                 $this->expandable = true;
             }
-            if (\ilObjStyleSheet::_isHideable($t)) {
+            if (ilObjStyleSheet::_isHideable($t)) {
                 $this->hideable = true;
             }
         }
@@ -140,7 +143,7 @@ class CharacteristicTableGUI extends \ilTable2GUI
             $this->order_cnt = $this->order_cnt + 10;
             $this->tpl->setCurrentBlock("order");
             $this->tpl->setVariable("OCHAR", $char->getType() . "." .
-                \ilObjStyleSheet::_determineTag($char->getType()) .
+                ilObjStyleSheet::_determineTag($char->getType()) .
                 "." . $char->getCharacteristic());
             $this->tpl->setVariable("ORDER", $this->order_cnt);
             $this->tpl->parseCurrentBlock();
@@ -149,20 +152,20 @@ class CharacteristicTableGUI extends \ilTable2GUI
 
         $this->tpl->setCurrentBlock("checkbox");
         $this->tpl->setVariable("CHAR", $char->getType() . "." .
-            \ilObjStyleSheet::_determineTag($char->getType()) .
+            ilObjStyleSheet::_determineTag($char->getType()) .
                     "." . $char->getCharacteristic());
         $this->tpl->parseCurrentBlock();
 
         if ($this->hideable) {
-            if (!\ilObjStyleSheet::_isHideable($char->getType()) ||
+            if (!ilObjStyleSheet::_isHideable($char->getType()) ||
                 (!empty($this->core_styles[$char->getType() . "." .
-                \ilObjStyleSheet::_determineTag($char->getType()) .
+                ilObjStyleSheet::_determineTag($char->getType()) .
                 "." . $char->getCharacteristic()]))) {
                 $this->tpl->touchBlock("no_hide_checkbox");
             } else {
                 $this->tpl->setCurrentBlock("hide_checkbox");
                 $this->tpl->setVariable("CHAR", $char->getType() . "." .
-                    \ilObjStyleSheet::_determineTag($char->getType()) .
+                    ilObjStyleSheet::_determineTag($char->getType()) .
                     "." . $char->getCharacteristic());
                 if ($this->style->getHideStatus($char->getType(), $char->getCharacteristic())) {
                     $this->tpl->setVariable("CHECKED", "checked='checked'");
@@ -174,9 +177,9 @@ class CharacteristicTableGUI extends \ilTable2GUI
         // example
         $this->tpl->setVariable(
             "EXAMPLE",
-            \ilObjStyleSheetGUI::getStyleExampleHTML($char->getType(), $char->getCharacteristic())
+            ilObjStyleSheetGUI::getStyleExampleHTML($char->getType(), $char->getCharacteristic())
         );
-        $tag_str = \ilObjStyleSheet::_determineTag($char->getType()) . "." . $char->getCharacteristic();
+        $tag_str = ilObjStyleSheet::_determineTag($char->getType()) . "." . $char->getCharacteristic();
         $this->tpl->setVariable("TXT_TAG", $char->getCharacteristic());
         $this->tpl->setVariable("TXT_TYPE", $lng->txt("sty_type_" . $char->getType()));
 
@@ -197,7 +200,7 @@ class CharacteristicTableGUI extends \ilTable2GUI
                 $ilCtrl->getLinkTargetByClass("ilStyleCharacteristicGUI", "editTagStyle")
             );
 
-            if (!\ilObjStyleSheet::isCoreStyle($char->getType(), $char->getCharacteristic())) {
+            if (!ilObjStyleSheet::isCoreStyle($char->getType(), $char->getCharacteristic())) {
                 if ($char->isOutdated()) {
                     $this->tpl->setVariable("OUTDATED", $lng->txt("yes"));
                     $links[] = $ui->factory()->link()->standard(
