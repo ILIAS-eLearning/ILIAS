@@ -54,6 +54,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     {
         return [
             "5.2.0" => [
+                // PHP8-Review: Link with unencrypted protocol
                 "namespace" => "http://www.ilias.de/Services/User/iass/5_2",
                 "xsd_file" => "ilias_iass_5_2.xsd",
                 "uses_dataset" => true,

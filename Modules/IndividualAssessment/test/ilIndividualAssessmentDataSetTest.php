@@ -37,6 +37,7 @@ class ilIndividualAssessmentDataSetTest extends TestCase
 
     public function test_getXmlNamespace() : void
     {
+        // PHP8-Review: Link with unencrypted protocol
         $expected = 'http://www.ilias.de/xml/Modules/IndividualAssessment/entity_string';
 
         $obj = new ilIndividualAssessmentDataSetWrapper();

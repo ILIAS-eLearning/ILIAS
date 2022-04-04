@@ -21,9 +21,10 @@ class ilIndividualAssessmentLP extends ilObjectLP
             ilLPObjSettings::LP_MODE_DEACTIVATED
         ];
     }
-    
+
     /**
      * Get an array of member ids participating in the object corresponding to this.
+     * @param bool $a_search
      * @return array
      */
     public function getMembers(bool $a_search = true) : array

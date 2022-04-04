@@ -12,14 +12,18 @@ class ilIndividualAssessmentDataSet extends ilDataSet
         return ['5.2.0', '5.3.0'];
     }
 
+    // PHP8-Review: Method visibility should not be overridden
+    // PHP8-Review: Parameter's name changed during inheritance
     public function getXmlNamespace(string $entity, string $schema_version) : string
     {
+        // PHP8-Review: Link with unencrypted protocol
         return 'http://www.ilias.de/xml/Modules/IndividualAssessment/' . $entity;
     }
 
     /**
      * Map XML attributes of entities to data types (text, integer...)
      */
+    // PHP8-Review: Parameter's name changed during inheritance
     protected function getTypes(string $entity, string $version) : array
     {
         switch ($entity) {
@@ -46,6 +50,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
     /**
      * Return dependencies form entities to other entities (in our case these are all the DB relations)
      */
+    // PHP8-Review: Parameter's name changed during inheritance
     protected function getDependencies(
         string $entity,
         string $version,
@@ -58,6 +63,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
     /**
      * Read data from Cache for a given entity and ID(s)
      */
+    // PHP8-Review: Parameter's name changed during inheritance
     public function readData(string $entity, string $version, array $ids) : void
     {
         $this->data = array();
@@ -104,6 +110,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
     /**
      * Import record
      */
+    // PHP8-Review: Parameter's name changed during inheritance
     public function importRecord(
         string $entity,
         array $types,

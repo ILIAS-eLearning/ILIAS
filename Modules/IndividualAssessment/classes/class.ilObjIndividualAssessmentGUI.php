@@ -381,6 +381,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         }
     }
 
+    // PHP8-Review: Parameter's name changed during inheritance
     protected function afterSave(ilObject $new_object) : void
     {
         $this->tpl->setOnScreenMessage("success", $this->txt("iass_added"), true);
