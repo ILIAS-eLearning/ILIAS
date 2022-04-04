@@ -89,45 +89,38 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
                     $ilClientIniFile = $DIC['ilClientIniFile'];
                     $expires = $ilClientIniFile->readVariable('session', 'expire');
-                    if ($diff <= $expires) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
+                    return $diff <= $expires;
                 }
-            } else {
+
                 return false;
             }
-        } else {
-            $result = $ilDB->queryF(
-                "SELECT user_fi FROM tst_active WHERE active_id = %s",
-                array('integer'),
-                array($active_id)
-            );
-            $row = $ilDB->fetchAssoc($result);
-            if ($row['user_fi'] == $ilUser->getId()) {
-                return true;
-            } else {
-                return false;
-            }
+
+            return false;
         }
+
+        $result = $ilDB->queryF(
+            "SELECT user_fi FROM tst_active WHERE active_id = %s",
+            array('integer'),
+            array($active_id)
+        );
+        $row = $ilDB->fetchAssoc($result);
+
+        return (int) $row['user_fi'] === $ilUser->getId();
     }
 
-    public function saveQuestion(string $sid, int $active_id, int $question_id, int $pass, int $solution)
+    public function saveQuestion(string $sid, int $active_id, int $question_id, int $pass, int $solution)// TODO PHP8-REVIEW Wrong type, mismatch with operations
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$this->isAllowedCall($sid, $active_id)) {
-            return $this->__raiseError("The required user information is only available for active users.", "");
+            return $this->raiseError("The required user information is only available for active users.", "");
         }
 
-        if (is_array($solution) && (array_key_exists("item", $solution))) {
+        if (is_array($solution) && (array_key_exists("item", $solution))) {// TODO PHP8-REVIEW Wrong type, missmatch with declaration
             $solution = $solution["item"];
         }
 
@@ -162,7 +155,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $solution
             ) {
                 $ilDB = $GLOBALS['DIC']['ilDB'];
-                if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0)) {
+                if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0)) {// TODO PHP8-REVIEW Wrong type, missmatch with declaration
                     $affectedRows = $ilDB->manipulateF(
                         "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
                         array('integer', 'integer', 'integer'),
@@ -185,7 +178,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 }
             });
 
-            if ($totalrows != 0) {
+            if ($totalrows !== 0) {
                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                 $question = assQuestion::instantiateQuestion($question_id);
                 $question->setProcessLocker($processLocker);
@@ -193,8 +186,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
             }
         });
 
-        if ($totalrows == 0) {
-            return $this->__raiseError(
+        if ($totalrows === 0) {
+            return $this->raiseError(
                 "Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r(
                     $solution,
                     true
@@ -213,14 +206,14 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$this->isAllowedCall($sid, $active_id)) {
-            return $this->__raiseError("The required user information is only available for active users.", "");
+            return $this->raiseError("The required user information is only available for active users.", "");
         }
 
-        $solutions = array();
+        $solutions = [];
         if (preg_match("/<values>(.*?)<\/values>/is", $solution, $matches)) {
             if (preg_match_all(
                 "/<value>(.*?)<\/value><value>(.*?)<\/value><points>(.*?)<\/points>/is",
@@ -229,7 +222,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 PREG_SET_ORDER
             )) {
                 foreach ($matches as $match) {
-                    if (count($match) == 4) {
+                    if (count($match) === 4) {
                         for ($i = 1, $iMax = count($match); $i < $iMax; $i++) {
                             $solutions[] = trim($match[$i]);
                         }
@@ -238,16 +231,15 @@ class ilSoapTestAdministration extends ilSoapAdministration
             }
         }
 
-        if (count($solutions) == 0) {
-            return $this->__raiseError(
+        if (count($solutions) === 0) {
+            return $this->raiseError(
                 "Wrong solution data. ILIAS did not find one or more solution triplets: $solution",
                 ""
             );
         }
 
-        // Include main header
         $ilDB = $GLOBALS['DIC']['ilDB'];
-        if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0)) {
+        if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0)) {// TODO PHP8-REVIEW Wrong type, missmatch with declaration
             $affectedRows = $ilDB->manipulateF(
                 "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
                 array('integer', 'integer', 'integer'),
@@ -269,8 +261,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
             ));
             $totalrows += $affectedRows;
         }
-        if ($totalrows == 0) {
-            return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries");
+        if ($totalrows === 0) {
+            return $this->raiseError("Wrong solution data. ILIAS did not execute any database queries");// TODO PHP8-REVIEW Missing argument
         }
 
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -287,14 +279,14 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$this->isAllowedCall($sid, $active_id, false)) {
-            return $this->__raiseError("The required user information is only available for active users.", "");
+            return $this->raiseError("The required user information is only available for active users.", "");
         }
         $solution = array();
-        // Include main header
+
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -317,15 +309,15 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 array('integer', 'integer'),
                 array($active_id, $question_id)
             );
-            if ($result->numRows() == 1) {
+            if ($result->numRows() === 1) {
                 $row = $ilDB->fetchAssoc($result);
-                $lastpass = $row["maxpass"];
+                $lastpass = (int) $row["maxpass"];
             }
         } else {
             $lastpass = $pass;
         }
 
-        if (($active_id > 0) && ($question_id > 0) && (strlen($lastpass) > 0)) {
+        if (($active_id > 0) && ($question_id > 0) && (strlen($lastpass) > 0)) {// TODO PHP8-REVIEW Wrong type, might be an integer
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
                 array('integer', 'integer', 'integer'),
@@ -347,12 +339,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$this->isAllowedCall($sid, $active_id, false)) {
-            if (!$this->checkActiveIdResultsAccess($active_id)) {
-                return $this->__raiseError("The required user information is only available for active users.", "");
+            if (!$this->checkActiveIdResultsAccess($active_id)) {// TODO PHP8-REVIEW Method undefined
+                return $this->raiseError("The required user information is only available for active users.", "");
             }
         }
 
@@ -385,7 +377,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         );
 
         $userdata = array();
-        if ($result->numRows() == 0) {
+        if ($result->numRows() === 0) {
             $userdata["fullname"] = $lng->txt("deleted_user");
             $userdata["title"] = "";
             $userdata["firstname"] = "";
@@ -393,7 +385,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $userdata["login"] = "";
         } else {
             $data = $ilDB->fetchAssoc($result);
-            if (($user_id == ANONYMOUS_USER_ID) || ($anonymity)) {
+            if ((int) $user_id === ANONYMOUS_USER_ID || $anonymity) {
                 $userdata["fullname"] = $lng->txt("anonymous");
                 $userdata["title"] = "";
                 $userdata["firstname"] = "";
@@ -418,11 +410,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$this->isAllowedCall($sid, $active_id, false)) {
-            return $this->__raiseError("The required user information is only available for active users.", "");
+            return $this->raiseError("The required user information is only available for active users.", "");
         }
 
         global $DIC;
@@ -435,7 +427,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             array('integer'),
             array($active_id)
         );
-        if ($result->numRows() != 1) {
+        if ($result->numRows() !== 1) {
             return -1;
         }
         $row = $ilDB->fetchAssoc($result);
@@ -454,11 +446,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$this->isAllowedCall($sid, $active_id, false)) {
-            return $this->__raiseError("The required user information is only available for active users.", "");
+            return $this->raiseError("The required user information is only available for active users.", "");
         }
 
         global $DIC;
@@ -471,7 +463,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             array('integer'),
             array($active_id)
         );
-        if ($result->numRows() != 1) {
+        if ($result->numRows() !== 1) {
             return -1;
         }
         $row = $ilDB->fetchAssoc($result);
@@ -508,11 +500,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$this->isAllowedCall($sid, $active_id, false)) {
-            return $this->__raiseError("The required user information is only available for active users.", "");
+            return $this->raiseError("The required user information is only available for active users.", "");
         }
 
         global $DIC;
@@ -525,7 +517,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             array('integer'),
             array($active_id)
         );
-        if ($result->numRows() != 1) {
+        if ($result->numRows() !== 1) {
             return 0;
         }
         $row = $ilDB->fetchAssoc($result);
@@ -541,11 +533,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($test_ref_id)) {
-            return $this->__raiseError(
+        if (!($test_ref_id > 0)) {
+            return $this->raiseError(
                 'No test id given. Aborting!',
                 'Client'
             );
@@ -557,21 +549,21 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
 
         if (!$this->checkManageParticipantsAccess($test_ref_id)) {
-            return $this->__raiseError('no permission. Aborting!', 'Client');
+            return $this->raiseError('no permission. Aborting!', 'Client');
         }
 
         if (ilObject::_isInTrash($test_ref_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'Test is trashed. Aborting!',
                 'Client'
             );
         }
 
         if (!$tst = ilObjectFactory::getInstanceByRefId($test_ref_id, false)) {
-            return $this->__raiseError('No test found for id: ' . $test_ref_id, 'Client');
+            return $this->raiseError('No test found for id: ' . $test_ref_id, 'Client');
         }
-        if ($tst->getType() != 'tst') {
-            return $this->__raiseError(
+        if ($tst->getType() !== 'tst') {
+            return $this->raiseError(
                 'Object with ref_id ' . $test_ref_id . ' is not of type test. Aborting',
                 'Client'
             );
@@ -607,11 +599,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($test_ref_id)) {
-            return $this->__raiseError(
+        if (!($test_ref_id > 0)) {
+            return $this->raiseError(
                 'No test id given. Aborting!',
                 'Client'
             );
@@ -623,21 +615,19 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
 
         if (ilObject::_isInTrash($test_ref_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'Test is trashed. Aborting!',
                 'Client'
             );
         }
 
-        // get obj_id
         if (!$obj_id = ilObject::_lookupObjectId($test_ref_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No test found for id: ' . $test_ref_id,
                 'Client'
             );
         }
 
-        // Check access
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
             if ($rbacsystem->checkAccess('write', $ref_id)) {
@@ -650,12 +640,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
 
         if (!$permission_ok) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No permission to edit the object with id: ' . $test_ref_id,
                 'Server'
             );
         }
-        // store into xml result set
+
         include_once './webservice/soap/classes/class.ilXMLResultSet.php';
         include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
 
@@ -686,10 +676,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         if ($sum_only) {
             $data = $test_obj->getAllTestResults($participants, false);
-            // create xml
+
             $xmlResultSet->addColumn("maximum_points");
             $xmlResultSet->addColumn("received_points");
-            // skip titles
+
             $titles = array_shift($data);
             foreach ($data as $row) {
                 $xmlRow = new ilXMLResultSetRow();
@@ -704,7 +694,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             }
         } else {
             $data = $test_obj->getDetailedTestResults($participants);
-            // create xml
+
             $xmlResultSet->addColumn("question_id");
             $xmlResultSet->addColumn("question_title");
             $xmlResultSet->addColumn("maximum_points");
@@ -723,7 +713,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlResultSet->addRow($xmlRow);
             }
         }
-        // create writer
+
         $xmlWriter = new ilXMLResultSetWriter($xmlResultSet);
         $xmlWriter->start();
         return $xmlWriter->getXML();

@@ -35,21 +35,13 @@ class ilSoapGroupAdministration extends ilSoapAdministration
     public const ADMIN = 2;
     public const OWNER = 4;
 
-    // Service methods
     public function addGroup(string $sid, int $target_id, string $grp_xml)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-        }
-
-        if (!is_numeric($target_id)) {
-            return $this->__raiseError(
-                'No valid target id given. Please choose an existing reference id of an ILIAS category or group',
-                'Client'
-            );
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -57,11 +49,11 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
 
         if (!$rbacsystem->checkAccess('create', $target_id, 'grp')) {
-            return $this->__raiseError('Check access failed. No permission to create groups', 'Server');
+            return $this->raiseError('Check access failed. No permission to create groups', 'Server');
         }
 
         if (ilObject::_isInTrash($target_id)) {
-            return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
+            return $this->raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
         }
 
         $newObj = new ilObjGroup();
@@ -69,7 +61,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $newObj->setDescription("");
         $newObj->create();
 
-        // Start import
         include_once("./Modules/Group/classes/class.ilObjGroup.php");
         include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
         $xml_parser = new ilGroupXMLParser($newObj, $grp_xml, $target_id);
@@ -79,21 +70,13 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         return $new_ref_id ?: "0";
     }
 
-    // Service methods
     public function updateGroup(string $sid, int $ref_id, string $grp_xml)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-        }
-
-        if (!is_numeric($ref_id)) {
-            return $this->__raiseError(
-                'No valid target id given. Please choose an existing reference id of an ILIAS category or group',
-                'Client'
-            );
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -101,22 +84,22 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
 
         if (!$rbacsystem->checkAccess('write', $ref_id, 'grp')) {
-            return $this->__raiseError('Check access failed. No permission to edit groups', 'Server');
+            return $this->raiseError('Check access failed. No permission to edit groups', 'Server');
         }
 
-        // Start import
         include_once("./Modules/Group/classes/class.ilObjGroup.php");
 
+        /** @var ilObjGroup $grp */
         if (!$grp = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->__raiseError('Cannot create group instance!', 'CLIENT_OBJECT_NOT_FOUND');
+            return $this->raiseError('Cannot create group instance!', 'CLIENT_OBJECT_NOT_FOUND');
         }
 
         if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError("Object with ID $ref_id has been deleted.", 'CLIENT_OBJECT_DELETED');
+            return $this->raiseError("Object with ID $ref_id has been deleted.", 'CLIENT_OBJECT_DELETED');
         }
 
-        if (ilObjectFactory::getTypeByRefId($ref_id, false) != "grp") {
-            return $this->__raiseError('Reference id does not point to a group!', 'CLIENT_WRONG_TYPE');
+        if (ilObjectFactory::getTypeByRefId($ref_id, false) !== "grp") {
+            return $this->raiseError('Reference id does not point to a group!', 'CLIENT_WRONG_TYPE');
         }
 
         include_once 'Modules/Group/classes/class.ilGroupXMLParser.php';
@@ -133,12 +116,12 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         if (!$title) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No title given. Please choose an title for the group in question.',
                 'Client'
             );
@@ -152,16 +135,17 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'CLIENT_OBJECT_DELETED');
+            return $this->raiseError("Parent with ID $ref_id has been deleted.", 'CLIENT_OBJECT_DELETED');
         }
 
+        /** @var ilObjGroup $grp_obj */
         if (!$grp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid reference id given.',
                 'Client'
             );
@@ -170,8 +154,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';
         $xml_writer = new ilGroupXMLWriter($grp_obj);
         $xml_writer->start();
-        $xml = $xml_writer->getXML();
-        return strlen($xml) ? $xml : '';
+
+        return $xml_writer->getXML();
     }
 
     public function assignGroupMember(string $sid, int $group_id, int $user_id, string $type)
@@ -179,26 +163,19 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-        }
-
-        if (!is_numeric($group_id)) {
-            return $this->__raiseError(
-                'No valid group id given. Please choose an existing reference id of an ILIAS group',
-                'Client'
-            );
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
 
-        if (($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp') {
+        if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) !== 'grp') {
             $ref_ids = ilObject::_getAllReferences($group_id);
             $group_id = end($ref_ids);
-            if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp') {
-                return $this->__raiseError(
+            if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) !== 'grp') {
+                return $this->raiseError(
                     'Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
                     'Client'
                 );
@@ -206,26 +183,28 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         }
 
         if (!$rbacsystem->checkAccess('manage_members', $group_id)) {
-            return $this->__raiseError('Check access failed. No permission to write to group', 'Server');
+            return $this->raiseError('Check access failed. No permission to write to group', 'Server');
         }
 
-        if (ilObject::_lookupType($user_id) != 'usr') {
-            return $this->__raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
+        if (ilObject::_lookupType($user_id) !== 'usr') {
+            return $this->raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
         }
-        if ($type != 'Admin' and
-            $type != 'Member') {
-            return $this->__raiseError(
+        if ($type !== 'Admin' &&
+            $type !== 'Member') {
+            return $this->raiseError(
                 'Invalid type ' . $type . ' given. Parameter "type" must be "Admin","Member"',
                 'Client'
             );
         }
 
+        /** @var ilObjGroup $tmp_group */
         if (!$tmp_group = ilObjectFactory::getInstanceByRefId($group_id, false)) {
-            return $this->__raiseError('Cannot create group instance!', 'Server');
+            return $this->raiseError('Cannot create group instance!', 'Server');
         }
 
+        /** @var ilObjUser $tmp_user */
         if (!$tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false)) {
-            return $this->__raiseError('Cannot create user instance!', 'Server');
+            return $this->raiseError('Cannot create user instance!', 'Server');
         }
 
         include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
@@ -248,41 +227,36 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-        }
-        if (!is_numeric($group_id)) {
-            return $this->__raiseError(
-                'No valid group id given. Please choose an existing reference id of an ILIAS group',
-                'Client'
-            );
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
 
-        if (($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp') {
+        if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) !== 'grp') {
             $ref_ids = ilObject::_getAllReferences($group_id);
             $group_id = end($ref_ids);
-            if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp') {
-                return $this->__raiseError(
+            if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) !== 'grp') {
+                return $this->raiseError(
                     'Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
                     'Client'
                 );
             }
         }
 
-        if (ilObject::_lookupType($user_id) != 'usr') {
-            return $this->__raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
+        if (ilObject::_lookupType($user_id) !== 'usr') {
+            return $this->raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
         }
 
+        /** @var ilObjGroup $tmp_group */
         if (!$tmp_group = ilObjectFactory::getInstanceByRefId($group_id, false)) {
-            return $this->__raiseError('Cannot create group instance!', 'Server');
+            return $this->raiseError('Cannot create group instance!', 'Server');
         }
 
         if (!$rbacsystem->checkAccess('manage_members', $group_id)) {
-            return $this->__raiseError('Check access failed. No permission to write to group', 'Server');
+            return $this->raiseError('Check access failed. No permission to write to group', 'Server');
         }
 
         $tmp_group->leave($user_id);
@@ -294,40 +268,36 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!is_numeric($group_id)) {
-            return $this->__raiseError(
-                'No valid group id given. Please choose an existing id of an ILIAS group',
-                'Client'
-            );
-        }
+
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
 
-        if (($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp') {
+        if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) !== 'grp') {
             $ref_ids = ilObject::_getAllReferences($group_id);
             $group_id = end($ref_ids);
-            if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp') {
-                return $this->__raiseError(
+            if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) !== 'grp') {
+                return $this->raiseError(
                     'Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
                     'Client'
                 );
             }
         }
 
-        if (ilObject::_lookupType($user_id) != 'usr') {
-            return $this->__raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
+        if (ilObject::_lookupType($user_id) !== 'usr') {
+            return $this->raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
         }
 
+        /** @var ilObjGroup $tmp_group */
         if (!$tmp_group = ilObjectFactory::getInstanceByRefId($group_id, false)) {
-            return $this->__raiseError('Cannot create group instance!', 'Server');
+            return $this->raiseError('Cannot create group instance!', 'Server');
         }
 
         if (!$rbacsystem->checkAccess('read', $group_id)) {
-            return $this->__raiseError('Check access failed. No permission to read group data', 'Server');
+            return $this->raiseError('Check access failed. No permission to read group data', 'Server');
         }
 
         include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
@@ -347,8 +317,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         global $DIC;
 
@@ -361,16 +331,16 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         try {
             $parser->startParsing();
         } catch (ilSaxParserException $exception) {
-            return $this->__raiseError($exception->getMessage(), "Client");
+            return $this->raiseError($exception->getMessage(), "Client");
         }
         $xmlResultSet = $parser->getXMLResultSet();
 
         if (!$xmlResultSet->hasColumn("user_id")) {
-            return $this->__raiseError("parameter user_id is missing", "Client");
+            return $this->raiseError("parameter user_id is missing", "Client");
         }
 
         if (!$xmlResultSet->hasColumn("status")) {
-            return $this->__raiseError("parameter status is missing", "Client");
+            return $this->raiseError("parameter status is missing", "Client");
         }
 
         $user_id = (int) $xmlResultSet->getValue(0, "user_id");
@@ -378,16 +348,12 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
         $ref_ids = array();
 
-        // get roles
-        #var_dump($xmlResultSet);
-        #echo "uid:".$user_id;
-        #echo "status:".$status;
         if (ilSoapGroupAdministration::MEMBER == ($status & ilSoapGroupAdministration::MEMBER) ||
             ilSoapGroupAdministration::ADMIN == ($status & ilSoapGroupAdministration::ADMIN)) {
             foreach ($rbacreview->assignedRoles($user_id) as $role_id) {
                 if ($role = ilObjectFactory::getInstanceByObjId($role_id, false)) {
                     #echo $role->getType();
-                    if ($role->getType() != "role") {
+                    if ($role->getType() !== "role") {
                         continue;
                     }
 
@@ -438,7 +404,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         }
         $ref_ids = array_unique($ref_ids);
 
-        #print_r($ref_ids);
         include_once 'webservice/soap/classes/class.ilXMLResultSetWriter.php';
         include_once 'Modules/Group/classes/class.ilObjGroup.php';
         include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';

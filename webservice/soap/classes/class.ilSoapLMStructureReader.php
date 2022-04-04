@@ -34,38 +34,36 @@ class ilSoapLMStructureReader extends ilSoapStructureReader
 {
     public function _parseStructure() : void
     {
-        // get all child nodes in LM
-        $ctree = $this->object->getLMTree();
+        /** @var ilObjLearningModule $obect */
+        $obect = $this->object;
+        
+        $ctree = $obect->getLMTree();
 
-        $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+        $nodes = $ctree->getSubTree($ctree->getNodeData($ctree->getRootId()));
 
         $currentParentStructureObject = $this->structureObject;
         $currentParent = 1;
 
-        $parents = array();
-        $parents [$currentParent] = $currentParentStructureObject;
+        $parents = [];
+        $parents[$currentParent] = $currentParentStructureObject;
 
         $lastStructureObject = null;
         $lastNode = null;
-        $i = 0;
         foreach ($nodes as $node) {
 
             // only pages and chapters
-            if ($node["type"] == "st" || $node["type"] == "pg") {
+            if ($node["type"] === "st" || $node["type"] === "pg") {
                 // parent has changed, to build a tree
-                if ($currentParent != $node["parent"]) {
+                if ((int) $currentParent !== (int) $node["parent"]) {
                     // did we passed this parent before?
 
                     if (array_key_exists($node["parent"], $parents)) {
                         $currentParentStructureObject = $parents[$node["parent"]];
-                    } else {
+                    } elseif ($lastNode["type"] !== "pg") {
                         // no, we did not, so use the last inserted structure as new parent
-                        if ($lastNode["type"] != "pg") {
-                            $parents[$lastNode["child"]] = $lastStructureObject;
-                            $currentParentStructureObject = $lastStructureObject;
-                        }
+                        $parents[$lastNode["child"]] = $lastStructureObject;
+                        $currentParentStructureObject = $lastStructureObject;
                     }
-                    $i++;
                     $currentParent = $lastNode["child"];
                 }
 

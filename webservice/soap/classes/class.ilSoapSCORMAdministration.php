@@ -31,16 +31,16 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapSCORMAdministration extends ilSoapAdministration
 {
-    public function getIMSManifestXML(string $sid, int $ref_id)
+    public function getIMSManifestXML(string $sid, int $requested_ref_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($ref_id)) {
-            return $this->__raiseError(
+        if (!($requested_ref_id > 0)) {
+            return $this->raiseError(
                 'No ref id given. Aborting!',
                 'Client'
             );
@@ -51,19 +51,17 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         $tree = $DIC['tree'];
         $ilLog = $DIC['ilLog'];
 
-        // get obj_id
-        if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
-            return $this->__raiseError(
-                'No exercise found for id: ' . $ref_id,
+        if (!$obj_id = ilObject::_lookupObjectId($requested_ref_id)) {
+            return $this->raiseError(
+                'No exercise found for id: ' . $requested_ref_id,
                 'Client'
             );
         }
 
-        if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
+        if (ilObject::_isInTrash($requested_ref_id)) {
+            return $this->raiseError("Parent with ID $requested_ref_id has been deleted.", 'Client');
         }
 
-        // Check access
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
             if ($rbacsystem->checkAccess('read', $ref_id)) {
@@ -73,28 +71,28 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         }
 
         if (!$permission_ok) {
-            return $this->__raiseError(
-                'No permission to read the object with id: ' . $ref_id,
+            return $this->raiseError(
+                'No permission to read the object with id: ' . $requested_ref_id,
                 'Server'
             );
         }
 
         $lm_obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
-        if (!is_object($lm_obj) || $lm_obj->getType() != "sahs") {
-            return $this->__raiseError(
-                'Wrong obj id or type for scorm object with id ' . $ref_id,
+        if (!is_object($lm_obj) || $lm_obj->getType() !== "sahs") {
+            return $this->raiseError(
+                'Wrong obj id or type for scorm object with id ' . $requested_ref_id,
                 'Server'
             );
         }
-        // get scorm xml
+
         require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
         require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
 
         $imsFilename = $lm_obj->getDataDirectory() . DIRECTORY_SEPARATOR . "imsmanifest.xml";
 
         if (!file_exists($imsFilename)) {
-            return $this->__raiseError(
-                'Could not find manifest file for object with ref id ' . $ref_id,
+            return $this->raiseError(
+                'Could not find manifest file for object with ref id ' . $requested_ref_id,
                 'Server'
             );
         }
@@ -106,11 +104,11 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($ref_id)) {
-            return $this->__raiseError(
+        if (!($ref_id > 0)) {
+            return $this->raiseError(
                 'No ref id given. Aborting!',
                 'Client'
             );
@@ -121,22 +119,20 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         $tree = $DIC['tree'];
         $ilLog = $DIC['ilLog'];
 
-        // get obj_id
         if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No exercise found for id: ' . $ref_id,
                 'Client'
             );
         }
 
         if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
+            return $this->raiseError("Parent with ID $ref_id has been deleted.", 'Client');
         }
 
         $certValidator = new ilCertificateUserCertificateAccessValidator();
-        $result = $certValidator->validate($usr_id, $obj_id);
 
-        return $result;
+        return $certValidator->validate($usr_id, $obj_id);
     }
 
     public function getSCORMCompletionStatus(string $sid, int $a_usr_id, int $a_ref_id)
@@ -144,19 +140,18 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        if (!strlen($a_ref_id)) {
-            return $this->__raiseError('No ref_id given. Aborting!', 'Client');
+        if (!($a_ref_id > 0)) {
+            return $this->raiseError('No ref_id given. Aborting!', 'Client');
         }
 
         include_once 'include/inc.header.php';
 
-        // get obj_id
         if (!$obj_id = ilObject::_lookupObjectId($a_ref_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No scorm module found for id: ' . $a_ref_id,
                 'Client'
             );
@@ -166,15 +161,15 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
         if (!ilObjUserTracking::_enabledLearningProgress()) {
-            return $this->__raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');
+            return $this->raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');
         }
 
         $status = ilLPStatus::_lookupStatus($obj_id, $a_usr_id);
-        if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+        if ($status === ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             return 'completed';
-        } elseif ($status == ilLPStatus::LP_STATUS_FAILED_NUM) {
+        } elseif ($status === ilLPStatus::LP_STATUS_FAILED_NUM) {
             return 'failed';
-        } elseif ($status == ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
+        } elseif ($status === ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
             return 'in_progress';
         } else {
             return 'not_attempted';

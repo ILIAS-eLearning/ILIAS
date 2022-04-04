@@ -34,8 +34,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -44,8 +44,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if (!$tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false) or $tmp_role->getType() != 'role') {
-            return $this->__raiseError(
+        if (!($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false)) || $tmp_role->getType() !== 'role') {
+            return $this->raiseError(
                 'No valid role id given. Please choose an existing id of an ILIAS role',
                 'Client'
             );
@@ -53,13 +53,13 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $obj_ref = $rbacreview->getObjectReferenceOfRole($role_id);
         if (!$ilAccess->checkAccess('edit_permission', '', $obj_ref)) {
-            return $this->__raiseError('Check access failed. No permission to delete role', 'Server');
+            return $this->raiseError('Check access failed. No permission to delete role', 'Server');
         }
 
         // if it's last role of an user
         foreach ($assigned_users = $rbacreview->assignedUsers($role_id) as $user_id) {
-            if (count($rbacreview->assignedRoles($user_id)) == 1) {
-                return $this->__raiseError(
+            if (count($rbacreview->assignedRoles($user_id)) === 1) {
+                return $this->raiseError(
                     'Cannot deassign last role of users',
                     'Client'
                 );
@@ -79,8 +79,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -91,14 +91,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false);
         if (!$tmp_user instanceof ilObjUser) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid user id given. Please choose an existing id of an ILIAS user',
                 'Client'
             );
         }
         $tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false);
         if (!$tmp_role instanceof ilObjRole) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid role id given. Please choose an existing id of an ILIAS role',
                 'Client'
             );
@@ -106,11 +106,11 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $obj_ref = $rbacreview->getObjectReferenceOfRole($role_id);
         if (!$ilAccess->checkAccess('edit_permission', '', $obj_ref)) {
-            return $this->__raiseError('Check access failed. No permission to assign users', 'Server');
+            return $this->raiseError('Check access failed. No permission to assign users', 'Server');
         }
 
         if (!$rbacadmin->assignUser($role_id, $user_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'Error rbacadmin->assignUser()',
                 'Server'
             );
@@ -123,8 +123,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -133,14 +133,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilAccess = $DIC['ilAccess'];
         $rbacreview = $DIC['rbacreview'];
 
-        if ($tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false) and $tmp_user->getType() != 'usr') {
-            return $this->__raiseError(
+        if ($tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false) and $tmp_user->getType() !== 'usr') {
+            return $this->raiseError(
                 'No valid user id given. Please choose an existing id of an ILIAS user',
                 'Client'
             );
         }
-        if ($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false) and $tmp_role->getType() != 'role') {
-            return $this->__raiseError(
+        if ($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false) and $tmp_role->getType() !== 'role') {
+            return $this->raiseError(
                 'No valid role id given. Please choose an existing id of an ILIAS role',
                 'Client'
             );
@@ -148,11 +148,11 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $obj_ref = $rbacreview->getObjectReferenceOfRole($role_id);
         if (!$ilAccess->checkAccess('edit_permission', '', $obj_ref)) {
-            return $this->__raiseError('Check access failed. No permission to deassign users', 'Server');
+            return $this->raiseError('Check access failed. No permission to deassign users', 'Server');
         }
 
         if (!$rbacadmin->deassignUser($role_id, $user_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'Error rbacadmin->deassignUser()',
                 'Server'
             );
@@ -165,8 +165,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -175,9 +175,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         if (is_array($ops = $rbacreview->getOperations())) {
             return $ops;
-        } else {
-            return $this->__raiseError('Unknown error', 'Server');
         }
+
+        return $this->raiseError('Unknown error', 'Server');
     }
 
     public function revokePermissions(string $sid, int $ref_id, int $role_id)
@@ -185,8 +185,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -195,26 +195,26 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilAccess = $DIC['ilAccess'];
 
         if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid ref id given. Please choose an existing reference id of an ILIAS object',
                 'Client'
             );
         }
-        if ($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false) and $tmp_role->getType() != 'role') {
-            return $this->__raiseError(
+        if (($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false)) && $tmp_role->getType() !== 'role') {
+            return $this->raiseError(
                 'No valid role id given. Please choose an existing id of an ILIAS role',
                 'Client'
             );
         }
-        if ($role_id == SYSTEM_ROLE_ID) {
-            return $this->__raiseError(
+        if ($role_id === SYSTEM_ROLE_ID) {
+            return $this->raiseError(
                 'Cannot revoke permissions of system role',
                 'Client'
             );
         }
 
         if (!$ilAccess->checkAccess('edit_permission', '', $ref_id)) {
-            return $this->__raiseError('Check access failed. No permission to revoke permissions', 'Server');
+            return $this->raiseError('Check access failed. No permission to revoke permissions', 'Server');
         }
         $rbacadmin->revokePermission($ref_id, $role_id);
         return true;
@@ -225,8 +225,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -235,20 +235,20 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilAccess = $DIC['ilAccess'];
 
         if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid ref id given. Please choose an existing reference id of an ILIAS object',
                 'Client'
             );
         }
-        if ($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false) and $tmp_role->getType() != 'role') {
-            return $this->__raiseError(
+        if (($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false)) && $tmp_role->getType() !== 'role') {
+            return $this->raiseError(
                 'No valid role id given. Please choose an existing id of an ILIAS role',
                 'Client'
             );
         }
 
         if (!$ilAccess->checkAccess('edit_permission', '', $ref_id)) {
-            return $this->__raiseError('Check access failed. No permission to grant permissions', 'Server');
+            return $this->raiseError('Check access failed. No permission to grant permissions', 'Server');
         }
 
         // mjansen@databay.de: dirty fix
@@ -257,7 +257,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         }
 
         if (!is_array($permissions)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid permissions given.' . print_r($permissions),
                 'Client'
             );
@@ -273,8 +273,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -283,14 +283,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilAccess = $DIC['ilAccess'];
 
         if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid ref id given. Please choose an existing reference id of an ILIAS object',
                 'Client'
             );
         }
 
         if (!$ilAccess->checkAccess('edit_permission', '', $ref_id)) {
-            return $this->__raiseError('Check access failed. No permission to access role information', 'Server');
+            return $this->raiseError('Check access failed. No permission to access role information', 'Server');
         }
 
         $objs = [];
@@ -316,8 +316,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -325,7 +325,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $rbacreview = $DIC['rbacreview'];
 
         if (!$tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid user id given. Please choose an existing id of an ILIAS user',
                 'Client'
             );
@@ -354,8 +354,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -366,18 +366,18 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilAccess = $DIC['ilAccess'];
 
         if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($target_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid ref id given. Please choose an existing reference id of an ILIAS object',
                 'Client'
             );
         }
 
         if (ilObject::_isInTrash($target_id)) {
-            return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
+            return $this->raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
         }
 
         if (!$ilAccess->checkAccess('edit_permission', '', $target_id)) {
-            return $this->__raiseError('Check access failed. No permission to create roles', 'Server');
+            return $this->raiseError('Check access failed. No permission to create roles', 'Server');
         }
 
         include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
@@ -387,8 +387,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $new_roles = [];
         foreach ($xml_parser->getObjectData() as $object_data) {
             // check if role title has il_ prefix
-            if (substr($object_data['title'], 0, 3) == "il_") {
-                return $this->__raiseError(
+            if (strpos($object_data['title'], "il_") === 0) {
+                return $this->raiseError(
                     'Rolenames are not allowed to start with "il_" ',
                     'Client'
                 );
@@ -412,8 +412,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -425,24 +425,24 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilAccess = $DIC['ilAccess'];
 
         if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($target_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid ref id given. Please choose an existing reference id of an ILIAS object',
                 'Client'
             );
         }
-        if (ilObject::_lookupType($template_id) != 'rolt') {
-            return $this->__raiseError(
+        if (ilObject::_lookupType($template_id) !== 'rolt') {
+            return $this->raiseError(
                 'No valid template id given. Please choose an existing object id of an ILIAS role template',
                 'Client'
             );
         }
 
         if (ilObject::_isInTrash($target_id)) {
-            return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
+            return $this->raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
         }
 
         if (!$ilAccess->checkAccess('edit_permission', '', $target_id)) {
-            return $this->__raiseError('Check access failed. No permission to create roles', 'Server');
+            return $this->raiseError('Check access failed. No permission to create roles', 'Server');
         }
 
         include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
@@ -453,8 +453,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         foreach ($xml_parser->getObjectData() as $object_data) {
 
             // check if role title has il_ prefix
-            if (substr($object_data['title'], 0, 3) == "il_") {
-                return $this->__raiseError(
+            if (strpos($object_data['title'], "il_") === 0) {
+                return $this->raiseError(
                     'Rolenames are not allowed to start with "il_" ',
                     'Client'
                 );
@@ -485,8 +485,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -496,21 +496,21 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilAccess = $DIC['ilAccess'];
 
         if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid ref id given. Please choose an existing reference id of an ILIAS object',
                 'Client'
             );
         }
 
         if (!$tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid user id given.',
                 'Client'
             );
         }
 
         if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError("Parent with ID " . $ref_id . "has been deleted.", 'CLIENT_TARGET_DELETED');
+            return $this->raiseError("Parent with ID " . $ref_id . "has been deleted.", 'CLIENT_TARGET_DELETED');
         }
 
         // check visible for all upper tree entries
@@ -549,8 +549,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -560,13 +560,13 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
 
-        if (strcasecmp($role_type, "") != 0 &&
-            strcasecmp($role_type, "local") != 0 &&
-            strcasecmp($role_type, "global") != 0 &&
-            strcasecmp($role_type, "user") != 0 &&
-            strcasecmp($role_type, "user_login") != 0 &&
-            strcasecmp($role_type, "template") != 0) {
-            return $this->__raiseError(
+        if (strcasecmp($role_type, "") !== 0 &&
+            strcasecmp($role_type, "local") !== 0 &&
+            strcasecmp($role_type, "global") !== 0 &&
+            strcasecmp($role_type, "user") !== 0 &&
+            strcasecmp($role_type, "user_login") !== 0 &&
+            strcasecmp($role_type, "template") !== 0) {
+            return $this->raiseError(
                 'Called service with wrong role_type parameter \'' . $role_type . '\'',
                 'Client'
             );
@@ -574,36 +574,36 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $roles = array();
 
-        if (strcasecmp($role_type, "template") == 0) {
+        if (strcasecmp($role_type, "template") === 0) {
             // get templates
             $roles = $rbacreview->getRolesByFilter(6, $ilUser->getId());
-        } elseif (strcasecmp($role_type, "user") == 0 || strcasecmp($role_type, "user_login") == 0) {
+        } elseif (strcasecmp($role_type, "user") === 0 || strcasecmp($role_type, "user_login") === 0) {
             // handle user roles
             $user_id = $this->parseUserID($id, $role_type);
-            if ($user_id != $ilUser->getId()) {
+            if ((int) $user_id !== $ilUser->getId()) {
                 // check access for user folder
                 $tmpUser = new ilObjUser($user_id);
                 $timelimitOwner = $tmpUser->getTimeLimitOwner();
                 if (!$rbacsystem->checkAccess('read', $timelimitOwner)) {
-                    return $this->__raiseError('Check access for time limit owner failed.', 'Server');
+                    return $this->raiseError('Check access for time limit owner failed.', 'Server');
                 }
             }
             $role_type = ""; // local and global roles for user
 
             $query = sprintf(
                 "SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.rol_id IN ('%s') AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id AND rbac_ua.usr_id=" . $user_id,
-                join("','", $rbacreview->assignedRoles($user_id))
+                implode("','", $rbacreview->assignedRoles($user_id))
             );
 
             $rbacresult = $ilDB->query($query);
             while ($rbacrow = $rbacresult->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-                if ($rbacrow["assign"] != "y") {
+                if ($rbacrow["assign"] !== "y") {
                     continue;
                 }
 
                 $type = "";
 
-                if ($rbacrow["parent"] == ROLE_FOLDER_ID) {
+                if ((int) $rbacrow["parent"] === ROLE_FOLDER_ID) {
                     $type = "Global";
                 } else {
                     $type = "Local";
@@ -618,10 +618,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
                     );
                 }
             }
-        } elseif ($id == "-1") {
+        } elseif ($id === -1) {
             // get all roles of system role folder
             if (!$rbacsystem->checkAccess('read', ROLE_FOLDER_ID)) {
-                return $this->__raiseError('Check access failed.', 'Server');
+                return $this->raiseError('Check access failed.', 'Server');
             }
 
             $roles = $rbacreview->getAssignableRoles(false, true);
@@ -629,22 +629,19 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             // get local roles for a specific repository object
             // needs permission to read permissions of this object
             if (!$rbacsystem->checkAccess('edit_permission', $id)) {
-                return $this->__raiseError('Check access for local roles failed.', 'Server');
-            }
-
-            if (!is_numeric($id)) {
-                return $this->__raiseError('Id must be numeric to process roles of a repository object.', 'Client');
+                return $this->raiseError('Check access for local roles failed.', 'Server');
             }
 
             $role_type = "local";
 
             foreach ($rbacreview->getRolesOfRoleFolder($id, false) as $role_id) {
                 if ($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id, false)) {
-                    $roles[] = array("obj_id" => $role_id,
-                                     "title" => $tmp_obj->getTitle(),
-                                     "description" => $tmp_obj->getDescription(),
-                                     "role_type" => $role_type
-                    );
+                    $roles[] = [
+                        "obj_id" => $role_id,
+                        "title" => $tmp_obj->getTitle(),
+                        "description" => $tmp_obj->getDescription(),
+                        "role_type" => $role_type
+                    ];
                 }
             }
         }
@@ -672,8 +669,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -683,18 +680,18 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
 
-        if (strcasecmp($role_type, "") != 0 &&
-            strcasecmp($role_type, "local") != 0 &&
-            strcasecmp($role_type, "global") != 0 &&
-            strcasecmp($role_type, "template") != 0) {
-            return $this->__raiseError(
+        if (strcasecmp($role_type, "") !== 0 &&
+            strcasecmp($role_type, "local") !== 0 &&
+            strcasecmp($role_type, "global") !== 0 &&
+            strcasecmp($role_type, "template") !== 0) {
+            return $this->raiseError(
                 'Called service with wrong role_type parameter \'' . $role_type . '\'',
                 'Client'
             );
         }
 
-        if ($combination != 'and' and $combination != 'or') {
-            return $this->__raiseError(
+        if ($combination !== 'and' && $combination !== 'or') {
+            return $this->raiseError(
                 'No valid combination given. Must be "and" or "or".',
                 'Client'
             );
@@ -704,10 +701,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $query_parser = new ilQueryParser($key);
         $query_parser->setMinWordLength(3);
-        $query_parser->setCombination($combination == 'and' ? ilQueryParser::QP_COMBINATION_AND : ilQueryParser::QP_COMBINATION_OR);
+        $query_parser->setCombination($combination === 'and' ? ilQueryParser::QP_COMBINATION_AND : ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
         if (!$query_parser->validate()) {
-            return $this->__raiseError($query_parser->getMessage(), 'Client');
+            return $this->raiseError($query_parser->getMessage(), 'Client');
         }
 
         include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -716,7 +713,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $object_search->setFilter(array("role", "rolt"));
 
         $res = $object_search->performSearch();
-        $res->filter(ROOT_FOLDER_ID, $combination == 'and' ? true : false);
+        $res->filter(ROOT_FOLDER_ID, $combination === 'and');
 
         $obj_ids = array();
         foreach ($res->getUniqueResults() as $entry) {
@@ -725,10 +722,9 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $roles = array();
         if (count($obj_ids) > 0) {
-            #print_r($obj_ids);
-            $roles = $rbacreview->getRolesForIDs($obj_ids, $role_type == "template");
+            $roles = $rbacreview->getRolesForIDs($obj_ids, $role_type === "template");
         }
-        #print_r($roles);
+
         include_once './webservice/soap/classes/class.ilSoapRoleObjectXMLWriter.php';
         $xml_writer = new ilSoapRoleObjectXMLWriter();
         $xml_writer->setObjects($roles);
@@ -742,18 +738,18 @@ class ilSoapRBACAdministration extends ilSoapAdministration
     private function parseUserID(int $id, string $role_type)
     {
         $user_id = 0;
-        if (strcasecmp($role_type, "user") == 0) {
+        if (strcasecmp($role_type, "user") === 0) {
             // get user roles for user id, which can be numeric or ilias id
             $user_id = !is_numeric($id) ? ilUtil::__extractId($id, IL_INST_ID) : $id;
             if (!is_numeric($user_id)) {
-                return $this->__raiseError('ID must be either numeric or ILIAS conform id for type \'user\'', 'Client');
+                return $this->raiseError('ID must be either numeric or ILIAS conform id for type \'user\'', 'Client');
             }
-        } elseif (strcasecmp($role_type, "user_login") == 0) {
+        } elseif (strcasecmp($role_type, "user_login") === 0) {
             // check for login
             $user_id = ilObjUser::_lookupId($id);
             if (!$user_id) {
                 // could not find a valid user
-                return $this->__raiseError('User with login \'' . $id . '\' does not exist!', 'Client');
+                return $this->raiseError('User with login \'' . $id . '\' does not exist!', 'Client');
             }
         }
         return $user_id;

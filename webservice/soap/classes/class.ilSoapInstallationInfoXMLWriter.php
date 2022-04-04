@@ -8,32 +8,29 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 {
     protected array $settings = [];
 
-    /**
-     * write access to property settings
-     */
-    public function setSettings(array $settings)
+    public function setSettings(array $settings) : void
     {
         $this->settings = $settings;
     }
 
     public function start() : void
     {
-        $this->__buildHeader();
-        $this->__buildInstallationInfo();
+        $this->buildHeader();
+        $this->buildInstallationInfo();
         $this->xmlStartTag("Clients");
     }
 
     public function addClient(?ilSetting $client) : void
     {
-        if (is_object($client)) {
-            $this->__buildClient($client);
+        if ($client instanceof ilSetting) {
+            $this->buildClient($client);
         }
     }
 
     public function end() : void
     {
         $this->xmlEndTag("Clients");
-        $this->__buildFooter();
+        $this->buildFooter();
     }
 
     public function getXML() : string
@@ -41,7 +38,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         return $this->xmlDumpMem(false);
     }
 
-    private function __buildHeader() : void
+    private function buildHeader() : void
     {
         // we have to build the http path here since this request is client independent!
         $httpPath = ilSoapFunctions::buildHTTPPath();
@@ -57,19 +54,19 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         );
     }
 
-    private function __buildFooter() : void
+    private function buildFooter() : void
     {
         $this->xmlEndTag('Installation');
     }
 
-    private function __buildClient(ilSetting $setting) : void
+    private function buildClient(ilSetting $setting) : void
     {
         // determine skins/styles
-        $skin_styles = array();
+        $skin_styles = array();// TODO PHP8-REVIEW Unnecessary operations
         include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
-        $skins = ilStyleDefinition::getAllSkins();
+        $skins = ilStyleDefinition::getAllSkins();// TODO PHP8-REVIEW Unnecessary operations
 
-        if (is_array($skins)) {
+        if (is_array($skins)) {// TODO PHP8-REVIEW Unnecessary operations
             foreach ($skins as $skin) {
                 foreach ($skin->getStyles() as $style) {
                     include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
@@ -82,22 +79,22 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         }
 
         // timezones
-        include_once('Services/Calendar/classes/class.ilTimeZone.php');
+        include_once('Services/Calendar/classes/class.ilTimeZone.php');// TODO PHP8-REVIEW Unnecessary operations
 
         $this->xmlStartTag(
             "Client",
             array(
                 "inst_id" => $setting->get("inst_id"),
-                "id" => $setting->clientid,
-                "enabled" => $setting->access == 1 ? "TRUE" : "FALSE",
-                "default_lang" => $setting->language,
+                "id" => $setting->clientid,// TODO PHP8-REVIEW Property dynamically declared
+                "enabled" => $setting->access == 1 ? "TRUE" : "FALSE",// TODO PHP8-REVIEW Property dynamically declared
+                "default_lang" => $setting->language,// TODO PHP8-REVIEW Property dynamically declared
 
             )
         );
         $this->xmlEndTag("Client");
     }
 
-    private function __buildInstallationInfo() : void
+    private function buildInstallationInfo() : void
     {
         $this->xmlStartTag("Settings");
         $this->xmlElement(

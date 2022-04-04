@@ -9,9 +9,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
  */
 class ilSoapWebLinkAdministration extends ilSoapAdministration
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
@@ -20,16 +17,16 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
     /**
      * Get Weblink xml
      */
-    public function readWebLink(string $sid, int $ref_id)
+    public function readWebLink(string $sid, int $request_ref_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!$ref_id) {
-            return $this->__raiseError(
+        if (!$request_ref_id) {
+            return $this->raiseError(
                 'No ref id given. Aborting!',
                 'Client'
             );
@@ -41,21 +38,22 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
 
         // get obj_id
-        if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
-            return $this->__raiseError(
-                'No weblink found for id: ' . $ref_id,
+        if (!$obj_id = ilObject::_lookupObjectId($request_ref_id)) {
+            return $this->raiseError(
+                'No weblink found for id: ' . $request_ref_id,
                 'Client'
             );
         }
 
-        if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
+        if (ilObject::_isInTrash($request_ref_id)) {
+            return $this->raiseError("Parent with ID $request_ref_id has been deleted.", 'Client');
         }
 
         // Check access
         $permission_ok = false;
         $write_permission_ok = false;
-        foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
+        $ref_ids = ilObject::_getAllReferences($obj_id);
+        foreach ($ref_ids as $ref_id) {
             if ($rbacsystem->checkAccess('edit', $ref_id)) {
                 $write_permission_ok = true;
                 break;
@@ -67,21 +65,21 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         }
 
         if (!$permission_ok && !$write_permission_ok) {
-            return $this->__raiseError(
-                'No permission to edit the object with id: ' . $ref_id,
+            return $this->raiseError(
+                'No permission to edit the object with id: ' . $request_ref_id,
                 'Server'
             );
         }
 
         try {
             include_once './Modules/WebResource/classes/class.ilWebLinkXmlWriter.php';
-            $writer = new ilWebLinkXmlWriter();
+            $writer = new ilWebLinkXmlWriter();// TODO PHP8-REVIEW Missing argument
             $writer->setObjId($obj_id);
             $writer->write();
 
             return $writer->xmlDumpMem(true);
         } catch (UnexpectedValueException $e) {
-            return $this->__raiseError($e->getMessage(), 'Client');
+            return $this->raiseError($e->getMessage(), 'Client');
         }
     }
 
@@ -93,8 +91,8 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         global $DIC;
 
@@ -103,25 +101,25 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
 
         if (!$target_obj = ilObjectFactory::getInstanceByRefId($target_id, false)) {
-            return $this->__raiseError('No valid target given.', 'Client');
+            return $this->raiseError('No valid target given.', 'Client');
         }
 
         if (ilObject::_isInTrash($target_id)) {
-            return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_OBJECT_DELETED');
+            return $this->raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_OBJECT_DELETED');
         }
 
         // Check access
         // TODO: read from object definition
         $allowed_types = array('cat', 'grp', 'crs', 'fold', 'root');
         if (!in_array($target_obj->getType(), $allowed_types)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid target type. Target must be reference id of "course, group, root, category or folder"',
                 'Client'
             );
         }
 
         if (!$rbacsystem->checkAccess('create', $target_id, "webr")) {
-            return $this->__raiseError('No permission to create weblink in target  ' . $target_id . '!', 'Client');
+            return $this->raiseError('No permission to create weblink in target  ' . $target_id . '!', 'Client');
         }
 
         // create object, put it into the tree and use the parser to update the settings
@@ -140,7 +138,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
             $parser->setMode(ilWebLinkXmlParser::MODE_CREATE);
             $parser->start();
         } catch (ilSaxParserException | ilWebLinkXmlParserException $e) {
-            return $this->__raiseError($e->getMessage(), 'Client');
+            return $this->raiseError($e->getMessage(), 'Client');
         }
 
         // Check if required
@@ -150,13 +148,13 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
     /**
      * update a weblink with id.
      */
-    public function updateWebLink(string $sid, int $ref_id, string $weblink_xml)
+    public function updateWebLink(string $sid, int $request_ref_id, string $weblink_xml)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         global $DIC;
 
@@ -164,16 +162,16 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         $tree = $DIC['tree'];
         $ilLog = $DIC['ilLog'];
 
-        if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError(
+        if (ilObject::_isInTrash($request_ref_id)) {
+            return $this->raiseError(
                 'Cannot perform update since weblink has been deleted.',
                 'CLIENT_OBJECT_DELETED'
             );
         }
         // get obj_id
-        if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
-            return $this->__raiseError(
-                'No weblink found for id: ' . $ref_id,
+        if (!$obj_id = ilObject::_lookupObjectId($request_ref_id)) {
+            return $this->raiseError(
+                'No weblink found for id: ' . $request_ref_id,
                 'CLIENT_OBJECT_NOT_FOUND'
             );
         }
@@ -188,16 +186,16 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         }
 
         if (!$permission_ok) {
-            return $this->__raiseError(
-                'No permission to edit the weblink with id: ' . $ref_id,
+            return $this->raiseError(
+                'No permission to edit the weblink with id: ' . $request_ref_id,
                 'Server'
             );
         }
 
         $webl = ilObjectFactory::getInstanceByObjId($obj_id, false);
-        if (!is_object($webl) or $webl->getType() != "webr") {
-            return $this->__raiseError(
-                'Wrong obj id or type for weblink with id ' . $ref_id,
+        if (!is_object($webl) || $webl->getType() !== "webr") {
+            return $this->raiseError(
+                'Wrong obj id or type for weblink with id ' . $request_ref_id,
                 'Client'
             );
         }
@@ -208,7 +206,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
             $parser->setMode(ilWebLinkXmlParser::MODE_UPDATE);
             $parser->start();
         } catch (ilSaxParserException | ilWebLinkXmlParserException $e) {
-            return $this->__raiseError($e->getMessage(), 'Client');
+            return $this->raiseError($e->getMessage(), 'Client');
         }
 
         // Check if required
