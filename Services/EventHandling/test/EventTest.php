@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
 /**
  * Test clipboard repository
@@ -66,7 +67,7 @@ class EventTest extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
+        $DIC[$name] = static function (Container $c) use ($value) {
             return $value;
         };
     }
@@ -83,7 +84,7 @@ class EventTest extends TestCase
     /**
      * Test event
      */
-    public function testEvent()
+    public function testEvent() : void
     {
         $handler = $this->getHandler();
 

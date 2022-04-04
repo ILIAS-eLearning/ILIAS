@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Exercise;
 
 use ILIAS\HTTP;
@@ -43,7 +57,7 @@ class GUIRequest
     }
 
     // get integer parameter kindly
-    protected function int($key) : int
+    protected function int(string $key) : int
     {
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
@@ -391,7 +405,7 @@ class GUIRequest
     // Workspace related
     //
 
-    public function getSelectedWspObjId() : string
+    public function getSelectedWspObjId() : int
     {
         return $this->int("sel_wsp_obj");
     }

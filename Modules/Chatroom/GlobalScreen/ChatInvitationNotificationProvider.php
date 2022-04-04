@@ -56,6 +56,7 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
         ->withDescription($this->dic->language()->txt('chat_invitation_nc_no_inv'));
 
         if (count($invitations) !== 0) {
+            $aggregatedItems = [];
             foreach ($invitations as $invitation) {
                 $link = '';
                 if (count($invitation['data']->links) === 1) {
@@ -74,7 +75,7 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
                 ->withDescription($link)
                 ->withProperties([
                     $this->dic->language()->txt('time') => ilDatePresentation::formatDate(
-                        new ilDateTime($osd['time_added'], IL_CAL_UNIX)
+                        new ilDateTime($invitation['time_added'], IL_CAL_UNIX)
                     )
                 ]);
             }

@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Exercise participant table
  *
@@ -22,7 +36,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
 
         if ($a_item_id > 0) {
             $name = ilObjUser::_lookupName($a_item_id);
-            if (trim($name["login"])) {
+            if (trim($name["login"]) !== '' && trim($name["login"]) !== '0') {
                 $this->user = new ilObjUser($a_item_id);
 
                 $this->setTitle(
@@ -159,9 +173,6 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
 
     public function numericOrdering(string $a_field) : bool
     {
-        if (in_array($a_field, ["order_nr"])) {
-            return true;
-        }
-        return false;
+        return $a_field === "order_nr";
     }
 }

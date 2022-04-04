@@ -25,7 +25,7 @@ interface ilExternalDetector extends ilDetector
      *
      * @return mixed
      */
-    public function setDbId($a_id);
+    public function setDbId($a_id) : void;
 
     /**
      * @return mixed
@@ -35,17 +35,17 @@ interface ilExternalDetector extends ilDetector
     /**
      * @return mixed
      */
-    public function hasDbId();
+    public function hasDbId() : bool;
 
     /**
      * @return mixed
      */
-    public function writeDetectorToDb();
+    public function writeDetectorToDb() : void;
 
     /**
      * @return mixed
      */
-    public function deleteDetectorFromDb();
+    public function deleteDetectorFromDb() : void;
 
     // Listening only at certain times scheme.
 
@@ -62,10 +62,9 @@ interface ilExternalDetector extends ilDetector
     /**
      * @param integer $listening_start
      * @param integer $listening_end
-     *
      * @return mixed
      */
-    public function setListeningTimeframe($listening_start, $listening_end);
+    public function setListeningTimeframe(int $listening_start, int $listening_end);
 
     // Event description scheme.
 

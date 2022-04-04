@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -171,8 +171,8 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 
         $map_gui = ilMapUtil::getMapGUI();
         $map_gui->setMapId($map_id)
-                ->setLatitude($lat)
-                ->setLongitude($long)
+                ->setLatitude((string) $lat)
+                ->setLongitude((string) $long)
                 ->setZoom($this->getZoom())
                 ->setEnableTypeControl(true)
                 ->setEnableLargeMapControl(true)

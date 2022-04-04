@@ -13,10 +13,9 @@ class ilModulesTestTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function createTestInCourse($context, $params)
+    public static function createTestInCourse(ilNode $context, array $params) : array
     {
         //IN: targetref, titlestring
         //OUT: refid
@@ -46,10 +45,9 @@ class ilModulesTestTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function assignUsersToTest($context, $params)
+    public static function assignUsersToTest(ilNode $context, array $params) : array
     {
         require_once './Modules/Test/classes/class.ilObjTest.php';
         //IN: anonuserlist
@@ -73,5 +71,6 @@ class ilModulesTestTasks
         foreach ($usr_id_list as $user_id) {
             $test_object->inviteUser($user_id);
         }
+        return array();
     }
 }

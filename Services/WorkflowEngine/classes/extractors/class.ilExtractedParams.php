@@ -11,21 +11,21 @@
 class ilExtractedParams
 {
     /** @var string $subject_type */
-    protected $subject_type;
+    protected string $subject_type;
 
     /** @var integer $subject_id */
-    protected $subject_id;
+    protected int $subject_id;
 
     /** @var string $context_type */
-    protected $context_type;
+    protected string $context_type;
 
     /** @var integer $context_id */
-    protected $context_id;
+    protected int $context_id;
 
     /**
      * @return string
      */
-    public function getSubjectType()
+    public function getSubjectType() : string
     {
         return $this->subject_type;
     }
@@ -33,7 +33,7 @@ class ilExtractedParams
     /**
      * @param string $subject_type
      */
-    public function setSubjectType($subject_type)
+    public function setSubjectType(string $subject_type) : void
     {
         $this->subject_type = $subject_type;
     }
@@ -41,7 +41,7 @@ class ilExtractedParams
     /**
      * @return int
      */
-    public function getSubjectId()
+    public function getSubjectId() : int
     {
         return $this->subject_id;
     }
@@ -49,7 +49,7 @@ class ilExtractedParams
     /**
      * @param int $subject_id
      */
-    public function setSubjectId($subject_id)
+    public function setSubjectId(int $subject_id) : void
     {
         $this->subject_id = $subject_id;
     }
@@ -57,7 +57,7 @@ class ilExtractedParams
     /**
      * @return string
      */
-    public function getContextType()
+    public function getContextType() : string
     {
         return $this->context_type;
     }
@@ -65,7 +65,7 @@ class ilExtractedParams
     /**
      * @param string $context_type
      */
-    public function setContextType($context_type)
+    public function setContextType(string $context_type) : void
     {
         $this->context_type = $context_type;
     }
@@ -73,7 +73,7 @@ class ilExtractedParams
     /**
      * @return int
      */
-    public function getContextId()
+    public function getContextId() : int
     {
         return $this->context_id;
     }
@@ -81,7 +81,7 @@ class ilExtractedParams
     /**
      * @param int $context_id
      */
-    public function setContextId($context_id)
+    public function setContextId(int $context_id) : void
     {
         $this->context_id = $context_id;
     }

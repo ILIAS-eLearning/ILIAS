@@ -16,10 +16,9 @@ class ilModulesCourseExtractor extends ilBaseExtractor
     /**
      * @param string $event
      * @param array  $parameters
-     *
      * @return \ilExtractedParams
      */
-    public function extract($event, $parameters)
+    public function extract(string $event, array $parameters) : ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('course');
 

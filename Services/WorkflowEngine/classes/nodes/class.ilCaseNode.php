@@ -18,18 +18,18 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
 class ilCaseNode extends ilBaseNode
 {
     /** @var bool $is_exclusive_join */
-    private $is_exclusive_join;
+    private bool $is_exclusive_join = false;
 
     /** @var bool $is_exclusive_fork */
-    private $is_exclusive_fork;
+    private bool $is_exclusive_fork = false;
 
     /** @var ilEmitter[] $else_emitters */
-    public $else_emitters;
+    public array $else_emitters;
 
     /** @var bool $is_exclusive */
-    public $is_exclusive;
+    public bool $is_exclusive;
 
-    private $condition_emitter_pairs = [];
+    private array $condition_emitter_pairs = [];
 
     /**
      * Default constructor.
@@ -46,17 +46,11 @@ class ilCaseNode extends ilBaseNode
         $this->is_exclusive = false;
     }
 
-    /**
-     * @param mixed $is_exclusive
-     */
     public function setIsExclusiveJoin($is_exclusive)
     {
         $this->is_exclusive_join = $is_exclusive;
     }
 
-    /**
-     * @param mixed $is_exclusive
-     */
     public function setIsExclusiveFork($is_exclusive)
     {
         $this->is_exclusive_fork = $is_exclusive;
@@ -96,7 +90,7 @@ class ilCaseNode extends ilBaseNode
      *
      * @return boolean True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions()
+    public function checkTransitionPreconditions() : bool
     {
         // queries the $detectors if their conditions are met.
         $isPreconditionMet = true;
@@ -119,7 +113,7 @@ class ilCaseNode extends ilBaseNode
      *
      * @return boolean True, if transition succeeded.
      */
-    public function attemptTransition()
+    public function attemptTransition() : bool
     {
         if ($this->checkTransitionPreconditions() == true) {
             $this->executeTransition();
@@ -162,7 +156,7 @@ class ilCaseNode extends ilBaseNode
      * @param ilEmitter $emitter
      * @param boolean   $else_emitter True, if the emitter should be an 'else'-emitter.
      */
-    public function addEmitter(ilEmitter $emitter, $expression = 'return true;')
+    public function addEmitter(ilEmitter $emitter, $expression = 'return true;') : void
     {
         $this->condition_emitter_pairs[] = array(
             'emitter' => $emitter,
@@ -177,7 +171,7 @@ class ilCaseNode extends ilBaseNode
      *
      * @return mixed|void
      */
-    public function notifyDetectorSatisfaction(ilDetector $detector)
+    public function notifyDetectorSatisfaction(ilDetector $detector) : void
     {
         if ($this->isActive()) {
             $this->attemptTransition();

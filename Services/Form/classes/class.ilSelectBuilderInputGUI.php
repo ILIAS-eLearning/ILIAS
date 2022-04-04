@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,13 +39,13 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         return $this->open_answer_indexes;
     }
     
-    public function setOpenAnswerIndexes(array $a_indexes)
+    public function setOpenAnswerIndexes(array $a_indexes) : void
     {
         $this->open_answer_indexes = $a_indexes;
     }
     
     // Mark an index as open answer
-    public function addOpenAnswerIndex(string $a_idx)
+    public function addOpenAnswerIndex(string $a_idx) : void
     {
         $this->open_answer_indexes[] = $a_idx;
     }
@@ -62,7 +62,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         $foundvalues = $this->getInput();
         $this->setOpenAnswerIndexes(array());
         if (is_array($foundvalues)) {
-            foreach ($foundvalues as $idx => $value) {
+            foreach ($foundvalues as $value) {
                 if ($this->getRequired() && trim($value) == "") {
                     $this->setAlert($lng->txt("msg_input_is_required"));
                     return false;
@@ -132,7 +132,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
             $tpl->setVariable('POST_VAR_OPEN_ID', $this->getPostVar() . '_open[' . $i . ']');
             $tpl->setVariable('TXT_OPEN', $lng->txt("form_open_answer"));
             
-            if ($this->isOpenAnswerIndex($i)) {
+            if ($this->isOpenAnswerIndex((string) $i)) {
                 $tpl->setVariable('PROP_OPEN_CHECKED', 'checked="checked"');
             }
             if ($this->getDisabled()) {

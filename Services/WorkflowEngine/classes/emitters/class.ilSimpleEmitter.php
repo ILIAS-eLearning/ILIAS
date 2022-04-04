@@ -28,17 +28,17 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @var ilDetector
      */
-    private $target_detector;
+    private ilDetector $target_detector;
 
     /**
      * This holds a reference to the parent ilNode.
      *
      * @var ilNode
      */
-    private $context;
+    private ilNode $context;
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /**
      * Default constructor.
@@ -65,7 +65,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilDetector Reference to the target detector.
      */
-    public function getTargetDetector()
+    public function getTargetDetector() : ilDetector
     {
         return $this->target_detector;
     }
@@ -75,7 +75,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilNode Reference to the parent node.
      */
-    public function getContext()
+    public function getContext() : ilNode
     {
         return $this->context;
     }
@@ -83,14 +83,11 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * Executes this emitter.
      */
-    public function emit()
+    public function emit() : void
     {
         $this->target_detector->trigger(array());
     }
 
-    /**
-     * @param string $name
-     */
     public function setName($name)
     {
         $this->name = $name;
@@ -99,7 +96,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

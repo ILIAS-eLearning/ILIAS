@@ -16,10 +16,9 @@ class ilServicesNewsExtractor extends ilBaseExtractor
     /**
      * @param string $event
      * @param array  $parameters
-     *
      * @return \ilExtractedParams
      */
-    public function extract($event, $parameters)
+    public function extract(string $event, array $parameters) : ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('news');
 
@@ -35,7 +34,7 @@ class ilServicesNewsExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractNews($parameters)
+    protected function extractNews(array $parameters) : void
     {
         $this->ilExtractedParams->setSubjectId(0);
         $this->ilExtractedParams->setContextType('news_ids');

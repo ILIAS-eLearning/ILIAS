@@ -17,10 +17,10 @@ use PHPUnit\Framework\TestCase;
 class ilLoggingActivityTest extends TestCase
 {
     /** vfsStream Test Directory, see setup. */
-    public $test_dir;
+    public vfs\vfsStreamDirectory $test_dir;
 
-    private $workflow;
-    private $node;
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
 
     public function setUp() : void
     {
@@ -144,23 +144,6 @@ class ilLoggingActivityTest extends TestCase
             $expected,
             'Get/Set corrupted message.'
         );
-    }
-
-    /**
-     *
-     */
-    public function testSetGetNullLogMessage()
-    {
-        $this->expectException(ilWorkflowObjectStateException::class);
-
-        // Arrange
-        $activity = new ilLoggingActivity($this->node);
-
-        // Act
-        $activity->setLogMessage(null);
-        $actual = $activity->getLogMessage();
-
-        // Assertion via phpdoc. (Exception)
     }
 
     /**

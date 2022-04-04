@@ -18,7 +18,7 @@ class ilWorkflowUtils
      *
      * @return integer
      */
-    public static function time()
+    public static function time() : int
     {
         if (defined('IL_PHPUNIT_TEST') && IL_PHPUNIT_TEST == true) {
             global $DIC;
@@ -31,9 +31,6 @@ class ilWorkflowUtils
         return time();
     }
 
-    /**
-     * @return mixed|string
-     */
     public static function microtime()
     {
         if (defined('IL_PHPUNIT_TEST') && IL_PHPUNIT_TEST == true) {
@@ -49,10 +46,9 @@ class ilWorkflowUtils
 
     /**
      * Handles the generic time_passed event.
-     *
-     * @param ilWorkflowEngine $workflow_engine
+     * @param ilWorkflowEngine|null $workflow_engine
      */
-    public static function handleTimePassedEvent($workflow_engine = null)
+    public static function handleTimePassedEvent(ilWorkflowEngine $workflow_engine = null)
     {
         if (!$workflow_engine) {
             require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';

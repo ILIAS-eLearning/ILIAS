@@ -13,7 +13,7 @@
 class ilWorkflowEngineDashboardGUI
 {
     /** @var  ilObjWorkflowEngineGUI */
-    protected $parent_gui;
+    protected ilObjWorkflowEngineGUI $parent_gui;
 
     /**
      * ilWorkflowEngineDashboardGUI constructor.
@@ -27,10 +27,9 @@ class ilWorkflowEngineDashboardGUI
 
     /**
      * @param string $command
-     *
      * @return string
      */
-    public function handle($command)
+    public function handle(string $command) : string
     {
         return "";
     }

@@ -23,7 +23,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     protected ilDBPdoReverse $reverse;
     protected ?int $limit = null;
     protected ?int $offset = null;
-    protected string $storage_engine = 'MyISAM';
+    protected string $storage_engine = 'InnoDB';
     protected string $dsn = '';
     /**
      * @var int[]
@@ -997,7 +997,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
          */
         $result = $stmt->execute($data);
         if ($result === false) {//This may not work since execute returns an object
-            throw new ilDatabaseException(implode(', ', $stmt->errorInfo()), $stmt->errorCode());
+            throw new ilDatabaseException(implode(', ', $stmt->errorInfo()), (int) $stmt->errorCode());
         }
         return $stmt;
     }
