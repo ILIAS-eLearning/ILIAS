@@ -1,3 +1,18 @@
+2.1.35 / 2022-03-12
+===================
+
+  * deps: mime-db@1.52.0
+    - Add extensions from IANA for more `image/*` types
+    - Add extension `.asc` to `application/pgp-keys`
+    - Add extensions to various XML types
+    - Add new upstream MIME types
+
+2.1.34 / 2021-11-08
+===================
+
+  * deps: mime-db@1.51.0
+    - Add new upstream MIME types
+
 2.1.33 / 2021-10-01
 ===================
 
@@ -18,7 +33,6 @@
   * deps: mime-db@1.48.0
     - Add extension `.mvt` to `application/vnd.mapbox-vector-tile`
     - Add new upstream MIME types
-    - Mark `text/yaml` as compressible
 
 2.1.30 / 2021-04-02
 ===================
@@ -96,7 +110,6 @@
     - Add extension `.nq` to `application/n-quads`
     - Add extension `.nt` to `application/n-triples`
     - Add new upstream MIME types
-    - Mark `text/less` as compressible
 
 2.1.21 / 2018-10-19
 ===================
@@ -349,7 +362,6 @@
 
   * deps: mime-db@~1.1.0
     - Add new mime types
-    - Add additional compressible
     - Update charsets
 
 2.0.1 / 2014-09-07
