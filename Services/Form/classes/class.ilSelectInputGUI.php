@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +54,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
      *
      * @param string|array $a_value Value
      */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -96,7 +96,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
             }
         } else {
             $values = $this->strArray($this->getPostVar());
-            foreach ($values as $idx => $value) {
+            foreach ($values as $value) {
                 if (!array_key_exists($value, $this->getOptions())) {
                     $this->setAlert($lng->txt('msg_invalid_post_input'));
                     return false;
@@ -145,7 +145,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
             $tpl->parseCurrentBlock();
         }
         
-        // determin value to select. Due to accessibility reasons we
+        // determine value to select. Due to accessibility reasons we
         // should always select a value (per default the first one)
         $first = true;
         foreach ($this->getOptions() as $option_value => $option_text) {
@@ -175,7 +175,8 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         if ($this->getMulti() && substr($postvar, -2) != "[]") {
             $postvar .= "[]";
         }
-        
+
+        $tpl->setVariable("POST_VAR", $postvar);
         if ($this->getDisabled()) {
             if ($this->getMulti()) {
                 $value = $this->getMultiValues();
@@ -192,8 +193,6 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
                 $tpl->setVariable("DISABLED", " disabled=\"disabled\"");
                 $tpl->setVariable("HIDDEN_INPUT", $hidden);
             }
-        } else {
-            $tpl->setVariable("POST_VAR", $postvar);
         }
         
         // multi icons

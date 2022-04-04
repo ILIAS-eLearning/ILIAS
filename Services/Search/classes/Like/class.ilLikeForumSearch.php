@@ -63,7 +63,6 @@ class ilLikeForumSearch extends ilForumSearch
 
     public function __createTopicAndCondition() : string
     {
-
         $field = 'thr_subject ';
         $and = " AND( ";
 

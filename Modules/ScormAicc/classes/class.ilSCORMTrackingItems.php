@@ -65,7 +65,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy) : array
+    public static function exportSelectedCoreColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
         global $DIC;
         $lng = $DIC->language();

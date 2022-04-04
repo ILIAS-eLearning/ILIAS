@@ -16,14 +16,10 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 class ASS_MarkSchema
 {
     /** @var $mark_steps array An array containing all mark steps defined for the test. */
-    public $mark_steps;
+    public array $mark_steps;
 
     /**
      * ASS_MarkSchema constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the ASS_MarkSchema object.
-     *
-     * @return ASS_MarkSchema
      */
     public function __construct()
     {
@@ -229,7 +225,7 @@ class ASS_MarkSchema
      */
     public function sort()
     {
-        function level_sort($a, $b)
+        function level_sort($a, $b) : int
         {
             if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
                 $res = strcmp($a->getShortName(), $b->getShortName());
@@ -423,7 +419,7 @@ class ASS_MarkSchema
     /**
      * @return ASS_Mark[]
      */
-    public function getMarkSteps()
+    public function getMarkSteps() : array
     {
         return $this->mark_steps;
     }
@@ -450,6 +446,6 @@ class ASS_MarkSchema
         global $DIC;
         $ilUser = $DIC['ilUser'];
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-        ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true, $_GET["ref_id"]);
+        ilObjAssessmentFolder::_addLog($ilUser->getId(), ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", true);
     }
 }

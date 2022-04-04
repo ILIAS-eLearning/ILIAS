@@ -34,7 +34,7 @@ class ilTestParticipantAccessFilter
     /**
      * @return int
      */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->refId;
     }
@@ -50,7 +50,7 @@ class ilTestParticipantAccessFilter
     /**
      * @return string
      */
-    public function getFilter()
+    public function getFilter() : string
     {
         return $this->filter;
     }
@@ -67,7 +67,7 @@ class ilTestParticipantAccessFilter
      * @param int[] $userIds
      * @return int[]
      */
-    public function filterCallback($userIds)
+    public function filterCallback($userIds) : array
     {
         switch ($this->getFilter()) {
             case self::FILTER_MANAGE_PARTICIPANTS:
@@ -91,7 +91,7 @@ class ilTestParticipantAccessFilter
      * @param int[] $userIds
      * @return int[]
      */
-    public function manageParticipantsUserFilter($userIds)
+    public function manageParticipantsUserFilter($userIds) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -109,7 +109,7 @@ class ilTestParticipantAccessFilter
      * @param int[] $userIds
      * @return int[]
      */
-    public function scoreParticipantsUserFilter($userIds)
+    public function scoreParticipantsUserFilter($userIds) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -127,7 +127,7 @@ class ilTestParticipantAccessFilter
      * @param int[] $userIds
      * @return int[]
      */
-    public function accessResultsUserFilter($userIds)
+    public function accessResultsUserFilter($userIds) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -145,7 +145,7 @@ class ilTestParticipantAccessFilter
      * @param int[] $userIds
      * @return int[]
      */
-    public function accessStatisticsUserFilter($userIds)
+    public function accessStatisticsUserFilter($userIds) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

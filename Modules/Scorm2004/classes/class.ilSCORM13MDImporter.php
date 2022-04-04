@@ -20,7 +20,7 @@
  */
 class ilSCORM13MDImporter extends ilMDXMLCopier
 {
-    protected $manifest_dom;
+    protected \DOMDocument $manifest_dom;
     protected bool $metadata_found = false;
     protected array $path = array();
     protected string $title = ""; // overall title extracted from manifest
@@ -29,10 +29,8 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
     /**
      * Constructor
      *
-     * @param
-     * @return
      */
-    public function __construct($a_manifest_dom, $a_obj_id)
+    public function __construct(\DOMDocument $a_manifest_dom, int $a_obj_id)
     {
         $this->manifest_dom = $a_manifest_dom;
         $path = new DOMXpath($a_manifest_dom);
@@ -741,12 +739,10 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
     }
 
     /**
-     *
-     *
-     * @param
-     * @return
+     * @param string $a_name
+     * @return bool
      */
-    public function in($a_name) : bool
+    public function in(string $a_name) : bool
     {
         //		echo "<br>"; var_dump($this->path);
         if (in_array($a_name, $this->path)) {

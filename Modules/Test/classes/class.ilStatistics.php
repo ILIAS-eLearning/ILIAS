@@ -12,8 +12,8 @@
     /**
     * Constants for the handling of elements which are not a number
     */
-    define("NAN_HANDLING_REMOVE", 0);
-    define("NAN_HANDLING_ZERO", 1);
+const NAN_HANDLING_REMOVE = 0;
+const NAN_HANDLING_ZERO = 1;
 
 class ilStatistics
 {
@@ -69,7 +69,7 @@ class ilStatistics
     * @return integer A constant defining the handling of elements which are not a number
     * @access public
     */
-    public function getNANHandling()
+    public function getNANHandling() : int
     {
         return $this->nan_handling;
     }
@@ -92,7 +92,7 @@ class ilStatistics
     * @return array An array containing the sorted numeric data
     * @access public
     */
-    public function getData()
+    public function getData() : array
     {
         return $this->stat_data;
     }
@@ -251,7 +251,7 @@ class ilStatistics
     */
     public function geometric_mean()
     {
-        $prod = $this->product();
+        $prod = $this->product(1);
         if (($prod === false) or ($prod === 0)) {
             return false;
         }
@@ -387,7 +387,7 @@ class ilStatistics
     * @return boolean Returns true on success, otherwise false
     * @access private
     */
-    public function validate()
+    public function validate() : bool
     {
         $result = true;
         foreach ($this->stat_data as $key => $value) {

@@ -46,7 +46,10 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
             $this->addCommandButton("save", $this->lng->txt("save"));
         }
     }
-    
+
+    /**
+     * @param array<string,string> $a_set
+     */
     protected function fillRow(array $a_set) : void
     {
         if ($a_set["active"]) {

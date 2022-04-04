@@ -22,7 +22,7 @@ class ilAccountCodesGUI
     protected ilPropertyFormGUI $form_gui;
     protected \ILIAS\User\StandardGUIRequest $request;
     protected int $ref_id;
-    protected array $filter;
+    protected array $filter; // obsolete?
     private \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(int $a_ref_id)
@@ -267,7 +267,7 @@ class ilAccountCodesGUI
         $utab = new ilAccountCodesTableGUI($this, "listCodes");
         $codes = ilAccountCode::getCodesForExport($utab->filter["code"], $utab->filter["valid_until"], $utab->filter["generated"]);
 
-        if (sizeof($codes)) {
+        if (count($codes)) {
             // #13497
             ilUtil::deliverData(implode("\r\n", $codes), "ilias_account_codes_" . date("d-m-Y") . ".txt", "text/plain");
         } else {

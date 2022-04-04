@@ -20,33 +20,31 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return $commands;
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
-        if (is_string($a_target)) {
-            $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
 
-            if (count($t_arr) < 2 || $t_arr[0] !== 'chtr' || ((int) $t_arr[1]) <= 0) {
-                return false;
-            }
+        if (count($t_arr) < 2 || $t_arr[0] !== 'chtr' || ((int) $t_arr[1]) <= 0) {
+            return false;
+        }
 
-            if (
-                ilChatroom::checkUserPermissions('visible', (int) $t_arr[1], false) ||
-                ilChatroom::checkUserPermissions('read', (int) $t_arr[1], false)
-            ) {
-                return true;
-            }
+        if (
+            ilChatroom::checkUserPermissions('visible', (int) $t_arr[1], false) ||
+            ilChatroom::checkUserPermissions('read', (int) $t_arr[1], false)
+        ) {
+            return true;
         }
 
         return false;
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
-        if (!$a_user_id) {
-            $a_user_id = $GLOBALS['DIC']->user()->getId();
+        if (!$user_id) {
+            $user_id = $GLOBALS['DIC']->user()->getId();
         }
 
-        return self::checkRoomAccess((string) $a_permission, (int) $a_ref_id, (int) $a_obj_id, (int) $a_user_id);
+        return self::checkRoomAccess($permission, $ref_id, $obj_id, (int) $user_id);
     }
 
     private static function checkRoomAccess(string $a_permission, int $a_ref_id, int $a_obj_id, int $a_user_id) : bool

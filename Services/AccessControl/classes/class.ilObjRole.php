@@ -136,7 +136,7 @@ class ilObjRole extends ilObject
      * loads "role" from database
      * @access private
      */
-    public function read()
+    public function read() : void
     {
         $query = "SELECT * FROM role_data WHERE role_id= " . $this->db->quote($this->id, 'integer') . " ";
         $res = $this->db->query($query);
@@ -151,7 +151,7 @@ class ilObjRole extends ilObject
         parent::read();
     }
 
-    public function update()
+    public function update() : bool
     {
         $query = "UPDATE role_data SET " .
             "allow_register= " . $this->db->quote($this->allow_register, 'integer') . ", " .
@@ -166,7 +166,7 @@ class ilObjRole extends ilObject
         return true;
     }
 
-    public function create()
+    public function create() : int
     {
         global $DIC;
 
@@ -258,7 +258,7 @@ class ilObjRole extends ilObject
      * @access    public
      * @return    bool    true if all object data were removed; false if only a references were removed
      */
-    public function delete()
+    public function delete() : bool
     {
         global $DIC;
 
@@ -687,24 +687,14 @@ class ilObjRole extends ilObject
                 $rbac_log_old = ilRbacLog::gatherFaPa((int) $node['child'], array_keys($rbac_log_roles));
             }
 
-            // Node is course => create course permission intersection
-            if (($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES or
-                    $a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) and ($node['type'] == 'crs')) {
+            // Node is course or group => create permission intersection
+            if (
+                ($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES || $a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) &&
+                ($node['type'] == 'crs' || $node['type'] == 'grp')
+            ) {
                 // Copy role permission intersection
                 $perms = end($operation_stack);
-                $this->createPermissionIntersection($policy_stack, $perms['crs'], $node['child'], $node['type']);
-                if ($this->updateOperationStack($operation_stack, $node['child'])) {
-                    $this->updatePolicyStack($policy_stack, $node['child']);
-                    array_push($node_stack, $node);
-                }
-            }
-
-            // Node is group => create group permission intersection
-            if (($a_mode == self::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES or
-                    $a_mode == self::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES) and ($node['type'] == 'grp')) {
-                // Copy role permission intersection
-                $perms = end($operation_stack);
-                $this->createPermissionIntersection($policy_stack, $perms['grp'], $node['child'], $node['type']);
+                $this->createPermissionIntersection($policy_stack, $perms[$node['type']], $node['child'], $node['type']);
                 if ($this->updateOperationStack($operation_stack, $node['child'])) {
                     $this->updatePolicyStack($policy_stack, $node['child']);
                     array_push($node_stack, $node);
@@ -713,7 +703,6 @@ class ilObjRole extends ilObject
 
             // Set permission
             $perms = end($operation_stack);
-
             $this->changeExistingObjectsGrantPermissions(
                 $this->getId(),
                 (array) $perms[$node['type']],

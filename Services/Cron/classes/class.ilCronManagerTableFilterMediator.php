@@ -113,7 +113,7 @@ class ilCronManagerTableFilterMediator
             self::FILTER_PROPERTY_NAME_RESULT => $result,
         ];
 
-        $filter = $this->uiService->filter()->standard(
+        return $this->uiService->filter()->standard(
             'cron_job_adm_table',
             $action,
             $fields,
@@ -121,8 +121,6 @@ class ilCronManagerTableFilterMediator
             true,
             true
         );
-
-        return $filter;
     }
 
     public function filteredJobs(Standard $filter) : ilCronJobCollection

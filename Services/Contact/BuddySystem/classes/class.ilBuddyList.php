@@ -294,7 +294,7 @@ class ilBuddyList
         }
 
         $login = ilObjUser::_lookupLogin($this->getRelationTargetUserId($relation));
-        if ($login === false || $login === '') {
+        if ($login === '') {
             throw new ilBuddySystemException(sprintf(
                 'You cannot add a non existing user (id: %s)',
                 $this->getRelationTargetUserId($relation)

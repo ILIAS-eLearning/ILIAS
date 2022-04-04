@@ -53,7 +53,7 @@ class ilPCMediaObjectQuickEdit
     /**
      * Set title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         if (!$this->isTitleReadOnly()) {
             $this->mob->setTitle($title);
@@ -168,7 +168,7 @@ class ilPCMediaObjectQuickEdit
     /**
      * Set caption (pc if more usages, otherwise mob)
      */
-    public function setCaption(string $caption)
+    public function setCaption(string $caption) : void
     {
         $std_alias = $this->pcmedia->getStandardMediaAliasItem();
         $std_item = $this->mob->getMediaItem("Standard");

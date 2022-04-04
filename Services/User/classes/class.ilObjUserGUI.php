@@ -22,7 +22,7 @@
 class ilObjUserGUI extends ilObjectGUI
 {
     protected bool $update;
-    protected array $selectable_roles;
+    protected array $selectable_roles; // Missing array type.
     protected int $default_role;
     protected ilUserDefinedFields $user_defined_fields;
     /**
@@ -35,7 +35,7 @@ class ilObjUserGUI extends ilObjectGUI
     protected ILIAS\UI\Factory $uiFactory;
     protected ILIAS\UI\Renderer $uiRenderer;
     public ilCtrl $ilCtrl;
-    public array $gender;
+    public array $gender; // Missing array type.
     public int $user_ref_id;
     protected string $requested_letter = "";
     protected string $requested_baseClass = "";
@@ -258,7 +258,8 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->tpl->setVariable("FIELD_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($old));
             } else {
                 $this->tpl->setCurrentBlock("field_select");
-                $this->tpl->setVariable("SELECT_BOX",
+                $this->tpl->setVariable(
+                    "SELECT_BOX",
                     ilLegacyFormElementsUtil::formSelect(
                         $old,
                         'udf[' . $definition['field_id'] . ']',
@@ -407,8 +408,8 @@ class ilObjUserGUI extends ilObjectGUI
             $userObj->setDescription($userObj->getEmail());
 
             $udf = array();
-            foreach ($_POST as $k => $v) {
-                if (substr($k, 0, 4) == "udf_") {
+            foreach ($this->request->getParsedBody() as $k => $v) {
+                if (strpos($k, "udf_") === 0) {
                     $udf[substr($k, 4)] = $v;
                 }
             }
@@ -514,10 +515,10 @@ class ilObjUserGUI extends ilObjectGUI
                 $acc_mail->setUser($userObj);
 
                 if ($acc_mail->send()) {
-                    $msg = $msg . '<br />' . $this->lng->txt('mail_sent');
+                    $msg .= '<br />' . $this->lng->txt('mail_sent');
                     $this->tpl->setOnScreenMessage('success', $msg, true);
                 } else {
-                    $msg = $msg . '<br />' . $this->lng->txt('mail_not_sent');
+                    $msg .= '<br />' . $this->lng->txt('mail_not_sent');
                     $this->tpl->setOnScreenMessage('info', $msg, true);
                 }
             } else {
@@ -819,8 +820,8 @@ class ilObjUserGUI extends ilObjectGUI
             $this->loadValuesFromForm('update');
 
             $udf = array();
-            foreach ($_POST as $k => $v) {
-                if (substr($k, 0, 4) == "udf_") {
+            foreach ($this->request->getParsedBody() as $k => $v) {
+                if (strpos($k, "udf_") === 0) {
                     $udf[substr($k, 4)] = $v;
                 }
             }
@@ -1043,13 +1044,12 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Init user form
      */
-    public function initForm(string $a_mode)
+    public function initForm(string $a_mode) : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-        $styleDefinition = $DIC['styleDefinition'];
         $ilSetting = $DIC['ilSetting'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
         $ilUser = $DIC['ilUser'];
@@ -1394,7 +1394,7 @@ class ilObjUserGUI extends ilObjectGUI
             $all_defs = $user_defined_fields->getChangeableLocalUserAdministrationDefinitions();
         }
 
-        foreach ($all_defs as $field_id => $definition) {
+        foreach ($all_defs as $definition) {
             $f_property = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition, true);
             if ($f_property instanceof ilFormPropertyGUI) {
                 $this->form_gui->addItem($f_property);
@@ -1452,10 +1452,8 @@ class ilObjUserGUI extends ilObjectGUI
                 $lng->txt("skin_style"),
                 'skin_style'
             );
-            /**
-             * @var ilStyleDefinition $styleDefinition
-             */
-            $skins = $styleDefinition->getAllSkins();
+
+            $skins = ilStyleDefinition::getAllSkins();
 
             $options = array();
             if (is_array($skins)) {
@@ -1791,9 +1789,7 @@ class ilObjUserGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
         $rbacsystem = $DIC['rbacsystem'];
-        $ilUser = $DIC['ilUser'];
         $ilTabs = $DIC['ilTabs'];
         $access = $DIC->access();
 
@@ -1885,13 +1881,13 @@ class ilObjUserGUI extends ilObjectGUI
                 return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $month, false, true);
 
             case "year":
-                if ($a_selected < date('Y', time())) {
+                if ($a_selected < date('Y')) {
                     $start = $a_selected;
                 } else {
-                    $start = date('Y', time());
+                    $start = date('Y');
                 }
 
-                for ($i = $start; $i < date("Y", time()) + 11; ++$i) {
+                for ($i = $start; $i < ((int) date("Y") + 11); ++$i) {
                     $year[$i] = $i;
                 }
                 return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $year, false, true);
@@ -1899,7 +1895,7 @@ class ilObjUserGUI extends ilObjectGUI
         return "";
     }
 
-    public function __toUnix(array $a_time_arr) : int
+    public function __toUnix(array $a_time_arr) : int // Missing array type.
     {
         return mktime(
             $a_time_arr["hour"],
@@ -1934,17 +1930,11 @@ class ilObjUserGUI extends ilObjectGUI
         );
     }
 
-    protected function hitsperpageObject() : void
-    {
-        parent::hitsperpageObject();
-        $this->roleassignmentObject();
-    }
-
     /**
      * should be overwritten to add object specific items
      * (repository items are preloaded)
      */
-    protected function addAdminLocatorItems($a_do_not_add_object = false)
+    protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
     {
         global $DIC;
 
@@ -2087,7 +2077,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
         }
 
-        if (substr($a_target, 0, 1) == "n") {
+        if (strpos($a_target, "n") === 0) {
             $a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
         }
 
@@ -2126,7 +2116,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
 
         $user_defined_fields = ilUserDefinedFields::_getInstance();
-        foreach ($user_defined_fields->getDefinitions() as $field_id => $definition) {
+        foreach ($user_defined_fields->getDefinitions() as $definition) {
             $elm = $this->form_gui->getItemByPostVar('udf_' . $definition['field_id']);
 
             if (!$elm) {

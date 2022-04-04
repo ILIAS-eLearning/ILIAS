@@ -37,7 +37,7 @@ class ilObjFileBasedLM extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function update(bool $a_skip_meta = false)
+    public function update(bool $a_skip_meta = false) : bool
     {
         $ilDB = $this->db;
 
@@ -64,11 +64,11 @@ class ilObjFileBasedLM extends ilObject
         $this->setStartFile((string) $lm_rec["startfile"]);
     }
 
-    public function create(bool $a_skip_meta = false)
+    public function create(bool $a_skip_meta = false) : int
     {
         $ilDB = $this->db;
 
-        parent::create();
+        $id = parent::create();
         $this->createDataDirectory();
 
         $ilDB->manipulate("INSERT INTO file_based_lm (id, startfile) VALUES " .
@@ -77,6 +77,7 @@ class ilObjFileBasedLM extends ilObject
         if (!$a_skip_meta) {
             $this->createMetaData();
         }
+        return $id;
     }
 
     public function getDataDirectory(string $mode = "filesystem") : string
@@ -115,7 +116,7 @@ class ilObjFileBasedLM extends ilObject
         return ilObjFileBasedLMAccess::_lookupDiskUsage($this->id);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         $ilDB = $this->db;
 
@@ -149,19 +150,20 @@ class ilObjFileBasedLM extends ilObject
     ) : void {
         preg_match("/.*htlm_([0-9]*)\.zip/", $a_filename, $match);
         if (is_dir($a_dir . "/htlm_" . $match[1])) {
-            $a_dir = $a_dir . "/htlm_" . $match[1];
+            $a_dir .= "/htlm_" . $match[1];
         }
         ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
         ilFileUtils::renameExecutables($this->getDataDirectory());
     }
     
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        /** @var ilObjFileBasedLM $new_obj */
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneMetaData($new_obj);
 
         //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOfflineStatus($this->getOfflineStatus());

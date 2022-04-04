@@ -3,7 +3,7 @@
 class ilADTMultiEnumFormBridge extends ilADTFormBridge
 {
     protected ?array $option_infos = [];
-    protected $auto_sort = true;
+    protected bool $auto_sort = true;
 
     protected function isValidADT(ilADT $a_adt) : bool
     {
@@ -55,7 +55,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
         $field->setValue($this->getADT()->getSelections());
     }
 
-    protected function isActiveForSubItems(mixed $a_parent_option = null) : bool
+    protected function isActiveForSubItems($a_parent_option = null) : bool
     {
         $current = $this->getADT()->getSelections();
         return (is_array($current) && in_array($a_parent_option, $current));

@@ -24,7 +24,6 @@ use ILIAS\Refinery\Transformation;
  */
 class ArrayBasedRequestWrapper implements RequestWrapper
 {
-
     private array $raw_values;
 
 

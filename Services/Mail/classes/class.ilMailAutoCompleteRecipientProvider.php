@@ -10,7 +10,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     protected ?ilDBStatement $res = null;
     /** @var string[] */
     protected array $data = [];
-    protected $quoted_term = '';
+    protected string $quoted_term ;
     protected string $term = '';
     protected int $user_id = 0;
 

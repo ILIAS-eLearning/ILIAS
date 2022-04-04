@@ -13,6 +13,7 @@ class ilCertificateRpcClientFactoryHelper
      */
     public function ilFO2PDF(string $package, string $certificateContent) : stdClass
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilRpcClientFactory::factory($package)->ilFO2PDF($certificateContent);
     }
 }

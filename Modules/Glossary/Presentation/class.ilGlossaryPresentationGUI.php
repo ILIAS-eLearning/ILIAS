@@ -452,7 +452,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         // toc
         if (count($defs) > 1 && $a_page_mode == ilPageObjectGUI::PRESENTATION) {
             $def_tpl->setCurrentBlock("toc");
-            for ($j = 1; $j <= count($defs); $j++) {
+            for ($j = 1, $jMax = count($defs); $j <= $jMax; $j++) {
                 $def_tpl->setCurrentBlock("toc_item");
                 $def_tpl->setVariable("TOC_DEF_NR", $j);
                 $def_tpl->setVariable("TOC_DEF", $lng->txt("cont_definition"));
@@ -462,7 +462,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             $def_tpl->parseCurrentBlock();
         }
 
-        for ($j = 0; $j < count($defs); $j++) {
+        for ($j = 0, $jMax = count($defs); $j < $jMax; $j++) {
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
             $this->basicPageGuiInit($page_gui);
@@ -511,26 +511,24 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             foreach ($sources as $src) {
                 $type = explode(':', $src['type']);
                 
-                if ($type[0] == 'lm') {
-                    if ($type[1] == 'pg') {
-                        $title = ilLMPageObject::_getPresentationTitle($src['id']);
-                        $lm_id = ilLMObject::_lookupContObjID($src['id']);
-                        $lm_title = ilObject::_lookupTitle($lm_id);
-                        $def_tpl->setCurrentBlock('backlink_item');
-                        $ref_ids = ilObject::_getAllReferences($lm_id);
-                        $access = false;
-                        foreach ($ref_ids as $rid) {
-                            if ($ilAccess->checkAccess("read", "", $rid)) {
-                                $access = true;
-                            }
+                if ($type[0] == 'lm' && $type[1] == 'pg') {
+                    $title = ilLMPageObject::_getPresentationTitle($src['id']);
+                    $lm_id = ilLMObject::_lookupContObjID($src['id']);
+                    $lm_title = ilObject::_lookupTitle($lm_id);
+                    $def_tpl->setCurrentBlock('backlink_item');
+                    $ref_ids = ilObject::_getAllReferences($lm_id);
+                    $access = false;
+                    foreach ($ref_ids as $rid) {
+                        if ($ilAccess->checkAccess("read", "", $rid)) {
+                            $access = true;
                         }
-                        if ($access) {
-                            $def_tpl->setCurrentBlock("backlink_item");
-                            $def_tpl->setVariable("BACKLINK_LINK", ILIAS_HTTP_PATH . "/goto.php?target=" . $type[1] . "_" . $src['id']);
-                            $def_tpl->setVariable("BACKLINK_ITEM", $lm_title . ": " . $title);
-                            $def_tpl->parseCurrentBlock();
-                            $backlist_shown = true;
-                        }
+                    }
+                    if ($access) {
+                        $def_tpl->setCurrentBlock("backlink_item");
+                        $def_tpl->setVariable("BACKLINK_LINK", ILIAS_HTTP_PATH . "/goto.php?target=" . $type[1] . "_" . $src['id']);
+                        $def_tpl->setVariable("BACKLINK_ITEM", $lm_title . ": " . $title);
+                        $def_tpl->parseCurrentBlock();
+                        $backlist_shown = true;
                     }
                 }
             }

@@ -14,13 +14,8 @@ class assAnswerErrorTextTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
     public function test_instantiateObjectSimple()
@@ -67,20 +62,6 @@ class assAnswerErrorTextTest extends assBaseTestCase
         // Assert
         $this->assertEquals($actual, $expected);
     }
-    
-    public function test_setPoints_invalid()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
-        $instance = new assAnswerErrorText('errortext');
-        $expected = 'hokum';
-
-        // Act
-        $instance->points = $expected;
-        $actual = $instance->points;
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
 
     public function test_setGetTextCorrect()
     {
@@ -123,21 +104,6 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $instance->text_wrong = $expected;
         $actual = $instance->text_wrong;
         
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
-    
-    public function test_setGetUnknown()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
-        $instance = new assAnswerErrorText('errortext');
-        $expected = null;
-
-        // Act
-        $instance->undefined123 = 'No expectations';
-        $actual = $instance->undefined123;
-
         // Assert
         $this->assertEquals($expected, $actual);
     }

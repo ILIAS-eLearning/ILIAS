@@ -60,12 +60,9 @@ class ilHelpModuleTableGUI extends ilTable2GUI
     
     public function getHelpModules() : void
     {
-        $this->setData($this->parent_obj->object->getHelpModules());
+        $this->setData($this->parent_obj->getObject()->getHelpModules());
     }
-    
-    /**
-     * Fill table row
-     */
+
     protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
@@ -75,7 +72,7 @@ class ilHelpModuleTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($this->parent_obj, "hm_id", $a_set["id"]);
         if ($this->has_write_permission) {
             $this->tpl->setCurrentBlock("cmd");
-            if ($a_set["id"] == $ilSetting->get("help_module")) {
+            if ((int) $a_set["id"] === (int) $ilSetting->get("help_module")) {
                 $this->tpl->setVariable(
                     "HREF_CMD",
                     $ilCtrl->getLinkTarget($this->parent_obj, "deactivateModule")

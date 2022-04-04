@@ -19,6 +19,7 @@
  */
 abstract class ilUDFDefinitionPlugin extends ilPlugin
 {
+    public const UDF_SLOT_ID = 'udfd';
     abstract public function getDefinitionType() : int;
     
     abstract public function getDefinitionTypeName() : string;

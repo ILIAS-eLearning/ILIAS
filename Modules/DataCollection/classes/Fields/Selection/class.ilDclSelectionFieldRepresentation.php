@@ -3,7 +3,6 @@
 
 /**
  * Class ilDclSelectionFieldRepresentation
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresentation
@@ -13,11 +12,9 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     const PROP_SELECTION_TYPE = '';
     const PROP_SELECTION_OPTIONS = '';
 
-
     /**
      * @param ilObjDataCollection $dcl
      * @param string              $mode
-     *
      * @return ilPropertyFormGUI
      */
     protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
@@ -27,7 +24,8 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
         $selection_options = $this->buildOptionsInput();
         $opt->addSubItem($selection_options);
 
-        $selection_type = new ilRadioGroupInputGUI($this->lng->txt('dcl_selection_type'), 'prop_' . static::PROP_SELECTION_TYPE);
+        $selection_type = new ilRadioGroupInputGUI($this->lng->txt('dcl_selection_type'),
+            'prop_' . static::PROP_SELECTION_TYPE);
         $selection_type->setRequired(true);
 
         $option_1 = new ilRadioOption(
@@ -53,11 +51,9 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
         return $opt;
     }
 
-
     /**
      * @param ilPropertyFormGUI $form
      * @param int               $record_id
-     *
      * @return ilMultiSelectInputGUI|ilRadioGroupInputGUI|ilSelectInputGUI
      */
     public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
@@ -75,7 +71,8 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
             case ilDclSelectionFieldModel::SELECTION_TYPE_MULTI:
                 //				global $DIC;
                 //				$DIC->ui()->mainTemplate()->addOnLoadCode('$("#field_' . $this->getField()->getId() . '").removeClass("input")');
-                $input = new ilMultiSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
+                $input = new ilMultiSelectInputGUI($this->getField()->getTitle(),
+                    'field_' . $this->getField()->getId());
 
                 $input->setHeight(100);
                 $input->setHeightUnit('%; max-height: 150px');
@@ -102,15 +99,14 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
         return $input;
     }
 
-
     /**
      * @param ilTable2GUI $table
-     *
      * @return null
      */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
+            false, $this->getField()->getId());
 
         $options = ilDclSelectionOption::getAllForField($this->getField()->getId());
         $array = array('' => $this->lng->txt('dcl_all_entries'));
@@ -126,7 +122,6 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 
         return $this->getFilterInputFieldValue($input);
     }
-
 
     /**
      * @return mixed

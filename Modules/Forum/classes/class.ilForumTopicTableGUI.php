@@ -23,11 +23,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
     private ilSetting $settings;
 
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $ref_id,
+        ilObjForumGUI $a_parent_obj,
+        string $a_parent_cmd,
+        int $ref_id,
         ForumDto $topicData,
-        $is_moderator = false,
+        bool $is_moderator = false,
         int $overview_setting = 0
     ) {
         global $DIC;
@@ -165,7 +165,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
                 ilLegacyFormElementsUtil::formRadioButton(
                     $checked,
                     'thread_ids[]',
-                    $thread->getId()
+                    (string) $thread->getId()
                 )
             );
         } elseif ('showThreads' === $this->parent_cmd) {
@@ -174,15 +174,15 @@ class ilForumTopicTableGUI extends ilTable2GUI
                 ilLegacyFormElementsUtil::formCheckbox(
                     (isset($thread_ids) && in_array($thread->getId(), $thread_ids, true)),
                     'thread_ids[]',
-                    $thread->getId()
+                    (string) $thread->getId()
                 )
             );
 
             if ($this->parent_obj->objProperties->isIsThreadRatingEnabled()) {
                 $rating = new ilRatingGUI();
                 $rating->setObject(
-                    $this->parent_obj->object->getId(),
-                    $this->parent_obj->object->getType(),
+                    $this->parent_obj->getObject()->getId(),
+                    $this->parent_obj->getObject()->getType(),
                     $thread->getId(),
                     'thread'
                 );

@@ -18,7 +18,7 @@ class ilCertificatePdfFilename implements ilCertificateFilename
     public function createFileName(ilUserCertificatePresentation $presentation) : string
     {
         $basename = $this->lng->txt('certificate_file_basename');
-        if (!is_string($basename) || '' === trim($basename)) {
+        if ('' === trim($basename)) {
             $basename = 'Certificate';
         }
 

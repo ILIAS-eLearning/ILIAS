@@ -21,8 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("SHOWDRAW_NO", "1");
-define("SHOWDRAW_YES", "2");
+const SHOWDRAW_NO = "1";
+const SHOWDRAW_YES = "2";
 
 /**
 * QTI render hotspot class
@@ -34,10 +34,19 @@ define("SHOWDRAW_YES", "2");
 */
 class ilQTIRenderHotspot
 {
+    /** @var string */
     public $showdraw;
+
+    /** @var string|null */
     public $minnumber;
+
+    /** @var string|null */
     public $maxnumber;
+
+    /** @var ilQTIResponseLabel[] */
     public $response_labels;
+
+    /** @var ilQTIMaterial[] */
     public $material;
 
     public function __construct()
@@ -46,8 +55,11 @@ class ilQTIRenderHotspot
         $this->response_labels = array();
         $this->material = array();
     }
-    
-    public function setShowdraw($a_showdraw)
+
+    /**
+     * @param string $a_showdraw
+     */
+    public function setShowdraw($a_showdraw) : void
     {
         switch (strtolower($a_showdraw)) {
             case "1":
@@ -60,39 +72,54 @@ class ilQTIRenderHotspot
                 break;
         }
     }
-    
+
+    /**
+     * @return string
+     */
     public function getShowdraw()
     {
         return $this->showdraw;
     }
-    
-    public function setMinnumber($a_minnumber)
+
+    /**
+     * @param string $a_minnumber
+     */
+    public function setMinnumber($a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getMinnumber()
     {
         return $this->minnumber;
     }
-    
-    public function setMaxnumber($a_maxnumber)
+
+    /**
+     * @param string $a_maxnumber
+     */
+    public function setMaxnumber($a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getMaxnumber()
     {
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label)
+    public function addResponseLabel($a_response_label) : void
     {
-        array_push($this->response_labels, $a_response_label);
+        $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material)
+    public function addMaterial($a_material) : void
     {
-        array_push($this->material, $a_material);
+        $this->material[] = $a_material;
     }
 }

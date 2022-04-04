@@ -35,30 +35,17 @@ abstract class ilPlugin
     protected ilComponentRepositoryWrite $component_repository;
     protected string $id;
     protected ?ilPluginLanguage $language_handler = null;
-
-    /**
-     * @var bool
-     */
-    protected $lang_initialised = false;
-
-    /**
-     * @var ProviderCollection
-     */
-    protected $provider_collection;
-
-    /**
-     * @var string
-     */
-    protected $message;
+    protected bool $lang_initialised = false;
+    protected ProviderCollection $provider_collection;
+    protected string $message = '';
 
     /**
      * @return string
      */
     public function getMessage() : string
     {
-        return strval($this->message);
+        return $this->message;
     }
-
 
     // ------------------------------------------
     // Initialisation
@@ -97,7 +84,7 @@ abstract class ilPlugin
      * during __construct. If this contains expensive stuff this will be bad for
      * overall system performance, because Plugins tend to be constructed a lot.
      */
-    protected function init()
+    protected function init() : void
     {
     }
 
@@ -142,12 +129,12 @@ abstract class ilPlugin
      *    - Services/Component/classes/class.ilObjComponentSettingsGUI.php
      *    - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return $this->getPluginInfo()->isActive();
     }
 
-    public function needsUpdate()
+    public function needsUpdate() : bool
     {
         return $this->getPluginInfo()->isUpdateRequired();
     }
@@ -232,7 +219,7 @@ abstract class ilPlugin
             return false;
         }
 
-        if(!$this->beforeActivation()) {
+        if (!$this->beforeActivation()) {
             return false;
         }
 
@@ -242,7 +229,7 @@ abstract class ilPlugin
         return true;
     }
 
-    public function deactivate()
+    public function deactivate() : bool
     {
         $this->component_repository->setActivation($this->getId(), false);
         $this->afterDeactivation();
@@ -280,7 +267,7 @@ abstract class ilPlugin
     // Update
     // ------------------------------------------
 
-    public function update()
+    public function update() : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -294,28 +281,24 @@ abstract class ilPlugin
         $this->getLanguageHandler()->updateLanguages();
 
         // DB update
-        if ($result === true) {
-            $db_version = $this->updateDatabase();
-        }
+        $db_version = $this->updateDatabase();
 
         $this->readEventListening();
 
         $this->readEventListening();
 
         // set last update version to current version
-        if ($result === true) {
-            $this->component_repository->setCurrentPluginVersion(
-                $this->getPluginInfo()->getId(),
-                $this->getPluginInfo()->getAvailableVersion(),
-                $db_version
-            );
-            $this->afterUpdate();
-        }
+        $this->component_repository->setCurrentPluginVersion(
+            $this->getPluginInfo()->getId(),
+            $this->getPluginInfo()->getAvailableVersion(),
+            $db_version
+        );
+        $this->afterUpdate();
 
-        return $result;
+        return true;
     }
 
-    protected function updateDatabase()
+    protected function updateDatabase() : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -341,7 +324,7 @@ abstract class ilPlugin
     }
 
 
-    protected function afterUpdate() : void 
+    protected function afterUpdate() : void
     {
     }
 
@@ -416,7 +399,7 @@ abstract class ilPlugin
      * @deprecate ILIAS is moving towards UI components and plugins are expected
      *            to use these components. Hence, this method will be removed.
      */
-    public function addBlockFile($a_tpl, $a_var, $a_block, $a_tplname)
+    public function addBlockFile($a_tpl, $a_var, $a_block, $a_tplname) : void
     {
         $a_tpl->addBlockFile(
             $a_var,
@@ -430,7 +413,7 @@ abstract class ilPlugin
     // Event Handling
     // ------------------------------------------
 
-    protected function readEventListening()
+    protected function readEventListening() : void
     {
         $reader = new ilPluginReader(
             $this->getDirectory() . '/plugin.xml',
@@ -443,7 +426,7 @@ abstract class ilPlugin
         $reader->startParsing();
     }
 
-    protected function clearEventListening()
+    protected function clearEventListening() : void
     {
         $reader = new ilPluginReader(
             $this->getDirectory() . '/plugin.xml',

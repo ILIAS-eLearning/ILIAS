@@ -14,24 +14,24 @@ class ilWorkflowScaffold
     #region Requires / File inclusion
 
     /** @var array $requires */
-    public $requires = array();
+    public array $requires = array();
 
     /** @var string $constructor_method_content */
-    public $constructor_method_content;
+    public string $constructor_method_content;
 
     /** @var array $bpmn2_array */
-    public $bpmn2_array;
+    public array $bpmn2_array;
 
     /** @var array $auxilliary_methods */
-    public $auxilliary_methods;
+    public array $auxilliary_methods;
 
     /** @var string $workflow_name */
-    public $workflow_name;
+    public string $workflow_name;
 
     /**
      * @param string $require
      */
-    public function registerRequire($require)
+    public function registerRequire(string $require)
     {
         if (!in_array($require, $this->requires)) {
             $this->requires[] = $require;
@@ -41,7 +41,7 @@ class ilWorkflowScaffold
     /**
      * @return string
      */
-    public function getRequires()
+    public function getRequires() : string
     {
         $requires = '';
         foreach ($this->requires as $required_file) {
@@ -55,12 +55,12 @@ class ilWorkflowScaffold
     #region StartEvent Message Registration and Handling
 
     /** @var array $start_event_refs */
-    public $start_event_refs;
+    public array $start_event_refs = [];
 
     /**
      * @param string $start_event_ref
      */
-    public function registerStartEventRef($start_event_ref)
+    public function registerStartEventRef(string $start_event_ref)
     {
         $this->start_event_refs[] = array('type' => 'message', 'ref' => $start_event_ref);
     }
@@ -68,7 +68,7 @@ class ilWorkflowScaffold
     /**
      * @param string $start_event_ref
      */
-    public function registerStartSignalRef($start_event_ref)
+    public function registerStartSignalRef(string $start_event_ref)
     {
         $this->start_event_refs[] = array('type' => 'signal', 'ref' => $start_event_ref);
     }
@@ -76,7 +76,7 @@ class ilWorkflowScaffold
     /**
      * @param string $start_event_ref
      */
-    public function registerStartTimerRef($start_event_ref)
+    public function registerStartTimerRef(string $start_event_ref)
     {
         $this->start_event_refs[] = array('type' => 'timeDate', 'ref' => $start_event_ref);
     }
@@ -84,7 +84,7 @@ class ilWorkflowScaffold
     /**
      * @return string
      */
-    public function getStartEventInfo()
+    public function getStartEventInfo() : string
     {
         $event_definitions = array();
         foreach ((array) $this->start_event_refs as $start_event_ref) {
@@ -154,7 +154,7 @@ class ilWorkflowScaffold
     /**
      * @param string $auxilliary_method
      */
-    public function addAuxilliaryMethod($auxilliary_method)
+    public function addAuxilliaryMethod(string $auxilliary_method)
     {
         $this->auxilliary_methods[] = $auxilliary_method;
     }
@@ -166,17 +166,11 @@ class ilWorkflowScaffold
         $this->auxilliary_methods = array();
     }
 
-    /**
-     * @return mixed
-     */
     public function getConstructorMethodContent()
     {
         return $this->constructor_method_content;
     }
 
-    /**
-     * @param mixed $constructor_method_content
-     */
     public function setConstructorMethodContent($constructor_method_content)
     {
         $this->constructor_method_content = $constructor_method_content;
@@ -185,7 +179,7 @@ class ilWorkflowScaffold
     /**
      * @return string
      */
-    public function getPHP()
+    public function getPHP() : string
     {
         $pre_constructor_content = $this->getRequires();
         $pre_constructor_content .= "
@@ -213,10 +207,9 @@ class ilWorkflowScaffold
 
     /**
      * @param string $start_event_ref
-     *
      * @return array
      */
-    public function getTimeDateEventDefinition($start_event_ref)
+    public function getTimeDateEventDefinition(string $start_event_ref) : array
     {
         $content = '';
         foreach ((array) $this->bpmn2_array['children'] as $elements) {

@@ -28,7 +28,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
     /**
      * @return \ilTestSignatureGUI
      */
-    public function getGUIObject()
+    public function getGUIObject() : ilTestSignatureGUI
     {
         return $this->GUIObject;
     }
@@ -38,7 +38,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getLinkTargetForCmd($cmd)
+    protected function getLinkTargetForCmd($cmd) : string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;
@@ -55,7 +55,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getLinkTargetForRessource($cmd, $ressource)
+    protected function getLinkTargetForRessource($cmd, $ressource) : string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;
@@ -72,7 +72,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getFormAction($default_cmd)
+    protected function getFormAction($default_cmd) : string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;

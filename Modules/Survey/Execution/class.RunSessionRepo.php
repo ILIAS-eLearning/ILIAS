@@ -40,8 +40,11 @@ class RunSessionRepo
 
     public function issetCode(int $survey_id) : bool
     {
-        return (\ilSession::has($this->getAnonymKey($survey_id)) &&
-            \ilSession::get($this->getAnonymKey($survey_id)) != "");
+        return (
+            \ilSession::has($this->getAnonymKey($survey_id)) &&
+            is_string(\ilSession::get($this->getAnonymKey($survey_id))) &&
+            \ilSession::get($this->getAnonymKey($survey_id)) !== ""
+        );
     }
 
     public function setCode(int $survey_id, string $code) : void

@@ -12,7 +12,6 @@
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
     private \ILIAS\DI\RBACServices $rbac;
-    private ilErrorHandling $error;
     private ilCronManager $cronManager;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
@@ -23,7 +22,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         global $DIC;
 
         $this->rbac = $DIC->rbac();
-        $this->error = $DIC['ilErr'];
         $this->cronManager = $DIC->cron()->manager();
 
         $this->type = 'frma';
@@ -31,7 +29,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('forum');
     }
 
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         if (!$this->rbac->system()->checkAccess('visible,read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -56,8 +54,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
     public function getAdminTabs() : void
@@ -89,7 +85,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             $this->populateForm($form);
         }
 
-        $this->tpl->setContent($form->getHtml());
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function saveSettings() : void

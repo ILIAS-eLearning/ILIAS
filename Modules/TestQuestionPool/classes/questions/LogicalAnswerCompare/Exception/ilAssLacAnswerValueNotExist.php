@@ -72,7 +72,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return int
      */
-    public function getQuestionIndex()
+    public function getQuestionIndex() : int
     {
         return $this->question_index;
     }
@@ -80,7 +80,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return int
      */
-    public function getAnswerIndex()
+    public function getAnswerIndex() : ?int
     {
         return $this->answer_index;
     }
@@ -88,7 +88,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return string
      */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -97,7 +97,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng) : string
     {
         if ($this->getQuestionIndex() === null && $this->getAnswerIndex() === null) {
             return sprintf(

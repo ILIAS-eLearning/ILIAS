@@ -278,7 +278,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         if (!$this->portfolio_mode) {
             $this->tpl->setVariable("TYPE", $a_set["obj_type"]);
             $this->tpl->setVariable("ICON_ALT", $a_set["obj_type"]);
-            $this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
+            $this->tpl->setVariable("ICON", ilObject::_getIcon(0, "tiny", $a_set["type"]));
             
             $url = $this->handler->getGotoLink($a_set["wsp_id"], $a_set["obj_id"]);
         } else {

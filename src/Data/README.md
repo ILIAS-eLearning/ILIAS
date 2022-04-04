@@ -3,6 +3,28 @@
 This service should contain standard datatypes for ILIAS that are used in many
 locations in the system and do not belong to a certain service.
 
+The keywords “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
+“SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be
+interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
+**Table of Contents**
+* [Result](#result)
+* [Color](#color)
+* [URI](#uri)
+* [DataSize](#datasize)
+* [Password](#password)
+* [ClientId](#clientid)
+* [ReferenceId](#referenceid)
+* [ObjectId](#objectid)
+* [Alphanumeric](#alphanumeric)
+* [PositiveInteger](#positiveinteger)
+* [DateFormat](#dateformat)
+* [Range](#Range)
+* [Order](#order)
+* [Clock](#clock)
+* [Dimension](#dimension)
+* [Dataset](#dataset)
+
 Other examples for data types that could (and maybe should) be added here:
 
 * Option (akin to rusts type)
@@ -385,5 +407,143 @@ $join = $order2->join('sort', function($pre, $k, $v) { return "$pre $k $v,"; });
 assert($order1->get() === ['subject1' => 'ASC']);
 assert($order2->get() === ['subject1' => 'ASC', 'subject2' => 'DESC']);
 assert($join === 'sort subject1 ASC, subject2 DESC,');
+?>
+```
+
+## Clock
+
+This package provides a fully psr-20 compliant clock handling.
+
+### Example
+
+#### System Clock
+
+The `\ILIAS\Data\Clock\SystemClock` returns a `\DateTimeImmutable` instance always referring to the
+current default system timezone.
+
+```php
+<?php
+$f = new \ILIAS\Data\Factory;
+
+$clock = $f->clock()->system();
+$now = $clock->now();
+?>
+```
+
+#### UTC Clock
+
+The `\ILIAS\Data\Clock\UtcClock` returns a `\DateTimeImmutable` instance always referring to the
+`UTC` timezone.
+
+```php
+<?php
+$f = new \ILIAS\Data\Factory;
+
+$clock = $f->clock()->utc();
+$now = $clock->now();
+?>
+```
+
+#### Local Clock
+
+The `\ILIAS\Data\Clock\UtcClock` returns a `\DateTimeImmutable` instance always referring to the
+timezone passed to the factory method.
+
+```php
+<?php
+$f = new \ILIAS\Data\Factory;
+
+$clock = $f->clock()->local(new \DateTimeZone('Europe/Berlin'));
+$now = $clock->now();
+?>
+```
+
+## Dimension
+
+### CardinalDimension
+Object representing a metric order, where the distances of the categories are known
+and can be described quantitatively.
+Construct a cardinal dimension object with numerical or textual variables representing 
+the categories.
+
+#### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+// construct dimension
+$cardinal = $f->dimension()->cardinal(["low", "medium", "high"]);
+
+assert($cardinal->getLabels() === ["low", "medium", "high"]);
+?>
+```
+
+### RangeDimension
+Object representing a range on a cardinal dimension.
+Construct a range dimension object with an existing cardinal dimension.
+
+#### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+// construct dimensions
+$cardinal = $f->dimension()->cardinal(["low", "medium", "high"]);
+$range = $f->dimension()->range($cardinal);
+
+assert($range->getLabels() === $cardinal->getLabels());
+?>
+```
+
+## Dataset
+Object representing a dataset for one or more dimensions.
+Construct a dataset with an amount of named dimensions.
+Extend a dataset with one or more items by determining e.g. points for each
+dimension of the dataset.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+// construct dimensions and dataset
+$cardinal = $f->dimension()->cardinal([
+    0 => "very low",
+    1 => "low",
+    2 => "medium",
+    3 => "high",
+    4 => "very high"
+]);
+$range = $f->dimension()->range($cardinal);
+$dataset = $f->dataset([
+    "Measurement 1" => $cardinal,
+    "Measurement 2" => $cardinal,
+    "Target" => $range
+]);
+$dataset = $dataset->withPoint(
+    "Item 1",
+    [
+        "Measurement 1" => 1,
+        "Measurement 2" => 0,
+        "Target" => [0, 1.5],
+    ]
+);
+$dataset = $dataset->withPoint(
+    "Item 2",
+    [
+        "Measurement 1" => -1,
+        "Measurement 2" => 1.75,
+        "Target" => [0.95, 1.05],
+    ]
+);
+
+assert($dataset->getMinValueForDimension("Measurement 1") === -1);
+assert($dataset->getMaxValueForDimension("Target") === 1.5);
 ?>
 ```

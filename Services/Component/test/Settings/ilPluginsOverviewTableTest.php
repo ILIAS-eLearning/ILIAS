@@ -12,7 +12,7 @@ use ILIAS\UI\Component\Button\Shy;
 
 class ilPluginsOverviewTableTest extends TestCase
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->parent_gui = $this->createMock(ilObjComponentSettingsGUI::class);
         $this->ctrl = $this->createMock(ilCtrl::class);
@@ -20,7 +20,7 @@ class ilPluginsOverviewTableTest extends TestCase
         $this->renderer = $this->createMock(Renderer::class);
         $this->lng = $this->createMock(ilLanguage::class);
         $this->lng->method("txt")
-            ->will($this->returnCallback(fn ($id) => $id));
+            ->willReturnCallback(fn ($id) => $id);
     }
 
     public function testCreateObject() : void
@@ -44,14 +44,7 @@ class ilPluginsOverviewTableTest extends TestCase
      */
     public function testGetImportantFields(bool $installed, bool $active) : void
     {
-        $obj = new class(
-            $this->parent_gui,
-            $this->ctrl,
-            $this->ui,
-            $this->renderer,
-            $this->lng,
-            []
-        ) extends ilPluginsOverviewTable {
+        $obj = new class($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, []) extends ilPluginsOverviewTable {
             public function getImportantFields(ilPluginInfo $plugin_info) : array
             {
                 return parent::getImportantFields($plugin_info);
@@ -88,14 +81,7 @@ class ilPluginsOverviewTableTest extends TestCase
 
     public function testGetContent() : void
     {
-        $obj = new class(
-            $this->parent_gui,
-            $this->ctrl,
-            $this->ui,
-            $this->renderer,
-            $this->lng,
-            []
-        ) extends ilPluginsOverviewTable {
+        $obj = new class($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, []) extends ilPluginsOverviewTable {
             public function getContent(ilPluginInfo $plugin_info) : array
             {
                 return parent::getContent($plugin_info);
@@ -126,14 +112,7 @@ class ilPluginsOverviewTableTest extends TestCase
 
     public function testBoolToString() : void
     {
-        $obj = new class(
-            $this->parent_gui,
-            $this->ctrl,
-            $this->ui,
-            $this->renderer,
-            $this->lng,
-            []
-        ) extends ilPluginsOverviewTable {
+        $obj = new class($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, []) extends ilPluginsOverviewTable {
             public function boolToString(bool $value) : string
             {
                 return parent::boolToString($value);
@@ -149,14 +128,7 @@ class ilPluginsOverviewTableTest extends TestCase
 
     public function testFilterData() : void
     {
-        $obj = new class(
-            $this->parent_gui,
-            $this->ctrl,
-            $this->ui,
-            $this->renderer,
-            $this->lng,
-            []
-        ) extends ilPluginsOverviewTable {
+        $obj = new class($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, []) extends ilPluginsOverviewTable {
             public function setFilter(array $filter) : void
             {
                 $this->filter = $filter;
@@ -170,41 +142,34 @@ class ilPluginsOverviewTableTest extends TestCase
 
         $plugin_slot = $this->createMock(ilPluginSlotInfo::class);
         $plugin_slot
-            ->expects($this->any())
             ->method("getName")
             ->willReturn("Repository")
         ;
 
         $component = $this->createMock(ilComponentInfo::class);
         $component
-            ->expects($this->any())
             ->method("getQualifiedName")
             ->willReturn("QualifiedName")
         ;
 
         $plugin_info = $this->createMock(ilPluginInfo::class);
         $plugin_info
-            ->expects($this->any())
             ->method("getName")
             ->willReturn("TestRepo")
         ;
         $plugin_info
-            ->expects($this->any())
             ->method("getId")
             ->willReturn("xvw")
         ;
         $plugin_info
-            ->expects($this->any())
             ->method("isActive")
             ->willReturn(true)
         ;
         $plugin_info
-            ->expects($this->any())
             ->method("getPluginSlot")
             ->willReturn($plugin_slot)
         ;
         $plugin_info
-            ->expects($this->any())
             ->method("getComponent")
             ->willReturn($component)
         ;
@@ -252,14 +217,7 @@ class ilPluginsOverviewTableTest extends TestCase
 
     public function testGetData() : void
     {
-        $obj = new class(
-            $this->parent_gui,
-            $this->ctrl,
-            $this->ui,
-            $this->renderer,
-            $this->lng,
-            []
-        ) extends ilPluginsOverviewTable {
+        $obj = new class($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, []) extends ilPluginsOverviewTable {
             public function getData() : array
             {
                 return parent::getData();
@@ -274,14 +232,7 @@ class ilPluginsOverviewTableTest extends TestCase
 
     public function testWithData() : void
     {
-        $obj = new class(
-            $this->parent_gui,
-            $this->ctrl,
-            $this->ui,
-            $this->renderer,
-            $this->lng,
-            []
-        ) extends ilPluginsOverviewTable {
+        $obj = new class($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, []) extends ilPluginsOverviewTable {
             public function getData() : array
             {
                 return parent::getData();
@@ -324,15 +275,7 @@ class ilPluginsOverviewTableTest extends TestCase
             ->willReturn($dropdown)
         ;
 
-        $obj = new class(
-            $this->parent_gui,
-            $this->ctrl,
-            $this->ui,
-            $this->renderer,
-            $this->lng,
-            [],
-            $shy
-        ) extends ilPluginsOverviewTable {
+        $obj = new class($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, [], $shy) extends ilPluginsOverviewTable {
             protected Shy $shy;
 
             public function __construct(
@@ -352,8 +295,12 @@ class ilPluginsOverviewTableTest extends TestCase
             {
                 return parent::getActions($plugin_info);
             }
-            protected function setParameter(ilPluginInfo $plugin) : void {}
-            protected function clearParameter() : void {}
+            protected function setParameter(ilPluginInfo $plugin) : void
+            {
+            }
+            protected function clearParameter() : void
+            {
+            }
             protected function getDropdownButton(string $caption, string $command) : Shy
             {
                 return $this->shy;
@@ -396,15 +343,7 @@ class ilPluginsOverviewTableTest extends TestCase
             ->willReturn($dropdown)
         ;
 
-        $obj = new class(
-            $this->parent_gui,
-            $this->ctrl,
-            $this->ui,
-            $this->renderer,
-            $this->lng,
-            [],
-            $shy
-        ) extends ilPluginsOverviewTable {
+        $obj = new class($this->parent_gui, $this->ctrl, $this->ui, $this->renderer, $this->lng, [], $shy) extends ilPluginsOverviewTable {
             protected Shy $shy;
 
             public function __construct(
@@ -424,9 +363,16 @@ class ilPluginsOverviewTableTest extends TestCase
             {
                 return parent::getActions($plugin_info);
             }
-            protected function setParameter(ilPluginInfo $plugin) : void {}
-            protected function clearParameter() : void {}
-            protected function hasLang(ilPluginInfo $plugin_info) : bool { return false; }
+            protected function setParameter(ilPluginInfo $plugin) : void
+            {
+            }
+            protected function clearParameter() : void
+            {
+            }
+            protected function hasLang(ilPluginInfo $plugin_info) : bool
+            {
+                return false;
+            }
             protected function getDropdownButton(string $caption, string $command) : Shy
             {
                 return $this->shy;

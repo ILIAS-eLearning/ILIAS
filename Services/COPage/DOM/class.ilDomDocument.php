@@ -44,36 +44,18 @@ class ilDomDocument
         }
     }
 
-    /**
-     * Get
-     */
-    public function __get(string $a_mem)
+    public function getErrors() : array
     {
-        if ($a_mem == "errors") {
-            return $this->errors;
-        } else {
-            return $this->doc->$a_mem;
-        }
+        return $this->errors;
     }
 
-    /**
-     *  Set
-     */
-    public function __set(string $a_mem, $a_val) : void
-    {
-        $this->_delegate->$a_mem = $a_val;
-    }
-
-    /**
-     * Handle error
-     */
     public function handleError(
         int $a_no,
         string $a_string,
         string $a_file = null,
         int $a_line = null,
         array $a_context = null
-    ) {
+    ) : void {
         $pos = strpos($a_string, "]:");
         $err = trim(substr($a_string, $pos + 2));
         $this->errors[] = $err;

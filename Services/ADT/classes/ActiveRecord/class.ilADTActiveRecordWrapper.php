@@ -93,6 +93,9 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         return $primary[1];
     }
 
+    /**
+     * @todo types extended from ActiveRecord
+     */
     public function sleep($field_name)
     {
         if (array_key_exists($field_name, $this->field_element_map)) {
@@ -102,6 +105,10 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         return false;
     }
 
+
+    /**
+     * @todo types extended from ActiveRecord
+     */
     public function wakeUp($field_name, $field_value)
     {
         if (array_key_exists($field_name, $this->field_element_map)) {

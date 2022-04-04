@@ -63,8 +63,8 @@ class ilBookingGatewayGUI
         $this->lng->loadLanguageModule("book");
 
         // current parent context (e.g. session in course)
-        $this->obj_id = $parent_gui->object->getId();
-        $this->ref_id = $parent_gui->object->getRefId();
+        $this->obj_id = $parent_gui->getObject()->getId();
+        $this->ref_id = $parent_gui->getObject()->getRefId();
 
         $this->main_host_ref_id = ($main_host_ref_id == 0)
             ? $this->ref_id

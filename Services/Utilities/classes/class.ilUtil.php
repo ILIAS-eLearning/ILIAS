@@ -42,7 +42,7 @@ class ilUtil
             ? "big"
             : "small";
         
-        $filename = ilObject::_getIcon("", $size, $a_type);
+        $filename = ilObject::_getIcon(0, $size, $a_type);
         
         return "<img src=\"" . $filename . "\" alt=\"" . $lng->txt("obj_" . $a_type) . "\" title=\"" . $lng->txt(
             "obj_" . $a_type
@@ -1377,7 +1377,7 @@ class ilUtil
      *                  "long" is useful for display on the info page of an object
      * @param ilLanguage  The language object, or null if you want to use the system language.
      */
-    public static function formatSize($size, $a_mode = 'short', $a_lng = null)
+    public static function formatSize(int $size, string $a_mode = 'short', ?ilLanguage $a_lng = null) : string
     {
         global $DIC;
         

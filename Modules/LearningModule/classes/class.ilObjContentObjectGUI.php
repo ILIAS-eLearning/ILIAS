@@ -123,16 +123,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
     /**
      * execute command
-     * @return bool|mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        $ret = "";
         
         if ($this->ctrl->getRedirectSource() == "ilinternallinkgui") {
             throw new ilLMException("No Explorer found.");
@@ -229,7 +227,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $obj = ilLMObjectFactory::getInstance($this->lm, $this->requested_obj_id);
                     $pg_gui->setLMPageObject($obj);
                 }
-                $ret = $this->ctrl->forwardCommand($pg_gui);
+                $this->ctrl->forwardCommand($pg_gui);
                 break;
 
             case "ilstructureobjectgui":
@@ -247,7 +245,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $obj = ilLMObjectFactory::getInstance($this->lm, $this->requested_obj_id);
                     $st_gui->setStructureObject($obj);
                 }
-                $ret = $this->ctrl->forwardCommand($st_gui);
+                $this->ctrl->forwardCommand($st_gui);
                 if ($cmd == "save" || $cmd == "cancel") {
                     if ($this->requested_obj_id == 0) {
                         $this->ctrl->redirect($this, "chapters");
@@ -267,7 +265,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $this->setTabs("perm");
                 }
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             // infoscreen
@@ -291,7 +289,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $this->lm->getType()
                 );
         
-                $ret = $this->ctrl->forwardCommand($info);
+                $this->ctrl->forwardCommand($info);
                 break;
             
             case "ilexportgui":
@@ -322,7 +320,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $this,
                     "publishExportFile"
                 );
-                $ret = $this->ctrl->forwardCommand($exp_gui);
+                $this->ctrl->forwardCommand($exp_gui);
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt("lm_only_one_download_per_type"));
                 $this->addHeaderAction();
                 $this->addLocations(true);
@@ -393,13 +391,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
                         case "pg":
                             $this->setTabs();
                             $this->ctrl->setCmdClass("ilLMPageObjectGUI");
-                            $ret = $this->executeCommand();
+                            $this->executeCommand();
                             break;
 
                         case "st":
                             $this->setTabs();
                             $this->ctrl->setCmdClass("ilStructureObjectGUI");
-                            $ret = $this->executeCommand();
+                            $this->executeCommand();
                             break;
                     }
                 } else {
@@ -415,11 +413,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
                         $this->addHeaderAction();
                         $this->addLocations();
                     }
-                    $ret = $this->$cmd();
+                    $this->$cmd();
                 }
                 break;
         }
-        return $ret;
     }
 
     /**
@@ -868,9 +865,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
             "&baseClass=ilLMEditorGUI");
     }
 
-    protected function initImportForm($a_new_type)
+    protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
-        $form = parent::initImportForm($a_new_type);
+        $form = parent::initImportForm($new_type);
 
         // validation
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
@@ -879,7 +876,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
     {
         $tpl = $this->tpl;
 

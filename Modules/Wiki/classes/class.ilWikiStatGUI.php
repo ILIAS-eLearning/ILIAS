@@ -288,7 +288,7 @@ class ilWikiStatGUI
         int $a_figure,
         array $a_data
     ) : string {
-        $scope = ceil(sizeof($a_data) / 31);
+        $scope = ceil(count($a_data) / 31);
 
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "wikistat");
         $chart->setSize("100%", 400);
@@ -318,7 +318,7 @@ class ilWikiStatGUI
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_WORDS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_CHARS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_FOOTNOTES
-            ))) {
+            ), true)) {
             $series = $chart->getDataInstance(ilChartGrid::DATA_LINES);
             $series->setLineSteps(true);
             $series->setFill(true, "#E0F0FF");
@@ -344,11 +344,9 @@ class ilWikiStatGUI
                 if (!($x % 7)) {
                     $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
                 }
-            } else {
+            } elseif ($day === 1 || $day === 15 || $x === count($a_data) - 1) {
                 // 1st/15th
-                if ($day == 1 || $day == 15 || $x == sizeof($a_data) - 1) {
-                    $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
-                }
+                $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
             }
                         
             $x++;
@@ -382,7 +380,7 @@ class ilWikiStatGUI
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_CHARS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_FOOTNOTES
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_RATINGS
-            ))) {
+            ), true)) {
             $chart->setYAxisToInteger(true);
         }
         

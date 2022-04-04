@@ -45,15 +45,16 @@ class ilObjSurveyQuestionPool extends ilObject
             ->editing();
     }
 
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
+        $id = parent::create();
         if (!$a_upload) {
             $this->createMetaData();
         }
+        return $id;
     }
 
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
         if (!parent::update()) {
@@ -62,18 +63,18 @@ class ilObjSurveyQuestionPool extends ilObject
         return true;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
         $this->loadFromDb();
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $newObj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
         //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
             $newObj->setOnline($this->getOnline());
@@ -125,7 +126,7 @@ class ilObjSurveyQuestionPool extends ilObject
         int $questionpool_to
     ) : void {
         $question_gui = $this->createQuestion("", $question_id);
-        if ($question_gui->object->getObjId() == $questionpool_to) {
+        if ($question_gui->object->getObjId() === $questionpool_to) {
             // the question is copied into the same question pool
             $this->duplicateQuestion($question_id);
         } else {
@@ -147,11 +148,11 @@ class ilObjSurveyQuestionPool extends ilObject
         $ilDB = $this->db;
         
         $result = $ilDB->queryF(
-            "SELECT * FROM svy_qpl WHERE obj_fi = %s",
+            "SELECT isonline FROM svy_qpl WHERE obj_fi = %s",
             array('integer'),
             array($this->getId())
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
             $this->setOnline((bool) $row["isonline"]);
         }
@@ -168,7 +169,7 @@ class ilObjSurveyQuestionPool extends ilObject
             array('integer'),
             array($this->getId())
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $affectedRows = $ilDB->manipulateF(
                 "UPDATE svy_qpl SET isonline = %s, tstamp = %s WHERE obj_fi = %s",
                 array('text','integer','integer'),
@@ -184,7 +185,7 @@ class ilObjSurveyQuestionPool extends ilObject
         }
     }
     
-    public function delete()
+    public function delete() : bool
     {
         $remove = parent::delete();
         // always call parent delete function first!!
@@ -249,7 +250,7 @@ class ilObjSurveyQuestionPool extends ilObject
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
             return $data["type_tag"];
         } else {
@@ -280,7 +281,7 @@ class ilObjSurveyQuestionPool extends ilObject
             array($question_id)
         );
         $inserted = $result->numRows();
-        if (($inserted + $answered) == 0) {
+        if (($inserted + $answered) === 0) {
             return null;
         }
         $result_array = array();
@@ -432,7 +433,7 @@ class ilObjSurveyQuestionPool extends ilObject
     {
         // quit if import dir not available
         if (!is_dir($dir) or
-            !is_writeable($dir)) {
+            !is_writable($dir)) {
             return array();
         }
 
@@ -444,8 +445,8 @@ class ilObjSurveyQuestionPool extends ilObject
 
         // get files and save the in the array
         while ($entry = $dir->read()) {
-            if ($entry != "." &&
-                $entry != ".." &&
+            if ($entry !== "." &&
+                $entry !== ".." &&
                 preg_match("/^[0-9]{10}__[0-9]+__(spl_)*[0-9]+\.[A-Za-z]{3}$/", $entry)) {
                 $file[] = $entry;
             }
@@ -500,7 +501,7 @@ class ilObjSurveyQuestionPool extends ilObject
      */
     public function toXML(array $questions) : string
     {
-        if (count($questions) == 0) {
+        if (count($questions) === 0) {
             $questions = $this->getQuestions();
         }
         $a_xml_writer = new ilXmlWriter();
@@ -575,7 +576,7 @@ class ilObjSurveyQuestionPool extends ilObject
         bool $spl_exists = false
     ) : void {
         if (is_file($source)) {
-            $isZip = (strcmp(strtolower(substr($source, -3)), 'zip') == 0);
+            $isZip = (strcmp(strtolower(substr($source, -3)), 'zip') === 0);
             if ($isZip) {
                 // unzip file
                 ilFileUtils::unzip($source);
@@ -585,7 +586,7 @@ class ilObjSurveyQuestionPool extends ilObject
                 $source = dirname($source) . "/" . $subdir . "/" . $subdir . ".xml";
             }
 
-            $fh = fopen($source, "r") or die("");
+            $fh = fopen($source, 'rb') or die("");
             $xml = fread($fh, filesize($source));
             fclose($fh) or die("");
             if ($isZip) {
@@ -596,12 +597,12 @@ class ilObjSurveyQuestionPool extends ilObject
             }
             if (strpos($xml, "questestinterop") > 0) {
                 throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
-            } else {
-                // survey questions for ILIAS >= 3.8
-                $import = new SurveyImportParser($this->getId(), "", $spl_exists);
-                $import->setXMLContent($xml);
-                $import->startParsing();
             }
+
+            // survey questions for ILIAS >= 3.8
+            $import = new SurveyImportParser($this->getId(), "", $spl_exists);
+            $import->setXMLContent($xml);
+            $import->startParsing();
         }
     }
 
@@ -684,14 +685,14 @@ class ilObjSurveyQuestionPool extends ilObject
         $query_result = $ilDB->query("SELECT * FROM svy_qtype ORDER BY type_tag");
         while ($row = $ilDB->fetchAssoc($query_result)) {
             //array_push($questiontypes, $row["type_tag"]);
-            if ($row["plugin"] == 0) {
+            if ((int) $row["plugin"] === 0) {
                 $types[$lng->txt($row["type_tag"])] = $row;
             } else {
                 global $DIC;
 
                 $component_factory = $DIC["component.factory"];
                 foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
-                    if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
+                    if (strcmp($pl->getQuestionType(), $row["type_tag"]) === 0) {
                         $types[$pl->getQuestionTypeTranslation()] = $row;
                     }
                 }
@@ -711,7 +712,7 @@ class ilObjSurveyQuestionPool extends ilObject
         ));
    
         $sorted = array();
-        $idx = sizeof($default_sorting);
+        $idx = count($default_sorting);
         foreach ($types as $caption => $item) {
             $type = $item["type_tag"];
             $item["caption"] = $caption;
@@ -740,7 +741,7 @@ class ilObjSurveyQuestionPool extends ilObject
     public static function _getQuestionClasses() : array
     {
         $classes = array_map(
-            function ($c) {
+            static function (array $c) : string {
                 return $c["type_tag"];
             },
             self::_getQuestiontypes()
@@ -764,11 +765,11 @@ class ilObjSurveyQuestionPool extends ilObject
         $result = $ilDB->query("SELECT * FROM svy_qtype");
         $types = array();
         while ($row = $ilDB->fetchAssoc($result)) {
-            if ($row["plugin"] == 0) {
+            if ((int) $row["plugin"] === 0) {
                 $types[$row['type_tag']] = $lng->txt($row["type_tag"]);
             } else {
                 foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
-                    if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
+                    if (strcmp($pl->getQuestionType(), $row["type_tag"]) === 0) {
                         $types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
                     }
                 }
@@ -897,17 +898,16 @@ class ilObjSurveyQuestionPool extends ilObject
     {
         $ilDB = $this->db;
 
-
         $qentries = $this->edit_manager->getQuestionsFromClipboard();
         if (count($qentries) > 0) {
             foreach ($qentries as $question_object) {
-                if (strcmp($question_object["action"], "move") == 0) {
+                if (strcmp($question_object["action"], "move") === 0) {
                     $result = $ilDB->queryF(
                         "SELECT obj_fi FROM svy_question WHERE question_id = %s",
                         array('integer'),
                         array($question_object["question_id"])
                     );
-                    if ($result->numRows() == 1) {
+                    if ($result->numRows() === 1) {
                         $row = $ilDB->fetchAssoc($result);
                         $source_questionpool = $row["obj_fi"];
                         if ($this->getId() != $source_questionpool) {

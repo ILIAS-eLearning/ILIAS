@@ -287,7 +287,6 @@ class ilMailTemplateGUI
             );
         }
         if (count($templateIds) === 0) {
-            $templateId = 0;
             if ($this->http->wrapper()->query()->has('tpl_id')) {
                 $templateIds = [$this->http->wrapper()->query()->retrieve(
                     'tpl_id',
@@ -377,7 +376,7 @@ class ilMailTemplateGUI
         $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
 
         $context = ilMailTemplateContextService::getTemplateContextById($contextId);
-        foreach ($context->getPlaceholders() as $key => $value) {
+        foreach ($context->getPlaceholders() as $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);
         }
 

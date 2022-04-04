@@ -45,7 +45,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -67,12 +67,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         $this->commands = ilObjCategoryAccess::_getCommands();
     }
 
-    /**
-    *
-    * @param bool
-    * @return bool
-    */
-    public function getInfoScreenStatus()
+    public function getInfoScreenStatus() : bool
     {
         if (ilContainer::_lookupContainerSetting(
             $this->obj_id,
@@ -90,31 +85,25 @@ class ilObjCategoryListGUI extends ilObjectListGUI
     *
     * Overwrite this method if link frame is not current frame
     *
-    * @param	string		$a_cmd			command
+    * @param	string		$cmd			command
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
         // begin-patch fm
-        return parent::getCommandFrame($a_cmd);
+        return parent::getCommandFrame($cmd);
         // end-patch fm
     }
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
+
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
 
         $cmd_link = "";
 
         // BEGIN WebDAV
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'mount_webfolder':
                 if (ilDAVActivationChecker::_isActive()) {
                     global $DIC;
@@ -125,7 +114,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
             default:
                 // separate method for this line
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $ilCtrl->setParameterByClass(
                     "ilrepositorygui",
                     "ref_id",

@@ -5,6 +5,7 @@
 /* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\Data;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
  * Class ilObjLearningSequenceGUI
@@ -94,6 +95,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ILIAS\UI\Factory $ui_factory;
     protected ILIAS\UI\Renderer $ui_renderer;
     protected Data\Factory $data_factory;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public static function _goto(string $target)
     {
@@ -120,14 +124,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
             self::forwardByClass(
                 ilRepositoryGUI::class,
-                [ilRepositoryGUI::class, ilObjLearningSequenceGUI::class],
+                [ilObjLearningSequenceGUI::class],
                 $params,
                 self::CMD_VIEW
             );
         }
 
         if (self::hasAccess(self::ACCESS_VISIBLE, $id)) {
-            ilObjectGUI::_gotoRepositoryNode($target, 'infoScreen');
+            ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
         }
 
         if (self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)) {
@@ -173,9 +177,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     public function __construct()
     {
-        $this->ref_id = (int) $_GET['ref_id'];
-        parent::__construct([], $this->ref_id, true, false);
-
         $this->obj_type = ilObjLearningSequence::OBJ_TYPE;
 
         global $DIC;
@@ -198,11 +199,17 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->tpl = $DIC["tpl"];
         $this->obj_service = $DIC->object();
         $this->toolbar = $DIC['ilToolbar'];
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->post_wrapper = $DIC->http()->wrapper()->post();
+        $this->refinery = $DIC->refinery();
 
         $this->help->setScreenIdComponent($this->obj_type);
         $this->lng->loadLanguageModule($this->obj_type);
 
         $this->data_factory = new Data\Factory();
+
+        $this->ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        parent::__construct([], $this->ref_id, true, false);
     }
 
     protected function recordLearningSequenceRead() : void
@@ -215,7 +222,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         );
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -368,6 +375,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         if (!$in_player) {
             $this->addHeaderAction();
         }
+
+        $tpl->printToStdOut();
     }
 
     public function addToNavigationHistory() : void
@@ -406,7 +415,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->ctrl,
             $this->lng,
             $this->tpl,
-            $this->obj_service
+            $this->obj_service,
+            $this->post_wrapper,
+            $this->refinery
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -441,7 +452,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->lng,
             $this->access,
             new ilConfirmationGUI(),
-            new LSItemOnlineStatus()
+            new LSItemOnlineStatus(),
+            $this->post_wrapper,
+            $this->refinery
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -481,7 +494,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             ilPrivacySettings::getInstance(),
             $this->rbac_review,
             $this->settings,
-            $this->toolbar
+            $this->toolbar,
+            $this->request_wrapper,
+            $this->post_wrapper,
+            $this->refinery
         );
 
         $this->ctrl->setCmd($cmd);
@@ -494,12 +510,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
         $for_user = $this->user->getId();
 
-        if ($_GET['user_id']) {
-            $for_user = $_GET['user_id'];
+        if ($this->request_wrapper->has("user_id")) {
+            $for_user = $this->request_wrapper->retrieve("user_id", $this->refinery->kindlyTo()->int());
         }
 
         $lp_gui = new ilLearningProgressGUI(
-            ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+            ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
             $this->getObject()->getRefId(),
             $for_user
         );
@@ -577,7 +593,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         if ($this->checkAccess("read")) {
             $this->tabs->addTab(
@@ -725,7 +741,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public function getObject() : ilObjLearningSequence
     {
         if ($this->object === null) {
-            $this->object = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
+            /** @var ilObjLearningSequence $obj */
+            $obj = ilObjLearningSequence::getInstanceByRefId($this->ref_id);
+            $this->object = $obj;
         }
 
         return $this->object;
@@ -787,5 +805,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
 
         return $res_data;
+    }
+
+    public function showPossibleSubObjects() : void
+    {
+        parent::showPossibleSubObjects();
     }
 }

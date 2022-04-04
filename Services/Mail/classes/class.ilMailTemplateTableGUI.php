@@ -55,7 +55,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     protected function formatCellValue(string $column, array $row) : string
     {
         if ('tpl_id' === $column) {
-            return ilLegacyFormElementsUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
+            return ilLegacyFormElementsUtil::formCheckbox(false, 'tpl_id[]', (string) $row[$column]);
         }
         if ('lang' === $column) {
             return $this->lng->txt('meta_l_' . $row[$column]);

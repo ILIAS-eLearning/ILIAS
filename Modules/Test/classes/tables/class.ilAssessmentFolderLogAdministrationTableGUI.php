@@ -14,13 +14,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -31,8 +24,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->counter = 1;
-        
+
         $this->setFormName('showlog');
         $this->setStyle('table', 'fullwidth');
 
@@ -51,7 +43,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
             $this->enable('select_all');
         }
 
-        $this->numericOrdering('nr');
+        //$this->numericOrdering('nr');
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
         

@@ -27,9 +27,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
      */
     private $globalToolbar;
 
-    /**
-     * @var ilDB
-     */
     protected $db;
 
     /**
@@ -119,7 +116,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     /**
      * @return ilObjTest
      */
-    public function getTestOBJ()
+    public function getTestOBJ() : ?ilObjTest
     {
         return $this->testOBJ;
     }
@@ -135,7 +132,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getTestQuestionSetConfig()
+    public function getTestQuestionSetConfig() : ?ilTestQuestionSetConfig
     {
         return $this->testQuestionSetConfig;
     }
@@ -151,7 +148,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     /**
      * @return ilTestPlayerAbstractGUI
      */
-    public function getTestPlayerGUI()
+    public function getTestPlayerGUI() : ?ilTestPlayerAbstractGUI
     {
         return $this->testPlayerGUI;
     }
@@ -167,7 +164,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     /**
      * @return ilTestSession
      */
-    public function getTestSession()
+    public function getTestSession() : ?ilTestSession
     {
         return $this->testSession;
     }
@@ -199,7 +196,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     /**
      * @return string
      */
-    public function getSessionLockString()
+    public function getSessionLockString() : ?string
     {
         return $this->sessionLockString;
     }
@@ -215,7 +212,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     /**
      * @return array
      */
-    public function getInfoMessages()
+    public function getInfoMessages() : array
     {
         return $this->infoMessages;
     }
@@ -231,7 +228,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     /**
      * @return array
      */
-    public function getFailureMessages()
+    public function getFailureMessages() : array
     {
         return $this->failureMessages;
     }
@@ -312,7 +309,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         return $target;
     }
 
-    private function getClassNameArray($target)
+    private function getClassNameArray($target) : array
     {
         if (is_array($target)) {
             return $target;
@@ -321,7 +318,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         return array($this->getClassName($target));
     }
 
-    private function getClassPath($target)
+    private function getClassPath($target) : array
     {
         return array_merge(self::$TARGET_CLASS_PATH_BASE, $this->getClassNameArray($target));
     }
@@ -331,12 +328,12 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         $this->ctrl->setParameterByClass($this->getClassName($target), $parameter, $value);
     }
     
-    private function buildLinkTarget($target, $cmd = null)
+    private function buildLinkTarget($target, $cmd = null) : string
     {
         return $this->ctrl->getLinkTargetByClass($this->getClassPath($target), $cmd);
     }
     
-    private function buildFormAction($target)
+    private function buildFormAction($target) : string
     {
         return $this->ctrl->getFormActionByClass($this->getClassPath($target));
     }
@@ -348,7 +345,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         }
     }
 
-    private function buildSessionLockString()
+    private function buildSessionLockString() : string
     {
         return md5($_COOKIE[session_name()] . time());
     }
@@ -358,7 +355,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
      * @param $testSequence
      * @return bool
      */
-    private function isDeleteDynamicTestResultsButtonRequired()
+    private function isDeleteDynamicTestResultsButtonRequired() : bool
     {
         if (!$this->getTestSession()->getActiveId()) {
             return false;
@@ -404,7 +401,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         $this->addButtonInstance($btn);
     }
 
-    private function areSkillLevelThresholdsMissing()
+    private function areSkillLevelThresholdsMissing() : bool
     {
         if (!$this->getTestOBJ()->isSkillServiceEnabled()) {
             return false;
@@ -441,7 +438,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         return false;
     }
 
-    private function getSkillLevelThresholdsMissingInfo()
+    private function getSkillLevelThresholdsMissingInfo() : string
     {
         $message = $this->lng->txt('tst_skl_level_thresholds_missing');
         
@@ -460,7 +457,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         return $this->DIC->ui()->renderer()->render($msgBox);
     }
     
-    private function hasFixedQuestionSetSkillAssignsLowerThanBarrier()
+    private function hasFixedQuestionSetSkillAssignsLowerThanBarrier() : bool
     {
         if (!$this->testOBJ->isFixedTest()) {
             return false;
@@ -474,7 +471,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         return $assignmentList->hasSkillsAssignedLowerThanBarrier();
     }
     
-    private function getSkillAssignBarrierInfo()
+    private function getSkillAssignBarrierInfo() : string
     {
         require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         
@@ -649,7 +646,14 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     
     public function sendMessages()
     {
-        $this->main_tpl->setOnScreenMessage('info', array_pop($this->getInfoMessages()));
-        $this->main_tpl->setOnScreenMessage('failure', array_pop($this->getFailureMessages()));
+        $info_messages = $this->getInfoMessages();
+        if ($info_messages !== array()) {
+            $this->main_tpl->setOnScreenMessage('info', array_pop($info_messages));
+        }
+
+        $failure_messages = $this->getFailureMessages();
+        if ($failure_messages !== array()) {
+            $this->main_tpl->setOnScreenMessage('failure', array_pop($failure_messages));
+        }
     }
 }

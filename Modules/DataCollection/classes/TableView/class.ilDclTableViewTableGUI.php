@@ -2,11 +2,8 @@
 
 /**
  * Class ilDclTableViewTableGUI
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
- *
- *
  */
 class ilDclTableViewTableGUI extends ilTable2GUI
 {
@@ -18,7 +15,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
     /**
      * ilDclTableViewTableGUI constructor.
-     *
      * @param ilDclTableViewGUI $a_parent_obj
      * @param string            $a_parent_cmd
      * @param ilDclTable        $table
@@ -48,7 +44,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->setFormName('tableview_list');
 
             $this->addColumn('', '', '1', true);
-            $this->addColumn($lng->txt('dcl_order'), null, '30px');
+            $this->addColumn($lng->txt('dcl_order'), '', '30px');
 
             $this->setRowTemplate('tpl.tableview_list_row.html', 'Modules/DataCollection');
             $this->setData($this->table->getTableViews());
@@ -57,10 +53,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->setData($this->table->getVisibleTableViews($this->parent_obj->parent_obj->ref_id, true));
         }
 
-        $this->addColumn($lng->txt('title'), null, 'auto');
-        $this->addColumn($lng->txt('description'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_configuration_complete'), null, 'auto');
-        $this->addColumn($lng->txt('actions'), null, '30px');
+        $this->addColumn($lng->txt('title'), '', 'auto');
+        $this->addColumn($lng->txt('description'), '', 'auto');
+        $this->addColumn($lng->txt('dcl_configuration_complete'), '', 'auto');
+        $this->addColumn($lng->txt('actions'), '', '30px');
 
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
@@ -76,11 +72,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
 
-
     /**
-     * @param array $a_set
+     * @param ilDclTableView $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow($a_set) : void
     {
         if ($this->parent_obj instanceof ilDclTableViewGUI) {
             $this->tpl->setVariable("ID", $a_set->getId());
@@ -93,17 +88,16 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
         $this->tpl->setVariable(
             "DCL_CONFIG",
-            $a_set->validateConfigCompletion() ? ilUtil::getImagePath('icon_ok_monochrome.svg', "/Modules/DataCollection") : ilUtil::getImagePath('icon_not_ok_monochrome.svg', "/Modules/DataCollection")
+            $a_set->validateConfigCompletion() ? ilUtil::getImagePath('icon_ok_monochrome.svg',
+                "/Modules/DataCollection") : ilUtil::getImagePath('icon_not_ok_monochrome.svg',
+                "/Modules/DataCollection")
         );
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
     }
 
-
     /**
      * build either actions menu or view button
-     *
      * @param $id
-     *
      * @return string
      */
     protected function buildAction($id)
@@ -114,9 +108,12 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $alist->setListTitle($this->lng->txt('actions'));
             $this->ctrl->setParameterByClass('ildcltableviewgui', 'tableview_id', $id);
             $this->ctrl->setParameterByClass('ilDclDetailedViewDefinitionGUI', 'tableview_id', $id);
-            $alist->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
-            $alist->addItem($this->lng->txt('copy'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'copy'));
-            $alist->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
+            $alist->addItem($this->lng->txt('edit'), '',
+                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
+            $alist->addItem($this->lng->txt('copy'), '',
+                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'copy'));
+            $alist->addItem($this->lng->txt('delete'), '',
+                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
 
             return $alist->getHTML();
         } elseif ($this->parent_obj instanceof ilDclDetailedViewGUI) {

@@ -73,11 +73,14 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 }
             });
         $ms = $ms->withInput(new class() implements InputData {
-            public function getOr($_, $__)
+            /**
+             * @return string[]
+             */
+            public function getOr($_, $__) : array
             {
                 return ["3"];
             }
-            public function get($_)
+            public function get($_) : void
             {
             }
         });

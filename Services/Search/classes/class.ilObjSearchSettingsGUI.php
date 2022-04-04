@@ -17,7 +17,7 @@ use ILIAS\Refinery\Factory;
 class ilObjSearchSettingsGUI extends ilObjectGUI
 {
     private GlobalHttpState $http;
-    private Factory $refinery;
+    protected Factory $refinery;
 
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
@@ -31,7 +31,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('search');
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -53,10 +53,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
-
-    public function cancelObject()
+    
+    public function cancelObject() : void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "settings");
@@ -64,8 +63,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     public function settingsObject(?ilPropertyFormGUI $form = null) : bool
     {
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
         $this->tabs_gui->setTabActive('settings');
         if (!$form instanceof ilPropertyFormGUI) {
@@ -75,15 +74,15 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         return true;
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
 
 
-    protected function getTabs()
+    protected function getTabs() : void
     {
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
@@ -93,14 +92,14 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'lucene_advanced_settings',
                 $this->ctrl->getLinkTarget($this, 'advancedLuceneSettings')
             );
         }
 
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'lucene_settings_tab',
                 $this->ctrl->getLinkTarget($this, 'luceneSettings')
@@ -108,7 +107,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         }
 
 
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
@@ -305,7 +304,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     protected function initFormLuceneSettings() : ilPropertyFormGUI
     {
-        $this->settings = ilSearchSettings::getInstance();
+        $this->settings = ilSearchSettings::getInstance();// @TODO: PHP8 Review: Wrong type. Instance of ilSettings expected.
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'cancel'));
 

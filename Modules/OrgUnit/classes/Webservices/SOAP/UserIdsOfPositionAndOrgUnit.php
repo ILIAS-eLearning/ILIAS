@@ -6,7 +6,6 @@ use ilOrgUnitUserAssignmentQueries;
 
 /**
  * Class UserIdsOfPositionAndOrgUnit
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class UserIdsOfPositionAndOrgUnit extends Base
@@ -14,7 +13,6 @@ class UserIdsOfPositionAndOrgUnit extends Base
 
     /**
      * @param array $params
-     *
      * @return array
      */
     protected function run(array $params)
@@ -22,9 +20,9 @@ class UserIdsOfPositionAndOrgUnit extends Base
         $position_id = $params[self::POSITION_ID];
         $orgu_id = $params[self::ORGU_REF_ID];
 
-        return ilOrgUnitUserAssignmentQueries::getInstance()->getUserIdsOfOrgUnitsInPosition(array($orgu_id), $position_id);
+        return ilOrgUnitUserAssignmentQueries::getInstance()->getUserIdsOfOrgUnitsInPosition(array($orgu_id),
+            $position_id);
     }
-
 
     /**
      * @return string
@@ -33,7 +31,6 @@ class UserIdsOfPositionAndOrgUnit extends Base
     {
         return "getUserIdsOfPositionAndOrgUnit";
     }
-
 
     /**
      * @return array
@@ -46,7 +43,6 @@ class UserIdsOfPositionAndOrgUnit extends Base
         );
     }
 
-
     /**
      * @inheritdoc
      */
@@ -54,7 +50,6 @@ class UserIdsOfPositionAndOrgUnit extends Base
     {
         return array('usr_ids' => Base::TYPE_INT_ARRAY);
     }
-
 
     /**
      * @inheritdoc

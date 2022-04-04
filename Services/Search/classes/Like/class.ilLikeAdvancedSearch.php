@@ -31,7 +31,6 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
 {
     public function __createTaxonWhereCondition() : string
     {
-        
         if ($this->options['lom_taxon']) {
             $where = " WHERE (";
             
@@ -51,7 +50,6 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
     
     public function __createKeywordWhereCondition() : string
     {
-        
         $where = " WHERE (";
         
         $counter = 0;
@@ -68,7 +66,6 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
     
     public function __createLifecycleWhereCondition() : string
     {
-        
         if ($this->options['lom_version']) {
             $where = " WHERE (";
             
@@ -88,7 +85,6 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
     
     public function __createEntityWhereCondition() : string
     {
-
         if ($this->options['lom_role_entry']) {
             $where = " WHERE (";
             
@@ -108,7 +104,6 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
 
     public function __createCoverageAndCondition() : string
     {
-
         if ($this->options['lom_coverage']) {
             $where = " AND (";
             
@@ -128,7 +123,6 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
     
     public function __createTitleDescriptionWhereCondition() : string
     {
-        
         $concat = $this->db->concat(
             array(
                 array('title','text'),

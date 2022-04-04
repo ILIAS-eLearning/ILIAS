@@ -9,18 +9,9 @@ use ILIAS\UI\Component\Input\Container\Filter\Standard;
  */
 class ilPluginsOverviewTableFilterGUI
 {
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $renderer;
-    /**
-     * @var ilUIFilterService
-     */
-    protected $filter_service;
-    /**
-     * @var Standard
-     */
-    protected $filter;
+    protected \ILIAS\UI\Renderer $renderer;
+    protected ilUIFilterService $filter_service;
+    protected Standard $filter;
 
     /**
      * ilPluginsOverviewTableFilterGUI constructor.
@@ -36,6 +27,7 @@ class ilPluginsOverviewTableFilterGUI
             return $DIC->language()->txt($id);
         };
 
+        /** @var ilComponentRepository $component_repository */
         $component_repository = $DIC["component.repository"];
         $slots = [];
         $components = [];

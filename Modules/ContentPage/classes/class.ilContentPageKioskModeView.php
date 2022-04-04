@@ -71,7 +71,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected function buildLearningProgressToggleControl(ControlBuilder $builder) : void
     {
         $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-        if ((int) $learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
+        if ($learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
             $isCompleted = ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
 
             $this->lng->loadLanguageModule('copa');
@@ -113,7 +113,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
                 $marks->update();
                 ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 
-                if ($old_state != $new_state) {
+                if ((int) $old_state !== (int) $new_state) {
                     $this->lng->loadLanguageModule('trac');
                     $this->messages[] = $this->uiFactory->messageBox()->success(
                         $this->lng->txt('trac_updated_status')

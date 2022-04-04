@@ -202,7 +202,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 if (!is_null($id) && ilObject::_exists($id)) {
                     $obj = ilObjectFactory::getInstanceByObjId($id);
                     if ($obj->getType() == 'usr') {
-                        $string = (string) ilObjUser::_lookupLogin($id);
+                        $string = ilObjUser::_lookupLogin($id);
                     } else {
                         if ($ref_id = ilContainerReference::_lookupTargetRefId($id)) {
                             if (

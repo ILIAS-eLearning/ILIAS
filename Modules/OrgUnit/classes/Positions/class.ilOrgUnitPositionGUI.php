@@ -4,7 +4,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitPositionGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPositionGUI extends BaseCommands
@@ -27,7 +26,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
         }
     }
 
-
     /**
      * @return array
      */
@@ -39,7 +37,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
         );
     }
 
-
     /**
      * @return string
      */
@@ -47,7 +44,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
     {
         return ilObjOrgUnitGUI::TAB_POSITIONS;
     }
-
 
     protected function index()
     {
@@ -61,13 +57,11 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->setContent($table->getHTML());
     }
 
-
     protected function add()
     {
         $form = new ilOrgUnitPositionFormGUI($this, new ilOrgUnitPosition());
         $this->tpl()->setContent($form->getHTML());
     }
-
 
     protected function create()
     {
@@ -80,7 +74,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->tpl()->setContent($form->getHTML());
     }
 
-
     protected function edit()
     {
         $this->addSubTabs();
@@ -90,7 +83,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $form->fillForm();
         $this->tpl()->setContent($form->getHTML());
     }
-
 
     protected function update()
     {
@@ -105,7 +97,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->tpl()->setContent($form->getHTML());
     }
 
-
     protected function assign()
     {
         $position = $this->getPositionFromRequest();
@@ -118,13 +109,13 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $employee_position = ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
         foreach ($assignments as $assignment) {
-            ilOrgUnitUserAssignment::findOrCreateAssignment($assignment->getUserId(), $employee_position->getId(), $assignment->getOrguId());
+            ilOrgUnitUserAssignment::findOrCreateAssignment($assignment->getUserId(), $employee_position->getId(),
+                $assignment->getOrguId());
             $assignment->delete();
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->txt('msg_assignment_to_employee_done'), true);
     }
-
 
     protected function confirmDeletion()
     {
@@ -167,7 +158,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->tpl()->setContent($confirmation->getHTML());
     }
 
-
     protected function delete()
     {
         if ($_POST['assign_users']) {
@@ -179,12 +169,10 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 
-
     protected function cancel()
     {
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
-
 
     /**
      * @return mixed
@@ -197,7 +185,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
         return $post ? $post : $get;
     }
 
-
     /**
      * @return \ilOrgUnitPosition
      */
@@ -205,7 +192,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
     {
         return ilOrgUnitPosition::find($this->getARIdFromRequest());
     }
-
 
     public static function initAuthoritiesRenderer()
     {
@@ -222,7 +208,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
             $t[$key] = $lang->txt($key);
         }
 
-        ilOrgUnitAuthority::replaceNameRenderer(function ($id) use ($t) {
+        ilOrgUnitAuthority::replaceNameRenderer(function($id) use ($t) {
             /**
              * @var $ilOrgUnitAuthority ilOrgUnitAuthority
              */
@@ -243,7 +229,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
                     break;
                 default:
                     $over_txt = ilOrgUnitPosition::findOrGetInstance($ilOrgUnitAuthority->getOver())
-                        ->getTitle();
+                                                 ->getTitle();
                     break;
             }
 
@@ -251,14 +237,14 @@ class ilOrgUnitPositionGUI extends BaseCommands
         });
     }
 
-
     public function addSubTabs()
     {
         $this->ctrl()->saveParameter($this, 'arid');
         $this->ctrl()->saveParameterByClass(ilOrgUnitDefaultPermissionGUI::class, 'arid');
         $this->pushSubTab(self::SUBTAB_SETTINGS, $this->ctrl()
-            ->getLinkTarget($this, self::CMD_EDIT));
+                                                      ->getLinkTarget($this, self::CMD_EDIT));
         $this->pushSubTab(self::SUBTAB_PERMISSIONS, $this->ctrl()
-            ->getLinkTargetByClass(ilOrgUnitDefaultPermissionGUI::class, self::CMD_INDEX));
+                                                         ->getLinkTargetByClass(ilOrgUnitDefaultPermissionGUI::class,
+                                                             self::CMD_INDEX));
     }
 }

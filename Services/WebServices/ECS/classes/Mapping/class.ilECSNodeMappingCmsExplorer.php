@@ -18,7 +18,6 @@
  * Explorer for ILIAS tree
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSNodeMappingCmsExplorer extends ilExplorer
 {
@@ -143,7 +142,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
         }
     }
 
-    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
+    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0) : void
     {
         if (!isset($a_node_id) or !is_array($a_option)) {
             $this->ilias->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
@@ -215,14 +214,16 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             }
 
             $tpl->setVariable("LINK_NAME", $a_node_id);
-            $tpl->setVariable("TITLE",
+            $tpl->setVariable(
+                "TITLE",
                 ilStr::shortenTextExtended(
                     $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
                     true
                 )
             );
-            $tpl->setVariable("DESC",
+            $tpl->setVariable(
+                "DESC",
                 ilStr::shortenTextExtended(
                     $this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
@@ -236,14 +237,16 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             $tpl->parseCurrentBlock();
         } else {			// output text only
             $tpl->setCurrentBlock("text");
-            $tpl->setVariable("OBJ_TITLE",
+            $tpl->setVariable(
+                "OBJ_TITLE",
                 ilStr::shortenTextExtended(
                     $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
                     true
                 )
             );
-            $tpl->setVariable("OBJ_DESC",
+            $tpl->setVariable(
+                "OBJ_DESC",
                 ilStr::shortenTextExtended(
                     $this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
@@ -270,7 +273,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         // custom icons
-        $path = ilObject::_getIcon($a_obj_id, "tiny", "root");
+        $path = ilObject::_getIcon((int) $a_obj_id, "tiny", "root");
 
 
         $tpl->setCurrentBlock("icon");

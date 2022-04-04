@@ -199,7 +199,7 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_REP_OBJECT_ID", $a_set["id"]);
         $this->tpl->setVariable(
             "IMG_REP_OBJECT",
-            ilObject::_getIcon("", "tiny", $a_set["id"])
+            ilObject::_getIcon(0, "tiny", $a_set["id"])
         );
 
         // grouping

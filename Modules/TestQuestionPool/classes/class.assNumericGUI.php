@@ -30,8 +30,6 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      * The constructor takes possible arguments an creates an instance of the assNumericGUI object.
      *
      * @param integer $id The database id of a Numeric question object
-     *
-     * @return assNumericGUI
      */
     public function __construct($id = -1)
     {
@@ -75,7 +73,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      *
      * @return bool
      */
-    public function editQuestion($checkonly = false)
+    public function editQuestion($checkonly = false) : bool
     {
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
@@ -132,7 +130,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
     *
     * @return boolean
     */
-    public function checkRange($lower, $upper)
+    public function checkRange($lower, $upper) : bool
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
         $eval = new EvalMath();
@@ -149,7 +147,6 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 
     /**
      * Get the question solution output
-     *
      * @param integer $active_id             The active user id
      * @param integer $pass                  The test pass
      * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
@@ -159,7 +156,6 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      * @param boolean $show_correct_solution Show the correct solution instead of the user solution
      * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
      * @param bool    $show_question_text
-     *
      * @return string The solution output of the question as HTML code
      */
     public function getSolutionOutput(
@@ -172,7 +168,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $show_correct_solution = false,
         $show_manual_scoring = false,
         $show_question_text = true
-    ) {
+    ) : string {
         // get the solution of the user for the active pass or from the last pass if allowed
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
@@ -247,7 +243,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      *
      * @return string
      */
-    public function getPreview($show_question_only = false, $showInlineFeedback = false)
+    public function getPreview($show_question_only = false, $showInlineFeedback = false) : string
     {
         // generate the question output
         require_once './Services/UICore/classes/class.ilTemplate.php';
@@ -275,12 +271,13 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      * @return string
      */
     // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $inlineFeedback = false)
-    // hey.
+    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $inlineFeedback = false) : string
+        // hey.
     {
         $solutions = null;
         // get the solution of the user for the active pass or from the last pass if allowed
         if ($use_post_solutions !== false) {
+            /** @noinspection PhpArrayAccessOnIllegalTypeInspection */
             $solutions = array(
                 array('value1' => $use_post_solutions['numeric_result'])
             );
@@ -327,18 +324,18 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 
         $ilTabs->clearTargets();
         
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
+        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->request->getQuestionId());
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
+            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -346,7 +343,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                     array("edit", "insert", "exec_pg"),
                     "",
                     "",
-                    $force_active
+                    false
                 );
             }
 
@@ -354,7 +351,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
@@ -481,7 +478,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars()
+    public function getAfterParticipationSuppressionAnswerPostVars() : array
     {
         return array();
     }
@@ -495,7 +492,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionQuestionPostVars()
+    public function getAfterParticipationSuppressionQuestionPostVars() : array
     {
         return array();
     }
@@ -508,14 +505,14 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers)
+    public function getAggregatedAnswersView($relevant_answers) : string
     {
         return  $this->renderAggregateView(
             $this->aggregateAnswers($relevant_answers)
         )->get();
     }
 
-    public function aggregateAnswers($relevant_answers_chosen)
+    public function aggregateAnswers($relevant_answers_chosen) : array
     {
         $aggregate = array();
 
@@ -534,7 +531,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      *
      * @return ilTemplate
      */
-    public function renderAggregateView($aggregate)
+    public function renderAggregateView($aggregate) : ilTemplate
     {
         $tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
 

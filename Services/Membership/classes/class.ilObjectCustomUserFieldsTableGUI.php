@@ -18,7 +18,7 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
             $this->lng->txt(ilObject::_lookupType($this->getParentObject()->getObjId()) . '_custom_user_fields')
         );
 
-        $this->addColumn('', '', (string) 1);
+        $this->addColumn('', '', "1");
         $this->addColumn($this->lng->txt('ps_cdf_name'), 'name', '30%');
         $this->addColumn($this->lng->txt('ps_cdf_type'), 'type', '30%');
         $this->addColumn($this->lng->txt('ps_cdf_required'), '', '20%');
@@ -62,8 +62,8 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
     {
         $rows = [];
         foreach ($a_defs as $def) {
-            $rows[$def->getId()]['field_id'] = (int) $def->getId();
-            $rows[$def->getId()]['name'] = (string) $def->getName();
+            $rows[$def->getId()]['field_id'] = $def->getId();
+            $rows[$def->getId()]['name'] = $def->getName();
 
             switch ($def->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:

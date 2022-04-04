@@ -7,7 +7,6 @@ use ILIAS\Container\Content\ViewManager;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
-
 /**
 * Class ilSearchBaseGUI
 *
@@ -85,7 +84,6 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
     }
 
     protected function initPageNumberFromQuery() : int
@@ -102,11 +100,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
     public function prepareOutput() : void
     {
-
         $this->tpl->loadStandardTemplate();
         
         $this->tpl->setTitleIcon(
-            ilObject::_getIcon("", "big", "src"),
+            ilObject::_getIcon(0, "big", "src"),
             ""
         );
         $this->tpl->setTitle($this->lng->txt("search"));
@@ -197,7 +194,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $radg = new ilHiddenInputGUI('search_term_combination');
         $radg->setValue((string) ilSearchSettings::getInstance()->getDefaultOperator());
         $form->addItem($radg);
-        
+
         // search area
         $ti = new ilRepositorySelectorInputGUI($this->lng->txt("search_area"), "area");
         $ti->setSelectText($this->lng->txt("search_select_search_area"));
@@ -210,7 +207,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             $ti->setValue(
                 $this->http->wrapper()->post()->retrieve(
                     'root_id',
-                    $this->refinery->kindlyTo()->int()
+                    $this->refinery->kindlyTo()->string()
                 )
             );
             $ti->writeToSession();
@@ -233,13 +230,29 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     
     public function addToDeskObject() : void
     {
-        $this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);
+        if ($this->http->wrapper()->query()->has('item_ref_id')) {
+            $this->favourites->add(
+                $this->user->getId(),
+                $this->http->wrapper()->query()->retrieve(
+                    'item_ref_id',
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         $this->showSavedResults();
     }
      
     public function removeFromDeskObject() : void
     {
-        $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
+        if ($this->http->wrapper()->query()->has('item_ref_id')) {
+            $this->favourites->remove(
+                $this->user->getId(),
+                $this->http->wrapper()->query()->retrieve(
+                    'item_ref_id',
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         $this->showSavedResults();
     }
      
@@ -340,9 +353,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
      */
     protected function addPager($result, string $a_session_key) : bool
     {
-        $_SESSION["$a_session_key"] = max($_SESSION["$a_session_key"], $this->search_cache->getResultPageNumber());
-        
-        if ($_SESSION["$a_session_key"] == 1 and
+        $max_page = max( ilSession::get($a_session_key), $this->search_cache->getResultPageNumber());
+        ilSession::set($a_session_key, $max_page);
+
+        if ($max_page == 1 and
             (count($result->getResults()) < $result->getMaxHits())) {
             return true;
         }
@@ -351,7 +365,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             $this->ctrl->setParameter($this, 'page_number', $this->search_cache->getResultPageNumber() - 1);
             $this->prev_link = $this->ctrl->getLinkTarget($this, 'performSearch');
         }
-        for ($i = 1;$i <= $_SESSION["$a_session_key"];$i++) {
+        for ($i = 1;$i <= $max_page;$i++) {
             if ($i == $this->search_cache->getResultPageNumber()) {
                 continue;
             }
@@ -359,21 +373,16 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             $this->ctrl->setParameter($this, 'page_number', $i);
             $link = '<a href="' . $this->ctrl->getLinkTarget($this, 'performSearch') . '" /a>' . $i . '</a> ';
         }
-        
-
         if (count($result->getResults()) >= $result->getMaxHits()) {
             $this->ctrl->setParameter($this, 'page_number', $this->search_cache->getResultPageNumber() + 1);
             $this->next_link = $this->ctrl->getLinkTarget($this, 'performSearch');
         }
-
-        
         $this->ctrl->clearParameters($this);
         return false;
     }
     
     protected function buildSearchAreaPath(int $a_root_node) : string
     {
-
         $path_arr = $this->tree->getPathFull($a_root_node, ROOT_FOLDER_ID);
         $counter = 0;
         $path = '';
@@ -390,7 +399,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     
     public function autoComplete() : void
     {
-        $q = $_REQUEST["term"];
+        $q = $_REQUEST["term"];// @TODO: PHP8 Review: Direct access to $_REQUEST.
         $list = ilSearchAutoComplete::getList($q);
         echo $list;
         exit;

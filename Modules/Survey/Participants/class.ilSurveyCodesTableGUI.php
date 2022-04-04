@@ -72,7 +72,7 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
         $this->tpl->setVariable('CB_CODE', $a_set['id']);
     
         // :TODO: see permalink gui
-        if (strlen($a_set['href'])) {
+        if (($a_set['href'] ?? '') !== '') {
             $this->tpl->setCurrentBlock('url');
             $this->tpl->setVariable("URL", $lng->txt("survey_code_url_name"));
             $this->tpl->setVariable("HREF", $a_set['href']);

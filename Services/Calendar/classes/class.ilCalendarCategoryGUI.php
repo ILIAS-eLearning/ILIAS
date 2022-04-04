@@ -424,10 +424,8 @@ class ilCalendarCategoryGUI
             return;
         }
 
-        $_SESSION['cal_query'] = '';
-
+        ilSession::clear('cal_query');
         $this->ctrl->saveParameter($this, 'category_id');
-
         $table = new ilCalendarSharedListTableGUI($this, 'shareSearch');
         $table->setTitle($this->lng->txt('cal_cal_shared_with'));
         $table->setCalendarId($this->category_id);
@@ -451,11 +449,13 @@ class ilCalendarCategoryGUI
         $query = '';
         $type = '';
         if (!isset($_POST['query'])) {
-            $query = $_SESSION['cal_query'];
-            $type = $_SESSION['cal_type'];
+            $query = (string) ilSession::get('cal_query');
+            $type = (int) ilSession::get('cal_type');
         } elseif ($_POST['query']) {
-            $query = $_SESSION['cal_query'] = $_POST['query'];
-            $type = $_SESSION['cal_type'] = $_POST['query_type'];
+            $query = $_POST['query'];
+            $type = $_POST['query_type'];
+            ilSession::set('cal_query', $query);
+            ilSession::set('cal_type', $type);
         }
 
         if (!$query) {

@@ -220,9 +220,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
             }
         }
 
-        $orderBy = 'ORDER BY ' . implode(', ', $orders);
-
-        return $orderBy;
+        return 'ORDER BY ' . implode(', ', $orders);
     }
 
     /**
@@ -296,8 +294,6 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
             return '';
         }
 
-        $sql = 'WHERE ' . implode(' AND ', $wheres);
-
-        return $sql;
+        return 'WHERE ' . implode(' AND ', $wheres);
     }
 }

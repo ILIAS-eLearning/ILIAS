@@ -200,7 +200,7 @@ class ilObjBookingPool extends ilObject
         return true;
     }
     
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 

@@ -16,7 +16,6 @@
  */
 class ilObjFileUploadResponse extends stdClass
 {
-    
     public string $debug = '';
     public ?string $error = null;
     public string $fileName = '';

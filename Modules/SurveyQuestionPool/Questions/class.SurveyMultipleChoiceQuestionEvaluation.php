@@ -58,7 +58,7 @@ class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
         $categories = $this->question->getCategories();
                 
         $answers = $a_results->getUserResults($a_user_id);
-        if (count($answers) == 0) {
+        if (count($answers) === 0) {
             $a_row[] = $this->getSkippedValue();
             
             for ($i = 0; $i < $categories->getCategoryCount(); $i++) {

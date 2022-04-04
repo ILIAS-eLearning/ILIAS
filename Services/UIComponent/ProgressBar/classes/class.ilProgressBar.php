@@ -147,7 +147,7 @@ class ilProgressBar
             $tpl->touchBlock("hide_caption_out_bl");
         }
         
-        if (strlen($this->ajax_url) and $this->ajax_timeout) {
+        if ($this->ajax_url !== '' && $this->ajax_timeout) {
             $tpl->setCurrentBlock('async_status');
             $tpl->setVariable('ASYNC_STATUS_ID', $this->unique_id);
             $tpl->setVariable('ICON_OK', ilUtil::getImagePath('icon_ok.svg'));

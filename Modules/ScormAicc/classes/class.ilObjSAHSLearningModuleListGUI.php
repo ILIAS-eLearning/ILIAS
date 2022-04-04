@@ -64,16 +64,14 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
      * (e.g. "lm_presentation.php", "forum.php"). This is the case
      * for all links now, but bringing everything to ilCtrl should
      * be realised in the future.
-     * @param string $a_cmd command
-     * @return string
      * @throws ilCtrlException
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
         $cmd_link = null;
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id;
 
@@ -93,8 +91,8 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 break;
         }
         return $cmd_link;

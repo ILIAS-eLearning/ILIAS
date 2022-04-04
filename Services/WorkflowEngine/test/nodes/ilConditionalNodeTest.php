@@ -16,8 +16,7 @@ use org\bovigo\vfs;
  */
 class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
 {
-    private $workflow;
-    private $test_dir;
+    private ilEmptyWorkflow $workflow;
 
     public function setUp() : void
     {
@@ -26,7 +25,6 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        $this->test_dir = vfs\vfsStream::setup('example');
     }
     
     public function tearDown() : void

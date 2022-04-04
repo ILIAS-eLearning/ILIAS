@@ -35,7 +35,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
         );
     }
 
-    public function getCommandId() : ?int
+    public function getCommandId() : int
     {
         return $this->ref_ref_id;
     }
@@ -69,22 +69,22 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
     /**
     * initialize new item
     * Group reference inits the group item
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	int			$a_obj_id		object id
-    * @param	string		$a_title		title
-    * @param	string		$a_description	description
     */
-    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
-    {
-        $this->ref_ref_id = $a_ref_id;
-        $this->ref_obj_id = $a_obj_id;
+    public function initItem(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title = "",
+        string $description = ""
+    ) : void {
+        $this->ref_ref_id = $ref_id;
+        $this->ref_obj_id = $obj_id;
 
-        $target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
+        $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
         
         $target_ref_ids = ilObject::_getAllReferences($target_obj_id);
         $target_ref_id = current($target_ref_ids);
-        $target_title = ilContainerReference::_lookupTitle($a_obj_id);
+        $target_title = ilContainerReference::_lookupTitle($obj_id);
         $target_description = ilObject::_lookupDescription($target_obj_id);
 
         $this->deleted = $this->tree->isDeleted($target_ref_id);
@@ -115,15 +115,20 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
         return $props ?: array();
     }
 
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
-    {
+    public function checkCommandAccess(
+        string $permission,
+        string $cmd,
+        int $ref_id,
+        string $type,
+        ?int $obj_id = null
+    ) : bool {
         // Check edit reference against reference edit permission
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'editReference':
-                return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type, $a_obj_id);
+                return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), $type, $obj_id);
         }
 
-        return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), 'prgr', "");
+        return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), 'prgr', "");
     }
     
     /**

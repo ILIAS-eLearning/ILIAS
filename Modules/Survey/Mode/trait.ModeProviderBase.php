@@ -44,7 +44,7 @@ trait ModeProviderBase
         return $mod;
     }
 
-    public function setInternalService(InternalService $service)
+    public function setInternalService(InternalService $service) : void
     {
         $this->service = $service;
     }

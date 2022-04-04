@@ -23,8 +23,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesFileDeliverySuite extends TestSuite
 {
-
-    public static function suite(): \ilServicesFileDeliverySuite
+    public static function suite() : \ilServicesFileDeliverySuite
     {
         $suite = new self();
 

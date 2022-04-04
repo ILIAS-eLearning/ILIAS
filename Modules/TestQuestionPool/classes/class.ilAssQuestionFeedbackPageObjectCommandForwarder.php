@@ -106,14 +106,12 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
             );
             return $pageObjectGUI;
         }
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
-            $pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
-            $pageObjectGUI->obj->addUpdateListener(
-                $this->questionOBJ,
-                'updateTimestamp'
-            );
-            return $pageObjectGUI;
-        }
+        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
+        $pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
+        $pageObjectGUI->obj->addUpdateListener(
+            $this->questionOBJ,
+            'updateTimestamp'
+        );
+        return $pageObjectGUI;
     }
 }

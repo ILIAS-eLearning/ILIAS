@@ -16,12 +16,4 @@ class ilMembershipRegistrationException extends ilException
     public const OUT_OF_REGISTRATION_PERIOD = 789;
     public const REGISTRATION_INVALID_OFFLINE = 126;
     public const REGISTRATION_INVALID_AVAILABILITY = 127;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_message, $a_code = 0)
-    {
-        parent::__construct($a_message, $a_code);
-    }
 }

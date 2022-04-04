@@ -26,29 +26,12 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 class ilObjFileServicesGUI extends ilObject2GUI
 {
     const CMD_EDIT_SETTINGS = 'editSettings';
-
-    /**
-     * @var ilRbacSystem (not yet declared in parent)
-     */
-    protected $rbacsystem;
     protected ilTabsGUI $tabs;
-    /**
-     * @var ilLanguage  (not yet declared in parent)
-     */
-    public $lng;
+    public ilLanguage $lng;
     public ilErrorHandling $error_handling;
-    /**
-     * @var ilCtrl  (not yet declared in parent)
-     */
-    protected $ctrl;
-    /**
-     * ilSetting  (not yet declared in parent)
-     */
-    protected $settings;
-    /**
-     * @var ilGlobalTemplateInterface  (not yet declared in parent)
-     */
-    public $tpl;
+    protected ilCtrl $ctrl;
+    protected ilSetting $settings;
+    public ilGlobalTemplateInterface $tpl;
     protected Factory $refinery;
     protected WrapperFactory $http;
     protected ilFileServicesSettings $file_service_settings;
@@ -57,12 +40,14 @@ class ilObjFileServicesGUI extends ilObject2GUI
      * Constructor
      * @access public
      */
-    public function __construct(int $ref_id, bool $a_call_by_reference = false)
+    public function __construct(int $ref_id, bool $call_by_reference = false)
     {
         global $DIC;
 
         $this->type = ilObjFileServices::TYPE_FILE_SERVICES;
-        parent::__construct($ref_id, $a_call_by_reference, false);
+        // TODO: this call needs a refactoring, the constructor of ilObjectGUI is wrongly called here.
+        // Typehint it to keep the state
+        parent::__construct($ref_id, (int) $call_by_reference);
 
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
@@ -71,7 +56,6 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->tpl = $DIC['tpl'];
         $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
-        $this->rbacsystem = $DIC['rbacsystem'];
         $this->error_handling = $DIC["ilErr"];
         $this->http = $DIC->http()->wrapper();
         $this->ref_id = $this->http->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
@@ -79,7 +63,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->file_service_settings = new ilFileServicesSettings($DIC->settings());
     }
 
-    public function getType()
+    public function getType() : string
     {
         return ilObjFileServices::TYPE_FILE_SERVICES;
     }
@@ -89,7 +73,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         if (!$this->hasUserPermissionTo($str)) {
             $this->error_handling->raiseError(
                 $this->lng->txt('no_permission'),
-                $this->error_handling->error_obj->MESSAGE
+                $this->error->MESSAGE
             );
         }
     }
@@ -133,14 +117,22 @@ class ilObjFileServicesGUI extends ilObject2GUI
      */
     public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess(
+            "visible,read",
+            $this->object->getRefId()
+        )
+        ) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
                 [self::CMD_EDIT_SETTINGS, "view"]
             );
         }
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess(
+            'edit_permission',
+            $this->object->getRefId()
+        )
+        ) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"),

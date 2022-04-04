@@ -106,16 +106,16 @@ class ilPCSectionGUI extends ilPageContentGUI
     
     public static function _getCharacteristics(string $a_style_id) : array
     {
-        $chars = ilPCSectionGUI::_getStandardCharacteristics();
-
+        $std_chars = ilPCSectionGUI::_getStandardCharacteristics();
+        $chars = $std_chars;
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
             $style = new ilObjStyleSheet($a_style_id);
             $chars = $style->getCharacteristics("section");
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($chars[$char] != "") {	// keep lang vars for standard chars
-                    $new_chars[$char] = $chars[$char];
+                if (($std_chars[$char] ?? "") != "") {	// keep lang vars for standard chars
+                    $new_chars[$char] = $std_chars[$char];
                 } else {
                     $new_chars[$char] = $char;
                 }

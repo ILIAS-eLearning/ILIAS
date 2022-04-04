@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ActiveRecord
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -30,8 +43,10 @@ abstract class ActiveRecord
      */
     public static function returnDbTableName() : string
     {
-        throw new arException(arException::UNKNONWN_EXCEPTION,
-            'Implement getConnectorContainerName in your child-class');
+        throw new arException(
+            arException::UNKNONWN_EXCEPTION,
+            'Implement getConnectorContainerName in your child-class'
+        );
     }
 
     /**
@@ -321,14 +336,14 @@ abstract class ActiveRecord
         return $new_obj;
     }
 
-    public function afterObjectLoad()
+    public function afterObjectLoad() : void
     {
     }
 
     /**
      * @throws arException
      */
-    public function read()
+    public function read() : void
     {
         $records = $this->getArConnector()->read($this);
         if ($this->ar_safe_read === true && is_array($records) && count($records) === 0) {
@@ -472,8 +487,14 @@ abstract class ActiveRecord
         string $operator = '=',
         $both_external = false
     ) : \ActiveRecordList {
-        return self::innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator,
-            $both_external);
+        return self::innerjoin(
+            $ar->getConnectorContainerName(),
+            $on_this,
+            $on_external,
+            $fields,
+            $operator,
+            $both_external
+        );
     }
 
     /**
@@ -583,7 +604,8 @@ abstract class ActiveRecord
 
     public static function getCollection() : \ActiveRecordList
     {
-        return new ActiveRecordList(self::getCalledClass());;
+        return new ActiveRecordList(self::getCalledClass());
+        ;
     }
 
     public static function last() : ?\ActiveRecord
@@ -656,13 +678,13 @@ abstract class ActiveRecord
             $str[0] = strtoupper($str[0]);
         }
 
-        return preg_replace_callback('/_([a-z])/', fn($c) => strtoupper($c[1]), $str);
+        return preg_replace_callback('/_([a-z])/', fn ($c) => strtoupper($c[1]), $str);
     }
 
     protected static function fromCamelCase(string $str) : ?string
     {
         $str[0] = strtolower($str[0]);
 
-        return preg_replace_callback('/([A-Z])/', fn($c) => "_" . strtolower($c[1]), $str);
+        return preg_replace_callback('/([A-Z])/', fn ($c) => "_" . strtolower($c[1]), $str);
     }
 }

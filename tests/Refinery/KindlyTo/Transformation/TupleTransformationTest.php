@@ -8,16 +8,18 @@ use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 
-require_once ('./libs/composer/vendor/autoload.php');
+require_once('./libs/composer/vendor/autoload.php');
 
-class TupleTransformationTest extends TestCase {
+class TupleTransformationTest extends TestCase
+{
     const TUPLE_KEY = 'hello';
     /**
      * @dataProvider TupleTransformationDataProvider
      * @param $originVal
      * @param $expectedVal
      */
-    public function testTupleTransformation($originVal, $expectedVal) {
+    public function testTupleTransformation($originVal, $expectedVal)
+    {
         $transformation = new TupleTransformation(
             [
                 new IntegerTransformation(),
@@ -33,7 +35,8 @@ class TupleTransformationTest extends TestCase {
      * @dataProvider TupleFailingTransformationDataProvider
      * @param $failingVal
      */
-    public function testNewTupleIsIncorrect($failingVal) {
+    public function testNewTupleIsIncorrect($failingVal)
+    {
         $this->expectNotToPerformAssertions();
         $transformation = new TupleTransformation(
             [
@@ -54,7 +57,8 @@ class TupleTransformationTest extends TestCase {
      * @dataProvider TupleTooManyValuesDataProvider
      * @param $tooManyValues
      */
-    public function testTupleTooManyValues($tooManyValues) {
+    public function testTupleTooManyValues($tooManyValues)
+    {
         $this->expectNotToPerformAssertions();
         $transformation = new TupleTransformation(
             [
@@ -71,19 +75,22 @@ class TupleTransformationTest extends TestCase {
         $this->fail();
     }
 
-    public function TupleTooManyValuesDataProvider() {
+    public function TupleTooManyValuesDataProvider()
+    {
         return [
             'too_many_values' => [array(1,2,3)]
         ];
     }
 
-    public function TupleFailingTransformationDataProvider() {
+    public function TupleFailingTransformationDataProvider()
+    {
         return [
             'incorrect_tuple' => [array(1, 2)]
         ];
     }
 
-    public function TupleTransformationDataProvider() {
+    public function TupleTransformationDataProvider()
+    {
         return [
             'array_test01' => [array(1, 2), [1, 2]]
         ];

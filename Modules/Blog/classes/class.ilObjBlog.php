@@ -673,23 +673,21 @@ class ilObjBlog extends ilObject2
         exit();
     }
     
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
-        $role = ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             'il_blog_contributor_' . $this->getRefId(),
             "Contributor of blog obj_no." . $this->getId(),
             'il_blog_contributor',
             $this->getRefId()
         );
         
-        $role = ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             'il_blog_editor_' . $this->getRefId(),
             "Editor of blog obj_no." . $this->getId(),
             'il_blog_editor',
             $this->getRefId()
         );
-        
-        return array();
     }
     
     public function getLocalContributorRole(int $a_node_id) : int

@@ -20,7 +20,7 @@
 class ilUserDefinedData
 {
     public ?ilDBInterface $db = null;
-    public array $user_data = array();
+    public array $user_data = array(); // Missing array type.
     public ?int $usr_id = null;
 
     public function __construct(int $a_usr_id)
@@ -38,7 +38,7 @@ class ilUserDefinedData
     /**
      * Lookup data
      */
-    public static function lookupData(array $a_user_ids, array $a_field_ids) : array
+    public static function lookupData(array $a_user_ids, array $a_field_ids) : array // Missing array type.
     {
         global $DIC;
 
@@ -71,17 +71,17 @@ class ilUserDefinedData
         return $this->usr_id;
     }
 
-    public function set(int $a_field, string $a_value) : void
+    public function set(string $a_field, string $a_value) : void
     {
         $this->user_data[$a_field] = $a_value;
     }
 
-    public function get(int $a_field) : string
+    public function get(string $a_field) : string
     {
         return $this->user_data[$a_field] ?? '';
     }
 
-    public function getAll() : array
+    public function getAll() : array // Missing array type.
     {
         return $this->user_data;
     }

@@ -1,13 +1,13 @@
 /* Services/UIComponent/AdvancedSelectionList */
 
 div.il_adv_sel {
-	border: 1px solid #d6d6d6;
+	border: 1px solid @il-main-border-color;
     .box-shadow(2px 2px 4px #c0c0c0);
 }
 
 table.il_adv_sel {
-	color: black;
-	background-color: white;
+	color: @il-text-color;
+	background-color: @il-main-bg;
 	border-spacing: 0;
 	cursor: pointer;
 }
@@ -22,7 +22,7 @@ tr.il_adv_sel_act {
 }
 
 td.il_adv_sel {
-	border-bottom: 1px solid #f0f0f0;
+	border-bottom: 1px solid @il-main-border-color;
 	padding: 3px 10px;
 	text-align: left;
 	white-space: nowrap;
@@ -35,7 +35,7 @@ td.il_adv_sel {
 }
 
 td.il_adv_sel_ic {
-	border-bottom: 1px solid #f0f0f0;
+	border-bottom: 1px solid @il-main-border-color;
 	padding: 3px 0 3px 10px;
 	text-align: left;
 	cursor: pointer;
@@ -54,7 +54,7 @@ span[id^="ilAdvSelListAnchorElement_"] + div {
 
 div[id^="ilAdvSelListTable_"] {
 	overflow: auto;
-	background-color: white;
+	background-color: @il-main-bg;
 	clear: both;
 	display: none;
 	position: absolute;

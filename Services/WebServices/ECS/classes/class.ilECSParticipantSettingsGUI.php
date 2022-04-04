@@ -15,10 +15,7 @@
  *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSParticipantSettingsGUI
 {
@@ -67,12 +64,8 @@ class ilECSParticipantSettingsGUI
 
     /**
      * Execute command
-     *
-     * @access public
-     * @param
-     *
      */
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         $this->ctrl->saveParameter($this, 'server_id');
         $this->ctrl->saveParameter($this, 'mid');
@@ -95,7 +88,7 @@ class ilECSParticipantSettingsGUI
     /**
      * Abort editing
      */
-    private function abort()
+    private function abort() : void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -103,9 +96,8 @@ class ilECSParticipantSettingsGUI
 
     /**
      * Settings
-     * @param ilPropertyFormGUI $form
      */
-    private function settings(ilPropertyFormGUI $form = null)
+    private function settings(ilPropertyFormGUI $form = null) : void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initFormSettings();
@@ -116,7 +108,7 @@ class ilECSParticipantSettingsGUI
     /**
      * Save settings
      */
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
@@ -130,7 +122,8 @@ class ilECSParticipantSettingsGUI
             
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
-            return true;
+            //TODO check if we need return true
+            return;
         }
         $form->setValuesByPost();
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
@@ -201,7 +194,7 @@ class ilECSParticipantSettingsGUI
     /**
      * Set tabs
      */
-    private function setTabs()
+    private function setTabs() : void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(

@@ -31,7 +31,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -51,6 +51,10 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilCtrl->saveParameter($this, array("qpool_ref_id"));
     }
 
+    /**
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
@@ -356,7 +360,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
 
-        if ($this->content_obj != "") {
+        if (!is_null($this->content_obj)) {
             $q_ref = $this->content_obj->getQuestionReference();
         }
         
@@ -384,7 +388,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 $tabCommands = assQuestionGUI::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
                 $tabLink = ilUtil::appendUrlParameterString(
                     $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW),
-                    "q_id=" . (int) $q_id
+                    "q_id=" . $q_id
                 );
                 $ilTabs->addTarget('feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
             }

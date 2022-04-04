@@ -43,12 +43,6 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      */
     private $tableMode = null;
     
-    /**
-     * hint clipboard for ordering operations
-     *
-     * @access	private
-     * @var		ilAssQuestionHintOrderingClipboard
-     */
     private $hintOrderingClipboard = null;
     
     /**

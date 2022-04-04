@@ -264,8 +264,9 @@ class ilConsultationHoursGUI
      */
     public function assignUsersToAppointments(array $users)
     {
-        $unassigned_users = array();
-        foreach ($_SESSION['ch_apps'] as $app) {
+        $unassigned_users = [];
+        $ch_apps = (array) (ilSession::get('ch_apps') ?? []);
+        foreach ($ch_apps as $app) {
             $unassigned_users = array_unique(array_merge(
                 $unassigned_users,
                 $this->assignUsersToAppointment($users, $app, false)
@@ -873,7 +874,7 @@ class ilConsultationHoursGUI
                 $entry->setStart($app_start);
                 $entry->setEnd($app_end);
 
-                $entry->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $entry->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $entry->save();
 
                 $cat_assign = new ilCalendarCategoryAssignments($entry->getEntryId());

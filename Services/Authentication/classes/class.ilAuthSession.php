@@ -133,7 +133,7 @@ class ilAuthSession
         $this->authenticated = $a_status;
         $this->user_id = $a_user_id;
         ilSession::set(self::SESSION_AUTH_AUTHENTICATED, $a_status);
-        ilSession::set(self::SESSION_AUTH_USER_ID, (int) $a_user_id);
+        ilSession::set(self::SESSION_AUTH_USER_ID, $a_user_id);
         $this->setExpired(false);
         if ($a_status) {
             $this->regenerateId();
@@ -145,12 +145,11 @@ class ilAuthSession
      */
     public function isExpired() : bool
     {
-        return (bool) $this->expired;
+        return $this->expired;
     }
     
     /**
      * Set session expired
-     * @param type $a_status
      */
     public function setExpired(bool $a_status) : void
     {

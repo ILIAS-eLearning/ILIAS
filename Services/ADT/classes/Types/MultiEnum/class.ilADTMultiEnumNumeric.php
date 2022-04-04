@@ -2,7 +2,7 @@
 
 class ilADTMultiEnumNumeric extends ilADTMultiEnum
 {
-    protected function handleSelectionValue(mixed $a_value) : mixed
+    protected function handleSelectionValue($a_value)
     {
         return (int) $a_value;
     }

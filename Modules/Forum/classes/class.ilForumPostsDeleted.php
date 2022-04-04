@@ -7,7 +7,6 @@
  */
 class ilForumPostsDeleted
 {
-    private ilObjUser $user;
     private ilDBInterface $db;
     protected int $deleted_id = 0;
     protected string $deleted_date;
@@ -29,7 +28,6 @@ class ilForumPostsDeleted
     {
         global $DIC;
 
-        $this->user = $DIC->user();
         $this->db = $DIC->database();
 
         if ($provider !== null) {
@@ -39,7 +37,8 @@ class ilForumPostsDeleted
             ) {
                 $this->setDeletedBy($provider->objPost->getUserAlias());
             } else {
-                $this->setDeletedBy($this->user->getLogin());
+                $user = $DIC->user();
+                $this->setDeletedBy($user->getLogin());
             }
 
             $this->setDeletedDate(date('Y-m-d H:i:s'));

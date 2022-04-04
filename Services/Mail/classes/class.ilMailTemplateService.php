@@ -82,11 +82,9 @@ class ilMailTemplateService
     {
         $templates = $this->repository->getAll();
 
-        $templates = array_map(static function (\ilMailTemplate $template) : array {
+        return array_map(static function (\ilMailTemplate $template) : array {
             return $template->toArray();
         }, $templates);
-
-        return $templates;
     }
     
     public function unsetAsContextDefault(ilMailTemplate $template) : void

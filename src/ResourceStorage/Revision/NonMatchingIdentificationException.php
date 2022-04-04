@@ -23,5 +23,4 @@ use LogicException;
  */
 class NonMatchingIdentificationException extends LogicException
 {
-
 }

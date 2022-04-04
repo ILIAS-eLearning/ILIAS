@@ -17,9 +17,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     protected string $thread_title = '';
     protected array $attachments = [];
     public ilForumPost $objPost;
-    private $db;
-    private $access;
-    private $user;
+    private ilDBInterface $db;
+    private ilAccessHandler $access;
+    private ilObjUser $user;
     protected bool $is_anonymized = false;
     private ilForumNotificationCache $notificationCache;
 
@@ -208,7 +208,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         ]);
 
         if (false === $this->notificationCache->exists($cacheKey)) {
-            $result = $this->db->queryf(
+            $result = $this->db->queryF(
                 '
 				SELECT thr_subject FROM frm_threads 
 				WHERE thr_pk = %s',
@@ -232,7 +232,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         ]);
 
         if (false === $this->notificationCache->exists($cacheKey)) {
-            $result = $this->db->queryf(
+            $result = $this->db->queryF(
                 '
 				SELECT top_pk, top_name, frm_settings.anonymized FROM frm_data
 				INNER JOIN frm_settings ON top_frm_fk = frm_settings.obj_id 
@@ -283,7 +283,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
                 $condition = ' OR frm_notification.interested_events >= ' . $this->db->quote(0, 'integer');
             }
 
-            $res = $this->db->queryf(
+            $res = $this->db->queryF(
                 '
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s

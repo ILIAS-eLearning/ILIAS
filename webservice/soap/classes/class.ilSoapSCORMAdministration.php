@@ -1,54 +1,42 @@
 <?php
-  /*
-   +-----------------------------------------------------------------------------+
-   | ILIAS open source                                                           |
-   +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-   |                                                                             |
-   | This program is free software; you can redistribute it and/or               |
-   | modify it under the terms of the GNU General Public License                 |
-   | as published by the Free Software Foundation; either version 2              |
-   | of the License, or (at your option) any later version.                      |
-   |                                                                             |
-   | This program is distributed in the hope that it will be useful,             |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-   | GNU General Public License for more details.                                |
-   |                                                                             |
-   | You should have received a copy of the GNU General Public License           |
-   | along with this program; if not, write to the Free Software                 |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-   +-----------------------------------------------------------------------------+
-  */
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+*/
 
-
-  /**
-   * Soap exercise administration methods
-   *
-   * @author Roland Küstermann <roland@kuestermann.com>
-   * @version $Id: class.ilSoapExerciseAdministration.php 12992 2007-01-25 10:04:26Z rkuester $
-   *
-   * @package ilias
-   */
+/**
+ * Soap exercise administration methods
+ * @author  Roland Küstermann <roland@kuestermann.com>
+ * @version $Id: class.ilSoapExerciseAdministration.php 12992 2007-01-25 10:04:26Z rkuester $
+ * @package ilias
+ */
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapSCORMAdministration extends ilSoapAdministration
 {
 
-    /**
-     * get ims manifest xml
-     *
-     * @param string $sid
-     * @param int $ref_id
-     *
-     * @return xml following scorm.dtd
-     */
-
-    public function getIMSManifestXML($sid, $ref_id)
+    public function getIMSManifestXML(string $sid, int $ref_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
-        
+
         if (!$this->__checkSession($sid)) {
             return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
         }
@@ -93,7 +81,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         }
 
         $lm_obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
-        if (!is_object($lm_obj) || $lm_obj->getType()!= "sahs") {
+        if (!is_object($lm_obj) || $lm_obj->getType() != "sahs") {
             return $this->__raiseError(
                 'Wrong obj id or type for scorm object with id ' . $ref_id,
                 'Server'
@@ -113,8 +101,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         }
         return file_get_contents($imsFilename);
     }
-    
-    public function hasSCORMCertificate($sid, $ref_id, $usr_id)
+
+    public function hasSCORMCertificate(string $sid, int $ref_id, int $usr_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -152,11 +140,11 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         return $result;
     }
 
-    public function getSCORMCompletionStatus($sid, $a_usr_id, $a_ref_id)
+    public function getSCORMCompletionStatus(string $sid, int $a_usr_id, int $a_ref_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
-        
+
         if (!$this->__checkSession($sid)) {
             return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
         }
@@ -164,9 +152,9 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
         if (!strlen($a_ref_id)) {
             return $this->__raiseError('No ref_id given. Aborting!', 'Client');
         }
-        
+
         include_once 'include/inc.header.php';
-        
+
         // get obj_id
         if (!$obj_id = ilObject::_lookupObjectId($a_ref_id)) {
             return $this->__raiseError(
@@ -174,14 +162,14 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
                 'Client'
             );
         }
-        
+
         include_once 'Services/Tracking/classes/class.ilLPStatus.php';
         include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-        
+
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return $this->__raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');
         }
-                                    
+
         $status = ilLPStatus::_lookupStatus($obj_id, $a_usr_id);
         if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             return 'completed';

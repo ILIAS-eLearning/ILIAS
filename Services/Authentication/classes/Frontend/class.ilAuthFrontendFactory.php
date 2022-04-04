@@ -66,11 +66,8 @@ class ilAuthFrontendFactory
     {
         return $this->context;
     }
-    
-    /**
-     * @return \ilAuthFrontendInterface
-     */
-    public function getFrontend(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
+
+    public function getFrontend(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers) : ?ilAuthFrontendInterface
     {
         switch ($this->getContext()) {
             case self::CONTEXT_CLI:
@@ -117,5 +114,6 @@ class ilAuthFrontendFactory
                 $this->logger->error('Trying to init auth with empty context');
                 break;
         }
+        return null;
     }
 }

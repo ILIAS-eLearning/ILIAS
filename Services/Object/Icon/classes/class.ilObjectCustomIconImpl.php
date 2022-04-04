@@ -4,6 +4,9 @@
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\Location;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * Class ilObjectCustomIconImpl
@@ -104,13 +107,13 @@ class ilObjectCustomIconImpl implements ilObjectCustomIcon
         if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
             $this->upload->process();
 
-            /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+            /** @var UploadResult $result */
             $result = array_values($this->upload->getResults())[0];
             if ($result->isOK()) {
                 $this->upload->moveOneFileTo(
                     $result,
                     $this->getIconDirectory(),
-                    \ILIAS\FileUpload\Location::WEB,
+                    Location::WEB,
                     $this->getIconFileName(),
                     true
                 );
@@ -145,7 +148,7 @@ class ilObjectCustomIconImpl implements ilObjectCustomIcon
     }
 
     /**
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
     protected function createCustomIconDirectory() : void
     {

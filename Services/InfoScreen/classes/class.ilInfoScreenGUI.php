@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,13 +59,8 @@ class ilInfoScreenGUI
     protected StandardGUIRequest $request;
 
 
-    /**
-     * ilInfoScreenGUI constructor.
-     * @param object|null $a_gui_object GUI instance of related object
-     */
     public function __construct(?object $a_gui_object = null)
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -310,16 +305,13 @@ class ilInfoScreenGUI
         string $a_position = "top"
     ) : void {
         if ($a_position == "top") {
-            array_push(
-                $this->top_formbuttons,
-                array("command" => $a_command, "title" => $a_title)
-            );
+            $this->top_formbuttons[] = array("command" => $a_command, "title" => $a_title);
         }
     }
 
     public function addHiddenElement(string $a_name, string $a_value) : void
     {
-        array_push($this->hiddenelements, array("name" => $a_name, "value" => $a_value));
+        $this->hiddenelements[] = array("name" => $a_name, "value" => $a_value);
     }
 
     public function addMetaDataSections(int $a_rep_obj_id, int $a_obj_id, string $a_type) : void
@@ -451,14 +443,14 @@ class ilInfoScreenGUI
         $ilAccess = $this->access;
         $tree = $this->tree;
 
-        // ressource bookings
+        // resource bookings
         if ($this->booking_enabled) {
             $booking_adapter = new ilBookingInfoScreenAdapter($this);
             $booking_adapter->add();
         }
 
         $this->addSection($lng->txt("additional_info"));
-        $a_obj = $this->gui_object->object;
+        $a_obj = $this->gui_object->getObject();
                 
         // links to the object
         if (is_object($a_obj)) {
@@ -563,7 +555,7 @@ class ilInfoScreenGUI
                     $this->addProperty($this->lng->txt("readcount_users"), $count_user_reads);
                 }
                 if ($count_users > 0) {
-                    $this->addProperty($this->lng->txt("accesscount_registered_users"), $count_users);
+                    $this->addProperty($this->lng->txt("accesscount_registered_users"), (string) $count_users);
                 }
             }
         }
@@ -577,7 +569,7 @@ class ilInfoScreenGUI
                 $webdav_lock_backend = $webdav_dic->locksbackend();
                 // Show lock info
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->gui_object->object->getId())) {
+                    if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->gui_object->getObject()->getId())) {
                         /** @var ilWebDAVLockObject $lock */
                         $lock_user = new ilObjUser($lock->getIliasOwner());
                         $this->addProperty(
@@ -791,14 +783,16 @@ class ilInfoScreenGUI
         }
 
         // tagging
-        if (isset($this->gui_object) && isset($this->gui_object->object)) {
+        if (
+            isset($this->gui_object) &&
+            method_exists($this->gui_object, "getObject") &&
+            is_object($this->gui_object->getObject())
+        ) {
             $tags_set = new ilSetting("tags");
             if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID) {
                 $this->addTagging();
             }
-        }
 
-        if (isset($this->gui_object) && isset($this->gui_object->object)) {
             $this->addObjectSections();
         }
 
@@ -849,7 +843,7 @@ class ilInfoScreenGUI
             return $this->contextRefId;
         }
 
-        return $this->gui_object->object->getRefId();
+        return $this->gui_object->getObject()->getRefId();
     }
 
     public function setContextRefId(int $contextRefId) : void
@@ -863,7 +857,7 @@ class ilInfoScreenGUI
             return $this->contextObjId;
         }
 
-        return $this->gui_object->object->getId();
+        return $this->gui_object->getObject()->getId();
     }
 
     public function setContextObjId(int $contextObjId) : void
@@ -877,7 +871,7 @@ class ilInfoScreenGUI
             return $this->contentObjType;
         }
 
-        return $this->gui_object->object->getType();
+        return $this->gui_object->getObject()->getType();
     }
 
     public function setContentObjType(string $contentObjType) : void
@@ -953,20 +947,20 @@ class ilInfoScreenGUI
         
         $next_class = $this->ctrl->getNextClass($this);
         $notes_gui = new ilNoteGUI(
-            $this->gui_object->object->getId(),
+            $this->gui_object->getObject()->getId(),
             0,
-            $this->gui_object->object->getType()
+            $this->gui_object->getObject()->getType()
         );
         
         // global switch
         if ($ilSetting->get("disable_comments")) {
             $notes_gui->enablePublicNotes(false);
         } else {
-            $ref_id = $this->gui_object->object->getRefId();
+            $ref_id = $this->gui_object->getObject()->getRefId();
             $has_write = $ilAccess->checkAccess("write", "", $ref_id);
             
-            if ($has_write && $ilSetting->get("comments_del_tutor", 1)) {
-                $notes_gui->enablePublicNotesDeletion(true);
+            if ($has_write && $ilSetting->get("comments_del_tutor", "1")) {
+                $notes_gui->enablePublicNotesDeletion();
             }
             
             /* should probably be discussed further
@@ -1001,7 +995,7 @@ class ilInfoScreenGUI
             $this->addSection($a_section);
         }
         $ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
-        if ($infos = $ldap_mapping->getInfoStrings($this->gui_object->object->getId())) {
+        if ($infos = $ldap_mapping->getInfoStrings($this->gui_object->getObject()->getId())) {
             $info_combined = '<div style="color:green;">';
             $counter = 0;
             foreach ($infos as $info_string) {
@@ -1045,8 +1039,8 @@ class ilInfoScreenGUI
 
         $tagging_gui = new ilTaggingGUI();
         $tagging_gui->setObject(
-            $this->gui_object->object->getId(),
-            $this->gui_object->object->getType()
+            $this->gui_object->getObject()->getId(),
+            $this->gui_object->getObject()->getType()
         );
         
         $this->addSection($lng->txt("tagging_tags"));
@@ -1068,8 +1062,8 @@ class ilInfoScreenGUI
     {
         $tagging_gui = new ilTaggingGUI();
         $tagging_gui->setObject(
-            $this->gui_object->object->getId(),
-            $this->gui_object->object->getType()
+            $this->gui_object->getObject()->getId(),
+            $this->gui_object->getObject()->getType()
         );
         $tagging_gui->saveInput();
 
@@ -1097,11 +1091,15 @@ class ilInfoScreenGUI
      */
     protected function addAvailability() : void
     {
-        if (!is_object($this->gui_object) || !isset($this->gui_object->object)) {
+        if (
+            !is_object($this->gui_object) ||
+            !method_exists($this->gui_object, "getObject") ||
+            !is_object($this->gui_object->getObject())
+        ) {
             return;
         }
 
-        $obj = $this->gui_object->object;
+        $obj = $this->gui_object->getObject();
         if ($obj->getRefId() <= 0) {
             return;
         }
@@ -1120,11 +1118,15 @@ class ilInfoScreenGUI
      */
     protected function addPreconditions() : void
     {
-        if (!is_object($this->gui_object) || !isset($this->gui_object->object)) {
+        if (
+            !is_object($this->gui_object) ||
+            !method_exists($this->gui_object, "getObject") ||
+            !is_object($this->gui_object->getObject())
+        ) {
             return;
         }
 
-        $obj = $this->gui_object->object;
+        $obj = $this->gui_object->getObject();
         if ($obj->getRefId() <= 0) {
             return;
         }
@@ -1155,7 +1157,7 @@ class ilInfoScreenGUI
         $num_optional_required =
             $num_required - count($conditions) + count(ilConditionHandler::getEffectiveOptionalConditionsOfTarget($obj->getRefId(), $obj->getId()));
 
-        // Check if all conditions are fullfilled
+        // Check if all conditions are fulfilled
         $visible_conditions = array();
         $passed_optional = 0;
         foreach ($conditions as $condition) {
@@ -1225,7 +1227,7 @@ class ilInfoScreenGUI
      */
     public function addAccessPeriodProperty() : void
     {
-        $a_obj = $this->gui_object->object;
+        $a_obj = $this->gui_object->getObject();
 
         $this->lng->loadLanguageModule("rep");
         $this->lng->loadLanguageModule("crs");

@@ -27,6 +27,9 @@ class Deck implements D\Deck
     protected array $cards;
     protected int $size;
 
+    /**
+     * @param \ILIAS\UI\Component\Card\Card[] $cards
+     */
     public function __construct(array $cards, int $size)
     {
         $classes = [Card::class];

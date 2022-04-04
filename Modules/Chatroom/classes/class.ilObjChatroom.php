@@ -131,11 +131,9 @@ class ilObjChatroom extends ilObject
         return $userInfo;
     }
 
-    public function initDefaultRoles() : array
+    public function initDefaultRoles() : void
     {
-        $role = $this->createDefaultRole();
-
-        return [];
+        $this->createDefaultRole();
     }
 
     protected function createDefaultRole() : ilObjRole
@@ -148,11 +146,11 @@ class ilObjChatroom extends ilObject
         );
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         $original_room = ilChatroom::byObjectId($this->getId());
 
-        $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $newObj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
         $objId = $newObj->getId();
 
@@ -163,7 +161,7 @@ class ilObjChatroom extends ilObject
 
         $room->saveSettings($original_settings);
 
-        $rbac_log_roles = $this->rbacreview->getParentRoleIds($newObj->getRefId(), false);
+        $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId(), false);
         $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 

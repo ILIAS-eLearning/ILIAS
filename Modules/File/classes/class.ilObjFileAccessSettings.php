@@ -52,7 +52,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param string    new value, a space separated list of filename extensions.
      */
-    public function setInlineFileExtensions($newValue): void
+    public function setInlineFileExtensions($newValue) : void
     {
         $this->inlineFileExtensions = $newValue;
     }
@@ -74,7 +74,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param boolean
      */
-    public function setDownloadWithUploadedFilename($newValue): void
+    public function setDownloadWithUploadedFilename($newValue) : void
     {
         $this->downloadWithUploadedFilename = $newValue;
     }
@@ -98,10 +98,12 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    integer        object id
      */
-    public function create(): void
+    public function create() : int
     {
-        parent::create();
+        $id = parent::create();
         $this->write();
+
+        return $id;
     }
 
 
@@ -110,10 +112,12 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    boolean    true on success
      */
-    public function update(): void
+    public function update() : bool
     {
         parent::update();
         $this->write();
+
+        return true;
     }
 
 
@@ -122,7 +126,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param boolean
      */
-    private function write(): void
+    private function write() : void
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -149,7 +153,7 @@ class ilObjFileAccessSettings extends ilObject
     /**
      * read object data from db into object
      */
-    public function read(): void
+    public function read() : void
     {
         parent::read();
 
@@ -169,7 +173,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return int Upload Max Filesize in bytes.
      */
-    private function getUploadMaxFilesize(): int
+    private function getUploadMaxFilesize() : int
     {
         $val = ini_get('upload_max_filesize');
 

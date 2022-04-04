@@ -31,7 +31,7 @@ class ilMemberAgreementGUI
     private bool $required_fullfilled = false;
     private bool $agreement_required = false;
 
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
@@ -59,7 +59,7 @@ class ilMemberAgreementGUI
 
         switch ($next_class) {
             default:
-                if (!$cmd or $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = 'showAgreement';
                 }
                 $this->$cmd();
@@ -166,7 +166,7 @@ class ilMemberAgreementGUI
             return $form;
         }
 
-        if ($a_mode == 'user') {
+        if ($a_mode === 'user') {
             $cdf = new ilNonEditableValueGUI($lng->txt('ps_' . $a_type . '_user_fields'));
             $cdf->setValue($lng->txt($a_type . '_ps_cdf_info'));
             $cdf->setRequired(true);
@@ -199,7 +199,7 @@ class ilMemberAgreementGUI
 
                             $option_radios->addOption($option_radio);
                         }
-                        if ($a_mode == 'user') {
+                        if ($a_mode === 'user') {
                             $cdf->addSubItem($option_radios);
                         } else {
                             $form->addItem($option_radios);
@@ -210,7 +210,7 @@ class ilMemberAgreementGUI
                         if ($field_obj->isRequired()) {
                             $select->setRequired(true);
                         }
-                        if ($a_mode == 'user') {
+                        if ($a_mode === 'user') {
                             $cdf->addSubItem($select);
                         } else {
                             $form->addItem($select);
@@ -225,7 +225,7 @@ class ilMemberAgreementGUI
                     if ($field_obj->isRequired()) {
                         $text->setRequired(true);
                     }
-                    if ($a_mode == 'user') {
+                    if ($a_mode === 'user') {
                         $cdf->addSubItem($text);
                     } else {
                         $form->addItem($text);
@@ -233,7 +233,7 @@ class ilMemberAgreementGUI
                     break;
             }
         }
-        if ($a_mode == 'user') {
+        if ($a_mode === 'user') {
             $form->addItem($cdf);
         }
         return $form;
@@ -339,7 +339,7 @@ class ilMemberAgreementGUI
                     if (in_array($option_id, $open_answer_indexes)) {
                         $value = $form->getInput('cdf_oa_' . $field_obj->getId() . '_' . $option_id);
                     } else {
-                        $value = $field_obj->getValueById($option_id);
+                        $value = $field_obj->getValueById((int) $option_id);
                     }
                     break;
 
@@ -356,7 +356,7 @@ class ilMemberAgreementGUI
 
     private function checkAgreement() : bool
     {
-        $agrement = false;
+        $agreement = false;
         if ($this->http->wrapper()->post()->has('agreement')) {
             $agreement = $this->http->wrapper()->post()->retrieve(
                 'agreement',
@@ -385,12 +385,12 @@ class ilMemberAgreementGUI
             $message = $this->lng->txt($this->type . '_ps_agreement_req_info');
         }
         if (!$this->required_fullfilled) {
-            if (strlen($message)) {
+            if ($message !== '') {
                 $message .= '<br />';
             }
             $message .= $this->lng->txt($this->type . '_ps_required_info');
         }
-        if (strlen($message)) {
+        if ($message !== '') {
             $this->tpl->setOnScreenMessage('failure', $message);
         }
     }

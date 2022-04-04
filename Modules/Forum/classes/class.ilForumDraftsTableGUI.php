@@ -12,7 +12,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
     public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, bool $mayEdit)
     {
         $this->mayEdit = $mayEdit;
-        $this->setId('frm_drafts_' . substr(md5($a_parent_cmd), 0, 3) . '_' . $a_parent_obj->object->getId());
+        $this->setId('frm_drafts_' . substr(md5($a_parent_cmd), 0, 3) . '_' . $a_parent_obj->getObject()->getId());
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->initTableColumns();
@@ -47,7 +47,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
             ilLegacyFormElementsUtil::formCheckbox(
                 in_array($a_set['draft_id'], $selected_draft_ids, true),
                 'draft_ids[]',
-                $a_set['draft_id']
+                (string) $a_set['draft_id']
             )
         );
 

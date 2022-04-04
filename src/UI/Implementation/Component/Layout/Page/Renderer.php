@@ -38,6 +38,9 @@ class Renderer extends AbstractComponentRenderer
     ) : string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
+        if ($component->hasOverlay()) {
+            $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
+        }
         if ($component->hasMetabar()) {
             $tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
         }
@@ -65,6 +68,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
+        // There is a roadmap entry for this.
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
             $tpl->touchBlock('slates_engaged');
@@ -83,6 +87,13 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
+        }
+    
+        foreach ($component->getMetaData() as $meta_key => $meta_value) {
+            $tpl->setCurrentBlock('meta_datum');
+            $tpl->setVariable('META_KEY', $meta_key);
+            $tpl->setVariable('META_VALUE', $meta_value);
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();

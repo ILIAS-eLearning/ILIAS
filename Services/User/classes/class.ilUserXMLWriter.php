@@ -25,7 +25,7 @@
 class ilUserXMLWriter extends ilXmlWriter
 {
     public ILIAS $ilias;
-    public array $users;
+    public array $users; // Missing array type.
     public int $user_id = 0;
     public bool $attachRoles = false;
     public bool $attachPreferences = false;
@@ -33,7 +33,7 @@ class ilUserXMLWriter extends ilXmlWriter
     /**
      * fields to be exported
      */
-    private array $settings;
+    private array $settings; // Missing array type.
 
     public function __construct()
     {
@@ -54,7 +54,7 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->attachRoles = $value;
     }
 
-    public function setObjects(array $users) : void
+    public function setObjects(array $users) : void // Missing array type.
     {
         $this->users = $users;
     }
@@ -100,7 +100,7 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->xmlEndTag('Users');
     }
 
-    public function __handleUser(array $row) : void
+    public function __handleUser(array $row) : void // Missing array type.
     {
         global $DIC;
 
@@ -242,7 +242,7 @@ class ilUserXMLWriter extends ilXmlWriter
     }
 
     
-    private function __handlePreferences(array $prefs, array $row) : void
+    private function __handlePreferences(array $prefs, array $row) : void // Missing array type.
     {
         //todo nadia: test mail_address_option
         $mailOptions = new ilMailOptions($row["usr_id"]);
@@ -253,7 +253,7 @@ class ilUserXMLWriter extends ilXmlWriter
         if (count($prefs)) {
             $this->xmlStartTag("Prefs");
             foreach ($prefs as $key => $value) {
-                if (ilUserXMLWriter::isPrefExportable($key)) {
+                if (self::isPrefExportable($key)) {
                     $this->xmlElement("Pref", array("key" => $key), $value);
                 }
             }
@@ -268,8 +268,8 @@ class ilUserXMLWriter extends ilXmlWriter
         ?string $settingsname = null,
         bool $requiredTag = false
     ) : void {
-        if (is_array($value) && sizeof($value)) {
-            foreach ($value as $idx => $item) {
+        if (is_array($value) && count($value)) {
+            foreach ($value as $item) {
                 $this->__addElement($tagname, $item, $attrs, $settingsname, $requiredTag);
             }
         }
@@ -298,7 +298,7 @@ class ilUserXMLWriter extends ilXmlWriter
                in_array($settingsname, $this->settings) !== false;
     }
 
-    public function setSettings(array $settings) : void
+    public function setSettings(array $settings) : void // Missing array type.
     {
         $this->settings = $settings;
     }
@@ -357,7 +357,7 @@ class ilUserXMLWriter extends ilXmlWriter
     /**
      * return exportable preference keys as found in db
      */
-    public static function getExportablePreferences() : array
+    public static function getExportablePreferences() : array // Missing array type.
     {
         return array(
                 'hits_per_page',
@@ -400,6 +400,6 @@ class ilUserXMLWriter extends ilXmlWriter
      */
     public static function isPrefExportable(string $key) : bool
     {
-        return in_array($key, ilUserXMLWriter::getExportablePreferences());
+        return in_array($key, self::getExportablePreferences());
     }
 }

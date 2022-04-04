@@ -15,7 +15,7 @@ interface ilAssLacExpressionInterface
      *
      * @return string
      */
-    public function getValue();
+    public function getValue() : string;
 
     /**
      * Parses the delivered Value and sets the relevant information for an Expression as attributes

@@ -14,11 +14,10 @@ class ilObjWorkflowEngine extends ilObject
 {
     /**
      * ilObjWorkflowEngine constructor.
-     *
      * @param int  $id
      * @param bool $call_by_reference
      */
-    public function __construct($id = 0, $call_by_reference = true)
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         $this->type = "wfe";
         parent::__construct($id, $call_by_reference);
@@ -28,7 +27,7 @@ class ilObjWorkflowEngine extends ilObject
      * @param bool $relative
      * @return string
      */
-    public static function getTempDir($relative = false)
+    public static function getTempDir(bool $relative) : string
     {
         $relativeTempPath = 'wfe/upload_temp/';
 
@@ -43,7 +42,7 @@ class ilObjWorkflowEngine extends ilObject
      * @param bool $relative
      * @return string
      */
-    public static function getRepositoryDir($relative = false)
+    public static function getRepositoryDir(bool $relative = false) : string
     {
         $relativeRepositoryPath = 'wfe/repository/';
 

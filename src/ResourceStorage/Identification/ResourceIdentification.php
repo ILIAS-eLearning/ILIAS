@@ -26,7 +26,6 @@ use Serializable;
  */
 class ResourceIdentification implements Serializable
 {
-
     private string $unique_id;
 
 
@@ -60,7 +59,7 @@ class ResourceIdentification implements Serializable
     /**
      * @inheritDoc
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->serialize();
     }

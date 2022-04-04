@@ -22,12 +22,12 @@ class ilProfilePromptSettings
     public const MODE_INCOMPLETE_ONLY = 0;
     public const MODE_ONCE_AFTER_LOGIN = 1;
     public const MODE_REPEAT = 2;
-    protected array $prompt_texts;
-    protected array $info_texts;
+    protected array $prompt_texts; // Missing array type.
+    protected array $info_texts; // Missing array type.
     protected int $days;
     protected int $mode;
 
-    public function __construct(int $mode, int $days, array $info_texts, array $promp_texts)
+    public function __construct(int $mode, int $days, array $info_texts, array $promp_texts) // Missing array type.
     {
         $this->mode = $mode;
         $this->days = $days;
@@ -45,29 +45,23 @@ class ilProfilePromptSettings
         return $this->mode;
     }
 
-    public function getInfoTexts() : array
+    public function getInfoTexts() : array // Missing array type.
     {
         return $this->info_texts;
     }
 
-    public function getPromptTexts() : array
+    public function getPromptTexts() : array // Missing array type.
     {
         return $this->prompt_texts;
     }
 
     public function getInfoText(string $lang) : string
     {
-        if (isset($this->info_texts[$lang])) {
-            return $this->info_texts[$lang];
-        }
-        return "";
+        return $this->info_texts[$lang] ?? "";
     }
 
     public function getPromptText(string $lang) : string
     {
-        if (isset($this->prompt_texts[$lang])) {
-            return $this->prompt_texts[$lang];
-        }
-        return "";
+        return $this->prompt_texts[$lang] ?? "";
     }
 }

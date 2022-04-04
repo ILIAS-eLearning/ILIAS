@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+use ILIAS\Refinery\Factory;
+
 /**
  * Class ilAsyncContainerSelectionExplorer
  * A class for async ilContainerSelectionExplorer which triggers
@@ -23,11 +25,14 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * @param $target string url for the onclick event of a node
      */
-    public function __construct(string $target)
+    public function __construct(string $target, Factory $refinery, ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper)
     {
         parent::__construct($target);
 
         $this->addJsConf('save_explorer_url', $target);
+
+        $this->request_wrapper = $request_wrapper;
+        $this->refinery = $refinery;
     }
 
     /**
@@ -47,7 +52,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     public function buildOnClick($node_id, string $type, string $title) : string
     {
         $result = "";
-        $ref_id = (int) $_GET['ref_id'];
+        $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
         if ($ref_id) {
             $result =
                 "$('body').trigger('async_explorer-add_reference', {target_id: '" .

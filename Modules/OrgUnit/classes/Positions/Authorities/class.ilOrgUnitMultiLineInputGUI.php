@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitMultiLineInputGUI
- *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -68,10 +67,8 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
      */
     protected $show_info = false;
 
-
     /**
      * Constructor
-     *
      * @param string $a_title   Title
      * @param string $a_postvar Post Variable
      */
@@ -82,7 +79,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->setMulti(true);
         $this->initCSSandJS();
     }
-
 
     /**
      * @return string
@@ -96,7 +92,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return false;
     }
 
-
     /**
      * @param array $options
      */
@@ -105,10 +100,8 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->hooks[$key] = $options;
     }
 
-
     /**
      * @param $key
-     *
      * @return bool
      */
     public function removeHook($key)
@@ -122,7 +115,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return false;
     }
 
-
     /**
      * @param       $input
      * @param array $options
@@ -134,7 +126,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->counter++;
     }
 
-
     /**
      * @return mixed
      */
@@ -142,7 +133,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     {
         return $this->template_dir;
     }
-
 
     /**
      * @param mixed $template_dir
@@ -152,7 +142,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->template_dir = $template_dir;
     }
 
-
     /**
      * @return boolean
      */
@@ -160,7 +149,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     {
         return $this->show_label;
     }
-
 
     /**
      * @param boolean $show_label
@@ -170,17 +158,14 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->show_label = $show_label;
     }
 
-
     /**
      * Get Options.
-     *
      * @return    array    Options. Array ("value" => "option_text")
      */
     public function getInputs()
     {
         return $this->inputs;
     }
-
 
     /**
      * @param bool $a_multi
@@ -190,10 +175,8 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->multi = $a_multi;
     }
 
-
     /**
      * Set Value.
-     *
      * @param string $a_value Value
      */
     public function setValue($a_value)
@@ -208,10 +191,8 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->value = $a_value;
     }
 
-
     /**
      * Get Value.
-     *
      * @return    string    Value
      */
     public function getValue()
@@ -224,10 +205,8 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $out;
     }
 
-
     /**
      * Set value by array
-     *
      * @param array $a_values value array
      */
     public function setValueByArray($a_values)
@@ -239,7 +218,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
             $this->setValue($data);
         }
     }
-
 
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
@@ -277,7 +255,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $valid;
     }
 
-
     /**
      * @param            $key
      * @param            $value
@@ -292,7 +269,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         }
     }
 
-
     /**
      * @return array
      */
@@ -301,11 +277,9 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return (array) $this->cust_attr;
     }
 
-
     /**
      * @param                    $iterator_id
      * @param \ilFormPropertyGUI $input
-     *
      * @return string
      */
     protected function createInputPostVar($iterator_id, \ilFormPropertyGUI $input)
@@ -317,19 +291,17 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         }
     }
 
-
     /**
      * Render item
-     *
      * @param int $iterator_id
-     *
      * @return string
      * @throws \ilException
      */
     public function render($iterator_id = 0, $clean_render = false)
     {
         $first_label = true;
-        $tpl = new \ilTemplate("tpl.multi_line_input.html", true, true, 'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting');
+        $tpl = new \ilTemplate("tpl.multi_line_input.html", true, true,
+            'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting');
         $class = 'multi_input_line';
         $this->addCustomAttribute('class', $class, true);
         foreach ($this->getCustomAttributes() as $key => $value) {
@@ -443,17 +415,14 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $tpl->get();
     }
 
-
     public function initCSSandJS()
     {
         global $tpl;
         $tpl->addJavascript('./Modules/OrgUnit/templates/default/multi_line_input.js');
     }
 
-
     /**
      * Insert property html
-     *
      * @return    int    Size
      */
     public function insert(&$a_tpl)
@@ -481,7 +450,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-
     /**
      * Get HTML for table filter
      */
@@ -491,7 +459,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
 
         return $html;
     }
-
 
     /**
      * Get HTML for toolbar
@@ -503,7 +470,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $html;
     }
 
-
     /**
      * @return boolean
      */
@@ -511,7 +477,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     {
         return $this->position_movable;
     }
-
 
     /**
      * @param boolean $position_movable
@@ -521,7 +486,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->position_movable = $position_movable;
     }
 
-
     /**
      * @return boolean
      */
@@ -529,7 +493,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     {
         return $this->show_label_once;
     }
-
 
     /**
      * @param boolean $show_label_once
@@ -540,7 +503,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->show_label_once = $show_label_once;
     }
 
-
     /**
      * @return boolean
      */
@@ -548,7 +510,6 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     {
         return $this->show_info;
     }
-
 
     /**
      * @param boolean $show_info

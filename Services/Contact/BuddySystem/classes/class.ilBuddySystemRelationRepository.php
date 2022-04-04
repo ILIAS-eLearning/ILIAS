@@ -83,7 +83,9 @@ class ilBuddySystemRelationRepository
                 $row['usr_id'] === $this->usrId,
                 (int) $row['ts']
             );
-        } elseif (self::TYPE_IGNORED === $row['rel_type']) {
+        }
+
+        if (self::TYPE_IGNORED === $row['rel_type']) {
             return new ilBuddySystemRelation(
                 new ilBuddySystemIgnoredRequestRelationState(),
                 (int) $row['usr_id'],

@@ -21,14 +21,6 @@ class ilTestExporter extends ilXmlExporter
     {
     }
 
-
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		schema version
-     * @param	string		id
-     * @return	string		xml string
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         include_once './Modules/Test/classes/class.ilObjTest.php';
@@ -82,7 +74,7 @@ class ilTestExporter extends ilXmlExporter
      * @param array $testObjIds
      * @return array $taxIds
      */
-    private function getDependingTaxonomyIds($testObjIds)
+    private function getDependingTaxonomyIds($testObjIds) : array
     {
         include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 

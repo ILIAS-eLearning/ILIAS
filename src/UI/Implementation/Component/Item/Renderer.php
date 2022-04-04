@@ -193,7 +193,12 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.item_notification.html", true, true);
         $this->renderTitle($component, $default_renderer, $tpl);
-        $this->renderDescription($component, $tpl);
+        $desc = $component->getDescription();
+        if (!is_null($desc) && trim($desc) != "") {
+            $tpl->setCurrentBlock("desc");
+            $tpl->setVariable("DESC", $desc);
+            $tpl->parseCurrentBlock();
+        }
         $this->renderProperties($component, $default_renderer, $tpl);
         $tpl->setVariable("LEAD_ICON", $default_renderer->render($component->getLeadIcon()));
 
@@ -225,9 +230,7 @@ class Renderer extends AbstractComponentRenderer
          * @var $component Notification
          */
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($toggleable) {
-                return "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);";
-            }
+            fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);"
         );
 
         //Bind id
@@ -245,9 +248,7 @@ class Renderer extends AbstractComponentRenderer
              * @var $close_action Close
              */
             $close_action = $this->getUIFactory()->button()->close()->withAdditionalOnLoadCode(
-                function ($id) use ($url, $item_id) {
-                    return "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);";
-                }
+                fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);"
             );
             $tpl->setVariable("CLOSE_ACTION", $default_renderer->render($close_action));
         }

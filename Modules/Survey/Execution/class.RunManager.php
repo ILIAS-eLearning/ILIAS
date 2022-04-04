@@ -77,7 +77,7 @@ class RunManager
         string $code = "",
         int $appraisee = 0
     ) : void {
-        if ($this->feature_config->usesAppraisees() && $appraisee == 0) {
+        if ($this->feature_config->usesAppraisees() && $appraisee === 0) {
             throw new \ilSurveyException("No appraisee specified");
         }
 
@@ -85,7 +85,7 @@ class RunManager
             throw new \ilSurveyException("Appraisee ID given, but appraisees not supported");
         }
 
-        if ($user_id == ANONYMOUS_USER_ID && $code == "") {
+        if ($user_id === ANONYMOUS_USER_ID && $code === "") {
             throw new \ilSurveyException("Code missing for anonymous user.");
         }
     }
@@ -103,7 +103,8 @@ class RunManager
     {
         return in_array(
             $this->getCurrentState($appraisee),
-            [RunDBRepository::STARTED_NOT_FINISHED, RunDBRepository::FINISHED]
+            [RunDBRepository::STARTED_NOT_FINISHED, RunDBRepository::FINISHED],
+            true
         );
     }
 
@@ -155,7 +156,7 @@ class RunManager
     public function getById(int $run_id) : ?Run
     {
         $run = $this->repo->getById($run_id);
-        if (!is_null($run) && $run->getSurveyId() != $this->survey->getSurveyId()) {
+        if (!is_null($run) && $run->getSurveyId() !== $this->survey->getSurveyId()) {
             throw new \ilSurveyException("Run survey id mismatch.");
         }
         return $run;
@@ -171,7 +172,7 @@ class RunManager
         $user_id = $this->current_user_id;
         $survey = $this->survey;
 
-        if ($survey->getAnonymize() && (strlen($code) == 0)) {
+        if ($survey->getAnonymize() && $code === '') {
             return;
         }
         $this->repo->add($this->survey->getSurveyId(), $user_id, $code, $appraisee_id);
@@ -187,7 +188,7 @@ class RunManager
         $code_input = false;
         // ->requested_code
         $anonymous_code = $requested_code;
-        if ($anonymous_code != "") {
+        if ($anonymous_code !== "") {
             $code_input = true;
             if (!$this->isCodeOfCurrentUnfinishedRun($anonymous_code)) { // #15031 - valid as long survey is not finished
                 $anonymous_code = "";

@@ -17,15 +17,16 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
         $this->addGlobal_objDefinition();
 
         $this->testObj = new ilTestRandomQuestionSetConfigGUI(
-            $this->createMock(ilCtrl::class),
+            $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilAccessHandler::class),
-            $this->createMock(ilTabsGUI::class),
-            $this->createMock(ilLanguage::class),
-            $this->createMock(ilGlobalPageTemplate::class),
+            $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock(),
+            $this->createMock(ilGlobalTemplateInterface::class),
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilTree::class),
-            $this->createMock(ilPluginAdmin::class),
-            $this->createMock(ilObjTest::class)
+            $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(ilPluginAdmin::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(ilTestProcessLockerFactory::class)->disableOriginalConstructor()->getMock()
         );
     }
 
@@ -36,7 +37,7 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
 
     public function testGetGeneralConfigTabLabel() : void
     {
-        $lng_mock = $this->createMock(ilLanguage::class);
+        $lng_mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $lng_mock->expects($this->once())
                  ->method("txt")
                  ->with("tst_rnd_quest_cfg_tab_general")
@@ -49,7 +50,7 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
 
     public function testPoolConfigTabLabel() : void
     {
-        $lng_mock = $this->createMock(ilLanguage::class);
+        $lng_mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $lng_mock->expects($this->once())
                  ->method("txt")
                  ->with("tst_rnd_quest_cfg_tab_pool")

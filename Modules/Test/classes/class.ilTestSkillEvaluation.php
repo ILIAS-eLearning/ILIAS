@@ -95,7 +95,7 @@ class ilTestSkillEvaluation
         $this->maxPointsByQuestion = array();
     }
 
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->userId;
     }
@@ -105,7 +105,7 @@ class ilTestSkillEvaluation
         $this->userId = $userId;
     }
 
-    public function getActiveId()
+    public function getActiveId() : int
     {
         return $this->activeId;
     }
@@ -115,7 +115,7 @@ class ilTestSkillEvaluation
         $this->activeId = $activeId;
     }
 
-    public function getPass()
+    public function getPass() : int
     {
         return $this->pass;
     }
@@ -125,7 +125,7 @@ class ilTestSkillEvaluation
         $this->pass = $pass;
     }
 
-    public function getNumRequiredBookingsForSkillTriggering()
+    public function getNumRequiredBookingsForSkillTriggering() : int
     {
         return $this->numRequiredBookingsForSkillTriggering;
     }
@@ -158,7 +158,7 @@ class ilTestSkillEvaluation
         $this->evaluateSkillPointAccounts();
     }
 
-    public function getReachedSkillLevels()
+    public function getReachedSkillLevels() : array
     {
         return $this->reachedSkillLevels;
     }
@@ -232,12 +232,12 @@ class ilTestSkillEvaluation
         }
     }
     
-    private function isAnsweredQuestion($questionId)
+    private function isAnsweredQuestion($questionId) : bool
     {
         return isset($this->reachedPointsByQuestion[$questionId]);
     }
     
-    private function determineReachedSkillPointsWithSolutionCompare(ilAssQuestionSolutionComparisonExpressionList $expressionList)
+    private function determineReachedSkillPointsWithSolutionCompare(ilAssQuestionSolutionComparisonExpressionList $expressionList) : ?int
     {
         $questionProvider = new ilAssLacQuestionProvider();
         $questionProvider->setQuestionId($expressionList->getQuestionId());
@@ -326,7 +326,7 @@ class ilTestSkillEvaluation
         }
     }
     
-    private function doesNumBookingsExceedRequiredBookingsBarrier(ilTestSkillPointAccount $skillPointAccount)
+    private function doesNumBookingsExceedRequiredBookingsBarrier(ilTestSkillPointAccount $skillPointAccount) : bool
     {
         return $skillPointAccount->getNumBookings() >= $this->getNumRequiredBookingsForSkillTriggering();
     }
@@ -342,6 +342,9 @@ class ilTestSkillEvaluation
                 ilPersonalSkill::addPersonalSkill($this->getUserId(), $reachedSkillLevel['sklBaseId']);
             }
         }
+        //write profile completion entries if fulfilment status has changed
+        $prof_manager = new ilSkillProfileCompletionManager($this->getUserId());
+        $prof_manager->writeCompletionEntryForAllProfiles();
     }
 
     private function invokeSkillLevelTrigger($skillLevelId, $skillTrefId)
@@ -366,7 +369,7 @@ class ilTestSkillEvaluation
         //mail('bheyser@databay.de', "trigger skill level $skillLevelId for user {$this->getUserId()}", '');
     }
     
-    public function getSkillsMatchingNumAnswersBarrier()
+    public function getSkillsMatchingNumAnswersBarrier() : array
     {
         $skillsMatchingNumAnswersBarrier = array();
         
@@ -384,7 +387,7 @@ class ilTestSkillEvaluation
         return $skillsMatchingNumAnswersBarrier;
     }
 
-    public function getSkillsInvolvedByAssignment()
+    public function getSkillsInvolvedByAssignment() : array
     {
         $uniqueSkills = array();
         
@@ -405,7 +408,7 @@ class ilTestSkillEvaluation
         $this->skillQuestionAssignmentList->isAssignedSkill($skillBaseId, $skillTrefId);
     }
 
-    public function getAssignedSkillMatchingSkillProfiles()
+    public function getAssignedSkillMatchingSkillProfiles() : array
     {
         $matchingSkillProfiles = array();
 
@@ -428,7 +431,7 @@ class ilTestSkillEvaluation
         return $matchingSkillProfiles;
     }
 
-    public function noProfileMatchingAssignedSkillExists($availableSkillProfiles)
+    public function noProfileMatchingAssignedSkillExists($availableSkillProfiles) : int
     {
         $noProfileMatchingSkills = $this->skillQuestionAssignmentList->getUniqueAssignedSkills();
 

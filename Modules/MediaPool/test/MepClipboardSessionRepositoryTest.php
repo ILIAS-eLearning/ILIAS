@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class MepClipboardSessionRepositoryTest extends TestCase
 {
-    //protected $backupGlobals = false;
     protected \ILIAS\MediaPool\Clipboard\ClipboardSessionRepository $clipboard;
 
     protected function setUp() : void
@@ -22,7 +21,7 @@ class MepClipboardSessionRepositoryTest extends TestCase
     {
     }
 
-    public function testFolder()
+    public function testFolder() : void
     {
         $clipboard = $this->clipboard;
         $clipboard->setFolder(4);
@@ -32,7 +31,7 @@ class MepClipboardSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testIds()
+    public function testIds() : void
     {
         $clipboard = $this->clipboard;
         $clipboard->setIds([3,5,7]);

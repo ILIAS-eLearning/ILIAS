@@ -26,7 +26,6 @@ class ilAuthModeDetermination
     
     private static ?ilAuthModeDetermination $instance = null;
     
-    private ilDBInterface $db;
     private ilLogger $logger;
     
     private ilSetting $settings;
@@ -46,7 +45,6 @@ class ilAuthModeDetermination
     {
         global $DIC;
       
-        $this->db = $DIC->database();
         $this->logger = $DIC->logger()->auth();
 
         $this->commonSettings = $DIC->settings();
@@ -100,14 +98,14 @@ class ilAuthModeDetermination
     public function getAuthModeSequence(string $a_username = '') : array
     {
         if (!strlen($a_username)) {
-            return $this->position ? $this->position : array();
+            return $this->position ?: array();
         }
         $sorted = array();
         
         foreach ($this->position as $auth_key) {
             $sid = ilLDAPServer::getServerIdByAuthMode((string) $auth_key);
             if ($sid) {
-                $server = ilLDAPServer::getInstanceByServerId((int) $sid);
+                $server = ilLDAPServer::getInstanceByServerId($sid);
                 $this->logger->debug('Validating username filter for ' . $server->getName());
                 if (strlen($server->getUsernameFilter())) {
                     //#17731
@@ -141,7 +139,7 @@ class ilAuthModeDetermination
      * @param array position => AUTH_MODE
      *
      */
-    public function setAuthModeSequence(array $a_pos) : int
+    public function setAuthModeSequence(array $a_pos) : void
     {
         $this->position = $a_pos;
     }
@@ -172,14 +170,13 @@ class ilAuthModeDetermination
         $rad_settings = ilRadiusSettings::_getInstance();
         $rad_active = $rad_settings->isActive();
 
-        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', (string) false);
+        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', "");
 
         // apache settings
         $apache_settings = new ilSetting('apache_auth');
         $apache_active = $apache_settings->get('apache_enable_auth');
 
         // Check if active
-        // begin-patch ldap_multiple
         $i = 0;
         while (true) {
             $auth_mode = $this->settings->get((string) $i++, null);
@@ -187,7 +184,7 @@ class ilAuthModeDetermination
                 break;
             }
             if ($auth_mode) {
-                // begin-patch ldap_multiple
+                //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
                 switch ((int) $auth_mode) {
                     case ilAuthUtils::AUTH_LOCAL:
                         $this->position[] = $auth_mode;
@@ -218,7 +215,6 @@ class ilAuthModeDetermination
                         }
                         break;
 
-                    // begin-patch auth_plugin
                     default:
                         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
                             if ($pl->isAuthActive($auth_mode)) {
@@ -226,12 +222,9 @@ class ilAuthModeDetermination
                             }
                         }
                         break;
-                    // end-patch auth_plugin
-
                 }
             }
         }
-        // end-patch ldap_multiple
 
         // Append missing active auth modes
         if (!in_array(ilAuthUtils::AUTH_LOCAL, $this->position)) {

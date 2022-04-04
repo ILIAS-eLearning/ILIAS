@@ -124,13 +124,13 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
 
         switch ($placeholder_id) {
             case 'svy_title':
-                return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
 
             case 'svy_link':
                 $svy = new ilObjSurvey($context_parameters['ref_id']);
                 $raters = $svy->getRatersData($context_parameters['appr_id']);
                 $href = ilLink::_getLink($context_parameters['ref_id'], 'svy');
-                if (isset($current_rater["href"]) && $current_rater["href"] != "") {
+                if (isset($current_rater["href"]) && $current_rater["href"] !== "") {
                     $href = $current_rater["href"];
                 }
                 return $href;

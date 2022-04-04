@@ -21,7 +21,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements ilCtrlBaseCla
     }
 
     /**
-     * @param int $ref_id
+     * @param int|string $ref_id
      */
     public static function _goto($ref_id) : void
     {
@@ -36,7 +36,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements ilCtrlBaseCla
         );
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = strtolower($this->ctrl->getNextClass());
 

@@ -58,7 +58,7 @@ class ilAccountCode
         $code = "";
         $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
-            $code .= $map[mt_rand(0, $max)];
+            $code .= $map[random_int(0, $max)];
         }
         return $code;
     }
@@ -100,7 +100,10 @@ class ilAccountCode
         }
         return array("cnt" => $cnt, "set" => $result);
     }
-    
+
+    /**
+     * @return array<string,string>[]
+     */
     public static function loadCodesByIds(array $ids) : array
     {
         global $DIC;
@@ -114,19 +117,25 @@ class ilAccountCode
         }
         return $result;
     }
-    
+
+    /**
+     * @param string[] $ids
+     */
     public static function deleteCodes(array $ids) : bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        if (sizeof($ids)) {
+        if (count($ids)) {
             return $ilDB->manipulate("DELETE FROM " . self::DB_TABLE . " WHERE " . $ilDB->in("code_id", $ids, false, "integer"));
         }
         return false;
     }
-    
+
+    /**
+     * @return string[]
+     */
     public static function getGenerationDates() : array
     {
         global $DIC;
@@ -160,7 +169,7 @@ class ilAccountCode
         if ($filter_generated) {
             $where[] = "generated = " . $ilDB->quote($filter_generated, "text");
         }
-        if (sizeof($where)) {
+        if (count($where)) {
             return " WHERE " . implode(" AND ", $where);
         } else {
             return "";
@@ -200,10 +209,6 @@ class ilAccountCode
 
     public static function getCodeValidUntil(string $code) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $code_data = ilRegistrationCode::getCodeData($code);
         
         if ($code_data["alimit"]) {
@@ -228,7 +233,7 @@ class ilAccountCode
         $code_data = ilRegistrationCode::getCodeData($code);
         if ($code_data["role_local"]) {
             $code_local_roles = explode(";", $code_data["role_local"]);
-            foreach ((array) $code_local_roles as $role_id) {
+            foreach ($code_local_roles as $role_id) {
                 $GLOBALS['DIC']['rbacadmin']->assignUser($role_id, $user->getId());
                 
                 // patch to remove for 45 due to mantis 21953
@@ -265,7 +270,7 @@ class ilAccountCode
                         
                 case "relative":
 
-                    $rel = unserialize($code_data["alimitdt"]);
+                    $rel = unserialize($code_data["alimitdt"], ["allowed_classes" => false]);
                     
                     $end = new ilDateTime(time(), IL_CAL_UNIX);
 

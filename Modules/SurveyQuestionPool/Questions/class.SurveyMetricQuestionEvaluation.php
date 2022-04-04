@@ -134,7 +134,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         $data->setBarOptions(0.5, "center");
         $data->setFill(1);
         
-        $total = sizeof($a_results->getAnswers());
+        $total = count($a_results->getAnswers());
         if ($total > 0) {
             $cumulated = array();
             foreach ($a_results->getAnswers() as $answer) {
@@ -181,7 +181,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         );
         
         // as we have no variables build rows from answers directly
-        $total = sizeof($a_results->getAnswers());
+        $total = count($a_results->getAnswers());
         if ($total > 0) {
             $cumulated = array();
             foreach ($a_results->getAnswers() as $answer) {
@@ -208,7 +208,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         $a_results
     ) : void {
         $answer = $a_results->getUserResults($a_user_id);
-        if (count($answer) == 0) {
+        if (count($answer) === 0) {
             $a_row[] = $this->getSkippedValue();
         } else {
             $a_row[] = $answer[0][0];

@@ -18,7 +18,7 @@ ilContext::init(ilContext::CONTEXT_SHIBBOLETH);
 ilInitialisation::initILIAS();
 global $DIC;
 
-$server = $DIC->http()->request()->getQueryParams();
+$server = $DIC->http()->request()->getServerParams();
 
 if (
     !isset($server['HTTP_SHIB_APPLICATION_ID'])
@@ -34,7 +34,7 @@ if (
     $DIC->ui()->mainTemplate()->printToStdout();
 } else {
     // authentication is done here ->
-    $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
     $DIC->ctrl()->setCmd('doShibbolethAuthentication');
+    $DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
 }
 

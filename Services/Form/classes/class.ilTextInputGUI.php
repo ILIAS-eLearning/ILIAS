@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -273,13 +273,10 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     
     public function render(string $a_mode = "") : string
     {
-        /**
-         * @var $lng ilLanguage
-         */
         $lng = $this->lng;
         
         $tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
-        if (strlen($this->getValue())) {
+        if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_text_propval");
             $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
             $tpl->parseCurrentBlock();
@@ -322,7 +319,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         if ($this->getMulti() && substr($postvar, -2) != "[]") {
             $postvar .= "[]";
         }
-        
+
+        $tpl->setVariable("POST_VAR", $postvar);
         if ($this->getDisabled()) {
             if ($this->getMulti()) {
                 $value = $this->getMultiValues();
@@ -339,8 +337,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 $tpl->setVariable("HIDDEN_INPUT", $hidden);
             }
             $tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-        } else {
-            $tpl->setVariable("POST_VAR", $postvar);
         }
 
         // use autocomplete feature?

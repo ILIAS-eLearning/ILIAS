@@ -153,7 +153,7 @@ class UIWrapper
 
     /**
      * Send whole page as response
-     * @param bool|array $updated
+     * @param bool|array|string $updated
      * @throws \ilDateTimeException
      */
     public function sendPage(

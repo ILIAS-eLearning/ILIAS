@@ -49,7 +49,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
     public function doAuthentication(ilAuthStatus $status) : bool
     {
-        if (!is_array($this->attributes) || 0 === count($this->attributes)) {
+        if (0 === count($this->attributes)) {
             $this->getLogger()->warning('Could not parse any attributes from SAML response.');
             $this->handleAuthenticationFail($status, 'err_wrong_login');
 
@@ -314,7 +314,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
             $xml_writer->xmlStartTag('User', ['Action' => 'Update', 'Id' => $usr_id]);
 
             $loginClaim = $a_user_data[$this->idp->getLoginClaim()][0];
-            if ($login !== $loginClaim) {
+            if (ilStr::strToLower($login) !== ilStr::strToLower($loginClaim)) {
                 $login = ilAuthUtils::_generateLogin($loginClaim);
                 $xml_writer->xmlElement('Login', [], $login);
             }

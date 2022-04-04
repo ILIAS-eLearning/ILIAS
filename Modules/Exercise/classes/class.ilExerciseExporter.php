@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Exporter class for exercise
  *
@@ -93,14 +107,12 @@ class ilExerciseExporter extends ilXmlExporter
             $advmd_ids = array();
             foreach ($a_ids as $id) {
                 $rec_ids = $this->getActiveAdvMDRecords($id);
-                if (sizeof($rec_ids)) {
-                    foreach ($rec_ids as $rec_id) {
-                        $advmd_ids[] = $id . ":" . $rec_id;
-                    }
+                foreach ($rec_ids as $rec_id) {
+                    $advmd_ids[] = $id . ":" . $rec_id;
                 }
             }
 
-            if (sizeof($advmd_ids)) {
+            if ($advmd_ids !== []) {
                 $deps[] = array(
                     "component" => "Services/AdvancedMetaData",
                     "entity" => "advmd",
@@ -112,7 +124,7 @@ class ilExerciseExporter extends ilXmlExporter
             foreach ($a_ids as $exc_id) {
                 $md_ids[] = $exc_id . ":0:exc";
             }
-            if ($md_ids) {
+            if ($md_ids !== []) {
                 $deps[] =
                     array(
                         "component" => "Services/MetaData",
@@ -132,6 +144,9 @@ class ilExerciseExporter extends ilXmlExporter
         return $deps;
     }
 
+    /**
+     * @return int[]
+     */
     protected function getActiveAdvMDRecords($a_id) : array
     {
         $active = array();

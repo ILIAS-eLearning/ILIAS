@@ -57,11 +57,16 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
         $resource = $response->getBody()->detach();
 
         $sendStatus = false;
-
+    
         if (is_resource($resource)) {
             set_time_limit(0);
+            try {
+                ob_end_clean(); // see https://mantis.ilias.de/view.php?id=32046
+            } catch (\Throwable $t) {
+            }
+        
             $sendStatus = fpassthru($resource);
-
+        
             //free up resources
             fclose($resource);
         }

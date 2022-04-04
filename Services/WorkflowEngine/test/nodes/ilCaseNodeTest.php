@@ -17,8 +17,7 @@ use org\bovigo\vfs;
 class ilCaseNodeTest extends ilWorkflowEngineBaseTest
 {
     /** @var ilEmptyWorkflow $workflow */
-    public $workflow;
-    private $test_dir;
+    public ilEmptyWorkflow $workflow;
 
     public function setUp() : void
     {
@@ -27,7 +26,6 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        $this->test_dir = vfs\vfsStream::setup('example');
     }
     
     public function tearDown() : void

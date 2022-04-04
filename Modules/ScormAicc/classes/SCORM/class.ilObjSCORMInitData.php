@@ -72,8 +72,11 @@ class ilObjSCORMInitData
 //            $b_messageLog = 'true';
 //        }
         $launchId = '0';
-        if ($_GET["autolaunch"] != "") {
-            $launchId = $_GET["autolaunch"];
+        if ($DIC->http()->wrapper()->query()->has('autolaunch')) {
+            $autoLaunch = $DIC->http()->wrapper()->query()->retrieve('autolaunch', $DIC->refinery()->kindlyTo()->string());
+            if ($autoLaunch != "") {
+                $launchId = $autoLaunch;
+            }
         }
         $session_timeout = 0; //unlimited sessions
         if ($slm_obj->getSession()) {
@@ -160,7 +163,7 @@ class ilObjSCORMInitData
         }
 
         $s_out = '{'
-            . '"refId":' . $_GET["ref_id"] . ','
+            . '"refId":' . $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->string()) . ','
             . '"objId":' . $slm_obj->getId() . ','
             . '"clientId":"' . CLIENT_ID . '",'
             . '"launchId":' . $launchId . ','

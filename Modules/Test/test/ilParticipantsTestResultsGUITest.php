@@ -15,6 +15,9 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         parent::setUp();
         global $DIC;
         $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
+        $DIC['logger'] = $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
+        $DIC['http'] = $this->getMockBuilder(\ILIAS\HTTP\Services::class)->disableOriginalConstructor()->getMock();
+        $DIC['refinery'] = $this->getMockBuilder(ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock();
         $this->testObj = new ilParticipantsTestResultsGUI();
     }
 

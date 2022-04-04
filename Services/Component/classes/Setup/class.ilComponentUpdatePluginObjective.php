@@ -79,7 +79,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             );
         }
 
-        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
+        [$ORIG_DIC, $ORIG_ilDB] = $this->initEnvironment($environment);
         $plugin = $component_factory->getPlugin($info->getId());
         $plugin->update();
         $GLOBALS["DIC"] = $ORIG_DIC;
@@ -157,7 +157,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function emergency(string $a_message) : void
             {
             }
-            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
+            public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
             {
             }
             public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
@@ -177,16 +177,16 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function write(string $a_msg, $a_log_level = ilLogLevel::INFO) : void
             {
             }
-            public function info($msg)
+            public function info($msg) : void
             {
             }
-            public function warning($msg)
+            public function warning($msg) : void
             {
             }
-            public function error($msg)
+            public function error($msg) : void
             {
             }
-            public function debug($msg, $a = [])
+            public function debug($msg, $a = []) : void
             {
             }
             public function dump($a_var, ?int $a_log_level = ilLogLevel::INFO) : void
@@ -197,11 +197,11 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
-            public static function getLogger($a)
+            public static function getLogger(string $a_component_id) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
@@ -239,7 +239,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
         };
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
-            public $prefs = [];
+            public array $prefs = [];
 
             public function __construct()
             {

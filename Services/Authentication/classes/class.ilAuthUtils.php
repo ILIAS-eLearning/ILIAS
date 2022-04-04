@@ -100,7 +100,7 @@ class ilAuthUtils
         if (isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url'])) {
             $credentials = new ilAuthFrontendCredentials();
             $credentials->setUsername($_GET['ecs_login']);
-            $credentials->setAuthMode(self::AUTH_ECS);
+            $credentials->setAuthMode((string) self::AUTH_ECS);
             
             $provider_factory = new ilAuthProviderFactory();
             $providers = $provider_factory->getProviders($credentials);
@@ -472,17 +472,12 @@ class ilAuthUtils
             $options[$default]['checked'] = true;
         }
 
-        return $options ? $options : array();
+        return $options ?: array();
     }
 
     /**
      * Check if an external account name is required.
      * That's the case if Radius,LDAP, CAS or SOAP is active
-     *
-     * @access public
-     * @static
-     *
-     * @param
      */
     public static function _isExternalAccountEnabled()
     {
@@ -616,7 +611,7 @@ class ilAuthUtils
                 return false;
 
             case ilAuthUtils::AUTH_SAML:
-                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($a_authmode));
+                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode((string) $a_authmode));
                 return $idp->isActive() && $idp->allowLocalAuthentication();
 
             case ilAuthUtils::AUTH_SHIBBOLETH:
@@ -647,10 +642,10 @@ class ilAuthUtils
             return false;
         }
         
-        // begin-patch ldap_multiple
-        // cast to int
+        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
-            // No local passwords for these auth modes
+            // No local passwords for these auth modes and default
+            default:
             case ilAuthUtils::AUTH_LDAP:
             case ilAuthUtils::AUTH_RADIUS:
             case ilAuthUtils::AUTH_ECS:
@@ -660,7 +655,7 @@ class ilAuthUtils
                 return false;
 
             case ilAuthUtils::AUTH_SAML:
-                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($a_authmode));
+                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode((string) $a_authmode));
                 return $idp->isActive() && $idp->allowLocalAuthentication();
             
             // Always for and local
@@ -685,8 +680,7 @@ class ilAuthUtils
      */
     public static function supportsLocalPasswordValidation($a_authmode)
     {
-        // begin-patch ldap_multiple
-        // cast to int
+        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
             case ilAuthUtils::AUTH_LDAP:
             case ilAuthUtils::AUTH_LOCAL:
@@ -698,7 +692,7 @@ class ilAuthUtils
             case ilAuthUtils::AUTH_SAML:
             case ilAuthUtils::AUTH_SOAP:
             case ilAuthUtils::AUTH_CAS:
-                if (!ilAuthUtils::isPasswordModificationEnabled($a_authmode)) {
+                if (!ilAuthUtils::isPasswordModificationEnabled((int) $a_authmode)) {
                     return ilAuthUtils::LOCAL_PWV_NO;
                 }
                 return ilAuthUtils::LOCAL_PWV_USER;
@@ -712,7 +706,6 @@ class ilAuthUtils
         }
     }
     
-    // begin-patch auth_plugin
     /**
      * Get active enabled auth plugins
      * @return ilAuthDefinition
@@ -721,18 +714,14 @@ class ilAuthUtils
     {
         return $GLOBALS['DIC']['component.factory']->getActivePluginsInSlot('authhk');
     }
-    // end-patch auth_plugins
-    
-    /**
-     * @param string $a_auth_key
-     * @param string $auth_name
-     */
-    public static function getAuthModeTranslation($a_auth_key, $auth_name = '')
+
+    public static function getAuthModeTranslation(string $a_auth_key, string $auth_name = '')
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         
+        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_auth_key) {
             case ilAuthUtils::AUTH_LDAP:
                 $sid = ilLDAPServer::getServerIdByAuthMode($a_auth_key);

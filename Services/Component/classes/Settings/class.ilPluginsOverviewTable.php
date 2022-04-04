@@ -9,11 +9,11 @@ use ILIAS\UI\Component\Button\Shy;
 
 class ilPluginsOverviewTable
 {
-    const F_PLUGIN_NAME = "plugin_name";
-    const F_PLUGIN_ID = "plugin_id";
-    const F_SLOT_NAME = "slot_name";
-    const F_COMPONENT_NAME = "component_name";
-    const F_PLUGIN_ACTIVE = "plugin_active";
+    public const F_PLUGIN_NAME = "plugin_name";
+    public const F_PLUGIN_ID = "plugin_id";
+    public const F_SLOT_NAME = "slot_name";
+    public const F_COMPONENT_NAME = "component_name";
+    public const F_PLUGIN_ACTIVE = "plugin_active";
 
     protected ilObjComponentSettingsGUI $parent_gui;
     protected ilCtrl $ctrl;
@@ -64,15 +64,13 @@ class ilPluginsOverviewTable
 
         if ($plugin_info->isInstalled()) {
             $fields[] = $this->lng->txt("installed");
-        }
-        else {
+        } else {
             $fields[] = $this->lng->txt("not_installed");
         }
 
         if ($plugin_info->isActive()) {
             $fields[] = $this->lng->txt("cmps_active");
-        }
-        else {
+        } else {
             $fields[] = $this->lng->txt("inactive");
         }
 
@@ -93,7 +91,7 @@ class ilPluginsOverviewTable
             $this->lng->txt("cmps_plugin_slot") => $plugin_info->getPluginSlot()->getName(),
             $this->lng->txt("cmps_current_version") => (string) $plugin_info->getCurrentVersion(),
             $this->lng->txt("cmps_available_version") => (string) $plugin_info->getAvailableVersion(),
-            $this->lng->txt("cmps_current_db_version") =>(string) $plugin_info->getCurrentDBVersion(),
+            $this->lng->txt("cmps_current_db_version") => (string) $plugin_info->getCurrentDBVersion(),
             $this->lng->txt("cmps_ilias_min_version") => (string) $plugin_info->getMinimumILIASVersion(),
             $this->lng->txt("cmps_ilias_max_version") => (string) $plugin_info->getMaximumILIASVersion(),
             $this->lng->txt("cmps_responsible") => $plugin_info->getResponsible(),
@@ -118,10 +116,10 @@ class ilPluginsOverviewTable
      */
     protected function filterData(array $data) : array
     {
-        $active_filters = array_filter($this->filter, function ($value) : bool {
+        $active_filters = array_filter($this->filter, static function ($value) : bool {
             return !empty($value);
         });
-        $plugins = array_filter($data, function (ilPluginInfo $plugin_info) use ($active_filters) : bool {
+        $plugins = array_filter($data, static function (ilPluginInfo $plugin_info) use ($active_filters) : bool {
             $matches_filter = true;
             if (isset($active_filters[self::F_PLUGIN_NAME])) {
                 $matches_filter = strpos($plugin_info->getName(), $active_filters[self::F_PLUGIN_NAME]) !== false;
@@ -130,7 +128,7 @@ class ilPluginsOverviewTable
                 $matches_filter = strpos($plugin_info->getId(), $active_filters[self::F_PLUGIN_ID]) !== false;
             }
             if (isset($active_filters[self::F_PLUGIN_ACTIVE])) {
-                $v = (int)$active_filters[self::F_PLUGIN_ACTIVE] === 1;
+                $v = (int) $active_filters[self::F_PLUGIN_ACTIVE] === 1;
                 $matches_filter = $plugin_info->isActive() === $v && $matches_filter;
             }
             if (isset($active_filters[self::F_SLOT_NAME])) {
@@ -138,7 +136,7 @@ class ilPluginsOverviewTable
                     $plugin_info->getPluginSlot()->getName(),
                     $active_filters[self::F_SLOT_NAME],
                     true
-                    );
+                );
             }
             if (isset($active_filters[self::F_COMPONENT_NAME])) {
                 $matches_filter = $matches_filter && in_array(

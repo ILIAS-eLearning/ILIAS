@@ -4,7 +4,7 @@
 
 namespace ILIAS\Survey\PrintView;
 
-use \ILIAS\Export;
+use ILIAS\Export;
 use ilPropertyFormGUI;
 use ILIAS\Survey\Page\PageRenderer;
 
@@ -41,7 +41,7 @@ class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
     public function getTemplateInjectors() : array
     {
         return [
-            function ($tpl) {
+            static function (\ilGlobalTemplate $tpl) : void {
                 //$tpl add js/css
             }
         ];
@@ -83,9 +83,9 @@ class PagePrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
 
         $pages = $this->survey->getSurveyPages();
-        if ($this->request->getPrintSelection() == "page") {
+        if ($this->request->getPrintSelection() === "page") {
             $pg = $this->request->getPage();
-            if ($pg == 0) {
+            if ($pg === 0) {
                 $pg = 1;
             }
             $pages = [$pages[$pg - 1]];

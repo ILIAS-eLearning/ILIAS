@@ -80,9 +80,7 @@ class ilPdfGenerator
             throw new ilException(sprintf('The user_id "%s" does NOT reference a user', $userId));
         }
 
-        $pdfFileName = $this->pdfFilenameFactory->create($certificate);
-
-        return $pdfFileName;
+        return $this->pdfFilenameFactory->create($certificate);
     }
 
     private function createPDFScalar(ilUserCertificate $certificate) : string
@@ -90,13 +88,8 @@ class ilPdfGenerator
         $certificateContent = $certificate->getCertificateContent();
 
         $certificateContent = str_replace(
-            '[BACKGROUND_IMAGE]',
-            '[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(),
-            $certificateContent
-        );
-        $certificateContent = str_replace(
-            '[CLIENT_WEB_DIR]',
-            CLIENT_WEB_DIR,
+            ['[BACKGROUND_IMAGE]', '[CLIENT_WEB_DIR]'],
+            ['[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(), CLIENT_WEB_DIR],
             $certificateContent
         );
 

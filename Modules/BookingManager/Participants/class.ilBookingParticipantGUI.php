@@ -51,8 +51,8 @@ class ilBookingParticipantGUI
                                   ->standardRequest();
 
 
-        $this->ref_id = $a_parent_obj->ref_id;
-        $this->pool_id = $a_parent_obj->object->getId();
+        $this->ref_id = $a_parent_obj->getRefId();
+        $this->pool_id = $a_parent_obj->getObject()->getId();
 
         $this->lng->loadLanguageModule("book");
     }

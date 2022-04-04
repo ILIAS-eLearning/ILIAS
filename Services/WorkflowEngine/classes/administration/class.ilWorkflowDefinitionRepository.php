@@ -14,7 +14,7 @@ class ilWorkflowDefinitionRepository
     /**
      * @var \ilDBInterface
      */
-    protected $db;
+    protected ilDBInterface $db;
 
     /**
      * @var \ILIAS\Filesystem\FilesystemsImpl
@@ -24,25 +24,25 @@ class ilWorkflowDefinitionRepository
     /**
      * @var string
      */
-    protected $path;
+    protected string $path;
 
     /**
      * @var bool
      */
-    protected $definitionsLoaded = false;
+    protected bool $definitionsLoaded = false;
 
     /**
      * @var array
      */
-    protected $definitions = [];
+    protected array $definitions = [];
 
     /**
      * ilWorkflowDefinitionRepository constructor.
      * @param ilDBInterface                 $db
      * @param \ILIAS\Filesystem\Filesystems $fs
-     * @param string $path
+     * @param string                        $path
      */
-    public function __construct(\ilDBInterface $db, \ILIAS\Filesystem\Filesystems $fs, $path)
+    public function __construct(\ilDBInterface $db, \ILIAS\Filesystem\Filesystems $fs, string $path)
     {
         $this->db = $db;
         $this->fs = $fs;
@@ -116,7 +116,7 @@ class ilWorkflowDefinitionRepository
     /**
      * @return array
      */
-    public function getAll()
+    public function getAll() : array
     {
         $this->lazyLoadWorkflowDefinitions();
         return $this->definitions;
@@ -126,7 +126,7 @@ class ilWorkflowDefinitionRepository
      * @param string $id
      * @return bool
      */
-    public function has($id)
+    public function has(string $id) : bool
     {
         $this->lazyLoadWorkflowDefinitions();
         return isset($this->definitions[$id]);
@@ -137,7 +137,7 @@ class ilWorkflowDefinitionRepository
      * @return array
      * @throws \ilWorkflowEngineException
      */
-    public function getById($id)
+    public function getById(string $id) : array
     {
         $this->lazyLoadWorkflowDefinitions();
         if (!$this->has($id)) {

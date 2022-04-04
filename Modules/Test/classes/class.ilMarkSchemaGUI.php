@@ -140,6 +140,7 @@ class ilMarkSchemaGUI
             50,
             1
         );
+        $this->object->getMarkSchema()->saveToDb($this->object->getTestId());
         $this->showMarkSchema();
     }
 
@@ -198,7 +199,7 @@ class ilMarkSchemaGUI
     /**
      * @return boolean
      */
-    private function objectSupportsEctsGrades()
+    private function objectSupportsEctsGrades() : bool
     {
         require_once 'Modules/Test/interfaces/interface.ilEctsGradesEnabled.php';
         return $this->object instanceof ilEctsGradesEnabled;
@@ -272,7 +273,7 @@ class ilMarkSchemaGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getEctsForm()
+    protected function getEctsForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 

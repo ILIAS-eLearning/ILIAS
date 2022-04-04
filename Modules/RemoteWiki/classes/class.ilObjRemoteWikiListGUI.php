@@ -41,7 +41,7 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
      *
      * @access public
      */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -70,7 +70,7 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties()
+    public function getProperties() : array
     {
         if ($org = $this->_lookupOrganization(ilObjRemoteWiki::DB_TABLE_NAME, $this->obj_id)) {
             $this->addCustomProperty($this->lng->txt('organization'), $org, false, true);
@@ -89,9 +89,9 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'show':
                 if (ilECSExportManager::_isRemote(
                     ilECSImport::lookupServerId($this->obj_id),
@@ -102,7 +102,7 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
                 
                 // no break
             default:
-                return parent::getCommandFrame($a_cmd);
+                return parent::getCommandFrame($cmd);
         }
     }
 }

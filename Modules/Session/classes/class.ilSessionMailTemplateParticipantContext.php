@@ -97,7 +97,7 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
         bool $html_markup = false
     ) : string {
         $ilObjDataCache = $this->obj_data_cache;
-        $obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
+        $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
         $sess_data = ilObjSession::lookupSession($obj_id);
         $sess_app = ilSessionAppointment::_lookupAppointment($obj_id);
 

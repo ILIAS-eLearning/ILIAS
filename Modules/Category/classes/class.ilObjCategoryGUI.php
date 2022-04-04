@@ -98,7 +98,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
+        $header_action = true;
         switch ($next_class) {
 
             case strtolower(ilRepositoryTrashGUI::class):
@@ -185,6 +186,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
+                $header_action = false;
                 break;
                 
             case 'ilobjectcopygui':
@@ -313,12 +315,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 
                 break;
         }
-        
-        $this->addHeaderAction();
+
+        if ($header_action) {
+            $this->addHeaderAction();
+        }
     }
 
 
-    protected function addHeaderAction()
+    protected function addHeaderAction() : void
     {
         ilPreviewGUI::initPreview();
         parent::addHeaderAction();
@@ -510,7 +514,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         );
     }
 
-    public function viewObject()
+    public function viewObject() : void
     {
         if (strtolower($this->cat_request->getBaseClass()) == "iladministrationgui") {
             parent::viewObject();
@@ -519,31 +523,31 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->renderObject();
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = parent::initCreationForms($a_new_type);
+        $forms = parent::initCreationForms($new_type);
         //unset($forms[self::CFORM_IMPORT]);
         return $forms;
     }
 
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
         $tree = $this->tree;
 
         // default: sort by title
-        $settings = new ilContainerSortingSettings($a_new_object->getId());
+        $settings = new ilContainerSortingSettings($new_object->getId());
         $settings->setSortMode(ilContainer::SORT_TITLE);
         $settings->save();
         
         // inherit parents content style, if not individual
         $this->content_style_domain
-            ->styleForRefId($a_new_object->getRefId())
+            ->styleForRefId($new_object->getRefId())
             ->inheritFromParent();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("cat_added"), true);
-        $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
-        $this->redirectToRefId($a_new_object->getRefId(), "");
+        $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+        $this->redirectToRefId($new_object->getRefId(), "");
     }
     
     /**
@@ -789,12 +793,12 @@ class ilObjCategoryGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function getEditFormValues()
+    protected function getEditFormValues() : array
     {
-        // values are set in initEditForm()
+        return [];
     }
     
-    public function updateObject()
+    public function updateObject() : void
     {
         $ilErr = $this->error;
         $ilUser = $this->user;

@@ -1,32 +1,23 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once("./Services/JSON/classes/class.ilJsonUtil.php");
 
 /**
  * Class ilCloudPluginUploadGUI
- *
  * Standard class for uploading files. Can be overwritten if needed.
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id:
  * @extends ilCloudPluginGUI
  * @ingroup ModulesCloud
  */
 class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 {
+    protected ilPropertyFormGUI $form;
 
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-
-
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -40,8 +31,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         }
     }
 
-
-    public function asyncUploadFile()
+    public function asyncUploadFile() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -65,15 +55,14 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         exit;
     }
 
-
-    public function initUploadForm()
+    public function initUploadForm() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        include_once("./Services/Form/classes/class.ilDragDropFileInputGUI.php");
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+        require_once("./Services/Form/classes/class.ilDragDropFileInputGUI.php");
+        require_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 
         $this->form = new ilPropertyFormGUI();
         $this->form->setId("upload");
@@ -97,19 +86,13 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         $this->form->setTarget("cld_blank_target");
     }
 
-
-    public function cancelAll()
+    public function cancelAll() : void
     {
         echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterUpload('cancel');</script>";
         exit;
     }
 
-
-    /**
-     * Update properties
-     */
-
-    public function uploadFiles()
+    public function uploadFiles() : void
     {
         $response = new stdClass();
         $response->error = null;
@@ -137,8 +120,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         exit;
     }
 
-
-    public function handleFileUpload($file_upload)
+    public function handleFileUpload(array $file_upload) : object
     {
         // create answer object
         $response = new stdClass();
@@ -153,7 +135,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         if ($file_upload["extract"]) {
             $newdir = ilUtil::ilTempnam();
             ilUtil::makeDir($newdir);
-            
+
             try {
                 ilFileUtils::processZipFile($newdir, $file_upload["tmp_name"], $file_upload["keep_structure"]);
             } catch (Exception $e) {
@@ -180,19 +162,17 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         }
     }
 
-
     /**
      * Recursive Method to upload a directory
-     *
-     * @param string          $dir            path to directory
-     * @param int             $parent_id      id of parent folder
-     * @param ilCloudFileTree $file_tree
-     * @param bool            $keep_structure if false, only files will be extracted, without folder structure
-     *
+     * @param bool $keep_structure if false, only files will be extracted, without folder structure
      * @throws ilCloudException
      */
-    protected function uploadDirectory($dir, $parent_id, $file_tree, $keep_structure = true)
-    {
+    protected function uploadDirectory(
+        string $dir,
+        int $parent_id,
+        ilCloudFileTree $file_tree,
+        bool $keep_structure = true
+    ) : void {
         $dirlist = opendir($dir);
 
         while (false !== ($file = readdir($dirlist))) {

@@ -25,16 +25,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     *
     * Please do not check any preconditions handled by
     * ilConditionHandler here.
-    *
-    * @param	string		$a_cmd		command (not permission!)
-    * @param	string		$a_permission	permission
-    * @param	int			$a_ref_id	reference id
-    * @param	int			$a_obj_id	object id
-    * @param	int			$a_user_id	user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, int $user_id = null) : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -42,17 +34,17 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
         
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
         
-        $is_admin = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+        $is_admin = $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
         
 
-        switch ($a_permission) {
+        switch ($permission) {
             case "visible":
             case "read":
-                if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
+                if (!ilObjTestAccess::_lookupCreationComplete($obj_id) &&
                     !$is_admin) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
                     return false;
@@ -60,10 +52,10 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 break;
         }
         
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "eval_a":
             case "eval_stat":
-                if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id)) {
+                if (!ilObjTestAccess::_lookupCreationComplete($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
                     return false;
                 }
@@ -81,7 +73,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     * @param int $a_obj_id The object id
     * @return boolean TRUE if the user passed the test, FALSE otherwise
     */
-    public static function _isPassed($user_id, $a_obj_id)
+    public static function _isPassed($user_id, $a_obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -129,7 +121,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     $pass = $points[count($points) - 1]["pass"];
                     if (strlen($active_id) && strlen($pass)) {
                         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                        $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+                        $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                         $max = $res['maxpoints'];
                         $reached = $res['points'];
                     }
@@ -144,7 +136,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                             $pass = $row["pass"];
                             if (strlen($active_id) && strlen($pass)) {
                                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                                $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+                                $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                                 $max = $res['maxpoints'];
                                 $reached = $res['points'];
                             }
@@ -169,7 +161,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @param int $a_obj_id The object id
      * @return boolean TRUE if the user failed the test, FALSE otherwise
      */
-    public static function isFailed($user_id, $a_obj_id)
+    public static function isFailed($user_id, $a_obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -206,7 +198,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     $pass = $points[count($points) - 1]["pass"];
                     if (strlen($active_id) && strlen($pass)) {
                         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                        $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+                        $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                         $max = $res['maxpoints'];
                         $reached = $res['points'];
                     }
@@ -221,7 +213,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                             $pass = $row["pass"];
                             if (strlen($active_id) && strlen($pass)) {
                                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                                $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
+                                $res = assQuestion::_updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
                                 $max = $res['maxpoints'];
                                 $reached = $res['points'];
                             }
@@ -239,12 +231,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         }
     }
     
-    /**
-     * Update test result cache
-     * @param type $a_user_id
-     * @param type $a_obj_id
-     */
-    protected static function updateTestResultCache($a_user_id, $a_obj_id)
+    protected static function updateTestResultCache($a_user_id, $a_obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -332,7 +319,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"),
@@ -354,7 +341,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     /**
     * checks wether all necessary parts of the test are given
     */
-    public static function _lookupCreationComplete($a_obj_id)
+    public static function _lookupCreationComplete($a_obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -385,7 +372,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @param integer $a_obj_id obj_id of the test
      * @return bool
      */
-    public static function hasFinished($a_user_id, $a_obj_id)
+    public static function hasFinished($a_user_id, $a_obj_id) : bool
     {
         if (!isset(self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"])) {
             require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
@@ -404,9 +391,10 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             
             $activeId = $partData->getActiveIdByUserId($a_user_id);
 
+            /** @noinspection PhpParamsInspection */
             $testSessionFactory = new ilTestSessionFactory($testOBJ);
             $testSession = $testSessionFactory->getSession($activeId);
-            
+            /** @noinspection PhpParamsInspection */
             $testPassesSelector = new ilTestPassesSelector($ilDB, $testOBJ);
             $testPassesSelector->setActiveId($activeId);
             $testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
@@ -447,7 +435,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @param		int		test id
      * @return		int		object id
      */
-    public static function _lookupObjIdForTestId($a_test_id)
+    public static function _lookupObjIdForTestId($a_test_id) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -469,7 +457,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     * @return 	array 	list if test obj ids
     * @access	public
     */
-    public static function _getRandomTestsForQuestionPool($qpl_id)
+    public static function _getRandomTestsForQuestionPool($qpl_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -551,7 +539,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     * @return string The output name of the user
     * @access public
     */
-    public static function _getParticipantData($active_id)
+    public static function _getParticipantData($active_id) : string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -588,7 +576,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $name = $lng->txt("deleted_user");
         } else {
             if ($user_id == ANONYMOUS_USER_ID) {
-                $name = $lastname;
+                $name = "";
             } else {
                 $name = trim($uname["lastname"] . ", " . $uname["firstname"] . " " . $uname["title"]);
             }
@@ -605,7 +593,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @param	int		active ID of the participant
      * @return	int		user id
      */
-    public static function _getParticipantId($active_id)
+    public static function _getParticipantId($active_id) : int
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -635,7 +623,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     *           )
     * @access public
     */
-    public static function _getPassedUsers($a_obj_id)
+    public static function _getPassedUsers($a_obj_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -713,12 +701,12 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
         
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "tst" || ((int) $t_arr[1]) <= 0) {
             return false;
@@ -735,21 +723,18 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * returns the objects's OFFline status
      *
      * Used in ListGUI and Learning Progress
-     *
-     * @param int $a_obj_id
-     * @return bool
      */
-    public static function _isOffline($a_obj_id)
+    public static function _isOffline(int $obj_id) : bool
     {
         //		global $DIC;
         //		$ilUser = $DIC['ilUser'];
-        //		return (self::_lookupOnlineTestAccess($a_obj_id, $ilUser->getId()) !== true) ||
-        //			(!ilObjTestAccess::_lookupCreationComplete($a_obj_id));
-        return ilObject::lookupOfflineStatus($a_obj_id);
+        //		return (self::_lookupOnlineTestAccess($obj_id, $ilUser->getId()) !== true) ||
+        //			(!ilObjTestAccess::_lookupCreationComplete($obj_id));
+        return ilObject::lookupOfflineStatus($obj_id);
     }
 
 
-    public static function visibleUserResultExists($testObjId, $userId)
+    public static function visibleUserResultExists($testObjId, $userId) : bool
     {
         $testOBJ = ilObjectFactory::getInstanceByObjId($testObjId, false);
 

@@ -360,6 +360,11 @@ interface Factory
      *      Charts are composed of various graphical and textual elements representing the raw data.
      *
      * rules:
+     *   usage:
+     *     1: Charts MAY be used to present a big amount of data.
+     *     2: >
+     *        Charts SHOULD be used when the graphical presentation of data is easier
+     *        to understand than the textual presentation.
      *   style:
      *      1: Charts SHOULD not rely on colors to convey information.
      * ---

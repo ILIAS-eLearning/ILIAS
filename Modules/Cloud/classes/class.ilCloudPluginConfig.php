@@ -1,66 +1,39 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Modules/Cloud/exceptions/class.ilCloudPluginConfigException.php');
+require_once('./Modules/Cloud/exceptions/class.ilCloudPluginConfigException.php');
 
 /**
  * Class ilCloudPluginConfig
- *
  * Model class for the administration settings. Note the use of the __call Function. The value max_file_size could be
  * for example set by the method setMaxFileSize without the declaring this method. Similarly it could be get by
  * getMaxFileSize
- *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @author  fabian Schmid <fs@studer-raimann.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
  * @version $Id$
  */
 class ilCloudPluginConfig
 {
+    protected string $table_name = "";
+    protected array $cache = array();
 
-    /**
-     * @var string
-     */
-    protected $table_name = "";
-    /**
-     * @var array
-     */
-    protected $cache = array();
-
-
-    /**
-     * @param $table_name
-     */
-    public function __construct($table_name)
+    public function __construct(string $table_name)
     {
         $this->table_name = $table_name;
     }
 
-
-    /**
-     * @param string $table_name
-     */
-    public function setTableName($table_name)
+    public function setTableName(string $table_name) : void
     {
         $this->table_name = $table_name;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getTableName()
+    public function getTableName() : string
     {
         return $this->table_name;
     }
 
-
-    /**
-     * @param $method
-     * @param $params
-     *
-     * @return bool|null
-     */
-    public function __call($method, $params)
+    public function __call(string $method, array $params) : ?bool
     {
         $index = substr($method, 3);
         if (substr($method, 0, 3) == 'get') {
@@ -79,48 +52,44 @@ class ilCloudPluginConfig
 
                 return true;
             } else {
-                throw new ilCloudPluginConfigException(ilCloudPluginConfigException::NO_VALID_GET_OR_SET_FUNCTION, $method);
+                throw new ilCloudPluginConfigException(ilCloudPluginConfigException::NO_VALID_GET_OR_SET_FUNCTION,
+                    $method);
             }
         }
     }
 
-
-    /**
-     * @param $key
-     * @param $value
-     */
-    public function setValue($key, $value)
+    public function setValue(string $key, string $value) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
         if (!$ilDB->tableExists($this->table_name)) {
-            throw new ilCloudPluginConfigException(ilCloudPluginConfigException::TABLE_DOES_NOT_EXIST, $this->table_name);
+            throw new ilCloudPluginConfigException(ilCloudPluginConfigException::TABLE_DOES_NOT_EXIST,
+                $this->table_name);
         }
 
-        if (!is_string($this->getValue($key))) {
-            $ilDB->insert($this->table_name, array("config_key" => array("text", $key), "config_value" => array("text", $value)));
+        if ($this->getValue($key) === false) {
+            $ilDB->insert($this->table_name,
+                array("config_key" => array("text", $key), "config_value" => array("text", $value)));
         } else {
-            $ilDB->update($this->table_name, array("config_key" => array("text", $key), "config_value" => array("text", $value)), array("config_key" => array("text", $key)));
+            $ilDB->update($this->table_name,
+                array("config_key" => array("text", $key), "config_value" => array("text", $value)),
+                array("config_key" => array("text", $key)));
         }
     }
 
-
-    /**
-     * @param $key
-     *
-     * @return bool|string
-     */
-    public function getValue($key)
+    public function getValue(string $key) : bool|string
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
         if (!$this->tableExists($this->table_name)) {
-            throw new ilCloudPluginConfigException(ilCloudPluginConfigException::TABLE_DOES_NOT_EXIST, $this->table_name);
+            throw new ilCloudPluginConfigException(ilCloudPluginConfigException::TABLE_DOES_NOT_EXIST,
+                $this->table_name);
         }
 
-        $result = $ilDB->query("SELECT config_value FROM " . $this->table_name . " WHERE config_key = " . $ilDB->quote($key, "text"));
+        $result = $ilDB->query("SELECT config_value FROM " . $this->table_name . " WHERE config_key = " . $ilDB->quote($key,
+                "text"));
 
         if ($result->numRows() == 0) {
             return false;
@@ -130,11 +99,7 @@ class ilCloudPluginConfig
         return (string) $record['config_value'];
     }
 
-
-    /**
-     * @return bool
-     */
-    public function initDB()
+    public function initDB() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -162,13 +127,7 @@ class ilCloudPluginConfig
     //
     // Helper
     //
-
-    /**
-     * @param string $str
-     *
-     * @return string
-     */
-    public static function _fromCamelCase($str)
+    public static function _fromCamelCase(string $str) : string
     {
         $str[0] = strtolower($str[0]);
 
@@ -177,14 +136,7 @@ class ilCloudPluginConfig
         }, $str);
     }
 
-
-    /**
-     * @param string $str
-     * @param bool   $capitalise_first_char
-     *
-     * @return string
-     */
-    public static function _toCamelCase($str, $capitalise_first_char = false)
+    public static function _toCamelCase(string $str, bool $capitalise_first_char = false) : string
     {
         if ($capitalise_first_char) {
             $str[0] = strtoupper($str[0]);
@@ -195,8 +147,7 @@ class ilCloudPluginConfig
         }, $str);
     }
 
-
-    public function tableExists()
+    public function tableExists() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

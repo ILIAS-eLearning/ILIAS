@@ -1,25 +1,17 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /*
     PHP port of several ADL-sources
     @author Hendrik Holtmann <holtmann@mac.com>
@@ -66,7 +58,7 @@
 
     class SeqTreeBuilder
     {
-        public function buildNodeSeqTree($file)
+        public function buildNodeSeqTree(string $file)
         {
             $doc = new DomDocument();
             $doc->load($file);
@@ -124,7 +116,7 @@
 
 
 
-        private function buildNode($node, $seq, $doc)
+        private function buildNode(object $node, object $seq, object $doc) : SeqActivity
         {
 
         //create a new activity object
@@ -161,7 +153,7 @@
                         $nestedAct = new SeqActivity();
                         $nestedAct = $this->buildNode($curNode, $seq, $doc);
                         if ($nestedAct != null) {
-                            $act->AddChild($nestedAct);
+                            $act->AddChild((object) $nestedAct);
                         }
                     } elseif ($curNode->localName == "title") {
                         $act->setTitle($this->lookupElement($curNode, null));
@@ -234,7 +226,7 @@
         }
 
 
-        private function extractSeqInfo($iNode, $ioAct)
+        private function extractSeqInfo(object $iNode, object $ioAct) : object
         {
             //set sequencing information
             $children = $iNode->childNodes;
@@ -424,7 +416,7 @@
         }
 
 
-        public static function getObjectives($iNode, $ioAct)
+        public static function getObjectives(object $iNode, object $ioAct) : object
         {
             global $DIC;
             $ilLog = ilLoggerFactory::getLogger('sc13');
@@ -476,7 +468,7 @@
             return $ioAct;
         }
 
-        public static function getADLSEQObjectives($iNode, $ioAct)
+        public static function getADLSEQObjectives(object $iNode, object $ioAct) : object
         {
             global $DIC;
             $ilLog = ilLoggerFactory::getLogger('sc13');
@@ -516,7 +508,7 @@
             return $ioAct;
         }
 
-        public static function getADLSeqMaps($iNode, $curseqobj)
+        public static function getADLSeqMaps(object $iNode, object $curseqobj) : object
         {
             if (count($curseqobj->mMaps) == null) {
                 $curseqobj->mMaps = array();
@@ -555,7 +547,7 @@
             return $curseqobj;
         }
 
-        public static function fillinADLSeqMaps($iNode, $map)
+        public static function fillinADLSeqMaps(object $iNode, object $map) : object
         {
             if ($map->mGlobalObjID == null) {
                 $map->mGlobalObjID = preg_replace('/(%20)+/', ' ', trim($iNode->getAttribute("targetObjectiveID")));
@@ -614,7 +606,7 @@
             return $map;
         }
 
-        public static function getObjectiveMaps($iNode)
+        public static function getObjectiveMaps(object $iNode) : ?array
         {
             $tempVal = null;
             $maps = array();
@@ -666,7 +658,7 @@
             return $maps;
         }
 
-        public static function getRollupRules($iNode, $ioAct)
+        public static function getRollupRules(object $iNode, object $ioAct) : object
         {
             $ok = true;
             $tempVal = null;
@@ -782,7 +774,7 @@
         }
 
 
-        public static function getSequencingRules($iNode, $ioAct)
+        public static function getSequencingRules(object $iNode, object $ioAct) : object
         {
             //local variables
             $ok = true;
@@ -865,7 +857,7 @@
             return $ioAct;
         }
 
-        public static function extractSeqRuleConditions($iNode)
+        public static function extractSeqRuleConditions(object $iNode) : array
         {
             $tempVal = null;
             $condSet = new SeqConditionSet(false);
@@ -929,7 +921,7 @@
             return $c_condSet;
         }
 
-        public static function getAuxResources($iNode, $ioAct)
+        public static function getAuxResources(object $iNode, object $ioAct) : object
         {
             $ok = true;
             $tempVal = null;
@@ -967,7 +959,7 @@
 
         //helper functions
 
-        private static function convert_to_bool($string)
+        private static function convert_to_bool(string $string) : bool
         {
             if (strtoupper($string) == "FALSE") {
                 return false;
@@ -977,7 +969,7 @@
         }
 
 
-        private static function lookupElement($iNode, $iElement)
+        private static function lookupElement(object $iNode, ?string $iElement) : ?string
         {
             $value = null;
             $curNode = null;

@@ -54,8 +54,11 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
         foreach ($this->gs->collector()->notifications()->getNotifications() as $notification) {
             $center = $center->withAdditionalEntry($notification->getRenderer($this->ui->factory())->getNotificationComponentForItem($notification));
         }
-        
-        return $this->attachJSShowEvent($center);
+
+        $center = $this->attachJSShowEvent($center);
+        $center = $this->attachJSRerenderEvent($center);
+
+        return $center;
     }
     
     /**
@@ -81,7 +84,41 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
         
         return $center;
     }
-    
+
+    /**
+     * Attaches on load code for re-rendering the notification center. This allows to update the center with asynchronous
+     * notifications.
+     * @param Combined $center
+     * @return \ILIAS\UI\Component\JavaScriptBindable|Combined
+     */
+    protected function attachJSRerenderEvent(Combined $center) : \ILIAS\UI\Component\MainControls\Slate\Combined
+    {
+        $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildRerenderQuery();
+
+        return $center->withAdditionalOnLoadCode(
+            function (string $id) use ($url) : string
+            {
+                return "document.addEventListener('rerenderNotificationCenter', () => {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('GET', '$url');
+                    xhr.onload = () => {
+                        if (xhr.status === 200) {
+                            let response = JSON.parse(xhr.responseText);
+                            $id.querySelector('.il-maincontrols-slate-content').innerHTML = response.html;
+                            $id.querySelectorAll('.il-maincontrols-slate-content script').forEach( element => {
+                                eval(element.innerHTML);
+                            })
+                            $id.parentNode.previousElementSibling.querySelector('.glyph').outerHTML = response.symbol;
+                        } else {
+                            console.error(xhr.status + ': ' + xhr.responseText);
+                        }
+                    };
+                    xhr.send();
+                });";
+            }
+        );
+    }
+
     /**
      * @return string
      */
@@ -91,5 +128,10 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
             ClientNotifications::MODE => ClientNotifications::MODE_OPENED,
             ClientNotifications::NOTIFICATION_IDENTIFIERS => $this->gs->collector()->notifications()->getNotificationsIdentifiersAsArray(true),
         ]);
+    }
+    
+    protected function buildRerenderQuery() : string
+    {
+        return http_build_query([ClientNotifications::MODE => ClientNotifications::MODE_RERENDER]);
     }
 }

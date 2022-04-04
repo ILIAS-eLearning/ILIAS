@@ -98,7 +98,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $show_optional = !$optional || ($optional && array_key_exists($col, $selected));
 
             if ($show_by_lp && $show_optional) {
-                $this->addColumn($this->lng->txt($lng_var), $col);
+                $this->addColumn($this->lng->txt($lng_var), $col ?? "");
             }
         }
 
@@ -113,7 +113,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $members_list = $this->fetchData(
             $prg_obj_id,
-            (int) $this->getLimit(),
+            $this->getLimit(),
             $this->getOffset(),
             $filter_values
         );
@@ -188,7 +188,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
     protected function getUserDateFormat() : string
     {
-        return ilCalendarUtil::getUserDateFormat(false, true);
+        return ilCalendarUtil::getUserDateFormat(0, true);
     }
 
     protected function fillRow(array $a_set) : void
@@ -450,7 +450,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $sql .= $this->getFrom();
         $sql .= $this->getWhere($prg_id);
-        $sql .= $this->getFilterWhere($filter);
+//        $sql .= $this->getFilterWhere($filter);
         $sql .= $this->getOrguValidUsersFilter();
 
         if ($limit !== null) {
@@ -507,7 +507,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 // This case should only occur if the status completed is set
                 // by an already deleted crs.
                 if (!$rec["completion_by"]) {
-                    $title = ilObjectDataDeletionLog::get($rec["completion_by_id"]);
+                    $title = ilObjectDataDeletionLog::get((int) $rec["completion_by_id"]);
                     if (!is_null($title["title"])) {
                         $rec["completion_by"] = $title["title"];
                     }
@@ -559,7 +559,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $query = "SELECT count(prgrs.id) as cnt" . PHP_EOL;
         $query .= $this->getFrom();
         $query .= $this->getWhere($prg_id);
-        $query .= $this->getFilterWhere($filter);
+//        $query .= $this->getFilterWhere($filter);
 
         $res = $this->db->query($query);
         $rec = $this->db->fetchAssoc($res);
@@ -779,6 +779,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         . ') ';
 
         if ($filter['prg_validity'] && (int) $filter['prg_validity'] !== self::OPTION_ALL) {
+            $filter_validity = "";
             if ((int) $filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
                 $filter_validity = 'AND (prgrs.vq_date >= NOW() OR prgrs.vq_date IS NULL)';
             }

@@ -113,8 +113,12 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         $this->filter["name"] = $name->getValue();
     }
     
-    public function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)
-    {
+    public function getItems(
+        int $a_parent_ref_id,
+        ilBadge $a_award_bagde = null,
+        int $a_parent_obj_id = null,
+        int $a_restrict_badge_id = null
+    ) : void {
         $tree = $this->tree;
         $user_ids = null;
         
@@ -146,13 +150,13 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 
             foreach (ilBadgeAssignment::getInstancesByParentId($obj_id) as $ass) {
                 if ($a_restrict_badge_id &&
-                    $a_restrict_badge_id != $ass->getBadgeId()) {
+                    $a_restrict_badge_id !== $ass->getBadgeId()) {
                     continue;
                 }
                 
                 // when awarding we only want to see the current badge
                 if ($this->award_badge &&
-                    $ass->getBadgeId() != $this->award_badge->getId()) {
+                    $ass->getBadgeId() !== $this->award_badge->getId()) {
                     continue;
                 }
 
@@ -242,7 +246,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
             $this->tpl->setVariable("PARENT_TYPE", $lng->txt("obj_" . $parent["type"]));
             $this->tpl->setVariable(
                 "PARENT_ICON",
-                ilObject::_getIcon($parent["id"], "big", $parent["type"])
+                ilObject::_getIcon((int) $parent["id"], "big", $parent["type"])
             );
         }
     }

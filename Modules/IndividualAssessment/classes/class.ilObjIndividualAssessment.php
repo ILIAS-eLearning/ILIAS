@@ -44,9 +44,9 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function create() : void
+    public function create() : int
     {
-        parent::create();
+        $id = parent::create();
         $this->settings = new ilIndividualAssessmentSettings(
             $this->getId(),
             '',
@@ -57,6 +57,7 @@ class ilObjIndividualAssessment extends ilObject
             false
         );
         $this->settings_storage->createSettings($this->settings);
+        return $id;
     }
 
     /**
@@ -143,20 +144,21 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function delete() : void
+    public function delete() : bool
     {
         $this->settings_storage->deleteSettings($this);
         $this->members_storage->deleteMembers($this);
-        parent::delete();
+        return parent::delete();
     }
 
     /**
      * @inheritdoc
      */
-    public function update() : void
+    public function update() : bool
     {
         parent::update();
         $this->settings_storage->updateSettings($this->settings);
+        return true;
     }
 
     public function updateInfo() : void
@@ -191,7 +193,7 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $settings = $this->getSettings();

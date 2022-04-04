@@ -29,7 +29,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -253,7 +253,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
         switch ($this->request->getString("pctext_type")) {
             case 0:  //Paragraph / Text
                 
-                $ret_class = $this->ctrl->getReturnClass($this);
+                $ret_class = strtolower(get_class($this->getPage()) . "gui");
                 $this->ctrl->setParameterByClass($ret_class, "pl_hier_id", $this->hier_id);
                 $this->ctrl->setParameterByClass($ret_class, "pl_pc_id", $this->pc_id);
                 $this->ctrl->redirectByClass(

@@ -6,7 +6,6 @@ use ilOrgUnitUserAssignmentQueries;
 
 /**
  * Class UserIdsOfPosition
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class UserIdsOfPosition extends Base
@@ -14,7 +13,6 @@ class UserIdsOfPosition extends Base
 
     /**
      * @param array $params
-     *
      * @return array
      */
     protected function run(array $params)
@@ -31,7 +29,6 @@ class UserIdsOfPosition extends Base
         return $usr_ids;
     }
 
-
     /**
      * @return string
      */
@@ -39,7 +36,6 @@ class UserIdsOfPosition extends Base
     {
         return "getUserIdsOfPosition";
     }
-
 
     /**
      * @return array
@@ -49,7 +45,6 @@ class UserIdsOfPosition extends Base
         return array(self::POSITION_ID => Base::TYPE_INT);
     }
 
-
     /**
      * @inheritdoc
      */
@@ -57,7 +52,6 @@ class UserIdsOfPosition extends Base
     {
         return array(self::USR_IDS => Base::TYPE_INT_ARRAY);
     }
-
 
     /**
      * @inheritdoc

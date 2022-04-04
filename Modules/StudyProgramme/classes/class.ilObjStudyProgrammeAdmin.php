@@ -19,7 +19,7 @@ class ilObjStudyProgrammeAdmin extends ilObject2
         parent::__construct($id, $call_by_reference);
     }
 
-    public function initType() : void
+    protected function initType() : void
     {
         $this->type = "prgs";
     }

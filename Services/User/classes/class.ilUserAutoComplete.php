@@ -27,7 +27,7 @@ class ilUserAutoComplete
     private ?ilLogger $logger = null;
     private bool $searchable_check = false;
     private bool $user_access_check = true;
-    private array $possible_fields = array();
+    private array $possible_fields = array(); // Missing array type.
     private string $result_field;
     private int $search_type;
     private int $privacy_mode;
@@ -146,7 +146,7 @@ class ilUserAutoComplete
     /**
      * Set searchable fields
      */
-    public function setSearchFields(array $a_fields) : void
+    public function setSearchFields(array $a_fields) : void // Missing array type.
     {
         $this->possible_fields = $a_fields;
     }
@@ -154,7 +154,7 @@ class ilUserAutoComplete
     /**
      * get possible search fields
      */
-    public function getSearchFields() : array
+    public function getSearchFields() : array // Missing array type.
     {
         return $this->possible_fields;
     }
@@ -162,7 +162,7 @@ class ilUserAutoComplete
     /**
      * Get searchable fields
      */
-    protected function getFields() : array
+    protected function getFields() : array // Missing array type.
     {
         if (!$this->isFieldSearchableCheckEnabled()) {
             return $this->getSearchFields();
@@ -326,7 +326,7 @@ class ilUserAutoComplete
         }
     }
 
-    protected function getWherePart(array $search_query) : string
+    protected function getWherePart(array $search_query) : string // Missing array type.
     {
         global $DIC;
 
@@ -426,7 +426,7 @@ class ilUserAutoComplete
         return 'login ASC';
     }
 
-    protected function getQueryConditionByFieldAndValue(string $field, array $query) : string
+    protected function getQueryConditionByFieldAndValue(string $field, array $query) : string // Missing array type.
     {
         global $DIC;
 
@@ -488,20 +488,19 @@ class ilUserAutoComplete
     /**
      * Parse query string
      */
-    public function parseQueryString(string $a_query) : array
+    public function parseQueryString(string $a_query) : array // Missing array type.
     {
         $query = array();
         
-        if (!stristr($a_query, '\\')) {
-            $a_query = str_replace('%', '\%', $a_query);
-            $a_query = str_replace('_', '\_', $a_query);
+        if (strpos($a_query, '\\') === false) {
+            $a_query = str_replace(['%', '_'], ['\%', '\_'], $a_query);
         }
 
         $query['query'] = trim($a_query);
         
         // "," means fixed search for lastname, firstname
         if (strpos($a_query, ',')) {
-            $comma_separated = (array) explode(',', $a_query);
+            $comma_separated = explode(',', $a_query);
             
             if (count($comma_separated) == 2) {
                 if (trim($comma_separated[0])) {
@@ -512,7 +511,7 @@ class ilUserAutoComplete
                 }
             }
         } else {
-            $whitespace_separated = (array) explode(' ', $a_query);
+            $whitespace_separated = explode(' ', $a_query);
             foreach ($whitespace_separated as $part) {
                 if (trim($part)) {
                     $query['parts'][] = trim($part);

@@ -4,6 +4,19 @@ use \ILIAS\UI\Factory;
 use \ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 {
     protected ilWebDAVUriBuilder $mount_instructions_gui;
@@ -68,7 +81,6 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.webdav_documents_row.html', 'Services/WebDAV');
 
         if ($this->is_editable) {
-            $this->setSelectAllCheckbox('webdav_id[]');
             $this->addCommandButton('saveDocumentSorting', $this->lng->txt('sorting_save'));
         }
 
@@ -274,7 +286,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
             return '';
         }
 
-        $this->ctrl->setParameter($this->getParentObject(), 'webdav_id', $row['id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'document_id', $row['id']);
 
         $edit_btn = $this->ui_factory
             ->button()
@@ -298,7 +310,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
         $this->ui_components[] = $delete_modal;
 
-        $this->ctrl->setParameter($this->getParentObject(), 'webdav_id', null);
+        $this->ctrl->setParameter($this->getParentObject(), 'document_id', null);
 
         $drop_down = $this->ui_factory
             ->dropdown()

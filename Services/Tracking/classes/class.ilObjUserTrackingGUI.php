@@ -26,7 +26,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('trac');
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
@@ -35,25 +35,25 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'illearningprogressgui':
                 $this->tabs_gui->setTabActive('learning_progress');
                 $lp_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION);
-                $ret = $this->ctrl->forwardCommand($lp_gui);
+                $this->ctrl->forwardCommand($lp_gui);
                 break;
 
             case 'illpobjectstatisticsgui':
                 $this->tabs_gui->setTabActive('statistics');
                 $os_gui = new ilLPObjectStatisticsGUI(ilLPObjectStatisticsGUI::LP_CONTEXT_ADMINISTRATION);
-                $ret = $this->ctrl->forwardCommand($os_gui);
+                $this->ctrl->forwardCommand($os_gui);
                 break;
 
             case 'ilsessionstatisticsgui':
                 $this->tabs_gui->setTabActive('session_statistics');
                 $sess_gui = new ilSessionStatisticsGUI();
-                $ret = $this->ctrl->forwardCommand($sess_gui);
+                $this->ctrl->forwardCommand($sess_gui);
                 break;
 
             default:
@@ -67,12 +67,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
 
-    protected function getTabs()
+    protected function getTabs() : void
     {
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
 
@@ -83,7 +83,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             get_class($this)
         );
 
-        if ($this->rbacsystem->checkAccess("visible,read", $this->ref_id)) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->ref_id)) {
             if (ilObjUserTracking::_enabledObjectStatistics()) {
                 $this->tabs_gui->addTarget(
                     "statistics",
@@ -134,7 +134,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
     public function settingsObject(?ilPropertyFormGUI $a_form = null) : void
     {
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
         }
 

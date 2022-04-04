@@ -67,7 +67,6 @@ class ilMailCronOrphanedMailsNotificationCollector
         ) . " ORDER BY m.user_id, folder_id, mail_id";
 
         $collection_obj = null;
-        $folder_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
         while ($row = $this->db->fetchAssoc($res)) {
@@ -80,19 +79,17 @@ class ilMailCronOrphanedMailsNotificationCollector
             }
 
             if (is_object($collection_obj)) {
-                if (!$folder_obj = $collection_obj->getFolderObjectById((int) $row['folder_id'])) {
+                if (!($folder_obj = $collection_obj->getFolderObjectById((int) $row['folder_id']))) {
                     $folder_obj = new ilMailCronOrphanedMailsFolderObject((int) $row['folder_id']);
                     $folder_obj->setFolderTitle($row['title']);
                     $collection_obj->addFolderObject($folder_obj);
                 }
 
-                if (is_object($folder_obj)) {
-                    $orphaned_mail_obj = new ilMailCronOrphanedMailsFolderMailObject(
-                        (int) $row['mail_id'],
-                        $row['m_subject']
-                    );
-                    $folder_obj->addMailObject($orphaned_mail_obj);
-                }
+                $orphaned_mail_obj = new ilMailCronOrphanedMailsFolderMailObject(
+                    (int) $row['mail_id'],
+                    $row['m_subject']
+                );
+                $folder_obj->addMailObject($orphaned_mail_obj);
             }
         }
 

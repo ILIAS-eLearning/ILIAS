@@ -51,12 +51,12 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->content_style_service = $DIC
             ->contentStyle()
             ->domain()
-            ->styleForRefId((int) $this->getRefId());
+            ->styleForRefId($this->getRefId());
     }
 
-    public function create($a_upload = false)
+    public function create(bool $a_upload = false) : int
     {
-        parent::create();
+        $id = parent::create();
         
         // meta data will be created by
         // import parser
@@ -78,9 +78,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setSnippetLength(200);
 
         $this->updateAutoGlossaries();
+
+        return $id;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
         #		echo "Glossary<br>\n";
@@ -210,7 +212,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
     public static function lookupSnippetLength(int $a_id) : int
     {
-        return (int) ilObjGlossary::lookup($a_id, "snippet_length");
+        return (int) self::lookup($a_id, "snippet_length");
     }
 
     
@@ -284,7 +286,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setAutoGlossaries($glo_ids);
     }
 
-    public function update() : void
+    public function update() : bool
     {
         $this->updateMetaData();
 
@@ -307,7 +309,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         );
 
         $this->updateAutoGlossaries();
-        parent::update();
+        return parent::update();
     }
 
     public function updateAutoGlossaries() : void
@@ -429,7 +431,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
                     break;
             }
             if (!$a_include_offline_childs) {
-                $glo_ids = ilObjGlossary::removeOfflineGlossaries($glo_ids, $ids_are_ref_ids);
+                $glo_ids = $this->removeOfflineGlossaries($glo_ids, $ids_are_ref_ids);
             }
             // always show entries of current glossary (if no permission is given, user will not come to the presentation screen)
             // see bug #14477
@@ -437,17 +439,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
                 if (!in_array($this->getRefId(), $glo_ids)) {
                     $glo_ids[] = $this->getRefId();
                 }
-            } else {
-                if (!in_array($this->getId(), $glo_ids)) {
-                    $glo_ids[] = $this->getId();
-                }
+            } elseif (!in_array($this->getId(), $glo_ids)) {
+                $glo_ids[] = $this->getId();
             }
+        } elseif ($ids_are_ref_ids) {
+            $glo_ids = [$this->getRefId()];
         } else {
-            if ($ids_are_ref_ids) {
-                $glo_ids = [$this->getRefId()];
-            } else {
-                $glo_ids = [$this->getId()];
-            }
+            $glo_ids = [$this->getId()];
         }
         
         return $glo_ids;
@@ -692,14 +690,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $glo_exp->buildExportFile();
     }
 
-    public static function getDeletionDependencies($a_obj_id)
+    public static function getDeletionDependencies(int $obj_id) : array
     {
         global $DIC;
 
         $lng = $DIC->language();
         
         $dep = array();
-        $sms = ilObjSAHSLearningModule::getScormModulesForGlossary($a_obj_id);
+        $sms = ilObjSAHSLearningModule::getScormModulesForGlossary($obj_id);
         foreach ($sms as $sm) {
             $lng->loadLanguageModule("content");
             $dep[$sm] = $lng->txt("glo_used_in_scorm");
@@ -718,12 +716,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     }
     
     
-    public function cloneObject(
-        $a_target_id,
-        $a_copy_id = 0,
-        $a_omit_tree = false
-    ) {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
+    {
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneMetaData($new_obj);
 
         $tax_ass = null;
@@ -731,7 +726,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $map = [];
 
         //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOnline($this->getOnline());
@@ -797,7 +792,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     ) : array {
         $glo_ids = $a_glo_ids;
         if ($ids_are_ref_ids) {
-            $glo_ids = array_map(function ($id) {
+            $glo_ids = array_map(static function ($id) : int {
                 return ilObject::_lookupObjectId($id);
             }, $a_glo_ids);
         }
@@ -816,7 +811,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             return $online_glo_ids;
         }
 
-        $online_ref_ids = array_filter($a_glo_ids, function ($ref_id) use ($online_glo_ids) {
+        $online_ref_ids = array_filter($a_glo_ids, static function ($ref_id) use ($online_glo_ids) : bool {
             return in_array(ilObject::_lookupObjectId($ref_id), $online_glo_ids);
         });
 
@@ -824,7 +819,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $online_ref_ids;
     }
     
-    public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id)
+    public static function getAdvMDSubItemTitle($a_obj_id, $a_sub_type, $a_sub_id) : string
     {
         global $DIC;
 
@@ -853,7 +848,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         foreach ($source_terms as $source_term) {
             $source_defs = ilGlossaryDefinition::getDefinitionList($source_term["id"]);
 
-            for ($j = 0; $j < count($source_defs); $j++) {
+            for ($j = 0, $jMax = count($source_defs); $j < $jMax; $j++) {
                 $def = $source_defs[$j];
                 $pg = new ilGlossaryDefPage($def["id"]);
 

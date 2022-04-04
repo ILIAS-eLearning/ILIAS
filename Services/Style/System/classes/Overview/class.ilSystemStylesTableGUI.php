@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -26,6 +42,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('default'));
         $this->addColumn($this->lng->txt('active'));
         $this->addColumn($this->lng->txt('users'), 'users');
+        $this->addColumn($this->lng->txt('version'));
         $this->setRowTemplate('tpl.sys_styles_row.html', 'Services/Style/System');
         $this->setEnableHeader(true);
     }
@@ -81,7 +98,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                     'style_id' => '',
                     'skin_name' => 'other',
                     'style_name' => '',
-                    'users' => $users_missing_styles
+                    'users' => $users_missing_styles,
+                    'version' => '-'
                 ];
         }
 
@@ -168,6 +186,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('SUB_STYLE_OF');
             $this->tpl->setVariable('CATEGORIES', $this->lng->txt('global'));
         }
+
+        $this->tpl->setVariable('VERSION', $a_set['version']);
 
         if ($this->isWithActions()) {
             /** @noinspection PhpIfWithCommonPartsInspection */

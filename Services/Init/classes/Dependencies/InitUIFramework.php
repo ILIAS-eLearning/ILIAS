@@ -33,6 +33,7 @@ class InitUIFramework
                 $c["ui.factory.tree"],
                 $c["ui.factory.menu"],
                 $c["ui.factory.symbol"],
+                $c["ui.factory.toast"],
                 $c["ui.factory.legacy"]
             );
         };
@@ -75,6 +76,9 @@ class InitUIFramework
         $c["ui.factory.item"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Item\Factory();
         };
+        $c["ui.factory.toast"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Toast\Factory($c["ui.signal_generator"]);
+        };
         $c["ui.factory.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\ViewControl\Factory(
                 $c["ui.signal_generator"],
@@ -82,7 +86,10 @@ class InitUIFramework
             );
         };
         $c["ui.factory.chart"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);
+            return new ILIAS\UI\Implementation\Component\Chart\Factory(
+                $c["ui.factory.progressmeter"],
+                $c["ui.factory.bar"]
+            );
         };
         $c["ui.factory.input"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Factory(
@@ -140,6 +147,9 @@ class InitUIFramework
         };
         $c["ui.factory.progressmeter"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
+        };
+        $c["ui.factory.bar"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Chart\Bar\Factory();
         };
         $c["ui.factory.dropzone.file"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();

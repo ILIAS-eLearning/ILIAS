@@ -1,47 +1,43 @@
 <?php
-  /*
-   +-----------------------------------------------------------------------------+
-   | ILIAS open source                                                           |
-   +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-   |                                                                             |
-   | This program is free software; you can redistribute it and/or               |
-   | modify it under the terms of the GNU General Public License                 |
-   | as published by the Free Software Foundation; either version 2              |
-   | of the License, or (at your option) any later version.                      |
-   |                                                                             |
-   | This program is distributed in the hope that it will be useful,             |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-   | GNU General Public License for more details.                                |
-   |                                                                             |
-   | You should have received a copy of the GNU General Public License           |
-   | along with this program; if not, write to the Free Software                 |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-   +-----------------------------------------------------------------------------+
-  */
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+*/
 
-
-  /**
-   * Soap course administration methods
-   *
-   * @author Stefan Meyer <smeyer.ilias@gmx.de>
-   * @version $Id$
-   *
-   * @package ilias
-   */
+/**
+ * Soap course administration methods
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @package ilias
+ */
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapCourseAdministration extends ilSoapAdministration
 {
-    const MEMBER = 1;
-    const TUTOR = 2;
-    const ADMIN = 4;
-    const OWNER = 8;
-
+    public const MEMBER = 1;
+    public const TUTOR = 2;
+    public const ADMIN = 4;
+    public const OWNER = 8;
 
     // Service methods
-    public function addCourse($sid, $target_id, $crs_xml)
+    public function addCourse(string $sid, int $target_id, string $crs_xml)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -61,7 +57,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
         $rbacsystem = $DIC['rbacsystem'];
 
-        if (!$target_obj =&ilObjectFactory::getInstanceByRefId($target_id, false)) {
+        if (!$target_obj = ilObjectFactory::getInstanceByRefId($target_id, false)) {
             return $this->__raiseError('No valid target given.', 'Client');
         }
 
@@ -72,7 +68,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if (!$rbacsystem->checkAccess('create', $target_id, 'crs')) {
             return $this->__raiseError('Check access failed. No permission to create courses', 'Server');
         }
-
 
         // Start import
         include_once("Modules/Course/classes/class.ilObjCourse.php");
@@ -85,16 +80,16 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $newObj->createReference();
         $newObj->putInTree($target_id);
         $newObj->setPermissions($target_id);
-        
+
         include_once 'Modules/Course/classes/class.ilCourseXMLParser.php';
 
         $xml_parser = new ilCourseXMLParser($newObj);
         $xml_parser->setXMLContent($crs_xml);
         $xml_parser->startParsing();
-        return $newObj->getRefId() ? $newObj->getRefId() : "0";
+        return $newObj->getRefId() ?: "0";
     }
 
-    public function deleteCourse($sid, $course_id)
+    public function deleteCourse(string $sid, int $course_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -116,16 +111,17 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
 
         if (($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs') {
-            $course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+            $ref_ids = ilObject::_getAllReferences($course_id);
+            $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"', 'Client');
+                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client');
             }
         }
 
         if (!$rbacsystem->checkAccess('delete', $course_id)) {
             return $this->__raiseError('Check access failed. No permission to delete course', 'Server');
         }
-
 
         global $DIC;
         $tree = $DIC->repositoryTree();
@@ -137,21 +133,19 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->__raiseError('Node already deleted', 'Server');
         }
 
-        $subnodes = $tree->getSubtree($tree->getNodeData($course_id));
+        $subnodes = $tree->getSubTree($tree->getNodeData($course_id));
         foreach ($subnodes as $subnode) {
             $rbacadmin->revokePermission($subnode["child"]);
         }
         if (!$tree->moveToTrash($course_id, true, $user->getId())) {
             return $this->__raiseError('Node already deleted', 'Client');
         }
-        
         // write log entry
         $log->write("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id " . $course_id . " to trash");
-        
         return true;
     }
 
-    public function assignCourseMember($sid, $course_id, $user_id, $type)
+    public function assignCourseMember(string $sid, int $course_id, int $user_id, int $type)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -172,9 +166,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
 
         if (($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs') {
-            $course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+            $ref_ids = ilObject::_getAllReferences($course_id);
+            $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"', 'Client');
+                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client');
             }
         }
 
@@ -182,14 +178,14 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->__raiseError('Check access failed. No permission to write to course', 'Server');
         }
 
-        
         if (ilObject::_lookupType($user_id) != 'usr') {
             return $this->__raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
         }
         if ($type != 'Admin' and
-           $type != 'Tutor' and
-           $type != 'Member') {
-            return $this->__raiseError('Invalid type given. Parameter "type" must be "Admin", "Tutor" or "Member"', 'Client');
+            $type != 'Tutor' and
+            $type != 'Member') {
+            return $this->__raiseError('Invalid type given. Parameter "type" must be "Admin", "Tutor" or "Member"',
+                'Client');
         }
 
         if (!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id, false)) {
@@ -201,7 +197,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         }
 
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-        
+
         $course_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
 
         switch ($type) {
@@ -209,7 +205,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
                 require_once("Services/Administration/classes/class.ilSetting.php");
                 $settings = new ilSetting();
                 $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_ADMIN);
-                $course_members->updateNotification($tmp_user->getId(), (bool) $settings->get('mail_crs_admin_notification', "1"));
+                $course_members->updateNotification($tmp_user->getId(),
+                    (bool) $settings->get('mail_crs_admin_notification', "1"));
                 break;
 
             case 'Tutor':
@@ -220,11 +217,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
                 $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_MEMBER);
                 break;
         }
-
         return true;
     }
 
-    public function excludeCourseMember($sid, $course_id, $user_id)
+    public function excludeCourseMember(string $sid, int $course_id, int $user_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -244,9 +240,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
 
         if (($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs') {
-            $course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+            $ref_ids = ilObject::_getAllReferences($course_id);
+            $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"', 'Client');
+                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client');
             }
         }
 
@@ -263,19 +261,16 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         }
 
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-        
+
         $course_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
         if (!$course_members->checkLastAdmin(array($user_id))) {
             return $this->__raiseError('Cannot deassign last administrator from course', 'Server');
         }
-
         $course_members->delete($user_id);
-
         return true;
     }
 
-    
-    public function isAssignedToCourse($sid, $course_id, $user_id)
+    public function isAssignedToCourse(string $sid, int $course_id, int $user_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -294,9 +289,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
 
         if (($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs') {
-            $course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+            $ref_ids = ilObject::_getAllReferences($course_id);
+            $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"', 'Client');
+                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client');
             }
         }
 
@@ -314,7 +311,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
         include_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $crs_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
-        
+
         if ($crs_members->isAdmin($user_id)) {
             return ilParticipants::IL_CRS_ADMIN;
         }
@@ -324,12 +321,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if ($crs_members->isMember($user_id)) {
             return ilParticipants::IL_CRS_MEMBER;
         }
-
         return "0";
     }
 
-
-    public function getCourseXML($sid, $course_id)
+    public function getCourseXML(string $sid, int $course_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -348,39 +343,17 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
         $rbacsystem = $DIC['rbacsystem'];
 
-        $tmp_course = $this->checkObjectAccess($course_id, "crs", "read", true);
+        $tmp_course = $this->checkObjectAccess($course_id, ['crs'], "read", true);
         if ($this->isFault($tmp_course)) {
             return $tmp_course;
         }
-        
-        /*if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
-        {
-            $course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
-            if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
-            {
-                return $this->__raiseError('Invalid course id. Object with id "'. $course_id.'" is not of type "course"','Client');
-            }
-        }
-
-        if(!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id,false))
-        {
-            return $this->__raiseError('Cannot create course instance!','Server');
-        }
-
-        if(!$rbacsystem->checkAccess('read',$course_id))
-        {
-            return $this->__raiseError('Check access failed. No permission to read course','Server');
-        }*/
-
         include_once 'Modules/Course/classes/class.ilCourseXMLWriter.php';
-
         $xml_writer = new ilCourseXMLWriter($tmp_course);
         $xml_writer->start();
-        
         return $xml_writer->getXML();
     }
 
-    public function updateCourse($sid, $course_id, $xml)
+    public function updateCourse(string $sid, int $course_id, string $xml)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -388,7 +361,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if (!$this->__checkSession($sid)) {
             return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
         }
-        
+
         if (!is_numeric($course_id)) {
             return $this->__raiseError(
                 'No valid course id given. Please choose an existing reference id of an ILIAS course',
@@ -401,9 +374,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
 
         if (($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs') {
-            $course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
+            $ref_ids = ilObject::_getAllReferences($course_id);
+            $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"', 'Client');
+                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client');
             }
         }
 
@@ -415,7 +390,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->__raiseError('Check access failed. No permission to write course', 'Server');
         }
 
-
         // First delete old meta data
         include_once 'Services/MetaData/classes/class.ilMD.php';
 
@@ -425,7 +399,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
         ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
 
-
         include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
         ilCourseWaitingList::_deleteAll($tmp_course->getId());
 
@@ -433,9 +406,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
         $xml_parser = new ilCourseXMLParser($tmp_course);
         $xml_parser->setXMLContent($xml);
-
         $xml_parser->startParsing();
-
         $tmp_course->MDUpdateListener('General');
 
         return true;
@@ -445,12 +416,11 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
     /**
      * get courses which belong to a specific user, fullilling the status
-     *
      * @param string $sid
      * @param string $parameters following xmlresultset, columns (user_id, status with values  1 = "MEMBER", 2 = "TUTOR", 4 = "ADMIN", 8 = "OWNER" and any xor operation e.g.  1 + 4 = 5 = ADMIN and TUTOR, 7 = ADMIN and TUTOR and MEMBER)
      * @param string XMLResultSet, columns (ref_id, xml, parent_ref_id)
      */
-    public function getCoursesForUser($sid, $parameters)
+    public function getCoursesForUser(string $sid, string $parameters)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -464,7 +434,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $rbacreview = $DIC['rbacreview'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $tree = $DIC['tree'];
-        
+
         include_once 'webservice/soap/classes/class.ilXMLResultSetParser.php';
         $parser = new ilXMLResultSetParser($parameters);
         try {
@@ -477,23 +447,23 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if (!$xmlResultSet->hasColumn("user_id")) {
             return $this->__raiseError("parameter user_id is missing", "Client");
         }
-            
+
         if (!$xmlResultSet->hasColumn("status")) {
             return $this->__raiseError("parameter status is missing", "Client");
         }
-        
+
         $user_id = (int) $xmlResultSet->getValue(0, "user_id");
         $status = (int) $xmlResultSet->getValue(0, "status");
-        
+
         $ref_ids = array();
 
         // get roles
         #var_dump($xmlResultSet);
         #echo "uid:".$user_id;
         #echo "status:".$status;
-        if (ilSoapCourseAdministration::MEMBER == ($status & ilSoapCourseAdministration::MEMBER) ||
-            ilSoapCourseAdministration::TUTOR == ($status & ilSoapCourseAdministration::TUTOR) ||
-            ilSoapCourseAdministration::ADMIN == ($status & ilSoapCourseAdministration::ADMIN)) {
+        if (ilSoapCourseAdministration::MEMBER == ($status&ilSoapCourseAdministration::MEMBER) ||
+            ilSoapCourseAdministration::TUTOR == ($status&ilSoapCourseAdministration::TUTOR) ||
+            ilSoapCourseAdministration::ADMIN == ($status&ilSoapCourseAdministration::ADMIN)) {
             foreach ($rbacreview->assignedRoles($user_id) as $role_id) {
                 if ($role = ilObjectFactory::getInstanceByObjId($role_id, false)) {
                     #echo $role->getType();
@@ -509,15 +479,18 @@ class ilSoapCourseAdministration extends ilSoapAdministration
                         if (!ilObject::_exists($ref_id, true) || ilObject::_isInTrash($ref_id)) {
                             continue;
                         }
-                        
+
                         #echo $role_title;
-                        if (ilSoapCourseAdministration::MEMBER == ($status & ilSoapCourseAdministration::MEMBER) && strpos($role_title, "member") !== false) {
+                        if (ilSoapCourseAdministration::MEMBER == ($status&ilSoapCourseAdministration::MEMBER) && strpos($role_title,
+                                "member") !== false) {
                             $ref_ids [] = $ref_id;
-                        } elseif (ilSoapCourseAdministration::TUTOR  == ($status & ilSoapCourseAdministration::TUTOR) && strpos($role_title, "tutor") !== false) {
+                        } elseif (ilSoapCourseAdministration::TUTOR == ($status&ilSoapCourseAdministration::TUTOR) && strpos($role_title,
+                                "tutor") !== false) {
                             $ref_ids [] = $ref_id;
-                        } elseif (ilSoapCourseAdministration::ADMIN  == ($status & ilSoapCourseAdministration::ADMIN) && strpos($role_title, "admin") !== false) {
+                        } elseif (ilSoapCourseAdministration::ADMIN == ($status&ilSoapCourseAdministration::ADMIN) && strpos($role_title,
+                                "admin") !== false) {
                             $ref_ids [] = $ref_id;
-                        } elseif (($status & ilSoapCourseAdministration::OWNER) == ilSoapCourseAdministration::OWNER && $ilObjDataCache->lookupOwner($ilObjDataCache->lookupObjId($ref_id)) == $user_id) {
+                        } elseif (($status&ilSoapCourseAdministration::OWNER) == ilSoapCourseAdministration::OWNER && $ilObjDataCache->lookupOwner($ilObjDataCache->lookupObjId($ref_id)) == $user_id) {
                             $ref_ids [] = $ref_id;
                         }
                     }
@@ -526,6 +499,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         }
         if (($status & ilSoapCourseAdministration::OWNER) == ilSoapCourseAdministration::OWNER) {
             $owned_objects = ilObjectFactory::getObjectsForOwner("crs", $user_id);
+            $refs = [];
             foreach ($owned_objects as $obj_id) {
                 $allrefs = ilObject::_getAllReferences($obj_id);
                 foreach ($allrefs as $r) {
@@ -542,9 +516,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             }
         }
         $ref_ids = array_unique($ref_ids);
-        
-        
-        
+
         $ref_ids = array_unique($ref_ids);
         #print_r($ref_ids);
         include_once 'webservice/soap/classes/class.ilXMLResultSetWriter.php';
@@ -562,9 +534,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         //#18004
         // Enable to see own participations by reducing the needed permissions
         $permission = $user_id == $ilUser->getId() ? 'read' : 'write';
-        
+
         foreach ($ref_ids as $course_id) {
-            $course_obj = $this->checkObjectAccess($course_id, "crs", $permission, true);
+            $course_obj = $this->checkObjectAccess($course_id, ['crs'], $permission, true);
             if ($course_obj instanceof ilObjCourse) {
                 $row = new ilXMLResultSetRow();
                 $row->setValue("ref_id", $course_id);

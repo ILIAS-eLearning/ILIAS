@@ -46,7 +46,7 @@ class ilMailTemplatePlaceholderResolver
                 }
             } else {
                 $message = preg_replace(
-                    '/[[:space:]]{1,1}\[' . $ph_definition['placeholder'] . '\][[:space:]]{1,1}/ims',
+                    '/[[:space:]]\[' . $ph_definition['placeholder'] . '\][[:space:]]/ims',
                     ' ',
                     $message
                 );

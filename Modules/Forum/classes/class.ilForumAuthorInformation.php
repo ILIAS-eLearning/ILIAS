@@ -51,7 +51,7 @@ class ilForumAuthorInformation
 
     protected function initUserInstance() : void
     {
-        if (is_numeric($this->display_id) && $this->display_id > 0) {
+        if ($this->display_id > 0) {
             // Try to read user instance from preloaded cache array
             $this->author = ilForumAuthorInformationCache::getUserObjectById($this->display_id);
             if (!$this->author) {

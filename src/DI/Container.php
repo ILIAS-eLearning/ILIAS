@@ -3,13 +3,9 @@
 
 namespace ILIAS\DI;
 
-use ILIAS\Filesystem\Filesystems;
-use ILIAS\FileUpload\FileUpload;
-use ILIAS\GlobalScreen\Services;
-use ILIAS\Refinery\Factory;
-use ILIAS\Skill\Service\SkillService;
-use ILIAS\Repository;
 use ILIAS\BackgroundTasks\BackgroundTaskServices;
+use ILIAS\Repository;
+use ILIAS\Skill\Service\SkillService;
 
 /******************************************************************************
  *
@@ -18,7 +14,7 @@ use ILIAS\BackgroundTasks\BackgroundTaskServices;
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
  *
- * If this is not the case or you just want to try ILIAS, you'll find
+ * If this is not the case, or you just want to try ILIAS, you'll find
  * us at:
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
@@ -27,7 +23,7 @@ use ILIAS\BackgroundTasks\BackgroundTaskServices;
 /**
  * Customizing of pimple-DIC for ILIAS.
  *
- * This just exposes some of the services in the container as plain methods
+ * This just exposes some services in the container as plain methods
  * to help IDEs when using ILIAS.
  */
 class Container extends \Pimple\Container
@@ -51,7 +47,7 @@ class Container extends \Pimple\Container
     /**
      * Get the interface to the control structure.
      */
-    public function ctrl() : \ilCtrl
+    public function ctrl() : \ilCtrlInterface
     {
         return $this["ilCtrl"];
     }
@@ -321,6 +317,21 @@ class Container extends \Pimple\Container
     public function surveyQuestionPool() : \ILIAS\SurveyQuestionPool\Service
     {
         return new \ILIAS\SurveyQuestionPool\Service($this);
+    }
+
+    public function test() : \ILIAS\Test\Service
+    {
+        return new \ILIAS\Test\Service($this);
+    }
+
+    public function testQuestionPool() : \ILIAS\TestQuestionPool\Service
+    {
+        return new \ILIAS\TestQuestionPool\Service($this);
+    }
+
+    public function workflowEngine() : \ILIAS\WorkflowEngine\Service
+    {
+        return new \ILIAS\WorkflowEngine\Service($this);
     }
 
     public function mediaPool() : \ILIAS\MediaPool\Service

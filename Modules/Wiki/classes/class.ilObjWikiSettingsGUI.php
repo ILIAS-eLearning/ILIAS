@@ -35,7 +35,6 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         global $DIC;
 
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
@@ -45,7 +44,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         $this->tpl = $DIC["tpl"];
     }
 
-    public function getType()
+    public function getType() : string
     {
         return "wiks";
     }
@@ -62,7 +61,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
         }
 
@@ -74,7 +73,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
                 $this->$cmd();
@@ -89,7 +88,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         
         $ilTabs->activateTab("settings");
 
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             if (!$form) {
                 $form = $this->initForm();
                 $this->populateWithCurrentSettings($form);

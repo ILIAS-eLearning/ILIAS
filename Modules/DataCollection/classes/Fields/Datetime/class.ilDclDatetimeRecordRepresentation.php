@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclDateTimeRecordRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,10 +10,8 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     *
      * @param mixed     $value
      * @param bool|true $link
-     *
      * @return string
      */
     public function getHTML($link = true)
@@ -30,11 +27,9 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
         return $this->formatDate($value, $ilUser->getDateFormat());
     }
 
-
     /**
      * @param $value
      * @param $format
-     *
      * @return false|string
      */
     protected function formatDate($value, $format)
@@ -52,12 +47,9 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
         return $this->lng->txt('no_date');
     }
 
-
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     *
      * @param $value
-     *
      * @return mixed
      */
     public function parseFormInput($value)

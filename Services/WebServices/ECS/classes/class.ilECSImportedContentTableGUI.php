@@ -27,14 +27,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
     private ilTree $tree;
     private ilObjectDataCache $objDataCache;
     
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '')
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd = '')
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -152,8 +145,8 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
         // read obj_ids
         $obj_ids = array();
         foreach ($a_rcrs as $rcrs_ref_id) {
-            $obj_id = $this->objDataCache->lookupObjId($rcrs_ref_id);
-            $obj_ids[$obj_id] = $this->objDataCache->lookupObjId($rcrs_ref_id);
+            $obj_id = $this->objDataCache->lookupObjId((int) $rcrs_ref_id);
+            $obj_ids[$obj_id] = $this->objDataCache->lookupObjId((int) $rcrs_ref_id);
         }
         $content = array();
         foreach ($obj_ids as $obj_id => $obj_id) {
@@ -182,7 +175,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
                 $tmp_arr['from_info'] = "";
             }
             
-            $tmp_arr['last_update'] = $this->objDataCache->lookupLastUpdate($obj_id);
+            $tmp_arr['last_update'] = $this->objDataCache->lookupLastUpdate((int) $obj_id);
             $content[] = $tmp_arr;
         }
         

@@ -55,10 +55,10 @@ class ilRpcClient
             throw new ilRpcClientException('Xmlrpc extension not enabled.', 50);
         }
 
-        $this->url = (string) $a_url;
-        $this->prefix = (string) $a_prefix;
-        $this->timeout = (int) $a_timeout;
-        $this->encoding = (string) $a_encoding;
+        $this->url = $a_url;
+        $this->prefix = $a_prefix;
+        $this->timeout = $a_timeout;
+        $this->encoding = $a_encoding;
     }
 
     /**
@@ -87,7 +87,7 @@ class ilRpcClient
             $curl = new ilCurlConnection($this->url);
             $curl->init(false);
             $curl->setOpt(CURLOPT_HEADER, 'Content-Type: text/xml');
-            $curl->setOpt(CURLOPT_POST, (strlen($post_data) > 0));
+            $curl->setOpt(CURLOPT_POST, $post_data !== '');
             $curl->setOpt(CURLOPT_POSTFIELDS, $post_data);
             $curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
 
@@ -112,7 +112,8 @@ class ilRpcClient
             $this->logger->error('RpcClient recieved error ' . $resp['faultCode'] . ': ' . $resp['faultString']);
             throw new ilRpcClientException(
                 'RPC-Server returned fault message: ' .
-                $resp['faultString'], $resp['faultCode']
+                $resp['faultString'],
+                $resp['faultCode']
             );
         }
         return $resp;

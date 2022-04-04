@@ -3,7 +3,6 @@
 
 /**
  * Class ilDclTextSelectionFieldModel
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclTextSelectionFieldModel extends ilDclSelectionFieldModel

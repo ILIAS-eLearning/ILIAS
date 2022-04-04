@@ -8,10 +8,8 @@
  */
 class ilMailAttachmentTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
-        global $DIC;
-
         $this->setId('mail_attachments');
 
         $this->setDefaultOrderDirection('ASC');
@@ -76,7 +74,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
                 return ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
 
             case 'filesize':
-                return ilUtil::formatSize($value);
+                return ilUtil::formatSize((int) $value);
 
             default:
                 return $value;

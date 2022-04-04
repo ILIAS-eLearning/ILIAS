@@ -92,7 +92,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         );
         foreach (ilBadgeHandler::getInstance()->getAvailableTypes() as $id => $type) {
             // no activity badges
-            if (!in_array("bdga", $type->getValidObjectTypes())) {
+            if (!in_array("bdga", $type->getValidObjectTypes(), true)) {
                 $options[$id] = ilBadge::getExtendedTypeCaption($type);
             }
         }
@@ -108,7 +108,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         $lng = $this->lng;
         $ilAccess = $this->access;
         
-        $data = $filter_types = array();
+        $data = [];
         
         $types = ilBadgeHandler::getInstance()->getAvailableTypes();
         
@@ -116,7 +116,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
             // :TODO: container presentation
             $container_url = null;
             $container = '<img class="ilIcon" src="' .
-                    ilObject::_getIcon($badge_item["parent_id"], "big", $badge_item["parent_type"]) .
+                    ilObject::_getIcon((int) $badge_item["parent_id"], "big", $badge_item["parent_type"]) .
                     '" alt="' . $lng->txt("obj_" . $badge_item["parent_type"]) .
                     '" title="' . $lng->txt("obj_" . $badge_item["parent_type"]) . '" /> ' .
                     $badge_item["parent_title"];
@@ -143,8 +143,6 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
                 "container_id" => $badge_item["parent_id"],
                 "renderer" => new ilBadgeRenderer(null, new ilBadge($badge_item["id"]))
             );
-            
-            $filter_types[$badge_item["type_id"]] = $type_caption;
         }
         
         $this->setData($data);

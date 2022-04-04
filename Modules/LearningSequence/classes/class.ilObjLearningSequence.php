@@ -55,7 +55,7 @@ class ilObjLearningSequence extends ilContainer
         return ilObjectFactory::getInstanceByRefId($ref_id, false);
     }
 
-    public function read()
+    public function read() : void
     {
         $this->getLSSettings();
         if ($this->getRefId()) {
@@ -113,7 +113,7 @@ class ilObjLearningSequence extends ilContainer
         );
     }
 
-    public function cloneObject($target_id, $copy_id = 0, $omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningSequence $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
@@ -418,12 +418,15 @@ class ilObjLearningSequence extends ilContainer
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
+        $request_wrapper = $DIC->http()->wrapper()->query();
+        $refinery = $DIC->refinery();
 
         if (substr($add, 0, 5) == 'rcode') {
             if ($ilUser->getId() == ANONYMOUS_USER_ID) {
+                $request_target = $request_wrapper->retrieve("target", $refinery->kindlyTo()->string());
                 // Redirect to login for anonymous
                 ilUtil::redirect(
-                    "login.php?target=" . $_GET["target"] . "&cmd=force_login&lang=" .
+                    "login.php?target=" . $request_target . "&cmd=force_login&lang=" .
                     $ilUser->getCurrentLanguage()
                 );
             }
@@ -524,7 +527,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * @param array<int|string> $user_ids
      * @param string[] $columns
-     * @return array<int|string, array<mixed>>
+     * @return array<int|string, array>
      */
     public function readMemberData(array $user_ids, array $columns = null) : array
     {

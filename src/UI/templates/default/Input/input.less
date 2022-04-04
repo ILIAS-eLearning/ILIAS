@@ -1,6 +1,6 @@
 .il-standard-form{
   background-color: @il-standard-form-bg;
-  margin-top: @padding-large-vertical;
+  margin-top: @il-margin-large-vertical;
 
 
   .il-standard-form-cmd {
@@ -24,7 +24,7 @@
   .il-standard-form-header h2, .il-section-input-header h2{
     font-size: @il-standard-form-header-font-size;
     padding-top: 2*@il-padding-large-vertical;
-    padding-bottom: @padding-small-vertical;
+    padding-bottom: @il-padding-small-vertical;
 
   }
 
@@ -34,7 +34,7 @@
 
   //Move the first section header up, to be displayed next to the forms top button
   .il-standard-form-header + .il-section-input{
-    margin-top: -(@il-button-font-size*@line-height-base+@padding-small-vertical+1vw);
+    margin-top: -(@il-button-font-size*@il-line-height-base+@il-margin-small-vertical+1vw);
     padding: 0;
 
     .il-section-input-header h2{
@@ -45,7 +45,7 @@
 
   .il-dependant-group{
     background-color: @il-standard-form-dependant-group-bg;
-    padding: @padding-small-vertical 0;
+    padding: @il-padding-small-vertical 0;
     .form-group {
       margin: 0;
     }
@@ -83,8 +83,8 @@
   }
 
   &.alert-danger {
-    margin: @padding-small-vertical 0 0;
-    padding: 0 @padding-small-vertical 0 @padding-small-vertical;
+    margin: @il-margin-small-vertical 0 0;
+    padding: 0 @il-padding-small-vertical 0 @il-padding-small-vertical;
 
     color: @alert-danger-text;
     background-color: @alert-danger-bg;

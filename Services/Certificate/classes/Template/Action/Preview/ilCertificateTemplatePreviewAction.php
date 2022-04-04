@@ -135,13 +135,11 @@ class ilCertificateTemplatePreviewAction
 
         $backgroundImagePath = $template->getBackgroundImagePath();
 
-        $certificate_text = str_replace(
+        return str_replace(
             '[BACKGROUND_IMAGE]',
             $this->rootDirectory . $backgroundImagePath,
             $certificate_text
         );
-
-        return $certificate_text;
     }
 
     private function getCustomCertificateFields() : array

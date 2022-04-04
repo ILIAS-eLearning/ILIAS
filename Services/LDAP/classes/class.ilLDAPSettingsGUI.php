@@ -1176,7 +1176,7 @@ class ilLDAPSettingsGUI
     /**
      * Create Toolbar
      */
-    private function userMappingToolbar()
+    private function userMappingToolbar() : void
     {
         $select_form = new ilSelectInputGUI("mapping_template");
         $select_form->setPostVar("mapping_template");
@@ -1589,7 +1589,7 @@ class ilLDAPSettingsGUI
     /**
      * Check edit screen input and save to db
      */
-    public function updateRoleMapping()
+    public function updateRoleMapping() : void
     {
         $propertie_form = $this->initRoleMappingForm("updateRoleMapping");
         

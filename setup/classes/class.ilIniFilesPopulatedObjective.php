@@ -23,7 +23,7 @@ class ilIniFilesPopulatedObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $client_id = (string) $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
         if ($client_id === null) {
             throw new \LogicException(
                 "Expected a client_id in the environment."
@@ -44,7 +44,7 @@ class ilIniFilesPopulatedObjective implements Setup\Objective
 
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $client_id = (string) $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
 
         $path = $this->getILIASIniPath();
         if (!file_exists($path)) {
@@ -72,7 +72,7 @@ class ilIniFilesPopulatedObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $client_id = (string) $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
 
         return !file_exists($this->getILIASIniPath())
             || !file_exists($this->getClientIniPath($client_id));

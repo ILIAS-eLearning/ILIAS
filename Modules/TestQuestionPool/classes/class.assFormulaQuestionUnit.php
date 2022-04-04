@@ -50,7 +50,7 @@ class assFormulaQuestionUnit
     /**
      * @return string
      */
-    public function getBaseunitTitle()
+    public function getBaseunitTitle() : string
     {
         return $this->baseunit_title;
     }
@@ -60,7 +60,7 @@ class assFormulaQuestionUnit
         $this->id = $id;
     }
 
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -70,7 +70,7 @@ class assFormulaQuestionUnit
         $this->unit = $unit;
     }
 
-    public function getUnit()
+    public function getUnit() : string
     {
         return $this->unit;
     }
@@ -80,7 +80,7 @@ class assFormulaQuestionUnit
         $this->sequence = $sequence;
     }
 
-    public function getSequence()
+    public function getSequence() : int
     {
         return $this->sequence;
     }
@@ -90,7 +90,7 @@ class assFormulaQuestionUnit
         $this->factor = $factor;
     }
 
-    public function getFactor()
+    public function getFactor() : float
     {
         return $this->factor;
     }
@@ -118,12 +118,12 @@ class assFormulaQuestionUnit
         $this->category = $category;
     }
     
-    public function getCategory()
+    public function getCategory() : int
     {
         return $this->category;
     }
 
-    public function getDisplayString()
+    public function getDisplayString() : string
     {
         /**
          * @var $lng ilLanguage

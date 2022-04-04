@@ -1,4 +1,8 @@
 <?php declare(strict_types=1);
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -41,6 +45,9 @@ class ilSearchResultPresentation
     protected ilCtrl $ctrl;
     protected ilAccess $access;
     protected ilTree $tree;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
 
     private array $results = [];
     private array $subitem_ids = [];
@@ -67,14 +74,20 @@ class ilSearchResultPresentation
         $this->ctrl = $DIC->ctrl();
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
-
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->mode = $a_mode;
         $this->container = $container;
         
         $this->initReferences();
-        
-        if (isset($_GET['details'])) {
-            ilSubItemListGUI::setShowDetails((int) $_GET['details']);
+
+        if ($this->http->wrapper()->query()->has('details')) {
+            ilSubItemListGUI::setShowDetails(
+                $this->http->wrapper()->query()->retrieve(
+                    'details',
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         }
     }
     
@@ -163,9 +176,10 @@ class ilSearchResultPresentation
     
     protected function hasMoreReferences(int $a_ref_id) : bool
     {
+        $references = ilSession::get('vis_references') ?? [];
         if (!isset($this->has_more_ref_ids[$a_ref_id]) or
             !$this->has_more_ref_ids[$a_ref_id] or
-            isset($_SESSION['vis_references'][$a_ref_id])) {
+            array_key_exists($a_ref_id, $references)) {
             return false;
         }
         return $this->has_more_ref_ids[$a_ref_id];
@@ -173,7 +187,8 @@ class ilSearchResultPresentation
     
     protected function getAllReferences(int $a_ref_id) : array
     {
-        if (isset($_SESSION['vis_references'][$a_ref_id])) {
+        $references = ilSession::get('vis_references') ?? [];
+        if (array_key_exists($a_ref_id, $references)) {
             return $this->all_references[$a_ref_id] ?: array();
         } else {
             return array($a_ref_id);
@@ -220,7 +235,6 @@ class ilSearchResultPresentation
      */
     protected function renderItemList() : bool
     {
-
         $this->html = '';
         
         $this->parseResultReferences();
@@ -316,8 +330,7 @@ class ilSearchResultPresentation
         int $ref_id,
         int $obj_id,
         string $type
-    ) : void
-    {
+    ) : void {
         $sub = $this->appendSubItems($item_list_gui, $ref_id, $obj_id, $type);
         $path = $this->appendPath($ref_id);
         $more = $this->appendMorePathes($ref_id);
@@ -376,8 +389,7 @@ class ilSearchResultPresentation
         int $ref_id,
         int $obj_id,
         string $a_type
-    ) : string
-    {
+    ) : string {
         $subitem_ids = array();
         $highlighter = null;
         if ($this->getMode() == self::MODE_STANDARD) {
@@ -400,8 +412,10 @@ class ilSearchResultPresentation
     
     protected function initReferences() : void
     {
-        if (isset($_REQUEST['refs'])) {
-            $_SESSION['vis_references'][(int) $_REQUEST['refs']] = (int) $_REQUEST['refs'];
+        $session_references = ilSession::get('vis_references') ?? [];
+        if (isset($_REQUEST['refs'])) {// @TODO: PHP8 Review: Direct access to $_REQUEST.
+            $session_references[(int) $_REQUEST['refs']] = (int) $_REQUEST['refs'];
+            ilSession::set('vis_references', $session_references);
         }
     }
 }

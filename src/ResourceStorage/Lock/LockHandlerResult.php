@@ -21,6 +21,5 @@ namespace ILIAS\ResourceStorage\Lock;
  */
 interface LockHandlerResult
 {
-
     public function runAndUnlock() : void;
 }

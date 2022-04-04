@@ -25,13 +25,6 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     
     protected $finishTestButtonEnabled = false;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -129,7 +122,15 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         if ($this->isShowMarkerEnabled()) {
             if ($a_set['marked']) {
                 $this->tpl->setCurrentBlock('marked_img');
-                $this->tpl->setVariable("HREF_MARKED", ilUtil::img('./templates/default/images/marked.svg', $this->lng->txt("tst_question_marked"), '24px', '24px'));
+                $this->tpl->setVariable(
+                    "HREF_MARKED",
+                    ilUtil::img(
+                        ilUtil::getImagePath('marked.svg'),
+                        $this->lng->txt("tst_question_marked"),
+                        '24px',
+                        '24px'
+                    )
+                );
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->touchBlock('marker');
@@ -185,7 +186,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
     }
 
-    public function isShowPointsEnabled()
+    public function isShowPointsEnabled() : bool
     {
         return $this->showPointsEnabled;
     }
@@ -195,7 +196,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->showPointsEnabled = $showPointsEnabled;
     }
 
-    public function isShowMarkerEnabled()
+    public function isShowMarkerEnabled() : bool
     {
         return $this->showMarkerEnabled;
     }
@@ -205,7 +206,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->showMarkerEnabled = $showMarkerEnabled;
     }
 
-    public function isShowObligationsEnabled()
+    public function isShowObligationsEnabled() : bool
     {
         return $this->showObligationsEnabled;
     }
@@ -215,7 +216,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->showObligationsEnabled = $showObligationsEnabled;
     }
 
-    public function isObligationsFilterEnabled()
+    public function isObligationsFilterEnabled() : bool
     {
         return $this->obligationsFilterEnabled;
     }
@@ -225,7 +226,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->obligationsFilterEnabled = $obligationsFilterEnabled;
     }
 
-    public function areObligationsNotAnswered()
+    public function areObligationsNotAnswered() : bool
     {
         return $this->obligationsNotAnswered;
     }
@@ -238,7 +239,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isFinishTestButtonEnabled()
+    public function isFinishTestButtonEnabled() : bool
     {
         return $this->finishTestButtonEnabled;
     }

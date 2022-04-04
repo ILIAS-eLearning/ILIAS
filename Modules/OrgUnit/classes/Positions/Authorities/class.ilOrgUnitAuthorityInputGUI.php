@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitAuthorityInputGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiValuesItem
@@ -13,17 +12,15 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
      */
     protected $value;
 
-
     /**
      * ilOrgUnitAuthorityInputGUI constructor.
-     *
      * @param string $a_title
      * @param string $a_postvar
      */
     public function __construct($a_title, $a_postvar)
     {
         parent::__construct($a_title, $a_postvar);
-        ilOrgUnitAuthority::replaceNameRenderer(function ($id) {
+        ilOrgUnitAuthority::replaceNameRenderer(function($id) {
             /**
              * @var $a ilOrgUnitAuthority
              */
@@ -33,7 +30,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
             return json_encode($data);
         });
     }
-
 
     /**
      * @param \ilTemplate $a_tpl
@@ -46,7 +42,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         $a_tpl->setVariable("PROP_GENERIC", $html);
         $a_tpl->parseCurrentBlock();
     }
-
 
     /**
      * @param array $values
@@ -63,7 +58,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         $this->setValue($authorities);
     }
 
-
     /**
      * @param $a_value \ilOrgUnitAuthority[]
      */
@@ -72,7 +66,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         $this->value = $a_value;
     }
 
-
     /**
      * @return \ilOrgUnitAuthority[]
      */
@@ -80,7 +73,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     {
         return $this->value;
     }
-
 
     protected function render()
     {
@@ -136,7 +128,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         return $tpl->get();
     }
 
-
     /**
      * @return \ILIAS\DI\Container
      */
@@ -144,7 +135,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     {
         return $GLOBALS["DIC"];
     }
-
 
     /**
      * @return \ilLanguage
@@ -161,7 +151,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         return $lang;
     }
 
-
     /**
      * @return bool
      */
@@ -169,7 +158,6 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     {
         return false;
     }
-
 
     protected function initJS()
     {

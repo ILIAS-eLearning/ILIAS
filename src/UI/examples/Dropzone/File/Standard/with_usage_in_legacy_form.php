@@ -54,7 +54,7 @@ function with_usage_in_legacy_form()
         } else {
             $form->setValuesByPost();
         }
-        \ilUtil::sendSuccess('Form processed successfully');
+        $DIC->ui()->mainTemplate()->setOnScreenMessage('success', 'Form processed successfully');
     }
 
     return $form->getHTML();

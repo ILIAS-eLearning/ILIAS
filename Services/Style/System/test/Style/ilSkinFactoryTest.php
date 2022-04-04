@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
@@ -58,7 +74,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
 
     public function testSkinStyleContainerFromId() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $this->assertEquals($container->getSkin()->getId(), $this->skin->getId());
         $this->assertEquals($container->getSkin()->getName(), $this->skin->getName());
 
@@ -68,12 +84,12 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
 
     public function testCopySkin() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
 
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . 'Copy'));
 
-        $container_copy = $this->factory->copyFromSkinStyleContainer($container, $this->file_system);
+        $container_copy = $this->factory->copyFromSkinStyleContainer($container, $this->file_system, $this->message_stack);
         $skin_copy = $container_copy->getSkin();
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . 'Copy'));
@@ -91,9 +107,9 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
 
     public function testCopySkinWithInjectedName() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
-        $container_copy = $this->factory->copyFromSkinStyleContainer($container, $this->file_system, 'inject');
+        $container_copy = $this->factory->copyFromSkinStyleContainer($container, $this->file_system, $this->message_stack, 'inject');
         $skin_copy = $container_copy->getSkin();
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . 'inject'));
@@ -127,14 +143,15 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
 
         //Only perform this test, if an unzip path has been found.
         if (PATH_TO_UNZIP != '') {
-            $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+            $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
             $skin = $container->getSkin();
 
             $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . 'Copy'));
 
             $container_import = $this->factory->skinStyleContainerFromZip(
                 $container->createTempZip(),
-                $this->skin->getId() . '.zip'
+                $this->skin->getId() . '.zip',
+                $this->message_stack
             );
             $skin_copy = $container_import->getSkin();
 

@@ -63,7 +63,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
         $this->assertFalse($instance($state));
     }
 
-    private function mock(string $className)
+    private function mock(string $className) : \PHPUnit\Framework\MockObject\MockObject
     {
         return $this->getMockBuilder($className)->disableOriginalConstructor()->getMock();
     }

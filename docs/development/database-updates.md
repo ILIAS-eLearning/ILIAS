@@ -69,7 +69,22 @@ class MySetupAgent extends Setup\Agent\NullAgent
 }
 ``` 
 
-In the ilMyDBUpdateSteps you can add your consecutive steps by adding methods according
+To ensure that the setup/status command will output the current database step status
+of your component add the method `getStatusObjective` to your Agent. 
+
+```php
+use ILIAS\Setup;
+
+class MySetupAgent extends Setup\Agent\NullAgent
+{
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new MyDBUpdateSteps());
+    }
+}
+``` 
+
+In the MyDBUpdateSteps you can add your consecutive steps by adding methods according
 to this schema:
 
 ```php

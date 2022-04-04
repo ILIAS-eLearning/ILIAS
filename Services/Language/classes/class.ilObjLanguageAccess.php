@@ -41,6 +41,7 @@ class ilObjLanguageAccess
 
         if (!$ilSetting->get("lang_translate_" . $lng->getLangKey())) {
             self::$cached_check_translate = false;
+            return self::$cached_check_translate;
         }
 
         if ($ilUser->getId()) {

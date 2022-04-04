@@ -2,18 +2,20 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\Container;
+
 class ilObjectCustomIconConfigurationGUI
 {
-    private const DEFAULT_CMD = 'showForm';
+    protected const DEFAULT_CMD = 'showForm';
 
-    protected \ILIAS\DI\Container $dic;
+    protected Container $dic;
     protected ilObject $object;
-    /** @var \ilObjectGUI|mixed */
+    /** @var ilObjectGUI|mixed */
     protected $parentGui;
     protected ?string $uploadFieldInformationText = null;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(\ILIAS\DI\Container $dic, $parentGui, ilObject $object)
+    public function __construct(Container $dic, $parentGui, ilObject $object)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -29,7 +31,7 @@ class ilObjectCustomIconConfigurationGUI
 
     public function executeCommand() : void
     {
-        $nextClass = $this->dic->ctrl()->getNextClass($this);
+        $this->dic->ctrl()->getNextClass($this);
         $cmd = $this->dic->ctrl()->getCmd(self::DEFAULT_CMD);
 
         switch (true) {

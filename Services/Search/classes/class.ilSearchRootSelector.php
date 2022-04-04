@@ -134,7 +134,6 @@ class ilSearchRootSelector extends ilExplorer
 
     public function showChilds($a_parent_id) : bool
     {
-
         if ($a_parent_id == 0) {
             return true;
         }

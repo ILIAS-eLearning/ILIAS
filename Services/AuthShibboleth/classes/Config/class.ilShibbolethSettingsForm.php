@@ -161,6 +161,12 @@ class ilShibbolethSettingsForm
 
         // User Fields
         $fields = [];
+        $fields[] = $field->text($this->txt('shib_login'))
+                          ->withValue($this->settings->get('shib_login'))
+                          ->withRequired(true)
+                          ->withAdditionalTransformation($custom_trafo(function ($v) : void {
+                              $this->settings->set('shib_login', (string) $v);
+                          }));
         foreach ($this->settings->getUserFields() as $field_name => $required) {
             $fields[] = $field->text($this->txt($field_name))
                               ->withValue($this->settings->get($field_name))

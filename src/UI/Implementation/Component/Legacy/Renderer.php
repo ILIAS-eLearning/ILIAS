@@ -41,7 +41,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $custom_signals = $component->getAllCustomSignals();
 
-        return $component->withAdditionalOnLoadCode(function ($id) use ($custom_signals) {
+        return $component->withAdditionalOnLoadCode(function ($id) use ($custom_signals) : string {
             $code = "";
             foreach ($custom_signals as $custom_signal) {
                 $signal_id = $custom_signal['signal'];

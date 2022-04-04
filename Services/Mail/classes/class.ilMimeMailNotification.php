@@ -43,13 +43,14 @@ abstract class ilMimeMailNotification extends ilMailNotification
     }
 
     /**
+     * @param int|string|ilObjUser
      * @throws ilMailException
      */
     protected function handleCurrentRecipient($rcp) : void
     {
         if (is_numeric($rcp)) {
             /** @var $rcp ilObjUser */
-            $rcp = ilObjectFactory::getInstanceByObjId($rcp, false);
+            $rcp = ilObjectFactory::getInstanceByObjId((int) $rcp, false);
             if (!$rcp) {
                 throw new ilMailException('no_recipient_found');
             }
@@ -59,7 +60,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
             $this->setCurrentRecipient($rcp);
             $this->initLanguageByIso2Code();
         } elseif ($rcp instanceof ilObjUser) {
-            /** @var $rcp ilObjUser */
             $this->setCurrentRecipient($rcp->getEmail());
             $this->initLanguage($rcp->getId());
         } else {

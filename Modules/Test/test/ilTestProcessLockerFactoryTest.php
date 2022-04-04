@@ -15,7 +15,7 @@ class ilTestProcessLockerFactoryTest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testObj = new ilTestProcessLockerFactory(
-            $this->createMock(ilSetting::class),
+            $lng_mock = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilDBInterface::class)
         );
     }
@@ -27,7 +27,7 @@ class ilTestProcessLockerFactoryTest extends ilTestBaseTestCase
 
     public function testActiveId() : void
     {
-        $this->testObj->setActiveId(212);
-        $this->assertEquals(212, $this->testObj->getActiveId());
+        $lockerFactory = $this->testObj->withContextId(212);
+        $this->assertEquals(212, $lockerFactory->getContextId());
     }
 }

@@ -18,6 +18,7 @@
  */
 class ilSurveyQuestionsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected ilRbacReview $rbacreview;
     protected ilObjUser $user;
     protected bool $editable = true;
@@ -35,6 +36,10 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $this->setId("spl");
         $this->setPrefix('q_id'); // #16982
+        $this->edit_manager = $DIC->surveyQuestionPool()
+                                  ->internal()
+                                  ->domain()
+                                  ->editing();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -54,25 +59,26 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("obligatory"), "");
         
         foreach ($this->getSelectedColumns() as $c) {
-            if (strcmp($c, 'description') == 0) {
+            if (strcmp($c, 'description') === 0) {
                 $this->addColumn($this->lng->txt("description"), 'description', '');
             }
-            if (strcmp($c, 'type') == 0) {
+            if (strcmp($c, 'type') === 0) {
                 $this->addColumn($this->lng->txt("question_type"), 'type', '');
             }
-            if (strcmp($c, 'author') == 0) {
+            if (strcmp($c, 'author') === 0) {
                 $this->addColumn($this->lng->txt("author"), 'author', '');
             }
-            if (strcmp($c, 'created') == 0) {
+            if (strcmp($c, 'created') === 0) {
                 $this->addColumn($this->lng->txt("create_date"), 'created', '');
             }
-            if (strcmp($c, 'updated') == 0) {
+            if (strcmp($c, 'updated') === 0) {
                 $this->addColumn($this->lng->txt("last_update"), 'tstamp', '');
             }
         }
         
         $this->addColumn("", "");
-        
+
+        $clip_questions = $this->edit_manager->getQuestionsFromClipboard();
         if ($this->getWriteAccess()) {
             $this->setSelectAllCheckbox('q_id');
         
@@ -81,7 +87,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
             $this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
             $this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
             
-            if (array_key_exists("spl_clipboard", $_SESSION)) {
+            if (count($clip_questions) > 0) {
                 $this->addCommandButton('paste', $this->lng->txt('paste'));
             }
             
@@ -194,7 +200,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         }
         $this->tpl->parseCurrentBlock();
 
-        if ($a_set["complete"] == 0) {
+        if ((int) $a_set["complete"] === 0) {
             $this->tpl->setCurrentBlock("qpl_warning");
             $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
@@ -203,27 +209,27 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         }
         
         foreach ($this->getSelectedColumns() as $c) {
-            if (strcmp($c, 'description') == 0) {
+            if (strcmp($c, 'description') === 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($a_set["description"])) ? $a_set["description"] : "&nbsp;");
+                $this->tpl->setVariable("QUESTION_COMMENT", ($a_set["description"] ?? '') !== '' ? $a_set["description"] : "&nbsp;");
                 $this->tpl->parseCurrentBlock();
             }
-            if (strcmp($c, 'type') == 0) {
+            if (strcmp($c, 'type') === 0) {
                 $this->tpl->setCurrentBlock('type');
                 $this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($a_set["type_tag"]));
                 $this->tpl->parseCurrentBlock();
             }
-            if (strcmp($c, 'author') == 0) {
+            if (strcmp($c, 'author') === 0) {
                 $this->tpl->setCurrentBlock('author');
                 $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
                 $this->tpl->parseCurrentBlock();
             }
-            if (strcmp($c, 'created') == 0) {
+            if (strcmp($c, 'created') === 0) {
                 $this->tpl->setCurrentBlock('created');
                 $this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($a_set['created'], IL_CAL_UNIX)));
                 $this->tpl->parseCurrentBlock();
             }
-            if (strcmp($c, 'updated') == 0) {
+            if (strcmp($c, 'updated') === 0) {
                 $this->tpl->setCurrentBlock('updated');
                 $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX)));
                 $this->tpl->parseCurrentBlock();

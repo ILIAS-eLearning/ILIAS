@@ -42,7 +42,7 @@ class ilPluginSlotInfoTest extends TestCase
         $plugins["plg2"] = $this->plugin2;
     }
 
-    public function testGetter()
+    public function testGetter() : void
     {
         $slots = [];
         $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $this->pluginslot->getComponent());
@@ -51,53 +51,53 @@ class ilPluginSlotInfoTest extends TestCase
         $this->assertEquals("Modules/Module1/Slot1", $this->pluginslot->getQualifiedName());
     }
 
-    public function testGetPlugins()
+    public function testGetPlugins() : void
     {
         $plugins = iterator_to_array($this->pluginslot->getPlugins());
-        $this->assertEquals(2, count($plugins));
+        $this->assertCount(2, $plugins);
         $this->assertEquals($this->plugin1, $plugins["plg1"]);
         $this->assertEquals($this->plugin2, $plugins["plg2"]);
     }
 
-    public function testHasPluginId()
+    public function testHasPluginId() : void
     {
         $this->assertTrue($this->pluginslot->hasPluginId("plg1"));
         $this->assertTrue($this->pluginslot->hasPluginId("plg2"));
         $this->assertFalse($this->pluginslot->hasPluginId("plg3"));
     }
 
-    public function testGetPluginById()
+    public function testGetPluginById() : void
     {
         $this->assertEquals($this->plugin1, $this->pluginslot->getPluginById("plg1"));
         $this->assertEquals($this->plugin2, $this->pluginslot->getPluginById("plg2"));
     }
 
-    public function testGetUnknownPluginId()
+    public function testGetUnknownPluginId() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->pluginslot->getPluginById("plg3");
     }
 
-    public function testHasPluginName()
+    public function testHasPluginName() : void
     {
         $this->assertTrue($this->pluginslot->hasPluginName("Plugin1"));
         $this->assertTrue($this->pluginslot->hasPluginName("Plugin2"));
         $this->assertFalse($this->pluginslot->hasPluginName("Plugin3"));
     }
 
-    public function testGetPluginByName()
+    public function testGetPluginByName() : void
     {
         $this->assertEquals($this->plugin1, $this->pluginslot->getPluginByName("Plugin1"));
         $this->assertEquals($this->plugin2, $this->pluginslot->getPluginByName("Plugin2"));
     }
 
-    public function testGetUnknownPluginName()
+    public function testGetUnknownPluginName() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->pluginslot->getPluginByName("Plugin3");
     }
 
-    public function testGetPath()
+    public function testGetPath() : void
     {
         $this->assertEquals(
             ilComponentRepository::PLUGIN_BASE_PATH . "/" . "Modules/Module1/Slot1",
@@ -105,19 +105,19 @@ class ilPluginSlotInfoTest extends TestCase
         );
     }
 
-    public function testGetActivePlugins()
+    public function testGetActivePlugins() : void
     {
         $plugins = iterator_to_array($this->pluginslot->getActivePlugins());
-        $this->assertEquals(1, count($plugins));
+        $this->assertCount(1, $plugins);
         $this->assertEquals($this->plugin1, $plugins["plg1"]);
     }
 
-    public function testHasActivePlugins()
+    public function testHasActivePlugins() : void
     {
         $this->assertTrue($this->pluginslot->hasActivePlugins());
     }
 
-    public function testHasNoActivePlugins()
+    public function testHasNoActivePlugins() : void
     {
         $plugins = [];
         $other_pluginslot = new ilPluginSlotInfo(

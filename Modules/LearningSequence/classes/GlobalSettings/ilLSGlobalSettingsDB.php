@@ -19,7 +19,7 @@ class ilLSGlobalSettingsDB implements LSGlobalSettingsDB
     {
         $interval_seconds = (float) $this->il_settings->get(
             self::SETTING_POLL_INTERVAL,
-            self::POLL_INTERVAL_DEFAULT
+            (string) self::POLL_INTERVAL_DEFAULT
         );
 
         return new LSGlobalSettings($interval_seconds);
@@ -29,7 +29,7 @@ class ilLSGlobalSettingsDB implements LSGlobalSettingsDB
     {
         $this->il_settings->set(
             self::SETTING_POLL_INTERVAL,
-            $settings->getPollingIntervalSeconds()
+            (string) $settings->getPollingIntervalSeconds()
         );
     }
 }

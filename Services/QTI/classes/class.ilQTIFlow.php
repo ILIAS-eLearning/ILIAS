@@ -31,10 +31,19 @@
 */
 class ilQTIFlow
 {
+    /** @var string|null */
     public $comment;
+
+    /** @var array */
     public $flow;
+
+    /** @var array */
     public $material;
+
+    /** @var array */
     public $material_ref;
+
+    /** @var array */
     public $response;
     
     public function __construct()
@@ -45,32 +54,41 @@ class ilQTIFlow
         $this->response = array();
     }
 
-    public function setComment($a_comment)
+    /**
+     * @param string $a_comment
+     */
+    public function setComment($a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getComment()
     {
         return $this->comment;
     }
-    
-    public function addFlow($a_flow, $a_index)
+
+    /**
+     * Never used.
+     */
+    public function addFlow($a_flow, $a_index) : void
     {
         $this->flow[$a_index] = $a_flow;
     }
     
-    public function addMaterial($a_material, $a_index)
+    public function addMaterial($a_material, $a_index) : void
     {
         $this->material[$a_index] = $a_material;
     }
     
-    public function addMaterial_ref($a_material_ref, $a_index)
+    public function addMaterial_ref($a_material_ref, $a_index) : void
     {
         $this->material_ref[$a_index] = $a_material_ref;
     }
     
-    public function addResponse($a_response, $a_index)
+    public function addResponse($a_response, $a_index) : void
     {
         $this->response[$a_index] = $a_response;
     }

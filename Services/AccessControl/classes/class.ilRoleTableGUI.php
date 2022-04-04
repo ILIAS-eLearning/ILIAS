@@ -4,7 +4,6 @@
 /**
  * TableGUI for the presentation og roles and role templates
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  * @ingroup ServicesAccessControl
  */
 class ilRoleTableGUI extends ilTable2GUI
@@ -45,126 +44,6 @@ class ilRoleTableGUI extends ilTable2GUI
         parent::__construct($a_parent_gui, $a_parent_cmd);
         $this->lng->loadLanguageModule('rbac');
         $this->lng->loadLanguageModule('search');
-    }
-
-    public function setType(int $a_type) : void
-    {
-        $this->type = $a_type;
-    }
-
-    public function setRoleTitleFilter(string $a_filter) : void
-    {
-        $this->role_title_filter = $a_filter;
-    }
-
-    public function getRoleTitleFilter() : string
-    {
-        return $this->role_title_filter;
-    }
-
-    public function getType() : int
-    {
-        return $this->type;
-    }
-
-    protected function getPathGUI() : ilPathGUI
-    {
-        return $this->path_gui;
-    }
-
-    /**
-     * Init table
-     */
-    public function init() : void
-    {
-        $this->addColumn('', 'f', '1px');
-
-        switch ($this->getType()) {
-            case self::TYPE_VIEW:
-                $this->setShowRowsSelector(true);
-                $this->setDefaultOrderField('title');
-                $this->setDefaultOrderDirection('asc');
-                //$this->setId('rolf_role_tbl');
-                $this->addColumn($this->lng->txt('search_title_description'), 'title', '30%');
-                $this->addColumn($this->lng->txt('type'), 'rtype', '20%');
-                $this->addColumn($this->lng->txt('context'), '', '40%');
-                $this->addColumn($this->lng->txt('actions'), '', '10%');
-                $this->setTitle($this->lng->txt('objs_role'));
-
-                if ($GLOBALS['DIC']['rbacsystem']->checkAccess('delete',
-                    $this->getParentObject()->object->getRefId())) {
-                    $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
-                }
-                break;
-
-            case self::TYPE_SEARCH:
-                $this->setShowRowsSelector(true);
-                $this->disable('sort');
-                //$this->setId('rolf_role_search_tbl');
-                $this->addColumn($this->lng->txt('search_title_description'), 'title', '30%');
-                $this->addColumn($this->lng->txt('type'), 'rtype', '20%');
-                $this->addColumn($this->lng->txt('context'), '', '50%');
-                $this->setTitle($this->lng->txt('rbac_role_rights_copy'));
-                $this->addMultiCommand('chooseCopyBehaviour', $this->lng->txt('btn_next'));
-                $this->addCommandButton('roleSearch', $this->lng->txt('btn_previous'));
-                break;
-        }
-
-        $this->setRowTemplate('tpl.role_row.html', 'Services/AccessControl');
-        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
-        $this->setSelectAllCheckbox('roles');
-
-        $this->path_gui = new ilPathGUI();
-        $this->getPathGUI()->enableTextOnly(false);
-        $this->getPathGUI()->enableHideLeaf(false);
-        $this->initFilter();
-    }
-
-    /**
-     * Init filter
-     */
-    public function initFilter() : void
-    {
-        $this->setDisableFilterHiding(true);
-
-        $action = [];
-        switch ($this->getType()) {
-            case self::TYPE_VIEW:
-                $action[ilRbacReview::FILTER_ALL] = $this->lng->txt('all_roles');
-                $action[ilRbacReview::FILTER_ALL_GLOBAL] = $this->lng->txt('all_global_roles');
-                $action[ilRbacReview::FILTER_ALL_LOCAL] = $this->lng->txt('all_local_roles');
-                $action[ilRbacReview::FILTER_INTERNAL] = $this->lng->txt('internal_local_roles_only');
-                $action[ilRbacReview::FILTER_NOT_INTERNAL] = $this->lng->txt('non_internal_local_roles_only');
-                $action[ilRbacReview::FILTER_TEMPLATES] = $this->lng->txt('role_templates_only');
-                break;
-
-            case self::TYPE_SEARCH:
-                $action[ilRbacReview::FILTER_ALL] = $this->lng->txt('all_roles');
-                $action[ilRbacReview::FILTER_ALL_GLOBAL] = $this->lng->txt('all_global_roles');
-                $action[ilRbacReview::FILTER_ALL_LOCAL] = $this->lng->txt('all_local_roles');
-                $action[ilRbacReview::FILTER_INTERNAL] = $this->lng->txt('internal_local_roles_only');
-                $action[ilRbacReview::FILTER_NOT_INTERNAL] = $this->lng->txt('non_internal_local_roles_only');
-                break;
-        }
-
-        $roles = new ilSelectInputGUI($this->lng->txt('rbac_role_selection'), 'role_type');
-        $roles->setOptions($action);
-        $this->addFilterItem($roles);
-        $roles->readFromSession();
-
-        if (!$roles->getValue()) {
-            $roles->setValue(ilRbacReview::FILTER_ALL_GLOBAL);
-        }
-
-        // title filter
-        $title = new ilTextInputGUI($this->lng->txt('title'), self::FILTER_TITLE);
-        $title->setSize(16);
-        $title->setMaxLength(64);
-        $this->addFilterItem($title);
-        $title->readFromSession();
-
-        $this->filter[self::FILTER_ROLE_TYPE] = (int) $roles->getValue();
-        $this->filter[self::FILTER_TITLE] = (string) $title->getValue();
     }
 
     protected function fillRow(array $a_set) : void
@@ -226,7 +105,7 @@ class ilRoleTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable(
                 'CONTEXT',
-                (string) $this->getPathGUI()->getPath(ROOT_FOLDER_ID, (int) $ref)
+                $this->getPathGUI()->getPath(ROOT_FOLDER_ID, (int) $ref)
             );
         }
 
@@ -242,6 +121,116 @@ class ilRoleTableGUI extends ilTable2GUI
                 );
             }
         }
+    }
+
+    /**
+     * Init table
+     */
+    public function init() : void
+    {
+        $this->addColumn('', 'f', '1px');
+
+        switch ($this->getType()) {
+            case self::TYPE_VIEW:
+                $this->setShowRowsSelector(true);
+                $this->setDefaultOrderField('title');
+                $this->setDefaultOrderDirection('asc');
+                //$this->setId('rolf_role_tbl');
+                $this->addColumn($this->lng->txt('search_title_description'), 'title', '30%');
+                $this->addColumn($this->lng->txt('type'), 'rtype', '20%');
+                $this->addColumn($this->lng->txt('context'), '', '40%');
+                $this->addColumn($this->lng->txt('actions'), '', '10%');
+                $this->setTitle($this->lng->txt('objs_role'));
+
+                if ($GLOBALS['DIC']['rbacsystem']->checkAccess('delete',
+                    $this->getParentObject()->object->getRefId())) {
+                    $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
+                }
+                break;
+
+            case self::TYPE_SEARCH:
+                $this->setShowRowsSelector(true);
+                $this->disable('sort');
+                //$this->setId('rolf_role_search_tbl');
+                $this->addColumn($this->lng->txt('search_title_description'), 'title', '30%');
+                $this->addColumn($this->lng->txt('type'), 'rtype', '20%');
+                $this->addColumn($this->lng->txt('context'), '', '50%');
+                $this->setTitle($this->lng->txt('rbac_role_rights_copy'));
+                $this->addMultiCommand('chooseCopyBehaviour', $this->lng->txt('btn_next'));
+                $this->addCommandButton('roleSearch', $this->lng->txt('btn_previous'));
+                break;
+        }
+
+        $this->setRowTemplate('tpl.role_row.html', 'Services/AccessControl');
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
+        $this->setSelectAllCheckbox('roles');
+
+        $this->path_gui = new ilPathGUI();
+        $this->getPathGUI()->enableTextOnly(false);
+        $this->getPathGUI()->enableHideLeaf(false);
+        $this->initFilter();
+    }
+
+    public function getType() : int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $a_type) : void
+    {
+        $this->type = $a_type;
+    }
+
+    protected function getPathGUI() : ilPathGUI
+    {
+        return $this->path_gui;
+    }
+
+    /**
+     * Init filter
+     */
+    public function initFilter() : void
+    {
+        $this->setDisableFilterHiding(true);
+
+        $action = [];
+        switch ($this->getType()) {
+            case self::TYPE_VIEW:
+                $action[ilRbacReview::FILTER_ALL] = $this->lng->txt('all_roles');
+                $action[ilRbacReview::FILTER_ALL_GLOBAL] = $this->lng->txt('all_global_roles');
+                $action[ilRbacReview::FILTER_ALL_LOCAL] = $this->lng->txt('all_local_roles');
+                $action[ilRbacReview::FILTER_INTERNAL] = $this->lng->txt('internal_local_roles_only');
+                $action[ilRbacReview::FILTER_NOT_INTERNAL] = $this->lng->txt('non_internal_local_roles_only');
+                $action[ilRbacReview::FILTER_TEMPLATES] = $this->lng->txt('role_templates_only');
+                break;
+
+            case self::TYPE_SEARCH:
+                $action[ilRbacReview::FILTER_ALL] = $this->lng->txt('all_roles');
+                $action[ilRbacReview::FILTER_ALL_GLOBAL] = $this->lng->txt('all_global_roles');
+                $action[ilRbacReview::FILTER_ALL_LOCAL] = $this->lng->txt('all_local_roles');
+                $action[ilRbacReview::FILTER_INTERNAL] = $this->lng->txt('internal_local_roles_only');
+                $action[ilRbacReview::FILTER_NOT_INTERNAL] = $this->lng->txt('non_internal_local_roles_only');
+                break;
+        }
+
+        $roles = new ilSelectInputGUI($this->lng->txt('rbac_role_selection'), 'role_type');
+        $roles->setOptions($action);
+        $this->addFilterItem($roles);
+        $roles->readFromSession();
+
+        if (!$roles->getValue()) {
+            $roles->setValue(ilRbacReview::FILTER_ALL_GLOBAL);
+        }
+
+        // title filter
+        $title = new ilTextInputGUI($this->lng->txt('title'), self::FILTER_TITLE);
+        $title->setSize(16);
+        $title->setMaxLength(64);
+        $this->addFilterItem($title);
+        $title->readFromSession();
+
+        $this->filter[self::FILTER_ROLE_TYPE] = (int) $roles->getValue();
+        $this->filter[self::FILTER_TITLE] = (string) $title->getValue();
     }
 
     /**
@@ -270,7 +259,7 @@ class ilRoleTableGUI extends ilTable2GUI
         $role_list = $this->rbacreview->getRolesByFilter(
             $type_filter,
             0,
-            (string) $title_filter
+            ''
         );
 
         $counter = 0;
@@ -285,13 +274,10 @@ class ilRoleTableGUI extends ilTable2GUI
             ) {
                 continue;
             }
-
             $title = ilObjRole::_getTranslation($role['title']);
-            if ($type_filter == ilRbacReview::FILTER_INTERNAL || $type_filter == ilRbacReview::FILTER_ALL) {
-                if (strlen($filter_orig)) {
-                    if (stristr($title, $filter_orig) == false) {
-                        continue;
-                    }
+            if (strlen($filter_orig)) {
+                if (stristr($title, $filter_orig) == false) {
+                    continue;
                 }
             }
 
@@ -322,5 +308,15 @@ class ilRoleTableGUI extends ilTable2GUI
         }
         $this->setMaxCount(count($rows));
         $this->setData($rows);
+    }
+
+    public function getRoleTitleFilter() : string
+    {
+        return $this->role_title_filter;
+    }
+
+    public function setRoleTitleFilter(string $a_filter) : void
+    {
+        $this->role_title_filter = $a_filter;
     }
 }

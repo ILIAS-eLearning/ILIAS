@@ -124,7 +124,6 @@ class assImagemapQuestionExport extends assQuestionExport
                     global $DIC;
                     $ilErr = $DIC['ilErr'];
                     $ilErr->raiseError($GLOBALS['DIC']['lng']->txt("error_open_image_file"), $ilErr->MESSAGE);
-                    return;
                 }
                 $imagefile = fread($fh, filesize($imagepath));
                 fclose($fh);

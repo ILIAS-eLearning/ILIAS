@@ -13,7 +13,7 @@ class Definitions
         $this->suffix_definitions = $c['filesystem.definitions'];
     }
     
-    public function suffix(): SuffixDefinitions
+    public function suffix() : SuffixDefinitions
     {
         return $this->suffix_definitions;
     }

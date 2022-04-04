@@ -16,9 +16,8 @@ class ilCertificatePdfFileNameFactory
     public function create(ilUserCertificatePresentation $presentation) : string
     {
         $objectType = $presentation->getObjType();
-        $pdfFileGenerator = $this->fetchCertificateGenerator($objectType);
 
-        return $pdfFileGenerator->createFileName($presentation);
+        return $this->fetchCertificateGenerator($objectType)->createFileName($presentation);
     }
 
     private function fetchCertificateGenerator(string $objectType) : ilCertificateFilename

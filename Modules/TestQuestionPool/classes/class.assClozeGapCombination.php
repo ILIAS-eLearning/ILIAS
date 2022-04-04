@@ -2,7 +2,7 @@
 
 class assClozeGapCombination
 {
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -47,7 +47,7 @@ class assClozeGapCombination
         return array_values($return_array);
     }
 
-    public function getCleanCombinationArray($question_id)
+    public function getCleanCombinationArray($question_id) : array
     {
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $combination_from_db = $assClozeGapCombinationObj->loadFromDb($question_id);
@@ -156,7 +156,7 @@ class assClozeGapCombination
         );
     }
 
-    public function combinationExistsForQid($question_id)
+    public function combinationExistsForQid($question_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -173,7 +173,7 @@ class assClozeGapCombination
         }
     }
 
-    public function getGapsWhichAreUsedInCombination($question_id)
+    public function getGapsWhichAreUsedInCombination($question_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

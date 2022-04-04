@@ -236,7 +236,10 @@ class ilCronManagerImpl implements ilCronManager
 
     public function ping(string $jobId) : void
     {
-        $this->db->manipulate('UPDATE cron_job SET alive_ts = ' . $this->quote(time(), 'integer') .
-            ' WHERE job_id = ' . $this->db->quote($jobId, 'text'));
+        $this->db->manipulateF(
+            'UPDATE cron_job SET alive_ts = %s WHERE job_id = %s',
+            ['integer', 'text'],
+            [time(), $jobId]
+        );
     }
 }

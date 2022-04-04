@@ -10,23 +10,23 @@ namespace ILIAS\Data\DateFormat;
  */
 class DateFormat
 {
-    const DOT = '.';
-    const COMMA = ',';
-    const DASH = '-';
-    const SLASH = '/';
-    const SPACE = ' ';
-    const DAY = 'd';
-    const DAY_ORDINAL = 'jS';
-    const WEEKDAY = 'l';
-    const WEEKDAY_SHORT = 'D';
-    const WEEK = 'W';
-    const MONTH = 'm';
-    const MONTH_SPELLED = 'F';
-    const MONTH_SPELLED_SHORT = 'M';
-    const YEAR = 'Y';
-    const YEAR_TWO_DIG = 'y';
+    public const DOT = '.';
+    public const COMMA = ',';
+    public const DASH = '-';
+    public const SLASH = '/';
+    public const SPACE = ' ';
+    public const DAY = 'd';
+    public const DAY_ORDINAL = 'jS';
+    public const WEEKDAY = 'l';
+    public const WEEKDAY_SHORT = 'D';
+    public const WEEK = 'W';
+    public const MONTH = 'm';
+    public const MONTH_SPELLED = 'F';
+    public const MONTH_SPELLED_SHORT = 'M';
+    public const YEAR = 'Y';
+    public const YEAR_TWO_DIG = 'y';
 
-    const TOKENS = [
+    public const TOKENS = [
         self::DOT,
         self::COMMA,
         self::DASH,
@@ -44,6 +44,7 @@ class DateFormat
         self::YEAR_TWO_DIG
     ];
 
+    /** @var string[] */
     protected array $format = [];
 
     public function __construct(array $format)
@@ -52,10 +53,10 @@ class DateFormat
         $this->format = $format;
     }
 
-    public function validateFormatElelements(array $format)
+    public function validateFormatElelements(array $format) : void
     {
         foreach ($format as $entry) {
-            if (!in_array($entry, self::TOKENS)) {
+            if (!in_array($entry, self::TOKENS, true)) {
                 throw new \InvalidArgumentException("not a valid token for date-format", 1);
             }
         }
@@ -63,6 +64,7 @@ class DateFormat
 
     /**
      * Get the elements of the format as array.
+     * @return string[]
      */
     public function toArray() : array
     {

@@ -99,7 +99,7 @@ class UIModifier extends Mode\AbstractUIModifier
 
             // get current setting if property is hidden
             $codes = (bool) $form->getInput("acc_codes");
-            $anon = ((string) $form->getInput("anonymization_options") == "statanon");
+            $anon = ((string) $form->getInput("anonymization_options") === "statanon");
 
             // parse incoming values
             if (!$anon) {

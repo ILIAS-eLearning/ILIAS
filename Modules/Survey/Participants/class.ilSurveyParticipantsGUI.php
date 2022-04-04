@@ -63,7 +63,7 @@ class ilSurveyParticipantsGUI
         
         $this->parent_gui = $a_parent_gui;
         /** @var ilObjSurvey $survey */
-        $survey = $this->parent_gui->object;
+        $survey = $this->parent_gui->getObject();
         $this->object = $survey;
         $this->ref_id = $this->object->getRefId();
         $this->has_write = $a_has_write_access;
@@ -94,7 +94,12 @@ class ilSurveyParticipantsGUI
             ->editing()
             ->request();
     }
-    
+
+    public function getObject() : ilObjSurvey
+    {
+        return $this->object;
+    }
+
     protected function handleWriteAccess() : void
     {
         if (!$this->has_write) {
@@ -226,7 +231,7 @@ class ilSurveyParticipantsGUI
         }
         
         //Btn Determine Competence Levels
-        if ($this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
+        if ($this->object->getMode() === ilObjSurvey::MODE_SELF_EVAL) {
             $skmg_set = new ilSkillManagementSettings();
             if ($this->object->getSkillService() && $skmg_set->isActivated()) {
                 $ilToolbar->addButton(
@@ -291,16 +296,14 @@ class ilSurveyParticipantsGUI
     {
         $surveySetting = new ilSetting("survey");
 
-        if ($surveySetting->get("anonymous_participants", false)) {
-            if ($this->object->hasAnonymizedResults() &&
-                $this->object->hasAnonymousUserList()) {
-                $end = $this->object->getEndDate();
-                if ($end && $end < date("YmdHis")) {
-                    $min = $surveySetting->get("anonymous_participants_min", 0);
-                    $total = $this->object->getSurveyParticipants();
-                    if (!$min || sizeof($total) >= $min) {
-                        return true;
-                    }
+        if ($surveySetting->get("anonymous_participants", false) && $this->object->hasAnonymizedResults() &&
+            $this->object->hasAnonymousUserList()) {
+            $end = $this->object->getEndDate();
+            if ($end && $end < date("YmdHis")) {
+                $min = $surveySetting->get("anonymous_participants_min", 0);
+                $total = $this->object->getSurveyParticipants();
+                if (!$min || count($total) >= $min) {
+                    return true;
                 }
             }
         }
@@ -402,12 +405,12 @@ class ilSurveyParticipantsGUI
     {
         $user_ids = $this->edit_request->getUserIds();
         if (count($user_ids) > 0) {
-            $this->object->removeSelectedSurveyResults(array_filter($user_ids, function ($i) {
+            $this->object->removeSelectedSurveyResults(array_filter($user_ids, static function ($i) : bool {
                 return is_numeric($i);
             }));
 
-            $invitations = array_filter($user_ids, function ($i) {
-                return (substr($i, 0, 3) == "inv");
+            $invitations = array_filter($user_ids, static function ($i) : bool {
+                return strpos($i, "inv") === 0;
             });
             foreach ($invitations as $i) {
                 $this->invitation_manager->remove($this->object->getSurveyId(), (int) substr($i, 3));
@@ -435,7 +438,7 @@ class ilSurveyParticipantsGUI
         $this->handleWriteAccess();
 
         $user_ids = $this->edit_request->getUserIds();
-        if (count($user_ids) == 0) {
+        if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, "maintenance");
         }
@@ -467,7 +470,7 @@ class ilSurveyParticipantsGUI
      */
     public function setCodeLanguageObject() : void
     {
-        if (strcmp($this->edit_request->getLang(), "-1") != 0) {
+        if (strcmp($this->edit_request->getLang(), "-1") !== 0) {
             $ilUser = $this->user;
             $ilUser->writePref("survey_code_language", $this->edit_request->getLang());
         }
@@ -552,7 +555,7 @@ class ilSurveyParticipantsGUI
     public function editCodesObject() : void
     {
         $ids = $this->edit_request->getCodeIds();
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'codes');
         }
@@ -572,7 +575,7 @@ class ilSurveyParticipantsGUI
         $lnames = $this->edit_request->getCodesPar("lname");
         $fnames = $this->edit_request->getCodesPar("fname");
         $sents = $this->edit_request->getCodesPar("sent");
-        if (count($codes) == 0) {
+        if (count($codes) === 0) {
             $this->ctrl->redirect($this, 'codes');
         }
 
@@ -723,15 +726,15 @@ class ilSurveyParticipantsGUI
             $reader->open($_FILES['codes']['tmp_name']);
             foreach ($reader->getCsvAsArray() as $row) {
                 // numeric check of used column due to #26176
-                if (sizeof($row) == 8 && is_numeric($row[5])) {
+                if (count($row) === 8 && is_numeric($row[5])) {
                     // used/sent/url are not relevant when importing
-                    list($code, $email, $last_name, $first_name, $created, $used, $sent, $url) = $row;
+                    [$code, $email, $last_name, $first_name, $created, $used, $sent, $url] = $row;
                     
                     // unique code?
                     if (!array_key_exists($code, $existing)) {
                         // could be date or datetime
                         try {
-                            if (strlen($created) == 10) {
+                            if (strlen($created) === 10) {
                                 $created = new ilDate($created, IL_CAL_DATE);
                             } else {
                                 $created = new ilDateTime($created, IL_CAL_DATETIME);
@@ -854,7 +857,7 @@ class ilSurveyParticipantsGUI
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('please_enter_mail_url'));
                 $form_gui->setValuesByPost();
             } else {
-                if ($this->edit_request->getSaveMessage() == 1) {
+                if ($this->edit_request->getSaveMessage() === 1) {
                     $ilUser = $this->user;
                     $title = ($this->edit_request->getSaveMessageTitle())
                         ?: ilStr::subStr($this->edit_request->getCodeMailPart("message"), 0, 40) . '...';
@@ -884,8 +887,8 @@ class ilSurveyParticipantsGUI
     {
         if (trim($this->edit_request->getExternalText())) {
             $data = preg_split("/[\n\r]/", $this->edit_request->getExternalText());
-            $fields = preg_split("/;/", array_shift($data));
-            if (!in_array('email', $fields)) {
+            $fields = explode(";", array_shift($data));
+            if (!in_array('email', $fields, true)) {
                 $this->edit_manager->setExternalText($this->edit_request->getExternalText());
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_external_rcp_no_email_column'), true);
                 $this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
@@ -900,8 +903,8 @@ class ilSurveyParticipantsGUI
             }
             $founddata = array();
             foreach ($data as $datarow) {
-                $row = preg_split("/;/", $datarow);
-                if (count($row) == count($fields)) {
+                $row = explode(";", $datarow);
+                if (count($row) === count($fields)) {
                     $dataset = array();
                     foreach ($fields as $idx => $fieldname) {
                         if (count($existingcolumns)) {
@@ -912,7 +915,7 @@ class ilSurveyParticipantsGUI
                             $dataset[$fieldname] = $row[$idx];
                         }
                     }
-                    if (strlen($dataset['email'])) {
+                    if ($dataset['email'] !== '') {
                         $this->addCodeForExternal(
                             $dataset['email'],
                             $dataset['lastname'],
@@ -956,7 +959,7 @@ class ilSurveyParticipantsGUI
                 mb_detect_order("UTF-8, ISO-8859-1, Windows-1252, ASCII");
                 $a_from_charset = mb_detect_encoding($a_string);
             }
-            if (strtoupper($a_from_charset) != $a_to_charset) {
+            if (strtoupper($a_from_charset) !== $a_to_charset) {
                 return mb_convert_encoding($a_string, $a_to_charset, $a_from_charset);
             }
         }
@@ -980,7 +983,7 @@ class ilSurveyParticipantsGUI
             foreach ($fields as $idx => $field) {
                 $fields[$idx] = $this->removeUTF8Bom($field);
             }
-            if (!in_array('email', $fields)) {
+            if (!in_array('email', $fields, true)) {
                 $reader->close();
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_external_rcp_no_email'), true);
                 $this->ctrl->redirect($this, 'codes');
@@ -996,7 +999,7 @@ class ilSurveyParticipantsGUI
             
             $founddata = array();
             foreach ($data as $row) {
-                if (count($row) == count($fields)) {
+                if (count($row) === count($fields)) {
                     $dataset = array();
                     foreach ($fields as $idx => $fieldname) {
                         // #14811
@@ -1010,7 +1013,7 @@ class ilSurveyParticipantsGUI
                             $dataset[$fieldname] = $row[$idx];
                         }
                     }
-                    if (strlen($dataset['email'])) {
+                    if ($dataset['email'] !== '') {
                         $founddata[] = $dataset;
                         $this->addCodeForExternal(
                             $dataset['email'],
@@ -1022,7 +1025,7 @@ class ilSurveyParticipantsGUI
             }
             $reader->close();
             
-            if (sizeof($founddata)) {
+            if (count($founddata)) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('external_recipients_imported'), true);
             }
         }
@@ -1078,7 +1081,7 @@ class ilSurveyParticipantsGUI
 
         $inp = new ilTextAreaInputGUI($this->lng->txt('externaltext'), 'externaltext');
         $external_text = $this->edit_manager->getExternalText();
-        if ($external_text != "") {
+        if ($external_text !== "") {
             $inp->setValue($external_text);
         } else {
             // $this->lng->txt('mail_import_example1') #14897
@@ -1153,7 +1156,7 @@ class ilSurveyParticipantsGUI
     public function addAppraisee(
         array $a_user_ids
     ) : void {
-        if (sizeof($a_user_ids)) {
+        if (count($a_user_ids)) {
             // #13319
             foreach (array_unique($a_user_ids) as $user_id) {
                 $this->object->addAppraisee($user_id);
@@ -1169,7 +1172,7 @@ class ilSurveyParticipantsGUI
         $ilTabs = $this->tabs;
 
         $appr_ids = $this->edit_request->getAppraiseeIds();
-        if (count($appr_ids) == 0) {
+        if (count($appr_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
@@ -1253,15 +1256,15 @@ class ilSurveyParticipantsGUI
         $recs = json_decode(base64_decode($this->edit_request->getRecipients()));
         foreach ($all_data as $rec_id => $rater) {
             $sent = false;
-            if ($rater["login"] != "" && in_array($rater["login"], $recs) ||
-                $rater["email"] != "" && in_array($rater["email"], $recs)) {
+            if (($rater["login"] != "" && in_array($rater["login"], $recs, true)) ||
+                ($rater["email"] != "" && in_array($rater["email"], $recs, true))) {
                 $sent = true;
             }
             if ($sent) {
                 $this->object->set360RaterSent(
                     $appr_id,
-                    (substr($rec_id, 0, 1) == "a") ? 0 : (int) substr($rec_id, 1),
-                    (substr($rec_id, 0, 1) == "u") ? 0 : (int) substr($rec_id, 1)
+                    strpos($rec_id, "a") === 0 ? 0 : (int) substr($rec_id, 1),
+                    strpos($rec_id, "u") === 0 ? 0 : (int) substr($rec_id, 1)
                 );
             }
         }
@@ -1271,7 +1274,7 @@ class ilSurveyParticipantsGUI
 
     public function editRatersObject() : void
     {
-        if ($this->edit_request->getReturnedFromMail() == 1) {
+        if ($this->edit_request->getReturnedFromMail() === 1) {
             $this->storeMailSent();
         }
 
@@ -1393,7 +1396,7 @@ class ilSurveyParticipantsGUI
         
         $appr_id = $this->handleRatersAccess();
         
-        if (sizeof($a_user_ids)) {
+        if (count($a_user_ids)) {
             // #13319
             foreach (array_unique($a_user_ids) as $user_id) {
                 if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
@@ -1420,7 +1423,7 @@ class ilSurveyParticipantsGUI
         $rater_ids = $this->edit_request->getRaterIds();
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        if (count($rater_ids) == 0) {
+        if (count($rater_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "editRaters");
         }
@@ -1464,7 +1467,7 @@ class ilSurveyParticipantsGUI
 
             foreach ($rater_ids as $id) {
                 if (isset($data[$id])) {
-                    if (substr($id, 0, 1) == "u") {
+                    if (strpos($id, "u") === 0) {
                         $this->object->deleteRater($appr_id, substr($id, 1));
                     } else {
                         $this->object->deleteRater($appr_id, 0, substr($id, 1));
@@ -1522,7 +1525,7 @@ class ilSurveyParticipantsGUI
         if (count($existingdata)) {
             $first = array_shift($existingdata);
             foreach ($first as $key => $value) {
-                if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0 && strcmp($key, 'sent') != 0) {
+                if (strcmp($key, 'code') !== 0 && strcmp($key, 'email') !== 0 && strcmp($key, 'sent') !== 0) {
                     $existingcolumns[] = '[' . $key . ']';
                 }
             }
@@ -1538,7 +1541,7 @@ class ilSurveyParticipantsGUI
         $mailmessage_a->setRequired(true);
         $mailmessage_a->setCols(80);
         $mailmessage_a->setRows(10);
-        $mailmessage_a->setInfo(sprintf($this->lng->txt('message_content_info'), join(', ', $existingcolumns)));
+        $mailmessage_a->setInfo(sprintf($this->lng->txt('message_content_info'), implode(', ', $existingcolumns)));
         $form->addItem($mailmessage_a);
         
         $recf = new ilHiddenInputGUI("rater_id");
@@ -1597,7 +1600,7 @@ class ilSurveyParticipantsGUI
             $this,
             'editRaters',
             [
-                'recipients' => base64_encode(json_encode($rec))
+                'recipients' => base64_encode(json_encode($rec, JSON_THROW_ON_ERROR))
             ],
             [
                 'type' => 'new'
@@ -1615,7 +1618,7 @@ class ilSurveyParticipantsGUI
             $appr_id = $this->handleRatersAccess();
             $this->ctrl->setParameter($this, "appr_id", $appr_id);
         
-            if (count($rater_ids) == 0) {
+            if (count($rater_ids) === 0) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
                 $this->ctrl->redirect($this, "editRaters");
             }
@@ -1639,7 +1642,7 @@ class ilSurveyParticipantsGUI
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
         
         $rec_ids = $this->edit_request->getRaterIds();
-        if (count($rec_ids) == 0) {
+        if (count($rec_ids) === 0) {
             $this->ctrl->redirect($this, "editRaters");
         }
         
@@ -1660,7 +1663,7 @@ class ilSurveyParticipantsGUI
                     $user = $all_data[$rec_id];
                     
                     // anonymous
-                    if (substr($rec_id, 0, 1) == "a") {
+                    if (strpos($rec_id, "a") === 0) {
                         $mytxt = $txt_a;
                         $url = $user["href"];
                         $rcp = $user["email"];
@@ -1672,11 +1675,12 @@ class ilSurveyParticipantsGUI
                         $url = ilLink::_getStaticLink($this->object->getRefId());
                         $rcp = $user["login"]; // #15141
                     }
-                    
-                    $mytxt = str_replace("[lastname]", $user["lastname"], $mytxt);
-                    $mytxt = str_replace("[firstname]", $user["firstname"], $mytxt);
-                    $mytxt = str_replace("[url]", $url, $mytxt);
-                    $mytxt = str_replace("[code]", $user["code"], $mytxt);
+
+                    $mytxt = str_replace(
+                        ["[lastname]", "[firstname]", "[url]", "[code]"],
+                        [$user["lastname"], $user["firstname"], $url, $user["code"]],
+                        $mytxt
+                    );
                     
                     $mail = new ilMail($sender_id);
                     $mail->enqueue(
@@ -1690,8 +1694,8 @@ class ilSurveyParticipantsGUI
                     
                     $this->object->set360RaterSent(
                         $appr_id,
-                        (substr($rec_id, 0, 1) == "a") ? 0 : (int) substr($rec_id, 1),
-                        (substr($rec_id, 0, 1) == "u") ? 0 : (int) substr($rec_id, 1)
+                        (strpos($rec_id, "a") === 0) ? 0 : (int) substr($rec_id, 1),
+                        (strpos($rec_id, "u") === 0) ? 0 : (int) substr($rec_id, 1)
                     );
                 }
             }
@@ -1756,7 +1760,7 @@ class ilSurveyParticipantsGUI
 
         $appr_ids = $this->edit_request->getAppraiseeIds();
 
-        if (count($appr_ids) == 0) {
+        if (count($appr_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
@@ -1781,7 +1785,7 @@ class ilSurveyParticipantsGUI
 
         $appr_ids = $this->edit_request->getAppraiseeIds();
         
-        if (count($appr_ids) == 0) {
+        if (count($appr_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }

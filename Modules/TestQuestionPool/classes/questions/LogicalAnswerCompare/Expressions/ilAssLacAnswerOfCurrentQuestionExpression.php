@@ -44,7 +44,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      *
      * @return int
      */
-    public function getQuestionIndex()
+    public function getQuestionIndex() : ?int
     {
         return null;
     }
@@ -53,7 +53,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      * Get the value of this Expression
      * @return string
      */
-    public function getValue()
+    public function getValue() : string
     {
         return "R";
     }
@@ -62,7 +62,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return "Aktuelle Frage";
     }
@@ -71,7 +71,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    protected function getPattern()
+    protected function getPattern() : string
     {
         return '/.+/';
     }

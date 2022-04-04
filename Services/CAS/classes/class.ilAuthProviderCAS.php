@@ -26,7 +26,6 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
 
     /**
      * ilAuthProviderCAS constructor.
-     * @param \ilAuthCredentials $credentials
      */
     public function __construct(ilAuthCredentials $credentials)
     {
@@ -34,9 +33,6 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
         $this->settings = ilCASSettings::getInstance();
     }
 
-    /**
-     * @return \ilCASSettings
-     */
     protected function getSettings() : ilCASSettings
     {
         return $this->settings;
@@ -106,7 +102,6 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
 
     /**
      * Handle user data synchonization by ldap data source.
-     * @param \ilAuthStatus $status
      */
     protected function handleLDAPDataSource(\ilAuthStatus $status) : bool
     {

@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -504,7 +518,7 @@ class ilExAssignment
         return $this->peer_char;
     }
     
-    public function setPeerReviewCriteriaCatalogue(?int $a_value)
+    public function setPeerReviewCriteriaCatalogue(?int $a_value) : void
     {
         $this->crit_cat = $a_value;
     }
@@ -602,7 +616,7 @@ class ilExAssignment
     }
     
     // Set max number of uploads
-    public function setMaxFile(?int $a_value)
+    public function setMaxFile(?int $a_value) : void
     {
         $this->max_file = $a_value;
     }
@@ -1053,7 +1067,7 @@ class ilExAssignment
         return self::lookup($a_id, "title");
     }
     
-    public static function lookupType(int $a_id) : int
+    public static function lookupType(int $a_id) : string
     {
         return self::lookup($a_id, "type");
     }
@@ -1517,7 +1531,7 @@ class ilExAssignment
             // deadline or relative deadline given
             if ($this->getDeadline() || $this->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
                 $app = new ilCalendarAppointmentTemplate($dl_id);
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setSubtitle("cal_exc_deadline");
                 $app->setTitle($this->getTitle());
                 $app->setFullday(false);
@@ -1531,7 +1545,7 @@ class ilExAssignment
             if ($this->getPeerReview() &&
                 $this->getPeerReviewDeadline()) {
                 $app = new ilCalendarAppointmentTemplate($fbdl_id);
-                $app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+                $app->setTranslationType(ilCalendarEntry::TRANSLATION_SYSTEM);
                 $app->setSubtitle("cal_exc_peer_review_deadline");
                 $app->setTitle($this->getTitle());
                 $app->setFullday(false);
@@ -1874,7 +1888,7 @@ class ilExAssignment
         asort($a_order, SORT_NUMERIC);
 
         $nr = 10;
-        foreach ($a_order as $k => $v) {
+        foreach (array_keys($a_order) as $k) {
             // the check for exc_id is for security reasons. ass ids are unique.
             $db->manipulate(
                 "UPDATE exc_ass_file_order SET " .

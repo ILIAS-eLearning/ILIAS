@@ -24,7 +24,6 @@ class EditingGUIRequest
 {
     use BaseGUIRequest;
 
-    protected \ILIAS\HTTP\Services $http;
     protected array $params;
 
     public function __construct(
@@ -184,7 +183,7 @@ class EditingGUIRequest
     public function getQuestionIds() : array
     {
         $qids = $this->intArray("q_id");
-        if (count($qids) == 0) {
+        if (count($qids) === 0) {
             $qids = $this->intArray("qids");
         }
         return $qids;
@@ -275,7 +274,7 @@ class EditingGUIRequest
     public function getCodeIds() : array
     {
         $ids = $this->str("new_ids");
-        if ($ids != "") {
+        if ($ids !== "") {
             $ids = explode(";", $ids);
         } else {
             $ids = $this->strArray("chb_code");
@@ -286,7 +285,7 @@ class EditingGUIRequest
     public function getRaterIds() : array
     {
         $ids = $this->str("rater_id");
-        if ($ids != "") {
+        if ($ids !== "") {
             $ids = explode(";", $ids);
         } else {
             $ids = $this->strArray("rtr_id");

@@ -32,14 +32,13 @@
 */
 class ilUserSearchOptions
 {
-
     public const FIELD_TYPE_UDF_SELECT = 1;
-    public const FIELD_TYPE_UDF_TEXT   = 2;
-    public const FIELD_TYPE_SELECT     = 3;
-    public const FIELD_TYPE_TEXT       = 4;
-// begin-patch lok
+    public const FIELD_TYPE_UDF_TEXT = 2;
+    public const FIELD_TYPE_SELECT = 3;
+    public const FIELD_TYPE_TEXT = 4;
+    // begin-patch lok
     public const FIELD_TYPE_MULTI = 5;
-// end-patch lok
+    // end-patch lok
 
 
     /**
@@ -191,18 +190,17 @@ class ilUserSearchOptions
         return in_array($a_key, ilUserSearchOptions::_getPossibleFields());
     }
 
-    public static function _isEnabled($a_key)
+    public static function _isEnabled($a_key) : bool
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
+        $settings = $DIC->settings();
 
         // login is always enabled
         if ($a_key == 'login') {
             return true;
         }
-
-        return (bool) $ilias->getSetting('search_enabled_' . $a_key);
+        return (bool) $settings->get('search_enabled_' . $a_key);
     }
 
     public static function _saveStatus(string $a_key, bool $a_enabled) : bool
@@ -211,13 +209,12 @@ class ilUserSearchOptions
 
         $ilias = $DIC['ilias'];
 
-        $ilias->setSetting('search_enabled_' . $a_key, (int) $a_enabled);
+        $ilias->setSetting('search_enabled_' . $a_key, (string) $a_enabled);
         return true;
     }
 
     public static function __appendUserDefinedFields(array $fields, int $counter) : array
     {
-
         $user_defined_fields = ilUserDefinedFields::_getInstance();
 
         $fields = [];

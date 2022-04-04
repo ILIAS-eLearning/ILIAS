@@ -43,7 +43,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $this->setLimit(9999);
 
         /** @var ilObjPortfolio $portfolio */
-        $portfolio = $a_parent_obj->object;
+        $portfolio = $a_parent_obj->getObject();
         $this->portfolio = $portfolio;
         $this->page_gui = $this->parent_obj->getPageGUIClassName();
         $this->is_template = ($this->portfolio->getType() == "prtt");

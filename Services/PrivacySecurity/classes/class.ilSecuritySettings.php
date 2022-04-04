@@ -35,9 +35,9 @@ class ilSecuritySettings
     public const SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH = 10;
 
     private static ?self $instance = null;
-    private \ilDBInterface $db;
-    private \ilSetting $settings;
-    private \ilRbacReview $review;
+    private ilDBInterface $db;
+    private ilSetting $settings;
+    private ilRbacReview $review;
     protected ilHTTPS $https;
 
     private bool $https_enable;
@@ -87,7 +87,7 @@ class ilSecuritySettings
      * @return ilSecuritySettings  instance
      * @access public
      */
-    public static function _getInstance() : \ilSecuritySettings
+    public static function _getInstance() : ilSecuritySettings
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self();
@@ -338,9 +338,10 @@ class ilSecuritySettings
 
     /**
      * validate settings
-     * @return int 0, if everything is ok, an error code otherwise
+     * @param ilPropertyFormGUI|null $a_form
+     * @return int|null 0, if everything is ok, an error code otherwise
      */
-    public function validate(\ilPropertyFormGUI $a_form = null) : ?int
+    public function validate(ilPropertyFormGUI $a_form = null) : ?int
     {
         $code = null;
 
@@ -507,7 +508,7 @@ class ilSecuritySettings
      */
     public function setPasswordMustNotContainLoginnameStatus($status) : void
     {
-        $this->password_must_not_contain_loginname = $status;
+        $this->password_must_not_contain_loginname = (bool) $status;
     }
 
     /**

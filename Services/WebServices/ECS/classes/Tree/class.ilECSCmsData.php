@@ -15,9 +15,7 @@
  *****************************************************************************/
 
 /**
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCmsData
 {

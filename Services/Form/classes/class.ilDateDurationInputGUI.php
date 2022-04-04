@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -170,19 +170,19 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 
             if ($this->openIntervalsAllowed()) {
                 if (isset($incoming['start']) && is_string($incoming['start']) && trim($incoming['start']) !== '') {
-                    $this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
+                    $this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], (bool) $format));
                 } else {
                     $this->setStart(new ilDate(null, IL_CAL_UNIX));
                 }
 
                 if (isset($incoming['end']) && is_string($incoming['end']) && trim($incoming['end']) !== '') {
-                    $this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
+                    $this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], (bool) $format));
                 } else {
                     $this->setEnd(new ilDate(null, IL_CAL_UNIX));
                 }
             } else {
-                $this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
-                $this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
+                $this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], (bool) $format));
+                $this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], (bool) $format));
             }
         }
 
@@ -200,9 +200,6 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         }
         
         $post = $this->strArray($this->getPostVar());
-        if (!is_array($post)) {
-            return false;
-        }
         
         $start = $post["start"];
         $end = $post["end"];
@@ -213,12 +210,12 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
             : $this->getDatePickerTimeFormat();
         
         // always done to make sure there are no obsolete values left
-        $this->setStart(null);
-        $this->setEnd(null);
+        $this->setStart();
+        $this->setEnd();
 
         $valid_start = false;
         if (trim($start)) {
-            $parsed = ilCalendarUtil::parseIncomingDate($start, $format);
+            $parsed = ilCalendarUtil::parseIncomingDate($start, (bool) $format);
             if ($parsed) {
                 $this->setStart($parsed);
                 $valid_start = true;
@@ -235,7 +232,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 
         $valid_end = false;
         if (trim($end)) {
-            $parsed = ilCalendarUtil::parseIncomingDate($end, $format);
+            $parsed = ilCalendarUtil::parseIncomingDate($end, (bool) $format);
             if ($parsed) {
                 $this->setEnd($parsed);
                 $valid_end = true;
@@ -454,8 +451,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     public function getValue() : array
     {
         return array(
-            'start' => $this->getStart()->get(IL_CAL_UNIX),
-            'end' => $this->getEnd()->get(IL_CAL_UNIX)
+            'start' => $this->getStart() ? $this->getStart()->get(IL_CAL_UNIX) : null,
+            'end' => $this->getEnd() ? $this->getEnd()->get(IL_CAL_UNIX) : null
         );
     }
 

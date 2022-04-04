@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -57,9 +71,13 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             ilExAssignment::TYPE_BLOG,
             ilExAssignment::TYPE_PORTFOLIO
         );
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->exc();
     }
 
+    /**
+     * @return \ILIAS\BackgroundTasks\Types\SingleType[]
+     */
     public function getInputTypes() : array
     {
         return
@@ -84,9 +102,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * run the job
-     * @param array    $input
-     * @param Observer $observer
-     * @return Value
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDatabaseException
@@ -127,8 +142,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     /**
      * Copy a file in the Feedback_files directory
      * TODO use the new filesystem.
-     * @param string $a_directory
-     * @param string $a_file
      */
     public function copyFileToSubDirectory(string $a_directory, string $a_file) : void
     {
@@ -255,10 +268,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * Add criteria data to the excel.
-     * @param int $feedback_giver
-     * @param int $participant_id
-     * @param int $row
-     * @param int $col
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function addCriteriaToExcel(
@@ -342,7 +351,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
                     $extra_crit_column = 0;
                     foreach ($files as $file) {
-                        if ($extra_crit_column) {
+                        if ($extra_crit_column !== 0) {
                             $this->title_columns[] = $crit_title . "_" . $extra_crit_column;
                         }
                         $extra_crit_column++;
@@ -520,7 +529,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                 $submission = new ilExSubmission($this->assignment, $participant_id);
                 $submission_files = $submission->getFiles();
 
-                if ($submission_files) {
+                if ($submission_files !== []) {
                     $participant_name = ilObjUser::_lookupName($participant_id);
                     $this->excel->setCell($row, self::PARTICIPANT_LASTNAME_COLUMN, $participant_name['lastname']);
                     $this->excel->setCell($row, self::PARTICIPANT_FIRSTNAME_COLUMN, $participant_name['firstname']);
@@ -553,7 +562,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                             $col = $first_excel_column_for_review;
                         }
                         $reviews = [];
-                        if ($peer_review) {
+                        if ($peer_review !== null) {
                             $reviews = $peer_review->getPeerReviewsByPeerId($participant_id);
                         }
 

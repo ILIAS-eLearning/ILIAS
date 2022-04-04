@@ -21,7 +21,6 @@ use ILIAS\DI\Container;
  */
 class ilFileVersionsTableGUI extends ilTable2GUI
 {
-    
     private Container $dic;
     private int $current_version;
     private \ilObjFile $file;
@@ -84,7 +83,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         foreach ($this->file->getVersions() as $version) {
             $versions[] = $version->getArrayCopy();
         }
-        usort($versions, static fn(array $i1, array $i2): bool => $i1['version'] < $i2['version']);
+        usort($versions, static fn (array $i1, array $i2) : bool => $i1['version'] < $i2['version']);
 
         $this->setData($versions);
         $this->setMaxCount(is_array($versions) ? count($versions) : 0);

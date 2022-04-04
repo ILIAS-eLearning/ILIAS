@@ -306,7 +306,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 
     protected function getDefaultRole() : ?int
     {
-        return $this->getParentGUI()->object->getDefaultMemberRole();
+        return $this->getParentGUI()->getObject()->getDefaultMemberRole();
     }
 
     protected function deliverCertificate() : void
@@ -414,7 +414,8 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 }
             }
         }
-        return ilArrayUtil::sortArray($print_member, 'name', $_SESSION['crs_print_order'], false, true);
+        $print_order = (string) (ilSession::get('crs_print_order') ?? '');
+        return ilArrayUtil::sortArray($print_member, 'name', $print_order, false, true);
     }
 
     public function getAttendanceListUserData(int $a_user_id) : array

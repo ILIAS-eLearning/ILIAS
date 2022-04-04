@@ -63,7 +63,9 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     {
         $rows = $this->getNonInnoDBTables();
         $table_name = array_pop($rows);
-        $migration = $this->database->migrateTableToEngine($table_name);
+        if (is_string($table_name) && strlen($table_name) > 0) {
+            $migration = $this->database->migrateTableToEngine($table_name);
+        }
         if ($migration === false) {
             throw new ilException("The migration of the following tables did throw errors, please resolve the problem before you continue: \n" . $table_name);
         }

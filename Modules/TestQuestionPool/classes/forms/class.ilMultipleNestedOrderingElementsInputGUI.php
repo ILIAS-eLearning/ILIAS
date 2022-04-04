@@ -51,7 +51,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->instanceId = $instanceId;
     }
 
-    public function getInstanceId()
+    public function getInstanceId() : string
     {
         return $this->instanceId;
     }
@@ -61,12 +61,12 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->interactionEnabled = $interactionEnabled;
     }
     
-    public function isInteractionEnabled()
+    public function isInteractionEnabled() : bool
     {
         return $this->interactionEnabled;
     }
     
-    public function isNestingEnabled()
+    public function isNestingEnabled() : bool
     {
         return $this->nestingEnabled;
     }
@@ -76,7 +76,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->nestingEnabled = $nestingEnabled;
     }
     
-    public function isStylingDisabled()
+    public function isStylingDisabled() : bool
     {
         return $this->stylingDisabled;
     }
@@ -86,7 +86,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->stylingDisabled = $stylingDisabled;
     }
     
-    protected function isStylingEnabled()
+    protected function isStylingEnabled() : bool
     {
         return !$this->isStylingDisabled();
     }
@@ -94,7 +94,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     /**
      * @return string
      */
-    public function getCssListClass()
+    public function getCssListClass() : string
     {
         return $this->cssListClass;
     }
@@ -110,7 +110,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     /**
      * @return string
      */
-    public function getCssItemClass()
+    public function getCssItemClass() : string
     {
         return $this->cssItemClass;
     }
@@ -118,7 +118,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     /**
      * @return string
      */
-    public function getCssHandleClass()
+    public function getCssHandleClass() : string
     {
         return $this->cssHandleClass;
     }
@@ -142,7 +142,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     /**
      * @return string
      */
-    public function getHtmlListTag()
+    public function getHtmlListTag() : string
     {
         return $this->htmlListTag;
     }
@@ -155,25 +155,16 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->htmlListTag = $htmlListTag;
     }
     
-    /**
-     * @return ilTemplate
-     */
     protected function getGlobalTpl()
     {
         return isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
     }
     
-    /**
-     * @return ilTemplate
-     */
     public function getListTpl()
     {
         return $this->listTpl;
     }
     
-    /**
-     * @param ilTemplate $listTpl
-     */
     public function setListTpl($listTpl)
     {
         $this->listTpl = $listTpl;
@@ -186,7 +177,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         );
     }
     
-    protected function fetchListHtml()
+    protected function fetchListHtml() : string
     {
         return $this->getListTpl()->get();
     }
@@ -275,16 +266,16 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
      * @param integer $elementCounter
      * @return integer $currentDepth
      */
-    abstract protected function getCurrentIndentation($elementValues, $elementCounter);
+    abstract protected function getCurrentIndentation($elementValues, $elementCounter) : int;
     
     /**
      * @param array $elementValues
      * @param integer $elementCounter
      * @return integer $nextDepth
      */
-    abstract protected function getNextIndentation($elementValues, $elementCounter);
+    abstract protected function getNextIndentation($elementValues, $elementCounter) : int;
     
-    protected function renderMainList()
+    protected function renderMainList() : string
     {
         $this->initListTemplate();
         $this->renderBeginSubList();
@@ -419,7 +410,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $this->fetchListHtml();
     }
     
-    protected function renderJsInit()
+    protected function renderJsInit() : string
     {
         $jsTpl = new ilTemplate('tpl.prop_nested_ordering_js.html', true, true, 'Services/Form');
         
@@ -458,12 +449,12 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $this->renderMainList();
     }
     
-    public function onCheckInput()
+    public function onCheckInput() : bool
     {
         return true;
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         return $this->render();
     }

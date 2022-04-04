@@ -32,9 +32,9 @@ class ilAssessmentFolderLogAdministrationTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
+        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+        $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
 
-        $this->parentObj_mock = $this->createMock(ilObjTestGUI::class);
-        $this->parentObj_mock->object = $this->createMock(ilObjTest::class);
         $this->tableGui = new ilAssessmentFolderLogAdministrationTableGUI($this->parentObj_mock, "");
     }
 

@@ -189,7 +189,7 @@ class ilMediaPoolItem
 
         $ilDB = $DIC->database();
 
-        if (ilObject::_lookupType($a_obj) == "mob") {
+        if (ilObject::_lookupType($a_obj) === "mob") {
             $title = ilObject::_lookupTitle($a_obj);
             $ilDB->manipulate(
                 "UPDATE mep_item SET " .

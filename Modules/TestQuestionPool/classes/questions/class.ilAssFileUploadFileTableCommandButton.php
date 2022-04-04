@@ -30,19 +30,19 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
      *
      * @return ilLanguage
      */
-    public function lng(ilLanguage $lng = null)
+    public function lng(ilLanguage $lng = null) : ilLanguage
     {
         if ($lng === null) {
             return $this->lng;
         }
-        
         $this->lng = $lng;
+        return $lng;
     }
     
     /**
      * @return string
      */
-    public function getAction()
+    public function getAction() : string
     {
         return $this->action;
     }

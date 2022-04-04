@@ -46,7 +46,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return int
      */
-    public function getImportQuestionId()
+    public function getImportQuestionId() : ?int
     {
         return $this->importQuestionId;
     }
@@ -62,7 +62,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return int
      */
-    public function getImportSkillBaseId()
+    public function getImportSkillBaseId() : ?int
     {
         return $this->importSkillBaseId;
     }
@@ -78,7 +78,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return int
      */
-    public function getImportSkillTrefId()
+    public function getImportSkillTrefId() : ?int
     {
         return $this->importSkillTrefId;
     }
@@ -94,7 +94,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return array
      */
-    public function getExpressions()
+    public function getExpressions() : array
     {
         return $this->expressions;
     }
@@ -111,7 +111,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return ilAssQuestionSolutionComparisonExpressionImport
      */
-    public function current()
+    public function current() : ilAssQuestionSolutionComparisonExpressionImport
     {
         return current($this->expressions);
     }
@@ -119,7 +119,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return ilAssQuestionSolutionComparisonExpressionImport
      */
-    public function next()
+    public function next() : ilAssQuestionSolutionComparisonExpressionImport
     {
         return next($this->expressions);
     }
@@ -135,7 +135,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @return bool
      */
-    public function valid()
+    public function valid() : bool
     {
         return key($this->expressions) !== null;
     }

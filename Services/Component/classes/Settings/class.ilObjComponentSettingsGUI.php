@@ -10,29 +10,29 @@ use ILIAS\UI\Renderer;
  */
 class ilObjComponentSettingsGUI extends ilObjectGUI
 {
-    const TYPE = 'cmps';
+    private const TYPE = 'cmps';
 
-    const CMD_DEFAULT = "listPlugins";
-    const CMD_INSTALL_PLUGIN = "installPlugin";
-    const CMD_CONFIGURE = "configure";
-    const CMD_REFRESH_LANGUAGES = "refreshLanguages";
-    const CMD_ACTIVATE_PLUGIN = "activatePlugin";
-    const CMD_DEACTIVATE_PLUGIN = "deactivatePlugin";
-    const CMD_UPDATE_PLUGIN = "updatePlugin";
-    const CMD_JUMP_TO_PLUGIN_SLOT = "jumpToPluginSlot";
-    const CMD_UNINSTALL_PLUGIN = "uninstallPlugin";
-    const CMD_CONFIRM_UNINSTALL_PLUGIN = "confirmUninstallPlugin";
+    private const TAB_PLUGINS = "plugins";
+    private const TAB_PERMISSION = "perm_settings";
 
-    const TAB_PLUGINS = "plugins";
-    const TAB_PERMISSION = "perm_settings";
+    public const CMD_DEFAULT = "listPlugins";
+    public const CMD_INSTALL_PLUGIN = "installPlugin";
+    public const CMD_CONFIGURE = "configure";
+    public const CMD_REFRESH_LANGUAGES = "refreshLanguages";
+    public const CMD_ACTIVATE_PLUGIN = "activatePlugin";
+    public const CMD_DEACTIVATE_PLUGIN = "deactivatePlugin";
+    public const CMD_UPDATE_PLUGIN = "updatePlugin";
+    public const CMD_JUMP_TO_PLUGIN_SLOT = "jumpToPluginSlot";
+    public const CMD_UNINSTALL_PLUGIN = "uninstallPlugin";
+    public const CMD_CONFIRM_UNINSTALL_PLUGIN = "confirmUninstallPlugin";
 
-    const P_REF_ID = 'ref_id';
-    const P_CTYPE = "ctype";
-    const P_CNAME = "cname";
-    const P_SLOT_ID = "slot_id";
-    const P_PLUGIN_NAME = "pname";
-    const P_PLUGIN_ID = "plugin_id";
-    const P_ADMIN_MODE = 'admin_mode';
+    public const P_REF_ID = 'ref_id';
+    public const P_CTYPE = "ctype";
+    public const P_CNAME = "cname";
+    public const P_SLOT_ID = "slot_id";
+    public const P_PLUGIN_NAME = "pname";
+    public const P_PLUGIN_ID = "plugin_id";
+    public const P_ADMIN_MODE = 'admin_mode';
 
     protected ilTabsGUI $tabs;
     protected ilRbacSystem $rbac_system;
@@ -45,7 +45,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected Factory $ui;
     protected Renderer $renderer;
 
-    public function __construct(?array $data = null, int $id, bool $call_by_reference = true, bool $prepare_output = true)
+    public function __construct($data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
     {
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
@@ -67,7 +67,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule(self::TYPE);
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -79,7 +79,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         }
 
         switch (true) {
-            case $next_class == 'ilpermissiongui':
+            case $next_class === 'ilpermissiongui':
                 $this->tabs->activateTab(self::TAB_PERMISSION);
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
@@ -114,7 +114,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                         $this->listPlugins();
                 }
         }
-        return true;
     }
 
     protected function forwardConfigGUI(string $name) : void
@@ -153,7 +152,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function refreshLanguages() : void
     {
         try {
-            $this->getPlugin()->updateLanguages();
+            $plugin_name = $this->request_wrapper->retrieve(self::P_PLUGIN_NAME, $this->refinery->kindlyTo()->string());
+            $plugin = $this->component_repository->getPluginByName($plugin_name);
+            $language_handler = new ilPluginLanguage($plugin);
+            $language_handler->updateLanguages();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("cmps_refresh_lng"), true);
         } catch (Exception $e) {
             $this->tpl->setOnScreenMessage("failure", $e->getMessage(), true);

@@ -59,24 +59,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         $this->request = $DIC->repository()->internal()->gui()->standardRequest();
 
         $this->cur_ref_id = $this->request->getRefId();
+        $this->top_node_id = self::getTopNodeForRefId($this->cur_ref_id);
 
-        $this->top_node_id = 0;
-        $top_node = 0; // This was never defined before
-        if ($ilSetting->get("rep_tree_limit_grp_crs") && $this->cur_ref_id > 0) {
-            $path = $tree->getPathId($this->cur_ref_id);
-            foreach ($path as $n) {
-                if ($top_node > 0) {
-                    break;
-                }
-                if (in_array(
-                    ilObject::_lookupType(ilObject::_lookupObjId($n)),
-                    array("crs", "grp")
-                )) {
-                    $this->top_node_id = $n;
-                }
-            }
-        }
-        
         parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
         $this->setSkipRootNode(false);
@@ -379,7 +363,12 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                     $group = $sort->sortItems($group);
 
                     // need extra session sorting here
-                    if ($t == "sess") {
+                    if ($t === "sess") {
+                        foreach ($group[$t] as $k => $v) {
+                            $app_info = ilSessionAppointment::_lookupAppointment($v["obj_id"]);
+                            $group[$t][$k]["start"] = $app_info["start"];
+                        }
+                        $group[$t] = ilArrayUtil::sortArray($group[$t], 'start', 'asc', true, false);
                     }
 
                     foreach ($group[$t] as $k => $item) {
@@ -392,7 +381,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 }
             }
             // item groups (if not custom block sorting)
-            elseif ($t == "itgr" &&
+            elseif ($t === "itgr" &&
                 isset($g["ref_ids"]) &&
                 is_array($g["ref_ids"])) {
                 foreach ($g["ref_ids"] as $ref_id) {
@@ -520,5 +509,30 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 }
                 return false;
         }
+    }
+
+    public static function getTopNodeForRefId(int $ref_id) : int
+    {
+        global $DIC;
+
+        $setting = $DIC->settings();
+        $tree = $DIC->repositoryTree();
+
+        $top_node = 0;
+        if ($setting->get("rep_tree_limit_grp_crs") && $ref_id > 0) {
+            $path = $tree->getPathId($ref_id);
+            foreach ($path as $n) {
+                if ($top_node > 0) {
+                    break;
+                }
+                if (in_array(
+                    ilObject::_lookupType(ilObject::_lookupObjId($n)),
+                    array("crs", "grp")
+                )) {
+                    $top_node = $n;
+                }
+            }
+        }
+        return $top_node;
     }
 }

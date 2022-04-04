@@ -63,7 +63,6 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
      */
     public function __createKeywordAndCondition() : string
     {
-
         $concat = ' keyword ';
 
         $and = "  WHERE  ";

@@ -24,7 +24,7 @@ class ilChatroomXMLWriter extends ilXmlWriter
 
     public function start() : void
     {
-        $this->xmlStartTag('Chatroom', null);
+        $this->xmlStartTag('Chatroom');
 
         $this->xmlElement('ObjId', null, (string) $this->chat->getId());
         $this->xmlElement('RoomId', null, (string) $this->room->getRoomId());
@@ -50,9 +50,9 @@ class ilChatroomXMLWriter extends ilXmlWriter
     {
         $privateRooms = $this->room->getPrivateRooms();
         if (count($privateRooms) > 0) {
-            $this->xmlStartTag('SubRooms', null);
+            $this->xmlStartTag('SubRooms');
             foreach ($privateRooms as $privateRoom) {
-                $this->xmlStartTag('SubRoom', null);
+                $this->xmlStartTag('SubRoom');
                 $this->xmlElement('SubRoomId', null, (string) ((int) $privateRoom['proom_id']));
                 $this->xmlElement('Title', null, (string) $privateRoom['title']);
                 $this->xmlElement('Owner', null, (string) ((int) $privateRoom['owner']));
@@ -71,9 +71,9 @@ class ilChatroomXMLWriter extends ilXmlWriter
 
         $history = $this->room->getHistory(null, null, null, null, false);
         if (count($history) > 0) {
-            $this->xmlStartTag('Messages', null);
+            $this->xmlStartTag('Messages');
             foreach ($history as $entry) {
-                $this->xmlStartTag('Message', null);
+                $this->xmlStartTag('Message');
                 $this->xmlElement('SubRoomId', null, (string) ((int) $entry['sub_room']));
                 $this->xmlElement('Body', null, json_encode($entry['message'], JSON_THROW_ON_ERROR));
                 $this->xmlElement('CreatedTimestamp', null, (string) ((int) $entry['timestamp']));

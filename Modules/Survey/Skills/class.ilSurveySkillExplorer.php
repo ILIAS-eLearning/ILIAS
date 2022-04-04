@@ -26,6 +26,8 @@ class ilSurveySkillExplorer extends ilExplorer
     protected array $force_open_path;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
+    protected array $all_nodes = [];
+    protected array $child_nodes = [];
 
     public function __construct(
         string $a_target,
@@ -85,10 +87,7 @@ class ilSurveySkillExplorer extends ilExplorer
         string $a_type,
         $a_ref_id = 0
     ) : bool {
-        if ($a_type == "skll") {
-            return true;
-        }
-        return false;
+        return $a_type === "skll";
     }
     
     public function buildLinkTarget($a_node_id, string $a_type) : string
@@ -115,7 +114,7 @@ class ilSurveySkillExplorer extends ilExplorer
         string $a_type = "",
         $a_obj_id = ""
     ) : string {
-        if ($a_type == "sktr") {
+        if ($a_type === "sktr") {
             return ilUtil::getImagePath("icon_skll_s.gif");
         }
         return ilUtil::getImagePath($a_name);

@@ -266,7 +266,7 @@ abstract class ilParticipant
         $users = [];
         $this->member_roles = [];
         foreach ($this->roles as $role_id) {
-            $title = $this->objectDataCache->lookupTitle($role_id);
+            $title = $this->objectDataCache->lookupTitle((int) $role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
                     $this->member_roles[] = $role_id;
@@ -345,6 +345,7 @@ abstract class ilParticipant
         }
 
         switch ($a_role) {
+            case ilParticipants::IL_GRP_ADMIN:
             case ilParticipants::IL_CRS_ADMIN:
                 $this->admins = true;
                 break;
@@ -353,17 +354,11 @@ abstract class ilParticipant
                 $this->tutors = true;
                 break;
 
+            case ilParticipants::IL_GRP_MEMBER:
             case ilParticipants::IL_CRS_MEMBER:
                 $this->members = true;
                 break;
 
-            case ilParticipants::IL_GRP_ADMIN:
-                $this->admins = true;
-                break;
-
-            case ilParticipants::IL_GRP_MEMBER:
-                $this->members = true;
-                break;
         }
 
         $this->rbacAdmin->assignUser($this->role_data[$a_role], $a_usr_id);
@@ -463,7 +458,7 @@ abstract class ilParticipant
     public function checkLastAdmin(array $a_usr_ids) : bool
     {
         $admin_role_id =
-            $this->type == 'crs' ?
+            $this->type === 'crs' ?
                 $this->role_data[ilParticipants::IL_CRS_ADMIN] :
                 $this->role_data[ilParticipants::IL_GRP_ADMIN];
 

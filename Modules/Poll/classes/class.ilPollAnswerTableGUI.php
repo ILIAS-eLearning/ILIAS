@@ -62,10 +62,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
     
     public function numericOrdering(string $a_field) : bool
     {
-        if ($a_field != "answer") {
-            return true;
-        }
-        return false;
+        return $a_field !== "answer";
     }
 
     public function getItems() : int
@@ -102,10 +99,10 @@ class ilPollAnswerTableGUI extends ilTable2GUI
     
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        $a_csv->addColumn((int) ($a_set["pos"] ?? 10) / 10);
+        $a_csv->addColumn((string) ((int) ($a_set["pos"] ?? 10) / 10));
         $a_csv->addColumn((string) ($a_set["answer"] ?? ''));
-        $a_csv->addColumn((int) ($a_set["votes"] ?? 0));
-        $a_csv->addColumn((int) ($a_set["percentage"] ?? 0));
+        $a_csv->addColumn((string) ((int) ($a_set["votes"] ?? 0)));
+        $a_csv->addColumn((string) ((int) ($a_set["percentage"] ?? 0)));
         $a_csv->addRow();
     }
     

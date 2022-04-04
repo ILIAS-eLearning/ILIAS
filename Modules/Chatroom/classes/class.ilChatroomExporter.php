@@ -23,7 +23,7 @@ class ilChatroomExporter extends ilXmlExporter
         $writer = new ilChatroomXMLWriter($chat);
         $writer->start();
 
-        return $writer->getXml();
+        return $writer->getXML();
     }
 
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array

@@ -11,9 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTestResultHeaderLabelBuilderTest extends ilTestBaseTestCase
 {
     private ilTestResultHeaderLabelBuilder $testObj;
-    /**
-     * @var ilLanguage|mixed|MockObject
-     */
+
     private $lng_mock;
 
     protected function setUp() : void

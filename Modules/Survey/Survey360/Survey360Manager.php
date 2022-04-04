@@ -50,11 +50,11 @@ class Survey360Manager
         $appraisees = $this->appr_repo->getAppraiseesForRater($rater_user_id);
 
         // filter out finished appraisees
-        $finished_ids = array_map(function ($i) {
+        $finished_ids = array_map(static function (array $i) : string {
             return $i["survey_id"] . ":" . $i["appr_id"];
         }, $this->run_repo->getFinishedAppraiseesForRater($rater_user_id));
-        $open_appraisees = array_filter($appraisees, function ($i) use ($finished_ids) {
-            return !in_array($i["survey_id"] . ":" . $i["appr_id"], $finished_ids);
+        $open_appraisees = array_filter($appraisees, static function (array $i) use ($finished_ids) : bool {
+            return !in_array($i["survey_id"] . ":" . $i["appr_id"], $finished_ids, true);
         });
 
         // filter out closed appraisees
@@ -62,18 +62,18 @@ class Survey360Manager
 
         // remove closed appraisees
         $closed_appr = $this->appr_repo->getClosedAppraiseesForSurveys($open_surveys);
-        $closed_appr_ids = array_map(function ($i) {
+        $closed_appr_ids = array_map(static function (array $i) : string {
             return $i["survey_id"] . ":" . $i["appr_id"];
         }, $closed_appr);
 
-        $open_appraisees = array_filter($open_appraisees, function ($i) use ($closed_appr_ids) {
-            return !in_array($i["survey_id"] . ":" . $i["appr_id"], $closed_appr_ids);
+        $open_appraisees = array_filter($open_appraisees, static function (array $i) use ($closed_appr_ids) : bool {
+            return !in_array($i["survey_id"] . ":" . $i["appr_id"], $closed_appr_ids, true);
         });
         $open_surveys = array_unique(array_column($open_appraisees, "survey_id"));
 
         // filter all surveys that have ended
         $has_ended = $this->set_repo->hasEnded($open_surveys);
-        $open_surveys = array_filter($open_surveys, function ($i) use ($has_ended) {
+        $open_surveys = array_filter($open_surveys, static function (array $i) use ($has_ended) : bool {
             return !$has_ended[$i];
         });
 
@@ -82,6 +82,7 @@ class Survey360Manager
 
     /**
      * Get open surveys for rater
+     * @return int[]
      */
     public function getOpenSurveysForAppraisee(
         int $appr_user_id
@@ -91,7 +92,7 @@ class Survey360Manager
 
         // filter all surveys that have ended
         $has_ended = $this->set_repo->hasEnded($open_surveys);
-        $open_surveys = array_filter($open_surveys, function ($i) use ($has_ended) {
+        $open_surveys = array_filter($open_surveys, static function (array $i) use ($has_ended) : bool {
             return !$has_ended[$i];
         });
 

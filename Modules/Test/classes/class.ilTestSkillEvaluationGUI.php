@@ -86,7 +86,7 @@ class ilTestSkillEvaluationGUI
     /**
      * @return ilAssQuestionList
      */
-    public function getQuestionList()
+    public function getQuestionList() : ilAssQuestionList
     {
         return $this->questionList;
     }
@@ -102,7 +102,7 @@ class ilTestSkillEvaluationGUI
     /**
      * @return ilTestObjectiveOrientedContainer
      */
-    public function getObjectiveOrientedContainer()
+    public function getObjectiveOrientedContainer() : ilTestObjectiveOrientedContainer
     {
         return $this->objectiveOrientedContainer;
     }
@@ -124,7 +124,7 @@ class ilTestSkillEvaluationGUI
         $this->$cmd();
     }
 
-    private function isAccessDenied()
+    private function isAccessDenied() : bool
     {
         return false;
     }
@@ -221,7 +221,7 @@ class ilTestSkillEvaluationGUI
         );
     }
 
-    private function buildEvaluationToolbarGUI($selectedSkillProfileId)
+    private function buildEvaluationToolbarGUI($selectedSkillProfileId) : ilTestSkillEvaluationToolbarGUI
     {
         if (!$this->isNoSkillProfileOptionEnabled() && !$selectedSkillProfileId) {
             $selectedSkillProfileId = key($this->getAvailableSkillProfiles());
@@ -238,14 +238,14 @@ class ilTestSkillEvaluationGUI
         return $gui;
     }
 
-    private function buildPersonalSkillsGUI($usrId, $selectedSkillProfileId, $availableSkills)
+    private function buildPersonalSkillsGUI($usrId, $selectedSkillProfileId, $availableSkills) : ilTestPersonalSkillsGUI
     {
         $gui = new ilTestPersonalSkillsGUI($this->lng, $this->testOBJ->getId());
 
         $gui->setAvailableSkills($availableSkills);
         $gui->setSelectedSkillProfile($selectedSkillProfileId);
 
-        $gui->setReachedSkillLevels($reachedSkillLevels);
+        //$gui->setReachedSkillLevels($reachedSkillLevels);
         $gui->setUsrId($usrId);
         
         return $gui;
@@ -262,7 +262,7 @@ class ilTestSkillEvaluationGUI
     /**
      * @return \ilTestSession
      */
-    public function getTestSession()
+    public function getTestSession() : ilTestSession
     {
         return $this->testSession;
     }
@@ -270,7 +270,7 @@ class ilTestSkillEvaluationGUI
     /**
      * @return boolean
      */
-    public function isNoSkillProfileOptionEnabled()
+    public function isNoSkillProfileOptionEnabled() : bool
     {
         return $this->noSkillProfileOptionEnabled;
     }
@@ -286,7 +286,7 @@ class ilTestSkillEvaluationGUI
     /**
      * @return array
      */
-    public function getAvailableSkillProfiles()
+    public function getAvailableSkillProfiles() : array
     {
         return $this->availableSkillProfiles;
     }
@@ -302,7 +302,7 @@ class ilTestSkillEvaluationGUI
     /**
      * @return array
      */
-    public function getAvailableSkills()
+    public function getAvailableSkills() : array
     {
         return $this->availableSkills;
     }

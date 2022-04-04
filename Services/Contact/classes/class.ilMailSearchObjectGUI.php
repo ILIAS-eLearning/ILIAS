@@ -434,7 +434,7 @@ abstract class ilMailSearchObjectGUI
         $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
         foreach ($obj_ids as $obj_id) {
             $members_obj = ilParticipants::getInstanceByObjId($obj_id);
-            $usr_ids = ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id');
+            $usr_ids = array_map('intval', ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id'));
             foreach ($usr_ids as $usr_id) {
                 $user = new ilObjUser($usr_id);
                 if (!$user->getActive()) {
@@ -450,7 +450,7 @@ abstract class ilMailSearchObjectGUI
                     'members_id' => $user->getId(),
                     'members_login' => $user->getLogin(),
                     'members_name' => $fullname,
-                    'members_crs_grp' => $this->cache->lookupTitle($obj_id),
+                    'members_crs_grp' => $this->cache->lookupTitle((int) $obj_id),
                     'search_' . $this->getObjectType() => $obj_id
                 ];
 
@@ -476,7 +476,7 @@ abstract class ilMailSearchObjectGUI
             $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         }
 
-        $searchTpl->setVariable('TABLE', $table->getHtml());
+        $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {
@@ -513,7 +513,7 @@ abstract class ilMailSearchObjectGUI
                 $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
                 $ref_id = $ref_ids[0];
                 $object->setRefId($ref_id);
-                $showMemberListEnabled = (bool) $object->getShowMembers();
+                $showMemberListEnabled = $object->getShowMembers();
 
                 if ($this->doesExposeMembers($object)) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
@@ -596,7 +596,7 @@ abstract class ilMailSearchObjectGUI
         $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
 
         $table->setData($tableData);
-        $searchTpl->setVariable('TABLE', $table->getHtml());
+        $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {

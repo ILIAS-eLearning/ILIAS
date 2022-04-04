@@ -24,7 +24,7 @@ class ilLink
     protected const LINK_SCRIPT = "goto.php";
 
     public static function _getLink(
-        int $a_ref_id,
+        ?int $a_ref_id,
         string $a_type = '',
         array $a_params = array(),
         string $append = ""
@@ -33,7 +33,7 @@ class ilLink
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
-        if (!strlen($a_type)) {
+        if ($a_type === '' && !is_null($a_ref_id)) {
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
         $param_string = '';
@@ -69,17 +69,17 @@ class ilLink
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
-        if (!strlen($a_type)) {
+        if ($a_type === '') {
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
         
         $robot_settings = ilRobotSettings::getInstance();
         if (!$robot_settings->robotSupportEnabled()) {
             if ($a_fallback_goto) {
-                return ilLink::_getLink($a_ref_id, $a_type, array(), $append);
-            } else {
-                return false;
+                return self::_getLink($a_ref_id, $a_type, array(), $append);
             }
+
+            return false;
         }
         
         // urlencode for append is needed e.g. to process "/" in wiki page names correctly

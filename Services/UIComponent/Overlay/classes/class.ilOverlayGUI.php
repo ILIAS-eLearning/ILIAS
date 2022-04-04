@@ -112,15 +112,15 @@ class ilOverlayGUI
         // yui cfg string
         $yuicfg["visible"] = $this->visible;
         
-        if ($this->width != "") {
+        if ($this->width !== "") {
             $yuicfg["width"] = $this->width;
         }
         
-        if ($this->height != "") {
+        if ($this->height !== "") {
             $yuicfg["height"] = $this->height;
         }
         $yuicfg["fixedcenter"] = $this->fixed_center;
-        if ($this->anchor_el_id != "") {
+        if ($this->anchor_el_id !== "") {
             $yuicfg["context"] = array($this->anchor_el_id, $this->anchor_ov_corner,
                     $this->anchor_anch_corner, array("beforeShow", "windowResize"));
         }

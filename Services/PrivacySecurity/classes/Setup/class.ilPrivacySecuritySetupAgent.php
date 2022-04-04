@@ -13,7 +13,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @var Refinery\Factory
      */
-    protected $refinery;
+    protected Refinery\Factory $refinery;
 
     public function __construct(Refinery\Factory $refinery)
     {
@@ -33,7 +33,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
      */
     public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
     {
-        throw new \LogicException("Not yet implemented.");
+        throw new LogicException("Not yet implemented.");
     }
 
     /**
@@ -42,7 +42,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilPrivacySecuritySetupConfig(
+            return new ilPrivacySecuritySetupConfig(
                 (bool) ($data["https_enabled"] ?? false)
             );
         });

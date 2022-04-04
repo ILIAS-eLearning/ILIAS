@@ -3,7 +3,6 @@
 
 /**
  * Class ilOrgUnitImporter
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -24,11 +23,9 @@ class ilOrgUnitImporter extends ilXmlImporter
      */
     public $stats;
 
-
     /**
      * @param $id
      * @param $type
-     *
      * @return bool|int
      */
     protected function buildRef($id, $type)
@@ -68,10 +65,8 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-
     /**
      * @param string $external_id
-     *
      * @return bool
      */
     public function hasMoreThanOneMatch($external_id)
@@ -94,7 +89,6 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-
     /**
      * @return bool
      */
@@ -103,7 +97,6 @@ class ilOrgUnitImporter extends ilXmlImporter
         return count($this->errors) != 0;
     }
 
-
     /**
      * @return bool
      */
@@ -111,7 +104,6 @@ class ilOrgUnitImporter extends ilXmlImporter
     {
         return count($this->warnings) != 0;
     }
-
 
     /**
      * @param      $lang_var
@@ -123,7 +115,6 @@ class ilOrgUnitImporter extends ilXmlImporter
         $this->warnings[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-
     /**
      * @param      $lang_var
      * @param      $import_id
@@ -134,7 +125,6 @@ class ilOrgUnitImporter extends ilXmlImporter
         $this->errors[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-
     /**
      * @return array
      */
@@ -142,7 +132,6 @@ class ilOrgUnitImporter extends ilXmlImporter
     {
         return $this->errors;
     }
-
 
     /**
      * @return array
@@ -152,7 +141,6 @@ class ilOrgUnitImporter extends ilXmlImporter
         return $this->warnings;
     }
 
-
     /**
      * @return array
      */
@@ -161,17 +149,20 @@ class ilOrgUnitImporter extends ilXmlImporter
         return $this->stats;
     }
 
-
     /**
      * @param string $a_entity
      * @param string $a_id
      * @param string $a_xml
-     * @param $a_mapping ilImportMapping
+     * @param        $a_mapping ilImportMapping
      * @return void
      * @deprecated
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         $container_mappings = $a_mapping->getMappingsOfEntity("Services/Container", "objs");
         foreach ($container_mappings as $old => $new) {
             if (ilObject2::_lookupType($new) === 'orgu') {

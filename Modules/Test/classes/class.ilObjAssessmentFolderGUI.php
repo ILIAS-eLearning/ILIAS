@@ -19,7 +19,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
     public $conditions;
-    
+    protected \ILIAS\Test\InternalRequestService $testrequest;
     /**
      * Constructor
      */
@@ -27,7 +27,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
-
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->type = "assf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
@@ -38,7 +38,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('assessment');
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         /**
          * @var $rbacsystem ilRbacSystem
@@ -88,7 +88,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
 
 
@@ -96,13 +95,13 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     * save object
     * @access	public
     */
-    public function saveObject()
+    public function saveObject() : void
     {
         global $DIC;
         $rbacadmin = $DIC['rbacadmin'];
 
         // create and insert forum in objecttree
-        $newObj = parent::saveObject();
+        parent::saveObject();
 
         // put here object specific stuff
 
@@ -130,7 +129,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
     
-    private function buildSettingsForm()
+    private function buildSettingsForm() : ilPropertyFormGUI
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -168,7 +167,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $chb->addSubItem($rg);
 
         $assessmentSetting = new ilSetting('assessment');
-        $imap_line_color = array_key_exists('imap_line_color', $_GET) ? $_GET['imap_line_color'] : $assessmentSetting->get('imap_line_color');
+        $imap_line_color = $assessmentSetting->get('imap_line_color');
+        if ($this->testrequest->isset('imap_line_color')) {
+            $imap_line_color = $this->testrequest->str('imap_line_color');
+        }
         if (strlen($imap_line_color) == 0) {
             $imap_line_color = 'FF0000';
         }
@@ -177,7 +179,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $linepicker->setValue($imap_line_color);
         $form->addItem($linepicker);
 
-        $user_criteria = array_key_exists('user_criteria', $_GET) ? $_GET['user_criteria'] : $assessmentSetting->get('user_criteria');
+        $user_criteria = $assessmentSetting->get('user_criteria');
+        if ($this->testrequest->isset('user_criteria')) {
+            $user_criteria = $this->testrequest->str('user_criteria');
+        }
         $userCriteria = new ilSelectInputGUI($this->lng->txt('user_criteria'), 'user_criteria');
         $userCriteria->setInfo($this->lng->txt('user_criteria_desc'));
         $userCriteria->setRequired(true);
@@ -277,7 +282,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $form = $this->buildSettingsForm();
         if (!$form->checkInput()) {
             $form->setValuesByPost();
-            return $this->settingsObject($form);
+            $this->settingsObject($form);
+            return;
         }
         
         $this->object->setSkillTriggeringNumAnswersBarrier((int) $_POST['num_req_answers']);
@@ -395,7 +401,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getLogDataOutputForm()
+    protected function getLogDataOutputForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -471,18 +477,18 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $form = $this->getLogDataOutputForm();
             
             $values = array();
-            if (isset($_GET['sel_test'])) {
-                $p_test = $values['sel_test'] = (int) $_GET['sel_test'];
+            if ($this->testrequest->isset('sel_test')) {
+                $p_test = $values['sel_test'] = $this->testrequest->int('sel_test');
             }
 
-            if (isset($_GET['log_from'])) {
-                $fromdate = (int) $_GET['log_from'];
+            if ($this->testrequest->isset('log_from')) {
+                $fromdate = $this->testrequest->int('log_from');
             } else {
                 $fromdate = mktime(0, 0, 0, 1, 1, date('Y'));
             }
 
-            if (isset($_GET['log_until'])) {
-                $untildate = (int) $_GET['log_until'];
+            if ($this->testrequest->isset('log_until')) {
+                $untildate = $this->testrequest->int('log_until');
             } else {
                 $untildate = time();
             }
@@ -575,7 +581,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
@@ -616,7 +622,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     *
     * @param	object	tabs gui object
     */
-    public function getTabs()
+    public function getTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -718,7 +724,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getLogSettingsForm()
+    protected function getLogSettingsForm() : ilPropertyFormGUI
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -769,7 +775,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilTestSettingsTemplateConfig
      */
-    public static function getSettingsTemplateConfig()
+    public static function getSettingsTemplateConfig() : ilTestSettingsTemplateConfig
     {
         global $DIC;
         $lng = $DIC['lng'];

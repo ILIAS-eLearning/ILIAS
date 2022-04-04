@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitTypeAdvancedMetaDataFormGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
@@ -16,7 +15,6 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
      * @var
      */
     protected $parent_gui;
-
 
     public function __construct($parent_gui, ilOrgUnitType $type)
     {
@@ -33,10 +31,8 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-
     /**
      * Save object (create or update)
-     *
      * @return bool
      */
     public function saveObject()
@@ -47,7 +43,6 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
 
         return true;
     }
-
 
     /**
      * Add all fields to the form
@@ -74,10 +69,8 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('updateAMD', $this->lng->txt('save'));
     }
 
-
     /**
      * Check validity of form and pass values from form to object
-     *
      * @return bool
      */
     protected function fillObject()

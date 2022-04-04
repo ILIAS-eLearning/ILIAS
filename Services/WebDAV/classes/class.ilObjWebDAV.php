@@ -1,5 +1,18 @@
 <?php declare(strict_types = 1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  * @package WebDAV
@@ -49,16 +62,18 @@ class ilObjWebDAV extends ilObject
         return $this->webdavVersioningEnabled;
     }
     
-    public function create() : void
+    public function create() : int
     {
-        parent::create();
+        $id = parent::create();
         $this->write();
+        return $id;
     }
     
-    public function update() : void
+    public function update() : bool
     {
         parent::update();
         $this->write();
+        return true;
     }
 
     private function write() : void

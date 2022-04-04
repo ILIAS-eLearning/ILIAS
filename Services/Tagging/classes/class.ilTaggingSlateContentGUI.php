@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
@@ -29,7 +43,6 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
     /**
      * Constructor
      */
-
     public function __construct()
     {
         global $DIC;
@@ -124,9 +137,9 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                 $tpl->parseCurrentBlock();
             }
             return $tpl->get();
-        } else {
-            return $this->ui->renderer()->render($this->getNoTagsUsedMessage());
         }
+
+        return $this->ui->renderer()->render($this->getNoTagsUsedMessage());
     }
 
 
@@ -167,7 +180,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                 $title = ilObject::_lookupTitle($obj["obj_id"]);
                 $items[] = $f->item()->standard(
                     $f->link()->standard($title, ilLink::_getLink($ref_id))
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj["obj_id"]), $title));
+                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $obj["obj_id"]), $title));
             }
         }
         $item_groups[] = $f->item()->group(sprintf(
@@ -176,7 +189,15 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         ), $items);
         $panel = $f->panel()->secondary()->listing("", $item_groups);
 
-        return $ui->renderer()->renderAsync([$back_button, $panel]);
+        $components = [$back_button, $panel];
+        if (count($items) == 0) {
+            $mbox = $f->messageBox()->info(
+                sprintf($lng->txt("tagging_no_obj_for_tag"), ilUtil::secureString($tag))
+            );
+            $components = [$back_button, $mbox];
+        }
+
+        return $ui->renderer()->renderAsync($components);
     }
 
     /**
@@ -259,7 +280,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
 
-        if ($title == 'ILIAS') {
+        if ($title === 'ILIAS') {
             $title = $this->lng->txt('repository');
         }
 

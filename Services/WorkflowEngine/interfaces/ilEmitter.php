@@ -18,5 +18,5 @@ interface ilEmitter
     /**
      * @return mixed
      */
-    public function emit();
+    public function emit() : void;
 }

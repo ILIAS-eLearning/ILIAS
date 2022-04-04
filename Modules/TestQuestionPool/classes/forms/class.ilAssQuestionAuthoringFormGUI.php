@@ -41,7 +41,7 @@ class ilAssQuestionAuthoringFormGUI extends ilPropertyFormGUI
      * @param ilFormPropertyGUI $replacingItem
      * @return bool
      */
-    public function replaceFormItemByPostVar(ilFormPropertyGUI $replacingItem)
+    public function replaceFormItemByPostVar(ilFormPropertyGUI $replacingItem) : bool
     {
         $itemWasReplaced = false;
         

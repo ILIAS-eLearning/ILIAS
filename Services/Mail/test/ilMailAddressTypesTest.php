@@ -22,7 +22,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             ->getMock();
     }
 
-    private function getAddressTypeFactory(PHPUnit\Framework\MockObject\MockObject $groupNameValidatorMock) : ilMailAddressTypeFactory
+    private function getAddressTypeFactory(ilGroupNameAsMailValidator $groupNameValidatorMock) : ilMailAddressTypeFactory
     {
         $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
@@ -31,7 +31,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $mailingLists = $this->getMockBuilder(ilMailingLists::class)->disableOriginalConstructor()->getMock();
         $roleMailboxSearch = $this->getMockBuilder(ilRoleMailboxSearch::class)->disableOriginalConstructor()->getMock();
 
-        $mailAddressTypeFactory = new ilMailAddressTypeFactory(
+        return new ilMailAddressTypeFactory(
             $groupNameValidatorMock,
             $logger,
             $rbacsystem,
@@ -40,8 +40,6 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             $mailingLists,
             $roleMailboxSearch
         );
-
-        return $mailAddressTypeFactory;
     }
 
     private function getWrappedAddressType(ilMailAddressType $type) : ilMailAddressType

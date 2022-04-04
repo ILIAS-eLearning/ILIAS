@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
@@ -68,7 +84,7 @@ class ilSystemStyleMainGUI
         $this->skin_factory = new ilSkinFactory($this->lng);
         $this->user = $DIC->user();
 
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
         $this->ref_id = $this->request_wrapper->query()->retrieve('ref_id', $this->refinery->kindlyTo()->string());
     }
 
@@ -337,7 +353,7 @@ class ilSystemStyleMainGUI
      */
     protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false)
     {
-        $skin = $this->skin_factory->skinStyleContainerFromId($skin_id)->getSkin();
+        $skin = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack)->getSkin();
         $style = $skin->getStyle($style_id);
 
         if ($read_only) {

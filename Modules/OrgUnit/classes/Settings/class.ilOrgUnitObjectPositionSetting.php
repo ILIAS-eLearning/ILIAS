@@ -4,9 +4,7 @@
 
 /**
  * Stores object activation status of orgunit position settings.
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilOrgUnitObjectPositionSetting
 {
@@ -24,10 +22,8 @@ class ilOrgUnitObjectPositionSetting
      */
     private $active;
 
-
     /**
      * Constructor
-     *
      * @param int $a_obj_id
      */
     public function __construct($a_obj_id)
@@ -37,12 +33,9 @@ class ilOrgUnitObjectPositionSetting
         $this->readSettings();
     }
 
-
     /**
      * Lookup activation status
-     *
      * @param int $a_obj_id
-     *
      * @return bool active status
      */
     public function lookupActive($a_obj_id)
@@ -57,10 +50,8 @@ class ilOrgUnitObjectPositionSetting
         }
     }
 
-
     /**
      * Check if position access is active. This returns true or false if it is object specific or null if the object has no setting.
-     *
      * @return null|bool
      */
     public function isActive()
@@ -68,17 +59,14 @@ class ilOrgUnitObjectPositionSetting
         return $this->active;
     }
 
-
     /**
      * Set active for object
-     *
      * @param bool $a_status
      */
     public function setActive($a_status)
     {
         $this->active = $a_status;
     }
-
 
     /**
      * Update object entry
@@ -92,7 +80,6 @@ class ilOrgUnitObjectPositionSetting
         ]);
     }
 
-
     /**
      * Delete record
      */
@@ -103,7 +90,6 @@ class ilOrgUnitObjectPositionSetting
         $this->db->manipulate($query);
     }
 
-
     /**
      * @return bool Returns true if the object has a specific setting false if there is no object specific setting, take the global setting in this
      * case.
@@ -112,7 +98,6 @@ class ilOrgUnitObjectPositionSetting
     {
         return $this->active !== null;
     }
-
 
     /**
      * Read from db

@@ -3,7 +3,6 @@
 
 /**
  * Class ilDclSelectionFieldModel
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
@@ -15,7 +14,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     const PROP_SELECTION_TYPE = '';
     const PROP_SELECTION_OPTIONS = '';
 
-
     /**
      * @inheritDoc
      */
@@ -24,12 +22,9 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         return array(static::PROP_SELECTION_OPTIONS, static::PROP_SELECTION_TYPE);
     }
 
-
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string $filter_value
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
@@ -58,8 +53,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
                     "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%,$filter_value,%", 'text') . " OR " .
                     "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%[$filter_value,%", 'text') . " OR " .
                     "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%,$filter_value]%", 'text') .
-                    ") ";
-                ;
+                    ") ";;
             } else {
                 $where_str .= "filter_stloc_{$this->getId()}.value = "
                     . $ilDB->quote($filter_value, 'integer');
@@ -75,18 +69,14 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     public function isMulti()
     {
         return ($this->getProperty(static::PROP_SELECTION_TYPE) == self::SELECTION_TYPE_MULTI);
     }
 
-
     /**
      * called when saving the 'edit field' form
-     *
      * @param ilPropertyFormGUI $form
-     *
      * @throws ilDclException
      */
     public function storePropertiesFromForm(ilPropertyFormGUI $form)
@@ -114,10 +104,8 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * @param ilPropertyFormGUI $form
-     *
      * @return bool
      */
     public function fillPropertiesForm(ilPropertyFormGUI &$form)
@@ -151,7 +139,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 
         return true;
     }
-
 
     /**
      * @param $key
@@ -187,7 +174,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * sorts record field values by the new order
      */
@@ -213,10 +199,8 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * changes the values of all record fields, since the property "multi" has changed
-     *
      * @param $is_multi_now
      */
     protected function multiPropertyChanged($is_multi_now)
@@ -237,10 +221,8 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * @param $key
-     *
      * @return ilDclSelectionOption[]|null
      */
     public function getProperty($key)
@@ -254,11 +236,9 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      * @param string $direction
      * @param bool   $sort_by_status
-     *
      * @return ilDclRecordQueryObject
      */
     public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
@@ -291,7 +271,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     public function cloneProperties(ilDclBaseFieldModel $originalField)
     {
         parent::cloneProperties($originalField);
@@ -304,7 +283,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         }
     }
 
-
     /**
      *
      */
@@ -316,7 +294,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         parent::doDelete();
     }
 
-
     /**
      * @inheritdoc
      */
@@ -326,7 +303,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 
         return $this->isMulti() && !$will_be_multi;
     }
-
 
     /**
      * @inheritdoc
@@ -342,7 +318,8 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         $ilConfirmationGUI->setHeaderText($DIC->language()->txt('dcl_msg_mc_to_sc_confirmation'));
         $ilConfirmationGUI->addHiddenItem($prop_selection_type, $form->getInput($prop_selection_type));
         foreach ($form->getInput($prop_selection_options) as $key => $option) {
-            $ilConfirmationGUI->addHiddenItem($prop_selection_options . "[$key][selection_value]", $option['selection_value']);
+            $ilConfirmationGUI->addHiddenItem($prop_selection_options . "[$key][selection_value]",
+                $option['selection_value']);
         }
 
         return $ilConfirmationGUI;

@@ -3,9 +3,9 @@
 
 class ilContentPageLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $lp_active) : array
     {
-        if (true === $a_lp_active) {
+        if (true === $lp_active) {
             return [
                 ilLPObjSettings::LP_MODE_DEACTIVATED,
                 ilLPObjSettings::LP_MODE_MANUAL,

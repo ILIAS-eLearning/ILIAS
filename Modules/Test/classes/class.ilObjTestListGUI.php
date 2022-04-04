@@ -33,7 +33,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -54,14 +54,14 @@ class ilObjTestListGUI extends ilObjectListGUI
     /**
     * Get command target frame
     *
-    * @param	string		$a_cmd			command
+    * @param	string		$cmd			command
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
         $frame = '';
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "":
             case "infoScreen":
             case "eval_a":
@@ -86,7 +86,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -95,7 +95,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         $props = parent::getProperties();
 
         // we cannot use ilObjTestAccess::_isOffline() because of text messages
-        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->id);
+        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->getId());
         if ($onlineaccess !== true) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                 "value" => $onlineaccess);
@@ -107,22 +107,18 @@ class ilObjTestListGUI extends ilObjectListGUI
 
     /**
     * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $a_cmd = explode('::', $a_cmd);
+        $cmd = explode('::', $cmd);
 
-        if (count($a_cmd) == 2) {
-            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjTestGUI', $a_cmd[0]), $a_cmd[1]);
+        if (count($cmd) == 2) {
+            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjTestGUI', $cmd[0]), $cmd[1]);
         } else {
-            $cmd_link = $ilCtrl->getLinkTargetByClass('ilObjTestGUI', $a_cmd[0]);
+            $cmd_link = $ilCtrl->getLinkTargetByClass('ilObjTestGUI', $cmd[0]);
         }
 
         $params = array_merge(array('ref_id' => $this->ref_id), $this->command_link_params);
@@ -134,7 +130,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function getCommands()
+    public function getCommands() : array
     {
         $commands = parent::getCommands();
 
@@ -161,7 +157,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         return $commands;
     }
 
-    private function isObjectiveTest()
+    private function isObjectiveTest() : bool
     {
         require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
         return ilLOSettings::isObjectiveTest($this->ref_id);
@@ -186,9 +182,9 @@ class ilObjTestListGUI extends ilObjectListGUI
      * @param
      * @return
      */
-    public function createDefaultCommand($a_command)
+    public function createDefaultCommand(array $command) : array
     {
-        return $a_command;
+        return $command;
     }
 
 
@@ -197,7 +193,6 @@ class ilObjTestListGUI extends ilObjectListGUI
      *
      * @access public
      * @param array (param => value)
-     * @return
      */
     public function addCommandLinkParameter($a_param)
     {
@@ -205,12 +200,12 @@ class ilObjTestListGUI extends ilObjectListGUI
     }
 
     // begin-patch lok
-    protected function modifyTitleLink($a_default_link)
+    protected function modifyTitleLink(string $default_link) : string
     {
         include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $id = ilLOSettings::isObjectiveTest($this->ref_id);
 
-        $cmd_link = $a_default_link;
+        $cmd_link = $default_link;
 
         if ($id) {
             $ref_ids = ilObject::_getAllReferences($id);

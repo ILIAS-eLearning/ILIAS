@@ -8,7 +8,7 @@
 class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 {
     public function __construct(
-        ilObjectGUI $a_parent_obj,
+        ilObjStudyProgrammeAutoCategoriesGUI $a_parent_obj,
         string $a_parent_cmd = "",
         string $a_template_context = ""
     ) {

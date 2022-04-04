@@ -69,7 +69,7 @@ class ilPCBlog extends ilPageContent
             }
         }
 
-        if (sizeof($a_posting_ids)) {
+        if (count($a_posting_ids)) {
             foreach ($a_posting_ids as $posting_id) {
                 $post_node = $this->dom->create_element("BlogPosting");
                 $post_node = $this->blog_node->append_child($post_node);

@@ -5,13 +5,19 @@
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
+use ILIAS\UI\Component\Dropdown\Factory;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Toast\Container;
 use ILIAS\UI\Implementation\Component\Layout\Page;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Implementation\Component\Breadcrumbs\Breadcrumbs as Crumbs;
+use ILIAS\UI\Implementation\Component\Link\Standard as CrumbEntry;
+use ILIAS\UI\Implementation\Component\Button;
+use ILIAS\UI\Implementation\Component\Dropdown;
 
 /**
  * Tests for the Standard Page
@@ -24,6 +30,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     protected MetaBar $metabar;
     protected Breadcrumbs $crumbs;
     protected Image $logo;
+    protected Container $overlay;
     protected string $title;
 
     /**
@@ -42,6 +49,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->crumbs->method("getCanonicalName")->willReturn("Breadcrumbs Stub");
         $this->logo = $this->createMock(Image::class);
         $this->logo->method("getCanonicalName")->willReturn("Logo Stub");
+        $this->overlay = $this->createMock(Container::class);
+        $this->overlay->method("getCanonicalName")->willReturn("Overlay Stub");
         $this->contents = array(new Legacy('some content', $sig_gen));
         $this->title = 'pagetitle';
 
@@ -52,6 +61,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->mainbar,
             $this->crumbs,
             $this->logo,
+            $this->overlay,
             null,
             $this->title
         );
@@ -102,6 +112,14 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->assertEquals(
             $this->logo,
             $this->stdpage->getLogo()
+        );
+    }
+
+    public function testGetOverlay() : void
+    {
+        $this->assertEquals(
+            $this->overlay,
+            $this->stdpage->getOverlay()
         );
     }
 
@@ -160,6 +178,17 @@ class StandardPageTest extends ILIAS_UI_TestBase
             ->getTextDirection()
         );
     }
+    
+    public function testWithMetaDatum() : void
+    {
+        $meta_datum_key = 'meta_datum_key';
+        $meta_datum_value = 'meta_datum_value';
+        $meta_data = [$meta_datum_key => $meta_datum_value];
+        $this->assertEquals(
+            $meta_data,
+            $this->stdpage->withAdditionalMetaDatum($meta_datum_key, $meta_datum_value)->getMetaData()
+        );
+    }
 
     public function testRenderingWithTitle() : void
     {
@@ -168,36 +197,53 @@ class StandardPageTest extends ILIAS_UI_TestBase
             ->withViewTitle("View Title")
             ->withShortTitle("Short Title");
 
-        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo]);
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]);
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
 
-        $exptected = $this->brutallyTrimHTML('
-<!DOCTYPE html>
+        $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
 <html lang="en" dir="ltr">
-   <head>
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-      <title>Short Title: View Title</title>
-      <style></style>
-   </head>
-   <body>
-      <div class="il-layout-page">
-         <header>
-            <div class="header-inner">
-               <div class="il-logo">Logo Stub<div class="il-pagetitle">Title</div></div>MetaBar Stub</div>
-         </header>
-         <div class="breadcrumbs"></div>
-         <div class="il-system-infos"></div>
-         <div class="nav il-maincontrols">MainBar Stub</div>
-         <!-- html5 main-tag is not supported in IE / div is needed -->
-         <main class="il-layout-page-content">
-            <div>some content</div>
-         </main>
-      </div>
-      <script>il.Util.addOnLoad(function() {});</script>
-   </body>
-</html>');
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<title>Short Title: View Title</title>
+	<style></style>
+</head>
+<body>
+	<div class="il-page-overlay">
+		Overlay Stub
+	</div>
+	<div class="il-layout-page">
+		<header>
+			<div class="header-inner">
+				<div class="il-logo">
+					Logo Stub
+					<div class="il-pagetitle">
+						Title
+					</div>
+				</div>
+				MetaBar Stub
+			</div>
+		</header>
+		<div class="il-system-infos">
+		</div>
+		<div class="nav il-maincontrols">
+			MainBar Stub
+		</div>
+		<!-- html5 main-tag is not supported in IE / div is needed -->
+		<main class="il-layout-page-content">
+			<div>
+				some content
+			</div>
+		</main>
+	</div>
+	<script>
+		il.Util.addOnLoad(function() {
+		});
+	</script>
+</body>
+</html>
+');
         $this->assertEquals($exptected, $html);
     }
 
@@ -205,26 +251,83 @@ class StandardPageTest extends ILIAS_UI_TestBase
     {
         $this->stdpage = $this->stdpage->withTextDirection($this->stdpage::RTL);
 
-        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo]);
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]);
         $html = $this->brutallyTrimHTML($r->render($this->stdpage));
 
-        $exptected = $this->brutallyTrimHTML('
-<!DOCTYPE html>
+        $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
 <html lang="en" dir="rtl">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<title>: </title>
+	<style></style>
+</head>
+<body>
+	<div class="il-page-overlay">
+		Overlay Stub
+	</div>
+	<div class="il-layout-page">
+		<header>
+			<div class="header-inner">
+				<div class="il-logo">
+					Logo Stub
+					<div class="il-pagetitle">
+						pagetitle
+					</div>
+				</div>
+				MetaBar Stub
+			</div>
+		</header>
+		<div class="il-system-infos">
+		</div>
+		<div class="nav il-maincontrols">
+			MainBar Stub
+		</div>
+		<!-- html5 main-tag is not supported in IE / div is needed -->
+		<main class="il-layout-page-content">
+			<div>
+				some content
+			</div>
+		</main>
+	</div>
+	<script>
+		il.Util.addOnLoad(function() {
+		});
+	</script>
+</body>
+</html>
+');
+        $this->assertEquals($exptected, $html);
+    }
+    
+    public function testRenderingWithMetaData() : void
+    {
+        $this->stdpage = $this->stdpage->withAdditionalMetaDatum('meta_datum_key_1', 'meta_datum_value_1');
+        $this->stdpage = $this->stdpage->withAdditionalMetaDatum('meta_datum_key_2', 'meta_datum_value_2');
+    
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->crumbs, $this->logo, $this->overlay]);
+        $html = $this->brutallyTrimHTML($r->render($this->stdpage));
+        $expected = $this->brutallyTrimHTML('
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       <title>: </title>
       <style></style>
+      <meta name="meta_datum_key_1" content="meta_datum_value_1" />
+      <meta name="meta_datum_key_2" content="meta_datum_value_2" />
    </head>
    <body>
+      <div class="il-page-overlay">Overlay Stub</div>
       <div class="il-layout-page">
          <header>
             <div class="header-inner">
                <div class="il-logo">Logo Stub<div class="il-pagetitle">pagetitle</div></div>MetaBar Stub</div>
          </header>
-         <div class="breadcrumbs"></div>
+         
          <div class="il-system-infos"></div>
          <div class="nav il-maincontrols">MainBar Stub</div>
          <!-- html5 main-tag is not supported in IE / div is needed -->
@@ -235,6 +338,98 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <script>il.Util.addOnLoad(function() {});</script>
    </body>
 </html>');
+        $this->assertEquals($expected, $html);
+    }
+
+
+    public function getUIFactory() : NoUIFactory
+    {
+        return new class extends NoUIFactory {
+            public function button() : \ILIAS\UI\Component\Button\Factory
+            {
+                return new Button\Factory();
+            }
+            public function dropdown() : Factory
+            {
+                return new Dropdown\Factory();
+            }
+        };
+    }
+
+    public function testRenderingWithCrumbs() : void
+    {
+        $crumbs = new Crumbs([
+            new CrumbEntry("label1", '#'),
+            new CrumbEntry("label2", '#'),
+            new CrumbEntry("label3", '#')
+        ]);
+        $r = $this->getDefaultRenderer(null, [$this->metabar, $this->mainbar, $this->logo, $this->overlay]);
+
+        $stdpage = $this->factory->standard(
+            $this->contents,
+            $this->metabar,
+            $this->mainbar,
+            $crumbs,
+            $this->logo,
+            $this->overlay,
+            null,
+            $this->title
+        );
+
+        $html = $this->brutallyTrimHTML($r->render($stdpage));
+
+        $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<title>:</title>
+	<style></style>
+</head>
+<body>
+	<div class="il-page-overlay">
+		Overlay Stub
+	</div>
+	<div class="il-layout-page">
+		<header>
+			<div class="header-inner">
+				<div class="il-logo">
+					Logo Stub
+					<div class="il-pagetitle">
+						pagetitle
+					</div>
+				</div>
+				<nav class="il-header-locator">
+					<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">label3<span class="caret"></span></button><ul class="dropdown-menu"><li><button class="btn btn-link" data-action="#" id="id_1">label2</button></li><li><button class="btn btn-link" data-action="#" id="id_2">label1</button></li></ul></div>
+				</nav>
+				MetaBar Stub
+			</div>
+		</header>
+		<div class="il-system-infos">
+		</div>
+		<div class="nav il-maincontrols">
+			MainBar Stub
+		</div>
+		<!-- html5 main-tag is not supported in IE / div is needed -->
+		<main class="il-layout-page-content">
+			<div>
+				<div class="breadcrumbs">
+					<nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">
+						<div class="breadcrumb"><span class="crumb"><a href="#">label1</a></span><span class="crumb"><a href="#">label2</a></span><span class="crumb"><a href="#">label3</a></span></div>
+					</nav>
+				</div>
+				some content
+			</div>
+		</main>
+	</div>
+	<script>
+		il.Util.addOnLoad(function() {
+		});
+	</script>
+</body>
+</html>
+');
         $this->assertEquals($exptected, $html);
     }
 }

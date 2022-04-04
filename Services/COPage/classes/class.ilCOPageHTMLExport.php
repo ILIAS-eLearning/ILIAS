@@ -118,8 +118,10 @@ class ilCOPageHTMLExport
 
         // export content style sheet
         if ($this->getContentStyleId() < 1) {     // basic style
-            ilFileUtils::rCopy(ilObjStyleSheet::getBasicImageDir(),
-                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
+            ilFileUtils::rCopy(
+                ilObjStyleSheet::getBasicImageDir(),
+                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
+            );
             ilFileUtils::makeDirParents($this->exp_dir . "/Services/COPage/css");
             copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {
@@ -303,7 +305,7 @@ class ilCOPageHTMLExport
                 switch ($a_type) {
                     case "prtf:pg":
                         $page = new ilPortfolioPage($a_id);
-                        $user_id = $page->create_user;
+                        $user_id = $page->getCreationUserId();
                         break;
                     
                     default:
@@ -320,6 +322,7 @@ class ilCOPageHTMLExport
                     }
 
                     // walk skill tree
+                    // @todo TF, please have a look at this
                     $vtree = new ilVirtualSkillTree();
                     $tref_id = 0;
                     $skill_id = (int) $skill_id;
@@ -335,7 +338,7 @@ class ilCOPageHTMLExport
                         foreach ($level_data as $k => $v) {
                             // get assigned materials from personal skill
                             $mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref_id"], $v["id"]);
-                            if (sizeof($mat)) {
+                            if (count($mat)) {
                                 foreach ($mat as $item) {
                                     $wsp_id = $item["wsp_id"];
                                     $obj_id = $ws_tree->lookupObjectId($wsp_id);

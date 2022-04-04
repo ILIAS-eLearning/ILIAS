@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclDateTimeREpresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -19,17 +18,16 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_NUMBER_RANGE, false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(),
+            ilTable2GUI::FILTER_NUMBER_RANGE, false, $this->getField()->getId());
         $input->setSubmitFormOnEnter(true);
 
         $this->setupFilterInputField($input);
 
         return $this->getFilterInputFieldValue($input);
     }
-
 
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
     {
@@ -40,7 +38,6 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
 
         return false;
     }
-
 
     /**
      * @inheritDoc

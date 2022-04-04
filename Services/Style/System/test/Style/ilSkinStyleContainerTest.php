@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
@@ -43,10 +59,10 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testCreateDelete() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
         $container->getSkin()->setId('newSkin');
-        $container->create(new ilSystemStyleMessageStack());
+        $container->create($this->message_stack);
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . 'newSkin'));
         $container->delete();
@@ -55,14 +71,14 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testUpdateSkinNoIdChange() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $container->updateSkin();
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId()));
     }
 
     public function testUpdateSkinWithChangedID() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $old_skin = clone $container->getSkin();
         $container->getSkin()->setId('newSkin2');
         $container->updateSkin($old_skin);
@@ -81,7 +97,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $new_style->setSoundDirectory('style1newsound');
         $new_style->setFontDirectory('style1newfont');
 
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1image'));
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1sound'));
@@ -116,7 +132,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testDeleteStyle() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
         $container->deleteStyle($this->style1);
 
@@ -137,7 +153,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testUpdateStyle() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
 
         $old_style = clone $skin->getStyle($this->style1->getId());
@@ -169,7 +185,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
 
     public function testDeleteSkin() : void
     {
-        $container = $this->factory->skinStyleContainerFromId($this->skin->getId());
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $skin = $container->getSkin();
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId()));

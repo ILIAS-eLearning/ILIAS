@@ -69,7 +69,8 @@ class ilPCGridCellTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TID", $tid);
         foreach (ilPCGrid::getSizes() as $s) {
             $this->tpl->setCurrentBlock("select_width");
-            $this->tpl->setVariable("SELECT_WIDTH",
+            $this->tpl->setVariable(
+                "SELECT_WIDTH",
                 ilLegacyFormElementsUtil::formSelect(
                     $a_set[$s],
                     "width_" . $s . "[$tid]",

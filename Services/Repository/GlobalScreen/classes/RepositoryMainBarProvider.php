@@ -59,6 +59,9 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
     public function getStaticSubItems() : array
     {
+        $dic = $this->dic;
+        $f = $this->dic->ui()->factory();
+
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
         $access_helper = BasicAccessCheckClosures::getInstance();
 
@@ -78,13 +81,16 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
 
         \ilRepositoryExplorerGUI::init();
+        $ref_id = $this->request->getRefId();
+        $top_node = \ilRepositoryExplorerGUI::getTopNodeForRefId($ref_id);
+        $asynch = ($top_node === 0);
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
             ->withVisibilityCallable($access_helper->isRepositoryVisible())
-            ->withContentWrapper(function () {
-                return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
+            ->withContentWrapper(function () use ($ref_id) {
+                return $this->dic->ui()->factory()->legacy($this->renderRepoTree($ref_id));
             })
-            ->withSupportsAsynchronousLoading(true)
+            ->withSupportsAsynchronousLoading($asynch)
             ->withTitle($title)
             ->withSymbol($icon)
             ->withParent($top)
@@ -105,6 +111,34 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
             });
 
+        $title = $this->dic->language()->txt("mm_favorites");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
+        $entries[] = $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
+                       ->withSupportsAsynchronousLoading(true)
+                       ->withTitle($title)
+                       ->withSymbol($icon)
+                       ->withContentWrapper(function () use ($f) {
+                           $fav_list = new \ilFavouritesListGUI();
+
+                           return $f->legacy($fav_list->render());
+                       })
+                       ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
+                       ->withPosition(10)
+                       ->withAvailableCallable(
+                           function () use ($dic) {
+                               return (bool) $dic->settings()->get('rep_favourites', "0");
+                           }
+                       )
+                       ->withVisibilityCallable(
+                           $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
+                               static function () use ($dic) : bool {
+                                   return true;
+                                   $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
+
+                                   return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
+                               }
+                           ))
+                       );
 
         return $entries;
     }
@@ -194,15 +228,13 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         return $mbox;
     }
 
-    protected function renderRepoTree() : string
+    protected function renderRepoTree(int $ref_id) : string
     {
         global $DIC;
         $tree = $DIC->repositoryTree();
-        $ref_id = $this->request->getRefId();
         if ($this->request->getBaseClass() == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
             $ref_id = $tree->readRootId();
         }
-
         $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
         $exp->setSkipRootNode(true);

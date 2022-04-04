@@ -15,20 +15,9 @@
  */
 class ilWorkflowEngine
 {
-    /**
-     * True, if this instance is made to handle a lot of requests.
-     * @var boolean
-     */
-    private $mass_action;
 
-    /**
-     * ilWorkflowEngine constructor.
-     *
-     * @param bool $a_mass_action
-     */
-    public function __construct($a_mass_action = false)
+    public function __construct()
     {
-        $this->mass_action = (bool) $a_mass_action;
     }
 
     /**
@@ -40,12 +29,12 @@ class ilWorkflowEngine
      * @param integer $context_id
      */
     public function processEvent(
-        $type,
-        $content,
-        $subject_type,
-        $subject_id,
-        $context_type,
-        $context_id
+        string $type,
+        string $content,
+        string $subject_type,
+        int $subject_id,
+        string $context_type,
+        int $context_id
     ) {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -93,8 +82,9 @@ class ilWorkflowEngine
      * @param string $component
      * @param string $event
      * @param array  $parameter
+     * @noinspection PhpUndefinedMethodInspection
      */
-    public function handleEvent($component, $event, $parameter)
+    public function handleEvent(string $component, string $event, array $parameter)
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -129,6 +119,7 @@ class ilWorkflowEngine
                 }
 
                 $mapper_class = $mapper['class'];
+                /** @noinspection PhpUndefinedMethodInspection */
                 $extracted_params = $mapper_class::mapParams($component, $event, $parameter, $extracted_params);
                 $component = $mapper_class::mapComponent($component, $event, $parameter, $extracted_params);
                 $event = $mapper_class::mapEvent($component, $event, $parameter, $extracted_params);
@@ -150,7 +141,7 @@ class ilWorkflowEngine
     /**
      * @param \ilExtractedParams $extractedParams
      */
-    public function launchArmedWorkflows($component, $event, $extractedParams)
+    public function launchArmedWorkflows($component, $event, ilExtractedParams $extractedParams)
     {
         global $DIC;
         /** @var ilSetting $ilSetting */

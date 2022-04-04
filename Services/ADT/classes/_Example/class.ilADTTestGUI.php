@@ -8,7 +8,6 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
 {
     protected function initObject() : ilADTBasedObject
     {
-
         return new ilADTTest(1);
     }
 

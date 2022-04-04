@@ -23,7 +23,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
 {
     private ?Modal $comment_modal = null;
 
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -38,7 +38,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
         $this->commands = ilObjBlogAccess::_getCommands();
     }
     
-    public function getCommands()
+    public function getCommands() : array
     {
         $commands = parent::getCommands();
         
@@ -56,20 +56,26 @@ class ilObjBlogListGUI extends ilObjectListGUI
         return $commands;
     }
 
-    public function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "", $a_onclick = "")
-    {
+    public function insertCommand(
+        string $href,
+        string $text,
+        string $frame = "",
+        string $img = "",
+        string $cmd = "",
+        string $onclick = ""
+    ) : void {
         $ctrl = $this->ctrl;
 
-        if ($a_cmd != "export" || !ilObjBlogAccess::isCommentsExportPossible($this->obj_id)) {
-            parent::insertCommand($a_href, $a_text, $a_frame, $a_img, $a_cmd, $a_onclick);
+        if ($cmd != "export" || !ilObjBlogAccess::isCommentsExportPossible($this->obj_id)) {
+            parent::insertCommand($href, $text, $frame, $img, $cmd, $onclick);
             return;
         }
 
         // #11099
-        $chksum = md5($a_href . $a_text);
-        if ($a_href == "#" ||
+        $chksum = md5($href . $text);
+        if ($href == "#" ||
             !in_array($chksum, $this->prevent_duplicate_commands)) {
-            if ($a_href != "#") {
+            if ($href != "#") {
                 $this->prevent_duplicate_commands[] = $chksum;
             }
 
@@ -86,12 +92,12 @@ class ilObjBlogListGUI extends ilObjectListGUI
                 );
                 $signal = $this->comment_modal->getShowSignal()->getId();
                 $this->current_selection_list->addItem(
-                    $a_text,
+                    $text,
                     "",
-                    $a_href,
-                    $a_img,
-                    $a_text,
-                    $a_frame,
+                    $href,
+                    $img,
+                    $text,
+                    $frame,
                     "",
                     $prevent_background_click,
                     "( function() { $(document).trigger('" . $signal . "', {'id': '" . $signal . "','triggerer':$(this), 'options': JSON.parse('[]')}); return false;})()"
@@ -101,22 +107,22 @@ class ilObjBlogListGUI extends ilObjectListGUI
     }
 
     public function getListItemHTML(
-        $a_ref_id,
-        $a_obj_id,
-        $a_title,
-        $a_description,
-        $a_use_asynch = false,
-        $a_get_asynch_commands = false,
-        $a_asynch_url = ""
-    ) {
+        int $ref_id,
+        int $obj_id,
+        string $title,
+        string $description,
+        bool $use_async = false,
+        bool $get_async_commands = false,
+        string $async_url = ""
+    ) : string {
         $html = parent::getListItemHTML(
-            $a_ref_id,
-            $a_obj_id,
-            $a_title,
-            $a_description,
-            $a_use_asynch,
-            $a_get_asynch_commands,
-            $a_asynch_url
+            $ref_id,
+            $obj_id,
+            $title,
+            $description,
+            $use_async,
+            $get_async_commands,
+            $async_url
         );
 
         if (!is_null($this->comment_modal)) {

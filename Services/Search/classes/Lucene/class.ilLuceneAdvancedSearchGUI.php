@@ -74,7 +74,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         switch ($next_class) {
             case 'ilobjectcopygui':
                 $this->ctrl->setReturn($this);
-                $cp = new ilObjectCopyGUI($this);
+                $cp = new ilObjectCopyGUI($this);// @TODO: PHP8 Review: Invalid argument.
                 $this->ctrl->forwardCommand($cp);
                 break;
             
@@ -192,7 +192,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
             $this->showSavedResults();
             return;
         }
-        unset($_SESSION['max_page']);
+        ilSession::clear('max_page');
         $this->search_cache->deleteCachedEntries();
         
         // Reset details
@@ -216,8 +216,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
      */
     protected function performSearch() : void
     {
-        unset($_SESSION['vis_references']);
-        
+        ilSession::clear('vis_references');
         $qp = new ilLuceneAdvancedQueryParser($this->search_cache->getQuery());
         $qp->parse();
         if (!strlen(trim($qp->getQuery()))) {

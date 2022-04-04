@@ -24,7 +24,7 @@ abstract class ilObject2 extends ilObject
     /**
     * Read data from db
     */
-    final public function read()
+    final public function read() : void
     {
         parent::read();
         $this->doRead();
@@ -35,7 +35,7 @@ abstract class ilObject2 extends ilObject
     }
     
 
-    final public function create($a_clone_mode = false)
+    final public function create($a_clone_mode = false) : int
     {
         if ($this->beforeCreate()) {
             $id = parent::create();
@@ -61,7 +61,7 @@ abstract class ilObject2 extends ilObject
         return true;
     }
     
-    final public function update()
+    final public function update() : bool
     {
         if ($this->beforeUpdate()) {
             if (!parent::update()) {
@@ -84,12 +84,12 @@ abstract class ilObject2 extends ilObject
         return true;
     }
 
-    final public function delete()
+    final public function delete() : bool
     {
         if ($this->beforeDelete()) {
             if (parent::delete()) {
                 $this->doDelete();
-                $this->id = null;
+                $this->id = 0;
                 return true;
             }
         }
@@ -105,20 +105,21 @@ abstract class ilObject2 extends ilObject
         return true;
     }
 
-    final public function cloneMetaData($target_obj)
+    final public function cloneMetaData(ilObject $target_obj) : bool
     {
         return parent::cloneMetaData($target_obj);
     }
     
-    final public function cloneObject($a_target_id, $a_copy_id = null, $a_omit_tree = false)
+    final public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         if ($this->beforeCloneObject()) {
-            $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+            $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
             if ($new_obj) {
-                $this->doCloneObject($new_obj, $a_target_id, $a_copy_id);
+                $this->doCloneObject($new_obj, $target_id, $copy_id);
                 return $new_obj;
             }
         }
+        return null;
     }
     
     protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)

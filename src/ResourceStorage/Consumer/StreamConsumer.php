@@ -23,6 +23,5 @@ use ILIAS\Filesystem\Stream\FileStream;
  */
 interface StreamConsumer
 {
-
     public function getStream() : FileStream;
 }

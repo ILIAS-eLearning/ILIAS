@@ -10,11 +10,9 @@
  */
 class ilOerHarvesterSettings
 {
-    const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
-
-    const STORAGE_IDENTIFIER = 'meta_oer';
-
-    const COLLECTED_TYPES = [
+    public const CRON_JOB_IDENTIFIER = 'meta_oer_harvester';
+    public const STORAGE_IDENTIFIER = 'meta_oer';
+    public const COLLECTED_TYPES = [
         'file'
     ];
 
@@ -112,7 +110,6 @@ class ilOerHarvesterSettings
      */
     public function getCopyRightTemplatesInLomFormat() : array
     {
-
         $lom_entries = [];
         foreach ($this->getCopyrightTemplates() as $copyright_id) {
             $lom_entries[] = 'il_copyright_entry__' . $this->settings->get('inst_id', '0') . '__' . $copyright_id;

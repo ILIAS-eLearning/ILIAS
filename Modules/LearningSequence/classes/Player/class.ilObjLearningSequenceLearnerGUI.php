@@ -201,9 +201,6 @@ class ilObjLearningSequenceLearnerGUI
         return $this->renderer->render($components);
     }
 
-    /**
-     * @return array<mixed>
-     */
     private function getMainContent(string $cmd) : array
     {
         $txt = '';
@@ -234,7 +231,7 @@ class ilObjLearningSequenceLearnerGUI
         switch ($response) {
             case null:
                 //render the page
-                $this->tpl->setFileUploadRefId(null);
+                $this->tpl->setFileUploadRefId(0);
                 $this->tpl->setContent('THIS SHOULD NOT SHOW');
                 return;
 

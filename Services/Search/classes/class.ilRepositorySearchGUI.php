@@ -134,7 +134,7 @@ class ilRepositorySearchGUI
         return $this->search_title;
     }
 
-    public function enableSearchableCheck(bool $a_status)
+    public function enableSearchableCheck(bool $a_status) : void
     {
         $this->searchable_check = $a_status;
     }
@@ -341,7 +341,7 @@ class ilRepositorySearchGUI
         $auto = new ilUserAutoComplete();
         $auto->setPrivacyMode($this->getPrivacyMode());
 
-        if (($_REQUEST['fetchall'])) {
+        if (($_REQUEST['fetchall'])) {// @TODO: PHP8 Review: Direct access to $_REQUEST.
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
 
@@ -354,14 +354,16 @@ class ilRepositorySearchGUI
             $auto->addUserAccessFilterCallable($this->user_filter);
         }
 
-        echo $auto->getList($_REQUEST['term']);
+        echo $auto->getList($_REQUEST['term']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
         return null;
     }
 
 
     public function setString(string $a_str) : void
     {
-        $_SESSION['search']['string'] = $this->string = $a_str;
+        $search = ilSession::get('search');
+        $search['string'] = $this->string = $a_str;
+        ilSession::set('search', $search);
     }
     public function getString() : string
     {
@@ -388,10 +390,10 @@ class ilRepositorySearchGUI
 
     public function __clearSession() : void
     {
-        unset($_SESSION['rep_search']);
-        unset($_SESSION['append_results']);
-        unset($_SESSION['rep_query']);
-        unset($_SESSION['rep_search_type']);
+        ilSession::clear('rep_search');
+        ilSession::clear('append_results');
+        ilSession::clear('rep_query');
+        ilSession::clear('rep_search_type');
     }
 
     public function cancel() : void
@@ -420,7 +422,7 @@ class ilRepositorySearchGUI
         if ($this->http->wrapper()->post()->has('obj')) {
             $obj_ids = $this->http->wrapper()->post()->retrieve(
                 'obj',
-                $this->refinery->kindlyTo()->listOf($this->refinery->int())
+                $this->refinery->kindlyTo()->listOf($this->refinery->int())// @TODO: PHP8 Review: Invalid argument.
             );
         }
         $role_ids = array();
@@ -466,7 +468,7 @@ class ilRepositorySearchGUI
         $class = $this->callback['class'];
         $method = $this->callback['method'];
 
-        $users = explode(',', $_POST['user_login']);
+        $users = explode(',', $_POST['user_login']);// @TODO: PHP8 Review: Direct access to $_POST.
         $user_ids = array();
         foreach ($users as $user) {
             $user_id = ilObjUser::_lookupId($user);
@@ -475,18 +477,18 @@ class ilRepositorySearchGUI
             }
         }
 
-        $user_type = $_REQUEST['user_type'] ?? 0;
+        $user_type = $_REQUEST['user_type'] ?? 0;// @TODO: PHP8 Review: Direct access to $_REQUEST.
 
-        if (!$class->$method($user_ids, $user_type)) {
+        if (!$class->$method($user_ids, (int) $user_type)) {
             $this->ctrl->returnToParent($this);
         }
     }
     
     protected function showClipboard() : void
     {
-        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
         
-        ilLoggerFactory::getLogger('crs')->dump($_REQUEST);
+        ilLoggerFactory::getLogger('crs')->dump($_REQUEST);// @TODO: PHP8 Review: Direct access to $_REQUEST.
         
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
@@ -505,15 +507,15 @@ class ilRepositorySearchGUI
 
     protected function addFromClipboard() : void
     {
-        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
-        $users = (array) $_POST['uids'];
+        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
+        $users = (array) $_POST['uids'];// @TODO: PHP8 Review: Direct access to $_POST.
         if (!count($users)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'showClipboard');
         }
         $class = $this->callback['class'];
         $method = $this->callback['method'];
-        $user_type = $_REQUEST['user_type'] ?? 0;
+        $user_type = $_REQUEST['user_type'] ?? 0;// @TODO: PHP8 Review: Direct access to $_REQUEST.
 
         if (!$class->$method($users, $user_type)) {
             $this->ctrl->returnToParent($this);
@@ -533,7 +535,7 @@ class ilRepositorySearchGUI
             );
         }
 
-        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
+        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
         if (!count($users)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'showClipboard');
@@ -565,7 +567,7 @@ class ilRepositorySearchGUI
         $method = $this->callback['method'];
 
         // Redirects if everything is ok
-        if (!$class->$method((array) $_POST['user'], $_POST['selectedCommand'])) {
+        if (!$class->$method((array) $_POST['user'], $_POST['selectedCommand'])) {// @TODO: PHP8 Review: Direct access to $_POST.
             $this->showSearchResults();
         }
     }
@@ -600,7 +602,7 @@ class ilRepositorySearchGUI
     
     public function showSearchSelected() : void
     {
-        $selected = (int) $_REQUEST['selected_id'];
+        $selected = (int) $_REQUEST['selected_id'];// @TODO: PHP8 Review: Direct access to $_REQUEST.
         
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
         $this->addNewSearchButton();
@@ -740,7 +742,7 @@ class ilRepositorySearchGUI
 
     public function appendSearch() : void
     {
-        $_SESSION['search_append'] = true;
+        ilSession::set('search_append', true);
         $this->performSearch();
     }
 
@@ -752,7 +754,7 @@ class ilRepositorySearchGUI
             return false;
         }
         $found_query = false;
-        foreach ((array) $_POST['rep_query'][$_POST['search_for']] as $field => $value) {
+        foreach ((array) $_POST['rep_query'][$_POST['search_for']] as $field => $value) {// @TODO: PHP8 Review: Direct access to $_POST.
             if (trim(ilUtil::stripSlashes($value))) {
                 $found_query = true;
                 break;
@@ -768,8 +770,8 @@ class ilRepositorySearchGUI
         }
     
         // unset search_append if called directly
-        if ($_POST['cmd']['performSearch']) {
-            unset($_SESSION['search_append']);
+        if ($_POST['cmd']['performSearch']) {// @TODO: PHP8 Review: Direct access to $_POST.
+            ilSession::clear('search_append');
         }
 
         switch ($this->search_type) {
@@ -789,11 +791,11 @@ class ilRepositorySearchGUI
                 $this->__performRoleSearch();
                 break;
             case 'orgu':
-                $_POST['obj'] = array_map(
+                $_POST['obj'] = array_map(// @TODO: PHP8 Review: Direct access to $_POST.
                     function ($ref_id) {
                         return ilObject::_lookupObjId($ref_id);
                     },
-                    $_POST['rep_query_orgu']
+                    $_POST['rep_query_orgu']// @TODO: PHP8 Review: Direct access to $_POST.
                 );
                 return $this->listUsers();
             default:
@@ -844,8 +846,9 @@ class ilRepositorySearchGUI
     {
         foreach (ilUserSearchOptions::_getSearchableFieldsInfo(!$this->isSearchableCheckEnabled()) as $info) {
             $name = $info['db'];
-            $query_string = $_SESSION['rep_query']['usr'][$name];
 
+            $rep_query = ilSession::get('rep_query');
+            $query_string = $rep_query['usr'][$name] ?? '';
             // continue if no query string is given
             if (!$query_string) {
                 continue;
@@ -906,7 +909,8 @@ class ilRepositorySearchGUI
 
     public function __performGroupSearch() : bool
     {
-        $query_string = $_SESSION['rep_query']['grp']['title'];
+        $rep_query = ilSession::get('rep_query');
+        $query_string = $rep_query['grp']['title'] ?? '';
         if (!is_object($query_parser = $this->__parseQueryString($query_string))) {
             $this->tpl->setOnScreenMessage('info', $query_parser, true);
             return false;
@@ -921,7 +925,8 @@ class ilRepositorySearchGUI
 
     protected function __performCourseSearch() : bool
     {
-        $query_string = $_SESSION['rep_query']['crs']['title'];
+        $rep_query = ilSession::get('rep_query');
+        $query_string = $rep_query['crs']['title'] ?? '';
         if (!is_object($query_parser = $this->__parseQueryString($query_string))) {
             $this->tpl->setOnScreenMessage('info', $query_parser, true);
             return false;
@@ -936,7 +941,8 @@ class ilRepositorySearchGUI
 
     public function __performRoleSearch() : bool
     {
-        $query_string = $_SESSION['rep_query']['role']['title'];
+        $rep_query = ilSession::get('rep_query');
+        $query_string = $rep_query['role']['title'] ?? '';
         if (!is_object($query_parser = $this->__parseQueryString($query_string))) {
             $this->tpl->setOnScreenMessage('info', $query_parser, true);
             return false;
@@ -975,8 +981,11 @@ class ilRepositorySearchGUI
     // Private
     public function __loadQueries() : void
     {
-        if (is_array($_POST['rep_query'])) {
-            $_SESSION['rep_query'] = $_POST['rep_query'];
+        if ($this->http->wrapper()->post()->has('rep_query')) {
+            ilSession::set(
+                'rep_query',
+                $this->http->request()->getParsedBody()['rep_query']
+            );
         }
     }
 
@@ -984,35 +993,34 @@ class ilRepositorySearchGUI
     public function __setSearchType() : bool
     {
         // Update search type. Default to user search
-        if ($_POST['search_for']) {
-            #echo 1;
-            $_SESSION['rep_search_type'] = $_POST['search_for'];
+        if ($this->http->wrapper()->post()->has('search_for')) {
+            ilSession::set(
+                'rep_search_type',
+                $this->http->request()->getParsedBody()['search_for']
+            );
+        } elseif (!ilSession::get('rep_search_type')) {
+            ilSession::set('rep_search_type', 'usr');
         }
-        if (!$_POST['search_for'] and !$_SESSION['rep_search_type']) {
-            #echo 2;
-            $_SESSION['rep_search_type'] = 'usr';
-        }
-        
-        $this->search_type = $_SESSION['rep_search_type'];
-
+        $this->search_type = (string) ilSession::get('rep_search_type');
         return true;
     }
 
 
     public function __updateResults() : bool
     {
-        if (!$_SESSION['search_append']) {
-            $_SESSION['rep_search'] = array();
+        if (!ilSession::get('search_append')) {
+            ilSession::set('rep_search', []);
         }
+        $rep_search = ilSession::get('rep_search') ?? [];
         foreach ($this->search_results as $result) {
-            $_SESSION['rep_search'][$this->search_type][] = $result;
+            $rep_search[$this->search_type][] = $result;
         }
-        if (!$_SESSION['rep_search'][$this->search_type]) {
-            $_SESSION['rep_search'][$this->search_type] = array();
+        if (!$rep_search[$this->search_type]) {
+            $rep_search[$this->search_type] = [];
         } else {
-            // remove duplicate entries
-            $_SESSION['rep_search'][$this->search_type] = array_unique($_SESSION['rep_search'][$this->search_type]);
+            $rep_search[$this->search_type] = array_unique($rep_search[$this->search_type]);
         }
+        ilSession::set('rep_search', $rep_search);
         return true;
     }
 
@@ -1021,14 +1029,16 @@ class ilRepositorySearchGUI
      */
     public function __appendToStoredResults(array $a_usr_ids) : array
     {
-        if (!$_SESSION['search_append']) {
-            return $_SESSION['rep_search']['usr'] = $a_usr_ids;
+        if (!ilSession::get('search_append')) {
+            ilSession::set('rep_search', ['usr' => $a_usr_ids]);
         }
-        $_SESSION['rep_search']['usr'] = array();
+        $rep_search = ilSession::get('rep_search') ?? [];
         foreach ($a_usr_ids as $usr_id) {
-            $_SESSION['rep_search']['usr'][] = $usr_id;
+            $rep_search['usr'][] = $usr_id;
         }
-        return $_SESSION['rep_search']['usr'] ? array_unique($_SESSION['rep_search']['usr']) : array();
+        $rep_search['usr'] = array_unique($rep_search['usr'] ?? []);
+        ilSession::set('rep_search', $rep_search);
+        return $rep_search['usr'];
     }
 
     public function __storeEntries(ilSearchResult $new_res) : bool
@@ -1060,32 +1070,34 @@ class ilRepositorySearchGUI
         
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
         $this->addNewSearchButton();
-        
+
+        $rep_search = ilSession::get('rep_search');
+
         switch ($this->search_type) {
             case "usr":
-                $this->showSearchUserTable($_SESSION['rep_search']['usr'], 'showSearchResults');
+                $this->showSearchUserTable($rep_search['usr'] ?? [], 'showSearchResults');
                 break;
 
             case 'grp':
-                $this->showSearchGroupTable($_SESSION['rep_search']['grp']);
+                $this->showSearchGroupTable($rep_search['grp'] ?? []);
                 break;
 
             case 'crs':
-                $this->showSearchCourseTable($_SESSION['rep_search']['crs']);
+                $this->showSearchCourseTable($rep_search['crs'] ?? []);
                 break;
 
             case 'role':
-                $this->showSearchRoleTable($_SESSION['rep_search']['role']);
+                $this->showSearchRoleTable($rep_search['role'] ?? []);
                 break;
         }
     }
 
     protected function showSearchUserTable(array $a_usr_ids, string $a_parent_cmd) : void
     {
-        $is_in_admin = ($_REQUEST['baseClass'] == 'ilAdministrationGUI');
+        $is_in_admin = ($_REQUEST['baseClass'] == 'ilAdministrationGUI');// @TODO: PHP8 Review: Direct access to $_REQUEST.
         if ($is_in_admin) {
             // remember link target to admin search gui (this)
-            $_SESSION["usr_search_link"] = $this->ctrl->getLinkTarget($this, 'show');
+            ilSession::set('usr_search_link', $this->ctrl->getLinkTarget($this, 'show'));
         }
         
         
@@ -1155,8 +1167,10 @@ class ilRepositorySearchGUI
             $this->showSearchResults();
             return false;
         }
-        $_SESSION['rep_search']['objs'] = $selected_entries;
-        
+        $rep_search = ilSession::get('rep_search') ?? [];
+        $rep_search['objs'] = $selected_entries;
+        ilSession::set('rep_search', $rep_search);
+
         // Get all members
         $members = array();
         foreach ($selected_entries as $obj_id) {
@@ -1221,13 +1235,15 @@ class ilRepositorySearchGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
         
         $this->addNewSearchButton();
-        $this->showSearchUserTable($_SESSION['rep_search']['usr'], 'storedUserList');
+        $rep_search = ilSession::get('rep_search');
+        $this->showSearchUserTable($rep_search['usr'] ?? [], 'storedUserList');
         return true;
     }
     
     protected function storedUserList() : bool
     {
-        $_POST['obj'] = $_SESSION['rep_search']['objs'];
+        $rep_search = ilSession::get('rep_search');
+        $_POST['obj'] = $rep_search['objs'] ?? []; // @TODO: PHP8 Review: Direct access to $_POST.
         $this->listUsers();
         return true;
     }

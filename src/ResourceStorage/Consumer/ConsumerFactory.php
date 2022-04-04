@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
  */
 class ConsumerFactory
 {
-
     private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $storage_handler_factory;
     protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
 

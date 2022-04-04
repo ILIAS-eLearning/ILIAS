@@ -168,11 +168,11 @@ class ilObjMediaCast extends ilObject
         return ilObjMediaCastAccess::_lookupDiskUsage($this->id);
     }
     
-    public function create()
+    public function create() : int
     {
         $ilDB = $this->db;
 
-        parent::create();
+        $id = parent::create();
         
         $query = "INSERT INTO il_media_cast_data (" .
             " id" .
@@ -192,9 +192,10 @@ class ilObjMediaCast extends ilObject
             . "," . $ilDB->quote((int) $this->getViewMode(), "text")
             . ")";
         $ilDB->manipulate($query);
+        return $id;
     }
 
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
         
@@ -217,7 +218,7 @@ class ilObjMediaCast extends ilObject
         return true;
     }
     
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -238,7 +239,7 @@ class ilObjMediaCast extends ilObject
     }
 
 
-    public function delete()
+    public function delete() : bool
     {
         $ilDB = $this->db;
 
@@ -340,7 +341,7 @@ class ilObjMediaCast extends ilObject
         $newObj->saveOrder($items);
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         /** @var ilObjMediaCast $new_obj */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);

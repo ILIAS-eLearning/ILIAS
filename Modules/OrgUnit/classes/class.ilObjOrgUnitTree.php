@@ -4,10 +4,8 @@
 /**
  * Class ilObjOrgUnitTree
  * Implements a singleton pattern for caching.
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilObjOrgUnitTree
 {
@@ -49,7 +47,6 @@ class ilObjOrgUnitTree
      */
     private $db;
 
-
     private function __construct()
     {
         global $DIC;
@@ -60,7 +57,6 @@ class ilObjOrgUnitTree
         $this->roles = array();
         $this->staff = array();
     }
-
 
     /**
      * @return \ilObjOrgUnitTree
@@ -74,11 +70,9 @@ class ilObjOrgUnitTree
         return self::$instance;
     }
 
-
     /**
      * @param $ref_id    int the reference id of the organisational unit.
      * @param $recursive bool if true you get the ids of the subsequent orgunits employees too
-     *
      * @return int[] array of user ids.
      */
     public function getEmployees($ref_id, $recursive = false)
@@ -87,22 +81,22 @@ class ilObjOrgUnitTree
 
         switch ($recursive) {
             case false:
-                $arr_usr_ids = $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
+                $arr_usr_ids = $this->getAssignements($ref_id,
+                    ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
                 break;
             case true:
                 $assignment_query = ilOrgUnitUserAssignmentQueries::getInstance();
-                $arr_usr_ids = $assignment_query->getUserIdsOfOrgUnitsInPosition($this->getAllChildren($ref_id), ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                $arr_usr_ids = $assignment_query->getUserIdsOfOrgUnitsInPosition($this->getAllChildren($ref_id),
+                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
                 break;
         }
 
         return $arr_usr_ids;
     }
 
-
     /**
      * @param int                $ref_id
      * @param \ilOrgUnitPosition $ilOrgUnitPosition
-     *
      * @return array
      */
     public function getAssignements($ref_id, ilOrgUnitPosition $ilOrgUnitPosition)
@@ -113,11 +107,9 @@ class ilObjOrgUnitTree
         ))->getArray('id', 'user_id');
     }
 
-
     /**
      * @param  $ref_id         int the reference id of the organisational unit.
      * @param  $recursive      bool if true you get the ids of the subsequent orgunits superiors too
-     *
      * @return int[]  array of user ids.
      */
     public function getSuperiors($ref_id, $recursive = false)
@@ -126,12 +118,14 @@ class ilObjOrgUnitTree
 
         switch ($recursive) {
             case false:
-                $arr_usr_ids = $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
+                $arr_usr_ids = $this->getAssignements($ref_id,
+                    ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
                 break;
             case true:
                 foreach ($this->getAllChildren($ref_id) as $ref_id) {
                     $arr_usr_ids = $arr_usr_ids
-                        + $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
+                        + $this->getAssignements($ref_id,
+                            ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
                 }
                 break;
         }
@@ -139,11 +133,9 @@ class ilObjOrgUnitTree
         return $arr_usr_ids;
     }
 
-
     /**
      * @param $title   "employee" or "superior"
      * @param $ref_ids int[] array of orgu object ref ids.
-     *
      * @return int[] user_ids
      */
     private function loadArrayOfStaff($title, $ref_ids)
@@ -179,10 +171,8 @@ class ilObjOrgUnitTree
         return $all_users;
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return array
      */
     public function getAllChildren($ref_id)
@@ -202,13 +192,10 @@ class ilObjOrgUnitTree
         return $closed;
     }
 
-
     /**
      * If you want to have all orgunits where the current user has the write permission: use this
      * with the parameter "write".
-     *
      * @param $operation string
-     *
      * @return int[] ids of the org units.
      */
     public function getOrgusWhereUserHasPermissionForOperation($operation)
@@ -246,13 +233,10 @@ class ilObjOrgUnitTree
         return $orgus;
     }
 
-
     /**
      * If you want to have all orgunits where the current user has the write permission: use this
      * with the parameter 3 (3 is the "write" permission as in rbac_operations).
-     *
      * @param $operation_id
-     *
      * @return int[] ids of the org units.
      */
     public function getOrgusWhereUserHasPermissionForOperationId($operation_id)
@@ -261,7 +245,8 @@ class ilObjOrgUnitTree
         $ilUser = $DIC['ilUser'];
         $q = "SELECT object_data.obj_id, object_data.title, object_data.type, rbac_pa.ops_id FROM object_data
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($ilUser->getId(), "integer") . "
-		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', " . $this->db->quote($operation_id, "integer") . ", '%')
+		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', " . $this->db->quote($operation_id,
+                "integer") . ", '%')
 		INNER JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 		INNER JOIN tree ON tree.child = rbac_fa.parent
 		INNER JOIN object_reference ON object_reference.ref_id = tree.parent
@@ -282,10 +267,8 @@ class ilObjOrgUnitTree
         return $orgus;
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return int[]
      */
     private function getChildren($ref_id)
@@ -294,7 +277,6 @@ class ilObjOrgUnitTree
 
         return $this->tree_childs[$ref_id];
     }
-
 
     /**
      * @param $ref_id
@@ -312,10 +294,8 @@ class ilObjOrgUnitTree
         };
     }
 
-
     /**
      * @param $level
-     *
      * @return array
      */
     public function getAllOrgunitsOnLevelX($level)
@@ -335,14 +315,12 @@ class ilObjOrgUnitTree
         return $levels[$level];
     }
 
-
     /**
      * @param $user_id   int
      * @param $recursive bool if this is true subsequent orgunits of this users superior role get
      *                   searched as well.
-     *
      * @return int[] returns an array of user_ids of the users which have an employee role in an
-     *               orgunit of which this user's id has a superior role.
+     *                   orgunit of which this user's id has a superior role.
      */
     public function getEmployeesUnderUser($user_id, $recursive = true)
     {
@@ -361,24 +339,24 @@ class ilObjOrgUnitTree
                     $orgu_ref_id_with_children = array_merge($orgu_ref_ids, $this->getAllChildren($orgu_ref_id));
                 }
 
-                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_id_with_children, ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
-            break;
+                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_id_with_children,
+                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                break;
             default:
-                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_ids, ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_ids,
+                    ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
                 break;
         }
 
         return [];
     }
 
-
     /**
      * @param $user_id   int
      * @param $recursive bool if this is true subsequent orgunits of this users superior role get
      *                   searched as well.
-     *
      * @return int[] returns an array of user_ids of the users which have an employee role in an
-     *               orgunit of which this user's id has a superior role.
+     *                   orgunit of which this user's id has a superior role.
      */
     public function getSuperiorsOfUser($user_id, $recursive = true)
     {
@@ -401,13 +379,10 @@ class ilObjOrgUnitTree
         return $superiors;
     }
 
-
     /**
      * for additional info see the other getLevelX method.
-     *
      * @param $user_id
      * @param $level
-     *
      * @return int[]
      */
     public function getLevelXOfUser($user_id, $level)
@@ -435,13 +410,10 @@ class ilObjOrgUnitTree
         return array_unique($orgus_on_level_x);
     }
 
-
     /**
      * getOrgUnitOfUser
-     *
      * @param     $user_id
      * @param int $ref_id if given, only OrgUnits under this ID are returned (including $ref_id)
-     *
      * @return int[]
      */
     public function getOrgUnitOfUser($user_id)
@@ -456,22 +428,17 @@ class ilObjOrgUnitTree
         return $orgu_ref_ids;
     }
 
-
     /**
      * Creates a temporary table with all orgu/user assignements. there will be three columns in
      * the table orgu_usr_assignements (or specified table-name): ref_id: Reference-IDs of OrgUnits
      * user_id: Assigned User-IDs path: Path-representation of the OrgUnit
-     *
      * Usage:
      * 1. Run ilObjOrgUnitTree::getInstance()->buildTempTableWithUsrAssignements(); in your code
      * 2. use the table orgu_usr_assignements for your JOINS ans SELECTS
      * 3. Run ilObjOrgUnitTree::getInstance()->dropTempTable(); to throw away the table
-     *
      * @param string $temporary_table_name
-     *
      * @return bool
      * @throws ilException
-     *
      */
     public function buildTempTableWithUsrAssignements($temporary_table_name = 'orgu_usr_assignements')
     {
@@ -498,10 +465,8 @@ class ilObjOrgUnitTree
         return true;
     }
 
-
     /**
      * @param $temporary_table_name
-     *
      * @return bool
      */
     public function dropTempTable($temporary_table_name)
@@ -519,10 +484,8 @@ class ilObjOrgUnitTree
         return true;
     }
 
-
     /**
      * @param $org_refs
-     *
      * @return array
      */
     public function getTitles($org_refs)
@@ -535,7 +498,6 @@ class ilObjOrgUnitTree
         return $names;
     }
 
-
     /**
      * @return int[] returns an array of role_ids. orgu_ref => role_id
      */
@@ -545,7 +507,6 @@ class ilObjOrgUnitTree
 
         return $this->roles["employee"];
     }
-
 
     /**
      * @return \int[]
@@ -557,7 +518,6 @@ class ilObjOrgUnitTree
         return $this->roles["superior"];
     }
 
-
     /**
      * @param $role
      */
@@ -568,12 +528,10 @@ class ilObjOrgUnitTree
         }
     }
 
-
     public function flushCache()
     {
         $this->roles = null;
     }
-
 
     /**
      * @param $role
@@ -590,10 +548,8 @@ class ilObjOrgUnitTree
         }
     }
 
-
     /**
      * @param $role_title
-     *
      * @return int
      */
     private function getRefIdFromRoleTitle($role_title)
@@ -602,7 +558,6 @@ class ilObjOrgUnitTree
 
         return $array[count($array) - 1];
     }
-
 
     /**
      * Specify eg. level 1 and it will return on which orgunit on the first level after the root
@@ -614,11 +569,9 @@ class ilObjOrgUnitTree
      * 3   4  5
      * -
      * 6
-     *
      * (6, 1) = 1; (4, 1) = 2; (6, 2) = 3;
      * @param $orgu_ref
      * @param $level
-     *
      * @return int|bool ref_id of the orgu or false if not found.
      * @throws Exception in case there's a thread of an infinite loop or if you try to fetch the
      *                   third level but there are only two (e.g. you want to fetch lvl 1 but give
@@ -648,10 +601,8 @@ class ilObjOrgUnitTree
         }
     }
 
-
     /**
      * @param $orgu_ref int
-     *
      * @return int
      */
     public function getParent($orgu_ref)

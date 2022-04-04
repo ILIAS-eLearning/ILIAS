@@ -88,8 +88,8 @@ class ilSamlIdp
     }
 
     /**
-     * Deletes an idp with all relvant mapping rules.
-     * Furthermore the auth_mode of the relevant user accounts will be switched to 'default'
+     * Deletes an idp with all relevant mapping rules.
+     * Furthermore, the auth_mode of the relevant user accounts will be switched to 'default'
      */
     public function delete() : void
     {
@@ -158,8 +158,7 @@ class ilSamlIdp
 
     public static function isAuthModeSaml(string $a_auth_mode) : bool
     {
-        if (!$a_auth_mode) {
-            $GLOBALS['DIC']->logger()->auth()->write(__METHOD__ . ': No auth mode given..............');
+        if ('' === $a_auth_mode) {
             return false;
         }
 

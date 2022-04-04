@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class DateFormatTest extends TestCase
 {
-    public function testFactory()
+    public function testFactory() : \ILIAS\Data\DateFormat\Factory
     {
         $f = new ILIAS\Data\Factory();
         $df = $f->dateFormat();
@@ -20,7 +20,7 @@ class DateFormatTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testDateFormatFactory(DateFormat\Factory $df)
+    public function testDateFormatFactory(DateFormat\Factory $df) : void
     {
         $this->assertInstanceOf(DateFormat\DateFormat::class, $df->standard());
         $this->assertInstanceOf(DateFormat\DateFormat::class, $df->germanShort());
@@ -31,7 +31,7 @@ class DateFormatTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testDateFormatBuilderAndGetters(DateFormat\Factory $df)
+    public function testDateFormatBuilderAndGetters(DateFormat\Factory $df) : void
     {
         $expect = [
             '.', ',', '-', '/', ' ', 'd', 'jS', 'l', 'D', 'W', 'm', 'F', 'M', 'Y', 'y'
@@ -54,9 +54,9 @@ class DateFormatTest extends TestCase
         );
     }
 
-    public function testInvalidTokens()
+    public function testInvalidTokens() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new DateFormat\DateFormat(['x', '2']);
     }
 }

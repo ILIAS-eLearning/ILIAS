@@ -28,16 +28,14 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @var boolean
      */
-    private $detection_state = false;
+    private bool $detection_state = false;
 
-    /** @var string $name */
     protected $name;
 
-    /** @var ilNode $source_node */
     protected $source_node;
 
     /** @var  string $var_name */
-    protected $var_name;
+    protected string $var_name = '';
 
     /**
      * Default constructor.
@@ -51,7 +49,6 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 
     /**
      * Returns the parent object. Type is ilNode, implements ilWorkflowEngineElement
-     * @return ilNode Parent node of this element.
      */
     public function getContext()
     {
@@ -68,7 +65,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @return boolean False, if detector was already satisfied before.
      */
-    public function trigger($params)
+    public function trigger($params) : bool
     {
         return true;
     }
@@ -78,7 +75,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @return boolean
      */
-    public function getDetectorState()
+    public function getDetectorState() : bool
     {
         $definitions = $this->getContext()->getContext()->getInstanceVars();
 
@@ -105,16 +102,14 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 
     /**
      * Sets a new detector state.
-     *
      * In this case, the only meaningful param is false, since it should only
      * be set to true, if the detector was triggered.
      * Reason this method exists, is to allow the workflow controller to
      * "fast forward" workflows to set a non-default state. I.e. a workflow
      * has to be set into a state in the middle of running. Use with care.
-     *
      * @param boolean $new_state
      */
-    public function setDetectorState($new_state)
+    public function setDetectorState(bool $new_state) : void
     {
         $this->detection_state = true;
         $this->context->notifyDetectorSatisfaction($this);
@@ -124,7 +119,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      * Method is called, when the parent node is activated.
      * @return void
      */
-    public function onActivate()
+    public function onActivate() : void
     {
         return;
     }
@@ -133,7 +128,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      * Method is called, when the parent node is deactivated.
      * @return void
      */
-    public function onDeactivate()
+    public function onDeactivate() : void
     {
         return;
     }
@@ -141,15 +136,12 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @return bool
      */
-    public function getActivated()
+    public function getActivated() : bool
     {
         return $this->detection_state;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name) : void
     {
         $this->name = $name;
     }
@@ -157,14 +149,11 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-     * @return ilNode
-     */
     public function getSourceNode()
     {
         return $this->source_node;
@@ -173,7 +162,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @param ilNode $source_node
      */
-    public function setSourceNode($source_node)
+    public function setSourceNode(ilNode $source_node) : void
     {
         $this->source_node = $source_node;
     }
@@ -181,7 +170,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getVarName()
+    public function getVarName() : string
     {
         return $this->var_name;
     }
@@ -189,7 +178,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @param string $var_name
      */
-    public function setVarName($var_name)
+    public function setVarName(string $var_name) : void
     {
         $this->var_name = $var_name;
     }

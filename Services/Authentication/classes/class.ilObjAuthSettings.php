@@ -29,56 +29,56 @@ class ilObjAuthSettings extends ilObject
         $this->type = "auth";
         parent::__construct($a_id, $a_call_by_reference);
     }
-    
+
     public function checkAuthLDAP() : bool
     {
         $settings = $this->ilias->getAllSettings();
-        
+
         if (!$settings["ldap_server"] or !$settings["ldap_basedn"] or !$settings["ldap_port"]) {
             return false;
         }
-        
-        $this->ilias->setSetting('ldap_active', true);
-        
+
+        $this->ilias->setSetting('ldap_active', "1");
+
         return true;
     }
-    
+
     public function checkAuthSHIB() : bool
     {
         $settings = $this->ilias->getAllSettings();
 
         if (!$settings["shib_hos_type"] or !isset($settings["shib_user_default_role"]) or !$settings["shib_login"]
-             or !$settings["shib_firstname"] or !$settings["shib_lastname"]) {
+            or !$settings["shib_firstname"] or !$settings["shib_lastname"]) {
             return false;
         }
 
-        $this->ilias->setSetting('shibboleth_active', (string) true);
+        $this->ilias->setSetting('shibboleth_active', "1");
 
         return true;
     }
-    
+
     public function checkAuthRADIUS() : bool
     {
         $settings = $this->ilias->getAllSettings();
-        
+
         if (!$settings["radius_server"] or !$settings["radius_shared_secret"] or !$settings["radius_port"]) {
             return false;
         }
-        
-        $this->ilias->setSetting('radius_active', (string) true);
-        
+
+        $this->ilias->setSetting('radius_active', "1");
+
         return true;
     }
 
     public function checkAuthScript() : bool
     {
         $settings = $this->ilias->getAllSettings();
-        
+
         if (!$settings["auth_script_name"]) {
             return false;
         }
-        
-        $this->ilias->setSetting('script_active', true);
+
+        $this->ilias->setSetting('script_active', "1");
 
         return true;
     }

@@ -137,7 +137,7 @@ class ilUserAvatarResolver
     {
         global $DIC;
         if ($this->useUploadedFile()) {
-            return $this->uploaded_file . '?t=' . rand(1, 99999);
+            return $this->uploaded_file . '?t=' . random_int(1, 99999);
         }
         /** @var $avatar ilUserAvatarBase */
 
