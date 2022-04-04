@@ -97,7 +97,7 @@ class ilLPXmlWriter extends ilXmlWriter
         $this->xmlClear();
     }
 
-    public function addLPInformation()
+    public function addLPInformation() : void
     {
         $this->xmlStartTag('LPData', array());
         $set = $this->db->query(

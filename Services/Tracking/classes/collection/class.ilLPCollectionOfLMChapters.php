@@ -10,8 +10,11 @@
 class ilLPCollectionOfLMChapters extends ilLPCollection
 {
     protected static array $possible_items = array();
-
-    public function getPossibleItems($a_ref_id)
+    
+    /**
+     * @return array|mixed
+     */
+    public function getPossibleItems(int $a_ref_id)
     {
         if (!isset(self::$possible_items[$a_ref_id])) {
             $obj_id = ilObject::_lookupObjectId($a_ref_id);
@@ -34,7 +37,10 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 
         return self::$possible_items[$a_ref_id];
     }
-
+    
+    /**
+     * @return array
+     */
     public function getTableGUIData(int $a_parent_ref_id) : array
     {
         $data = array();
