@@ -16,9 +16,8 @@ class ilBPMN2ParserUtils
 
     /**
      * @param string $xml_string
-     * @return mixed
      */
-    public function load_string(string $xml_string) : mixed
+    public function load_string(string $xml_string)
     {
         $node = new SimpleXMLElement($xml_string);
         return $this->add_node($node);

@@ -363,7 +363,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return string Class name
      */
-    public function getWorkflowClass() : string
+    public function getWorkflowClass() : ?string
     {
         return $this->workflow_class;
     }
@@ -387,7 +387,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @return string
      */
-    public function getWorkflowLocation() : string
+    public function getWorkflowLocation() : ?string
     {
         return $this->workflow_location;
     }
