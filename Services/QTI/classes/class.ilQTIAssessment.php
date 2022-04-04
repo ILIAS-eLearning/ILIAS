@@ -33,117 +33,63 @@ require_once 'Services/QTI/interfaces/interface.ilQTIPresentationMaterialAware.p
 */
 class ilQTIAssessment implements ilQTIPresentationMaterialAware
 {
-    /** @var string|null */
-    public $ident;
-
-    /** @var string|null */
-    public $title;
-
-    /** @var string|null */
-    public $xmllang;
-
-    /** @var string|null */
-    public $comment;
-
+    public ?string $ident;
+    public ?string $title;
+    public ?string $xmllang;
+    public ?string $comment;
     /** @var null|array{h: string, m: string, s: string} */
-    public $duration;
-
+    public ?array $duration;
     /** @var array{label: string, entry: string}[] */
-    public $qtimetadata;
-
+    public array $qtimetadata;
     /** @var ilQTIObjectives[] */
-    public $objectives;
-
+    public array $objectives;
     /** @var ilQTIAssessmentcontrol[] */
-    public $assessmentcontrol;
+    public array $assessmentcontrol;
+    protected ilQTIPresentationMaterial $presentation_material;
 
-    /** @var array */
-    public $rubric;
-
-    /**
-     * @var ilQTIPresentationMaterial
-     */
-    protected $presentation_material;
-
-    /** @var array */
-    public $outcomes_processing;
-    public $assessproc_extension;
-
-    /** @var array */
-    public $assessfeedback;
-    public $selection_ordering;
-    public $reference;
-
-    /** @var array */
-    public $sectionref;
-
-    /** @var array */
-    public $section;
-    
     public function __construct()
     {
-        $this->qtimetadata = array();
-        $this->objectives = array();
-        $this->assessmentcontrol = array();
-        $this->rubric = array();
-        $this->outcomes_processing = array();
-        $this->assessfeedback = array();
-        $this->sectionref = array();
-        $this->section = array();
+        $this->ident = null;
+        $this->title = null;
+        $this->xmllang = null;
+        $this->comment = null;
+        $this->duration = null;
+        $this->qtimetadata = [];
+        $this->objectives = [];
+        $this->assessmentcontrol = [];
     }
 
-    /**
-     * @param string $a_ident
-     */
-    public function setIdent($a_ident) : void
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIdent()
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
 
-    /**
-     * @param string $a_title
-     */
-    public function setTitle($a_title) : void
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $a_comment
-     */
-    public function setComment($a_comment) : void
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComment()
+    public function getComment() : ?string
     {
         return $this->comment;
     }
 
-    /**
-     * @param string $a_duration
-     */
-    public function setDuration($a_duration) : void
+    public function setDuration(string $a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -157,143 +103,46 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
     /**
      * @return null|array{h: string, m: string, s: string}
      */
-    public function getDuration()
+    public function getDuration() : ?array
     {
         return $this->duration;
     }
 
-    /**
-     * @param string $a_xmllang
-     */
-    public function setXmllang($a_xmllang) : void
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getXmllang()
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
 
     /**
-     * @param array {label: string, entry: string] $a_metadata
+     * @param array{label: string, entry: string} $a_metadata
      */
-    public function addQtiMetadata($a_metadata) : void
+    public function addQtiMetadata(array $a_metadata) : void
     {
         $this->qtimetadata[] = $a_metadata;
     }
 
-    /**
-     * @param ilQTIObjectives $a_objectives
-     */
-    public function addObjectives($a_objectives) : void
+    public function addObjectives(?ilQTIObjectives $a_objectives) : void
     {
         $this->objectives[] = $a_objectives;
     }
 
-    /**
-     * @param ilQTIAssessmentcontrol
-     */
-    public function addAssessmentcontrol($a_assessmentcontrol) : void
+    public function addAssessmentcontrol(ilQTIAssessmentcontrol $a_assessmentcontrol) : void
     {
         $this->assessmentcontrol[] = $a_assessmentcontrol;
     }
 
-    /**
-     * Never used.
-     */
-    public function addRubric($a_rubric) : void
-    {
-        $this->rubric[] = $a_rubric;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setPresentationMaterial(ilQTIPresentationMaterial $a_material) : void
     {
         $this->presentation_material = $a_material;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPresentationMaterial()
+    public function getPresentationMaterial() : ?ilQTIPresentationMaterial
     {
         return $this->presentation_material;
-    }
-
-    /**
-     * Never used.
-     */
-    public function addOutcomesProcessing($a_outcomes_processing) : void
-    {
-        $this->outcomes_processing[] = $a_outcomes_processing;
-    }
-
-    /**
-     * Never used.
-     */
-    public function setAssessprocExtension($a_assessproc_extension) : void
-    {
-        $this->assessproc_extension = $a_assessproc_extension;
-    }
-
-    /**
-     * Never used.
-     */
-    public function getAssessprocExtension()
-    {
-        return $this->assessproc_extension;
-    }
-
-    /**
-     * Never used.
-     */
-    public function addAssessfeedback($a_assessfeedback) : void
-    {
-        $this->assessfeedback[] = $a_assessfeedback;
-    }
-
-    /**
-     * Never used.
-     */
-    public function setSelectionOrdering($a_selection_ordering) : void
-    {
-        $this->selection_ordering = $a_selection_ordering;
-    }
-
-    /**
-     * Never used.
-     */
-    public function getSelectionOrdering()
-    {
-        return $this->selection_ordering;
-    }
-
-    public function setReference($a_reference) : void
-    {
-        $this->reference = $a_reference;
-    }
-    
-    public function getReference()
-    {
-        return $this->reference;
-    }
-
-    /**
-     * Never used.
-     */
-    public function addSectionref($a_sectionref) : void
-    {
-        $this->sectionref[] = $a_sectionref;
-    }
-
-    public function addSection($a_section) : void
-    {
-        $this->section[] = $a_section;
     }
 }

@@ -31,76 +31,53 @@
 */
 class ilQTIResprocessing
 {
-    /** @var string|null */
-    public $comment;
-
-    /** @var ilQTIOutcomes|null */
-    public $outcomes;
-
+    public ?string $comment;
+    public ?ilQTIOutcomes $outcomes;
     /** @var ilQTIRespcondition[] */
-    public $respcondition;
-
-    /** @var array */
-    public $itemproc_extension;
-
-    /** @var string|null */
-    public $scoremodel;
+    public array $respcondition;
+    public array $itemproc_extension;
+    public ?string $scoremodel;
     
     public function __construct()
     {
-        $this->respcondition = array();
-        $this->itemproc_extension = array();
+        $this->comment = null;
+        $this->outcomes = null;
+        $this->respcondition = [];
+        $this->itemproc_extension = [];
+        $this->scoremodel = null;
     }
 
-    /**
-     * @param string $a_comment
-     */
-    public function setComment($a_comment) : void
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComment()
+    public function getComment() : ?string
     {
         return $this->comment;
     }
 
-    /**
-     * @param ilQTIOutcomes $a_outcomes
-     */
-    public function setOutcomes($a_outcomes) : void
+    public function setOutcomes(ilQTIOutcomes $a_outcomes) : void
     {
         $this->outcomes = $a_outcomes;
     }
 
-    /**
-     * @return ilQTIOutcomes|null
-     */
-    public function getOutcomes()
+    public function getOutcomes() : ?ilQTIOutcomes
     {
         return $this->outcomes;
     }
     
-    public function addRespcondition($a_respcondition) : void
+    public function addRespcondition(ilQTIRespcondition $a_respcondition) : void
     {
         $this->respcondition[] = $a_respcondition;
     }
 
-    /**
-     * @param string $a_scoremodel
-     */
-    public function setScoremodel($a_scoremodel) : void
+    public function setScoremodel(string $a_scoremodel) : void
     {
         $this->scoremodel = $a_scoremodel;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getScoremodel()
+    public function getScoremodel() : ?string
     {
         return $this->scoremodel;
     }

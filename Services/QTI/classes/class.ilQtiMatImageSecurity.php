@@ -12,15 +12,8 @@ require_once 'Services/QTI/exceptions/class.ilQtiException.php';
  */
 class ilQtiMatImageSecurity
 {
-    /**
-     * @var ilQTIMatimage
-     */
-    protected $imageMaterial;
-    
-    /**
-     * @var string
-     */
-    protected $detectedMimeType;
+    protected ilQTIMatimage $imageMaterial;
+    protected string $detectedMimeType;
     
     public function __construct(ilQTIMatimage $imageMaterial)
     {
@@ -34,35 +27,23 @@ class ilQtiMatImageSecurity
             $this->determineMimeType($this->getImageMaterial()->getRawContent())
         );
     }
-    
-    /**
-     * @return ilQTIMatimage
-     */
-    public function getImageMaterial()
+
+    public function getImageMaterial() : ilQTIMatimage
     {
         return $this->imageMaterial;
     }
-    
-    /**
-     * @param ilQTIMatimage $imageMaterial
-     */
-    public function setImageMaterial($imageMaterial) : void
+
+    public function setImageMaterial(ilQTIMatimage $imageMaterial) : void
     {
         $this->imageMaterial = $imageMaterial;
     }
-    
-    /**
-     * @return string
-     */
-    protected function getDetectedMimeType()
+
+    protected function getDetectedMimeType() : string
     {
         return $this->detectedMimeType;
     }
-    
-    /**
-     * @param string $detectedMimeType
-     */
-    protected function setDetectedMimeType($detectedMimeType) : void
+
+    protected function setDetectedMimeType(string $detectedMimeType) : void
     {
         $this->detectedMimeType = $detectedMimeType;
     }
@@ -136,19 +117,14 @@ class ilQtiMatImageSecurity
         $this->getImageMaterial()->setLabel($label);
     }
     
-    protected function determineMimeType($content) : string
+    protected function determineMimeType(?string $content) : string
     {
         $finfo = new finfo(FILEINFO_MIME);
     
         return $finfo->buffer($content);
     }
 
-    /**
-     * Returns the determine file extension. If no extension
-     * @param string $label
-     * @return string|null
-     */
-    protected function determineFileExtension($label)
+    protected function determineFileExtension(string $label) : ?string
     {
         $pathInfo = pathinfo($label);
 
@@ -158,13 +134,8 @@ class ilQtiMatImageSecurity
 
         return null;
     }
-    
-    /**
-     * Returns whether or not the passed label contains a file extension
-     * @param string $label
-     * @return bool
-     */
-    protected function hasFileExtension($label) : bool
+
+    protected function hasFileExtension(string $label) : bool
     {
         $pathInfo = pathinfo($label);
 

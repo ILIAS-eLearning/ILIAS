@@ -31,17 +31,10 @@
 */
 class ilQTIAssessmentcontrol
 {
-    /** @var string */
-    public $hintswitch;
-
-    /** @var string */
-    public $solutionswitch;
-
-    /** @var string */
-    public $view;
-
-    /** @var string */
-    public $feedbackswitch;
+    public string $hintswitch;
+    public string $solutionswitch;
+    public string $view;
+    public string $feedbackswitch;
     
     public function __construct()
     {
@@ -51,10 +44,7 @@ class ilQTIAssessmentcontrol
         $this->feedbackswitch = "";
     }
 
-    /**
-     * @param string $a_view
-     */
-    public function setView($a_view) : void
+    public function setView(string $a_view) : void
     {
         switch ($a_view) {
             case "Administrator":
@@ -74,58 +64,37 @@ class ilQTIAssessmentcontrol
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getView()
+    public function getView() : string
     {
         return $this->view;
     }
 
-    /**
-     * @param string $a_hintswitch
-     */
-    public function setHintswitch($a_hintswitch) : void
+    public function setHintswitch(string $a_hintswitch) : void
     {
         $this->hintswitch = 'No' === $a_hintswitch ? 'No' : 'Yes';
     }
 
-    /**
-     * @return string
-     */
-    public function getHintswitch()
+    public function getHintswitch() : string
     {
         return $this->hintswitch;
     }
 
-    /**
-     * @param string $a_solutionswitch
-     */
-    public function setSolutionswitch($a_solutionswitch) : void
+    public function setSolutionswitch(string $a_solutionswitch) : void
     {
         $this->solutionswitch = 'No' === $a_solutionswitch ? 'No' : 'Yes';
     }
 
-    /**
-     * @return string
-     */
-    public function getSolutionswitch()
+    public function getSolutionswitch() : string
     {
         return $this->solutionswitch;
     }
 
-    /**
-     * @param string $a_feedbackswitch
-     */
-    public function setFeedbackswitch($a_feedbackswitch) : void
+    public function setFeedbackswitch(string $a_feedbackswitch) : void
     {
         $this->feedbackswitch = 'No' === $a_feedbackswitch ? 'No' : 'Yes';
     }
 
-    /**
-     * @return string
-     */
-    public function getFeedbackswitch()
+    public function getFeedbackswitch() : string
     {
         return $this->feedbackswitch;
     }

@@ -30,212 +30,115 @@ const IL_MO_VERIFY_QTI = 2;
  */
 class ilQTIParser extends ilSaxParser
 {
-    /**
-     * @var bool
-     */
-    public $hasRootElement;
+    public bool $hasRootElement;
 
     /**
      * @var array<int, string>
      */
-    public $path;
+    public array $path;
 
     /**
      * @var ilQTIItem[]
      */
-    public $items;
+    public array $items;
+
+    public ?ilQTIItem $item;
 
     /**
-     * @var ilQTIItem|null
-     */
-    public $item;
-
-    /**
-     * @var SplObjectStorage<XmlParser|resource<xml>, int>
+     * @var SplObjectStorage<XmlParser|resource, int>
      */
     public $depth;
 
-    /**
-     * @var string
-     */
-    public $qti_element;
+    public string $qti_element;
 
-    /**
-     * @var bool
-     */
-    public $in_presentation;
+    public bool $in_presentation;
 
-    /**
-     * @var bool
-     */
-    public $in_response;
+    public bool $in_response;
 
     /**
      * @var ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib|null
      */
     public $render_type;
 
-    /**
-     * @var ilQTIResponseLabel|null
-     */
-    public $response_label;
+    public ?ilQTIResponseLabel $response_label;
 
-    /**
-     * @var ilQTIMaterial|null
-     */
-    public $material;
+    public ?ilQTIMaterial $material;
 
-    /**
-     * @var ilQTIMatimage
-     */
-    public $matimage;
+    public ?ilQTIMatimage $matimage;
 
-    /**
-     * @var ilQTIResponse|null
-     */
-    public $response;
+    public ?ilQTIResponse $response;
 
-    /**
-     * @var ilQTIResprocessing|null
-     */
-    public $resprocessing;
+    public ?ilQTIResprocessing $resprocessing;
 
-    /**
-     * @var ilQTIOutcomes|null
-     */
-    public $outcomes;
+    public ?ilQTIOutcomes $outcomes;
 
-    /**
-     * @var ilQTIDecvar|null
-     */
-    public $decvar;
+    public ?ilQTIDecvar $decvar;
 
-    /**
-     * @var ilQTIRespcondition|null
-     */
-    public $respcondition;
+    public ?ilQTIRespcondition $respcondition;
 
-    /**
-     * @var ilQTISetvar|null
-     */
-    public $setvar;
+    public ?ilQTISetvar $setvar;
 
-    /**
-     * @var ilQTIDisplayfeedback|null
-     */
-    public $displayfeedback;
+    public ?ilQTIDisplayfeedback $displayfeedback;
 
-    /**
-     * @var ilQTIItemfeedback|null
-     */
-    public $itemfeedback;
+    public ?ilQTIItemfeedback $itemfeedback;
 
     /**
      * @var ilQTIFlowMat[]
      */
-    public $flow_mat;
+    public array $flow_mat;
 
-    /**
-     * @var int
-     */
-    public $flow;
+    public int $flow;
 
-    /**
-     * @var ilQTIPresentation|null
-     */
-    public $presentation;
+    public ?ilQTIPresentation $presentation;
 
-    /**
-     * @var ilQTIMattext|null
-     */
-    public $mattext;
+    public ?ilQTIMattext $mattext;
 
-    /** @var bool|null */
-    public $sametag;
+    public ?bool $sametag;
 
-    /**
-     * @var string|null
-     */
-    public $characterbuffer;
+    public ?string $characterbuffer;
 
-    /**
-     * @var ilQTIConditionvar|null
-     */
-    public $conditionvar;
+    public ?ilQTIConditionvar $conditionvar;
 
-    /**
-     * @var int
-     */
-    public $parser_mode;
+    public int $parser_mode;
 
     /**
      * @var string[]
      */
-    public $import_idents;
+    public array $import_idents;
 
-    /**
-     * @var int
-     */
-    public $qpl_id;
+    public int $qpl_id;
 
-    /**
-     * @var int|null
-     */
-    public $tst_id;
+    public ?int $tst_id;
 
-    /**
-     * @var ilObjTest|null
-     */
-    public $tst_object;
+    public ?ilObjTest $tst_object;
 
-    /**
-     * @var bool
-     */
-    public $do_nothing;
+    public bool $do_nothing;
 
-    /**
-     * @var int
-     */
-    public $gap_index;
+    public int $gap_index;
 
     /**
      * @var ilQTIAssessment[]
      */
-    public $assessments;
+    public array $assessments;
 
-    /**
-     * @var ilQTIAssessment|null
-     */
-    public $assessment;
+    public ?ilQTIAssessment $assessment;
 
-    /**
-     * @var ilQTIAssessmentcontrol|null
-     */
-    public $assessmentcontrol;
+    public ?ilQTIAssessmentcontrol $assessmentcontrol;
 
-    /**
-     * @var ilQTIObjectives|null
-     */
-    public $objectives;
+    public ?ilQTIObjectives $objectives;
 
     public bool $in_assessment;
 
-    /**
-     * @var ilQTISection|null
-     */
-    public $section;
+    public ?ilQTISection $section;
 
     /**
      * @var array<string, ['test' => mixed]>
      */
-    public $import_mapping;
+    public array $import_mapping;
 
     public int $question_counter;
 
-    /**
-     * @var bool|null
-     */
-    public $in_itemmetadata;
+    public ?bool $in_itemmetadata;
 
     public bool $in_objectives;
 
@@ -258,34 +161,15 @@ class ilQTIParser extends ilSaxParser
 
     public string $verifyfieldentrytext;
 
-    /**
-     * @var int
-     */
-    protected $numImportedItems = 0;
+    protected int $numImportedItems = 0;
 
-    /**
-     * @var ilQTIPresentationMaterial
-     */
-    protected $prensentation_material;
-    /**
-     * @var bool
-     */
-    protected $in_prensentation_material = false;
+    protected ?ilQTIPresentationMaterial $prensentation_material;
 
-    /**
-     * @var bool
-     */
-    protected $ignoreItemsEnabled = false;
+    protected bool $in_prensentation_material = false;
 
-    /**
-     * @var null
-     */
-    private $render_hotspot;
+    protected bool $ignoreItemsEnabled = false;
 
-    /**
-     * @var null
-     */
-    private $matapplet;
+    private ?ilQTIMatapplet $matapplet;
 
     /**
      * @var array{label: string, entry: string}
@@ -294,10 +178,7 @@ class ilQTIParser extends ilSaxParser
 
     private ?ilQTIResponseVar $responsevar;
 
-    /**
-     * @var string|null
-     */
-    protected $questionSetType = null;
+    protected ?string $questionSetType = null;
 
     public function isIgnoreItemsEnabled() : bool
     {
@@ -309,15 +190,8 @@ class ilQTIParser extends ilSaxParser
         $this->ignoreItemsEnabled = $ignoreItemsEnabled;
     }
 
-    /**
-     * Constructor
-     *
-     * @param	string		$a_xml_file			xml file
-     * @param  integer $a_mode Parser mode IL_MO_PARSE_QTI | IL_MO_VERIFY_QTI
-     * @access	public
-     */
     //  TODO: The following line gets me an parse error in PHP 4, but I found no hint that pass-by-reference is forbidden in PHP 4 ????
-    public function __construct(?string $a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
+    public function __construct(?string $a_xml_file, int $a_mode = IL_MO_PARSE_QTI, int $a_qpl_id = 0, string $a_import_idents = "")
     {
         global $lng;
 
@@ -326,19 +200,19 @@ class ilQTIParser extends ilSaxParser
         parent::__construct($a_xml_file);
 
         $this->qpl_id = $a_qpl_id;
-        $this->import_idents = array();
+        $this->import_idents = [];
         if (is_array($a_import_idents)) {
             $this->import_idents = &$a_import_idents;
         }
 
         $this->lng = &$lng;
         $this->hasRootElement = false;
-        $this->import_mapping = array();
-        $this->assessments = array();
+        $this->import_mapping = [];
+        $this->assessments = [];
         $this->assessment = null;
         $this->section = null;
-        $this->path = array();
-        $this->items = array();
+        $this->path = [];
+        $this->items = [];
         $this->item = null;
         $this->depth = new SplObjectStorage();
         $this->do_nothing = false;
@@ -347,7 +221,6 @@ class ilQTIParser extends ilSaxParser
         $this->in_objectives = false;
         $this->in_response = false;
         $this->render_type = null;
-        $this->render_hotspot = null;
         $this->response_label = null;
         $this->material = null;
         $this->response = null;
@@ -361,7 +234,7 @@ class ilQTIParser extends ilSaxParser
         $this->setvar = null;
         $this->displayfeedback = null;
         $this->itemfeedback = null;
-        $this->flow_mat = array();
+        $this->flow_mat = [];
         $this->question_counter = 1;
         $this->flow = 0;
         $this->gap_index = 0;
@@ -371,29 +244,26 @@ class ilQTIParser extends ilSaxParser
         $this->sametag = false;
         $this->in_assessment = false;
         $this->characterbuffer = "";
-        $this->metadata = array("label" => "", "entry" => "");
+        $this->metadata = ["label" => "", "entry" => ""];
+        $this->responsevar = null;
+        $this->prensentation_material = null;
+        $this->in_itemmetadata = null;
+        $this->tst_object = null;
+        $this->tst_id = null;
+        $this->conditionvar = null;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getQuestionSetType()
+    public function getQuestionSetType() : ?string
     {
         return $this->questionSetType;
     }
 
-    /**
-     * @param null|string $questionSetType
-     */
-    public function setQuestionSetType($questionSetType) : void
+    public function setQuestionSetType(?string $questionSetType) : void
     {
         $this->questionSetType = $questionSetType;
     }
 
-    /**
-     * @param ilObjTest
-     */
-    public function setTestObject(&$a_tst_object) : void
+    public function setTestObject(?ilObjTest &$a_tst_object) : void
     {
         $this->tst_object = &$a_tst_object;
         if (is_object($a_tst_object)) {
@@ -401,10 +271,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    /**
-     * @param int $a_mode
-     */
-    public function setParserMode($a_mode = IL_MO_PARSE_QTI) : void
+    public function setParserMode(int $a_mode = IL_MO_PARSE_QTI) : void
     {
         $this->parser_mode = $a_mode;
         $this->founditems = array();
@@ -423,7 +290,7 @@ class ilQTIParser extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     *
-    * @param XMLParser|resource<xml> $a_xml_parser
+    * @param XMLParser|resource $a_xml_parser
     */
     public function setHandlers($a_xml_parser) : void
     {
@@ -439,10 +306,9 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml>
-     * @return string
+     * @param XMLParser|resource
      */
-    public function getParent($a_xml_parser)
+    public function getParent($a_xml_parser) : string
     {
         if ($this->depth[$a_xml_parser] > 0) {
             return $this->path[$this->depth[$a_xml_parser] - 1];
@@ -452,7 +318,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      * @param array<string, string> $a_attribs
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
@@ -468,7 +334,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      * @param array<string, string> $a_attribs
      */
     public function handlerParseBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
@@ -710,7 +576,7 @@ class ilQTIParser extends ilSaxParser
             case "response_grp":
                 // Matching terms and definitions
                 // Matching terms and images
-                $this->termsAndDefinitionsBeginTag($a_attribs);
+                $this->termsAndDefinitionsBeginTag($a_name, $a_attribs);
                 break;
             case "item":
                 $this->itemBeginTag($a_attribs);
@@ -722,7 +588,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
@@ -738,7 +604,7 @@ class ilQTIParser extends ilSaxParser
 
     /**
      * @noinspection NotOptimalIfConditionsInspection
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      */
     public function handlerParseEndTag($a_xml_parser, string $a_name) : void
     {
@@ -1047,7 +913,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
@@ -1062,7 +928,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      */
     public function handlerParseCharacterData($a_xml_parser, string $a_data) : void
     {
@@ -1157,7 +1023,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      * @param array<string, string> $a_attribs
      */
     public function handlerVerifyBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
@@ -1292,7 +1158,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      */
     public function handlerVerifyEndTag($a_xml_parser, string $a_name) : void
     {
@@ -1339,7 +1205,7 @@ class ilQTIParser extends ilSaxParser
     }
 
     /**
-     * @param XMLParser|resource<xml> $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      */
     public function handlerVerifyCharacterData($a_xml_parser, string $a_data) : void
     {
@@ -1419,11 +1285,7 @@ class ilQTIParser extends ilSaxParser
         return parent::openXMLFile();
     }
 
-    /**
-     * @param string $versionDateString
-     * @return string|null
-     */
-    protected function fetchNumericVersionFromVersionDateString($versionDateString)
+    protected function fetchNumericVersionFromVersionDateString(string $versionDateString) : ?string
     {
         $matches = null;
 
@@ -1434,11 +1296,7 @@ class ilQTIParser extends ilSaxParser
         return null;
     }
 
-    /**
-     * @param string $itemIdent
-     * @return string|null
-     */
-    protected function fetchSourceNicFromItemIdent($itemIdent)
+    protected function fetchSourceNicFromItemIdent(string $itemIdent) : ?string
     {
         $matches = null;
 
@@ -1449,11 +1307,7 @@ class ilQTIParser extends ilSaxParser
         return null;
     }
 
-    /**
-     * @param string $xmlContent
-     * @param string
-     */
-    protected function cleanInvalidXmlChars($xmlContent)
+    protected function cleanInvalidXmlChars(string $xmlContent) : string
     {
         // http://www.w3.org/TR/xml/#charsets
 
@@ -1502,10 +1356,7 @@ class ilQTIParser extends ilSaxParser
         return true;
     }
 
-    /**
-     * @param string $buffer (any data, binary)
-     */
-    protected function virusDetected($buffer) : bool
+    protected function virusDetected(string $buffer) : bool
     {
         $vs = ilVirusScannerFactory::_getInstance();
 
@@ -1613,7 +1464,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function termsAndDefinitionsBeginTag(array $a_attribs) : void
+    private function termsAndDefinitionsBeginTag(string $a_name, array $a_attribs) : void
     {
         $response_type = 0;
         switch (strtolower($a_name)) {

@@ -26,7 +26,7 @@ class ilQTIRenderFibTest extends TestCase
     /**
      * @dataProvider prompts
      */
-    public function testSetGetPrompt($input, $expected) : void
+    public function testSetGetPrompt(string $input, ?string $expected) : void
     {
         $instance = new ilQTIRenderFib();
         $instance->setPrompt($input);
@@ -36,7 +36,7 @@ class ilQTIRenderFibTest extends TestCase
     /**
      * @dataProvider fibtypes
      */
-    public function testSetGetFibtype($input, $expected) : void
+    public function testSetGetFibtype(string $input, ?string $expected) : void
     {
         $instance = new ilQTIRenderFib();
         $instance->setFibtype($input);

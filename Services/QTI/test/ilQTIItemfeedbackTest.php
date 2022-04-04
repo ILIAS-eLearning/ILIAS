@@ -13,7 +13,7 @@ class ilQTIItemfeedbackTest extends TestCase
      * @depends testConstruct
      * @dataProvider views
      */
-    public function testSetGetView($input, $expected) : void
+    public function testSetGetView(string $input, ?string $expected) : void
     {
         $instance = new ilQTIItemfeedback();
         $instance->setView($input);
