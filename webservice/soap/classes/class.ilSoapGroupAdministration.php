@@ -198,8 +198,10 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             $ref_ids = ilObject::_getAllReferences($group_id);
             $group_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp') {
-                return $this->__raiseError('Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
-                    'Client');
+                return $this->__raiseError(
+                    'Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
+                    'Client'
+                );
             }
         }
 
@@ -212,8 +214,10 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         }
         if ($type != 'Admin' and
             $type != 'Member') {
-            return $this->__raiseError('Invalid type ' . $type . ' given. Parameter "type" must be "Admin","Member"',
-                'Client');
+            return $this->__raiseError(
+                'Invalid type ' . $type . ' given. Parameter "type" must be "Admin","Member"',
+                'Client'
+            );
         }
 
         if (!$tmp_group = ilObjectFactory::getInstanceByRefId($group_id, false)) {
@@ -262,8 +266,10 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             $ref_ids = ilObject::_getAllReferences($group_id);
             $group_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp') {
-                return $this->__raiseError('Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
-                    'Client');
+                return $this->__raiseError(
+                    'Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
+                    'Client'
+                );
             }
         }
 
@@ -305,8 +311,10 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             $ref_ids = ilObject::_getAllReferences($group_id);
             $group_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($group_id)) != 'grp') {
-                return $this->__raiseError('Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
-                    'Client');
+                return $this->__raiseError(
+                    'Invalid group id. Object with id "' . $group_id . '" is not of type "group"',
+                    'Client'
+                );
             }
         }
 
@@ -374,8 +382,8 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         #var_dump($xmlResultSet);
         #echo "uid:".$user_id;
         #echo "status:".$status;
-        if (ilSoapGroupAdministration::MEMBER == ($status&ilSoapGroupAdministration::MEMBER) ||
-            ilSoapGroupAdministration::ADMIN == ($status&ilSoapGroupAdministration::ADMIN)) {
+        if (ilSoapGroupAdministration::MEMBER == ($status & ilSoapGroupAdministration::MEMBER) ||
+            ilSoapGroupAdministration::ADMIN == ($status & ilSoapGroupAdministration::ADMIN)) {
             foreach ($rbacreview->assignedRoles($user_id) as $role_id) {
                 if ($role = ilObjectFactory::getInstanceByObjId($role_id, false)) {
                     #echo $role->getType();
@@ -394,11 +402,15 @@ class ilSoapGroupAdministration extends ilSoapAdministration
                         }
 
                         #echo $role_title;
-                        if (ilSoapGroupAdministration::MEMBER == ($status&ilSoapGroupAdministration::MEMBER) && strpos($role_title,
-                                "member") !== false) {
+                        if (ilSoapGroupAdministration::MEMBER == ($status & ilSoapGroupAdministration::MEMBER) && strpos(
+                            $role_title,
+                            "member"
+                        ) !== false) {
                             $ref_ids [] = $ref_id;
-                        } elseif (ilSoapGroupAdministration::ADMIN == ($status&ilSoapGroupAdministration::ADMIN) && strpos($role_title,
-                                "admin") !== false) {
+                        } elseif (ilSoapGroupAdministration::ADMIN == ($status & ilSoapGroupAdministration::ADMIN) && strpos(
+                            $role_title,
+                            "admin"
+                        ) !== false) {
                             $ref_ids [] = $ref_id;
                         }
                     }
@@ -406,7 +418,7 @@ class ilSoapGroupAdministration extends ilSoapAdministration
             }
         }
 
-        if (($status&ilSoapGroupAdministration::OWNER) == ilSoapGroupAdministration::OWNER) {
+        if (($status & ilSoapGroupAdministration::OWNER) == ilSoapGroupAdministration::OWNER) {
             $owned_objects = ilObjectFactory::getObjectsForOwner("grp", $user_id);
             foreach ($owned_objects as $obj_id) {
                 $allrefs = ilObject::_getAllReferences($obj_id);

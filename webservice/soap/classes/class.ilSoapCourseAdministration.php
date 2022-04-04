@@ -114,8 +114,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             $ref_ids = ilObject::_getAllReferences($course_id);
             $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
-                    'Client');
+                return $this->__raiseError(
+                    'Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client'
+                );
             }
         }
 
@@ -169,8 +171,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             $ref_ids = ilObject::_getAllReferences($course_id);
             $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
-                    'Client');
+                return $this->__raiseError(
+                    'Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client'
+                );
             }
         }
 
@@ -184,8 +188,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if ($type != 'Admin' and
             $type != 'Tutor' and
             $type != 'Member') {
-            return $this->__raiseError('Invalid type given. Parameter "type" must be "Admin", "Tutor" or "Member"',
-                'Client');
+            return $this->__raiseError(
+                'Invalid type given. Parameter "type" must be "Admin", "Tutor" or "Member"',
+                'Client'
+            );
         }
 
         if (!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id, false)) {
@@ -205,8 +211,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
                 require_once("Services/Administration/classes/class.ilSetting.php");
                 $settings = new ilSetting();
                 $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_ADMIN);
-                $course_members->updateNotification($tmp_user->getId(),
-                    (bool) $settings->get('mail_crs_admin_notification', "1"));
+                $course_members->updateNotification(
+                    $tmp_user->getId(),
+                    (bool) $settings->get('mail_crs_admin_notification', "1")
+                );
                 break;
 
             case 'Tutor':
@@ -243,8 +251,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             $ref_ids = ilObject::_getAllReferences($course_id);
             $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
-                    'Client');
+                return $this->__raiseError(
+                    'Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client'
+                );
             }
         }
 
@@ -292,8 +302,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             $ref_ids = ilObject::_getAllReferences($course_id);
             $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
-                    'Client');
+                return $this->__raiseError(
+                    'Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client'
+                );
             }
         }
 
@@ -377,8 +389,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             $ref_ids = ilObject::_getAllReferences($course_id);
             $course_id = end($ref_ids);
             if (ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs') {
-                return $this->__raiseError('Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
-                    'Client');
+                return $this->__raiseError(
+                    'Invalid course id. Object with id "' . $course_id . '" is not of type "course"',
+                    'Client'
+                );
             }
         }
 
@@ -461,9 +475,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         #var_dump($xmlResultSet);
         #echo "uid:".$user_id;
         #echo "status:".$status;
-        if (ilSoapCourseAdministration::MEMBER == ($status&ilSoapCourseAdministration::MEMBER) ||
-            ilSoapCourseAdministration::TUTOR == ($status&ilSoapCourseAdministration::TUTOR) ||
-            ilSoapCourseAdministration::ADMIN == ($status&ilSoapCourseAdministration::ADMIN)) {
+        if (ilSoapCourseAdministration::MEMBER == ($status & ilSoapCourseAdministration::MEMBER) ||
+            ilSoapCourseAdministration::TUTOR == ($status & ilSoapCourseAdministration::TUTOR) ||
+            ilSoapCourseAdministration::ADMIN == ($status & ilSoapCourseAdministration::ADMIN)) {
             foreach ($rbacreview->assignedRoles($user_id) as $role_id) {
                 if ($role = ilObjectFactory::getInstanceByObjId($role_id, false)) {
                     #echo $role->getType();
@@ -481,16 +495,22 @@ class ilSoapCourseAdministration extends ilSoapAdministration
                         }
 
                         #echo $role_title;
-                        if (ilSoapCourseAdministration::MEMBER == ($status&ilSoapCourseAdministration::MEMBER) && strpos($role_title,
-                                "member") !== false) {
+                        if (ilSoapCourseAdministration::MEMBER == ($status & ilSoapCourseAdministration::MEMBER) && strpos(
+                            $role_title,
+                            "member"
+                        ) !== false) {
                             $ref_ids [] = $ref_id;
-                        } elseif (ilSoapCourseAdministration::TUTOR == ($status&ilSoapCourseAdministration::TUTOR) && strpos($role_title,
-                                "tutor") !== false) {
+                        } elseif (ilSoapCourseAdministration::TUTOR == ($status & ilSoapCourseAdministration::TUTOR) && strpos(
+                            $role_title,
+                            "tutor"
+                        ) !== false) {
                             $ref_ids [] = $ref_id;
-                        } elseif (ilSoapCourseAdministration::ADMIN == ($status&ilSoapCourseAdministration::ADMIN) && strpos($role_title,
-                                "admin") !== false) {
+                        } elseif (ilSoapCourseAdministration::ADMIN == ($status & ilSoapCourseAdministration::ADMIN) && strpos(
+                            $role_title,
+                            "admin"
+                        ) !== false) {
                             $ref_ids [] = $ref_id;
-                        } elseif (($status&ilSoapCourseAdministration::OWNER) == ilSoapCourseAdministration::OWNER && $ilObjDataCache->lookupOwner($ilObjDataCache->lookupObjId($ref_id)) == $user_id) {
+                        } elseif (($status & ilSoapCourseAdministration::OWNER) == ilSoapCourseAdministration::OWNER && $ilObjDataCache->lookupOwner($ilObjDataCache->lookupObjId($ref_id)) == $user_id) {
                             $ref_ids [] = $ref_id;
                         }
                     }

@@ -54,8 +54,10 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
         // Check access
         $allowed_types = array('cat', 'grp', 'crs', 'fold', 'root');
         if (!in_array($target_obj->getType(), $allowed_types)) {
-            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
-                'Client');
+            return $this->__raiseError(
+                'No valid target type. Target must be reference id of "course, group, category or folder"',
+                'Client'
+            );
         }
 
         if (!$rbacsystem->checkAccess('create', $target_id, "exc")) {
@@ -110,8 +112,10 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
 
         if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError('Cannot perform update since exercise has been deleted.',
-                'CLIENT_OBJECT_DELETED');
+            return $this->__raiseError(
+                'Cannot perform update since exercise has been deleted.',
+                'CLIENT_OBJECT_DELETED'
+            );
         }
         // get obj_id
         if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {

@@ -100,8 +100,11 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
     private function __buildInstallationInfo() : void
     {
         $this->xmlStartTag("Settings");
-        $this->xmlElement("Setting", array("key" => "default_client"),
-            $GLOBALS['DIC']['ilIliasIniFile']->readVariable("clients", "default"));
+        $this->xmlElement(
+            "Setting",
+            array("key" => "default_client"),
+            $GLOBALS['DIC']['ilIliasIniFile']->readVariable("clients", "default")
+        );
         $this->xmlEndTag("Settings");
     }
 }

@@ -169,7 +169,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                         array($active_id, $question_id, $pass)
                     );
                 }
-                for ($i = 0; $i < count($solution); $i += 3) {
+                for ($i = 0, $iMax = count($solution); $i < $iMax; $i += 3) {
                     $next_id = $ilDB->nextId('tst_solutions');
                     $affectedRows = $ilDB->insert("tst_solutions", array(
                         "solution_id" => array("integer", $next_id),
@@ -195,8 +195,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         if ($totalrows == 0) {
             return $this->__raiseError(
-                "Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r($solution,
-                    true),
+                "Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r(
+                    $solution,
+                    true
+                ),
                 'No result'
             );
         }
@@ -220,12 +222,16 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $solutions = array();
         if (preg_match("/<values>(.*?)<\/values>/is", $solution, $matches)) {
-            if (preg_match_all("/<value>(.*?)<\/value><value>(.*?)<\/value><points>(.*?)<\/points>/is", $solution,
-                $matches, PREG_SET_ORDER)) {
+            if (preg_match_all(
+                "/<value>(.*?)<\/value><value>(.*?)<\/value><points>(.*?)<\/points>/is",
+                $solution,
+                $matches,
+                PREG_SET_ORDER
+            )) {
                 foreach ($matches as $match) {
                     if (count($match) == 4) {
-                        for ($i = 1; $i < count($match); $i++) {
-                            array_push($solutions, trim($match[$i]));
+                        for ($i = 1, $iMax = count($match); $i < $iMax; $i++) {
+                            $solutions[] = trim($match[$i]);
                         }
                     }
                 }
@@ -233,8 +239,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
 
         if (count($solutions) == 0) {
-            return $this->__raiseError("Wrong solution data. ILIAS did not find one or more solution triplets: $solution",
-                "");
+            return $this->__raiseError(
+                "Wrong solution data. ILIAS did not find one or more solution triplets: $solution",
+                ""
+            );
         }
 
         // Include main header
@@ -247,7 +255,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             );
         }
         $totalrows = 0;
-        for ($i = 0; $i < count($solutions); $i += 3) {
+        for ($i = 0, $iMax = count($solutions); $i < $iMax; $i += 3) {
             $next_id = $ilDB->nextId('tst_solutions');
             $affectedRows = $ilDB->insert("tst_solutions", array(
                 "solution_id" => array("integer", $next_id),
@@ -263,11 +271,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
         if ($totalrows == 0) {
             return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries");
-        } else {
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            $question = assQuestion::instantiateQuestion($question_id);
-            $question->calculateResultsFromSolution($active_id, $pass);
         }
+
+        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+        $question = assQuestion::instantiateQuestion($question_id);
+        $question->calculateResultsFromSolution($active_id, $pass);
         return "TRUE";
     }
 
@@ -325,9 +333,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
             );
             if ($result->numRows()) {
                 while ($row = $ilDB->fetchAssoc($result)) {
-                    array_push($solution, $row["value1"]);
-                    array_push($solution, $row["value2"]);
-                    array_push($solution, $row["points"]);
+                    $solution[] = $row["value1"];
+                    $solution[] = $row["value2"];
+                    $solution[] = $row["points"];
                 }
             }
         }
@@ -488,7 +496,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 if ($qid == $question_id) {
                     $atposition = true;
                 } else {
-                    array_push($pointsforposition, $reachedpoints[$qid]);
+                    $pointsforposition[] = $reachedpoints[$qid];
                 }
             }
         }
@@ -563,8 +571,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
             return $this->__raiseError('No test found for id: ' . $test_ref_id, 'Client');
         }
         if ($tst->getType() != 'tst') {
-            return $this->__raiseError('Object with ref_id ' . $test_ref_id . ' is not of type test. Aborting',
-                'Client');
+            return $this->__raiseError(
+                'Object with ref_id ' . $test_ref_id . ' is not of type test. Aborting',
+                'Client'
+            );
         }
 
         // Dirty hack

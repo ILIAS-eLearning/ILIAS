@@ -117,8 +117,12 @@ class ilObjectXMLWriter extends ilXmlWriter
         $this->__buildHeader();
         foreach ($this->__getObjects() as $object) {
             if (method_exists($object, 'getType') and $objDefinition->isRBACObject($object->getType())) {
-                if ($this->isPermissionCheckEnabled() and !$ilAccess->checkAccessOfUser($this->getUserId(), 'read', '',
-                        $object->getRefId())) {
+                if ($this->isPermissionCheckEnabled() and !$ilAccess->checkAccessOfUser(
+                    $this->getUserId(),
+                    'read',
+                    '',
+                    $object->getRefId()
+                )) {
                     continue;
                 }
             }
@@ -288,8 +292,11 @@ class ilObjectXMLWriter extends ilXmlWriter
                 $this->xmlElement("Property", array('name' => 'fileSize'), (int) $size);
                 $this->xmlElement("Property", array('name' => 'fileExtension'), (string) $extension);
                 // begin-patch fm
-                $this->xmlElement('Property', array('name' => 'fileVersion'),
-                    (string) ilObjFileAccess::_lookupVersion($obj->getId()));
+                $this->xmlElement(
+                    'Property',
+                    array('name' => 'fileVersion'),
+                    (string) ilObjFileAccess::_lookupVersion($obj->getId())
+                );
                 // end-patch fm
                 $this->xmlEndTag('Properties');
                 break;
@@ -310,8 +317,12 @@ class ilObjectXMLWriter extends ilXmlWriter
                 foreach ($ops as $ops_id) {
                     $operation = $rbacreview->getOperation($ops_id);
 
-                    if (count($operation) && $ilAccess->checkAccessOfUser($this->getUserId(), $operation['operation'],
-                            'view', $a_ref_id)) {
+                    if (count($operation) && $ilAccess->checkAccessOfUser(
+                        $this->getUserId(),
+                        $operation['operation'],
+                        'view',
+                        $a_ref_id
+                    )) {
                         $this->xmlElement('Operation', null, $operation['operation']);
                     }
                 }
@@ -331,8 +342,12 @@ class ilObjectXMLWriter extends ilXmlWriter
 
                 $operation = $rbacreview->getOperation($ops_id);
 
-                if (count($operation) && $ilAccess->checkAccessOfUser($this->getUserId(), $operation['operation'],
-                        'view', $a_ref_id)) {
+                if (count($operation) && $ilAccess->checkAccessOfUser(
+                    $this->getUserId(),
+                    $operation['operation'],
+                    'view',
+                    $a_ref_id
+                )) {
                     $this->xmlElement('Operation', null, $operation['operation']);
                 }
             }

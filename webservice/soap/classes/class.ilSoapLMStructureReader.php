@@ -32,7 +32,6 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObjectFactory.php";
  */
 class ilSoapLMStructureReader extends ilSoapStructureReader
 {
-
     public function _parseStructure() : void
     {
         // get all child nodes in LM
@@ -72,8 +71,13 @@ class ilSoapLMStructureReader extends ilSoapStructureReader
 
                 $lastNode = $node;
 
-                $lastStructureObject = ilSoapStructureObjectFactory::getInstance($node["obj_id"], $node["type"],
-                    $node["title"], $node["description"], $this->getObject()->getRefId());
+                $lastStructureObject = ilSoapStructureObjectFactory::getInstance(
+                    $node["obj_id"],
+                    $node["type"],
+                    $node["title"],
+                    $node["description"],
+                    $this->getObject()->getRefId()
+                );
 
                 $currentParentStructureObject->addStructureObject($lastStructureObject);
             }

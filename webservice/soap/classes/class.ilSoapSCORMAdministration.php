@@ -31,7 +31,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapSCORMAdministration extends ilSoapAdministration
 {
-
     public function getIMSManifestXML(string $sid, int $ref_id)
     {
         $this->initAuth($sid);

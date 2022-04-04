@@ -162,7 +162,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
 
         if ($ilUser->getLoginByUserId($user_id)) {
-            $tmp_user =  ilObjectFactory::getInstanceByObjId($user_id);
+            $tmp_user = ilObjectFactory::getInstanceByObjId($user_id);
             $usr_data = $this->__readUserData($tmp_user);
 
             return $usr_data;
@@ -312,8 +312,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
         if ($folder_id == 0) {
             if (!$access->checkAccess('create_usr', '', self::USER_FOLDER_ID)) {
-                return $this->__raiseError('Missing permission for creating/modifying users accounts' . self::USER_FOLDER_ID . ' ' . $ilUser->getId(),
-                    'Server');
+                return $this->__raiseError(
+                    'Missing permission for creating/modifying users accounts' . self::USER_FOLDER_ID . ' ' . $ilUser->getId(),
+                    'Server'
+                );
             }
         }
 
@@ -339,8 +341,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
             // check access to folder
             if (!$rbacsystem->checkAccess('create_usr', $folder_id)) {
-                return $this->__raiseError('Missing permission for creating users within ' . $import_folder->getTitle(),
-                    'Server');
+                return $this->__raiseError(
+                    'Missing permission for creating users within ' . $import_folder->getTitle(),
+                    'Server'
+                );
             }
         }
 
@@ -394,9 +398,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 $permitted_roles[$role_id] = $role_id;
             } else {
                 $role_name = ilObject::_lookupTitle($role_id);
-                return $this->__raiseError("Could not find role " . $role_name . ". Either you use an invalid/deleted role " .
+                return $this->__raiseError(
+                    "Could not find role " . $role_name . ". Either you use an invalid/deleted role " .
                     "or you try to assign a local role into the non-standard user folder and this role is not in its subtree.",
-                    'Server');
+                    'Server'
+                );
             }
         }
 
@@ -407,19 +413,25 @@ class ilSoapUserAdministration extends ilSoapAdministration
         foreach ($permitted_roles as $role_id => $role_name) {
             if ($role_id != "") {
                 if (in_array($role_id, $global_roles)) {
-                    if ($role_id == SYSTEM_ROLE_ID && !in_array(SYSTEM_ROLE_ID,
-                            $rbacreview->assignedRoles($ilUser->getId()))
+                    if ($role_id == SYSTEM_ROLE_ID && !in_array(
+                        SYSTEM_ROLE_ID,
+                        $rbacreview->assignedRoles($ilUser->getId())
+                    )
                         || ($folder_id != self::USER_FOLDER_ID && $folder_id != 0 && !ilObjRole::_getAssignUsersStatus($role_id))
                     ) {
-                        return $this->__raiseError($lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
-                            'Server');
+                        return $this->__raiseError(
+                            $lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
+                            'Server'
+                        );
                     }
                 } else {
                     $rolf = $rbacreview->getFoldersAssignedToRole($role_id, true);
                     if ($rbacreview->isDeleted($rolf[0])
                         || !$rbacsystem->checkAccess('write', $rolf[0])) {
-                        return $this->__raiseError($lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
-                            "Server");
+                        return $this->__raiseError(
+                            $lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
+                            "Server"
+                        );
                     }
                 }
             }
@@ -776,8 +788,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         array $a_keyvalues,
         bool $attach_roles,
         int $active
-    )
-    {
+    ) {
         $this->initAuth($sid);
         $this->initIlias();
 

@@ -221,12 +221,16 @@ class ilSoapAdministration
 
         $type = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));
         if (!in_array($type, $expected_type)) {
-            return $this->__raiseError("Wrong type $type for id. Expected: " . join(",", $expected_type),
-                'CLIENT_OBJECT_WRONG_TYPE');
+            return $this->__raiseError(
+                "Wrong type $type for id. Expected: " . join(",", $expected_type),
+                'CLIENT_OBJECT_WRONG_TYPE'
+            );
         }
         if (!$rbacsystem->checkAccess($permission, $ref_id, $type)) {
-            return $this->__raiseError('Missing permission $permission for type $type.',
-                'CLIENT_OBJECT_WRONG_PERMISSION');
+            return $this->__raiseError(
+                'Missing permission $permission for type $type.',
+                'CLIENT_OBJECT_WRONG_PERMISSION'
+            );
         }
         if ($returnObject) {
             try {
@@ -326,8 +330,10 @@ class ilSoapAdministration
             define("IL_INST_ID", (int) $settings->get("inst_id", '0'));
             $settings->access = $ilClientIniFile->readVariable("client", "access");
             $settings->description = $ilClientIniFile->readVariable("client", "description");
-            $settings->session = min((int) ini_get("session.gc_maxlifetime"),
-                (int) $ilClientIniFile->readVariable("session", "expire"));
+            $settings->session = min(
+                (int) ini_get("session.gc_maxlifetime"),
+                (int) $ilClientIniFile->readVariable("session", "expire")
+            );
             $settings->language = $ilClientIniFile->readVariable("language", "default");
             $settings->clientid = basename($client_dir); //pathinfo($client_dir, PATHINFO_FILENAME);
             $settings->default_show_users_online = $settings->get("show_users_online");

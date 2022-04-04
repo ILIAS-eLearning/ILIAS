@@ -32,7 +32,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
-
     public function getObjIdByImportId(string $sid, string $import_id)
     {
         $this->initAuth($sid);
@@ -142,8 +141,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                     return $this->__raiseError('No object found for reference ID. Value: ' . $ref_id, 'Client');
                 }
                 if (!ilObject::_hasUntrashedReference($obj_id)) {
-                    return $this->__raiseError('No untrashed reference found for reference ID. Value: ' . $ref_id,
-                        'Client');
+                    return $this->__raiseError(
+                        'No untrashed reference found for reference ID. Value: ' . $ref_id,
+                        'Client'
+                    );
                 }
                 $obj_ids[] = $obj_id;
             }
@@ -643,8 +644,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                     break;
                 case 'cat':
                     /** @var $newObj ilObjCategory */
-                    $newObj->addTranslation($object_data["title"], $object_data["description"], $lng->getLangKey(),
-                        true);
+                    $newObj->addTranslation(
+                        $object_data["title"],
+                        $object_data["description"],
+                        $lng->getLangKey(),
+                        true
+                    );
                     break;
             }
 
@@ -958,8 +963,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
                 $obj_id_from_refid = ilObject::_lookupObjectId($object_data["references"][0]);
                 if (!$obj_id_from_refid) {
-                    return $this->__raiseError('No obj_id found for reference id ' . $object_data["references"][0],
-                        'CLIENT_OBJECT_NOT_FOUND');
+                    return $this->__raiseError(
+                        'No obj_id found for reference id ' . $object_data["references"][0],
+                        'CLIENT_OBJECT_NOT_FOUND'
+                    );
                 } else {
                     $tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
                     $object_data["obj_id"] = $obj_id_from_refid;
@@ -968,8 +975,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
             $tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
             if ($tmp_obj == null) {
-                return $this->__raiseError('No object for id ' . $object_data['obj_id'] . '!',
-                    'CLIENT_OBJECT_NOT_FOUND');
+                return $this->__raiseError(
+                    'No object for id ' . $object_data['obj_id'] . '!',
+                    'CLIENT_OBJECT_NOT_FOUND'
+                );
             } else {
                 $object_data["instance"] = $tmp_obj;
             }
@@ -979,8 +988,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 $rolf_id = $rolf_ids[0];
 
                 if (!$rbacsystem->checkAccess('write', $rolf_id)) {
-                    return $this->__raiseError('No write permission for object with id ' . $object_data['obj_id'] . '!',
-                        'Client');
+                    return $this->__raiseError(
+                        'No write permission for object with id ' . $object_data['obj_id'] . '!',
+                        'Client'
+                    );
                 }
             } else {
                 $permission_ok = false;
@@ -991,8 +1002,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                     }
                 }
                 if (!$permission_ok) {
-                    return $this->__raiseError('No write permission for object with id ' . $object_data['obj_id'] . '!',
-                        'Client');
+                    return $this->__raiseError(
+                        'No write permission for object with id ' . $object_data['obj_id'] . '!',
+                        'Client'
+                    );
                 }
             }
         }
@@ -1121,8 +1134,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         // checking copy permissions, objects and create permissions
         if (!$rbacsystem->checkAccess('copy', $xml_parser->getSourceId())) {
-            return $this->__raiseError("Missing copy permissions for object with reference id " . $xml_parser->getSourceId(),
-                'Client');
+            return $this->__raiseError(
+                "Missing copy permissions for object with reference id " . $xml_parser->getSourceId(),
+                'Client'
+            );
         }
 
         // checking copy permissions, objects and create permissions
@@ -1250,8 +1265,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $allowed_types = array('root', 'cat', 'grp', 'crs', 'fold');
         if (!in_array($target_type, $allowed_types)) {
-            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
-                'Client');
+            return $this->__raiseError(
+                'No valid target type. Target must be reference id of "course, group, category or folder"',
+                'Client'
+            );
         }
 
         $allowed_subtypes = $objDefinition->getSubObjects($target_type);
@@ -1264,8 +1281,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         }
 
         if (!in_array($type, $allowed)) {
-            return $this->__raiseError('Objects of type: ' . $type . ' are not allowed to be subobjects of type ' . $target_type . '!',
-                'Client');
+            return $this->__raiseError(
+                'Objects of type: ' . $type . ' are not allowed to be subobjects of type ' . $target_type . '!',
+                'Client'
+            );
         }
         if (!$rbacsystem->checkAccess('create', $target_id, $type)) {
             return $this->__raiseError('No permission to create objects of type ' . $type . '!', 'Client');
@@ -1322,8 +1341,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 }
                 // check permissions
                 if (!$ilAccess->checkAccess('write', '', $ref_data['ref_id'])) {
-                    return $this->__raiseError('No write permission for object with reference id ' . $ref_data['ref_id'] . '!',
-                        'Client');
+                    return $this->__raiseError(
+                        'No write permission for object with reference id ' . $ref_data['ref_id'] . '!',
+                        'Client'
+                    );
                 }
                 // TODO: check if all references belong to the same object
             }

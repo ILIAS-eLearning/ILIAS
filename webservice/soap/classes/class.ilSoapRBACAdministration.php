@@ -566,8 +566,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             strcasecmp($role_type, "user") != 0 &&
             strcasecmp($role_type, "user_login") != 0 &&
             strcasecmp($role_type, "template") != 0) {
-            return $this->__raiseError('Called service with wrong role_type parameter \'' . $role_type . '\'',
-                'Client');
+            return $this->__raiseError(
+                'Called service with wrong role_type parameter \'' . $role_type . '\'',
+                'Client'
+            );
         }
 
         $roles = array();
@@ -685,8 +687,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             strcasecmp($role_type, "local") != 0 &&
             strcasecmp($role_type, "global") != 0 &&
             strcasecmp($role_type, "template") != 0) {
-            return $this->__raiseError('Called service with wrong role_type parameter \'' . $role_type . '\'',
-                'Client');
+            return $this->__raiseError(
+                'Called service with wrong role_type parameter \'' . $role_type . '\'',
+                'Client'
+            );
         }
 
         if ($combination != 'and' and $combination != 'or') {

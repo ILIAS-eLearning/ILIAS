@@ -55,8 +55,10 @@ class ilSoapFileAdministration extends ilSoapAdministration
         // Check access
         $allowed_types = array('cat', 'grp', 'crs', 'fold', 'root');
         if (!in_array($target_obj->getType(), $allowed_types)) {
-            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
-                'Client');
+            return $this->__raiseError(
+                'No valid target type. Target must be reference id of "course, group, category or folder"',
+                'Client'
+            );
         }
 
         if (!$ilAccess->checkAccess('create', '', $target_id, "file")) {
@@ -93,8 +95,10 @@ class ilSoapFileAdministration extends ilSoapAdministration
                 return $this->__raiseError("Could not add file", "Server");
             }
         } catch (ilFileException $exception) {
-            return $this->__raiseError($exception->getMessage(),
-                $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
+            return $this->__raiseError(
+                $exception->getMessage(),
+                $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server"
+            );
         }
     }
 
