@@ -105,20 +105,25 @@ class ilAppEventHandler
             $a_component
         ));
 
-        // lazy transforming event data to string
-        $this->logger->debug((new class($a_parameter) {
-            protected array $parameter;
-
-            public function __construct(array $parameter)
-            {
-                $this->parameter = $parameter;
+        $parameter_formatter = static function ($value) use (&$parameter_formatter) {
+            if (is_object($value)) {
+                return get_class($value);
             }
 
-            public function __toString()
-            {
-                return 'Event data size: ' . count($this->parameter);
+            if (is_array($value)) {
+                return array_map(
+                    $parameter_formatter,
+                    $value
+                );
             }
-        })->__toString());
+
+            return $value;
+        };
+
+        $this->logger->debug('Event data: ' . var_export(array_map(
+            $parameter_formatter,
+            $a_parameter
+        ), true));
 
         $this->logger->debug("Started event propagation for event listeners ...");
 
