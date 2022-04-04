@@ -31,17 +31,17 @@ interface ilPasswordEncoder
     public function getName() : string;
 
     /**
-     * Returns whether or not the encoder requires a salt
+     * Returns whether the encoder requires a salt
      */
     public function requiresSalt() : bool;
 
     /**
-     * Returns whether or not the a encoded password needs to be re-encoded
+     * Returns whether the encoded password needs to be re-encoded
      */
     public function requiresReencoding(string $encoded) : bool;
 
     /**
-     * Returns whether or not the encoder is supported by the runtime (PHP, HHVM, ...)
+     * Returns whether the encoder is supported by the runtime (PHP, HHVM, ...)
      */
     public function isSupportedByRuntime() : bool;
 }
