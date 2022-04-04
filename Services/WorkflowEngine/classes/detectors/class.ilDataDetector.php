@@ -154,10 +154,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
         return $this->name;
     }
 
-    /**
-     * @return ilNode
-     */
-    public function getSourceNode() : ilNode
+    public function getSourceNode()
     {
         return $this->source_node;
     }
