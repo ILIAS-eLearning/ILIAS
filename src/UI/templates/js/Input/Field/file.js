@@ -299,7 +299,6 @@ il.UI.Input = il.UI.Input || {};
 			if (dropzones[input_id].options.acceptedFiles !== null &&
 				!dropzones[input_id].options.acceptedFiles.includes(file.type)
 			) {
-				dropzones[input_id].removeFile(file);
 				displayErrorMessage(
 					I18N.invalid_mime.replace('%s', file.type),
 					$(`#${input_id} ${SELECTOR.dropzone}`)
