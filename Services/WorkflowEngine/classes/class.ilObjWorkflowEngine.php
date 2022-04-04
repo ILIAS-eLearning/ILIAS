@@ -42,7 +42,7 @@ class ilObjWorkflowEngine extends ilObject
      * @param bool $relative
      * @return string
      */
-    public static function getRepositoryDir(bool $relative) : string
+    public static function getRepositoryDir(bool $relative = false) : string
     {
         $relativeRepositoryPath = 'wfe/repository/';
 

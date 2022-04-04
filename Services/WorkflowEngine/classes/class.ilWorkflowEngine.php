@@ -15,19 +15,9 @@
  */
 class ilWorkflowEngine
 {
-    /**
-     * True, if this instance is made to handle a lot of requests.
-     * @var boolean
-     */
-    private bool $mass_action;
 
-    /**
-     * ilWorkflowEngine constructor.
-     * @param bool $a_mass_action
-     */
-    public function __construct(bool $a_mass_action = false)
+    public function __construct()
     {
-        $this->mass_action = $a_mass_action;
     }
 
     /**
@@ -92,6 +82,7 @@ class ilWorkflowEngine
      * @param string $component
      * @param string $event
      * @param array  $parameter
+     * @noinspection PhpUndefinedMethodInspection
      */
     public function handleEvent(string $component, string $event, array $parameter)
     {
@@ -128,6 +119,7 @@ class ilWorkflowEngine
                 }
 
                 $mapper_class = $mapper['class'];
+                /** @noinspection PhpUndefinedMethodInspection */
                 $extracted_params = $mapper_class::mapParams($component, $event, $parameter, $extracted_params);
                 $component = $mapper_class::mapComponent($component, $event, $parameter, $extracted_params);
                 $event = $mapper_class::mapEvent($component, $event, $parameter, $extracted_params);

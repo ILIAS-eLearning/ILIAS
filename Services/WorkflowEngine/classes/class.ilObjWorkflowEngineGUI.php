@@ -21,7 +21,7 @@ require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
  * @ilCtrl_IsCalledBy ilObjWorkflowEngineGUI: ilAdministrationGUI
  * @ilCtrl_Calls ilObjWorkflowEngineGUI: ilPermissionGUI
  */
-class ilObjWorkflowEngineGUI extends ilObject2GUI
+class ilObjWorkflowEngineGUI extends ilObjectGUI
 {
     public ilCtrl $ilCtrl;
     public ilTabsGUI $ilTabs;
@@ -118,11 +118,6 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
                 require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
-                break;
-            default:
-                $this->prepareAdminOutput();
-                $ilObjBibliographicAdminLibrariesGUI = new ilObjBibliographicAdminLibrariesGUI($this);
-                $this->ctrl->forwardCommand($ilObjBibliographicAdminLibrariesGUI);
                 break;
         }
     }

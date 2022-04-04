@@ -71,5 +71,6 @@ class ilModulesTestTasks
         foreach ($usr_id_list as $user_id) {
             $test_object->inviteUser($user_id);
         }
+        return array();
     }
 }

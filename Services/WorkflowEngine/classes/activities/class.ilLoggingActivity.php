@@ -282,7 +282,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
         return $file_pointer;
     }
 
-    public function setName(string $name) : void
+    public function setName($name) : void
     {
         $this->name = $name;
     }

@@ -24,6 +24,8 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     /** @var ilCtrl $ilCtrl */
     protected ilCtrl $ilCtrl;
 
+    protected array $filter;
+
     /**
      * ilWorkflowEngineDefinitionsTableGUI constructor.
      * @param        $parent_obj

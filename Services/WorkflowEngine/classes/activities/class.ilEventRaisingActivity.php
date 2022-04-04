@@ -28,8 +28,7 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
     /** @var  array $fixed_params Fixed params that are always to be sent with the event. Will be overriden by context. */
     protected array $fixed_params;
 
-    /** @var string $name */
-    protected string $name;
+    protected $name;
 
     /**
      * @param string $key
@@ -125,10 +124,7 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name) : void
+    public function setName($name) : void
     {
         $this->name = $name;
     }

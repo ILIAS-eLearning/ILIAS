@@ -158,7 +158,7 @@ class ilBPMN2ParserUtils
      * @param string $start_event_ref
      * @param string $type
      * @param array  $bpmn2_array
-     * @return array
+     * @return ?array
      */
     public static function extractTimeDateEventDefinitionFromElement(string $start_event_ref, string $type, array $bpmn2_array)
     {
@@ -213,6 +213,7 @@ class ilBPMN2ParserUtils
                 }
             }
         }
+        return null;
     }
 
     /**

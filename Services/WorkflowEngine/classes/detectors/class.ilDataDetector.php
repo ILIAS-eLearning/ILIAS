@@ -51,9 +51,8 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 
     /**
      * Returns the parent object. Type is ilNode, implements ilWorkflowEngineElement
-     * @return ilNode Parent node of this element.
      */
-    public function getContext() : ilNode|ilWorkflowEngineElement
+    public function getContext()
     {
         return $this->context;
     }
@@ -144,10 +143,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
         return $this->detection_state;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name) : void
+    public function setName($name) : void
     {
         $this->name = $name;
     }

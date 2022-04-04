@@ -18,7 +18,6 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
 {
     /** @var ilEmptyWorkflow $workflow */
     public ilEmptyWorkflow $workflow;
-    private vfs\vfsStreamDirectory $test_dir;
 
     public function setUp() : void
     {
@@ -27,7 +26,6 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        $this->test_dir = vfs\vfsStream::setup('example');
     }
     
     public function tearDown() : void

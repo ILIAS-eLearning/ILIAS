@@ -22,15 +22,14 @@ interface ilWorkflowEngineElement
      * structure of the workflow engine, this is a reference to the parent object.
      * Using this, the caller can traverse through the tree of elements.
      *
-     * @return ilWorkflowEngineElement Reference to a workflow engine element.
      */
     public function getContext();
 
     /**
-     * @param string $name
+     * @param $name
      * @return mixed
      */
-    public function setName(string $name);
+    public function setName($name);
 
     /**
      * @return mixed

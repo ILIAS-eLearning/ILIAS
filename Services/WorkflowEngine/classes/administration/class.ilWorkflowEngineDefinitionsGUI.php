@@ -44,6 +44,7 @@ class ilWorkflowEngineDefinitionsGUI
      * Handle the command given.
      * @param string $command
      * @return string HTML
+     * @noinspection PhpInconsistentReturnPointsInspection
      */
     public function handle(string $command)
     {
@@ -148,10 +149,10 @@ class ilWorkflowEngineDefinitionsGUI
     }
 
     /**
-     * @return string
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
+     * @noinspection PhpInconsistentReturnPointsInspection
      */
     public function handleUploadSubmit()
     {
@@ -287,7 +288,7 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function startListening()
     {
-        $identifier = basename($this->service->internal()->request()->getProcessId());
+        $identifier = basename(current($this->service->internal()->request()->getProcessId()));
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
         $class = substr($identifier, 4);
@@ -349,7 +350,7 @@ class ilWorkflowEngineDefinitionsGUI
 
     public function stopListening() : void
     {
-        $process_id = ilUtil::stripSlashes($this->service->internal()->request()->getProcessId());
+        $process_id = ilUtil::stripSlashes(current($this->service->internal()->request()->getProcessId()));
 
         require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::deleteStartEventData($process_id);
@@ -378,7 +379,7 @@ class ilWorkflowEngineDefinitionsGUI
             );
         }
 
-        $identifier = basename($this->service->internal()->request()->getProcessId());
+        $identifier = basename(current($this->service->internal()->request()->getProcessId()));
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
         $class = substr($identifier, 4);

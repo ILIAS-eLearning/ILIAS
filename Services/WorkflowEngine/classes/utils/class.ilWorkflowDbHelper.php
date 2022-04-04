@@ -22,14 +22,11 @@ class ilWorkflowDbHelper
     /**
      * Takes a workflow as an argument and saves it to the database.
      *
-     * @global ilDB      $ilDB
-     *
      * @param ilWorkflow $workflow
      */
     public static function writeWorkflow(ilWorkflow $workflow)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         $require_data_persistance = $workflow->isDataPersistenceRequired();
@@ -101,10 +98,9 @@ class ilWorkflowDbHelper
     public static function persistWorkflowIOData(ilWorkflow $workflow)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
-        $workflow_id = $workflow->getId();
+        $workflow_id = $workflow->getDbId();
 
         $input_data = $workflow->getInputVars();
         foreach ($input_data as $name => $value) {
@@ -129,14 +125,11 @@ class ilWorkflowDbHelper
      * Takes a workflow as an argument and deletes the corresponding entry
      * from the database.
      *
-     * @global ilDB $ilDB
-     *
      * @param ilWorkflow $a_workflow
      */
     public static function deleteWorkflow(ilWorkflow $a_workflow)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
         
         if ($a_workflow->hasDbId()) {
@@ -172,15 +165,11 @@ class ilWorkflowDbHelper
 
     /**
      * Takes a detector as an argument and saves it to the database.
-     *
-     * @global ilDB $ilDB
-     *
      * @param ilDetector $a_detector
      */
     public static function writeDetector(ilDetector $a_detector)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         if ($a_detector->hasDbId()) {
@@ -258,13 +247,10 @@ class ilWorkflowDbHelper
      *
      * @param \ilDetector|\ilExternalDetector $detector
      *
-     * @global ilDB                           $ilDB
-     *
      */
     public static function deleteDetector(ilExternalDetector $detector)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         if ($detector->hasDbId()) {
@@ -287,8 +273,7 @@ class ilWorkflowDbHelper
      * @param integer $subject_id   Identifier of the subject, eg. 6.
      * @param string  $context_type Type of the context, e.g. crs.
      * @param integer $context_id   Identifier of the context, e.g. 48
-     * @return \integer	Array of workflow ids with listening detectors.
-     *@global ilDB    $ilDB
+     * @return \integer[]	Array of workflow ids with listening detectors.
      */
     public static function getDetectors(
         string $type,
@@ -297,9 +282,8 @@ class ilWorkflowDbHelper
         int $subject_id,
         string $context_type,
         int $context_id
-    ) : array|int {
+    ) {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
@@ -331,12 +315,10 @@ class ilWorkflowDbHelper
      * Wakes a workflow from the database.
      * @param integer $id workflow_id.
      * @return \ilWorkflow An ilWorkflow-implementing instance.
-     *@global ilDB   $ilDB
      */
     public static function wakeupWorkflow(int $id) : ?ilWorkflow
     {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         $result = $ilDB->query(
@@ -362,12 +344,10 @@ class ilWorkflowDbHelper
     /**
      * Takes a detector as an argument and saves it to the database.
      * @param array $event
-     *@global ilDB $ilDB
      */
     public static function writeStartEventData(array $event, $process_id)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         $event_id = $ilDB->nextId('wfe_startup_events');
@@ -397,7 +377,6 @@ class ilWorkflowDbHelper
     public static function writeStaticInput(string $key, string $value, string $start_event)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         $ilDB->insert(
@@ -421,7 +400,6 @@ class ilWorkflowDbHelper
         $query .= "AND ( context_id = '" . $params->getContextId() . "' OR context_id ='0' ) ";
 
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         $workflows = array();
@@ -437,7 +415,6 @@ class ilWorkflowDbHelper
         $query = "SELECT name, value FROM wfe_static_inputs WHERE event_id = '" . $event_id . "'";
 
         global $DIC;
-        /** @var ilDB $ilDB */
         $ilDB = $DIC['ilDB'];
 
         $result = $ilDB->query($query);

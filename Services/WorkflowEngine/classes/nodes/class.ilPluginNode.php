@@ -83,11 +83,8 @@ class ilPluginNode extends ilBaseNode
 
     /**
      * Passes a trigger to attached detectors.
-     * @param type      $a_type
-     * @param type|null $a_params
-     *@deprecated
      */
-    public function trigger(type $a_type, type $a_params = null) : void
+    public function trigger($a_type, $a_params = null) : void
     {
         if ($this->active == true && count($this->detectors) != 0) {
             foreach ($this->detectors as $detector) {
@@ -148,10 +145,11 @@ class ilPluginNode extends ilBaseNode
         if ($eval_function($this->detectors) === true) {
             $this->executeTransition();
             return true;
-        } else {
+        } else if (method_exists($this, 'executeElseTransition')){
             $this->executeElseTransition();
             return true;
         }
+        return false;
     }
 
     /**

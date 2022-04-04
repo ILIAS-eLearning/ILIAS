@@ -93,10 +93,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name) : void
+    public function setName($name) : void
     {
         $this->name = $name;
     }

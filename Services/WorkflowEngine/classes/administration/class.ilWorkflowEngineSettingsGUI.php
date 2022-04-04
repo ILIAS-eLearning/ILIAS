@@ -60,5 +60,6 @@ class ilWorkflowEngineSettingsGUI
                 );
             }
         }
+        return '';
     }
 }
