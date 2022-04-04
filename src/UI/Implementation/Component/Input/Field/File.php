@@ -19,7 +19,7 @@ use ilLanguage;
 class File extends HasDynamicInputsBase implements C\Input\Field\File
 {
     // ===============================================
-    // BEGIN IMPLEMENTATION OF FileUploadAware
+    // BEGIN IMPLEMENTATION OF FileUpload
     // ===============================================
 
     use FileUploadHelper;
@@ -50,11 +50,11 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     }
 
     // ===============================================
-    // END IMPLEMENTATION OF FileUploadAware
+    // END IMPLEMENTATION OF FileUpload
     // ===============================================
 
     // ===============================================
-    // BEGIN OVERWRITTEN METHODS OF DynamicInputsAware
+    // BEGIN OVERWRITTEN METHODS OF HasDynamicInputs
     // ===============================================
 
     /**
@@ -79,7 +79,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     }
 
     // ===============================================
-    // END OVERWRITTEN METHODS OF DynamicInputsAware
+    // END OVERWRITTEN METHODS OF HasDynamicInputs
     // ===============================================
 
     public function hasMetadataInputs() : bool
