@@ -34,5 +34,5 @@ interface ilDatabaseUpdateSteps
      * Do not use anything from the globals or the DIC inside your steps, only use
      * the instance of the database provided here.
      */
-    public function prepare(\ilDBInterface $db);//PHP8Review: this should definetly return void but would exceedes the space of database. Therefore i just give a recommandation here
+    public function prepare(\ilDBInterface $db) : void;
 }

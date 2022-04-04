@@ -1414,9 +1414,9 @@ abstract class ilDBPdoFieldDefinition
     /**
      * @param mixed $value
      */
-    public function quote($value, $type = null, bool $quote = true, bool $escape_wildcards = false) : string
+    public function quote($value, ?string $type = null, bool $quote = true, bool $escape_wildcards = false) : string
     {
-        return $this->getDBInstance()->quote($value, $type);//PHP8Review: type is optional as parameter but has to be string for further operations
+        return $this->getDBInstance()->quote($value, $type ?? '');
     }
 
     /**
@@ -1440,10 +1440,10 @@ abstract class ilDBPdoFieldDefinition
         return "'" . $value . "'";
     }
 
-    protected function readFile($value) : string//PHP8Review: $value is either resource or string but both types would cause errors here
+    protected function readFile($value) : string
     {
         $close = false;
-        if (preg_match('/^(\w+:\/\/)(.*)$/', $value, $match)) {
+        if (is_string($value) && preg_match('/^(\w+:\/\/)(.*)$/', $value, $match)) {
             $close = true;
             if ($match[1] === 'file://') {
                 $value = $match[2];

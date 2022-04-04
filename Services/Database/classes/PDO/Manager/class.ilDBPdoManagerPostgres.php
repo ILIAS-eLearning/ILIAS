@@ -214,8 +214,10 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         $db = $this->db_instance;
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
-
-        return $db->manipulate("CREATE SEQUENCE $sequence_name INCREMENT 1" . ($start < 1 ? " MINVALUE $start" : '') . " START $start");//PHP8Review: This doesnt return bool
+    
+        return 0 < $db->manipulate(
+            "CREATE SEQUENCE $sequence_name INCREMENT 1" . ($start < 1 ? " MINVALUE $start" : '') . " START $start"
+        );
     }
 
 
@@ -224,8 +226,8 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         $db = $this->db_instance;
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
-
-        return $db->manipulate("DROP SEQUENCE $sequence_name");//PHP8Review: This doesnt return bool
+    
+        return 0 < $db->manipulate("DROP SEQUENCE $sequence_name");
     }
 
 
@@ -235,8 +237,8 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
 
         $name = $this->getIndexName($name);
         $name = $db->quoteIdentifier($this->getDBInstance()->constraintName($table, $name), true);
-
-        return $db->manipulate("DROP INDEX $name");//PHP8Review: This doesnt return bool
+    
+        return 0 < $db->manipulate("DROP INDEX $name");
     }
 
 

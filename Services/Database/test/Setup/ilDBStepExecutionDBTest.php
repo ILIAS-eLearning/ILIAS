@@ -42,10 +42,11 @@ class ilDBStepExecutionDBTest extends TestCase
     public function testStartedThrowsOnStartStepNotLargerThenLastFinishedStep() : void
     {
         $STEP = 1;
-
+        $NOW = "2021-08-12 13:37:23.111111";
+        
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])//PHP8Review: I assume $NOW ist defined here, but not quite sure since this is testing area. You may ignore this...
+            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
         $execution_db->expects($this->once())
@@ -60,9 +61,11 @@ class ilDBStepExecutionDBTest extends TestCase
 
     public function testStartedThrowsWhenLastStepNotFinished() : void
     {
+        $NOW = "2021-08-12 13:37:23.111111";
+        
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])//PHP8Review: I assume $NOW ist defined here, but not quite sure since this is testing area. You may ignore this...
+            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
         $execution_db->expects($this->once())
@@ -84,10 +87,11 @@ class ilDBStepExecutionDBTest extends TestCase
     public function testFinishedThrowsWhenOtherStepThenLastIsFinished() : void
     {
         $STEP = 1;
+        $NOW = "2021-08-12 13:37:23.111111";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
-            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])//PHP8Review: I assume $NOW ist defined here, but not quite sure since this is testing area. You may ignore this...
+            ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
         $execution_db->expects($this->once())

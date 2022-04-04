@@ -185,7 +185,7 @@ class ilDBAnalyzer
      *
      * @return array indices information array
      */
-    public function getIndicesInformation(string $a_table, $a_abstract_table = false) : array//PHP8Review: Missing typehint
+    public function getIndicesInformation(string $a_table, bool $a_abstract_table = false) : array
     {
         //$constraints = $this->manager->listTableConstraints($a_table);
         $indexes = $this->manager->listTableIndexes($a_table);
@@ -240,7 +240,7 @@ class ilDBAnalyzer
      *
      * @return array indices information array
      */
-    public function getConstraintsInformation(string $a_table, $a_abstract_table = false) : array//PHP8Review: Missing typehint
+    public function getConstraintsInformation(string $a_table, bool $a_abstract_table = false) : array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 

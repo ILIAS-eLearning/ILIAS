@@ -107,7 +107,7 @@ class ilBenchmark
      *
      * @deprecated
      */
-    public function start($a_module, $a_bench) : void//PHP8Review: Missing Typehints
+    public function start(string $a_module, string $a_bench) : void
     {
     }
 
@@ -116,7 +116,7 @@ class ilBenchmark
      *
      * @deprecated
      */
-    public function stop($a_module, $a_bench) : void//PHP8Review: Missing Typehints
+    public function stop(string $a_module, string $a_bench) : void
     {
     }
 
@@ -234,7 +234,7 @@ class ilBenchmark
     /**
      * start measurement
      */
-    public function startDbBench(string $a_sql) : void //PHP8Review: i assume this should be void but could also be int and missing its return value
+    public function startDbBench(string $a_sql) : void
     {
         if (
             !$this->stop_db_recording
