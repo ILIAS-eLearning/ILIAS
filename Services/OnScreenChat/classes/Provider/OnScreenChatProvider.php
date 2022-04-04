@@ -79,10 +79,12 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                 })
                 ->withTitle($this->dic->language()->txt('mm_private_chats'))
                 ->withSymbol($icon)
-                ->withContent($this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
-                    function ($id) {
-                        return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
-                    })
+                ->withContent(
+                    $this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
+                        function ($id) {
+                            return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
+                        }
+                    )
                 )
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(40)
@@ -143,13 +145,15 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                                   IL_CAL_UNIX
                               )
                           )
-                      ])
+                      ]
+                  )
                   ->withLeadIcon($icon->withIsOutlined(true))
                   ->withClose($this->dic->ui()->factory()->button()->close())
                   ->withAdditionalOnLoadCode(
-                    function ($id) use ($cid){
-                        return "il.OnScreenChat.menuCollector.querySelector('#$id').dataset.id = '$cid';";
-                    })
+                      function ($id) use ($cid) {
+                          return "il.OnScreenChat.menuCollector.querySelector('#$id').dataset.id = '$cid';";
+                      }
+                  )
             ;
         }
 
