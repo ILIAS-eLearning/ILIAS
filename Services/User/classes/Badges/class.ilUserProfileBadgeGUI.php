@@ -27,7 +27,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
     {
         global $DIC;
 
-        $this->request = $this->http()->request();
+        $this->request = $DIC->http()->request();
     }
 
     public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
@@ -62,7 +62,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
     {
         $fields = array();
         foreach (array_keys($this->request->getParsedBody()) as $id) {
-            if (substr($id, 0, 4) == "chk_") {
+            if (strpos($id, "chk_") === 0) {
                 $fields[] = $id;
             }
         }

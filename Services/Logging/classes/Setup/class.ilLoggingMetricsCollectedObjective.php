@@ -24,7 +24,7 @@ class ilLoggingMetricsCollectedObjective extends CollectedObjective
 
         $storage->storeConfigBool(
             "enable",
-            $ini->readVariable("log", "enabled"),
+            (bool) $ini->readVariable("log", "enabled"),
             "Is the logging enabled on the installation?"
         );
         $storage->storeConfigText(

@@ -29,6 +29,11 @@ Examples of badges can be found in /Modules/Course/ and /Services/User/.
 
 ## Export
 
+The backpack features are currently disabled, see
+https://mantis.ilias.de/view.php?id=20124
+
+Older text:
+
 Exporting badges to an Open Badges Backpack (Mozilla) is supported, while importing from that backpack - or anywhere else - is not. 
 The export generates static badge files according to the open badges specification. It is not badge specific.
 

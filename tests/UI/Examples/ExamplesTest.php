@@ -79,7 +79,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
                     0,
                     count($entry->getExamples()),
                     "Non abstract Component " . $entry->getNamespace()
-                    . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace()
+                    . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace() . " at " . $entry->getExamplesPath()
                 );
             }
         }

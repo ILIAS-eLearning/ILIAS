@@ -21,6 +21,7 @@ class Factory
      * cache for color factory.
      */
     private ?Color\Factory $colorfactory = null;
+    private ?Dimension\Factory $dimensionfactory = null;
 
     /**
      * Get an ok result.
@@ -161,5 +162,21 @@ class Factory
     public function clock() : ClockFactory
     {
         return new ClockFactoryImpl();
+    }
+
+    public function dimension() : Dimension\Factory
+    {
+        if (!$this->dimensionfactory) {
+            $this->dimensionfactory = new Dimension\Factory();
+        }
+        return $this->dimensionfactory;
+    }
+
+    /**
+     * @param array<string, Dimension\Dimension> $dimensions Dimensions with their names as keys
+     */
+    public function dataset(array $dimensions) : Chart\Dataset
+    {
+        return new Chart\Dataset($dimensions);
     }
 }

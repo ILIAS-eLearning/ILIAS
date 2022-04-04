@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Represents search sub item lists
  *
@@ -12,7 +26,7 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
 {
     protected ilAccessHandler $access;
 
-    public function __construct($a_cmd_class)
+    public function __construct(string $a_cmd_class)
     {
         global $DIC;
         parent::__construct($a_cmd_class);
@@ -45,7 +59,7 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
             }
             $valid = true;
 
-            if (is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(), $sub_item))) {
+            if (is_object($this->getHighlighter()) && strlen($this->getHighlighter()->getContent($this->getObjId(), $sub_item))) {
                 $this->tpl->setCurrentBlock('sea_fragment');
                 $this->tpl->setVariable('TXT_FRAGMENT', $this->getHighlighter()->getContent($this->getObjId(), $sub_item));
                 $this->tpl->parseCurrentBlock();

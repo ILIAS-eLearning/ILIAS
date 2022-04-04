@@ -121,8 +121,7 @@ class Renderer extends AbstractComponentRenderer
         }
         $signals = json_encode($signals);
 
-        return $component->withAdditionalOnLoadCode(function ($id) use ($signals) {
-            return "
+        return $component->withAdditionalOnLoadCode(fn($id) => "
 			$('#$id > span').click(function(e){
 				var node = $('#$id'),
 					signals = $signals;
@@ -133,8 +132,7 @@ class Renderer extends AbstractComponentRenderer
 				}
 
 				return false;
-			});";
-        });
+			});");
     }
 
     /**

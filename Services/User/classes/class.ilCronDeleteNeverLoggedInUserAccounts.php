@@ -157,7 +157,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
                 continue;
             }
 
-            $DIC->logger()->usr()->info(sprintf(
+            $DIC->logger()->user()->info(sprintf(
                 "Deleting user account with id %s (login: %s)",
                 $user->getId(),
                 $user->getLogin()

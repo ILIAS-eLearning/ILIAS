@@ -579,7 +579,7 @@ class ilSoapUtils extends ilSoapAdministration
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilLog = $DIC->logger()->usr();
+        $ilLog = $DIC->logger()->user();
 
         $ilLog->debug('Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
         require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';

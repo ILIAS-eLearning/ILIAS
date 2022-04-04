@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +51,6 @@ class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
      */
     public static function echoAutoCompleteList() : void
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $t = $DIC->refinery()->kindlyTo()->string();

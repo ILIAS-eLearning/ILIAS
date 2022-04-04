@@ -33,7 +33,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
     public function __construct(ServerRequestInterface $httpRequest, ilCtrl $ctrl)
     {
         global $DIC;
-        $this->logger = $DIC->logger->auth();
+        $this->logger = $DIC->logger()->auth();
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = new ilSetting('apache_auth');

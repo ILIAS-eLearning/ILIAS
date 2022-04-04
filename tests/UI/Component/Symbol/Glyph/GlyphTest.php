@@ -427,7 +427,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $ids = array();
         $c = $f->$type("http://www.ilias.de")
-                ->withOnLoadCode(function ($id) use (&$ids) {
+                ->withOnLoadCode(function ($id) use (&$ids) : string {
                     $ids[] = $id;
                     return "";
                 });

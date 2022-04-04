@@ -129,7 +129,7 @@ class ilAccountMail
         return $this->amail[$a_lang];
     }
 
-    private function addAttachments($mailData) : void
+    private function addAttachments(array $mailData) : void
     {
         if (isset($mailData['att_file']) && $this->shouldAttachConfiguredFiles()) {
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);

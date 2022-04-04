@@ -56,18 +56,6 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("badge_in_profile"), "active");
         $this->addColumn($lng->txt("actions"), "");
 
-        if (ilBadgeHandler::getInstance()->isObiActive()) {
-
-            
-            // :TODO: use local copy instead?
-            $tpl->addJavascript("https://backpack.openbadges.org/issuer.js", false);
-            
-            $tpl->addJavascript("Services/Badge/js/ilBadge.js");
-            $tpl->addOnLoadCode('il.Badge.setUrl("' .
-                $ilCtrl->getLinkTarget($this->getParentObject(), "addtoBackpack", "", true, false) .
-            '")');
-        }
-        
         $this->setDefaultOrderField("title");
         
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
@@ -75,9 +63,6 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
                 
         $this->addMultiCommand("activate", $lng->txt("badge_add_to_profile"));
         $this->addMultiCommand("deactivate", $lng->txt("badge_remove_from_profile"));
-        if (ilBadgeHandler::getInstance()->isObiActive()) {
-            $this->addMultiCommand("addToBackpackMulti", $lng->txt("badge_add_to_backpack"));
-        }
         $this->setSelectAllCheckbox("badge_id");
         
         $this->getItems($a_user_id);
@@ -115,7 +100,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
             $parent = null;
             if ($badge->getParentId()) {
                 $parent = $badge->getParentMeta();
-                if ($parent["type"] == "bdga") {
+                if ($parent["type"] === "bdga") {
                     $parent = null;
                 } else {
                     $filter_parent[$parent["id"]] =
@@ -139,7 +124,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         
         if ($this->filter["title"]) {
             foreach ($data as $idx => $row) {
-                if (!stristr($row["title"], $this->filter["title"])) {
+                if (stripos($row["title"], $this->filter["title"]) === false) {
                     unset($data[$idx]);
                 }
             }
@@ -151,10 +136,8 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
                     if (!$row["parent"] || $row["parent"]["id"] != $this->filter["obj"]) {
                         unset($data[$idx]);
                     }
-                } else {
-                    if ($row["parent"]) {
-                        unset($data[$idx]);
-                    }
+                } elseif ($row["parent"]) {
+                    unset($data[$idx]);
                 }
             }
         }
@@ -195,20 +178,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
             ? "badge_add_to_profile"
             : "badge_remove_from_profile"), "", $url);
         
-        if (ilBadgeHandler::getInstance()->isObiActive()) {
-            $actions->addItem(
-                $lng->txt("badge_add_to_backpack"),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                false,
-                "il.Badge.publish(" . $a_set["id"] . ");"
-            );
-        }
-        
+
         $this->tpl->setVariable("ACTIONS", $actions->getHTML());
     }
 }

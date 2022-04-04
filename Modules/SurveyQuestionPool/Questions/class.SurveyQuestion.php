@@ -43,10 +43,7 @@ class SurveyQuestion
     private array $arrData;         //  question data
     protected ilLogger $log;
 
-    /**
-     * @var \ILIAS\SurveyQuestionPool\Export\ImportSessionRepository
-     */
-    protected $import_manager;
+    protected \ILIAS\SurveyQuestionPool\Export\ImportSessionRepository $import_manager;
 
     public function __construct(
         string $title = "",
@@ -254,7 +251,7 @@ class SurveyQuestion
         return $this->id;
     }
 
-    public function getObligatory()
+    public function getObligatory() : bool
     {
         return $this->obligatory;
     }
@@ -1671,7 +1668,7 @@ class SurveyQuestion
     
     public function hasCopies() : bool
     {
-        return (bool) sizeof($this->getCopyIds());
+        return (bool) count($this->getCopyIds());
     }
     
     public static function _lookupSurveyObjId(

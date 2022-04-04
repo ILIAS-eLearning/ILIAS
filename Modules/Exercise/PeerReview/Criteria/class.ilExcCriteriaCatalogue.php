@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilExcCriteriaCatalogue
  *
@@ -12,8 +26,8 @@ class ilExcCriteriaCatalogue
 {
     protected ilDBInterface $db;
     protected ?int $id = null;
-    protected ?int $parent;
-    protected ?string $title;
+    protected ?int $parent = null;
+    protected ?string $title = null;
     protected int $pos = 0;
     
     public function __construct(int $a_id = null)
@@ -25,7 +39,6 @@ class ilExcCriteriaCatalogue
     }
 
     /**
-     * @param int $a_parent_id
      * @return self[]
      */
     public static function getInstancesByParentId(int $a_parent_id) : array
@@ -54,7 +67,7 @@ class ilExcCriteriaCatalogue
     // properties
     //
     
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -130,7 +143,7 @@ class ilExcCriteriaCatalogue
         return (int) $row["pos"];
     }
     
-    protected function read(?int $a_id)
+    protected function read(?int $a_id) : void
     {
         $ilDB = $this->db;
         
@@ -138,7 +151,7 @@ class ilExcCriteriaCatalogue
             $set = $ilDB->query("SELECT *" .
                 " FROM exc_crit_cat" .
                 " WHERE id = " . $ilDB->quote($a_id, "integer"));
-            if ($ilDB->numRows($set)) {
+            if ($ilDB->numRows($set) !== 0) {
                 $row = $ilDB->fetchAssoc($set);
                 $this->importFromDB($row);
             }

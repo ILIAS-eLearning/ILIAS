@@ -21,10 +21,12 @@
 class shibUser extends ilObjUser
 {
     protected shibServerData $shibServerData;
+    
 
     public static function buildInstance(shibServerData $shibServerData) : shibUser
     {
         $shibUser = new self();
+        $shibUser->setLastPasswordChangeToNow();
         $shibUser->shibServerData = $shibServerData;
         $ext_id = $shibUser->shibServerData->getLogin();
         $shibUser->setExternalAccount($ext_id);

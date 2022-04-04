@@ -2,6 +2,9 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\DI\RBACServices;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Data\Factory;
 
 /**
  * Class ilSamlSettingsGUI
@@ -17,7 +20,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalCommands = [
+    protected static array $globalCommands = [
         self::DEFAULT_CMD,
         'showAddIdpForm',
         'showSettings',
@@ -29,7 +32,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalEntityCommands = [
+    protected static array $globalEntityCommands = [
         'deactivateIdp',
         'activateIdp',
         'confirmDeleteIdp',
@@ -39,7 +42,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $ignoredUserFields = [
+    protected static array $ignoredUserFields = [
         'mail_incoming_mail',
         'preferences',
         'hide_own_online_status',
@@ -64,11 +67,11 @@ class ilSamlSettingsGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $access;
-    protected \ILIAS\DI\RBACServices $rbac;
+    protected RBACServices $rbac;
     protected ilErrorHandling $error_handler;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected GlobalHttpState $httpState;
     protected Refinery $refinery;
     protected ilHelpGUI $help;
     protected ?ilExternalAuthUserAttributeMapping $mapping = null;
@@ -407,18 +410,21 @@ class ilSamlSettingsGUI
         return $form;
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function prepareRoleSelection() : array
     {
-        $global_roles = ilUtil::_sortIds(
+        $global_roles = array_map('intval', ilUtil::_sortIds(
             $this->rbac->review()->getGlobalRoles(),
             'object_data',
             'title',
             'obj_id'
-        );
+        ));
 
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
-            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
+            $select[$role_id] = ilObject::_lookupTitle($role_id);
         }
 
         return $select;
@@ -594,7 +600,7 @@ class ilSamlSettingsGUI
             $this->lng->txt('auth_saml_add_idp_md_label'),
             'metadata',
             new ilSamlIdpXmlMetadataParser(
-                new \ILIAS\Data\Factory(),
+                new Factory(),
                 new ilSamlIdpXmlMetadataErrorFormatter()
             )
         );

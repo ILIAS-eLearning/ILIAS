@@ -40,7 +40,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         $this->factory->bulky('wrong param', "label", $this->target);
     }
     
-    public function testWithAriaRole()
+    public function testWithAriaRole() : void
     {
         try {
             $b = $this->factory->bulky($this->glyph, "label", $this->target)
@@ -51,7 +51,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         }
     }
     
-    public function testWithAriaRoleIncorrect()
+    public function testWithAriaRoleIncorrect() : void
     {
         try {
             $this->factory->bulky($this->glyph, "label", $this->target)
@@ -153,7 +153,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         );
     }
         
-    public function testRenderWithAriaRoleMenuitem()
+    public function testRenderWithAriaRoleMenuitem() : void
     {
         $r = $this->getDefaultRenderer();
         $b = $this->factory->bulky($this->icon, "label", $this->target)

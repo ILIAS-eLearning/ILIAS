@@ -86,7 +86,7 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         if (!defined("CLIENT_DATA_DIR")) {
             define(
                 "CLIENT_DATA_DIR",
-                $filesystem_config->getDataDir() . "/" . $common_config->getClientId()
+                $filesystem_config->getDataDir() . "/" . ((string) $common_config->getClientId())
             );
         }
 

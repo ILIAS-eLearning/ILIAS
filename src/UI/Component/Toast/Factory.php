@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Toast;
+
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**

@@ -67,7 +67,6 @@ class ilMailCronOrphanedMailsNotificationCollector
         ) . " ORDER BY m.user_id, folder_id, mail_id";
 
         $collection_obj = null;
-        $folder_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
         while ($row = $this->db->fetchAssoc($res)) {

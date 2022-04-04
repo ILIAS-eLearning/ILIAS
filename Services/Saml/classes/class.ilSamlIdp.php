@@ -88,8 +88,8 @@ class ilSamlIdp
     }
 
     /**
-     * Deletes an idp with all relvant mapping rules.
-     * Furthermore the auth_mode of the relevant user accounts will be switched to 'default'
+     * Deletes an idp with all relevant mapping rules.
+     * Furthermore, the auth_mode of the relevant user accounts will be switched to 'default'
      */
     public function delete() : void
     {

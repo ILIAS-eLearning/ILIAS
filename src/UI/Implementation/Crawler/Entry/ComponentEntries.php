@@ -107,7 +107,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
 
     public function isParentOfEntry(string $parent_id, string $entry_id) : bool
     {
-        return in_array($parent_id,$this->getParentsOfEntry($entry_id));
+        return in_array($parent_id, $this->getParentsOfEntry($entry_id));
     }
 
     /**

@@ -28,6 +28,7 @@ class FixedNameSourceFilter implements NameSource
 
 class ConcreteFilter extends Filter
 {
+    public array $inputs;
     public ?Input\InputData $input_data = null;
     protected Input\Field\Factory $input_factory;
     protected Group $input_group;

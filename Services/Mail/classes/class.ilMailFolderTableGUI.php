@@ -84,7 +84,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         });
 
         $columns = [];
-        foreach ($optionalColumns as $index => $column) {
+        foreach ($optionalColumns as $column) {
             $columns[$column['field']] = $column;
         }
 

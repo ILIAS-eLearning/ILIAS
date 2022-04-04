@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Team wiki type gui implementations
  *
@@ -52,7 +66,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -61,7 +75,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("createWiki"))) {
+                if ($cmd === "createWiki") {
                     $this->$cmd();
                 }
         }
@@ -70,7 +84,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form)
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
     {
         $lng = $this->lng;
 
@@ -102,7 +116,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form)
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
     {
         $ar = new ilExAssWikiTeamAR();
         $ar->setId($ass->getId());
@@ -117,7 +131,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass)
+    public function getFormValuesArray(ilExAssignment $ass) : array
     {
         $values = [];
 
@@ -142,7 +156,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
      *
      * @param array $par parameter
      */
-    public function getHTML($par) : string
+    public function getHTML(array $par) : string
     {
         switch ($par["mode"]) {
             case self::MODE_OVERVIEW:
@@ -154,11 +168,8 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 
     /**
      * Render overview content
-     *
-     * @param ilInfoScreenGUI $a_info
-     * @param ilExSubmission $a_submission
      */
-    protected function renderOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+    protected function renderOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -167,7 +178,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         $valid_wiki = false;
 
         $team_members = $a_submission->getTeam()->getMembers();
-        $team_available = (sizeof($team_members));
+        $team_available = (count($team_members));
 
         $selected_wiki = $a_submission->getSelectedObject();
         if ($selected_wiki) {
@@ -197,7 +208,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
                 $button->setCaption("exc_create_wiki");
                 $button->setUrl($ctrl->getLinkTarget($this, "createWiki"));
 
-                $files_str .= "" . $button->render();
+                $files_str .= $button->render();
             }
         }
         if ($files_str) {
@@ -220,7 +231,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     /**
      * Create wiki for assignment
      */
-    protected function createWiki()
+    protected function createWiki() : void
     {
         $access = $this->access;
         $lng = $this->lng;

@@ -17,7 +17,7 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
         {
         }
 
-        public function _getTemplate($a, $b, $c) : Template
+        public function _getTemplate(string $a, bool $b, bool $c) : Template
         {
             return $this->getTemplate($a, $b, $c);
         }

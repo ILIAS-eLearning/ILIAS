@@ -14,8 +14,6 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 
     public function __construct(string $buttonLabel)
     {
-        global $DIC;
-
         $this->buttonLabel = $buttonLabel;
         parent::__construct();
         $this->setTitle($this->lng->txt('attachments'));

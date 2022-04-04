@@ -347,7 +347,7 @@ EOT;
         $this->assertEquals($p->getViewControls(), [$sortation]);
     }
 
-    public function test_render_with_sortation()
+    public function test_render_with_sortation() : void
     {
         $sort_options = [
             'a' => 'A',

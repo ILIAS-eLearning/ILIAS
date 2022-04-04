@@ -19,6 +19,7 @@ class Listing extends Secondary implements C\Panel\Secondary\Listing
 
     /**
      * Panel Secondary Listing constructor.
+     * @param \ILIAS\UI\Component\Item\Group[] $item_groups
      */
     public function __construct(string $title, array $item_groups)
     {

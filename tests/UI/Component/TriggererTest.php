@@ -18,17 +18,17 @@ class Triggerermock implements Component\Triggerer
     use JavaScriptBindable;
     use ComponentHelper;
 
-    public function _appendTriggeredSignal(Component\Signal $signal, $event) : Component\Triggerer
+    public function _appendTriggeredSignal(Component\Signal $signal, string $event) : Component\Triggerer
     {
         return $this->appendTriggeredSignal($signal, $event);
     }
 
-    public function _withTriggeredSignal(Component\Signal $signal, $event) : Component\Triggerer
+    public function _withTriggeredSignal(Component\Signal $signal, string $event) : Component\Triggerer
     {
         return $this->withTriggeredSignal($signal, $event);
     }
 
-    public function _setTriggeredSignal(Component\Signal $signal, $event)
+    public function _setTriggeredSignal(Component\Signal $signal, string $event)
     {
         $this->setTriggeredSignal($signal, $event);
     }

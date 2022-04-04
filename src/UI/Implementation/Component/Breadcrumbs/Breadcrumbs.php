@@ -17,6 +17,9 @@ class Breadcrumbs implements B\Breadcrumbs
      */
     protected array $crumbs;
 
+    /**
+     * @param \ILIAS\UI\Component\Link\Standard[] $crumbs
+     */
     public function __construct(array $crumbs)
     {
         $types = array(Standard::class);

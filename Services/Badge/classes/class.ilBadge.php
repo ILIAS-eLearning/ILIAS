@@ -29,7 +29,7 @@ class ilBadge
     protected string $desc = "";
     protected string $image = "";
     protected string $valid = "";
-    protected array $config = [];
+    protected ?array $config = null;
     protected string $criteria = "";
     
     public function __construct(
@@ -43,7 +43,12 @@ class ilBadge
             $this->read($a_id);
         }
     }
-    
+
+    /**
+     * @param int $a_parent_id
+     * @param array|null $a_filter
+     * @return self[]
+     */
     public static function getInstancesByParentId(
         int $a_parent_id,
         array $a_filter = null
@@ -76,7 +81,11 @@ class ilBadge
                 
         return $res;
     }
-    
+
+    /**
+     * @param string $a_type_id
+     * @return self[]
+     */
     public static function getInstancesByType(
         string $a_type_id
     ) : array {
@@ -97,7 +106,7 @@ class ilBadge
                 
         return $res;
     }
-    
+
     public function getTypeInstance() : ?ilBadgeType
     {
         if ($this->getTypeId()) {
@@ -128,7 +137,11 @@ class ilBadge
             }
         }
     }
-    
+
+    /**
+     * @param array<string, mixed>|null $a_filter
+     * @return array[]
+     */
     public static function getObjectInstances(
         array $a_filter = null
     ) : array {
@@ -168,13 +181,11 @@ class ilBadge
             $row["deleted"] = true;
             $raw[] = $row;
         }
-        
+
         foreach ($raw as $row) {
-            // :TODO:
-            
             $res[] = $row;
         }
-        
+
         return $res;
     }
     
@@ -265,14 +276,13 @@ class ilBadge
     
     public function setConfiguration(array $a_value = null) : void
     {
-        if (is_array($a_value) &&
-            !sizeof($a_value)) {
+        if (is_array($a_value) && !count($a_value)) {
             $a_value = null;
         }
         $this->config = $a_value;
     }
     
-    public function getConfiguration() : array
+    public function getConfiguration() : ?array
     {
         return $this->config;
     }
@@ -324,9 +334,9 @@ class ilBadge
             $suffix = strtolower(array_pop($exp));
             if ($a_full_path) {
                 return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
-            } else {
-                return "img" . $this->getId() . "." . $suffix;
             }
+
+            return "img" . $this->getId() . "." . $suffix;
         }
         return "";
     }
@@ -381,7 +391,7 @@ class ilBadge
         $this->setImage($a_row["image"]);
         $this->setValid($a_row["valid"]);
         $this->setConfiguration($a_row["conf"]
-                ? unserialize($a_row["conf"])
+                ? unserialize($a_row["conf"], ["allowed_classes" => false])
                 : null);
     }
     
@@ -443,27 +453,33 @@ class ilBadge
         $ilDB->manipulate("DELETE FROM badge_badge" .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
     }
-    
+
+    /**
+     * @return array<string, array>
+     */
     protected function getPropertiesForStorage() : array
     {
-        return array(
-            "active" => array("integer", $this->isActive()),
-            "title" => array("text", $this->getTitle()),
-            "descr" => array("text", $this->getDescription()),
-            "crit" => array("text", $this->getCriteria()),
-            "image" => array("text", $this->getImage()),
-            "valid" => array("text", $this->getValid()),
-            "conf" => array("text", $this->getConfiguration()
-                ? serialize($this->getConfiguration())
-                : null)
-        );
+        return [
+            "active" => ["integer", $this->isActive()],
+            "title" => ["text", $this->getTitle()],
+            "descr" => ["text", $this->getDescription()],
+            "crit" => ["text", $this->getCriteria()],
+            "image" => ["text", $this->getImage()],
+            "valid" => ["text", $this->getValid()],
+            "conf" => [
+                "text", $this->getConfiguration() ? serialize($this->getConfiguration()) : null
+            ]
+        ];
     }
     
     
     //
     // helper
     //
-    
+
+    /**
+     * @return array{id: int, type: string, title: string, deleted: bool}
+     */
     public function getParentMeta() : array
     {
         $parent_type = ilObject::_lookupType($this->getParentId());
@@ -481,12 +497,12 @@ class ilBadge
             $deleted = true;
         }
         
-        return array(
+        return [
             "id" => $this->getParentId(),
             "type" => $parent_type,
             "title" => $parent_title,
             "deleted" => $deleted
-        );
+        ];
     }
     
     
@@ -511,27 +527,6 @@ class ilBadge
         return $json;
     }
     
-    public function getStaticUrl() : string
-    {
-        $path = ilBadgeHandler::getInstance()->getBadgePath($this);
-        
-        $base_url = ILIAS_HTTP_PATH . substr($path, 1);
-        
-        if (!file_exists($path . "class.json")) {
-            $exp = explode(".", $this->getImage());
-            $img_suffix = array_pop($exp);
-            
-            $json = json_encode($this->prepareJson($base_url, $img_suffix));
-            file_put_contents($path . "class.json", $json);
-            
-            // :TODO: scale?
-            copy($this->getImagePath(), $path . "image." . $img_suffix);
-            
-            file_put_contents($path . "criteria.txt", $this->getCriteria());
-        }
-        
-        return $base_url . "class.json";
-    }
 
     public function deleteStaticFiles() : void
     {

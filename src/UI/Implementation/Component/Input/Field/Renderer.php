@@ -191,22 +191,12 @@ class Renderer extends AbstractComponentRenderer
 
     protected function escapeSpecialChars() : Closure
     {
-        return function ($v) {
-            // with declare(strict_types=1) in place,
-            // htmlspecialchars will not silently convert to string anymore;
-            // therefore, the typecast must be explicit
-            return htmlspecialchars((string) $v, ENT_QUOTES);
-        };
+        return fn($v) => htmlspecialchars((string) $v, ENT_QUOTES);
     }
 
     protected function htmlEntities() : Closure
     {
-        return function ($v) {
-            // with declare(strict_types=1) in place,
-            // htmlentities will not silently convert to string anymore;
-            // therefore, the typecast must be explicit
-            return htmlentities((string) $v);
-        };
+        return fn($v) => htmlentities((string) $v);
     }
 
     protected function renderTextField(F\Text $component) : string
@@ -260,9 +250,7 @@ class Renderer extends AbstractComponentRenderer
         /**
          * @var $component F\OptionalGroup
          */
-        $component = $component->withAdditionalOnLoadCode(function ($id) {
-            return "il.UI.Input.groups.optional.init('$id')";
-        });
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.Input.groups.optional.init('$id')");
         $this->bindJSandApplyId($component, $tpl);
 
         $dependant_group_html = $default_renderer->render($component->getInputs());
@@ -278,9 +266,7 @@ class Renderer extends AbstractComponentRenderer
         /**
          * @var $component F\SwitchableGroup
          */
-        $component = $component->withAdditionalOnLoadCode(function ($id) {
-            return "il.UI.Input.groups.switchable.init('$id')";
-        });
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.Input.groups.switchable.init('$id')");
         $id = $this->bindJSandApplyId($component, $tpl);
 
         foreach ($component->getInputs() as $key => $group) {
@@ -321,9 +307,7 @@ class Renderer extends AbstractComponentRenderer
         
         if ($value) {
             $value = array_map(
-                function ($v) {
-                    return ['value' => urlencode($v), 'display' => $v];
-                },
+                fn($v) => ['value' => urlencode($v), 'display' => $v],
                 $value
             );
         }
@@ -354,17 +338,14 @@ class Renderer extends AbstractComponentRenderer
             $component = $component->withResetSignals();
             $sig_reveal = $component->getRevealSignal();
             $sig_mask = $component->getMaskSignal();
-            $component = $component->withAdditionalOnLoadCode(function ($id) use ($sig_reveal, $sig_mask) {
-                return
-                    "$(document).on('$sig_reveal', function() {
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$sig_reveal', function() {
                         $('#$id').addClass('revealed');
                         $('#$id')[0].getElementsByTagName('input')[0].type='text';
                     });" .
-                    "$(document).on('$sig_mask', function() {
+            "$(document).on('$sig_mask', function() {
                         $('#$id').removeClass('revealed');
                         $('#$id')[0].getElementsByTagName('input')[0].type='password';
-                    });";
-            });
+                    });");
 
             $f = $this->getUIFactory();
             $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
@@ -434,9 +415,7 @@ class Renderer extends AbstractComponentRenderer
             /**
              * @var $component F\Textarea
              */
-            $component = $component->withAdditionalOnLoadCode(function ($id) use ($counter_id_prefix, $min, $max) {
-                return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
-            });
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');");
 
             $id = $this->bindJSandApplyId($component, $tpl);
 
@@ -588,11 +567,9 @@ class Renderer extends AbstractComponentRenderer
          * @var $component F\Duration
          */
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) {
-                return "$(document).ready(function() {
+            fn($id) => "$(document).ready(function() {
                     il.UI.Input.duration.init('$id');
-                });";
-            }
+                });"
         );
         $id = $this->bindJSandApplyId($component, $tpl);
 
@@ -700,10 +677,9 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
-     * @param Input $input
      * @return F\Input|JavaScriptBindable
      */
-    protected function setSignals(Input $input)
+    protected function setSignals(Input $input) : \ILIAS\UI\Implementation\Component\Input\Field\Input
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {
@@ -824,11 +800,7 @@ class Renderer extends AbstractComponentRenderer
 
         // note that $dynamic_inputs_template_html is in tilted single quotes (`),
         // because otherwise the html syntax might collide with normal ones.
-        return $input->withAdditionalOnLoadCode(function ($id) use (
-            $dynamic_inputs_template_html,
-            $dynamic_input_count
-        ) {
-            return "
+        return $input->withAdditionalOnLoadCode(fn($id) => "
             $(document).ready(function () {
                 il.UI.Input.DynamicInputsRenderer.init(
                     '$id', 
@@ -836,8 +808,7 @@ class Renderer extends AbstractComponentRenderer
                     $dynamic_input_count
                 );
             });
-        ";
-        });
+        ");
     }
 
     protected function replaceTemplateIds(string $template_html) : string

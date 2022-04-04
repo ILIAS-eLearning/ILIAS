@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -138,7 +138,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
         if ($this->getValue()) {
             $exp->setPathOpen($this->getValue());
-            $exp->setHighlightedNode($this->getHighlightedNode());
+            $exp->setHighlightedNode((string) $this->getHighlightedNode());
         }
 
         if ($exp->handleCommand()) {
@@ -152,7 +152,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
     {
         $ilCtrl = $this->ctrl;
 
-        $this->setValue($this->int("root_id"));
+        $this->setValue((string) $this->int("root_id"));
         $this->writeToSession();
 
         $ilCtrl->returnToParent($this);
@@ -161,7 +161,6 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
     public function reset() : void
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
 
         $this->setValue("");
         $this->writeToSession();
@@ -181,7 +180,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());
-        $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
+        $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
         $tpl->setVariable("TXT_SELECT", $this->getSelectText());
         $tpl->setVariable("TXT_RESET", $lng->txt("reset"));
         switch ($a_mode) {
@@ -258,6 +257,6 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
     protected function getVisibleTypes() : array
     {
-        return array_merge((array) $this->container_types, $this->getClickableTypes());
+        return array_merge($this->container_types, $this->getClickableTypes());
     }
 }

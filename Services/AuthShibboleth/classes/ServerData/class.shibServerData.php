@@ -27,7 +27,7 @@ class shibServerData extends shibConfig
         foreach (array_keys(get_class_vars('shibConfig')) as $field) {
             $str = $shibConfig->getValueByKey($field);
             if ($str !== null) {
-                $this->{$field} = $data[$str];
+                $this->{$field} = $data[$str] ?? '';
             }
         }
     }

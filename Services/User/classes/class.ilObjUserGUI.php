@@ -409,7 +409,7 @@ class ilObjUserGUI extends ilObjectGUI
 
             $udf = array();
             foreach ($this->request->getParsedBody() as $k => $v) {
-                if (substr($k, 0, 4) == "udf_") {
+                if (strpos($k, "udf_") === 0) {
                     $udf[substr($k, 4)] = $v;
                 }
             }
@@ -515,10 +515,10 @@ class ilObjUserGUI extends ilObjectGUI
                 $acc_mail->setUser($userObj);
 
                 if ($acc_mail->send()) {
-                    $msg = $msg . '<br />' . $this->lng->txt('mail_sent');
+                    $msg .= '<br />' . $this->lng->txt('mail_sent');
                     $this->tpl->setOnScreenMessage('success', $msg, true);
                 } else {
-                    $msg = $msg . '<br />' . $this->lng->txt('mail_not_sent');
+                    $msg .= '<br />' . $this->lng->txt('mail_not_sent');
                     $this->tpl->setOnScreenMessage('info', $msg, true);
                 }
             } else {
@@ -821,7 +821,7 @@ class ilObjUserGUI extends ilObjectGUI
 
             $udf = array();
             foreach ($this->request->getParsedBody() as $k => $v) {
-                if (substr($k, 0, 4) == "udf_") {
+                if (strpos($k, "udf_") === 0) {
                     $udf[substr($k, 4)] = $v;
                 }
             }
@@ -1044,13 +1044,12 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Init user form
      */
-    public function initForm(string $a_mode)
+    public function initForm(string $a_mode) : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-        $styleDefinition = $DIC['styleDefinition'];
         $ilSetting = $DIC['ilSetting'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
         $ilUser = $DIC['ilUser'];
@@ -1453,10 +1452,8 @@ class ilObjUserGUI extends ilObjectGUI
                 $lng->txt("skin_style"),
                 'skin_style'
             );
-            /**
-             * @var ilStyleDefinition $styleDefinition
-             */
-            $skins = $styleDefinition->getAllSkins();
+
+            $skins = ilStyleDefinition::getAllSkins();
 
             $options = array();
             if (is_array($skins)) {
@@ -1884,13 +1881,13 @@ class ilObjUserGUI extends ilObjectGUI
                 return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $month, false, true);
 
             case "year":
-                if ($a_selected < date('Y', time())) {
+                if ($a_selected < date('Y')) {
                     $start = $a_selected;
                 } else {
-                    $start = date('Y', time());
+                    $start = date('Y');
                 }
 
-                for ($i = $start; $i < date("Y", time()) + 11; ++$i) {
+                for ($i = $start; $i < ((int) date("Y") + 11); ++$i) {
                     $year[$i] = $i;
                 }
                 return ilLegacyFormElementsUtil::formSelect($a_selected, $a_varname, $year, false, true);
@@ -2080,7 +2077,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
         }
 
-        if (substr($a_target, 0, 1) == "n") {
+        if (strpos($a_target, "n") === 0) {
             $a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
         }
 

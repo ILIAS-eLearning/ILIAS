@@ -36,7 +36,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function getCombinedSlateContents(
         ISlate\Slate $component
-    ) {
+    ) : array {
         $f = $this->getUIFactory();
         $contents = [];
         foreach ($component->getContents() as $entry) {
@@ -51,12 +51,10 @@ class Renderer extends AbstractComponentRenderer
                     $triggerer = $triggerer
                         ->withOnClick($trigger_signal)
                         ->withAdditionalOnLoadCode(
-                            function ($id) use ($mb_id, $trigger_signal) {
-                                return "
+                            fn($id) => "
                                     il.UI.maincontrols.mainbar.addTriggerSignal('{$trigger_signal}');
                                     il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}');
-                                ";
-                            }
+                                "
                         );
                 }
                 $contents[] = $triggerer;
@@ -76,7 +74,7 @@ class Renderer extends AbstractComponentRenderer
         ISlate\Slate $component,
         $contents,
         RendererInterface $default_renderer
-    ) {
+    ) : string {
         $tpl = $this->getTemplate("Slate/tpl.slate.html", true, true);
 
         $tpl->setVariable('CONTENTS', $default_renderer->render($contents));
@@ -107,7 +105,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($slate_signals, $mb_id) {
+            function ($id) use ($slate_signals, $mb_id) : string {
                 $js = "fn = il.UI.maincontrols.slate.onSignal;";
                 foreach ($slate_signals as $key => $signal) {
                     $js .= "$(document).on('{$signal}', function(event, signalData) { fn('{$key}', event, signalData, '{$id}'); return false;});";
@@ -130,11 +128,8 @@ class Renderer extends AbstractComponentRenderer
     protected function renderNotificationSlate(
         ISlate\Slate $component,
         RendererInterface $default_renderer
-    ) {
-        $contents = [];
-        foreach ($component->getContents() as $entry) {
-            $contents[] = $entry;
-        }
+    ) : string {
+        $contents = $component->getContents();
         $tpl = $this->getTemplate("Slate/tpl.notification.html", true, true);
         $tpl->setVariable('NAME', $component->getName());
         $tpl->setVariable('CONTENTS', $default_renderer->render($contents));

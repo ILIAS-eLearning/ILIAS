@@ -122,49 +122,49 @@ class ilMediaItem
         switch ($a_desired_type) {
             case "jpg":
             case "jpeg":
-                if ($im_types&IMG_JPG) {
+                if ($im_types & IMG_JPG) {
                     return "jpg";
                 }
-                if ($im_types&IMG_GIF) {
+                if ($im_types & IMG_GIF) {
                     return "gif";
                 }
-                if ($im_types&IMG_PNG) {
+                if ($im_types & IMG_PNG) {
                     return "png";
                 }
                 break;
             
             case "gif":
-                if ($im_types&IMG_GIF) {
+                if ($im_types & IMG_GIF) {
                     return "gif";
                 }
-                if ($im_types&IMG_JPG) {
+                if ($im_types & IMG_JPG) {
                     return "jpg";
                 }
-                if ($im_types&IMG_PNG) {
+                if ($im_types & IMG_PNG) {
                     return "png";
                 }
                 break;
             
             case "png":
-                if ($im_types&IMG_PNG) {
+                if ($im_types & IMG_PNG) {
                     return "png";
                 }
-                if ($im_types&IMG_JPG) {
+                if ($im_types & IMG_JPG) {
                     return "jpg";
                 }
-                if ($im_types&IMG_GIF) {
+                if ($im_types & IMG_GIF) {
                     return "gif";
                 }
                 break;
             
             case "svg":
-                if ($im_types&IMG_PNG) {
+                if ($im_types & IMG_PNG) {
                     return "png";
                 }
-                if ($im_types&IMG_JPG) {
+                if ($im_types & IMG_JPG) {
                     return "jpg";
                 }
-                if ($im_types&IMG_GIF) {
+                if ($im_types & IMG_GIF) {
                     return "gif";
                 }
                 break;
@@ -876,7 +876,7 @@ class ilMediaItem
             ? $this->getWidth() . "x" . $this->getHeight()
             : "";
 
-        if ($this->getLocationType() != "Reference") {
+        if ($this->getLocationType() !== "Reference") {
             ilShellUtil::convertImage(
                 $this->getDirectory() . "/" . $this->getLocation(),
                 $this->getMapWorkCopyName(),
