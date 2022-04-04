@@ -64,7 +64,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_type Name of type of the workflow.
      */
-    protected string $workflow_type;
+    protected $workflow_type;
 
     /**
      * Holds a content description of the workflow instance.
@@ -75,19 +75,19 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_content Content description of the workflow.
      */
-    protected string $workflow_content;
+    protected $workflow_content;
 
     /**
      * Holds the classname of the workflow definition.
      * @var string $workflow_class Name of the class. e.g. ComplianceWorkflow1 for class.ilComplianceWorkflow1.php
      */
-    protected string $workflow_class;
+    protected $workflow_class;
 
     /**
      * Holds the path to the workflow definition class relative to the applications root.
      * @var string $workflow_location Path to class, e.g. Services/WorkflowEngine for './Services/WorkflowEngine/classes/class..."
      */
-    protected string $workflow_location;
+    protected $workflow_location;
 
     /**
      * Holding the subject type of the workflow.
@@ -96,7 +96,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * E.g. crs, usr
      * @var string $workflow_subject_type Name of the subject type.
      */
-    protected string $workflow_subject_type;
+    protected $workflow_subject_type;
 
     /**
      * This is the actual identifier of the 'who'. If subject_type is a usr, this
@@ -104,7 +104,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_subject_identifier Identifier of the events subject.
      */
-    protected int $workflow_subject_identifier;
+    protected $workflow_subject_identifier;
 
     /**
      * Type of the workflows context.
@@ -113,7 +113,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_context_type Type if the events context type.
      */
-    protected string $workflow_context_type;
+    protected $workflow_context_type;
 
     /**
      * Identifier of the workflows context.
@@ -122,7 +122,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_context_identifier Identifier of the events context.
      */
-    protected int $workflow_context_identifier;
+    protected $workflow_context_identifier;
 
     /**
      * Array of instance variables to be shared across the workflow.
@@ -132,10 +132,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
     protected array $instance_vars = array();
 
     /** @var array $data_inputs Input data for the workflow (readonly). */
-    protected array $data_inputs;
+    protected $data_inputs;
 
     /** @var array $data_outputs Output data for the workflow. */
-    protected array $data_outputs;
+    protected $data_outputs;
 
     /** @var bool $require_data_persistence True, if the persistence needs to deal with data. */
     protected bool $require_data_persistence = false;
@@ -516,9 +516,8 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * Returns the given instance variables content
      * @param string $name Name of the variable.
-     * @return mixed Content of the variable.
      */
-    public function getInstanceVarByName(string $name) : mixed
+    public function getInstanceVarByName(string $name)
     {
         foreach ($this->instance_vars as &$instance_var) {
             if ($instance_var['name'] == $name) {
@@ -536,9 +535,8 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * Returns the given instance variables content
      *
      * @param string $name Name of the variable.
-     * @return mixed Content of the variable.
      */
-    public function getInstanceVarById(string $id) : mixed
+    public function getInstanceVarById(string $id)
     {
         foreach ($this->instance_vars as $instance_var) {
             if ($instance_var['id'] == $id) {
@@ -555,7 +553,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * Sets the given instance var with the given content.
      * @param string $name Name of the variable
-     * @param mixed  $value
      */
     public function setInstanceVarByName(string $name, $value)
     {
@@ -573,7 +570,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * Sets the given instance var with the given content.
      * @param string $id Name of the variable
-     * @param mixed  $value
      */
     public function setInstanceVarById(string $id, $value)
     {
@@ -593,9 +589,8 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * Sets the given instance var with the given content.
      * *only during startup to write event params*
      * @param string $role Role of the variable
-     * @param mixed  $value
      */
-    public function setInstanceVarByRole(string $role, mixed $value)
+    public function setInstanceVarByRole(string $role, $value)
     {
         foreach ($this->instance_vars as &$instance_var) {
             if ($instance_var['role'] == $role) {
@@ -718,11 +713,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
         return (array) $this->data_outputs;
     }
 
-    /**
-     * @param string $name
-     * @param mixed  $definition
-     */
-    public function registerInputVar(string $name, mixed $definition)
+     public function registerInputVar(string $name, $definition)
     {
         $definition['name'] = $name;
         $this->data_inputs[$name] = $definition;

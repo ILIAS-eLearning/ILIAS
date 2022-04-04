@@ -29,9 +29,9 @@ class ilBPMN2ParserUtils
      * @param null   $parent
      * @param string $namespace
      * @param bool   $recursive
-     * @return mixed
+
      */
-    private function add_node($node, &$parent = null, string $namespace = '', bool $recursive = false) : mixed
+    private function add_node($node, &$parent = null, string $namespace = '', bool $recursive = false)
     {
         $namespaces = $node->getNameSpaces(true);
         $content = "$node";
