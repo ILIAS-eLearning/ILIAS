@@ -136,6 +136,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $tabsManager->setTestSession($this->testSessionFactory->getSession());
             $tabsManager->setTestQuestionSetConfig($this->testQuestionSetConfigFactory->getQuestionSetConfig());
             $tabsManager->initSettingsTemplate();
+            if ($this->object->isDynamicTest()) {
+                $hidden_tabs = $tabsManager->getHiddenTabs();
+                $tabsManager->setHiddenTabs(array_merge($hidden_tabs, ['manscoring', 'scoringadjust']));
+            }
             $this->setTabsManager($tabsManager);
         }
     }
@@ -316,20 +320,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->prepareOutput();
                 }
                 $gui = new ilTestPlayerRandomQuestionSetGUI($this->object);
-                $gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
-                $this->ctrl->forwardCommand($gui);
-                break;
-
-            case "iltestplayerdynamicquestionsetgui":
-                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
-                }
-                $this->trackTestObjectReadEvent();
-                require_once "./Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php";
-                if (!$this->object->getKioskMode()) {
-                    $this->prepareOutput();
-                }
-                $gui = new ilTestPlayerDynamicQuestionSetGUI($this->object);
                 $gui->setObjectiveOrientedContainer($this->getObjectiveOrientedContainer());
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -930,22 +920,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         throw new ilTestException('question id does not relate to parent object!');
-    }
-    
-    private function questionsTabGatewayObject()
-    {
-        switch ($this->object->getQuestionSetType()) {
-            case ilObjTest::QUESTION_SET_TYPE_FIXED:
-                $this->ctrl->redirectByClass('ilTestExpressPageObjectGUI', 'showPage');
-
-                // no break
-            case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-                $this->ctrl->redirectByClass('ilTestRandomQuestionSetConfigGUI');
-                
-                // no break
-            case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-                $this->ctrl->redirectByClass('ilObjTestDynamicQuestionSetConfigGUI');
-        }
     }
 
     private function userResultsGatewayObject()
@@ -2657,7 +2631,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $oldQuestionSetType = $this->object->getQuestionSetType();
         $questionSetTypeSettingSwitched = ($oldQuestionSetType != $newQuestionSetType);
 
-        $oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType($oldQuestionSetType);
+        $oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType();
 
         switch (true) {
             case !$questionSetTypeSettingSwitched:

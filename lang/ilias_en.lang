@@ -648,6 +648,8 @@ assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
+assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
+assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition

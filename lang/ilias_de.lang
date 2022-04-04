@@ -651,6 +651,8 @@ assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
+assessment#:#ctm_cannot_be_changed#:#Wiedervorlagetests können nicht mehr geändert werden.
+assessment#:#ctm_cannot_be_started#:#Wiedervorlagetests können nicht mehr gestartet werden.
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition

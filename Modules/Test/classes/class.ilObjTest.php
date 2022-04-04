@@ -26,17 +26,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * type setting value for fixed question set
      */
-    const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
+    public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
     
     /**
      * type setting value for random question set
      */
-    const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
+    public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
     
     /**
      * type setting value for dynamic question set (continues testing mode)
      */
-    const QUESTION_SET_TYPE_DYNAMIC = 'DYNAMIC_QUEST_SET';
+    private const QUESTION_SET_TYPE_DYNAMIC = 'DYNAMIC_QUEST_SET';
 
     /**
      *
@@ -3687,18 +3687,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function getQuestionTitle($title, $nr = null) : string
     {
-        if ($this->getTitleOutput() == 2) {
-            if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC) {
-                // avoid legacy setting combination: ctm without question titles
-                return $title;
-            } elseif (isset($nr)) {
-                return $this->lng->txt("ass_question") . ' ' . $nr;
-            } else {
-                return $this->lng->txt("ass_question");
-            }
-        } else {
+        if ($this->getTitleOutput() !== 2) {
             return $title;
         }
+        
+        if ($this->getTitleOutput() === 2 && isset($nr)) {
+            return $this->lng->txt("ass_question") . ' ' . $nr;
+        }
+            
+        return $this->lng->txt("ass_question");
     }
     // fau.
 
@@ -8254,6 +8251,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             "executable" => true,
             "errormessage" => ""
         );
+        if ($this->isDynamicTest()) {
+            $result["executable"] = false;
+            $result["errormessage"] = ($this->lng->txt("ctm_cannot_be_started"));
+            return $result;
+        }
         if (!$this->startingTimeReached()) {
             $result["executable"] = false;
             $result["errormessage"] = sprintf($this->lng->txt("detail_starting_time_not_reached"), ilDatePresentation::formatDate(new ilDateTime($this->getStartingTime(), IL_CAL_UNIX)));
@@ -9270,6 +9272,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function prepareTextareaOutput($txt_output, $prepare_for_latex_output = false, $omitNl2BrWhenTextArea = false)
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
+        
         return ilLegacyFormElementsUtil::prepareTextareaOutput(
             $txt_output,
             $prepare_for_latex_output,
@@ -11861,7 +11864,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * Returns the fact wether this test is a dynamic question set test or not
      *
-     * @return boolean $isDynamicTest
+     * @deprecated 9 This is only kept in, to avoid crashing dynamic question tests with an ugly error.
      */
     public function isDynamicTest() : bool
     {
@@ -11911,17 +11914,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $scoring = new ilTestScoring($this);
         $scoring->setPreserveManualScores($preserve_manscoring);
         $scoring->recalculateSolutions();
-    }
-    
-    public static function getPoolQuestionChangeListeners(ilDBInterface $db, $poolObjId) : array
-    {
-        require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-        
-        $questionChangeListeners = array(
-            ilObjTestDynamicQuestionSetConfig::getPoolQuestionChangeListener($db, $poolObjId)
-        );
-        
-        return $questionChangeListeners;
     }
     
     public static function getTestObjIdsWithActiveForUserId($userId) : array

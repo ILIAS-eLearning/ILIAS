@@ -229,11 +229,6 @@ class ilTestSkillAdministrationGUI
             $poolLinks = $questionSetConfig->getCommaSeparatedSourceQuestionPoolLinks();
 
             return sprintf($this->lng->txt('tst_qst_skl_cfg_in_pool_hint_rndquestset'), $testMode, $poolLinks);
-        } elseif ($this->testOBJ->isDynamicTest()) {
-            $testMode = $this->lng->txt('tst_question_set_type_dynamic');
-            $poolLink = $questionSetConfig->getSourceQuestionPoolLink($questionSetConfig->getSourceQuestionPoolId());
-            
-            return sprintf($this->lng->txt('tst_qst_skl_cfg_in_pool_hint_dynquestset'), $testMode, $poolLink);
         }
 
         return '';

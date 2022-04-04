@@ -135,6 +135,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     private function showFormCmd(ilPropertyFormGUI $form = null)
     {
         $this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+        
+        if ($this->testOBJ->isDynamicTest()) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("ctm_cannot_be_changed"));
+            return;
+        }
 
         if ($form === null) {
             $form = $this->buildForm();
@@ -260,15 +265,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $qstSetSetting = $form->getItemByPostVar('question_set_type');
         $qTitleSetting = $form->getItemByPostVar('title_output');
         
-        if ($qstSetSetting->getValue() == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $qTitleSetting->getValue() == 2) {
-            $qstSetSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
-            $qTitleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
-            
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
-            $this->showFormCmd($form);
-            return;
-        }
-        
         // avoid settings conflict "obligate questions" and "freeze answer"
         
         $obligationsSetting = $form->getItemByPostVar('obligations_enabled');
@@ -325,9 +321,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $newQuestionSetType = $form->getItemByPostVar('question_set_type')->getValue();
 
             if (!$this->testOBJ->participantDataExist() && $newQuestionSetType != $oldQuestionSetType) {
-                $oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType(
-                    $oldQuestionSetType
-                );
+                $oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType();
 
                 if ($oldQuestionSetConfig->doesQuestionSetRelatedDataExist()) {
                     if (!$isConfirmedSave) {
@@ -618,12 +612,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $this->lng->txt("tst_question_set_type_random_desc")
         );
         $questSetType->addOption($questSetTypeRandom);
-        $questSetTypeContinues = new ilRadioOption(
-            $this->lng->txt("tst_question_set_type_dynamic"),
-            ilObjTest::QUESTION_SET_TYPE_DYNAMIC,
-            $this->lng->txt("tst_question_set_type_dynamic_desc")
-        );
-        $questSetType->addOption($questSetTypeContinues);
         $questSetType->setValue($this->testOBJ->getQuestionSetType());
         if ($this->testOBJ->participantDataExist()) {
             $questSetType->setDisabled(true);
