@@ -148,6 +148,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function __construct()
     {
+        $this->db_id = 0;
     }
 
     /**
