@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution;
 
 /**
@@ -89,6 +103,9 @@ class ilExPeerReview
         return true;
     }
     
+    /**
+     * @return int[]|string[]
+     */
     public function resetPeerReviews() : array
     {
         $ilDB = $this->db;
@@ -156,9 +173,9 @@ class ilExPeerReview
             }
                         
             return array(
-                "invalid" => (sizeof($missing_user_ids) ||
-                    sizeof($invalid_peer_ids) ||
-                    sizeof($invalid_giver_ids)),
+                "invalid" => (count($missing_user_ids) ||
+                    count($invalid_peer_ids) ||
+                    count($invalid_giver_ids)),
                 "missing_user_ids" => $missing_user_ids,
                 "not_returned_ids" => $not_returned_ids,
                 "invalid_peer_ids" => $invalid_peer_ids,
@@ -415,7 +432,7 @@ class ilExPeerReview
         $max = $this->getMaxPossibleFeedbacks();
         
         // #16160 - forever alone
-        if (!$max) {
+        if ($max === 0) {
             return 0;
         }
         
@@ -446,7 +463,7 @@ class ilExPeerReview
         
         // forever alone - should be valid
         $max = $this->getMaxPossibleFeedbacks();
-        if (!$max) {
+        if ($max === 0) {
             return true;
         }
         
@@ -479,7 +496,7 @@ class ilExPeerReview
         );
 
         while ($row = $ilDB->fetchAssoc($set)) {
-            array_push($user_ids, $row["giver_id"]);
+            $user_ids[] = $row["giver_id"];
         }
 
         return $user_ids;

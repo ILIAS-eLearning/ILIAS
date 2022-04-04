@@ -9,8 +9,7 @@ interface ilExtractor
     /**
      * @param string $event
      * @param array  $parameters
-     *
      * @return ilExtractedParams
      */
-    public function extract($event, $parameters);
+    public function extract(string $event, array $parameters) : ilExtractedParams;
 }

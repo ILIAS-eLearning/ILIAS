@@ -12,32 +12,19 @@
 abstract class ilBaseElement
 {
     /** @var array $bpmn2_array */
-    protected $bpmn2_array;
+    protected array $bpmn2_array;
 
-    /**
-     * @return mixed
-     */
     public function getBpmn2Array()
     {
         return $this->bpmn2_array;
     }
 
-    /**
-     * @param mixed $bpmn2_array
-     */
     public function setBpmn2Array($bpmn2_array)
     {
         $this->bpmn2_array = $bpmn2_array;
     }
 
-    /**
-     * @param array              $element
-     * @param ilWorkflowScaffold $class_object
-     * @param string             $element_varname
-     *
-     * @return string
-     */
-    public function handleDataAssociations($element, $class_object, $element_varname)
+    public function handleDataAssociations(array $element, ilWorkflowScaffold $class_object, string $element_varname) : string
     {
         $code = '';
         if (isset($element['children']) && count($element['children'])) {
@@ -75,7 +62,7 @@ abstract class ilBaseElement
      *
      * @return array
      */
-    public function getDataInputAssociationIdentifiers($element)
+    public function getDataInputAssociationIdentifiers(array $element) : array
     {
         $retval = array();
 
@@ -99,7 +86,7 @@ abstract class ilBaseElement
      *
      * @return array
      */
-    public function getDataOutputAssociationIdentifiers($element)
+    public function getDataOutputAssociationIdentifiers(array $element) : array
     {
         $retval = array();
 

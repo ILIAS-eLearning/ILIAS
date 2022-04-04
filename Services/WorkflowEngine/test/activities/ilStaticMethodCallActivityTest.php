@@ -115,7 +115,7 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         $this->assertTrue(true, 'There dont seem to be problems here.');
     }
     
-    public static function executionTargetMethod($context, $param)
+    public static function executionTargetMethod($context, $param) : bool
     {
         $parameters = array(
           'homer' => 'homer', 0 => 'homer',

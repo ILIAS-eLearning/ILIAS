@@ -16,10 +16,9 @@ class ilServicesUserExtractor extends ilBaseExtractor
     /**
      * @param string $event
      * @param array  $parameters
-     *
      * @return \ilExtractedParams
      */
-    public function extract($event, $parameters)
+    public function extract(string $event, array $parameters) : ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('user');
 
@@ -38,7 +37,7 @@ class ilServicesUserExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractUser($parameters)
+    protected function extractUser(array $parameters) : void
     {
         $this->ilExtractedParams->setSubjectId($parameters['user_obj']->getId());
         $this->ilExtractedParams->setContextType('null');
@@ -48,7 +47,7 @@ class ilServicesUserExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractUserById($parameters)
+    protected function extractUserById(array $parameters) : void
     {
         $this->ilExtractedParams->setSubjectId($parameters['usr_id']);
         $this->ilExtractedParams->setContextType('null');

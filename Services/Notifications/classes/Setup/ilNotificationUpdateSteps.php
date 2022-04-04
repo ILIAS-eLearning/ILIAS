@@ -17,7 +17,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db)
+    public function prepare(ilDBInterface $db) : void
     {
         $this->db = $db;
     }

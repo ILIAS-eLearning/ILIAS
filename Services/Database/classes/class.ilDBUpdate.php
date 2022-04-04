@@ -237,8 +237,10 @@ class ilDBUpdate
         return true;
     }
 
-    private function initGlobalsRequiredForUpdateSteps(&$ilCtrlStructureReader, &$ilMySQLAbstraction, &$ilDB) : void//PHP8Review: Missing Typehints
-    {
+    private function initGlobalsRequiredForUpdateSteps(
+        ?ilCtrlStructureReader &$ilCtrlStructureReader,
+        ?ilDBInterface &$ilDB
+    ) : void {
         global $DIC;
 
         // TODO: There is currently a huge mixup of globals, $DIC and dependencies, esprecially in setup and during DB-Updates. This leads to many problems. The following core tries to provide the needed dependencies for the dbupdate-script. The code hopefully will change in the future.
@@ -270,9 +272,8 @@ class ilDBUpdate
     public function applyUpdate(int $a_break = 0)
     {
         $ilCtrlStructureReader = null;
-        $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
 
         $f = $this->fileVersion;
         $c = $this->currentVersion;
@@ -474,12 +475,12 @@ class ilDBUpdate
     /**
      * Set current hotfix version
      */
-    public function setHotfixCurrentVersion($a_version) : bool//PHP8Review: $a_version cannot be both: int and string
+    public function setHotfixCurrentVersion(int $a_version) : bool
     {
         $this->readHotfixInfo();
         $this->hotfix_setting->set(
             "db_hotfixes_" . $this->hotfix_version[0],
-            $a_version
+            (string) $a_version
         );
         $this->hotfix_current_version = $a_version;
 
@@ -553,9 +554,8 @@ class ilDBUpdate
     public function applyHotfix() : bool
     {
         $ilCtrlStructureReader = null;
-        $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
         $this->readHotfixInfo(true);
 
         $f = $this->getHotfixFileVersion();
@@ -651,9 +651,8 @@ class ilDBUpdate
     public function applyCustomUpdates() : bool
     {
         $ilCtrlStructureReader = null;
-        $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
         $this->readCustomUpdatesInfo(true);
 
         $f = $this->getCustomUpdatesFileVersion();
@@ -749,9 +748,8 @@ class ilDBUpdate
 
     /**
      * Get single update step for presentation
-     * @return bool|string
      */
-    public function getUpdateStepNr($nr, $hotfix = false, $custom_update = false)//PHP8Review: Missing type hint
+    public function getUpdateStepNr(int $nr, bool $hotfix = false, bool $custom_update = false) : string
     {
         $str = "";
 
@@ -768,7 +766,7 @@ class ilDBUpdate
 
         //update not found
         if ($i === count($this->filecontent)) {
-            return false;
+            return '';
         }
 
         $i++;

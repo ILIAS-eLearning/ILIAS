@@ -12,7 +12,7 @@
 class ilTextAnnotationElement extends ilBaseElement
 {
     /** @var string $element_varname */
-    public $element_varname;
+    public string $element_varname;
 
     /**
      * @param                     $element
@@ -20,7 +20,7 @@ class ilTextAnnotationElement extends ilBaseElement
      *
      * @return string
      */
-    public function getPHP($element, ilWorkflowScaffold $class_object)
+    public function getPHP($element, ilWorkflowScaffold $class_object) : string
     {
         return '';
     }

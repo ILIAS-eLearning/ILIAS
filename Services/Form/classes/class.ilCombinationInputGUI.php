@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -66,7 +66,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     public function __call(
         string $method,
         array $param
-    ) {
+    ) : array {
         $result = array();
         foreach ($this->items as $id => $obj) {
             if (method_exists($obj, $method)) {
@@ -171,7 +171,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 
     public function setValueByArray(array $a_values) : void
     {
-        foreach ($this->items as $id => $obj) {
+        foreach ($this->items as $obj) {
             $obj->setValueByArray($a_values);
         }
     }
@@ -182,7 +182,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     public function checkInput() : bool
     {
         if (sizeof($this->items)) {
-            foreach ($this->items as $id => $obj) {
+            foreach ($this->items as $obj) {
                 if (!$obj->checkInput()) {
                     return false;
                 }
@@ -190,7 +190,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 
             if ($this->comparison_mode) {
                 $prev = null;
-                foreach ($this->items as $id => $obj) {
+                foreach ($this->items as $obj) {
                     $value = $obj->getPostValueForComparison();
                     if ($value != "") {
                         if ($prev !== null) {
@@ -224,8 +224,6 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 
     public function render() : string
     {
-        $lng = $this->lng;
-
         $tpl = new ilTemplate("tpl.prop_combination.html", true, true, "Services/Form");
 
         if (sizeof($this->items)) {

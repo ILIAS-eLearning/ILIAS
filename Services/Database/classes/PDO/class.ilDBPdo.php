@@ -23,7 +23,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     protected ilDBPdoReverse $reverse;
     protected ?int $limit = null;
     protected ?int $offset = null;
-    protected string $storage_engine = 'MyISAM';
+    protected string $storage_engine = 'InnoDB';
     protected string $dsn = '';
     /**
      * @var int[]
@@ -58,7 +58,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return ($this->pdo->errorCode() === PDO::ERR_NONE);
     }
 
-    abstract public function initHelpers();//PHP8Review: missing reutrn type (probably void)
+    abstract public function initHelpers() : void;
 
     protected function initSQLMode() : void
     {
@@ -674,7 +674,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return false;
     }
 
-    public function getIndexName($index_name_base) : string//PHP8Review: Missing Typehint (probably string)
+    public function getIndexName(string $index_name_base) : string
     {
         return sprintf(ilDBPdoFieldDefinition::INDEX_FORMAT, preg_replace('/[^a-z0-9_\$]/i', '_', $index_name_base));
     }
@@ -997,7 +997,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
          */
         $result = $stmt->execute($data);
         if ($result === false) {//This may not work since execute returns an object
-            throw new ilDatabaseException(implode(', ', $stmt->errorInfo()), $stmt->errorCode());
+            throw new ilDatabaseException(implode(', ', $stmt->errorInfo()), (int) $stmt->errorCode());
         }
         return $stmt;
     }

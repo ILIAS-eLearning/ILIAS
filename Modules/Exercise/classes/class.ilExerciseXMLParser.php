@@ -3,25 +3,38 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * Exercise XML Parser which completes/updates a given exercise by an xml string.
  * @author Roland Küstermann <roland@kuestermann.com>
  */
 class ilExerciseXMLParser extends ilSaxParser
 {
-    public static $CONTENT_NOT_COMPRESSED = 0;
-    public static $CONTENT_GZ_COMPRESSED = 1;
-    public static $CONTENT_ZLIB_COMPRESSED = 2;
+    public static int $CONTENT_NOT_COMPRESSED = 0;
+    public static int $CONTENT_GZ_COMPRESSED = 1;
+    public static int $CONTENT_ZLIB_COMPRESSED = 2;
+    protected string $cdata;
+    protected string $mark;
+    protected string $notice;
+    protected string $comment;
+    protected string $file_content;
+    protected string $file_name;
+    protected string $status;
+    protected string $file_action;
+    protected int $usr_id;
+    protected string $usr_action;
 
     public ilObjExercise $exercise;
     public int $obj_id;
@@ -59,11 +72,7 @@ class ilExerciseXMLParser extends ilSaxParser
         $this->result = false;
     }
 
-
-    /**
-     * @param resource $a_xml_parser reference to the xml parser
-     * @return void
-     */
+    
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -85,14 +94,14 @@ class ilExerciseXMLParser extends ilSaxParser
             case 'Exercise':
                 if (isset($a_attribs["obj_id"])) {
                     $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
-                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id) {
+                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && $this->obj_id !== (int) $read_obj_id) {
                         throw new ilExerciseException("Object IDs (xml $read_obj_id and argument " . $this->obj_id . ") do not match!", ilExerciseException::$ID_MISMATCH);
                     }
                 }
                 break;
             case 'Member':
                 $this->usr_action = $a_attribs["action"];
-                $this->usr_id = ilUtil::__extractId($a_attribs["usr_id"], IL_INST_ID);
+                $this->usr_id = (int) ilUtil::__extractId($a_attribs["usr_id"], IL_INST_ID);
                 break;
 
             case 'File':
@@ -153,7 +162,7 @@ class ilExerciseXMLParser extends ilSaxParser
                 $this->assignment->setInstruction(trim($this->cdata));
                 break;
             case 'DueDate':
-                $this->assignment->setDeadLine(trim($this->cdata));
+                $this->assignment->setDeadline(trim($this->cdata));
                 break;
             case 'Member':
                 $this->updateMember($this->usr_id, $this->usr_action);
@@ -182,10 +191,7 @@ class ilExerciseXMLParser extends ilSaxParser
                  // see Member end tag
                  break;
         }
-
         $this->cdata = '';
-
-        return;
     }
 
     /**
@@ -239,7 +245,7 @@ class ilExerciseXMLParser extends ilSaxParser
         $filename = $this->storage->getAbsolutePath() . "/" . $filename;
         
         if ($action == "Attach") {
-            $content = base64_decode((string) $b64encodedContent);
+            $content = base64_decode($b64encodedContent);
             if ($this->mode == ilExerciseXMLParser::$CONTENT_GZ_COMPRESSED) {
                 $content = gzdecode($content);
             } elseif ($this->mode == ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED) {
@@ -247,10 +253,10 @@ class ilExerciseXMLParser extends ilSaxParser
             }
           
             //echo $filename;
-            $this->storage->writeToFile($content, $filename);
+            //$this->storage->writeToFile($content, $filename);
         }
         if ($action == "Detach") {
-            $this->storage->deleteFile($filename);
+            //$this->storage->deleteFile($filename);
         }
     }
 

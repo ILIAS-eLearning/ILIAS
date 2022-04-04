@@ -24,7 +24,7 @@ abstract class ilBaseNode implements ilNode
     /**
      * This holds a reference to the parent ilNode.
      *
-     * @var ilNode
+     * @var ilNode|ilWorkflow
      */
     protected $context;
 
@@ -54,13 +54,13 @@ abstract class ilBaseNode implements ilNode
      *
      * @var boolean
      */
-    protected $active = false;
+    protected bool $active = false;
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /** @var array $runtime_vars */
-    protected $runtime_vars;
+    protected array $runtime_vars;
 
     /**
      * This holds if the node represents a forward condition.
@@ -73,14 +73,14 @@ abstract class ilBaseNode implements ilNode
      *
      * @var boolean
      */
-    public $is_forward_condition_node;
+    public bool $is_forward_condition_node = false;
 
     /**
      * Adds a detector to the list of detectors.
      *
      * @param ilDetector $detector
      */
-    public function addDetector(ilDetector $detector)
+    public function addDetector(ilDetector $detector) : void
     {
         $this->detectors[] = $detector;
         $this->context->registerDetector($detector);
@@ -88,8 +88,6 @@ abstract class ilBaseNode implements ilNode
 
     /**
      * Returns all currently set detectors
-     *
-     * @return ilDetector[] Array with objects of ilDetector
      */
     public function getDetectors()
     {
@@ -101,17 +99,15 @@ abstract class ilBaseNode implements ilNode
      *
      * @param ilEmitter $emitter
      */
-    public function addEmitter(ilEmitter $emitter)
+    public function addEmitter(ilEmitter $emitter, bool $else = false) : void
     {
         $this->emitters[] = $emitter;
     }
 
     /**
      * Returns all currently set emitters
-     *
-     * @return ilEmitter[] Array with objects of ilEmitter
-     */
-    public function getEmitters()
+      */
+    public function getEmitters(bool $else = false)
     {
         return $this->emitters;
     }
@@ -121,15 +117,13 @@ abstract class ilBaseNode implements ilNode
      *
      * @param ilActivity $activity
      */
-    public function addActivity(ilActivity $activity)
+    public function addActivity(ilActivity $activity, bool $else = false) : void
     {
         $this->activities[] = $activity;
     }
 
     /**
      * Returns all currently set activities
-     *
-     * @return ilActivity[] Array with objects of ilActivity
      */
     public function getActivities()
     {
@@ -146,10 +140,7 @@ abstract class ilBaseNode implements ilNode
         return $this->context;
     }
 
-    /***
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name) : void
     {
         $this->name = $name;
     }
@@ -157,7 +148,7 @@ abstract class ilBaseNode implements ilNode
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -165,7 +156,7 @@ abstract class ilBaseNode implements ilNode
     /**
      * @return array
      */
-    public function getRuntimeVars()
+    public function getRuntimeVars() : array
     {
         return $this->runtime_vars;
     }
@@ -173,17 +164,16 @@ abstract class ilBaseNode implements ilNode
     /**
      * @param array $runtime_vars
      */
-    public function setRuntimeVars($runtime_vars)
+    public function setRuntimeVars(array $runtime_vars) : void
     {
         $this->runtime_vars = $runtime_vars;
     }
 
     /**
      * @param string $name
-     *
      * @return array
      */
-    public function getRuntimeVar($name)
+    public function getRuntimeVar(string $name) : array
     {
         return $this->runtime_vars[$name];
     }
@@ -192,7 +182,7 @@ abstract class ilBaseNode implements ilNode
      * @param string $name
      * @param mixed  $value
      */
-    public function setRuntimeVar($name, $value)
+    public function setRuntimeVar(string $name, $value) : void
     {
         $this->runtime_vars[$name] = $value;
     }
@@ -202,7 +192,7 @@ abstract class ilBaseNode implements ilNode
      *
      * @return void
      */
-    public function onActivate()
+    public function onActivate() : void
     {
         return;
     }
@@ -212,7 +202,7 @@ abstract class ilBaseNode implements ilNode
      *
      * @return void
      */
-    public function onDeactivate()
+    public function onDeactivate() : void
     {
         return;
     }
@@ -222,7 +212,7 @@ abstract class ilBaseNode implements ilNode
      *
      * @return boolean Activation status of the node.
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return $this->active;
     }

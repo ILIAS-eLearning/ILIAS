@@ -329,6 +329,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\TestQuestionPool\Service($this);
     }
 
+    public function workflowEngine() : \ILIAS\WorkflowEngine\Service
+    {
+        return new \ILIAS\WorkflowEngine\Service($this);
+    }
+
     public function mediaPool() : \ILIAS\MediaPool\Service
     {
         return new \ILIAS\MediaPool\Service($this);

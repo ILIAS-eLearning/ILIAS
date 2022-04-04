@@ -22,16 +22,16 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     private $context;
 
     /** @var string ID of the message to be sent. */
-    private $message_name;
+    private string $message_name;
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /** @var array $parameters Holds an array with params to be passed as second argument to the method. */
-    private $parameters;
+    private array $parameters;
 
     /** @var array $outputs Holds a list of valid output element IDs passed as third argument to the method. */
-    private $outputs;
+    private array $outputs;
 
     /**
      * Default constructor.
@@ -45,12 +45,10 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Executes this action according to its settings.
-     *
-     * @todo Use exceptions / internal logging.
-     *
      * @return void
+     *@todo Use exceptions / internal logging.
      */
-    public function execute()
+    public function execute() : void
     {
         /** @var ilBaseWorkflow $workflow */
         $workflow = $this->getContext()->getContext();
@@ -95,10 +93,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name) : void
     {
         $this->name = $name;
     }
@@ -106,7 +101,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -114,7 +109,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getMessageName()
+    public function getMessageName() : string
     {
         return $this->message_name;
     }
@@ -122,7 +117,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param string $message_name
      */
-    public function setMessageName($message_name)
+    public function setMessageName(string $message_name) : void
     {
         $this->message_name = $message_name;
     }
@@ -130,7 +125,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getParameters()
+    public function getParameters() : array
     {
         return $this->parameters;
     }
@@ -138,7 +133,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $parameters
      */
-    public function setParameters($parameters)
+    public function setParameters(array $parameters) : void
     {
         $this->parameters = $parameters;
     }
@@ -146,7 +141,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getOutputs()
+    public function getOutputs() : array
     {
         return $this->outputs;
     }
@@ -154,17 +149,17 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $outputs
      */
-    public function setOutputs($outputs)
+    public function setOutputs(array $outputs) : void
     {
         $this->outputs = $outputs;
     }
 
-    public function decodeMessageText($message_text)
+    public function decodeMessageText(string $message_text) : string
     {
         return base64_decode($message_text);
     }
 
-    public function processPlaceholders($message_text)
+    public function processPlaceholders(string $message_text) : string
     {
         $matches = array();
         preg_match_all('/\[(.*?)\]/', $message_text, $matches, PREG_PATTERN_ORDER);
@@ -173,6 +168,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
             $placeholder = substr($match, 1, strlen($match) - 2);
 
             $handled = false;
+            $content = '';
             if (strtolower(substr($placeholder, 0, strlen('EVENTLINK'))) == 'eventlink') {
                 $handled = true;
                 $content = $this->getEventLink($match);
@@ -189,7 +185,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         return $message_text;
     }
 
-    public function getEventLink($eventlink_string)
+    public function getEventLink(string $eventlink_string) : string
     {
         $type = substr($eventlink_string, 1, strpos($eventlink_string, ' ') - 1);
         $params = substr($eventlink_string, strpos($eventlink_string, ' ') + 1, -1);

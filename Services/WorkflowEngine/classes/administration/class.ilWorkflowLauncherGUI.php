@@ -16,20 +16,18 @@ require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 class ilWorkflowLauncherGUI
 {
     /** @var string $form_action */
-    protected $form_action;
+    protected string $form_action;
 
     /** @var \ilLanguage $lng */
-    protected $lng;
+    protected \ilLanguage $lng;
 
     /**
      * ilWorkflowLauncherGUI constructor.
-     *
      * @param string $form_action
      */
-    public function __construct($form_action)
+    public function __construct(string $form_action)
     {
         global $DIC;
-        /** @var ilLanguage $lng */
         $this->lng = $DIC['lng'];
 
         $this->form_action = $form_action;
@@ -37,10 +35,9 @@ class ilWorkflowLauncherGUI
 
     /**
      * @param array $input_vars
-     *
      * @return ilPropertyFormGUI
      */
-    public function getForm($input_vars)
+    public function getForm(array $input_vars) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('input_variables_required'));
@@ -69,7 +66,7 @@ class ilWorkflowLauncherGUI
         return $form;
     }
 
-    public function getRepositoryObjectSelector($config)
+    public function getRepositoryObjectSelector($config) : ilSelectInputGUI
     {
         /** @var ilTree $tree */
         global $DIC;

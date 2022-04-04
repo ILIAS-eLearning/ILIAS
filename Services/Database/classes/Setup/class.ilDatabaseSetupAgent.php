@@ -53,11 +53,14 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        if (!$config instanceof \ilDatabaseSetupConfig) {
+            return new Setup\Objective\NullObjective();
+        }
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,
-            new ilDatabaseConfigStoredObjective($config),//PHP8Review: The parameter doesnt match the type. You may lose the typehint in ilDatabaseObjective for this
-            new \ilDatabasePopulatedObjective($config),//PHP8Review: The parameter doesnt match the type. You may lose the typehint in ilDatabaseObjective for this
+            new ilDatabaseConfigStoredObjective($config),
+            new \ilDatabasePopulatedObjective($config),
             new \ilDatabaseUpdatedObjective()
         );
     }
@@ -68,8 +71,8 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         $p = [];
-        if ($config !== null) {
-            $p[] = new \ilDatabaseConfigStoredObjective($config);//PHP8Review: The parameter doesnt match the type. You may lose the typehint in ilDatabaseObjective for this
+        if ($config instanceof ilDatabaseSetupConfig) {
+            $p[] = new \ilDatabaseConfigStoredObjective($config);
         }
         $p[] = new \ilDatabaseUpdatedObjective();
         return new Setup\ObjectiveCollection(
@@ -100,6 +103,8 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getMigrations() : array
     {
-        return [];
+        return [
+            new Setup\ilMysqlMyIsamToInnoDbMigration()
+        ];
     }
 }

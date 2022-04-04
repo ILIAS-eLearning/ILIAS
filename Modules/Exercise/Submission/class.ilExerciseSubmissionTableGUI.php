@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -21,7 +35,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     protected int $mode;
     protected array $filter;
     protected array $comment_modals = array();
-    protected ?ilExAssignment $ass;
+    protected ?ilExAssignment $ass = null;
 
     protected array $cols_mandatory = array("name", "status");
     protected array $cols_default = array("login", "submission", "idl", "calc_deadline");
@@ -249,7 +263,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             } else {
                 asort($a_row["team"]);
                 foreach ($a_row["team"] as $team_member_id => $team_member_name) { // #10749
-                    if (sizeof($a_row["team"]) > 1) {
+                    if (count($a_row["team"]) > 1) {
                         $ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", $team_member_id);
                         $url = $ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "confirmRemoveTeamMember");
                         $ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", "");
@@ -348,7 +362,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     
                 case "team_members":
                     if ($a_ass->hasTeam()) {
-                        if (!sizeof($a_row["team"])) {
+                        if (count($a_row["team"]) === 0) {
                             $this->tpl->setVariable("VAL_TEAM_MEMBER", $this->lng->txt("exc_no_team_yet"));
                         } else {
                             foreach ($a_row["team"] as $name) {
@@ -477,7 +491,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         if ($this->ass_type != null && $this->ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmitted()) {
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionView");
             $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_tbl_action_open_submission"), $url)->withOpenInNewViewport(true);
-            if (true || $a_row['submission_obj']->hasPrintView()) {
+            if ($a_row['submission_obj']->hasPrintView()) {
                 $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionPrintView");
                 $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_print_pdf"), $url)->withOpenInNewViewport(true);
             }
@@ -540,8 +554,8 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 $ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showGivenPeerReview")
             );
             
-            $counter = sizeof($peer_review->getPeerReviewsByPeerId($a_user_id, true));
-            $counter = $counter
+            $counter = count($peer_review->getPeerReviewsByPeerId($a_user_id, true));
+            $counter = $counter !== 0
                 ? " (" . $counter . ")"
                 : "";
 

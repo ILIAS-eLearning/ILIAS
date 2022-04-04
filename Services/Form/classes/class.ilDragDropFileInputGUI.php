@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +20,7 @@
  */
 class ilDragDropFileInputGUI extends ilFileInputGUI
 {
-    private int $uniqueId = 0;
+    private int $uniqueId;
     private array $archive_suffixes = array();
     private ?string $submit_button_name = null;
     private ?string $cancel_button_name = null;
@@ -125,9 +125,7 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         }
 
         // call base
-        $inputValid = parent::checkInput();
-        
-        return $inputValid;
+        return parent::checkInput();
     }
 
     public function getInput() : array

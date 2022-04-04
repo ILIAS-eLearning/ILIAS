@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilParserTestSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilParserTestSuite
     {
         error_reporting(E_ALL ^ E_NOTICE);
 

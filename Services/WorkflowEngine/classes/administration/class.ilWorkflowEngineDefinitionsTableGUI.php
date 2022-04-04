@@ -22,16 +22,17 @@ require_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvan
 class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 {
     /** @var ilCtrl $ilCtrl */
-    protected $ilCtrl;
+    protected ilCtrl $ilCtrl;
+
+    protected array $filter;
 
     /**
      * ilWorkflowEngineDefinitionsTableGUI constructor.
-     *
      * @param        $parent_obj
      * @param string $parent_cmd
      * @param string $template_context
      */
-    public function __construct($parent_obj, $parent_cmd, $template_context = "")
+    public function __construct($parent_obj, $parent_cmd, string $template_context = "")
     {
         $this->setId('wfedef');
         parent::__construct($parent_obj, $parent_cmd, $template_context);
@@ -76,7 +77,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     /**
      * @return void
      */
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn($this->lng->txt("title"), "title", "20%");
 
@@ -124,7 +125,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     /**
      * @return void
      */
-    private function populateTable()
+    private function populateTable() : void
     {
         global $DIC;
 
@@ -157,10 +158,9 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
     /**
      * @param array $row
-     *
      * @return bool
      */
-    public function isFiltered($row)
+    public function isFiltered(array $row) : bool
     {
         // Title filter
         $title_filter = $this->getFilterItemByPostVar('title');

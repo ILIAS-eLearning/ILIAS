@@ -12,7 +12,7 @@
 class ilScriptTaskElement extends ilBaseElement
 {
     /** @var string $element_varname */
-    public $element_varname;
+    public string $element_varname;
 
     /**
      * @param                     $element
@@ -20,7 +20,7 @@ class ilScriptTaskElement extends ilBaseElement
      *
      * @return string
      */
-    public function getPHP($element, ilWorkflowScaffold $class_object)
+    public function getPHP($element, ilWorkflowScaffold $class_object) : string
     {
         $code = "";
         $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);

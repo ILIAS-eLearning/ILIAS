@@ -52,14 +52,14 @@ interface ilNode extends ilWorkflowEngineElement
      *
      * @return mixed
      */
-    public function addEmitter(ilEmitter $emitter);
+    public function addEmitter(ilEmitter $emitter, bool $else = false);
 
     /**
      * @param \ilActivity $activity
      *
      * @return mixed
      */
-    public function addActivity(ilActivity $activity);
+    public function addActivity(ilActivity $activity, bool $else = false);
 
 
     /**
@@ -98,7 +98,7 @@ interface ilNode extends ilWorkflowEngineElement
     /**
      * @return mixed
      */
-    public function getEmitters();
+    public function getEmitters(bool $else = false);
 
 
     /**
@@ -108,23 +108,20 @@ interface ilNode extends ilWorkflowEngineElement
 
     /**
      * @param array $runtime_vars
-     *
      * @return mixed
      */
-    public function setRuntimeVars($runtime_vars);
+    public function setRuntimeVars(array $runtime_vars);
 
     /**
      * @param string $name
-     *
      * @return mixed
      */
-    public function getRuntimeVar($name);
+    public function getRuntimeVar(string $name);
 
     /**
      * @param string $name
      * @param mixed  $value
-     *
      * @return mixed
      */
-    public function setRuntimeVar($name, $value);
+    public function setRuntimeVar(string $name, $value);
 }
