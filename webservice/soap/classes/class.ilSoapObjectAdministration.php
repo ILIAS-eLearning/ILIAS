@@ -1313,6 +1313,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
             return true;
         }
+
+        // TODO PHP8-REVIEW Missing return value
     }
 
     private function updateReferences(array $a_object_data) : void

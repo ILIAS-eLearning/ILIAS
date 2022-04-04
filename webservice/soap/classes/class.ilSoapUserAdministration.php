@@ -539,6 +539,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $checked_roles[$a_role] = true;
             return true;
         }
+
+        // TODO PHP8-REVIEW Missing return value
     }
 
     /**
@@ -623,6 +625,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         if ($xmlWriter->start()) {
             return $xmlWriter->getXML();
         }
+
+        // TODO PHP8-REVIEW Missing return value
     }
 
     public function getUserForRole(string $sid, int $role_id, bool $attachRoles, int $active)
