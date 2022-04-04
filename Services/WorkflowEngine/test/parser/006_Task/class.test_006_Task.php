@@ -258,7 +258,7 @@ class test_006_Task extends ilWorkflowEngineBaseTest
         }
         $this->assertTrue($all_triggered, 'Not all nodes were triggered.');
         $this->assertTrue(self::$wasListRequestTriggered, 'Static method call was not called.');
-        $this->assertEquals(self::$retval, $process->getInstanceVarById('DataObject_1'));
+        $this->assertEquals(self::$retval, $process->getInstanceVarById('DataObjectReference_1'));
 
         unlink($this->getTestOutputFilename($test_name));
     }
