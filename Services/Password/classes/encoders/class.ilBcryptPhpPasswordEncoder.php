@@ -8,9 +8,6 @@
  */
 class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 {
-    /**
-     * @var string
-     */
     protected string $costs = '08';
 
     /**
