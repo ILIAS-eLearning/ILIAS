@@ -114,7 +114,6 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			I18N = Object.assign(translations);
-			console.log(I18N);
 
 			// retrieve file-list and action button in vanilla js,
 			// because of dropzone.js compatibility.
