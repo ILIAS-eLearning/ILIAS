@@ -290,9 +290,8 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     public function getPrintMemberData(array $members) : array
     {
         $member_data = $this->readMemberData($members, array());
-        $member_data = $this->getParentGUI()->addCustomData($member_data);
 
-        return $member_data;
+        return $this->getParentGUI()->addCustomData($member_data);
     }
 
     /**

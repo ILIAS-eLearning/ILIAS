@@ -178,7 +178,6 @@ class ilLSStateDB
     }
 
     /**
-     * @param int $lso_ref_id
      * @param int[] $usr_ids
      */
     public function deleteFor(int $lso_ref_id, array $usr_ids = []) : void
@@ -266,7 +265,6 @@ class ilLSStateDB
     }
 
     /**
-     * @param int   $lso_ref_id
      * @param int[] $usr_ids
      * @return array<string, array>
      */

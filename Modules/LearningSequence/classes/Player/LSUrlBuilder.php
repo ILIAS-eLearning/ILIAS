@@ -45,8 +45,7 @@ class LSUrlBuilder implements URLBuilder
         } else {
             $params[self::PARAM_LSO_PARAMETER] = $param;
         }
-        $url = $this->base_url->withQuery(http_build_query($params));
-        return $url;
+        return $this->base_url->withQuery(http_build_query($params));
     }
 
     public function getHref(string $command, int $param = null) : string

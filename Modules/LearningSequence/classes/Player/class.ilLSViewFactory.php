@@ -53,11 +53,10 @@ class ilLSViewFactory
 
     protected function getLegacyViewFor(ilObject $obj) : ilLegacyKioskModeView
     {
-        $view = new ilLegacyKioskModeView(
+        return new ilLegacyKioskModeView(
             $obj,
             $this->lng,
             $this->access
         );
-        return $view;
     }
 }

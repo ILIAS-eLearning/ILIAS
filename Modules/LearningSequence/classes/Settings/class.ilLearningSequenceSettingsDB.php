@@ -35,17 +35,13 @@ class ilLearningSequenceSettingsDB
     public function store(ilLearningSequenceSettings $settings) : void
     {
         $uploads = $settings->getUploads();
-        if (count($uploads) > 0) {
-            foreach ($uploads as $pre => $info) {
-                $settings = $this->ls_filesystem->moveUploaded($pre, $info, $settings);
-            }
+        foreach ($uploads as $pre => $info) {
+            $settings = $this->ls_filesystem->moveUploaded($pre, $info, $settings);
         }
 
         $deletions = $settings->getDeletions();
-        if (count($deletions) > 0) {
-            foreach ($deletions as $pre) {
-                $settings = $this->ls_filesystem->delete_image($pre, $settings);
-            }
+        foreach ($deletions as $pre) {
+            $settings = $this->ls_filesystem->delete_image($pre, $settings);
         }
 
         $where = [

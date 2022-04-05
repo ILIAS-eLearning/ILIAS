@@ -636,7 +636,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 || (
                     $this->getObject()->getLSSettings()->getMembersGallery()
                     &&
-                    $this->getObject()->getLSRoles()->isMember((int) $this->user->getId())
+                    $this->getObject()->getLSRoles()->isMember($this->user->getId())
                 )
             ) {
                 $this->tabs->addTab(

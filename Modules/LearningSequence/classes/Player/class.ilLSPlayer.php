@@ -296,13 +296,12 @@ class ilLSPlayer
 
     protected function renderComponentView($state, ILIAS\KioskMode\View $view) : Component
     {
-        $component = $view->render(
+        return $view->render(
             $state,
             $this->ui_factory,
             $this->url_builder,
             []
         );
-        return $component;
     }
 
 

@@ -119,7 +119,8 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
             $this->lng->txt("lso_admin_form_title"),
             $this->lng->txt("lso_admin_form_byline")
         );
-        $form = $this->ui_factory->input()->container()->form()
+
+        return $this->ui_factory->input()->container()->form()
             ->standard($target, [$section])
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(
@@ -128,8 +129,6 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
                     }
                 )
             );
-
-        return $form;
     }
 
     protected function show(Input\Container\Form\Form $form) : void

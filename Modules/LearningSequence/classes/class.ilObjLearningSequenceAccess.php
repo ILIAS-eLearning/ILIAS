@@ -25,7 +25,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             [
                 'cmd' => ilObjLearningSequenceGUI::CMD_VIEW,
                 'permission' => 'read',
@@ -53,7 +53,6 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
                 'lang_var' => 'unparticipate'
             ]
         );
-        return $commands;
     }
 
     public function usingRegistrationCode() : bool

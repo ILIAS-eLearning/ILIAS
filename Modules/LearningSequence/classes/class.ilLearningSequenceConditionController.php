@@ -58,19 +58,17 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
                 $previous_item = $sequence[$pos - 1];
                 $post_conditions = array($previous_item->getPostCondition());
 
-                if (count($post_conditions) > 0) {
-                    foreach ($post_conditions as $post_condition) {
-                        $condition_op = $post_condition->getConditionOperator();
-                        if ($condition_op === 'learning_progress') {
-                            $condition_op = 'learningProgress';
-                        }
-                        if ($condition_op !== ilLSPostConditionDB::STD_ALWAYS_OPERATOR) {
-                            $conditions[] = $f->condition(
-                                $f->repositoryTrigger($previous_item->getRefId()),
-                                $f->operator()->$condition_op(),
-                                $post_condition->getValue()
-                            );
-                        }
+                foreach ($post_conditions as $post_condition) {
+                    $condition_op = $post_condition->getConditionOperator();
+                    if ($condition_op === 'learning_progress') {
+                        $condition_op = 'learningProgress';
+                    }
+                    if ($condition_op !== ilLSPostConditionDB::STD_ALWAYS_OPERATOR) {
+                        $conditions[] = $f->condition(
+                            $f->repositoryTrigger($previous_item->getRefId()),
+                            $f->operator()->$condition_op(),
+                            $post_condition->getValue()
+                        );
                     }
                 }
             }

@@ -51,9 +51,8 @@ class ilLSLearnerItemsQueries
 
     public function getCurrentItemRefId() : int
     {
-        $current = $this->states_db->getCurrentItemsFor($this->ls_ref_id, [$this->usr_id]);
-        $ref_id = max(0, $current[$this->usr_id]); //0 or greater
-        return $ref_id;
+        $current = $this->states_db->getCurrentItemsFor($this->ls_ref_id, [$this->usr_id]); //0 or greater
+        return max(0, $current[$this->usr_id]);
     }
 
     public function getCurrentItemPosition() : int

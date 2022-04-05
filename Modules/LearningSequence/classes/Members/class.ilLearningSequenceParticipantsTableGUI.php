@@ -391,7 +391,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             );
         }
 
-        $columns = array_merge(
+        return array_merge(
             [
                 'roles' => [
                     'txt' => $this->lng->txt('objs_role'),
@@ -406,8 +406,6 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             ],
             $columns
         );
-
-        return $columns;
     }
 
     protected function getExportFieldsInfo() : ilExportFieldsInfo
