@@ -47,7 +47,7 @@ class ilObjectCustomUserFieldsGUI
     private int $obj_id;
     private int $ref_id;
 
-    public function __construct($a_obj_id)
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 

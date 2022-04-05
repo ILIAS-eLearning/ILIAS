@@ -45,8 +45,8 @@ class ilMemberExport
 
     protected ilUserFormSettings $settings;
     protected ilPrivacySettings $privacy;
-    protected ?ilCSVWriter $csv;
-    protected ?ilExcel $worksheet;
+    protected ?ilCSVWriter $csv = null;
+    protected ?ilExcel $worksheet = null;
 
     private array $user_ids = array();
     private array $user_course_data = array();

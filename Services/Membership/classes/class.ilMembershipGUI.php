@@ -1503,7 +1503,7 @@ class ilMembershipGUI
         return null;
     }
 
-    protected function activateSubTab($a_sub_tab) : void
+    protected function activateSubTab(string $a_sub_tab) : void
     {
         $this->tabs->activateSubTab($a_sub_tab);
     }

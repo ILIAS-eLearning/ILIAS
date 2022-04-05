@@ -130,7 +130,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         return $this->rep_object;
     }
 
-    protected function getParticipants() : ilParticipants
+    protected function getParticipants() : ?\ilParticipants
     {
         return $this->participants;
     }

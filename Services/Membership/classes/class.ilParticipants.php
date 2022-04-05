@@ -1068,7 +1068,7 @@ abstract class ilParticipants
         return count($this->getSubscribers());
     }
 
-    public function getSubscriberData($a_usr_id) : array
+    public function getSubscriberData(int $a_usr_id) : array
     {
         return $this->readSubscriberData($a_usr_id);
     }

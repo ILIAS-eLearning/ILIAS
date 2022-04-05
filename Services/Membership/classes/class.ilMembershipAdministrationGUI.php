@@ -27,7 +27,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
     protected const SUB_TAB_GENERAL_SETTINGS = 'settings';
     protected const SUB_TAB_PRINT_VIEW = 'print_view';
 
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         $this->type = $this->getType();
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);

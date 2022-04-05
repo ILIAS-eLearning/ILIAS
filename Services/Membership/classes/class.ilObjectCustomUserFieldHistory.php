@@ -79,7 +79,7 @@ class ilObjectCustomUserFieldHistory
         $this->editing_time = $dt;
     }
 
-    public function getEditingTime() : ilDateTime
+    public function getEditingTime() : ?\ilDateTime
     {
         return $this->editing_time;
     }
