@@ -107,9 +107,7 @@ class ilLSPostConditionDB
         }
 
         $ref_ids = array_map(
-            function (ilLSPostCondition $condition) {
-                return $condition->getRefId();
-            },
+            fn(ilLSPostCondition $condition) => $condition->getRefId(),
             $ls_post_conditions
         );
 

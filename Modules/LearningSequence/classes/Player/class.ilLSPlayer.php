@@ -190,9 +190,7 @@ class ilLSPlayer
         $current_item_ref_id = $this->ls_items->getCurrentItemRefId();
         if ($current_item_ref_id !== 0) {
             $valid_ref_ids = array_map(
-                function ($item) {
-                    return $item->getRefId();
-                },
+                fn($item) => $item->getRefId(),
                 array_values($this->ls_items->getItems())
             );
             if (in_array($current_item_ref_id, $valid_ref_ids)) {

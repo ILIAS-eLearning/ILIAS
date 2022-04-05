@@ -34,9 +34,7 @@ trait IliasMocks
     {
         $ui_reflection = new ReflectionClass(UIFactory::class);
         $methods = array_map(
-            function ($m) {
-                return $m->getName();
-            },
+            fn($m) => $m->getName(),
             $ui_reflection->getMethods()
         );
 

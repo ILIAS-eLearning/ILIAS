@@ -178,9 +178,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
         $props = array_filter(
             $action_items,
-            function ($action_item) use ($prop_for_type) {
-                return $action_item['cmd'] === $prop_for_type;
-            }
+            fn($action_item) => $action_item['cmd'] === $prop_for_type
         );
 
         if ($props !== []) {

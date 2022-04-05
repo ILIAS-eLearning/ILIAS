@@ -83,9 +83,7 @@ class ilLSItemsDB
     protected function getConditionsForChildren(array $children) : array
     {
         $ref_ids = array_map(
-            function ($i) {
-                return (int) $i['child'];
-            },
+            fn($i) => (int) $i['child'],
             $children
         );
 

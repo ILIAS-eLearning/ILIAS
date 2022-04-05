@@ -102,9 +102,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         )
         ->withAdditionalTransformation(
             $this->refinery->custom()->transformation(
-                function ($v) {
-                    return (float) $v;
-                }
+                fn($v) => (float) $v
             )
         );
 
@@ -122,9 +120,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
             ->standard($target, [$section])
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(
-                    function ($data) {
-                        return array_shift($data);
-                    }
+                    fn($data) => array_shift($data)
                 )
             );
     }

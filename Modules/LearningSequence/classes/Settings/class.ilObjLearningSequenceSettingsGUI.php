@@ -140,9 +140,7 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function buildForm() : ilPropertyFormGUI
     {
-        $txt = function ($id) {
-            return $this->lng->txt($id);
-        };
+        $txt = fn($id) => $this->lng->txt($id);
         $settings = $this->settings;
         $activation = $this->activation;
 
@@ -252,9 +250,7 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function addCommonFieldsToForm(ilPropertyFormGUI $form) : void
     {
-        $txt = function ($id) {
-            return $this->lng->txt($id);
-        };
+        $txt = fn($id) => $this->lng->txt($id);
         $section_appearance = new ilFormSectionHeaderGUI();
         $section_appearance->setTitle($txt('cont_presentation'));
         $form->addItem($section_appearance);

@@ -795,9 +795,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     {
         return array_filter(
             array_keys($this->obj_definition->getSubObjects('lso', false)),
-            function ($type) {
-                return $type !== 'rolf';
-            }
+            fn($type) => $type !== 'rolf'
         );
     }
 

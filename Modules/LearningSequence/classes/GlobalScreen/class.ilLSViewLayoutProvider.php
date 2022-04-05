@@ -90,9 +90,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function (MetaBar $metabar) : ?Metabar {
-                    return $metabar->withClearedEntries();
-                }
+                fn(MetaBar $metabar): ?Metabar => $metabar->withClearedEntries()
             )
             ->withHighPriority();
     }
@@ -105,9 +103,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()
             ->withModification(
-                function (Breadcrumbs $current) : ?Breadcrumbs {
-                    return null;
-                }
+                fn(Breadcrumbs $current): ?Breadcrumbs => null
             )
             ->withHighPriority();
     }
