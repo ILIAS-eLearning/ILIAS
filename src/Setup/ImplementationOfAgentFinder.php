@@ -121,7 +121,7 @@ class ImplementationOfAgentFinder implements AgentFinder
             $path
         ));
 
-        if (count($agent_classes) === 0) {
+        if ($agent_classes === []) {
             return new class($name) extends \ilPluginDefaultAgent {
             };
         }

@@ -133,7 +133,7 @@ class AgentCollection implements Agent
      */
     public function getUpdateObjective(Config $config = null) : Objective
     {
-        if ($config) {
+        if ($config !== null) {
             $this->checkConfig($config);
         }
 
@@ -142,7 +142,7 @@ class AgentCollection implements Agent
             false,
             ...array_values(array_map(
                 function (string $k, Agent $v) use ($config): \ILIAS\Setup\Objective {
-                    if ($config) {
+                    if ($config !== null) {
                         return $v->getUpdateObjective($config->maybeGetConfig($k));
                     }
                     return $v->getUpdateObjective();

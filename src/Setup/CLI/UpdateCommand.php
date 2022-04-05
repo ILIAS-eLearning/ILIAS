@@ -88,7 +88,7 @@ class UpdateCommand extends Command
         }
 
         $objective = $agent->getUpdateObjective($config);
-        if (count($this->preconditions) > 0) {
+        if ($this->preconditions !== []) {
             $objective = new ObjectiveWithPreconditions(
                 $objective,
                 ...$this->preconditions
@@ -98,7 +98,7 @@ class UpdateCommand extends Command
         $environment = new ArrayEnvironment([
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
-        if ($config) {
+        if ($config !== null) {
             $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
         }
 

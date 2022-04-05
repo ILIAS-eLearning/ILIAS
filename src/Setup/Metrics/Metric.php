@@ -299,7 +299,7 @@ final class Metric
             }
         }
 
-        if (count($extracted)) {
+        if ($extracted !== []) {
             $extracted = new Metric(
                 $stability,
                 self::TYPE_COLLECTION,
@@ -310,7 +310,7 @@ final class Metric
             $extracted = null;
         }
 
-        if (count($rest)) {
+        if ($rest !== []) {
             $rest = new Metric(
                 $this->getStability(),
                 self::TYPE_COLLECTION,

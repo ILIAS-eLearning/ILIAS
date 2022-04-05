@@ -118,7 +118,7 @@ class MigrateCommand extends Command
         ]);
 
         $preconditions = $migration->getPreconditions($env);
-        if (count($preconditions) > 0) {
+        if ($preconditions !== []) {
             $objective = new Objective\ObjectiveWithPreconditions(
                 $objective,
                 ...$preconditions
@@ -163,7 +163,7 @@ class MigrateCommand extends Command
         Migration $migration
     ) : Environment {
         $preconditions = $migration->getPreconditions($environment);
-        if (count($preconditions) > 0) {
+        if ($preconditions !== []) {
             $objective = new Objective\ObjectiveWithPreconditions(
                 new Objective\NullObjective(),
                 ...$preconditions

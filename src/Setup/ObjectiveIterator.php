@@ -102,7 +102,7 @@ class ObjectiveIterator implements \Iterator
 
     public function next(): void
     {
-        if (count($this->stack) === 0) {
+        if ($this->stack === []) {
             $this->current = null;
             return;
         }
@@ -130,12 +130,12 @@ class ObjectiveIterator implements \Iterator
 
         // We only have preconditions left that we know to have failed.
         if (
-            count($preconditions) !== 0 &&
+            $preconditions !== [] &&
             count($preconditions) === count($failed_preconditions)
         ) {
             $this->returned[$hash] = true;
             $this->markAsFailed($cur);
-            if (count($this->stack) === 0) {
+            if ($this->stack === []) {
                 throw new UnachievableException(
                     "Objective had failed preconditions."
                 );
@@ -145,7 +145,7 @@ class ObjectiveIterator implements \Iterator
         }
 
         // No preconditions open, we can proceed with the objective.
-        if (count($preconditions) === 0) {
+        if ($preconditions === []) {
             $this->returned[$hash] = true;
             $this->current = $cur;
             return;

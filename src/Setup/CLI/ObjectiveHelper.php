@@ -41,18 +41,18 @@ trait ObjectiveHelper
                 $iterator->next();
                 continue;
             }
-            if ($io) {
+            if ($io !== null) {
                 $io->startObjective($current->getLabel(), $current->isNotable());
             }
             try {
                 $environment = $current->achieve($environment);
-                if ($io) {
+                if ($io !== null) {
                     $io->finishedLastObjective();
                 }
                 $iterator->setEnvironment($environment);
             } catch (\Throwable $e) {
                 $iterator->markAsFailed($current);
-                if ($io) {
+                if ($io !== null) {
                     $message = $e->getMessage();
                     $io->failedLastObjective();
                     if ($io->isVerbose()) {

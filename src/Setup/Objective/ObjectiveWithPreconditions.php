@@ -37,7 +37,7 @@ class ObjectiveWithPreconditions implements Setup\Objective
 
     public function __construct(Setup\Objective $original, Setup\Objective ...$preconditions)
     {
-        if (count($preconditions) === 0) {
+        if ($preconditions === []) {
             throw new \InvalidArgumentException(
                 "Expected at least one precondition."
             );

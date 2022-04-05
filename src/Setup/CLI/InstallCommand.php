@@ -107,7 +107,7 @@ class InstallCommand extends Command
             $agent->getInstallObjective($config),
             $agent->getUpdateObjective($config)
         );
-        if (count($this->preconditions) > 0) {
+        if ($this->preconditions !== []) {
             $objective = new ObjectiveWithPreconditions(
                 $objective,
                 ...$this->preconditions
@@ -147,7 +147,7 @@ class InstallCommand extends Command
             $agent->getInstallObjective($config),
             $agent->getUpdateObjective($config)
         );
-        if (count($this->preconditions) > 0) {
+        if ($this->preconditions !== []) {
             $objective = new ObjectiveWithPreconditions(
                 $objective,
                 ...$this->preconditions

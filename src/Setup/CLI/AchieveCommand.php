@@ -149,7 +149,7 @@ class AchieveCommand extends Command
             );
         }
 
-        if (count($this->preconditions) > 0) {
+        if ($this->preconditions !== []) {
             $objective = new ObjectiveWithPreconditions(
                 $objective->create(),
                 ...$this->preconditions
@@ -161,7 +161,7 @@ class AchieveCommand extends Command
         $environment = new ArrayEnvironment([
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
-        if ($config) {
+        if ($config !== null) {
             $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
         }
 
