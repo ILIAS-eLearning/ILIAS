@@ -396,7 +396,6 @@ class ilClassificationBlockGUI extends ilBlockGUI
      * Get sub item ids depending on container type that match the preselected
      * object ids
      * @param int[]
-     * @return array
      */
     protected function getSubItemIds(array $obj_ids) : array
     {
