@@ -43,6 +43,7 @@ class ilSingleUserShareGUI
     {
         $forward_class = $this->ctrl->getNextClass($this);
 
+        // PHP8-Review: 'switch' with single 'case'
         switch ($forward_class) {
             default:
                 if (!($cmd = $this->ctrl->getCmd())) {

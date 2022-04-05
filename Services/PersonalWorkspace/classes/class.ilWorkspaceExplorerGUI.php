@@ -183,6 +183,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     public function getNodeIcon($a_node) : string
     {
         $t = $a_node["type"];
+        // PHP8-Review: 'in_array' can be replaced with comparison
         if (in_array($t, array("sktr"))) {
             return ilUtil::getImagePath("icon_skll.svg");
         }
