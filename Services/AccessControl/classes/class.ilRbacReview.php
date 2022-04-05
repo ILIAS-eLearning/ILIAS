@@ -156,10 +156,10 @@ class ilRbacReview
 
         if (strlen($title_filter)) {
             $query .= (' AND ' . $this->db->like(
-                    'title',
-                    'text',
-                    $title_filter . '%'
-                ));
+                'title',
+                'text',
+                $title_filter . '%'
+            ));
         }
         $res = $this->db->query($query);
 
@@ -167,8 +167,8 @@ class ilRbacReview
             $row["description"] = (string) $row["description"];
             $row["desc"] = $row["description"];
             $row["user_id"] = (int) $row["owner"];
-            $row['obj_id']  = (int) $row['obj_id'];
-            $row['parent']  = (int) $row['parent'];
+            $row['obj_id'] = (int) $row['obj_id'];
+            $row['parent'] = (int) $row['parent'];
             $role_list[] = $row;
         }
         return $this->__setRoleType($role_list);
@@ -554,7 +554,6 @@ class ilRbacReview
      */
     public function getGlobalAssignableRoles() : array
     {
-
         $ga = [];
         foreach ($this->getGlobalRoles() as $role_id) {
             if (ilObjRole::_getAssignUsersStatus($role_id)) {
@@ -771,7 +770,6 @@ class ilRbacReview
      */
     public function isDeleted(int $a_node_id) : bool
     {
-
         $q = "SELECT tree FROM tree WHERE child =" . $this->db->quote($a_node_id, ilDBConstants::T_INTEGER) . " ";
         $r = $this->db->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -830,8 +828,12 @@ class ilRbacReview
                     return array();
                 }
 
-                $where = 'WHERE ' . $this->db->in('rbac_fa.rol_id', $this->assignedRoles($a_user_id), false,
-                        'integer') . ' ';
+                $where = 'WHERE ' . $this->db->in(
+                    'rbac_fa.rol_id',
+                    $this->assignedRoles($a_user_id),
+                    false,
+                    'integer'
+                ) . ' ';
                 break;
         }
 
@@ -844,10 +846,10 @@ class ilRbacReview
 
         if (strlen($title_filter)) {
             $query .= (' AND ' . $this->db->like(
-                    'title',
-                    'text',
-                    '%' . $title_filter . '%'
-                ));
+                'title',
+                'text',
+                '%' . $title_filter . '%'
+            ));
         }
 
         $res = $this->db->query($query);
@@ -1046,8 +1048,10 @@ class ilRbacReview
             }
 
             if ($a_parent_roles[$role_id]['protected'] == true) {
-                $arr_lvl_roles_user = array_intersect($this->assignedRoles($ilUser->getId()),
-                    array_keys($a_role_hierarchy, $rolf_id));
+                $arr_lvl_roles_user = array_intersect(
+                    $this->assignedRoles($ilUser->getId()),
+                    array_keys($a_role_hierarchy, $rolf_id)
+                );
 
                 foreach ($arr_lvl_roles_user as $lvl_role_id) {
                     // check if role grants 'edit_permission' to parent

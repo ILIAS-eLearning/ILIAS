@@ -147,7 +147,8 @@ class ilRbacLog
 
     protected static function isValidAction(int $a_action) : bool
     {
-        if (in_array($a_action,
+        if (in_array(
+            $a_action,
             [
                 self::EDIT_PERMISSIONS,
                 self::MOVE_OBJECT,
@@ -192,8 +193,10 @@ class ilRbacLog
             }
         }
 
-        $set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = " . $ilDB->quote($a_ref_id,
-                "integer") . implode('', $where));
+        $set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = " . $ilDB->quote(
+            $a_ref_id,
+            "integer"
+        ) . implode('', $where));
         $res = $ilDB->fetchAssoc($set);
         $count = array_pop($res);
 
@@ -226,7 +229,9 @@ class ilRbacLog
         $settings = ilPrivacySettings::getInstance();
         $max = $settings->getRbacLogAge();
 
-        $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(strtotime("-" . $max . "months"),
-                "integer"));
+        $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(
+            strtotime("-" . $max . "months"),
+            "integer"
+        ));
     }
 }

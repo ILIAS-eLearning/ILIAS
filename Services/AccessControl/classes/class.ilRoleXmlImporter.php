@@ -31,7 +31,6 @@ class ilRoleXmlImporter
         $this->language = $DIC->language();
 
         $this->role_folder = $a_role_folder_id;
-
     }
 
     public function setXml(string $a_xml) : void

@@ -21,8 +21,11 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 
         $this->addColumn("", "status", "5%");
         $this->addColumn($this->lng->txt("role"), "role", "32%");
-        $this->addColumn(str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_source")), "effective_from",
-            "32%");
+        $this->addColumn(
+            str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_source")),
+            "effective_from",
+            "32%"
+        );
         $this->addColumn(str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_origin")), "original_position");
     }
 

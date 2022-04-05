@@ -649,8 +649,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         if (
             $this->obj_ref_id == ROLE_FOLDER_ID ||
-            $this->rbac_review->isAssignable($this->object->getId(), $this->obj_ref_id))
-        {
+            $this->rbac_review->isAssignable($this->object->getId(), $this->obj_ref_id)) {
             $this->rbacadmin->setProtected($this->obj_ref_id, $this->object->getId(), ilUtil::tf2yn($protected));
         }
         $recursive = false;

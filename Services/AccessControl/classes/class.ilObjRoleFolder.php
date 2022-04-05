@@ -86,5 +86,4 @@ class ilObjRoleFolder extends ilObject
 
         return $roleObj;
     }
-
 }

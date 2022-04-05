@@ -173,8 +173,10 @@ class ilRbacAdmin
         // enhanced: only if we haven't had this role for this user
         if (!$alreadyAssigned) {
             $query = "INSERT INTO rbac_ua (usr_id, rol_id) " .
-                "VALUES (" . $this->db->quote($a_usr_id, 'integer') . "," . $this->db->quote($a_rol_id,
-                    'integer') . ")";
+                "VALUES (" . $this->db->quote($a_usr_id, 'integer') . "," . $this->db->quote(
+                    $a_rol_id,
+                    'integer'
+                ) . ")";
             $res = $this->db->manipulate($query);
 
             $this->rbacreview->setAssignedCacheEntry($a_rol_id, $a_usr_id, true);
@@ -265,8 +267,10 @@ class ilRbacAdmin
 
         $query = "INSERT INTO rbac_pa (rol_id,ops_id,ref_id) " .
             "VALUES " .
-            "(" . $this->db->quote($a_rol_id, 'integer') . "," . $this->db->quote($ops_ids,
-                'text') . "," . $this->db->quote($a_ref_id, 'integer') . ")";
+            "(" . $this->db->quote($a_rol_id, 'integer') . "," . $this->db->quote(
+                $ops_ids,
+                'text'
+            ) . "," . $this->db->quote($a_ref_id, 'integer') . ")";
         $res = $this->db->manipulate($query);
     }
 
@@ -395,8 +399,13 @@ class ilRbacAdmin
         bool $a_consider_protected = true
     ) : void {
         // Copy template permissions
-        $this->copyRoleTemplatePermissions($a_source_id, $a_source_parent, $a_dest_parent, $a_dest_id,
-            $a_consider_protected);
+        $this->copyRoleTemplatePermissions(
+            $a_source_id,
+            $a_source_parent,
+            $a_dest_parent,
+            $a_dest_id,
+            $a_consider_protected
+        );
         $ops = $this->rbacreview->getRoleOperationsOnObject($a_source_id, $a_source_parent);
 
         $this->revokePermission($a_dest_parent, $a_dest_id);
@@ -921,8 +930,11 @@ class ilRbacAdmin
                     default:
                         $this->grantPermission(
                             $role_id,
-                            $ops = $this->rbacreview->getOperationsOfRole($role_id, $node_data['type'],
-                                $role_data['parent']),
+                            $ops = $this->rbacreview->getOperationsOfRole(
+                                $role_id,
+                                $node_data['type'],
+                                $role_data['parent']
+                            ),
                             $node_id
                         );
                         break;

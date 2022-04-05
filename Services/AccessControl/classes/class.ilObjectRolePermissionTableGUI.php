@@ -165,8 +165,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
                 $this->tpl->setCurrentBlock('role_option');
                 $this->tpl->setVariable('INHERIT_ROLE_ID', $role_id);
                 $this->tpl->setVariable('INHERIT_CHECKED', $role_info['local_policy'] ? 'checked=checked' : '');
-                $this->tpl->setVariable('INHERIT_DISABLED',
-                    ($role_info['protected'] or $role_info['isLocal'] or $role_info['blocked']) ? 'disabled="disabled"' : '');
+                $this->tpl->setVariable(
+                    'INHERIT_DISABLED',
+                    ($role_info['protected'] or $role_info['isLocal'] or $role_info['blocked']) ? 'disabled="disabled"' : ''
+                );
                 $this->tpl->setVariable('TXT_INHERIT', $this->lng->txt('rbac_local_policy'));
                 $this->tpl->setVariable('INHERIT_LONG', $this->lng->txt('perm_use_local_policy_desc'));
                 $this->tpl->parseCurrentBlock();
@@ -179,8 +181,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
                 $this->tpl->setCurrentBlock('role_protect');
                 $this->tpl->setVariable('PROTECT_ROLE_ID', $role_id);
                 $this->tpl->setVariable('PROTECT_CHECKED', $role_info['protected_status'] ? 'checked=checked' : '');
-                $this->tpl->setVariable('PROTECT_DISABLED',
-                    $role_info['protected_allowed'] ? '' : 'disabled="disabled"');
+                $this->tpl->setVariable(
+                    'PROTECT_DISABLED',
+                    $role_info['protected_allowed'] ? '' : 'disabled="disabled"'
+                );
                 $this->tpl->setVariable('TXT_PROTECT', $this->lng->txt('role_protect_permissions'));
                 $this->tpl->setVariable('PROTECT_LONG', $this->lng->txt('role_protect_permissions_desc'));
                 $this->tpl->parseCurrentBlock();
@@ -284,8 +288,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             } elseif (substr($a_set['perm']['operation'], 0, 6) == 'create') {
                 $this->tpl->setVariable('PERM_LONG', $this->lng->txt('rbac_' . $a_set['perm']['operation']));
             } else {
-                $this->tpl->setVariable('PERM_LONG',
-                    $this->lng->txt($this->getObjType() . '_' . $a_set['perm']['operation']));
+                $this->tpl->setVariable(
+                    'PERM_LONG',
+                    $this->lng->txt($this->getObjType() . '_' . $a_set['perm']['operation'])
+                );
             }
 
             if ($role_info['protected'] || $role_info['blocked']) {
@@ -317,8 +323,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         // Read operations of role
         $operations = array();
         foreach ($this->getVisibleRoles() as $role_data) {
-            $operations[$role_data['obj_id']] = $this->review->getActiveOperationsOfRole($this->getRefId(),
-                $role_data['obj_id']);
+            $operations[$role_data['obj_id']] = $this->review->getActiveOperationsOfRole(
+                $this->getRefId(),
+                $role_data['obj_id']
+            );
         }
 
         $counter = 0;
@@ -557,8 +565,11 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $parent = end($reduced_path_hierarchy);
             $p_type = ilObject::_lookupType(ilObject::_lookupObjId($parent));
             $p_title = ilObject::_lookupTitle(ilObject::_lookupObjId($parent));
-            $tp .= sprintf($this->lng->txt('perm_role_path_info_inheritance'), $this->lng->txt('obj_' . $p_type),
-                $p_title);
+            $tp .= sprintf(
+                $this->lng->txt('perm_role_path_info_inheritance'),
+                $this->lng->txt('obj_' . $p_type),
+                $p_title
+            );
         }
 
         return $tp;
@@ -588,7 +599,9 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         }
         $this->ctrl->setParameterByClass('ilobjrolegui', 'obj_id', $role['obj_id']);
 
-        return '<a class="tblheader" href="' . $this->ctrl->getLinkTargetByClass('ilobjrolegui',
-                '') . '" >' . $role_title . '</a>';
+        return '<a class="tblheader" href="' . $this->ctrl->getLinkTargetByClass(
+            'ilobjrolegui',
+            ''
+        ) . '" >' . $role_title . '</a>';
     }
 }
