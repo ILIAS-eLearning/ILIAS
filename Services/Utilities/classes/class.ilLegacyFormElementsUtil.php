@@ -104,12 +104,12 @@ class ilLegacyFormElementsUtil
      *
      * @param string $txt_output String which should be prepared for output
      * @access public
-     *
+     * @return array|string|string[]|null
      */
     public static function prepareTextareaOutput(
-        $txt_output,
-        $prepare_for_latex_output = false,
-        $omitNl2BrWhenTextArea = false
+        string $txt_output,
+        bool $prepare_for_latex_output = false,
+        bool $omitNl2BrWhenTextArea = false
     ) {
         $result = $txt_output;
         $is_html = ilUtil::isHTML($result);
@@ -197,11 +197,8 @@ class ilLegacyFormElementsUtil
             $hour = $now[2];
             $minute = $now[1];
             $second = $now[0];
-        } else {
-            $hour = (int) $hour;
-            $minute = (int) $minute;
-            $second = (int) $second;
         }
+
         // build hour select
         $sel_hour = '<select ';
         if (isset($a_further_options['select_attributes'])) {
@@ -359,7 +356,7 @@ class ilLegacyFormElementsUtil
         }
         $str = "<select name=\"" . $varname . "\"" . $multiple . " $class " . $size_str . " $disabled>\n";
         
-        foreach ((array) $options as $key => $val) {
+        foreach ($options as $key => $val) {
             $style = "";
             if (is_array($val)) {
                 $style = $val["style"];

@@ -3,13 +3,9 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 
-use ILIAS\Filesystem\Util\LegacyPathHelper;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
-use function ILIAS\UI\examples\Symbol\Icon\Standard\default_icon;
 
 /**
  * Util class
@@ -288,8 +284,8 @@ class ilUtil
      * @deprecated
      */
     public static function img(
-        $a_src,
-        $a_alt = null,
+        string $a_src,
+        ?string $a_alt = null,
         $a_width = "",
         $a_height = "",
         $a_border = 0,
@@ -497,7 +493,7 @@ class ilUtil
         return $a_str;
     }
     
-    private static function unmaskSecureTags($a_str, array $allow_array) : string
+    private static function unmaskSecureTags(string $a_str, array $allow_array) : string
     {
         foreach ($allow_array as $t) {
             switch ($t) {
@@ -1017,8 +1013,12 @@ class ilUtil
      * @static
      *
      */
-    public static function _getObjectsByOperations($a_obj_type, $a_operation, $a_usr_id = 0, $limit = 0)
-    {
+    public static function _getObjectsByOperations(
+        $a_obj_type,
+        string $a_operation,
+        int $a_usr_id = 0,
+        int $limit = 0
+    ) : array {
         global $DIC;
         
         $ilDB = $DIC->database();
@@ -1036,14 +1036,14 @@ class ilUtil
         
         // limit number of results default is search result limit
         if (!$limit) {
-            $limit = $ilSetting->get('search_max_hits', 100);
+            $limit = (int) $ilSetting->get('search_max_hits', "100");
         }
         if ($limit == -1) {
             $limit = 10000;
         }
         
         // default to logged in usr
-        $a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
+        $a_usr_id = $a_usr_id ?: $ilUser->getId();
         $a_roles = $rbacreview->assignedRoles($a_usr_id);
         
         // Since no rbac_pa entries are available for the system role. This function returns !all! ref_ids in the case the user
@@ -1123,7 +1123,7 @@ class ilUtil
      * @access public
      * @static
      */
-    public static function isHTML($a_text)
+    public static function isHTML(string $a_text) : bool
     {
         if (strlen(strip_tags($a_text)) < strlen($a_text)) {
             return true;
@@ -1211,11 +1211,9 @@ class ilUtil
      * ATTENTION: This method is deprecated. Use MessageBox from the
      * UI-framework instead.
      */
-    public static function getSystemMessageHTML($a_txt, $a_type = "info")
+    public static function getSystemMessageHTML(string $a_txt, string $a_type = "info")
     {
         global $DIC;
-        
-        $lng = $DIC->language();
         
         $box_factory = $DIC->ui()->factory()->messageBox();
         switch ($a_type) {

@@ -1,24 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
-use ILIAS\UI;
 
 class ilUtilitiesSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
+
+    protected Refinery\Factory $refinery;
     
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
-    
-    public function __construct(
-        Refinery\Factory $refinery
-    ) {
+    public function __construct(Refinery\Factory $refinery)
+    {
         $this->refinery = $refinery;
     }
     
@@ -36,7 +30,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilUtilitiesSetupConfig(
+            return new ilUtilitiesSetupConfig(
                 $data["path_to_convert"] ?? "/usr/bin/convert",
                 $data["path_to_zip"] ?? "/usr/bin/zip",
                 $data["path_to_unzip"] ?? "/usr/bin/unzip"
@@ -49,6 +43,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        /** @var ilUtilitiesSetupConfig $config */
         return new ilUtilitiesConfigStoredObjective($config);
     }
     
@@ -58,6 +53,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         if ($config !== null) {
+            /** @var ilUtilitiesSetupConfig $config */
             return new ilUtilitiesConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();
