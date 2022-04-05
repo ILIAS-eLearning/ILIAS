@@ -43,6 +43,11 @@ interface PagePartProvider
     public function getLogo() : ?Image;
 
     /**
+     * @return Image|null
+     */
+    public function getResponsiveLogo() : ?Image;
+
+    /**
      * @return SystemInfo[]
      */
     public function getSystemInfos() : array;
