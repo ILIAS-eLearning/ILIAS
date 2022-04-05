@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class LikeStandardGUIRequestTest extends TestCase
 {
+    // PHP8-Review: Redundant method override
     protected function setUp() : void
     {
         parent::setUp();

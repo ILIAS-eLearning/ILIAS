@@ -89,6 +89,7 @@ class ilLikeGUI
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("getHTML");
 
+        // PHP8-Review: 'switch' with single 'case'
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("getHTML", "renderEmoticons", "renderModal", "saveExpression"))) {
