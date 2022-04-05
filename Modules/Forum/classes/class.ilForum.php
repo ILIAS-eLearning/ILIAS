@@ -322,8 +322,6 @@ class ilForum
             $status,
             false
         );
-
-        return $rootNodeId;
     }
 
     /**
@@ -733,9 +731,9 @@ class ilForum
         $query =
             "SELECT COUNT(DISTINCT(thr_pk)) cnt
 			 FROM frm_threads
-			 {$cnt_join_type} JOIN frm_posts
-			 	ON pos_thr_fk = thr_pk {$cnt_active_pos_query}
-			 WHERE thr_top_fk = %s {$excluded_ids_condition}
+			 $cnt_join_type JOIN frm_posts
+			 	ON pos_thr_fk = thr_pk $cnt_active_pos_query
+			 WHERE thr_top_fk = %s $excluded_ids_condition
 		";
         $res = $this->db->queryF($query, ['integer'], [$a_topic_id]);
         $cntData = $this->db->fetchAssoc($res);
@@ -785,6 +783,14 @@ class ilForum
         }
         $additional_sort .= implode(' ', $dynamic_columns);
 
+        $new_deadline_condition = $this->db->quote(date(
+            'Y-m-d H:i:s',
+            (int) $this->settings->get(
+                'frm_new_deadline',
+                (string) (time() - 60 * 60 * 24 * 7 * ilObjForum::NEWS_NEW_CONSIDERATION_WEEKS)
+            )
+        ), 'timestamp');
+
         if (!$this->user->isAnonymous()) {
             $query = "SELECT
 					  (CASE WHEN COUNT(DISTINCT(notification_id)) > 0 THEN 1 ELSE 0 END) usr_notification_is_enabled,
@@ -805,10 +811,7 @@ class ilForum
 						AND treenew.parent_pos != 0
 						AND (ipos.pos_update > iacc.access_old_ts
 							OR
-							(iacc.access_old IS NULL AND (ipos.pos_update > " . $this->db->quote(date(
-                    'Y-m-d H:i:s',
-                    $this->settings->get('frm_new_deadline')
-                ), 'timestamp') . "))
+							(iacc.access_old IS NULL AND (ipos.pos_update > " . $new_deadline_condition . "))
 							)
 						 
 						AND ipos.pos_author_id != %s
@@ -817,7 +820,7 @@ class ilForum
             }
 
             $query .= " thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-					  {$optional_fields}
+					  $optional_fields
 					  FROM frm_threads
 					  
 					  LEFT JOIN frm_notification
@@ -833,11 +836,11 @@ class ilForum
 						AND postread.usr_id = %s";
 
             $query .= " WHERE thr_top_fk = %s
-						{$excluded_ids_condition}
+						$excluded_ids_condition
 						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-						{$optional_fields}
-						{$having}
-						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
+						$optional_fields
+						$having
+						ORDER BY is_sticky DESC $additional_sort, thr_date DESC";
 
             // data_types for new posts query and $active_inner_query
             if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
@@ -873,25 +876,25 @@ class ilForum
             $query = "SELECT
 					  0 usr_notification_is_enabled,
 					  MAX(pos_date) post_date,
-					  COUNT(DISTINCT(pos_pk)) num_posts,
-					  COUNT(DISTINCT(pos_pk)) num_unread_posts,
-					  COUNT(DISTINCT(pos_pk)) num_new_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_unread_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_new_posts,
 					  thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-					  {$optional_fields}
+					  $optional_fields
 					  FROM frm_threads
 					  
 					  LEFT JOIN frm_posts
 						ON pos_thr_fk = thr_pk $active_query
 					  LEFT JOIN frm_posts_tree tree1
-					    ON tree1.pos_fk = frm_posts.pos_pk 	
+					    ON tree1.pos_fk = frm_posts.pos_pk AND tree1.parent_pos != 0
 					";
 
             $query .= " WHERE thr_top_fk = %s
-						{$excluded_ids_condition}
+						$excluded_ids_condition
 						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-						{$optional_fields}
-						{$having}
-						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
+						$optional_fields
+						$having
+						ORDER BY is_sticky DESC $additional_sort, thr_date DESC";
 
             if ($is_post_activation_enabled && !$params['is_moderator']) {
                 array_push($data_types, 'integer', 'integer');
@@ -1085,8 +1088,8 @@ class ilForum
 
         $role_arr = $rbacreview->getRolesOfRoleFolder($a_ref_id);
         foreach ($role_arr as $role_id) {
-            if (ilObject::_lookupTitle((int) $role_id) === 'il_frm_moderator_' . $a_ref_id) {
-                return array_map('intval', $rbacreview->assignedUsers((int) $role_id));
+            if (ilObject::_lookupTitle($role_id) === 'il_frm_moderator_' . $a_ref_id) {
+                return array_map('intval', $rbacreview->assignedUsers($role_id));
             }
         }
 
@@ -1248,7 +1251,7 @@ class ilForum
 
             $row = $this->db->fetchObject($res);
             if ($row instanceof stdClass) {
-                return (int) $res->depth;
+                return (int) $row->depth;
             }
         }
 
@@ -1290,8 +1293,8 @@ class ilForum
         $fullname = '';
         $loginname = '';
 
-        if (ilObject::_exists($a_row->pos_display_user_id)) {
-            $tmp_user = new ilObjUser($a_row->pos_display_user_id);
+        if (ilObject::_exists((int) $a_row->pos_display_user_id)) {
+            $tmp_user = new ilObjUser((int) $a_row->pos_display_user_id);
             $fullname = $tmp_user->getFullname();
             $loginname = $tmp_user->getLogin();
         }
@@ -1303,13 +1306,13 @@ class ilForum
             }
         }
 
-        $data = [
+        return [
             'type' => 'post',
             'pos_pk' => (int) $a_row->pos_pk,
             'child' => (int) $a_row->pos_pk,
             'author' => (int) $a_row->pos_display_user_id,
             'alias' => (string) $a_row->pos_usr_alias,
-            'title' => (string) $fullname,
+            'title' => $fullname,
             'loginname' => $loginname,
             'message' => (string) $a_row->pos_message,
             'subject' => (string) $a_row->pos_subject,
@@ -1329,8 +1332,6 @@ class ilForum
             'import_name' => $a_row->import_name,
             'pos_status' => (int) $a_row->pos_status
         ];
-
-        return $data;
     }
 
     /**
@@ -1529,7 +1530,7 @@ class ilForum
                 [$user_id, $this->id]
             );
 
-            if (is_object($res) && $res->numRows() > 0) {
+            if ($res->numRows() > 0) {
                 $thread_data = [];
                 $thread_data_types = [];
 

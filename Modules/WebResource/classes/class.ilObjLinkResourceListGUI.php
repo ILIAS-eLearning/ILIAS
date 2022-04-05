@@ -21,12 +21,12 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     /**
     * overwritten from base class
     */
-    public function getTitle()
+    public function getTitle() : string
     {
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $this->__readLink();
-            
+
             return $this->link_data['title'];
         }
         return parent::getTitle();
@@ -34,27 +34,27 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     /**
     * overwritten from base class
     */
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-    
+
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $this->__readLink();
-            
+
             $desc = $this->link_data['description'];
-            
+
             // #10682
             if ($ilSetting->get("rep_shorten_description")) {
-                $desc = ilUtil::shortenText(
+                $desc = ilStr::shortenTextExtended(
                     $desc,
                     $ilSetting->get("rep_shorten_description_length"),
                     true
                 );
             }
-            
+
             return $desc;
         }
         return parent::getDescription();
@@ -63,7 +63,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -73,26 +73,22 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         $this->type = "webr";
         $this->gui_class_name = "ilobjlinkresourcegui";
         $this->info_screen_enabled = true;
-        
+
         // general commands array
         $this->commands = ilObjLinkResourceAccess::_getCommands();
     }
 
     /**
     * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
         // #16820 / #18419 / #18622
-        if ($a_cmd == "" &&
+        if ($cmd == "" &&
             ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $link = ilObjLinkResourceAccess::_getFirstLink($this->obj_id);
-            
+
             // we could use the "internal" flag, but it would not work for "old" links
             include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
             include_once "Services/Form/classes/class.ilLinkInputGUI.php";
@@ -100,8 +96,9 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
                 return '_blank';
             }
         }
+        return "";
     }
-            
+
     /**
     * Get item properties
     *
@@ -110,27 +107,17 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties()
+    public function getProperties() : array
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-
         $props = array();
-
         return $props;
     }
 
 
     /**
     * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         if (
             (isset($_REQUEST["wsp_id"]) && $_REQUEST["wsp_id"]) ||
@@ -138,15 +125,15 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         ) {
             if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
                 !ilLinkResourceList::checkListStatus($this->obj_id) &&
-                $a_cmd == '') {
-                $a_cmd = "calldirectlink";
+                $cmd == '') {
+                $cmd = "calldirectlink";
             }
             $this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
             $this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
-            return $this->ctrl->getLinkTargetByClass(array("ilpersonalworkspacegui", $this->gui_class_name), $a_cmd);
+            return $this->ctrl->getLinkTargetByClass(array("ilpersonalworkspacegui", $this->gui_class_name), $cmd);
         } else {
             // separate method for this line
-            switch ($a_cmd) {
+            switch ($cmd) {
                 case '':
                     if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
                         !ilLinkResourceList::checkListStatus($this->obj_id)) {
@@ -154,12 +141,12 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
                         // $cmd_link = $this->link_data['target'];
                         $cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $this->ref_id . "&cmd=calldirectlink";
                     } else {
-                        $cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$a_cmd";
+                        $cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
                     }
                     break;
 
                 default:
-                    $cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$a_cmd";
+                    $cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
             }
         }
         return $cmd_link;
@@ -176,7 +163,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
         if (ilParameterAppender::_isEnabled()) {
-            return $this->link_data = ilParameterAppender::_append($tmp = &ilLinkResourceItems::_getFirstLink($this->obj_id));
+            return $this->link_data = ilParameterAppender::_append(ilLinkResourceItems::_getFirstLink($this->obj_id));
         }
         return $this->link_data = ilLinkResourceItems::_getFirstLink($this->obj_id);
     }

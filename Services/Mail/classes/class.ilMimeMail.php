@@ -228,8 +228,16 @@ class ilMimeMail
             $this->buildBodyMultiParts($skin);
             $this->buildHtmlInlineImages($skin);
         } else {
-            $this->finalBody = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body);
+            $this->finalBody = $this->removeHTMLTags($this->body);
         }
+    }
+
+    private function removeHTMLTags(string $maybeHTML) : string
+    {
+        $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybeHTML);
+        $maybeHTML = strip_tags($maybeHTML);
+
+        return $maybeHTML;
     }
 
     protected function buildBodyMultiParts(string $skin) : void
@@ -243,7 +251,7 @@ class ilMimeMail
             // (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this),
             // so convert "\n" to "<br>"
             $this->finalBodyAlt = strip_tags($this->body);
-            $this->body = $this->refinery()->string()->makeClickable(nl2br($this->body));
+            $this->body = $this->refinery->string()->makeClickable()->transform(nl2br($this->body));
         } else {
             // if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
             $this->finalBodyAlt = strip_tags(str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body));

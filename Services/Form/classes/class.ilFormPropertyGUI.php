@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +25,7 @@ use ILIAS\Refinery;
 class ilFormPropertyGUI
 {
     protected ?ilTable2GUI $parent_table = null;
-    protected ilFormPropertyGUI $parent_gui;
+    protected ?ilFormPropertyGUI $parent_gui = null;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected string $type = "";
@@ -51,7 +51,6 @@ class ilFormPropertyGUI
         string $a_title = "",
         string $a_postvar = ""
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         if (isset($DIC["http"])) {
@@ -185,7 +184,7 @@ class ilFormPropertyGUI
         $this->parent_gui = $a_val;
     }
     
-    public function getParent() : ilFormPropertyGUI
+    public function getParent() : ?ilFormPropertyGUI
     {
         return $this->parent_gui;
     }
@@ -234,7 +233,7 @@ class ilFormPropertyGUI
         if ($data) {
             $this->setValue($data);
         } else {
-            $this->setValue(false);
+            $this->setValue("");
         }
     }
 
@@ -309,7 +308,9 @@ class ilFormPropertyGUI
         string $a_post_var,
         string $a_value
     ) : string {
-        return '<input type="hidden" name="' . $a_post_var . '" value="' . ilUtil::prepareFormOutput($a_value) . '" />';
+        return '<input type="hidden" name="' . $a_post_var . '" value="' . ilLegacyFormElementsUtil::prepareFormOutput(
+                $a_value
+            ) . '" />';
     }
     
     public function setMulti(
@@ -491,6 +492,9 @@ class ilFormPropertyGUI
                 return array_column(
                     array_map(
                         function ($k, $v) {
+                            if (is_array($v)) {
+                                $v = "";
+                            }
                             return [$k, $this->stripSlashesAddSpaceFallback((string) $v)];
                         },
                         array_keys($arr),

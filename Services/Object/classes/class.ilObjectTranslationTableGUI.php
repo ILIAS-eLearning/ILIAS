@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -9,49 +9,37 @@
  */
 class ilObjectTranslationTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected bool $incl_desc;
+    protected string $base_cmd;
+    protected int $nr;
 
-    
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_incl_desc = true, $a_base_cmd = "HeaderTitle")
-    {
+    public function __construct(
+        ?object $parent_obj,
+        string $parent_cmd,
+        bool $incl_desc = true,
+        string $base_cmd = "HeaderTitle"
+    ) {
         global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->incl_desc = $a_incl_desc;
-        $this->base_cmd = $a_base_cmd;
+
+        parent::__construct($parent_obj, $parent_cmd);
+        $this->incl_desc = $incl_desc;
+        $this->base_cmd = $base_cmd;
         
         $this->setLimit(9999);
         
         $this->addColumn("", "", "1");
-        $this->addColumn($this->lng->txt("language"), "", "");
-        $this->addColumn($this->lng->txt("default"), "", "");
-        $this->addColumn($this->lng->txt("title"), "", "");
-        if ($a_incl_desc) {
-            $this->addColumn($this->lng->txt("description"), "", "");
+        $this->addColumn($this->lng->txt("language"));
+        $this->addColumn($this->lng->txt("default"));
+        $this->addColumn($this->lng->txt("title"));
+        if ($incl_desc) {
+            $this->addColumn($this->lng->txt("description"));
         }
-        //		$this->addColumn($this->lng->txt("actions"), "", "");
-        
+
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
         $this->setRowTemplate("tpl.obj_translation_row.html", "Services/Object");
         $this->disable("footer");
         $this->setEnableTitle(true);
@@ -59,32 +47,22 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
         $this->nr = 0;
     }
     
-    /**
-    * Prepare output
-    */
-    protected function prepareOutput()
+    protected function prepareOutput() : void
     {
-        $lng = $this->lng;
-
-        $this->addMultiCommand("delete" . $this->base_cmd . "s", $lng->txt("remove"));
+        $this->addMultiCommand("delete" . $this->base_cmd . "s", $this->lng->txt("remove"));
         if ($this->dataExists()) {
-            $this->addCommandButton("save" . $this->base_cmd . "s", $lng->txt("save"));
+            $this->addCommandButton("save" . $this->base_cmd . "s", $this->lng->txt("save"));
         }
-        $this->addCommandButton("add" . $this->base_cmd, $lng->txt("add"));
+        $this->addCommandButton("add" . $this->base_cmd, $this->lng->txt("add"));
     }
     
-    /**
-    * Fill table row
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $set) : void
     {
-        $lng = $this->lng;
-
         $this->nr++;
         
         if ($this->incl_desc) {
             $this->tpl->setCurrentBlock("desc_row");
-            $this->tpl->setVariable("VAL_DESC", ilUtil::prepareFormOutput($a_set["desc"]));
+            $this->tpl->setVariable("VAL_DESC", ilLegacyFormElementsUtil::prepareFormOutput($set["desc"]));
             $this->tpl->setVariable("DNR", $this->nr);
             $this->tpl->parseCurrentBlock();
         }
@@ -95,8 +73,8 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
         $languages = ilMDLanguageItem::_getLanguages();
         $this->tpl->setVariable(
             "LANG_SELECT",
-            ilUtil::formSelect(
-                $a_set["lang"],
+            ilLegacyFormElementsUtil::formSelect(
+                $set["lang"],
                 "lang[" . $this->nr . "]",
                 $languages,
                 false,
@@ -104,10 +82,10 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
             )
         );
 
-        if ($a_set["default"]) {
+        if ($set["default"]) {
             $this->tpl->setVariable("DEF_CHECKED", "checked=\"checked\"");
         }
 
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($set["title"]));
     }
 }

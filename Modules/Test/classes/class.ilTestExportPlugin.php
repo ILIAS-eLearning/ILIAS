@@ -29,48 +29,15 @@ abstract class ilTestExportPlugin extends ilPlugin
         'xml',
         'csv'
     );
-    
-    /**
-     * Get Component Type
-     * @return        string        Component Type
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_MODULE;
-    }
-
-    /**
-     * Get Component Name.
-     * @return        string        Component Name
-     */
-    final public function getComponentName()
-    {
-        return "Test";
-    }
-
-    /**
-     * Get Slot Name.
-     * @return        string        Slot Name
-     */
-    final public function getSlot()
-    {
-        return "Export";
-    }
-
-    /**
-     * Get Slot ID.
-     * @return        string        Slot Id
-     */
-    final public function getSlotId()
-    {
-        return "texp";
-    }
-
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct(
+        \ilDBInterface $db,
+        \ilComponentRepositoryWrite $component_repository,
+        string $id
+    ) {
+        parent::__construct($db, $component_repository, $id);
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
     /**
@@ -84,7 +51,7 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @return ilObjTest
      */
-    final protected function getTest()
+    final protected function getTest() : ilObjTest
     {
         return $this->test;
     }
@@ -100,7 +67,7 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @return int
      */
-    public function getTimestmap()
+    public function getTimestmap() : int
     {
         return $this->timestmap;
     }
@@ -109,7 +76,7 @@ abstract class ilTestExportPlugin extends ilPlugin
      * @return string
      * @throws ilException
      */
-    final public function getFormat()
+    final public function getFormat() : string
     {
         $format_id = $this->getFormatIdentifier();
 
@@ -153,14 +120,14 @@ abstract class ilTestExportPlugin extends ilPlugin
             $this->buildExportFile(new ilTestExportFilename($this->getTest()));
         } catch (ilException $e) {
             if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
-                ilUtil::sendFailure($e->getMessage(), true);
+                $this->main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             } else {
-                ilUtil::sendFailure($this->txt($e->getMessage()), true);
+                $this->main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
             }
             $ilCtrl->redirectByClass('iltestexportgui');
         }
 
-        ilUtil::sendSuccess($lng->txt('exp_file_created'), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
         $ilCtrl->redirectByClass('iltestexportgui');
     }
 
@@ -179,11 +146,11 @@ abstract class ilTestExportPlugin extends ilPlugin
      *
      * @return string
      */
-    abstract protected function getFormatIdentifier();
+    abstract protected function getFormatIdentifier() : string;
 
     /**
      * This method should return a human readable label for your export
      * @return string
      */
-    abstract public function getFormatLabel();
+    abstract public function getFormatLabel() : string;
 }

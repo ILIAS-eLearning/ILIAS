@@ -63,8 +63,7 @@ class ilXlsFoParser
         $content = "<html><body>" . $formData['certificate_text'] . "</body></html>";
         $content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
         $content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
-        $content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
-        $content = str_replace("&nbsp;", "&#160;", $content);
+        $content = str_replace(["<p></p>", "&nbsp;"], ["<p class=\"emptyrow\"></p>", "&#160;"], $content);
         $content = preg_replace("//", "", $content);
 
         $this->xmlChecker->setXMLContent($content);
@@ -79,7 +78,7 @@ class ilXlsFoParser
         // additional font support
         $xsl = str_replace(
             'font-family="Helvetica, unifont"',
-            'font-family="' . $this->settings->get('rpc_pdf_font', 'Helvetica, unifont', '') . '"',
+            'font-family="' . $this->settings->get('rpc_pdf_font', 'Helvetica, unifont') . '"',
             $xsl
         );
 
@@ -88,7 +87,7 @@ class ilXlsFoParser
             '/_xsl' => $xsl
         ];
 
-        if (strcmp($formData['pageformat'], 'custom') == 0) {
+        if (strcmp($formData['pageformat'], 'custom') === 0) {
             $pageheight = $formData['pageheight'];
             $pagewidth = $formData['pagewidth'];
         } else {
@@ -112,9 +111,7 @@ class ilXlsFoParser
             )
         ];
 
-        $output = $this->xlstProcess->process($args, $params);
-
-        return $output;
+        return $this->xlstProcess->process($args, $params);
     }
 
     private function formatNumberString(string $a_number) : string

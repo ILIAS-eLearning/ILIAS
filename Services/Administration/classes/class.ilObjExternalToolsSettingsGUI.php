@@ -17,7 +17,7 @@
  * Class ilObjExternalToolsSettingsGUI
  *
  * @author Sascha Hofmann <saschahofmann@gmx.de>
- * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI, ilMathJaxSettingsGUI
  */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
@@ -45,12 +45,12 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $lng->loadLanguageModule("mathjax");
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
     
-    protected function getTabs()
+    protected function getTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -77,172 +77,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Configure MathJax settings
-     */
-    public function editMathJaxObject() : void
-    {
-        $tpl = $this->tpl;
-        $this->__initSubTabs("editMathJax");
-        $form = $this->getMathJaxForm();
-        $tpl->setContent($form->getHTML());
-    }
-
-    protected function getMathJaxForm() : ilPropertyFormGUI
-    {
-        $ilAccess = $this->access;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $mathJaxSetting = new ilSetting("MathJax");
-        $path_to_mathjax = $mathJaxSetting->get("path_to_mathjax");
-
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this));
-        $form->setTitle($lng->txt("mathjax_settings"));
-        
-        // Enable MathJax
-        $enable = new ilCheckboxInputGUI($lng->txt("mathjax_enable_client"), "enable");
-        $enable->setChecked($mathJaxSetting->get("enable"));
-        $enable->setInfo($lng->txt("mathjax_enable_mathjax_info") . " <a target='blank' href='https://www.mathjax.org/'>"
-            . $lng->txt("mathjax_home_link") . "</a>");
-        $form->addItem($enable);
-
-        // Path to mathjax
-        $text_prop = new ilTextInputGUI($lng->txt("mathjax_path_to_mathjax"), "path_to_mathjax");
-        $text_prop->setInfo($lng->txt("mathjax_path_to_mathjax_desc"));
-        $text_prop->setValue($path_to_mathjax);
-        $text_prop->setRequired(true);
-        $text_prop->setMaxLength(400);
-        $text_prop->setSize(100);
-        $enable->addSubItem($text_prop);
-        
-        // mathjax limiter
-        $options = array(
-            0 => '\&#8203;(...\&#8203;)',
-            1 => '[tex]...[/tex]',
-            2 => '&lt;span class="math"&gt;...&lt;/span&gt;'
-            );
-        $si = new ilSelectInputGUI($this->lng->txt("mathjax_limiter"), "limiter");
-        $si->setOptions($options);
-        $si->setValue($mathJaxSetting->get("limiter"));
-        $si->setInfo($this->lng->txt("mathjax_limiter_info"));
-        $enable->addSubItem($si);
-
-        $install_link = ' <a target="_blank" href="Services/MathJax/docs/Install-MathJax-Server.txt">'
-            . $lng->txt("mathjax_server_installation") . '</a>';
-        $clear_cache_link = ' <a href="' . $this->ctrl->getLinkTarget($this, 'clearMathJaxCache') . '"">'
-            . $lng->txt("mathjax_server_clear_cache") . '</a>';
-
-        // Enable Server MathJax
-        $server = new ilCheckboxInputGUI($lng->txt("mathjax_enable_server"), "enable_server");
-        $server->setChecked($mathJaxSetting->get("enable_server"));
-        $server->setInfo($lng->txt("mathjax_enable_server_info") . $install_link);
-
-        $form->addItem($server);
-
-        // Path to Server MathJax
-        $text_prop = new ilTextInputGUI($lng->txt("mathjax_server_address"), "server_address");
-        $text_prop->setInfo($lng->txt("mathjax_server_address_info"));
-        $text_prop->setValue($mathJaxSetting->get("server_address"));
-        $text_prop->setRequired(true);
-        $text_prop->setMaxLength(400);
-        $text_prop->setSize(100);
-        $server->addSubItem($text_prop);
-
-        // Server Timeout
-        $number_prop = new ilNumberInputGUI($lng->txt("mathjax_server_timeout"), "server_timeout");
-        $number_prop->setInfo($lng->txt("mathjax_server_timeout_info"));
-        $number_prop->setValue($mathJaxSetting->get("server_timeout") ? (int) $mathJaxSetting->get("server_timeout") : 5);
-        $number_prop->setRequired(true);
-        $number_prop->setSize(3);
-        $server->addSubItem($number_prop);
-
-        // Server for Browser
-        $checkbox = new ilCheckboxInputGUI($lng->txt("mathjax_server_for_browser"), "server_for_browser");
-        $checkbox->setInfo($lng->txt("mathjax_server_for_browser_info"));
-        $checkbox->setChecked((bool) $mathJaxSetting->get("server_for_browser"));
-        $server->addSubItem($checkbox);
-
-        // Server for HTML Export
-        $checkbox = new ilCheckboxInputGUI($lng->txt("mathjax_server_for_export"), "server_for_export");
-        $checkbox->setInfo($lng->txt("mathjax_server_for_export_info"));
-        $checkbox->setChecked((bool) $mathJaxSetting->get("server_for_export"));
-        $server->addSubItem($checkbox);
-
-        // Server for PDF
-        $checkbox = new ilCheckboxInputGUI($lng->txt("mathjax_server_for_pdf"), "server_for_pdf");
-        $checkbox->setInfo($lng->txt("mathjax_server_for_pdf_info"));
-        $checkbox->setChecked((bool) $mathJaxSetting->get("server_for_pdf"));
-        $server->addSubItem($checkbox);
-
-        // Cache Size / Clear Cache
-        $size = new ilNonEditableValueGUI($lng->txt("mathjax_server_cache_size"));
-        $size->setInfo($lng->txt("mathjax_server_cache_size_info") . $clear_cache_link);
-        $size->setValue(ilMathJax::getInstance()->getCacheSize());
-        $server->addSubItem($size);
-
-        // Test expression
-        $test = new ilCustomInputGUI($lng->txt("mathjax_test_expression"));
-        $html = ilMathJax::getInstance()->insertLatexImages('[tex]f(x)=\int_{-\infty}^x e^{-t^2}dt[/tex]');
-        $test->setHtml($html);
-        $test->setInfo($lng->txt('mathjax_test_expression_info'));
-        $form->addItem($test);
-
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $form->addCommandButton("saveMathJax", $lng->txt("save"));
-        }
-
-        return $form;
-    }
-
-    /**
-     * Save MathJax Settings
-     */
-    public function saveMathJaxObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        $form = $this->getMathJaxForm();
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-            $form->checkInput()) {
-            $mathJaxSetting = new ilSetting("MathJax");
-            // Client settings
-            $path_to_mathjax = $form->getInput("path_to_mathjax");
-            if ($form->getInput("enable")) {
-                $mathJaxSetting->set("path_to_mathjax", $path_to_mathjax);
-                $mathJaxSetting->set("limiter", (int) $form->getInput("limiter"));
-            }
-            $mathJaxSetting->set("enable", $form->getInput("enable"));
-
-            // Server settings
-            if ($form->getInput("enable_server")) {
-                $mathJaxSetting->set("server_address", $form->getInput("server_address"));
-                $mathJaxSetting->set("server_timeout", (int) $form->getInput("server_timeout"));
-                $mathJaxSetting->set("server_for_browser", (bool) $form->getInput("server_for_browser"));
-                $mathJaxSetting->set("server_for_export", (bool) $form->getInput("server_for_export"));
-                $mathJaxSetting->set("server_for_pdf", (bool) $form->getInput("server_for_pdf"));
-            }
-            $mathJaxSetting->set("enable_server", (bool) $form->getInput("enable_server"));
-
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"));
-        }
-        $ilCtrl->redirect($this, "editMathJax");
-    }
-
-    /**
-     * Clear the directory with cached LaTeX graphics
-     */
-    public function clearMathJaxCacheObject() : void
-    {
-        $lng = $this->lng;
-
-        ilMathJax::getInstance()->clearCache();
-
-        ilUtil::sendSuccess($lng->txt('mathjax_server_cache_cleared'), true);
-        $this->ctrl->redirect($this, 'editMathJax');
-    }
 
     /**
      * Configure maps settings
@@ -366,7 +200,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         );
         $this->tabs_gui->addSubTabTarget(
             "mathjax_mathjax",
-            $this->ctrl->getLinkTarget($this, "editMathJax"),
+            $this->ctrl->getLinkTargetByClass('ilMathJaxSettingsGUI'),
             "",
             "",
             "",
@@ -385,6 +219,13 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         }
         
         switch ($next_class) {
+
+            case 'ilmathjaxsettingsgui':
+                $this->tabs_gui->setTabActive('settings');
+                $this->__initSubTabs("editMathJax");
+                $this->ctrl->forwardCommand(new ilMathJaxSettingsGUI());
+                break;
+
             case 'ilecssettingsgui':
                 $this->tabs_gui->setTabActive('ecs_server_settings');
                 $this->ctrl->forwardCommand(new ilECSSettingsGUI());

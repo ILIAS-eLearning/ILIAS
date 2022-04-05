@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,8 +34,11 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
         $this->ctrl = $DIC->ctrl();
         $this->multi_nodes = $a_multi;
         $this->postvar = $a_postvar;
+        $form_class = (is_null($form))
+            ? ilPropertyFormGUI::class
+            : get_class($form);
         $this->explorer_gui = new ilRepositorySelectorExplorerGUI(
-            [get_class($form), ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
+            [$form_class, ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
             $this->getExplHandleCmd(),
             $this,
             "selectRepositoryItem",

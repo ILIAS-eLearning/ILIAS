@@ -47,6 +47,11 @@ class assFormulaQuestionVariable
     {
         
 //		@todo check this
+        if ($this->getIntprecision() > $this->getRangeMax()) {
+            global $DIC;
+            $lng = $DIC['lng'];
+            ilUtil::sendFailure($lng->txt('err_divider_too_big'));
+        }
         
         include_once "./Services/Math/classes/class.ilMath.php";
         $mul = ilMath::_pow(10, $this->getPrecision());
@@ -113,11 +118,11 @@ class assFormulaQuestionVariable
         $this->precision = $precision;
     }
 
-    public function getPrecision()
+    public function getPrecision() : int
     {
         //@todo TEST
         
-        return (int) $this->precision;
+        return $this->precision;
     }
 
     public function setVariable($variable)
@@ -125,7 +130,7 @@ class assFormulaQuestionVariable
         $this->variable = $variable;
     }
 
-    public function getVariable()
+    public function getVariable() : string
     {
         return $this->variable;
     }
@@ -140,7 +145,7 @@ class assFormulaQuestionVariable
         $this->range_min = $result;
     }
 
-    public function getRangeMin()
+    public function getRangeMin() : float
     {
         return (double) $this->range_min;
     }
@@ -154,7 +159,7 @@ class assFormulaQuestionVariable
         $this->range_max = $result;
     }
 
-    public function getRangeMax()
+    public function getRangeMax() : float
     {
         return (double) $this->range_max;
     }
@@ -164,7 +169,7 @@ class assFormulaQuestionVariable
         $this->unit = $unit;
     }
 
-    public function getUnit()
+    public function getUnit() : ?object
     {
         return $this->unit;
     }
@@ -174,7 +179,7 @@ class assFormulaQuestionVariable
         $this->intprecision = $intprecision;
     }
 
-    public function getIntprecision()
+    public function getIntprecision() : int
     {
         return $this->intprecision;
     }

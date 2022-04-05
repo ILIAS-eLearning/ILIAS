@@ -14,7 +14,7 @@ class ilLearningSequenceSettings
     protected ?string $extro_image;
 
     /**
-     * @return array<string, array<mixed>>
+     * @return array<string, array>
      */
     protected array $uploads = [];
 
@@ -94,16 +94,13 @@ class ilLearningSequenceSettings
     }
 
     /**
-     * @return array<string, array<mixed>>
+     * @return array<string, array>
      */
     public function getUploads() : array
     {
         return $this->uploads;
     }
 
-    /**
-     * @param array<mixed>  $upload_info
-     */
     public function withUpload(array $upload_info, string $which) : ilLearningSequenceSettings
     {
         $clone = clone $this;

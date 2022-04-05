@@ -1,7 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilLearningSequenceXMLParser extends ilSaxParser
 {
     protected ilObjLearningSequence $obj;
@@ -23,7 +34,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
     protected array $settings;
 
     /**
-     * @var mixed[]
+     * @var array
      */
     protected array $lp_settings;
     protected int $counter;
@@ -62,18 +73,18 @@ class ilLearningSequenceXMLParser extends ilSaxParser
         return $ret;
     }
 
-    public function setHandlers($parser)
+    public function setHandlers($a_xml_parser) : void
     {
-        xml_set_object($parser, $this);
-        xml_set_element_handler($parser, "handleBeginTag", "handleEndTag");
-        xml_set_character_data_handler($parser, 'handleCharacterData');
+        xml_set_object($a_xml_parser, $this);
+        xml_set_element_handler($a_xml_parser, "handleBeginTag", "handleEndTag");
+        xml_set_character_data_handler($a_xml_parser, 'handleCharacterData');
     }
 
     public function handleBeginTag(
         $parser,
         string $name,
         array $attributes
-    ) {
+    ) : void {
         $this->actual_name = $name;
 
         switch ($name) {
@@ -89,7 +100,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
         }
     }
 
-    public function handleEndTag($parser, string $name)
+    public function handleEndTag($parser, string $name) : void
     {
         switch ($name) {
             case "title":
@@ -139,23 +150,23 @@ class ilLearningSequenceXMLParser extends ilSaxParser
         }
     }
 
-    public function handleCharacterData($parser, $data)
+    public function handleCharacterData($parser, $data) : void
     {
         $this->cdata = $data ?? "";
         $this->storeData();
     }
 
-    protected function beginStoreCData()
+    protected function beginStoreCData() : void
     {
         $this->storing = true;
     }
 
-    protected function endStoreCData()
+    protected function endStoreCData() : void
     {
         $this->storing = false;
     }
 
-    protected function storeData()
+    protected function storeData() : void
     {
         if ($this->storing) {
             $this->ls_item_data[$this->counter][$this->actual_name] = $this->cdata ?? "";

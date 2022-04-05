@@ -26,13 +26,15 @@ class ilForumCronNotification extends ilCronJob
     private ilDBInterface $ilDB;
     private ilForumNotificationCache $notificationCache;
     private \ILIAS\Refinery\Factory $refinery;
+    private ilCronManager $cronManager;
 
     public function __construct(
         ilDBInterface $database = null,
         ilForumNotificationCache $notificationCache = null,
         ilLanguage $lng = null,
         ilSetting $settings = null,
-        \ILIAS\Refinery\Factory $refinery = null
+        \ILIAS\Refinery\Factory $refinery = null,
+        ilCronManager $cronManager = null
     ) {
         global $DIC;
 
@@ -41,6 +43,7 @@ class ilForumCronNotification extends ilCronJob
         $this->ilDB = $database ?? $DIC->database();
         $this->notificationCache = $notificationCache ?? new ilForumNotificationCache();
         $this->refinery = $refinery ?? $DIC->refinery();
+        $this->cronManager = $cronManager ?? $DIC->cron()->manager();
     }
 
     public function getId() : string
@@ -86,7 +89,7 @@ class ilForumCronNotification extends ilCronJob
     public function keepAlive() : void
     {
         $this->logger->debug('Sending ping to cron manager ...');
-        ilCronManager::ping($this->getId());
+        $this->cronManager->ping($this->getId());
         $this->logger->debug(sprintf('Current memory usage: %s', memory_get_usage(true)));
     }
 
@@ -110,7 +113,7 @@ class ilForumCronNotification extends ilCronJob
         $cj_start_date = date('Y-m-d H:i:s');
 
         if ($last_run_datetime !== null &&
-            checkDate(
+            checkdate(
                 (int) date('m', strtotime($last_run_datetime)),
                 (int) date('d', strtotime($last_run_datetime)),
                 (int) date('Y', strtotime($last_run_datetime))
@@ -297,14 +300,15 @@ class ilForumCronNotification extends ilCronJob
         }
     }
 
-    public function activationWasToggled(bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
     {
         $value = 1;
         // propagate cron-job setting to object setting
         if ($a_currently_active) {
             $value = 2;
         }
-        $this->settings->set('forum_notification', (string) $value);
+        
+        $setting->set('forum_notification', (string) $value);
     }
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
@@ -352,7 +356,7 @@ class ilForumCronNotification extends ilCronJob
         $types = ['integer', 'timestamp', 'timestamp'];
         $values = [1, $threshold_date, $threshold_date];
 
-        $res = $this->ilDB->queryf(
+        $res = $this->ilDB->queryF(
             $this->createForumPostSql($condition),
             $types,
             $values
@@ -374,7 +378,7 @@ class ilForumCronNotification extends ilCronJob
         $types = ['integer', 'integer', 'integer', 'timestamp'];
         $values = [ilForumNotificationEvents::UPDATED, 0, 1, $threshold_date];
 
-        $res = $this->ilDB->queryf(
+        $res = $this->ilDB->queryF(
             $this->createForumPostSql($condition),
             $types,
             $values
@@ -396,7 +400,7 @@ class ilForumCronNotification extends ilCronJob
         $types = ['integer', 'integer', 'integer', 'timestamp'];
         $values = [ilForumNotificationEvents::CENSORED, 1, 1, $threshold_date];
 
-        $res = $this->ilDB->queryf(
+        $res = $this->ilDB->queryF(
             $this->createForumPostSql($condition),
             $types,
             $values
@@ -418,7 +422,7 @@ class ilForumCronNotification extends ilCronJob
         $types = ['integer', 'integer', 'integer', 'timestamp'];
         $values = [ilForumNotificationEvents::UNCENSORED, 0, 1, $threshold_date];
 
-        $res = $this->ilDB->queryf(
+        $res = $this->ilDB->queryF(
             $this->createForumPostSql($condition),
             $types,
             $values

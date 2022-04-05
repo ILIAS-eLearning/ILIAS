@@ -55,7 +55,7 @@ class ilTestToplistGUI
     public function executeCommand() : void
     {
         if (!$this->object->getHighscoreEnabled()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass(ilObjTestGUI::class);
         }
 
@@ -111,7 +111,7 @@ class ilTestToplistGUI
 
         if ($this->isTopTenRankingTableRequired()) {
             $topData = $this->toplist->getGeneralToplistByPercentage(
-                (int) $this->object->getRefId(),
+                $this->object->getRefId(),
                 (int) $this->user->getId()
             );
 
@@ -124,7 +124,7 @@ class ilTestToplistGUI
 
         if ($this->isOwnRankingTableRequired()) {
             $ownData = $this->toplist->getUserToplistByPercentage(
-                (int) $this->object->getRefId(),
+                $this->object->getRefId(),
                 (int) $this->user->getId()
             );
 
@@ -163,7 +163,7 @@ class ilTestToplistGUI
 
         if ($this->isOwnRankingTableRequired()) {
             $ownData = $this->toplist->getUserToplistByWorkingtime(
-                (int) $this->object->getRefId(),
+                $this->object->getRefId(),
                 (int) $this->user->getId()
             );
 

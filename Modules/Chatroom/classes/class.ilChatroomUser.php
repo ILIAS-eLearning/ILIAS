@@ -21,7 +21,7 @@ class ilChatroomUser
     
     public function enabledBroadcastTyping() : bool
     {
-        return ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'));
+        return ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'));
     }
 
     /**
@@ -105,13 +105,11 @@ class ilChatroomUser
 
     public function buildAnonymousName() : string
     {
-        $anonymous_name = str_replace(
+        return str_replace(
             '#',
             (string) random_int(0, 10000),
             $this->room->getSetting('autogen_usernames')
         );
-
-        return $anonymous_name;
     }
 
     public function buildFullname() : string

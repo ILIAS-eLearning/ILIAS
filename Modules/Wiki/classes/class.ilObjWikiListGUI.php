@@ -25,7 +25,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -40,9 +40,9 @@ class ilObjWikiListGUI extends ilObjectListGUI
         $this->commands = ilObjWikiAccess::_getCommands();
     }
 
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             default:
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
                 break;
@@ -51,7 +51,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
 
@@ -68,7 +68,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
             $sub = ilExSubmission::getSubmissionsForFilename($this->ref_id, array(ilExAssignment::TYPE_WIKI_TEAM));
             foreach ($sub as $s) {
                 $team = new ilExAssignmentTeam($s["team_id"]);
-                $mem = array_map(function ($id) {
+                $mem = array_map(static function ($id) : string {
                     $name = ilObjUser::_lookupName($id);
                     return $name["firstname"] . " " . $name["lastname"];
                 }, $team->getMembers());
@@ -81,9 +81,9 @@ class ilObjWikiListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'downloadFile':
                 $cmd_link = "ilias.php?baseClass=ilWikiHandlerGUI" .
                     "&amp;cmdClass=ilwikipagegui&amp;ref_id=" . $this->ref_id .
@@ -92,7 +92,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
             
             default:
                 // separate method for this line
-                $cmd_link = "ilias.php?baseClass=ilWikiHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$a_cmd";
+                $cmd_link = "ilias.php?baseClass=ilWikiHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
                 break;
         }
         return $cmd_link;

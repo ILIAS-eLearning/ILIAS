@@ -31,7 +31,10 @@
 */
 class ilQTIMaterial
 {
+    /** @var string|null */
     public $label;
+
+    /** @var int */
     public $flow;
     public $comment;
     public $mattext;
@@ -44,7 +47,15 @@ class ilQTIMaterial
     public $matref;
     public $matbreak;
     public $mat_extension;
+
+    /**
+     * @var array
+     */
     public $altmaterial;
+
+    /**
+     * @var array{material: string, type: string}[]
+     */
     public $materials;
     
     public function __construct()
@@ -53,102 +64,150 @@ class ilQTIMaterial
         $this->altmaterial = array();
         $this->materials = array();
     }
+
+    /**
+     * @param string $a_mattext
+     */
+    public function addMattext($a_mattext) : void
+    {
+        $this->materials[] = array("material" => $a_mattext, "type" => "mattext");
+    }
+
+    /**
+     * @param string $a_matimage
+     */
+    public function addMatimage($a_matimage) : void
+    {
+        $this->materials[] = array("material" => $a_matimage, "type" => "matimage");
+    }
+
+    /**
+     * @param string $a_matemtext
+     */
+    public function addMatemtext($a_matemtext) : void
+    {
+        $this->materials[] = array("material" => $a_matemtext, "type" => "matemtext");
+    }
+
+    /**
+     * @param string $a_mataudio
+     */
+    public function addMataudio($a_mataudio) : void
+    {
+        $this->materials[] = array("material" => $a_mataudio, "type" => "mataudio");
+    }
+
+    /**
+     * @param string $a_matvideo
+     */
+    public function addMatvideo($a_matvideo) : void
+    {
+        $this->materials[] = array("material" => $a_matvideo, "type" => "matvideo");
+    }
+
+    /**
+     * @param string $a_matapplet
+     */
+    public function addMatapplet($a_matapplet) : void
+    {
+        $this->materials[] = array("material" => $a_matapplet, "type" => "matapplet");
+    }
+
+    /**
+     * @param string $a_matapplication
+     */
+    public function addMatapplication($a_matapplication) : void
+    {
+        $this->materials[] = array("material" => $a_matapplication, "type" => "matapplication");
+    }
+
+    /**
+     * @param string $a_matref
+     */
+    public function addMatref($a_matref) : void
+    {
+        $this->materials[] = array("material" => $a_matref, "type" => "matref");
+    }
+
+    /**
+     * @param string $a_matbreak
+     */
+    public function addMatbreak($a_matbreak) : void
+    {
+        $this->materials[] = array("material" => $a_matbreak, "type" => "matbreak");
+    }
+
+    /**
+     * @param string $a_mat_extension
+     */
+    public function addMat_extension($a_mat_extension) : void
+    {
+        $this->materials[] = array("material" => $a_mat_extension, "type" => "mat_extension");
+    }
+
+    /**
+     * @param string $a_altmaterial
+     */
+    public function addAltmaterial($a_altmaterial) : void
+    {
+        $this->materials[] = array("material" => $a_altmaterial, "type" => "altmaterial");
+    }
     
-    public function addMattext($a_mattext)
-    {
-        array_push($this->materials, array("material" => $a_mattext, "type" => "mattext"));
-    }
-
-    public function addMatimage($a_matimage)
-    {
-        array_push($this->materials, array("material" => $a_matimage, "type" => "matimage"));
-    }
-
-    public function addMatemtext($a_matemtext)
-    {
-        array_push($this->materials, array("material" => $a_matemtext, "type" => "matemtext"));
-    }
-
-    public function addMataudio($a_mataudio)
-    {
-        array_push($this->materials, array("material" => $a_mataudio, "type" => "mataudio"));
-    }
-
-    public function addMatvideo($a_matvideo)
-    {
-        array_push($this->materials, array("material" => $a_matvideo, "type" => "matvideo"));
-    }
-
-    public function addMatapplet($a_matapplet)
-    {
-        array_push($this->materials, array("material" => $a_matapplet, "type" => "matapplet"));
-    }
-
-    public function addMatapplication($a_matapplication)
-    {
-        array_push($this->materials, array("material" => $a_matapplication, "type" => "matapplication"));
-    }
-
-    public function addMatref($a_matref)
-    {
-        array_push($this->materials, array("material" => $a_matref, "type" => "matref"));
-    }
-
-    public function addMatbreak($a_matbreak)
-    {
-        array_push($this->materials, array("material" => $a_matbreak, "type" => "matbreak"));
-    }
-
-    public function addMat_extension($a_mat_extension)
-    {
-        array_push($this->materials, array("material" => $a_mat_extension, "type" => "mat_extension"));
-    }
-
-    public function addAltmaterial($a_altmaterial)
-    {
-        array_push($this->materials, array("material" => $a_altmaterial, "type" => "altmaterial"));
-    }
-    
-    public function getMaterialCount()
+    public function getMaterialCount() : int
     {
         return count($this->materials);
     }
-    
+
+    /**
+     * @param int $a_index
+     */
     public function getMaterial($a_index)
     {
         if (array_key_exists($a_index, $this->materials)) {
             return $this->materials[$a_index];
-        } else {
-            return false;
         }
+
+        return false;
     }
-    
-    public function setFlow($a_flow)
+
+    /**
+     * @param int $a_flow
+     */
+    public function setFlow($a_flow) : void
     {
         $this->flow = $a_flow;
     }
-    
+
+    /**
+     * @return int
+     */
     public function getFlow()
     {
         return $this->flow;
     }
-    
-    public function setLabel($a_label)
+
+    /**
+     * @param string $a_label
+     */
+    public function setLabel($a_label) : void
     {
         $this->label = $a_label;
     }
-    
+
+    /**
+     * @return string|null
+     */
     public function getLabel()
     {
         return $this->label;
     }
     
-    public function extractText()
+    public function extractText() : string
     {
         $text = "";
         if ($this->getMaterialCount()) {
             foreach ($this->materials as $mat) {
-                if (strcmp($mat["type"], "mattext") == 0) {
+                if ($mat["type"] === "mattext") {
                     $text .= $mat["material"];
                 }
             }

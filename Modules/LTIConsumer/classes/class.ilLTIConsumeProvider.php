@@ -1,8 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+use ILIAS\Filesystem\Exception\IOException;
 
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumeProvider
  *
@@ -13,42 +25,42 @@
  */
 class ilLTIConsumeProvider
 {
-    protected $id = 0;
+    protected int $id = 0;
     
-    protected $title = '';
+    protected string $title = '';
     
-    protected $description = '';
+    protected string $description = '';
     
-    protected $availability = self::AVAILABILITY_NONE;
+    protected int $availability = self::AVAILABILITY_NONE;
     const AVAILABILITY_NONE = 0;  // Provider is not longer available (error message)
     const AVAILABILITY_EXISTING = 1; // Existing objects can still use the provider, new objects not
     const AVAILABILITY_CREATE = 2;  // New objects can use this provider
     
-    protected $remarks = '';
+    protected string $remarks = '';
     
-    protected $time_to_delete = 0;
+    protected int $time_to_delete = 0;
     
-    protected $log_level = 0;
+    protected int $log_level = 0;
     
-    protected $provider_url = '';
+    protected string $provider_url = '';
     
-    protected $provider_key = '';
+    protected string $provider_key = '';
     
-    protected $provider_secret = '';
+    protected string $provider_secret = '';
     
-    protected $provider_key_customizable = true;
+    protected bool $provider_key_customizable = true;
     
-    protected $provider_icon_filename = '';
+    protected string $provider_icon_filename = '';
     
     /**
-     * @var ilLTIConsumeProviderIcon
+     * @var ilLTIConsumeProviderIcon|null
      */
-    protected $providerIcon = null;
+    protected ?ilLTIConsumeProviderIcon $providerIcon = null;
 
     /**
-     * @var ilImageFileInputGUI
+     * @var ilImageFileInputGUI|null
      */
-    protected $providerIconUploadInput = null;
+    protected ?ilImageFileInputGUI $providerIconUploadInput = null;
     
     const CATEGORY_ASSESSMENT = 'assessment';
     const CATEGORY_FEEDBACK = 'feedback';
@@ -58,71 +70,69 @@ class ilLTIConsumeProvider
     /**
      * @var string
      */
-    protected $category = self::CATEGORY_CONTENT;
+    protected string $category = self::CATEGORY_CONTENT;
     
-    protected $provider_xml = '';
+    protected string $provider_xml = '';
     
-    protected $is_external_provider = false;
+    protected bool $is_external_provider = false;
     
     //ToDo : necessary?
     const LAUNCH_METHOD_OWN = 'ownWin';
     const LAUNCH_METHOD_NEW = 'newWin';
-    protected $launch_method = self::LAUNCH_METHOD_NEW;
+    protected string $launch_method = self::LAUNCH_METHOD_NEW;
     
-    protected $has_outcome = false;
+    protected bool $has_outcome = false;
     
-    protected $mastery_score = 0.8;
+    protected float $mastery_score = 0.8;
     
-    protected $keep_lp = false;
+    protected bool $keep_lp = false;
     
     const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
     const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
     const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
     const PRIVACY_IDENT_REAL_EMAIL = 3;
-    protected $privacy_ident = self::PRIVACY_IDENT_IL_UUID_USER_ID;
+    protected int $privacy_ident = self::PRIVACY_IDENT_IL_UUID_USER_ID;
     
     const PRIVACY_NAME_NONE = 0;
     const PRIVACY_NAME_FIRSTNAME = 1;
     const PRIVACY_NAME_LASTNAME = 2;
     const PRIVACY_NAME_FULLNAME = 3;
-    protected $privacy_name = self::PRIVACY_NAME_NONE;
+    protected int $privacy_name = self::PRIVACY_NAME_NONE;
     
-    /**
-     * @var bool
-     */
-    protected $include_user_picture = false;
+    protected bool $include_user_picture = false;
     
-    protected $privacy_comment_default = '';
+    protected string $privacy_comment_default = '';
     
-    protected $always_learner = false;
+    protected bool $always_learner = false;
     
-    protected $use_provider_id = false;
+    protected bool $use_provider_id = false;
     
-    protected $use_xapi = false;
+    protected bool $use_xapi = false;
     
-    protected $xapi_launch_url = '';
+    protected string $xapi_launch_url = '';
     
-    protected $xapi_launch_key = '';
+    protected string $xapi_launch_key = '';
 
-    protected $xapi_launch_secret = '';
+    protected string $xapi_launch_secret = '';
     
-    protected $xapi_activity_id = '';
+    protected string $xapi_activity_id = '';
     
-    protected $custom_params = '';
+    protected string $custom_params = '';
     
-    protected $keywords = '';
+    protected string $keywords = '';
 
-    protected $creator = 0;
+    protected int $creator = 0;
     
-    protected $accepted_by = 0;
+    protected int $accepted_by = 0;
     
-    protected $is_global = false;
-    
+    protected bool $is_global = false;
+
     /**
      * ilLTIConsumeProvider constructor.
-     * @param null $providerId
+     * @param int|null $providerId
+     * @throws IOException
      */
-    public function __construct($providerId = null)
+    public function __construct(?int $providerId = null)
     {
         if ($providerId) {
             $this->setId($providerId);
@@ -132,10 +142,11 @@ class ilLTIConsumeProvider
 
     /**
      * Inits class static
-     * @param null $providerId
+     * @param int|null $providerId
      * @return ilLTIConsumeProvider
+     * @throws IOException
      */
-    public static function getInstance($providerId = null)
+    public static function getInstance(?int $providerId = null) : ilLTIConsumeProvider
     {
         return new self($providerId);
     }
@@ -151,7 +162,7 @@ class ilLTIConsumeProvider
     /**
      * @param int $id
      */
-    public function setId(int $id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -167,7 +178,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
@@ -183,7 +194,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $description
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
@@ -199,7 +210,7 @@ class ilLTIConsumeProvider
     /**
      * @param int $availability
      */
-    public function setAvailability(int $availability)
+    public function setAvailability(int $availability) : void
     {
         $this->availability = $availability;
     }
@@ -215,7 +226,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $remarks
      */
-    public function setRemarks(string $remarks)
+    public function setRemarks(string $remarks) : void
     {
         $this->remarks = $remarks;
     }
@@ -231,7 +242,7 @@ class ilLTIConsumeProvider
     /**
      * @param int $time_to_delete
      */
-    public function setTimeToDelete(int $time_to_delete)
+    public function setTimeToDelete(int $time_to_delete) : void
     {
         $this->time_to_delete = $time_to_delete;
     }
@@ -243,11 +254,12 @@ class ilLTIConsumeProvider
     {
         return $this->log_level;
     }
-    
+
+    //todo
     /**
      * @param int $log_level
      */
-    public function setLogLevel(int $log_level)
+    public function setLogLevel(int $log_level) : void
     {
         $this->log_level = $log_level;
     }
@@ -263,7 +275,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $provider_url
      */
-    public function setProviderUrl(string $provider_url)
+    public function setProviderUrl(string $provider_url) : void
     {
         $this->provider_url = $provider_url;
     }
@@ -279,7 +291,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $provider_key
      */
-    public function setProviderKey(string $provider_key)
+    public function setProviderKey(string $provider_key) : void
     {
         $this->provider_key = $provider_key;
     }
@@ -295,7 +307,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $provider_secret
      */
-    public function setProviderSecret(string $provider_secret)
+    public function setProviderSecret(string $provider_secret) : void
     {
         $this->provider_secret = $provider_secret;
     }
@@ -311,7 +323,7 @@ class ilLTIConsumeProvider
     /**
      * @param bool $provider_key_customizable
      */
-    public function setProviderKeyCustomizable(bool $provider_key_customizable)
+    public function setProviderKeyCustomizable(bool $provider_key_customizable) : void
     {
         $this->provider_key_customizable = $provider_key_customizable;
     }
@@ -327,15 +339,12 @@ class ilLTIConsumeProvider
     /**
      * @param string $provider_icon_filename
      */
-    public function setProviderIconFilename(string $provider_icon_filename)
+    public function setProviderIconFilename(string $provider_icon_filename) : void
     {
         $this->provider_icon_filename = $provider_icon_filename;
     }
     
-    /**
-     * @return ilLTIConsumeProviderIcon
-     */
-    public function getProviderIcon() : ilLTIConsumeProviderIcon
+    public function getProviderIcon() : ?\ilLTIConsumeProviderIcon
     {
         return $this->providerIcon;
     }
@@ -349,13 +358,13 @@ class ilLTIConsumeProvider
             return false;
         }
         
-        return strlen($this->providerIcon->getFilename());
+        return (bool) strlen($this->providerIcon->getFilename());
     }
     
     /**
      * @param ilLTIConsumeProviderIcon $providerIcon
      */
-    public function setProviderIcon(ilLTIConsumeProviderIcon $providerIcon)
+    public function setProviderIcon(ilLTIConsumeProviderIcon $providerIcon) : void
     {
         $this->providerIcon = $providerIcon;
     }
@@ -368,18 +377,15 @@ class ilLTIConsumeProvider
         return $this->providerIconUploadInput instanceof ilImageFileInputGUI;
     }
     
-    /**
-     * @return ilImageFileInputGUI
-     */
-    public function getProviderIconUploadInput() : ilImageFileInputGUI
+    public function getProviderIconUploadInput() : ?\ilImageFileInputGUI
     {
         return $this->providerIconUploadInput;
     }
     
     /**
-     * @param ilImageFileInputGUI $providerIconUploadInput
+     * @param ilImageFileInputGUI|ilFormPropertyGUI $providerIconUploadInput
      */
-    public function setProviderIconUploadInput(ilImageFileInputGUI $providerIconUploadInput)
+    public function setProviderIconUploadInput(ilFormPropertyGUI $providerIconUploadInput) : void
     {
         $this->providerIconUploadInput = $providerIconUploadInput;
     }
@@ -387,7 +393,7 @@ class ilLTIConsumeProvider
     /**
      * @return array
      */
-    public static function getCategoriesSelectOptions()
+    public static function getCategoriesSelectOptions() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -426,7 +432,7 @@ class ilLTIConsumeProvider
     /**
      * @return array
      */
-    public static function getValidCategories()
+    public static function getValidCategories() : array
     {
         return [
             self::CATEGORY_ORGANISATION,
@@ -441,7 +447,7 @@ class ilLTIConsumeProvider
      * @param string $category
      * @return bool
      */
-    public function isValidCategory(string $category)
+    public function isValidCategory(string $category) : bool
     {
         return in_array($category, self::getValidCategories());
     }
@@ -457,7 +463,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $category
      */
-    public function setCategory(string $category)
+    public function setCategory(string $category) : void
     {
         $this->category = $category;
     }
@@ -473,7 +479,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $provider_xml
      */
-    public function setProviderXml(string $provider_xml)
+    public function setProviderXml(string $provider_xml) : void
     {
         $this->provider_xml = $provider_xml;
     }
@@ -489,7 +495,7 @@ class ilLTIConsumeProvider
     /**
      * @param bool $is_external_provider
      */
-    public function setIsExternalProvider(bool $is_external_provider)
+    public function setIsExternalProvider(bool $is_external_provider) : void
     {
         $this->is_external_provider = $is_external_provider;
     }
@@ -505,7 +511,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $launch_method
      */
-    public function setLaunchMethod(string $launch_method)
+    public function setLaunchMethod(string $launch_method) : void
     {
         $this->launch_method = $launch_method;
     }
@@ -521,7 +527,7 @@ class ilLTIConsumeProvider
     /**
      * @param bool $has_outcome
      */
-    public function setHasOutcome(bool $has_outcome)
+    public function setHasOutcome(bool $has_outcome) : void
     {
         $this->has_outcome = $has_outcome;
     }
@@ -537,7 +543,7 @@ class ilLTIConsumeProvider
     /**
      * @param float $mastery_score
      */
-    public function setMasteryScore(float $mastery_score)
+    public function setMasteryScore(float $mastery_score) : void
     {
         $this->mastery_score = $mastery_score;
     }
@@ -553,7 +559,7 @@ class ilLTIConsumeProvider
     /**
      * @param float $mastery_score_percent
      */
-    public function setMasteryScorePercent(float $mastery_score_percent)
+    public function setMasteryScorePercent(float $mastery_score_percent) : void
     {
         $this->mastery_score = $mastery_score_percent / 100;
     }
@@ -569,40 +575,40 @@ class ilLTIConsumeProvider
     /**
      * @param bool $keep_lp
      */
-    public function setKeepLp(bool $keep_lp)
+    public function setKeepLp(bool $keep_lp) : void
     {
         $this->keep_lp = $keep_lp;
     }
     
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPrivacyIdent()
+    public function getPrivacyIdent() : int
     {
         return $this->privacy_ident;
     }
     
     /**
-     * @param mixed $privacy_ident
+     * @param int $privacy_ident
      */
-    public function setPrivacyIdent($privacy_ident)
+    public function setPrivacyIdent(int $privacy_ident) : void
     {
         $this->privacy_ident = $privacy_ident;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getPrivacyName() : string
+    public function getPrivacyName() : int
     {
         return $this->privacy_name;
     }
     
     /**
-     * @param string $privacy_name
+     * @param int $privacy_name
      */
-    public function setPrivacyName(string $privacy_name)
+    public function setPrivacyName(int $privacy_name) : void
     {
         $this->privacy_name = $privacy_name;
     }
@@ -618,7 +624,7 @@ class ilLTIConsumeProvider
     /**
      * @param bool $include_user_picture
      */
-    public function setIncludeUserPicture(bool $include_user_picture)
+    public function setIncludeUserPicture(bool $include_user_picture) : void
     {
         $this->include_user_picture = $include_user_picture;
     }
@@ -634,7 +640,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $privacy_comment_default
      */
-    public function setPrivacyCommentDefault(string $privacy_comment_default)
+    public function setPrivacyCommentDefault(string $privacy_comment_default) : void
     {
         $this->privacy_comment_default = $privacy_comment_default;
     }
@@ -650,7 +656,7 @@ class ilLTIConsumeProvider
     /**
      * @param bool $always_learner
      */
-    public function setAlwaysLearner(bool $always_learner)
+    public function setAlwaysLearner(bool $always_learner) : void
     {
         $this->always_learner = $always_learner;
     }
@@ -666,7 +672,7 @@ class ilLTIConsumeProvider
     /**
      * @param bool $use_provider_id
      */
-    public function setUseProviderId(bool $use_provider_id)
+    public function setUseProviderId(bool $use_provider_id) : void
     {
         $this->use_provider_id = $use_provider_id;
     }
@@ -682,7 +688,7 @@ class ilLTIConsumeProvider
     /**
      * @param bool $use_xapi
      */
-    public function setUseXapi(bool $use_xapi)
+    public function setUseXapi(bool $use_xapi) : void
     {
         $this->use_xapi = $use_xapi;
     }
@@ -698,7 +704,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $xapi_launch_url
      */
-    public function setXapiLaunchUrl(string $xapi_launch_url)
+    public function setXapiLaunchUrl(string $xapi_launch_url) : void
     {
         $this->xapi_launch_url = $xapi_launch_url;
     }
@@ -714,7 +720,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $xapi_launch_key
      */
-    public function setXapiLaunchKey(string $xapi_launch_key)
+    public function setXapiLaunchKey(string $xapi_launch_key) : void
     {
         $this->xapi_launch_key = $xapi_launch_key;
     }
@@ -730,7 +736,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $xapi_launch_secret
      */
-    public function setXapiLaunchSecret(string $xapi_launch_secret)
+    public function setXapiLaunchSecret(string $xapi_launch_secret) : void
     {
         $this->xapi_launch_secret = $xapi_launch_secret;
     }
@@ -746,7 +752,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $xapi_activity_id
      */
-    public function setXapiActivityId(string $xapi_activity_id)
+    public function setXapiActivityId(string $xapi_activity_id) : void
     {
         $this->xapi_activity_id = $xapi_activity_id;
     }
@@ -762,7 +768,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $custom_params
      */
-    public function setCustomParams(string $custom_params)
+    public function setCustomParams(string $custom_params) : void
     {
         $this->custom_params = $custom_params;
     }
@@ -770,7 +776,7 @@ class ilLTIConsumeProvider
     /**
      * @return array
      */
-    public function getKeywordsArray()
+    public function getKeywordsArray() : array
     {
         $keywords = [];
         
@@ -792,7 +798,7 @@ class ilLTIConsumeProvider
     /**
      * @param string $keywords
      */
-    public function setKeywords(string $keywords)
+    public function setKeywords(string $keywords) : void
     {
         $this->keywords = $keywords;
     }
@@ -808,7 +814,7 @@ class ilLTIConsumeProvider
     /**
      * @param int $creator
      */
-    public function setCreator(int $creator)
+    public function setCreator(int $creator) : void
     {
         $this->creator = $creator;
     }
@@ -824,7 +830,7 @@ class ilLTIConsumeProvider
     /**
      * @param int $accepted_by
      */
-    public function setAcceptedBy(int $accepted_by)
+    public function setAcceptedBy(int $accepted_by) : void
     {
         $this->accepted_by = $accepted_by;
     }
@@ -840,16 +846,16 @@ class ilLTIConsumeProvider
     /**
      * @param bool $is_global
      */
-    public function setIsGlobal(bool $is_global)
+    public function setIsGlobal(bool $is_global) : void
     {
         $this->is_global = $is_global;
     }
-    
+
     /**
-     * @param $dbRow
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @param array $dbRow
+     * @throws IOException
      */
-    public function assignFromDbRow($dbRow)
+    public function assignFromDbRow(array $dbRow) : void
     {
         foreach ($dbRow as $field => $value) {
             switch ($field) {
@@ -872,8 +878,8 @@ class ilLTIConsumeProvider
                 case 'has_outcome': $this->setHasOutcome((bool) $value); break;
                 case 'mastery_score': $this->setMasteryScore((float) $value); break;
                 case 'keep_lp': $this->setKeepLp((bool) $value); break;
-                case 'privacy_ident': $this->setPrivacyIdent($value); break;
-                case 'privacy_name': $this->setPrivacyName($value); break;
+                case 'privacy_ident': $this->setPrivacyIdent((int) $value); break;
+                case 'privacy_name': $this->setPrivacyName((int) $value); break;
                 case 'inc_usr_pic': $this->setIncludeUserPicture((bool) $value); break;
                 case 'privacy_comment_default': $this->setPrivacyCommentDefault($value); break;
                 case 'always_learner': $this->setAlwaysLearner((bool) $value); break;
@@ -896,9 +902,9 @@ class ilLTIConsumeProvider
     }
     
     /**
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
-    public function load()
+    public function load() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -913,9 +919,9 @@ class ilLTIConsumeProvider
     /**
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
-    public function save()
+    public function save() : void
     {
         if ($this->getId()) {
             if ($this->hasProviderIconUploadInput()) {
@@ -938,7 +944,7 @@ class ilLTIConsumeProvider
         }
     }
     
-    public function update()
+    public function update() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -947,7 +953,7 @@ class ilLTIConsumeProvider
         ));
     }
     
-    public function insert()
+    public function insert() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -999,7 +1005,7 @@ class ilLTIConsumeProvider
         );
     }
     
-    public function delete()
+    public function delete() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -1010,12 +1016,12 @@ class ilLTIConsumeProvider
         );
     }
     
-    public function isAcceptableAsGlobal()
+    public function isAcceptableAsGlobal() : bool
     {
         return !$this->isGlobal() && (bool) $this->getCreator();
     }
     
-    public function isResetableToUserDefined()
+    public function isResetableToUserDefined() : bool
     {
         return $this->isGlobal() && (bool) $this->getCreator();
     }

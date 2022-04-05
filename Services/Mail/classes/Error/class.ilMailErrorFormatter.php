@@ -28,7 +28,7 @@ class ilMailErrorFormatter
         $errorsToDisplay = [];
         foreach ($errors as $error) {
             $translation = $this->lng->txt($error->getLanguageVariable());
-            if ($translation === '-' . $this->lng->txt($error->getLanguageVariable()) . '-') {
+            if ($translation === '-' . $error->getLanguageVariable() . '-') {
                 $translation = $error->getLanguageVariable();
             }
 
@@ -39,16 +39,12 @@ class ilMailErrorFormatter
                 $errorsToDisplay[] = $translation;
             } else {
                 $escapedPlaceholderValues = array_map(static function (string $address) : string {
-                    return ilUtil::prepareFormOutput($address);
+                    return ilLegacyFormElementsUtil::prepareFormOutput($address);
                 }, $error->getPlaceholderValues());
 
                 array_unshift($escapedPlaceholderValues, $translation);
                 $errorsToDisplay[] = sprintf(...$escapedPlaceholderValues);
             }
-        }
-
-        if (0 === count($errorsToDisplay)) {
-            return '';
         }
 
         $tpl = new ilTemplate(

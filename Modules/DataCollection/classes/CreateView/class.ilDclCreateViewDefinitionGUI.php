@@ -3,9 +3,7 @@
 
 /**
  * Class ilDclCreateViewDefinitionGUI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
+ * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
@@ -20,7 +18,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
      * @var ilDclCreateViewTableGUI
      */
     protected $table_gui;
-
 
     /**
      * @param     $tableview_id
@@ -53,7 +50,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-
     /**
      * execute command
      */
@@ -84,7 +80,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-
     /**
      *
      */
@@ -96,7 +91,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-
     /**
      *
      */
@@ -107,7 +101,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $page->update();
         $this->ctrl->redirect($this, 'edit');
     }
-
 
     /**
      * confirmDelete
@@ -131,7 +124,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * cancelDelete
      */
@@ -142,7 +134,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
 
         $ilCtrl->redirect($this, "edit");
     }
-
 
     /**
      *
@@ -158,12 +149,11 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
             $pageObject->delete();
         }
 
-        ilUtil::sendSuccess($lng->txt("dcl_empty_detailed_view_success"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("dcl_empty_detailed_view_success"), true);
 
         // Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
         $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
     }
-
 
     /**
      * Release page lock
@@ -176,10 +166,9 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $lng = $DIC['lng'];
 
         $this->getPageObject()->releasePageLock();
-        ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_lock_released"), true);
         $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
     }
-
 
     /**
      * Finalizing output processing
@@ -217,7 +206,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         return $a_output;
     }
 
-
     /**
      * Save table entries
      */
@@ -244,7 +232,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                     // Check number field
                     if ($data_type_id === ilDclDatatype::INPUTFORMAT_NUMBER) {
                         if (!ctype_digit($value)) {
-                            ilUtil::sendFailure($this->lng->txt('dcl_tableview_default_value_fail'), true);
+                            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_tableview_default_value_fail'), true);
                             $this->ctrl->saveParameter($this, 'tableview_id');
                             $this->ctrl->redirect($this, 'presentation');
                         }
@@ -269,7 +257,11 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                     $selection = $_POST[$selection_key];
                     $selected_radio_attribute = explode("_", $selection)[0];
 
-                    foreach (array("LockedCreate", "RequiredCreate", "VisibleCreate", "NotVisibleCreate") as $radio_attribute) {
+                    foreach (array("LockedCreate",
+                                   "RequiredCreate",
+                                   "VisibleCreate",
+                                   "NotVisibleCreate"
+                             ) as $radio_attribute) {
                         $result = false;
 
                         if ($selected_radio_attribute === $radio_attribute) {
@@ -297,7 +289,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
             $view->save();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this, 'tableview_id');
         $this->ctrl->redirect($this, 'presentation');
     }

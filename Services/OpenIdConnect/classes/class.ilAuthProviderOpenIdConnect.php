@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use Jumbojett\OpenIDConnectClient;
 
@@ -12,16 +25,9 @@ use Jumbojett\OpenIDConnectClient;
  */
 class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProviderInterface
 {
-    /**
-     * @var ilOpenIdConnectSettings|null
-     */
-    private $settings = null;
+    private ilOpenIdConnectSettings $settings;
 
 
-    /**
-     * ilAuthProviderOpenIdConnect constructor.
-     * @param ilAuthCredentials $credentials
-     */
     public function __construct(ilAuthCredentials $credentials)
     {
         parent::__construct($credentials);
@@ -31,16 +37,17 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
     /**
      * Handle logout event
      */
-    public function handleLogout()
+    public function handleLogout() : void
     {
         if ($this->settings->getLogoutScope() == ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL) {
-            return false;
+            //TODO check if return false is needed
+            return;
         }
 
         $auth_token = ilSession::get('oidc_auth_token');
         $this->getLogger()->debug('Using token: ' . $auth_token);
 
-        if (strlen($auth_token)) {
+        if (isset($auth_token) && strlen($auth_token)) {
             ilSession::set('oidc_auth_token', '');
             $oidc = $this->initClient();
             $oidc->signOut(
@@ -53,9 +60,8 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
     /**
      * Do authentication
      * @param \ilAuthStatus $status Authentication status
-     * @return bool
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(\ilAuthStatus $status) : bool
     {
         try {
             $oidc = $this->initClient();
@@ -117,12 +123,13 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
         }
     }
 
-
     /**
+     *
      * @param ilAuthStatus $status
      * @param array $user_info
+     * @return boolean|ilAuthStatus
      */
-    private function handleUpdate(ilAuthStatus $status, $user_info)
+    private function handleUpdate(ilAuthStatus $status, array $user_info)
     {
         if (!is_object($user_info)) {
             $this->getLogger()->error('Received invalid user credentials: ');
@@ -169,9 +176,6 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
         return $status;
     }
 
-    /**
-     * @return OpenIDConnectClient
-     */
     private function initClient() : OpenIDConnectClient
     {
         $oidc = new OpenIDConnectClient(

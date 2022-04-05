@@ -22,99 +22,72 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAdvancedMetaData
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ * @todo    use filesystem service
+ */
 class ilAdvancedMDRecordImportFiles
 {
-    const IMPORT_NAME = 'ilias_adv_md_record';
+    public const IMPORT_NAME = 'ilias_adv_md_record';
 
-    private $import_dir = '';
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     *
-     */
+    private string $import_dir = '';
+
     public function __construct()
     {
-        $this->import_dir = ilUtil::getDataDir() . '/ilAdvancedMetaData/import';
+        $this->import_dir = ilFileUtils::getDataDir() . '/ilAdvancedMetaData/import';
         $this->init();
     }
-    
-    /**
-     * get import directory
-     *
-     * @access public
-     *
-     */
-    public function getImportDirectory()
+
+    public function getImportDirectory() : string
     {
         return $this->import_dir;
     }
-    
+
     /**
      * Get import file by creation date
-     *
-     * @access public
      * @param int creation date (unix time)
      * @return string absolute path
      */
-    public function getImportFileByCreationDate($a_unix_time)
+    public function getImportFileByCreationDate(int $a_unix_time) : string
     {
         $unix_time = (int) $a_unix_time;
-        return $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $unix_time . '.xml';
+        return $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . (string) $unix_time . '.xml';
     }
-    
+
     /**
      * Delete a file
-     *
-     * @access public
      * @param int creation date (unix time)
-     *
      */
-    public function deleteFileByCreationDate($a_unix_time)
+    public function deleteFileByCreationDate(int $a_unix_time) : bool
     {
         $unix_time = (int) $a_unix_time;
-        return @unlink($this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $unix_time . '.xml');
+        return @unlink($this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . (string) $unix_time . '.xml');
     }
-    
-    
+
     /**
      * move uploaded files
-     *
      * @access public
      * @param string tmp name
      * @return int creation time of newly created file. 0 on error
      */
-    public function moveUploadedFile($a_temp_name)
+    public function moveUploadedFile(string $a_temp_name) : int
     {
         $creation_time = time();
         $file_name = $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $creation_time . '.xml';
-        
-        if (!ilUtil::moveUploadedFile($a_temp_name, '', $file_name, false)) {
-            return false;
+
+        if (!ilFileUtils::moveUploadedFile($a_temp_name, '', $file_name, false)) {
+            return 0;
         }
         return $creation_time;
     }
-    
-    
-    
+
     /**
      * init function: create import directory, delete old files
-     *
-     * @access private
-     *
      */
-    private function init()
+    private function init() : void
     {
         if (!@is_dir($this->import_dir)) {
-            ilUtil::makeDirParents($this->import_dir);
+            ilFileUtils::makeDirParents($this->import_dir);
         }
     }
 }

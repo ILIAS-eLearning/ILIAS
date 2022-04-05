@@ -15,10 +15,12 @@ class ilFileDataForum extends ilFileData
     private int $pos_id;
     private string $forum_path;
     private ilErrorHandling $error;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_obj_id = 0, int $a_pos_id = 0)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->error = $DIC['ilErr'];
 
@@ -123,7 +125,7 @@ class ilFileDataForum extends ilFileData
                 [$obj_id, $rest] = explode('_', $file->getFilename(), 2);
                 if ((int) $obj_id === $this->obj_id) {
                     [$pos_id, $rest] = explode('_', $rest, 2);
-                    if ($pos_id === $this->getPosId()) {
+                    if ((int) $pos_id === $this->getPosId()) {
                         ilFileUtils::rename(
                             $file->getPathname(),
                             $this->forum_path . '/' . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest
@@ -165,7 +167,7 @@ class ilFileDataForum extends ilFileData
         if (isset($files['name']) && is_array($files['name'])) {
             foreach ($files['name'] as $index => $name) {
                 $name = rtrim($name, '/');
-                $filename = ilUtil::_sanitizeFilemame($name);
+                $filename = ilFileUtils::_sanitizeFilemame($name);
                 $temp_name = $files['tmp_name'][$index];
                 $error = $files['error'][$index];
 
@@ -173,7 +175,7 @@ class ilFileDataForum extends ilFileData
                     $path = $this->getForumPath() . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $filename;
 
                     $this->rotateFiles($path);
-                    ilUtil::moveUploadedFile($temp_name, $filename, $path);
+                    ilFileUtils::moveUploadedFile($temp_name, $filename, $path);
                 }
             }
 
@@ -182,13 +184,13 @@ class ilFileDataForum extends ilFileData
 
         if (isset($files['name']) && is_string($files['name'])) {
             $files['name'] = rtrim($files['name'], '/');
-            $filename = ilUtil::_sanitizeFilemame($files['name']);
+            $filename = ilFileUtils::_sanitizeFilemame($files['name']);
             $temp_name = $files['tmp_name'];
 
             $path = $this->getForumPath() . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $filename;
 
             $this->rotateFiles($path);
-            ilUtil::moveUploadedFile($temp_name, $filename, $path);
+            ilFileUtils::moveUploadedFile($temp_name, $filename, $path);
 
             return true;
         }
@@ -211,7 +213,7 @@ class ilFileDataForum extends ilFileData
      */
     public function getFileDataByMD5Filename(string $a_md5_filename) : ?array
     {
-        $files = ilUtil::getDir($this->forum_path);
+        $files = ilFileUtils::getDir($this->forum_path);
         foreach ($files as $file) {
             if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
                 return [
@@ -231,7 +233,7 @@ class ilFileDataForum extends ilFileData
      */
     public function unlinkFilesByMD5Filenames($a_md5_filename) : bool
     {
-        $files = ilUtil::getDir($this->forum_path);
+        $files = ilFileUtils::getDir($this->forum_path);
         if (is_array($a_md5_filename)) {
             foreach ($files as $file) {
                 if ($file['type'] === 'file' && in_array(md5($file['entry']), $a_md5_filename, true)) {
@@ -291,9 +293,9 @@ class ilFileDataForum extends ilFileData
         global $DIC;
 
         if (($path = $this->getFileDataByMD5Filename($file)) !== null) {
-            ilUtil::deliverFile($path['path'], $path['clean_filename']);
+            ilFileDelivery::deliverFileLegacy($path['path'], $path['clean_filename']);
         } else {
-            ilUtil::sendFailure($DIC->lanuage()->txt('error_reading_file'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->lanuage()->txt('error_reading_file'), true);
         }
     }
 
@@ -303,13 +305,13 @@ class ilFileDataForum extends ilFileData
 
         $zip_file = $this->createZipFile();
         if (!$zip_file) {
-            ilUtil::sendFailure($DIC->language()->txt('error_reading_file'), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt('error_reading_file'), true);
             return false;
         }
 
         $post = new ilForumPost($this->getPosId());
-        ilUtil::deliverFile($zip_file, $post->getSubject() . '.zip', '', false, true, false);
-        ilUtil::delDir($this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId());
+        ilFileDelivery::deliverFileLegacy($zip_file, $post->getSubject() . '.zip', '', false, true, false);
+        ilFileUtils::delDir($this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId());
         $DIC->http()->close();
         return true; // never
     }
@@ -319,14 +321,14 @@ class ilFileDataForum extends ilFileData
         $filesOfPost = $this->getFilesOfPost();
         ksort($filesOfPost);
 
-        ilUtil::makeDirParents($this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId());
+        ilFileUtils::makeDirParents($this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId());
         $tmp_dir = $this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId();
         foreach ($filesOfPost as $file) {
             copy($file['path'], $tmp_dir . '/' . $file['name']);
         }
 
         $zip_file = null;
-        if (ilUtil::zip(
+        if (ilFileUtils::zip(
             $tmp_dir,
             $this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId() . '.zip'
         )) {

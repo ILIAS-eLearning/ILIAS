@@ -4,11 +4,8 @@
 
 /**
  * Global orgunit settings GUI
- *
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
- *
  * @ilCtrl_IsCalledBy ilOrgUnitGlobalSettingsGUI: ilObjOrgUnitGUI
- *
  */
 class ilOrgUnitGlobalSettingsGUI
 {
@@ -26,15 +23,14 @@ class ilOrgUnitGlobalSettingsGUI
      */
     protected $tpl;
 
-
     /**
      * Default constructor
-     *
      * @global type $DIC
      */
     public function __construct()
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -42,11 +38,10 @@ class ilOrgUnitGlobalSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
 
         if (!ilObjOrgUnitAccess::_checkAccessSettings((int) $_GET['ref_id'])) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }
     }
-
 
     /**
      * Ctrl execute command
@@ -63,10 +58,8 @@ class ilOrgUnitGlobalSettingsGUI
         }
     }
 
-
     /**
      * Show settings
-     *
      * @param ilPropertyFormGUI $form
      */
     protected function settings(ilPropertyFormGUI $form = null)
@@ -76,7 +69,6 @@ class ilOrgUnitGlobalSettingsGUI
         }
         $this->tpl->setContent($form->getHTML());
     }
-
 
     /**
      * Init settings form
@@ -125,14 +117,16 @@ class ilOrgUnitGlobalSettingsGUI
             $type->setValue(1);
             $type->setChecked($setting->isActive());
             if ($is_multi) {
-                $scope = new ilRadioGroupInputGUI($this->lng->txt('orgu_global_set_type_changeable'), $object_type . '_changeable');
+                $scope = new ilRadioGroupInputGUI($this->lng->txt('orgu_global_set_type_changeable'),
+                    $object_type . '_changeable');
                 $scope->setValue((int) $setting->isChangeableForObject());
 
                 $scope_object = new ilRadioOption(
                     $this->lng->txt('orgu_global_set_type_changeable_object'),
                     1
                 );
-                $default = new ilCheckboxInputGUI($this->lng->txt('orgu_global_set_type_default'), $object_type . '_default');
+                $default = new ilCheckboxInputGUI($this->lng->txt('orgu_global_set_type_default'),
+                    $object_type . '_default');
                 $default->setInfo($this->lng->txt('orgu_global_set_type_default_info'));
                 $default->setValue(ilOrgUnitObjectTypePositionSetting::DEFAULT_ON);
                 $default->setChecked($setting->getActivationDefault());
@@ -154,7 +148,6 @@ class ilOrgUnitGlobalSettingsGUI
 
         return $form;
     }
-
 
     protected function saveSettings()
     {
@@ -179,11 +172,11 @@ class ilOrgUnitGlobalSettingsGUI
             // MyStaff
             $DIC->settings()->set("enable_my_staff", (int) ($_POST["enable_my_staff"] ? 1 : 0));
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         } else {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->lng->txt('err_check_input'), false);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), false);
             $this->settings($form);
         }
     }

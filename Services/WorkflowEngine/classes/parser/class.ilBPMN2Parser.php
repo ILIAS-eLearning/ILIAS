@@ -14,10 +14,9 @@ class ilBPMN2Parser
     /**
      * @param string      $bpmn2_xml
      * @param string|null $workflow_name
-     *
      * @return string
      */
-    public function parseBPMN2XML($bpmn2_xml, $workflow_name = null)
+    public function parseBPMN2XML(string $bpmn2_xml, string $workflow_name = '') : string
     {
         $bpmn2_array = $this->convertXmlToArray($bpmn2_xml);
         $process = $this->getProcessNodeFromArray($bpmn2_array);
@@ -80,6 +79,7 @@ class ilBPMN2Parser
         if (count($messages)) {
             $message_definitions = array();
             foreach ($messages as $message) {
+                /** @noinspection PhpUndefinedVariableInspection */
                 $element_object = $loader->load('messageDefinition');
                 $message_definitions[] = $element_object->getMessageDefinitionArray($message);
             }
@@ -107,10 +107,9 @@ class ilBPMN2Parser
 
     /**
      * @param string $xml
-     *
      * @return mixed
      */
-    public function convertXmlToArray($xml)
+    public function convertXmlToArray(string $xml)
     {
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2ParserUtils.php';
         $xml_to_array_parser = new ilBPMN2ParserUtils();
@@ -120,10 +119,9 @@ class ilBPMN2Parser
 
     /**
      * @param array $bpmn2
-     *
      * @return array
      */
-    public function getProcessNodeFromArray($bpmn2)
+    public function getProcessNodeFromArray(array $bpmn2) : array
     {
         $process = array();
 
@@ -141,10 +139,9 @@ class ilBPMN2Parser
 
     /**
      * @param array $bpmn2
-     *
      * @return array
      */
-    public function getMessageNodesFromArray($bpmn2)
+    public function getMessageNodesFromArray(array $bpmn2) : array
     {
         $messages = array();
 
@@ -164,10 +161,9 @@ class ilBPMN2Parser
      * @param string $workflow_name
      * @param array  $bpmn2_array
      * @param array  $process
-     *
      * @return mixed
      */
-    public function determineWorkflowClassName($workflow_name, $bpmn2_array, $process)
+    public function determineWorkflowClassName(string $workflow_name, array $bpmn2_array, array $process)
     {
         $hasChildren = (isset($bpmn2_array['children']) && is_array($bpmn2_array['children']) && count($bpmn2_array['children']) > 0);
         if (!$workflow_name && !$hasChildren) {

@@ -13,7 +13,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand() : string
     {
         return 'showLocalUnitCategories';
     }
@@ -21,7 +21,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    public function getUnitCategoryOverviewCommand()
+    public function getUnitCategoryOverviewCommand() : string
     {
         if ($this->isCRUDContext()) {
             return 'showLocalUnitCategories';
@@ -33,7 +33,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return boolean
      */
-    public function isCRUDContext()
+    public function isCRUDContext() : bool
     {
         if (!isset($_GET[self::REQUEST_PARAM_SUB_CONTEXT_ID]) || $_GET[self::REQUEST_PARAM_SUB_CONTEXT_ID] == $this->repository->getConsumerId()) {
             return true;
@@ -45,7 +45,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @return string
      */
-    public function getUniqueId()
+    public function getUniqueId() : string
     {
         $id = $this->repository->getConsumerId();
         if ($this->isCRUDContext()) {
@@ -205,7 +205,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         }
 
         if ($i) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         }
 
         $this->ctrl->setParameter($this, 'question_fi', 0);

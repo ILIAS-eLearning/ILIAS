@@ -44,8 +44,10 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setTitle($this->lng->txt('rep_recommended_content') .
-            ', ' . $this->lng->txt("obj_role") . ': ' . ilObject::_lookupTitle($this->role_id));
+        $this->setTitle(
+            $this->lng->txt('rep_recommended_content') .
+                ', ' . $this->lng->txt("obj_role") . ': ' . ilObject::_lookupTitle($this->role_id)
+        );
 
         $this->addColumn('', '', 1);
         $this->addColumn($this->lng->txt('title'), 'title');
@@ -86,7 +88,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
         return implode(" &raquo; ", array_column($a_path_arr, "title"));
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VAL_ID", $a_set["ref_id"]);
         $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);

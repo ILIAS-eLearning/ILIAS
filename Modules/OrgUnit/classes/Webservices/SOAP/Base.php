@@ -12,7 +12,6 @@ use ilSoapPluginException;
 
 /**
  * Class Base
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class Base extends ilSoapAdministration implements ilSoapMethod
@@ -31,32 +30,27 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     const USR_IDS = 'usr_ids';
     const USR_ID = 'usr_id';
 
-
     /**
      * @inheritdoc
      */
-    public function getServiceStyle()
+    public function getServiceStyle() : string
     {
         return 'rpc';
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getServiceUse()
+    public function getServiceUse() : string
     {
         return 'encoded';
     }
-
 
     /**
      * Use this method at the beginning of your execute() method to check if the provided session ID is valid.
      * This method wraps around ilSoapAdministration::initAuth() and ilSoapAdministration::initILIAS()
      * which are both required in order to handle the request.
-     *
      * @param string $session_id
-     *
      * @throws ilSoapPluginException
      */
     protected function initIliasAndCheckSession($session_id)
@@ -68,12 +62,9 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         }
     }
 
-
     /**
      * Check that all input parameters are present when executing the soap method
-     *
      * @param array $params
-     *
      * @throws ilSoapPluginException
      */
     protected function checkParameters(array $params)
@@ -86,26 +77,23 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         }
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getServiceNamespace()
+    public function getServiceNamespace() : string
     {
         return 'urn:' . ilOrgUnitSOAPServicesPlugin::PLUGIN_NAME;
     }
-
 
     /**
      * @return array
      */
     abstract protected function getAdditionalInputParams();
 
-
     /**
      * @inheritdoc
      */
-    final public function getInputParams()
+    final public function getInputParams() : array
     {
         return array_merge(
             array(
@@ -115,18 +103,14 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         );
     }
 
-
     /**
      * @param array $params
-     *
      * @return mixed
      */
     abstract protected function run(array $params);
 
-
     /**
      * @param array $params
-     *
      * @return mixed
      * @throws ilSoapPluginException
      */
@@ -152,10 +136,8 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         return $this->run($clean_params);
     }
 
-
     /**
      * @param $message
-     *
      * @throws \SoapFault
      */
     protected function error($message)
@@ -163,10 +145,8 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         throw $this->__raiseError($message, 'ERROR');
     }
 
-
     /**
      * @param $session_id
-     *
      * @throws ilSoapPluginException
      */
     private function init($session_id)

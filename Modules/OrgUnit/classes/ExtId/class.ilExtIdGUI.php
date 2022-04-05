@@ -3,7 +3,6 @@
 
 /**
  * Class ilExtIdGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
@@ -43,13 +42,13 @@ class ilExtIdGUI
      */
     protected $ilAccess;
 
-
     /**
      * @param $parent_gui
      */
     public function __construct($parent_gui)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
@@ -66,10 +65,9 @@ class ilExtIdGUI
         $this->ilAccess = $ilAccess;
         $this->lng->loadLanguageModule('user');
         if (!$this->ilAccess->checkaccess("write", "", $this->parent_gui->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
         }
     }
-
 
     /**
      * @return bool
@@ -90,13 +88,11 @@ class ilExtIdGUI
         return true;
     }
 
-
     public function edit()
     {
         $form = $this->initForm();
         $this->tpl->setContent($form->getHTML());
     }
-
 
     public function initForm()
     {
@@ -110,7 +106,6 @@ class ilExtIdGUI
         return $form;
     }
 
-
     public function update()
     {
         $form = $this->initForm();
@@ -118,7 +113,7 @@ class ilExtIdGUI
         if ($form->checkInput()) {
             $this->parent_object->setImportId($form->getItemByPostVar("ext_id")->getValue());
             $this->parent_object->update();
-            ilUtil::sendSuccess($this->lng->txt("ext_id_updated"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("ext_id_updated"), true);
             $this->ctrl->redirect($this, "edit");
         } else {
             $this->tpl->setContent($form->getHTML());

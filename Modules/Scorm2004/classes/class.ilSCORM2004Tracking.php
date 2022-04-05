@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilSCORM2004Tracking
  *
@@ -9,42 +20,60 @@
  */
 class ilSCORM2004Tracking
 {
-    public static function _getInProgress($scorm_item_id, $a_obj_id)
+    /**
+     * @param int $scorm_item_id
+     * @param int $a_obj_id
+     * @return void
+     * @throws Exception
+     */
+    public static function _getInProgress(int $scorm_item_id, int $a_obj_id) : void
     {
         throw new Exception("Not Implemented: ilSCORM2004Tracking_getInProgress");
     }
 
-    public static function _getCompleted($scorm_item_id, $a_obj_id)
+    /**
+     * @param int $scorm_item_id
+     * @param int $a_obj_id
+     * @return void
+     * @throws Exception
+     */
+    public static function _getCompleted(int $scorm_item_id, int $a_obj_id) : void
     {
         throw new Exception("Not Implemented: ilSCORM2004Tracking_getCompleted");
     }
 
-    public static function _getFailed($scorm_item_id, $a_obj_id)
+    /**
+     * @param int $scorm_item_id
+     * @param int $a_obj_id
+     * @return void
+     * @throws Exception
+     */
+    public static function _getFailed(int $scorm_item_id, int $a_obj_id) : void
     {
         throw new Exception("Not Implemented: ilSCORM2004Tracking_getFailed");
     }
 
     /**
      * Get progress of selected scos
-     * @param object $a_scorm_item_ids
-     * @param object $a_obj_id
-     * @param bool $a_omit_failed do not include success==failed
-     * @return
+     * @param array $a_scorm_item_ids
+     * @param int   $a_obj_id
+     * @param bool  $a_omit_failed do not include success==failed
+     * @return array
      */
-    public static function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
+    public static function _getCountCompletedPerUser(array $a_scorm_item_ids, int $a_obj_id, bool $a_omit_failed = false)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $in = $ilDB->in('cp_node.cp_node_id', $a_scorm_item_ids, false, 'integer');
-        
+
         // #8171: success_status vs. completion status
         $omit_failed = '';
         if ($a_omit_failed) {
             $omit_failed = ' AND success_status <> ' . $ilDB->quote('failed', 'text');
         }
-        
+
         $res = $ilDB->queryF(
             '
 			SELECT cmi_node.user_id user_id, COUNT(user_id) completed FROM cp_node, cmi_node 
@@ -63,13 +92,12 @@ class ilSCORM2004Tracking
         return $users ? $users : array();
     }
 
-    
     /**
      * Get overall scorm status
-     * @param object $a_obj_id
-     * @return
+     * @param int $a_obj_id
+     * @return array
      */
-    public static function _getProgressInfo($a_obj_id)
+    public static function _getProgressInfo(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -83,20 +111,20 @@ class ilSCORM2004Tracking
             array('text', 'integer'),
             array('-course_overall_status-', $a_obj_id)
         );
-        
+
         $info['completed'] = array();
         $info['failed'] = array();
         $info['in_progress'] = array();
 
         while ($row = $ilDB->fetchAssoc($res)) {
             if (self::_isCompleted($row["status"], $row["satisfied"])) {
-                $info['completed'][] = $row["user_id"];
+                $info['completed'][] = (int) $row["user_id"];
             }
             if (self::_isInProgress($row["status"], $row["satisfied"])) {
-                $info['in_progress'][] = $row["user_id"];
+                $info['in_progress'][] = (int) $row["user_id"];
             }
             if (self::_isFailed($row["status"], $row["satisfied"])) {
-                $info['failed'][] = $row["user_id"];
+                $info['failed'][] = (int) $row["user_id"];
             }
         }
 
@@ -105,10 +133,11 @@ class ilSCORM2004Tracking
 
     /**
      * Get overall scorm status
-     * @param object $a_obj_id
-     * @return
+     * @param int $a_obj_id
+     * @param int $a_user_id
+     * @return string
      */
-    public static function _getProgressInfoOfUser($a_obj_id, $a_user_id)
+    public static function _getProgressInfoOfUser(int $a_obj_id, int $a_user_id) : string
     {
         global $DIC;
 
@@ -123,7 +152,7 @@ class ilSCORM2004Tracking
             array('text', 'integer', 'integer'),
             array('-course_overall_status-', $a_obj_id, $a_user_id)
         );
-        
+
         $status = "not_attempted";
         if ($row = $ilDB->fetchAssoc($res)) {
             if (self::_isInProgress($row["status"], $row["satisfied"])) {
@@ -141,10 +170,10 @@ class ilSCORM2004Tracking
 
     /**
      * Get all tracked users
-     * @param object $a_obj_id
-     * @return
+     * @param int $a_obj_id
+     * @return array
      */
-    public static function _getTrackedUsers($a_obj_id)
+    public static function _getTrackedUsers(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -159,20 +188,26 @@ class ilSCORM2004Tracking
             array('text', 'integer'),
             array('-course_overall_status-', $a_obj_id)
         );
-        
+
         $users = array();
         while ($row = $ilDB->fetchAssoc($res)) {
-            $users[] = $row["user_id"];
+            $users[] = (int) $row["user_id"];
         }
         return $users;
     }
 
-    public static function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
+    /**
+     * @param array $a_scorm_item_ids
+     * @param int   $a_obj_id
+     * @param bool  $a_omit_failed
+     * @return array<string, array<int|string, mixed[]>>
+     */
+    public static function _getItemProgressInfo(array $a_scorm_item_ids, int $a_obj_id, bool $a_omit_failed) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $in = $ilDB->in('cp_node.cp_node_id', $a_scorm_item_ids, false, 'integer');
 
         $res = $ilDB->queryF(
@@ -187,7 +222,7 @@ class ilSCORM2004Tracking
             array('integer'),
             array($a_obj_id)
         );
-        
+
         $info['completed'] = array();
         $info['failed'] = array();
         $info['in_progress'] = array();
@@ -207,8 +242,14 @@ class ilSCORM2004Tracking
         }
         return $info;
     }
-    
-    public static function _getCollectionStatus($a_scos, $a_obj_id, $a_user_id)
+
+    /**
+     * @param array $a_scos
+     * @param int   $a_obj_id
+     * @param int   $a_user_id
+     * @return string
+     */
+    public static function _getCollectionStatus(array $a_scos, int $a_obj_id, int $a_user_id) : string
     {
         global $DIC;
 
@@ -255,17 +296,24 @@ class ilSCORM2004Tracking
         }
         return $status;
     }
-    
+
+    /**
+     * @param array $a_scos
+     * @param int   $a_obj_id
+     * @param int   $a_user_id
+     * @param bool  $a_omit_failed
+     * @return int
+     */
     public static function _countCompleted(
-        $a_scos,
-        $a_obj_id,
-        $a_user_id,
-        $a_omit_failed = false
+        array $a_scos,
+        int $a_obj_id,
+        int $a_user_id,
+        bool $a_omit_failed
     ) {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (is_array($a_scos)) {
             $in = $ilDB->in('cp_node.cp_node_id', $a_scos, false, 'integer');
 
@@ -281,8 +329,8 @@ class ilSCORM2004Tracking
                 array('integer', 'integer'),
                 array($a_obj_id, $a_user_id)
             );
-    
-            
+
+
             $cnt = 0;
             while ($rec = $ilDB->fetchAssoc($res)) {
                 // #8171: alex, added (!$a_omit_failed || $rec["success"] != "failed")
@@ -299,16 +347,18 @@ class ilSCORM2004Tracking
 
     /**
      * Synch read event table
-     *
-     * @param
-     * @return
+     * @param int       $a_obj_id
+     * @param int       $a_user_id
+     * @param string    $a_type
+     * @param int       $a_ref_id
+     * @param bool|null $time_from_lms
      */
-    public static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id, $time_from_lms = null)
+    public static function _syncReadEvent(int $a_obj_id, int $a_user_id, string $a_type, int $a_ref_id, ?bool $time_from_lms = null) : void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         //get condition to select time
         $val_set = $ilDB->queryF(
             'SELECT time_from_lms FROM sahs_lm WHERE id = %s',
@@ -317,7 +367,7 @@ class ilSCORM2004Tracking
         );
         $val_rec = $ilDB->fetchAssoc($val_set);
         $time_from_lms = (ilUtil::yn2tf($val_rec["time_from_lms"]));
-        
+
         // get attempts and time
         $val_set = $ilDB->queryF(
             '
@@ -353,45 +403,52 @@ class ilSCORM2004Tracking
     }
 
     /**
-     *
+     * @param string $a_status
+     * @param string $a_satisfied
+     * @return bool
      */
-    public static function _isCompleted($a_status, $a_satisfied)
+    public static function _isCompleted(string $a_status, string $a_satisfied) : bool
     {
         if ($a_status == "completed" || $a_satisfied == "satisfied") {
             return true;
         }
-        
-        return false;
-    }
-            
-    /**
-    *
-    */
-    public static function _isInProgress($a_status, $a_satisfied)
-    {
-        if ($a_status != "completed") {
-            return true;
-        }
-        
         return false;
     }
 
     /**
-    *
-    */
-    public static function _isFailed($a_status, $a_satisfied)
+     * @param string $a_status
+     * @param string $a_satisfied
+     * @return bool
+     */
+    public static function _isInProgress(string $a_status, string $a_satisfied) : bool
+    {
+        if ($a_status != "completed") {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $a_status
+     * @param string $a_satisfied
+     * @return bool
+     */
+    public static function _isFailed(string $a_status, string $a_satisfied) : bool
     {
         if ($a_status == "completed" && $a_satisfied == "notSatisfied") {
             return true;
         }
-        
         return false;
     }
 
     /**
      * should be avoided; store value to increase performance for further requests
+     * @param int  $a_obj_id
+     * @param int  $a_user_id
+     * @param bool $a_write
+     * @return int
      */
-    public static function getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, $a_write = false)
+    public static function getSumTotalTimeSecondsFromScos(int $a_obj_id, int $a_user_id, bool $a_write = false) : int
     {
         global $DIC;
 
@@ -419,7 +476,7 @@ class ilSCORM2004Tracking
                 array('integer','integer'),
                 array($sco, $a_user_id)
             );
-            
+
             while ($data_rec = $ilDB->fetchAssoc($data_set)) {
                 $sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["total_time"]) / 100;
             }

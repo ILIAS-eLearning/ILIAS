@@ -22,16 +22,18 @@
 class ilPCPlugged extends ilPageContent
 {
     protected ilLanguage $lng;
-    protected ilPluginAdmin $plugin_admin;
     public php4DOMElement $plug_node;
+    protected ilComponentRepository $component_repository;
+    protected ilComponentFactory $component_factory;
 
     public function init() : void
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->setType("plug");
+        $this->component_repository = $DIC["component.repository"];
+        $this->component_factory = $DIC["component.factory"];
     }
 
     public function setNode(php4DOMElement $a_node) : void
@@ -151,7 +153,8 @@ class ilPCPlugged extends ilPageContent
         DOMDocument $a_domdoc
     ) : void {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
+        $component_factory = $DIC['component.factory'];
 
         $xpath = new DOMXPath($a_domdoc);
         $nodes = $xpath->query("//Plugged");
@@ -161,9 +164,10 @@ class ilPCPlugged extends ilPageContent
             $plugin_name = $node->getAttribute('PluginName');
             $plugin_version = $node->getAttribute('PluginVersion');
 
-            if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+            $plugin_info = $component_repository->getPluginByName($plugin_name);
+            if ($plugin_info->isActive()) {
                 /** @var ilPageComponentPlugin $plugin_obj */
-                $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+                $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
                 $plugin_obj->setPageObj($a_page);
 
                 $properties = array();
@@ -197,14 +201,16 @@ class ilPCPlugged extends ilPageContent
         DOMNode $a_node
     ) : void {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
+        $component_factory = $DIC['component.factory'];
 
         $plugin_name = $a_node->getAttribute('PluginName');
         $plugin_version = $a_node->getAttribute('PluginVersion');
 
-        if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+        $plugin_info = $component_repository->getPluginByName($plugin_name);
+        if ($plugin_info->isActive()) {
             /** @var ilPageComponentPlugin $plugin_obj */
-            $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+            $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
             $plugin_obj->setPageObj($a_page);
 
             $properties = array();
@@ -224,8 +230,6 @@ class ilPCPlugged extends ilPageContent
         bool $a_abstract_only = false
     ) : string {
         $lng = $this->lng;
-        $ilPluginAdmin = $this->plugin_admin;
-        $plugin_html = "";
 
         $end = 0;
         $start = strpos($a_output, "{{{{{Plugged<pl");
@@ -251,13 +255,11 @@ class ilPCPlugged extends ilPageContent
             if ($a_mode == "edit") {
                 $plugin_html = '<div class="ilBox">' . $lng->txt("content_plugin_not_activated") . " (" . $plugin_name . ")</div>";
             }
-            if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
-                $plugin_obj = $ilPluginAdmin->getPluginObject(
-                    IL_COMP_SERVICE,
-                    "COPage",
-                    "pgcp",
-                    $plugin_name
-                );
+
+            $plugin_info = $this->component_repository->getPluginByName($plugin_name);
+            $plugin_html = '';
+            if ($plugin_info->isActive()) {
+                $plugin_obj = $this->component_factory->getPlugin($plugin_info->getId());
                 $plugin_obj->setPageObj($this->getPage());
                 $gui_obj = $plugin_obj->getUIClassInstance();
                 $plugin_html = $gui_obj->getElementHTML($a_mode, $properties, $plugin_version);
@@ -283,22 +285,9 @@ class ilPCPlugged extends ilPageContent
     
     public function getJavascriptFiles(string $a_mode) : array
     {
-        $ilPluginAdmin = $this->plugin_admin;
-        
         $js_files = array();
         
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
-        );
-        foreach ($pl_names as $pl_name) {
-            $plugin = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "COPage",
-                "pgcp",
-                $pl_name
-            );
+        foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $plugin->setPageObj($this->getPage());
             $pl_dir = $plugin->getDirectory();
             
@@ -318,22 +307,9 @@ class ilPCPlugged extends ilPageContent
     
     public function getCssFiles(string $a_mode) : array
     {
-        $ilPluginAdmin = $this->plugin_admin;
-        
         $css_files = array();
         
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
-        );
-        foreach ($pl_names as $pl_name) {
-            $plugin = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "COPage",
-                "pgcp",
-                $pl_name
-            );
+        foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $plugin->setPageObj($this->getPage());
             $pl_dir = $plugin->getDirectory();
             

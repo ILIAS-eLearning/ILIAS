@@ -24,15 +24,17 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
      */
     public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
     {
+        global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         parent::__construct($questionOBJ, $ctrl, $tabs, $lng);
         
         if (!isset($_GET['feedback_id']) || !(int) $_GET['feedback_id'] || !$questionOBJ->feedbackOBJ->checkFeedbackParent((int) $_GET['feedback_id'])) {
-            ilUtil::sendFailure('invalid feedback id given: ' . (int) $_GET['feedback_id'], true);
+            $main_tpl->setOnScreenMessage('failure', 'invalid feedback id given: ' . (int) $_GET['feedback_id'], true);
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         }
         
         if (!isset($_GET['feedback_type']) || !ilAssQuestionFeedback::isValidFeedbackPageObjectType($_GET['feedback_type'])) {
-            ilUtil::sendFailure('invalid feedback type given: ' . $_GET['feedback_type'], true);
+            $main_tpl->setOnScreenMessage('failure', 'invalid feedback type given: ' . $_GET['feedback_type'], true);
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         }
     }
@@ -104,14 +106,12 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
             );
             return $pageObjectGUI;
         }
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
-            $pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
-            $pageObjectGUI->obj->addUpdateListener(
-                $this->questionOBJ,
-                'updateTimestamp'
-            );
-            return $pageObjectGUI;
-        }
+        include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php");
+        $pageObjectGUI = new ilAssSpecFeedbackPageGUI($pageObjectId);
+        $pageObjectGUI->obj->addUpdateListener(
+            $this->questionOBJ,
+            'updateTimestamp'
+        );
+        return $pageObjectGUI;
     }
 }

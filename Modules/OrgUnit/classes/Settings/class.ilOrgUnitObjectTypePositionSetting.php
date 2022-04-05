@@ -3,9 +3,7 @@
 
 /**
  * Object settings regarding position permissions
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilOrgUnitObjectTypePositionSetting
 {
@@ -32,10 +30,8 @@ class ilOrgUnitObjectTypePositionSetting
      */
     private $default = self::DEFAULT_OFF;
 
-
     /**
      * Constructor
-     *
      * @param string $a_obj_type
      */
     public function __construct($a_obj_type)
@@ -45,7 +41,6 @@ class ilOrgUnitObjectTypePositionSetting
         $this->read();
     }
 
-
     /**
      * set active for object type
      */
@@ -53,7 +48,6 @@ class ilOrgUnitObjectTypePositionSetting
     {
         $this->active = $a_active;
     }
-
 
     /**
      * @param int $a_default
@@ -63,7 +57,6 @@ class ilOrgUnitObjectTypePositionSetting
         $this->default = $a_default;
     }
 
-
     /**
      * @param bool $a_status
      */
@@ -72,10 +65,8 @@ class ilOrgUnitObjectTypePositionSetting
         $this->changeable = $a_status;
     }
 
-
     /**
      * Check if active
-     *
      * @return bool
      */
     public function isActive()
@@ -83,17 +74,14 @@ class ilOrgUnitObjectTypePositionSetting
         return $this->active;
     }
 
-
     /**
      * Get activation default
-     *
      * @return int
      */
     public function getActivationDefault()
     {
         return $this->default;
     }
-
 
     /**
      * return bool
@@ -102,7 +90,6 @@ class ilOrgUnitObjectTypePositionSetting
     {
         return $this->changeable;
     }
-
 
     /**
      * Update type entry
@@ -117,7 +104,6 @@ class ilOrgUnitObjectTypePositionSetting
             'changeable' => ['integer', (int) $this->isChangeableForObject()],
         ]);
     }
-
 
     /**
      * Read from db
@@ -134,7 +120,6 @@ class ilOrgUnitObjectTypePositionSetting
             $this->setChangeableForObject((bool) $row->changeable);
         }
     }
-
 
     /**
      * @return string

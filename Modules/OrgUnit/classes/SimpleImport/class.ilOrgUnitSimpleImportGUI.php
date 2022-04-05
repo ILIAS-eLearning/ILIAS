@@ -3,7 +3,6 @@
 
 /**
  * Class ilOrgUnitSimpleImportGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
@@ -39,13 +38,13 @@ class ilOrgUnitSimpleImportGUI
      */
     protected $ilAccess;
 
-
     /**
      * @param $parent_gui
      */
     public function __construct($parent_gui)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
@@ -64,10 +63,9 @@ class ilOrgUnitSimpleImportGUI
         $this->lng->loadLanguageModule('user');
         $this->ilLog = $ilLog;
         if (!$this->ilAccess->checkaccess("write", "", $this->parent_gui->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
         }
     }
-
 
     /**
      * @return bool
@@ -82,12 +80,14 @@ class ilOrgUnitSimpleImportGUI
                 break;
             case 'importScreen':
                 $this->tabs_gui->clearTargets();
-                $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, 'chooseImport'));
+                $this->tabs_gui->setBackTarget($this->lng->txt("back"),
+                    $this->ctrl->getLinkTarget($this, 'chooseImport'));
                 $this->importScreen();
                 break;
             case 'startImport':
                 $this->tabs_gui->clearTargets();
-                $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, 'chooseImport'));
+                $this->tabs_gui->setBackTarget($this->lng->txt("back"),
+                    $this->ctrl->getLinkTarget($this, 'chooseImport'));
                 $this->startImport();
                 break;
         }
@@ -95,11 +95,11 @@ class ilOrgUnitSimpleImportGUI
         return true;
     }
 
-
     public function chooseImport()
     {
-        if (!$this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) or !$this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_perm_edit"));
+        if (!$this->ilAccess->checkAccess("write", "",
+                $_GET["ref_id"]) or !$this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_edit"));
             $this->ctrl->redirectByClass('ilinfoscreengui', '');
         }
 
@@ -107,19 +107,20 @@ class ilOrgUnitSimpleImportGUI
         $this->tabs_gui->removeSubTab("page_editor");
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
 
-        if ($this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) and $this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
-            $this->toolbar->addButton($this->lng->txt("simple_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen"));
-            $this->toolbar->addButton($this->lng->txt("simple_user_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen"));
+        if ($this->ilAccess->checkAccess("write", "",
+                $_GET["ref_id"]) and $this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+            $this->toolbar->addButton($this->lng->txt("simple_import"),
+                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen"));
+            $this->toolbar->addButton($this->lng->txt("simple_user_import"),
+                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen"));
         }
     }
-
 
     public function importScreen()
     {
         $form = $this->initForm("startImport");
         $this->tpl->setContent($form->getHTML());
     }
-
 
     protected function initForm($submit_action)
     {
@@ -133,7 +134,6 @@ class ilOrgUnitSimpleImportGUI
 
         return $form;
     }
-
 
     public function startImport()
     {
@@ -167,13 +167,12 @@ class ilOrgUnitSimpleImportGUI
                 $importer->simpleImport($file_path);
             } catch (Exception $e) {
                 $this->ilLog->write($e->getMessage() . " - " . $e->getTraceAsString());
-                ilUtil::sendFailure($this->lng->txt("import_failed"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_failed"), true);
                 $this->ctrl->redirect($this, "render");
             }
             $this->displayImportResults($importer);
         }
     }
-
 
     /**
      * @param $importer ilOrgUnitImporter
@@ -182,21 +181,23 @@ class ilOrgUnitSimpleImportGUI
     {
         if (!$importer->hasErrors() && !$importer->hasWarnings()) {
             $stats = $importer->getStats();
-            ilUtil::sendSuccess(sprintf($this->lng->txt("import_successful"), $stats["created"], $stats["updated"], $stats["deleted"]), true);
+            $this->tpl->setOnScreenMessage('success',
+                sprintf($this->lng->txt("import_successful"), $stats["created"], $stats["updated"], $stats["deleted"]),
+                true);
         }
         if ($importer->hasWarnings()) {
             $msg = $this->lng->txt("import_terminated_with_warnings") . " <br/>";
             foreach ($importer->getWarnings() as $warning) {
                 $msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br />";
             }
-            ilUtil::sendInfo($msg, true);
+            $this->tpl->setOnScreenMessage('info', $msg, true);
         }
         if ($importer->hasErrors()) {
             $msg = $this->lng->txt("import_terminated_with_errors") . "<br/>";
             foreach ($importer->getErrors() as $warning) {
                 $msg .= "- " . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br />";
             }
-            ilUtil::sendFailure($msg, true);
+            $this->tpl->setOnScreenMessage('failure', $msg, true);
         }
     }
 }

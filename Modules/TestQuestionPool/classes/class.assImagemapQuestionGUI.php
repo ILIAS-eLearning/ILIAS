@@ -31,8 +31,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * The constructor takes possible arguments an creates an instance of the assImagemapQuestionGUI object.
      *
      * @param integer $id The database id of a image map question object.
-     *
-     * @return \assImagemapQuestionGUI
      */
     public function __construct($id = -1)
     {
@@ -62,7 +60,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $this->object->deleteImage();
         $this->object->saveToDb();
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'editQuestion');
     }
 
@@ -72,6 +70,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     protected function writePostData(bool $always = false) : int
     {
         $form = $this->buildEditForm();
+        $hasErrors = (!$always) ? $this->editQuestion($this->buildEditForm()) : false;
+
         $form->setValuesByPost();
 
         if (!$always && !$form->checkInput()) {
@@ -91,7 +91,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         if ($this->ctrl->getCmd() != 'deleteImage') {
             $this->object->flushAnswers();
-            if (is_array($_POST['image']['coords']['name'])) {
+            if (is_array($_POST['image']) && is_array($_POST['image']['coords']['name'])) {
                 foreach ($_POST['image']['coords']['name'] as $idx => $name) {
                     if ($this->object->getIsMultipleChoice() && isset($_POST['image']['coords']['points_unchecked'])) {
                         $pointsUnchecked = $_POST['image']['coords']['points_unchecked'][$idx];
@@ -154,9 +154,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     /**
      * @param ilPropertyFormGUI|null $form
-     * @return bool
      */
-    public function editQuestion(ilPropertyFormGUI $form = null)
+    public function editQuestion(ilPropertyFormGUI $form = null) : void
     {
         if (null === $form) {
             $form = $this->buildEditForm();
@@ -168,14 +167,14 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->tpl->setVariable('QUESTION_DATA', $this->ctrl->getHTML($form));
     }
 
-    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         return $form; // Nothing to do here since selectable areas are handled in question-specific-form part
                       // due to their immediate dependency to the image. I decide to not break up the interfaces
                       // more just to support this very rare case. tl;dr: See the issue, ignore it.
     }
 
-    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         $radioGroup = new ilRadioGroupInputGUI($this->lng->txt('tst_imap_qst_mode'), 'is_multiple_choice');
         $radioGroup->setValue($this->object->getIsMultipleChoice());
@@ -241,17 +240,17 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         switch ($_POST["shape"]) {
             case "rect":
                 $coords = join(",", $_POST['image']['mapcoords']);
-                ilUtil::sendSuccess($this->lng->txt('msg_rect_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_rect_added'), true);
                 break;
             case "circle":
                 if (preg_match("/(\d+)\s*,\s*(\d+)\s+(\d+)\s*,\s*(\d+)/", $_POST['image']['mapcoords'][0] . " " . $_POST['image']['mapcoords'][1], $matches)) {
                     $coords = "$matches[1],$matches[2]," . (int) sqrt((($matches[3] - $matches[1]) * ($matches[3] - $matches[1])) + (($matches[4] - $matches[2]) * ($matches[4] - $matches[2])));
                 }
-                ilUtil::sendSuccess($this->lng->txt('msg_circle_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_circle_added'), true);
                 break;
             case "poly":
                 $coords = join(",", $_POST['image']['mapcoords']);
-                ilUtil::sendSuccess($this->lng->txt('msg_poly_added'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_poly_added'), true);
                 break;
         }
         $this->object->addAnswer($_POST["shapetitle"], 0, count($this->object->getAnswers()), $coords, $_POST["shape"]);
@@ -298,9 +297,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         switch ($shape) {
             case "rect":
                 if (count($coords) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("rectangle_click_tl_corner"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("rectangle_click_tl_corner"));
                 } elseif (count($coords) == 1) {
-                    ilUtil::sendInfo($this->lng->txt("rectangle_click_br_corner"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("rectangle_click_br_corner"));
                     $preview->addPoint($preview->getAreaCount(), join(",", $coords), true, "blue");
                 } elseif (count($coords) == 2) {
                     $c = join(",", $coords);
@@ -310,9 +309,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 break;
             case "circle":
                 if (count($coords) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("circle_click_center"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("circle_click_center"));
                 } elseif (count($coords) == 1) {
-                    ilUtil::sendInfo($this->lng->txt("circle_click_circle"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("circle_click_circle"));
                     $preview->addPoint($preview->getAreaCount(), join(",", $coords), true, "blue");
                 } elseif (count($coords) == 2) {
                     if (preg_match("/(\d+)\s*,\s*(\d+)\s+(\d+)\s*,\s*(\d+)/", $coords[0] . " " . $coords[1], $matches)) {
@@ -324,12 +323,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 break;
             case "poly":
                 if (count($coords) == 0) {
-                    ilUtil::sendInfo($this->lng->txt("polygon_click_starting_point"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("polygon_click_starting_point"));
                 } elseif (count($coords) == 1) {
-                    ilUtil::sendInfo($this->lng->txt("polygon_click_next_point"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("polygon_click_next_point"));
                     $preview->addPoint($preview->getAreaCount(), implode(",", $coords), true, "blue");
                 } elseif (count($coords) > 1) {
-                    ilUtil::sendInfo($this->lng->txt("polygon_click_next_or_save"));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("polygon_click_next_or_save"));
                     $disabled_save = "";
                     $c = implode(",", $coords);
                 }
@@ -380,7 +379,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public function back()
     {
-        ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_cancel'), true);
         $this->ctrl->redirect($this, 'editQuestion');
     }
 
@@ -414,16 +413,15 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     /**
     * Get the question solution output
-    *
-    * @param integer $active_id The active user id
-    * @param integer $pass The test pass
-    * @param boolean $graphicalOutput Show visual feedback for right/wrong answers
-    * @param boolean $result_output Show the reached points for parts of the question
-    * @param boolean $show_question_only Show the question without the ILIAS content around
-    * @param boolean $show_feedback Show the question feedback
+    * @param integer $active_id             The active user id
+    * @param integer $pass                  The test pass
+    * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
+    * @param boolean $result_output         Show the reached points for parts of the question
+    * @param boolean $show_question_only    Show the question without the ILIAS content around
+    * @param boolean $show_feedback         Show the question feedback
     * @param boolean $show_correct_solution Show the correct solution instead of the user solution
-    * @param boolean $show_manual_scoring Show specific information for the manual scoring output
-    * @return The solution output of the question as HTML code
+    * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
+    * @return string The solution output of the question as HTML code
     */
     public function getSolutionOutput(
         $active_id,
@@ -435,12 +433,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $show_correct_solution = false,
         $show_manual_scoring = false,
         $show_question_text = true
-    ) {
+    ) : string {
         $imagepath = $this->object->getImagePathWeb() . $this->object->getImageFilename();
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
             include_once "./Modules/Test/classes/class.ilObjTest.php";
-            if ((!$showsolution) && !ilObjTest::_getUsePreviousAnswers($active_id, true)) {
+            if (!ilObjTest::_getUsePreviousAnswers($active_id, true)) {
                 if (is_null($pass)) {
                     $pass = ilObjTest::_getPass($active_id);
                 }
@@ -578,7 +576,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $solutionoutput;
     }
     
-    public function getPreview($show_question_only = false, $showInlineFeedback = false)
+    public function getPreview($show_question_only = false, $showInlineFeedback = false) : string
     {
         if (is_object($this->getPreviewSession())) {
             $user_solution = array();
@@ -626,8 +624,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setCurrentBlock("imagemap_area");
             $template->setVariable("SHAPE", $answer->getArea());
             $template->setVariable("COORDS", $answer->getCoords());
-            $template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
-            $template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("ALT", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
@@ -644,8 +642,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     }
 
     // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false)
-    // hey.
+    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false) : string
+        // hey.
     {
         if ($active_id) {
             // hey: prevPassSolutions - obsolete due to central check
@@ -690,8 +688,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setVariable("HREF_AREA", $this->buildAreaLinkTarget($userSelection, $answer_id));
             $template->setVariable("SHAPE", $answer->getArea());
             $template->setVariable("COORDS", $answer->getCoords());
-            $template->setVariable("ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
-            $template->setVariable("TITLE", ilUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("ALT", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
+            $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
             if ($show_feedback) {
                 if (!$this->object->getIsMultipleChoice() && count($userSelection) && current($userSelection) == $answer_id) {
@@ -719,7 +717,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     }
     
     // hey: prevPassSolutions - fixed confusing handling of not reusing, but modifying the previous solution
-    protected function buildAreaLinkTarget($currentSelection, $areaIndex)
+    protected function buildAreaLinkTarget($currentSelection, $areaIndex) : string
     {
         $href = $this->ctrl->getLinkTargetByClass(
             $this->getTargetGuiClass(),
@@ -734,7 +732,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $href;
     }
     
-    protected function buildSelectionParameter($currentSelection, $areaIndex = null)
+    protected function buildSelectionParameter($currentSelection, $areaIndex = null) : string
     {
         if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
             $reuseSelection = array();
@@ -787,18 +785,18 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $ilTabs->clearTargets();
         
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
+        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->request->getQuestionId());
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
+            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -806,7 +804,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     array("edit", "insert", "exec_pg"),
                     "",
                     "",
-                    $force_active
+                    false
                 );
             }
 
@@ -814,12 +812,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
             }
-            if (array_key_exists("imagemap_x", $_POST)) {
+            if (isset($_POST["imagemap_x"])) {
                 $force_active = true;
             }
             // edit question propertiesgetPreviousSolutionValues
@@ -890,7 +888,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars()
+    public function getAfterParticipationSuppressionAnswerPostVars() : array
     {
         return array();
     }
@@ -904,12 +902,12 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionQuestionPostVars()
+    public function getAfterParticipationSuppressionQuestionPostVars() : array
     {
         return array();
     }
     
-    protected function renderAggregateView($answeringFequencies)
+    protected function renderAggregateView($answeringFequencies) : string
     {
         $tpl = new ilTemplate('tpl.il_as_aggregated_answers_table.html', true, true, "Modules/TestQuestionPool");
         
@@ -931,7 +929,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $tpl->get();
     }
     
-    protected function aggregateAnswers($givenSolutionRows, $existingAnswerOptions)
+    protected function aggregateAnswers($givenSolutionRows, $existingAnswerOptions) : array
     {
         $answeringFequencies = array();
         
@@ -954,7 +952,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers)
+    public function getAggregatedAnswersView($relevant_answers) : string
     {
         return $this->renderAggregateView(
             $this->aggregateAnswers($relevant_answers, $this->object->getAnswers())

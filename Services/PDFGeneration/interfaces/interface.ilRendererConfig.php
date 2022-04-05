@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 interface ilRendererConfig
 {
 
@@ -10,7 +23,7 @@ interface ilRendererConfig
      *
      * @return \ilPropertyFormGUI The config form
      */
-    public function addConfigElementsToForm(\ilPropertyFormGUI $form, $service, $purpose);
+    public function addConfigElementsToForm(\ilPropertyFormGUI $form, string $service, string $purpose);
 
     /**
      * @param \ilPropertyFormGUI $form    The config form for the administration
@@ -20,7 +33,7 @@ interface ilRendererConfig
      *
      * @return \ilPropertyFormGUI The config form
      */
-    public function populateConfigElementsInForm(\ilPropertyFormGUI $form, $service, $purpose, $config);
+    public function populateConfigElementsInForm(\ilPropertyFormGUI $form, string $service, string $purpose, array $config);
 
     /**
      * @param \ilPropertyFormGUI $form    The config form for the administration
@@ -29,7 +42,7 @@ interface ilRendererConfig
      *
      * @return boolean True, if the form holds a valid config
      */
-    public function validateConfigInForm(\ilPropertyFormGUI $form, $service, $purpose);
+    public function validateConfigInForm(\ilPropertyFormGUI $form, string $service, string $purpose);
 
     /**
      * @param \ilPropertyFormGUI $form    The config form for the administration
@@ -38,7 +51,7 @@ interface ilRendererConfig
      *
      * @return array KV-array with config
      */
-    public function getConfigFromForm(\ilPropertyFormGUI $form, $service, $purpose);
+    public function getConfigFromForm(\ilPropertyFormGUI $form, string $service, string $purpose);
 
     /**
      * @param string $service Service Title
@@ -46,5 +59,5 @@ interface ilRendererConfig
      *
      * @return array KV-array with config
      */
-    public function getDefaultConfig($service, $purpose);
+    public function getDefaultConfig(string $service, string $purpose);
 }

@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Services/CSV",
+    "belong_to_component": "CSV",
+    "used_in_components": []
+}

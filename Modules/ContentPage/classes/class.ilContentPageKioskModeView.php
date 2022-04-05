@@ -26,13 +26,15 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected ilTabsGUI $tabs;
     /** @var MessageBox[] */
     protected array $messages = [];
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
     protected function getObjectClass() : string
     {
         return ilObjContentPage::class;
     }
 
-    protected function setObject(ilObject $object)
+    protected function setObject(ilObject $object) : void
     {
         global $DIC;
 
@@ -46,6 +48,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
         $this->refinery = $DIC->refinery();
         $this->tabs = $DIC->tabs();
         $this->user = $DIC->user();
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        $this->content_style_domain = $cs->domain()->styleForRefId($object->getRefId());
     }
 
     protected function hasPermissionToAccessKioskMode() : bool
@@ -58,7 +63,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
         return $empty_state;
     }
 
-    public function buildControls(State $state, ControlBuilder $builder)
+    public function buildControls(State $state, ControlBuilder $builder) : void
     {
         $this->buildLearningProgressToggleControl($builder);
     }
@@ -66,7 +71,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected function buildLearningProgressToggleControl(ControlBuilder $builder) : void
     {
         $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-        if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+        if ($learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
             $isCompleted = ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
 
             $this->lng->loadLanguageModule('copa');
@@ -99,7 +104,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
             self::CMD_LP_TO_INCOMPLETE
         ])) {
             $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-            if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+            if ((int) $learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
                 $marks = new ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
 
                 $old_state = $marks->getCompleted();
@@ -108,7 +113,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
                 $marks->update();
                 ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 
-                if ($old_state != $new_state) {
+                if ((int) $old_state !== (int) $new_state) {
                     $this->lng->loadLanguageModule('trac');
                     $this->messages[] = $this->uiFactory->messageBox()->success(
                         $this->lng->txt('trac_updated_status')
@@ -145,7 +150,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
             $this->lng,
             $this->contentPageObject,
             $this->user,
-            $this->refinery
+            $this->refinery,
+            $this->content_style_domain
         );
         $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 
@@ -165,10 +171,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected function renderContentStyle() : void
     {
         $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
-        $this->mainTemplate->addCss(
-            ilObjStyleSheet::getContentStylePath(
-                $this->contentPageObject->getStyleSheetId()
-            )
+        $this->content_style_gui->addCss(
+            $this->mainTemplate,
+            $this->contentPageObject->getRefId()
         );
     }
 }

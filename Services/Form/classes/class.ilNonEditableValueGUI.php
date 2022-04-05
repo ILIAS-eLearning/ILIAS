@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -87,7 +87,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     /**
      * @param string|array $a_value
      */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -118,12 +118,12 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             $tpl->setCurrentBlock("hidden");
             $tpl->setVariable('NON_EDITABLE_ID', $postvar);
             $tpl->setVariable('MULTI_HIDDEN_ID', $this->getFieldId());
-            $tpl->setVariable("HVALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("HVALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
             $tpl->parseCurrentBlock();
         }
         $value = $this->getValue();
         if (!$this->disable_escaping) {
-            $value = ilUtil::prepareFormOutput($value);
+            $value = ilLegacyFormElementsUtil::prepareFormOutput($value);
         }
         $tpl->setVariable("VALUE", $value);
         if ($this->getFieldId() != "") {

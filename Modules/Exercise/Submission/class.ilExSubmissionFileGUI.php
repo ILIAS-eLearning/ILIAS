@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\DI\UIServices;
 
 /**
@@ -109,7 +123,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $ilHelp->setScreenId("submissions");
 
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"));
         } else {
             $max_files = $this->submission->getAssignment()->getMaxFile();
             
@@ -140,7 +154,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             }
             
             if ($max_files) {
-                ilUtil::sendInfo(sprintf($this->lng->txt("exc_max_file_reached"), $max_files));
+                $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("exc_max_file_reached"), $max_files));
             }
         }
 
@@ -249,7 +263,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         
         // #15322
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
         } else {
             $form = $this->initUploadForm();
             if (!$form->checkInput()) {
@@ -267,14 +281,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                     "size" => $_FILES["deliver"]["size"][$k],
                     );
                 if (!$this->submission->uploadFile($file)) {
-                    ilUtil::sendFailure($this->lng->txt("exc_upload_error") . " [Single File]", true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_upload_error") . " [Single File]", true);
                 } else {
                     $success = true;
                 }
             }
 
             if ($success) {
-                ilUtil::sendSuccess($this->lng->txt("file_added"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
                 $this->handleNewUpload();
             }
         }
@@ -291,7 +305,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     
         // #15322
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
         } else {
             $form = $this->initZipUploadForm();
             if (!$form->checkInput()) {
@@ -301,7 +315,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             
             if (preg_match("/zip/", $_FILES["deliver"]["type"]) == 1) {
                 if ($this->submission->processUploadedZipFile($_FILES["deliver"]["tmp_name"])) {
-                    ilUtil::sendSuccess($this->lng->txt("file_added"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
                     $this->handleNewUpload();
                 }
             }
@@ -321,12 +335,12 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
         $file_ids = $this->request->getSubmittedFileIds();
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
             $ilCtrl->redirect($this, "submissionScreen");
         }
         
         if (count($file_ids) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "submissionScreen");
         } else {
             $this->tabs_gui->clearTargets();
@@ -368,14 +382,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $file_ids = $this->request->getSubmittedFileIds();
         
         if (!$this->submission->canSubmit()) {
-            ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
         } elseif (count($file_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_delete"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("please_select_a_delivered_file_to_delete"), true);
         } else {
             $this->submission->deleteSelectedFiles($file_ids);
             $this->handleRemovedUpload();
             
-            ilUtil::sendSuccess($this->lng->txt("exc_submitted_files_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_submitted_files_deleted"), true);
         }
         $ilCtrl->redirect($this, "submissionScreen");
     }
@@ -397,7 +411,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);
         // we only get here, if no files have been found for download
         if ($a_only_new) {
-            ilUtil::sendInfo($lng->txt("exc_all_new_files_offered_already"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("exc_all_new_files_offered_already"), true);
         }
         $this->returnToParentObject();
     }
@@ -426,11 +440,11 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         if (!is_array($delivered_id) && $delivered_id > 0) {
             $delivered_id = [$delivered_id];
         }
-        if (is_array($delivered_id) && count($delivered_id) > 0) {
+        if (is_array($delivered_id) && $delivered_id !== []) {
             $this->submission->downloadFiles($delivered_id);
             exit;
         } else {
-            ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_download"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("please_select_a_delivered_file_to_download"), true);
             $ilCtrl->redirect($this, "submissionScreen");
         }
     }

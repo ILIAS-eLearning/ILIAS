@@ -6,7 +6,6 @@ use ilOrgUnitExporter;
 
 /**
  * Class OrgUnitTree
- *
  * @author Martin Studer ms@studer-raimann.ch
  */
 class OrgUnitTree extends Base
@@ -14,10 +13,8 @@ class OrgUnitTree extends Base
     const ORGU_REF_ID = 'orgu_ref_id';
     const ORG_UNIT_TREE = 'OrgUnitTree';
 
-
     /**
      * @param array $params
-     *
      * @return mixed|string
      */
     protected function run(array $params)
@@ -31,15 +28,13 @@ class OrgUnitTree extends Base
         return $writer->xmlFormatData($writer->xmlStr);
     }
 
-
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getOrgUnitsSimpleXML";
     }
-
 
     /**
      * @return array
@@ -51,20 +46,18 @@ class OrgUnitTree extends Base
         );
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array(self::ORG_UNIT_TREE => Base::TYPE_STRING);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns the ILIAS Organisational Units (SimpleXML)";
     }

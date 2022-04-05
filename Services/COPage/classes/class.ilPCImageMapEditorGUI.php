@@ -31,7 +31,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
      * @var ilPCInteractiveImage|ilPCMediaObject
      */
     protected $content_obj;
-    protected EditGUIRequest $request;
+    protected EditGUIRequest $edit_request;
 
     /**
      * @param ilPCMediaObject|ilPCInteractiveImage $a_content_obj
@@ -45,7 +45,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
         $this->content_obj = $a_content_obj;
         $this->page = $a_page;
-        $this->request = $request;
+        $this->edit_request = $request;
         parent::__construct($a_content_obj->getMediaObject());
                 
         $this->std_alias_item = new ilMediaAliasItem(
@@ -93,7 +93,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 //				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
 //					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
 
-                $area_link_type = $this->request->getString("area_link_type");
+                $area_link_type = $this->edit_request->getString("area_link_type");
                 if ($area_link_type == IL_INT_LINK) {
                     $this->std_alias_item->setAreaIntLink(
                         $this->map_repo->getAreaNr(),
@@ -109,7 +109,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 } else {
                     $this->std_alias_item->setAreaExtLink(
                         $this->map_repo->getAreaNr(),
-                        $this->request->getString("area_link_ext")
+                        $this->edit_request->getString("area_link_ext")
                     );
                 }
                 $this->page->update();
@@ -130,12 +130,12 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 $area_type = $this->map_repo->getAreaType();
                 $coords = $this->map_repo->getCoords();
 
-                $area_link_type = $this->request->getString("area_link_type");
+                $area_link_type = $this->edit_request->getString("area_link_type");
                 switch ($area_link_type) {
                     case IL_EXT_LINK:
                         $link = array(
                             "LinkType" => IL_EXT_LINK,
-                            "Href" => $this->request->getString("area_link_ext"));
+                            "Href" => $this->edit_request->getString("area_link_ext"));
                         break;
 
                     case IL_NO_LINK:
@@ -158,7 +158,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 $this->std_alias_item->addMapArea(
                     $area_type,
                     $coords,
-                    $this->request->getString("area_name"),
+                    $this->edit_request->getString("area_name"),
                     []
                 );
                 $this->page->update();
@@ -166,7 +166,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         }
 
         //$this->initMapParameters();
-        ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_area"), true);
         $ilCtrl->redirect($this, "editMapAreas");
         return "";
     }
@@ -179,9 +179,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $areas = $this->request->getStringArray("area");
+        $areas = $this->edit_request->getStringArray("area");
         if (count($areas) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
@@ -194,7 +194,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             $this->std_alias_item->deleteMapArea($area_nr);
         }
         $this->page->update();
-        ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_areas_deleted"), true);
 
         $ilCtrl->redirect($this, "editMapAreas");
     }
@@ -252,9 +252,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         $areas = $this->std_alias_item->getMapAreas();
         foreach ($areas as $area) {
             // fix #26032 empty values lead to "empty text node" errors on page update
-            $name = $this->request->getString("name_" . $area["Nr"]);
-            $hl_mode = $this->request->getString("hl_mode_" . $area["Nr"]);
-            $hl_class = $this->request->getString("hl_class_" . $area["Nr"]);
+            $name = $this->edit_request->getString("name_" . $area["Nr"]);
+            $hl_mode = $this->edit_request->getString("hl_mode_" . $area["Nr"]);
+            $hl_class = $this->edit_request->getString("hl_class_" . $area["Nr"]);
             if ($name == "") {
                 $name = " ";
             }
@@ -273,7 +273,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         }
         $this->page->update();
         
-        ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_data"), true);
         $ilCtrl->redirect($this, "editMapAreas");
     }
     

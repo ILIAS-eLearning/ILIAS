@@ -61,9 +61,9 @@ class ilUnitTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         /**
          * @var $ilCtrl ilCtrl
@@ -72,27 +72,27 @@ class ilUnitTableGUI extends ilTable2GUI
         $ilCtrl = $DIC['ilCtrl'];
 
         if ($this->getParentObject()->isCRUDContext()) {
-            $row['chb'] = ilUtil::formCheckbox(false, 'unit_ids[]', $row['unit_id']);
+            $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'unit_ids[]', $a_set['unit_id']);
 
-            $sequence = new ilNumberInputGUI('', 'sequence[' . $row['unit_id'] . ']');
+            $sequence = new ilNumberInputGUI('', 'sequence[' . $a_set['unit_id'] . ']');
             $sequence->setValue($this->position++ * 10);
             $sequence->setMinValue(0);
             $sequence->setSize(3);
-            $row['sequence'] = $sequence->render();
+            $a_set['sequence'] = $sequence->render();
 
             $action = new ilAdvancedSelectionListGUI();
-            $action->setId('asl_content_' . $row['unit_id']);
+            $action->setId('asl_content_' . $a_set['unit_id']);
             $action->setAsynch(false);
             $action->setListTitle($this->lng->txt('actions'));
-            $ilCtrl->setParameter($this->getParentObject(), 'unit_id', $row['unit_id']);
+            $ilCtrl->setParameter($this->getParentObject(), 'unit_id', $a_set['unit_id']);
             $action->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitModificationForm'));
             $action->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteUnit'));
             $ilCtrl->setParameter($this->getParentObject(), 'unit_id', '');
-            $row['actions'] = $action->getHtml();
+            $a_set['actions'] = $action->getHtml();
         }
-        if ($row['unit_id'] == $row['baseunit_id']) {
-            $row['baseunit'] = '';
+        if ($a_set['unit_id'] == $a_set['baseunit_id']) {
+            $a_set['baseunit'] = '';
         }
-        parent::fillRow($row);
+        parent::fillRow($a_set);
     }
 }

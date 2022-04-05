@@ -91,7 +91,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $collection = new ilBuddySystemRelationCollection($elements);
         $iterations = 0;
         foreach ($collection->getIterator() as $key => $item) {
-            $this->assertSame($elements[$key], $item, "Item {$key} not match");
+            $this->assertSame($elements[$key], $item, "Item $key not match");
             $iterations++;
         }
         $this->assertCount($iterations, $elements, 'Number of iterations not match');

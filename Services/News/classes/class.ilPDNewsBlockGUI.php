@@ -82,7 +82,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         $this->handleView();
         
         // reset access check results
-        $ilAccess->setResults($this->acc_results);
+        $ilAccess->setResults((array) $this->acc_results);
 
         $this->setPresentation(self::PRES_SEC_LIST);
     }
@@ -191,27 +191,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 $ilCtrl->getLinkTarget($this, "editSettings"),
                 $lng->txt("settings")
             );
-        }
-            
-        $per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
-        $per_str = "";
-
-        if ($per > 0) {
-            switch ($per) {
-                case 2:
-                case 3:
-                case 5: $per_str = sprintf($lng->txt("news_period_x_days"), $per); break;
-                case 7: $per_str = $lng->txt("news_period_1_week"); break;
-                case 14: $per_str = sprintf($lng->txt("news_period_x_weeks"), 2); break;
-                case 30: $per_str = $lng->txt("news_period_1_month"); break;
-                case 60: $per_str = sprintf($lng->txt("news_period_x_months"), 2); break;
-                case 120: $per_str = sprintf($lng->txt("news_period_x_months"), 4); break;
-                case 180: $per_str = sprintf($lng->txt("news_period_x_months"), 6); break;
-                case 366: $per_str = $lng->txt("news_period_1_year"); break;
-            }
-            if ($per_str != "") {
-                $this->setTitle($this->getTitle() . ' <span style="font-weight:normal;">- ' . $per_str . "</span>");
-            }
         }
 
         $en = "";
@@ -383,7 +362,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
         $passwd = new ilPasswordInputGUI($lng->txt("password"), "desired_password");
         $passwd->setRequired(true);
-        $passwd->setInfo(ilUtil::getPasswordRequirementsInfo());
+        $passwd->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
         $enable_private_feed->addSubItem($passwd);
 
         $feed_form->addCommandButton("changeFeedSettings", $lng->txt("save"));
@@ -432,17 +411,17 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             // Deactivate private Feed - just delete the password
             if (!$form->getInput("enable_private_feed")) {
                 $ilUser->_setFeedPass($ilUser->getId(), "");
-                ilUtil::sendSuccess($lng->txt("priv_feed_disabled"), true);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("priv_feed_disabled"), true);
                 // $ilCtrl->returnToParent($this);
                 $ilCtrl->redirect($this, "showFeedUrl");
             } else {
                 $passwd = $form->getInput("desired_password");
                 if (ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $passwd)) {
                     $form->getItemByPostVar("desired_password")->setAlert($lng->txt("passwd_equals_ilpasswd"));
-                    ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                 } else {
                     $ilUser->_setFeedPass($ilUser->getId(), $passwd);
-                    ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
                     $ilCtrl->redirect($this, "showFeedUrl");
                 }
             }

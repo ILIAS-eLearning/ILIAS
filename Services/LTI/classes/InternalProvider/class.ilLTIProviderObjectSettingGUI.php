@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * GUI class for LTI provider object settings.
  *
@@ -18,65 +29,63 @@ class ilLTIProviderObjectSettingGUI
     /**
      * @var ilCtrl
      */
-    protected $ctrl = null;
+    protected ?ilCtrl $ctrl = null;
 
     /**
      * @var ilLogger
      */
-    protected $logger = null;
+    protected ?ilLogger $logger = null;
     
     /**
      * @var ilLanguage
      */
-    protected $lng = null;
+    protected ?ilLanguage $lng = null;
     
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl = null;
+    protected ?\ilGlobalPageTemplate $tpl = null;
     
     /**
      * @var int
      */
-    protected $ref_id = null;
+    protected ?int $ref_id = null;
     
     /**
      * Custom roles for selection
      * @var int[]
      */
-    protected $custom_roles = [];
+    protected array $custom_roles = [];
     
     /**
      * @var bool
      */
-    protected $use_lti_roles = true;
+    protected bool $use_lti_roles = true;
     
     /**
      * @param int ref_id
      */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
+        global $DIC;
         $this->ref_id = $a_ref_id;
-        $this->logger = $GLOBALS['DIC']->logger()->lti();
-        $this->ctrl = $GLOBALS['DIC']->ctrl();
-        $this->tpl = $GLOBALS['DIC']->ui()->mainTemplate();
+        $this->logger = ilLoggerFactory::getLogger('lti');
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC['tpl'];
 
-        $this->lng = $GLOBALS['DIC']->language();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('lti');
     }
-    
+
     /**
      * Check if user has access to lti settings
-     * @param int ref_id
-     * @param int user_id
+     * @return bool
      */
-    public function hasSettingsAccess()
+    public function hasSettingsAccess() : bool
     {
+        global $DIC;
         if (!ilObjLTIAdministration::isEnabledForType(ilObject::_lookupType($this->ref_id, true))) {
             $this->logger->debug('No LTI consumers activated for object type: ' . ilObject::_lookupType($this->ref_id, true));
             return false;
         }
-        $access = $GLOBALS['DIC']->rbac()->system();
+        $access = $DIC->rbac()->system();
         return $access->checkAccess(
             'release_objects',
             ilObjLTIAdministration::lookupLTISettingsRefId()
@@ -85,22 +94,22 @@ class ilLTIProviderObjectSettingGUI
     
     /**
      * Set custom roles for mapping to LTI roles
-     * @param type $a_roles
+     * @param array $a_roles
      */
-    public function setCustomRolesForSelection($a_roles)
+    public function setCustomRolesForSelection(array $a_roles) : void
     {
+        global $DIC;
         if (empty($a_roles)) {
             $this->checkLocalRole();
-            $a_roles = $GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->ref_id);
+            $a_roles = $DIC->rbac()->review()->getLocalRoles($this->ref_id);
         }
         $this->custom_roles = $a_roles;
     }
     
     /**
      * Offer LTI roles for mapping
-     * @param bool $a_stat
      */
-    public function offerLTIRolesForSelection($a_stat)
+    public function offerLTIRolesForSelection(bool $a_stat) : void
     {
         $this->use_lti_roles = $a_stat;
     }
@@ -109,23 +118,23 @@ class ilLTIProviderObjectSettingGUI
     /**
      * Ctrl execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('settings');
         $next_class = $this->ctrl->getNextClass($this);
 
-        switch ($next_class) {
-            default:
-                $this->$cmd();
-                break;
-        }
+//        switch ($next_class) {
+//            default:
+        $this->$cmd();
+//                break;
+//        }
     }
     
     /**
      * Show settings
      * @param ilPropertyFormGUI $form
      */
-    protected function settings(ilPropertyFormGUI $form = null)
+    protected function settings(ilPropertyFormGUI $form = null) : void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initObjectSettingsForm();
@@ -137,7 +146,7 @@ class ilLTIProviderObjectSettingGUI
     /**
      * Init object settings form
      */
-    protected function initObjectSettingsForm()
+    protected function initObjectSettingsForm() : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -146,7 +155,7 @@ class ilLTIProviderObjectSettingGUI
         foreach (ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($this->ref_id, true)) as $global_consumer) {
             $object_info = new ilLTIProviderObjectSetting($this->ref_id, $global_consumer->getExtConsumerId());
             
-            $this->logger->debug($object_info->getAdminRole());
+            $this->logger->debug((string) $object_info->getAdminRole());
             
             
             // meta data for external consumers
@@ -163,9 +172,9 @@ class ilLTIProviderObjectSettingGUI
                 $connector
             );
             
-            $active = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_obj_active'), 'lti_active_' . $global_consumer->getExtConsumerId());
-            $active->setInfo($GLOBALS['lng']->txt('lti_obj_active_info'));
-            $active->setValue(1);
+            $active = new ilCheckboxInputGUI($this->lng->txt('lti_obj_active'), 'lti_active_' . $global_consumer->getExtConsumerId());
+            $active->setInfo($this->lng->txt('lti_obj_active_info'));
+            $active->setValue("1");
             $form->addItem($active);
 
             if ($active_consumer->getEnabled()) { // and enabled
@@ -218,7 +227,7 @@ class ilLTIProviderObjectSettingGUI
     /**
      * Update settings (activate deactivate lti access)
      */
-    protected function updateSettings()
+    protected function updateSettings() : void
     {
         $form = $this->initObjectSettingsForm();
         if (!$form->checkInput()) {
@@ -229,7 +238,7 @@ class ilLTIProviderObjectSettingGUI
         
         $connector = new ilLTIDataConnector();
         foreach (ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($this->ref_id, true)) as $global_consumer) {
-            $this->saveRoleSelection($form, $global_consumer->getExtConsumerId());
+            $this->saveRoleSelection($form, (string) $global_consumer->getExtConsumerId());
             
             $consumer = ilLTIToolConsumer::fromGlobalSettingsAndRefId(
                 $global_consumer->getExtConsumerId(),
@@ -255,28 +264,28 @@ class ilLTIProviderObjectSettingGUI
             }
         }
         
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'settings');
     }
     
     /**
      * Save role selection for consumer
      * @param ilPropertyFormGUI $form
-     * @param type $global_consumer_id
+     * @param string $global_consumer_id
      */
-    protected function saveRoleSelection(ilPropertyFormGUI $form, $global_consumer_id)
+    protected function saveRoleSelection(ilPropertyFormGUI $form, string $global_consumer_id) : void
     {
-        $object_info = new ilLTIProviderObjectSetting($this->ref_id, $global_consumer_id);
+        $object_info = new ilLTIProviderObjectSetting($this->ref_id, (int) $global_consumer_id);
         
-        $admin_role = $form->getInput('lti_admin_' . $global_consumer_id);
+        $admin_role = (int) $form->getInput('lti_admin_' . $global_consumer_id);
         if ($admin_role > 0) {
             $object_info->setAdminRole($admin_role);
         }
-        $tutor_role = $form->getInput('lti_tutor_' . $global_consumer_id);
+        $tutor_role = (int) $form->getInput('lti_tutor_' . $global_consumer_id);
         if ($tutor_role > 0) {
             $object_info->setTutorRole($tutor_role);
         }
-        $member_role = $form->getInput('lti_member_' . $global_consumer_id);
+        $member_role = (int) $form->getInput('lti_member_' . $global_consumer_id);
         if ($member_role > 0) {
             $object_info->setMemberRole($member_role);
         }
@@ -286,9 +295,9 @@ class ilLTIProviderObjectSettingGUI
     
     /**
      * Get role selection
-     * @return array
+     * @return string[]
      */
-    protected function getRoleSelection()
+    protected function getRoleSelection() : array
     {
         $options = [];
         $options[0] = $this->lng->txt('select_one');
@@ -302,14 +311,14 @@ class ilLTIProviderObjectSettingGUI
     /**
      * check for local roles for lti objects which are not grp or crs
      */
-    protected function checkLocalRole()
+    protected function checkLocalRole() : void
     {
         global $DIC;
         $a_global_role = ilObject::_getIdsForTitle("il_lti_global_role", "role", false);
         if (is_array($a_global_role) && !empty($a_global_role)) {
-            $rbacreview = $DIC['rbacreview'];
+            $rbacreview = $DIC->rbac()->review();
             if (count($rbacreview->getRolesOfObject($this->ref_id, false)) == 0) {
-                $rbacadmin = $DIC['rbacadmin'];
+                $rbacadmin = $DIC->rbac()->admin();
                 $type = ilObject::_lookupType($this->ref_id, true);
                 $role = new ilObjRole();
                 $role->setTitle("il_lti_learner");

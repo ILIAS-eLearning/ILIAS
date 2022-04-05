@@ -18,29 +18,30 @@ require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
 class ilAssQuestionPageGUI extends ilPageObjectGUI
 {
     const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
-    
+
     private $originalPresentationTitle = '';
-    
+
     // fau: testNav - variables for info and actions HTML
     private $questionInfoHTML = '';
     private $questionActionsHTML = '';
     // fau.
+    protected \ILIAS\TestQuestionPool\InternalRequestService $testrequest;
 
     /**
      * Constructor
      *
      * @param int $a_id
      * @param int $a_old_nr
-     *
-     * @return \ilAssQuestionPageGUI
      */
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
+        global $DIC;
+        $this->testrequest = $DIC->testQuestionPool()->internal()->request();
         parent::__construct('qpl', $a_id, $a_old_nr);
         $this->setEnabledPageFocus(false);
     }
 
-    public function getOriginalPresentationTitle()
+    public function getOriginalPresentationTitle() : string
     {
         return $this->originalPresentationTitle;
     }
@@ -54,13 +55,13 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     {
         return $this->getRenderPageContainer();
     }
-    
+
     public function showPage() : string
     {
         $this->setOriginalPresentationTitle($this->getPresentationTitle());
-        
+
         $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
-        
+
         // fau: testNav - enable page toc as placeholder for info and actions block (see self::insertPageToc)
         $config = $this->getPageConfig();
         $config->setEnablePageToc('y');
@@ -78,7 +79,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         );
 
         $a_output = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $a_output);
-        
+
         return $a_output;
     }
 

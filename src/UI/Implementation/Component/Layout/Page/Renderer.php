@@ -32,13 +32,15 @@ class Renderer extends AbstractComponentRenderer
         throw new LogicException("Cannot render: " . get_class($component));
     }
 
-
     protected function renderStandardPage(
         Component\Layout\Page\Standard $component,
         RendererInterface $default_renderer
     ) : string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
+        if ($component->hasOverlay()) {
+            $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
+        }
         if ($component->hasMetabar()) {
             $tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
         }
@@ -66,6 +68,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
+        // There is a roadmap entry for this.
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
             $tpl->touchBlock('slates_engaged');
@@ -84,6 +87,13 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
+        }
+    
+        foreach ($component->getMetaData() as $meta_key => $meta_value) {
+            $tpl->setCurrentBlock('meta_datum');
+            $tpl->setVariable('META_KEY', $meta_key);
+            $tpl->setVariable('META_VALUE', $meta_value);
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();
@@ -142,14 +152,15 @@ class Renderer extends AbstractComponentRenderer
             $base_url = '../../../../../../';
             $tpl->setVariable("BASE", $base_url);
 
-            array_unshift($js_files, './Services/JavaScript/js/Basic.js');
+            $additional_js_files = [
+                './Services/JavaScript/js/Basic.js',
+                ilUIFramework::BOWER_BOOTSTRAP_JS,
+                './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js',
+                iljQueryUtil::getLocaljQueryPath(),
+            ];
 
-            foreach (ilUIFramework::getJSFiles() as $il_js_file) {
-                array_unshift($js_files, $il_js_file);
-            }
+            array_unshift($js_files, ...$additional_js_files);
 
-            array_unshift($js_files, './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js');
-            array_unshift($js_files, iljQueryUtil::getLocaljQueryPath());
             $css_files[] = ['file' => './templates/default/delos.css'];
         }
 
@@ -166,7 +177,6 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
         $tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
-
 
         return $tpl;
     }

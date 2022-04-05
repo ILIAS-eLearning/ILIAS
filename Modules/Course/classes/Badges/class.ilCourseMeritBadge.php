@@ -1,43 +1,44 @@
-<?php
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Badge/interfaces/interface.ilBadgeType.php";
 
 /**
  * Class ilCourseMeritBadge
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ModulesCourse
  */
 class ilCourseMeritBadge implements ilBadgeType
 {
-    public function getId()
-    {
-        return "merit";
-    }
-    
-    public function getCaption()
+    protected ilLanguage $lng;
+
+    public function __construct()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        return $lng->txt("badge_crs_merit");
+        $this->lng = $DIC->language();
     }
-    
-    public function isSingleton()
+
+    public function getId() : string
+    {
+        return "merit";
+    }
+
+    public function getCaption() : string
+    {
+        return $this->lng->txt("badge_crs_merit");
+    }
+
+    public function isSingleton() : bool
     {
         return true;
     }
-    
-    public function getValidObjectTypes()
+
+    public function getValidObjectTypes() : array
     {
         return array("crs", "grp");
     }
-    
-    public function getConfigGUIInstance()
+
+    public function getConfigGUIInstance() : ?ilBadgeTypeGUI
     {
-        // no config
+        return null;
     }
 }

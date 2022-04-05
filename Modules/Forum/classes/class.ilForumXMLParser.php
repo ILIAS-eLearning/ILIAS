@@ -13,6 +13,7 @@ class ilForumXMLParser extends ilSaxParser
     ];
     private ilDBInterface $db;
     private ilObjUser $aobject;
+    /** @var null|string|int  */
     private $import_install_id = null;
     private ?string $importDirectory = null;
     private ?string $schema_version = null;
@@ -292,7 +293,6 @@ class ilForumXMLParser extends ilSaxParser
                     $newObjProp->setFileUploadAllowed((bool) ($this->forumArray['FileUpload'] ?? false));
                     $newObjProp->setThreadSorting((int) ($this->forumArray['Sorting'] ?? ilForumProperties::THREAD_SORTING_DEFAULT));
                     $newObjProp->setMarkModeratorPosts((bool) ($this->forumArray['MarkModeratorPosts'] ?? false));
-                    $newObjProp->setStyleSheetId((int) ($this->forumArray['StyleId'] ?? 0));
                     $newObjProp->update();
 
                     $id = $this->getNewForumPk();
@@ -300,7 +300,6 @@ class ilForumXMLParser extends ilSaxParser
                     $this->mapping['frm'][$this->forumArray['Id']] = $id;
                     $this->lastHandledForumId = $id;
 
-                    $this->importMapping->addMapping('Modules/Forum', 'style', $this->forum->getId(), $newObjProp->getStyleSheetId());
                     $this->importMapping->addMapping(
                         'Services/COPage',
                         'pg',

@@ -25,7 +25,8 @@ package de.ilias.services.lucene.index.transform;
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -39,7 +40,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class ContentObjectTransformer implements ContentTransformer {
 
-	protected Logger logger = Logger.getLogger(ContentObjectTransformer.class);
+	protected Logger logger = LogManager.getLogger(ContentObjectTransformer.class);
 	
 	
 

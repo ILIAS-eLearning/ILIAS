@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +20,7 @@
  */
 class ilTextWizardInputGUI extends ilTextInputGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected array $values = array();
     protected bool $allowMove = false;
     
@@ -70,7 +70,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
         
         $foundvalues = $this->getInput();
         if (count($foundvalues) > 0) {
-            foreach ($foundvalues as $idx => $value) {
+            foreach ($foundvalues as $value) {
                 if ($this->getRequired() && trim($value) == "") {
                     $this->setAlert($lng->txt("msg_input_is_required"));
                     return false;
@@ -108,7 +108,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
         foreach ($this->values as $value) {
             if (strlen($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->parseCurrentBlock();
             }
             if ($this->getAllowMove()) {

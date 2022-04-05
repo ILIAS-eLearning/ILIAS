@@ -1,5 +1,17 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilUserPasswordManager
@@ -16,6 +28,9 @@ class ilUserPasswordManager
     protected ?ilSetting $settings = null;
     protected ?ilDBInterface $db = null;
     protected ?string $encoderName = null;
+    /**
+     * @var array<string, mixed>
+     */
     protected array $config = [];
 
     /**
@@ -23,6 +38,7 @@ class ilUserPasswordManager
      * The constructor is still public because of the unit tests
      * @param array<string, mixed> $config
      * @throws ilUserException
+     * @throws JsonException
      */
     public function __construct(array $config = [])
     {
@@ -80,7 +96,7 @@ class ilUserPasswordManager
                     [
                         'default_password_encoder' => 'bcryptphp',
                         'ignore_security_flaw' => true,
-                        'data_directory' => ilUtil::getDataDir()
+                        'data_directory' => ilFileUtils::getDataDir()
                     ]
                 ),
                 'password_encoder' => 'bcryptphp',
@@ -134,7 +150,7 @@ class ilUserPasswordManager
         } else {
             $user->setPasswordSalt(null);
         }
-        $user->setPasswd($encoder->encodePassword($raw, (string) $user->getPasswordSalt()), IL_PASSWD_CRYPTED);
+        $user->setPasswd($encoder->encodePassword($raw, (string) $user->getPasswordSalt()), ilObjUser::PASSWD_CRYPTED);
     }
 
     public function isEncodingTypeSupported(string $name) : bool
@@ -146,12 +162,12 @@ class ilUserPasswordManager
     {
         $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType(), true);
         if ($this->getEncoderName() !== $encoder->getName()) {
-            if ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
+            if ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
                 $user->resetPassword($raw, $raw);
                 return true;
             }
-        } elseif ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
-            if ($encoder->requiresReencoding((string) $user->getPasswd())) {
+        } elseif ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
+            if ($encoder->requiresReencoding($user->getPasswd())) {
                 $user->resetPassword($raw, $raw);
             }
 
@@ -165,7 +181,7 @@ class ilUserPasswordManager
     {
         $defaultAuthMode = $this->settings->get('auth_mode');
         $defaultAuthModeCondition = '';
-        if ((int) $defaultAuthMode === AUTH_LOCAL) {
+        if ((int) $defaultAuthMode === ilAuthUtils::AUTH_LOCAL) {
             $defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');
         }
 

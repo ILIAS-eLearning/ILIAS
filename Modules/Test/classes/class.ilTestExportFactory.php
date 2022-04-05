@@ -37,7 +37,7 @@ class ilTestExportFactory
 
                 require_once 'Modules/Test/classes/class.ilTestExportRandomQuestionSet.php';
                 return new ilTestExportRandomQuestionSet($this->testOBJ, $mode);
-
+            default:
             case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
 
                 require_once 'Modules/Test/classes/class.ilTestExportDynamicQuestionSet.php';

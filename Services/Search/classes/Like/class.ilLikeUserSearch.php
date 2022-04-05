@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,21 +27,15 @@
 * Performs Mysql Like search in table usr_data
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilUserSearch.php';
 
 class ilLikeUserSearch extends ilUserSearch
 {
-    public function __createWhereCondition()
+    public function __createWhereCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $fields = $this->getFields();
         $field = $fields[0] . ' ';
 
@@ -53,17 +47,12 @@ class ilLikeUserSearch extends ilUserSearch
                 $and .= " OR ";
             }
             
-            #$and .= $field;
-
             if (strpos($word, '^') === 0) {
-                $and .= $ilDB->like($field, 'text', substr($word, 1) . '%');
-            #$and .= ("LIKE ('".substr($word,1)."%')");
+                $and .= $this->db->like($field, 'text', substr($word, 1) . '%');
             } else {
-                $and .= $ilDB->like($field, 'text', '%' . $word . '%');
-                #$and .= ("LIKE ('%".$word."%')");
+                $and .= $this->db->like($field, 'text', '%' . $word . '%');
             }
         }
-        
         return $and . ") ";
     }
 }

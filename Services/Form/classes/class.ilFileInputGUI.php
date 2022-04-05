@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -164,7 +164,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $_FILES[$this->getPostVar()]["name"] = ilUtil::stripSlashes($_FILES[$this->getPostVar()]["name"]);
 
-        $_FILES[$this->getPostVar()]["name"] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"]);
+        $_FILES[$this->getPostVar()]["name"] = utf8_encode($_FILES[$this->getPostVar()]["name"]);
 
         // remove trailing '/'
         $_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
@@ -226,7 +226,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         
         // virus handling
         if ($_FILES[$this->getPostVar()]["tmp_name"] != "") {
-            $vir = ilUtil::virusHandling($temp_name, $filename);
+            $vir = ilVirusScanner::virusHandling($temp_name, $filename);
             if ($vir[0] == false) {
                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                 return false;
@@ -241,7 +241,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         return $_FILES[$this->getPostVar()];
     }
 
-    public function render($a_mode = "") : string
+    public function render(string $a_mode = "") : string
     {
         $lng = $this->lng;
         
@@ -259,7 +259,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
             $f_tpl->setVariable('TXT_FILENAME_HINT', $lng->txt('if_no_title_then_filename'));
             $f_tpl->parseCurrentBlock();
         } else {
-            if (trim($this->getValue() != "")) {
+            if (trim($this->getValue()) != "") {
                 if (!$this->getDisabled() && $this->getALlowDeletion()) {
                     $f_tpl->setCurrentBlock("delete_bl");
                     $f_tpl->setVariable("POST_VAR_D", $this->getPostVar());

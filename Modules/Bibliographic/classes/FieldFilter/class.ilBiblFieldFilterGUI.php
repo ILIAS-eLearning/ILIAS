@@ -22,10 +22,8 @@ class ilBiblFieldFilterGUI
     const CMD_APPLY_FILTER = 'applyFilter';
     const CMD_RESET_FILTER = 'resetFilter';
     const CMD_TRANSLATE = 'translate';
-    /**
-     * @var \ilBiblFactoryFacade
-     */
-    protected $facade;
+    protected \ilBiblFactoryFacade $facade;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -35,11 +33,13 @@ class ilBiblFieldFilterGUI
      */
     public function __construct(ilBiblFactoryFacade $facade)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
     }
 
 
-    public function renderInterruptiveModal()
+    public function renderInterruptiveModal() : void
     {
         $f = $this->dic()->ui()->factory();
         $r = $this->dic()->ui()->renderer();
@@ -58,7 +58,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $nextClass = $this->ctrl()->getNextClass();
         switch ($nextClass) {
@@ -69,7 +69,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function performCommand()
+    protected function performCommand() : void
     {
         $cmd = $this->ctrl()->getCmd(self::CMD_STANDARD);
         switch ($cmd) {
@@ -87,14 +87,14 @@ class ilBiblFieldFilterGUI
                     $this->{$cmd}();
                     break;
                 } else {
-                    ilUtil::sendFailure($this->lng()->txt("no_permission"), true);
+                    $this->main_tpl->setOnScreenMessage('failure', $this->lng()->txt("no_permission"), true);
                     break;
                 }
         }
     }
 
 
-    public function index()
+    public function index() : void
     {
         if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
             $button = $this->dic()->ui()->factory()->button()->primary($this->lng()->txt("add_filter"), $this->ctrl()->getLinkTarget($this, self::CMD_ADD));
@@ -106,21 +106,21 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function add()
+    protected function add() : void
     {
         $ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, new ilBiblFieldFilter(), $this->facade);
         $this->tpl()->setContent($ilBiblSettingsFilterFormGUI->getHTML());
     }
 
 
-    protected function create()
+    protected function create() : void
     {
         $this->tabs()->activateTab(self::CMD_STANDARD);
         $il_bibl_field = new ilBiblFieldFilter();
         $il_bibl_field->setObjectId($this->facade->iliasObjId());
         $form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field, $this->facade);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng()->txt('changes_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng()->txt('changes_saved'), true);
             $this->ctrl()->redirect($this, self::CMD_STANDARD);
         }
         $form->setValuesByPost();
@@ -128,21 +128,21 @@ class ilBiblFieldFilterGUI
     }
 
 
-    public function edit()
+    public function edit() : void
     {
         $ilBiblSettingsFilterFormGUI = $this->initEditForm();
         $this->tpl()->setContent($ilBiblSettingsFilterFormGUI->getHTML());
     }
 
 
-    public function update()
+    public function update() : void
     {
         $il_bibl_field = $this->getFieldFilterFromRequest();
         $this->tabs()->activateTab(self::CMD_STANDARD);
 
         $form = new ilBiblFieldFilterFormGUI($this, $il_bibl_field, $this->facade);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng()->txt('changes_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng()->txt('changes_saved'), true);
             $this->ctrl()->redirect($this, self::CMD_STANDARD);
         }
         $form->setValuesByPost();
@@ -150,7 +150,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    public function delete()
+    public function delete() : void
     {
         global $DIC;
         $items = $this->http()->request()->getParsedBody()['interruptive_items'];
@@ -160,7 +160,7 @@ class ilBiblFieldFilterGUI
                 $il_bibl_field->delete();
             }
         }
-        ilUtil::sendSuccess($DIC->language()->txt('filter_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('filter_deleted'), true);
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
@@ -168,16 +168,13 @@ class ilBiblFieldFilterGUI
     /**
      * cancel
      */
-    public function cancel()
+    public function cancel() : void
     {
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
 
-    /**
-     * @return ilBiblFieldFilterInterface
-     */
-    private function getFieldFilterFromRequest()
+    private function getFieldFilterFromRequest() : \ilBiblFieldFilterInterface
     {
         $field = $this->http()->request()->getQueryParams()[self::FILTER_ID];
         $il_bibl_field = $this->facade->filterFactory()->findById($field);
@@ -204,7 +201,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function applyFilter()
+    protected function applyFilter() : void
     {
         $table = new ilBiblFieldFilterTableGUI($this, $this->facade);
         $table->writeFilterToSession();
@@ -213,7 +210,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function resetFilter()
+    protected function resetFilter() : void
     {
         $table = new ilBiblFieldFilterTableGUI($this, $this->facade);
         $table->resetFilter();

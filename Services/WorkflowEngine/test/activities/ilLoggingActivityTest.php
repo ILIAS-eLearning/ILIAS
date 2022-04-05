@@ -17,10 +17,10 @@ use PHPUnit\Framework\TestCase;
 class ilLoggingActivityTest extends TestCase
 {
     /** vfsStream Test Directory, see setup. */
-    public $test_dir;
+    public vfs\vfsStreamDirectory $test_dir;
 
-    private $workflow;
-    private $node;
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
 
     public function setUp() : void
     {
@@ -101,11 +101,11 @@ class ilLoggingActivityTest extends TestCase
         // Arrange
         $activity = new ilLoggingActivity($this->node);
         $expected = '/dev/ilias_unit_test_log_file_can_be_deleted_safely.txt';
-                
+
         // Act
         $activity->setLogFile($expected);
         $actual = $activity->getLogFile();
-        
+
         // Assertion via phpdoc. (Exception)
     }
 
@@ -120,11 +120,11 @@ class ilLoggingActivityTest extends TestCase
         $activity = new ilLoggingActivity($this->node);
         $expected = './Services/WorkflowEngine/test/malicious.php';
         // Is either one of: .log or .txt
-        
+
         // Act
         $activity->setLogFile($expected);
         $actual = $activity->getLogFile();
-        
+
         // Assertion via phpdoc. (Exception)
     }
     
@@ -149,23 +149,6 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetNullLogMessage()
-    {
-        $this->expectException(ilWorkflowObjectStateException::class);
-
-        // Arrange
-        $activity = new ilLoggingActivity($this->node);
-
-        // Act
-        $activity->setLogMessage(null);
-        $actual = $activity->getLogMessage();
-        
-        // Assertion via phpdoc. (Exception)
-    }
-
-    /**
-     *
-     */
     public function testSetGetEmptyLogMessage()
     {
         $this->expectException(ilWorkflowObjectStateException::class);
@@ -176,7 +159,7 @@ class ilLoggingActivityTest extends TestCase
         // Act
         $activity->setLogMessage('');
         $actual = $activity->getLogMessage();
-        
+
         // Assertion via phpdoc. (Exception)
     }
 

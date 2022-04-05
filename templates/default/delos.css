@@ -7828,6 +7828,9 @@ ul.dropdown-menu > li > .btn:focus {
     margin: 0;
     border-bottom: 0;
   }
+  .il-panel-listing-std-container .il-item .media-left {
+    min-width: 44px;
+  }
   .panel-secondary .il-item .media-body {
     width: auto;
   }
@@ -8341,92 +8344,45 @@ ul.dropdown-menu > li > .btn:focus {
   width: 50%;
   float: left;
 }
-.il-input-file .il-input-file-dropzone {
-  background: white;
-  border: 1px dashed #A8A8A8;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
+.ui-input-file-input-dropzone {
+  border: 1px dashed #757575;
+  padding: 3px 8px;
+}
+.ui-input-file-input-dropzone button {
+  font-size: 14px;
+  margin-left: 8px;
+}
+.ui-input-file-input-error-msg {
+  font-size: 14px;
+  color: #d00;
+}
+.ui-input-file-input-dropzone button:disabled,
+.ui-input-file-input-dropzone button:disabled:hover {
+  color: #b0b0b0;
+  border: none;
+  background: none;
+}
+.ui-input-file-input {
+  border: 1px dashed #757575;
   margin-bottom: 6px;
-  padding: 6px 12px;
+  padding: 8px;
 }
-.il-input-file .il-input-file-dropzone.dz-max-files-reached {
-  background-color: #F4F4F4;
-  border-color: #F4F4F4;
+.ui-input-file-input .glyph[aria-label="Close"],
+.ui-input-file-input .glyph[aria-label="Close Disabled"] {
+  margin-right: 8px;
+  float: right;
 }
-.il-input-file .il-input-file-dropzone.dz-max-files-reached button.btn {
-  background-color: #F4F4F4;
-  border-color: #F4F4F4;
-  color: #757575;
+.ui-input-file-input .glyph[aria-label="Expand Content"],
+.ui-input-file-input .glyph[aria-label="Collapse Content"] {
+  margin: 8px 0;
 }
-.il-input-file .il-input-file-dropzone.dz-drag-hover {
-  border: 1px dashed #8f8f8f;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  background-color: #FFF9BC;
+.ui-input-file-info span[data-dz-name],
+.ui-input-file-info span[data-dz-size] {
+  font-size: 14px;
+  margin-left: 8px;
 }
-.il-input-file .il-input-file-fileinfo,
-.il-input-file .il-input-file-error {
-  padding: 6px 12px;
-}
-.il-input-file .il-input-file-fileinfo {
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: nowrap;
-  -ms-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  -webkit-align-content: flex-start;
-  -ms-flex-line-pack: start;
-  align-content: flex-start;
-  -webkit-align-items: flex-start;
-  -ms-flex-align: start;
-  align-items: flex-start;
-}
-.il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-title {
-  -webkit-order: 1;
-  -ms-flex-order: 1;
-  order: 1;
-  -webkit-flex: 3 0 auto;
-  -ms-flex: 3 0 auto;
-  flex: 3 0 auto;
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: start;
-  align-self: flex-start;
-}
-.il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-title span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-size {
-  -webkit-order: 2;
-  -ms-flex-order: 2;
-  order: 2;
-  -webkit-flex: 0 0 50px;
-  -ms-flex: 0 0 50px;
-  flex: 0 0 50px;
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: start;
-  align-self: flex-start;
-}
-.il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-close {
-  -webkit-order: 3;
-  -ms-flex-order: 3;
-  order: 3;
-  -webkit-flex: 0 1 20px;
-  -ms-flex: 0 1 20px;
-  flex: 0 1 20px;
-  -webkit-align-self: auto;
-  -ms-flex-item-align: auto;
-  align-self: auto;
+.ui-input-file-info span[data-dz-size] {
+  font-style: italic;
 }
 .il-table-presentation-viewcontrols {
   background-color: #e2e8ef;
@@ -13489,6 +13445,9 @@ select.ilEditSelect {
 [data-copg-ed-type='add-area'] {
   height: 30px;
 }
+[data-protected='1'] [data-copg-ed-type='add-area'] {
+  display: none;
+}
 button.copg-add.dropdown-toggle.btn,
 button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover {
@@ -13554,6 +13513,10 @@ div.il_editarea_disabled {
 .copg-state-multi div.il_editarea_disabled:hover {
   border: 2px solid #4c6586;
 }
+.copg-state-page [data-protected='1'] div.il_editarea:hover,
+.copg-state-multi [data-protected='1'] div.il_editarea:hover {
+  border: 2px solid transparent;
+}
 div.ilEditLabel {
   position: absolute;
   background-color: #4c6586;
@@ -13574,6 +13537,10 @@ div.ilEditLabel {
 .copg-state-page .copg-ghost-wrapper div.ilEditLabel,
 .copg-state-multi .copg-ghost-wrapper div.ilEditLabel {
   display: block;
+}
+.copg-state-page [data-protected='1'] div.il_editarea:hover > div.ilEditLabel,
+.copg-state-multi [data-protected='1'] div.il_editarea:hover > div.ilEditLabel {
+  display: none;
 }
 div.il_editarea_selected:hover > div.ilEditLabel {
   background-color: #6ea03c;
@@ -14079,6 +14046,9 @@ p#copg-auto-save {
 }
 .copg-edit-container {
   border: 1px dashed #d0d0d0;
+}
+[data-protected='1'] .copg-edit-container {
+  border: none;
 }
 /* very important: add areas around floating images https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width  and https://css-tricks.com/popping-hidden-overflow/ */
 #il_EditPage [data-copg-ed-type="add-area"] {
@@ -15130,6 +15100,7 @@ th.ilSkillEntryHead {
 }
 .ilSkillCategoryDescription {
   margin: 0px 5px;
+  padding-bottom: 15px;
 }
 /* Modules/Poll */
 .ilPollDescription {
@@ -15231,6 +15202,9 @@ input.ilMainMenuSearch {
 #mm_search_menu_head input {
   margin: 0;
   padding: 0;
+}
+#il_search_toolbar > div {
+  padding-top: 6px;
 }
 #il_search_toolbar div.ilFormOption {
   width: auto;
@@ -17122,11 +17096,15 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 /* Services/Awareness */
 .ilAwarenessDropDown .popover {
   max-width: 300px;
-  color: black;
+  color: #161616;
   min-width: 250px;
 }
 #awareness-list {
   overflow: auto;
+}
+#awareness-list .dropdown-header {
+  background-color: #f9f9f9;
+  margin-bottom: 0px;
 }
 .ilAwarenessDropDown .popover-content {
   padding: 0;
@@ -17147,7 +17125,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   display: table;
 }
 #awareness-content .media:hover {
-  background-color: #fea;
+  background-color: #e2e8ef;
 }
 #awareness-content .glyphicon {
   font-size: inherit;
@@ -17166,8 +17144,8 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   height: 45px;
 }
 .ilAwarenessItem {
-  border-bottom: 1px solid #e9e9e9;
-  background-color: #f9f9f9;
+  border-bottom: 1px solid #dddddd;
+  background-color: white;
 }
 .ilAwarenessItem > div[role='button']:focus-visible {
   outline: 3px solid #0078D7;
@@ -17189,7 +17167,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .media-body h4,
 #awareness-content .media-body p {
-  color: #a0a0a0;
+  color: #7c7c7c;
   font-size: 12px;
   padding: 5px 3px 0 3px;
   line-height: 1em;
@@ -17197,7 +17175,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .media-body h4 {
   padding-top: 0px;
-  color: #606060;
+  color: #161616;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -17208,10 +17186,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   font-size: 12px;
 }
 #awareness-content .dropdown-menu a {
-  color: #606060;
+  color: #7c7c7c;
 }
 #awareness-content .dropdown-menu a:hover {
-  color: #202020;
+  color: #000000;
 }
 #awareness-content .arrow-down {
   width: 0;
@@ -17272,7 +17250,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .ilHighlighted {
   background-color: #e2e8ef;
-  color: #606060;
+  color: #7c7c7c;
 }
 .ilAwrnBadgeHidden {
   visibility: hidden;

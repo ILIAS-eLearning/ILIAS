@@ -1,8 +1,19 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use ILIAS\DI\Container;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * GUI class for file objects.
  * @author       Sascha Hofmann <shofmann@databay.de>
@@ -18,14 +29,14 @@ class ilObjFileGUI extends ilObject2GUI
     const CMD_EDIT = "edit";
     const CMD_VERSIONS = "versions";
     const CMD_UPLOAD_FILES = "uploadFiles";
-    /**
-     * @var \ilObjFile
-     */
-    public $object;
-    public $lng;
-    protected $log = null;
-    protected $obj_service;
-
+    public ?ilObject $object = null;
+    public ilLanguage $lng;
+    protected ?\ilLogger $log = null;
+    protected ilObjectService $obj_service;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\HTTP\Wrapper\WrapperFactory $http;
+    protected ilFileServicesSettings $file_service_settings;
+    
     /**
      * Constructor
      * @param int $a_id
@@ -35,19 +46,23 @@ class ilObjFileGUI extends ilObject2GUI
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         global $DIC;
+        $this->http = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
+        $this->file_service_settings = $DIC->fileServiceSettings();
+        $this->user = $DIC->user();
         $this->lng = $DIC->language();
-        $this->log = ilLoggerFactory::getLogger('file');
+        $this->log = ilLoggerFactory::getLogger(ilObjFile::OBJECT_TYPE);
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->obj_service = $DIC->object();
-        $this->lng->loadLanguageModule("file");
+        $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
     }
 
-    public function getType()
+    public function getType() : string
     {
-        return "file";
+        return ilObjFile::OBJECT_TYPE;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -65,13 +80,13 @@ class ilObjFileGUI extends ilObject2GUI
             ) {
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
 
                 // add entry to navigation history
                 $ilNavigationHistory->addItem(
                     $this->node_id,
                     $link,
-                    "file"
+                    ilObjFile::OBJECT_TYPE
                 );
             }
         }
@@ -102,19 +117,19 @@ class ilObjFileGUI extends ilObject2GUI
             case 'ilpermissiongui':
                 $ilTabs->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilexportgui":
                 $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
-                $ret = $this->ctrl->forwardCommand($exp_gui);
+                $this->ctrl->forwardCommand($exp_gui);
                 break;
 
             case 'ilobjectcopygui':
                 $cp = new ilObjectCopyGUI($this);
-                $cp->setType('file');
+                $cp->setType(ilObjFile::OBJECT_TYPE);
                 $this->ctrl->forwardCommand($cp);
                 break;
 
@@ -132,10 +147,13 @@ class ilObjFileGUI extends ilObject2GUI
 
             case "illearningprogressgui":
                 $ilTabs->activateTab('learning_progress');
+                $user_id = $this->http->query()->has('user_id')
+                    ? $this->http->query()->retrieve('user_id', $this->refinery->kindlyTo()->int())
+                    : $ilUser->getId();
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
-                    $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId()
+                    $user_id
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 $this->tabs_gui->setTabActive('learning_progress');
@@ -144,9 +162,11 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->tabs_gui->activateTab("id_versions");
 
                 if (!$this->checkPermissionBool("write")) {
-                    $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+                    $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
                 }
-                $this->ctrl->forwardCommand(new ilFileVersionsGUI($this->object));
+                /** @var ilObjFile $obj */
+                $obj = $this->object;
+                $this->ctrl->forwardCommand(new ilFileVersionsGUI($obj));
                 break;
             default:
                 // in personal workspace use object2gui
@@ -159,7 +179,7 @@ class ilObjFileGUI extends ilObject2GUI
                     }
                     $ilTabs->clearTargets();
 
-                    return parent::executeCommand();
+                    parent::executeCommand();
                 }
 
                 if (empty($cmd) || $cmd === 'render') {
@@ -183,7 +203,6 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $a_new_type
      * @return array
      */
     protected function initCreationForms($a_new_type) : array
@@ -193,8 +212,8 @@ class ilObjFileGUI extends ilObject2GUI
 
         // repository only
         if ((int) $this->id_type !== self::WORKSPACE_NODE_ID) {
-            $forms[self::CFORM_IMPORT] = $this->initImportForm('file');
-            $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, "file");
+            $forms[self::CFORM_IMPORT] = $this->initImportForm(ilObjFile::OBJECT_TYPE);
+            $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, ilObjFile::OBJECT_TYPE);
         }
 
         return $forms;
@@ -230,7 +249,7 @@ class ilObjFileGUI extends ilObject2GUI
         $upload->register(new ilCountPDFPagesPreProcessors());
         $post = $DIC->http()->request()->getParsedBody();
         // Sanitize POST
-        array_walk($post, function (&$item) {
+        array_walk($post, function (&$item) : void {
             if (is_string($item)) {
                 $item = ilUtil::stripSlashes($item);
             }
@@ -274,11 +293,8 @@ class ilObjFileGUI extends ilObject2GUI
             );
 
             $suffixes = array_unique($delegate->getUploadedSuffixes());
-            if (count(array_diff($suffixes, ilFileUtils::getValidExtensions())) > 0) {
-                ilUtil::sendInfo(
-                    $this->lng->txt('file_upload_info_file_with_critical_extension'),
-                    true
-                );
+            if (count(array_diff($suffixes, $this->file_service_settings->getWhiteListedSuffixes())) > 0) {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('file_upload_info_file_with_critical_extension'), true);
             }
             $response->send();
         }
@@ -286,9 +302,8 @@ class ilObjFileGUI extends ilObject2GUI
 
     /**
      * updates object entry in object_data
-     * @access    public
      */
-    public function update()
+    public function update() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -299,7 +314,7 @@ class ilObjFileGUI extends ilObject2GUI
             $form->setValuesByPost();
             $this->tpl->setContent($form->getHTML());
 
-            return false;
+            return;
         }
 
         $title = $form->getInput('title');
@@ -314,7 +329,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->object->setDescription($form->getInput('description'));
         $this->object->setRating($form->getInput('rating'));
 
-        $this->update = $this->object->update();
+        $this->object->update();
         $this->obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
         // BEGIN ChangeEvent: Record update event.
@@ -330,15 +345,11 @@ class ilObjFileGUI extends ilObject2GUI
         $ecs = new ilECSFileSettings($this->object);
         $ecs->handleSettingsUpdate();
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         ilUtil::redirect($this->ctrl->getLinkTarget($this, self::CMD_EDIT, '', false, false));
     }
 
-    /**
-     * edit object
-     * @access    public
-     */
-    public function edit()
+    public function edit() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -358,18 +369,12 @@ class ilObjFileGUI extends ilObject2GUI
         $val['rating'] = $this->object->hasRating();
         $form->setValuesByArray($val);
         $ecs = new ilECSFileSettings($this->object);
-        $ecs->addSettingsToForm($form, 'file');
+        $ecs->addSettingsToForm($form, ilObjFile::OBJECT_TYPE);
 
         $this->tpl->setContent($form->getHTML());
-
-        return true;
     }
 
-    /**
-     * @param
-     * @return
-     */
-    protected function initPropertiesForm($mode = "create")
+    protected function initPropertiesForm($mode = "create") : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
@@ -385,6 +390,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         if ($mode === 'create') {
             $file = new ilFileStandardDropzoneInputGUI($this->lng->txt('obj_file'), 'file');
+            $file->setUploadUrl($form->getFormAction());
             $file->setRequired(false);
             $form->addItem($file);
 
@@ -424,14 +430,14 @@ class ilObjFileGUI extends ilObject2GUI
         return $form;
     }
 
-    public function sendFile()
+    public function sendFile() : bool
     {
-        global $DIC;
-
+        $hist_entry_id = $this->http->query()->has('hist_id')
+            ? $this->http->query()->retrieve('hist_id', $this->refinery->kindlyTo()->int())
+            : null;
         try {
-            if (ANONYMOUS_USER_ID == $DIC->user()->getId() && isset($_GET['transaction'])) {
-                $a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
-                $this->object->sendFile($a_hist_entry_id);
+            if (ANONYMOUS_USER_ID === $this->user->getId() && $this->http->query()->has('transaction')) {
+                $this->object->sendFile($hist_entry_id);
             }
 
             if ($this->checkPermissionBool("read")) {
@@ -440,17 +446,16 @@ class ilObjFileGUI extends ilObject2GUI
                     $this->object->getType(),
                     $this->object->getRefId(),
                     $this->object->getId(),
-                    $DIC->user()->getId()
+                    $this->user->getId()
                 );
-                ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+                ilLPStatusWrapper::_updateStatus($this->object->getId(), $this->user->getId());
 
-                $a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
-                $this->object->sendFile($a_hist_entry_id);
+                $this->object->sendFile($hist_entry_id);
             } else {
-                $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+                $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
             }
         } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-            $this->ilErr->raiseError($e->getMessage(), $this->ilErr->MESSAGE);
+            $this->error->raiseError($e->getMessage(), $this->error->MESSAGE);
         }
 
         return true;
@@ -459,7 +464,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * @deprecated
      */
-    public function versions()
+    public function versions() : void
     {
         $this->ctrl->redirectByClass(ilFileVersionsGUI::class);
     }
@@ -469,7 +474,7 @@ class ilObjFileGUI extends ilObject2GUI
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -479,7 +484,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * show information screen
      */
-    public function infoScreenForward()
+    public function infoScreenForward() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -597,14 +602,14 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
     // get tabs
-    public function setTabs()
+    protected function setTabs() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
         $ilHelp = $DIC['ilHelp'];
 
-        $ilHelp->setScreenIdComponent("file");
+        $ilHelp->setScreenIdComponent(ilObjFile::OBJECT_TYPE);
 
         $this->ctrl->setParameter($this, "ref_id", $this->node_id);
 
@@ -666,16 +671,17 @@ class ilObjFileGUI extends ilObject2GUI
         parent::setTabs();
     }
 
-    public static function _goto($a_target, $a_additional = null)
+    public static function _goto($a_target, $a_additional = null) : void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
 
         if ($a_additional && substr($a_additional, -3) == "wsp") {
-            $_GET["baseClass"] = "ilsharedresourceGUI";
-            $_GET["wsp_id"] = $a_target;
+//            $_GET["baseClass"] = "ilsharedresourceGUI";
+//            $_GET["wsp_id"] = $a_target;
             /** @noRector  */
             include("ilias.php");
             exit;
@@ -694,7 +700,7 @@ class ilObjFileGUI extends ilObject2GUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } else {
             if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                ilUtil::sendFailure(sprintf(
+                $main_tpl->setOnScreenMessage('failure', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                 ), true);
@@ -708,7 +714,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      *
      */
-    public function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -722,7 +728,7 @@ class ilObjFileGUI extends ilObject2GUI
      * Initializes the upload form for multiple files.
      * @return object The created property form.
      */
-    public function initMultiUploadForm()
+    public function initMultiUploadForm() : ilPropertyFormGUI
     {
         $dnd_form_gui = new ilPropertyFormGUI();
         $dnd_form_gui->setMultipart(true);
@@ -746,7 +752,7 @@ class ilObjFileGUI extends ilObject2GUI
         return $dnd_form_gui;
     }
 
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ?\ilObjectListGUI
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
         if ($lg instanceof ilObjectListGUI && $this->object->hasRating()) {

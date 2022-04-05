@@ -4,16 +4,12 @@
 
 /**
  * Taxonomy Administration Settings
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjTaxonomyAdministrationGUI: ilPermissionGUI
  */
 class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
 
     /**
      * @inheritDoc
@@ -32,7 +28,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     /**
      * Execute command
      */
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -49,7 +45,6 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
             }
             $this->$cmd();
         }
-        return true;
     }
 
     /**
@@ -75,7 +70,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
             );
         }
     }
-    
+
     /**
      * List taxonomies of repository objects
      */

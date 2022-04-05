@@ -20,7 +20,6 @@
 class ilLMEditShortTitlesTableGUI extends ilTable2GUI
 {
     protected string $lang;
-    protected $ctrl;
     protected ilObjLearningModule $lm;
 
     public function __construct(
@@ -52,12 +51,12 @@ class ilLMEditShortTitlesTableGUI extends ilTable2GUI
         $this->addCommandButton("save", $this->lng->txt("save"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("DEFAULT_TITLE", $a_set["default_title"]);
         $this->tpl->setVariable("DEFAULT_SHORT_TITLE", $a_set["default_short_title"]);
         $this->tpl->setVariable("ID", $a_set["obj_id"]);
-        $this->tpl->setVariable("SHORT_TITLE", ilUtil::prepareFormOutput($a_set["short_title"]));
+        $this->tpl->setVariable("SHORT_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["short_title"]));
     }
 }

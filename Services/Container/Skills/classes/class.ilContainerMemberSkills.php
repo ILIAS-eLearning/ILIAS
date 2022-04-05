@@ -26,8 +26,8 @@ class ilContainerMemberSkills
 {
     protected ilDBInterface $db;
     protected array $skills = [];
-    protected int $obj_id;
-    protected int $user_id;
+    protected int $obj_id = 0;
+    protected int $user_id = 0;
     protected array $skill_levels = [];
     protected bool $published = false;
 
@@ -174,6 +174,10 @@ class ilContainerMemberSkills
                 ilPersonalSkill::addPersonalSkill($this->getUserId(), $sk[0]);
             }
         }
+
+        //write profile completion entries if fulfilment status has changed
+        $prof_manager = new ilSkillProfileCompletionManager($this->getUserId());
+        $prof_manager->writeCompletionEntryForAllProfiles();
 
         $db->manipulate("UPDATE cont_member_skills SET " .
             " published = " . $db->quote(1, "integer") .

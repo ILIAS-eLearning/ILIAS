@@ -5,40 +5,29 @@ use ILIAS\MyStaff\ListUsers\ilMStListUsersTableGUI;
 
 /**
  * Class ilMStListUsersGUI
- *
  * @author            Martin Studer <ms@studer-raimann.ch>
- *
  * @ilCtrl_IsCalledBy ilMStListUsersGUI: ilMyStaffGUI
  */
 class ilMStListUsersGUI
 {
-    const CMD_RESET_FILTER = 'resetFilter';
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_INDEX = 'index';
-    const CMD_GET_ACTIONS = "getActions";
-    const CMD_ADD_USER_AUTO_COMPLETE = 'addUserAutoComplete';
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
+    public const CMD_RESET_FILTER = 'resetFilter';
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_INDEX = 'index';
+    public const CMD_GET_ACTIONS = "getActions";
+    public const CMD_ADD_USER_AUTO_COMPLETE = 'addUserAutoComplete';
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
+    private \ilGlobalTemplateInterface $main_tpl;
 
-
-    /**
-     *
-     */
     public function __construct()
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->access = ilMyStaffAccess::getInstance();
+        $this->help = $DIC->help();
+        $this->help->setScreenIdComponent('msta');
     }
 
-
-    /**
-     *
-     */
     protected function checkAccessOrFail()
     {
         global $DIC;
@@ -46,16 +35,12 @@ class ilMStListUsersGUI
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
         } else {
-            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
 
-
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand(): void
     {
         global $DIC;
 
@@ -77,33 +62,22 @@ class ilMStListUsersGUI
         }
     }
 
-
-    /**
-     *
-     */
-    public function index()
+    final public function index(): void
     {
         $this->listUsers();
     }
 
-
-    /**
-     *
-     */
-    public function listUsers()
+    final public function listUsers(): void
     {
         global $DIC;
 
+        $this->help->setScreenId('users_list');
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_INDEX);
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_users'));
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-
-    /**
-     *
-     */
-    public function applyFilter()
+    final  public function applyFilter(): void
     {
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -111,11 +85,7 @@ class ilMStListUsersGUI
         $this->index();
     }
 
-
-    /**
-     *
-     */
-    public function resetFilter()
+    final public function resetFilter(): void
     {
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -123,22 +93,14 @@ class ilMStListUsersGUI
         $this->index();
     }
 
-
-    /**
-     *
-     */
-    public function cancel()
+    final public function cancel(): void
     {
         global $DIC;
 
         $DIC->ctrl()->redirect($this);
     }
 
-
-    /**
-     *
-     */
-    public function getActions()
+    final public function getActions(): void
     {
         global $DIC;
 
@@ -148,37 +110,40 @@ class ilMStListUsersGUI
 
             if ($this->access->hasCurrentUserAccessToMyStaff()) {
                 $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'usr_id', $mst_lus_usr_id);
-                $selection->addItem($DIC->language()->txt('mst_show_courses'), '', $DIC->ctrl()->getLinkTargetByClass(array(
-                    ilDashboardGUI::class,
-                    ilMyStaffGUI::class,
-                    ilMStShowUserGUI::class,
-                    ilMStShowUserCoursesGUI::class,
-                )));
+                $selection->addItem($DIC->language()->txt('mst_show_courses'), '',
+                    $DIC->ctrl()->getLinkTargetByClass(array(
+                        ilDashboardGUI::class,
+                        ilMyStaffGUI::class,
+                        ilMStShowUserGUI::class,
+                        ilMStShowUserCoursesGUI::class,
+                    )));
             }
 
             if ($this->access->hasCurrentUserAccessToCertificates()) {
                 $DIC->ctrl()->setParameterByClass(ilUserCertificateGUI::class, 'usr_id', $mst_lus_usr_id);
-                $selection->addItem($DIC->language()->txt('mst_list_certificates'), '', $DIC->ctrl()->getLinkTargetByClass(array(
-                    ilDashboardGUI::class,
-                    ilMyStaffGUI::class,
-                    ilMStShowUserGUI::class,
-                    ilUserCertificateGUI::class,
-                )));
+                $selection->addItem($DIC->language()->txt('mst_list_certificates'), '',
+                    $DIC->ctrl()->getLinkTargetByClass(array(
+                        ilDashboardGUI::class,
+                        ilMyStaffGUI::class,
+                        ilMStShowUserGUI::class,
+                        ilUserCertificateGUI::class,
+                    )));
             }
 
             if ($this->access->hasCurrentUserAccessToCompetences()) {
                 $DIC->ctrl()->setParameterByClass(ilMStShowUserCompetencesGUI::class, 'usr_id', $mst_lus_usr_id);
-                $selection->addItem($DIC->language()->txt('mst_list_competences'), '', $DIC->ctrl()->getLinkTargetByClass(array(
-                    ilDashboardGUI::class,
-                    ilMyStaffGUI::class,
-                    ilMStShowUserGUI::class,
-                    ilMStShowUserCompetencesGUI::class,
-                )));
+                $selection->addItem($DIC->language()->txt('mst_list_competences'), '',
+                    $DIC->ctrl()->getLinkTargetByClass(array(
+                        ilDashboardGUI::class,
+                        ilMyStaffGUI::class,
+                        ilMStShowUserGUI::class,
+                        ilMStShowUserCompetencesGUI::class,
+                    )));
             }
 
-
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_lus_usr_id, rawurlencode($DIC->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_lus_usr_id,
+                rawurlencode($DIC->ctrl()
+                                 ->getLinkTarget($this, self::CMD_INDEX)));
 
             echo $selection->getHTML(true);
         }

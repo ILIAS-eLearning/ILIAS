@@ -9,10 +9,14 @@
  */
 class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
 {
-    private $ds;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function init() : void
     {
+        global $DIC;
+        $this->content_style_domain = $DIC
+            ->contentStyle()
+            ->domain();
     }
 
 
@@ -20,13 +24,13 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
     {
         $xml = '';
 
-        if (ilObject::_lookupType($a_id) === 'frm') {
+        if (ilObject::_lookupType((int) $a_id) === 'frm') {
             $writer = new ilForumXMLWriter();
-            $writer->setForumId($a_id);
-            ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+            $writer->setForumId((int) $a_id);
+            ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
             $writer->setFileTargetDirectories($this->getRelativeExportDirectory(), $this->getAbsoluteExportDirectory());
             $writer->start();
-            $xml .= $writer->getXml();
+            $xml .= $writer->getXML();
         }
 
         return $xml;
@@ -64,9 +68,9 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
                 $pageObjectIds[] = self::OBJ_TYPE . ':' . $frmPageObjId;
             }
 
-            $properties = ilForumProperties::getInstance($frm->getId());
-            if ($properties->getStyleSheetId() > 0) {
-                $styleIds[$properties->getStyleSheetId()] = $properties->getStyleSheetId();
+            $style_id = $this->content_style_domain->styleForObjId((int) $frmObjId)->getStyleId();
+            if ($style_id > 0) {
+                $styleIds[$style_id] = $style_id;
             }
         }
 

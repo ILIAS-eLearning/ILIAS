@@ -7,33 +7,35 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StorableFileResource
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StorableFileResource implements StorableResource
 {
-
-    /**
-     * @var ResourceIdentification
-     */
-    private $identification;
-    /**
-     * @var RevisionCollection
-     */
-    private $revisions;
+    private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
+    private \ILIAS\ResourceStorage\Revision\RevisionCollection $revisions;
     /**
      * @var ResourceStakeholder[]
      */
-    private $stakeholders = [];
-    /**
-     * @var string
-     */
-    private $storage_id = '';
+    private array $stakeholders = [];
+    private string $storage_id = '';
 
     /**
      * StorableFileResource constructor.
-     * @param ResourceIdentification $identification
      */
     public function __construct(ResourceIdentification $identification)
     {
@@ -150,9 +152,8 @@ class StorableFileResource implements StorableResource
 
     /**
      * @param ResourceStakeholder[] $stakeholders
-     * @return StorableFileResource
      */
-    public function setStakeholders(array $stakeholders) : StorableFileResource
+    public function setStakeholders(array $stakeholders) : self
     {
         $this->stakeholders = $stakeholders;
 
@@ -182,5 +183,4 @@ class StorableFileResource implements StorableResource
     {
         return $this->revisions->getMax();
     }
-
 }

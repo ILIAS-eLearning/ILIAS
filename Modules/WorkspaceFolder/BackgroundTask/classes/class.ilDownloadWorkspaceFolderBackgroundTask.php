@@ -78,7 +78,7 @@ class ilDownloadWorkspaceFolderBackgroundTask
 
         // Copy Definition
         $definition = new ilWorkspaceCopyDefinition();
-        $normalized_name = ilUtil::getASCIIFilename($this->getBucketTitle());
+        $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
         $definition->setObjectWspIds($this->object_wsp_ids);
         $this->logger->debug('Created copy definition and added the following tempdir: ' . $normalized_name);

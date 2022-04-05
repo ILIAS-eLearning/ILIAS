@@ -55,7 +55,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     protected function formatCellValue(string $column, array $row) : string
     {
         if ('tpl_id' === $column) {
-            return ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
+            return ilLegacyFormElementsUtil::formCheckbox(false, 'tpl_id[]', (string) $row[$column]);
         }
         if ('lang' === $column) {
             return $this->lng->txt('meta_l_' . $row[$column]);
@@ -76,10 +76,10 @@ class ilMailTemplateTableGUI extends ilTable2GUI
             return $this->lng->txt('mail_template_orphaned_context');
         }
 
-        return $row[$column];
+        return (string) $row[$column];
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
@@ -124,6 +124,8 @@ class ilMailTemplateTableGUI extends ilTable2GUI
                     $this->lng->txt('delete'),
                     $this->lng->txt('mail_tpl_sure_delete_entry'),
                     $this->ctrl->getFormAction($this->getParentObject(), 'deleteTemplate')
+                )->withActionButtonLabel(
+                    'deleteTemplate'
                 );
 
             $this->uiComponents[] = $deleteModal;

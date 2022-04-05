@@ -22,49 +22,31 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAdvancedMetaData
-*/
-
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
 {
-    protected $record_ids = array();
-    protected $settings = null;
-    
+    protected array $record_ids = [];
+    protected ilSetting $settings;
+
     /**
      * Constructor
-     *
      * @access public
      * @param
-     *
      */
-    public function __construct($a_record_ids)
+    public function __construct(array $a_record_ids)
     {
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
-
         parent::__construct();
-        $this->settings = $ilSetting;
-        
-        $this->record_ids = $a_record_ids ? $a_record_ids : array();
+        $this->settings = $DIC->settings();
+        $this->record_ids = $a_record_ids;
     }
-    
-    /**
-     * generate xml
-     *
-     * @access public
-     *
-     */
-    public function write()
+
+    public function write() : void
     {
         $this->buildHeader();
-        
         $this->xmlStartTag('AdvancedMetaDataRecords');
         foreach ($this->record_ids as $record_id) {
             $record_obj = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
@@ -72,13 +54,12 @@ class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
         }
         $this->xmlEndTag('AdvancedMetaDataRecords');
     }
-    
+
     /**
      * build header
-     *
      * @access protected
      */
-    protected function buildHeader()
+    protected function buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE AdvancedMetaDataRecords PUBLIC \"-//ILIAS//DTD AdvancedMetaDataRecords//EN\" \"" .
             ILIAS_HTTP_PATH . "/Services/AdvancedMetaData/xml/ilias_advanced_meta_data_records_3_9.dtd\">");

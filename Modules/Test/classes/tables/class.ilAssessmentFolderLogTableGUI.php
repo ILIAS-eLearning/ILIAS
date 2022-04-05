@@ -14,13 +14,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -31,8 +24,7 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->counter = 1;
-        
+
         $this->setFormName('showlog');
         $this->setStyle('table', 'fullwidth');
 
@@ -53,32 +45,30 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($data['tstamp'], IL_CAL_UNIX)));
-        $user = ilObjUser::_lookupName($data["user_fi"]);
-        $this->tpl->setVariable("USER", ilUtil::prepareFormOutput(trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"])));
+        $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX)));
+        $user = ilObjUser::_lookupName($a_set["user_fi"]);
+        $this->tpl->setVariable(
+            "USER",
+            ilLegacyFormElementsUtil::prepareFormOutput(
+                trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"])
+            )
+        );
         $title = "";
-        if ($data["question_fi"] || $data["original_fi"]) {
+        if ($a_set["question_fi"] || $a_set["original_fi"]) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            $title = assQuestion::_getQuestionTitle($data["question_fi"]);
+            $title = assQuestion::_getQuestionTitle($a_set["question_fi"]);
             if (strlen($title) == 0) {
-                $title = assQuestion::_getQuestionTitle($data["original_fi"]);
+                $title = assQuestion::_getQuestionTitle($a_set["original_fi"]);
             }
             $title = $this->lng->txt("assessment_log_question") . ": " . $title;
         }
-        $this->tpl->setVariable("MESSAGE", ilUtil::prepareFormOutput($data['logtext']) . ((strlen($title)) ?  " (" . $title . ")" : ''));
+        $this->tpl->setVariable("MESSAGE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['logtext']) . ((strlen($title)) ?  " (" . $title . ")" : ''));
 
-        if (strlen($data['location_href']) > 0 && strlen($data['location_txt']) > 0) {
-            $this->tpl->setVariable("LOCATION_HREF", $data['location_href']);
-            $this->tpl->setVariable("LOCATION_TXT", $data['location_txt']);
+        if (strlen($a_set['location_href']) > 0 && strlen($a_set['location_txt']) > 0) {
+            $this->tpl->setVariable("LOCATION_HREF", $a_set['location_href']);
+            $this->tpl->setVariable("LOCATION_TXT", $a_set['location_txt']);
         }
     }
 }

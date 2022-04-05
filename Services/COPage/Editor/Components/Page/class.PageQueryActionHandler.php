@@ -32,7 +32,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected \ilObjUser $user;
     protected Server\UIWrapper $ui_wrapper;
     protected \ilCtrl $ctrl;
-    protected \ilPluginAdmin $plugin_admin;
+    protected \ilComponentFactory $component_factory;
 
     public function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -43,7 +43,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->page_gui = $page_gui;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_factory = $DIC["component.factory"];
 
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
@@ -106,6 +106,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             "./Services/COPage/css/tiny_extra.css";
         $config->text_formats = \ilPCParagraphGUI::_getTextCharacteristics($this->page_gui->getStyleId());
         $config->editPlaceholders = $this->page_gui->getPageConfig()->getEnablePCType("PlaceHolder");
+        $config->activatedProtection =
+            ($this->page_gui->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED);
 
         return $config;
     }
@@ -128,22 +130,10 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         }
 
         // plugins
-        $pl_names = $this->plugin_admin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
-        );
-        foreach ($pl_names as $pl_name) {
-            $plugin = $this->plugin_admin->getPluginObject(
-                IL_COMP_SERVICE,
-                "COPage",
-                "pgcp",
-                $pl_name
-            );
+        foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
             $commands["plug_" . $plugin->getPluginName()] =
                 $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
         }
-
         return $commands;
     }
 
@@ -537,6 +527,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
             $pcdef["types"][$def["name"]] = $def["pc_type"];
             $pcdef["names"][$def["pc_type"]] = $def["name"];
+            $pcdef["txt"][$def["pc_type"]] = $this->lng->txt("cont_" . "pc_" . $def["pc_type"]);
         }
         return $pcdef;
     }

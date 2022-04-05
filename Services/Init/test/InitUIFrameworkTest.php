@@ -27,14 +27,14 @@ class InitUIFrameworkTest extends TestCase
 
     public function testUIFrameworkInitialization()
     {
-        $this->assertInstanceOf("\ILIAS\DI\UIServices",$this->dic->ui());
+        $this->assertInstanceOf("\ILIAS\DI\UIServices", $this->dic->ui());
         $this->assertFalse(isset($this->dic['ui.factory']));
         $this->assertFalse(isset($this->dic['ui.renderer']));
         (new \InitUIFramework())->init($this->dic);
         $this->assertTrue(isset($this->dic['ui.factory']));
         $this->assertTrue(isset($this->dic['ui.renderer']));
-        $this->assertInstanceOf("\ILIAS\UI\Factory",$this->dic->ui()->factory());
-        $this->assertInstanceOf("\ILIAS\UI\Renderer",$this->dic->ui()->renderer());
+        $this->assertInstanceOf("\ILIAS\UI\Factory", $this->dic->ui()->factory());
+        $this->assertInstanceOf("\ILIAS\UI\Renderer", $this->dic->ui()->renderer());
     }
 
     /**
@@ -52,7 +52,6 @@ class InitUIFrameworkTest extends TestCase
     /**
      * This checks only by example that the renderer is all up and ready to work.
      * A complete set of the rendering tests is performed in the Test cases of tests/UI
-     *
      * Note that some additional dependencies are needed for this to run.
      */
     public function testByExampleThatRendererIsReadyToWork()
@@ -64,8 +63,6 @@ class InitUIFrameworkTest extends TestCase
         global $DIC;
         $initial_state = $DIC;
         $DIC = new \ILIAS\DI\Container();
-        $DIC["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
-        $DIC["ilPluginAdmin"]->shouldReceive("getActivePluginsForSlot")->andReturn([]);
 
         $example_componanent = $this->dic->ui()->factory()->divider()->vertical();
         $example_out = $this->dic->ui()->renderer()->render($example_componanent);

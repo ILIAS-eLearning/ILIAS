@@ -9,6 +9,19 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Lock\LockingRepository;
 use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface ResourceRepository
  *
@@ -16,35 +29,18 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface ResourceRepository extends LockingRepository, PreloadableRepository
 {
-
-    /**
-     * @param ResourceIdentification $identification
-     *
-     * @return StorableResource
-     */
     public function blank(ResourceIdentification $identification) : StorableResource;
 
 
     /**
-     * @param ResourceIdentification $identification
-     *
-     * @return StorableResource
      * @throws ResourceNotFoundException
      */
     public function get(ResourceIdentification $identification) : StorableResource;
 
 
-    /**
-     * @param ResourceIdentification $identification
-     *
-     * @return bool
-     */
     public function has(ResourceIdentification $identification) : bool;
 
 
-    /**
-     * @param StorableResource $resource
-     */
     public function store(StorableResource $resource) : void;
 
 
@@ -54,8 +50,5 @@ interface ResourceRepository extends LockingRepository, PreloadableRepository
     public function getAll() : Generator;
 
 
-    /**
-     * @param StorableResource $resource
-     */
     public function delete(StorableResource $resource) : void;
 }

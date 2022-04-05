@@ -2056,11 +2056,11 @@ if ($wiki_type_id) {
 <?php
 
 $client_id = basename(CLIENT_DATA_DIR);
-$web_path = ilUtil::getWebspaceDir() . $client_id;
+$web_path = ilFileUtils::getWebspaceDir() . $client_id;
 $sec_path = $web_path . "/sec";
 
 if (!file_exists($sec_path)) {
-    ilUtil::makeDir($sec_path);
+    ilFileUtils::makeDir($sec_path);
 }
 
 $mods = array("ilBlog", "ilPoll", "ilPortfolio");
@@ -20890,7 +20890,7 @@ while ($row = $ilDB->fetchAssoc($result)) {
 
             if (!is_dir(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . $directory_relative_path)) {
                 //echo "<br> makeDirParents: ".ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR.$directory_relative_path;
-                ilUtil::makeDirParents(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . $directory_relative_path);
+                ilFileUtils::makeDirParents(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . $directory_relative_path);
             }
             if (!file_exists(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . $file_relative_path) &&
                 file_exists($file_full_path)) {

@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Portfolio type
  *
@@ -9,6 +23,8 @@
  */
 class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
 {
+    protected const STR_IDENTIFIER = "prtf";
+
     protected ilSetting $setting;
     protected ilLanguage $lng;
     protected string $identifier_str;
@@ -76,6 +92,11 @@ class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
 
     public function getStringIdentifier() : string
     {
-        return ilExAssignmentTypes::STR_IDENTIFIER_PORTFOLIO;
+        return self::STR_IDENTIFIER;
+    }
+
+    public function getExportObjIdForResourceId(int $resource_id) : int
+    {
+        return $resource_id;
     }
 }

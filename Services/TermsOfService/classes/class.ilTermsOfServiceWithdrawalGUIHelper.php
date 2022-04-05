@@ -18,10 +18,12 @@ class ilTermsOfServiceWithdrawalGUIHelper
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilTermsOfServiceHelper $tosHelper;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ilObjUser $subjectUser)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $subjectUser;
 
@@ -87,17 +89,17 @@ class ilTermsOfServiceWithdrawalGUIHelper
             return;
         }
 
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
         $external = false;
         if (
-            $this->user->getAuthMode() == AUTH_PROVIDER_LTI ||
-            $this->user->getAuthMode() == AUTH_ECS ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_PROVIDER_LTI) ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_ECS)
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_PROVIDER_LTI ||
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_ECS ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_PROVIDER_LTI) ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_ECS)
         ) {
             $external = true;
         }
@@ -130,19 +132,23 @@ class ilTermsOfServiceWithdrawalGUIHelper
 
     public function getConsentWithdrawalConfirmation(object $parentObject) : string
     {
-        $defaultAuth = AUTH_LOCAL;
+        $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
         $isLdapUser = (
-            $this->user->getAuthMode() == AUTH_LDAP ||
-            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
+            $this->user->getAuthMode() == ilAuthUtils::AUTH_LDAP ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
         );
 
-        $question = $this->lng->txt('withdrawal_sure_account');
-        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion')) {
-            $question = $this->lng->txt('withdrawal_sure_account_deletion');
+        $lng_suffix = '';
+        if (!$this->user->getAgreeDate()) {
+            $lng_suffix = '_no_consent_yet';
+        }
+        $question = $this->lng->txt('withdrawal_sure_account' . $lng_suffix);
+        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion', '0')) {
+            $question = $this->lng->txt('withdrawal_sure_account_deletion' . $lng_suffix);
         }
 
         $confirmation = $this->uiFactory->messageBox()->confirmation($question)->withButtons([
@@ -187,11 +193,11 @@ class ilTermsOfServiceWithdrawalGUIHelper
         if (isset($httpRequest->getQueryParams()['tos_withdrawal_type'])) {
             $withdrawalType = (int) $httpRequest->getQueryParams()['tos_withdrawal_type'];
             if (1 === $withdrawalType) {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete_deleted'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete_deleted'));
             } elseif (2 === $withdrawalType) {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete_redirect'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete_redirect'));
             } else {
-                ilUtil::sendInfo($this->lng->txt('withdrawal_complete'));
+                $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('withdrawal_complete'));
             }
         }
     }

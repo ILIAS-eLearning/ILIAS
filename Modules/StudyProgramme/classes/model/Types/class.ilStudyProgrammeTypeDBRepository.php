@@ -31,23 +31,24 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     protected ilStudyProgrammeSettingsRepository $settings_repo;
     protected ILIAS\Filesystem\Filesystem $webdir;
     protected ilObjUser $usr;
-    protected ilPluginAdmin $plugin_admin;
     protected ilLanguage $lng;
+
+    protected ilComponentFactory $component_factory;
 
     public function __construct(
         ilDBInterface $db,
         ilStudyProgrammeSettingsRepository $settings_repo,
         ILIAS\Filesystem\Filesystem $webdir,
         ilObjUser $usr,
-        ilPluginAdmin $plugin_admin,
-        ilLanguage $lng
+        ilLanguage $lng,
+        ilComponentFactory $component_factory
     ) {
         $this->db = $db;
         $this->settings_repo = $settings_repo;
         $this->webdir = $webdir;
         $this->usr = $usr;
-        $this->plugin_admin = $plugin_admin;
         $this->lng = $lng;
+        $this->component_factory = $component_factory;
     }
 
     /**
@@ -90,9 +91,9 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             (int) $row[self::FIELD_ID],
             $this,
             $this->webdir,
-            $this->plugin_admin,
             $this->lng,
-            $this->usr
+            $this->usr,
+            $this->component_factory
         );
         $return->setDefaultLang($row[self::FIELD_DEFAULT_LANG]);
         $return->setOwner((int) $row[self::FIELD_OWNER]);
@@ -317,19 +318,9 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         unset($this->amd_records_assigned[$type->getId()]);
     }
 
-    protected function getActivePlugins() : array
+    protected function getActivePlugins() : Iterator
     {
-        if ($this->active_plugins === null) {
-            $active_plugins = $this->plugin_admin->getActivePluginsForSlot(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk');
-            $this->active_plugins = array();
-            foreach ($active_plugins as $pl_name) {
-                /** @var ilStudyProgrammeTypeHookPlugin $plugin */
-                $plugin = $this->plugin_admin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl_name);
-                $this->active_plugins[] = $plugin;
-            }
-        }
-
-        return $this->active_plugins;
+        return $this->component_factory->getActivePluginsInSlot('prgtypehk');;
     }
 
     protected function deleteAllTranslationsByTypeId(int $type_id)
@@ -459,7 +450,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $res = $this->db->query($q);
         $this->amd_records_assigned[$type_id][$active] = [];
         while ($rec = $this->db->fetchAssoc($res)) {
-            $amd_record = new ilAdvancedMDRecord($rec[self::FIELD_REC_ID]);
+            $amd_record = new ilAdvancedMDRecord((int) $rec[self::FIELD_REC_ID]);
             if ($only_active) {
                 if ($amd_record->isActive()) {
                     $this->amd_records_assigned[$type_id][1][] = $amd_record;

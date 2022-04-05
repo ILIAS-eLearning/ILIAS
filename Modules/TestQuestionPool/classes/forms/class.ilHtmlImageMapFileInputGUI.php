@@ -65,7 +65,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
     /**
      * @return ASS_AnswerImagemap[]
      */
-    public function getShapes()
+    public function getShapes() : array
     {
         return $this->shapes;
     }

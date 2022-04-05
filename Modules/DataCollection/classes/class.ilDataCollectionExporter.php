@@ -2,7 +2,6 @@
 
 /**
  * Class ilDataCollectionExporter
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -18,7 +17,6 @@ class ilDataCollectionExporter extends ilXmlExporter
      */
     protected $db;
 
-
     public function init() : void
     {
         global $DIC;
@@ -27,7 +25,6 @@ class ilDataCollectionExporter extends ilXmlExporter
         $this->ds->setDSPrefix('ds');
         $this->db = $ilDB;
     }
-
 
     /**
      * @param string $a_entity
@@ -46,15 +43,13 @@ class ilDataCollectionExporter extends ilXmlExporter
         );
     }
 
-
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+        ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
-
 
     /**
      * MOB/File fieldtypes objects are head dependencies
@@ -85,8 +80,10 @@ class ilDataCollectionExporter extends ilXmlExporter
                 . "INNER JOIN il_dcl_record_field AS rf ON (rf." . $this->db->quoteIdentifier('id') . " = stloc2." . $this->db->quoteIdentifier('record_field_id') . ") "
                 . "INNER JOIN il_dcl_field AS f ON (rf." . $this->db->quoteIdentifier('field_id') . " = f." . $this->db->quoteIdentifier('id') . ") " . "INNER JOIN il_dcl_table AS t ON (t."
                 . $this->db->quoteIdentifier('id') . " = f." . $this->db->quoteIdentifier('table_id') . ") "
-                . "WHERE t." . $this->db->quoteIdentifier('obj_id') . " = " . $this->db->quote($dcl_obj_id, 'integer') . " " . "AND f.datatype_id IN ("
-                . implode(',', array_keys($dependencies)) . ") AND stloc2." . $this->db->quoteIdentifier('value') . " IS NOT NULL";
+                . "WHERE t." . $this->db->quoteIdentifier('obj_id') . " = " . $this->db->quote($dcl_obj_id,
+                    'integer') . " " . "AND f.datatype_id IN ("
+                . implode(',',
+                    array_keys($dependencies)) . ") AND stloc2." . $this->db->quoteIdentifier('value') . " IS NOT NULL";
             $set = $this->db->query($sql);
             while ($rec = $this->db->fetchObject($set)) {
                 $dependencies[$rec->datatype_id]['ids'][] = (int) $rec->ext_id;
@@ -105,7 +102,6 @@ class ilDataCollectionExporter extends ilXmlExporter
         return $return;
     }
 
-
     /**
      * @param string $a_entity
      * @param string $a_target_release
@@ -118,7 +114,8 @@ class ilDataCollectionExporter extends ilXmlExporter
         foreach ($a_ids as $dcl_obj_id) {
             // If a DCL table has a detail view, we need to export the associated page objects!
             $sql = "SELECT page_id FROM page_object "
-                . "WHERE parent_type = " . $this->db->quote('dclf', 'text') . " AND parent_id = " . $this->db->quote($dcl_obj_id, 'integer');
+                . "WHERE parent_type = " . $this->db->quote('dclf',
+                    'text') . " AND parent_id = " . $this->db->quote($dcl_obj_id, 'integer');
             $set = $this->db->query($sql);
             while ($rec = $this->db->fetchObject($set)) {
                 $page_object_ids[] = "dclf:" . $rec->page_id;

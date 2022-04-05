@@ -25,7 +25,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -265,7 +265,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 if (is_array($childs_by_type[$type]) && count($childs_by_type[$type]) > 0) {
                     foreach ($childs_by_type[$type] as $child) {
                         $tpl->setCurrentBlock("row");
-                        $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($child["obj_id"], "small")));
+                        $tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon((int) $child["obj_id"], "small")));
                         $tpl->setVariable("TITLE", $child["title"]);
                         $tpl->parseCurrentBlock();
                         $cnt++;

@@ -34,7 +34,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.chatroom_smiley_list_row.html', 'Modules/Chatroom');
         $this->setSelectAllCheckbox('smiley_id');
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $this->gui->ref_id)) {
+        if ($this->dic->rbac()->system()->checkAccess('write', $this->gui->getRefId())) {
             $this->addMultiCommand(
                 'smiley-deleteMultipleObject',
                 $this->lng->txt('chatroom_delete_selected')
@@ -42,7 +42,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_SMILEY_ID', $a_set['smiley_id']);
         $this->tpl->setVariable('VAL_SMILEY_PATH', $a_set['smiley_fullpath']);
@@ -52,7 +52,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
             str_replace("\n", "", $a_set['smiley_keywords'])
         );
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $this->gui->ref_id)) {
+        if ($this->dic->rbac()->system()->checkAccess('write', $this->gui->getRefId())) {
             $current_selection_list = new ilAdvancedSelectionListGUI();
             $current_selection_list->setListTitle($this->lng->txt('actions'));
             $current_selection_list->setId('act_' . $a_set['smiley_id']);

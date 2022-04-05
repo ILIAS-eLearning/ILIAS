@@ -13,13 +13,13 @@ class ilForumAuthorInformation
     private string $alias;
     private string $import_name;
     private array $public_profile_link_attributes;
-    private string $author_name;
-    private string $author_short_name;
-    private $linked_public_name;
-    private string $linked_short_name;
+    private string $author_name = '';
+    private string $author_short_name = '';
+    private string $linked_public_name = '';
+    private string $linked_short_name = '';
     private string $suffix = '';
     private string $profilePicture;
-    private ilObjUser $author;
+    private ?ilObjUser $author = null;
     private int $author_id;
     private ?ilLanguage $lng = null;
     private ilLanguage $globalLng;
@@ -51,7 +51,7 @@ class ilForumAuthorInformation
 
     protected function initUserInstance() : void
     {
-        if (is_numeric($this->display_id) && $this->display_id > 0) {
+        if ($this->display_id > 0) {
             // Try to read user instance from preloaded cache array
             $this->author = ilForumAuthorInformationCache::getUserObjectById($this->display_id);
             if (!$this->author) {
@@ -184,7 +184,7 @@ class ilForumAuthorInformation
 
     protected function getUserImagePath(ilObjUser $user) : string
     {
-        if (ilContext::hasHTML()) {
+        if (!ilContext::hasHTML()) {
             return '';
         }
 

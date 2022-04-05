@@ -6,10 +6,10 @@ use PHPUnit\Framework\TestCase;
 
 interface ilComponentDefinitionProcessorMock1 extends ilComponentDefinitionProcessor
 {
-};
+}
 interface ilComponentDefinitionProcessorMock2 extends ilComponentDefinitionProcessor
 {
-};
+}
 
 class ilComponentDefinitionReaderTest extends TestCase
 {
@@ -27,9 +27,9 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->processor2 = $this->createMock(ilComponentDefinitionProcessorMock2::class);
 
         $this->reader = new class($this->processor1, $this->processor2) extends ilComponentDefinitionReader {
-            protected function getComponents() : array
+            protected function getComponents() : Iterator
             {
-                return ilComponentDefinitionReaderTest::$components;
+                return new ArrayIterator(ilComponentDefinitionReaderTest::$components);
             }
             public $read_files = [];
             protected function readFile(string $path) : string
@@ -78,7 +78,7 @@ class ilComponentDefinitionReaderTest extends TestCase
             }
             public function _getComponents() : array
             {
-                return $this->getComponents();
+                return iterator_to_array($this->getComponents());
             }
         };
 
@@ -94,60 +94,60 @@ class ilComponentDefinitionReaderTest extends TestCase
         $processor1_stack = [];
         $this->processor1
             ->method("beginComponent")
-            ->will($this->returnCallback(function ($s1, $s2) use (&$processor1_stack) {
+            ->willReturnCallback(function ($s1, $s2) use (&$processor1_stack) {
                 $processor1_stack[] = "beginComponent";
                 $processor1_stack[] = $s1;
                 $processor1_stack[] = $s2;
-            }));
+            });
         $this->processor1
             ->method("endComponent")
-            ->will($this->returnCallback(function ($s1, $s2) use (&$processor1_stack) {
+            ->willReturnCallback(function ($s1, $s2) use (&$processor1_stack) {
                 $processor1_stack[] = "endComponent";
                 $processor1_stack[] = $s1;
                 $processor1_stack[] = $s2;
-            }));
+            });
         $this->processor1
             ->method("beginTag")
-            ->will($this->returnCallback(function ($s1, $s2) use (&$processor1_stack) {
+            ->willReturnCallback(function ($s1, $s2) use (&$processor1_stack) {
                 $processor1_stack[] = "beginTag";
                 $processor1_stack[] = $s1;
                 $processor1_stack[] = $s2;
-            }));
+            });
         $this->processor1
             ->method("endTag")
-            ->will($this->returnCallback(function ($s1) use (&$processor1_stack) {
+            ->willReturnCallback(function ($s1) use (&$processor1_stack) {
                 $processor1_stack[] = "endTag";
                 $processor1_stack[] = $s1;
-            }));
+            });
 
         $processor2_stack = [];
         $this->processor2
             ->method("beginComponent")
-            ->will($this->returnCallback(function ($s1, $s2) use (&$processor2_stack) {
+            ->willReturnCallback(function ($s1, $s2) use (&$processor2_stack) {
                 $processor2_stack[] = "beginComponent";
                 $processor2_stack[] = $s1;
                 $processor2_stack[] = $s2;
-            }));
+            });
         $this->processor2
             ->method("endComponent")
-            ->will($this->returnCallback(function ($s1, $s2) use (&$processor2_stack) {
+            ->willReturnCallback(function ($s1, $s2) use (&$processor2_stack) {
                 $processor2_stack[] = "endComponent";
                 $processor2_stack[] = $s1;
                 $processor2_stack[] = $s2;
-            }));
+            });
         $this->processor2
             ->method("beginTag")
-            ->will($this->returnCallback(function ($s1, $s2) use (&$processor2_stack) {
+            ->willReturnCallback(function ($s1, $s2) use (&$processor2_stack) {
                 $processor2_stack[] = "beginTag";
                 $processor2_stack[] = $s1;
                 $processor2_stack[] = $s2;
-            }));
+            });
         $this->processor2
             ->method("endTag")
-            ->will($this->returnCallback(function ($s1) use (&$processor2_stack) {
+            ->willReturnCallback(function ($s1) use (&$processor2_stack) {
                 $processor2_stack[] = "endTag";
                 $processor2_stack[] = $s1;
-            }));
+            });
 
 
         $this->reader->readComponentDefinitions();

@@ -4,24 +4,23 @@
 
 /**
  * Class ilDclFieldListTableGUI
- *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Oskar Truffer <ot@studer-raimann.ch>
  * @version      $Id:
- *
  * @extends      ilTable2GUI
  * @ilCtrl_Calls ilDateTime
  */
 class ilDclFieldListTableGUI extends ilTable2GUI
 {
 
+    private $order = null;
+
     /**
      * @var ilDclTable
      */
     protected $table;
-
 
     /**
      * @param ilDclFieldListGUI $a_parent_obj
@@ -41,13 +40,13 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $this->setId('dcl_field_list');
         $this->addColumn('', '', '1', true);
-        $this->addColumn($lng->txt('dcl_order'), null, '30px');
-        $this->addColumn($lng->txt('dcl_fieldtitle'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_in_export'), null, '30px');
-        $this->addColumn($lng->txt('dcl_description'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_field_datatype'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_unique'), null, 'auto');
-        $this->addColumn($lng->txt('actions'), null, '30px');
+        $this->addColumn($lng->txt('dcl_order'), '', '30px');
+        $this->addColumn($lng->txt('dcl_fieldtitle'), '', 'auto');
+        $this->addColumn($lng->txt('dcl_in_export'), '', '30px');
+        $this->addColumn($lng->txt('dcl_description'), '', 'auto');
+        $this->addColumn($lng->txt('dcl_field_datatype'), '', 'auto');
+        $this->addColumn($lng->txt('dcl_unique'), '', 'auto');
+        $this->addColumn($lng->txt('actions'), '', '30px');
         // Only add mutli command for custom fields
         if (count($this->table->getRecordFields())) {
             $this->setSelectAllCheckbox('dcl_field_ids[]');
@@ -82,11 +81,10 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->setData($this->table->getFields());
     }
 
-
     /**
-     * @param ilDclBaseFieldModel $a_set
+     * @param ilDclStandardField $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow($a_set) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -144,9 +142,11 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             $alist->setId($a_set->getId());
             $alist->setListTitle($lng->txt('actions'));
 
-            if (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getDataCollectionObject()->ref_id, $this->table->getId())) {
+            if (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getDataCollectionObject()->ref_id,
+                $this->table->getId())) {
                 $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
-                $alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete'));
+                $alist->addItem($lng->txt('delete'), 'delete',
+                    $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete'));
             }
 
             $this->tpl->setVariable('ACTIONS', $alist->getHTML());

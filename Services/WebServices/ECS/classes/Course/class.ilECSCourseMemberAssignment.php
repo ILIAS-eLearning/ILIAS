@@ -1,6 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Storage of ecs course assignments
@@ -11,14 +23,16 @@ class ilECSCourseMemberAssignment
     const STATUS_ASSIGNED = 0;
     const STATUS_LOCAL_DELETED = 1;
     
+    private ilDBInterface $db;
+    
     private $id;
     private $server;
     private $mid;
     private $cms_id;
-    private $cms_sub_id = 0;
+    private int $cms_sub_id = 0;
     private $obj_id;
     private $uid;
-    private $status = 0;
+    private int $status = 0;
     
     
     /**
@@ -26,6 +40,10 @@ class ilECSCourseMemberAssignment
      */
     public function __construct($a_id = 0)
     {
+        global $DIC;
+        
+        $this->db = $DIC->database();
+        
         $this->id = $a_id;
         
         $this->read();
@@ -33,7 +51,6 @@ class ilECSCourseMemberAssignment
     
     /**
      * Lookup missing assignments;
-     * @global type $ilDB
      * @param string account
      * @return ilECSCourseMemberAssignment[]
      */
@@ -46,9 +63,7 @@ class ilECSCourseMemberAssignment
         $query = 'SELECT id FROM ecs_course_assignments ' .
                 'WHERE usr_id = ' . $ilDB->quote($a_usr_id, 'text');
         $res = $ilDB->query($query);
-        
-        $obj_ids = array();
-        
+
         $assignments = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $assignments[] = new self($row->id);
@@ -73,7 +88,6 @@ class ilECSCourseMemberAssignment
     
     /**
      * Delete by server id
-     * @global type $ilDB
      * @param type $a_server_id
      * @return boolean
      */
@@ -91,7 +105,6 @@ class ilECSCourseMemberAssignment
     
     /**
      * Lookup user ids
-     * @global type $ilDB
      * @param type $a_cms_id
      * @param type $a_obj_id
      * @return type
@@ -125,7 +138,6 @@ class ilECSCourseMemberAssignment
 
     /**
      * Lookup assignment of user
-     * @global type $ilDB
      * @param type $a_cms_id
      * @param type $a_obj_id
      * @param type $a_usr_id
@@ -242,15 +254,10 @@ class ilECSCourseMemberAssignment
     
     /**
      * Save new entry
-     * @global type $ilDB
      */
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $this->id = $ilDB->nextId('ecs_course_assignments');
+        $this->id = $this->db->nextId('ecs_course_assignments');
         
         
         $assignment = self::lookupAssignment(
@@ -267,40 +274,35 @@ class ilECSCourseMemberAssignment
         $query = 'INSERT INTO ecs_course_assignments ' .
                 '(id,sid,mid,cms_id,cms_sub_id,obj_id,usr_id,status) ' .
                 'VALUES( ' .
-                $ilDB->quote($this->getId(), 'integer') . ', ' .
-                $ilDB->quote($this->getServer(), 'integer') . ', ' .
-                $ilDB->quote($this->getMid(), 'integer') . ', ' .
-                $ilDB->quote($this->getCmsId(), 'integer') . ', ' .
-                $ilDB->quote($this->getCmsSubId(), 'integer') . ', ' .
-                $ilDB->quote($this->getObjId(), 'integer') . ', ' .
-                $ilDB->quote($this->getUid(), 'text') . ', ' .
-                $ilDB->quote($this->getStatus(), 'integer') . ' ' .
+                $this->db->quote($this->getId(), 'integer') . ', ' .
+                $this->db->quote($this->getServer(), 'integer') . ', ' .
+                $this->db->quote($this->getMid(), 'integer') . ', ' .
+                $this->db->quote($this->getCmsId(), 'integer') . ', ' .
+                $this->db->quote($this->getCmsSubId(), 'integer') . ', ' .
+                $this->db->quote($this->getObjId(), 'integer') . ', ' .
+                $this->db->quote($this->getUid(), 'text') . ', ' .
+                $this->db->quote($this->getStatus(), 'integer') . ' ' .
                 ')';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
     }
     
     /**
      * Update assignemt
-     * @global type $ilDB
      * @return boolean
      */
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = 'UPDATE ecs_course_assignments ' .
                 'SET ' .
-                'sid = ' . $ilDB->quote($this->getServer(), 'integer') . ', ' .
-                'mid = ' . $ilDB->quote($this->getMid(), 'integer') . ', ' .
-                'cms_id = ' . $ilDB->quote($this->getCmsId(), 'integer') . ', ' .
-                'cms_sub_id = ' . $ilDB->quote($this->getCmsSubId(), 'integer') . ', ' .
-                'obj_id = ' . $ilDB->quote($this->getObjId(), 'integer') . ', ' .
-                'usr_id = ' . $ilDB->quote($this->getUid(), 'text') . ', ' .
-                'status = ' . $ilDB->quote($this->getStatus(), 'integer') . ' ' .
-                'WHERE id = ' . $ilDB->quote($this->getId(), 'integer');
-        $ilDB->manipulate($query);
+                'sid = ' . $this->db->quote($this->getServer(), 'integer') . ', ' .
+                'mid = ' . $this->db->quote($this->getMid(), 'integer') . ', ' .
+                'cms_id = ' . $this->db->quote($this->getCmsId(), 'integer') . ', ' .
+                'cms_sub_id = ' . $this->db->quote($this->getCmsSubId(), 'integer') . ', ' .
+                'obj_id = ' . $this->db->quote($this->getObjId(), 'integer') . ', ' .
+                'usr_id = ' . $this->db->quote($this->getUid(), 'text') . ', ' .
+                'status = ' . $this->db->quote($this->getStatus(), 'integer') . ' ' .
+                'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
     
@@ -309,13 +311,9 @@ class ilECSCourseMemberAssignment
      */
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = 'DELETE FROM ecs_course_assignments ' .
-                'WHERE id = ' . $ilDB->quote($this->getId(), 'integer');
-        $ilDB->manipulate($query);
+            'WHERE id = ' . $$this->db->quote($this->getId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
     
@@ -327,17 +325,13 @@ class ilECSCourseMemberAssignment
      */
     protected function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->getId()) {
             return false;
         }
         
         $query = 'SELECT * FROM ecs_course_assignments ' .
-                'WHERE id = ' . $ilDB->quote($this->getId(), 'integer');
-        $res = $ilDB->query($query);
+            'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setServer($row->sid);
             $this->setMid($row->mid);

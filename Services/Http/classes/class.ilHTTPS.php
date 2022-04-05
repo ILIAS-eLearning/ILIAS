@@ -1,97 +1,143 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
-* HTTPS
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
-
+ * Class ilHTTPS
+ * @author  Stefan Meyer <meyer@leifos.com>
+ *
+ *          Find usages: (((DIC|GLOBALS)\[['"]https.*)|(global .* $https))
+ */
 class ilHTTPS
 {
-    const PROTOCOL_HTTP = 1;
-    const PROTOCOL_HTTPS = 2;
-    
-    private static $instance = null;
+    protected const PROTOCOL_HTTP = 1;
+    protected const PROTOCOL_HTTPS = 2;
+    public const SETTINGS_GROUP_SERVER = 'server';
+    public const SETTING_HTTP_PATH = 'http_path';
+    public const SETTINGS_GROUP_HTTPS = 'https';
+    public const SETTING_AUTO_HTTPS_DETECT_ENABLED = "auto_https_detect_enabled";
+    public const SETTING_AUTO_HTTPS_DETECT_HEADER_NAME = "auto_https_detect_header_name";
+    public const SETTING_AUTO_HTTPS_DETECT_HEADER_VALUE = "auto_https_detect_header_value";
+    public const SETTING_FORCED = 'forced';
+    protected bool $enabled = false;
+    protected array $protected_classes = [];
+    protected array $protected_scripts = [];
+    protected bool $automatic_detection = false;
+    protected ?string $header_name = null;
+    protected ?string $header_value = null;
+    protected ilIniFile $ilias_ini;
+    protected ilIniFile $client_ini;
 
-    protected $enabled = false;
-
-    protected $protected_classes = array();
-    protected $protected_scripts = array();
-
-    protected $automaticHTTPSDetectionEnabled = false;
-    protected $headerName = false;
-    protected $headerValue = false;
-
-    /**
-     * @deprected use <code>ilHTTPS::getInstance()</code>
-     * @return
-     */
     public function __construct()
     {
-        global $ilSetting, $ilIliasIniFile;
+        global $DIC;
+        $this->ilias_ini = $DIC->iliasIni();
+        $this->client_ini = $DIC->clientIni();
 
-        if ($this->enabled = (bool) $ilSetting->get('https')) {
-            $this->__readProtectedScripts();
-            $this->__readProtectedClasses();
+        if ($this->enabled = (bool) $this->ilias_ini->readVariable(
+            self::SETTINGS_GROUP_HTTPS,
+            self::SETTING_FORCED
+        )) {
+            $this->readProtectedScripts();
+            $this->readProtectedClasses();
         }
 
-        if ($this->automaticHTTPSDetectionEnabled = (bool) $ilIliasIniFile->readVariable('https', "auto_https_detect_enabled")) {
-            $this->headerName = $ilIliasIniFile->readVariable('https', "auto_https_detect_header_name");
-            $this->headerValue = $ilIliasIniFile->readVariable('https', "auto_https_detect_header_value");
+        if ($this->automatic_detection = (bool) $this->ilias_ini->readVariable(
+            self::SETTINGS_GROUP_HTTPS,
+            self::SETTING_AUTO_HTTPS_DETECT_ENABLED
+        )) {
+            $this->header_name = $this->ilias_ini->readVariable(
+                self::SETTINGS_GROUP_HTTPS,
+                self::SETTING_AUTO_HTTPS_DETECT_HEADER_NAME
+            );
+            $this->header_value = $this->ilias_ini->readVariable(
+                self::SETTINGS_GROUP_HTTPS,
+                self::SETTING_AUTO_HTTPS_DETECT_HEADER_VALUE
+            );
         }
     }
-    
-    /**
-     * Get https instance
-     * @return
-     */
-    public static function getInstance()
+
+    private function readProtectedScripts() : void
     {
-        if (self::$instance) {
-            return self::$instance;
-        }
-        return self::$instance = new ilHTTPS();
+        $this->protected_scripts[] = 'login.php';
+        $this->protected_scripts[] = 'index.php';
+        $this->protected_scripts[] = 'register.php';
+        $this->protected_scripts[] = 'webdav.php';
+        $this->protected_scripts[] = 'shib_login.php';
     }
 
     /**
-     * @param bool $to_protocol
-     * @return bool
+     * check if https is detected
+     *
+     * @return bool, if https is detected by protocol or by automatic detection, if enabled, false otherwise
      */
-    protected function shouldSwitchProtocol($to_protocol)
+    public function isDetected() : bool
     {
-        switch ($to_protocol) {
-            case self::PROTOCOL_HTTP:
-                $should_switch_to_http = (
-                    !in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
-                    !in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
-                ) && $_SERVER['HTTPS'] == 'on';
+        if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
+            return true;
+        }
 
-                return $should_switch_to_http;
-                break;
-
-            case self::PROTOCOL_HTTPS:
-                $should_switch_to_https = (
-                    in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
-                    in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
-                ) && $_SERVER['HTTPS'] != 'on';
-
-                return $should_switch_to_https;
-                break;
+        if ($this->automatic_detection) {
+            $header_name = "HTTP_" . str_replace("-", "_", strtoupper($this->header_name));
+            /* echo $header_name;
+             echo $_SERVER[$header_name];*/
+            if (isset($_SERVER[$header_name])) {
+                if (strcasecmp($_SERVER[$header_name], $this->header_value) == 0) {
+                    $_SERVER["HTTPS"] = "on";
+                    return true;
+                }
+            }
         }
 
         return false;
     }
 
-    /**
-     * check if current port usage is right: if https should be used than redirection is done, to http otherwise.
-     *
-     * @return unknown
-     */
-    public function checkPort()
+    private function readProtectedClasses() : void
+    {
+        $this->protected_classes[] = 'ilstartupgui';
+        $this->protected_classes[] = 'ilaccountregistrationgui';
+        $this->protected_classes[] = 'ilpersonalsettingsgui';
+    }
+
+    public function checkHTTPS(int $port = 443) : bool
+    {
+        if (($sp = fsockopen($_SERVER["SERVER_NAME"], $port, $errno, $error)) === false) {
+            return false;
+        }
+        fclose($sp);
+        return true;
+    }
+
+    public function enableSecureCookies() : void
+    {
+        $secure_disabled = (bool) $this->client_ini->readVariable('session', 'disable_secure_cookies');
+        if (!$secure_disabled && !$this->enabled && $this->isDetected() && !session_id()) {
+            if (!defined('IL_COOKIE_SECURE')) {
+                define('IL_COOKIE_SECURE', true);
+            }
+
+            session_set_cookie_params(
+                IL_COOKIE_EXPIRE,
+                IL_COOKIE_PATH,
+                IL_COOKIE_DOMAIN,
+                true,
+                IL_COOKIE_HTTPONLY
+            );
+        }
+    }
+
+    public function checkProtocolAndRedirectIfNeeded() : bool
     {
         // if https is enabled for scripts or classes, check for redirection
         if ($this->enabled) {
@@ -107,116 +153,22 @@ class ilHTTPS
         return true;
     }
 
-    public function __readProtectedScripts()
+    private function shouldSwitchProtocol($to_protocol) : bool
     {
-        $this->protected_scripts[] = 'login.php';
-        $this->protected_scripts[] = 'index.php';
-        $this->protected_scripts[] = 'register.php';
-        $this->protected_scripts[] = 'webdav.php';
-        $this->protected_scripts[] = 'shib_login.php';
-        
-        return true;
-    }
+        switch ($to_protocol) {
+            case self::PROTOCOL_HTTP:
+                return (
+                        !in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
+                        !in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+                    ) && $_SERVER['HTTPS'] == 'on';
 
-    /**
-     * check if https is detected
-     *
-     * @return boolean true, if https is detected by protocol or by automatic detection, if enabled, false otherwise
-     */
-    public function isDetected()
-    {
-        if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
-            return true;
-        }
-
-        if ($this->automaticHTTPSDetectionEnabled) {
-            $headerName = "HTTP_" . str_replace("-", "_", strtoupper($this->headerName));
-            /* echo $headerName;
-             echo $_SERVER[$headerName];*/
-            if (isset($_SERVER[$headerName])) {
-                if (strcasecmp($_SERVER[$headerName], $this->headerValue) == 0) {
-                    $_SERVER["HTTPS"] = "on";
-                    return true;
-                }
-            }
-            /*
-            if(isset($_SERVER[$this->headerName]) && (strcasecmp($_SERVER[$this->headerName],$this->headerValue) == 0))
-            {
-                $_SERVER['HTTPS'] = 'on';
-                return true;
-            }
-            */
+            case self::PROTOCOL_HTTPS:
+                return (
+                        in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
+                        in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+                    ) && $_SERVER['HTTPS'] != 'on';
         }
 
         return false;
-    }
-
-    public function __readProtectedClasses()
-    {
-        $this->protected_classes[] = 'ilstartupgui';
-        $this->protected_classes[] = 'ilaccountregistrationgui';
-        $this->protected_classes[] = 'ilpersonalsettingsgui';
-    }
-
-    /**
-    * static method to check if https connections are possible for this server
-    * @access	public
-    * @return	boolean
-    */
-    public static function _checkHTTPS()
-    {
-        // only check standard port in the moment
-        $port = 443;
-
-        if (($sp = fsockopen($_SERVER["SERVER_NAME"], $port, $errno, $error)) === false) {
-            return false;
-        }
-        fclose($sp);
-        return true;
-    }
-    /**
-    * static method to check if http connections are possible for this server
-    *
-    * @access	public
-    * @return	boolean
-    */
-    public function _checkHTTP()
-    {
-        $port = 80;
-
-        if (($sp = fsockopen($_SERVER["SERVER_NAME"], $port, $errno, $error)) === false) {
-            return false;
-        }
-        fclose($sp);
-        return true;
-    }
-    
-    /**
-     * enable secure cookies
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function enableSecureCookies()
-    {
-        global $ilClientIniFile;
-
-        $secure_disabled = $ilClientIniFile->readVariable('session', 'disable_secure_cookies');
-        if (!$secure_disabled && !$this->enabled && $this->isDetected() && !session_id()) {
-            if (!defined('IL_COOKIE_SECURE')) {
-                define('IL_COOKIE_SECURE', true);
-            }
-
-            session_set_cookie_params(
-                IL_COOKIE_EXPIRE,
-                IL_COOKIE_PATH,
-                IL_COOKIE_DOMAIN,
-                true,
-                IL_COOKIE_HTTPONLY
-            );
-        }
-
-        return true;
     }
 }

@@ -1,17 +1,31 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * List all active cron jobs
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesCron
- */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 class ilCronManagerTableGUI extends ilTable2GUI
 {
+    private ilCronJobRepository $cronRepository;
     private bool $mayWrite;
 
-    public function __construct(object $a_parent_obj, string $a_parent_cmd, bool $mayWrite = false)
-    {
+    public function __construct(
+        ilCronManagerGUI $a_parent_obj,
+        ilCronJobRepository $cronRepository,
+        string $a_parent_cmd,
+        bool $mayWrite = false
+    ) {
+        $this->cronRepository = $cronRepository;
         $this->mayWrite = $mayWrite;
 
         $this->setId('crnmng'); // #14526 / #16391
@@ -19,7 +33,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         if ($this->mayWrite) {
-            $this->addColumn("", "", 1);
+            $this->addColumn("", "", '1px', true);
         }
         $this->addColumn($this->lng->txt('cron_job_id'), 'title');
         $this->addColumn($this->lng->txt('cron_component'), 'component');
@@ -216,14 +230,14 @@ class ilCronManagerTableGUI extends ilTable2GUI
             if ($entity->getJob()->hasFlexibleSchedule()) {
                 $row['editable_schedule'] = true;
                 if (!$entity->getScheduleType()) {
-                    ilCronManager::updateJobSchedule(
+                    $this->cronRepository->updateJobSchedule(
                         $entity->getJob(),
                         $entity->getEffectiveScheduleType(),
                         $entity->getEffectiveScheduleValue()
                     );
                 }
             } elseif ($entity->getScheduleType()) {
-                ilCronManager::updateJobSchedule($entity->getJob(), null, null);
+                $this->cronRepository->updateJobSchedule($entity->getJob(), null, null);
             }
 
             return $row;
@@ -232,7 +246,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return $this;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($this->mayWrite) {
             $this->tpl->setVariable('VAL_JID', $a_set['job_id']);
@@ -261,7 +275,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         } elseif ($a_set['last_run']) {
             $a_set['last_run'] = ilDatePresentation::formatDate(new ilDateTime($a_set['last_run'], IL_CAL_UNIX));
         }
-        $this->tpl->setVariable('VAL_LAST_RUN', $a_set['last_run'] ? $a_set['last_run'] : '-');
+        $this->tpl->setVariable('VAL_LAST_RUN', $a_set['last_run'] ?: '-');
 
         $actions = [];
         if ($this->mayWrite && !$a_set['running_ts']) {

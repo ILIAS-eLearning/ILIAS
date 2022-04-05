@@ -55,7 +55,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    public function isManageResultsCommandsEnabled()
+    public function isManageResultsCommandsEnabled() : bool
     {
         return $this->manageResultsCommandsEnabled;
     }
@@ -71,7 +71,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    public function isManageInviteesCommandsEnabled()
+    public function isManageInviteesCommandsEnabled() : bool
     {
         return $this->manageInviteesCommandsEnabled;
     }
@@ -93,7 +93,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getRowKeyDataField()
+    public function getRowKeyDataField() : string
     {
         return $this->rowKeyDataField;
     }
@@ -125,7 +125,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    public function isParticipantHasSolutionsFilterEnabled()
+    public function isParticipantHasSolutionsFilterEnabled() : bool
     {
         return $this->participantHasSolutionsFilterEnabled;
     }
@@ -139,17 +139,17 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     }
     
     /**
-     * @param string $field
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($field)
+    public function numericOrdering(string $a_field) : bool
     {
-        return in_array($field, array(
+        return in_array($a_field, array(
             'access', 'tries'
         ));
     }
     
-    protected function needsCheckboxColumn()
+    protected function needsCheckboxColumn() : bool
     {
         return $this->isManageInviteesCommandsEnabled();
     }
@@ -188,7 +188,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         }
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -211,28 +211,28 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     }
     
     /**
-     * @param array $data
+     * @param array $a_set
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         if ($this->needsCheckboxColumn()) {
             $this->tpl->setCurrentBlock('checkbox_column');
-            $this->tpl->setVariable("CHB_ROW_KEY", $this->fetchRowKey($data));
+            $this->tpl->setVariable("CHB_ROW_KEY", $this->fetchRowKey($a_set));
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->isManageInviteesCommandsEnabled()) {
             $this->tpl->setCurrentBlock('client_ip_column');
-            $this->tpl->setVariable("CLIENT_IP", $data['clientip']);
-            $this->tpl->setVariable("CIP_ROW_KEY", $this->fetchRowKey($data));
+            $this->tpl->setVariable("CLIENT_IP", $a_set['clientip']);
+            $this->tpl->setVariable("CIP_ROW_KEY", $this->fetchRowKey($a_set));
             $this->tpl->parseCurrentBlock();
         }
         
         if ($this->isActionsColumnRequired()) {
             $this->tpl->setCurrentBlock('actions_column');
             
-            if ($data['active_id'] > 0) {
-                $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($data)->getHTML());
+            if ($a_set['active_id'] > 0) {
+                $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set)->getHTML());
             } else {
                 $this->tpl->touchBlock('actions_column');
             }
@@ -240,23 +240,23 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($data));
-        $this->tpl->setVariable("LOGIN", $data['login']);
-        $this->tpl->setVariable("FULLNAME", $data['name']);
+        $this->tpl->setVariable("ROW_KEY", $this->fetchRowKey($a_set));
+        $this->tpl->setVariable("LOGIN", $a_set['login']);
+        $this->tpl->setVariable("FULLNAME", $a_set['name']);
         
-        $this->tpl->setVariable("STARTED", ($data['started']) ? $this->buildOkIcon() : '');
-        $this->tpl->setVariable("TRIES", $this->fetchTriesValue($data));
-        $this->tpl->setVariable("UNFINISHED_PASSES", $this->buildUnfinishedPassesStatusString($data));
+        $this->tpl->setVariable("STARTED", ($a_set['started']) ? $this->buildOkIcon() : '');
+        $this->tpl->setVariable("TRIES", $this->fetchTriesValue($a_set));
+        $this->tpl->setVariable("UNFINISHED_PASSES", $this->buildUnfinishedPassesStatusString($a_set));
         
-        $this->tpl->setVariable("FINISHED", ($data['finished']) ? $this->buildOkIcon() : '');
-        $this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($data));
+        $this->tpl->setVariable("FINISHED", ($a_set['finished']) ? $this->buildOkIcon() : '');
+        $this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($a_set));
     }
     
     /**
      * @param array $data
      * @return ilAdvancedSelectionListGUI
      */
-    protected function buildActionsMenu($data)
+    protected function buildActionsMenu($data) : ilAdvancedSelectionListGUI
     {
         $asl = new ilAdvancedSelectionListGUI();
         
@@ -273,7 +273,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    protected function isActionsColumnRequired()
+    protected function isActionsColumnRequired() : bool
     {
         if ($this->isManageResultsCommandsEnabled()) {
             return true;
@@ -286,7 +286,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function fetchRowKey($data)
+    protected function fetchRowKey($data) : string
     {
         return $data[$this->getRowKeyDataField()];
     }
@@ -295,7 +295,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function fetchTriesValue($data)
+    protected function fetchTriesValue($data) : string
     {
         if ($data['tries'] < 1) {
             return '';
@@ -312,7 +312,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param $data
      * @return string
      */
-    protected function buildUnfinishedPassesStatusString($data)
+    protected function buildUnfinishedPassesStatusString($data) : string
     {
         if ($data['unfinished']) {
             return $this->lng->txt('yes');
@@ -324,7 +324,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    protected function buildOkIcon()
+    protected function buildOkIcon() : string
     {
         return "<img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("ok") . "\" />";
     }
@@ -333,7 +333,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
      * @param $data
      * @return string
      */
-    protected function buildFormattedAccessDate($data)
+    protected function buildFormattedAccessDate($data) : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($data['access'], IL_CAL_DATETIME));
     }

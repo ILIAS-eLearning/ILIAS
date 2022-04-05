@@ -52,7 +52,7 @@ class ilNewsItem
     protected int $context_obj_id = 0;
     protected string $context_obj_type = "";
     protected int $context_sub_obj_id = 0;
-    protected string $context_sub_obj_type = "";
+    protected ?string $context_sub_obj_type = null;
     protected string $content_type = "text";
     protected string $creation_date = "";
     protected string $update_date = "";
@@ -67,10 +67,12 @@ class ilNewsItem
     private static bool $privFeedId = false;
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_id = 0)
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
@@ -146,12 +148,12 @@ class ilNewsItem
         return $this->context_sub_obj_id;
     }
 
-    public function setContextSubObjType(string $a_context_sub_obj_type) : void
+    public function setContextSubObjType(?string $a_context_sub_obj_type) : void
     {
         $this->context_sub_obj_type = $a_context_sub_obj_type;
     }
 
-    public function getContextSubObjType() : string
+    public function getContextSubObjType() : ?string
     {
         return $this->context_sub_obj_type;
     }
@@ -355,12 +357,12 @@ class ilNewsItem
         $this->setUserId($rec["user_id"]);
         $this->setUpdateUserId($rec["update_user_id"]);
         $this->setVisibility($rec["visibility"]);
-        $this->setContentLong($rec["content_long"]);
+        $this->setContentLong((string) $rec["content_long"]);
         $this->setPriority($rec["priority"]);
         $this->setContentIsLangVar($rec["content_is_lang_var"]);
         $this->setContentTextIsLangVar((int) $rec["content_text_is_lang_var"]);
-        $this->setMobId($rec["mob_id"]);
-        $this->setPlaytime($rec["playtime"]);
+        $this->setMobId((int) $rec["mob_id"]);
+        $this->setPlaytime((string) $rec["playtime"]);
         $this->setMobPlayCounter($rec["mob_cnt_play"]);
         $this->setMobDownloadCounter($rec["mob_cnt_download"]);
         $this->setContentHtml((bool) $rec["content_html"]);
@@ -519,8 +521,8 @@ class ilNewsItem
             }
             
             // get all memberships
-            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id, 'crs');
-            $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, 'grp');
+            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id, ['crs']);
+            $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, ['grp']);
             $items = array_merge($crs_mbs, $grp_mbs);
             foreach ($items as $i) {
                 $item_references = ilObject::_getAllReferences($i);
@@ -578,7 +580,7 @@ class ilNewsItem
             $data = ilNewsItem::mergeNews($data, $news);
         }
 
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
 
         return $data;
     }
@@ -609,6 +611,7 @@ class ilNewsItem
         // get starting date
         $starting_date = "";
         if ($obj_type == "grp" || $obj_type == "crs") {
+            // see #31471, #30687, and ilMembershipNotification
             if (!ilContainer::_lookupContainerSetting(
                 $obj_id,
                 'cont_use_news',
@@ -800,7 +803,7 @@ class ilNewsItem
         }
         
         $data = ilNewsItem::mergeNews($data, $news);
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
             $data = $this->aggregateFiles($data, $a_ref_id);
@@ -959,7 +962,7 @@ class ilNewsItem
         $data = ilNewsItem::mergeNews($data, $news);
         
         // sort and return
-        $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
+        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
             $data = $this->aggregateFiles($data, $a_ref_id);
@@ -1879,10 +1882,10 @@ class ilNewsItem
                 if ($a_increase_download_cnt) {
                     $this->increaseDownloadCounter();
                 }
-                ilUtil::deliverFile($file, $m_item->getLocation(), "", false, false, false);
+                ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
             } else {
-                ilUtil::sendFailure("File not found!", true);
+                $this->main_tpl->setOnScreenMessage('failure', "File not found!", true);
                 return false;
             }
         } else {

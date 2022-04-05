@@ -5,10 +5,6 @@ include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInput
 
 class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
-    /**
-     * Set Value.
-     * @param    $a_value Value
-     */
     public function setValue($a_value) : void
     {
         $this->values = array();
@@ -16,7 +12,17 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index, $a_value['points_unchecked'][$index], $a_value['imagename'][$index]);
+                    if (isset($a_value['points'])) {
+                        $value = $a_value['points'][$index];
+                    } else {
+                        $value = 0.0;
+                    }
+                    if (isset($a_value['points_unchecked'])) {
+                        $value_unchecked = $a_value['points_unchecked'][$index];
+                    } else {
+                        $value_unchecked = 0.0;
+                    }
+                    $answer = new ASS_AnswerMultipleResponseImage($value, $value, $index, $value_unchecked);
                     array_push($this->values, $answer);
                 }
             }
@@ -34,7 +40,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive(
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString(
@@ -93,10 +99,16 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
             if ($this->getSingleline()) {
                 if (is_object($value)) {
                     $tpl->setCurrentBlock("prop_text_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                    );
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPointsChecked()));
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsChecked())
+                    );
                     $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('singleline');
@@ -113,7 +125,10 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 if (!$this->getSingleline()) {
                     if (is_object($value)) {
                         $tpl->setCurrentBlock("prop_points_propval");
-                        $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
+                        $tpl->setVariable(
+                            "PROPERTY_VALUE",
+                            ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints())
+                        );
                         $tpl->parseCurrentBlock();
                     }
                 }

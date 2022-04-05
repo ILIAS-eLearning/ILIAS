@@ -1,12 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * @author Jesús López <lopez@leifos.com>
@@ -55,9 +71,13 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             ilExAssignment::TYPE_BLOG,
             ilExAssignment::TYPE_PORTFOLIO
         );
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->exc();
     }
 
+    /**
+     * @return \ILIAS\BackgroundTasks\Types\SingleType[]
+     */
     public function getInputTypes() : array
     {
         return
@@ -70,7 +90,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -82,9 +102,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * run the job
-     * @param array    $input
-     * @param Observer $observer
-     * @return StringValue
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDatabaseException
@@ -94,7 +111,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     public function run(
         array $input,
         Observer $observer
-    ) : StringValue {
+    ) : Value {
         $this->exercise_id = $input[0]->getValue();
         $this->exercise_ref_id = $input[1]->getValue();
         $assignment_id = $input[2]->getValue();
@@ -125,15 +142,13 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     /**
      * Copy a file in the Feedback_files directory
      * TODO use the new filesystem.
-     * @param string $a_directory
-     * @param string $a_file
      */
     public function copyFileToSubDirectory(string $a_directory, string $a_file) : void
     {
         $dir = $this->target_directory . "/" . $a_directory;
 
         if (!is_dir($dir)) {
-            ilUtil::createDirectory($dir);
+            ilFileUtils::createDirectory($dir);
         }
 
         copy($a_file, $dir . "/" . basename($a_file));
@@ -168,8 +183,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      */
     protected function createUniqueTempDirectory() : void
     {
-        $this->temp_dir = ilUtil::ilTempnam();
-        ilUtil::makeDirParents($this->temp_dir);
+        $this->temp_dir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDirParents($this->temp_dir);
     }
 
     /**
@@ -184,7 +199,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         }
         $this->target_directory = $path . $this->sanitized_title;
 
-        ilUtil::makeDirParents($this->target_directory);
+        ilFileUtils::makeDirParents($this->target_directory);
     }
 
     /**
@@ -194,7 +209,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     {
         $this->logger->dump("lang key => " . $this->lng->getLangKey());
         $this->submissions_directory = $this->target_directory . DIRECTORY_SEPARATOR . $this->lng->txt("exc_ass_submission_zip");
-        ilUtil::createDirectory($this->submissions_directory);
+        ilFileUtils::createDirectory($this->submissions_directory);
     }
 
     /**
@@ -253,10 +268,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * Add criteria data to the excel.
-     * @param int $feedback_giver
-     * @param int $participant_id
-     * @param int $row
-     * @param int $col
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function addCriteriaToExcel(
@@ -340,7 +351,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
                     $extra_crit_column = 0;
                     foreach ($files as $file) {
-                        if ($extra_crit_column) {
+                        if ($extra_crit_column !== 0) {
                             $this->title_columns[] = $crit_title . "_" . $extra_crit_column;
                         }
                         $extra_crit_column++;
@@ -432,7 +443,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $assignment_type = $this->assignment->getType();
 
         //Sanitized title for excel file and target directory.
-        $this->sanitized_title = ilUtil::getASCIIFilename($this->assignment->getTitle());
+        $this->sanitized_title = ilFileUtils::getASCIIFilename($this->assignment->getTitle());
 
         // directories
         if (!isset($this->temp_dir)) {
@@ -518,7 +529,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                 $submission = new ilExSubmission($this->assignment, $participant_id);
                 $submission_files = $submission->getFiles();
 
-                if ($submission_files) {
+                if ($submission_files !== []) {
                     $participant_name = ilObjUser::_lookupName($participant_id);
                     $this->excel->setCell($row, self::PARTICIPANT_LASTNAME_COLUMN, $participant_name['lastname']);
                     $this->excel->setCell($row, self::PARTICIPANT_FIRSTNAME_COLUMN, $participant_name['firstname']);
@@ -551,7 +562,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                             $col = $first_excel_column_for_review;
                         }
                         $reviews = [];
-                        if ($peer_review) {
+                        if ($peer_review !== null) {
                             $reviews = $peer_review->getPeerReviewsByPeerId($participant_id);
                         }
 

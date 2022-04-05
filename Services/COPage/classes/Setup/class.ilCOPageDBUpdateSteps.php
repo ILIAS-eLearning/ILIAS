@@ -22,7 +22,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db)
+    public function prepare(\ilDBInterface $db) : void
     {
         $this->db = $db;
     }
@@ -32,6 +32,18 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
         $field = array(
             'type' => 'integer',
             'length' => 2,
+            'notnull' => true,
+            'default' => 0
+        );
+
+        $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
+    }
+
+    public function step_2() : void
+    {
+        $field = array(
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         );

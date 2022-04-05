@@ -2,7 +2,7 @@
 
 class ilADTMultiEnumText extends ilADTMultiEnum
 {
-    protected function handleSelectionValue(mixed $a_value) : mixed
+    protected function handleSelectionValue($a_value)
     {
         return (string) $a_value;
     }

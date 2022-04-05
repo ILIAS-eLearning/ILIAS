@@ -6,5 +6,6 @@
 	</baseclasses>
 	<pluginslots>
 		<pluginslot id="crnhk" name="CronHook" />
-    </pluginslots>
+	</pluginslots>
+	<logging />
 </service>

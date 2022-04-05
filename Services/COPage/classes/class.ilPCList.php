@@ -82,10 +82,7 @@ class ilPCList extends ilPageContent
         }
     }
 
-    /**
-    * Get list type
-    */
-    public function getListType()
+    public function getListType() : string
     {
         if ($this->list_node->get_attribute("Type") == "Unordered") {
             return "Unordered";

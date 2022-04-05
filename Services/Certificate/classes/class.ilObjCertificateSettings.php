@@ -48,10 +48,10 @@ class ilObjCertificateSettings extends ilObject
             $convert_filename = ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
             $imagepath = $this->getBackgroundImageDefaultFolder();
             if (!is_dir($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
             // upload the file
-            if (!ilUtil::moveUploadedFile(
+            if (!ilFileUtils::moveUploadedFile(
                 $image_tempfilename,
                 basename($this->getDefaultBackgroundImageTempfilePath()),
                 $this->getDefaultBackgroundImageTempfilePath()
@@ -59,19 +59,19 @@ class ilObjCertificateSettings extends ilObject
                 return false;
             }
             // convert the uploaded file to JPEG
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getDefaultBackgroundImageTempfilePath(),
                 $this->getDefaultBackgroundImagePath(),
                 "JPEG"
             );
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getDefaultBackgroundImageTempfilePath(),
                 $this->getDefaultBackgroundImageThumbPath(),
                 "JPEG",
-                100
+                '100'
             );
             // something went wrong converting the file. use the original file and hope, that PDF can work with it
-            if (!is_file($this->getDefaultBackgroundImagePath()) && !ilUtil::moveUploadedFile(
+            if (!is_file($this->getDefaultBackgroundImagePath()) && !ilFileUtils::moveUploadedFile(
                 $this->getDefaultBackgroundImageTempfilePath(),
                 $convert_filename,
                 $this->getDefaultBackgroundImagePath()
@@ -98,7 +98,10 @@ class ilObjCertificateSettings extends ilObject
         if (is_file($this->getDefaultBackgroundImageTempfilePath())) {
             $result &= unlink($this->getDefaultBackgroundImageTempfilePath());
         }
-        return $result;
+
+        /** @noinspection PhpCastIsUnnecessaryInspection */
+        /** @noinspection UnnecessaryCastingInspection */
+        return (bool) $result; // Don't remove the cast, otherwise $result will be 1 or 0
     }
 
     private function getBackgroundImageDefaultFolder() : string
@@ -134,8 +137,8 @@ class ilObjCertificateSettings extends ilObject
     public function getDefaultBackgroundImagePathWeb() : string
     {
         return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
             $this->getDefaultBackgroundImagePath()
         );
     }
@@ -143,8 +146,8 @@ class ilObjCertificateSettings extends ilObject
     public function getBackgroundImageThumbPathWeb() : string
     {
         return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
             $this->getDefaultBackgroundImageThumbPath()
         );
     }

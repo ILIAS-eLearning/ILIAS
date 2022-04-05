@@ -3,9 +3,7 @@
 
 /**
  * Class ilDclTableListGUI
- *
  * @author       Theodor Truffer <tt@studer-raimann.ch>
- *
  * @ilCtrl_Calls ilDclTableListGUI: ilDclFieldListGUI, ilDclFieldEditGUI, ilDclTableViewGUI, ilDclTableEditGUI
  */
 class ilDclTableListGUI
@@ -32,15 +30,14 @@ class ilDclTableListGUI
      */
     protected $toolbar;
 
-
     /**
      * ilDclTableListGUI constructor.
-     *
      * @param ilObjDataCollectionGUI $a_parent_obj
      */
     public function __construct(ilObjDataCollectionGUI $a_parent_obj)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
@@ -56,11 +53,10 @@ class ilDclTableListGUI
         $this->toolbar = $ilToolbar;
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
-
 
     /**
      * execute command
@@ -75,12 +71,13 @@ class ilDclTableListGUI
         /*
          * see https://www.ilias.de/mantis/view.php?id=22775
          */
-        $tableHelper = new ilDclTableHelper((int) $this->obj_id, (int) $_GET['ref_id'], $DIC->rbac()->review(), $DIC->user(), $DIC->database());
+        $tableHelper = new ilDclTableHelper((int) $this->obj_id, (int) $_GET['ref_id'], $DIC->rbac()->review(),
+            $DIC->user(), $DIC->database());
         // send a warning if there are roles with rbac read access on the data collection but without read access on any standard view
         $role_titles = $tableHelper->getRoleTitlesWithoutReadRightOnAnyStandardView();
 
         if (count($role_titles) > 0) {
-            ilUtil::sendInfo($DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " " . implode(", ", $role_titles));
+            $this->tpl->setOnScreenMessage('info', $DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " " . implode(", ", $role_titles));
         }
 
         switch ($next_class) {
@@ -89,7 +86,8 @@ class ilDclTableListGUI
                 if ($cmd != 'create') {
                     $this->setTabs('settings');
                 } else {
-                    $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'listTables'));
+                    $this->tabs->setBackTarget($this->lng->txt('back'),
+                        $this->ctrl->getLinkTarget($this, 'listTables'));
                 }
                 $ilDclTableEditGUI = new ilDclTableEditGUI($this);
                 $this->ctrl->forwardCommand($ilDclTableEditGUI);
@@ -125,7 +123,6 @@ class ilDclTableListGUI
         }
     }
 
-
     public function listTables()
     {
         $add_new = ilLinkButton::getInstance();
@@ -138,16 +135,17 @@ class ilDclTableListGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-
     protected function setTabs($active)
     {
         $this->tabs->setBackTarget($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this, 'listTables'));
-        $this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
-        $this->tabs->addTab('fields', $this->lng->txt('dcl_list_fields'), $this->ctrl->getLinkTargetByClass('ilDclFieldListGUI', 'listFields'));
-        $this->tabs->addTab('tableviews', $this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTargetByClass('ilDclTableViewGUI'));
+        $this->tabs->addTab('settings', $this->lng->txt('settings'),
+            $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
+        $this->tabs->addTab('fields', $this->lng->txt('dcl_list_fields'),
+            $this->ctrl->getLinkTargetByClass('ilDclFieldListGUI', 'listFields'));
+        $this->tabs->addTab('tableviews', $this->lng->txt('dcl_tableviews'),
+            $this->ctrl->getLinkTargetByClass('ilDclTableViewGUI'));
         $this->tabs->setTabActive($active);
     }
-
 
     /**
      *
@@ -169,7 +167,6 @@ class ilDclTableListGUI
         }
         $this->ctrl->redirect($this);
     }
-
 
     /**
      * Confirm deletion of multiple fields
@@ -193,7 +190,6 @@ class ilDclTableListGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     /**
      *
      */
@@ -203,24 +199,21 @@ class ilDclTableListGUI
         foreach ($tables as $table_id) {
             ilDclCache::getTableCache($table_id)->doDelete();
         }
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tables_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tables_deleted'), true);
         $this->ctrl->redirect($this, 'listTables');
     }
 
-
     /**
      * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
-     *
      * @param $delete_count number of tableviews to delete
      */
     public function checkTablesLeft($delete_count)
     {
         if ($delete_count >= count($this->getDataCollectionObject()->getTables())) {
-            ilUtil::sendFailure($this->lng->txt('dcl_msg_tables_delete_all'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tables_delete_all'), true);
             $this->ctrl->redirect($this, 'listTables');
         }
     }
-
 
     /**
      * @return bool
@@ -231,7 +224,6 @@ class ilDclTableListGUI
 
         return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
     }
-
 
     /**
      * @return ilObjDataCollection

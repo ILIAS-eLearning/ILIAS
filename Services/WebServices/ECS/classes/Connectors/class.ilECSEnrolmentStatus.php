@@ -1,9 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
-/*
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
+/**
  * Presentation of ecs enrolment status
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSEnrolmentStatus
 {
@@ -24,11 +37,11 @@ class ilECSEnrolmentStatus
     
 
     // json fields
-    public $url = '';
-    public $id = '';
-    public $personID = '';
-    public $personIDtype = '';
-    public $status = '';
+    public string $url = '';
+    public string $id = '';
+    public string $personID = '';
+    public string $personIDtype = '';
+    public string $status = '';
     
     
     public function __construct()

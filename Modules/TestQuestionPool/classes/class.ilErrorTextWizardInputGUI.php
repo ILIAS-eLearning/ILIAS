@@ -29,10 +29,6 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set Value.
-    * @param    $a_value Value
-    */
     public function setValue($a_value) : void
     {
         $this->values = array();
@@ -61,7 +57,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	Key size
     */
-    public function getKeySize()
+    public function getKeySize() : int
     {
         return $this->key_size;
     }
@@ -81,7 +77,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	value size
     */
-    public function getValueSize()
+    public function getValueSize() : int
     {
         return $this->value_size;
     }
@@ -101,7 +97,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	Key maxlength
     */
-    public function getKeyMaxlength()
+    public function getKeyMaxlength() : int
     {
         return $this->key_maxlength;
     }
@@ -121,7 +117,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	integer	value maxlength
     */
-    public function getValueMaxlength()
+    public function getValueMaxlength() : int
     {
         return $this->value_maxlength;
     }
@@ -141,7 +137,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	string	value name
     */
-    public function getValueName()
+    public function getValueName() : string
     {
         return $this->value_name;
     }
@@ -161,7 +157,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	string	value name
     */
-    public function getKeyName()
+    public function getKeyName() : string
     {
         return $this->key_name;
     }
@@ -181,7 +177,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -196,7 +192,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
         $foundvalues = $_POST[$this->getPostVar()];
         $max_points = 0;
@@ -261,17 +257,20 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
             if (is_object($value)) {
                 if (strlen($value->text_wrong)) {
                     $tpl->setCurrentBlock("prop_key_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text_wrong));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->text_wrong));
                     $tpl->parseCurrentBlock();
                 }
                 if (strlen($value->text_correct)) {
                     $tpl->setCurrentBlock("prop_value_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text_correct));
+                    $tpl->setVariable(
+                        "PROPERTY_VALUE",
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->text_correct)
+                    );
                     $tpl->parseCurrentBlock();
                 }
                 if (strlen($value->points)) {
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->points));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->points));
                     $tpl->parseCurrentBlock();
                 }
             }

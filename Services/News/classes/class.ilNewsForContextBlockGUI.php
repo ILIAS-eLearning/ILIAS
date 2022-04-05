@@ -425,7 +425,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
             $info["type_txt"] = $type_txt;
             $info["type_icon"] = ilObject::_getIcon($obj_id, "tiny", $type);
-            $info["obj_title"] = ilUtil::shortenWords(ilObject::_lookupTitle($obj_id));
+            $info["obj_title"] = ilStr::shortenWords(ilObject::_lookupTitle($obj_id));
             $info["user_read"] = $news["user_read"];
 
             $ilCtrl->setParameter($this, "news_context", $context_ref);
@@ -435,13 +435,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         // title
         $info["news_title"] =
-            ilUtil::shortenWords(ilNewsItem::determineNewsTitle(
-                $news["context_obj_type"],
-                $news["title"],
-                $news["content_is_lang_var"],
-                $news["agg_ref_id"] ?? 0,
-                $news["aggregation"] ?? []
-            ));
+            ilStr::shortenWords(
+                ilNewsItem::determineNewsTitle(
+                    $news["context_obj_type"],
+                    $news["title"],
+                    $news["content_is_lang_var"],
+                    $news["agg_ref_id"] ?? 0,
+                    $news["aggregation"] ?? []
+                )
+            );
         
 
         $ilCtrl->setParameter($this, "news_id", $news["id"]);
@@ -760,7 +762,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $item["title"],
                     $item["content_is_lang_var"],
                     $item["agg_ref_id"] ?? 0,
-                    $item["aggregation"] ?? false
+                    $item["aggregation"] ?? []
                 )
             );
             
@@ -1067,7 +1069,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             0,
             $block_id
         );
-
         $default_visibility = ilBlockSetting::_lookup(self::$block_type, "default_visibility", 0, $block_id);
         if ($default_visibility == "") {
             $default_visibility =
@@ -1090,7 +1091,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "notifications_public_feed"
             );
             $radio_rss->setInfo($lng->txt("news_public_feed_info"));
-            $radio_rss->setChecked($public_feed);
+            $radio_rss->setChecked((bool) $public_feed);
             $a_input->addSubItem($radio_rss);
         }
     }

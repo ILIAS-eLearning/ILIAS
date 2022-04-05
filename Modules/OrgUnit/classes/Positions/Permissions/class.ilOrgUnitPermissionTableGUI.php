@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitPermissionTableGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPermissionTableGUI extends ilTable2GUI
@@ -13,10 +12,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
      */
     private $ref_id = null;
 
-
     /**
      * ilOrgUnitPermissionTableGUI constructor.
-     *
      * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $a_parent_obj
      * @param string                                       $a_parent_cmd
      * @param string                                       $a_ref_id
@@ -49,7 +46,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         $this->addCommandButton(ilPermissionGUI::CMD_SAVE_POSITIONS_PERMISSIONS, $this->lng->txt('save'));
     }
 
-
     /**
      * @return int
      */
@@ -57,7 +53,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
     {
         return (int) $this->ref_id;
     }
-
 
     /**
      * @return int Object-ID of current object
@@ -67,7 +62,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         return (int) ilObject::_lookupObjId($this->getRefId());
     }
 
-
     /**
      * @return string
      */
@@ -76,30 +70,28 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         return (string) ilObject::_lookupType($this->getObjId());
     }
 
-
     /**
-     * @param array $row
-     *
-     * @return bool
+     * @param array $a_set
+     * @return void
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         // Select all
-        if (isset($row['show_select_all'])) {
-            $this->fillSelectAll($row);
+        if (isset($a_set['show_select_all'])) {
+            $this->fillSelectAll($a_set);
 
-            return true;
+            return;
         }
-        if (isset($row['header_command'])) {
-            $this->fillHeaderCommand($row);
+        if (isset($a_set['header_command'])) {
+            $this->fillHeaderCommand($a_set);
 
-            return true;
+            return;
         }
 
         $objdefinition = $this->dic()['objDefinition'];
         $is_plugin = $objdefinition->isPlugin($this->getObjType());
 
-        foreach ($row as $permission) {
+        foreach ($a_set as $permission) {
             /**
              * @var $operation \ilOrgUnitOperation
              * @var $position  \ilOrgUnitPosition
@@ -131,7 +123,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         }
     }
 
-
     public function collectData()
     {
         $positions = ilOrgUnitPosition::get();
@@ -148,7 +139,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
             $ops = [];
             foreach ($positions as $position) {
-                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($this->getRefId(), $position->getId());
+                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($this->getRefId(),
+                    $position->getId());
 
                 $is_template = $ilOrgUnitPermission->isTemplate();
                 $from_templates[$position->getId()] = $is_template;
@@ -172,7 +164,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
             "template" => $from_templates,
         ];
         if (ilOrgUnitGlobalSettings::getInstance()
-            ->isPositionAccessActiveForObject($this->getObjId())
+                                   ->isPositionAccessActiveForObject($this->getObjId())
         ) {
             $perms[] = [
                 "header_command" => true,
@@ -186,10 +178,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         return;
     }
 
-
     /**
      * @param array $positions
-     *
      * @return bool
      */
     protected function initColumns(array $positions)
@@ -201,7 +191,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         return true;
     }
 
-
     /**
      * @return \ILIAS\DI\Container
      */
@@ -209,7 +198,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
     {
         return $GLOBALS['DIC'];
     }
-
 
     /**
      * @param $row
@@ -234,7 +222,6 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param $row
      */
@@ -247,8 +234,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('header_command');
             $this->tpl->setVariable('POSITION_ID', $position->getId());
             $this->tpl->setVariable('HEADER_COMMAND_TXT', $this->dic()
-                ->language()
-                ->txt('positions_override_operations'));
+                                                               ->language()
+                                                               ->txt('positions_override_operations'));
             if (ilOrgUnitPermissionQueries::hasLocalSet($this->getRefId(), $position->getId())) {
                 $this->tpl->setVariable('HEADER_CHECKED', "checked='checked'");
             }

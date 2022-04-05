@@ -7,6 +7,20 @@ use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
 use InvalidArgumentException;
 use RecursiveIteratorIterator;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 /**
  * Class DepthRangeFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
@@ -14,8 +28,7 @@ use RecursiveIteratorIterator;
  */
 class DepthRangeFilterIterator extends \FilterIterator
 {
-    /** @var int */
-    private $minDepth = 0;
+    private int $minDepth = 0;
 
     /**
      * DepthRangeFilterIterator constructor.
@@ -25,7 +38,7 @@ class DepthRangeFilterIterator extends \FilterIterator
      */
     public function __construct(RecursiveIteratorIterator $iterator, array $comparators)
     {
-        array_walk($comparators, function ($comparator) {
+        array_walk($comparators, static function ($comparator) : void {
             if (!($comparator instanceof NumberComparator)) {
                 if (is_object($comparator)) {
                     throw new InvalidArgumentException(sprintf(
@@ -69,7 +82,7 @@ class DepthRangeFilterIterator extends \FilterIterator
     /**
      * @inheritdoc
      */
-    public function accept()
+    public function accept() : bool
     {
         return $this->getInnerIterator()->getDepth() >= $this->minDepth;
     }

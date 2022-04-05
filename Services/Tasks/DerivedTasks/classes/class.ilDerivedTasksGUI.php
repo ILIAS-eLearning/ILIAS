@@ -45,6 +45,11 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
     protected $lng;
 
     /**
+     * @var ilHelp
+     */
+    protected $help;
+
+    /**
      * Constructor
      * @param \ILIAS\DI\Container|null $dic
      */
@@ -62,7 +67,9 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
         $this->user = $DIC->user();
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
+        $this->help = $DIC->help();
 
+        $this->help->setScreenIdComponent('task');
         $this->lng->loadLanguageModule("task");
     }
 
@@ -94,6 +101,7 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
         $main_tpl = $this->main_tpl;
 
         $main_tpl->setTitle($lng->txt("task_derived_tasks"));
+        $this->help->setScreenId('derived_tasks');
 
         $f = $ui->factory();
         $renderer = $ui->renderer();
@@ -171,7 +179,7 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
 
             $main_tpl->setContent($renderer->render($panels));
         } else {
-            ilUtil::sendInfo($lng->txt("task_no_tasks"));
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("task_no_tasks"));
         }
     }
 }

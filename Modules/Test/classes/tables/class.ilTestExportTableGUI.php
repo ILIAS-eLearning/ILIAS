@@ -17,13 +17,6 @@ class ilTestExportTableGUI extends ilExportTableGUI
     protected $counter;
     protected $confirmdelete;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
@@ -37,7 +30,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
      * @param string $type
      * @param string $filename
      */
-    protected function formatActionsList($type, $filename)
+    protected function formatActionsList($type, $filename) : string
     {
         /**
          * @var $ilCtrl ilCtrl
@@ -56,7 +49,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
     /***
      *
      */
-    protected function initMultiCommands()
+    protected function initMultiCommands() : void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
     }
@@ -64,15 +57,12 @@ class ilTestExportTableGUI extends ilExportTableGUI
     /**
      * Overwrite method because data is passed from outside
      */
-    public function getExportFiles()
+    public function getExportFiles() : array
     {
         return array();
     }
 
-    /**
-     *
-     */
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn($this->lng->txt(''), '', '1', true);
         $this->addColumn($this->lng->txt('file'), 'file');
@@ -81,12 +71,12 @@ class ilTestExportTableGUI extends ilExportTableGUI
     }
 
     /**
-     * @param string $column
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($column)
+    public function numericOrdering(string $a_field) : bool
     {
-        if (in_array($column, array('size', 'date'))) {
+        if (in_array($a_field, array('size', 'date'))) {
             return true;
         }
 
@@ -97,7 +87,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
      * @param array $row
      * @return string
      */
-    protected function getRowId(array $row)
+    protected function getRowId(array $row) : string
     {
         return $row['file'];
     }

@@ -3,10 +3,8 @@
 
 /**
  * Class ilOrgUnitExporter
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilOrgUnitExporter extends ilCategoryExporter
 {
@@ -33,10 +31,8 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $writer;
     }
 
-
     /**
      * @param $orgu_ref_id
-     *
      * @return string
      */
     protected function getExternalId($orgu_ref_id)
@@ -46,17 +42,14 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $import_id ?: $this->buildExternalId($orgu_ref_id);
     }
 
-
     /**
      * @param $orgu_ref_id int
-     *
      * @return string
      */
     protected function buildExternalId($orgu_ref_id)
     {
         return "orgu_" . CLIENT_ID . "_" . $orgu_ref_id;
     }
-
 
     /**
      * @param $orgu_ref_id
@@ -101,7 +94,6 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $worksheet->sendToClient($file_name);
     }
 
-
     public function sendAndCreateSimpleExportFile()
     {
         $orgu_id = ilObjOrgUnit::getRootOrgId();
@@ -116,14 +108,14 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $new_file = $sub_dir . '.zip';
 
         $export_run_dir = $export_dir . "/" . $sub_dir;
-        ilUtil::makeDirParents($export_run_dir);
+        ilFileUtils::makeDirParents($export_run_dir);
 
         $writer = $this->simpleExport($orgu_ref_id);
         $writer->xmlDumpFile($export_run_dir . "/manifest.xml", false);
 
         // zip the file
-        ilUtil::zip($export_run_dir, $export_dir . "/" . $new_file);
-        ilUtil::delDir($export_run_dir);
+        ilFileUtils::zip($export_run_dir, $export_dir . "/" . $new_file);
+        ilFileUtils::delDir($export_run_dir);
 
         // Store info about export
         $exp = new ilExportFileInfo($orgu_id);
@@ -133,7 +125,7 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $exp->setFilename($new_file);
         $exp->create();
 
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $export_dir . "/" . $new_file,
             $new_file
         );
@@ -144,7 +136,6 @@ class ilOrgUnitExporter extends ilCategoryExporter
             "directory" => $export_dir,
         );
     }
-
 
     private function getStructure($root_node_ref)
     {
@@ -165,10 +156,8 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $closed;
     }
 
-
     /**
      * @param $orgu ilObjOrgUnit
-     *
      * @return array
      */
     private function getAttributesForOrgu($orgu)
@@ -183,7 +172,12 @@ class ilOrgUnitExporter extends ilCategoryExporter
         }
         // Only the ref id is guaranteed to be unique.
         $ref_id = $orgu->getRefId();
-        $attr = array("ou_id" => $this->getExternalId($ref_id), "ou_id_type" => "external_id", "ou_parent_id" => $ou_parent_id, "ou_parent_id_type" => "external_id", "action" => "create");
+        $attr = array("ou_id" => $this->getExternalId($ref_id),
+                      "ou_id_type" => "external_id",
+                      "ou_parent_id" => $ou_parent_id,
+                      "ou_parent_id_type" => "external_id",
+                      "action" => "create"
+        );
 
         return $attr;
     }

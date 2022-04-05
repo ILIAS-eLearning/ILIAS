@@ -24,14 +24,6 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     protected $suffixes = array();
     protected $hideImages = false;
 
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     *
-     * @return \ilMatchingWizardInputGUI
-     */
     public function __construct($a_title = "", $a_postvar = "")
     {
         global $DIC;
@@ -59,7 +51,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Accepted Suffixes
     */
-    public function getSuffixes()
+    public function getSuffixes() : array
     {
         return $this->suffixes;
     }
@@ -89,7 +81,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -119,7 +111,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	object	Value
     */
-    public function getQuestionObject()
+    public function getQuestionObject() : ?object
     {
         return $this->qstObject;
     }
@@ -139,15 +131,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
 
-    /**
-    * Set Value.
-    * @param    $a_value Value
-    */
     public function setValue($a_value) : void
     {
         $this->values = array();
@@ -155,7 +143,19 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-                    $answer = new assAnswerMatchingTerm($value, $a_value['imagename'][$index], $a_value['identifier'][$index]);
+                    if (isset($a_value['imagename'])) {
+                        $answer = new assAnswerMatchingTerm(
+                            $value,
+                            $a_value['imagename'][$index],
+                            $a_value['identifier'][$index]
+                        );
+                    } else {
+                        $answer = new assAnswerMatchingTerm(
+                            $value,
+                            '',
+                            $a_value['identifier'][$index]
+                        );
+                    }
                     array_push($this->values, $answer);
                 }
             }
@@ -172,7 +172,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $lng = $DIC['lng'];
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
+                $_POST[$this->getPostVar()],
+                true,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
         }
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
@@ -204,9 +208,11 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired()) {
-                                        if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
-                                            $this->setAlert($lng->txt("form_msg_file_no_upload"));
-                                            return false;
+                                        if (isset($foundvalues['imagename'])) {
+                                            if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                                $this->setAlert($lng->txt("form_msg_file_no_upload"));
+                                                return false;
+                                            }
                                         }
                                     }
                                     break;
@@ -234,11 +240,14 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                     foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
                         $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
                         $filename_arr = pathinfo($filename);
-                        $suffix = $filename_arr["extension"];
+                        $suffix = '';
+                        if (isset($filename_arr['extension'])) {
+                            $suffix = $filename_arr["extension"];
+                        }
 
                         // check suffixes
                         if ($tmpname != '' && is_array($this->getSuffixes())) {
-                            $vir = ilUtil::virusHandling($tmpname, $filename);
+                            $vir = ilVirusScanner::virusHandling($tmpname, $filename);
                             if ($vir[0] == false) {
                                 $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                                 return false;
@@ -279,7 +288,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                     $tpl->setCurrentBlock('image');
                     $tpl->setVariable('SRC_IMAGE', $imagename);
                     $tpl->setVariable('IMAGE_NAME', $value->picture);
-                    $tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->text));
+                    $tpl->setVariable('ALT_IMAGE', ilLegacyFormElementsUtil::prepareFormOutput($value->text));
                     $tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
                     $tpl->setVariable("IMAGE_ROW_NUMBER", $i);
                     $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
@@ -296,7 +305,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
             if (is_object($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->text));
                 $tpl->parseCurrentBlock();
             }
             // this block does not exist in the template
@@ -345,7 +354,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             }
             $tpl->setCurrentBlock("image_heading");
             $tpl->setVariable("ANSWER_IMAGE", $this->image_name);
-            $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+            $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
             $tpl->parseCurrentBlock();
         }
 

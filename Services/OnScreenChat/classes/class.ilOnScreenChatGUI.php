@@ -1,8 +1,23 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\OnScreenChat\Provider\OnScreenChatNotificationProvider;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\OnScreenChat\Provider\OnScreenChatProvider;
 use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
 use Psr\Http\Message\ResponseInterface;
@@ -96,8 +111,8 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 $response = $this->verifyLogin();
                 break;
 
-            case 'getRenderedNotificationItems':
-                $provider = new OnScreenChatNotificationProvider(
+            case 'getRenderedConversationItems':
+                $provider = new OnScreenChatProvider(
                     $this->dic,
                     new Conversation($this->dic->database(), $this->dic->user()),
                     new Subscriber($this->dic->database(), $this->dic->user())
@@ -246,9 +261,9 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     true,
                     false
                 ),
-                'renderNotificationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
+                'renderConversationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
                     'ilonscreenchatgui',
-                    'getRenderedNotificationItems',
+                    'getRenderedConversationItems',
                     '',
                     true,
                     false
@@ -259,10 +274,10 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
                     $clientSettings->get('enable_browser_notifications', '0') &&
-                    ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
+                    ilUtil::yn2tf((string) $DIC->user()->getPref('chat_osc_browser_notifications'))
                 ),
                 'broadcast_typing' => (
-                    ilUtil::yn2tf($DIC->user()->getPref('chat_broadcast_typing'))
+                    ilUtil::yn2tf((string) $DIC->user()->getPref('chat_broadcast_typing'))
                 ),
                 'notificationIconPath' => ilUtil::getImagePath('icon_chta.png'),
             );

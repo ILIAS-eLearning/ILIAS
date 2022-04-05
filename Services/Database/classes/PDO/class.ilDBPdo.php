@@ -32,7 +32,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     /**
      * @var string
      */
-    protected $storage_engine = 'MyISAM';
+    protected $storage_engine = 'InnoDB';
     protected string $dsn = '';
     protected array $attributes = array(
         //		PDO::ATTR_EMULATE_PREPARES => true,
@@ -634,6 +634,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             case ilDBConstants::T_DATE:
                 if ($value === '') {
                     return 'NULL';
+                }
+                if ($value === $this->now()) {
+                    return $value;
                 }
                 $value = (string) $value;
                 break;

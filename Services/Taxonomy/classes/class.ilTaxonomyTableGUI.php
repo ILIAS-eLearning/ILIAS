@@ -4,7 +4,6 @@
 
 /**
  * TableGUI class for taxonomies
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyTableGUI extends ilTable2GUI
@@ -31,37 +30,38 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
 
+        // @todo introduce request wrapper
         $params = $DIC->http()->request()->getQueryParams();
 
         $this->requested_tax_node = $params["tax_node"] ?? "";
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         if ($a_node_id == "") {
             $a_node_id = $a_tree->readRootId();
         }
-        
+
         $this->tree = $a_tree;
         $this->tax = $a_tax;
         $this->node_id = $a_node_id;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $childs = $this->tree->getChildsByTypeFilter(
             $a_node_id,
             array("taxn")
         );
-        
+
         if ($a_tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL) {
-            $childs = ilUtil::sortArray($childs, "order_nr", "asc", false);
+            $childs = ilArrayUtil::sortArray($childs, "order_nr", "asc", false);
         } else {
-            $childs = ilUtil::sortArray($childs, "title", "asc", false);
+            $childs = ilArrayUtil::sortArray($childs, "title", "asc", false);
         }
         $this->setData($childs);
-        
+
         $this->setTitle($lng->txt("tax_nodes"));
-        
+
         $this->addColumn($this->lng->txt(""), "", "1px", true);
         if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL) {
             $this->addColumn($this->lng->txt("tax_order"), "order_nr", "1px");
@@ -69,7 +69,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
             $this->setDefaultOrderDirection("asc");
         }
         $this->addColumn($this->lng->txt("title"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.tax_row.html", "Services/Taxonomy");
 
@@ -77,23 +77,16 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         $this->addMultiCommand("moveItems", $lng->txt("move"));
         $this->addCommandButton("saveSorting", $lng->txt("save"));
     }
-    
-        
-    /**
-     * @inheritDoc
-     */
-    public function numericOrdering($a_field) : bool
+
+    public function numericOrdering(string $a_field) : bool
     {
-        if (in_array($a_field, array("order_nr"))) {
+        if ($a_field == "order_nr") {
             return true;
         }
         return false;
     }
-    
-    /**
-     * @inheritDoc
-     */
-    protected function fillRow($a_set) : void
+
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -108,8 +101,8 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         }
 
         $this->tpl->setVariable("HREF_TITLE", $ret);
-        
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+
+        $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
         $this->tpl->setVariable("NODE_ID", $a_set["child"]);
     }
 }

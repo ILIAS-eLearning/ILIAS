@@ -18,10 +18,10 @@
  */
 class ilEventDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     protected ?string $component;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }

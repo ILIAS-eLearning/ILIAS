@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -117,7 +117,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
         return $ok;
     }
 
-    protected function getInput() : array
+    public function getInput() : array
     {
         return $this->strArray($this->getPostVar());
     }

@@ -78,7 +78,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return ilDBInterface
      */
-    public function getDb()
+    public function getDb() : ilDBInterface
     {
         return $this->db;
     }
@@ -94,7 +94,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getQuestionId()
+    public function getQuestionId() : ?int
     {
         return $this->questionId;
     }
@@ -110,7 +110,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getSkillBaseId()
+    public function getSkillBaseId() : ?int
     {
         return $this->skillBaseId;
     }
@@ -126,7 +126,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getSkillTrefId()
+    public function getSkillTrefId() : ?int
     {
         return $this->skillTrefId;
     }
@@ -142,7 +142,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getOrderIndex()
+    public function getOrderIndex() : ?int
     {
         return $this->orderIndex;
     }
@@ -158,7 +158,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return string
      */
-    public function getExpression()
+    public function getExpression() : ?string
     {
         return $this->expression;
     }
@@ -174,7 +174,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getPoints()
+    public function getPoints() : ?int
     {
         return $this->points;
     }

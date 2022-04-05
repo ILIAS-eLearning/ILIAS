@@ -9,6 +9,8 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Implementation\Factory;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
  * Class ilTestBaseClass
@@ -25,7 +27,30 @@ class ilTestBaseTestCase extends TestCase
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
+        $this->addGlobal_tpl();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_ilias();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilErr();
+        $this->addGlobal_tree();
+        $this->addGlobal_ilAppEventHandler();
+        $this->addGlobal_objDefinition();
+        $DIC['logger'] = $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
+        $this->dic['logger'] = $DIC['logger'];
 
+        $http_mock = $this->getMockBuilder(\ILIAS\HTTP\Services::class)->disableOriginalConstructor()->onlyMethods(array('request','wrapper'))->getMock();
+
+        $request_mock = $this->getMockBuilder(\GuzzleHttp\Psr7\ServerRequest::class)->disableOriginalConstructor()->onlyMethods(array('getParsedBody'))->getMock();
+        $request_mock->expects($this->any())->method('getParsedBody')->willReturn(array());
+        $http_mock->expects($this->any())->method('request')->willReturn($request_mock);
+
+        $wrapper_mock = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
+        $http_mock->expects($this->any())->method('wrapper')->willReturn($wrapper_mock);
+
+        $DIC['http'] = $http_mock;
+        $this->dic['http'] = $DIC['http'];
+        $DIC['refinery'] = $this->getMockBuilder(ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock();
+        $this->dic['refinery'] = $DIC['refinery'];
         parent::setUp();
     }
 
@@ -48,7 +73,7 @@ class ilTestBaseTestCase extends TestCase
     /**
      * @return ilTemplate|mixed|MockObject
      */
-    protected function getGlobalTemplateMock()
+    protected function getGlobalTemplateMock() : mixed
     {
         return $this->getMockBuilder(ilTemplate::class)->disableOriginalConstructor()->getMock();
     }
@@ -56,7 +81,7 @@ class ilTestBaseTestCase extends TestCase
     /**
      * @return ilDBInterface|mixed|MockObject
      */
-    protected function getDatabaseMock()
+    protected function getDatabaseMock() : mixed
     {
         return $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }
@@ -215,5 +240,12 @@ class ilTestBaseTestCase extends TestCase
     protected function addGlobal_uiRenderer() : void
     {
         $this->setGlobalVariable("ui.renderer", $this->createMock(ILIAS\UI\Implementation\DefaultRenderer::class));
+    }
+
+    protected function addGlobal_refinery() : void
+    {
+        $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
+        $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
+        $this->setGlobalVariable("refinery", $refineryMock);
     }
 }

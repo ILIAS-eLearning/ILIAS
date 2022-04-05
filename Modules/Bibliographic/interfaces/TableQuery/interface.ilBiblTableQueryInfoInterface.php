@@ -2,73 +2,33 @@
 
 /**
  * Interface ilBiblTableQueryInfoInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblTableQueryInfoInterface
 {
-    const SORTING_ASC = "ASC";
-    const SORTING_DESC = "DESC";
-
-
-    /**
-     * @return string
-     */
-    public function getSortingColumn();
-
-
-    /**
-     * @param string $sorting_column
-     */
-    public function setSortingColumn($sorting_column);
-
-
-    /**
-     * @return string
-     */
-    public function getSortingDirection();
-
-
-    /**
-     * @param string $sorting_direction
-     */
-    public function setSortingDirection($sorting_direction);
-
-
-    /**
-     * @return int
-     */
-    public function getOffset();
-
-
-    /**
-     * @param int $offset
-     */
-    public function setOffset($offset);
-
-
-    /**
-     * @return int
-     */
-    public function getLimit();
-
-
-    /**
-     * @param int $limit
-     */
-    public function setLimit($limit);
-
-
-    /**
-     * @param \ilBiblTableQueryFilterInterface $filter
-     *
-     * @return void
-     */
-    public function addFilter(ilBiblTableQueryFilterInterface $filter);
-
-
+    public const SORTING_ASC = "ASC";
+    public const SORTING_DESC = "DESC";
+    
+    public function getSortingColumn() : string;
+    
+    public function setSortingColumn(string $sorting_column) : void;
+    
+    public function getSortingDirection() : string;
+    
+    public function setSortingDirection(string $sorting_direction) : void;
+    
+    public function getOffset() : int;
+    
+    public function setOffset(int $offset) : void;
+    
+    public function getLimit() : int;
+    
+    public function setLimit(int $limit) : void;
+    
+    public function addFilter(ilBiblTableQueryFilterInterface $filter) : void;
+    
     /**
      * @return \ilBiblTableQueryFilterInterface[]
      */
-    public function getFilters();
+    public function getFilters() : array;
 }

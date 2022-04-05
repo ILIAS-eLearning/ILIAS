@@ -1,38 +1,39 @@
-<?php
+<?php declare(strict_types = 1);
 
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilWebDAVMountInstructionsDocumentPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-    /** @var array */
-    private $allowedTags = [];
-
-    /** @var string */
-    protected $cacheDirectory = '';
-
-    /**
-     * ilTermsOfServiceDocumentHtmlPurifier constructor.
-     * @param array|null $allowedTags
-     * @param string     $cacheDirectory
-     */
+    private array $allowedTags = [];
+    protected string $cacheDirectory = '';
+    
     public function __construct(array $allowedTags = null, string $cacheDirectory = null)
     {
-        if (null === $cacheDirectory) {
+        if ($cacheDirectory === null) {
             $cacheDirectory = ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory();
         }
         $this->cacheDirectory = $cacheDirectory;
 
-        if (null === $allowedTags) {
+        if ($allowedTags === null) {
             $allowedTags = ilObjAdvancedEditing::_getUsedHTMLTags('textarea');
         }
         $this->allowedTags = $allowedTags;
 
         parent::__construct();
-        $this->allowedTags = $allowedTags;
     }
-
-    /**
-     * @inheritdoc
-     */
+    
     protected function getPurifierConfigInstance() : HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();

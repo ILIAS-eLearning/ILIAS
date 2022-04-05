@@ -49,7 +49,7 @@ class ilTestInfoScreenToolbarFactory
     /**
      * @return int
      */
-    public function getTestRefId()
+    public function getTestRefId() : int
     {
         return $this->testRefId;
     }
@@ -65,7 +65,7 @@ class ilTestInfoScreenToolbarFactory
     /**
      * @return ilObjTest
      */
-    public function getTestOBJ()
+    public function getTestOBJ() : ilObjTest
     {
         return $this->testOBJ;
     }
@@ -109,7 +109,7 @@ class ilTestInfoScreenToolbarFactory
         }
     }
     
-    public function getToolbarInstance()
+    public function getToolbarInstance() : ilTestInfoScreenToolbarGUI
     {
         $this->ensureInitialised();
         

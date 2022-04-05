@@ -3,9 +3,7 @@
 
 /**
  * Class ilDclEditViewDefinitionGUI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
+ * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @ilCtrl_Calls ilDclEditViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclEditViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
@@ -19,7 +17,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
      * @var ilDclEditViewTableGUI
      */
     protected $table_gui;
-
 
     /**
      * @param     $tableview_id
@@ -52,7 +49,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-
     /**
      * execute command
      */
@@ -83,7 +79,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-
     /**
      *
      */
@@ -95,7 +90,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-
     /**
      *
      */
@@ -106,7 +100,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $page->update();
         $this->ctrl->redirect($this, 'edit');
     }
-
 
     /**
      * confirmDelete
@@ -130,7 +123,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * cancelDelete
      */
@@ -141,7 +133,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
 
         $ilCtrl->redirect($this, "edit");
     }
-
 
     /**
      *
@@ -157,12 +148,11 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
             $pageObject->delete();
         }
 
-        ilUtil::sendSuccess($lng->txt("dcl_empty_detailed_view_success"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("dcl_empty_detailed_view_success"), true);
 
         // Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
         $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
     }
-
 
     /**
      * Release page lock
@@ -175,10 +165,9 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $lng = $DIC['lng'];
 
         $this->getPageObject()->releasePageLock();
-        ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_lock_released"), true);
         $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
     }
-
 
     /**
      * Finalizing output processing
@@ -215,7 +204,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
 
         return $a_output;
     }
-
 
     /**
      * Save table entries
@@ -263,7 +251,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
             $view->save();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
         $this->ctrl->saveParameter($this, 'tableview_id');
         $this->ctrl->redirect($this, 'presentation');
     }

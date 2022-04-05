@@ -32,7 +32,10 @@ class ilChatroomFormFactory
      */
     public static function applyValues(ilPropertyFormGUI $form, array $values) : void
     {
-        $form->setValuesByArray($values);
+        $form->setValuesByArray(array_map(
+            static fn ($value) => is_int($value) ? (string) $value : $value,
+            $values
+        ));
     }
 
     /**
@@ -253,22 +256,6 @@ class ilChatroomFormFactory
         $oscBrowserNotificationIdleTime->setSize(5);
         $oscBrowserNotificationIdleTime->setInfo($this->lng->txt('osc_adm_conv_idle_state_threshold_info'));
         $enable_osc->addSubItem($oscBrowserNotificationIdleTime);
-
-        $osd = new ilCheckboxInputGUI($this->lng->txt('enable_osd'), 'enable_osd');
-        $osd->setInfo($this->lng->txt('hint_osd'));
-        $enable_chat->addSubItem($osd);
-
-        $interval = new ilNumberInputGUI($this->lng->txt('osd_intervall'), 'osd_intervall');
-        $interval->setMinValue(1);
-        $interval->setRequired(true);
-        $interval->setSuffix($this->lng->txt('seconds'));
-        $interval->setSize(5);
-        $interval->setInfo($this->lng->txt('hint_osd_interval'));
-        $osd->addSubItem($interval);
-
-        $play_sound = new ilCheckboxInputGUI($this->lng->txt('play_invitation_sound'), 'play_invitation_sound');
-        $play_sound->setInfo($this->lng->txt('play_invitation_sound_info'));
-        $osd->addSubItem($play_sound);
 
         $enable_smilies = new ilCheckboxInputGUI($this->lng->txt('enable_smilies'), 'enable_smilies');
         $enable_smilies->setInfo($this->lng->txt('hint_enable_smilies'));

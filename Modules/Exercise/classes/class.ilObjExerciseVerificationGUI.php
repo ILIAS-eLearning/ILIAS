@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * GUI class for exercise verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -59,22 +73,22 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (Exception $exception) {
-                ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
                 $this->create();
                 return;
             }
 
-            if ($newObj) {
+            if ($newObj !== null) {
                 $parent_id = $this->node_id;
                 $this->node_id = null;
                 $this->putObjectInTree($newObj, $parent_id);
 
                 $this->afterSave($newObj);
             } else {
-                ilUtil::sendFailure($this->lng->txt("msg_failed"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
         }
         $this->create();
     }
@@ -83,7 +97,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     {
         $file = $this->object->getFilePath();
         if ($file) {
-            ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
+            ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
 
@@ -157,7 +171,6 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
      * @param mixed $default
      * @return mixed|null
      */

@@ -55,6 +55,9 @@ trait BaseGUIRequest
     // get integer parameter kindly
     protected function int($key) : int
     {
+        if ($this->str($key) == "") {
+            return 0;
+        }
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
     }
@@ -103,6 +106,9 @@ trait BaseGUIRequest
                 return array_column(
                     array_map(
                         function ($k, $v) {
+                            if (is_array($v)) {
+                                $v = "";
+                            }
                             return [$k, \ilUtil::stripSlashes((string) $v)];
                         },
                         array_keys($arr),

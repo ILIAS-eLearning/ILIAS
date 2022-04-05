@@ -4,13 +4,11 @@
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclRecordListTableGUI extends ilTable2GUI
@@ -41,15 +39,19 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      */
     protected $mode;
 
-
     /**
      * @param ilDclRecordListGUI $a_parent_obj
      * @param string             $a_parent_cmd
      * @param ilDclTable         $table
      * @param int                $mode
      */
-    public function __construct(ilDclRecordListGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table, $tableview_id, $mode = ilDclRecordListGUI::MODE_VIEW)
-    {
+    public function __construct(
+        ilDclRecordListGUI $a_parent_obj,
+        $a_parent_cmd,
+        ilDclTable $table,
+        $tableview_id,
+        $mode = ilDclRecordListGUI::MODE_VIEW
+    ) {
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -117,7 +119,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->setDefaultOrderField($default_sort_title);
         }
 
-        if (($this->table->getExportEnabled() || ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->parent_obj->object->getRefId(), $this->table->getId()))) {
+        if (($this->table->getExportEnabled() || ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->parent_obj->object->getRefId(),
+                $this->table->getId()))) {
             $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
         }
 
@@ -126,10 +129,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
 
-
     /**
      * @description Return array of fields that are currently stored in the filter. Return empty array if no filtering is required.
-     *
      * @return array
      */
     public function getFilter()
@@ -137,19 +138,16 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         return $this->filter;
     }
 
-
     public function setRecordData($data)
     {
         $this->object_data = $data;
         $this->buildData($data);
     }
 
-
-    public function numericOrdering($field)
+    public function numericOrdering(string $a_field) : bool
     {
-        return in_array($field, $this->numeric_fields);
+        return in_array($a_field, $this->numeric_fields);
     }
-
 
     /**
      * @description Parse data from record objects to an array that is then set to this table with ::setData()
@@ -196,19 +194,22 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $alist->setListTitle($lng->txt("actions"));
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
-                $alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord'));
+                $alist->addItem($lng->txt('view'), 'view',
+                    $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord'));
             }
 
-            if ($record->hasPermissionToEdit($this->parent_obj->parent_obj->ref_id)) {
+            if ($record->hasPermissionToEdit($this->parent_obj->parent_obj->getRefId())) {
                 $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
             }
 
-            if ($record->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
-                $alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete'));
+            if ($record->hasPermissionToDelete($this->parent_obj->parent_obj->getRefId())) {
+                $alist->addItem($lng->txt('delete'), 'delete',
+                    $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete'));
             }
 
             if ($this->table->getPublicCommentsEnabled()) {
-                $alist->addItem($lng->txt('dcl_comments'), 'comment', '', '', '', '', '', '', $this->getCommentsAjaxLink($record->getId()));
+                $alist->addItem($lng->txt('dcl_comments'), 'comment', '', '', '', '', '', '',
+                    $this->getCommentsAjaxLink($record->getId()));
             }
 
             $record_data["_actions"] = $alist->getHTML();
@@ -217,15 +218,13 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-
     /**
-     * @param array $record_data
-     *
-     * @return bool|void
+     * @param array $a_set
+     * @return void
      */
-    public function fillRow($record_data)
+    public function fillRow(array $a_set) : void
     {
-        $record_obj = $record_data['_record'];
+        $record_obj = $a_set['_record'];
 
         /**
          * @var $record_obj ilDclBaseRecordModel
@@ -234,7 +233,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         foreach ($this->tableview->getVisibleFields() as $field) {
             $title = $field->getTitle();
             $this->tpl->setCurrentBlock("field");
-            $content = $record_data[$title];
+            $content = $a_set[$title];
             if ($content === false || $content === null) {
                 $content = '';
             } // SW - This ensures to display also zeros in the table...
@@ -244,21 +243,22 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
             if ($field->getProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
                 $this->tpl->setCurrentBlock("field");
-                $this->tpl->setVariable("CONTENT", $record_data["_status_" . $title]);
+                $this->tpl->setVariable("CONTENT", $a_set["_status_" . $title]);
                 $this->tpl->parseCurrentBlock();
             }
         }
 
-        if ($record_data["_front"]) {
+        if ($a_set["_front"]) {
             $this->tpl->setCurrentBlock('view');
-            $this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
-            $this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("enlarge.svg"), $this->lng->txt('dcl_display_record_alt')));
+            $this->tpl->setVariable("VIEW_IMAGE_LINK", $a_set["_front"]);
+            $this->tpl->setVariable("VIEW_IMAGE_SRC",
+                ilUtil::img(ilUtil::getImagePath("enlarge.svg"), $this->lng->txt('dcl_display_record_alt')));
             $this->tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
+        $this->tpl->setVariable("ACTIONS", $a_set["_actions"]);
 
         if ($this->mode == ilDclRecordListGUI::MODE_MANAGE) {
-            if ($record_obj->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
+            if ($record_obj->hasPermissionToDelete($this->parent_obj->parent_obj->getRefId())) {
                 $this->tpl->setCurrentBlock('mode_manage');
                 $this->tpl->setVariable('RECORD_ID', $record_obj->getId());
                 $this->tpl->parseCurrentBlock();
@@ -266,17 +266,12 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 $this->tpl->touchBlock('mode_manage_no_owner');
             }
         }
-
-        return true;
     }
-
 
     /**
      * @description This adds the collumn for status.
-     *
      * @param ilDclBaseRecordModel $record
      * @param ilDclBaseFieldModel  $field
-     *
      * @return string
      */
     protected function getStatus(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
@@ -289,7 +284,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
         return $return;
     }
-
 
     /**
      * init filters with values from tableview
@@ -318,11 +312,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * normally initialize filters - used by applyFilter and resetFilter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
             $field = $field_set->getFieldObject();
@@ -346,7 +339,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         }
     }
 
-
     public function applyFilter($field_id, $filter_value)
     {
         if ($filter_value) {
@@ -354,13 +346,11 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param string $type
-     *
-     * @return mixed
+     * @return string
      */
-    public function loadProperty($type)
+    public function loadProperty(string $type) : string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -370,35 +360,31 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
             return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
         }
+        return "";
     }
-
 
     /**
      * @description Get the ajax link for displaying the comments in the right panel (to be wrapped in an onclick attr)
-     *
      * @param int $recordId Record-ID
-     *
      * @return string
      */
     protected function getCommentsAjaxLink($recordId)
     {
-        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'dcl', $this->parent_obj->obj_id, 'dcl', $recordId);
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, (int) $_GET['ref_id'], 'dcl', $this->parent_obj->obj_id, 'dcl', $recordId);
 
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
     }
 
-
     /**
      * Exports the table
-     *
-     * @param int         $format
-     * @param bool|false  $send
-     * @param null|string $filepath
-     *
+     * @param int        $format
+     * @param bool|false $send
      * @return null|string
      */
-    public function exportData($format, $send = false, $filepath = null)
-    {
+    public function exportData(
+        string $format,
+        bool $send = false
+    ) : void {
         if ($this->dataExists()) {
             // #9640: sort
             /*if (!$this->getExternalSorting() && $this->enabled["sort"]) {
@@ -407,7 +393,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 $this->row_data = ilUtil::sortArray($this->row_data, $this->getOrderField(), $this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
             }*/
 
-            $exporter = new ilDclContentExporter($this->parent_obj->parent_obj->object->getRefId(), $this->table->getId(), $this->filter);
+            $exporter = new ilDclContentExporter($this->parent_obj->parent_obj->object->getRefId(),
+                $this->table->getId(), $this->filter);
             $exporter->export(ilDclContentExporter::EXPORT_EXCEL, null, true);
         }
     }

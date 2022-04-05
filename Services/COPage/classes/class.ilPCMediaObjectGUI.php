@@ -22,7 +22,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 {
     protected ilPropertyFormGUI $form;
     protected ilPropertyFormGUI $form_gui;
-    protected $page_back_title = "";
+    protected string $page_back_title = "";
     protected bool $enabledmapareas;
     protected ilTabsGUI $tabs;
     protected ilAccessHandler $access;
@@ -36,7 +36,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -312,7 +312,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
 
         if (!$ok) {
-            ilUtil::sendFailure($this->lng->txt("mob_no_fixed_size_map_editing"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("mob_no_fixed_size_map_editing"));
         }
     }
 
@@ -493,7 +493,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $this->content_obj->updateObjectReference();
             $this->updated = $this->pg_obj->update();
         } else {
-            ilUtil::sendInfo($lng->txt("cont_select_max_one_item"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("cont_select_max_one_item"), true);
             $ilCtrl->redirect($this, "changeObjectReference");
         }
         $ilCtrl->redirect($this, "editAlias");
@@ -541,8 +541,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
         $this->content_obj->createMediaObject();
         $media_obj = $this->content_obj->getMediaObject();
-        
-        ilObjMediaObjectGUI::setObjectPerCreationForm($media_obj);
+
+        $mob_gui->setObjectPerCreationForm($media_obj);
 
         if ($a_create_alias) {
             // need a pcmediaobject here
@@ -558,7 +558,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $this->content_obj->setHierId($this->content_obj->readHierId());
                 $this->setHierId($this->content_obj->readHierId());
                 $this->content_obj->setPcId($this->content_obj->readPCId());
-                ilUtil::sendSuccess($lng->txt("saved_media_object"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("saved_media_object"), true);
                 $this->ctrl->redirectByClass("ilobjmediaobjectgui", "edit");
 
             //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -993,7 +993,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     /**
     * save table properties in db and return to page edit screen
     */
-    public function saveAliasProperties()
+    public function saveAliasProperties() : void
     {
         $this->initAliasForm();
         $form = $this->form_gui;
@@ -1100,7 +1100,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editAlias");
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         } else {
@@ -1117,7 +1117,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $ilUser = $this->user;
 
         $ilUser->addObjectToClipboard($this->content_obj->getMediaObject()->getId(), $this->content_obj->getMediaObject()->getType(), $this->content_obj->getMediaObject()->getTitle());
-        ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("copied_to_clipboard"), true);
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
@@ -1233,7 +1233,33 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         $char_prop->setValue($selected);
         $form->addItem($char_prop);
-        
+
+
+        // caption style
+        $cap_style = new ilAdvSelectInputGUI(
+            $this->lng->txt("cont_caption_style"),
+            "caption_style"
+        );
+        //$this->setBasicTableCellStyles();
+        $this->setCharacteristics([]);
+        $this->getCharacteristicsOfCurrentStyle(["media_caption"]);
+        $chars = $this->getCharacteristics();
+        $options = $chars;
+        //$options = array_merge(array("" => $this->lng->txt("none")), $chars);
+        foreach ($options as $k => $option) {
+            $html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_' . $k . '">' .
+                $option . '</td></tr></table>';
+            $cap_style->addOption($k, $option, $html);
+        }
+
+        if (count($options) > 0) {
+            $current_value = $this->content_obj->getCaptionClass() ?: "MediaCaption";
+            $cap_style->setValue($current_value);
+            $form->addItem($cap_style);
+        }
+
+
+
         // save button
         $form->addCommandButton("saveStyle", $lng->txt("save"));
 
@@ -1283,6 +1309,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $this->content_obj->setClass(
             $this->request->getString("characteristic")
         );
+        $this->content_obj->setCaptionClass(
+            $this->request->getString("caption_style")
+        );
+
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);

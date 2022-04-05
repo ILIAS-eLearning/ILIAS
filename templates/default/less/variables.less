@@ -29,7 +29,7 @@ with the il- variable set here.
 //** Base Border Color, e.g. applied to Meta Bar and Breadcrumbs in Default.
 @il-main-border-color: #dddddd;
 //** Darker version of Base Border Color. Used as e.g. Text Inputs.
-@il-main-border-dark-color: #A8A8A8;
+@il-main-border-dark-color: #757575;
 
 //** Base Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default, but also to panels in main content area.
 @il-main-bg: white;
@@ -46,7 +46,7 @@ with the il- variable set here.
 //** Used if text is hovered in components such a Dropdowns
 @il-text-hover-color: darken(@il-text-color, 10%);
 //** Used e.g. for Bylines in Forms. Used to be @il-light-text-color. For accessibility reasons, the @il-text-color should only be used on the @il-main-bg.
-@il-text-light-color: lighten(@il-text-color, 40%);
+@il-text-light-color: lighten(@il-text-color, 35%);
 
 //** Used to be @link-color
 @il-link-color: @il-main-color;
@@ -55,6 +55,7 @@ with the il- variable set here.
 
 //** Used to set focus on interactive elements for keyboard navigation.
 @il-focus-color: #0078D7;
+@il-focus-protection-color: #FFFFFF;
 
 //== Extended Colors
 //
@@ -119,26 +120,42 @@ with the il- variable set here.
 
 //== Base Padding and Border
 //
-//## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+//## Define common padding, margin and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+@il-padding-base: 8px;
 @il-padding-base-vertical: 3px;
 @il-padding-base-horizontal: 8px;
 
 @il-padding-large-vertical: 6px;
 @il-padding-large-horizontal: 12px;
 
-@il-padding-small-vertical: 3px;
+@il-padding-small-vertical: 4px;
 @il-padding-small-horizontal: 6px;
 
 @il-padding-xs-vertical: 1px;
 @il-padding-xs-horizontal: 5px;
 
+@il-margin-base: @il-padding-base;
+@il-margin-base-vertical: @il-padding-base-vertical;
+@il-margin-base-horizontal: @il-padding-base-horizontal;
+
+@il-margin-large-vertical: @il-padding-large-vertical;
+@il-margin-large-horizontal: @il-padding-large-horizontal;
+
+@il-margin-small-vertical: @il-padding-small-vertical;
+@il-margin-small-horizontal: @il-padding-small-horizontal;
+
+@il-margin-xs-vertical: @il-padding-xs-vertical;
+@il-margin-xs-horizontal: @il-padding-xs-horizontal;
+
 @il-border-radius-base: 0px;
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 3px solid @il-focus-color;
+@il-focus-outline-inner: @il-focus-outline-inner-width solid @il-focus-color;
+@il-focus-outline-outer: @il-focus-outline-outer-width solid @il-focus-protection-color;
 // The offset should only be used if the contrast between the focus outline and the component is insufficient.
-@il-focus-outline-offset: 2px;
+@il-focus-outline-inner-width: 3px;
+@il-focus-outline-outer-width: 2px;
 
 //== Layout (UI Layout Page)
 //
@@ -202,8 +219,8 @@ with the il- variable set here.
 @il-slate-bulky-bg-color-engaged: fade(@il-main-color, 30%);
 @il-slate-content-padding: 10px;
 @il-slate-tree-padding: 4px 0;
-@il-slate-bulky-padding: 10px 40px 15px 10px;
-@il-slate-bulky-link-padding: 10px 10px 15px 10px;
+@il-slate-bulky-padding: 15px 40px 15px 10px;
+@il-slate-bulky-link-padding: 15px 10px 15px 10px;
 @il-slate-bulky-glyph-size: 2rem;
 @il-slate-bulky-glyph-margin-right: 5px;
 @il-slate-bulky-label-size: 1.5rem;
@@ -579,6 +596,12 @@ with the il- variable set here.
 @il-item-h5-margin: 4px 0px 2px 0px;
 @il-item-border-bottom: 2px solid @il-content-bg;
 @il-item-border-bottom-small: 1px solid @il-content-bg;
+@il-item-gap-base: 6px;
+@il-item-gap-large: 10px;
+@il-item-gap-small: 5px;
+@il-item-gap-xs: 1px;
+
+
 
 
 //== Charts
@@ -652,7 +675,7 @@ with the il- variable set here.
 @il-background-images-path: "images/";
 
 //** Size for icons: xsmall is used in the tree. e.g.
-@il-icon-size-xsmall: 17px;
+@il-icon-size-xsmall: 15px;
 //** Size for icons: Small is used in the tree. e.g.
 @il-icon-size-small: 20px;
 //** Size for icons: Medium is used in the content-listing. e.g.
@@ -724,7 +747,7 @@ with the il- variable set here.
 @il-vc-glyph-padding-horizontal: @padding-base-horizontal;
 @il-vc-glyph-hover-bg: lighten(@il-main-color, 5%);
 @il-vc-mode-btn-active: @il-vc-glyph-hover-bg;
-
+@il-vc-pagination-btn-active-bg: @il-main-bg;
 
 //== Card
 //
@@ -769,7 +792,8 @@ with the il- variable set here.
 @il-tree-node-indentation: @il-font-size-base;
 //** Vertical Space between nodes
 @il-tree-node-vertical-spacing: 3px;
-
+//** Horizontal space between expand/collapse icon, an optional node icon and node label
+@il-tree-node-horizontal-spacing: 4px;
 //== Characteristic Value Listing
 //** item rows layout
 @il-characteristic-value-border-color: @il-main-border-color;
@@ -783,3 +807,13 @@ with the il- variable set here.
 //
 //##
 @il-drilldown-item-height: 48px;
+
+//== Toast
+//
+//##
+@il-toast-container-top: 100px;
+@il-toast-margin: 20px;
+@il-toast-horizontal-division: 20px 1fr 20px;
+@il-toast-transition: all .25s ease-in-out;
+@il-toast-width: 300px;
+

@@ -16,18 +16,10 @@ require_once './Services/Object/classes/class.ilObjectAccess.php';
 class ilObjWorkflowEngineAccess extends ilObjectAccess
 {
     /**
-     * checks wether a user may invoke a command or not
+     * checks whether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
-     *
-     * @param	string $cmd        command (not permission!)
-     * @param	string $permission permission
-     * @param	int    $ref_id     reference id
-     * @param	int    $a_obj_id   object id
-     * @param	int    $user_id    user id (if not provided, current user is taken)
-     *
-     * @return	boolean		true, if everything is ok
      */
-    public function _checkAccess($cmd, $permission, $ref_id, $a_obj_id, $user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -35,14 +27,14 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($user_id == "") {
+        if (is_null($user_id)) {
             $user_id = $ilUser->getId();
         }
 
         // Deal with commands
         switch ($cmd) {
             case "view":
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
                     return false;
                 break;
 
@@ -68,7 +60,7 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
      *
      * @return bool
      */
-    public static function _checkGoto($target)
+    public static function _checkGoto(string $target) : bool
     {
         //$workflow = substr($params, 2, strpos($params,'EVT')-2);
         //$event = substr($params, strpos($params, 'EVT')+3);

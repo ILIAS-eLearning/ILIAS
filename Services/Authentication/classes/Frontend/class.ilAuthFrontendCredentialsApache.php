@@ -1,6 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -16,9 +28,12 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
     private ServerRequestInterface $httpRequest;
     private ilCtrl $ctrl;
     private ilSetting $settings;
+    private ilLogger $logger;
 
     public function __construct(ServerRequestInterface $httpRequest, ilCtrl $ctrl)
     {
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = new ilSetting('apache_auth');
@@ -85,8 +100,8 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
     {
         $mappingFieldName = $this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '');
 
-        $this->getLogger()->dump($this->httpRequest->getServerParams(), ilLogLevel::DEBUG);
-        $this->getLogger()->debug($mappingFieldName);
+        $this->logger->dump($this->httpRequest->getServerParams(), ilLogLevel::DEBUG);
+        $this->logger->debug($mappingFieldName);
 
         switch ($this->getSettings()->get('apache_auth_username_config_type')) {
             case ilAuthProviderApache::APACHE_AUTH_TYPE_DIRECT_MAPPING:
@@ -118,9 +133,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
             }
         }
 
-        $validator = new ilWhiteListUrlValidator($targetUrl, $validDomains);
-
-        return $validator->isValid();
+        return (new ilWhiteListUrlValidator($targetUrl, $validDomains))->isValid();
     }
 
     public function getTargetUrl() : string

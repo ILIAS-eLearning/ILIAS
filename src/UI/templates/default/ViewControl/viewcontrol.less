@@ -13,17 +13,43 @@
 	display: inline;
 }
 
+.il-viewcontrol-pagination .btn {
+	vertical-align: top;
+
+	&.engaged {
+		background-color: @il-vc-pagination-btn-active-bg;
+		padding: 0px @il-padding-small-horizontal 0px @il-padding-small-horizontal;
+		border: 1px solid @il-main-color;
+		font-weight: normal;
+	}
+}
+
+.il-viewcontrol-pagination .dropdown-toggle {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
 .ilBlockContent .il-viewcontrol-section .btn.btn-default {
 	background-color: transparent;
 	border: 0;
 	color: @link-color;
-	padding: 3px 3px;
+	padding: @il-padding-base-vertical @il-padding-base-vertical;
+
 }
 
-.il-viewcontrol-pagination, .il-viewcontrol-mode{
+.il-viewcontrol-pagination, .il-viewcontrol-mode {
 	.engaged{
 		pointer-events: none;
 		cursor: default;
+	}
+}
+
+.il-viewcontrol-mode {
+	.btn + .btn {
+		border-left-color: @il-main-border-color;
+	}
+	.btn:not(:last-child):hover {
+		border-right-color: @il-main-border-color;
 	}
 }
 

@@ -50,7 +50,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $this->files = $files;
     }
 
-    public function getFiles()
+    public function getFiles() : array
     {
         return $this->files;
     }
@@ -60,7 +60,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $this->ignoreMissingUploadsEnabled = $ignoreMissingUploadsEnabled;
     }
 
-    public function isIgnoreMissingUploadsEnabled()
+    public function isIgnoreMissingUploadsEnabled() : bool
     {
         return $this->ignoreMissingUploadsEnabled;
     }
@@ -68,14 +68,16 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     public function setValue($a_value) : void
     {
         $this->values = array();
-        
+
         if (is_array($a_value) && is_array($a_value['answer'])) {
             foreach ($a_value['answer'] as $index => $value) {
                 $answer = new ilAssKprimChoiceAnswer();
 
                 $answer->setPosition($index);
                 $answer->setAnswertext($value);
-                $answer->setImageFile($a_value['imagename'][$index]);
+                if (isset($a_value['imagename'])) {
+                    $answer->setImageFile($a_value['imagename'][$index]);
+                }
                 
                 if (strlen($a_value['correctness'][$index])) {
                     $answer->setCorrectness((bool) $a_value['correctness'][$index]);
@@ -84,11 +86,11 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $answer->setThumbPrefix($this->qstObject->getThumbPrefix());
                 $answer->setImageFsDir($this->qstObject->getImagePath());
                 $answer->setImageWebDir($this->qstObject->getImagePathWeb());
-                
+
                 $this->values[] = $answer;
             }
         }
-        
+
         #vd($this->values);
     }
 
@@ -99,7 +101,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive(
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
@@ -164,7 +166,10 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         $tpl->setCurrentBlock('image');
                         $tpl->setVariable('SRC_IMAGE', $imagename);
                         $tpl->setVariable('IMAGE_NAME', $value->getImageFile());
-                        $tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
+                        $tpl->setVariable(
+                            'ALT_IMAGE',
+                            ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                        );
                         $tpl->setVariable("TXT_DELETE_EXISTING", $this->lng->txt("delete_existing_file"));
                         $tpl->setVariable("IMAGE_ROW_NUMBER", $value->getPosition());
                         $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
@@ -180,7 +185,10 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 }
 
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
+                $tpl->setVariable(
+                    "PROPERTY_VALUE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                );
                 $tpl->parseCurrentBlock();
 
                 $tpl->setCurrentBlock('singleline');
@@ -195,7 +203,10 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->parseCurrentBlock();
             } elseif (!$this->getSingleline()) {
                 $tpl->setCurrentBlock('multiline');
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
+                $tpl->setVariable(
+                    "PROPERTY_VALUE",
+                    ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                );
                 $tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][{$value->getPosition()}]");
                 $tpl->setVariable("MULTILINE_ROW_NUMBER", $value->getPosition());
                 $tpl->setVariable("MULTILINE_POST_VAR", $this->getPostVar());
@@ -262,7 +273,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
                 $tpl->setCurrentBlock("image_heading");
                 $tpl->setVariable("ANSWER_IMAGE", $this->lng->txt('answer_image'));
-                $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+                $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
                 $tpl->parseCurrentBlock();
             }
         }
@@ -300,7 +311,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $this->tpl->addJavascript('Modules/TestQuestionPool/js/ilAssKprimChoice.js');
     }
     
-    public function checkUploads($foundvalues)
+    public function checkUploads($foundvalues) : bool
     {
         if (is_array($_FILES) && count($_FILES) && $this->getSingleline()) {
             if (!$this->hideImages) {
@@ -322,7 +333,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
                                 case UPLOAD_ERR_NO_FILE:
                                     if ($this->getRequired() && !$this->isIgnoreMissingUploadsEnabled()) {
-                                        if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
+                                        if (isset($foundvalues['imagename']) && (!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index]))) {
                                             $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
                                             return false;
                                         }
@@ -357,14 +368,16 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
                         $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
                         $filename_arr = pathinfo($filename);
-                        $suffix = $filename_arr["extension"];
-                        $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                        $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-                        // check suffixes
-                        if (strlen($tmpname) && is_array($this->getSuffixes())) {
-                            if (!in_array(strtolower($suffix), $this->getSuffixes())) {
-                                $this->setAlert($this->lng->txt("form_msg_file_wrong_file_type"));
-                                return false;
+                        if (isset($filename_arr["extension"])) {
+                            $suffix = $filename_arr["extension"];
+                            $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
+                            $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                            // check suffixes
+                            if (strlen($tmpname) && is_array($this->getSuffixes())) {
+                                if (!in_array(strtolower($suffix), $this->getSuffixes())) {
+                                    $this->setAlert($this->lng->txt("form_msg_file_wrong_file_type"));
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -391,16 +404,18 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname) {
                         $filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
                         $filename_arr = pathinfo($filename);
-                        $suffix = $filename_arr["extension"];
-                        $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-                        $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-                        // virus handling
-                        if (strlen($tmpname)) {
-                            $vir = ilUtil::virusHandling($tmpname, $filename);
-                            if ($vir[0] == false) {
-                                $_FILES[$this->getPostVar()]['error']['image'][$index] = self::CUSTOM_UPLOAD_ERR;
-                                $this->setAlert($this->lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
-                                return false;
+                        if (isset($filename_arr["extension"])) {
+                            $suffix = $filename_arr["extension"];
+                            $mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
+                            $size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
+                            // virus handling
+                            if (strlen($tmpname)) {
+                                $vir = ilVirusScanner::virusHandling($tmpname, $filename);
+                                if ($vir[0] == false) {
+                                    $_FILES[$this->getPostVar()]['error']['image'][$index] = self::CUSTOM_UPLOAD_ERR;
+                                    $this->setAlert($this->lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
+                                    return false;
+                                }
                             }
                         }
                     }

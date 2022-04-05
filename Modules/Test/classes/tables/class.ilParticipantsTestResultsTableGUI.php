@@ -48,7 +48,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    public function isAccessResultsCommandsEnabled()
+    public function isAccessResultsCommandsEnabled() : bool
     {
         return $this->accessResultsCommandsEnabled;
     }
@@ -64,7 +64,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    public function isManageResultsCommandsEnabled()
+    public function isManageResultsCommandsEnabled() : bool
     {
         return $this->manageResultsCommandsEnabled;
     }
@@ -94,12 +94,12 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     }
     
     /**
-     * @param string $field
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($field)
+    public function numericOrdering(string $a_field) : bool
     {
-        return in_array($field, array(
+        return in_array($a_field, array(
             'scored_pass', 'answered_questions', 'points', 'percent_result'
         ));
     }
@@ -135,7 +135,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("tst_tbl_col_final_mark"), 'final_mark');
         
         if ($this->isActionsColumnRequired()) {
-            $this->addColumn('', '', '');
+            $this->addColumn($this->lng->txt('actions'), '', '');
         }
     }
     
@@ -152,50 +152,50 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         }
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
-        
+
         // no filter at all
     }
     
     /**
-     * @param array $data
+     * @param array $a_set
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         if ($this->isMultiRowSelectionRequired()) {
             $this->tpl->setCurrentBlock('checkbox_column');
-            $this->tpl->setVariable("CHB_ROW_KEY", $data['active_id']);
+            $this->tpl->setVariable("CHB_ROW_KEY", $a_set['active_id']);
             $this->tpl->parseCurrentBlock();
         }
         
         if ($this->isActionsColumnRequired()) {
             $this->tpl->setCurrentBlock('actions_column');
-            $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($data)->getHTML());
+            $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set)->getHTML());
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable("ROW_KEY", $data['active_id']);
-        $this->tpl->setVariable("LOGIN", $data['login']);
-        $this->tpl->setVariable("FULLNAME", $data['name']);
+        $this->tpl->setVariable("ROW_KEY", $a_set['active_id']);
+        $this->tpl->setVariable("LOGIN", $a_set['login']);
+        $this->tpl->setVariable("FULLNAME", $a_set['name']);
         
-        $this->tpl->setVariable("SCORED_PASS", $this->buildScoredPassString($data));
-        $this->tpl->setVariable("PASS_FINISHED", $this->buildPassFinishedString($data));
+        $this->tpl->setVariable("SCORED_PASS", $this->buildScoredPassString($a_set));
+        $this->tpl->setVariable("PASS_FINISHED", $this->buildPassFinishedString($a_set));
 
-        $this->tpl->setVariable("ANSWERED_QUESTIONS", $this->buildAnsweredQuestionsString($data));
-        $this->tpl->setVariable("REACHED_POINTS", $this->buildReachedPointsString($data));
-        $this->tpl->setVariable("PERCENT_RESULT", $this->buildPercentResultString($data));
+        $this->tpl->setVariable("ANSWERED_QUESTIONS", $this->buildAnsweredQuestionsString($a_set));
+        $this->tpl->setVariable("REACHED_POINTS", $this->buildReachedPointsString($a_set));
+        $this->tpl->setVariable("PERCENT_RESULT", $this->buildPercentResultString($a_set));
         
-        $this->tpl->setVariable("PASSED_STATUS", $this->buildPassedStatusString($data));
-        $this->tpl->setVariable("FINAL_MARK", $data['final_mark']);
+        $this->tpl->setVariable("PASSED_STATUS", $this->buildPassedStatusString($a_set));
+        $this->tpl->setVariable("FINAL_MARK", $a_set['final_mark']);
     }
     
     /**
      * @param array $data
      * @return ilAdvancedSelectionListGUI
      */
-    protected function buildActionsMenu($data)
+    protected function buildActionsMenu($data) : ilAdvancedSelectionListGUI
     {
         $asl = new ilAdvancedSelectionListGUI();
         
@@ -212,7 +212,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    protected function isActionsColumnRequired()
+    protected function isActionsColumnRequired() : bool
     {
         if ($this->isAccessResultsCommandsEnabled()) {
             return true;
@@ -221,7 +221,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         return false;
     }
     
-    protected function isMultiRowSelectionRequired()
+    protected function isMultiRowSelectionRequired() : bool
     {
         if ($this->isAccessResultsCommandsEnabled() && !$this->getAnonymity()) {
             return true;
@@ -238,7 +238,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function buildPassedStatusString($data)
+    protected function buildPassedStatusString($data) : string
     {
         if ($data['passed_status']) {
             return $this->buildPassedIcon() . ' ' . $this->lng->txt('tst_passed');
@@ -250,7 +250,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    protected function buildPassedIcon()
+    protected function buildPassedIcon() : string
     {
         return $this->buildImageIcon(ilUtil::getImagePath("icon_ok.svg"), $this->lng->txt("passed"));
     }
@@ -258,7 +258,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    protected function buildFailedIcon()
+    protected function buildFailedIcon() : string
     {
         return $this->buildImageIcon(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("failed"));
     }
@@ -268,7 +268,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
      * @param $alt
      * @return string
      */
-    protected function buildImageIcon($src, $alt)
+    protected function buildImageIcon($src, $alt) : string
     {
         return "<img border=\"0\" align=\"middle\" src=\"" . $src . "\" alt=\"" . $alt . "\" />";
     }
@@ -277,7 +277,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function buildFormattedAccessDate($data)
+    protected function buildFormattedAccessDate($data) : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($data['access'], IL_CAL_DATETIME));
     }
@@ -295,7 +295,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function buildPassFinishedString($data)
+    protected function buildPassFinishedString($data) : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($data['pass_finished'], IL_CAL_UNIX));
     }
@@ -304,7 +304,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function buildAnsweredQuestionsString($data)
+    protected function buildAnsweredQuestionsString($data) : string
     {
         return sprintf(
             $this->lng->txt('tst_answered_questions_of_total'),
@@ -317,7 +317,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function buildReachedPointsString($data)
+    protected function buildReachedPointsString($data) : string
     {
         return sprintf(
             $this->lng->txt('tst_reached_points_of_max'),
@@ -330,7 +330,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
      * @param array $data
      * @return string
      */
-    protected function buildPercentResultString($data)
+    protected function buildPercentResultString($data) : string
     {
         return sprintf('%0.2f %%', $data['percent_result'] * 100);
     }

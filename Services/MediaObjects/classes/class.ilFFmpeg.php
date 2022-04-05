@@ -129,7 +129,7 @@ class ilFFmpeg
      */
     public static function exec(string $args) : array
     {
-        return ilUtil::execQuoted(self::getCmd(), $args);
+        return ilShellUtil::execQuoted(self::getCmd(), $args);
     }
     
     /**
@@ -153,9 +153,6 @@ class ilFFmpeg
     
     /**
      * Get last return values
-     *
-     * @param
-     * @return
      */
     public static function getLastReturnValues() : ?array
     {
@@ -187,8 +184,10 @@ class ilFFmpeg
         
         $target_file = $target_dir . "/" . $a_target_filename;
         
-        $sec = (int) $a_sec;
-        $cmd = "-y -i " . ilUtil::escapeShellArg($a_file) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilUtil::escapeShellArg($target_file);
+        $sec = $a_sec;
+        $cmd = "-y -i " . ilShellUtil::escapeShellArg(
+                $a_file
+            ) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilShellUtil::escapeShellArg($target_file);
         $ret = self::exec($cmd . " 2>&1");
         self::$last_return = $ret;
         

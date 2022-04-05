@@ -140,5 +140,22 @@ describe('mainbar model', function() {
         ]);
 
     });
+    
+    it('calculates engaged path correctly', function() {
+        m.actions.addEntry('xx:1');
+        m.actions.addEntry('xx:1:1');
+        state = m.getState();
 
+        state.entries['xx:1'].engaged = true;
+        state.entries['xx:1:1'].engaged = true;
+        expect(m.isInView('xx:1')).to.be.true;
+        expect(m.isInView('xx:1:1')).to.be.true;
+
+        state.entries['xx:1'].engaged = false;
+        state.entries['xx:1:1'].engaged = true;
+        expect(m.isInView('xx:1')).to.be.false;
+        expect(m.isInView('xx:1:1')).to.be.false;
+
+        expect(m.isInView('apparently_nonsense')).to.be.true;
+    });
 });

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,9 +24,6 @@ use ILIAS\Refinery;
  */
 class ilPropertyFormGUI extends ilFormGUI
 {
-    /**
-     * @var false
-     */
     protected bool $required_text = false;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -40,7 +37,7 @@ class ilPropertyFormGUI extends ilFormGUI
     protected bool $disable_standard_message = false;
     protected string $top_anchor = "il_form_top";
     protected string $title = '';
-    protected bool $titleicon = false;
+    protected string $titleicon = "";
     protected string $description = "";
     protected string $tbl_width = "";
     protected bool $show_top_buttons = true;
@@ -53,7 +50,6 @@ class ilPropertyFormGUI extends ilFormGUI
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -246,7 +242,7 @@ class ilPropertyFormGUI extends ilFormGUI
 
     public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
     {
-        foreach ($this->items as $key => $item) {
+        foreach ($this->items as $item) {
             if ($item->getType() != "section_header") {
                 //if ($item->getPostVar() == $a_post_var)
                 $ret = $item->getItemByPostVar($a_post_var);
@@ -327,7 +323,6 @@ class ilPropertyFormGUI extends ilFormGUI
 
     public function setValuesByPost()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         if (!isset($DIC["http"])) {
@@ -355,7 +350,7 @@ class ilPropertyFormGUI extends ilFormGUI
             }
         }
         
-        // check if POST is missint completely (if post_max_size exceeded)
+        // check if POST is missing completely (if post_max_size exceeded)
         $post = $this->http->request()->getParsedBody();
         if (count($this->items) > 0 && count($post) === 0) {
             $ok = false;
@@ -375,7 +370,7 @@ class ilPropertyFormGUI extends ilFormGUI
                 if (is_bool($item) || !$item->checkInput()) {
                     continue;
                 }
-                // we support up to 2 nesting levels (see test/assesment)
+                // we support up to 2 nesting levels (see test/assessment)
                 if (is_array($data["tmp_name"])) {
                     foreach ($data["tmp_name"] as $idx => $upload) {
                         if (is_array($upload)) {
@@ -410,11 +405,11 @@ class ilPropertyFormGUI extends ilFormGUI
 
                 return $ok;
 
-            // Otherwise we send it using ilUtil and it will be rendered in the Template
+            // Otherwise, we send it using ilUtil, and it will be rendered in the Template
             default:
 
                 if (!$ok && !$this->getDisableStandardMessage()) {
-                    ilUtil::sendFailure($txt);
+                    $this->global_tpl->setOnScreenMessage('failure', $txt);
                 }
 
                 return $ok;
@@ -449,7 +444,7 @@ class ilPropertyFormGUI extends ilFormGUI
     ) {
         // this check ensures, that checkInput has been called (incl. stripSlashes())
         if (!$this->check_input_called && $ensureValidation) {
-            die("Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.");
+            throw new LogicException('Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.');
         }
 
         $item = $this->getItemByPostVar($a_post_var);
@@ -587,7 +582,7 @@ class ilPropertyFormGUI extends ilFormGUI
             if ($this->getMultipart()) {
                 $hash = $this->getFileHash() ?? null;
                 if (!$hash) {
-                    $hash = md5(uniqid(mt_rand(), true));
+                    $hash = md5(uniqid((string) mt_rand(), true));
                 }
                 $fhash = new ilHiddenInputGUI("ilfilehash");
                 $fhash->setValue($hash);
@@ -623,7 +618,7 @@ class ilPropertyFormGUI extends ilFormGUI
     protected function hideRequired(string $a_type) : bool
     {
         // #15818
-        return in_array($a_type, array("non_editable_value"));
+        return $a_type == "non_editable_value";
     }
 
     /**
@@ -643,14 +638,14 @@ class ilPropertyFormGUI extends ilFormGUI
         //if(method_exists($item, "getMulti") && $item->getMulti())
         if ($item instanceof ilMultiValuesItem && $item->getMulti()) {
             $tpl->addJavascript("./Services/Form/js/ServiceFormMulti.js");
-            
+
             $this->tpl->setCurrentBlock("multi_in");
             $this->tpl->setVariable("ID", $item->getFieldId());
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->touchBlock("multi_out");
 
-            
+
             // add hidden item to enable preset multi items
             // not used yet, should replace hidden field stuff
             $multi_values = $item->getMultiValues();
@@ -841,7 +836,7 @@ class ilPropertyFormGUI extends ilFormGUI
             return;
         }
 
-        $a_name = ilUtil::getASCIIFilename($a_name);
+        $a_name = ilFileUtils::getASCIIFilename($a_name);
         
         $tmp_file_name = implode("~~", array(session_id(),
             $a_hash,
@@ -852,12 +847,12 @@ class ilPropertyFormGUI extends ilFormGUI
             str_replace("~~", "_", $a_name)));
         
         // make sure temp directory exists
-        $temp_path = ilUtil::getDataDir() . "/temp";
+        $temp_path = ilFileUtils::getDataDir() . "/temp";
         if (!is_dir($temp_path)) {
-            ilUtil::createDirectory($temp_path);
+            ilFileUtils::createDirectory($temp_path);
         }
 
-        ilUtil::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path . "/" . $tmp_file_name);
+        ilFileUtils::moveUploadedFile($a_tmp_name, $tmp_file_name, $temp_path . "/" . $tmp_file_name);
 
         /** @var ilFileInputGUI $file_input */
         $file_input = $this->getItemByPostVar($a_field);
@@ -956,7 +951,7 @@ class ilPropertyFormGUI extends ilFormGUI
             $target_file = str_replace("//", "/", $target_file);
             
             if ($data["is_upload"]) {
-                if (!ilUtil::moveUploadedFile($data["tmp_name"], $data["name"], $target_file)) {
+                if (!ilFileUtils::moveUploadedFile($data["tmp_name"], $data["name"], $target_file)) {
                     return "";
                 }
             } else {
@@ -974,10 +969,9 @@ class ilPropertyFormGUI extends ilFormGUI
     {
         $file_hash = (string) $this->getFileHash();
         if ($file_hash != "") {
-            $temp_path = ilUtil::getDataDir() . "/temp";
+            $temp_path = ilFileUtils::getDataDir() . "/temp";
             if (is_dir($temp_path)) {
-                $reload = array();
-                
+
                 $temp_files = glob($temp_path . "/" . session_id() . "~~" . $file_hash . "~~*");
                 if (is_array($temp_files)) {
                     foreach ($temp_files as $full_file) {

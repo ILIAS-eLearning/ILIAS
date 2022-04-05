@@ -2,13 +2,10 @@
 
 abstract class ilADTMultiDBBridge extends ilADTDBBridge
 {
-    // CRUD
-
     /**
      * Build sub-table name
-     * @return string
      */
-    protected function getSubTableName()
+    protected function getSubTableName() : string
     {
         // getElementId? => adv_md_values_enum_123
         return $this->getTable() . "_" . $this->getElementId();
@@ -46,10 +43,10 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         /*
         $ilDB->manipulate("DELETE FROM " . $this->getSubTableName() .
             " WHERE " . $this->buildPrimaryWhere());
-        
+
         foreach ($this->prepareMultiInsert() as $sub_items) {
             $fields = array_merge($this->getPrimary(), $sub_items);
-            
+
             $ilDB->insert($this->getSubTableName(), $fields);
         }
         */

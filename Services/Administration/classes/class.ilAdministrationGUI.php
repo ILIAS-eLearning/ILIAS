@@ -106,10 +106,8 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         if ($this->admin_mode != ilObjectGUI::ADMIN_MODE_REPOSITORY) {
             $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
         }
-        
-        if (!ilUtil::isAPICall()) {
-            $this->ctrl->setReturn($this, "");
-        }
+    
+        $this->ctrl->setReturn($this, "");
 
         // determine current ref id and mode
         $ref_id = $this->request->getRefId();
@@ -184,9 +182,9 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                     // check db update
                     $dbupdate = new ilDBUpdate($ilDB);
                     if (!$dbupdate->getDBVersionStatus()) {
-                        ilUtil::sendFailure($this->lng->txt("db_need_update"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("db_need_update"));
                     } elseif ($dbupdate->hotfixAvailable()) {
-                        ilUtil::sendFailure($this->lng->txt("db_need_hotfix"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("db_need_hotfix"));
                     }
                     
                     $class_path = $this->ctrl->lookupClassPath($next_class);
@@ -318,17 +316,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
     public function jumpToPluginSlot() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $this->request->getCType());
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $this->request->getCName());
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $this->request->getSlotId());
-        
-        if ($this->request->getPluginId()) {
-            $ilCtrl->setParameter($this, "plugin_id", $this->request->getPluginId());
-            $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "showPlugin");
-        } else {
-            $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugins");
-        }
+        $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugins");
     }
 
     // Jump to node

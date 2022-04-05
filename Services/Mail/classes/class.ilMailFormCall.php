@@ -90,7 +90,7 @@ class ilMailFormCall
             foreach ($gui_params as $key => $value) {
                 $ilCtrlTmp->setParameter($gui, $key, $value);
             }
-            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '', false, false);
+            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '');
         } elseif (is_string($gui)) {
             $referer = $gui;
         }
@@ -170,6 +170,11 @@ class ilMailFormCall
                     $url .= '&returned_from_mail=1';
                 } else {
                     $url .= '?returned_from_mail=1';
+                }
+
+                $ilias_url_parts = parse_url(ilUtil::_getHttpPath());
+                if (isset($parts['host']) && $ilias_url_parts['host'] !== $parts['host']) {
+                    $url = 'ilias.php?baseClass=ilMailGUI';
                 }
             }
 

@@ -51,7 +51,7 @@ const TOS_ATTRIBUTION =
  * @property {number} [cacheSize] Initial tile cache size. Will auto-grow to hold at least the number of tiles in the viewport.
  * @property {boolean} [hidpi=false] If `true` hidpi tiles will be requested.
  * @property {string} [culture='en-us'] Culture code.
- * @property {string} key Bing Maps API key. Get yours at http://www.bingmapsportal.com/.
+ * @property {string} key Bing Maps API key. Get yours at https://www.bingmapsportal.com/.
  * @property {string} imagerySet Type of imagery.
  * @property {boolean} [imageSmoothing=true] Enable image smoothing.
  * @property {number} [maxZoom=21] Max zoom. Default is what's advertized by the BingMaps service.
@@ -66,6 +66,9 @@ const TOS_ATTRIBUTION =
  * @property {boolean} [wrapX=true] Whether to wrap the world horizontally.
  * @property {number} [transition] Duration of the opacity transition for rendering.
  * To disable the opacity transition, pass `transition: 0`.
+ * @property {number|import("../array.js").NearestDirectionFunction} [zDirection=0]
+ * Choose whether to use tiles with a higher or lower zoom level when between integer
+ * zoom levels. See {@link module:ol/tilegrid/TileGrid~TileGrid#getZForResolution}.
  */
 
 /**
@@ -78,7 +81,7 @@ const TOS_ATTRIBUTION =
 
 /**
  * @typedef {Object} ResourceSet
- * @property {Array<Resource>} resources
+ * @property {Array<Resource>} resources Resources.
  */
 
 /**
@@ -129,6 +132,7 @@ class BingMaps extends TileImage {
       tilePixelRatio: hidpi ? 2 : 1,
       wrapX: options.wrapX !== undefined ? options.wrapX : true,
       transition: options.transition,
+      zDirection: options.zDirection,
     });
 
     /**

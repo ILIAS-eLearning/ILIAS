@@ -4,14 +4,12 @@
 
 /**
  * Class ilObjDataCollectionGUI
- *
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Oskar Truffer <ot@studer-raimann.ch>
  * @author       Stefan Wanzenried <sw@studer-raimann.ch>
- *
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTreePickInputGUI
@@ -22,7 +20,6 @@
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPropertyFormGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclPropertyFormGUI
- *
  * @extends      ilObject2GUI
  */
 class ilObjDataCollectionGUI extends ilObject2GUI
@@ -30,15 +27,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     const GET_DCL_GTR = "dcl_gtr";
     const GET_REF_ID = "ref_id";
     const GET_VIEW_ID = "tableview_id";
-    /**
-     * @var ilObjDataCollection
-     */
-    public $object;
 
+    public ?ilObject $object;
 
     /**
      * ilObjDataCollectionGUI constructor.
-     *
      * @param int $a_id
      * @param int $a_id_type
      * @param int $a_parent_node_id
@@ -123,7 +116,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $DIC->ctrl()->saveParameter($this, "table_id");
     }
 
-
     /**
      * @return string
      */
@@ -132,21 +124,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return "render";
     }
 
-
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType() : string
     {
         return "dcl";
     }
 
-
-    /**
-     * @return bool
-     * @throws ilCtrlException
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -213,7 +196,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 break;
 
             case "ildclrecordlistgui":
-                $this->addHeaderAction(false);
+                $this->addHeaderAction();
                 $this->prepareOutput();
                 $DIC->tabs()->activateTab("id_records");
                 $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $_REQUEST['tableview_id']);
@@ -247,7 +230,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $recordview_gui = new ilDclDetailedViewGUI($this);
                 $this->ctrl->forwardCommand($recordview_gui);
                 $DIC->tabs()->clearTargets();
-                $DIC->tabs()->setBackTarget($this->lng->txt("back"), $DIC->ctrl()->getLinkTargetByClass(ilDclRecordListGUI::class, ilDclRecordListGUI::CMD_LIST_RECORDS));
+                $DIC->tabs()->setBackTarget($this->lng->txt("back"),
+                    $DIC->ctrl()->getLinkTargetByClass(ilDclRecordListGUI::class,
+                        ilDclRecordListGUI::CMD_LIST_RECORDS));
                 break;
 
             case 'ilnotegui':
@@ -283,13 +268,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         $this->editObject();
                         break;
                     default:
-                        return parent::executeCommand();
+                        parent::executeCommand();
                 }
         }
-
-        return true;
     }
-
 
     /**
      * this one is called from the info button in the repository
@@ -303,7 +285,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->infoScreenForward();
     }
 
-
     /**
      * show Content; redirect to ilDclRecordListGUI::listRecords
      */
@@ -314,7 +295,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $_GET['tableview_id']);
         $ilCtrl->redirectByClass("ildclrecordlistgui", "show");
     }
-
 
     /**
      * show information screen
@@ -338,8 +318,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -349,13 +328,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
     }
 
-
     /**
      * @param $a_target
      */
     public static function _goto($a_target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
@@ -376,47 +355,32 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         }
 
-        ilUtil::sendFailure(
-            sprintf(
-                $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-            ),
-            true
-        );
+        $main_tpl->setOnScreenMessage('failure', sprintf(
+            $lng->txt("msg_no_perm_read_item"),
+            ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+        ), true);
         ilObjectGUI::_gotoRepositoryRoot();
     }
 
-
-    /**
-     * @param string $a_new_type
-     *
-     * @return array
-     */
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = parent::initCreationForms($a_new_type);
+        $forms = parent::initCreationForms($new_type);
 
         return $forms;
     }
 
-
-    /**
-     * @param ilObject $a_new_object
-     */
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object) : void
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
-
 
     /**
      * setTabs
      * create tabs (repository/workspace switch)
-     *
      * this had to be moved here because of the context-specific permission tab
      */
-    public function setTabs()
+    public function setTabs() : void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -428,12 +392,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         // list records
         if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
-            $ilTabs->addTab("id_records", $lng->txt("content"), $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "show"));
+            $ilTabs->addTab("id_records", $lng->txt("content"),
+                $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "show"));
         }
 
         // info screen
-        if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()) || $ilAccess->checkAccess('read', "", $this->object->getRefId())) {
-            $ilTabs->addTab("id_info", $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+        if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()) || $ilAccess->checkAccess('read', "",
+                $this->object->getRefId())) {
+            $ilTabs->addTab("id_info", $lng->txt("info_short"),
+                $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
         }
 
         // settings
@@ -443,7 +410,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         // list tables
         if ($ilAccess->checkAccess('write', "", $this->object->getRefId())) {
-            $ilTabs->addTab("id_tables", $lng->txt("dcl_tables"), $this->ctrl->getLinkTargetByClass("ildcltablelistgui", "listTables"));
+            $ilTabs->addTab("id_tables", $lng->txt("dcl_tables"),
+                $this->ctrl->getLinkTargetByClass("ildcltablelistgui", "listTables"));
         }
 
         // export
@@ -453,21 +421,20 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         // edit permissions
         if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId())) {
-            $ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
+            $ilTabs->addTab("id_permissions", $lng->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
         }
     }
 
-
     /**
      * edit object
-     *
      * @access    public
      */
-    public function editObject()
+    public function editObject() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs_gui;
-        $ilErr = $this->ilErr;
+        $ilErr = $this->error;
 
         if (!$this->checkPermissionBool("write")) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
@@ -486,13 +453,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $tpl->setContent($form->getHTML());
     }
 
-
-    /**
-     * Init object edit form
-     *
-     * @return ilPropertyFormGUI
-     */
-    protected function initEditForm()
+    protected function initEditForm() : ilPropertyFormGUI
     {
         $this->tabs_gui->activateTab("id_settings");
         $this->lng->loadLanguageModule($this->object->getType());
@@ -541,7 +502,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return $form;
     }
 
-
     /**
      * called by goto
      */
@@ -553,7 +513,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $ilCtrl->redirectByClass("ildclrecordlistgui", "show");
     }
 
-
     /**
      * @return ilObjDataCollection
      */
@@ -564,40 +523,31 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return $obj;
     }
 
-
     /**
      * @param array $a_values
-     *
      * @return array|void
      */
-    public function getEditFormCustomValues(array &$a_values)
+    public function getEditFormCustomValues(array &$values) : void
     {
-        $a_values["is_online"] = $this->object->getOnline();
-        $a_values["rating"] = $this->object->getRating();
-        $a_values["public_notes"] = $this->object->getPublicNotes();
-        $a_values["approval"] = $this->object->getApproval();
-        $a_values["notification"] = $this->object->getNotification();
-
-        return $a_values;
+        $values["is_online"] = $this->object->getOnline();
+        $values["rating"] = $this->object->getRating();
+        $values["public_notes"] = $this->object->getPublicNotes();
+        $values["approval"] = $this->object->getApproval();
+        $values["notification"] = $this->object->getNotification();
     }
 
-
-    /**
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function updateCustom(ilPropertyFormGUI $a_form)
+    public function updateCustom(ilPropertyFormGUI $orm) : void
     {
-        $this->object->setOnline($a_form->getInput("is_online"));
-        $this->object->setRating($a_form->getInput("rating"));
-        $this->object->setPublicNotes($a_form->getInput("public_notes"));
-        $this->object->setApproval($a_form->getInput("approval"));
-        $this->object->setNotification($a_form->getInput("notification"));
+        $this->object->setOnline($orm->getInput("is_online"));
+        $this->object->setRating($orm->getInput("rating"));
+        $this->object->setPublicNotes($orm->getInput("public_notes"));
+        $this->object->setApproval($orm->getInput("approval"));
+        $this->object->setNotification($orm->getInput("notification"));
 
-        $this->object_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+        $this->object_service->commonSettings()->legacyForm($orm, $this->object)->saveTileImage();
 
         $this->emptyInfo();
     }
-
 
     private function emptyInfo()
     {
@@ -608,10 +558,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         if (count($tables) == 1 and count($this->table->getRecordFields()) == 0 and count($this->table->getRecords()) == 0
             and $this->object->getOnline()
         ) {
-            ilUtil::sendInfo($lng->txt("dcl_no_content_warning"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("dcl_no_content_warning"), true);
         }
     }
-
 
     public function toggleNotification()
     {
@@ -621,22 +570,18 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         switch ($_GET["ntf"]) {
             case 1:
-                ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, false);
+                ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id,
+                    false);
                 break;
             case 2:
-                ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, true);
+                ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id,
+                    true);
                 break;
         }
         $ilCtrl->redirectByClass("ildclrecordlistgui", "show");
     }
 
-
-    /**
-     * @param bool $a_redraw
-     *
-     * @return string|void
-     */
-    public function addHeaderAction($a_redraw = false)
+    public function addHeaderAction() : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -645,15 +590,16 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
 
-        $dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $ilAccess, "dcl", $this->ref_id, $this->obj_id);
+        $dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $ilAccess, "dcl",
+            $this->ref_id, $this->obj_id);
 
         ilObjectListGUI::prepareJSLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             $ilCtrl->getLinkTargetByClass(
                 array(
-                "ilcommonactiondispatchergui",
-                "ilnotegui",
-            ),
+                    "ilcommonactiondispatchergui",
+                    "ilnotegui",
+                ),
                 "",
                 "",
                 true,
@@ -668,26 +614,25 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         // notification
         if ($ilUser->getId() != ANONYMOUS_USER_ID and $this->object->getNotification() == 1) {
-            if (ilNotification::hasNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id)) {
+            if (ilNotification::hasNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(),
+                $this->obj_id)) {
                 //Command Activate Notification
                 $ilCtrl->setParameter($this, "ntf", 1);
-                $lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_deactivate_dcl");
+                $lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"),
+                    "dcl_notification_deactivate_dcl");
 
-                $lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_on.svg"), $lng->txt("dcl_notification_activated"));
+                $lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_on.svg"),
+                    $lng->txt("dcl_notification_activated"));
             } else {
                 //Command Deactivate Notification
                 $ilCtrl->setParameter($this, "ntf", 2);
-                $lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_activate_dcl");
+                $lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"),
+                    "dcl_notification_activate_dcl");
 
-                $lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_off.svg"), $lng->txt("dcl_notification_deactivated"));
+                $lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_off.svg"),
+                    $lng->txt("dcl_notification_deactivated"));
             }
             $ilCtrl->setParameter($this, "ntf", "");
-        }
-
-        if (!$a_redraw) {
-            $tpl->setHeaderActionMenu($lg->getHeaderAction());
-        } else {
-            return $lg->getHeaderAction();
         }
 
         $tpl->setHeaderActionMenu($lg->getHeaderAction());

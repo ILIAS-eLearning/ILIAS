@@ -9,7 +9,7 @@
  */
 class ilBannedUsersTableGUI extends ilTable2GUI
 {
-    public function __construct(ilObjChatroomGUI $a_parent_obj, string $a_parent_cmd)
+    public function __construct(ilChatroomObjectGUI $a_parent_obj, string $a_parent_cmd)
     {
         $this->setId('banned_users');
 
@@ -32,7 +32,7 @@ class ilBannedUsersTableGUI extends ilTable2GUI
         $this->addMultiCommand('ban-delete', $this->lng->txt('unban'));
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if (is_numeric($a_set['timestamp']) && $a_set['timestamp'] > 0) {
             $a_set['timestamp'] = ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX));

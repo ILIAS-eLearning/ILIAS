@@ -8,10 +8,8 @@
  */
 class ilMailAttachmentTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
-        global $DIC;
-
         $this->setId('mail_attachments');
 
         $this->setDefaultOrderDirection('ASC');
@@ -41,14 +39,14 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         $this->setLimit(PHP_INT_MAX);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         /**
          * We need to encode this because of filenames with the following format: "anystring".txt (with ")
          */
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
-            ilUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename']))
+            ilLegacyFormElementsUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename']))
         );
         $this->tpl->setVariable(
             'VAL_FILENAME',
@@ -64,7 +62,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         );
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         return $a_field === 'filesize' || $a_field === 'filecreatedate';
     }
@@ -76,7 +74,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
                 return ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
 
             case 'filesize':
-                return ilUtil::formatSize($value);
+                return ilUtil::formatSize((int) $value);
 
             default:
                 return $value;

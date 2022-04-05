@@ -1,23 +1,27 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class JsCollection
- *
  * @package ILIAS\Services\UICore\Page\Media
  */
 class JsCollection extends AbstractCollection
 {
-
-    /**
-     * @var Js[]
-     */
-    protected $path_storage = [];
-
-
+    protected array $path_storage = [];
+    
     /**
      * @param Js $item
      */
-    public function addItem(Js $item)
+    public function addItem(Js $item) : void
     {
         $basename = $this->stripPath($item->getContent());
         if (!array_key_exists($basename, $this->items)) {
@@ -29,17 +33,15 @@ class JsCollection extends AbstractCollection
             }
         }
     }
-
-
+    
     private function storeItem(
         js $item
-    ) {
+    ) : void {
         $strip_path = $this->stripPath($item->getContent());
         $this->items[$strip_path] = $item;
         $this->path_storage[$strip_path] = $item->getBatch();
     }
-
-
+    
     /**
      * @return Js[]
      */
@@ -56,7 +58,7 @@ class JsCollection extends AbstractCollection
                 $ordered_all[] = $js;
             }
         }
-
+        
         return $ordered_all;
     }
 }

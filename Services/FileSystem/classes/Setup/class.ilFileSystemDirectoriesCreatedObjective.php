@@ -1,16 +1,23 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-
 use ILIAS\Setup;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilFileSystemSetupConfig
-     */
-    protected $config;
+    protected \ilFileSystemSetupConfig $config;
 
     public function __construct(
         \ilFileSystemSetupConfig $config
@@ -33,6 +40,9 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
         return false;
     }
 
+    /**
+     * @return \ILIAS\Setup\Objective\DirectoryCreatedObjective[]|\ilIniFilesPopulatedObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);

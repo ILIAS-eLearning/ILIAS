@@ -12,25 +12,23 @@
  */
 class ilWorkflowEngineSettingsGUI
 {
-    /** @var  ilObjWorkflowEngineGUI */
-    protected $parent_gui;
+    protected ilObjWorkflowEngineGUI $parent_gui;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilWorkflowEngineSettingsGUI constructor.
-     *
-     * @param \ilObjWorkflowEngineGUI $parent_gui
      */
     public function __construct(ilObjWorkflowEngineGUI $parent_gui)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->parent_gui = $parent_gui;
     }
 
     /**
      * @param string $command
-     *
-     * @return string
      */
-    public function handle($command)
+    public function handle(string $command)
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -56,11 +54,12 @@ class ilWorkflowEngineSettingsGUI
                 $form_instance->setValuesByPost();
                 $ilSetting->set('wfe_activation', (int) $cb_input->getChecked());
 
-                ilUtil::sendSuccess($this->parent_gui->lng->txt('settings_saved'), true);
+                $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('settings_saved'), true);
                 ilUtil::redirect(
                     html_entity_decode($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'settings.view'))
                 );
             }
         }
+        return '';
     }
 }

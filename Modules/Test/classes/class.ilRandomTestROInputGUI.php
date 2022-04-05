@@ -52,7 +52,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	array	Values
     */
-    public function getValues()
+    public function getValues() : array
     {
         return $this->values;
     }
@@ -68,10 +68,8 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
 
     /**
     * Insert property html
-    *
-    * @return	int	Size
     */
-    public function insert(&$a_tpl)
+    public function insert($a_tpl)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -94,7 +92,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
                 $class .= " last";
             }
             $tpl->setVariable("ROW_CLASS", $class);
-            $tpl->setVariable("QPL_VALUE", ilUtil::prepareFormOutput($value['title']));
+            $tpl->setVariable("QPL_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value['title']));
             $tpl->setVariable("COUNT_VALUE", "(" . $value['count'] . " " . $lng->txt('assQuestions') . ")");
             $tpl->parseCurrentBlock();
             $i++;

@@ -1,8 +1,20 @@
-<?php /** @noinspection NullPointerExceptionInspection */
+<?php /******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /** @noinspection NullPointerExceptionInspection */
 /** @noinspection NullPointerExceptionInspection */
 /** @noinspection NullPointerExceptionInspection */
-
+/** @noinspection NullPointerExceptionInspection */
 /**
  * Class ActiveRecordList
  * @author  Oskar Truffer <ot@studer-raimann.ch>
@@ -12,7 +24,6 @@
  */
 class ActiveRecordList
 {
-
     protected \arWhereCollection $arWhereCollection;
     protected \arJoinCollection $arJoinCollection;
     protected \arOrderCollection $arOrderCollection;
@@ -159,8 +170,14 @@ class ActiveRecordList
         string $operator = '=',
         bool $both_external = false
     ) : self {
-        return $this->innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator,
-            $both_external);
+        return $this->innerjoin(
+            $ar->getConnectorContainerName(),
+            $on_this,
+            $on_external,
+            $fields,
+            $operator,
+            $both_external
+        );
     }
 
     /**

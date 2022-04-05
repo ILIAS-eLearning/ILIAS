@@ -6,30 +6,11 @@ use ILIAS\Setup;
 
 class ilWebServicesSetupConfig implements Setup\Config
 {
-    /**
-     * @var bool
-     */
-    protected $soap_user_administration;
-
-    /**
-     * @var string
-     */
-    protected $soap_wsdl_path;
-
-    /**
-     * @var int
-     */
-    protected $soap_connect_timeout;
-
-    /**
-     * @var string
-     */
-    protected $rpc_server_host;
-
-    /**
-     * @var int
-     */
-    protected $rpc_server_port;
+    protected bool $soap_user_administration;
+    protected string $soap_wsdl_path;
+    protected int $soap_connect_timeout;
+    protected string $rpc_server_host;
+    protected int $rpc_server_port;
 
     public function __construct(
         bool $soap_user_administration,

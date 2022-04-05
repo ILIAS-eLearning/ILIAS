@@ -19,7 +19,7 @@ class ilTestExportFixedQuestionSet extends ilTestExport
     {
     }
     
-    protected function getQuestionsQtiXml()
+    protected function getQuestionsQtiXml() : string
     {
         $questionQtiXml = '';
 
@@ -30,7 +30,7 @@ class ilTestExportFixedQuestionSet extends ilTestExport
         return $questionQtiXml;
     }
     
-    protected function getQuestionIds()
+    protected function getQuestionIds() : array
     {
         return $this->test_obj->questions;
     }

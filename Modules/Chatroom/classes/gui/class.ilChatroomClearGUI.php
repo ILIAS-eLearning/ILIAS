@@ -14,7 +14,7 @@ class ilChatroomClearGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('moderate');
 
-        $room = $this->getRoomByObjectId($this->gui->object->getId());
+        $room = $this->getRoomByObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);

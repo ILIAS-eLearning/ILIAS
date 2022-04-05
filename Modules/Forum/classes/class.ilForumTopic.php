@@ -30,7 +30,7 @@ class ilForumTopic
     private float $average_rating = 0.0;
     private string $orderDirection = 'DESC';
     protected static array $possibleOrderDirections = ['ASC', 'DESC'];
-    private $user;
+    private ilObjUser $user;
     private int $num_new_posts = 0;
     private int $num_unread_posts = 0;
     private bool $user_notification_enabled = false;
@@ -38,7 +38,7 @@ class ilForumTopic
     /**
      * Returns an object of a forum topic. The constructor calls the private method read()
      * to load the topic data from database into the object.
-     * @param integer $a_id primary key of a forum topic (optional)
+     * @param int $a_id primary key of a forum topic (optional)
      * @param bool $a_is_moderator moderator-status of the current user (optional)
      * @param bool $preventImplicitRead Prevents the implicit database query if an id was passed
      */
@@ -56,7 +56,7 @@ class ilForumTopic
         }
     }
 
-    public function assignData($data) : void
+    public function assignData(array $data) : void
     {
         $this->setId((int) $data['thr_pk']);
         $this->setForumId((int) $data['thr_top_fk']);
@@ -688,9 +688,6 @@ class ilForumTopic
             $casted_row['post_id'] = (int) $row['post_id'];
             $casted_row['post_read'] = (int) $row['post_read'];
             $casted_row['children'] = (int) $row['children'];
-            $casted_row['rgt'] = (int) $row['rgt'];
-            $casted_row['rgt'] = (int) $row['rgt'];
-            $casted_row['rgt'] = (int) $row['rgt'];
 
             $children[] = $casted_row;
         }
@@ -798,10 +795,10 @@ class ilForumTopic
             $this->db->manipulateF(
                 'UPDATE frm_threads SET is_closed = %s WHERE thr_pk = %s',
                 ['integer', 'integer'],
-                ['0', $this->id]
+                [0, $this->id]
             );
 
-            $this->is_closed = true;
+            $this->is_closed = false;
         }
     }
 
@@ -870,7 +867,7 @@ class ilForumTopic
         $this->createdate = $a_createdate;
     }
 
-    public function getCreateDate() : string
+    public function getCreateDate() : ?string
     {
         return $this->createdate;
     }

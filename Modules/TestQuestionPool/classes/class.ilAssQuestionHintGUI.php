@@ -23,6 +23,13 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
     const CMD_SAVE_FORM = 'saveForm';
     const CMD_CANCEL_FORM = 'cancelForm';
     const CMD_CONFIRM_FORM = 'confirmForm';
+    private \ilGlobalTemplateInterface $main_tpl;
+    public function __construct(assQuestionGUI $questionGUI)
+    {
+        parent::__construct($questionGUI);
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+    }
     
     /**
      * Execute Command
@@ -83,7 +90,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             $questionHint = new ilAssQuestionHint();
 
             if (!$questionHint->load((int) $_GET['hint_id'])) {
-                ilUtil::sendFailure('invalid hint id given: ' . (int) $_GET['hint_id'], true);
+                $this->main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $_GET['hint_id'], true);
                 $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             }
 
@@ -132,7 +139,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             $questionHint->setPoints($form->getInput('hint_points'));
 
             $questionHint->save();
-            ilUtil::sendSuccess($lng->txt('tst_question_hints_form_saved_msg'), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_form_saved_msg'), true);
 
             if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $this->questionOBJ->updateTimestamp();
@@ -153,7 +160,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             }
         }
         
-        ilUtil::sendFailure($lng->txt('tst_question_hints_form_invalid_msg'));
+        $this->main_tpl->setOnScreenMessage('failure', $lng->txt('tst_question_hints_form_invalid_msg'));
         $this->showFormCmd($form);
     }
     
@@ -179,7 +186,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilLanguage			$lng
      * @return	ilPropertyFormGUI	$form
      */
-    private function buildForm(ilAssQuestionHint $questionHint = null)
+    private function buildForm(ilAssQuestionHint $questionHint = null) : ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

@@ -1,6 +1,10 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\Refinery\Random\Seed\RandomSeed;
+use ILIAS\Refinery\Random\Seed\GivenSeed;
+use ILIAS\Refinery\Transformation;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -82,8 +86,10 @@ class ilAssQuestionPreviewGUI
      * @var ilAssQuestionPreviewHintTracking
      */
     protected $hintTracking;
+
+    private RandomGroup $randomGroup;
     
-    public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
+    public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user, RandomGroup $randomGroup)
     {
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
@@ -91,6 +97,7 @@ class ilAssQuestionPreviewGUI
         $this->lng = $lng;
         $this->db = $db;
         $this->user = $user;
+        $this->randomGroup = $randomGroup;
     }
 
     public function initQuestion($questionId, $parentObjId)
@@ -199,12 +206,12 @@ class ilAssQuestionPreviewGUI
     /**
      * @return string
      */
-    protected function buildPreviewFormAction()
+    protected function buildPreviewFormAction() : string
     {
         return $this->ctrl->getFormAction($this, self::CMD_SHOW) . '#' . self::FEEDBACK_FOCUS_ANCHOR;
     }
     
-    protected function isCommentingRequired()
+    protected function isCommentingRequired() : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -212,7 +219,7 @@ class ilAssQuestionPreviewGUI
             return false;
         }
         
-        return (bool) $DIC->rbac()->system()->checkAccess('write', (int) $_GET['ref_id']);
+        return $DIC->rbac()->system()->checkAccess('write', (int) $_GET['ref_id']);
     }
     
     private function showCmd($notesPanelHTML = '')
@@ -281,7 +288,7 @@ class ilAssQuestionPreviewGUI
         $this->previewSession->resetRequestedHints();
         $this->previewSession->setInstantResponseActive(false);
 
-        ilUtil::sendInfo($this->lng->txt('qst_preview_reset_msg'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('qst_preview_reset_msg'), true);
         
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
@@ -409,7 +416,7 @@ class ilAssQuestionPreviewGUI
         $tpl->parseCurrentBlock();
     }
 
-    private function getQuestionNavigationHtml()
+    private function getQuestionNavigationHtml() : string
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php';
         $navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
@@ -505,7 +512,7 @@ class ilAssQuestionPreviewGUI
         return $this->previewSession->isInstantResponseActive();
     }
     
-    public function saveQuestionSolution()
+    public function saveQuestionSolution() : bool
     {
         return $this->questionOBJ->persistPreviewState($this->previewSession);
     }
@@ -543,20 +550,15 @@ class ilAssQuestionPreviewGUI
     }
 
     /**
-     * @return ilArrayElementShuffler
+     * @return Transformation
      */
-    private function getQuestionAnswerShuffler()
+    private function getQuestionAnswerShuffler() : Transformation
     {
-        require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-        $shuffler = new ilArrayElementShuffler();
-        
         if (!$this->previewSession->randomizerSeedExists()) {
-            $this->previewSession->setRandomizerSeed($shuffler->buildRandomSeed());
+            $this->previewSession->setRandomizerSeed((new RandomSeed())->createSeed());
         }
-        
-        $shuffler->setSeed($this->previewSession->getRandomizerSeed());
-        
-        return $shuffler;
+
+        return $this->randomGroup->shuffleArray(new GivenSeed($this->previewSession->getRandomizerSeed()));
     }
     
     protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML)

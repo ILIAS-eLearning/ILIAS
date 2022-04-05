@@ -9,7 +9,7 @@
  */
 class ilDidacticTemplateGUI
 {
-    private ilObjectGUI $parent_object;
+    private object $parent_object;
     private ilLanguage $lng;
     private ilCtrl $ctrl;
     private ilTabsGUI $tabs;
@@ -19,7 +19,7 @@ class ilDidacticTemplateGUI
     /**
      * Constructor
      */
-    public function __construct(ilObjectGUI $a_parent_obj, int $requested_template_id = 0)
+    public function __construct(object $a_parent_obj, int $requested_template_id = 0)
     {
         global $DIC;
 
@@ -36,7 +36,7 @@ class ilDidacticTemplateGUI
         }
     }
 
-    public function getParentObject() : ilObjectGUI
+    public function getParentObject() : object
     {
         return $this->parent_object;
     }
@@ -63,7 +63,7 @@ class ilDidacticTemplateGUI
     public function appendToolbarSwitch(ilToolbarGUI $toolbar, string $a_obj_type, int $a_ref_id) : bool
     {
         $tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
-        $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId());
+        $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId());
 
         if (!count($tpls) && !$value) {
             return false;
@@ -120,9 +120,9 @@ class ilDidacticTemplateGUI
     {
         // Check if template is changed
         $new_tpl_id = $this->requested_template_id;
-        if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId())) {
+        if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId())) {
             $this->logger->debug('Template id: ' . $new_tpl_id);
-            ilUtil::sendInfo($this->lng->txt('didactic_not_changed'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('didactic_not_changed'), true);
             $this->ctrl->returnToParent($this);
         }
 
@@ -136,8 +136,6 @@ class ilDidacticTemplateGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 
         if ($new_tpl_id) {
-
-
             $dtpl = new ilDidacticTemplateSetting($new_tpl_id);
 
             $confirm->addItem(
@@ -156,7 +154,7 @@ class ilDidacticTemplateGUI
                 '<div class="il_Description">' .
                 sprintf(
                     $this->lng->txt('didactic_default_type_info'),
-                    $this->lng->txt('objs_' . $this->getParentObject()->object->getType())
+                    $this->lng->txt('objs_' . $this->getParentObject()->getObject()->getType())
                 ) .
                 '</div>'
             );
@@ -179,7 +177,7 @@ class ilDidacticTemplateGUI
     {
         $new_tpl_id = $this->requested_template_id;
         ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->object->getRefId(), $new_tpl_id);
-        ilUtil::sendSuccess($this->lng->txt('didactic_template_applied'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_template_applied'), true);
         $this->ctrl->returnToParent($this);
     }
 }

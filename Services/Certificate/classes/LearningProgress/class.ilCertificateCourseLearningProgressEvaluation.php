@@ -45,7 +45,6 @@ class ilCertificateCourseLearningProgressEvaluation
      * @param int $refId
      * @param int $userId
      * @return ilCertificateTemplate[]
-     * @throws JsonException
      */
     public function evaluate(int $refId, int $userId) : array
     {
@@ -58,7 +57,7 @@ class ilCertificateCourseLearningProgressEvaluation
         foreach ($courseTemplates as $courseTemplate) {
             $courseObjectId = $courseTemplate->getObjId();
 
-            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId, null);
+            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId);
             if ($subItems === null) {
                 continue;
             }
@@ -79,7 +78,7 @@ class ilCertificateCourseLearningProgressEvaluation
                 foreach ($subitem_obj_ids as $subitem_ref_id => $subitem_id) {
                     $status = $this->statusHelper->lookUpStatus($subitem_id, $userId);
 
-                    if ($status != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                    if ($status !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                         $completed = false;
                         break;
                     }

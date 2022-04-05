@@ -133,7 +133,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      *
      * @return	array	Options. Array
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options ? $this->options : array();
     }
@@ -203,7 +203,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      * @param string    $a_mode
      * @return string
      */
-    public function render($a_mode = "")
+    public function render($a_mode = "") : string
     {
         if ($this->type_ahead) {
             $tpl = new ilTemplate("tpl.prop_tag_typeahead.html", true, true, "Services/Form");
@@ -224,13 +224,13 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
         
         foreach ($this->getOptions() as $option_value => $option_text) {
             $tpl->setCurrentBlock("prop_select_option");
-            $tpl->setVariable("VAL_SELECT_OPTION", ilUtil::prepareFormOutput($option_text));
+            $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($option_text));
             $tpl->setVariable("TXT_SELECT_OPTION", $option_text);
             $tpl->parseCurrentBlock();
         }
         
         $tpl->setVariable("ID", $this->getFieldId());
-                    
+        
         $tpl->setVariable("POST_VAR", $this->getPostVar() . "[]");
         
         if ($this->js_self_init) {

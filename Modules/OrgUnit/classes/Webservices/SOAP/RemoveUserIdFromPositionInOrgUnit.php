@@ -9,7 +9,6 @@ use LogicException;
 
 /**
  * Class AddUserIdToPositionInOrgUnit
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class RemoveUserIdFromPositionInOrgUnit extends Base
@@ -17,7 +16,6 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
 
     /**
      * @param array $params
-     *
      * @return mixed|void
      * @throws \ilSoapPluginException
      */
@@ -51,38 +49,37 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
         }
     }
 
-
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "removeUserFromPositionInOrgUnit";
     }
-
 
     /**
      * @return array
      */
     protected function getAdditionalInputParams()
     {
-        return array(self::POSITION_ID => Base::TYPE_INT, self::USR_ID => Base::TYPE_INT, self::ORGU_REF_ID => Base::TYPE_INT);
+        return array(self::POSITION_ID => Base::TYPE_INT,
+                     self::USR_ID => Base::TYPE_INT,
+                     self::ORGU_REF_ID => Base::TYPE_INT
+        );
     }
-
 
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return [];
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Removes a user from a position in a orgunit";
     }

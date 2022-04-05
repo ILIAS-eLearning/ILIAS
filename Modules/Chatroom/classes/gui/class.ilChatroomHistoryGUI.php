@@ -18,7 +18,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
     public function byDay(bool $export = false) : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $this->mainTpl->addJavaScript('./Services/Form/js/date_duration.js');
@@ -79,7 +79,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $this->gui->switchToVisibleMode();
 
-        $this->mainTpl->addCSS('Modules/Chatroom/templates/default/style.css');
+        $this->mainTpl->addCss('Modules/Chatroom/templates/default/style.css');
 
         // should be able to grep templates
         if ($export) {
@@ -178,8 +178,6 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $durationForm->addItem($select);
         }
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
-
         $prevUseRelDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
 
@@ -209,7 +207,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             } else {
                 $roomTpl->setVariable(
                     'ROOM_TITLE',
-                    sprintf($this->ilLng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')'
+                    sprintf($this->ilLng->txt('history_title_general'), $this->gui->getObject()->getTitle()) . ' (' . $date_sub . ')'
                 );
             }
         }
@@ -217,7 +215,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         if ($export) {
             ilUtil::deliverData(
                 $roomTpl->get(),
-                ilUtil::getASCIIFilename($scopes[$requestScope] . '.html'),
+                ilFileUtils::getASCIIFilename($scopes[$requestScope] . '.html'),
                 'text/html'
             );
         }
@@ -235,7 +233,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
     public function bySession(bool $export = false) : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $scope = $room->getRoomId();
@@ -284,6 +282,9 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             );
         }
 
+        $from = new ilDateTime();
+        $to = new ilDateTime();
+        $psessions = [];
         if ($from && $to) {
             $psessions = $room->getPrivateRoomSessions(
                 $from,
@@ -291,18 +292,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                 $chat_user->getUserId(),
                 $scope
             );
-        } else {
-            $from = new ilDateTime();
-            $to = new ilDateTime();
-            $psessions = array();
         }
-
-        $psessions = $room->getPrivateRoomSessions(
-            $from,
-            $to,
-            $chat_user->getUserId(),
-            $scope
-        );
 
         $this->showMessages($messages, $durationForm, $export, $psessions, $from, $to);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -103,12 +103,10 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 
     public function insert(ilTemplate $a_tpl) : void
     {
-        $lng = $this->lng;
-        
         $a_tpl->setCurrentBlock("prop_login");
         $a_tpl->setVariable("POST_VAR", $this->getPostVar());
         $a_tpl->setVariable("ID", $this->getFieldId());
-        $a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+        $a_tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
         $a_tpl->setVariable("SIZE", $this->size);
         $a_tpl->setVariable("MAXLENGTH", $this->max_length);
         if ($this->getDisabled()) {

@@ -20,7 +20,7 @@
  */
 class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableGUI
 {
-    public function parse()
+    public function parse() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -45,7 +45,7 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
         $this->setData($rows);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('HREF_ITEM', $a_set['link']);
         $this->tpl->setVariable('TXT_ITEM_TITLE', $a_set['title']);
@@ -53,7 +53,8 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
         if ($this->getSettings()->enabledLucene()) {
             $this->tpl->setVariable('RELEVANCE', $this->getRelevanceHTML($a_set['relevance']));
         }
-        if (strlen($a_set['content'])) {
+
+        if ($a_set['content'] !== '') {
             $this->tpl->setVariable('HIGHLIGHT_CONTENT', $a_set['content']);
         }
     }

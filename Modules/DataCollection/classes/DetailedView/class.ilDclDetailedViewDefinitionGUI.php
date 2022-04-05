@@ -3,12 +3,10 @@
 
 /**
  * Class ilDclDetailedViewDefinitionGUI
- *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
@@ -19,7 +17,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      * @var int
      */
     protected $tableview_id;
-
 
     /**
      * @param     $tableview_id
@@ -60,7 +57,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->parseCurrentBlock();
     }
 
-
     /**
      * execute command
      */
@@ -90,7 +86,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
                 return parent::executeCommand();
         }
     }
-
 
     /**
      * @return string
@@ -131,8 +126,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-
-
     /**
      *
      */
@@ -144,7 +137,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-
     /**
      *
      */
@@ -155,7 +147,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $page->update();
         $this->ctrl->redirect($this, 'edit');
     }
-
 
     /**
      * confirmDelete
@@ -179,7 +170,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * cancelDelete
      */
@@ -190,7 +180,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
         $ilCtrl->redirect($this, "edit");
     }
-
 
     /**
      *
@@ -206,12 +195,11 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
             $pageObject->delete();
         }
 
-        ilUtil::sendSuccess($lng->txt("dcl_empty_detailed_view_success"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("dcl_empty_detailed_view_success"), true);
 
         // Bug fix for mantis 22537: Redirect to settings-tab instead of fields-tab. This solves the problem and is more intuitive.
         $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
     }
-
 
     /**
      * Release page lock
@@ -224,10 +212,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $lng = $DIC['lng'];
 
         $this->getPageObject()->releasePageLock();
-        ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_page_lock_released"), true);
         $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
     }
-
 
     /**
      * Finalizing output processing

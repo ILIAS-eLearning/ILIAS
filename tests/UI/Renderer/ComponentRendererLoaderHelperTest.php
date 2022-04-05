@@ -13,7 +13,7 @@ class ComponentRendererLoaderHelperTest extends TestCase
 {
     use LoaderHelper;
 
-    public function test_getContextNames()
+    public function test_getContextNames() : void
     {
         $c1 = new TestComponent("foo");
         $c2 = new Glyph("up", "up");

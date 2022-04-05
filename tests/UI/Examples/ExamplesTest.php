@@ -58,9 +58,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
             "type" => "crs"
         ]);
 
-        //ilPluginAdmin is still mocked with mockery due to static call of getActivePluginsForSlot
-        $this->dic["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
-        $this->dic["ilPluginAdmin"]->shouldReceive("getActivePluginsForSlot")->andReturn([]);
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
+        $this->dic["component.factory"] = $component_factory;
 
         (new InitHttpServices())->init($this->dic);
     }
@@ -79,7 +79,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
                     0,
                     count($entry->getExamples()),
                     "Non abstract Component " . $entry->getNamespace()
-                    . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace()
+                    . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace() . " at " . $entry->getExamplesPath()
                 );
             }
         }

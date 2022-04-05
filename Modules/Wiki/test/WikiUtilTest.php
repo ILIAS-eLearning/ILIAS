@@ -9,13 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class WikiUtilTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -23,7 +16,7 @@ class WikiUtilTest extends TestCase
     /**
      * Test make URL title
      */
-    public function testRefId()
+    public function testRefId() : void
     {
         $input_expected = [
             ["a", "a"]
@@ -45,7 +38,6 @@ class WikiUtilTest extends TestCase
             ,["#", "%23"]
             ,["\x00", ""]
             ,["\n", ""]
-            ,["\r", ""]
             ,["\r", ""]
         ];
         foreach ($input_expected as $ie) {

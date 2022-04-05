@@ -5,9 +5,11 @@ namespace ILIAS\UI\examples\Dropzone\File\Wrapper;
 function restrict_max_files_and_file_size()
 {
     global $DIC;
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     // Handle a file upload ajax request
-    if (isset($_GET['example']) && $_GET['example'] == 2) {
+    if ($request_wrapper->has('example') && $request_wrapper->retrieve('example', $refinery->kindlyTo()->int()) == 2) {
         $upload = $DIC->upload();
         try {
             $upload->process();

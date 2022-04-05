@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -92,7 +92,7 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
                 $post_var = $n["post_var"];
             }
             $value = $id;
-            $item_html = ilUtil::formCheckbox(
+            $item_html = ilLegacyFormElementsUtil::formCheckbox(
                 $n["checked"],
                 $post_var,
                 $value,

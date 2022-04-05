@@ -57,22 +57,22 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         ];
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
+        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -83,16 +83,15 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
     /**
      * Get tabs
      * @access public
      */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "show_privacy",
                 $this->ctrl->getLinkTarget($this, "showPrivacy"),
@@ -105,7 +104,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
@@ -115,7 +114,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         }
     }
 
-    protected function initPrivacyForm() : \ilPropertyFormGUI
+    protected function initPrivacyForm() : ilPropertyFormGUI
     {
         $privacy = ilPrivacySettings::getInstance();
 
@@ -126,7 +125,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt('ps_privacy_protection'));
 
         if (ilMemberAgreement::_hasAgreements()) {
-            ilUtil::sendInfo($this->lng->txt('ps_warning_modify'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('ps_warning_modify'));
         }
 
         $value = [];
@@ -178,7 +177,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $check->setValue('crs_access_times');
         $group->addOption($check);
         $form->addItem($group);
-        $check = new \ilCheckboxOption();
+        $check = new ilCheckboxOption();
         $check->setTitle($this->lng->txt('ps_participants_list_courses'));
         $check->setValue('participants_list_courses');
         $group->addOption($check);
@@ -199,9 +198,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * Show Privacy settings
      * @access public
      */
-    public function showPrivacy(?\ilPropertyFormGUI $form = null) : void
+    public function showPrivacy(?ilPropertyFormGUI $form = null) : void
     {
-        if (!$form instanceof \ilPropertyFormGUI) {
+        if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initPrivacyForm();
         }
         $this->tpl->setContent($form->getHTML());
@@ -231,7 +230,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
     public function save_privacy() : void
     {
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         $form = $this->initPrivacyForm();
@@ -266,13 +265,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $code = $privacy->validate();
         // if error code != 0, display error and do not save
         if ($code !== 0) {
-            $msg = $this->getErrorMessage($code);
-            \ilUtil::sendFailure($msg);
+            $msg = self::getErrorMessage($code);
+            $this->tpl->setOnScreenMessage('failure', $msg);
             $form->setValuesByPost();
             $this->showPrivacy($form);
             return;
         } elseif (!$valid) {
-            \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->showPrivacy($form);
             return;
@@ -301,7 +300,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             if ($do_reset) {
                 ilMemberAgreement::_reset();
             }
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         }
         $this->ctrl->redirect($this, 'showPrivacy');
     }
@@ -312,7 +311,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
     public function save_security() : void
     {
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
         $this->showSecurity();
     }
@@ -350,7 +349,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                                                   ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ),
                     'ps_participants_list_courses' => [$privacy->participantsListInCoursesEnabled(),
-                                                       \ilAdministrationSettingsFormHandler::VALUE_BOOL
+                                                       ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ]
                 );
                 $fields = [

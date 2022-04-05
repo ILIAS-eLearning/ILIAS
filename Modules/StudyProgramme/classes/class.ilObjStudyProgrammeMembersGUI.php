@@ -15,6 +15,8 @@ use ILIAS\Data\Factory;
  */
 class ilObjStudyProgrammeMembersGUI
 {
+    use ilTableCommandHelper;
+
     const DEFAULT_CMD = "view";
 
     const ACTION_MARK_ACCREDITED = "mark_accredited";
@@ -39,6 +41,8 @@ class ilObjStudyProgrammeMembersGUI
     protected ilPRGMessagePrinter $messages;
     protected Factory $data_factory;
     protected ilConfirmationGUI $confirmation_gui;
+    protected ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * @var ilStudyProgrammeProgress[]
@@ -63,7 +67,9 @@ class ilObjStudyProgrammeMembersGUI
         ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
         ilPRGMessagePrinter $messages,
         Factory $data_factory,
-        ilConfirmationGUI $confirmation_gui
+        ilConfirmationGUI $confirmation_gui,
+        ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -78,6 +84,8 @@ class ilObjStudyProgrammeMembersGUI
         $this->messages = $messages;
         $this->data_factory = $data_factory;
         $this->confirmation_gui = $confirmation_gui;
+        $this->http_wrapper = $http_wrapper;
+        $this->refinery = $refinery;
 
         $this->progress_objects = array();
         $this->object = null;
@@ -253,7 +261,6 @@ class ilObjStudyProgrammeMembersGUI
 
     /**
      * Assigns a users to SP
-     *
      * @param string[] $user_ids
      * @return bool|void
      */
@@ -282,9 +289,8 @@ class ilObjStudyProgrammeMembersGUI
 
     /**
      * Shows list of completed courses for each user if he should be assigned
-     *
-     * @param int[] 	$completed_courses
-     * @param int[] 	$users
+     * @param int[] $completed_courses
+     * @param int[] $users
      */
     public function viewCompletedCourses(array $completed_courses, array $users) : void
     {
@@ -329,10 +335,19 @@ class ilObjStudyProgrammeMembersGUI
      */
     public function addUsersWithAcknowledgedCourses() : void
     {
-        $users = $_POST["users"];
+        $users = $this->http_wrapper->post()->retrieve(
+            "users",
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
         $users = $this->getAddableUsers($users);
         $assignments = $this->_addUsers($users);
-        $completed_programmes = $_POST["courses"];
+
+        $completed_programmes = $this->http_wrapper->post()->retrieve(
+            "courses",
+            $this->refinery->kindlyTo()->dictOf(
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            )
+        );
 
         if (is_array($completed_programmes)) {
             foreach ($completed_programmes as $user_id => $prg_ref_ids) {
@@ -353,7 +368,7 @@ class ilObjStudyProgrammeMembersGUI
     }
 
     /**
-     *  @param int[] $users
+     * @param int[] $users
      */
     protected function getAddableUsers(array $users) : array
     {
@@ -378,9 +393,7 @@ class ilObjStudyProgrammeMembersGUI
 
     /**
      * Add users to SP
-     *
-     * @param string[] 	$user_ids
-     *
+     * @param string[] $user_ids
      * @return array <string, ilStudyProgrammeAssignment>
      */
     protected function _addUsers(array $user_ids) : array
@@ -407,22 +420,36 @@ class ilObjStudyProgrammeMembersGUI
      */
     protected function getPostPrgsIds() : array
     {
-        if ($_POST['select_cmd_all']) {
-            $prgrs_ids = $_POST[self::F_ALL_PROGRESS_IDS];
-            $prgrs_ids = explode(',', $prgrs_ids);
+        if ($this->http_wrapper->post()->has('select_cmd_all')) {
+            $prgrs_ids = $this->http_wrapper->post()->retrieve(
+                self::F_ALL_PROGRESS_IDS,
+                $this->refinery->in()->series([
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->string()->splitString(","),
+                    $this->refinery->container()->mapValues($this->refinery->kindlyTo()->int())
+                ])
+            );
         } else {
-            $prgrs_ids = $_POST[self::F_SELECTED_PROGRESS_IDS];
+            $prgrs_ids = $this->http_wrapper->post()->retrieve(
+                self::F_SELECTED_PROGRESS_IDS,
+                $this->refinery->in()->series([
+                    $this->refinery->container()->mapValues($this->refinery->kindlyTo()->int())
+                ])
+            );
         }
+
         if ($prgrs_ids === null) {
             $this->showInfoMessage("no_user_selected");
             $this->ctrl->redirect($this, "view");
         }
-        return array_map('intval', $prgrs_ids);
+
+        return $prgrs_ids;
     }
 
     protected function getGetPrgsIds() : array
     {
-        $prgrs_ids = $_GET['prgrs_ids'];
+        // TODO: simplify the progress data, merge 'prgrs_ids' and 'prgrs_id'
+        $prgrs_ids = $this->http_wrapper->query()->retrieve("prgrs_ids", $this->refinery->kindlyTo()->string());
         if (is_null($prgrs_ids)) {
             return array();
         }
@@ -431,10 +458,8 @@ class ilObjStudyProgrammeMembersGUI
 
     protected function getPrgrsId() : int
     {
-        if (!is_numeric($_GET["prgrs_id"])) {
-            throw new ilException("Expected integer 'prgrs_id'");
-        }
-        return (int) $_GET["prgrs_id"];
+        // TODO: simplify the progress data, merge 'prgrs_ids' and 'prgrs_id'
+        return $this->http_wrapper->query()->retrieve("prgrs_id", $this->refinery->kindlyTo()->int());
     }
 
     protected function markAccredited() : void
@@ -542,7 +567,7 @@ class ilObjStudyProgrammeMembersGUI
                 $msgs->add(false, 'no_permission_to_update_plan_of_user', (string) $prgrs_id);
                 continue;
             }
-            
+
             $this->object->updatePlanFromRepository(
                 $prgrs_id,
                 $this->user->getId(),
@@ -552,7 +577,6 @@ class ilObjStudyProgrammeMembersGUI
         $this->showMessages($msgs);
         $this->ctrl->redirect($this, "view");
     }
-
 
     public function changeDeadlineMulti() : void
     {
@@ -632,7 +656,7 @@ class ilObjStudyProgrammeMembersGUI
             $progress = $this->getProgressObject($progress_id);
             $user = ilObjUser::_lookupFullname($progress->getUserId());
             $name = $user . ' (' . $progress->getId() . ')';
-            
+
             $this->confirmation_gui->addItem(
                 self::F_SELECTED_PROGRESS_IDS . '[]',
                 $progress_id,
@@ -762,7 +786,6 @@ class ilObjStudyProgrammeMembersGUI
         $this->ctrl->setParameter($this, "prgrs_id", null);
         return $link;
     }
-
 
     protected function mayCurrentUserEditProgress(int $progress_id) : bool
     {

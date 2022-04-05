@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitTypeFormGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -17,7 +16,6 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
      * @var
      */
     protected $parent_gui;
-
 
     /**
      * @param               $parent_gui
@@ -39,10 +37,8 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-
     /**
      * Save object (create or update)
-     *
      * @return bool
      */
     public function saveObject()
@@ -55,12 +51,11 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
 
             return true;
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage('failure', $e->getMessage());
 
             return false;
         }
     }
-
 
     /**
      * Add all fields to the form
@@ -79,10 +74,8 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('updateCustomIcons', $this->lng->txt('save'));
     }
 
-
     /**
      * Check validity of form and pass values from form to object
-     *
      * @return bool
      */
     protected function fillObject()
@@ -106,7 +99,7 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
                 }
             }
         } catch (ilException $e) {
-            ilUtil::sendFailure($this->lng->txt('orgu_type_msg_error_custom_icon'));
+            $this->global_tpl->setOnScreenMessage('failure', $this->lng->txt('orgu_type_msg_error_custom_icon'));
 
             return false;
         }

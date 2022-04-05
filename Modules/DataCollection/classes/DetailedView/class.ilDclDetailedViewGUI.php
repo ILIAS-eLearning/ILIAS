@@ -3,16 +3,18 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @version      $Id:
- *
  * @ilCtrl_Calls ilDclDetailedViewGUI: ilDclDetailedViewDefinitionGUI, ilEditClipboardGUI
  */
 class ilDclDetailedViewGUI
 {
+    /**
+     * @var \ILIAS\Style\Content\Object\ObjectFacade
+     */
+    protected $content_style_domain;
 
     /**
      * @var ilObjDataCollectionGUI
@@ -58,7 +60,7 @@ class ilDclDetailedViewGUI
      * @var ilLanguage
      */
     protected $lng;
-
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * @param ilObjDataCollectionGUI $a_dcl_object
@@ -66,6 +68,8 @@ class ilDclDetailedViewGUI
     public function __construct(ilObjDataCollectionGUI $a_dcl_object)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
@@ -76,7 +80,7 @@ class ilDclDetailedViewGUI
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
         if (!$this->record_obj->hasPermissionToView((int) $_GET['ref_id'])) {
-            ilUtil::sendFailure('dcl_msg_no_perm_view', true);
+            $main_tpl->setOnScreenMessage('failure', 'dcl_msg_no_perm_view', true);
             $ilCtrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
 
@@ -107,8 +111,12 @@ class ilDclDetailedViewGUI
         if ($this->is_enabled_paging) {
             $this->determineNextPrevRecords();
         }
+        $this->content_style_domain = $DIC->contentStyle()
+            ->domain()
+            ->styleForRefId(
+                $this->dcl_gui_object->getDataCollectionObject()->getRefId()
+            );
     }
-
 
     public function executeCommand()
     {
@@ -116,13 +124,14 @@ class ilDclDetailedViewGUI
         $ilCtrl = $DIC['ilCtrl'];
         $this->tableview_id = $_GET['tableview_id'] ? $_GET['tableview_id'] : $this->table->getFirstTableViewId($_GET['ref_id']);
         $ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
-        $ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id', $_GET['back_tableview_id'] ? $_GET['back_tableview_id'] : $this->tableview_id);
+        $ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id',
+            $_GET['back_tableview_id'] ? $_GET['back_tableview_id'] : $this->tableview_id);
 
         if (!$this->checkAccess()) {
             if ($this->table->getVisibleTableViews($_GET['ref_id'], true)) {
                 $this->offerAlternativeViews();
             } else {
-                ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             }
 
             return;
@@ -158,16 +167,14 @@ class ilDclDetailedViewGUI
         }
     }
 
-
     protected function offerAlternativeViews()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
-        ilUtil::sendInfo($this->lng->txt('dcl_msg_info_alternatives'));
+        $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('dcl_msg_info_alternatives'));
         $table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
         $tpl->setContent($table_gui->getHTML());
     }
-
 
     /**
      * @param bool $editComments
@@ -189,7 +196,9 @@ class ilDclDetailedViewGUI
 
         // see ilObjDataCollectionGUI->executeCommand about instantiation
         $pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
-        $pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
+        $pageObj->setStyleId(
+            $this->content_style_domain->getEffectiveStyleId()
+        );
 
         $html = $pageObj->getHTML();
         $rctpl->addCss("./Services/COPage/css/content.css");
@@ -199,7 +208,8 @@ class ilDclDetailedViewGUI
             //ILIAS_Ref_Links
             $pattern = '/\[dcliln field="' . preg_quote($field->getTitle(), "/") . '"\](.*?)\[\/dcliln\]/';
             if (preg_match($pattern, $html)) {
-                $html = preg_replace($pattern, $this->record_obj->getRecordFieldSingleHTML($field->getId(), $this->setOptions("$1")), $html);
+                $html = preg_replace($pattern,
+                    $this->record_obj->getRecordFieldSingleHTML($field->getId(), $this->setOptions("$1")), $html);
             }
 
             //DataCollection Ref Links
@@ -215,10 +225,12 @@ class ilDclDetailedViewGUI
                 $html = preg_replace_callback($pattern, array($this, "doExtReplace"), $html);
             }
 
-            $html = str_ireplace("[" . $field->getTitle() . "]", $this->record_obj->getRecordFieldSingleHTML($field->getId()), $html);
+            $html = str_ireplace("[" . $field->getTitle() . "]",
+                $this->record_obj->getRecordFieldSingleHTML($field->getId()), $html);
         }
         foreach ($table->getStandardFields() as $field) {
-            $html = str_ireplace("[" . $field->getId() . "]", $this->record_obj->getRecordFieldSingleHTML($field->getId()), $html);
+            $html = str_ireplace("[" . $field->getId() . "]",
+                $this->record_obj->getRecordFieldSingleHTML($field->getId()), $html);
         }
         $rctpl->setVariable("CONTENT", $html);
 
@@ -237,7 +249,9 @@ class ilDclDetailedViewGUI
             $ilCtrl->clearParameters($this); // #14083
             $rctpl->setVariable('FORM_ACTION', $ilCtrl->getFormAction($this));
             $rctpl->setVariable('RECORD', $this->lng->txt('dcl_record'));
-            $rctpl->setVariable('RECORD_FROM_TOTAL', sprintf($this->lng->txt('dcl_record_from_total'), $this->current_record_position, count($this->record_ids)));
+            $rctpl->setVariable('RECORD_FROM_TOTAL',
+                sprintf($this->lng->txt('dcl_record_from_total'), $this->current_record_position,
+                    count($this->record_ids)));
             $rctpl->setVariable('TABLEVIEW_ID', $this->tableview_id);
             $rctpl->setVariable('SELECT_OPTIONS', $this->renderSelectOptions());
         }
@@ -262,10 +276,8 @@ class ilDclDetailedViewGUI
         $tpl->setContent($rctpl->get());
     }
 
-
     /**
      * @param $found
-     *
      * @return array|string
      */
     public function doReplace($found)
@@ -273,10 +285,8 @@ class ilDclDetailedViewGUI
         return $this->record_obj->getRecordFieldSingleHTML($this->currentField->getId(), $this->setOptions($found[1]));
     }
 
-
     /**
      * @param $found
-     *
      * @return string
      */
     public function doExtReplace($found)
@@ -299,7 +309,7 @@ class ilDclDetailedViewGUI
 
         if (!$field) {
             if (ilObjDataCollectionAccess::hasWriteAccess($this->dcl_gui_object->ref_id)) {
-                ilUtil::sendInfo("Bad Viewdefinition at [ext tableOf=\"" . $found[1] . "\" ...]", true);
+                $this->main_tpl->setOnScreenMessage('info', "Bad Viewdefinition at [ext tableOf=\"" . $found[1] . "\" ...]", true);
             }
 
             return;
@@ -317,7 +327,6 @@ class ilDclDetailedViewGUI
         }
     }
 
-
     protected function renderComments($edit = false)
     {
         if (!$edit) {
@@ -326,7 +335,6 @@ class ilDclDetailedViewGUI
             return $this->notesGUI->editNoteForm();
         }
     }
-
 
     /**
      * Find the previous/next record from the current position. Also determine position of current record in whole set.
@@ -354,10 +362,8 @@ class ilDclDetailedViewGUI
         }
     }
 
-
     /**
      * Determine and return the markup for the previous/next records
-     *
      * @return string
      */
     protected function renderPrevNextLinks()
@@ -378,10 +384,8 @@ class ilDclDetailedViewGUI
         return $out;
     }
 
-
     /**
      * Render select options
-     *
      * @return string
      */
     protected function renderSelectOptions()
@@ -394,7 +398,6 @@ class ilDclDetailedViewGUI
 
         return $out;
     }
-
 
     /**
      * setOptions
@@ -409,25 +412,26 @@ class ilDclDetailedViewGUI
         return $options;
     }
 
-
     /**
      * If we come from a goto Link we need to build up the session data.
      */
     private function loadSession()
     {
         // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
-        $list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()), "listRecords", $this->table, $this->tableview_id);
+        $list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()),
+            "listRecords", $this->table, $this->tableview_id);
         //we then partially load the records. note that this also fills up session data.
-        $this->table->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
+        $this->table->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(),
+            $list->getOffset(), $list->getFilter());
     }
-
 
     /**
      * @return bool
      */
     protected function checkAccess()
     {
-        return ilObjDataCollectionAccess::hasAccessTo(filter_input(INPUT_GET, 'ref_id'), $this->table->getId(), $this->tableview_id)
+        return ilObjDataCollectionAccess::hasAccessTo(filter_input(INPUT_GET, 'ref_id'), $this->table->getId(),
+                $this->tableview_id)
             && ilDclDetailedViewDefinition::isActive($this->tableview_id);
     }
 }

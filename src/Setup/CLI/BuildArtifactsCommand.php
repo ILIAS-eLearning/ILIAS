@@ -37,7 +37,7 @@ class BuildArtifactsCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -57,5 +57,7 @@ class BuildArtifactsCommand extends Command
         } catch (NoConfirmationException $e) {
             $io->error("Aborting Installation, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
         }
+
+        return 0;
     }
 }

@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Exercise assignment team
  *
@@ -407,7 +421,7 @@ class ilExAssignmentTeam
                     continue;
                 }
                 
-                if (sizeof($map)) {
+                if ($map !== []) {
                     $user_team = null;
                     if ($a_user_id) {
                         $user_team_id = $map[$a_user_id];
@@ -421,10 +435,10 @@ class ilExAssignmentTeam
                     }
                     
                     if (!$a_user_id ||
-                        sizeof($user_team)) {
+                        count($user_team)) {
                         $res[$row["id"]] = array(
                             "title" => $row["title"],
-                            "teams" => sizeof(array_flip($map)),
+                            "teams" => count(array_flip($map)),
                         );
                         
                         if ($a_user_id) {
@@ -435,7 +449,7 @@ class ilExAssignmentTeam
             }
         }
         
-        return ilUtil::sortArray($res, "title", "asc", false, true);
+        return ilArrayUtil::sortArray($res, "title", "asc", false, true);
     }
 
     /**
@@ -478,7 +492,7 @@ class ilExAssignmentTeam
                     }
                 }
                 
-                if (sizeof($missing)) {
+                if ($missing !== []) {
                     // create new team
                     $first = array_shift($missing);
                     $new_team = self::getInstanceByUserId($a_target_ass_id, $first, true);
@@ -545,7 +559,7 @@ class ilExAssignmentTeam
             );
         }
         
-        return ilUtil::sortArray($res, "title", "asc", false, true);
+        return ilArrayUtil::sortArray($res, "title", "asc", false, true);
     }
 
     /**

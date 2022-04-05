@@ -33,7 +33,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("objs_orgu");
         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . ilObjOrgUnit::getRootOrgRefId() . "&cmd=jump";
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('orgu', $title)
-                            ->withIsOutlined(true);
+                          ->withIsOutlined(true);
 
         $items[] = $this->mainmenu->link($this->if->identifier('mm_adm_orgu'))
                                   ->withAlwaysAvailable(true)
@@ -42,10 +42,11 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                   ->withParent($top)
                                   ->withTitle($title)
                                   ->withSymbol($icon)
-                                  ->withPosition(7)
+                                  ->withPosition(65)
                                   ->withVisibilityCallable(
-                                      $access_helper->hasAdministrationAccess(function () : bool {
-                                          return (bool) $this->dic->access()->checkAccess('read', '', ilObjOrgUnit::getRootOrgRefId());
+                                      $access_helper->hasAdministrationAccess(function() : bool {
+                                          return (bool) $this->dic->access()->checkAccess('read', '',
+                                              ilObjOrgUnit::getRootOrgRefId());
                                       })
                                   );
 

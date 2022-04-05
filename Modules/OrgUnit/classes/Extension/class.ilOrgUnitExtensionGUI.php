@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitExtensionGUI
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
 abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
@@ -13,10 +12,8 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
      */
     protected $ilLocator;
 
-
     /**
      * ilOrgUnitExtensionGUI constructor.
-     *
      * @param int $a_ref_id
      * @param int $a_id_type
      * @param int $a_parent_node_id
@@ -30,26 +27,6 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
         $this->showTree();
     }
 
-
-    /**
-     * Get plugin object
-     *
-     * @return ilOrgUnitExtensionPlugin plugin object
-     * @throws ilPluginException
-     */
-    protected function getPlugin() : ilPlugin
-    {
-        if (!$this->plugin) {
-            $this->plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext", ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $this->getType()));
-            if (!$this->plugin instanceof ilOrgUnitExtensionPlugin) {
-                throw new ilPluginException("ilObjectPluginGUI: Could not instantiate plugin object for type " . $this->getType() . ".");
-            }
-        }
-
-        return $this->plugin;
-    }
-
-
     /**
      * @return bool
      */
@@ -57,7 +34,6 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
     {
         return false;
     }
-
 
     /**
      * @return string
@@ -72,7 +48,6 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
         return $parent;
     }
 
-
     /**
      * @return bool returns true iff this object supports cloning.
      */
@@ -81,11 +56,10 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
         return false;
     }
 
-
     /**
      * Override the locator (breadcrumbs). We want the breadcrumbs with the Admin Org Unit node as a root and not the repository.
      */
-    protected function setLocator()
+    protected function setLocator() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -111,7 +85,6 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
         $tpl->setLocator();
     }
 
-
     /**
      * Views in the Org Unit have the Navigation Tree enabled by default. Thus we display it as well in the plugins.
      */
@@ -119,13 +92,13 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
     {
         $this->ctrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $_GET["ref_id"]);
         $this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $_GET["ref_id"]);
-        $tree = new ilOrgUnitExplorerGUI("orgu_explorer", array("ilAdministrationGUI", "ilObjOrgUnitGUI"), "showTree", new ilTree(1));
+        $tree = new ilOrgUnitExplorerGUI("orgu_explorer", array("ilAdministrationGUI", "ilObjOrgUnitGUI"), "showTree",
+            new ilTree(1));
         $tree->setTypeWhiteList($this->getTreeWhiteList());
         if (!$tree->handleCommand()) {
             $this->tpl->setLeftNavContent($tree->getHTML());
         }
     }
-
 
     /**
      * @return array

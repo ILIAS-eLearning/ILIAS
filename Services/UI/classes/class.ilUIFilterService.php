@@ -1,10 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
-use \ILIAS\DI\UIServices;
-use \ILIAS\UI\Component\Input\Container\Filter;
-use \ILIAS\UI\Component\Input\Field\FilterInput;
+use ILIAS\DI\UIServices;
+use ILIAS\UI\Component\Input\Container\Filter;
+use ILIAS\UI\Component\Input\Field\FilterInput;
 
 /**
  * Filter service. Wraps around KS filter container.
@@ -22,32 +37,11 @@ class ilUIFilterService
     public const CMD_APPLY = "apply";
     public const CMD_RESET = "reset";
 
+    protected ilUIService $service;
+    protected UIServices $ui;
+    protected ilUIFilterServiceSessionGateway $session;
+    protected ilUIFilterRequestAdapter $request;
 
-    /**
-     * @var ilUIService
-     */
-    protected $service;
-
-    /**
-     * @var UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilUIFilterServiceSessionGateway
-     */
-    protected $session;
-
-    /**
-     * @var ilUIFilterRequestAdapter
-     */
-    protected $request;
-
-    /**
-     * Constructor
-     * @param ilUIService $service
-     * @param ilUIServiceDependencies $deps
-     */
     public function __construct(ilUIService $service, ilUIServiceDependencies $deps)
     {
         $this->service = $service;
@@ -133,12 +127,6 @@ class ilUIFilterService
         return $filter;
     }
 
-    /**
-     * Get data
-     *
-     * @param Filter\Standard $filter
-     * @return array|null
-     */
     public function getData(Filter\Standard $filter) : ?array
     {
         $filter_data = null;
@@ -147,15 +135,17 @@ class ilUIFilterService
                 $filter_data[$k] = $i->getValue();
             }
         }
+
         return $filter_data;
     }
 
     /**
      * Write filter status to session (filter activated/expanded, inputs being rendered or not)
+     *
      * @param string $filter_id
-     * @param array $inputs
+     * @param FilterInput[] $inputs
      */
-    protected function writeFilterStatusToSession($filter_id, $inputs)
+    protected function writeFilterStatusToSession(string $filter_id, array $inputs) : void
     {
         if ($this->request->getFilterCmd() == self::CMD_TOGGLE_ON) {
             $this->handleRendering($filter_id, $inputs);
@@ -184,10 +174,11 @@ class ilUIFilterService
 
     /**
      * Handle rendering of inputs to session
+     *
      * @param string $filter_id
-     * @param array $inputs
+     * @param FilterInput[] $inputs
      */
-    protected function handleRendering($filter_id, $inputs)
+    protected function handleRendering(string $filter_id, array $inputs) : void
     {
         foreach ($inputs as $input_id => $i) {
             if ($this->request->isInputRendered($input_id)) {
@@ -198,12 +189,7 @@ class ilUIFilterService
         }
     }
 
-    /**
-     * Handle reset command
-     *
-     * @param string $filter_id
-     */
-    protected function handleReset(string $filter_id)
+    protected function handleReset(string $filter_id) : void
     {
         // clear session, if reset is pressed
         if ($this->request->getFilterCmd() == self::CMD_RESET) {
@@ -211,14 +197,6 @@ class ilUIFilterService
         }
     }
 
-
-    /**
-     * Handle apply and toggle commands
-     *
-     * @param string $filter_id
-     * @param Filter\Standard $filter
-     * @return Filter\Standard
-     */
     protected function handleApplyAndToggle(string $filter_id, Filter\Standard $filter) : Filter\Standard
     {
         if ((in_array(
@@ -246,6 +224,7 @@ class ilUIFilterService
                 $this->session->writeValue($filter_id, $input_id, $i->getValue());
             }
         }
+
         return $filter;
     }
 }

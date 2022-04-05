@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +37,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     protected array $disabled_buttons = array();
     protected bool $usePurifier = false;
     protected ?ilHtmlPurifierInterface $Purifier = null;
-    protected ?string $root_block_element = null;
+    protected ?string $root_block_element = "";
     
     protected array $rte_tag_set = array(
         "mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span", "br"), // #13286/#17981
@@ -182,8 +182,15 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         ?string $cfg_template = null,
         bool $hide_switch = false,
         ?string $version = null
-    ) {
-        $this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module, 'cfg_template' => $cfg_template, 'hide_switch' => $hide_switch, 'version' => $version);
+    ) : void {
+        $this->rteSupport = array(
+            "obj_id" => $obj_id,
+            "obj_type" => $obj_type,
+            "module" => $module,
+            'cfg_template' => $cfg_template,
+            'hide_switch' => $hide_switch,
+            'version' => $version
+        );
     }
     
     public function removeRTESupport() : void
@@ -239,7 +246,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
         
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
@@ -282,7 +289,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     public function getInput() : string
     {
         if ($this->usePurifier() && $this->getPurifier()) {
-            $value = $this->getPurifier()->purify($this->str($this->getPostVar()));
+            $value = $this->getPurifier()->purify($this->raw($this->getPostVar()));
         } else {
             $allowed = $this->getRteTagString();
             if (isset($this->plugins["latex"]) && $this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
@@ -310,8 +317,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         } else {
             if ($this->getUseRte()) {
                 $rtestring = ilRTE::_getRTEClassname();
-                $rte = new $rtestring($this->rteSupport['version']);
-
+                $rte = new $rtestring((string) $this->rteSupport['version']);
                 $rte->setInitialWidth($this->getInitialRteWidth());
                 
                 // @todo: Check this.
@@ -345,7 +351,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                     // disable all plugins for mini-tagset
                     if (!array_diff($this->getRteTags(), $this->getRteTagSet("mini"))) {
                         $rte->removeAllPlugins();
-                        
+
                         // #13603 - "paste from word" is essential
                         $rte->addPlugin("paste");
                         //Add plugins 'lists', 'code' and 'link': in tinymce 3 it wasnt necessary to configure these plugins
@@ -356,7 +362,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                         if (method_exists($rte, 'removeAllContextMenuItems')) {
                             $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
                         }
-                        
+
                         // #11980 - p-tag is mandatory but we do not want the icons it comes with
                         $rte->disableButtons(array("anchor", "alignleft", "aligncenter",
                             "alignright", "alignjustify", "formatselect", "removeformat",
@@ -379,17 +385,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
             }
             $ttpl->setCurrentBlock("prop_textarea");
             $ttpl->setVariable("ROWS", $this->getRows());
-            if (!$this->getDisabled()) {
-                $ttpl->setVariable(
-                    "POST_VAR",
-                    $this->getPostVar()
-                );
-            }
+            $ttpl->setVariable("POST_VAR", $this->getPostVar());
             $ttpl->setVariable("ID", $this->getFieldId());
             if ($this->getDisabled()) {
                 $ttpl->setVariable('DISABLED', 'disabled="disabled" ');
             }
-            $ttpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $ttpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
         
             if ($this->getRequired()) {
                 $ttpl->setVariable("REQUIRED", "required=\"required\"");

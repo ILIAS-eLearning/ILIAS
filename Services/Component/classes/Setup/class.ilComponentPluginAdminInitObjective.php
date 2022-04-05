@@ -36,7 +36,8 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
     {
         $config = $environment->getConfigFor('language');
         return [
-            new \ilLanguagesInstalledAndUpdatedObjective($config, new ilSetupLanguage('en'))
+            new \ilLanguagesInstalledAndUpdatedObjective($config, new ilSetupLanguage('en')),
+            new ilComponentRepositoryExistsObjective()
         ];
     }
 
@@ -52,14 +53,14 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["lng"] = new class() {
-            public function loadLanguageModule()
+            public function loadLanguageModule() : void
             {
             }
         };
 
         $environment = $environment->withResource(
             Setup\Environment::RESOURCE_PLUGIN_ADMIN,
-            new ilPluginAdmin()
+            new ilPluginAdmin($environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY))
         );
 
         $GLOBALS["DIC"] = $DIC;

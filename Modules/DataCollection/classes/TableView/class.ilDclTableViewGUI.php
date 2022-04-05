@@ -2,10 +2,8 @@
 
 /**
  * Class ilDclTableViewGUI
- *
  * @author       Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup      ModulesDataCollection
- *
  * @ilCtrl_Calls ilDclTableViewGUI: ilDclTableViewEditGUI
  */
 class ilDclTableViewGUI
@@ -36,16 +34,15 @@ class ilDclTableViewGUI
      */
     protected $table;
 
-
     /**
      * Constructor
-     *
      * @param ilDclTableListGUI $a_parent_obj
      * @param int               $table_id
      */
     public function __construct(ilDclTableListGUI $a_parent_obj, $table_id = 0)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $ilToolbar = $DIC['ilToolbar'];
@@ -70,11 +67,10 @@ class ilDclTableViewGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
-
 
     /**
      *
@@ -87,7 +83,8 @@ class ilDclTableViewGUI
 
         switch ($next_class) {
             case 'ildcltablevieweditgui':
-                $edit_gui = new ilDclTableViewEditGUI($this, $this->table, ilDclTableView::findOrGetInstance($_GET['tableview_id']));
+                $edit_gui = new ilDclTableViewEditGUI($this, $this->table,
+                    ilDclTableView::findOrGetInstance($_GET['tableview_id']));
                 $this->ctrl->saveParameter($edit_gui, 'tableview_id');
                 $this->ctrl->forwardCommand($edit_gui);
                 break;
@@ -101,15 +98,14 @@ class ilDclTableViewGUI
         }
     }
 
-
     /**
      * @return bool
      */
     protected function checkAccess()
     {
-        return ilObjDataCollectionAccess::hasAccessToEditTable($this->parent_obj->getDataCollectionObject()->getRefId(), $this->table->getId());
+        return ilObjDataCollectionAccess::hasAccessToEditTable($this->parent_obj->getDataCollectionObject()->getRefId(),
+            $this->table->getId());
     }
-
 
     /**
      *
@@ -146,7 +142,6 @@ class ilDclTableViewGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-
     /**
      *
      */
@@ -155,7 +150,6 @@ class ilDclTableViewGUI
         $this->ctrl->setParameterByClass("ilDclTableViewGUI", "table_id", $_POST['table_id']);
         $this->ctrl->redirectByClass("ilDclTableViewGUI", "show");
     }
-
 
     /**
      * Confirm deletion of multiple fields
@@ -179,7 +173,6 @@ class ilDclTableViewGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     /**
      *
      */
@@ -190,24 +183,21 @@ class ilDclTableViewGUI
             ilDclTableView::find($tableview_id)->delete();
         }
         $this->table->sortTableViews();
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_deleted'), true);
         $this->ctrl->redirect($this, 'show');
     }
 
-
     /**
      * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
-     *
      * @param $delete_count number of tableviews to delete
      */
     public function checkViewsLeft($delete_count)
     {
         if ($delete_count >= count($this->table->getTableViews())) {
-            ilUtil::sendFailure($this->lng->txt('dcl_msg_tableviews_delete_all'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tableviews_delete_all'), true);
             $this->ctrl->redirect($this, 'show');
         }
     }
-
 
     /**
      * invoked by ilDclTableViewTableGUI
@@ -221,7 +211,7 @@ class ilDclTableViewGUI
             $tableviews[] = ilDclTableView::find($tableview_id);
         }
         $this->table->sortTableViews($tableviews);
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_order_updated'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_order_updated'));
         $this->ctrl->redirect($this);
     }
 }

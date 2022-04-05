@@ -15,6 +15,19 @@ use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class RevisionARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -22,7 +35,6 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface RevisionRepository extends LockingRepository, PreloadableRepository
 {
-
     public function blankFromUpload(
         InfoResolver $info_resolver,
         StorableResource $resource,
@@ -42,19 +54,9 @@ interface RevisionRepository extends LockingRepository, PreloadableRepository
         FileRevision $revision_to_clone
     ) : CloneRevision;
 
-    /**
-     * @param Revision $revision
-     */
     public function store(Revision $revision) : void;
 
-    /**
-     * @param StorableResource $resource
-     * @return RevisionCollection
-     */
     public function get(StorableResource $resource) : RevisionCollection;
 
-    /**
-     * @param Revision $revision
-     */
     public function delete(Revision $revision) : void;
 }

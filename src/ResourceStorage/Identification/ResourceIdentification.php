@@ -4,6 +4,19 @@ namespace ILIAS\ResourceStorage\Identification;
 
 use Serializable;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface Identification
  *
@@ -13,17 +26,11 @@ use Serializable;
  */
 class ResourceIdentification implements Serializable
 {
-
-    /**
-     * @var string
-     */
-    private $unique_id;
+    private string $unique_id;
 
 
     /**
      * ResourceIdentification constructor.
-     *
-     * @param string $unique_id
      */
     public function __construct(string $unique_id)
     {
@@ -52,7 +59,7 @@ class ResourceIdentification implements Serializable
     /**
      * @inheritDoc
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->serialize();
     }

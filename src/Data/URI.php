@@ -14,46 +14,46 @@ namespace ILIAS\Data;
  */
 class URI
 {
-    const PATH_DELIM = '/';
+    private const PATH_DELIM = '/';
 
     /**
      * Relevant character-groups as defined in RFC 3986 Appendix 1
      */
-    const ALPHA = '[A-Za-z]';
-    const DIGIT = '[0-9]';
-    const ALPHA_DIGIT = '[A-Za-z0-9]';
-    const HEXDIG = '[0-9A-Fa-f]';
-    const PCTENCODED = '%' . self::HEXDIG . self::HEXDIG;
+    private const ALPHA = '[A-Za-z]';
+    private const DIGIT = '[0-9]';
+    private const ALPHA_DIGIT = '[A-Za-z0-9]';
+    private const HEXDIG = '[0-9A-Fa-f]';
+    private const PCTENCODED = '%' . self::HEXDIG . self::HEXDIG;
     /**
      * point|minus|plus to be used in schema.
      */
-    const PIMP = '[\\+\\-\\.]';
+    private const PIMP = '[\\+\\-\\.]';
 
     /**
      * valid subdelims according to RFC 3986 Appendix 1:
      * "!" "$" "&" "'" "(" ")" "*" "+" "," ";" "="
      */
-    const SUBDELIMS = '[\\$,;=!&\'\\(\\)\\*\\+]';
+    private const SUBDELIMS = '[\\$,;=!&\'\\(\\)\\*\\+]';
     /**
      * subdelims without jsf**k characters +!() and =
      */
-    const BASEURI_SUBDELIMS = '[\\$,;&\'\\*]';
+    private const BASEURI_SUBDELIMS = '[\\$,;&\'\\*]';
 
-    const UNRESERVED = self::ALPHA_DIGIT . '|[\\-\\._~]';
-    const UNRESERVED_NO_DOT = self::ALPHA_DIGIT . '|[\\-_~]';
+    private const UNRESERVED = self::ALPHA_DIGIT . '|[\\-\\._~]';
+    private const UNRESERVED_NO_DOT = self::ALPHA_DIGIT . '|[\\-_~]';
 
-    const PCHAR = self::UNRESERVED . '|' . self::SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
-    const BASEURI_PCHAR = self::UNRESERVED . '|' . self::BASEURI_SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
+    private const PCHAR = self::UNRESERVED . '|' . self::SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
+    private const BASEURI_PCHAR = self::UNRESERVED . '|' . self::BASEURI_SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
 
-    const SCHEMA = '#^' . self::ALPHA . '(' . self::ALPHA_DIGIT . '|' . self::PIMP . ')*$#';
-    const DOMAIN_LABEL = self::ALPHA_DIGIT . '((' . self::UNRESERVED_NO_DOT . '|' . self::PCTENCODED . '|' . self::BASEURI_SUBDELIMS . ')*' . self::ALPHA_DIGIT . ')*';
-    const HOST_REG_NAME = '^' . self::DOMAIN_LABEL . '(\\.' . self::DOMAIN_LABEL . ')*$';
-    const HOST_IPV4 = '^(' . self::DIGIT . '{1,3})(\\.' . self::DIGIT . '{1,3}){3}$';
-    const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '#';
-    const PORT = '#^' . self::DIGIT . '+$#';
-    const PATH = '#^(?!//)(?!:)(' . self::PCHAR . '|' . self::PATH_DELIM . ')+$#';
-    const QUERY = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?)+$#';
-    const FRAGMENT = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?|\\#)+$#';
+    private const SCHEMA = '#^' . self::ALPHA . '(' . self::ALPHA_DIGIT . '|' . self::PIMP . ')*$#';
+    private const DOMAIN_LABEL = self::ALPHA_DIGIT . '((' . self::UNRESERVED_NO_DOT . '|' . self::PCTENCODED . '|' . self::BASEURI_SUBDELIMS . ')*' . self::ALPHA_DIGIT . ')*';
+    private const HOST_REG_NAME = '^' . self::DOMAIN_LABEL . '(\\.' . self::DOMAIN_LABEL . ')*$';
+    private const HOST_IPV4 = '^(' . self::DIGIT . '{1,3})(\\.' . self::DIGIT . '{1,3}){3}$';
+    private const HOST = '#' . self::HOST_IPV4 . '|' . self::HOST_REG_NAME . '#';
+    private const PORT = '#^' . self::DIGIT . '+$#';
+    private const PATH = '#^(?!//)(?!:)(' . self::PCHAR . '|' . self::PATH_DELIM . ')+$#';
+    private const QUERY = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?)+$#';
+    private const FRAGMENT = '#^(' . self::PCHAR . '|' . self::PATH_DELIM . '|\\?|\\#)+$#';
 
     protected string $schema;
     protected string $host;
@@ -93,10 +93,7 @@ class URI
      */
     protected function digestPort(int $port = null) : ?int
     {
-        if ($port === null) {
-            return null;
-        }
-        return $port;
+        return $port ?? null;
     }
 
     /**
@@ -321,10 +318,8 @@ class URI
     public function getParameter(string $param)
     {
         $params = $this->getParameters();
-        if (!array_key_exists($param, $params)) {
-            return null;
-        }
-        return $params[$param];
+
+        return $params[$param] ?? null;
     }
 
     /**

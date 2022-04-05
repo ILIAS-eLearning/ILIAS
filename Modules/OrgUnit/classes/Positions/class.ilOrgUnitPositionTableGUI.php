@@ -4,7 +4,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 
 /**
  * Class ilOrgUnitPositionTableGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPositionTableGUI extends ilTable2GUI
@@ -24,10 +23,8 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
             'authorities',
         );
 
-
     /**
      * ilOrgUnitPositionTableGUI constructor.
-     *
      * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_obj
      * @param string                                       $parent_cmd
      */
@@ -44,38 +41,37 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
         $this->setFormAction($this->DIC->ctrl()->getFormAction($this->parent_obj));
     }
 
-
     /**
      * Pass data to row template
-     *
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         /**
          * @var $obj ilOrgUnitPosition
          */
-        $obj = ilOrgUnitPosition::find($set["id"]);
+        $obj = ilOrgUnitPosition::find($a_set["id"]);
 
         $this->tpl->setVariable('TITLE', $obj->getTitle());
         $this->tpl->setVariable('DESCRIPTION', $obj->getDescription());
         $this->tpl->setVariable('AUTHORITIES', implode("<br>", $obj->getAuthorities()));
 
         $this->DIC->ctrl()
-            ->setParameterByClass(ilOrgUnitPositionGUI::class, BaseCommands::AR_ID, $set['id']);
+                  ->setParameterByClass(ilOrgUnitPositionGUI::class, BaseCommands::AR_ID, $a_set['id']);
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($this->DIC->language()->txt('actions'));
-        $selection->setId(BaseCommands::AR_ID . $set['id']);
+        $selection->setId(BaseCommands::AR_ID . $a_set['id']);
         $selection->addItem($this->DIC->language()->txt('edit'), 'edit', $this->DIC->ctrl()
-            ->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_EDIT));
+                                                                                   ->getLinkTargetByClass(ilOrgUnitPositionGUI::class,
+                                                                                       ilOrgUnitPositionGUI::CMD_EDIT));
         if (!$obj->isCorePosition()) {
             $selection->addItem($this->DIC->language()->txt('delete'), 'delete', $this->DIC->ctrl()
-                ->getLinkTargetByClass(ilOrgUnitPositionGUI::class, ilOrgUnitPositionGUI::CMD_CONFIRM_DELETION));
+                                                                                           ->getLinkTargetByClass(ilOrgUnitPositionGUI::class,
+                                                                                               ilOrgUnitPositionGUI::CMD_CONFIRM_DELETION));
         }
 
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());
     }
-
 
     /**
      * Add columns
@@ -86,7 +82,6 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
             $this->addColumn($this->DIC->language()->txt($column), $column);
         }
     }
-
 
     /**
      * Build and set data for table.

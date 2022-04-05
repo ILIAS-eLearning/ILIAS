@@ -18,14 +18,9 @@ class ilBiblTranslationGUI
     const CMD_SAVE_TRANSLATIONS = "saveTranslations";
     const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
     const CMD_DEFAULT = 'index';
-    /**
-     * @var \ilBiblAdminFactoryFacadeInterface
-     */
-    protected $facade;
-    /**
-     * @var \ilBiblFieldInterface
-     */
-    protected $field;
+    protected \ilBiblAdminFactoryFacadeInterface $facade;
+    protected \ilBiblFieldInterface $field;
+    private \ilGlobalTemplateInterface $main_tpl;
 
 
     /**
@@ -36,12 +31,14 @@ class ilBiblTranslationGUI
      */
     public function __construct(ilBiblAdminFactoryFacadeInterface $facade, \ilBiblFieldInterface $field)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
         $this->field = $field;
     }
 
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->ctrl()->saveParameter($this, ilBiblAdminFieldGUI::FIELD_IDENTIFIER);
         switch ($this->ctrl()->getNextClass()) {
@@ -52,7 +49,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function index()
+    protected function index() : void
     {
         $this->initToolbar();
 
@@ -61,14 +58,14 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function initToolbar()
+    protected function initToolbar() : void
     {
         $this->toolbar()->addButton($this->lng()->txt("obj_add_languages"), $this->ctrl()
             ->getLinkTarget($this, self::CMD_ADD_LANGUAGE));
     }
 
 
-    protected function saveTranslations()
+    protected function saveTranslations() : void
     {
         $to_translate = (array) $this->http()->request()->getParsedBody()[self::P_TRANSLATIONS];
         foreach ($to_translate as $id => $data) {
@@ -77,23 +74,23 @@ class ilBiblTranslationGUI
             $translation->setDescription($data['description']);
             $translation->store();
         }
-        ilUtil::sendInfo($this->lng()->txt('bibl_msg_translations_saved'), true);
+        $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt('bibl_msg_translations_saved'), true);
         $this->cancel();
     }
 
 
-    protected function deleteTranslations()
+    protected function deleteTranslations() : void
     {
         $to_delete = (array) $this->http()->request()->getParsedBody()[self::P_DELETE];
         foreach ($to_delete as $id) {
             $this->facade->translationFactory()->deleteById($id);
         }
-        ilUtil::sendInfo($this->lng()->txt('bibl_msg_translations_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt('bibl_msg_translations_deleted'), true);
         $this->cancel();
     }
 
 
-    protected function addLanguages()
+    protected function addLanguages() : void
     {
         $form = $this->getLanguagesForm();
 
@@ -101,7 +98,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function saveLanguages()
+    protected function saveLanguages() : void
     {
         $form = $this->getLanguagesForm();
         if ($form->checkInput()) {
@@ -112,20 +109,17 @@ class ilBiblTranslationGUI
                         ->findArCreateInstanceForFieldAndlanguage($this->field, $language_key);
                 }
             }
-            ilUtil::sendInfo($this->lng()->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt("msg_obj_modified"), true);
             $this->cancel();
         }
 
-        ilUtil::sendFailure($this->lng()->txt('err_check_input'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng()->txt('err_check_input'));
         $form->setValuesByPost();
         $this->tpl()->setContent($form->getHTML());
     }
 
 
-    /**
-     * @return \ilPropertyFormGUI
-     */
-    protected function getLanguagesForm()
+    protected function getLanguagesForm() : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl()->getFormAction($this));
@@ -153,7 +147,7 @@ class ilBiblTranslationGUI
     }
 
 
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->ctrl()->redirect($this, self::CMD_DEFAULT);
     }

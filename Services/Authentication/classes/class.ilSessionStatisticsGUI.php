@@ -1,17 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Authentication/classes/class.ilSessionStatistics.php";
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
-* Class ilSessionStatisticsGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilLPListOfObjectsGUI.php 27489 2011-01-19 16:58:09Z jluetzen $
-*
-* @ingroup ServicesAuthentication
-*/
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilSessionStatisticsGUI
 {
     const MODE_TODAY = 1;
@@ -29,17 +34,35 @@ class ilSessionStatisticsGUI
     const SCALE_YEAR = 4;
     const SCALE_PERIODIC_WEEK = 5;
     
+    private ilCtrl $ilCtrl;
+    private ilTabsGUI $ilTabs;
+    private ilLanguage $lng;
+    private ilGlobalTemplateInterface $tpl;
+    private ilToolbarGUI $toolbar;
+    private ilSetting $settings;
+    private ilAccess $access;
+    private ilIniFile $clientIniFile;
+    private ilObjUser $user;
+    
     public function executeCommand()
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
+        $this->ilCtrl = $DIC->ctrl();
+        $this->ilTabs = $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->toolbar = $DIC->toolbar();
+        $this->settings = $DIC->settings();
+        $this->access = $DIC->access();
+        $this->clientIniFile = $DIC->clientIni();
+        $this->user = $DIC->user();
         
         $this->setSubTabs();
         
-        switch ($ilCtrl->getNextClass()) {
+        switch ($this->ilCtrl->getNextClass()) {
             default:
-                $cmd = $ilCtrl->getCmd("current");
+                $cmd = $this->ilCtrl->getCmd("current");
                 $this->$cmd();
         }
 
@@ -48,45 +71,31 @@ class ilSessionStatisticsGUI
     
     protected function setSubTabs()
     {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
-        $ilTabs->addSubTab(
+        $this->ilTabs->addSubTab(
             "current",
-            $lng->txt("trac_current_system_load"),
-            $ilCtrl->getLinkTarget($this, "current")
+            $this->lng->txt("trac_current_system_load"),
+            $this->ilCtrl->getLinkTarget($this, "current")
         );
-        $ilTabs->addSubTab(
+        $this->ilTabs->addSubTab(
             "short",
-            $lng->txt("trac_short_system_load"),
-            $ilCtrl->getLinkTarget($this, "short")
+            $this->lng->txt("trac_short_system_load"),
+            $this->ilCtrl->getLinkTarget($this, "short")
         );
-        $ilTabs->addSubTab(
+        $this->ilTabs->addSubTab(
             "long",
-            $lng->txt("trac_long_system_load"),
-            $ilCtrl->getLinkTarget($this, "long")
+            $this->lng->txt("trac_long_system_load"),
+            $this->ilCtrl->getLinkTarget($this, "long")
         );
-        $ilTabs->addSubTab(
+        $this->ilTabs->addSubTab(
             "periodic",
-            $lng->txt("trac_periodic_system_load"),
-            $ilCtrl->getLinkTarget($this, "periodic")
+            $this->lng->txt("trac_periodic_system_load"),
+            $this->ilCtrl->getLinkTarget($this, "periodic")
         );
     }
     
     protected function current($a_export = false)
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        
-        $ilTabs->activateSubTab("current");
+        $this->ilTabs->activateSubTab("current");
         
         // current mode
         if (!$_REQUEST["smd"]) {
@@ -102,6 +111,7 @@ class ilSessionStatisticsGUI
         
                 
         switch ($mode) {
+            default:
             case self::MODE_TODAY:
                 $time_from = strtotime("today");
                 $time_to = strtotime("tomorrow") - 1;
@@ -128,44 +138,43 @@ class ilSessionStatisticsGUI
         }
         
         $mode_options = array(
-            self::MODE_TODAY => $lng->txt("trac_session_statistics_mode_today"),
-            self::MODE_LAST_DAY => $lng->txt("trac_session_statistics_mode_last_day"),
-            self::MODE_LAST_WEEK => $lng->txt("trac_session_statistics_mode_last_week"),
-            self::MODE_LAST_MONTH => $lng->txt("trac_session_statistics_mode_last_month"));
+            self::MODE_TODAY => $this->lng->txt("trac_session_statistics_mode_today"),
+            self::MODE_LAST_DAY => $this->lng->txt("trac_session_statistics_mode_last_day"),
+            self::MODE_LAST_WEEK => $this->lng->txt("trac_session_statistics_mode_last_week"),
+            self::MODE_LAST_MONTH => $this->lng->txt("trac_session_statistics_mode_last_month"));
         
-        $title = $lng->txt("trac_current_system_load") . " - " . $mode_options[$mode];
+        $title = $this->lng->txt("trac_current_system_load") . " - " . $mode_options[$mode];
         $data = $this->buildData($time_from, $time_to, $title);
         
         if (!$a_export) {
             // toolbar
-            include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-            $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "current"));
+            $this->toolbar->setFormAction($this->ilCtrl->getFormAction($this, "current"));
 
-            $mode_selector = new ilSelectInputGUI("&nbsp;" . $lng->txt("trac_scale"), "smd");
+            $mode_selector = new ilSelectInputGUI("&nbsp;" . $this->lng->txt("trac_scale"), "smd");
             $mode_selector->setOptions($mode_options);
             $mode_selector->setValue($mode);
-            $ilToolbar->addInputItem($mode_selector, true);
+            $this->toolbar->addInputItem($mode_selector, true);
 
             $measure_options = array(
-                "avg" => $lng->txt("trac_session_active_avg"),
-                "min" => $lng->txt("trac_session_active_min"),
-                "max" => $lng->txt("trac_session_active_max"));
+                "avg" => $this->lng->txt("trac_session_active_avg"),
+                "min" => $this->lng->txt("trac_session_active_min"),
+                "max" => $this->lng->txt("trac_session_active_max"));
 
-            $measure_selector = new ilSelectInputGUI("&nbsp;" . $lng->txt("trac_measure"), "smm");
+            $measure_selector = new ilSelectInputGUI("&nbsp;" . $this->lng->txt("trac_measure"), "smm");
             $measure_selector->setOptions($measure_options);
             $measure_selector->setValue($measure);
-            $ilToolbar->addInputItem($measure_selector, true);
+            $this->toolbar->addInputItem($measure_selector, true);
 
-            $ilToolbar->addFormButton($lng->txt("ok"), "current");
+            $this->toolbar->addFormButton($this->lng->txt("ok"), "current");
             
             if (sizeof($data["active"])) {
-                $ilToolbar->addSeparator();
-                $ilToolbar->addFormButton($lng->txt("export"), "currentExport");
+                $this->toolbar->addSeparator();
+                $this->toolbar->addFormButton($this->lng->txt("export"), "currentExport");
             }
                     
-            $tpl->setContent($this->render($data, $scale, $measure));
+            $this->tpl->setContent($this->render($data, $scale, $measure));
 
-            $tpl->setLeftContent($this->renderCurrentBasics());
+            $this->tpl->setLeftContent($this->renderCurrentBasics());
         } else {
             $this->exportCSV($data, $scale);
         }
@@ -182,7 +191,6 @@ class ilSessionStatisticsGUI
             $a_default = time();
         }
         
-        include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
         $parsed = ilCalendarUtil::parseIncomingDate($a_incoming);
         return $parsed
             ? $parsed->get(IL_CAL_UNIX)
@@ -191,15 +199,7 @@ class ilSessionStatisticsGUI
         
     protected function short($a_export = false)
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        
-        $ilTabs->activateSubTab("short");
+        $this->ilTabs->activateSubTab("short");
         
         // current start
         $time_to = $this->importDate($_REQUEST["sst"]);
@@ -217,6 +217,7 @@ class ilSessionStatisticsGUI
         $measure = (string) $_REQUEST["smm"];
                                 
         switch ($mode) {
+            default:
             case self::MODE_DAY:
                 $time_from = $time_to - 60 * 60 * 24;
                 $scale = self::SCALE_DAY;
@@ -229,45 +230,44 @@ class ilSessionStatisticsGUI
         }
                 
         $mode_options = array(
-                self::MODE_DAY => $lng->txt("trac_session_statistics_mode_day"),
-                self::MODE_WEEK => $lng->txt("trac_session_statistics_mode_week")
+                self::MODE_DAY => $this->lng->txt("trac_session_statistics_mode_day"),
+                self::MODE_WEEK => $this->lng->txt("trac_session_statistics_mode_week")
             );
             
-        $title = $lng->txt("trac_short_system_load") . " - " . $mode_options[$mode];
+        $title = $this->lng->txt("trac_short_system_load") . " - " . $mode_options[$mode];
         $data = $this->buildData($time_from, $time_to, $title);
         
         if (!$a_export) {
             // toolbar
-            include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-            $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "short"));
+            $this->toolbar->setFormAction($this->ilCtrl->getFormAction($this, "short"));
             
-            $start_selector = new ilDateTimeInputGUI($lng->txt("trac_end_at"), "sst");
+            $start_selector = new ilDateTimeInputGUI($this->lng->txt("trac_end_at"), "sst");
             $start_selector->setDate(new ilDate($time_to, IL_CAL_UNIX));
-            $ilToolbar->addInputItem($start_selector, true);
+            $this->toolbar->addInputItem($start_selector, true);
 
-            $mode_selector = new ilSelectInputGUI("&nbsp;" . $lng->txt("trac_scale"), "smd");
+            $mode_selector = new ilSelectInputGUI("&nbsp;" . $this->lng->txt("trac_scale"), "smd");
             $mode_selector->setOptions($mode_options);
             $mode_selector->setValue($mode);
-            $ilToolbar->addInputItem($mode_selector, true);
+            $this->toolbar->addInputItem($mode_selector, true);
 
             $measure_options = array(
-                "avg" => $lng->txt("trac_session_active_avg"),
-                "min" => $lng->txt("trac_session_active_min"),
-                "max" => $lng->txt("trac_session_active_max"));
+                "avg" => $this->lng->txt("trac_session_active_avg"),
+                "min" => $this->lng->txt("trac_session_active_min"),
+                "max" => $this->lng->txt("trac_session_active_max"));
 
-            $measure_selector = new ilSelectInputGUI("&nbsp;" . $lng->txt("trac_measure"), "smm");
+            $measure_selector = new ilSelectInputGUI("&nbsp;" . $this->lng->txt("trac_measure"), "smm");
             $measure_selector->setOptions($measure_options);
             $measure_selector->setValue($measure);
-            $ilToolbar->addInputItem($measure_selector, true);
+            $this->toolbar->addInputItem($measure_selector, true);
 
-            $ilToolbar->addFormButton($lng->txt("ok"), "short");
+            $this->toolbar->addFormButton($this->lng->txt("ok"), "short");
             
             if (sizeof($data["active"])) {
-                $ilToolbar->addSeparator();
-                $ilToolbar->addFormButton($lng->txt("export"), "shortExport");
+                $this->toolbar->addSeparator();
+                $this->toolbar->addFormButton($this->lng->txt("export"), "shortExport");
             }
                                                 
-            $tpl->setContent($this->render($data, $scale, $measure));
+            $this->tpl->setContent($this->render($data, $scale, $measure));
         } else {
             $this->exportCSV($data, $scale);
         }
@@ -280,15 +280,7 @@ class ilSessionStatisticsGUI
     
     protected function long($a_export = false)
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        
-        $ilTabs->activateSubTab("long");
+        $this->ilTabs->activateSubTab("long");
         
         // current start
         $time_to = $this->importDate($_REQUEST["sst"]);
@@ -300,6 +292,7 @@ class ilSessionStatisticsGUI
         $mode = (int) $_REQUEST["smd"];
         
         switch ($mode) {
+            default:
             case self::MODE_WEEK:
                 $time_from = $time_to - 60 * 60 * 24 * 7;
                 $scale = self::SCALE_WEEK;
@@ -317,36 +310,35 @@ class ilSessionStatisticsGUI
         }
         
         $mode_options = array(
-                self::MODE_WEEK => $lng->txt("trac_session_statistics_mode_week"),
-                self::MODE_MONTH => $lng->txt("trac_session_statistics_mode_month"),
-                self::MODE_YEAR => $lng->txt("trac_session_statistics_mode_year")
+                self::MODE_WEEK => $this->lng->txt("trac_session_statistics_mode_week"),
+                self::MODE_MONTH => $this->lng->txt("trac_session_statistics_mode_month"),
+                self::MODE_YEAR => $this->lng->txt("trac_session_statistics_mode_year")
             );
         
-        $title = $lng->txt("trac_long_system_load") . " - " . $mode_options[$mode];
+        $title = $this->lng->txt("trac_long_system_load") . " - " . $mode_options[$mode];
         $data = $this->buildData($time_from, $time_to, $title);
         
         if (!$a_export) {
             // toolbar
-            include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-            $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "long"));
+            $this->toolbar->setFormAction($this->ilCtrl->getFormAction($this, "long"));
 
-            $start_selector = new ilDateTimeInputGUI($lng->txt("trac_end_at"), "sst");
+            $start_selector = new ilDateTimeInputGUI($this->lng->txt("trac_end_at"), "sst");
             $start_selector->setDate(new ilDate($time_to, IL_CAL_UNIX));
-            $ilToolbar->addInputItem($start_selector, true);
+            $this->toolbar->addInputItem($start_selector, true);
 
-            $mode_selector = new ilSelectInputGUI("&nbsp;" . $lng->txt("trac_scale"), "smd");
+            $mode_selector = new ilSelectInputGUI("&nbsp;" . $this->lng->txt("trac_scale"), "smd");
             $mode_selector->setOptions($mode_options);
             $mode_selector->setValue($mode);
-            $ilToolbar->addInputItem($mode_selector, true);
+            $this->toolbar->addInputItem($mode_selector, true);
 
-            $ilToolbar->addFormButton($lng->txt("ok"), "long");
+            $this->toolbar->addFormButton($this->lng->txt("ok"), "long");
             
             if (sizeof($data["active"])) {
-                $ilToolbar->addSeparator();
-                $ilToolbar->addFormButton($lng->txt("export"), "longExport");
+                $this->toolbar->addSeparator();
+                $this->toolbar->addFormButton($this->lng->txt("export"), "longExport");
             }
                                                 
-            $tpl->setContent($this->render($data, $scale));
+            $this->tpl->setContent($this->render($data, $scale));
         } else {
             $this->exportCSV($data, $scale);
         }
@@ -359,15 +351,7 @@ class ilSessionStatisticsGUI
     
     protected function periodic($a_export = false)
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        
-        $ilTabs->activateSubTab("periodic");
+        $this->ilTabs->activateSubTab("periodic");
         
         // current start
         $time_to = $this->importDate($_REQUEST["sst"]);
@@ -382,30 +366,29 @@ class ilSessionStatisticsGUI
             $time_from = $tmp;
         }
                                         
-        $title = $lng->txt("trac_periodic_system_load");
+        $title = $this->lng->txt("trac_periodic_system_load");
         $data = $this->buildData($time_from, $time_to, $title);
                 
         if (!$a_export) {
             // toolbar
-            include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-            $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "periodic"));
+            $this->toolbar->setFormAction($this->ilCtrl->getFormAction($this, "periodic"));
             
-            $end_selector = new ilDateTimeInputGUI($lng->txt("trac_begin_at"), "sto");
+            $end_selector = new ilDateTimeInputGUI($this->lng->txt("trac_begin_at"), "sto");
             $end_selector->setDate(new ilDate($time_from, IL_CAL_UNIX));
-            $ilToolbar->addInputItem($end_selector, true);
+            $this->toolbar->addInputItem($end_selector, true);
 
-            $start_selector = new ilDateTimeInputGUI($lng->txt("trac_end_at"), "sst");
+            $start_selector = new ilDateTimeInputGUI($this->lng->txt("trac_end_at"), "sst");
             $start_selector->setDate(new ilDate($time_to, IL_CAL_UNIX));
-            $ilToolbar->addInputItem($start_selector, true);
+            $this->toolbar->addInputItem($start_selector, true);
 
-            $ilToolbar->addFormButton($lng->txt("ok"), "periodic");
+            $this->toolbar->addFormButton($this->lng->txt("ok"), "periodic");
             
             if (sizeof($data["active"])) {
-                $ilToolbar->addSeparator();
-                $ilToolbar->addFormButton($lng->txt("export"), "periodicExport");
+                $this->toolbar->addSeparator();
+                $this->toolbar->addFormButton($this->lng->txt("export"), "periodicExport");
             }
             
-            $tpl->setContent($this->render($data, self::SCALE_PERIODIC_WEEK));
+            $this->tpl->setContent($this->render($data, self::SCALE_PERIODIC_WEEK));
         } else {
             $this->exportCSV($data, self::SCALE_PERIODIC_WEEK);
         }
@@ -418,24 +401,16 @@ class ilSessionStatisticsGUI
     
     protected function renderCurrentBasics()
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-        
         // basic data - not time related
         
-        include_once "Services/Authentication/classes/class.ilSessionControl.php";
-        $active = (int) ilSessionControl::getExistingSessionCount(ilSessionControl::$session_types_controlled);
+        $active = ilSessionControl::getExistingSessionCount(ilSessionControl::$session_types_controlled);
         
-        $control_active = ($ilSetting->get('session_handling_type', 0) == 1);
+        $control_active = ((int) $this->settings->get('session_handling_type', "0") == 1);
         if ($control_active) {
-            $control_max_sessions = (int) $ilSetting->get('session_max_count', ilSessionControl::DEFAULT_MAX_COUNT);
-            $control_min_idle = (int) $ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE);
-            $control_max_idle = (int) $ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE);
-            $control_max_idle_first = (int) $ilSetting->get('session_max_idle_after_first_request', ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST);
+            $control_max_sessions = (int) $this->settings->get('session_max_count', (string) ilSessionControl::DEFAULT_MAX_COUNT);
+            $control_min_idle = (int) $this->settings->get('session_min_idle', (string) ilSessionControl::DEFAULT_MIN_IDLE);
+            $control_max_idle = (int) $this->settings->get('session_max_idle', (string) ilSessionControl::DEFAULT_MAX_IDLE);
+            $control_max_idle_first = (int) $this->settings->get('session_max_idle_after_first_request', (string) ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST);
         }
         
         $last_maxed_out = new ilDateTime(ilSessionStatistics::getLastMaxedOut(), IL_CAL_UNIX);
@@ -446,43 +421,43 @@ class ilSessionStatisticsGUI
         
         $left = new ilTemplate("tpl.session_statistics_left.html", true, true, "Services/Authentication");
         
-        $left->setVariable("CAPTION_CURRENT", $lng->txt("users_online"));
+        $left->setVariable("CAPTION_CURRENT", $this->lng->txt("users_online"));
         $left->setVariable("VALUE_CURRENT", $active);
         
-        $left->setVariable("CAPTION_LAST_AGGR", $lng->txt("trac_last_aggregation"));
+        $left->setVariable("CAPTION_LAST_AGGR", $this->lng->txt("trac_last_aggregation"));
         $left->setVariable("VALUE_LAST_AGGR", ilDatePresentation::formatDate($last_aggr));
         
-        $left->setVariable("CAPTION_LAST_MAX", $lng->txt("trac_last_maxed_out_sessions"));
+        $left->setVariable("CAPTION_LAST_MAX", $this->lng->txt("trac_last_maxed_out_sessions"));
         $left->setVariable("VALUE_LAST_MAX", ilDatePresentation::formatDate($last_maxed_out));
         
-        $left->setVariable("CAPTION_SESSION_CONTROL", $lng->txt("sess_load_dependent_session_handling"));
+        $left->setVariable("CAPTION_SESSION_CONTROL", $this->lng->txt("sess_load_dependent_session_handling"));
         if (!$control_active) {
-            $left->setVariable("VALUE_SESSION_CONTROL", $lng->txt("no"));
+            $left->setVariable("VALUE_SESSION_CONTROL", $this->lng->txt("no"));
         } else {
-            $left->setVariable("VALUE_SESSION_CONTROL", $lng->txt("yes"));
+            $left->setVariable("VALUE_SESSION_CONTROL", $this->lng->txt("yes"));
             
             $left->setCurrentBlock("control_details");
             
-            $left->setVariable("CAPTION_SESSION_CONTROL_LIMIT", $lng->txt("session_max_count"));
+            $left->setVariable("CAPTION_SESSION_CONTROL_LIMIT", $this->lng->txt("session_max_count"));
             $left->setVariable("VALUE_SESSION_CONTROL_LIMIT", $control_max_sessions);
             
-            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_MIN", $lng->txt("session_min_idle"));
+            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_MIN", $this->lng->txt("session_min_idle"));
             $left->setVariable("VALUE_SESSION_CONTROL_IDLE_MIN", $control_min_idle);
             
-            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_MAX", $lng->txt("session_max_idle"));
+            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_MAX", $this->lng->txt("session_max_idle"));
             $left->setVariable("VALUE_SESSION_CONTROL_IDLE_MAX", $control_max_idle);
             
-            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_FIRST", $lng->txt("session_max_idle_after_first_request"));
+            $left->setVariable("CAPTION_SESSION_CONTROL_IDLE_FIRST", $this->lng->txt("session_max_idle_after_first_request"));
             $left->setVariable("VALUE_SESSION_CONTROL_IDLE_FIRST", $control_max_idle_first);
                         
             $left->parseCurrentBlock();
         }
         
         // sync button
-        if ($ilAccess->checkAccess("write", "", (int) $_REQUEST["ref_id"])) {
-            $left->setVariable("URL_SYNC", $ilCtrl->getFormAction($this, "adminSync"));
+        if ($this->access->checkAccess("write", "", (int) $_REQUEST["ref_id"])) {
+            $left->setVariable("URL_SYNC", $this->ilCtrl->getFormAction($this, "adminSync"));
             $left->setVariable("CMD_SYNC", "adminSync");
-            $left->setVariable("TXT_SYNC", $lng->txt("trac_sync_session_stats"));
+            $left->setVariable("TXT_SYNC", $this->lng->txt("trac_sync_session_stats"));
         }
         
         return $left->get();
@@ -490,10 +465,6 @@ class ilSessionStatisticsGUI
     
     protected function buildData($a_time_from, $a_time_to, $a_title)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         // basic data - time related
         
         $maxed_out_duration = round(ilSessionStatistics::getMaxedOutDuration($a_time_from, $a_time_to) / 60);
@@ -515,12 +486,12 @@ class ilSessionStatisticsGUI
                 new ilDateTime($a_time_to, IL_CAL_UNIX)
             ) . ")";
             
-        $data["maxed_out_time"] = array($lng->txt("trac_maxed_out_time"), $maxed_out_duration);
-        $data["maxed_out_counter"] = array($lng->txt("trac_maxed_out_counter"), $closed_limit);
-        $data["opened"] = array($lng->txt("trac_sessions_opened"), $opened);
-        $data["closed"] = array($lng->txt("trac_sessions_closed"), array_sum($counters));
+        $data["maxed_out_time"] = array($this->lng->txt("trac_maxed_out_time"), $maxed_out_duration);
+        $data["maxed_out_counter"] = array($this->lng->txt("trac_maxed_out_counter"), $closed_limit);
+        $data["opened"] = array($this->lng->txt("trac_sessions_opened"), $opened);
+        $data["closed"] = array($this->lng->txt("trac_sessions_closed"), array_sum($counters));
         foreach ($counters as $type => $counter) {
-            $data["closed_details"][] = array($lng->txt("trac_" . $type), (int) $counter);
+            $data["closed_details"][] = array($this->lng->txt("trac_" . $type), (int) $counter);
         }
                 
         $data["active"] = ilSessionStatistics::getActiveSessions($a_time_from, $a_time_to);
@@ -530,10 +501,6 @@ class ilSessionStatisticsGUI
     
     protected function render($a_data, $a_scale, $a_measure = null)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         $center = new ilTemplate("tpl.session_statistics_center.html", true, true, "Services/Authentication");
         
         foreach ($a_data as $idx => $item) {
@@ -563,7 +530,7 @@ class ilSessionStatisticsGUI
         if ($a_data["active"]) {
             $center->setVariable("CHART", $this->getChart($a_data["active"], $a_data["title"], $a_scale, $a_measure));
         } else {
-            ilUtil::sendInfo($lng->txt("trac_session_statistics_no_data"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("trac_session_statistics_no_data"));
         }
                 
         return $center->get();
@@ -580,11 +547,6 @@ class ilSessionStatisticsGUI
      */
     protected function getChart($a_data, $a_title, $a_scale = self::SCALE_DAY, $a_measure = null)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        include_once "Services/Chart/classes/class.ilChart.php";
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
         $chart->setsize(700, 500);
         $chart->setYAxisToInteger(true);
@@ -606,19 +568,19 @@ class ilSessionStatisticsGUI
         foreach ($a_measure as $measure) {
             $act_line[$measure] = $chart->getDataInstance(ilChartGrid::DATA_LINES);
             $act_line[$measure]->setLineSteps(true);
-            $act_line[$measure]->setLabel($lng->txt("trac_session_active_" . $measure));
+            $act_line[$measure]->setLabel($this->lng->txt("trac_session_active_" . $measure));
             $colors[] = $colors_map[$measure];
         }
         
         if ($a_scale != self::SCALE_PERIODIC_WEEK) {
             $max_line = $chart->getDataInstance(ilChartGrid::DATA_LINES);
-            $max_line->setLabel($lng->txt("session_max_count"));
+            $max_line->setLabel($this->lng->txt("session_max_count"));
             $colors[] = "#cc0000";
         }
     
         $chart->setColors($colors);
         
-        $chart_data = $this->adaptDataToScale($a_scale, $a_data, 700);
+        $chart_data = $this->adaptDataToScale($a_scale, $a_data);
         unset($a_data);
         
         $scale = ceil(sizeof($chart_data) / 5);
@@ -654,13 +616,13 @@ class ilSessionStatisticsGUI
                         $date = $day_value + $hour * 60 * 60 + $min * 60;
                         
                         // 6-hour interval labels
-                        if ($hour != $old_hour && $hour && $hour % 6 == 0) {
+                        if (isset($old_hour) && $hour != $old_hour && $hour && $hour % 6 == 0) {
                             $labels[$date] = $hour;
                             $old_hour = $hour;
                         }
                         // day label
-                        if ($day != $old_day) {
-                            $labels[$date] = ilCalendarUtil::_numericDayToString($day, false);
+                        if (isset($old_day) && $day != $old_day) {
+                            $labels[$date] = ilCalendarUtil::_numericDayToString((int) $day, false);
                             $old_day = $day;
                         }
                         break;
@@ -672,7 +634,7 @@ class ilSessionStatisticsGUI
                 $act_line[$measure]->addPoint($date, $value);
             }
             
-            if ($a_scale != self::SCALE_PERIODIC_WEEK) {
+            if (isset($max_line) && $a_scale != self::SCALE_PERIODIC_WEEK) {
                 $max_line->addPoint($date, (int) $item["max_sessions"]);
             }
         }
@@ -680,7 +642,7 @@ class ilSessionStatisticsGUI
         foreach ($act_line as $line) {
             $chart->addData($line);
         }
-        if ($a_scale != self::SCALE_PERIODIC_WEEK) {
+        if (isset($max_line) && $a_scale != self::SCALE_PERIODIC_WEEK) {
             $chart->addData($max_line);
         }
         
@@ -708,6 +670,7 @@ class ilSessionStatisticsGUI
             
             // aggregate slots for scale
             switch ($a_scale) {
+                default:
                 case self::SCALE_MONTH:
                     // aggregate to hours => 720 values
                     $slot = mktime($date_parts["hours"], 0, 0, $date_parts["mon"], $date_parts["mday"], $date_parts["year"]);
@@ -760,32 +723,19 @@ class ilSessionStatisticsGUI
     
     protected function adminSync()
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
         // see ilSession::_writeData()
         $now = time();
         ilSession::_destroyExpiredSessions();
         ilSessionStatistics::aggretateRaw($now);
         
-        ilUtil::sendSuccess($lng->txt("trac_sync_session_stats_success"), true);
-        $ilCtrl->redirect($this);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("trac_sync_session_stats_success"), true);
+        $this->ilCtrl->redirect($this);
     }
     
     protected function exportCSV(array $a_data, $a_scale)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilClientIniFile = $DIC['ilClientIniFile'];
-        $ilUser = $DIC['ilUser'];
-        
         ilDatePresentation::setUseRelativeDates(false);
-        include_once './Services/Link/classes/class.ilLink.php';
         
-        include_once "./Services/Utilities/classes/class.ilCSVWriter.php";
         $csv = new ilCSVWriter();
         $csv->setSeparator(";");
         
@@ -793,14 +743,14 @@ class ilSessionStatisticsGUI
         
         // meta
         $meta = array(
-            $lng->txt("trac_name_of_installation") => $ilClientIniFile->readVariable('client', 'name'),
-            $lng->txt("trac_report_date") => ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
-            $lng->txt("trac_report_owner") => $ilUser->getFullName(),
+            $this->lng->txt("trac_name_of_installation") => $this->clientIniFile->readVariable('client', 'name'),
+            $this->lng->txt("trac_report_date") => ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX)),
+            $this->lng->txt("trac_report_owner") => $this->user->getFullName(),
             );
         foreach ($a_data as $idx => $item) {
             switch ($idx) {
                 case "title":
-                    $meta[$lng->txt("title")] = $item;
+                    $meta[$this->lng->txt("title")] = $item;
                     break;
                 
                 case "active":
@@ -826,7 +776,7 @@ class ilSessionStatisticsGUI
         $csv->addRow();
         
         // aggregate data
-        $aggr_data = $this->adaptDataToScale($a_scale, $a_data["active"], 700);
+        $aggr_data = $this->adaptDataToScale($a_scale, $a_data["active"]);
         unset($a_data);
         
         // header
@@ -853,7 +803,7 @@ class ilSessionStatisticsGUI
                     case "slot_begin":
                         // split weekday and time slot again
                         if ($a_scale == self::SCALE_PERIODIC_WEEK) {
-                            $csv->addColumn(ilCalendarUtil::_numericDayToString(substr($value, 0, 1)));
+                            $csv->addColumn(ilCalendarUtil::_numericDayToString((int) substr($value, 0, 1)));
                             $value = substr($value, 1, 2) . ":" . substr($value, 3, 2);
                             break;
                         }
@@ -870,7 +820,7 @@ class ilSessionStatisticsGUI
         }
         
         // send
-        $filename .= "session_statistics_" . date("Ymd", $now) . ".csv";
+        $filename = "session_statistics_" . date("Ymd", $now) . ".csv";
         header("Content-type: text/comma-separated-values");
         header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
         header("Expires: 0");

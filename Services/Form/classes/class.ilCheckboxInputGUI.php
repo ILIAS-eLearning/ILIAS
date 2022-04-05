@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +18,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
+class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem, ilTableFilterItem
 {
     protected string $value = "1";
     protected bool $checked = false;
@@ -142,7 +142,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
             $tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;');
         }
 
-        $tpl->setVariable("ARIA_LABEL", ilUtil::prepareFormOutput($this->getTitle()));
+        $tpl->setVariable("ARIA_LABEL", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
 
         return $tpl->get();
     }

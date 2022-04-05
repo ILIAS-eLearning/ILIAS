@@ -29,7 +29,6 @@ abstract class ilContainerContentGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
-    protected ilPluginAdmin $plugin_admin;
     protected ilDBInterface $db;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $settings;
@@ -60,7 +59,6 @@ abstract class ilContainerContentGUI
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->db = $DIC->database();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();
@@ -69,7 +67,7 @@ abstract class ilContainerContentGUI
 
         $this->container_gui = $container_gui_obj;
         /** @var $obj ilContainer */
-        $obj = $this->container_gui->object;
+        $obj = $this->container_gui->getObject();
         $this->container_obj = $obj;
 
         $tpl->addJavaScript("./Services/Container/js/Container.js");
@@ -342,7 +340,7 @@ abstract class ilContainerContentGUI
         }
 
         // unique js-ids
-        $item_list_gui->setParentRefId($item_data["parent"]);
+        $item_list_gui->setParentRefId((int) $item_data["parent"] ?? 0);
         
         $item_list_gui->setDefaultCommandParameters(array());
         $item_list_gui->disableTitleLink(false);
@@ -444,7 +442,7 @@ abstract class ilContainerContentGUI
                 if (isset($this->items[$type]) && is_array($this->items[$type]) && $this->renderer->addTypeBlock($type)) {
                     // :TODO: obsolete?
                     if ($type == 'sess') {
-                        $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
+                        $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
                     }
                     
                     $position = 1;
@@ -470,7 +468,8 @@ abstract class ilContainerContentGUI
         array $a_item_data,
         int $a_position = 0,
         bool $a_force_icon = false,
-        string $a_pos_prefix = ""
+        string $a_pos_prefix = "",
+        string $item_group_list_presentation = ""
     ) {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -481,7 +480,14 @@ abstract class ilContainerContentGUI
             return '';
         }
 
-        if ($this->getViewMode() == self::VIEW_MODE_TILE) {
+        $view_mode = $this->getViewMode();
+        if ($item_group_list_presentation != "") {
+            $view_mode = ($item_group_list_presentation == "tile")
+                ? self::VIEW_MODE_TILE
+                : self::VIEW_MODE_LIST;
+        }
+
+        if ($view_mode == self::VIEW_MODE_TILE) {
             return $this->renderCard($a_item_data, $a_position, $a_force_icon, $a_pos_prefix);
         }
 
@@ -495,7 +501,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableCheckbox(true);
         } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
             // display multi download checkboxes
-            $item_list_gui->enableDownloadCheckbox($a_item_data["ref_id"], true);
+            $item_list_gui->enableDownloadCheckbox((int) $a_item_data["ref_id"]);
         }
         
         if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI')) {
@@ -563,7 +569,7 @@ abstract class ilContainerContentGUI
                 $item_list_gui2->enableItemDetailLinks(false);
                 
                 // unique js-ids
-                $item_list_gui2->setParentRefId($a_item_data['ref_id']);
+                $item_list_gui2->setParentRefId((int) $a_item_data['ref_id'] ?? 0);
                 
                 // @see mantis 10488
                 if (!$item_readable and !$ilAccess->checkAccess('write', '', $item['ref_id'])) {
@@ -574,7 +580,7 @@ abstract class ilContainerContentGUI
                     $item_list_gui2->enableCheckbox(true);
                 } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
                     // display multi download checkbox
-                    $item_list_gui2->enableDownloadCheckbox($item['ref_id'], true);
+                    $item_list_gui2->enableDownloadCheckbox((int) $item['ref_id']);
                 }
 
                 if ($this->getContainerGUI()->isActiveItemOrdering()) {
@@ -623,7 +629,7 @@ abstract class ilContainerContentGUI
             $a_item_data['ref_id'],
             $a_item_data['obj_id'],
             $a_item_data['title'],
-            $a_item_data['description'],
+            (string) $a_item_data['description'],
             $asynch,
             false,
             $asynch_url
@@ -648,7 +654,7 @@ abstract class ilContainerContentGUI
             ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
             $a_item_data['ref_id'],
             $a_item_data['type'],
-            $a_item_data['obj_id']
+            (int) $a_item_data['obj_id']
         ));
         $item_list_gui->initItem(
             $a_item_data['ref_id'],
@@ -772,7 +778,7 @@ abstract class ilContainerContentGUI
         $lng->loadLanguageModule("rep");
 
         $tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
-        $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon("", "big", "root"));
+        $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon(0, "big", "root"));
         $tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
         $tpl->setVariable("TXT_INTRO_1", $lng->txt("rep_intro1"));
         $tpl->setVariable("TXT_INTRO_2", $lng->txt("rep_intro2"));
@@ -842,13 +848,14 @@ abstract class ilContainerContentGUI
         $commands_html = $item_list_gui->getCommandsHTML();
 
         // determine behaviour
-        $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
+        $item_group = new ilObjItemGroup($a_itgr["ref_id"]);
+        $beh = $item_group->getBehaviour();
         $stored_val = $this->block_repo->getProperty(
             "itgr_" . $a_itgr["ref_id"],
             $ilUser->getId(),
             "opened"
         );
-        if ($beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
+        if ($stored_val != "" && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
                 : ilItemGroupBehaviour::EXPANDABLE_CLOSED;
@@ -879,7 +886,7 @@ abstract class ilContainerContentGUI
         $position = 1;
         foreach ($items as $item) {
             // we are NOT using hasItem() here, because item might be in multiple item groups
-            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]");
+            $html2 = $this->renderItem($item, $position++, false, "[itgr][" . $a_itgr['obj_id'] . "]", $item_group->getListPresentation());
             if ($html2 != "") {
                 // :TODO: show it multiple times?
                 $this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);

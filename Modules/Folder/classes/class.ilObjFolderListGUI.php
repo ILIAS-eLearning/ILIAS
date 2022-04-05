@@ -24,7 +24,7 @@ class ilObjFolderListGUI extends ilObjectListGUI
 {
     protected StandardGUIRequest $folder_request;
 
-    public function init()
+    public function init() : void
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -48,15 +48,15 @@ class ilObjFolderListGUI extends ilObjectListGUI
             ->standardRequest();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
         
         // BEGIN WebDAV: Mount webfolder.
-        switch ($a_cmd) {
+        switch ($cmd) {
             default:
 
-                if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
+                if ($cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
                     global $DIC;
                     $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
                     $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
@@ -66,7 +66,7 @@ class ilObjFolderListGUI extends ilObjectListGUI
 
                 // separate method for this line
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $ilCtrl->setParameterByClass(
                     "ilrepositorygui",
                     "ref_id",

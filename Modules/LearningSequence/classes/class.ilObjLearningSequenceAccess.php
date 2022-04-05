@@ -88,28 +88,34 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
         return !$online;
     }
 
-    public function _checkAccess($cmd, $permission, $ref_id, $obj_id, $usr_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         list($rbacsystem, $il_access, $lng) = $this->getDICDependencies();
 
         switch ($permission) {
             case 'visible':
-                $has_any_administrative_permission = (
-                    $rbacsystem->checkAccessOfUser($usr_id, 'write', $ref_id) ||
-                    $rbacsystem->checkAccessOfUser($usr_id, 'edit_members', $ref_id) ||
-                    $rbacsystem->checkAccessOfUser($usr_id, 'edit_learning_progress', $ref_id)
-                );
+                $has_any_administrative_permission = false;
+                if (!is_null($user_id)) {
+                    $has_any_administrative_permission = (
+                        $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id) ||
+                        $rbacsystem->checkAccessOfUser($user_id, 'edit_members', $ref_id) ||
+                        $rbacsystem->checkAccessOfUser($user_id, 'edit_learning_progress', $ref_id)
+                    );
+                }
 
                 $is_offine = $this->isOffline($ref_id);
 
                 if ($is_offine && !$has_any_administrative_permission) {
-                    $il_access->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $il_access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 return true;
 
             default:
-                return $rbacsystem->checkAccessOfUser($usr_id, $permission, $ref_id);
+                if (is_null($user_id)) {
+                    return false;
+                }
+                return $rbacsystem->checkAccessOfUser($user_id, $permission, $ref_id);
         }
     }
 

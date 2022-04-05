@@ -14,10 +14,11 @@
  */
 
 /**
- * Wiki settings gui class
+ * note: since the last feature (captcha) has been removed from the settings
+ * the settings screen is currently not used. If it should be revived, add "wiks" to
+ * AdministrationMainBarProvider again.
  *
  * @author Alexander Killing <killing@leifos.de>
- *
  * @ilCtrl_Calls ilObjWikiSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjWikiSettingsGUI: ilAdministrationGUI
  */
@@ -34,7 +35,6 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         global $DIC;
 
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
@@ -44,7 +44,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         $this->tpl = $DIC["tpl"];
     }
 
-    public function getType()
+    public function getType() : string
     {
         return "wiks";
     }
@@ -61,7 +61,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
         }
 
@@ -73,7 +73,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
                 $this->$cmd();
@@ -88,7 +88,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         
         $ilTabs->activateTab("settings");
 
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             if (!$form) {
                 $form = $this->initForm();
                 $this->populateWithCurrentSettings($form);
@@ -109,14 +109,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 
         $form = new ilPropertyFormGUI();
 
-        $cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
-        $cap->setInfo($this->lng->txt('adm_captcha_anonymous_wiki'));
-        $cap->setValue(1);
-        if (!ilCaptchaUtil::checkFreetype()) {
-            $cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
-        }
-        $form->addItem($cap);
-        
+
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton("saveSettings", $lng->txt("save"));
         }
@@ -144,7 +137,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
             return;
         }
 
-        ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt('msg_obj_modified'), true);
         $ilCtrl->redirect($this, 'editSettings');
     }
 

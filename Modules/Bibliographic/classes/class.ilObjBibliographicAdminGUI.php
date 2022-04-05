@@ -18,18 +18,10 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     const TAB_FIELDS = 'fields';
     const TAB_SETTINGS = 'settings';
     const CMD_DEFAULT = 'view';
-    /**
-     * @var string this is the ILIAS-type, not the Bib-type
-     */
-    protected $type = 'bibs';
-    /**
-     * @var ilObjBibliographicAdmin
-     */
-    public $object;
-    /**
-     * @var \ilBiblAdminFactoryFacadeInterface
-     */
-    protected $facade;
+
+    protected string $type = 'bibs';
+    public ?ilObject $object;
+    protected \ilBiblAdminFactoryFacadeInterface $facade;
 
 
     /**
@@ -56,7 +48,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
      * @return bool|void$
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
@@ -90,13 +82,13 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     }
 
 
-    protected function view()
+    protected function view(): void
     {
         $this->ctrl->redirectByClass(ilBiblAdminRisFieldGUI::class);
     }
 
 
-    public function getAdminTabs()
+    public function getAdminTabs(): void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -122,19 +114,13 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     }
 
 
-    /**
-     * @return \ilTabsGUI
-     */
-    public function getTabsGui()
+    public function getTabsGui(): \ilTabsGUI
     {
         return $this->tabs_gui;
     }
 
 
-    /**
-     * @param \ilTabsGUI $tabs_gui
-     */
-    public function setTabsGui($tabs_gui)
+    public function setTabsGui(\ilTabsGUI $tabs_gui): void
     {
         $this->tabs_gui = $tabs_gui;
     }

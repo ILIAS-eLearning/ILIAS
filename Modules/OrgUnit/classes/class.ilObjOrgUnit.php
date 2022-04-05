@@ -3,14 +3,11 @@
 
 /**
  * Class ilObjOrgUnit
- *
  * Based on methods of ilObjCategoryGUI
- *
  * @author : Oskar Truffer <ot@studer-raimann.ch>
  * @author : Martin Studer <ms@studer-raimann.ch>
  * @author : Stefan Wanzenried <sw@studer-raimann.ch>
  * @author : Fabian Schmid <fs@studer-raimann.ch>
- *
  */
 class ilObjOrgUnit extends ilContainer
 {
@@ -25,23 +22,19 @@ class ilObjOrgUnit extends ilContainer
     protected static $root_id;
     /**
      * Cache storing OrgUnit objects that have OrgUnit types with custom icons assigned
-     *
      * @var array
      */
     protected static $icons_cache;
     /**
      * ID of assigned OrgUnit type
-     *
      * @var int
      */
     protected $orgu_type_id = 0;
     /**
      * Advanced Metadata Values for this OrgUnit
-     *
      * @var array
      */
     protected $amd_data;
-
 
     /**
      * @param int  $a_id
@@ -53,8 +46,7 @@ class ilObjOrgUnit extends ilContainer
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-
-    public function read()
+    public function read() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -69,19 +61,19 @@ class ilObjOrgUnit extends ilContainer
     }
 
 
-    public function create()
+    public function create() : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        parent::create();
+        $id = parent::create();
         $ilDB->insert(self::TABLE_NAME, array(
             'orgu_type_id' => array('integer', $this->getOrgUnitTypeId()),
             'orgu_id' => array('integer', $this->getId()),
         ));
+        return $id;
     }
 
-
-    public function update()
+    public function update() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -102,13 +94,15 @@ class ilObjOrgUnit extends ilContainer
         }
         // Update selection for advanced meta data of the type
         if ($this->getOrgUnitTypeId()) {
-            ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type', $this->getOrgUnitType()->getAssignedAdvancedMDRecordIds());
+            ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type',
+                $this->getOrgUnitType()->getAssignedAdvancedMDRecordIds());
         } else {
             // If no type is assigned, delete relations by passing an empty array
             ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type', array());
         }
-    }
 
+        return true;
+    }
 
     /**
      * @return int
@@ -118,7 +112,6 @@ class ilObjOrgUnit extends ilContainer
         return $this->orgu_type_id;
     }
 
-
     /**
      * @return ilOrgUnitType|null
      */
@@ -126,7 +119,6 @@ class ilObjOrgUnit extends ilContainer
     {
         return ilOrgUnitType::getInstance($this->getOrgUnitTypeId());
     }
-
 
     /**
      * @param $a_id
@@ -136,15 +128,12 @@ class ilObjOrgUnit extends ilContainer
         $this->orgu_type_id = $a_id;
     }
 
-
     /**
      * Get the assigned AMD Values.
      * If a record_id is given, returns an array with all Elements (instances of ilADT objects)
      * belonging to this record. If no record_id is given, returns an associative array with
      * record-IDs as keys and ilADT objects as values
-     *
      * @param int $a_record_id
-     *
      * @return array
      */
     public function getAdvancedMDValues($a_record_id = 0)
@@ -173,12 +162,10 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-
     /**
      * Returns an array that maps from OrgUnit object IDs to its icon defined by the assigned
      * OrgUnit type. Keys = OrgUnit object IDs, values = Path to the icon This allows to get the
      * Icons of OrgUnits without loading the object (e.g. used in the tree explorer)
-     *
      * @return array
      */
     public static function getIconsCache()
@@ -205,7 +192,6 @@ class ilObjOrgUnit extends ilContainer
         return $icons_cache;
     }
 
-
     /**
      * @return int
      */
@@ -216,7 +202,6 @@ class ilObjOrgUnit extends ilContainer
         return self::$root_ref_id;
     }
 
-
     /**
      * @return int
      */
@@ -226,7 +211,6 @@ class ilObjOrgUnit extends ilContainer
 
         return self::$root_id;
     }
-
 
     private static function loadRootOrgRefIdAndId() : void
     {
@@ -243,10 +227,8 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-
     /**
      * Adds the user ids to the position employee.
-     *
      * @param $user_ids
      */
     public function assignUsersToEmployeeRole($user_ids)
@@ -268,10 +250,8 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-
     /**
      * Adds the user ids to the position superior.
-     *
      * @param $user_ids
      */
     public function assignUsersToSuperiorRole($user_ids)
@@ -293,7 +273,6 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-
     public function deassignUserFromEmployeeRole($user_id)
     {
         global $DIC;
@@ -310,7 +289,6 @@ class ilObjOrgUnit extends ilContainer
             'user_id' => $user_id,
         ));
     }
-
 
     public function deassignUserFromSuperiorRole($user_id)
     {
@@ -329,13 +307,10 @@ class ilObjOrgUnit extends ilContainer
         ));
     }
 
-
     /**
      * Assign a given user to a given local role
-     *
      * @param int $role_id
      * @param int $user_id
-     *
      * @return bool
      */
     public function assignUserToLocalRole($role_id, $user_id)
@@ -363,13 +338,10 @@ class ilObjOrgUnit extends ilContainer
         return $return;
     }
 
-
     /**
      * Deassign a given user to a given local role
-     *
      * @param int $role_id
      * @param int $user_id
-     *
      * @return bool
      */
     public function deassignUserFromLocalRole($role_id, $user_id)
@@ -397,25 +369,11 @@ class ilObjOrgUnit extends ilContainer
         return $return;
     }
 
-
-    /**
-     * @param        $a_id
-     * @param bool   $a_reference
-     * @param string $type
-     *
-     * @return bool
-     */
-    public static function _exists($a_id, $a_reference = false, $type = "orgu")
+    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = "orgu") : bool
     {
         return parent::_exists($a_id, $a_reference, "orgu");
     }
 
-
-    /**
-     * Return title
-     *
-     * @return string
-     */
     public function getTitle() : string
     {
         if (parent::getTitle() != "__OrgUnitAdministration") {
@@ -425,10 +383,8 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-
     /**
      * get object long description (stored in object_description)
-     *
      * @access    public
      * @return    string        object description
      */
@@ -441,7 +397,6 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-
     /**
      * @return array This catches if by some means there is no translation.
      */
@@ -451,9 +406,9 @@ class ilObjOrgUnit extends ilContainer
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
-        $q = "SELECT * FROM object_translation WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " ORDER BY lang_default DESC";
+        $q = "SELECT * FROM object_translation WHERE obj_id = " . $ilDB->quote($this->getId(),
+                'integer') . " ORDER BY lang_default DESC";
         $r = $this->db->query($q);
-
 
         $data = [];
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -479,14 +434,12 @@ class ilObjOrgUnit extends ilContainer
         return $translations;
     }
 
-
     /**
      * delete orgunit, childs and all related data
-     *
      * @return    boolean    true if all object data were removed; false if only a references were
      *                       removed
      */
-    public function delete()
+    public function delete() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -527,7 +480,6 @@ class ilObjOrgUnit extends ilContainer
         return true;
     }
 
-
     /**
      * remove all Translations of current OrgUnit
      */
@@ -540,7 +492,6 @@ class ilObjOrgUnit extends ilContainer
         $res = $ilDB->manipulate($query);
     }
 
-
     /**
      * remove translations of current OrgUnit
      * @param $a_lang string en|de|...
@@ -550,11 +501,11 @@ class ilObjOrgUnit extends ilContainer
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $query = "DELETE FROM object_translation WHERE obj_id= " . $ilDB->quote($this->getId(), 'integer') . " AND lang_code = "
+        $query = "DELETE FROM object_translation WHERE obj_id= " . $ilDB->quote($this->getId(),
+                'integer') . " AND lang_code = "
             . $ilDB->quote($a_lang, 'text');
         $res = $ilDB->manipulate($query);
     }
-
 
     /**
      * add a new translation to current OrgUnit
@@ -574,20 +525,18 @@ class ilObjOrgUnit extends ilContainer
         }
 
         $query = "INSERT INTO object_translation " . "(obj_id,title,description,lang_code,lang_default) " . "VALUES " . "("
-            . $ilDB->quote($this->getId(), 'integer') . "," . $ilDB->quote($a_title, 'text') . "," . $ilDB->quote($a_desc, 'text') . ","
+            . $ilDB->quote($this->getId(), 'integer') . "," . $ilDB->quote($a_title,
+                'text') . "," . $ilDB->quote($a_desc, 'text') . ","
             . $ilDB->quote($a_lang, 'text') . "," . $ilDB->quote($a_lang_default, 'integer') . ")";
         $ilDB->manipulate($query);
     }
 
-
     /**
      * update a translation to current OrgUnit
-     *
      * @param $a_title
      * @param $a_desc
      * @param $a_lang
      * @param $a_lang_default
-     *
      * @return bool
      */
     public function updateTranslation($a_title, $a_desc, $a_lang, $a_lang_default)
@@ -607,16 +556,14 @@ class ilObjOrgUnit extends ilContainer
             $query .= ", description = " . $ilDB->quote($a_desc, 'text') . " ";
         }
 
-
         $query .= ", lang_default = " . $ilDB->quote($a_lang_default, 'integer') . " ";
 
-
-        $query .= " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " AND lang_code = " . $ilDB->quote($a_lang, 'text');
+        $query .= " WHERE obj_id = " . $ilDB->quote($this->getId(),
+                'integer') . " AND lang_code = " . $ilDB->quote($a_lang, 'text');
         $ilDB->manipulate($query);
 
         return true;
     }
-
 
     public function writePath()
     {

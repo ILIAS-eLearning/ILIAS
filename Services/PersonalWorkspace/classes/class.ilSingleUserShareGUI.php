@@ -90,13 +90,13 @@ class ilSingleUserShareGUI
 
                 if (!in_array($user_id, $existing)) {
                     $this->wsp_access_handler->addPermission($this->wsp_node_id, $user_id);
-                    ilUtil::sendSuccess($this->lng->txt("element_shared"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("element_shared"), true);
                 } else {
-                    ilUtil::sendInfo($this->lng->txt("element_already_shared"), true);
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt("element_already_shared"), true);
                 }
                 $this->ctrl->returnToParent($this);
             } else {
-                ilUtil::sendFailure($this->lng->txt('search_no_match'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_no_match'), true);
             }
         }
         $this->ctrl->redirect($this);

@@ -10,19 +10,15 @@ use ILIAS\Refinery\Factory as Refinery;
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
     protected GlobalHttpState $http;
-    protected ilTree $repositoryTree;
-    protected Refinery $refinery;
 
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($data, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
 
         $this->http = $DIC->http();
-        $this->repositoryTree = $DIC->repositoryTree();
-        $this->refinery = $DIC->refinery();
 
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+        parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
 
@@ -73,7 +69,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
             $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'admin_mode', 'repository');
         }
 
-        if ($this->repositoryTree->getSavedNodeData($this->object->getRefId())) {
+        if ($this->tree->getSavedNodeData($this->object->getRefId())) {
             $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
         }
     }

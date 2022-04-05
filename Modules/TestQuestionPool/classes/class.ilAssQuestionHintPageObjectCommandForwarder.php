@@ -55,12 +55,14 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      */
     public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
     {
+        global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         parent::__construct($questionOBJ, $ctrl, $tabs, $lng);
         
         $this->questionHint = new ilAssQuestionHint();
 
         if (!isset($_GET['hint_id']) || !(int) $_GET['hint_id'] || !$this->questionHint->load((int) $_GET['hint_id'])) {
-            ilUtil::sendFailure('invalid hint id given: ' . (int) $_GET['hint_id'], true);
+            $main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $_GET['hint_id'], true);
             $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
         }
     }
@@ -96,9 +98,6 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     
     /**
      * forwards the command to page object gui for author presentation
-     *
-     * @access private
-     * @return page object gui object
      */
     private function buildPreviewPresentationPageObjectGUI()
     {
@@ -123,9 +122,6 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 
     /**
      * forwards the command to page object gui for author presentation
-     *
-     * @access private
-     * @return page object gui object
      */
     private function buildRequestPresentationPageObjectGUI()
     {
@@ -150,9 +146,6 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     
     /**
      * forwards the command to page object gui for author presentation
-     *
-     * @access private
-     * @return page object gui object
      */
     private function buildAuthorPresentationPageObjectGUI()
     {
@@ -181,7 +174,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      *
      * @return string
      */
-    public function getPresentationMode()
+    public function getPresentationMode() : ?string
     {
         return $this->presentationMode;
     }
@@ -208,9 +201,6 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     
     /**
      * instantiates, initialises and returns a page object gui object
-     *
-     * @access protected
-     * @return page object gui object
      */
     protected function getPageObjectGUI($pageObjectType, $pageObjectId)
     {

@@ -399,7 +399,6 @@ class ilContainerRenderer
         }
             
         asort($this->block_pos);
-        
         return array_keys($this->block_pos);
     }
     
@@ -452,6 +451,22 @@ class ilContainerRenderer
                 }
             }
 
+            // determine view mode and tile size
+            $view_mode = $this->getViewMode();
+            if ($view_mode == ilContainerContentGUI::VIEW_MODE_TILE) {
+                $tile_size = ilContainer::_lookupContainerSetting($this->container_gui->getObject()->getId(), "tile_size");
+            }
+            if (is_numeric($a_block_id)) {
+                $item_group = new ilObjItemGroup($a_block_id);
+                if ($item_group->getListPresentation() != "") {
+                    $view_mode = ($item_group->getListPresentation() == "tile")
+                        ? ilContainerContentGUI::VIEW_MODE_TILE
+                        : ilContainerContentGUI::VIEW_MODE_LIST;
+                    $tile_size = $item_group->getTileSize();
+                }
+            }
+
+
             // #14610 - manage empty item groups
             if ((isset($this->block_items[$a_block_id]) && is_array($this->block_items[$a_block_id])) ||
                 is_numeric($a_block_id)) {
@@ -459,7 +474,7 @@ class ilContainerRenderer
 
                 $order_id = (!$a_is_single && $this->active_block_ordering)
                     ? $a_block_id
-                    : 0;
+                    : "";
                 $this->addHeaderRow(
                     $a_block_tpl,
                     $a_block["type"] ?? '',
@@ -470,15 +485,15 @@ class ilContainerRenderer
                     $a_block["data"] ?? []
                 );
 
-                if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
+                if ($view_mode == ilContainerContentGUI::VIEW_MODE_LIST) {
                     if (isset($a_block["prefix"]) && $a_block["prefix"]) {
                         $this->addStandardRow($a_block_tpl, $a_block["prefix"]);
                     }
                 }
 
-                if (is_array($this->block_items[$a_block_id])) {
+                if (isset($this->block_items[$a_block_id])) {
                     foreach ($this->block_items[$a_block_id] as $item_id) {
-                        if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
+                        if ($view_mode == ilContainerContentGUI::VIEW_MODE_LIST) {
                             $this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], (int) $item_id);
                         } else {
                             $cards[] = $this->items[$item_id]["html"];
@@ -486,19 +501,38 @@ class ilContainerRenderer
                     }
                 }
 
-                if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
+                if ($view_mode == ilContainerContentGUI::VIEW_MODE_LIST) {
                     if (isset($a_block["postfix"]) && $a_block["postfix"]) {
                         $this->addStandardRow($a_block_tpl, $a_block["postfix"]);
                     }
                 }
 
-                if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_TILE) {
+                if ($view_mode == ilContainerContentGUI::VIEW_MODE_TILE) {
                     $f = $this->ui->factory();
                     $renderer = $this->ui->renderer();
 
                     //Create a deck with large cards
-                    $deck = $f->deck($cards)->withNormalCardsSize();
-                    //$deck = $f->deck($cards)->withSmallCardsSize();
+                    switch ($tile_size) {
+                        case ilContainer::TILE_SMALL:
+                            $deck = $f->deck($cards)->withSmallCardsSize();
+                            break;
+
+                        case ilContainer::TILE_LARGE:
+                            $deck = $f->deck($cards)->withLargeCardsSize();
+                            break;
+
+                        case ilContainer::TILE_EXTRA_LARGE:
+                            $deck = $f->deck($cards)->withExtraLargeCardsSize();
+                            break;
+
+                        case ilContainer::TILE_FULL:
+                            $deck = $f->deck($cards)->withFullSizedCardsSize();
+                            break;
+
+                        default:
+                            $deck = $f->deck($cards)->withNormalCardsSize();
+                            break;
+                    }
 
 
                     $html = $renderer->render($deck);
@@ -544,14 +578,18 @@ class ilContainerRenderer
         return new ilTemplate("tpl.container_list_block.html", true, true, "Services/Container");
     }
     
-    // Render block header
+    /**
+     * Render block header
+     * @param string     $a_order_id item group id or type, e.g. "crs"
+     * @throws ilTemplateException
+     */
     protected function addHeaderRow(
         ilTemplate $a_tpl,
         string $a_type = "",
         string $a_text = "",
         array $a_types_in_block = null,
         string $a_commands_html = "",
-        int $a_order_id = 0,
+        string $a_order_id = "",
         array $a_data = []
     ) : void {
         $lng = $this->lng;
@@ -609,7 +647,7 @@ class ilContainerRenderer
             $a_tpl->setCurrentBlock("container_header_row");
         }
     
-        if ($a_order_id) {
+        if ($a_order_id != "") {
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NAME", "position[blocks][" . $a_order_id . "]");
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt) * 10);
         }

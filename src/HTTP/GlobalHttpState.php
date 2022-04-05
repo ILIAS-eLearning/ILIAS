@@ -10,6 +10,19 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface GlobalHttpState
  *
@@ -25,7 +38,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface GlobalHttpState
 {
-
     public function wrapper() : WrapperFactory;
 
     /**
@@ -38,8 +50,6 @@ interface GlobalHttpState
 
     /**
      * Returns the current psr-7 response.
-     *
-     * @return ResponseInterface
      */
     public function response() : ResponseInterface;
 
@@ -48,8 +58,6 @@ interface GlobalHttpState
      * Returns a cookie jar which has all cookies known by the ILIAS response.
      * Make sure to call the saveResponse method when the cookies are rendered into the response
      * object.
-     *
-     * @return CookieJar
      */
     public function cookieJar() : CookieJar;
 
@@ -60,8 +68,6 @@ interface GlobalHttpState
      * There is a possibility that the request can't be saved back in the near future.
      *
      * @param ServerRequestInterface $request The server request which should be saved.
-     *
-     * @return void
      */
     public function saveRequest(ServerRequestInterface $request) : void;
 
@@ -70,8 +76,6 @@ interface GlobalHttpState
      * Saves the given response for further use.
      *
      * @param ResponseInterface $response The response which should be saved.
-     *
-     * @return void
      */
     public function saveResponse(ResponseInterface $response) : void;
 
@@ -79,7 +83,6 @@ interface GlobalHttpState
     /**
      * Render the current response hold by ILIAS.
      *
-     * @return void
      * @throws ResponseSendingException Each subsequent call will throw this exception.
      */
     public function sendResponse() : void;

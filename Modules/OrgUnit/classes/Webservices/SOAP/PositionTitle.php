@@ -6,7 +6,6 @@ use ilOrgUnitPosition;
 
 /**
  * Class PositionTitle
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class PositionTitle extends Base
@@ -14,11 +13,9 @@ class PositionTitle extends Base
 
     /**
      * @param array $params
-     *
      * @return array
      */
     const POSITION_ID = 'position_id';
-
 
     protected function run(array $params)
     {
@@ -32,15 +29,13 @@ class PositionTitle extends Base
         }
     }
 
-
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getPositionTitle";
     }
-
 
     /**
      * @return array
@@ -50,20 +45,18 @@ class PositionTitle extends Base
         return array(self::POSITION_ID => Base::TYPE_INT);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array('title' => Base::TYPE_STRING);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns the title of a position for a given position id";
     }

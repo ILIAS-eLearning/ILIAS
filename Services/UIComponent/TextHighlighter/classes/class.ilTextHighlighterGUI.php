@@ -36,7 +36,7 @@ class ilTextHighlighterGUI
             return;
         }
         
-        if ($a_tpl == null) {
+        if ($a_tpl === null) {
             $a_tpl = $tpl;
         }
         $a_tpl->addJavaScript("./Services/UIComponent/TextHighlighter/js/ilTextHighlighter.js");

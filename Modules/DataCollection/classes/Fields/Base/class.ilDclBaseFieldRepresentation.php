@@ -3,7 +3,6 @@
 
 /**
  * Class ilDclBaseFieldRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -19,6 +18,8 @@ abstract class ilDclBaseFieldRepresentation
      */
     protected $ctrl;
 
+    protected ilComponentRepository $component_repository;
+    protected ilComponentFactory $component_factory;
 
     public function __construct(ilDclBaseFieldModel $field)
     {
@@ -28,14 +29,13 @@ abstract class ilDclBaseFieldRepresentation
         $this->field = $field;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
+        $this->component_repository = $DIC["component.repository"];
+        $this->component_factory = $DIC["component.factory"];
     }
-
 
     /**
      * Add filter input to TableGUI
-     *
      * @param ilTable2GUI $table
-     *
      * @return null
      */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
@@ -43,10 +43,8 @@ abstract class ilDclBaseFieldRepresentation
         return null;
     }
 
-
     /**
      * Set basic settings for filter-input-gui
-     *
      * @param ilFormPropertyGUI $input
      */
     protected function setupFilterInputField(ilFormPropertyGUI $input)
@@ -56,13 +54,10 @@ abstract class ilDclBaseFieldRepresentation
         }
     }
 
-
     /**
      * Checks if a filter affects a record
-     *
      * @param ilDclBaseRecordModel $record
      * @param                      $filter
-     *
      * @return bool
      */
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
@@ -81,12 +76,9 @@ abstract class ilDclBaseFieldRepresentation
         return $pass;
     }
 
-
     /**
-     *
      * @param      $value
      * @param bool $link
-     *
      * @return mixed
      */
     public function parseSortingValue($value, $link = true)
@@ -94,13 +86,10 @@ abstract class ilDclBaseFieldRepresentation
         return $value;
     }
 
-
     /**
      * Returns field-input
-     *
      * @param ilPropertyFormGUI $form
      * @param int               $record_id
-     *
      * @return ?ilFormPropertyGUI
      */
     public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
@@ -108,10 +97,8 @@ abstract class ilDclBaseFieldRepresentation
         return null;
     }
 
-
     /**
      * Sets basic settings on field-input
-     *
      * @param ilFormPropertyGUI   $input
      * @param ilDclBaseFieldModel $field
      */
@@ -120,10 +107,8 @@ abstract class ilDclBaseFieldRepresentation
         $input->setInfo($field->getDescription() . ($input->getInfo() ? '<br>' . $input->getInfo() : ''));
     }
 
-
     /**
      * @param $input
-     *
      * @return null
      */
     protected function getFilterInputFieldValue(/*ilPropertyFormGUI*/
@@ -143,10 +128,8 @@ abstract class ilDclBaseFieldRepresentation
         return null;
     }
 
-
     /**
      * Adds the options for the field-types to the field-creation form
-     *
      * @param                     $form
      * @param ilObjDataCollection $dcl
      * @param string              $mode
@@ -167,29 +150,24 @@ abstract class ilDclBaseFieldRepresentation
         $form->addOption($opt);
     }
 
-
     /**
      * Build the creation-input-field
-     *
      * @param ilObjDataCollection $dcl
      * @param string              $mode
-     *
      * @return ilPropertyFormGUI
      */
     protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
     {
-        $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()), $this->getField()->getDatatypeId());
+        $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
+            $this->getField()->getDatatypeId());
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 
         return $opt;
     }
 
-
     /**
      * Return post-var for property-fields
-     *
      * @param $property
-     *
      * @return string
      */
     public function getPropertyInputFieldId($property)
@@ -197,10 +175,8 @@ abstract class ilDclBaseFieldRepresentation
         return "prop_" . $property;
     }
 
-
     /**
      * Return BaseFieldModel
-     *
      * @return ilDclBaseFieldModel
      */
     public function getField()

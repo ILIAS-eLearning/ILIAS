@@ -150,7 +150,7 @@ class ForumDto
 
     public static function getInstanceFromArray(array $record) : self
     {
-        $instance = new self;
+        $instance = new self();
 
         $instance->setTopPk((int) $record['top_pk']);
         $instance->setTopFrmFk((int) $record['top_frm_fk']);
@@ -171,6 +171,6 @@ class ForumDto
 
     public static function getEmptyInstance() : self
     {
-        return new self;
+        return new self();
     }
 }

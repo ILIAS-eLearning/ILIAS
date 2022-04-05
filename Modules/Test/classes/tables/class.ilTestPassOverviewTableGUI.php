@@ -46,7 +46,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
      */
     public function __construct($parent, $cmd)
     {
-        $this->setId('tst_pass_overview_' . $parent->object->getId());
+        $this->setId('tst_pass_overview_' . $parent->getObject()->getId());
         $this->setDefaultOrderField('pass');
         $this->setDefaultOrderDirection('ASC');
 
@@ -77,12 +77,12 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string $field
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($field)
+    public function numericOrdering(string $a_field) : bool
     {
-        switch ($field) {
+        switch ($a_field) {
             case 'pass':
             case 'date':
             case 'percentage':
@@ -93,56 +93,56 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
-        if (array_key_exists('percentage', $row)) {
-            $row['percentage'] = sprintf('%.2f', $row['percentage']) . '%';
+        if (array_key_exists('percentage', $a_set)) {
+            $a_set['percentage'] = sprintf('%.2f', $a_set['percentage']) . '%';
         }
 
         // fill columns
         
         if (!$this->isObjectiveOrientedPresentationEnabled()) {
             if ($this->isResultPresentationEnabled()) {
-                $this->tpl->setVariable('VAL_SCORED', $row['scored'] ? '&otimes;' : '');
+                $this->tpl->setVariable('VAL_SCORED', $a_set['scored'] ? '&otimes;' : '');
             }
             
-            $this->tpl->setVariable('VAL_PASS', $this->getPassNumberPresentation($row['pass']));
+            $this->tpl->setVariable('VAL_PASS', $this->getPassNumberPresentation($a_set['pass']));
         }
         
-        $this->tpl->setVariable('VAL_DATE', $this->formatDate($row['date']));
+        $this->tpl->setVariable('VAL_DATE', $this->formatDate($a_set['date']));
 
         if ($this->isObjectiveOrientedPresentationEnabled()) {
-            $this->tpl->setVariable('VAL_LO_OBJECTIVES', $row['objectives']);
+            $this->tpl->setVariable('VAL_LO_OBJECTIVES', $a_set['objectives']);
             
             $this->tpl->setVariable('VAL_LO_TRY', sprintf(
                 $this->lng->txt('tst_res_lo_try_n'),
-                $this->getPassNumberPresentation($row['pass'])
+                $this->getPassNumberPresentation($a_set['pass'])
             ));
         }
 
         if ($this->isResultPresentationEnabled()) {
             $this->tpl->setVariable('VAL_ANSWERED', $this->buildWorkedThroughQuestionsString(
-                $row['num_workedthrough_questions'],
-                $row['num_questions_total']
+                $a_set['num_workedthrough_questions'],
+                $a_set['num_questions_total']
             ));
 
             if ($this->getParentObject()->object->isOfferingQuestionHintsEnabled()) {
-                $this->tpl->setVariable('VAL_HINTS', $row['hints']);
+                $this->tpl->setVariable('VAL_HINTS', $a_set['hints']);
             }
 
             $this->tpl->setVariable('VAL_REACHED', $this->buildReachedPointsString(
-                $row['reached_points'],
-                $row['max_points']
+                $a_set['reached_points'],
+                $a_set['max_points']
             ));
 
-            $this->tpl->setVariable('VAL_PERCENTAGE', $row['percentage']);
+            $this->tpl->setVariable('VAL_PERCENTAGE', $a_set['percentage']);
         }
 
         if (!$this->isPdfPresentationEnabled()) {
-            $actions = $this->getRequiredActions($row['scored']);
-            $this->tpl->setVariable('VAL_ACTIONS', $this->buildActionsHtml($actions, $row['pass']));
+            $actions = $this->getRequiredActions($a_set['scored']);
+            $this->tpl->setVariable('VAL_ACTIONS', $this->buildActionsHtml($actions, $a_set['pass']));
         }
     }
 
@@ -181,7 +181,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isResultPresentationEnabled()
+    public function isResultPresentationEnabled() : bool
     {
         return $this->resultPresentationEnabled;
     }
@@ -197,7 +197,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isPdfPresentationEnabled()
+    public function isPdfPresentationEnabled() : bool
     {
         return $this->pdfPresentationEnabled;
     }
@@ -213,7 +213,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isObjectiveOrientedPresentationEnabled()
+    public function isObjectiveOrientedPresentationEnabled() : bool
     {
         return $this->objectiveOrientedPresentationEnabled;
     }
@@ -229,7 +229,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return int
      */
-    public function getActiveId()
+    public function getActiveId() : ?int
     {
         return $this->activeId;
     }
@@ -245,7 +245,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getPassDetailsCommand()
+    public function getPassDetailsCommand() : string
     {
         return $this->passDetailsCommand;
     }
@@ -261,7 +261,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getPassDeletionCommand()
+    public function getPassDeletionCommand() : string
     {
         return $this->passDeletionCommand;
     }
@@ -278,7 +278,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
      * @param integer $dateTS
      * @return string $dateFormated
      */
-    private function formatDate($date)
+    private function formatDate($date) : string
     {
         $oldValue = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
@@ -287,17 +287,17 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         return $date;
     }
     
-    private function buildWorkedThroughQuestionsString($numQuestionsWorkedThrough, $numQuestionsTotal)
+    private function buildWorkedThroughQuestionsString($numQuestionsWorkedThrough, $numQuestionsTotal) : string
     {
         return "{$numQuestionsWorkedThrough} {$this->lng->txt('of')} {$numQuestionsTotal}";
     }
     
-    private function buildReachedPointsString($reachedPoints, $maxPoints)
+    private function buildReachedPointsString($reachedPoints, $maxPoints) : string
     {
         return "{$reachedPoints} {$this->lng->txt('of')} {$maxPoints}";
     }
 
-    private function getRequiredActions($isScoredPass)
+    private function getRequiredActions($isScoredPass) : array
     {
         $actions = array();
         
@@ -312,7 +312,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         return $actions;
     }
     
-    private function buildActionsHtml($actions, $pass)
+    private function buildActionsHtml($actions, $pass) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

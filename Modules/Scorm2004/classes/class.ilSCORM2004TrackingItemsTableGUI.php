@@ -1,9 +1,18 @@
-<?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItems.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilSCORM2004TrackingItemsTableGUI
  *
@@ -22,32 +31,28 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
      */
     protected $rbacsystem;
 
-    private $obj_id = 0;
-    private $user_id = 0;
-    private $bySCO = false;
-    private $scosSelected = array();
-    private $userSelected = array();
-    private $allowExportPrivacy = false;
-    private $lmTitle = "";
+    private int $obj_id = 0;
+    private int $user_id = 0;
+    private bool $bySCO = false;
+    private array $scosSelected = array();
+    private array $userSelected = array();
+    private bool $allowExportPrivacy = false;
+    private string $lmTitle = "";
+    private string $report = "";
 
     /**
      * Constructor
      */
-    public function __construct($a_obj_id, $a_parent_obj, $a_parent_cmd, $a_userSelected, $a_scosSelected, $a_report)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, string $a_report)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
+        $lng = $DIC->language();
+        $lng->loadLanguageModule("scormtrac");
+        $this->lng = $lng;
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
-    
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        $rbacsystem = $DIC->rbac()->system();
-        $lng->loadLanguageModule("scormtrac");
     
         $this->obj_id = $a_obj_id;
         $this->report = $a_report;
@@ -59,18 +64,13 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $this->lmTitle = $a_parent_obj->object->getTitle();
         $this->setId('2004' . $this->report);
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        // $this->setLimit(9999); //#23582
-
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $privacy = ilPrivacySettings::getInstance();
         $this->allowExportPrivacy = $privacy->enabledExportSCORM();
-
 
         // if($a_print_view)
         // {
         // $this->setPrintMode(true);
         // }
-
 
         foreach ($this->getSelectedColumns() as $c) {
             $l = $c;
@@ -93,7 +93,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
 
         $this->setRowTemplate('tpl.scorm2004_tracking_items.html', 'Modules/Scorm2004');
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 
         $this->setExternalSorting(true);
         //		$this->setExternalSegmentation(true);
@@ -110,11 +110,10 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     }
     /**
      * Get selectable columns
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         // default fields
         $cols = array();
@@ -139,10 +138,10 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
                 $cols = ilSCORM2004TrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
             break;
             case "tracInteractionUserAnswers":
-                $cols = ilSCORM2004TrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORM2004TrackingItems::tracInteractionUserAnswersColumns((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
             break;
             case "exportSelectedSuccess":
-                $cols = ilSCORM2004TrackingItems::exportSelectedSuccessColumns($this->allowExportPrivacy);
+                $cols = ilSCORM2004TrackingItems::exportSelectedSuccessColumns();
             break;
         }
         
@@ -151,70 +150,74 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
     /**
      * Get Obj id
-     * @return int
      */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-
-    public function getItems()
+    /**
+     * @return void
+     */
+    public function getItems() : void
     {
-        $lng = $this->lng;
-
         $this->determineOffsetAndOrder(true);
-		$this->determineLimit();
-		
+        $this->determineLimit();
+        
         $ilSCORM2004TrackingItems = new ilSCORM2004TrackingItems();
         switch ($this->report) {
             case "exportSelectedCore":
-                $tr_data = $ilSCORM2004TrackingItems->exportSelectedCore($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
+                $tr_data = $ilSCORM2004TrackingItems->exportSelectedCore((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
             case "exportSelectedInteractions":
-                $tr_data = $ilSCORM2004TrackingItems->exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
+                $tr_data = $ilSCORM2004TrackingItems->exportSelectedInteractions((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
             case "exportSelectedObjectives":
-                $tr_data = $ilSCORM2004TrackingItems->exportSelectedObjectives($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
+                $tr_data = $ilSCORM2004TrackingItems->exportSelectedObjectives((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
             case "exportObjGlobalToSystem":
-                $tr_data = $ilSCORM2004TrackingItems->exportObjGlobalToSystem($this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
+                $tr_data = $ilSCORM2004TrackingItems->exportObjGlobalToSystem((array) $this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
             case "tracInteractionItem":
-                $tr_data = $ilSCORM2004TrackingItems->tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
+                $tr_data = $ilSCORM2004TrackingItems->tracInteractionItem((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
             case "tracInteractionUser":
-                $tr_data = $ilSCORM2004TrackingItems->tracInteractionUser($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
+                $tr_data = $ilSCORM2004TrackingItems->tracInteractionUser((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
             case "tracInteractionUserAnswers":
-                $tr_data = $ilSCORM2004TrackingItems->tracInteractionUserAnswers($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
+                $tr_data = $ilSCORM2004TrackingItems->tracInteractionUserAnswers((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
             case "exportSelectedSuccess":
-                $tr_data = $ilSCORM2004TrackingItems->exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
+                $tr_data = $ilSCORM2004TrackingItems->exportSelectedSuccess((array) $this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
         }
         // $this->setMaxCount($tr_data["cnt"]);
         if (ilUtil::stripSlashes($this->getOrderField()) != "") {
-            include_once "Services/Utilities/classes/class.ilStr.php";
-            $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));
+            $tr_data = ilArrayUtil::stableSortArray(
+                $tr_data,
+                ilUtil::stripSlashes($this->getOrderField()),
+                ilUtil::stripSlashes($this->getOrderDirection())
+            );
         }
-		
+        
         $this->setData($tr_data);
     }
-    protected function parseValue($id, $value, $type)
+
+    /**
+     * @param string                $id
+     * @param string|float|int|null $value
+     * @param string                $type
+     * @return float|int|string|null
+     */
+    protected function parseValue(string $id, $value, string $type)
     {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("trac");
-        switch ($id) {
-            case "status":
-                include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
-                $text = ilLearningProgressBaseGUI::_getStatusText($value);
-                $value = ilUtil::img($path, $text);
-                break;
+        if ($id == "status") {
+            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
+            $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
+            $value = ilUtil::img($path, $text);
         }
         //BLUM round
-        if ($id == "launch_data" || $id == "suspend_data") {
+        elseif ($id == "launch_data" || $id == "suspend_data") {
             return $value;
         }
         if (is_numeric($value)) {
@@ -222,36 +225,47 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
         return $value;
     }
+
     /**
-    * Fill table row
-    */
-    protected function fillRow($data)
+     * Fill table row
+     * @param array $a_set
+     * @throws ilTemplateException
+     */
+    protected function fillRow(array $a_set) : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
         foreach ($this->getSelectedColumns() as $c) {
             $this->tpl->setCurrentBlock("user_field");
-            $val = $this->parseValue($c, $data[$c], "scormtrac");
+            $val = $this->parseValue($c, $a_set[$c], "scormtrac");
             $this->tpl->setVariable("VAL_UF", $val);
             $this->tpl->parseCurrentBlock();
         }
     }
 
-    protected function fillHeaderExcel(ilExcel $worksheet, &$a_row)
+    /**
+     * @param ilExcel $a_excel
+     * @param int     $a_row
+     * @return void
+     */
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $labels = $this->getSelectableColumns();
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
-            $worksheet->setCell($a_row, $cnt, $labels[$c]["txt"]);
+            $a_excel->setCell($a_row, $cnt, $labels[$c]["txt"]);
             $cnt++;
         }
     }
 
-    protected function fillRowExcel(ilExcel $worksheet, &$a_row, $a_set)
+    /**
+     * @param ilExcel $a_excel
+     * @param int     $a_row
+     * @param array   $a_set
+     * @return void
+     */
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("trac");
-        include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+//        $lng = $this->lng;
+//        $lng->loadLanguageModule("trac");
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
             if ($c != 'status') {
@@ -259,12 +273,16 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
             }
-            $worksheet->setCell($a_row, $cnt, $val);
+            $a_excel->setCell($a_row, $cnt, $val);
             $cnt++;
         }
     }
 
-    protected function fillHeaderCSV($a_csv)
+    /**
+     * @param ilCSVWriter $a_csv
+     * @return void
+     */
+    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
@@ -274,11 +292,15 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV($a_csv, $a_set)
+    /**
+     * @param ilCSVWriter $a_csv
+     * @param array       $a_set
+     * @return void
+     */
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("trac");
-        include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+//        $lng = $this->lng;
+//        $lng->loadLanguageModule("trac");
         foreach ($this->getSelectedColumns() as $c) {
             if ($c != 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");

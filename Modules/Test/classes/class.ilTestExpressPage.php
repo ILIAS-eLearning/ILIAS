@@ -13,7 +13,7 @@ class ilTestExpressPage
         $refId = self::fetchTargetRefIdParameter();
 
         if ($_REQUEST['q_id']) {
-            $q_id = $q_id ? $q_id : (isset($_REQUEST['prev_qid']) ? $_REQUEST['prev_qid'] : $_REQUEST['q_id']);
+            $q_id = $q_id ? $q_id : ($_REQUEST['prev_qid'] ?? $_REQUEST['q_id']);
 
             $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
             $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'ref_id', $refId);

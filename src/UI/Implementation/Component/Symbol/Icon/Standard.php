@@ -151,7 +151,10 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::PETMP,
         self::PEUSR,
         self::LSO,
-        self::ADN
+        self::ADN,
+        self::NOTA,
+        self::GCON,
+        self::CON
     ];
 
     protected bool $is_outlined = false;

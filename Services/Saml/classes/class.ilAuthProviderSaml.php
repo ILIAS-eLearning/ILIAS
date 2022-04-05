@@ -49,7 +49,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
     public function doAuthentication(ilAuthStatus $status) : bool
     {
-        if (!is_array($this->attributes) || 0 === count($this->attributes)) {
+        if (0 === count($this->attributes)) {
             $this->getLogger()->warning('Could not parse any attributes from SAML response.');
             $this->handleAuthenticationFail($status, 'err_wrong_login');
 
@@ -107,14 +107,14 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
             ));
             $internal_account = ilObjUser::_checkExternalAuthAccount($fallback_auth_mode, $this->uid, false);
 
-            $defaultAuth = AUTH_LOCAL;
+            $defaultAuth = ilAuthUtils::AUTH_LOCAL;
             if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
                 $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
             }
 
             if (
                 (!is_string($internal_account) || $internal_account === '') &&
-                ($defaultAuth == AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())
+                ($defaultAuth == ilAuthUtils::AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())
             ) {
                 ilLoggerFactory::getLogger('auth')->debug(sprintf(
                     'Could not find ext_account "%s" for auth_mode "%s".',
@@ -267,7 +267,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
     public function getTriggerAuthMode() : string
     {
-        return AUTH_SAML . '_' . $this->idp->getIdpId();
+        return ilAuthUtils::AUTH_SAML . '_' . $this->idp->getIdpId();
     }
 
     public function getUserAuthModeName() : string
@@ -314,7 +314,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
             $xml_writer->xmlStartTag('User', ['Action' => 'Update', 'Id' => $usr_id]);
 
             $loginClaim = $a_user_data[$this->idp->getLoginClaim()][0];
-            if ($login !== $loginClaim) {
+            if (ilStr::strToLower($login) !== ilStr::strToLower($loginClaim)) {
                 $login = ilAuthUtils::_generateLogin($loginClaim);
                 $xml_writer->xmlElement('Login', [], $login);
             }

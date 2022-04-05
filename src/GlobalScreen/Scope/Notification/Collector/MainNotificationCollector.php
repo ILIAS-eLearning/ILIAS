@@ -8,6 +8,19 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class MainNotificationCollector
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -15,20 +28,20 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 class MainNotificationCollector extends AbstractBaseCollector implements ItemCollector
 {
     use Hasher;
-
+    
     /**
      * @var NotificationProvider[]
      */
-    private $providers = [];
+    private array $providers = [];
     /**
      * @var isItem[]
      */
-    private $notifications = [];
+    private array $notifications = [];
     /**
      * @var AdministrativeNotification[]
      */
-    private $administrative_notifications = [];
-
+    private array $administrative_notifications = [];
+    
     /**
      * MetaBarMainCollector constructor.
      * @param NotificationProvider[] $providers
@@ -38,53 +51,56 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
         $this->providers = $providers;
         $this->collectOnce();
     }
-
+    
     /**
      * Generator yielding the Notifications from the set of providers
-     * @return \Generator
+     * @return \Iterator<\ILIAS\GlobalScreen\Scope\Notification\Factory\isItem[]>
      */
-    private function returnNotificationsFromProviders() : \Generator
+    private function returnNotificationsFromProviders() : \Iterator
     {
         foreach ($this->providers as $provider) {
             yield $provider->getNotifications();
         }
     }
-
-    private function returnAdministrativeNotificationsFromProviders() : \Generator
+    
+    /**
+     * @return \Iterator<\ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification[]>
+     */
+    private function returnAdministrativeNotificationsFromProviders() : \Iterator
     {
         foreach ($this->providers as $provider) {
             yield $provider->getAdministrativeNotifications();
         }
     }
-
+    
     public function collectStructure() : void
     {
-        $this->notifications                = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
+        $this->notifications = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
         $this->administrative_notifications = array_merge([], ...iterator_to_array($this->returnAdministrativeNotificationsFromProviders()));
     }
-
+    
     public function filterItemsByVisibilty(bool $async_only = false) : void
     {
-        $this->administrative_notifications = array_filter($this->administrative_notifications, static function (AdministrativeNotification $n) {
+        $this->administrative_notifications = array_filter($this->administrative_notifications, static function (AdministrativeNotification $n) : bool {
             return $n->isVisible();
         });
     }
-
+    
     public function prepareItemsForUIRepresentation() : void
     {
         // TODO: Implement prepareItemsForUIRepresentation() method.
     }
-
+    
     public function cleanupItemsForUIRepresentation() : void
     {
         // TODO: Implement cleanupItemsForUIRepresentation() method.
     }
-
+    
     public function sortItemsForUIRepresentation() : void
     {
         // TODO: Implement sortItemsForUIRepresentation() method.
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -92,7 +108,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     {
         yield from $this->notifications;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -100,7 +116,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     {
         return (is_array($this->notifications) && count($this->notifications) > 0);
     }
-
+    
     /**
      * Returns the sum of all old notifications values in the
      * Standard Notifications
@@ -112,20 +128,24 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
             $count = 0;
             foreach ($this->notifications as $notification) {
                 if ($notification instanceof StandardNotificationGroup) {
-                    foreach ($notification->getNotifications() as $notification) {
-                        $count += $notification->getOldAmount();
+                    foreach ($notification->getNotifications() as $s_notification) {
+                        if ($s_notification->getOldAmount() > 0) {
+                            $count++;
+                        }
                     }
                 } else {
-                    $count += $notification->getOldAmount();
+                    if ($s_notification->getOldAmount() > 0) {
+                        $count++;
+                    }
                 }
             }
-
+            
             return $count;
         }
-
+        
         return 0;
     }
-
+    
     /**
      * Returns the sum of all new notifications values in the
      * Standard Notifications
@@ -137,20 +157,24 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
             $count = 0;
             foreach ($this->notifications as $notification) {
                 if ($notification instanceof StandardNotificationGroup) {
-                    foreach ($notification->getNotifications() as $notification) {
-                        $count += $notification->getNewAmount();
+                    foreach ($notification->getNotifications() as $s_notification) {
+                        if ($s_notification->getNewAmount() > 0) {
+                            $count++;
+                        }
                     }
                 } else {
-                    $count += $notification->getNewAmount();
+                    if ($s_notification->getNewAmount() > 0) {
+                        $count++;
+                    }
                 }
             }
-
+            
             return $count;
         }
-
+        
         return 0;
     }
-
+    
     /**
      * Returns the set of collected informations
      * @return isItem[]
@@ -159,7 +183,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     {
         return $this->notifications;
     }
-
+    
     /**
      * @return AdministrativeNotification[]
      */
@@ -167,12 +191,11 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     {
         return $this->administrative_notifications;
     }
-
+    
     /**
-     * @param bool $hashed
      * @return array
      */
-    public function getNotificationsIdentifiersAsArray($hashed = false) : array
+    public function getNotificationsIdentifiersAsArray(bool $hashed = false) : array
     {
         $identifiers = [];
         foreach ($this->notifications as $notification) {
@@ -191,7 +214,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
                 $identifiers[] = $notification->getProviderIdentification()->serialize();
             }
         }
-
+        
         return $identifiers;
     }
 }

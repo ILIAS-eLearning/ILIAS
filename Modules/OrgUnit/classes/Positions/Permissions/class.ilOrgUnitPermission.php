@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitPermissionGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPermission extends ActiveRecord
@@ -11,7 +10,6 @@ class ilOrgUnitPermission extends ActiveRecord
     const TABLE_NAME = 'il_orgu_permissions';
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -22,7 +20,6 @@ class ilOrgUnitPermission extends ActiveRecord
     protected $id = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
@@ -30,7 +27,6 @@ class ilOrgUnitPermission extends ActiveRecord
     protected $context_id = 0;
     /**
      * @var \ilOrgUnitOperation[]
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     2048
@@ -46,7 +42,6 @@ class ilOrgUnitPermission extends ActiveRecord
     protected $selected_operation_ids = [];
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
@@ -54,7 +49,6 @@ class ilOrgUnitPermission extends ActiveRecord
     protected $parent_id = self::PARENT_TEMPLATE;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
@@ -66,7 +60,6 @@ class ilOrgUnitPermission extends ActiveRecord
     protected $context;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -77,7 +70,6 @@ class ilOrgUnitPermission extends ActiveRecord
      */
     protected $newly_created = false;
 
-
     public function update()
     {
         if ($this->isProtected()) {
@@ -85,7 +77,6 @@ class ilOrgUnitPermission extends ActiveRecord
         }
         parent::update();
     }
-
 
     public function create() : void
     {
@@ -95,7 +86,6 @@ class ilOrgUnitPermission extends ActiveRecord
         parent::create();
     }
 
-
     public function delete()
     {
         if ($this->isProtected()) {
@@ -104,8 +94,7 @@ class ilOrgUnitPermission extends ActiveRecord
         parent::delete();
     }
 
-
-    public function afterObjectLoad()
+    public function afterObjectLoad() : void
     {
         $this->possible_operations = ilOrgUnitOperationQueries::getOperationsForContextId($this->getContextId());
         $this->operations = is_array($this->operations) ? $this->operations : array();
@@ -115,7 +104,6 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->context = ilOrgUnitOperationContextQueries::findById($this->getContextId());
     }
 
-
     /**
      * @return int
      */
@@ -123,7 +111,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return $this->id;
     }
-
 
     /**
      * @param int $id
@@ -133,7 +120,6 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->id = $id;
     }
 
-
     /**
      * @return int
      */
@@ -141,7 +127,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return $this->context_id;
     }
-
 
     /**
      * @param int $context_id
@@ -151,7 +136,6 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->context_id = $context_id;
     }
 
-
     /**
      * @return \ilOrgUnitOperation[]
      */
@@ -159,7 +143,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return $this->operations;
     }
-
 
     /**
      * @param \ilOrgUnitOperation[] $operations
@@ -169,7 +152,6 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->operations = $operations;
     }
 
-
     /**
      * @return int
      */
@@ -177,7 +159,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return $this->parent_id;
     }
-
 
     /**
      * @param int $parent_id
@@ -187,7 +168,6 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->parent_id = $parent_id;
     }
 
-
     /**
      * @return \ilOrgUnitOperation[]
      */
@@ -195,7 +175,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return $this->possible_operations;
     }
-
 
     /**
      * @return int[]
@@ -205,17 +184,14 @@ class ilOrgUnitPermission extends ActiveRecord
         return $this->selected_operation_ids;
     }
 
-
     /**
      * @param $operation_id
-     *
      * @return bool
      */
     public function isOperationIdSelected($operation_id)
     {
         return in_array($operation_id, $this->selected_operation_ids);
     }
-
 
     /**
      * @return \ilOrgUnitOperationContext
@@ -225,7 +201,6 @@ class ilOrgUnitPermission extends ActiveRecord
         return $this->context;
     }
 
-
     /**
      * @param \ilOrgUnitOperationContext $context
      */
@@ -233,7 +208,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         $this->context = $context;
     }
-
 
     /**
      * @return string
@@ -243,7 +217,6 @@ class ilOrgUnitPermission extends ActiveRecord
         return self::TABLE_NAME;
     }
 
-
     /**
      * @return int
      */
@@ -251,7 +224,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return $this->position_id;
     }
-
 
     /**
      * @param int $position_id
@@ -261,7 +233,6 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->position_id = $position_id;
     }
 
-
     /**
      * @return bool
      */
@@ -269,7 +240,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return ($this->getParentId() == self::PARENT_TEMPLATE);
     }
-
 
     /**
      * @return bool
@@ -279,7 +249,6 @@ class ilOrgUnitPermission extends ActiveRecord
         return ($this->getParentId() != self::PARENT_TEMPLATE);
     }
 
-
     /**
      * @return bool
      */
@@ -287,7 +256,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return $this->protected;
     }
-
 
     /**
      * @param bool $protected
@@ -297,7 +265,6 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->protected = $protected;
     }
 
-
     /**
      * @return bool
      */
@@ -305,7 +272,6 @@ class ilOrgUnitPermission extends ActiveRecord
     {
         return $this->newly_created;
     }
-
 
     /**
      * @param bool $newly_created
@@ -315,10 +281,8 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->newly_created = $newly_created;
     }
 
-
     /**
      * @param $field_name
-     *
      * @return mixed|string
      */
     public function sleep($field_name)
@@ -336,11 +300,9 @@ class ilOrgUnitPermission extends ActiveRecord
         return parent::sleep($field_name);
     }
 
-
     /**
      * @param $field_name
      * @param $field_value
-     *
      * @return mixed
      */
     public function wakeUp($field_name, $field_value)

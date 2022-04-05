@@ -1,19 +1,26 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\FileDelivery;
-
-require_once('./Services/Utilities/classes/class.ilMimeTypeUtil.php');
-require_once('./Services/Utilities/classes/class.ilUtil.php'); // This include is needed since WAC can use ilFileDelivery without Initialisation
-require_once('./Services/Context/classes/class.ilContext.php');
-require_once('./Services/Http/classes/class.ilHTTPS.php');
-require_once('./Services/FileDelivery/classes/FileDeliveryTypes/FileDeliveryTypeFactory.php');
-require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.php';
 
 use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
 use ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory;
 use ILIAS\HTTP\Response\ResponseHeader;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Delivery
  *
@@ -29,89 +36,34 @@ final class Delivery
     const DISP_ATTACHMENT = 'attachment';
     const DISP_INLINE = 'inline';
     const EXPIRES_IN = '+5 days';
-    /**
-     * @var integer
-     */
-    private static $delivery_type_static = null;
-    /**
-     * @var string
-     */
-    private $delivery_type = DeliveryMethod::PHP;
-    /**
-     * @var string
-     */
-    private $mime_type = '';
-    /**
-     * @var string
-     */
-    private $path_to_file = '';
-    /**
-     * @var string
-     */
-    private $download_file_name = '';
-    /**
-     * @var string
-     */
-    private $disposition = self::DISP_ATTACHMENT;
-    /**
-     * @var bool
-     */
-    private $send_mime_type = true;
-    /**
-     * @var bool
-     */
-    private $exit_after = true;
-    /**
-     * @var bool
-     */
-    private $convert_file_name_to_asci = true;
-    /**
-     * @var string
-     */
-    private $etag = '';
-    /**
-     * @var bool
-     */
-    private $show_last_modified = true;
-    /**
-     * @var bool
-     */
-    private $has_context = true;
-    /**
-     * @var bool
-     */
-    private $cache = false;
-    /**
-     * @var bool
-     */
-    private $hash_filename = false;
-    /**
-     * @var bool
-     */
-    private $delete_file = false;
-    /**
-     * @var bool
-     */
-    private static $DEBUG = false;
-    /**
-     * @var Services $httpService
-     */
-    private $httpService;
-    /**
-     * @var FileDeliveryTypeFactory $fileDeliveryTypeFactory
-     */
-    private $fileDeliveryTypeFactory;
+    private static ?string $delivery_type_static = null;
+    private string $delivery_type = DeliveryMethod::PHP;
+    private string $mime_type = '';
+    private string $path_to_file = '';
+    private string $download_file_name = '';
+    private string $disposition = self::DISP_ATTACHMENT;
+    private bool $send_mime_type = true;
+    private bool $exit_after = true;
+    private bool $convert_file_name_to_asci = true;
+    private string $etag = '';
+    private bool $show_last_modified = true;
+    private bool $has_context = true;
+    private bool $cache = false;
+    private bool $hash_filename = false;
+    private bool $delete_file = false;
+    private static bool $DEBUG = false;
+    private Services $http;
+    private FileDeliveryTypeFactory $factory;
 
 
     /**
-     * @param string          $path_to_file
-     * @param Services $httpState
+     * @param string   $path_to_file
+     * @param Services $http
      */
-    public function __construct($path_to_file, Services $httpState)
+    public function __construct(string $path_to_file, Services $http)
     {
-        assert(is_string($path_to_file));
-        $this->httpService = $httpState;
-        if ($path_to_file == self::DIRECT_PHP_OUTPUT) {
+        $this->http = $http;
+        if ($path_to_file === self::DIRECT_PHP_OUTPUT) {
             $this->setPathToFile(self::DIRECT_PHP_OUTPUT);
         } else {
             $this->setPathToFile($path_to_file);
@@ -120,11 +72,11 @@ final class Delivery
             $this->determineDownloadFileName();
         }
         $this->setHasContext(\ilContext::getType() !== null);
-        $this->fileDeliveryTypeFactory = new FileDeliveryTypeFactory($httpState);
+        $this->factory = new FileDeliveryTypeFactory($http);
     }
 
 
-    public function stream()
+    public function stream() : void
     {
         if (!$this->delivery()->supportsStreaming()) {
             $this->setDeliveryType(DeliveryMethod::PHP_CHUNKED);
@@ -133,22 +85,25 @@ final class Delivery
     }
 
 
-    private function delivery()
+    private function delivery() : ilFileDeliveryType
     {
-        return $this->fileDeliveryTypeFactory->getInstance($this->getDeliveryType());
+        return $this->factory->getInstance($this->getDeliveryType());
     }
 
 
-    public function deliver()
+    public function deliver() : void
     {
-        $response = $this->httpService->response()->withHeader('X-ILIAS-FileDelivery-Method', $this->getDeliveryType());
-        if (!$this->delivery()->doesFileExists($this->path_to_file)) {
-            $response = $this->httpService->response()->withStatus(404);
-            $this->httpService->saveResponse($response);
-            $this->httpService->sendResponse();
+        $response = $this->http->response()->withHeader('X-ILIAS-FileDelivery-Method', $this->getDeliveryType());
+        if (
+            !$this->delivery()->doesFileExists($this->path_to_file)
+            && $this->path_to_file !== self::DIRECT_PHP_OUTPUT
+        ) {
+            $response = $this->http->response()->withStatus(404);
+            $this->http->saveResponse($response);
+            $this->http->sendResponse();
             $this->close();
         }
-        $this->httpService->saveResponse($response);
+        $this->http->saveResponse($response);
 
         $this->clearBuffer();
         $this->checkCache();
@@ -164,12 +119,12 @@ final class Delivery
     }
 
 
-    public function setGeneralHeaders()
+    public function setGeneralHeaders() : void
     {
         $this->checkExisting();
         if ($this->isSendMimeType()) {
-            $response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_TYPE, $this->getMimeType());
-            $this->httpService->saveResponse($response);
+            $response = $this->http->response()->withHeader(ResponseHeader::CONTENT_TYPE, $this->getMimeType());
+            $this->http->saveResponse($response);
         }
         if ($this->isConvertFileNameToAsci()) {
             $this->cleanDownloadFileName();
@@ -178,51 +133,48 @@ final class Delivery
             $this->setDownloadFileName(md5($this->getDownloadFileName()));
         }
         $this->setDispositionHeaders();
-        $response = $this->httpService->response()->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
-        $this->httpService->saveResponse($response);
-        if ($this->getDeliveryType() == DeliveryMethod::PHP
-            && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+        $response = $this->http->response()->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
+        $this->http->saveResponse($response);
+        if ($this->getDeliveryType() === DeliveryMethod::PHP
+            && $this->getPathToFile() !== self::DIRECT_PHP_OUTPUT
         ) {
-            $response = $this->httpService->response()->withHeader(ResponseHeader::CONTENT_LENGTH, (string) filesize($this->getPathToFile()));
-            $this->httpService->saveResponse($response);
+            $response = $this->http->response()->withHeader(ResponseHeader::CONTENT_LENGTH, (string) filesize($this->getPathToFile()));
+            $this->http->saveResponse($response);
         }
-        $response = $this->httpService->response()->withHeader(ResponseHeader::CONNECTION, "close");
-        $this->httpService->saveResponse($response);
+        $response = $this->http->response()->withHeader(ResponseHeader::CONNECTION, "close");
+        $this->http->saveResponse($response);
     }
 
 
-    public function setCachingHeaders()
+    public function setCachingHeaders() : void
     {
-        $response = $this->httpService->response()->withHeader(ResponseHeader::CACHE_CONTROL, 'must-revalidate, post-check=0, pre-check=0')->withHeader(ResponseHeader::PRAGMA, 'public');
+        $response = $this->http->response()->withHeader(ResponseHeader::CACHE_CONTROL, 'must-revalidate, post-check=0, pre-check=0')->withHeader(ResponseHeader::PRAGMA, 'public');
 
-        $this->httpService->saveResponse($response->withHeader(ResponseHeader::EXPIRES, date("D, j M Y H:i:s", strtotime(self::EXPIRES_IN)) . " GMT"));
+        $this->http->saveResponse($response->withHeader(ResponseHeader::EXPIRES, date("D, j M Y H:i:s", strtotime(self::EXPIRES_IN)) . " GMT"));
         $this->sendEtagHeader();
         $this->sendLastModified();
     }
 
 
-    public function generateEtag()
+    public function generateEtag() : void
     {
         $this->setEtag(md5(filemtime($this->getPathToFile()) . filesize($this->getPathToFile())));
     }
 
 
-    public function close()
+    public function close() : void
     {
-        exit;
+        $this->http->close();
     }
 
 
-    /**
-     * @return bool
-     */
-    private function determineMimeType()
+    private function determineMimeType() : void
     {
-        $info = \ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), \ilMimeTypeUtil::APPLICATION__OCTET_STREAM);
+        $info = \ILIAS\FileUpload\MimeType::lookupMimeType($this->getPathToFile(), \ILIAS\FileUpload\MimeType::APPLICATION__OCTET_STREAM);
         if ($info) {
             $this->setMimeType($info);
 
-            return true;
+            return;
         }
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $info = finfo_file($finfo, $this->getPathToFile());
@@ -230,17 +182,12 @@ final class Delivery
         if ($info) {
             $this->setMimeType($info);
 
-            return true;
+            return;
         }
-
-        return false;
     }
 
 
-    /**
-     * @return void
-     */
-    private function determineDownloadFileName()
+    private function determineDownloadFileName() : void
     {
         if (!$this->getDownloadFileName()) {
             $download_file_name = basename($this->getPathToFile());
@@ -249,355 +196,235 @@ final class Delivery
     }
 
 
-    /**
-     * @return bool
-     */
-    private function detemineDeliveryType()
+    private function detemineDeliveryType() : void
     {
         if (self::$delivery_type_static) {
-            \ilWACLog::getInstance()->write('used cached delivery type');
             $this->setDeliveryType(self::$delivery_type_static);
 
-            return true;
+            return;
         }
 
         if (function_exists('apache_get_modules')
-            && in_array('mod_xsendfile', apache_get_modules())
+            && in_array('mod_xsendfile', apache_get_modules(), true)
         ) {
             $this->setDeliveryType(DeliveryMethod::XSENDFILE);
         }
 
         if (is_file('./Services/FileDelivery/classes/override.php')) {
             $override_delivery_type = false;
+            /** @noRector */
             require_once('./Services/FileDelivery/classes/override.php');
             if ($override_delivery_type) {
                 $this->setDeliveryType($override_delivery_type);
             }
         }
-
-        require_once('./Services/Environment/classes/class.ilRuntime.php');
         $ilRuntime = \ilRuntime::getInstance();
         if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM())
-            && $this->getDeliveryType() == DeliveryMethod::XACCEL
+            && $this->getDeliveryType() === DeliveryMethod::XACCEL
         ) {
             $this->setDeliveryType(DeliveryMethod::PHP);
         }
 
-        if ($this->getDeliveryType() == DeliveryMethod::XACCEL
+        if ($this->getDeliveryType() === DeliveryMethod::XACCEL
             && strpos($this->getPathToFile(), './data') !== 0
         ) {
             $this->setDeliveryType(DeliveryMethod::PHP);
         }
 
         self::$delivery_type_static = $this->getDeliveryType();
-
-        return true;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getDeliveryType()
+    public function getDeliveryType() : string
     {
         return $this->delivery_type;
     }
 
 
-    /**
-     * @param string $delivery_type
-     */
-    public function setDeliveryType($delivery_type)
+    public function setDeliveryType(string $delivery_type) : void
     {
         $this->delivery_type = $delivery_type;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getMimeType()
+    public function getMimeType() : string
     {
         return $this->mime_type;
     }
 
 
-    /**
-     * @param string $mime_type
-     */
-    public function setMimeType($mime_type)
+    public function setMimeType(string $mime_type) : void
     {
         $this->mime_type = $mime_type;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getPathToFile()
+    public function getPathToFile() : string
     {
         return $this->path_to_file;
     }
 
 
-    /**
-     * @param string $path_to_file
-     */
-    public function setPathToFile($path_to_file)
+    public function setPathToFile(string $path_to_file) : void
     {
         $this->path_to_file = $path_to_file;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getDownloadFileName()
+    public function getDownloadFileName() : string
     {
         return $this->download_file_name;
     }
 
 
-    /**
-     * @param string $download_file_name
-     */
-    public function setDownloadFileName($download_file_name)
+    public function setDownloadFileName(string $download_file_name) : void
     {
         $this->download_file_name = $download_file_name;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getDisposition()
+    public function getDisposition() : string
     {
         return $this->disposition;
     }
 
 
-    /**
-     * @param string $disposition
-     */
-    public function setDisposition($disposition)
+    public function setDisposition(string $disposition) : void
     {
         $this->disposition = $disposition;
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function isSendMimeType()
+    public function isSendMimeType() : bool
     {
         return $this->send_mime_type;
     }
 
 
-    /**
-     * @param boolean $send_mime_type
-     */
-    public function setSendMimeType($send_mime_type)
+    public function setSendMimeType(bool $send_mime_type) : void
     {
         $this->send_mime_type = $send_mime_type;
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function isExitAfter()
+    public function isExitAfter() : bool
     {
         return $this->exit_after;
     }
 
 
-    /**
-     * @param boolean $exit_after
-     */
-    public function setExitAfter($exit_after)
+    public function setExitAfter(bool $exit_after) : void
     {
         $this->exit_after = $exit_after;
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function isConvertFileNameToAsci()
+    public function isConvertFileNameToAsci() : bool
     {
         return $this->convert_file_name_to_asci;
     }
 
 
-    /**
-     * @param boolean $convert_file_name_to_asci
-     */
-    public function setConvertFileNameToAsci($convert_file_name_to_asci)
+    public function setConvertFileNameToAsci(bool $convert_file_name_to_asci) : void
     {
         $this->convert_file_name_to_asci = $convert_file_name_to_asci;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getEtag()
+    public function getEtag() : string
     {
         return $this->etag;
     }
 
 
-    /**
-     * @param string $etag
-     */
-    public function setEtag($etag)
+    public function setEtag(string $etag) : void
     {
         $this->etag = $etag;
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function getShowLastModified()
+    public function getShowLastModified() : bool
     {
         return $this->show_last_modified;
     }
 
 
-    /**
-     * @param boolean $show_last_modified
-     */
-    public function setShowLastModified($show_last_modified)
+    public function setShowLastModified(bool $show_last_modified) : void
     {
         $this->show_last_modified = $show_last_modified;
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function isHasContext()
+    public function isHasContext() : bool
     {
         return $this->has_context;
     }
 
 
-    /**
-     * @param boolean $has_context
-     */
-    public function setHasContext($has_context)
+    public function setHasContext(bool $has_context) : void
     {
         $this->has_context = $has_context;
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function hasCache()
+    public function hasCache() : bool
     {
         return $this->cache;
     }
 
 
-    /**
-     * @param boolean $cache
-     */
-    public function setCache($cache)
+    public function setCache(bool $cache) : void
     {
         $this->cache = $cache;
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function hasHashFilename()
+    public function hasHashFilename() : bool
     {
         return $this->hash_filename;
     }
 
 
-    /**
-     * @param boolean $hash_filename
-     */
-    public function setHashFilename($hash_filename)
+    public function setHashFilename(bool $hash_filename) : void
     {
         $this->hash_filename = $hash_filename;
     }
 
 
-    private function sendEtagHeader()
+    private function sendEtagHeader() : void
     {
         if ($this->getEtag()) {
-            $response = $this->httpService->response()->withHeader('ETag', $this->getEtag());
-            $this->httpService->saveResponse($response);
+            $response = $this->http->response()->withHeader('ETag', $this->getEtag());
+            $this->http->saveResponse($response);
         }
     }
 
 
-    private function sendLastModified()
+    private function sendLastModified() : void
     {
         if ($this->getShowLastModified()) {
-            $response = $this->httpService->response()->withHeader(
+            $response = $this->http->response()->withHeader(
                 'Last-Modified',
                 date("D, j M Y H:i:s", filemtime($this->getPathToFile()))
                                . " GMT"
             );
-            $this->httpService->saveResponse($response);
+            $this->http->saveResponse($response);
         }
     }
 
-    //	/**
-    //	 * @return bool
-    //	 */
-    //	private function isNonModified() {
-    //		if (self::$DEBUG) {
-    //			return false;
-    //		}
-    //
-    //		if (!isset($_SERVER['HTTP_IF_NONE_MATCH']) || !isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-    //			return false;
-    //		}
-    //
-    //		$http_if_none_match = $_SERVER['HTTP_IF_NONE_MATCH'];
-    //		$http_if_modified_since = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-    //
-    //		switch (true) {
-    //			case ($http_if_none_match != $this->getEtag()):
-    //				return false;
-    //			case (@strtotime($http_if_modified_since) <= filemtime($this->getPathToFile())):
-    //				return false;
-    //		}
-    //
-    //		return true;
-    //	}
-
-    /**
-     * @return bool
-     */
-    public static function isDEBUG()
+    public static function isDEBUG() : bool
     {
-        return (bool) self::$DEBUG;
+        return self::$DEBUG;
     }
 
 
-    /**
-     * @param bool $DEBUG
-     */
-    public static function setDEBUG($DEBUG)
+    public static function setDEBUG(bool $DEBUG) : void
     {
-        assert(is_bool($DEBUG));
         self::$DEBUG = $DEBUG;
     }
 
 
-    /**
-     * @return void
-     */
-    public function checkCache()
+    public function checkCache() : void
     {
         if ($this->hasCache()) {
             $this->generateEtag();
@@ -627,12 +454,9 @@ final class Delivery
     }
 
 
-    /**
-     * @return void
-     */
-    private function checkExisting()
+    private function checkExisting() : void
     {
-        if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT
+        if ($this->getPathToFile() !== self::DIRECT_PHP_OUTPUT
             && !file_exists($this->getPathToFile())
         ) {
             $this->close();
@@ -642,10 +466,8 @@ final class Delivery
 
     /**
      * Converts the filename to ASCII
-     *
-     * @return void
      */
-    private function cleanDownloadFileName()
+    private function cleanDownloadFileName() : void
     {
         $download_file_name = self::returnASCIIFileName($this->getDownloadFileName());
         $this->setDownloadFileName($download_file_name);
@@ -659,7 +481,7 @@ final class Delivery
      *
      * @return string ASCII-Filename
      */
-    public static function returnASCIIFileName($original_filename)
+    public static function returnASCIIFileName(string $original_filename) : string
     {
         // The filename must be converted to ASCII, as of RFC 2183,
         // section 2.3.
@@ -705,30 +527,21 @@ final class Delivery
     }
 
 
-    /**
-     * @return bool
-     */
-    public function isDeleteFile()
+    public function isDeleteFile() : bool
     {
-        return (bool) $this->delete_file;
+        return $this->delete_file;
     }
 
 
-    /**
-     * @param bool $delete_file
-     *
-     * @return void
-     */
-    public function setDeleteFile($delete_file)
+    public function setDeleteFile(bool $delete_file) : void
     {
-        assert(is_bool($delete_file));
         $this->delete_file = $delete_file;
     }
 
 
-    private function setDispositionHeaders()
+    private function setDispositionHeaders() : void
     {
-        $response = $this->httpService->response();
+        $response = $this->http->response();
         $response = $response->withHeader(
             ResponseHeader::CONTENT_DISPOSITION,
             $this->getDisposition()
@@ -737,6 +550,6 @@ final class Delivery
                                                . '"'
         );
         $response = $response->withHeader('Content-Description', $this->getDownloadFileName());
-        $this->httpService->saveResponse($response);
+        $this->http->saveResponse($response);
     }
 }

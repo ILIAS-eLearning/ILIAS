@@ -139,9 +139,6 @@ class ilToolbarGUI
             $button->setPrimary(true);
             $button->setCaption($a_txt, false);
             $button->setCommand($a_cmd);
-            if ($a_acc_key !== null) {
-                $button->setAccessKey($a_acc_key);
-            }
             $this->addStickyItem($button);
         } else {
             $this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
@@ -263,7 +260,7 @@ class ilToolbarGUI
         $groups = array();
         $group = array();
         foreach ($this->items as $item) {
-            if ($item['type'] == 'separator') {
+            if ($item['type'] === 'separator') {
                 $groups[] = $group;
                 $group = array();
             } else {
@@ -312,7 +309,7 @@ class ilToolbarGUI
             }
 
             // Hide toggle button if only sticky items are in the toolbar
-            if (count($this->items) == 0) {
+            if (count($this->items) === 0) {
                 $tpl->setVariable('HIDE_TOGGLE_CLASS', ' hidden');
             }
 
@@ -338,12 +335,6 @@ class ilToolbarGUI
                             }
                             if ($item["id"] != "") {
                                 $tpl_items->setVariable("BID", 'id="' . $item["id"] . '"');
-                            }
-                            if ($item["acc_key"] > 0) {
-                                $tpl_items->setVariable(
-                                    "BTN_ACC_KEY",
-                                    ilAccessKeyGUI::getAttribute($item["acc_key"])
-                                );
                             }
                             if (($item['add_attrs'])) {
                                 $tpl_items->setVariable('BTN_ADD_ARG', $item['add_attrs']);
@@ -451,7 +442,7 @@ class ilToolbarGUI
             }
 
             // form?
-            if ($this->getFormAction() != "") {
+            if ($this->getFormAction() !== "") {
                 // #18947
                 $GLOBALS["tpl"]->addJavaScript("Services/Form/js/Form.js");
 
@@ -464,10 +455,10 @@ class ilToolbarGUI
                     if ($this->multipart) {
                         $tpl->setVariable("ENC_TYPE", 'enctype="multipart/form-data"');
                     }
-                    if ($this->form_target != "") {
+                    if ($this->form_target !== "") {
                         $tpl->setVariable("TARGET", ' target="' . $this->form_target . '" ');
                     }
-                    if ($this->form_name != "") {
+                    if ($this->form_name !== "") {
                         $tpl->setVariable("FORMNAME", 'name="' . $this->getFormName() . '"');
                     }
 
@@ -479,7 +470,7 @@ class ilToolbarGUI
             }
 
             // id
-            if ($this->getId() != "") {
+            if ($this->getId() !== "") {
                 $tpl->setVariable("ID", ' id="' . $this->getId() . '" ');
             }
 
@@ -526,9 +517,6 @@ class ilToolbarGUI
                     $button->setPrimary($item['primary']);
                     $button->setCaption($item['txt'], false);
                     $button->setCommand($item['cmd']);
-                    if ($item['acc_key'] !== null) {
-                        $button->setAccessKey($item['acc_key']);
-                    }
                     break;
                 case 'button':
                     $button = ilLinkButton::getInstance();
@@ -536,9 +524,6 @@ class ilToolbarGUI
                     $button->setUrl($item['cmd']);
                     $button->setTarget($item['target']);
                     $button->setId($item['id']);
-                    if ($item['acc_key'] !== null) {
-                        $button->setAccessKey($item['acc_key']);
-                    }
                     break;
             }
             $this->addStickyItem($button);

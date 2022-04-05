@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Description of class class
  *
@@ -10,10 +21,17 @@
  */
 class ilLTIProviderReleasedObjectsTableGUI extends ilObjectTableGUI
 {
+    //only because type in ilObjectTableGUI - could be erased
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_id)
+    {
+        $this->setId('obj_table_' . $a_id);
+        parent::__construct($a_parent_obj, $a_parent_cmd, "");
+    }
+
     /**
      * init table
      */
-    public function init()
+    public function init() : void
     {
         if ($this->enabledRowSelectionInput()) {
             $this->addColumn('', 'id', '5px');
@@ -29,23 +47,23 @@ class ilLTIProviderReleasedObjectsTableGUI extends ilObjectTableGUI
     
     /**
      * Fill row
-     * @param type $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
-        parent::fillRow($set);
+        parent::fillRow($a_set);
         
-        $this->tpl->setVariable('CONSUMER_TITLE', $set['consumer']);
+        $this->tpl->setVariable('CONSUMER_TITLE', $a_set['consumer']);
     }
     
-    public function parse()
+    public function parse() : void
     {
         $rows = ilObjLTIAdministration::readReleaseObjects();
         
         $counter = 0;
         $set = array();
         foreach ($rows as $row) {
-            $ref_id = $row['ref_id'];
+            $ref_id = (int) $row['ref_id'];
             
             
             $type = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));

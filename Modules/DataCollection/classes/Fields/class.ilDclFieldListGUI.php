@@ -8,10 +8,7 @@
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
- *
- *
  * @ingroup ModulesDataCollection
- *
  */
 class ilDclFieldListGUI
 {
@@ -37,16 +34,15 @@ class ilDclFieldListGUI
      */
     protected $tabs;
 
-
     /**
      * Constructor
-     *
      * @param ilDclTableListGUI $a_parent_obj
      * @param int               $table_id
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $ilToolbar = $DIC['ilToolbar'];
@@ -65,16 +61,16 @@ class ilDclFieldListGUI
         $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
 
-        $this->ctrl->saveParameter('ilDclTableEditGUI', 'table_id');
-        $locator->addItem(ilDclCache::getTableCache($this->table_id)->getTitle(), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
+        $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
+        $locator->addItem(ilDclCache::getTableCache($this->table_id)->getTitle(),
+            $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
-
 
     /**
      * execute command
@@ -89,7 +85,6 @@ class ilDclFieldListGUI
         }
     }
 
-
     /**
      * Delete multiple fields
      */
@@ -100,10 +95,9 @@ class ilDclFieldListGUI
         foreach ($field_ids as $field_id) {
             $table->deleteField($field_id);
         }
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_fields_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_fields_deleted'), true);
         $this->ctrl->redirect($this, 'listFields');
     }
-
 
     /**
      * Confirm deletion of multiple fields
@@ -125,7 +119,6 @@ class ilDclFieldListGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     /*
      * save
      */
@@ -142,16 +135,17 @@ class ilDclFieldListGUI
         }
 
         foreach ($fields as $field) {
-            $field->setExportable($_POST['exportable'][$field->getId()] == "on");
+            $exportable = $_POST['exportable'];
+
+            $field->setExportable($exportable && $exportable[$field->getId()] === "on");
             $field->setOrder($order[$field->getId()]);
             $field->doUpdate();
         }
 
         $table->reloadFields();
-        ilUtil::sendSuccess($this->lng->txt("dcl_table_settings_saved"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_table_settings_saved"));
         $this->listFields();
     }
-
 
     /**
      * list fields
@@ -187,7 +181,6 @@ class ilDclFieldListGUI
         $this->tpl->setContent($list->getHTML());
     }
 
-
     /*
      * doTableSwitch
      */
@@ -196,7 +189,6 @@ class ilDclFieldListGUI
         $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
         $this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
     }
-
 
     /**
      * @return bool
@@ -207,7 +199,6 @@ class ilDclFieldListGUI
 
         return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
     }
-
 
     /**
      * @return ilObjDataCollection

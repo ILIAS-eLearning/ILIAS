@@ -22,7 +22,7 @@ class assKprimChoiceImport extends assQuestionImport
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
 
         $duration = $item->getDuration();
         $shuffle = 0;
@@ -74,7 +74,7 @@ class assKprimChoiceImport extends assQuestionImport
                                         $answertext = $this->object->QTIMaterialToString($mat);
                                     }
                                 }
-                                
+
                                 $answers[$ident] = array(
                                     "answertext" => $answertext,
                                     "imagefile" => $answerimage,
@@ -86,10 +86,10 @@ class assKprimChoiceImport extends assQuestionImport
                     break;
             }
         }
-        
+
         $feedbacks = array();
         $feedbacksgeneric = array();
-        
+
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->outcomes->decvar as $decvar) {
                 if ($decvar->getVarname() == 'SCORE') {
@@ -102,13 +102,13 @@ class assKprimChoiceImport extends assQuestionImport
                     }
                 }
             }
-            
+
             foreach ($resprocessing->respcondition as $respcondition) {
                 if (!count($respcondition->setvar)) {
                     foreach ($respcondition->getConditionvar()->varequal as $varequal) {
                         $ident = $varequal->respident;
                         $answers[$ident]['correctness'] = (bool) $varequal->getContent();
-                        
+
                         break;
                     }
 
@@ -178,9 +178,9 @@ class assKprimChoiceImport extends assQuestionImport
                 }
             }
         }
-        
+
         $this->addGeneralMetadata($item);
-        
+
         $this->object->setTitle($item->getTitle());
         $this->object->setNrOfTries($item->getMaxattempts());
         $this->object->setComment($item->getComment());
@@ -197,20 +197,20 @@ class assKprimChoiceImport extends assQuestionImport
         $this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
 
         $this->object->saveToDb();
-        
+
         foreach ($answers as $answerData) {
             $answer = new ilAssKprimChoiceAnswer();
             $answer->setImageFsDir($this->object->getImagePath());
             $answer->setImageWebDir($this->object->getImagePathWeb());
-            
+
             $answer->setPosition($answerData['answerorder']);
             $answer->setAnswertext($answerData['answertext']);
             $answer->setCorrectness($answerData['correctness']);
-            
+
             if (isset($answerData['imagefile']['label'])) {
                 $answer->setImageFile($answerData['imagefile']['label']);
             }
-            
+
             $this->object->addAnswer($answer);
         }
         // additional content editing mode information
@@ -226,7 +226,7 @@ class assKprimChoiceImport extends assQuestionImport
                 $imagepath = $this->object->getImagePath();
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 $imagepath .= $answer["imagefile"]["label"];
                 if ($fh = fopen($imagepath, "wb")) {
@@ -252,16 +252,16 @@ class assKprimChoiceImport extends assQuestionImport
         }
         $questiontext = $this->object->getQuestion();
         $answers = $this->object->getAnswers();
-        if (is_array($_SESSION["import_mob_xhtml"])) {
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +23,7 @@ class FormGUITest extends TestCase
     /**
      * Test get HTML return an array
      */
-    public function testFormGUIProperties()
+    public function testFormGUIProperties() : void
     {
         $form_gui = new ilFormGUI();
 

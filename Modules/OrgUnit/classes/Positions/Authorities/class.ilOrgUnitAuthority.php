@@ -4,7 +4,6 @@
 
 /**
  * Class ilOrguAuthority
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitAuthority extends \ActiveRecord
@@ -25,7 +24,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
             //		self::SCOPE_ALL_ORGUS,
         );
 
-
     /**
      * @return array
      */
@@ -33,7 +31,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
     {
         return self::$scopes;
     }
-
 
     /**
      * @return string
@@ -43,10 +40,8 @@ class ilOrgUnitAuthority extends \ActiveRecord
         return "il_orgu_authority";
     }
 
-
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_sequence   true
@@ -57,7 +52,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
     protected $id = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -65,7 +59,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
     protected $over = self::OVER_EVERYONE;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -73,7 +66,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
     protected $scope = self::SCOPE_SAME_ORGU;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -84,10 +76,8 @@ class ilOrgUnitAuthority extends \ActiveRecord
      */
     protected static $name_render;
 
-
     /**
      * ilOrgUnitAuthority constructor.
-     *
      * @param int               $primary_key
      * @param \arConnector|null $connector
      */
@@ -95,12 +85,11 @@ class ilOrgUnitAuthority extends \ActiveRecord
     {
         parent::__construct($primary_key, $connector);
         if (!self::$name_render) {
-            self::$name_render = function ($id) {
+            self::$name_render = function($id) {
                 return $id;
             };
         }
     }
-
 
     /**
      * @param \Closure $closure
@@ -109,7 +98,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
     {
         self::$name_render = $closure;
     }
-
 
     /**
      * @return string
@@ -120,7 +108,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
 
         return $renderer($this->getId());
     }
-
 
     /**
      * @return array
@@ -135,7 +122,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
         );
     }
 
-
     /**
      * @return int
      */
@@ -143,7 +129,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
     {
         return $this->id;
     }
-
 
     /**
      * @param int $id
@@ -153,7 +138,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
         $this->id = $id;
     }
 
-
     /**
      * @return int
      */
@@ -162,17 +146,14 @@ class ilOrgUnitAuthority extends \ActiveRecord
         return $this->over;
     }
 
-
     /**
      * This is either an ID of a position or ilOrgUnitAuthority::OVER_EVERYONE
-     *
      * @param int $over
      */
     public function setOver($over)
     {
         $this->over = $over;
     }
-
 
     /**
      * @return int
@@ -182,13 +163,10 @@ class ilOrgUnitAuthority extends \ActiveRecord
         return $this->scope;
     }
 
-
     /**
      * This is either ilOrgUnitAuthority::SCOPE_SAME_ORGU, ilOrgUnitAuthority::SCOPE_ALL_ORGUS or
      * ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS
-     *
      * @param int $scope
-     *
      * @throws \ilException
      */
     public function setScope($scope)
@@ -199,7 +177,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
         $this->scope = $scope;
     }
 
-
     /**
      * @return int
      */
@@ -207,7 +184,6 @@ class ilOrgUnitAuthority extends \ActiveRecord
     {
         return $this->position_id;
     }
-
 
     /**
      * @param int $position_id

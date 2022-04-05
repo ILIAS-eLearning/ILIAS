@@ -26,7 +26,7 @@ abstract class ilPageContent
     protected ilPageObject $pg_obj;
     public string $hier_id = "";
     public ?php4DOMElement $node = null;
-    public php4DOMDocument $dom;
+    public ?php4DOMDocument $dom = null;
     public string $page_lang = "";
     // needed for post processing (e.g. content includes)
     protected string $file_download_link;
@@ -99,7 +99,7 @@ abstract class ilPageContent
 
     public function getCssFiles(string $a_mode) : array
     {
-        return array();
+        return [];
     }
 
     public function getOnloadCode(string $a_mode) : array
@@ -292,11 +292,18 @@ abstract class ilPageContent
     /**
      * Handle copied content. This function must, e.g. create copies of
      * objects referenced within the content (e.g. question objects)
+     * @param DOMDocument $a_domdoc
+     * @param bool        $a_self_ass
+     * @param bool        $a_clone_mobs
+     * @param int         $new_parent_id
+     * @param int         $obj_copy_id
      */
     public static function handleCopiedContent(
         DOMDocument $a_domdoc,
         bool $a_self_ass = true,
-        bool $a_clone_mobs = false
+        bool $a_clone_mobs = false,
+        int $new_parent_id = 0,
+        int $obj_copy_id = 0
     ) : void {
     }
     

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,43 +27,32 @@
 * GUI class for 'simple' search
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilObjectSearch extends ilAbstractSearch
 {
-    const CDATE_OPERATOR_BEFORE = 1;
-    const CDATE_OPERATOR_AFTER = 2;
-    const CDATE_OPERATOR_ON = 3;
+    public const CDATE_OPERATOR_BEFORE = 1;
+    public const CDATE_OPERATOR_AFTER = 2;
+    public const CDATE_OPERATOR_ON = 3;
     
-    private $cdate_operator = null;
-    private $cdate_date = null;
+    private ?int $cdate_operator = null;
+    private ?ilDate $cdate_date = null;
     
 
-    /**
-    * Constructor
-    * @access public
-    */
-    public function __construct(&$qp_obj)
+    public function __construct(ilQueryParser $qp_obj)
     {
         parent::__construct($qp_obj);
-
         $this->setFields(array('title','description'));
     }
 
 
 
 
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $in = $this->__createInStatement();
         $where = $this->__createWhereCondition();
         
@@ -74,15 +63,15 @@ class ilObjectSearch extends ilAbstractSearch
             if ($this->getCreationDateFilterOperator()) {
                 switch ($this->getCreationDateFilterOperator()) {
                     case self::CDATE_OPERATOR_AFTER:
-                        $cdate = 'AND create_date >= ' . $ilDB->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE), 'text') . ' ';
+                        $cdate = 'AND create_date >= ' . $this->db->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE), 'text') . ' ';
                         break;
                     
                     case self::CDATE_OPERATOR_BEFORE:
-                        $cdate = 'AND create_date <= ' . $ilDB->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE), 'text') . ' ';
+                        $cdate = 'AND create_date <= ' . $this->db->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE), 'text') . ' ';
                         break;
                     
                     case self::CDATE_OPERATOR_ON:
-                        $cdate = 'AND ' . $ilDB->like(
+                        $cdate = 'AND ' . $this->db->like(
                             'create_date',
                             'text',
                             $this->getCreationDateFilterDate()->get(IL_CAL_DATE) . '%'
@@ -104,48 +93,40 @@ class ilObjectSearch extends ilAbstractSearch
         
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->obj_id, $row->type, $this->__prepareFound($row));
+            $this->search_result->addEntry((int) $row->obj_id, (string) $row->type, $this->__prepareFound($row));
         }
         return $this->search_result;
     }
 
 
 
-    // Protected can be overwritten in Like or Fulltext classes
-    public function __createInStatement()
+    public function __createInStatement() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $in = ' AND ' . $ilDB->in('type', (array) $this->object_types, false, 'text');
+        $in = ' AND ' . $this->db->in('type', (array) $this->object_types, false, 'text');
         if ($this->getIdFilter()) {
             $in .= ' AND ';
-            $in .= $ilDB->in('obj_id', $this->getIdFilter(), false, 'integer');
+            $in .= $this->db->in('obj_id', $this->getIdFilter(), false, 'integer');
         }
         return $in;
     }
     
-    
-    /**
-     * Set creation date filter
-     */
-    public function setCreationDateFilterDate(ilDate $day)
+
+    public function setCreationDateFilterDate(ilDate $day) : void
     {
         $this->cdate_date = $day;
     }
     
-    public function setCreationDateFilterOperator($a_operator)
+    public function setCreationDateFilterOperator(int $a_operator) : void
     {
         $this->cdate_operator = $a_operator;
     }
     
-    public function getCreationDateFilterDate()
+    public function getCreationDateFilterDate() : ?ilDate
     {
         return $this->cdate_date;
     }
     
-    public function getCreationDateFilterOperator()
+    public function getCreationDateFilterOperator() : ?int
     {
         return $this->cdate_operator;
     }

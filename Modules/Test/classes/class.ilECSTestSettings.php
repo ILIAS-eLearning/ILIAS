@@ -13,7 +13,7 @@ include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
 */
 class ilECSTestSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return '/campusconnect/tests';
     }

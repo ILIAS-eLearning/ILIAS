@@ -16,11 +16,11 @@ class LessThan extends CustomConstraint
     {
         $this->max = $max;
         parent::__construct(
-            function ($value) {
+            function ($value) : bool {
                 return $value < $this->max;
             },
-            function ($txt, $value) {
-                return $txt("not_less_than", $value, $this->max);
+            function ($txt, $value) : string {
+                return (string) $txt("not_less_than", $value, $this->max);
             },
             $data_factory,
             $lng

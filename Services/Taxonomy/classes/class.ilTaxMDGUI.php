@@ -12,17 +12,17 @@ use \Psr\Http\Message\RequestInterface;
  */
 class ilTaxMDGUI
 {
-    protected \ilObjectDefinition $obj_definition;
-    protected \ilTree $tree;
+    protected ilObjectDefinition $obj_definition;
+    protected ilTree $tree;
     protected int $md_rbac_id;
     protected int $md_obj_id;
     protected string $md_obj_type;
     protected string $requested_post_var;
     protected RequestInterface $request;
-    protected \ilCtrl $ctrl;
-    protected \ilGlobalTemplateInterface $tpl;
-    protected \ilLanguage $lng;
-    protected \ilTabsGUI $tabs;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
     protected int $ref_id;
 
     /**
@@ -45,6 +45,7 @@ class ilTaxMDGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
 
+        // @todo introduce request wrapper
         $this->request = $DIC->http()->request();
 
         $this->md_rbac_id = $a_md_rbac_id;
@@ -72,10 +73,8 @@ class ilTaxMDGUI
             $item = $form->getItemByPostVar($this->requested_post_var);
             $form_prop_dispatch->setItem($item);
             return $this->ctrl->forwardCommand($form_prop_dispatch);
-        } else {
-            if (in_array($cmd, array("show", "save"))) {
-                $this->$cmd();
-            }
+        } elseif (in_array($cmd, array("show", "save"))) {
+            $this->$cmd();
         }
         return "";
     }
@@ -95,7 +94,7 @@ class ilTaxMDGUI
         $form = $this->initForm();
         if ($form->checkInput()) {
             $this->updateFromMDForm();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "show");
         } else {
             $form->setValuesByPost();
@@ -129,14 +128,14 @@ class ilTaxMDGUI
             // get all active taxonomies of parent objects
             foreach ($tree->getPathFull($this->ref_id) as $node) {
                 // currently only active for categories
-                if ($node["ref_id"] != $this->ref_id && $node["type"] == "cat") {
+                if ((int) $node["ref_id"] != $this->ref_id && $node["type"] == "cat") {
                     if (ilContainer::_lookupContainerSetting(
-                        $node["obj_id"],
+                        (int) $node["obj_id"],
                         ilObjectServiceSettingsGUI::TAXONOMIES,
                         false
                     ) !== ''
                     ) {
-                        $tax_ids = ilObjTaxonomy::getUsageOfObject($node["obj_id"]);
+                        $tax_ids = ilObjTaxonomy::getUsageOfObject((int) $node["obj_id"]);
                         if (count($tax_ids) !== 0) {
                             $res = array_merge($res, $tax_ids);
                         }
@@ -146,7 +145,10 @@ class ilTaxMDGUI
         }
         return $res;
     }
-    
+
+    /**
+     * @throws ilTaxonomyException
+     */
     protected function initTaxNodeAssignment(int $a_tax_id) : ilTaxNodeAssignment
     {
         return new ilTaxNodeAssignment($this->md_obj_type, $this->md_obj_id, "obj", $a_tax_id);
@@ -162,7 +164,7 @@ class ilTaxMDGUI
             foreach ($tax_ids as $tax_id) {
                 // get existing assignments
                 $node_ids = array();
-                $ta = $this->initTaxNodeAssignment($tax_id);
+                $ta = $this->initTaxNodeAssignment((int) $tax_id);
                 foreach ($ta->getAssignmentsOfItem($this->md_obj_id) as $ass) {
                     $node_ids[] = $ass["node_id"];
                 }

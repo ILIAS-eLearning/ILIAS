@@ -34,11 +34,11 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  */
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilObjQuestionPool
-     */
-    public $object;
-    
+    private bool $update;
+    public ?ilObject $object;
+
+    protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
+
     /**
     * Constructor
     * @access public
@@ -52,7 +52,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $lng->loadLanguageModule("assessment");
         $this->type = "qpl";
         $this->ctrl = &$ilCtrl;
-        
+
         $this->ctrl->saveParameter($this, array(
             "ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id", 'tax_node', 'calling_consumer', 'consumer_context'
         ));
@@ -61,6 +61,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'consumer_context');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
+        $this->qplrequest = $DIC->testQuestionPool()->internal()->request();
 
         parent::__construct("", $_GET["ref_id"], true, false);
     }
@@ -77,7 +78,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      * @global ilLanguage $lng
      * @global ILIAS $ilias
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -92,15 +93,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $ilDB = $DIC['ilDB'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $ilias = $DIC['ilias'];
-        
+        $randomGroup = $DIC->refinery()->random();
+
         $writeAccess = $ilAccess->checkAccess("write", "", $_GET["ref_id"]);
-        
+
         if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"]))) {
             global $DIC;
             $ilias = $DIC['ilias'];
             $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
         }
-        
+
         // add entry to navigation history
         if (!$this->getCreationMode() &&
             $ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
@@ -112,21 +114,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 );
             }
         }
-        
+
         $cmd = $this->ctrl->getCmd("questions");
         $next_class = $this->ctrl->getNextClass($this);
-        
+
         if (in_array($next_class, array('', 'ilobjquestionpoolgui')) && $cmd == 'questions') {
-            $_GET['q_id'] = '';
+            $_GET['q_id'] = ''; // TODO TATS: What happens here? How can this be sorted?
         }
-        
+
         $this->prepareOutput();
-        
+
         $this->ctrl->setReturn($this, "questions");
-        
+
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
-        
+
         if ($_GET["q_id"] < 1) {
             $q_type = ($_POST["sel_question_types"] != "")
                 ? $_POST["sel_question_types"]
@@ -156,14 +158,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $md_gui = new ilObjectMetaDataGUI($this->object);
                 $this->ctrl->forwardCommand($md_gui);
                 break;
-            
+
             case 'ilassquestionpreviewgui':
 
                 $this->ctrl->saveParameter($this, "q_id");
 
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser);
-                
+                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser, $randomGroup);
+
                 $gui->initQuestion((int) $_GET['q_id'], $this->object->getId());
                 $gui->initPreviewSettings($this->object->getRefId());
                 $gui->initPreviewSession($ilUser->getId(), $this->fetchAuthoringQuestionIdParamater());
@@ -176,18 +178,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 $this->ctrl->forwardCommand($gui);
                 break;
-                
+
             case "ilassquestionpagegui":
                 include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $this->tpl->setCurrentBlock("ContentStyle");
                 $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
                 $this->tpl->parseCurrentBlock();
-        
+
                 // syntax style
                 $this->tpl->setCurrentBlock("SyntaxStyle");
                 $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
-                
+
                 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
                 $q_gui = assQuestionGUI::_getQuestionGUI("", $this->fetchAuthoringQuestionIdParamater());
                 $q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
@@ -196,19 +198,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $q_gui->object->setObjId($this->object->getId());
 
                 $q_gui->setTargetGuiClass(null);
-                $q_gui->setQuestionActionCmd(null);
-                
+                $q_gui->setQuestionActionCmd('');
+
                 if ($this->object->getType() == 'qpl') {
                     $q_gui->addHeaderAction();
                 }
-                
+
                 $question = $q_gui->object;
                 $this->ctrl->saveParameter($this, "q_id");
                 include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
                 $this->lng->loadLanguageModule("content");
                 $this->ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
                 $this->ctrl->setReturn($this, "questions");
-                $page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
+                $page_gui = new ilAssQuestionPageGUI($this->qplrequest->getQuestionId());
                 $page_gui->obj->addUpdateListener(
                     $question,
                     'updateTimestamp'
@@ -229,20 +231,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $tpl->setContent($ret);
                 }
                 break;
-                
+
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-                
+
             case 'ilobjectcopygui':
                 include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType('qpl');
                 $this->ctrl->forwardCommand($cp);
                 break;
-                
+
             case "ilquestionpoolexportgui":
                 require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php';
                 $exp_gui = new ilQuestionPoolExportGUI($this);
@@ -250,13 +252,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $exp_gui->addFormat('xls', $this->lng->txt('qpl_export_excel'), $this, 'createExportExcel');
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
-            
+
             case "ilinfoscreengui":
                 $this->infoScreenForward();
                 break;
-            
+
             case 'ilassquestionhintsgui':
-    
+
                 // set return target
                 $this->ctrl->setReturn($this, "questions");
 
@@ -268,7 +270,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 global $DIC;
                 $ilHelp = $DIC['ilHelp'];
                 $ilHelp->setScreenIdComponent("qpl");
-                
+
                 if ($this->object->getType() == 'qpl' && $writeAccess) {
                     $questionGUI->addHeaderAction();
                 }
@@ -276,15 +278,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 // forward to ilAssQuestionHintsGUI
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
                 $gui = new ilAssQuestionHintsGUI($questionGUI);
-                
+
                 $gui->setEditingEnabled(
                     $DIC->access()->checkAccess('write', '', $this->object->getRefId())
                 );
-                
+
                 $ilCtrl->forwardCommand($gui);
-                
+
                 break;
-            
+
             case 'illocalunitconfigurationgui':
                 if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
                     $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
@@ -300,13 +302,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 require_once 'Modules/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php';
                 require_once 'Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php';
                 $gui = new ilLocalUnitConfigurationGUI(
-                    new ilUnitConfigurationRepository((int) $_GET['q_id'])
+                    new ilUnitConfigurationRepository($this->qplrequest->getQuestionId())
                 );
                 $ilCtrl->forwardCommand($gui);
                 break;
-            
+
             case 'ilassquestionfeedbackeditinggui':
-    
+
                 // set return target
                 $this->ctrl->setReturn($this, "questions");
 
@@ -318,18 +320,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 global $DIC;
                 $ilHelp = $DIC['ilHelp'];
                 $ilHelp->setScreenIdComponent("qpl");
-                
+
                 if ($this->object->getType() == 'qpl' && $writeAccess) {
                     $questionGUI->addHeaderAction();
                 }
-                
+
                 // forward to ilAssQuestionFeedbackGUI
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
                 $gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
                 $ilCtrl->forwardCommand($gui);
-                
+
                 break;
-                
+
             case 'ilobjquestionpoolsettingsgeneralgui':
                 require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolSettingsGeneralGUI.php';
                 $gui = new ilObjQuestionPoolSettingsGeneralGUI($ilCtrl, $ilAccess, $lng, $tpl, $ilTabs, $this);
@@ -339,22 +341,26 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             case "ilobjtaxonomygui":
 
                 require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolTaxonomyEditingCommandForwarder.php';
+                /** @var ilObjQuestionPool $obj */
+                $obj = $this->object;
                 $forwarder = new ilObjQuestionPoolTaxonomyEditingCommandForwarder(
-                    $this->object,
+                    $obj,
                     $ilDB,
                     $ilPluginAdmin,
                     $ilCtrl,
                     $ilTabs,
                     $lng
                 );
-                
+
                 $forwarder->forward();
-                
+
                 break;
-            
+
             case 'ilquestionpoolskilladministrationgui':
 
                 require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolSkillAdministrationGUI.php';
+                /** @var ilObjQuestionPool $obj */
+                $obj = $this->object;
                 $gui = new ilQuestionPoolSkillAdministrationGUI(
                     $ilias,
                     $ilCtrl,
@@ -364,29 +370,29 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $lng,
                     $ilDB,
                     $ilPluginAdmin,
-                    $this->object,
+                    $obj,
                     $this->ref_id
                 );
-                
+
                 $this->ctrl->forwardCommand($gui);
-                
+
                 break;
-                
+
             case 'ilquestionbrowsertablegui':
                 $this->ctrl->forwardCommand($this->buildQuestionBrowserTableGUI($taxIds = array())); // no tax ids required
                 break;
-            
+
             case "ilobjquestionpoolgui":
             case "":
-                
+
                 if ($cmd == 'questions') {
                     $this->ctrl->setParameter($this, 'q_id', '');
                 }
-                
+
                 $cmd .= "Object";
                 $ret = $this->$cmd();
                 break;
-                
+
             default:
                 $this->ctrl->setReturn($this, "questions");
                 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
@@ -414,7 +420,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->tpl->printToStdout();
         }
     }
-    
+
     /**
      * Gateway for exports initiated from workspace, as there is a generic
      * forward to {objTypeMainGUI}::export()
@@ -424,7 +430,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC->ctrl()->redirectByClass('ilQuestionPoolExportGUI');
     }
-    
+
     /**
     * download file
     */
@@ -436,7 +442,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $fileObj->sendFile();
         exit;
     }
-    
+
     /**
     * show fullscreen view
     */
@@ -484,7 +490,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         $this->ctrl->setParameter($this, 'new_type', $_REQUEST['new_type']);
         if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK) {
-            ilUtil::sendFailure($this->lng->txt("error_upload"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("error_upload"), true);
             if (!$questions_only) {
                 $this->ctrl->redirect($this, 'create');
             }
@@ -493,22 +499,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         // create import directory
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         $basedir = ilObjQuestionPool::_createImportDirectory();
-        
+
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         // copy uploaded file to import directory
         $file = pathinfo($_FILES["xmldoc"]["name"]);
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
         if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0) {
             $qti_file = $full_path;
             ilObjTest::_setImportDirectory($basedir);
         } else {
             // unzip file
-            ilUtil::unzip($full_path);
-    
+            ilFileUtils::unzip($full_path);
+
             // determine filenames of xml files
             $subdir = basename($file["basename"], "." . $file["extension"]);
             ilObjQuestionPool::_setImportDirectory($basedir);
@@ -519,21 +525,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         // start verification of QTI files
         include_once "./Services/QTI/classes/class.ilQTIParser.php";
         $qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
-        $result = $qtiParser->startParsing();
+        $qtiParser->startParsing();
         $founditems = &$qtiParser->getFoundItems();
         if (count($founditems) == 0) {
             // nothing found
 
             // delete import directory
-            ilUtil::delDir($basedir);
+            ilFileUtils::delDir($basedir);
 
-            ilUtil::sendFailure($this->lng->txt("qpl_import_no_items"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_import_no_items"), true);
             if (!$questions_only) {
                 $this->ctrl->redirect($this, 'create');
             }
             return false;
         }
-        
+
         $complete = 0;
         $incomplete = 0;
         foreach ($founditems as $item) {
@@ -543,21 +549,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $incomplete++;
             }
         }
-        
+
         if ($complete == 0) {
             // delete import directory
-            ilUtil::delDir($basedir);
+            ilFileUtils::delDir($basedir);
 
-            ilUtil::sendFailure($this->lng->txt("qpl_import_non_ilias_files"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_import_non_ilias_files"), true);
             if (!$questions_only) {
                 $this->ctrl->redirect($this, 'create');
             }
             return false;
         }
-        
-        $_SESSION["qpl_import_xml_file"] = $xml_file;
-        $_SESSION["qpl_import_qti_file"] = $qti_file;
-        $_SESSION["qpl_import_subdir"] = $subdir;
+
+        ilSession::set("qpl_import_xml_file", $xml_file);
+        ilSession::set("qpl_import_qti_file", $qti_file);
+        ilSession::set("qpl_import_subdir", $subdir);
 
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html", "Modules/TestQuestionPool");
 
@@ -610,13 +616,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $type = $this->lng->txt($item["type"]);
                     break;
             }
-            
+
             if (strcmp($type, "-" . $item["type"] . "-") == 0) {
                 global $DIC;
-                $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                foreach ($pl_names as $pl_name) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                $component_factory = $DIC['component.factory'];
+                $component_repository = $DIC["component.repository"];
+                $plugins = $component_repository->getPluginSlotById("qst")->getActivePlugins();
+                foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                     if (strcmp($pl->getQuestionType(), $item["type"]) == 0) {
                         $type = $pl->getQuestionTypeTranslation();
                     }
@@ -641,7 +647,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $this->tpl->setVariable("TEXT_CREATE_NEW_QUESTIONPOOL", $this->lng->txt("qpl_import_create_new_qpl"));
         $this->tpl->parseCurrentBlock();
-        
+
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("qpl_import_verify_found_questions"));
         if ($questions_only) {
@@ -649,7 +655,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         } else {
             $this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_qpl"));
-            
+
             $this->ctrl->setParameter($this, "new_type", $this->type);
             $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         }
@@ -663,10 +669,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->tpl->setVariable("VERIFICATION_FORM_NAME", $table->getFormName());
 
         $this->tpl->parseCurrentBlock();
-        
+
         return true;
     }
-    
+
     /**
     * imports question(s) into the questionpool (after verification)
     */
@@ -694,12 +700,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $newObj->setPermissions($_GET["ref_id"]);
         }
 
-        if (is_file($_SESSION["qpl_import_dir"] . '/' . $_SESSION["qpl_import_subdir"] . "/manifest.xml")) {
-            $_SESSION["qpl_import_idents"] = $_POST["ident"];
-            
-            $fileName = $_SESSION["qpl_import_subdir"] . '.zip';
-            $fullPath = $_SESSION["qpl_import_dir"] . '/' . $fileName;
-            
+        if (is_file(ilSession::get("qpl_import_dir") . '/' . ilSession::get("qpl_import_subdir") . "/manifest.xml")) {
+            ilSession::set("qpl_import_idents", $_POST["ident"]);
+
+            $fileName = ilSession::get("qpl_import_subdir") . '.zip';
+            $fullPath = ilSession::get("qpl_import_dir") . '/' . $fileName;
+
             include_once("./Services/Export/classes/class.ilImport.php");
             $imp = new ilImport((int) $_GET["ref_id"]);
             $map = $imp->getMapping();
@@ -708,18 +714,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         } else {
             // start parsing of QTI files
             include_once "./Services/QTI/classes/class.ilQTIParser.php";
-            $qtiParser = new ilQTIParser($_SESSION["qpl_import_qti_file"], IL_MO_PARSE_QTI, $newObj->getId(), $_POST["ident"]);
-            $result = $qtiParser->startParsing();
+            $qtiParser = new ilQTIParser(ilSession::get("qpl_import_qti_file"), IL_MO_PARSE_QTI, $newObj->getId(), $_POST["ident"]);
+            $qtiParser->startParsing();
 
             // import page data
-            if (strlen($_SESSION["qpl_import_xml_file"])) {
+            if (strlen(ilSession::get("qpl_import_xml_file"))) {
                 include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
-                $contParser = new ilContObjParser($newObj, $_SESSION["qpl_import_xml_file"], $_SESSION["qpl_import_subdir"]);
+                $contParser = new ilContObjParser($newObj, ilSession::get("qpl_import_xml_file"), ilSession::get("qpl_import_subdir"));
                 $contParser->setQuestionMapping($qtiParser->getImportMapping());
                 $contParser->startParsing();
 
                 // #20494
-                $newObj->fromXML($_SESSION["qpl_import_xml_file"]);
+                $newObj->fromXML(ilSession::get("qpl_import_xml_file"));
             }
 
             // set another question pool name (if possible)
@@ -730,20 +736,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $newObj->update();
             $newObj->saveToDb();
         }
-        
+
         // delete import directory
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        ilUtil::delDir(dirname(ilObjQuestionPool::_getImportDirectory()));
+        ilFileUtils::delDir(dirname(ilObjQuestionPool::_getImportDirectory()));
 
         if ($_POST["questions_only"] == 1) {
             $this->ctrl->redirect($this, "questions");
         } else {
-            ilUtil::sendSuccess($this->lng->txt("object_imported"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
             ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
                 "&baseClass=ilObjQuestionPoolGUI");
         }
     }
-    
+
     public function cancelImportObject()
     {
         if ($_POST["questions_only"] == 1) {
@@ -752,7 +758,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->ctrl->redirect($this, "cancel");
         }
     }
-    
+
     /**
     * imports question(s) into the questionpool
     */
@@ -770,7 +776,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->importQuestionsObject($form);
         }
     }
-    
+
     /**
     * display the import form to import questions into the questionpool
     */
@@ -779,27 +785,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->getImportQuestionsForm();
         }
-        
+
         $this->tpl->setContent($form->getHtml());
     }
 
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getImportQuestionsForm()
+    protected function getImportQuestionsForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('import_question'));
         $form->setFormAction($this->ctrl->getFormAction($this, 'upload'));
-        
+
         $file = new ilFileInputGUI($this->lng->txt('select_file'), 'xmldoc');
         $file->setRequired(true);
         $form->addItem($file);
 
         $form->addCommandButton('upload', $this->lng->txt('upload'));
         $form->addCommandButton('questions', $this->lng->txt('cancel'));
-        
+
         return $form;
     }
 
@@ -837,24 +843,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             } else {
                 $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
             }
-            
+
             include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
             $q_gui = assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
             $q_gui->object->setObjId($this->object->getId());
             $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
             $q_gui->object->createNewQuestion();
-            
+
             $class = get_class($q_gui);
             $qId = $q_gui->object->getId();
         } else {
             $class = $_GET["sel_question_types"] . 'gui';
             $qId = $_REQUEST['q_id'];
         }
-        
+
         $this->ctrl->setParameterByClass($class, "q_id", $qId);
         $this->ctrl->setParameterByClass($class, "sel_question_types", $_REQUEST["sel_question_types"]);
         $this->ctrl->setParameterByClass($class, "prev_qid", $_REQUEST["prev_qid"]);
-        
+
         $this->ctrl->redirectByClass($class, "editQuestion");
     }
 
@@ -862,12 +868,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     * save object
     * @access	public
     */
-    public function afterSave(ilObject $a_new_object)
+    public function afterSave(ilObject $new_object) : void
     {
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
 
-        ilUtil::redirect("ilias.php?ref_id=" . $a_new_object->getRefId() .
+        ilUtil::redirect("ilias.php?ref_id=" . $new_object->getRefId() .
             "&baseClass=ilObjQuestionPoolGUI");
     }
 
@@ -888,16 +894,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $questionIdsToDelete = isset($_POST['q_id']) ? (array) $_POST['q_id'] : array();
         if (0 === count($questionIdsToDelete) && isset($_GET['q_id'])) {
-            $questionIdsToDelete = array($_GET['q_id']);
+            $questionIdsToDelete = array($this->qplrequest->getQuestionId());
         }
 
         $questionIdsToDelete = array_filter(array_map('intval', $questionIdsToDelete));
         if (0 === count($questionIdsToDelete)) {
-            ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_delete_select_none"), true);
             $this->ctrl->redirect($this, "questions");
         }
-        
-        ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
+
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt("qpl_confirm_delete_questions"));
         $deleteable_questions = &$this->object->getDeleteableQuestionDetails($questionIdsToDelete);
         include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
         $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', (int) $_GET['ref_id']) ? true : false)), true);
@@ -920,14 +926,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->object->cleanupClipboard($value);
         }
         if (count($_POST["q_id"])) {
-            ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("qpl_questions_deleted"), true);
         }
 
         $this->ctrl->setParameter($this, 'q_id', '');
-        
+
         $this->ctrl->redirect($this, "questions");
     }
-    
+
     /**
     * Cancel question deletion
     */
@@ -949,22 +955,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $filename = $export_file;
             $filename = preg_replace("/.*\//", "", $filename);
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::deliverFile($export_file, $filename);
+            ilFileDelivery::deliverFileLegacy($export_file, $filename);
             exit();
         } else {
-            ilUtil::sendInfo($this->lng->txt("qpl_export_select_none"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_export_select_none"), true);
         }
         $this->ctrl->redirect($this, "questions");
     }
-    
+
     public function filterQuestionBrowserObject()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $enableComments = $DIC->rbac()->system()->checkAccess('write', $_GET['ref_id']);
-        
+
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         $taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-        
+
         include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
         $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds, $enableComments);
         $table_gui->resetOffset();
@@ -983,16 +989,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui->resetFilter();
         $this->questionsObject();
     }
-    
+
     protected function renoveImportFailsObject()
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
         $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
         $qsaImportFails->deleteRegisteredImportFails();
-        
+
         $this->ctrl->redirect($this, 'infoScreen');
     }
-    
+
     /**
     * list questions of question pool
     */
@@ -1033,8 +1039,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $this->object->purgeQuestions();
         // reset test_id SESSION variable
-        $_SESSION["test_id"] = "";
-        
+        ilSession::set("test_id", "");
+
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
         $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
         if ($qsaImportFails->failedImportsRegistered()) {
@@ -1042,10 +1048,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $button = ilLinkButton::getInstance();
             $button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
             $button->setCaption('ass_skl_import_fails_remove_btn');
-            
-            ilUtil::sendFailure($qsaImportFails->getFailedImportsMessage($this->lng) . '<br />' . $button->render());
+
+            $this->tpl->setOnScreenMessage('failure', $qsaImportFails->getFailedImportsMessage($this->lng) . '<br />' . $button->render());
         }
-        
+
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         $taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 
@@ -1054,7 +1060,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         if ($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
             $toolbar = new ilToolbarGUI();
-            
+
             require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
             $btn = ilLinkButton::getInstance();
             $btn->setCaption('ass_create_question');
@@ -1068,7 +1074,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $btnImport->setUrl($this->ctrl->getLinkTarget($this, 'importQuestions'));
             $toolbar->addButtonInstance($btnImport);
 
-            if (array_key_exists("qpl_clipboard", $_SESSION) && count($_SESSION['qpl_clipboard'])) {
+            if (ilSession::get("qpl_clipboard") != null && count(ilSession::get('qpl_clipboard'))) {
                 $btnPaste = ilLinkButton::getInstance();
                 $btnPaste->setCaption('paste');
                 $btnPaste->setUrl($this->ctrl->getLinkTarget($this, 'paste'));
@@ -1081,17 +1087,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         } else {
             $this->tpl->setContent($this->ctrl->getHTML($table_gui));
         }
-        
+
         if ($this->object->getShowTaxonomies()) {
             $this->lng->loadLanguageModule('tax');
-            
+
             require_once 'Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php';
 
             foreach ($taxIds as $taxId) {
                 if ($taxId != $this->object->getNavTaxonomyId()) {
                     continue;
                 }
-                
+
                 $taxExp = new ilTaxonomyExplorerGUI(
                     $this,
                     'showNavTaxonomy',
@@ -1099,76 +1105,76 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     'ilobjquestionpoolgui',
                     'questions'
                 );
-                
+
                 if (!$taxExp->handleCommand()) {
                     $this->tpl->setLeftContent($taxExp->getHTML() . "&nbsp;");
                 }
-                
+
                 break;
             }
         }
     }
-    
+
     /**
      * @return mixed
      */
     protected function fetchAuthoringQuestionIdParamater()
     {
-        $qId = (int) $_GET['q_id'];
-        
+        $qId = $this->qplrequest->getQuestionId();
+
         if ($this->object->checkQuestionParent($qId)) {
             return $qId;
         }
-        
+
         throw new ilTestQuestionPoolException('question id does not relate to parent object!');
     }
-    
+
     private function createQuestionFormObject()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
-        
+
         $ilHelp->setScreenId('assQuestions');
-        
+
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ilHelp->setSubScreenId('createQuestion_editMode');
         } else {
             $ilHelp->setSubScreenId('createQuestion');
         }
-        
+
         $form = $this->buildCreateQuestionForm();
-        
+
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
-    
-    private function buildCreateQuestionForm()
+
+    private function buildCreateQuestionForm() : ilPropertyFormGUI
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        
+
         // form
-        
+
         require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('ass_create_question'));
         $form->setFormAction($this->ctrl->getFormAction($this));
-        
+
         // question type
-        
+
         $options = array();
         foreach ($this->object->getQuestionTypes(false, true, false) as $translation => $data) {
             $options[$data['type_tag']] = $translation;
         }
-        
+
         require_once("Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($this->lng->txt('question_type'), 'sel_question_types');
         $si->setOptions($options);
         //$si->setValue($ilUser->getPref("tst_lastquestiontype"));
-        
+
         $form->addItem($si);
-        
+
         // content editing mode
-        
+
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ri = new ilRadioGroupInputGUI($this->lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
 
@@ -1190,12 +1196,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
             $form->addItem($hi, true);
         }
-        
+
         // commands
-        
+
         $form->addCommandButton('createQuestion', $this->lng->txt('create'));
         $form->addCommandButton('questions', $this->lng->txt('cancel'));
-        
+
         return $form;
     }
 
@@ -1219,7 +1225,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'detailed_printview' => $this->lng->txt('detailed_output_printview')
         ));
         $mode->setValue(ilUtil::stripSlashes($_POST['output']));
-        
+
         $ilToolbar->setFormName('printviewOptions');
         $ilToolbar->addInputItem($mode, true);
         $ilToolbar->addFormButton($this->lng->txt('submit'), 'print');
@@ -1237,11 +1243,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-    public function updateObject()
+    public function updateObject() : void
     {
         //		$this->update = $this->object->updateMetaData();
         $this->update = $this->object->update();
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
     }
 
     /**
@@ -1249,14 +1255,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     */
     public function pasteObject()
     {
-        if (array_key_exists("qpl_clipboard", $_SESSION)) {
+        if (ilSession::get("qpl_clipboard") != null) {
             if ($this->object->pasteFromClipboard()) {
-                ilUtil::sendSuccess($this->lng->txt("qpl_paste_success"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("qpl_paste_success"), true);
             } else {
-                ilUtil::sendFailure($this->lng->txt("qpl_paste_error"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_paste_error"), true);
             }
         } else {
-            ilUtil::sendInfo($this->lng->txt("qpl_paste_no_objects"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_paste_no_objects"), true);
         }
         $this->ctrl->redirect($this, "questions");
     }
@@ -1270,16 +1276,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             foreach ($_POST["q_id"] as $key => $value) {
                 $this->object->copyToClipboard($value);
             }
-            ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
-        } elseif (isset($_GET['q_id']) && $_GET['q_id'] > 0) {
-            $this->object->copyToClipboard((int) $_GET['q_id']);
-            ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_copy_insert_clipboard"), true);
+        } elseif (isset($_GET['q_id']) && $this->qplrequest->getQuestionId() > 0) {
+            $this->object->copyToClipboard($this->qplrequest->getQuestionId());
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_copy_insert_clipboard"), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt("qpl_copy_select_none"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_copy_select_none"), true);
         }
         $this->ctrl->redirect($this, "questions");
     }
-    
+
     /**
     * mark one or more question objects for moving
     */
@@ -1289,12 +1295,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             foreach ($_POST["q_id"] as $key => $value) {
                 $this->object->moveToClipboard($value);
             }
-            ilUtil::sendInfo($this->lng->txt("qpl_move_insert_clipboard"), true);
-        } elseif (isset($_GET['q_id']) && $_GET['q_id'] > 0) {
-            $this->object->moveToClipboard((int) $_GET['q_id']);
-            ilUtil::sendInfo($this->lng->txt("qpl_copy_insert_clipboard"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_move_insert_clipboard"), true);
+        } elseif (isset($_GET['q_id']) && $this->qplrequest->getQuestionId() > 0) {
+            $this->object->moveToClipboard($this->qplrequest->getQuestionId());
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_copy_insert_clipboard"), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt("qpl_move_select_none"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_move_select_none"), true);
         }
         $this->ctrl->redirect($this, "questions");
     }
@@ -1318,11 +1324,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function &editQuestionForTestObject()
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+        $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
         $this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
     }
 
-    protected function initImportForm($a_new_type)
+    protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -1341,11 +1347,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         return $form;
     }
-    
+
     /**
     * form for new questionpool object import
     */
-    protected function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
     {
         $form = $this->initImportForm($_REQUEST["new_type"]);
         if ($form->checkInput()) {
@@ -1356,7 +1362,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -1371,7 +1377,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         if ($_GET["q_id"] > 0) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-            $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+            $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
             if ($q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
@@ -1386,16 +1392,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             }
         }
     }
-    
+
     /**
     * called by prepare output
     */
-    public function setTitleAndDescription()
+    public function setTitleAndDescription() : void
     {
         parent::setTitleAndDescription();
         if ($_GET["q_id"] > 0) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-            $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+            $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
             if ($q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
@@ -1404,7 +1410,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 }
                 $this->tpl->setTitle($title);
                 $this->tpl->setDescription($q_gui->object->getComment());
-                $this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
+                $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), "big", $this->object->getType()));
             } else {
                 // Workaround for context issues: If no object was found, redirect without q_id parameter
                 $this->ctrl->setParameter($this, 'q_id', '');
@@ -1413,7 +1419,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         } else {
             $this->tpl->setTitle($this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
-            $this->tpl->setTitleIcon(ilObject2::_getIcon("", "big", $this->object->getType()));
+            $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), "big", $this->object->getType()));
         }
     }
 
@@ -1422,7 +1428,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     *
     * @param	object		$tabs_gui		ilTabsGUI object
     */
-    public function getTabs()
+    public function getTabs() : void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -1431,7 +1437,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $currentUserHasWriteAccess = $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
         $ilHelp->setScreenIdComponent("qpl");
-        
+
         $next_class = strtolower($this->ctrl->getNextClass());
         switch ($next_class) {
             case "":
@@ -1440,16 +1446,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             case "ilquestionpoolexportgui":
             case "ilquestionpoolskilladministrationgui":
                 break;
-            
+
             case 'ilobjtaxonomygui':
             case 'ilobjquestionpoolsettingsgeneralgui':
-                
+
                 if ($currentUserHasWriteAccess) {
                     $this->addSettingsSubTabs($this->tabs_gui);
                 }
-                
+
                 break;
-            
+
             default:
                 return;
                 break;
@@ -1505,7 +1511,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 array("infoScreen", "showSummary")
             );
         }
-        
+
         if ($ilAccess->checkAccess("write", "", $_GET['ref_id'])) {
             // properties
             $this->tabs_gui->addTarget(
@@ -1577,24 +1583,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             );
         }
     }
-    
-    private function isSkillsTabRequired()
+
+    private function isSkillsTabRequired() : bool
     {
         if (!($this->object instanceof ilObjQuestionPool)) {
             return false;
         }
-        
+
         if (!$this->object->isSkillServiceEnabled()) {
             return false;
         }
-        
+
         if (!ilObjQuestionPool::isSkillManagementGloballyActivated()) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     private function addSettingsSubTabs(ilTabsGUI $tabs)
     {
         $tabs->addSubTabTarget(
@@ -1603,7 +1609,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             '',
             'ilObjQuestionPoolSettingsGeneralGUI'
         );
-        
+
         $tabs->addSubTabTarget(
             'qpl_settings_subtab_taxonomies',
             $this->ctrl->getLinkTargetByClass('ilObjTaxonomyGUI', 'editAOTaxonomySettings'),
@@ -1611,7 +1617,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'ilObjTaxonomyGUI'
         );
     }
-    
+
     /**
     * this one is called from the info button in the repository
     * not very nice to set cmdClass/Cmd manually, if everything
@@ -1623,7 +1629,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreenForward();
     }
-    
+
     /**
     * show information screen
     */
@@ -1632,7 +1638,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         global $DIC;
         $ilErr = $DIC['ilErr'];
         $ilAccess = $DIC['ilAccess'];
-        
+
         if (!$ilAccess->checkAccess("visible", "", $this->ref_id)) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
         }
@@ -1643,7 +1649,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
-        
+
         $this->ctrl->forwardCommand($info);
     }
 
@@ -1658,6 +1664,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public static function _goto($a_target)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
@@ -1670,7 +1677,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             include_once("ilias.php");
             exit;
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendInfo(sprintf(
+            $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -1678,7 +1685,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
     }
-    
+
     /**
      * @param array $taxIds
      * @global ilRbacSystem  $rbacsystem
@@ -1687,14 +1694,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
      * @global ilPluginAdmin $ilPluginAdmin
      * @return ilQuestionBrowserTableGUI
      */
-    private function buildQuestionBrowserTableGUI($taxIds)
+    private function buildQuestionBrowserTableGUI($taxIds) : ilQuestionBrowserTableGUI
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
+
         $writeAccess = (bool) $rbacsystem->checkAccess('write', $_GET['ref_id']);
         $enableCommenting = $writeAccess;
 
@@ -1705,17 +1712,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
         $questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
         $questionList->setParentObjId($this->object->getId());
-        
+
         foreach ($table_gui->getFilterItems() as $item) {
             if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
                 $v = $item->getValue();
-                
+
                 if (is_array($v) && count($v) && !(int) $v[0]) {
                     continue;
                 }
-                
+
                 $taxId = substr($item->getPostVar(), strlen('tax_'));
-                
+
                 $questionList->addTaxonomyFilter(
                     $taxId,
                     $item->getValue(),
@@ -1726,12 +1733,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionList->addFieldFilter($item->getPostVar(), $item->getValue());
             }
         }
-        
+
         if ($this->object->isNavTaxonomyActive() && (int) $_GET['tax_node']) {
             require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
             $taxTree = new ilTaxonomyTree($this->object->getNavTaxonomyId());
             $rootNodeId = $taxTree->readRootId();
-            
+
             if ((int) $_GET['tax_node'] != $rootNodeId) {
                 $questionList->addTaxonomyFilter(
                     $this->object->getNavTaxonomyId(),
@@ -1744,9 +1751,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $questionList->load();
         $data = $questionList->getQuestionDataArray();
-        
+
         $table_gui->setQuestionData($data);
-        
+
         return $table_gui;
     }
 } // END class.ilObjQuestionPoolGUI

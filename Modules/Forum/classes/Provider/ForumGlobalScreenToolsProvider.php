@@ -41,14 +41,14 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
             $root = $additionalData->get(self::FORUM_THREAD_ROOT);
 
             if ($root instanceof ilForumPost) {
-                $title = $this->dic->language()->txt('tree');
+                $title = $this->dic->language()->txt('forums_articles');
                 $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
 
                 $tools[] = $this->factory
                     ->tool($iff('Forum|Tree'))
                     ->withTitle($title)
                     ->withSymbol($icon)
-                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root, $additionalData) : Component {
+                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root) : Component {
                         $exp = new ilForumExplorerGUI(
                             'frm_exp_' . $thread->getId(),
                             $controller,
@@ -56,8 +56,6 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                             $thread,
                             $root
                         );
-
-                        $exp->setCurrentPage((int) $additionalData->get(self::PAGE));
 
                         return $l($exp->getHTML(true));
                     });

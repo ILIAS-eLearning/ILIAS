@@ -1,8 +1,17 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Math/classes/class.ilMathBaseAdapter.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilMathPhpAdapter
  * @author Michael Jansen <mjansen@databay.de>
@@ -29,7 +38,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function add($left_operand, $right_operand, $scale = null)
+    public function add($left_operand, $right_operand, int $scale = null)
     {
         $res = $this->normalize($left_operand) + $this->normalize($right_operand);
 
@@ -39,7 +48,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function sub($left_operand, $right_operand, $scale = null)
+    public function sub($left_operand, $right_operand, int $scale = null)
     {
         $res = $this->normalize($left_operand) - $this->normalize($right_operand);
 
@@ -49,7 +58,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function mul($left_operand, $right_operand, $scale = null)
+    public function mul($left_operand, $right_operand, int $scale = null)
     {
         try {
             $left_operand = $this->normalize($left_operand);
@@ -75,10 +84,9 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function div($left_operand, $right_operand, $scale = null)
+    public function div($left_operand, $right_operand, int $scale = null)
     {
         if ($right_operand == 0) {
-            require_once 'Services/Math/exceptions/class.ilMathDivisionByZeroException.php';
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
         }
 
@@ -107,10 +115,9 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function mod($left_operand, $right_operand)
+    public function mod($left_operand, $right_operand) : int
     {
         if ($right_operand == 0) {
-            require_once 'Services/Math/exceptions/class.ilMathDivisionByZeroException.php';
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
         }
 
@@ -122,7 +129,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function pow($left_operand, $right_operand, $scale = null)
+    public function pow($left_operand, $right_operand, int $scale = null)
     {
         $res = pow($this->normalize($left_operand), $this->normalize($right_operand));
 
@@ -132,7 +139,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function sqrt($operand, $scale = null)
+    public function sqrt($operand, int $scale = null)
     {
         $res = sqrt($this->normalize($operand));
 
@@ -142,7 +149,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function comp($left_operand, $right_operand, $scale = null)
+    public function comp($left_operand, $right_operand, int $scale = null)
     {
         $left_operand = $this->normalize($left_operand);
         $right_operand = $this->normalize($right_operand);

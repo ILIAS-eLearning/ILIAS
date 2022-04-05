@@ -60,7 +60,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -123,7 +123,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("content");
             $this->tpl->setVariable(
                 "VAL_CONTENT",
-                ilUtil::shortenText($a_set["content"], 80, true, true)
+                ilStr::shortenTextExtended($a_set["content"], 80, true, true)
             );
             $this->tpl->parseCurrentBlock();
         }

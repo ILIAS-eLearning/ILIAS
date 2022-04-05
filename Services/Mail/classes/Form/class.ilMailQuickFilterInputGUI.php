@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\GlobalHttpState;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesMail
  */
 class ilMailQuickFilterInputGUI extends ilTextInputGUI
 {
-    protected ?\ILIAS\Refinery\Factory $refinery;
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected ?Factory $refinery;
+    protected GlobalHttpState $httpState;
 
     public function __construct($a_title, $a_postvar)
     {
-        /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
         
         $this->refinery = $DIC->refinery();
@@ -56,17 +58,17 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         );
         if ($this->getValue() !== '') {
             $tpl->setCurrentBlock('prop_text_propval');
-            $tpl->setVariable('PROPERTY_VALUE', ilUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable('PROPERTY_VALUE', ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getInlineStyle() !== '') {
             $tpl->setCurrentBlock('stylecss');
-            $tpl->setVariable('CSS_STYLE', ilUtil::prepareFormOutput($this->getInlineStyle()));
+            $tpl->setVariable('CSS_STYLE', ilLegacyFormElementsUtil::prepareFormOutput($this->getInlineStyle()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getCssClass() !== '') {
             $tpl->setCurrentBlock('classcss');
-            $tpl->setVariable('CLASS_CSS', ilUtil::prepareFormOutput($this->getCssClass()));
+            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput($this->getCssClass()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getSubmitFormOnEnter()) {

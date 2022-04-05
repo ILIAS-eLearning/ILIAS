@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,27 +27,22 @@
 * Performs Mysql Like search in object_data title and description
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilForumSearch.php';
 
 class ilLikeForumSearch extends ilForumSearch
 {
-    public function __createPostAndCondition()
+    public function __createPostAndCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         /*
         $concat  = " CONCAT(";
         $concat .= 'pos_message,pos_subject';
         $concat .= ") ";
         */
-        $concat = $ilDB->concat(
+        $concat = $this->db->concat(
             array(
                 array('pos_subject','text'),
                 array('pos_message','text'))
@@ -61,17 +56,13 @@ class ilLikeForumSearch extends ilForumSearch
             }
             #$and .= $concat;
             #$and .= ("LIKE ('%".$word."%')");
-            $and .= $ilDB->like($concat, 'clob', '%' . $word . '%');
+            $and .= $this->db->like($concat, 'clob', '%' . $word . '%');
         }
         return $and . ") ";
     }
 
-    public function __createTopicAndCondition()
+    public function __createTopicAndCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $field = 'thr_subject ';
         $and = " AND( ";
 
@@ -82,7 +73,7 @@ class ilLikeForumSearch extends ilForumSearch
             }
             #$and .= $field;
             #$and .= ("LIKE ('%".$word."%')");
-            $and .= $ilDB->like($field, 'text', '%' . $word . '%');
+            $and .= $this->db->like($field, 'text', '%' . $word . '%');
         }
         return $and . " ) ";
     }

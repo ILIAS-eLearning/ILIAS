@@ -1,18 +1,18 @@
 <form method="post" action="{FORM_ACTION}">
 	<div class="ilToolbar" id="il_search_toolbar"><input type="text" aria-label="{SEARCH_LABEL}" name="term" value="{TERM}" size="60" maxlength="200"/> {SUBMIT_BTN}
-		<div class="small" style="padding: 8px 2px 2px 2px;">
+		<div>
 			<!-- {TXT_COMBINATION}: <span id="sop_combination">{TXT_COMBINATION_DEFAULT}</span>,-->
-			<span class="light">{TXT_AREA}: </span>
-			<span style="cursor:pointer" id="search_area_form_tr"><span id="sop_area" ></span> {ARR_IMG}</span><div class="ilOverlay" id="search_area_form" style="display:none;">{SEARCH_AREA_FORM}</div>
+			<span>{TXT_AREA}: </span>
+			<span style="cursor:pointer" id="search_area_form_tr" role="button" tabindex="0"><span id="sop_area" ></span> {ARR_IMG}</span><div class="ilOverlay" id="search_area_form" style="display:none;">{SEARCH_AREA_FORM}</div>
 			<!-- BEGIN type_sel -->
 			<span class="ilToolbarSeparator"> </span>
 			<span class="light">{TXT_TYPE}: </span>
-			<span style="cursor:pointer" id="search_options_tr"><span id="sop_type">{TXT_TYPE_DEFAULT}</span> {ARR_IMGT}</span><div class="ilOverlay" id="search_options" style="display:none;">{FORM}</div>
+			<span style="cursor:pointer" id="search_options_tr" role="button" tabindex="0"><span id="sop_type">{TXT_TYPE_DEFAULT}</span> {ARR_IMGT}</span><div class="ilOverlay" id="search_options" style="display:none;">{FORM}</div>
 			<!-- END type_sel -->
 			<!-- BEGIN cdate_filter -->
 			<span class="ilToolbarSeparator"> </span>
 			<span class="light">{TXT_FILTER_BY_CDATE}:</span>
-			<span style="cursor:pointer" id="search_cdate_form_tr"><span id="sop_cd">{TXT_CD_OFF}</span> {ARR_IMG_CD}</span><div class="ilOverlay" id="search_cdate_form" style="display:none; min-width: 800px; min-height: 400px; z-index: -2">{FORM_CD}</div>
+			<span style="cursor:pointer" id="search_cdate_form_tr" role="button" tabindex="0"><span id="sop_cd">{TXT_CD_OFF}</span> {ARR_IMG_CD}</span><div class="ilOverlay" id="search_cdate_form" style="display:none; min-width: 800px; min-height: 400px; z-index: -2">{FORM_CD}</div>
 			<!-- END cdate_filter -->
 		</div>
 	</div>

@@ -36,7 +36,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     protected ilObjUser $user;
     protected ilSetting $settings;
     protected ilRbacSystem $rbacsystem;
-    protected ilPluginAdmin $plugin_admin;
     protected ilHelpGUI $help;
     public \ilGlobalTemplateInterface $tpl;
     public \ilLanguage $lng;
@@ -51,26 +50,21 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
     public function __construct()
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->help = $DIC["ilHelp"];
         $tpl = $DIC["tpl"];
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
-        $ilUser = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
 
         $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
 
-        $ilCtrl->setContextObject(
-            $ilUser->getId(),
+        $this->ctrl->setContextObject(
+            $this->user->getId(),
             "user"
         );
 
@@ -103,7 +97,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
-
         switch ($next_class) {
 
                 // profile
@@ -135,7 +128,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 // pd notes
             case "ilpdnotesgui":
                 if ($ilSetting->get('disable_notes') && $ilSetting->get('disable_comments')) {
-                    ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                     ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
                     return;
                 }
@@ -255,12 +248,9 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     {
         // preload block settings
         ilBlockSetting::preloadPDBlockSettings();
-
-        // display infopanel if something happened
-        ilUtil::infoPanel();
         
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
         $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
         
         $this->tpl->setContent($this->getCenterColumnHTML());
@@ -375,9 +365,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     public function prepareContentView() : void
     {
         $this->tpl->loadStandardTemplate();
-                
-        // display infopanel if something happened
-        ilUtil::infoPanel();
 
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd.svg"));
         $this->tpl->setTitle($this->lng->txt("personal_desktop"));

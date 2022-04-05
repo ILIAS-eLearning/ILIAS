@@ -25,7 +25,6 @@ class ilStudyProgrammeType
     protected string $icon;
     protected ilLog $log;
     protected ilObjUser $user;
-    protected ilPluginAdmin $plugin_admin;
     protected array $active_plugins;
     protected ilLanguage $lng;
     protected array $translations;
@@ -35,21 +34,23 @@ class ilStudyProgrammeType
     protected ilStudyProgrammeTypeRepository $type_repo;
     protected Filesystem $webdir;
 
+    protected ilComponentFactory $component_factory;
+
 
     public function __construct(
         int $id,
         ilStudyProgrammeTypeRepository $type_repo,
         ILIAS\Filesystem\Filesystem $webdir,
-        ilPluginAdmin $plugin_admin,
         ilLanguage $lng,
-        ilObjUser $user
+        ilObjUser $user,
+        ilComponentFactory $component_factory
     ) {
         $this->id = $id;
         $this->type_repo = $type_repo;
         $this->webdir = $webdir;
-        $this->plugin_admin = $plugin_admin;
         $this->lng = $lng;
         $this->user = $user;
+        $this->component_factory = $component_factory;
     }
 
     /**
@@ -460,19 +461,9 @@ class ilStudyProgrammeType
         return $this->type_repo;
     }
 
-    protected function getActivePlugins() : array
+    protected function getActivePlugins() : Iterator
     {
-        if ($this->active_plugins === null) {
-            $active_plugins = $this->plugin_admin->getActivePluginsForSlot(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk');
-            $this->active_plugins = array();
-            foreach ($active_plugins as $pl_name) {
-                /** @var ilStudyProgrammeTypeHookPlugin $plugin */
-                $plugin = $this->plugin_admin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl_name);
-                $this->active_plugins[] = $plugin;
-            }
-        }
-
-        return $this->active_plugins;
+        return $this->component_factory->getActivePluginsInSlot("prgtypehk");
     }
 
     public function changedTranslations() : array

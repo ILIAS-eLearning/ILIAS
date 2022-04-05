@@ -1,11 +1,23 @@
 <?php
-require_once('class.ilFileDelivery.php');
-require_once('Delivery.php');
-require_once './Services/FileDelivery/classes/HttpServiceAware.php';
+declare(strict_types=1);
 
-use ILIAS\FileDelivery\Delivery as Delivery;
+use ILIAS\FileDelivery\Delivery;
 use ILIAS\FileDelivery\HttpServiceAware;
+use ILIAS\FileUpload\MimeType;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilPHPOutputDelivery
  *
@@ -17,17 +29,13 @@ use ILIAS\FileDelivery\HttpServiceAware;
 final class ilPHPOutputDelivery
 {
     use HttpServiceAware;
-    /**
-     * @var ILIAS\FileDelivery\Delivery
-     */
-    protected $ilFileDelivery;
+    protected ?Delivery $ilFileDelivery = null;
 
 
     /**
      * @param        $download_file_name
-     * @param string $mime_type
      */
-    public function start($download_file_name, $mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM)
+    public function start(string $download_file_name, string $mime_type = MimeType::APPLICATION__OCTET_STREAM) : void
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -44,7 +52,7 @@ final class ilPHPOutputDelivery
     }
 
 
-    public function stop()
+    public function stop() : void
     {
         $this->ilFileDelivery->close();
     }

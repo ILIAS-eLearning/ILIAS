@@ -47,7 +47,7 @@ class ilUserCertificateZip
         $certificateId = $this->objectId;
 
         $directory = $this->webDirectory . $this->certificatePath . time() . '__' . $this->installionId . '__' . $type . '__' . $certificateId . '__certificate/';
-        ilUtil::makeDirParents($directory);
+        ilFileUtils::makeDirParents($directory);
 
         return $directory;
     }
@@ -65,22 +65,16 @@ class ilUserCertificateZip
         fclose($fh);
     }
 
-    /**
-     * Create a ZIP file from a directory with certificates
-     * @param string  $dir     Directory containing the certificates
-     * @param boolean $deliver TRUE to deliver the ZIP file, FALSE to return the filename only
-     * @return string The created ZIP archive path
-     */
     public function zipCertificatesInArchiveDirectory(string $dir, bool $deliver = true) : string
     {
         $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
         $zipFilePath = $this->webDirectory . $this->certificatePath . $zipFile;
 
-        ilUtil::zip($dir, $zipFilePath);
-        ilUtil::delDir($dir);
+        ilFileUtils::zip($dir, $zipFilePath);
+        ilFileUtils::delDir($dir);
 
         if ($deliver) {
-            ilUtil::deliverFile($zipFilePath, $zipFile, 'application/zip', false, true);
+            ilFileDelivery::deliverFileLegacy($zipFilePath, $zipFile, 'application/zip', false, true);
         }
 
         return $zipFilePath;

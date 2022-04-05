@@ -14,13 +14,9 @@ class assKprimChoiceTest extends assBaseTestCase
     {
         require_once './Modules/TestQuestionPool/classes/class.assKprimChoice.php';
         require_once './Modules/TestQuestionPool/classes/class.ilAssKprimChoiceAnswer.php';
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+
+        chdir(dirname(__FILE__));
+        chdir('../../../');
         require_once './Services/Utilities/classes/class.ilUtil.php';
     }
 

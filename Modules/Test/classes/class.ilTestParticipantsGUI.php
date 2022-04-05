@@ -46,6 +46,7 @@ class ilTestParticipantsGUI
      * @var ilTestAccess
      */
     protected $testAccess;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilTestParticipantsGUI constructor.
@@ -53,6 +54,8 @@ class ilTestParticipantsGUI
      */
     public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->testObj = $testObj;
         $this->questionSetConfig = $questionSetConfig;
     }
@@ -60,7 +63,7 @@ class ilTestParticipantsGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -76,7 +79,7 @@ class ilTestParticipantsGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -169,10 +172,6 @@ class ilTestParticipantsGUI
         }
     }
     
-    /**
-     * @param array $a_user_ids
-     * @return bool
-     */
     public function addParticipants($a_user_ids = array())
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -197,19 +196,20 @@ class ilTestParticipantsGUI
             $message = $DIC->language()->txt("tst_invited_selected_users");
         }
         if (strlen($message)) {
-            ilUtil::sendInfo($message, true);
+            $this->main_tpl->setOnScreenMessage('info', $message, true);
         } else {
-            ilUtil::sendInfo($DIC->language()->txt("tst_invited_nobody"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("tst_invited_nobody"), true);
             return false;
         }
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW);
+        return null;
     }
     
     /**
      * @return ilTestParticipantsTableGUI
      */
-    protected function buildTableGUI()
+    protected function buildTableGUI() : ilTestParticipantsTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -301,11 +301,11 @@ class ilTestParticipantsGUI
      * @param array $in_rows
      * @return array
      */
-    protected function applyFilterCriteria($in_rows)
+    protected function applyFilterCriteria($in_rows) : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
-        $sess_filter = $_SESSION['form_tst_participants_' . $this->getTestObj()->getRefId()]['selection'];
+        $sess_filter = ilSession::get('form_tst_participants_' . $this->getTestObj()->getRefId())['selection'];
         $sess_filter = str_replace('"', '', $sess_filter);
         $sess_filter = explode(':', $sess_filter);
         $filter = substr($sess_filter[2], 0, strlen($sess_filter[2]) - 1);
@@ -412,7 +412,7 @@ class ilTestParticipantsGUI
                 $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
             }
         } else {
-            ilUtil::sendInfo($DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
         }
         $DIC->ctrl()->redirect($this, self::CMD_SHOW);
     }
@@ -433,7 +433,7 @@ class ilTestParticipantsGUI
                 $this->getTestObj()->disinviteUser($user_id);
             }
         } else {
-            ilUtil::sendInfo($DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
         }
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW);

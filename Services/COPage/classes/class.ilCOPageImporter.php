@@ -28,8 +28,8 @@ class ilCOPageImporter extends ilXmlImporter
     public function init() : void
     {
         global $DIC;
-        /** @var ilPluginAdmin $ilPluginAdmin */
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC["component.repository"];
 
         $this->ds = new ilCOPageDataSet();
         $this->ds->setDSPrefix("ds");
@@ -38,8 +38,9 @@ class ilCOPageImporter extends ilXmlImporter
         $this->log = ilLoggerFactory::getLogger('copg');
 
         // collect all page component plugins that have their own exporter
-        foreach (ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "COPage", "pgcp") as $plugin_name) {
-            if ($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+        foreach ($component_repository->getPluginSlotById("pgcp")->getActivePlugins() as $plugin) {
+            $plugin_name = $plugin->getName();
+            if ($plugin->supportsExport()) {
                 require_once('Customizing/global/plugins/Services/COPage/PageComponent/'
                     . $plugin_name . '/classes/class.il' . $plugin_name . 'Importer.php');
 
@@ -108,11 +109,11 @@ class ilCOPageImporter extends ilXmlImporter
                             $new_page->setActive(true);
                             // array_key_exists does NOT work on simplexml!
                             if (isset($page_data["Active"])) {
-                                $new_page->setActive($page_data["Active"]);
+                                $new_page->setActive((string) $page_data["Active"]);
                             }
                             $new_page->setActivationStart($page_data["ActivationStart"]);
                             $new_page->setActivationEnd($page_data["ActivationEnd"]);
-                            $new_page->setShowActivationInfo($page_data["ShowActivationInfo"]);
+                            $new_page->setShowActivationInfo((string) $page_data["ShowActivationInfo"]);
                             $new_page->createFromXML();
                             $this->extractPluginProperties($new_page);
                         }

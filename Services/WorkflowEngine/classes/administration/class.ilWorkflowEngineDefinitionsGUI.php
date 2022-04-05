@@ -12,13 +12,15 @@
  */
 class ilWorkflowEngineDefinitionsGUI
 {
+    private \ILIAS\WorkflowEngine\Service $service;
     /** @var ilObjWorkflowEngineGUI $parent_gui */
-    protected $parent_gui;
+    protected ilObjWorkflowEngineGUI $parent_gui;
 
     /**
      * @var \ILIAS\DI\Container
      */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilWorkflowEngineDefinitionsGUI constructor.
@@ -28,22 +30,23 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function __construct(ilObjWorkflowEngineGUI $parent_gui, \ILIAS\DI\Container $dic = null)
     {
-        $this->parent_gui = $parent_gui;
-
         if ($dic === null) {
-            $dic = $GLOBALS['DIC'];
+            global $DIC;
+            $dic = $DIC;
         }
+        $this->service = $dic->workflowEngine();
+        $this->main_tpl = $dic->ui()->mainTemplate();
+        $this->parent_gui = $parent_gui;
         $this->dic = $dic;
     }
 
     /**
      * Handle the command given.
-     *
      * @param string $command
-     *
      * @return string HTML
+     * @noinspection PhpInconsistentReturnPointsInspection
      */
-    public function handle($command)
+    public function handle(string $command)
     {
         switch (strtolower($command)) {
             case 'uploadform':
@@ -67,7 +70,7 @@ class ilWorkflowEngineDefinitionsGUI
                 break;
 
             case 'delete':
-                return $this->deleteDefinition();
+                $this->deleteDefinition();
                 break;
 
             case 'confirmdelete':
@@ -79,7 +82,7 @@ class ilWorkflowEngineDefinitionsGUI
                 break;
 
             case'stoplistening':
-                return $this->stopListening();
+                $this->stopListening();
                 break;
 
             case 'view':
@@ -91,9 +94,9 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string HTML
      */
-    public function showDefinitionsTable()
+    public function showDefinitionsTable() : string
     {
-        if ($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+        if ($this->dic->rbac()->system()->checkAccess('write', $this->service->internal()->request()->getRefId())) {
             $this->initToolbar();
         }
         require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
@@ -108,7 +111,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string HTML
      */
-    public function applyFilter()
+    public function applyFilter() : string
     {
         require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
         $table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
@@ -121,7 +124,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string HTML
      */
-    public function resetFilter()
+    public function resetFilter() : string
     {
         require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
         $table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
@@ -134,7 +137,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string
      */
-    public function showUploadForm()
+    public function showUploadForm() : string
     {
         require_once './Services/WorkflowEngine/classes/administration/class.ilUploadDefinitionForm.php';
         $form_definition = new ilUploadDefinitionForm();
@@ -146,10 +149,10 @@ class ilWorkflowEngineDefinitionsGUI
     }
 
     /**
-     * @return string
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
+     * @noinspection PhpInconsistentReturnPointsInspection
      */
     public function handleUploadSubmit()
     {
@@ -245,7 +248,7 @@ class ilWorkflowEngineDefinitionsGUI
             rename($sourceFile, $targetFile);
         }
 
-        ilUtil::sendSuccess($this->parent_gui->lng->txt('upload_parse_success'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('upload_parse_success'), true);
         ilUtil::redirect(
             html_entity_decode($this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view'))
         );
@@ -254,7 +257,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return void
      */
-    public function initToolbar()
+    public function initToolbar() : void
     {
         require_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
         $upload_wizard_button = ilLinkButton::getInstance();
@@ -268,10 +271,10 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return void
      */
-    protected function processUploadFormCancellation()
+    protected function processUploadFormCancellation() : void
     {
         if (isset($_POST['cmd']['cancel'])) {
-            ilUtil::sendInfo($this->parent_gui->lng->txt('action_aborted'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->parent_gui->lng->txt('action_aborted'), true);
             ilUtil::redirect(
                 html_entity_decode(
                     $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
@@ -285,7 +288,7 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function startListening()
     {
-        $identifier = basename($_GET['process_id']);
+        $identifier = basename(current($this->service->internal()->request()->getProcessId()));
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
         $class = substr($identifier, 4);
@@ -337,7 +340,7 @@ class ilWorkflowEngineDefinitionsGUI
             ilWorkflowDbHelper::writeStaticInput($input_var['name'], stripslashes($_POST[$input_var['name']]), $event_id);
         }
 
-        ilUtil::sendSuccess($this->parent_gui->lng->txt('wfe_started_listening'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('wfe_started_listening'), true);
         ilUtil::redirect(
             html_entity_decode(
                 $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
@@ -345,14 +348,14 @@ class ilWorkflowEngineDefinitionsGUI
         );
     }
 
-    public function stopListening()
+    public function stopListening() : void
     {
-        $process_id = ilUtil::stripSlashes($_GET['process_id']);
+        $process_id = ilUtil::stripSlashes(current($this->service->internal()->request()->getProcessId()));
 
         require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::deleteStartEventData($process_id);
 
-        ilUtil::sendSuccess($this->parent_gui->lng->txt('wfe_stopped_listening'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('wfe_stopped_listening'), true);
         ilUtil::redirect(
             html_entity_decode(
                 $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
@@ -368,7 +371,7 @@ class ilWorkflowEngineDefinitionsGUI
     public function startProcess()
     {
         if (isset($_POST['cmd']['cancel'])) {
-            ilUtil::sendInfo($this->parent_gui->lng->txt('action_aborted'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->parent_gui->lng->txt('action_aborted'), true);
             ilUtil::redirect(
                 html_entity_decode(
                     $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
@@ -376,7 +379,7 @@ class ilWorkflowEngineDefinitionsGUI
             );
         }
 
-        $identifier = basename($_GET['process_id']);
+        $identifier = basename(current($this->service->internal()->request()->getProcessId()));
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . $identifier . '.php';
         $class = substr($identifier, 4);
@@ -425,7 +428,7 @@ class ilWorkflowEngineDefinitionsGUI
 
         ilWorkflowDbHelper::writeWorkflow($workflow_instance);
 
-        ilUtil::sendSuccess($this->parent_gui->lng->txt('process_started'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('process_started'), true);
         ilUtil::redirect(
             html_entity_decode(
                 $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
@@ -436,10 +439,10 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      *
      */
-    private function ensureProcessIdInRequest()
+    private function ensureProcessIdInRequest() : void
     {
         if (!isset($this->dic->http()->request()->getQueryParams()['process_id'])) {
-            ilUtil::sendInfo($this->parent_gui->lng->txt('wfe_request_missing_process_id'));
+            $this->main_tpl->setOnScreenMessage('info', $this->parent_gui->lng->txt('wfe_request_missing_process_id'));
             $this->parent_gui->ilCtrl->redirect($this->parent_gui, 'definitions.view');
         }
     }
@@ -447,7 +450,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string
      */
-    private function getProcessIdFromRequest()
+    private function getProcessIdFromRequest() : string
     {
         $processId = str_replace(['\\', '/'], '', stripslashes($this->dic->http()->request()->getQueryParams()['process_id']));
 
@@ -457,7 +460,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return void
      */
-    public function deleteDefinition()
+    public function deleteDefinition() : void
     {
         $this->ensureProcessIdInRequest();
 
@@ -473,7 +476,7 @@ class ilWorkflowEngineDefinitionsGUI
             unlink($pathToProcessBpmn2File);
         }
 
-        ilUtil::sendSuccess($this->parent_gui->lng->txt('definition_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('definition_deleted'), true);
         ilUtil::redirect(
             html_entity_decode(
                 $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
@@ -484,7 +487,7 @@ class ilWorkflowEngineDefinitionsGUI
     /**
      * @return string
      */
-    public function confirmDeleteDefinition()
+    public function confirmDeleteDefinition() : string
     {
         $this->ensureProcessIdInRequest();
 

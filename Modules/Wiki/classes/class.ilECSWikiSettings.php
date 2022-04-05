@@ -20,7 +20,7 @@
  */
 class ilECSWikiSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return '/campusconnect/wikis';
     }

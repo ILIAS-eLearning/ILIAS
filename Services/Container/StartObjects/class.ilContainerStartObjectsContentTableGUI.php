@@ -82,7 +82,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $items = array();
         $counter = 0;
         foreach ($this->start_object->getStartObjects() as $start) {
-            $obj_id = $ilObjDataCache->lookupObjId($start['item_ref_id']);
+            $obj_id = $ilObjDataCache->lookupObjId((int) $start['item_ref_id']);
             $ref_id = $start['item_ref_id'];
             $type = $ilObjDataCache->lookupType($obj_id);
             
@@ -235,7 +235,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         return "";
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VAL_NR", $a_set["nr"]);
         

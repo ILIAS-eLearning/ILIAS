@@ -3,7 +3,6 @@
 
 /**
  * Class ilOrgUnitOtherRolesTableGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
@@ -54,12 +53,10 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-
     public function readData()
     {
         $this->parseData();
     }
-
 
     public function parseData()
     {
@@ -70,7 +67,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
 
         $this->setData($data);
     }
-
 
     protected function parseRows($user_ids)
     {
@@ -84,7 +80,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         return $data;
     }
 
-
     /**
      * @param $role_id integer
      */
@@ -93,7 +88,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         $this->role_id = $role_id;
     }
 
-
     /**
      * @return integer
      */
@@ -101,7 +95,6 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
     {
         return $this->role_id;
     }
-
 
     protected function setRowForUser(&$set, $user_id)
     {
@@ -112,25 +105,25 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         $set["user_id"] = $user_id;
     }
 
-
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
-        $this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
-        $this->tpl->setVariable("LAST_NAME", $set["last_name"]);
+        $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
+        $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
 
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive) {
-            $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $set["user_id"]);
+            $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $a_set["user_id"]);
             $this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "role_id", $this->role_id);
 
             $selection = new ilAdvancedSelectionListGUI();
             $selection->setListTitle($lng->txt("Actions"));
-            $selection->setId("selection_list_user_other_roles_" . $set["user_id"]);
-            $selection->addItem($this->lng->txt("remove"), "delete_from_role", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromRole"));
+            $selection->setId("selection_list_user_other_roles_" . $a_set["user_id"]);
+            $selection->addItem($this->lng->txt("remove"), "delete_from_role",
+                $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromRole"));
         }
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
     }

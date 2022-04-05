@@ -20,6 +20,9 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     protected array $options = [];
     private bool $complex = true;
 
+    /**
+     * @param array<string, string> $options
+     */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
@@ -64,9 +67,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     protected function getConstraintForRequirement() : ?Constraint
     {
         return $this->refinery->custom()->constraint(
-            function ($value) {
-                return (is_array($value) && count($value) > 0);
-            },
+            fn($value) => is_array($value) && count($value) > 0,
             "Empty"
         );
     }
@@ -76,8 +77,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            return "var checkedBoxes = function() {
+        return fn($id) => "var checkedBoxes = function() {
 				var options = [];
 				$('#$id').find('li').each(function() {
 				    if ($(this).find('input').prop('checked')) {
@@ -91,7 +91,6 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
 			});
 			il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
 			";
-        };
     }
 
     /**

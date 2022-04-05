@@ -3,21 +3,18 @@
 
 /**
  * Class ilDclRecordEditGUI
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
- *
  */
 class ilDclRecordEditGUI
 {
 
     /**
      * Possible redirects after saving/updating a record - use GET['redirect'] to set constants
-     *
      */
     const REDIRECT_RECORD_LIST = 1;
     const REDIRECT_DETAIL = 2;
@@ -70,7 +67,6 @@ class ilDclRecordEditGUI
      */
     protected $tableview;
 
-
     /**
      * @param ilObjDataCollectionGUI $parent_obj
      */
@@ -92,11 +88,10 @@ class ilDclRecordEditGUI
         $this->tableview_id = $_REQUEST['tableview_id'];
         if (!$this->tableview_id) {
             $this->tableview_id = ilDclCache::getTableCache($this->table_id)
-                                         ->getFirstTableViewId($this->parent_obj->ref_id);
+                                            ->getFirstTableViewId($this->parent_obj->ref_id);
         }
         $this->tableview = ilDclTableView::findOrGetInstance($this->tableview_id);
     }
-
 
     /**
      * @return bool
@@ -114,7 +109,6 @@ class ilDclRecordEditGUI
 
         return true;
     }
-
 
     /**
      *
@@ -142,7 +136,6 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
      * Create new record gui
      */
@@ -159,7 +152,6 @@ class ilDclRecordEditGUI
             );
         }
     }
-
 
     /**
      * Record edit gui
@@ -181,10 +173,8 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
      * Delete confirmation
-     *
      * @throws ilDclException
      */
     public function confirmDelete()
@@ -212,7 +202,6 @@ class ilDclRecordEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * Cancel deletion
      */
@@ -220,7 +209,6 @@ class ilDclRecordEditGUI
     {
         $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
     }
-
 
     /**
      * Remove record
@@ -236,17 +224,14 @@ class ilDclRecordEditGUI
         }
 
         $record->doDelete();
-        ilUtil::sendSuccess($this->lng->txt("dcl_record_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_record_deleted"), true);
         $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
     }
-
 
     /**
      * Return All fields and values from a record ID. If this method is requested over AJAX,
      * data is returned in JSON format
-     *
      * @param int $record_id
-     *
      * @return array
      */
     public function getRecordData($record_id = 0)
@@ -267,10 +252,8 @@ class ilDclRecordEditGUI
         return $return;
     }
 
-
     /**
      * init Form
-     *
      * @move move parts to RecordRepresentationGUI
      */
     public function initForm()
@@ -312,7 +295,8 @@ class ilDclRecordEditGUI
 
                 // If creation mode
                 if (!$this->record_id) {
-                    $default_value = ilDclTableViewBaseDefaultValue::findSingle($field_setting->getFieldObject()->getDatatypeId(), $field_setting->getId());
+                    $default_value = ilDclTableViewBaseDefaultValue::findSingle($field_setting->getFieldObject()->getDatatypeId(),
+                        $field_setting->getId());
 
                     if ($default_value !== null) {
                         if ($item instanceof ilDclCheckboxInputGUI) {
@@ -364,10 +348,8 @@ class ilDclRecordEditGUI
         $this->ctrl->setParameter($this, "record_id", $this->record_id);
     }
 
-
     /**
      * Set values from object to form
-     *
      * @return bool
      */
     public function setFormValues()
@@ -389,7 +371,6 @@ class ilDclRecordEditGUI
         return true;
     }
 
-
     /**
      * Cancel Update
      */
@@ -398,7 +379,6 @@ class ilDclRecordEditGUI
         $this->checkAndPerformRedirect(true);
     }
 
-
     /**
      * Cancel Save
      */
@@ -406,7 +386,6 @@ class ilDclRecordEditGUI
     {
         $this->cancelUpdate();
     }
-
 
     public function saveConfirmation(ilDclBaseRecordModel $record_obj, $filehash)
     {
@@ -447,7 +426,12 @@ class ilDclRecordEditGUI
             if (($record_field instanceof ilDclFileuploadRecordFieldModel || $record_field instanceof ilDclMobRecordFieldModel)
                 && $record_field->getValue() == null
             ) {
-                $empty_fileuploads['field_' . $field->getId()] = array("name" => "", "type" => "", "tmp_name" => "", "error" => 4, "size" => 0);
+                $empty_fileuploads['field_' . $field->getId()] = array("name" => "",
+                                                                       "type" => "",
+                                                                       "tmp_name" => "",
+                                                                       "error" => 4,
+                                                                       "size" => 0
+                );
             }
             $record_representation = ilDclFieldFactory::getRecordRepresentationInstance($record_field);
 
@@ -469,7 +453,6 @@ class ilDclRecordEditGUI
             $this->tpl->setContent($confirmation->getHTML());
         }
     }
-
 
     /**
      * Save record
@@ -529,7 +512,8 @@ class ilDclRecordEditGUI
 
         if ($valid) {
             if ($create_mode) {
-                if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id))) {
+                if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id,
+                    $this->table_id))) {
                     $this->accessDenied();
 
                     return;
@@ -547,19 +531,22 @@ class ilDclRecordEditGUI
                                         if ($file && is_uploaded_file($file)) {
                                             $file_name = $data["name"][$idx][$idx2];
                                             $file_type = $data["type"][$idx][$idx2];
-                                            $this->form->keepTempFileUpload($hash, $field, $file, $file_name, $file_type, $idx, $idx2);
+                                            $this->form->keepTempFileUpload($hash, $field, $file, $file_name,
+                                                $file_type, $idx, $idx2);
                                         }
                                     }
                                 } else {
                                     if ($upload && is_uploaded_file($upload)) {
                                         $file_name = $data["name"][$idx];
                                         $file_type = $data["type"][$idx];
-                                        $this->form->keepTempFileUpload($hash, $field, $upload, $file_name, $file_type, $idx);
+                                        $this->form->keepTempFileUpload($hash, $field, $upload, $file_name, $file_type,
+                                            $idx);
                                     }
                                 }
                             }
                         } else {
-                            $this->form->keepTempFileUpload($hash, $field, $data["tmp_name"], $data["name"], $data["type"]);
+                            $this->form->keepTempFileUpload($hash, $field, $data["tmp_name"], $data["name"],
+                                $data["type"]);
                         }
                     }
 
@@ -648,7 +635,7 @@ class ilDclRecordEditGUI
             $this->ctrl->setParameter($this, "record_id", $this->record_id);
 
             if (!$this->ctrl->isAsynch()) {
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             }
 
             $this->checkAndPerformRedirect();
@@ -657,7 +644,8 @@ class ilDclRecordEditGUI
                 $this->record_id = $record_obj->getId();
                 $this->initForm();
                 $this->setFormValues();
-                echo ilUtil::getSystemMessageHTML($this->lng->txt('msg_obj_modified'), 'success') . $this->form->getHTML();
+                echo ilUtil::getSystemMessageHTML($this->lng->txt('msg_obj_modified'),
+                        'success') . $this->form->getHTML();
                 exit();
             } else {
                 $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
@@ -675,10 +663,8 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
      * Checkes to what view (table or detail) should be redirected and performs redirect
-     *
      */
     protected function checkAndPerformRedirect($force_redirect = false)
     {
@@ -699,18 +685,16 @@ class ilDclRecordEditGUI
         }
     }
 
-
     protected function accessDenied()
     {
         if (!$this->ctrl->isAsynch()) {
-            ilUtil::sendFailure($this->lng->txt('dcl_msg_no_perm_edit'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_no_perm_edit'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         } else {
             echo $this->lng->txt('dcl_msg_no_perm_edit');
             exit();
         }
     }
-
 
     /**
      * @param $message
@@ -723,7 +707,7 @@ class ilDclRecordEditGUI
             echo ilUtil::getSystemMessageHTML($message, 'failure') . $this->form->getHTML();
             exit();
         } else {
-            ilUtil::sendFailure($message, $keep);
+            $this->tpl->setOnScreenMessage('failure', $message, $keep);
 
             // Fill locked fields on edit mode - otherwise they are empty (workaround)
             if (isset($this->record_id)) {
@@ -747,7 +731,6 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
      * This function is only used by the ajax request if searching for ILIAS references. It builds the html for the search results.
      */
@@ -758,7 +741,7 @@ class ilDclRecordEditGUI
         $html = "";
         $query_parser = new ilQueryParser($search);
         $query_parser->setMinWordLength(1);
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             $html .= $query_parser->getMessage() . "<br />";
@@ -780,7 +763,8 @@ class ilDclRecordEditGUI
             foreach ((array) $entry['refs'] as $reference) {
                 $path = new ilPathGUI();
                 $tpl->setCurrentBlock('result');
-                $tpl->setVariable('RESULT_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $reference) . " » " . $entry['title']);
+                $tpl->setVariable('RESULT_PATH',
+                    $path->getPath(ROOT_FOLDER_ID, (int) $reference) . " » " . $entry['title']);
                 $tpl->setVariable('RESULT_REF', $reference);
                 $tpl->setVariable('FIELD_ID', $dest);
                 $tpl->parseCurrentBlock();
@@ -792,18 +776,14 @@ class ilDclRecordEditGUI
         exit;
     }
 
-
     protected function getLanguageJsKeys()
     {
         return "<script>ilDataCollection.strings.add_value='" . $this->lng->txt('add_value') . "';</script>";
     }
 
-
     /**
      * Parse search results
-     *
      * @param ilObject[] $a_res
-     *
      * @return array
      */
     protected function parseSearchResults($a_res)
@@ -821,7 +801,6 @@ class ilDclRecordEditGUI
         return $rows;
     }
 
-
     /**
      * Cleanup temp-files
      */
@@ -832,7 +811,6 @@ class ilDclRecordEditGUI
             $this->form->cleanupTempFiles($ilfilehash);
         }
     }
-
 
     /**
      * @return ilDclPropertyFormGUI

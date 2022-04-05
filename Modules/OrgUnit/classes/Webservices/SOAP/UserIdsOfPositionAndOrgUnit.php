@@ -6,7 +6,6 @@ use ilOrgUnitUserAssignmentQueries;
 
 /**
  * Class UserIdsOfPositionAndOrgUnit
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class UserIdsOfPositionAndOrgUnit extends Base
@@ -14,7 +13,6 @@ class UserIdsOfPositionAndOrgUnit extends Base
 
     /**
      * @param array $params
-     *
      * @return array
      */
     protected function run(array $params)
@@ -22,18 +20,17 @@ class UserIdsOfPositionAndOrgUnit extends Base
         $position_id = $params[self::POSITION_ID];
         $orgu_id = $params[self::ORGU_REF_ID];
 
-        return ilOrgUnitUserAssignmentQueries::getInstance()->getUserIdsOfOrgUnitsInPosition(array($orgu_id), $position_id);
+        return ilOrgUnitUserAssignmentQueries::getInstance()->getUserIdsOfOrgUnitsInPosition(array($orgu_id),
+            $position_id);
     }
-
 
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getUserIdsOfPositionAndOrgUnit";
     }
-
 
     /**
      * @return array
@@ -46,20 +43,18 @@ class UserIdsOfPositionAndOrgUnit extends Base
         );
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array('usr_ids' => Base::TYPE_INT_ARRAY);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns ids of users in a position of a given Org Unit";
     }

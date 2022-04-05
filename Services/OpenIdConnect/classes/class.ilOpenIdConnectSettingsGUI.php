@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilOpenIdConnectSettingsGUI
@@ -8,6 +21,8 @@
  *
  *
  */
+use ILIAS\FileUpload\FileUpload;
+
 class ilOpenIdConnectSettingsGUI
 {
     const STAB_SETTINGS = 'settings';
@@ -16,61 +31,32 @@ class ilOpenIdConnectSettingsGUI
 
     const DEFAULT_CMD = 'settings';
 
-    /**
-     * @var int
-     */
-    private $ref_id = 0;
+    private int $ref_id = 0;
 
+    private ilOpenIdConnectSettings $settings;
 
-    /**
-     * @var \ilOpenIdConnectSettings
-     */
-    private $settings = null;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage|null
-     */
-    protected $lng = null;
+    protected ilCtrl $ctrl;
 
-    /**
-     * @var ilCtrl|null
-     */
-    protected $ctrl = null;
+    protected ilLogger $logger;
 
-    /**
-     * @var \ilLogger
-     */
-    protected $logger = null;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilAccessHandler|null
-     */
-    protected $access = null;
+    protected ilRbacReview $review;
 
-    /**
-     * @var ilRbacReview
-     */
-    protected $review;
+    protected ilErrorHandling $error;
 
-    /**
-     * @var \ilErrorHandling
-     */
-    protected $error = null;
+    protected ilGlobalTemplateInterface $mainTemplate;
 
-    /**
-     * @var \ilTemplate|null
-     */
-    protected $mainTemplate = null;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilTabsGUI|null
-     */
-    protected $tabs = null;
+    private FileUpload $upload;
 
     /**
      * ilOpenIdConnectSettingsGUI constructor.
      */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
@@ -87,35 +73,24 @@ class ilOpenIdConnectSettingsGUI
         $this->access = $DIC->access();
         $this->review = $DIC->rbac()->review();
         $this->error = $DIC['ilErr'];
-
+        $this->upload = $DIC->upload();
 
         $this->settings = ilOpenIdConnectSettings::getInstance();
     }
 
-    /**
-     * @param string $a_permission
-     */
-    protected function checkAccess($a_permission)
+    protected function checkAccess(string $a_permission) : void
     {
         if (!$this->checkAccessBool($a_permission)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->WARNING);
         }
     }
 
-    /**
-     * @param string $a_permission
-     * @return bool
-     */
-    protected function checkAccessBool($a_permission)
+    protected function checkAccessBool(string $a_permission) : bool
     {
         return $this->access->checkAccess($a_permission, '', $this->ref_id);
     }
 
-
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->checkAccess('read');
 
@@ -127,10 +102,7 @@ class ilOpenIdConnectSettingsGUI
         }
     }
 
-    /**
-     * @param \ilPropertyFormGUI|null $form
-     */
-    protected function settings(ilPropertyFormGUI $form = null)
+    protected function settings(ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_SETTINGS);
@@ -143,10 +115,7 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    /**
-     * Init general settings form
-     */
-    protected function initSettingsForm()
+    protected function initSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('auth_oidc_settings_title'));
@@ -204,7 +173,9 @@ class ilOpenIdConnectSettingsGUI
         );
         $scopes->setMulti(true);
         $scopeValues = $this->settings->getAdditionalScopes();
-        $scopes->setValue($scopeValues[0]);
+        if (isset($scopeValues[0])) {
+            $scopes->setValue($scopeValues[0]);
+        }
         $scopes->setMultiValues($scopeValues);
         $form->addItem($scopes);
 
@@ -214,13 +185,13 @@ class ilOpenIdConnectSettingsGUI
             'le'
         );
         $login_element->setRequired(true);
-        $login_element->setValue($this->settings->getLoginElementType());
+        $login_element->setValue((string) $this->settings->getLoginElementType());
         $form->addItem($login_element);
 
         // le -> type text
         $text_option = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_txt'),
-            ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT
+            (string) ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT
         );
         $login_element->addOption($text_option);
 
@@ -237,7 +208,7 @@ class ilOpenIdConnectSettingsGUI
         // le -> type img
         $img_option = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_img'),
-            ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG
+            (string) ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG
         );
         $login_element->addOption($img_option);
 
@@ -258,12 +229,12 @@ class ilOpenIdConnectSettingsGUI
             $this->lng->txt('auth_oidc_settings_login_options'),
             'login_prompt'
         );
-        $login_options->setValue($this->settings->getLoginPromptType());
+        $login_options->setValue((string) $this->settings->getLoginPromptType());
 
         // enforce login
         $enforce = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_login_option_enforce'),
-            ilOpenIdConnectSettings::LOGIN_ENFORCE
+            (string) ilOpenIdConnectSettings::LOGIN_ENFORCE
         );
         $enforce->setInfo($this->lng->txt('auth_oidc_settings_login_option_enforce_info'));
         $login_options->addOption($enforce);
@@ -271,7 +242,7 @@ class ilOpenIdConnectSettingsGUI
         // default login
         $default = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_login_option_default'),
-            ilOpenIdConnectSettings::LOGIN_STANDARD
+            (string) ilOpenIdConnectSettings::LOGIN_STANDARD
         );
         $default->setInfo($this->lng->txt('auth_oidc_settings_login_option_default_info'));
         $login_options->addOption($default);
@@ -283,12 +254,12 @@ class ilOpenIdConnectSettingsGUI
             $this->lng->txt('auth_oidc_settings_logout_scope'),
             'logout_scope'
         );
-        $logout_scope->setValue($this->settings->getLogoutScope());
+        $logout_scope->setValue((string) $this->settings->getLogoutScope());
 
         // scope global
         $global_scope = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_logout_scope_global'),
-            ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL
+            (string) ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL
         );
         $global_scope->setInfo($this->lng->txt('auth_oidc_settings_logout_scope_global_info'));
         $logout_scope->addOption($global_scope);
@@ -296,7 +267,7 @@ class ilOpenIdConnectSettingsGUI
         // ilias scope
         $ilias_scope = new ilRadioOption(
             $this->lng->txt('auth_oidc_settings_logout_scope_local'),
-            ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL
+            (string) ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL
         );
         $logout_scope->addOption($ilias_scope);
 
@@ -317,7 +288,7 @@ class ilOpenIdConnectSettingsGUI
             $this->lng->txt('auth_oidc_settings_session_duration'),
             'session_duration'
         );
-        $session->setValue($this->settings->getSessionDuration());
+        $session->setValue((string) $this->settings->getSessionDuration());
         $session->setSuffix($this->lng->txt('minutes'));
         $session->setMinValue(5);
         $session->setMaxValue(1440);
@@ -341,7 +312,7 @@ class ilOpenIdConnectSettingsGUI
         );
         $sync->setChecked($this->settings->isSyncAllowed());
         $sync->setInfo($this->lng->txt('auth_oidc_settings_user_sync_info'));
-        $sync->setValue(1);
+        $sync->setValue("1");
         $form->addItem($sync);
 
         $roles = new ilSelectInputGUI(
@@ -368,15 +339,13 @@ class ilOpenIdConnectSettingsGUI
     /**
      * Save settings
      */
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
         $this->checkAccess('write');
 
         $form = $this->initSettingsForm();
         if (!$form->checkInput()) {
-            ilUtil::sendFailure(
-                $this->lng->txt('err_check_input')
-            );
+            $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->settings($form);
             return;
@@ -393,9 +362,7 @@ class ilOpenIdConnectSettingsGUI
 
         $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
         if (!empty($invalid_scopes)) {
-            ilUtil::sendFailure(
-                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
-            );
+            $this->mainTemplate->setOnScreenMessage('failure', sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes)));
             $form->setValuesByPost();
             $this->settings($form);
             return;
@@ -426,26 +393,23 @@ class ilOpenIdConnectSettingsGUI
 
         $this->settings->save();
 
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'settings');
     }
 
     /**
      * Save image from http request
      */
-    protected function saveImageFromHttpRequest()
+    protected function saveImageFromHttpRequest() : void
     {
-        global $DIC;
-
         try {
-            $upload = $DIC->upload();
-            if (!$upload->hasBeenProcessed()) {
-                $upload->process();
+            if (!$this->upload->hasBeenProcessed()) {
+                $this->upload->process();
             }
-            foreach ($upload->getResults() as $single_file_upload) {
+            foreach ($this->upload->getResults() as $single_file_upload) {
                 if ($single_file_upload->isOK()) {
                     $this->settings->deleteImageFile();
-                    $upload->moveFilesTo(
+                    $this->upload->moveFilesTo(
                         ilOpenIdConnectSettings::FILE_STORAGE,
                         \ILIAS\FileUpload\Location::WEB
                     );
@@ -478,16 +442,12 @@ class ilOpenIdConnectSettingsGUI
             if ($role_id == ANONYMOUS_ROLE_ID) {
                 continue;
             }
-            $select[$role_id] = ilObject::_lookupTitle($role_id);
+            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
         }
         return $select;
     }
 
-
-    /**
-     * @param ilPropertyFormGUI|null $form
-     */
-    protected function profile(ilPropertyFormGUI $form = null)
+    protected function profile(ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_PROFILE);
@@ -498,9 +458,6 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
     protected function initProfileForm() : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -514,7 +471,7 @@ class ilOpenIdConnectSettingsGUI
             $form->addItem($text_form);
 
             $checkbox_form = new ilCheckboxInputGUI('');
-            $checkbox_form->setValue(1);
+            $checkbox_form->setValue("1");
             $checkbox_form->setPostVar($field . "_update");
             $checkbox_form->setChecked($this->settings->getProfileMappingFieldUpdate($field));
             $checkbox_form->setOptionTitle($this->lng->txt('auth_oidc_update_field_info'));
@@ -530,13 +487,13 @@ class ilOpenIdConnectSettingsGUI
     /**
      * @return bool
      */
-    protected function saveProfile()
+    protected function saveProfile() : bool
     {
         $this->checkAccessBool('write');
 
         $form = $this->initProfileForm();
         if (!$form->checkInput()) {
-            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->profile($form);
             return false;
@@ -553,14 +510,11 @@ class ilOpenIdConnectSettingsGUI
             );
         }
         $this->settings->save();
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+        $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::STAB_PROFILE);
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    protected function roles(\ilPropertyFormGUI $form = null)
+    protected function roles(\ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_ROLES);
@@ -571,10 +525,7 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    /**
-     * @return \ilPropertyFormGUI
-     */
-    protected function initRolesForm()
+    protected function initRolesForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('auth_oidc_role_mapping_table'));
@@ -594,7 +545,7 @@ class ilOpenIdConnectSettingsGUI
                 'role_map_update_' . $role_id
             );
             $update->setOptionTitle($this->lng->txt('auth_oidc_update_role_info'));
-            $update->setValue(1);
+            $update->setValue("1");
             $update->setChecked(!$this->settings->getRoleMappingUpdateForId($role_id));
             $form->addItem($update);
         }
@@ -608,7 +559,7 @@ class ilOpenIdConnectSettingsGUI
     /**
      * save role selection
      */
-    protected function saveRoles()
+    protected function saveRoles() : void
     {
         $this->checkAccess('write');
         $form = $this->initRolesForm();
@@ -637,26 +588,26 @@ class ilOpenIdConnectSettingsGUI
 
             if (!$role_valid) {
                 $form->setValuesByPost();
-                \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+                $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                 $this->roles($form);
                 return;
             }
 
             $this->settings->setRoleMappings($role_settings);
             $this->settings->save();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'roles');
         }
 
         $form->setValuesByPost();
-        \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+        $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->roles($form);
     }
 
     /**
      * Set sub tabs
      */
-    protected function setSubTabs(string $active_tab)
+    protected function setSubTabs(string $active_tab) : void
     {
         $this->tabs->addSubTab(
             self::STAB_SETTINGS,

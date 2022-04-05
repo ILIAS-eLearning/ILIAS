@@ -73,11 +73,14 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 }
             });
         $ms = $ms->withInput(new class() implements InputData {
-            public function getOr($_, $__)
+            /**
+             * @return string[]
+             */
+            public function getOr($_, $__) : array
             {
                 return ["3"];
             }
-            public function get($_)
+            public function get($_) : void
             {
             }
         });
@@ -199,6 +202,31 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             . "<div class=\"help-block\">$byline</div>"
             . "</div>"
             . "</div>";
+        $this->assertHTMLEquals($expected, $r->render($ms));
+    }
+
+    public function testRenderNoOptions() : void
+    {
+        $r = $this->getDefaultRenderer();
+        $f = $this->buildFactory();
+        $options = [];
+        $ms = $f->multiSelect("label", $options, "byline")
+            ->withNameFrom($this->name_source)->withDisabled(true);
+
+        $name = $ms->getName();
+        $label = $ms->getLabel();
+        $byline = $ms->getByline();
+        $expected = ""
+            . "<div class=\"form-group row\">"
+            . "<label class=\"control-label col-sm-3\">$label</label>"
+            . "<div class=\"col-sm-9\">"
+            . "<ul class=\"il-input-multiselect\" id=\"id_1\">"
+            . "<li>-</li>"
+            . "</ul>"
+            . "<div class=\"help-block\">$byline</div>"
+            . "</div>"
+            . "</div>";
+
         $this->assertHTMLEquals($expected, $r->render($ms));
     }
 }

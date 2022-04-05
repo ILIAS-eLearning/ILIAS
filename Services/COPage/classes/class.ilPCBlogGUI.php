@@ -27,7 +27,7 @@ class ilPCBlogGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -47,7 +47,7 @@ class ilPCBlogGUI extends ilPageContentGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -61,7 +61,7 @@ class ilPCBlogGUI extends ilPageContentGUI
                 break;
         }
 
-        return $ret;
+        return (string) $ret;
     }
 
     public function insert(ilPropertyFormGUI $a_form = null) : void

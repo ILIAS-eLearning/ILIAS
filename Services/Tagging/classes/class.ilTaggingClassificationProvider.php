@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use \Psr\Http\Message\RequestInterface;
 
@@ -43,40 +57,40 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         $this->requested_tag_code = trim($body["tag"] ?? ($params["tag"] ?? ""));
     }
 
-    protected function init()
+    protected function init() : void
     {
         $tags_set = new ilSetting("tags");
-        $this->enable_all_users = (bool) $tags_set->get("enable_all_users", false);
+        $this->enable_all_users = (bool) $tags_set->get("enable_all_users", '0');
     }
 
     /**
      * @inheritDoc
      */
     public static function isActive(
-        $a_parent_ref_id,
-        $a_parent_obj_id,
-        $a_parent_obj_type
-    ) {
+        int $a_parent_ref_id,
+        int $a_parent_obj_id,
+        string $a_parent_obj_type
+    ) : bool {
         global $DIC;
 
         $ilUser = $DIC->user();
         
         // we currently only check for the parent object setting
         // might change later on (parent containers)
-        $valid = ilContainer::_lookupContainerSetting(
+        $valid = (bool) ilContainer::_lookupContainerSetting(
             $a_parent_obj_id,
             ilObjectServiceSettingsGUI::TAG_CLOUD,
-            false
+            '0'
         );
-        
+
         if ($valid) {
             $tags_set = new ilSetting("tags");
-            if (!$tags_set->get("enable_all_users", false) &&
-                $ilUser->getId() == ANONYMOUS_USER_ID) {
+            if (!$tags_set->get("enable_all_users", '0') &&
+                $ilUser->getId() === ANONYMOUS_USER_ID) {
                 $valid = false;
             }
         }
-        
+
         return $valid;
     }
 
@@ -85,8 +99,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
      */
     public function render(
         array &$a_html,
-        $a_parent_gui
-    ) {
+        object $a_parent_gui
+    ) : void {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         
@@ -142,7 +156,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function importPostData($a_saved = null)
+    public function importPostData(?array $a_saved = null) : array
     {
         $type = $this->requested_type;
         $tag_code = $this->requested_tag_code;
@@ -178,7 +192,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function setSelection($a_value)
+    public function setSelection(array $a_value) : void
     {
         $this->selection = $a_value;
     }
@@ -238,6 +252,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 
     protected function getSubTreeTags() : array
     {
+        return [];
         $tree = $this->tree;
         $ilUser = $this->user;
         $sub_ids = array();

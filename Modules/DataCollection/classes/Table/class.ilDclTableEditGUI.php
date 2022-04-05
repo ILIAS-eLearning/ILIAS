@@ -4,13 +4,11 @@
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclTableEditGUI
@@ -45,15 +43,14 @@ class ilDclTableEditGUI
      */
     protected $form;
 
-
     /**
      * Constructor
-     *
      * @param ilDclTableListGUI $a_parent_obj
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
@@ -76,11 +73,10 @@ class ilDclTableEditGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
-
 
     /**
      * execute command
@@ -101,7 +97,6 @@ class ilDclTableEditGUI
         return true;
     }
 
-
     /**
      * create table add form
      */
@@ -111,7 +106,6 @@ class ilDclTableEditGUI
         $this->getStandardValues();
         $this->tpl->setContent($this->form->getHTML());
     }
-
 
     /**
      * create field edit form
@@ -130,7 +124,6 @@ class ilDclTableEditGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-
     /**
      * getFieldValues
      */
@@ -146,7 +139,8 @@ class ilDclTableEditGUI
             'export_enabled' => $this->table->getExportEnabled(),
             'import_enabled' => $this->table->getImportEnabled(),
             'limited' => $this->table->getLimited(),
-            'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), -8),
+            'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(),
+                    -8),
             'limit_end' => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), -8),
             'default_sort_field' => $this->table->getDefaultSortField(),
             'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
@@ -162,7 +156,6 @@ class ilDclTableEditGUI
         }
         $this->form->setValuesByArray($values);
     }
-
 
     /**
      * getStandardValues
@@ -186,7 +179,6 @@ class ilDclTableEditGUI
         $this->form->setValuesByArray($values);
     }
 
-
     /*
      * cancel
      */
@@ -195,10 +187,8 @@ class ilDclTableEditGUI
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
 
-
     /**
      * initEditCustomForm
-     *
      * @param string $a_mode
      */
     public function initForm($a_mode = "create")
@@ -215,7 +205,7 @@ class ilDclTableEditGUI
 
             $item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
             $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
-            $fields = array_filter($this->table->getFields(), function (ilDclBaseFieldModel $field) {
+            $fields = array_filter($this->table->getFields(), function(ilDclBaseFieldModel $field) {
                 return !is_null($field->getRecordQuerySortObject());
             });
             $options = array(0 => $this->lng->txt('dcl_please_select'));
@@ -313,7 +303,6 @@ class ilDclTableEditGUI
         }
     }
 
-
     /**
      *
      */
@@ -323,10 +312,8 @@ class ilDclTableEditGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-
     /**
      * save
-     *
      * @param string $a_mode values: create | edit
      */
     public function save($a_mode = "create")
@@ -379,11 +366,11 @@ class ilDclTableEditGUI
             $this->table->setLimitEnd($limit_end);
             if ($a_mode == "update") {
                 $this->table->doUpdate();
-                ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_edited"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_table_edited"), true);
                 $this->ctrl->redirectByClass("ildcltableeditgui", "edit");
             } else {
                 $this->table->doCreate();
-                ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_created"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_msg_table_created"), true);
                 $this->ctrl->setParameterByClass("ildclfieldlistgui", "table_id", $this->table->getId());
                 $this->ctrl->redirectByClass("ildclfieldlistgui", "listFields");
             }
@@ -393,12 +380,9 @@ class ilDclTableEditGUI
         }
     }
 
-
     /**
      * Custom checks for the form input
-     *
      * @param $a_mode 'create' | 'update'
-     *
      * @return bool
      */
     protected function checkInput($a_mode)
@@ -417,12 +401,11 @@ class ilDclTableEditGUI
         }
 
         if (!$return) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
         }
 
         return $return;
     }
-
 
     /*
      * accessDenied
@@ -431,7 +414,6 @@ class ilDclTableEditGUI
     {
         $this->tpl->setContent("Access denied.");
     }
-
 
     /**
      * confirmDelete
@@ -450,7 +432,6 @@ class ilDclTableEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * cancelDelete
      */
@@ -459,14 +440,13 @@ class ilDclTableEditGUI
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
 
-
     /*
       * delete
       */
     public function delete()
     {
         if (count($this->table->getCollectionObject()->getTables()) < 2) {
-            ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_last_table"), true); //TODO change lng var
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("dcl_cant_delete_last_table"), true); //TODO change lng var
             $this->table->doDelete(true);
         } else {
             $this->table->doDelete(false);
@@ -475,7 +455,6 @@ class ilDclTableEditGUI
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
     }
 
-
     /**
      * @return bool
      */
@@ -483,13 +462,12 @@ class ilDclTableEditGUI
     {
         $ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
 
-        return $this->table_id ? ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id) : ilObjDataCollectionAccess::hasWriteAccess($ref_id);
+        return $this->table_id ? ilObjDataCollectionAccess::hasAccessToEditTable($ref_id,
+            $this->table_id) : ilObjDataCollectionAccess::hasWriteAccess($ref_id);
     }
-
 
     /**
      * @param $options
-     *
      * @return mixed
      */
     protected function createTableSwitcher()

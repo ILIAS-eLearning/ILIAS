@@ -7,6 +7,19 @@ use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Lock\LockingRepository;
 use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface InformationRepository
  *
@@ -14,31 +27,14 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface InformationRepository extends LockingRepository, PreloadableRepository
 {
-
-    /**
-     * @return mixed
-     */
-    public function blank();
+    public function blank() : Information;
 
 
-    /**
-     * @param Information $information
-     * @param Revision    $revision
-     */
     public function store(Information $information, Revision $revision) : void;
 
 
-    /**
-     * @param Revision $revision
-     *
-     * @return Information
-     */
     public function get(Revision $revision) : Information;
 
 
-    /**
-     * @param Information $information
-     * @param Revision    $revision
-     */
     public function delete(Information $information, Revision $revision) : void;
 }

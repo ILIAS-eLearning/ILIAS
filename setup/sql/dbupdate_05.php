@@ -4407,7 +4407,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 // remove magpie cache dir
 $mcdir = CLIENT_WEB_DIR."/magpie_cache";
-ilUtil::delDir($mcdir);
+ilFileUtils::delDir($mcdir);
 ?>
 <#5675>
 <?php
@@ -4424,7 +4424,7 @@ if (!$ilDB->tableColumnExists('skl_profile_level', 'order_nr'))
 <#5676>
 <?php
 if ($ilDB->tableExists('skl_profile_level')) {
-    $profiles = ilSkillProfile::getProfiles();
+    $profiles = ilSkillProfile::getProfilesForAllSkillTrees();
     if (!empty($profiles)) {
         foreach ($profiles as $id => $profile) {
             $set = $ilDB->query(
@@ -6244,6 +6244,15 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     if (array_key_exists('options', $values)) {
         $idx = 0;
         foreach ($values['options'] as $option) {
+            $index = $idx + 1;
+            $exists_query = 'select field_id from adv_mdf_enum ' .
+                'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+                'and lang_code = ' . $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ' ' .
+                'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+            $exists_res = $ilDB->query($exists_query);
+            if ($exists_res->numRows() > 0) {
+                continue;
+            }
             $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                 'values ( ' .
                 $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
@@ -6261,6 +6270,15 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             }
             $idx = 0;
             foreach ($options as $option) {
+                $index = $idx + 1;
+                $exists_query = 'select field_id from adv_mdf_enum ' .
+                    'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+                    'and lang_code = ' . $ilDB->quote($lang, ilDBConstants::T_TEXT) . ' ' .
+                    'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+                $exists_res = $ilDB->query($exists_query);
+                if ($exists_res->numRows() > 0) {
+                    continue;
+                }
                 $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                     'values ( ' .
                     $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
@@ -6279,6 +6297,15 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     ) {
         $idx = 0;
         foreach ($values as $option) {
+            $index = $idx + 1;
+            $exists_query = 'select field_id from adv_mdf_enum ' .
+                'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+                'and lang_code = ' . $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ' ' .
+                'and idx = ' . $ilDB->quote($index, ilDBConstants::T_INTEGER);
+            $exists_res = $ilDB->query($exists_query);
+            if ($exists_res->numRows() > 0) {
+                continue;
+            }
             $query = 'insert into adv_mdf_enum (field_id, lang_code, idx, value ) ' .
                 'values ( ' .
                 $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .

@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Media Cast Settings.
@@ -17,7 +31,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     /**
      * @inheritDoc
      */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct(string $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
 
@@ -145,7 +159,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
             $tags_set->set("enable", $form->getInput("enable_tagging"));
             $tags_set->set("enable_all_users", $form->getInput("enable_all_users"));
             $ilSetting->set("block_activated_pdtag", $form->getInput("enable_tagging"));
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $ilCtrl->redirect($this, "view");
     }
@@ -181,7 +195,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
             "enable_tagging"
         );
         $cb_prop->setValue("1");
-        $cb_prop->setChecked($tags_set->get("enable"));
+        $cb_prop->setChecked((bool) $tags_set->get("enable"));
         
         // enable all users info
         $cb_prop2 = new ilCheckboxInputGUI(
@@ -189,7 +203,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
             "enable_all_users"
         );
         $cb_prop2->setInfo($lng->txt("tagging_enable_all_users_info"));
-        $cb_prop2->setChecked($tags_set->get("enable_all_users"));
+        $cb_prop2->setChecked((bool) $tags_set->get("enable_all_users"));
         $cb_prop->addSubItem($cb_prop2);
 
         $form->addItem($cb_prop);
@@ -235,7 +249,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
         $forb_str = "";
         if ($forbidden != "") {
-            $tags_array = unserialize($forbidden);
+            $tags_array = unserialize($forbidden, ['allowed_classes' => false]);
             $forb_str = implode(" ", $tags_array);
         }
         
@@ -286,7 +300,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
             $tags_set->set("forbidden_tags", serialize($tags_array));
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "editForbiddenTags");
     }

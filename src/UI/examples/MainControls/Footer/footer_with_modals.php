@@ -37,15 +37,16 @@ function pageFooterDemo2Footer()
 
     return $footer;
 }
+global $DIC;
+$refinery = $DIC->refinery();
+$request_wrapper = $DIC->http()->wrapper()->query();
 
-if (is_array($_GET) && array_key_exists('new_footer_2_ui',$_GET) && $_GET['new_footer_2_ui'] == '1') {
+if ($request_wrapper->has('new_footer_2_ui') && $request_wrapper->retrieve('new_footer_2_ui', $refinery->kindlyTo()->string()) == '1') {
     chdir('../../../../../');
     require_once('src/UI/examples/Layout/Page/Standard/ui.php');
     require_once('src/UI/examples/MainControls/Footer/footer.php');
 
     PageStandardExample\_initIliasForPreview();
-
-    global $DIC;
 
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();

@@ -5,6 +5,19 @@ namespace ILIAS\Filesystem\Stream;
 
 use Psr\Http\Message\StreamInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Streams
  *
@@ -27,7 +40,7 @@ final class Streams
      *
      * @return FileStream The newly created in memory stream.
      */
-    public static function ofString($string) : FileStream
+    public static function ofString(string $string) : \ILIAS\Filesystem\Stream\Stream
     {
         if (!is_string($string)) {
             throw new \InvalidArgumentException('The argument $string must be of type string but was "' . gettype($string) . '"');
@@ -49,7 +62,7 @@ final class Streams
      *
      * @see fopen()
      */
-    public static function ofResource($resource) : FileStream
+    public static function ofResource($resource) : \ILIAS\Filesystem\Stream\Stream
     {
         if (!is_resource($resource)) {
             throw new \InvalidArgumentException('The argument $resource must be of type resource but was "' . gettype($resource) . '"');
@@ -66,15 +79,13 @@ final class Streams
      * @param StreamInterface $stream   The stream which should be parsed into a FileStream.
      * @return FileStream               The newly created stream.
      */
-    public static function ofPsr7Stream(StreamInterface $stream) : FileStream
+    public static function ofPsr7Stream(StreamInterface $stream) : \ILIAS\Filesystem\Stream\Stream
     {
         $resource = $stream->detach();
         return self::ofResource($resource);
     }
 
-    public function ofZipResource(\ZipArchive $zip, int $index) : FileStream
+    public function ofZipResource(\ZipArchive $zip, int $index) : void
     {
-
     }
-
 }

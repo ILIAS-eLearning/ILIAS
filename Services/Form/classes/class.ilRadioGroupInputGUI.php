@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -141,9 +141,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
             }
 
             $tpl->setCurrentBlock("prop_radio_option");
-            if (!$this->getDisabled()) {
-                $tpl->setVariable("POST_VAR", $this->getPostVar());
-            }
+            $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("VAL_RADIO_OPTION", $option->getValue());
             $tpl->setVariable("OP_ID", $this->getFieldId() . "_" . $option->getValue());
             $tpl->setVariable("FID", $this->getFieldId());

@@ -9,10 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilUserBaseTest extends TestCase
 {
-    /**
-     * @param string $exception_class
-     */
-    protected function assertException($exception_class)
+    protected function assertException(string $exception_class) : void
     {
         $this->expectException($exception_class);
     }

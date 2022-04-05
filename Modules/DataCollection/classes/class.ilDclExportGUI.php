@@ -3,7 +3,6 @@
 
 /**
  * Export User Interface Class
- *
  * @author       Michael Herren <mh@studer-raimann.ch>
  */
 class ilDclExportGUI extends ilExportGUI
@@ -12,13 +11,12 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI()
+    protected function buildExportTableGUI() : ilExportTableGUI
     {
         $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
 
         return $table;
     }
-
 
     /**
      * overwrite to check if exportable fields are available (for async xls export)
@@ -29,13 +27,11 @@ class ilDclExportGUI extends ilExportGUI
             $this->checkForExportableFields();
         }
 
-        return parent::createExportFile();
+        parent::createExportFile();
     }
-
 
     /**
      * send failure and redirect if no exportable fields
-     *
      * @return bool
      */
     protected function checkForExportableFields()
@@ -52,7 +48,7 @@ class ilDclExportGUI extends ilExportGUI
             }
         }
 
-        ilUtil::sendFailure($lng->txt('dcl_no_export_data_available'), true);
+        $this->tpl->setOnScreenMessage('failure', $lng->txt('dcl_no_export_data_available'), true);
         $ilCtrl->redirect($this, "listExportFiles");
     }
 }

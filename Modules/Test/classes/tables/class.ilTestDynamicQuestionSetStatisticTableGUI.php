@@ -69,7 +69,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * @return ilTestDynamicQuestionSetFilterSelection
      */
-    public function getFilterSelection()
+    public function getFilterSelection() : ?ilTestDynamicQuestionSetFilterSelection
     {
         return $this->filterSelection;
     }
@@ -100,7 +100,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         if ($this->isTaxonomyFilterEnabled()) {
             require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
@@ -143,18 +143,17 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('NUM_ALL_QUESTIONS', $data['total_all']);
-        $this->tpl->setVariable('NUM_CORRECT_ANSWERED_QUESTIONS', $data['correct_answered']);
-        $this->tpl->setVariable('NUM_WRONG_ANSWERED_QUESTIONS', $data['wrong_answered']);
-        $this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_SKIPPED', $data['non_answered_skipped']);
-        $this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_NOTSEEN', $data['non_answered_notseen']);
+        $this->tpl->setVariable('NUM_ALL_QUESTIONS', $a_set['total_all']);
+        $this->tpl->setVariable('NUM_CORRECT_ANSWERED_QUESTIONS', $a_set['correct_answered']);
+        $this->tpl->setVariable('NUM_WRONG_ANSWERED_QUESTIONS', $a_set['wrong_answered']);
+        $this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_SKIPPED', $a_set['non_answered_skipped']);
+        $this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_NOTSEEN', $a_set['non_answered_notseen']);
     }
 
     /**
@@ -168,7 +167,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getTaxIds()
+    public function getTaxIds() : array
     {
         return $this->taxIds;
     }
@@ -176,7 +175,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isAnswerStatusFilterEnabled()
+    public function isAnswerStatusFilterEnabled() : bool
     {
         return $this->answerStatusFilterEnabled;
     }
@@ -192,7 +191,7 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isTaxonomyFilterEnabled()
+    public function isTaxonomyFilterEnabled() : bool
     {
         return $this->taxonomyFilterEnabled;
     }

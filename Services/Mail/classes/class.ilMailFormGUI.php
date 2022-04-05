@@ -4,6 +4,8 @@
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @author Jens Conze
@@ -27,15 +29,12 @@ class ilMailFormGUI
     private ilObjUser $user;
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;
-    private ilRbacSystem $rbacsystem;
     private ilFormatMail $umail;
     private ilMailBox $mbox;
     private ilFileDataMail $mfile;
     private GlobalHttpState $http;
     private Refinery $refinery;
-    private int $requestMailObjId = 0;
     private ?array $requestAttachments = null;
-    private string $requestMailSubject = '';
     protected ilMailTemplateService $templateService;
     private ilMailBodyPurifier $purifier;
     private string $mail_form_type = '';
@@ -52,7 +51,6 @@ class ilMailFormGUI
         $this->user = $DIC->user();
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->umail = new ilFormatMail($this->user->getId());
@@ -77,7 +75,7 @@ class ilMailFormGUI
         $this->ctrl->setParameter($this, 'mobj_id', $requestMailObjId);
     }
     
-    private function getQueryParam(string $name, \ILIAS\Refinery\Transformation $trafo, $default = null)
+    private function getQueryParam(string $name, Transformation $trafo, $default = null)
     {
         if ($this->http->wrapper()->query()->has($name)) {
             return $this->http->wrapper()->query()->retrieve(
@@ -89,7 +87,7 @@ class ilMailFormGUI
         return $default;
     }
 
-    private function getBodyParam(string $name, \ILIAS\Refinery\Transformation $trafo, $default = null)
+    private function getBodyParam(string $name, Transformation $trafo, $default = null)
     {
         if ($this->http->wrapper()->post()->has($name)) {
             return $this->http->wrapper()->post()->retrieve(
@@ -205,14 +203,13 @@ class ilMailFormGUI
                 '',
                 '',
                 '',
-                '',
-                false
+                ''
             );
 
             $this->ctrl->setParameterByClass(ilMailGUI::class, 'type', 'message_sent');
 
             if (ilMailFormCall::isRefererStored()) {
-                ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_message_send'), true);
                 $this->ctrl->redirectToURL(ilMailFormCall::getRefererRedirectUrl());
             } else {
                 $this->ctrl->redirectByClass(ilMailGUI::class);
@@ -253,7 +250,7 @@ class ilMailFormGUI
             $draftId = (int) ilSession::get('draft');
             ilSession::clear('draft');
         } else {
-            $draftId = $this->umail->getNewDraftId($this->user->getId(), $draftFolderId);
+            $draftId = $this->umail->getNewDraftId($draftFolderId);
         }
 
         $this->umail->updateDraft(
@@ -272,7 +269,7 @@ class ilMailFormGUI
             ilMailFormCall::getContextParameters()
         );
 
-        ilUtil::sendInfo($this->lng->txt('mail_saved'), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_saved'), true);
 
         if (ilMailFormCall::isRefererStored()) {
             ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
@@ -327,7 +324,7 @@ class ilMailFormGUI
 
         $searchQuery = trim((string) ilSession::get('mail_search_search'));
         if ($searchQuery !== '') {
-            $inp->setValue(ilUtil::prepareFormOutput($searchQuery, true));
+            $inp->setValue(ilLegacyFormElementsUtil::prepareFormOutput($searchQuery, true));
         }
         $form->addItem($inp);
 
@@ -366,11 +363,11 @@ class ilMailFormGUI
         );
 
         if (trim(ilSession::get('mail_search_search')) === '') {
-            ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("mail_insert_query"));
             $this->searchUsers(false);
         } elseif (strlen(trim(ilSession::get('mail_search_search'))) < 3) {
             $this->lng->loadLanguageModule('search');
-            ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_minimum_three'));
             $this->searchUsers(false);
         } else {
             $this->ctrl->setParameterByClass(
@@ -465,14 +462,14 @@ class ilMailFormGUI
             $template = $this->templateService->loadTemplateForId(
                 $this->http->wrapper()->query()->retrieve('template_id', $this->refinery->kindlyTo()->int())
             );
-            $context = ilMailTemplateContextService::getTemplateContextById((string) $template->getContext());
+            $context = ilMailTemplateContextService::getTemplateContextById($template->getContext());
 
             $this->http->saveResponse(
                 $this->http->response()
                     ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
-                    ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
+                    ->withBody(Streams::ofString(json_encode([
                         'm_subject' => $template->getSubject(),
-                        'm_message' => $template->getMessage() . $this->umail->appendSignature(),
+                        'm_message' => $this->umail->appendSignature($template->getMessage()),
                     ], JSON_THROW_ON_ERROR)))
             );
         } catch (Exception $e) {
@@ -522,9 +519,10 @@ class ilMailFormGUI
 
                 $mailData = $this->umail->getMail($mailId);
 
-                $mailData['m_subject'] = $this->umail->formatReplySubject();
-                $mailData['m_message'] = $this->umail->formatReplyMessage();
-                $mailData['m_message'] = $this->umail->prependSignature();
+                $mailData['m_subject'] = $this->umail->formatReplySubject($mailData['m_subject'] ?? '');
+                $mailData['m_message'] = $this->umail->prependSignature(
+                    $this->umail->formatReplyMessage($mailData['m_message'] ?? '')
+                );
                 $mailData['attachments'] = [];
                 $mailData['rcp_cc'] = '';
                 $mailData['rcp_to'] = $this->umail->formatReplyRecipient();
@@ -577,15 +575,13 @@ class ilMailFormGUI
             case self::MAIL_FORM_TYPE_FORWARD:
                 $mailData = $this->umail->getMail($mailId);
                 $mailData['rcp_to'] = $mailData['rcp_cc'] = $mailData['rcp_bcc'] = '';
-                $mailData['m_subject'] = $this->umail->formatForwardSubject();
-                $mailData['m_message'] = $this->umail->prependSignature();
-                if (is_array($mailData['attachments']) && count($mailData['attachments'])) {
-                    if ($error = $this->mfile->adoptAttachments(
-                        $mailData['attachments'],
-                        $mailId
-                    )) {
-                        ilUtil::sendInfo($error);
-                    }
+                $mailData['m_subject'] = $this->umail->formatForwardSubject($mailData['m_subject'] ?? '');
+                $mailData['m_message'] = $this->umail->prependSignature($mailData['m_message'] ?? '');
+                if (is_array($mailData['attachments']) && count($mailData['attachments']) && $error = $this->mfile->adoptAttachments(
+                    $mailData['attachments'],
+                    $mailId
+                )) {
+                    $this->tpl->setOnScreenMessage('info', $error);
                 }
                 break;
         
@@ -617,7 +613,7 @@ class ilMailFormGUI
                         . chr(13)
                         . chr(10);
                 }
-                $mailData['m_message'] .= $this->umail->appendSignature();
+                $mailData['m_message'] .= $this->umail->appendSignature($mailData['m_message']);
 
                 ilSession::set('rcp_to', '');
                 ilSession::set('rcp_cc', '');
@@ -662,7 +658,7 @@ class ilMailFormGUI
                 $mailData['m_message'] .= $additionalMessageText
                     . chr(13)
                     . chr(10)
-                    . $this->umail->appendSignature();
+                    . $this->umail->appendSignature($mailData['m_message']);
                 ilSession::set('mail_roles', []);
                 break;
         
@@ -801,7 +797,9 @@ class ilMailFormGUI
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
                             $template_chb->setValue($template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature();
+                            $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature(
+                                $mailData['m_message']
+                            );
                         }
                     }
                     if (isset($mailData['template_id'])) {
@@ -877,7 +875,7 @@ class ilMailFormGUI
             $this->http->saveResponse(
                 $this->http->response()
                     ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
-                    ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
+                    ->withBody(Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
             );
 
             $this->http->sendResponse();
@@ -894,7 +892,7 @@ class ilMailFormGUI
         $this->http->saveResponse(
             $this->http->response()
                 ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
-                ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
+                ->withBody(Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
         );
         $this->http->sendResponse();
         $this->http->close();
@@ -954,7 +952,7 @@ class ilMailFormGUI
         $formattedErrors = $formatter->format($errors);
 
         if ($formattedErrors !== '') {
-            ilUtil::sendFailure($formattedErrors);
+            $this->tpl->setOnScreenMessage('failure', $formattedErrors);
         }
     }
 }

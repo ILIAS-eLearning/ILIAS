@@ -26,9 +26,9 @@
  * the ilWikiUtil::makeUrlTitle($mTextform) ("_" for " ")for embedding things in URLs.
  *
  */
-define("IL_WIKI_MODE_REPLACE", "replace");
-define("IL_WIKI_MODE_COLLECT", "collect");
-define("IL_WIKI_MODE_EXT_COLLECT", "ext_collect");
+const IL_WIKI_MODE_REPLACE = "replace";
+const IL_WIKI_MODE_COLLECT = "collect";
+const IL_WIKI_MODE_EXT_COLLECT = "ext_collect";
 
 /**
  * Utility class for wiki.
@@ -46,7 +46,7 @@ class ilWikiUtil
         int $a_wiki_id,
         bool $a_offline = false
     ) : string {
-        return ilWikiUtil::processInternalLinks(
+        return self::processInternalLinks(
             $s,
             $a_wiki_id,
             IL_WIKI_MODE_REPLACE,
@@ -63,7 +63,7 @@ class ilWikiUtil
         int $a_wiki_id,
         bool $a_collect_non_ex = false
     ) : array {
-        return ilWikiUtil::processInternalLinks(
+        return self::processInternalLinks(
             $s,
             $a_wiki_id,
             IL_WIKI_MODE_COLLECT,
@@ -83,17 +83,18 @@ class ilWikiUtil
         bool $a_collect_non_ex = false,
         bool $a_offline = false
     ) {
+        include_once("./Modules/Wiki/libs/Sanitizer.php");
         $collect = array();
         // both from mediawiki DefaulSettings.php
         $wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
 
         // dummies for wiki globals
         $GLOBALS["wgContLang"] = new class {
-            public function getNsIndex($a_p)
+            public function getNsIndex($a_p) : bool
             {
                 return false;
             }
-            public function lc($a_key)
+            public function lc($a_key) : bool
             {
                 return false;
             }
@@ -162,7 +163,7 @@ class ilWikiUtil
                 # and no image is in sight. See bug 2095.
                 #
                 if ($text !== '' &&
-                    substr($m[3], 0, 1) === ']' &&
+                    strpos($m[3], ']') === 0 &&
                     strpos($text, '[') !== false
                 ) {
                     $text .= ']'; # so that replaceExternalLinks($text) works later
@@ -192,7 +193,7 @@ class ilWikiUtil
             # Don't allow internal links to pages containing
             # PROTO: where PROTO is a valid URL protocol; these
             # should be external links.
-            if (preg_match('/^\b%na' . ilWikiUtil::wfUrlProtocols() . 'me/', $m[1])) {
+            if (preg_match('/^\b%na' . self::wfUrlProtocols() . 'me/', $m[1])) {
                 $s .= $prefix . '[[' . $line ;
                 continue;
             }
@@ -204,7 +205,7 @@ class ilWikiUtil
             $link = $m[1];
             //			}
 
-            $noforce = (substr($m[1], 0, 1) != ':');
+            $noforce = (strpos($m[1], ':') !== 0);
             if (!$noforce) {
                 # Strip off leading ':'
                 $link = substr($link, 1);
@@ -226,8 +227,8 @@ class ilWikiUtil
             }
 
             // Media wiki performs an intermediate step here (Parser->makeLinkHolder)
-            if ($a_mode == IL_WIKI_MODE_REPLACE) {
-                $s .= ilWikiUtil::makeLink(
+            if ($a_mode === IL_WIKI_MODE_REPLACE) {
+                $s .= self::makeLink(
                     $nt,
                     $a_wiki_id,
                     $text,
@@ -237,17 +238,17 @@ class ilWikiUtil
                     $a_offline
                 );
             }
-            if ($a_mode == IL_WIKI_MODE_EXT_COLLECT) {
+            if ($a_mode === IL_WIKI_MODE_EXT_COLLECT) {
                 if (is_object($nt)) {
-                    $url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
-                    $db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
-                    list($inside, $trail) = ilWikiUtil::splitTrail($trail);
+                    $url_title = self::makeUrlTitle($nt->mTextform);
+                    $db_title = self::makeDbTitle($nt->mTextform);
+                    [$inside, $trail] = self::splitTrail($trail);
                     $collect[] = array("nt" => $nt, "text" => $text,
                         "trail" => $trail, "db_title" => $db_title,
                         "url_title" => $url_title);
                 }
             } else {
-                $db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
+                $db_title = self::makeDbTitle($nt->mTextform);
 
                 if ((ilWikiPage::_wikiPageExists($a_wiki_id, $db_title) ||
                     $a_collect_non_ex)
@@ -260,8 +261,8 @@ class ilWikiUtil
 
         //wfProfileOut( $fname );
 
-        if ($a_mode == IL_WIKI_MODE_COLLECT ||
-            $a_mode == IL_WIKI_MODE_EXT_COLLECT) {
+        if ($a_mode === IL_WIKI_MODE_COLLECT ||
+            $a_mode === IL_WIKI_MODE_EXT_COLLECT) {
             return $collect;
         } else {
             return $s;
@@ -311,8 +312,7 @@ class ilWikiUtil
             // remove anchor from text, define anchor
             $anc = "";
             if ($nt->mFragment != "") {
-                if (substr($text, strlen($text) - strlen("#" . $nt->mFragment))
-                    == "#" . $nt->mFragment) {
+                if (substr($text, strlen($text) - strlen("#" . $nt->mFragment)) === "#" . $nt->mFragment) {
                     $text = substr($text, 0, strlen($text) - strlen("#" . $nt->mFragment));
                 }
                 $anc = "#" . $nt->mFragment;
@@ -323,8 +323,8 @@ class ilWikiUtil
             //			list( $inside, $trail ) = ilWikiUtil::splitTrail( $trail );
             
             $retVal = '***' . $text . "***" . $trail;
-            $url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
-            $db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
+            $url_title = self::makeUrlTitle($nt->mTextform);
+            $db_title = self::makeDbTitle($nt->mTextform);
             if ($db_title != "") {
                 $pg_exists = ilWikiPage::_wikiPageExists($a_wiki_id, $db_title);
             } else {
@@ -377,9 +377,9 @@ class ilWikiUtil
     
     /**
      * From mediawiki GlobalFunctions.php
-     * @return string|string[]
+     * @return string
      */
-    public static function wfUrlProtocols()
+    public static function wfUrlProtocols() : string
     {
         $wgUrlProtocols = array(
             'http://',
@@ -396,16 +396,12 @@ class ilWikiUtil
 
         // Support old-style $wgUrlProtocols strings, for backwards compatibility
         // with LocalSettings files from 1.5
-        if (is_array($wgUrlProtocols)) {
-            $protocols = array();
-            foreach ($wgUrlProtocols as $protocol) {
-                $protocols[] = preg_quote($protocol, '/');
-            }
-    
-            return implode('|', $protocols);
-        } else {
-            return $wgUrlProtocols;
+        $protocols = array();
+        foreach ($wgUrlProtocols as $protocol) {
+            $protocols[] = preg_quote($protocol, '/');
         }
+
+        return implode('|', $protocols);
     }
     
     public static function wfUrlencode(
@@ -418,16 +414,16 @@ class ilWikiUtil
     public static function makeDbTitle(
         string $a_par
     ) : string {
-        $a_par = ilWikiUtil::removeUnsafeCharacters($a_par);
+        $a_par = self::removeUnsafeCharacters($a_par);
         return str_replace("_", " ", $a_par);
     }
 
     public static function makeUrlTitle(
         string $a_par
     ) : string {
-        $a_par = ilWikiUtil::removeUnsafeCharacters($a_par);
+        $a_par = self::removeUnsafeCharacters($a_par);
         $a_par = str_replace(" ", "_", $a_par);
-        return ilWikiUtil::wfUrlencode($a_par);
+        return self::wfUrlencode($a_par);
     }
     
     public static function splitTrail(
@@ -450,7 +446,7 @@ class ilWikiUtil
 
     public static function sendNotification(
         string $a_action,
-        string $a_type,
+        int $a_type,
         int $a_wiki_ref_id,
         int $a_page_id,
         ?string $a_comment = null
@@ -466,10 +462,10 @@ class ilWikiUtil
         $page = new ilWikiPage($a_page_id);
         
         // #11138
-        $ignore_threshold = ($a_action == "comment");
+        $ignore_threshold = ($a_action === "comment");
         
         // 1st update will be converted to new - see below
-        if ($a_action == "new") {
+        if ($a_action === "new") {
             return;
         }
 
@@ -477,14 +473,14 @@ class ilWikiUtil
             $users = ilNotification::getNotificationsForObject($a_type, $a_page_id, null, $ignore_threshold);
             $wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
             $users = array_merge($users, $wiki_users);
-            if (!sizeof($users)) {
+            if (!count($users)) {
                 return;
             }
 
             ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI_PAGE, $a_page_id, $users);
         } else {
             $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
-            if (!sizeof($users)) {
+            if (!count($users)) {
                 return;
             }
         }
@@ -509,10 +505,7 @@ class ilWikiUtil
         $snippet = ilPageObject::truncateHTML($snippet, 500, "...");
 
         // making things more readable
-        $snippet = str_replace('<br/>', "\n", $snippet);
-        $snippet = str_replace('<br />', "\n", $snippet);
-        $snippet = str_replace('</p>', "\n", $snippet);
-        $snippet = str_replace('</div>', "\n", $snippet);
+        $snippet = str_replace(['<br/>', '<br />', '</p>', '</div>'], "\n", $snippet);
 
         $snippet = trim(strip_tags($snippet));
 
@@ -520,7 +513,7 @@ class ilWikiUtil
         $hist = $page->getHistoryEntries();
         $current_version = array_shift($hist);
         $current_version = $current_version["nr"];
-        if (!$current_version && $a_action != "comment") {
+        if (!$current_version && $a_action !== "comment") {
             $a_type = ilNotification::TYPE_WIKI;
             $a_action = "new";
         }
@@ -532,7 +525,7 @@ class ilWikiUtil
                 $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
                 $ulng->loadLanguageModule('wiki');
 
-                if ($a_action == "comment") {
+                if ($a_action === "comment") {
                     $subject = sprintf($ulng->txt('wiki_notification_comment_subject'), $wiki->getTitle(), $page->getTitle());
                     $message = sprintf($ulng->txt('wiki_change_notification_salutation'), ilObjUser::_lookupFullname($user_id)) . "\n\n";
 

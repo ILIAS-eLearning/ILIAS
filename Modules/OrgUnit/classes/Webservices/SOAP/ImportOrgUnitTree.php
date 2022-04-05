@@ -6,17 +6,14 @@ use ilOrgUnitSimpleImport;
 
 /**
  * Class ImportOrgUnitTree
- *
  * @author Martin Studer ms@studer-raimann.ch
  */
 class ImportOrgUnitTree extends Base
 {
     const ORG_UNIT_TREE = 'OrgUnitTree';
 
-
     /**
      * @param array $params
-     *
      * @return void
      * @throws \ilSoapPluginException
      */
@@ -56,15 +53,13 @@ class ImportOrgUnitTree extends Base
         }
     }
 
-
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "importOrgUnitsSimpleXML";
     }
-
 
     /**
      * @return array
@@ -74,20 +69,18 @@ class ImportOrgUnitTree extends Base
         return array(self::ORG_UNIT_TREE => Base::TYPE_STRING);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return [];
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Imports ILIAS Organisational Units (SimpleXML)";
     }

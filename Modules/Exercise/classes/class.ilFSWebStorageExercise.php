@@ -1,12 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author Jesús López <lopez@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSWebStorageExercise extends ilFileSystemStorage
+class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
 {
     protected ilLogger $log;
     protected int $ass_id;
@@ -48,14 +62,6 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
         return 'ilExercise';
     }
 
-    public function create() : bool
-    {
-        $this->log->debug("parent create");
-
-        parent::create();
-
-        return true;
-    }
 
     public function deleteUserSubmissionDirectory(
         int $user_id
@@ -100,7 +106,7 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
             }
         }
         closedir($dp);
-        return ilUtil::sortArray($files, "order", "asc", true);
+        return ilArrayUtil::sortArray($files, "order", "asc", true);
     }
 
     public function getAssignmentFilePath(
@@ -119,7 +125,7 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
             foreach ($a_files["name"] as $k => $name) {
                 if ($name != "") {
                     $tmp_name = $a_files["tmp_name"][$k];
-                    ilUtil::moveUploadedFile(
+                    ilFileUtils::moveUploadedFile(
                         $tmp_name,
                         basename($name),
                         $this->path . DIRECTORY_SEPARATOR . basename($name),

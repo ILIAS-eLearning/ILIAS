@@ -8,10 +8,7 @@ require_once 'Services/Exceptions/classes/class.ilException.php';
  */
 class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
 {
-    /**
-     * @var
-     */
-    private $classMap;
+    private ilCertificateTypeClassMap $classMap;
 
     protected function setUp() : void
     {

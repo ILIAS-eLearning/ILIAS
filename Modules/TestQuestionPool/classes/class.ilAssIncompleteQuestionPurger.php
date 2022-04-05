@@ -42,7 +42,7 @@ class ilAssIncompleteQuestionPurger
         $this->purgeQuestionIds($questionIds);
     }
     
-    private function getPurgableQuestionIds()
+    private function getPurgableQuestionIds() : array
     {
         $INtypes = $this->db->in('object_data.type', $this->getIgnoredContainerObjectTypes(), true, 'text');
         
@@ -82,7 +82,7 @@ class ilAssIncompleteQuestionPurger
         $this->ignoredContainerObjectTypes = $ignoredContainerObjectTypes;
     }
     
-    protected function getIgnoredContainerObjectTypes()
+    protected function getIgnoredContainerObjectTypes() : array
     {
         return $this->ignoredContainerObjectTypes;
     }

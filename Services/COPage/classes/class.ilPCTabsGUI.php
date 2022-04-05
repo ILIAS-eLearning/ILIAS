@@ -26,7 +26,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -384,7 +384,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $this->updated = $this->pg_obj->update();
         }
         if ($this->updated === true) {
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editProperties");
         } else {
             $this->pg_obj->addHierIDs();
@@ -430,7 +430,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $this->content_obj->savePositions($positions);
         }
         $this->updated = $this->pg_obj->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "edit");
     }
 
@@ -445,7 +445,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $this->content_obj->addTab($lng->txt("cont_new_tab"));
         $this->updated = $this->pg_obj->update();
 
-        ilUtil::sendSuccess($lng->txt("cont_added_tab"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_added_tab"), true);
         $ilCtrl->redirect($this, "edit");
     }
     
@@ -459,7 +459,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         $tids = $this->request->getStringArray("tid");
         if (count($tids) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "edit");
         } else {
             $cgui = new ilConfirmationGUI();

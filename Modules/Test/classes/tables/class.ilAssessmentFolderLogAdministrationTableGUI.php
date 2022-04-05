@@ -14,13 +14,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -31,8 +24,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->counter = 1;
-        
+
         $this->setFormName('showlog');
         $this->setStyle('table', 'fullwidth');
 
@@ -51,7 +43,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
             $this->enable('select_all');
         }
 
-        $this->numericOrdering('nr');
+        //$this->numericOrdering('nr');
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
         
@@ -63,24 +55,23 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
-        $this->tpl->setVariable("NR", $data['nr']);
-        $this->tpl->setVariable("TEST_ID", $data['id']);
-        $this->tpl->setVariable("LOCATION_HREF", $data['location_href']);
-        $this->tpl->setVariable("LOCATION_TXT", $data['location_txt']);
+        $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
+        $this->tpl->setVariable("NR", $a_set['nr']);
+        $this->tpl->setVariable("TEST_ID", $a_set['id']);
+        $this->tpl->setVariable("LOCATION_HREF", $a_set['location_href']);
+        $this->tpl->setVariable("LOCATION_TXT", $a_set['location_txt']);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         return 'nr' == $a_field;
     }

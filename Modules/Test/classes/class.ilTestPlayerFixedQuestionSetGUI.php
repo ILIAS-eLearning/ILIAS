@@ -21,7 +21,7 @@ require_once 'Modules/Test/classes/class.ilTestOutputGUI.php';
  */
 class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
 {
-    protected function buildTestPassQuestionList()
+    protected function buildTestPassQuestionList() : ilAssQuestionList
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
@@ -40,6 +40,6 @@ class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
     {
         $info = $this->lng->txt('tst_wf_info_optional_question');
         $info .= ' ' . $this->lng->txt('tst_wf_info_answer_adopted_from_prev_pass');
-        ilUtil::sendInfo($info);
+        $this->tpl->setOnScreenMessage('info', $info);
     }
 }

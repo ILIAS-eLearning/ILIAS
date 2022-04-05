@@ -22,39 +22,29 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesAdvancedMetaData
-*/
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ * @todo    use logger and filestorage
+ */
 class ilAdvancedMDRecordExportFiles
 {
-    protected $export_dir = '';
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     *
-     */
-    public function __construct($a_obj_id = null)
+    protected string $export_dir = '';
+
+    public function __construct(int $a_obj_id = null)
     {
-        $this->export_dir = ilUtil::getDataDir() . '/ilAdvancedMetaData/export';
+        $this->export_dir = ilFileUtils::getDataDir() . '/ilAdvancedMetaData/export';
         if ($a_obj_id) {
             $this->export_dir .= "_" . $a_obj_id;
         }
         $this->init();
     }
-    
+
     /**
      * Read files info
-     *
      * @access public
      * @return array array e.g array(records => 'ECS-Server',size => '123',created' => 121212)
      */
-    public function readFilesInfo()
+    public function readFilesInfo() : array
     {
         $file_info = array();
         foreach ($this->getFiles() as $name => $data) {
@@ -65,9 +55,10 @@ class ilAdvancedMDRecordExportFiles
             if (!is_numeric($file_parts[0]) or (strcmp('xml', $file_parts[1]) != 0)) {
                 continue;
             }
+            $file_info = [];
             $file_info[$file_parts[0]]['size'] = $data['size'];
             $file_info[$file_parts[0]]['date'] = $file_parts[0];
-            
+
             if ($xml = simplexml_load_file($this->export_dir . '/' . $name)) {
                 $records = array();
                 foreach ($xml->xpath('Record/Title') as $title) {
@@ -76,99 +67,78 @@ class ilAdvancedMDRecordExportFiles
                 $file_info[$file_parts[0]]['name'] = $records;
             }
         }
-        return $file_info ? $file_info : array();
+        return $file_info;
     }
-    
+
     /**
      * Get files
-     *
-     * @access public
-     *
+     * @return array<int, array{type: string, size: string}>
      */
-    public function getFiles()
+    public function getFiles() : array
     {
         if (!@is_dir($this->export_dir)) {
             return array();
         }
-        foreach (ilUtil::getDir($this->export_dir) as $file_name => $file_data) {
+        $files = [];
+        foreach (ilFileUtils::getDir($this->export_dir) as $file_name => $file_data) {
             $files[$file_name] = $file_data;
         }
-        return $files ? $files : array();
+        return $files;
     }
-    
+
     /**
      * Create new export file from xml string
-     *
-     * @access public
-     * @param string xml presentation
-     *
      */
-    public function create($a_xml)
+    public function create(string $a_xml) : void
     {
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-         
+
         if (!$fp = @fopen($this->export_dir . '/' . time() . '.xml', 'w+')) {
             $ilLog->write(__METHOD__ . ': Cannot open file ' . $this->export_dir . '/' . time() . '.xml');
-
-            require_once './Services/Exceptions/classes/class.ilException.php';
             throw new ilException('Cannot write export file.');
         }
-         
+
         @fwrite($fp, $a_xml);
         @fclose($fp);
     }
-    
-    /**
-     * Delete by file id
-     *
-     * @access public
-     *
-     */
-    public function deleteByFileId($a_timest)
+
+    public function deleteByFileId(int $a_timest) : bool
     {
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-        
+
         if (!unlink($this->export_dir . '/' . $a_timest . '.xml')) {
             $ilLog->write(__METHOD__ . ': Cannot delete file ' . $this->export_dir . '/' . $a_timest . '.xml');
             return false;
         }
         return true;
     }
-    
-    /**
-     * Get absolut path by file id
-     *
-     * @access public
-     * @param string basename of file
-     *
-     */
-    public function getAbsolutePathByFileId($a_file_basename)
+
+    public function getAbsolutePathByFileId(int $a_file_basename) : string
     {
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-        
+
+        $a_file_basename = (string) $a_file_basename;
         if (!@file_exists($this->export_dir . '/' . $a_file_basename . '.xml')) {
             $ilLog->write(__METHOD__ . ': Cannot find file ' . $this->export_dir . '/' . $a_file_basename . '.xml');
-            return false;
+            return '';
         }
         return $this->export_dir . '/' . $a_file_basename . '.xml';
     }
-    
+
     /**
      * init export directory
-     *
      * @access private
-     *
      */
-    private function init()
+    private function init() : void
     {
         if (!@is_dir($this->export_dir)) {
-            ilUtil::makeDirParents($this->export_dir);
+            ilFileUtils::makeDirParents($this->export_dir);
         }
     }
 }

@@ -6,7 +6,6 @@ use ilOrgUnitPosition;
 
 /**
  * Class SuperiorPositionId
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class SuperiorPositionId extends Base
@@ -14,7 +13,6 @@ class SuperiorPositionId extends Base
 
     /**
      * @param array $params
-     *
      * @return int
      */
     protected function run(array $params)
@@ -22,15 +20,13 @@ class SuperiorPositionId extends Base
         return ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
     }
 
-
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getSuperiorPositionId";
     }
-
 
     /**
      * @return array
@@ -40,20 +36,18 @@ class SuperiorPositionId extends Base
         return array();
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array('position_id' => Base::TYPE_INT);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns the id of the default position 'Superior'";
     }

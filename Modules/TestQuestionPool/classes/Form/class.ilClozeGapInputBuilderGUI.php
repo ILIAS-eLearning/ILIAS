@@ -7,6 +7,9 @@ require_once 'Modules/TestQuestionPool/classes/class.assClozeTest.php';
 
 class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 {
+    private $value_combination;
+    private $value;
+
     /**
      * Set Value.
      * @param    string $a_value Value
@@ -20,7 +23,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
      * Get Value.
      * @return    string    Value
      */
-    public function getValue()
+    public function getValue() : string
     {
         $editOrOpen = $this->value;
         if (isset($editOrOpen['author'])) {
@@ -35,10 +38,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $this->value_combination = $value;
     }
 
-    /**
-     * Get Value.
-     * @return    string    Value
-     */
     public function getValueCombination()
     {
         $editOrOpen = $this->value;
@@ -67,14 +66,14 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
     public function checkInput() : bool
     {
         $error = false;
-        $json = ilUtil::stripSlashesRecursive(json_decode($_POST['gap_json_post']), false);
-        $_POST['gap'] = ilUtil::stripSlashesRecursive($_POST['gap']);
+        $json = ilArrayUtil::stripSlashesRecursive(json_decode($_POST['gap_json_post']), false);
+        $_POST['gap'] = ilArrayUtil::stripSlashesRecursive($_POST['gap']);
         $gaps_used_in_combination = array();
-        if (array_key_exists('gap_combination', $_POST)) {
-            $_POST['gap_combination'] = ilUtil::stripSlashesRecursive($_POST['gap_combination']);
-            $_POST['gap_combination_values'] = ilUtil::stripSlashesRecursive($_POST['gap_combination_values']);
+        if (isset($_POST['gap_combination'])) {
+            $_POST['gap_combination'] = ilArrayUtil::stripSlashesRecursive($_POST['gap_combination']);
+            $_POST['gap_combination_values'] = ilArrayUtil::stripSlashesRecursive($_POST['gap_combination_values']);
             $gap_with_points = array();
-        
+
             for ($i = 0; $i < count($_POST['gap_combination']['select']); $i++) {
                 foreach ($_POST['gap_combination']['select'][$i] as $key => $item) {
                     if ($item == 'none_selected_minus_one') {
@@ -108,7 +107,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                 $json[0][$key]->text_field_length = $gapsize > 0 ? $gapsize : '';
                 $select_at_least_on_positive = false;
                 if ($getType == CLOZE_TEXT || $getType == CLOZE_SELECT) {
-                    $_POST['gap_' . $key] = ilUtil::stripSlashesRecursive($_POST['gap_' . $key], false);
+                    $_POST['gap_' . $key] = ilArrayUtil::stripSlashesRecursive($_POST['gap_' . $key], false);
                     $gapText = $_POST['gap_' . $key];
                     foreach ($gapText['answer'] as $row => $answer) {
                         if (!isset($answer) || $answer == '') {

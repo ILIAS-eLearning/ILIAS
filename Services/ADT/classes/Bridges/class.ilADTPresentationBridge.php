@@ -9,7 +9,10 @@
 abstract class ilADTPresentationBridge
 {
     protected ilADT $adt;
-    protected mixed $decorator;
+    /**
+     * @var callable
+     */
+    protected $decorator;
     protected ilLanguage $lng;
 
     public function __construct(ilADT $a_adt)
@@ -45,9 +48,9 @@ abstract class ilADTPresentationBridge
 
     /**
      * Get sortable value presentation
-     * @return mixed
+     * @return
      */
-    abstract public function getSortable() : mixed;
+    abstract public function getSortable();
 
     /**
      * Set decorator callback
@@ -60,10 +63,10 @@ abstract class ilADTPresentationBridge
 
     /**
      * Decorate value
-     * @param mixed $a_value
-     * @return mixed
+     * @param string|int $a_value
+     * @return string|int
      */
-    protected function decorate(mixed $a_value) : mixed
+    protected function decorate($a_value)
     {
         if (is_callable($this->decorator)) {
             $a_value = call_user_func($this->decorator, $a_value);

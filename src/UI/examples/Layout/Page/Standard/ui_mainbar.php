@@ -187,13 +187,22 @@ function getUIContent($f, $request)
     return[$t, $c];
 }
 
-if (isset($_GET['ui_mainbar']) && ($_GET['ui_mainbar'] == '1' || $_GET['ui_mainbar'] == '2')) {
+global $DIC;
+$refinery = $DIC->refinery();
+$request_wrapper = $DIC->http()->wrapper()->query();
+
+if (
+    $request_wrapper->has('ui_mainbar') &&
+    (
+        $request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '1' ||
+        $request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '2'
+    )
+) {
     chdir('../../../../../../');
     require_once('src/UI/examples/Layout/Page/Standard/ui.php');
     _initIliasForPreview();
 
     //get resources
-    global $DIC;
     $f = $DIC['ui.factory'];
     $renderer = $DIC['ui.renderer'];
     $request = $DIC->http()->request();
@@ -209,11 +218,11 @@ if (isset($_GET['ui_mainbar']) && ($_GET['ui_mainbar'] == '1' || $_GET['ui_mainb
         '?' .
         $_SERVER['QUERY_STRING']
     );
-
-    if ($_GET['ui_mainbar'] == '1') {
+    $mainbar = null;
+    if ($request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '1') {
         $mainbar = getUIMainbar($f, $uri);
     }
-    if ($_GET['ui_mainbar'] == '2') {
+    if ($request_wrapper->retrieve('ui_mainbar', $refinery->kindlyTo()->string()) == '2') {
         $mainbar = getUIMainbar($f, $uri, true);
     }
     

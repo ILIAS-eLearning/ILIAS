@@ -22,12 +22,12 @@ interface ilAssLacCompositeInterface
      *
      * @return string
      */
-    public function describe();
+    public function describe() : string;
 
     /**
      * Get a human readable description of the Composite element
      *
      * @return string
      */
-    public function getDescription();
+    public function getDescription() : string;
 }

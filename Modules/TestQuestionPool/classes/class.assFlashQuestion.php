@@ -17,7 +17,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition
+class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjustable
 {
     private $width;
     private $height;
@@ -50,7 +50,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         $this->height = 400;
         $this->applet = "";
     }
-    
+
     /**
     * Returns true, if a single choice question is complete for use
     *
@@ -117,16 +117,14 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
      */
     protected function moveAppletIfExists()
     {
-        if (
-            isset($_SESSION['flash_upload_filename']) && is_string($_SESSION['flash_upload_filename']) &&
-            file_exists($_SESSION['flash_upload_filename']) && is_file($_SESSION['flash_upload_filename'])
+        if (ilSession::get('flash_upload_filename') != null &&
+            file_exists(ilSession::get('flash_upload_filename')) && is_file(ilSession::get('flash_upload_filename'))
         ) {
             $path = $this->getFlashPath();
-            \ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
 
-            require_once 'Services/Utilities/classes/class.ilFileUtils.php';
-            \ilFileUtils::rename($_SESSION['flash_upload_filename'], $path . $this->getApplet());
-            unset($_SESSION['flash_upload_filename']);
+            \ilFileUtils::rename(ilSession::get('flash_upload_filename'), $path . $this->getApplet());
+            ilSession::clear('flash_upload_filename');
         }
     }
 
@@ -150,8 +148,8 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setNrOfTries($data['nr_of_tries']);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setSuggestedSolution($data["solution_hint"]);
             $this->setOriginalId($data["original_id"]);
             $this->setObjId($data["obj_fi"]);
@@ -160,20 +158,20 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
             $this->setPoints($data["points"]);
 
             include_once("./Services/RTE/classes/class.ilRTE.php");
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
             }
-            
+
             // load additional data
             $result = $ilDB->queryF(
                 "SELECT * FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -189,7 +187,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
                 if (!is_array($this->parameters)) {
                     $this->clearParameters();
                 }
-                unset($_SESSION["flash_upload_filename"]);
+                ilSession::clear('flash_upload_filename');
             }
         }
         parent::loadFromDb($question_id);
@@ -211,16 +209,16 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
-        
+
         if ((int) $testObjId > 0) {
             $clone->setObjId($testObjId);
         }
-        
+
         if ($title) {
             $clone->setTitle($title);
         }
@@ -246,7 +244,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         $clone->duplicateApplet($this_id, $thisObjId);
 
         $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-        
+
         return $clone->id;
     }
 
@@ -257,11 +255,10 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     *
     * @access public
     */
-    public function copyObject($target_questionpool_id, $title = "")
+    public function copyObject($target_questionpool_id, $title = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
         $clone = $this;
@@ -281,17 +278,16 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
         // duplicate the applet
         $clone->copyApplet($original_id, $source_questionpool_id);
-        
+
         $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
 
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -329,13 +325,13 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     {
         $flashpath = $this->getFlashPath();
         $flashpath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $flashpath);
-        
+
         if ((int) $objectId > 0) {
             $flashpath_original = str_replace("/$this->obj_id/", "/$objectId/", $flashpath_original);
         }
-        
+
         if (!file_exists($flashpath)) {
-            ilUtil::makeDirParents($flashpath);
+            ilFileUtils::makeDirParents($flashpath);
         }
         $filename = $this->getApplet();
         if (!copy($flashpath_original . $filename, $flashpath . $filename)) {
@@ -355,7 +351,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         $flashpath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $flashpath);
         $flashpath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $flashpath_original);
         if (!file_exists($flashpath)) {
-            ilUtil::makeDirParents($flashpath);
+            ilFileUtils::makeDirParents($flashpath);
         }
         $filename = $this->getApplet();
         if (!copy($flashpath_original . $filename, $flashpath . $filename)) {
@@ -384,15 +380,15 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false) : int
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
         }
-        
+
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $found_values = array();
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
@@ -416,13 +412,13 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
                 $points += $solution['points'];
             }
         }
-        
+
         $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
-        
+
         return $this->ensureNonNegativePoints($reachedPoints);
     }
-    
-    public function sendToHost($url, $data, $optional_headers = null)
+
+    public function sendToHost($url, $data, $optional_headers = null) : string
     {
         $params = array('http' => array(
             'method' => 'POST',
@@ -442,7 +438,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         }
         return $response;
     }
-    
+
     /**
     * Uploads a flash file
     *
@@ -451,16 +447,16 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @return string Name of the file
     * @access public
     */
-    public function moveUploadedFile($tmpfile, $flashfile)
+    public function moveUploadedFile($tmpfile, $flashfile) : string
     {
         $result = "";
         if (!empty($tmpfile)) {
             $flashfile = str_replace(" ", "_", $flashfile);
             $flashpath = $this->getFlashPath();
             if (!file_exists($flashpath)) {
-                ilUtil::makeDirParents($flashpath);
+                ilFileUtils::makeDirParents($flashpath);
             }
-            if (ilUtil::moveUploadedFile($tmpfile, $flashfile, $flashpath . $flashfile)) {
+            if (ilFileUtils::moveUploadedFile($tmpfile, $flashfile, $flashpath . $flashfile)) {
                 $result = $flashfile;
             }
         }
@@ -472,7 +468,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         @unlink($this->getFlashPath() . $this->getApplet());
         $this->applet = "";
     }
-    
+
     /**
      * Saves the learners input of the question to the database.
      *
@@ -488,7 +484,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         //$this->getProcessLocker()->requestUserSolutionUpdateLock();
         // store in tst_solutions
         //$this->getProcessLocker()->releaseUserSolutionUpdateLock();
-        
+
         return true;
     }
 
@@ -508,7 +504,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     {
         return "assFlashQuestion";
     }
-    
+
     /**
     * Returns the name of the additional question data table in the database
     *
@@ -517,11 +513,11 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @return string The additional table name
     * @access public
     */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return "qpl_qst_flash";
     }
-    
+
     /**
     * Returns the name of the answer table in the database
     *
@@ -530,11 +526,11 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @return string The answer table name
     * @access public
     */
-    public function getAnswerTableName()
+    public function getAnswerTableName() : string
     {
         return "";
     }
-    
+
     /**
     * Deletes datasets from answers tables
     *
@@ -564,13 +560,13 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 
         return $startrow + 1;
     }
-    
+
     /**
     * Creates a question from a QTI file
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQTIItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -584,7 +580,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         $import = new assFlashQuestionImport($this);
         $import->fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping);
     }
-    
+
     /**
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
@@ -605,12 +601,12 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @return array An associated array containing the best solution
     * @access public
     */
-    public function getBestSolution($active_id, $pass)
+    public function getBestSolution($active_id, $pass) : array
     {
         $user_solution = array();
         return $user_solution;
     }
-    
+
     public function setHeight($a_height)
     {
         if (!$a_height) {
@@ -618,8 +614,8 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         }
         $this->height = $a_height;
     }
-    
-    public function getHeight()
+
+    public function getHeight() : int
     {
         return $this->height;
     }
@@ -631,27 +627,27 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         }
         $this->width = $a_width;
     }
-    
-    public function getWidth()
+
+    public function getWidth() : int
     {
         return $this->width;
     }
-    
+
     public function setApplet($a_applet)
     {
         $this->applet = $a_applet;
     }
-    
-    public function getApplet()
+
+    public function getApplet() : string
     {
         return $this->applet;
     }
-    
+
     public function addParameter($name, $value)
     {
         $this->parameters[$name] = $value;
     }
-    
+
     public function setParameters($params)
     {
         if (is_array($params)) {
@@ -660,18 +656,18 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
             $this->parameters = array();
         }
     }
-    
+
     public function removeParameter($name)
     {
         unset($this->parameters[$name]);
     }
-    
+
     public function clearParameters()
     {
         $this->parameters = array();
     }
-    
-    public function getParameters()
+
+    public function getParameters() : array
     {
         return $this->parameters;
     }
@@ -679,59 +675,6 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     public function isAutosaveable() : bool
     {
         return false;
-    }
-
-    /**
-     * Get all available operations for a specific question
-     *
-     * @param string $expression
-     *
-     * @internal param string $expression_type
-     * @return array
-     */
-    public function getOperators($expression)
-    {
-        require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
-        return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
-    }
-
-    /**
-     * Get all available expression types for a specific question
-     * @return array
-     */
-    public function getExpressionTypes()
-    {
-        return array(
-            iQuestionCondition::PercentageResultExpression,
-            iQuestionCondition::NumericResultExpression,
-            iQuestionCondition::EmptyAnswerExpression,
-        );
-    }
-
-    /**
-     * Get the user solution for a question by active_id and the test pass
-     *
-     * @param int $active_id
-     * @param int $pass
-     *
-     * @return ilUserQuestionResult
-     */
-    public function getUserQuestionResult($active_id, $pass)
-    {
-        // TODO: Implement getUserQuestionResult() method.
-    }
-
-    /**
-     * If index is null, the function returns an array with all anwser options
-     * Else it returns the specific answer option
-     *
-     * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
-     */
-    public function getAvailableAnswerOptions($index = null)
-    {
-        // TODO: Implement getAvailableAnswerOptions() method.
     }
 
     // fau: testNav - new function getTestQuestionConfig()

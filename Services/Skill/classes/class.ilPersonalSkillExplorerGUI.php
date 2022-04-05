@@ -17,6 +17,9 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree\SkillTreeFactory;
+use ILIAS\Skill\Tree\SkillTreeManager;
+
 /**
  * Explorer for selecting a personal skill
  *
@@ -28,24 +31,28 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     /**
      * @var object|string
      */
-    protected $select_gui;
-    protected string $select_cmd;
-    protected string $select_par;
-    protected array $all_nodes;
-    protected array $node;
-    protected array $child_nodes;
-    protected array $parent;
+    protected $select_gui = "";
+    protected string $select_cmd = "";
+    protected string $select_par = "";
+    protected array $all_nodes = [];
+    protected array $node = [];
+    protected array $child_nodes = [];
+    protected array $parent = [];
 
-    protected $selectable = [];
-    protected $selectable_child_nodes = [];
-    protected $has_selectable_nodes = false;
+    protected array $selectable = [];
+    protected array $selectable_child_nodes = [];
+    protected bool $has_selectable_nodes = false;
+
+    protected SkillTreeFactory $skill_tree_factory;
+    protected ilBasicSkillTreeRepository $tree_repo;
+    protected SkillTreeManager $skill_tree_manager;
 
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
         $a_select_gui,
         string $a_select_cmd,
-        string $a_select_par = "obj_id"
+        string $a_select_par = "node_id"
     ) {
         global $DIC;
 
@@ -58,25 +65,40 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
 
+        $this->skill_tree_factory = $DIC->skills()->internal()->factory()->tree();
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->skill_tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
 
         $this->lng->loadLanguageModule("skmg");
         
-        $this->tree = new ilSkillTree();
+        $this->tree = new ilGlobalSkillTree();
         $this->root_id = $this->tree->readRootId();
         
         parent::__construct("pskill_sel", $a_parent_obj, $a_parent_cmd, $this->tree);
         $this->setSkipRootNode(true);
-        
-        $this->all_nodes = $this->tree->getSubTree($this->tree->getNodeData($this->root_id));
-        foreach ($this->all_nodes as $n) {
-            $this->node[$n["child"]] = $n;
-            $this->child_nodes[$n["parent"]][] = $n;
-            $this->parent[$n["child"]] = $n["parent"];
+
+        $this->all_nodes = [];
+
+        foreach ($this->tree->getChilds(0) as $c) {
+            $tree_id = $this->tree_repo->getTreeIdForNodeId($c["child"]);
+            $tree = $this->skill_tree_factory->getTreeById($tree_id);
+            $all_nodes = $tree->getSubTree($tree->getNodeData($c["child"]));
+            foreach ($all_nodes as $n) {
+                $this->node[$n["child"]] = $n;
+                $this->child_nodes[$n["parent"]][] = $n;
+                $this->parent[$n["child"]] = $n["parent"];
+                $this->all_nodes[] = $n;
+            }
         }
 
         
         //		$this->setTypeWhiteList(array("skrt", "skll", "scat", "sktr"));
-        $this->buildSelectableTree($this->tree->readRootId());
+        $this->buildSelectableTree(0);
+    }
+
+    protected function getRootId() : int
+    {
+        return 0;
     }
 
     protected function setHasSelectableNodes(bool $a_val) : void
@@ -92,7 +114,9 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     public function buildSelectableTree(int $a_node_id) : void
     {
         if (in_array(ilSkillTreeNode::_lookupStatus($a_node_id), array(ilSkillTreeNode::STATUS_DRAFT, ilSkillTreeNode::STATUS_OUTDATED))) {
-            return;
+            if ($a_node_id != 0 && ilSkillTreeNode::_lookupType($a_node_id) !== "skrt") {
+                return;
+            }
         }
 
         $this->selectable[$a_node_id] = false;
@@ -125,7 +149,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         if (isset($this->selectable_child_nodes[$a_parent_node_id])
             && is_array($this->selectable_child_nodes[$a_parent_node_id])) {
             $childs = $this->selectable_child_nodes[$a_parent_node_id];
-            $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
+            $childs = ilArrayUtil::sortArray($childs, "order_nr", "asc", true);
             return $childs;
         }
         return [];
@@ -168,7 +192,12 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         $lng = $this->lng;
 
         // title
-        $title = $a_node["title"];
+        if ((int) $a_node["parent"] == 0) {
+            $tree_obj = $this->skill_tree_manager->getTree($a_node["skl_tree_id"]);
+            $title = $tree_obj->getTitle();
+        } else {
+            $title = $a_node["title"];
+        }
 
         return $title;
     }

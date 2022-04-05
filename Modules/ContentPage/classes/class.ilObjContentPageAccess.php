@@ -22,15 +22,15 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
         return $commands;
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
-        $targetAttributes = explode('_', $a_target);
+        $targetAttributes = explode('_', $target);
 
         if (2 !== count($targetAttributes) || $targetAttributes[0] !== self::OBJ_TYPE || ((int) $targetAttributes[1]) <= 0) {
             return false;
         }
 
-        return parent::_checkGoto($a_target);
+        return parent::_checkGoto($target);
     }
 
     public static function getConditionOperators() : array
@@ -38,7 +38,7 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
         return [];
     }
 
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         return false;
     }

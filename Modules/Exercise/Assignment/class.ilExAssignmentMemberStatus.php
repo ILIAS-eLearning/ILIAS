@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Exercise assignment member status
  *
@@ -12,22 +26,22 @@ class ilExAssignmentMemberStatus
 {
     protected ilDBInterface $db;
 
-    protected int $ass_id;
-    protected int $user_id;
+    protected int $ass_id = 0;
+    protected int $user_id = 0;
     protected string $notice = "";
-    protected bool $returned;
-    protected bool $solved;
-    protected bool $sent;
-    protected string $sent_time;
-    protected bool $feedback;
-    protected string $feedback_time;
+    protected bool $returned = false;
+    protected bool $solved = false;
+    protected bool $sent = false;
+    protected string $sent_time = "";
+    protected bool $feedback = false;
+    protected string $feedback_time = "";
     protected string $status = "notgraded";
-    protected string $status_time;
-    protected string $mark;
-    protected string $comment;
-    protected bool $db_exists;
-    protected bool $returned_update;
-    protected bool $status_update;
+    protected string $status_time = "";
+    protected string $mark = "";
+    protected string $comment = "";
+    protected bool $db_exists = false;
+    protected bool $returned_update = false;
+    protected bool $status_update = false;
     
     public function __construct(int $a_ass_id, int $a_user_id)
     {
@@ -40,7 +54,7 @@ class ilExAssignmentMemberStatus
         $this->read();
     }
     
-    public function setNotice(string $a_value)
+    public function setNotice(string $a_value) : void
     {
         $this->notice = $a_value;
     }

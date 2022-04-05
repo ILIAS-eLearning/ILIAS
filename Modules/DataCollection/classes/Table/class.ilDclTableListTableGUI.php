@@ -3,26 +3,10 @@
 
 /**
  * Class ilDclTableListTableGUI
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclTableListTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilDclTableListGUI
-     */
-    protected $parent_obj;
-
-
     /**
      * ilDclTableListTableGUI constructor.
      */
@@ -40,11 +24,12 @@ class ilDclTableListTableGUI extends ilTable2GUI
 
         $this->setId('dcl_table_list');
         $this->addColumn('', '', '1', true);
-        $this->addColumn($lng->txt('dcl_order'), null, '30px');
-        $this->addColumn($lng->txt('title'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_visible'), null, '250px', false, '', $this->lng->txt('dcl_visible_desc'));
-        $this->addColumn($lng->txt('dcl_comments'), null, '200px', false, '', $this->lng->txt('dcl_public_comments_desc'));
-        $this->addColumn($lng->txt('actions'), null, '30px');
+        $this->addColumn($lng->txt('dcl_order'), "", '30px');
+        $this->addColumn($lng->txt('title'), "", 'auto');
+        $this->addColumn($lng->txt('dcl_visible'), "", '250px', false, '', $this->lng->txt('dcl_visible_desc'));
+        $this->addColumn($lng->txt('dcl_comments'), "", '200px', false, '',
+            $this->lng->txt('dcl_public_comments_desc'));
+        $this->addColumn($lng->txt('actions'), "", '30px');
 
         $this->setSelectAllCheckbox('dcl_table_ids[]');
         $this->addMultiCommand('confirmDeleteTables', $lng->txt('dcl_delete_tables'));
@@ -75,11 +60,10 @@ class ilDclTableListTableGUI extends ilTable2GUI
         $this->setData($tables);
     }
 
-
     /**
-     * @param ilDclTable $a_set
+     * @param ilDclTable $a_set // WRONG: dirty protected function override
      */
-    public function fillRow($a_set)
+    public function fillRow($a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set->getId());
         $this->tpl->setVariable("ORDER_NAME", "order[{$a_set->getId()}]");
@@ -100,12 +84,9 @@ class ilDclTableListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $this->buildActions($a_set->getId()));
     }
 
-
     /**
      * build actions menu
-     *
      * @param $id
-     *
      * @return string
      */
     protected function buildActions($id)
@@ -116,10 +97,13 @@ class ilDclTableListTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('ildclfieldlistgui', 'table_id', $id);
         $this->ctrl->setParameterByClass('ildcltableviewgui', 'table_id', $id);
         $this->ctrl->setParameterByClass('ildcltableeditgui', 'table_id', $id);
-        $alist->addItem($this->lng->txt('settings'), '', $this->ctrl->getLinkTargetByClass('ildcltableeditgui', 'edit'));
-        $alist->addItem($this->lng->txt('dcl_list_fields'), '', $this->ctrl->getLinkTargetByClass('ildclfieldlistgui', 'listFields'));
+        $alist->addItem($this->lng->txt('settings'), '',
+            $this->ctrl->getLinkTargetByClass('ildcltableeditgui', 'edit'));
+        $alist->addItem($this->lng->txt('dcl_list_fields'), '',
+            $this->ctrl->getLinkTargetByClass('ildclfieldlistgui', 'listFields'));
         $alist->addItem($this->lng->txt('dcl_tableviews'), '', $this->ctrl->getLinkTargetByClass('ildcltableviewgui'));
-        $alist->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTargetByClass('ildcltableeditgui', 'confirmDelete'));
+        $alist->addItem($this->lng->txt('delete'), '',
+            $this->ctrl->getLinkTargetByClass('ildcltableeditgui', 'confirmDelete'));
 
         return $alist->getHTML();
     }

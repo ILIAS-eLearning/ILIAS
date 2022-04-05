@@ -35,19 +35,21 @@ class ilNewsItemGUI
     protected ilToolbarGUI $toolbar;
 
     protected bool $enable_edit = false;
-    protected int $context_obj_id;
-    protected string $context_obj_type;
-    protected int $context_sub_obj_id;
-    protected string $context_sub_obj_type;
+    protected int $context_obj_id = 0;
+    protected string $context_obj_type = "";
+    protected int $context_sub_obj_id = 0;
+    protected string $context_sub_obj_type = "";
     protected int $form_edit_mode;
     protected int $requested_ref_id;
     protected int $requested_news_item_id;
     protected string $add_mode;
     protected StandardGUIRequest $std_request;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
@@ -80,8 +82,8 @@ class ilNewsItemGUI
         // Init Context.
         $this->setContextObjId($ilCtrl->getContextObjId());
         $this->setContextObjType($ilCtrl->getContextObjType());
-        $this->setContextSubObjId($ilCtrl->getContextSubObjId());
-        $this->setContextSubObjType($ilCtrl->getContextSubObjType());
+        //$this->setContextSubObjId($ilCtrl->getContextSubObjId());
+        //$this->setContextSubObjType($ilCtrl->getContextSubObjType());
 
         $lng->loadLanguageModule("news");
 
@@ -457,7 +459,7 @@ class ilNewsItemGUI
 
         // check whether at least one item is selected
         if (count($this->std_request->getNewsIds()) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"));
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
             return $this->editNews();
         }
 

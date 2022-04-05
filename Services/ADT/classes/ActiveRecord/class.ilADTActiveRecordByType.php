@@ -9,7 +9,7 @@
  */
 class ilADTActiveRecordByType
 {
-    protected ilADTGroupDBBridge $properties;
+    protected ilADTDBBridge $properties;
     protected string $element_column = '';
     protected string $element_column_type = '';
     protected array $tables_map = [];
@@ -21,11 +21,7 @@ class ilADTActiveRecordByType
 
     protected ilDBInterface $db;
 
-    /**
-     * Constructor
-     * @param ilADTGroupDBBridge $a_properties
-     */
-    public function __construct(ilADTGroupDBBridge $a_properties)
+    public function __construct(ilADTDBBridge $a_properties)
     {
         global $DIC;
 
@@ -103,7 +99,7 @@ class ilADTActiveRecordByType
         return $res;
     }
 
-    protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row)
+    protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row) : array
     {
         switch ($a_sub_table) {
             case "location":
@@ -144,7 +140,7 @@ class ilADTActiveRecordByType
      * @param bool $a_return_additional_data
      * @return bool | array
      */
-    public function read($a_return_additional_data = false) : mixed
+    public function read(bool $a_return_additional_data = false)
     {
         // reset all group elements
         $this->properties->getADT()->reset();
@@ -275,8 +271,10 @@ class ilADTActiveRecordByType
                     }
 
                     if (isset($a_additional_data[$element_id])) {
-                        $tmp[$table][$element_id] = array_merge($tmp[$table][$element_id],
-                            $a_additional_data[$element_id]);
+                        $tmp[$table][$element_id] = array_merge(
+                            $tmp[$table][$element_id],
+                            $a_additional_data[$element_id]
+                        );
                     }
                 }
             }
@@ -591,9 +589,9 @@ class ilADTActiveRecordByType
      * @param string $a_table
      * @param array  $a_primary
      * @param string $a_type
-     * @param mixed  $a_value
+     * @param        $a_value
      */
-    public static function writeByPrimary(string $a_table, array $a_primary, string $a_type, mixed $a_value) : void
+    public static function writeByPrimary(string $a_table, array $a_primary, string $a_type, $a_value) : void
     {
         global $DIC;
 

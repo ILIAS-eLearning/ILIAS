@@ -37,7 +37,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      *
      * @return bool
      */
-    public function getStylingDisabled()
+    public function getStylingDisabled() : bool
     {
         return false;
     }
@@ -54,7 +54,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      * @param integer $questionId
      * @return ilAssOrderingElementList
      */
-    public function getElementList($questionId)
+    public function getElementList($questionId) : ilAssOrderingElementList
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
@@ -64,7 +64,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      * @param $value
      * @return bool
      */
-    protected function valueHasContentText($value)
+    protected function valueHasContentText($value) : bool
     {
         if ($value === null || is_array($value)) {
             return false;

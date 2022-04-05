@@ -23,10 +23,10 @@ class ilNestedList
     protected array $list_class = array();
     protected bool $auto_numbering = false;
     protected array $nr = array();
-    protected array $nodes;
-    protected array $childs;
+    protected array $nodes = [];
+    protected array $childs = [];
 
-    public function __constructor()
+    public function __construct()
     {
         $this->list_class[0] = "il_Explorer";
         $this->childs[0] = array();
@@ -58,7 +58,7 @@ class ilNestedList
         string $a_content,
         string $a_id,
         $a_parent = 0
-    ) {
+    ) : void {
         $this->nodes[$a_id] = $a_content;
         $this->childs[$a_parent][] = $a_id;
     }
@@ -84,7 +84,7 @@ class ilNestedList
 
         $nr = array();
         $depth = 1;
-        if (is_array($this->childs[0]) && count($this->childs[0]) > 0) {
+        if (isset($this->childs[0]) && count($this->childs[0]) > 0) {
             $this->listStart($tpl, $depth);
             foreach ($this->childs[0] as $child) {
                 $this->renderNode($child, $tpl, $depth, $nr);
@@ -137,7 +137,7 @@ class ilNestedList
 
     public function listItemStart(ilTemplate $tpl) : void
     {
-        if ($this->getItemClass() != "") {
+        if ($this->getItemClass() !== "") {
             $tpl->setCurrentBlock("list_item_start");
             $tpl->setVariable("LI_CLASS", ' class="' . $this->getItemClass() . '" ');
             $tpl->parseCurrentBlock();
@@ -157,11 +157,11 @@ class ilNestedList
     {
         //echo "<br>listStart";
 
-        $class = ($this->getListClass($depth) != "")
+        $class = ($this->getListClass($depth) !== "")
             ? $this->getListClass($depth)
             : $this->getListClass();
         //echo "-$class-";
-        if ($class != "") {
+        if ($class !== "") {
             $tpl->setCurrentBlock("list_start");
             $tpl->setVariable("UL_CLASS", ' class="' . $class . '" ');
             $tpl->parseCurrentBlock();

@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Repository\Administration\AdministrationGUIRequest;
+
 /**
  * Repository settings.
  *
@@ -21,11 +23,12 @@
  */
 class ilObjRepositorySettingsGUI extends ilObjectGUI
 {
+    protected AdministrationGUIRequest $admin_gui_request;
     protected ilErrorHandling $error;
     protected ilSetting $folder_settings;
 
     public function __construct(
-        ?array $a_data,
+        $a_data,
         int $a_id,
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true
@@ -47,7 +50,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('rep');
         $this->lng->loadLanguageModule('cmps');
 
-        $this->request = $DIC
+        $this->admin_gui_request = $DIC
             ->repository()
             ->internal()
             ->gui()
@@ -82,7 +85,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
     }
     
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
         
@@ -134,6 +137,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
         
         // default repository view
+        /*
         $options = array(
             "flat" => $this->lng->txt("flatview"),
             "tree" => $this->lng->txt("treeview")
@@ -146,7 +150,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         } else {
             $si->setValue("flat");
         }
-        $form->addItem($si);
+        $form->addItem($si);*/
 
         //
         $options = array(
@@ -281,6 +285,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $dl_prop->setInfo($this->lng->txt('enable_multi_download_info'));
         $form->addItem($dl_prop);
 
+        // favourites
+        $cb = new ilCheckboxInputGUI($this->lng->txt("rep_favourites"), "rep_favourites");
+        $cb->setInfo($this->lng->txt("rep_favourites_info"));
+        $cb->setChecked((bool) $ilSetting->get("rep_favourites"));
+        $form->addItem($cb);
+
+
         // object lists
         
         $lists = new ilFormSectionHeaderGUI();
@@ -350,6 +361,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
 
             $ilSetting->set(
+                "rep_favourites",
+                $form->getInput("rep_favourites")
+            );
+
+            $ilSetting->set(
                 "rep_export_limitation",
                 $form->getInput("rep_export_limitation")
             );
@@ -415,7 +431,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 ilChangeEvent::_deactivate();
             }
                         
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "view");
         }
         
@@ -467,7 +483,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $form = $this->initCustomIconsForm();
         if ($form->checkInput()) {
             $ilSetting->set("custom_icons", (int) $form->getInput("custom_icons"));
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "customIcons");
         }
         
@@ -514,8 +530,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilAccess = $this->access;
 
-        $item_groups = $this->request->getNewItemGroups();
-        $item_positions = $this->request->getNewItemPositions();
+        $item_groups = $this->admin_gui_request->getNewItemGroups();
+        $item_positions = $this->admin_gui_request->getNewItemPositions();
 
         if (count($item_groups) == 0 ||
             count($item_positions) == 0 ||
@@ -529,7 +545,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
         
         $type_pos_map = array();
-        $item_enablings = $this->request->getNewItemEnablings();
+        $item_enablings = $this->admin_gui_request->getNewItemEnablings();
         foreach ($item_positions as $obj_type => $pos) {
             $grp_id = ($item_groups[$obj_type] ?? 0);
             $type_pos_map[$grp_id][$obj_type] = $pos;
@@ -554,7 +570,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             }
         }
 
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "listModules");
     }
     
@@ -652,7 +668,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             }
             
             if (ilObjRepositorySettings::addNewItemGroup($titles)) {
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "listNewItemGroups");
             }
         }
@@ -663,7 +679,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
     protected function editNewItemGroup(ilPropertyFormGUI $a_form = null) : void
     {
-        $grp_id = $this->request->getNewItemGroupId();
+        $grp_id = $this->admin_gui_request->getNewItemGroupId();
         if (!$grp_id) {
             $this->ctrl->redirect($this, "listNewItemGroups");
         }
@@ -678,7 +694,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
     protected function updateNewItemGroup() : void
     {
-        $grp_id = $this->request->getNewItemGroupId();
+        $grp_id = $this->admin_gui_request->getNewItemGroupId();
         if (!$grp_id) {
             $this->ctrl->redirect($this, "listNewItemGroups");
         }
@@ -693,7 +709,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             }
             
             if (ilObjRepositorySettings::updateNewItemGroup($grp_id, $titles)) {
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "listNewItemGroups");
             }
         }
@@ -705,7 +721,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected function addNewItemGroupSeparator() : void
     {
         if (ilObjRepositorySettings::addNewItemGroupSeparator()) {
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
@@ -714,7 +730,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     {
         $ilSetting = $this->settings;
 
-        $group_order = $this->request->getNewItemGroupOrder();
+        $group_order = $this->admin_gui_request->getNewItemGroupOrder();
         if (count($group_order) > 0) {
             ilObjRepositorySettings::updateNewItemGroupOrder($group_order);
                                     
@@ -737,16 +753,16 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 }
             }
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
     
     protected function confirmDeleteNewItemGroup() : void
     {
-        $group_ids = $this->request->getNewItemGroupIds();
+        $group_ids = $this->admin_gui_request->getNewItemGroupIds();
         if (count($group_ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->listNewItemGroups();
             return;
         }
@@ -771,7 +787,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
     protected function deleteNewItemGroup() : void
     {
-        $group_ids = $this->request->getNewItemGroupIds();
+        $group_ids = $this->admin_gui_request->getNewItemGroupIds();
         if (count($group_ids) == 0) {
             $this->listNewItemGroups();
             return;
@@ -781,7 +797,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             ilObjRepositorySettings::deleteNewItemGroup($grp_id);
         }
         
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
     

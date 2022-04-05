@@ -41,7 +41,7 @@ const Direction = {
  */
 class ZoomSlider extends Control {
   /**
-   * @param {Options=} opt_options Zoom slider options.
+   * @param {Options} [opt_options] Zoom slider options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};
@@ -52,7 +52,7 @@ class ZoomSlider extends Control {
     });
 
     /**
-     * @type {!Array.<import("../events.js").EventsKey>}
+     * @type {!Array<import("../events.js").EventsKey>}
      * @private
      */
     this.dragListenerKeys_ = [];
@@ -183,22 +183,29 @@ class ZoomSlider extends Control {
    */
   initSlider_() {
     const container = this.element;
-    const containerWidth = container.offsetWidth;
-    const containerHeight = container.offsetHeight;
+    let containerWidth = container.offsetWidth;
+    let containerHeight = container.offsetHeight;
     if (containerWidth === 0 && containerHeight === 0) {
       return (this.sliderInitialized_ = false);
     }
 
+    const containerStyle = getComputedStyle(container);
+    containerWidth -=
+      parseFloat(containerStyle['paddingRight']) +
+      parseFloat(containerStyle['paddingLeft']);
+    containerHeight -=
+      parseFloat(containerStyle['paddingTop']) +
+      parseFloat(containerStyle['paddingBottom']);
     const thumb = /** @type {HTMLElement} */ (container.firstElementChild);
-    const computedStyle = getComputedStyle(thumb);
+    const thumbStyle = getComputedStyle(thumb);
     const thumbWidth =
       thumb.offsetWidth +
-      parseFloat(computedStyle['marginRight']) +
-      parseFloat(computedStyle['marginLeft']);
+      parseFloat(thumbStyle['marginRight']) +
+      parseFloat(thumbStyle['marginLeft']);
     const thumbHeight =
       thumb.offsetHeight +
-      parseFloat(computedStyle['marginTop']) +
-      parseFloat(computedStyle['marginBottom']);
+      parseFloat(thumbStyle['marginTop']) +
+      parseFloat(thumbStyle['marginBottom']);
     this.thumbSize_ = [thumbWidth, thumbHeight];
 
     if (containerWidth > containerHeight) {
@@ -240,8 +247,9 @@ class ZoomSlider extends Control {
    */
   handleDraggerStart_(event) {
     if (!this.dragging_ && event.target === this.element.firstElementChild) {
-      const element = /** @type {HTMLElement} */ (this.element
-        .firstElementChild);
+      const element = /** @type {HTMLElement} */ (
+        this.element.firstElementChild
+      );
       this.getMap().getView().beginInteraction();
       this.startX_ = event.clientX - parseFloat(element.style.left);
       this.startY_ = event.clientY - parseFloat(element.style.top);
@@ -270,9 +278,8 @@ class ZoomSlider extends Control {
       const deltaX = event.clientX - this.startX_;
       const deltaY = event.clientY - this.startY_;
       const relativePosition = this.getRelativePosition_(deltaX, deltaY);
-      this.currentResolution_ = this.getResolutionForPosition_(
-        relativePosition
-      );
+      this.currentResolution_ =
+        this.getResolutionForPosition_(relativePosition);
       this.getMap().getView().setResolution(this.currentResolution_);
     }
   }

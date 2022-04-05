@@ -76,7 +76,7 @@ class Renderer extends AbstractComponentRenderer
         //   created
         // * since withAdditionalOnLoadCode refers to some yet unknown future, it disencourages
         //   tempering with the id _here_.
-        return $modal->withAdditionalOnLoadCode(function ($id) use ($show, $close, $options, $replace) {
+        return $modal->withAdditionalOnLoadCode(function ($id) use ($show, $close, $options, $replace) : string {
             $options["url"] = "#$id";
             $options = json_encode($options);
             $code =

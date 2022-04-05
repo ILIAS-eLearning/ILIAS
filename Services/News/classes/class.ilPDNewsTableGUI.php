@@ -112,7 +112,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->addFilterItem($si);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -279,7 +279,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable(
             "IMG_CONTEXT_TITLE",
-            ilObject::_getIcon($a_set["context_obj_id"])
+            ilObject::_getIcon((int) $a_set["context_obj_id"])
         );
         $this->tpl->parseCurrentBlock();
 

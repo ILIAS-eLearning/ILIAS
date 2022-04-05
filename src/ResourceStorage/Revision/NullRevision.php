@@ -7,21 +7,29 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Information\Information;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class NullRevision
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class NullRevision implements Revision
 {
-
-    /**
-     * @var ResourceIdentification
-     */
-    private $identification;
+    private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
     /**
      * NullRevision constructor.
-     * @param ResourceIdentification $identification
      */
     public function __construct(ResourceIdentification $identification)
     {
@@ -60,7 +68,7 @@ class NullRevision implements Revision
         return new FileInformation();
     }
 
-    public function setInformation(Information $information)
+    public function setInformation(Information $information) : void
     {
     }
 
@@ -85,11 +93,11 @@ class NullRevision implements Revision
     public function setTitle(string $title) : Revision
     {
         // do nothing
+        return $this;
     }
 
     public function getTitle() : string
     {
         return '';
     }
-
 }

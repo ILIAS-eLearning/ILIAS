@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-require_once 'Services/Utilities/classes/class.ilFileUtils.php';
 require_once 'Services/QTI/exceptions/class.ilQtiException.php';
 
 /**
@@ -47,7 +46,7 @@ class ilQtiMatImageSecurity
     /**
      * @param ilQTIMatimage $imageMaterial
      */
-    public function setImageMaterial($imageMaterial)
+    public function setImageMaterial($imageMaterial) : void
     {
         $this->imageMaterial = $imageMaterial;
     }
@@ -63,12 +62,12 @@ class ilQtiMatImageSecurity
     /**
      * @param string $detectedMimeType
      */
-    protected function setDetectedMimeType($detectedMimeType)
+    protected function setDetectedMimeType($detectedMimeType) : void
     {
         $this->detectedMimeType = $detectedMimeType;
     }
     
-    public function validate()
+    public function validate() : bool
     {
         if (!$this->validateLabel()) {
             return false;
@@ -81,7 +80,7 @@ class ilQtiMatImageSecurity
         return true;
     }
     
-    protected function validateContent()
+    protected function validateContent() : bool
     {
         if ($this->getImageMaterial()->getImagetype() && !assQuestion::isAllowedImageMimeType($this->getImageMaterial()->getImagetype())) {
             return false;
@@ -111,7 +110,7 @@ class ilQtiMatImageSecurity
         return true;
     }
     
-    protected function validateLabel()
+    protected function validateLabel() : bool
     {
         if ($this->getImageMaterial()->getUri()) {
             if (!$this->hasFileExtension($this->getImageMaterial()->getUri())) {
@@ -126,20 +125,22 @@ class ilQtiMatImageSecurity
         return assQuestion::isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
     }
     
-    public function sanitizeLabel()
+    public function sanitizeLabel() : void
     {
         $label = $this->getImageMaterial()->getLabel();
         
         $label = basename($label);
         $label = ilUtil::stripSlashes($label);
-        $label = ilUtil::getASCIIFilename($label);
+        $label = ilFileUtils::getASCIIFilename($label);
         
         $this->getImageMaterial()->setLabel($label);
     }
     
-    protected function determineMimeType($content)
+    protected function determineMimeType($content) : string
     {
-        return ilFileUtils::lookupContentMimeType($content);
+        $finfo = new finfo(FILEINFO_MIME);
+    
+        return $finfo->buffer($content);
     }
 
     /**
@@ -163,7 +164,7 @@ class ilQtiMatImageSecurity
      * @param string $label
      * @return bool
      */
-    protected function hasFileExtension($label)
+    protected function hasFileExtension($label) : bool
     {
         $pathInfo = pathinfo($label);
 

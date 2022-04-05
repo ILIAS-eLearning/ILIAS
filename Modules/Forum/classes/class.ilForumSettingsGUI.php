@@ -1,10 +1,12 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Style\Content\GUIService;
+
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
- * @ilCtrl_Calls ilForumSettingsGUI: ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilForumSettingsGUI: ilObjectContentStyleSettingsGUI
  */
 class ilForumSettingsGUI implements ilForumObjectConstants
 {
@@ -20,19 +22,17 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private \ILIAS\Refinery\Factory $refinery;
     private ilForumNotification $forumNotificationObj;
     private ilPropertyFormGUI $form;
-    private ilPropertyFormGUI $notificationSettingsForm;
-    private int $ref_id;
+    private ?ilPropertyFormGUI $notificationSettingsForm = null;
+    public int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
-    private ilForumProperties $properties;
 
-    public function __construct(ilObjForumGUI $parent_obj, ilForumProperties $properties)
+    public function __construct(ilObjForumGUI $parent_obj)
     {
         global $DIC;
 
         $this->dic = $DIC;
         $this->parent_obj = $parent_obj;
-        $this->properties = $properties;
 
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -42,7 +42,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $this->dic->object();
-        $this->ref_id = $this->parent_obj->object->getRefId();
+        $this->ref_id = $this->parent_obj->getObject()->getRefId();
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
 
@@ -52,7 +52,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     private function initForcedForumNotification() : void
     {
-        $this->forumNotificationObj = new ilForumNotification($this->parent_obj->object->getRefId());
+        $this->forumNotificationObj = new ilForumNotification($this->parent_obj->getObject()->getRefId());
         $this->forumNotificationObj->readAllForcedEvents();
     }
 
@@ -62,40 +62,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $next_class = $this->ctrl->getNextClass();
         
         switch (strtolower($next_class)) {
-            case strtolower(ilObjStyleSheetGUI::class):
-                $this->tabs->clearTargets();
-                
-                $this->ctrl->setReturn($this, 'editStyleProperties');
-                $style_gui = new ilObjStyleSheetGUI(
-                    '',
-                    $this->properties->getStyleSheetId(),
-                    false,
-                    false
-                );
-
-                $new_type = '';
-                if (isset($this->http->request()->getQueryParams()['new_type'])) {
-                    $new_type = $this->http->request()->getQueryParams()['new_type'];
-                }
-                if ($cmd === 'create' || $new_type === 'sty') {
-                    $style_gui->setCreationMode();
-                }
-
-                if ($cmd === 'confirmedDelete') {
-                    $this->properties->setStyleSheetId(0);
-                    $this->properties->update();
-                }
-
-                $ret = $this->ctrl->forwardCommand($style_gui);
-
-                if ($cmd === 'save' || $cmd === 'copyStyle' || $cmd === 'importStyle') {
-                    $styleId = $ret;
-                    $this->properties->setStyleSheetId((int) $styleId);
-                    $this->properties->update();
-                    $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
-                }
-                break;
-
             default:
                 switch (true) {
                     case method_exists($this, $cmd):
@@ -110,17 +76,30 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
+    private function addAvailabilitySection(ilPropertyFormGUI $form) : void
+    {
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('rep_activation_availability'));
+        $form->addItem($section);
+
+        $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'activation_online');
+        $online->setInfo($this->lng->txt('frm_activation_online_info'));
+        $form->addItem($online);
+    }
+
     public function getCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $this->settingsTabs();
         $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_BASIC_SETTINGS);
         $a_form->setTitle($this->lng->txt('frm_settings_form_header'));
 
+        $this->addAvailabilitySection($a_form);
+
         $presentationHeader = new ilFormSectionHeaderGUI();
         $presentationHeader->setTitle($this->lng->txt('frm_settings_presentation_header'));
         $a_form->addItem($presentationHeader);
 
-        $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->addTileImage();
+        $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->getObject())->addTileImage();
 
         $rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
         $rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE));
@@ -214,17 +193,17 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         if ($this->settings->get('forum_notification') > 0) {
             // check if there a parent-node is a grp or crs
-            $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->ref_id, 'grp');
-            $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->ref_id, 'crs');
+            $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'grp');
+            $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'crs');
 
-            if ((int) $grp_ref_id > 0 || (int) $crs_ref_id > 0) {
+            if ($grp_ref_id > 0 || $crs_ref_id > 0) {
                 #show member-tab for notification if forum-notification is enabled in administration
-                if ($this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+                if ($this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
                     $cmd = '';
                     if ($this->dic->http()->wrapper()->query()->has('cmd')) {
                         $cmd = $this->dic->http()->wrapper()->query()->retrieve(
                             'cmd',
-                            $this->dic->refinery()->string()
+                            $this->dic->refinery()->kindlyTo()->string()
                         );
                     }
 
@@ -255,9 +234,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         $this->tabs->addSubTabTarget(
             self::UI_SUB_TAB_ID_STYLE,
-            $this->ctrl->getLinkTarget($this, 'editStyleProperties'),
+            $this->ctrl->getLinkTargetByClass(strtolower(ilObjectContentStyleSettingsGUI::class), ""),
             '',
-            [strtolower(ilObjStyleSheetGUI::class)]
+            [strtolower(ilObjectContentStyleSettingsGUI::class)]
         );
 
         $this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
@@ -287,6 +266,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         $a_values['default_view'] = $default_view;
         $a_values['file_upload_allowed'] = $this->parent_obj->objProperties->getFileUploadAllowed();
+
+        $object = $this->parent_obj->getObject();
+        $a_values['activation_online'] = !($object->getOfflineStatus() === null) && !$object->getOfflineStatus();
     }
 
     public function updateCustomValues(ilPropertyFormGUI $a_form) : void
@@ -323,12 +305,16 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $this->parent_obj->objProperties->setFileUploadAllowed((bool) $a_form->getInput('file_upload_allowed'));
         }
         $this->parent_obj->objProperties->update();
-        $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->saveTileImage();
+        $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->getObject())->saveTileImage();
+
+        $object = $this->parent_obj->getObject();
+        $object->setOfflineStatus(!(bool) $a_form->getInput('activation_online'));
+        $object->update();
     }
 
     public function showMembers() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -374,10 +360,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         // set form html into template
         $this->tpl->setVariable('NOTIFICATIONS_SETTINGS_FORM', $this->notificationSettingsForm->getHTML());
 
-        $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+        $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
         $oParticipants = $this->getParticipants();
 
-        $moderator_ids = ilForum::_getModerators($this->parent_obj->object->getRefId());
+        $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
 
         $admin_ids = $oParticipants->getAdmins();
         $member_ids = $oParticipants->getMembers();
@@ -385,7 +371,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         if ($this->parent_obj->objProperties->getNotificationType() === 'default') {
             // update forum_notification table
-            $forum_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $forum_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
             $forum_noti->setAdminForce($this->parent_obj->objProperties->isAdminForceNoti());
             $forum_noti->setUserToggle($this->parent_obj->objProperties->isUserToggleNoti());
             $forum_noti->setForumId($this->parent_obj->objProperties->getObjId());
@@ -410,7 +396,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         foreach ($user_ids as $user_id) {
             $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
 
-            $users[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+            $users[$counter]['user_id'] = ilLegacyFormElementsUtil::formCheckbox(false, 'user_id[]', (string) $user_id);
             $users[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
             $name = ilObjUser::_lookupName($user_id);
             $users[$counter]['firstname'] = $name['firstname'];
@@ -509,7 +495,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function enableAdminForceNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -525,9 +511,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'), true);
         } else {
-            $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
@@ -540,7 +526,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -548,7 +534,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function disableAdminForceNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -564,9 +550,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
-            $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
@@ -577,7 +563,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -585,7 +571,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function enableHideUserToggleNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -601,9 +587,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
-            $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
@@ -618,7 +604,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -626,7 +612,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function disableHideUserToggleNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -642,9 +628,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
 
         if (count($user_ids) === 0) {
-            ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
-            $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
@@ -658,7 +644,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 }
             }
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
 
         $this->showMembers();
@@ -666,7 +652,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function getParticipants() : ilParticipants
     {
-        if ($this->parent_obj->isParentObjectCrsOrGrp()) {
+        if (!$this->parent_obj->isParentObjectCrsOrGrp()) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -676,14 +662,13 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         /** @var $oParticipants ilParticipants */
         $oParticipants = null;
 
-        $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->object->getRefId(), 'grp');
+        $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getObject()->getRefId(), 'grp');
         if ($grp_ref_id > 0) {
             $parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
-            $oParticipants = ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
-            return $oParticipants;
+            return ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
         }
 
-        $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->object->getRefId(), 'crs');
+        $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->getObject()->getRefId(), 'crs');
         $parent_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id);
 
         return ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
@@ -693,8 +678,8 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     {
         $oParticipants = $this->getParticipants();
 
-        $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
-        $moderator_ids = ilForum::_getModerators($this->parent_obj->object->getRefId());
+        $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
+        $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
 
         $admin_ids = $oParticipants->getAdmins();
         $member_ids = $oParticipants->getMembers();
@@ -745,30 +730,19 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
             $cb_grp = new ilCheckboxGroupInputGUI($this->lng->txt('notification_settings'), 'notification_events');
 
-            $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
-            $notify_modified->setValue((string) ilForumNotificationEvents::UPDATED);
+            $notify_modified = new ilCheckboxOption($this->lng->txt('notify_modified'), (string) ilForumNotificationEvents::UPDATED);
             $cb_grp->addOption($notify_modified);
 
-            $notify_censored = new ilCheckboxInputGUI($this->lng->txt('notify_censored'), 'notify_censored');
-            $notify_censored->setValue((string) ilForumNotificationEvents::CENSORED);
+            $notify_censored = new ilCheckboxOption($this->lng->txt('notify_censored'), (string) ilForumNotificationEvents::CENSORED);
             $cb_grp->addOption($notify_censored);
 
-            $notify_uncensored = new ilCheckboxInputGUI($this->lng->txt('notify_uncensored'), 'notify_uncensored');
-            $notify_uncensored->setValue((string) ilForumNotificationEvents::UNCENSORED);
+            $notify_uncensored = new ilCheckboxOption($this->lng->txt('notify_uncensored'), (string) ilForumNotificationEvents::UNCENSORED);
             $cb_grp->addOption($notify_uncensored);
 
-            $notify_post_deleted = new ilCheckboxInputGUI(
-                $this->lng->txt('notify_post_deleted'),
-                'notify_post_deleted'
-            );
-            $notify_post_deleted->setValue((string) ilForumNotificationEvents::POST_DELETED);
+            $notify_post_deleted = new ilCheckboxOption($this->lng->txt('notify_post_deleted'), (string) ilForumNotificationEvents::POST_DELETED);
             $cb_grp->addOption($notify_post_deleted);
 
-            $notify_thread_deleted = new ilCheckboxInputGUI(
-                $this->lng->txt('notify_thread_deleted'),
-                'notify_thread_deleted'
-            );
-            $notify_thread_deleted->setValue((string) ilForumNotificationEvents::THREAD_DELETED);
+            $notify_thread_deleted = new ilCheckboxOption($this->lng->txt('notify_thread_deleted'), (string) ilForumNotificationEvents::THREAD_DELETED);
             $cb_grp->addOption($notify_thread_deleted);
             $opt_0->addSubItem($cb_grp);
 
@@ -786,7 +760,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function updateNotificationSettings() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -831,113 +805,16 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 $this->parent_obj->objProperties->setNotificationType('default');
                 $this->parent_obj->objProperties->setAdminForceNoti(false);
                 $this->parent_obj->objProperties->setUserToggleNoti(false);
-                $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+                $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
                 $frm_noti->deleteNotificationAllUsers();
             }
 
             $this->parent_obj->objProperties->update();
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
         }
         $this->notificationSettingsForm->setValuesByPost();
 
         $this->showMembers();
-    }
-
-    protected function editStyleProperties() : void
-    {
-        $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_STYLE);
-        
-        $form = $this->buildStylePropertiesForm();
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    protected function buildStylePropertiesForm() : ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-
-        $fixedStyle = (int) $this->settings->get('fixed_content_style_id', '0');
-        $defaultStyle = (int) $this->settings->get('default_content_style_id', '0');
-        $styleId = $this->properties->getStyleSheetId();
-
-        if ($fixedStyle > 0) {
-            $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
-            $st->setValue(
-                ilObject::_lookupTitle($fixedStyle) . ' (' . $this->lng->txt('global_fixed') . ')'
-            );
-            $form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $this->parent_obj->object->getRefId()
-            );
-
-            if ($defaultStyle > 0) {
-                $st_styles[0] = ilObject::_lookupTitle($defaultStyle) . ' (' . $this->lng->txt('default') . ')';
-            } else {
-                $st_styles[0] = $this->lng->txt('default');
-            }
-            ksort($st_styles);
-
-            if ($styleId > 0 && !ilObjStyleSheet::_lookupStandard($styleId)) {
-                $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
-                $st->setValue(ilObject::_lookupTitle($styleId));
-                $form->addItem($st);
-
-                $form->addCommandButton('editStyle', $this->lng->txt('cont_edit_style'));
-                $form->addCommandButton('deleteStyle', $this->lng->txt('cont_delete_style'));
-            }
-
-            if ($styleId <= 0 || ilObjStyleSheet::_lookupStandard($styleId)) {
-                $style_sel = new ilSelectInputGUI($this->lng->txt('cont_current_style'), 'style_id');
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($styleId);
-                $form->addItem($style_sel);
-                $form->addCommandButton('saveStyleSettings', $this->lng->txt('save'));
-                $form->addCommandButton('createStyle', $this->lng->txt('sty_create_ind_style'));
-            }
-        }
-
-        $form->setTitle($this->lng->txt('cont_style'));
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        return $form;
-    }
-
-    protected function createStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'create');
-    }
-
-    protected function editStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
-    }
-
-    protected function deleteStyle() : void
-    {
-        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'delete');
-    }
-
-    protected function saveStyleSettings() : void
-    {
-        if (
-            (int) $this->settings->get('fixed_content_style_id', '0') <= 0 &&
-            (
-                ilObjStyleSheet::_lookupStandard(
-                    $this->properties->getStyleSheetId()
-                ) ||
-                $this->properties->getStyleSheetId() === 0
-            )
-        ) {
-            $this->properties->setStyleSheetId(
-                (int) ($this->http->request()->getQueryParams()['style_id'] ?? 0)
-            );
-            $this->properties->update();
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-        }
-
-        $this->ctrl->redirect($this, 'editStyleProperties');
     }
 }

@@ -194,6 +194,7 @@ export default class TinyWrapper {
         language: "en",
         height: "100%",
         plugins: "save,paste,lists",
+        smart_paste: false,
         save_onsavecallback: "saveParagraph",
         mode: "exact",
         elements: this.id,

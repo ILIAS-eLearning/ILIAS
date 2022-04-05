@@ -1,6 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 
 /**
  * Trait hasSymbolTrait
@@ -12,24 +14,24 @@ trait hasSymbolTrait
      * @var Symbol
      */
     protected $symbol;
-
+    
     /**
      * @inheritDoc
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
         // bugfix mantis 25526: make aria labels mandatory
-        if (($symbol instanceof Glyph\Glyph && $symbol->getAriaLabel() === "") ||
-            ($symbol instanceof Icon\Icon && $symbol->getLabel() === "")) {
+        if (($symbol instanceof Glyph && $symbol->getAriaLabel() === "") ||
+            ($symbol instanceof Icon && $symbol->getLabel() === "")) {
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
-
+        
         $clone = clone $this;
         $clone->symbol = $symbol;
-
+        
         return $clone;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -37,7 +39,7 @@ trait hasSymbolTrait
     {
         return $this->symbol;
     }
-
+    
     /**
      * @inheritDoc
      */

@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\DI\UIServices;
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
@@ -269,6 +283,7 @@ class ilExAssignmentGUI
         ilExAssignment $a_ass
     ) : void {
         $lng = $this->lng;
+        $lng->loadLanguageModule("exc");
         $files = $a_ass->getFiles();
 
         if (count($files) > 0) {
@@ -305,7 +320,8 @@ class ilExAssignmentGUI
                     $img_tpl->setVariable("MODAL", $modal);
                     $img_tpl->setVariable("ITEM_ID", $item_id);
                     $img_tpl->setVariable("IMAGE", $image);
-                    $img_tpl->setVariable("IMAGE_LENS", $image_lens);
+                    $img_tpl->setvariable("IMAGE_LENS", $image_lens);
+                    $img_tpl->setvariable("ALT_LENS", $lng->txt("exc_fullscreen"));
                     $img_tpl->parseCurrentBlock();
 
                     $a_info->addProperty($file["name"], $img_tpl->get());
@@ -465,7 +481,7 @@ class ilExAssignmentGUI
         if ($a_deadline - time() <= 0) {
             $time_str = $lng->txt("exc_time_over_short");
         } else {
-            $time_str = ilUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
+            $time_str = ilLegacyFormElementsUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
         }
 
         return $time_str;

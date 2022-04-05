@@ -75,7 +75,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return int
      */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->refId;
     }
@@ -91,7 +91,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->testId;
     }
@@ -107,7 +107,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return string
      */
-    public function getTestTitle()
+    public function getTestTitle() : string
     {
         return $this->testTitle;
     }
@@ -123,7 +123,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return ilObjFileHandlingQuestionType
      */
-    public function getQuestion()
+    public function getQuestion() : ilObjFileHandlingQuestionType
     {
         return $this->question;
     }
@@ -136,10 +136,7 @@ class ilAssFileUploadUploadsExporter
         $this->question = $question;
     }
 
-    /**
-     * @return string
-     */
-    public function build()
+    public function build() : void
     {
         $this->initFilenames();
         
@@ -154,18 +151,18 @@ class ilAssFileUploadUploadsExporter
         $this->removeFileUploadCollection();
     }
     
-    private function initFilenames()
+    private function initFilenames() : void
     {
-        $this->tempDirPath = ilUtil::ilTempnam();
+        $this->tempDirPath = ilFileUtils::ilTempnam();
         
-        $this->tempZipFilePath = ilUtil::ilTempnam($this->tempDirPath) . self::ZIP_FILE_EXTENSION;
+        $this->tempZipFilePath = ilFileUtils::ilTempnam($this->tempDirPath) . self::ZIP_FILE_EXTENSION;
         
-        $this->mainFolderName = ilUtil::getASCIIFilename(
+        $this->mainFolderName = ilFileUtils::getASCIIFilename(
             str_replace(' ', '', $this->getTestTitle() . '_' . $this->question->getTitle())
         );
     }
     
-    private function getFileUploadSolutionData()
+    private function getFileUploadSolutionData() : array
     {
         $query = "
 			SELECT tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, 
@@ -201,7 +198,7 @@ class ilAssFileUploadUploadsExporter
         return $solutionData;
     }
     
-    private function getParticipantData($solutionData)
+    private function getParticipantData($solutionData) : ilTestParticipantData
     {
         $activeIds = array();
             
@@ -243,8 +240,8 @@ class ilAssFileUploadUploadsExporter
                     $destinationDir = $this->tempDirPath . '/' . $this->mainFolderName . '/';
                     $destinationDir .= $participantData->getFileSystemCompliantFullnameByActiveId($activeId) . '/';
                     $destinationDir .= $this->getPassSubDirName($file['pass']) . '/';
-                        
-                    ilUtil::makeDirParents($destinationDir);
+                    
+                    ilFileUtils::makeDirParents($destinationDir);
 
                     copy($uploadedFileDir . $file['value1'], $destinationDir . $file['value2']);
                 }
@@ -252,20 +249,19 @@ class ilAssFileUploadUploadsExporter
         }
     }
     
-    private function getPassSubDirName($pass)
+    private function getPassSubDirName($pass) : string
     {
         return $this->lng->txt('pass') . '_' . ($pass + 1);
     }
     
     private function createFileUploadCollectionZipFile()
     {
-        ilUtil::zip($this->tempDirPath . '/' . $this->mainFolderName, $this->tempZipFilePath);
+        ilFileUtils::zip($this->tempDirPath . '/' . $this->mainFolderName, $this->tempZipFilePath);
         
         $pathinfo = pathinfo($this->tempZipFilePath);
         $this->finalZipFilePath = dirname($pathinfo['dirname']) . '/' . $pathinfo['basename'];
         
         try {
-            require_once 'Services/Utilities/classes/class.ilFileUtils.php';
             ilFileUtils::rename($this->tempZipFilePath, $this->finalZipFilePath);
         } catch (\ilFileUtilsException $e) {
             \ilLoggerFactory::getRootLogger()->error($e->getMessage());
@@ -274,22 +270,22 @@ class ilAssFileUploadUploadsExporter
 
     private function removeFileUploadCollection()
     {
-        ilUtil::delDir($this->tempDirPath);
+        ilFileUtils::delDir($this->tempDirPath);
     }
     
-    public function getFinalZipFilePath()
+    public function getFinalZipFilePath() : string
     {
         return $this->finalZipFilePath;
     }
     
-    public function getDispoZipFileName()
+    public function getDispoZipFileName() : string
     {
-        return ilUtil::getASCIIFilename(
+        return ilFileUtils::getASCIIFilename(
             $this->mainFolderName . self::ZIP_FILE_EXTENSION
         );
     }
     
-    public function getZipFileMimeType()
+    public function getZipFileMimeType() : string
     {
         return self::ZIP_FILE_MIME_TYPE;
     }

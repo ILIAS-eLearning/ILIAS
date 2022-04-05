@@ -4,14 +4,14 @@
 
 class ilLearningSequenceWaitingList extends ilWaitingList
 {
-    public function addToList($usr_id)
+    public function addToList(int $a_usr_id) : bool
     {
         global $DIC;
 
         $app_event_handler = $DIC->event();
         $log = $DIC->logger();
         
-        if (!parent::addToList($usr_id)) {
+        if (!parent::addToList($a_usr_id)) {
             return false;
         }
 
@@ -21,7 +21,7 @@ class ilLearningSequenceWaitingList extends ilWaitingList
             'addToWaitingList',
             array(
                 'obj_id' => $this->getObjId(),
-                'usr_id' => $usr_id
+                'usr_id' => $a_usr_id
             )
         );
 

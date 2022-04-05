@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,137 +22,116 @@
 */
 
 /**
-* Class class.ilregistrationEmailRoleAssignments
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesRegistration
-*/
-
-define('IL_REG_MISSING_DOMAIN', 1);
-define('IL_REG_MISSING_ROLE', 2);
-
+ * Class class.ilregistrationEmailRoleAssignments
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesRegistration
+ */
 class ilRegistrationRoleAssignments
 {
-    public $assignments = array();
-    public $default_role = 0;
+    public const IL_REG_MISSING_DOMAIN = 1;
+    public const IL_REG_MISSING_ROLE = 2;
+
+    public array $assignments = array();
+    public int $default_role = 0;
+
+    protected ilDBInterface $db;
+    protected ilSetting $settings;
 
     public function __construct()
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
+        $this->settings = $DIC->settings();
         $this->__read();
     }
 
-    public function getRoleByEmail(string $a_email)
+    public function getRoleByEmail(string $a_email) : int
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
         foreach ($this->assignments as $assignment) {
             if (!$assignment['domain'] or !$assignment['role']) {
                 continue;
             }
             if (stristr($a_email, $assignment['domain'])) {
                 // check if role exists
-                if (!$ilObjDataCache->lookupType($assignment['role'])) {
+                if (!ilObject::_lookupType($assignment['role'])) {
                     continue;
                 }
-                return $assignment['role'];
+                return (int) $assignment['role'];
             }
         }
         // return default
         return $this->getDefaultRole();
     }
 
-    public function getDomainsByRole(int $role_id)
+    public function getDomainsByRole(int $role_id) : array
     {
-        $ilDB = $this->db;
+        $query = $this->db->query("SELECT * FROM reg_er_assignments " .
+            "WHERE role = " . $this->db->quote($role_id, 'integer'));
 
-        $query = $ilDB->query("SELECT * FROM reg_er_assignments " .
-            "WHERE role = " . $ilDB->quote($role_id, 'integer'));
-
-
-        while ($row = $ilDB->fetchAssoc($query)) {
+        $res = [];
+        while ($row = $this->db->fetchAssoc($query)) {
             $res[] = $row["domain"];
         }
-
         return $res;
     }
-    
-    public function getAssignments()
+
+    public function getAssignments() : array
     {
-        return $this->assignments ? $this->assignments : array();
+        return $this->assignments;
     }
 
-    public function setDomain(int $id, string $a_domain)
+    public function setDomain(int $id, string $a_domain) : void
     {
         $this->assignments[$id]['domain'] = $a_domain;
     }
-    public function setRole(int $id, string $a_role)
+
+    public function setRole(int $id, int $a_role) : void
     {
         $this->assignments[$id]['role'] = $a_role;
     }
 
-    public function getDefaultRole()
+    public function getDefaultRole() : int
     {
         return $this->default_role;
     }
-    public function setDefaultRole($a_role_id)
+
+    public function setDefaultRole(int $a_role_id) : void
     {
         $this->default_role = $a_role_id;
     }
 
-    public function deleteAll()
+    public function deleteAll() : bool
     {
-        $ilDB = $this->db;
-
         $query = "DELETE FROM reg_er_assignments ";
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
         $this->__read();
         return true;
     }
 
-    public function save()
+    public function save() : bool
     {
-        global $DIC;
-
-        $ilias = $DIC['ilias'];
-        $ilDB = $this->db;
-
         // Save default role
-        $ilias->setSetting('reg_default_role', $this->getDefaultRole());
+        $this->settings->set('reg_default_role', (string) $this->getDefaultRole());
 
         foreach ($this->assignments as $assignment) {
             if (empty($assignment['id'])) {
-                $next_id = $ilDB->nextId('reg_er_assignments');
+                $next_id = $this->db->nextId('reg_er_assignments');
                 $query = "INSERT INTO reg_er_assignments (assignment_id,domain,role) " .
                     "VALUES( " .
-                    $ilDB->quote($next_id, 'integer') . ', ' .
-                    $ilDB->quote($assignment['domain'], 'text') . ", " .
-                    $ilDB->quote($assignment['role'], 'integer') .
+                    $this->db->quote($next_id, 'integer') . ', ' .
+                    $this->db->quote($assignment['domain'], 'text') . ", " .
+                    $this->db->quote($assignment['role'], 'integer') .
                     ")";
-                $res = $ilDB->manipulate($query);
+                $res = $this->db->manipulate($query);
             }
         }
         $this->__read();
         return true;
     }
 
-
-    // Private
-    public function __read()
+    public function __read() : bool
     {
-        global $DIC;
-
-        $ilias = $DIC['ilias'];
-        $ilDB = $this->db;
-
         $query = "SELECT * FROM reg_er_assignments ";
         $res = $this->db->query($query);
 
@@ -162,9 +141,7 @@ class ilRegistrationRoleAssignments
             $this->assignments[$row->assignment_id]['role'] = $row->role;
             $this->assignments[$row->assignment_id]['domain'] = $row->domain;
         }
-
-        $this->default_role = $ilias->getSetting('reg_default_role');
-
+        $this->default_role = (int) $this->settings->get('reg_default_role', '0');
         return true;
     }
 }

@@ -31,7 +31,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
     /**
      * @return ilTestDynamicQuestionSetFilterSelection
      */
-    public function getQuestionSetFilterSelection()
+    public function getQuestionSetFilterSelection() : ilTestDynamicQuestionSetFilterSelection
     {
         return $this->questionSetFilterSelection;
     }
@@ -191,7 +191,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
         );
     }
     
-    public function getCurrentQuestionId()
+    public function getCurrentQuestionId() : int
     {
         return $this->getLastSequence();
     }

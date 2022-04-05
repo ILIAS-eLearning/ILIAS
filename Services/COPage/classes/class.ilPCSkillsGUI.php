@@ -24,7 +24,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -122,7 +122,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
             }
             asort($options);
         } else {
-            ilUtil::sendFailure("cont_no_skills");
+            $this->tpl->setOnScreenMessage('failure', "cont_no_skills");
         }
         $obj = new ilSelectInputGUI($this->lng->txt("cont_pc_skills"), "skill_id");
         $obj->setRequired(true);

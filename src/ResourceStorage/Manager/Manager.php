@@ -14,24 +14,30 @@ use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StorageManager
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class Manager
 {
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
-    /**
-     * @var RepositoryPreloader
-     */
-    protected $preloader;
+    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
+    protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
 
     /**
      * Manager constructor.
-     * @param ResourceBuilder $b
      */
     public function __construct(
         ResourceBuilder $b,
@@ -71,7 +77,6 @@ class Manager
         ResourceStakeholder $stakeholder,
         string $revision_title = null
     ) : ResourceIdentification {
-
         $info_resolver = new StreamInfoResolver(
             $stream,
             1,

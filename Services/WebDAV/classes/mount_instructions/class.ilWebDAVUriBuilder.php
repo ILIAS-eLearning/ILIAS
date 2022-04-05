@@ -1,23 +1,35 @@
-<?php
+<?php declare(strict_types = 1);
 
+use \Psr\Http\Message\RequestInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilWebDAVUriBuilder
 {
-    /** @var \Psr\Http\Message\RequestInterface */
-    protected $request;
+    protected RequestInterface $request;
 
-    /** @var array */
-    protected $schemas = array(
+    protected array $schemas = array(
             'default' => 'http',
             'konqueror' => 'webdav',
             'nautilus' => 'dav'
         );
 
-    protected $mount_instructions_query = 'mount-instructions';
+    protected string $mount_instructions_query = 'mount-instructions';
 
-    protected $webdav_script_name = 'webdav.php';
+    protected string $webdav_script_name = 'webdav.php';
 
-    public function __construct(\Psr\Http\Message\RequestInterface $a_request)
+    public function __construct(RequestInterface $a_request)
     {
         $this->request = $a_request;
 
@@ -27,14 +39,8 @@ class ilWebDAVUriBuilder
         $this->client_id = CLIENT_ID;
         $this->web_path_to_script = $this->changePathToWebDavScript($this->uri->getPath());
     }
-
-    /**
-     *
-     *
-     * @param string $a_original_path
-     * @return string
-     */
-    protected function changePathToWebDavScript(string $a_original_path)
+    
+    protected function changePathToWebDavScript(string $a_original_path) : string
     {
         $exploded_path = explode('/', $a_original_path);
         
@@ -44,31 +50,18 @@ class ilWebDAVUriBuilder
                 
         return implode('/', array_splice($exploded_path, 0, -1)) . '/' . $this->webdav_script_name;
     }
-
-    /**
-     * @param int $a_ref_id
-     * @return string
-     */
-    protected function getWebDavPathToRef(int $a_ref_id)
+    
+    protected function getWebDavPathToRef(int $a_ref_id) : string
     {
         return "$this->web_path_to_script/$this->client_id/ref_$a_ref_id";
     }
-
-    /**
-     * @param string $language
-     * @return string
-     */
-    protected function getWebDavPathToLanguageTemplate(string $language)
+    
+    protected function getWebDavPathToLanguageTemplate(string $language) : string
     {
         return "$this->web_path_to_script/$this->client_id/$language";
     }
-
-    /**
-     * @param string $placeholder_name
-     * @param int $a_ref_id
-     * @return string
-     */
-    protected function getWebDavUriByPlaceholderName(string $placeholder_name, int $a_ref_id)
+    
+    protected function getWebDavUriByPlaceholderName(string $placeholder_name, int $a_ref_id) : string
     {
         $scheme = $this->schemas[$placeholder_name];
         if ($this->uri->getScheme() == 'https') {
@@ -76,48 +69,28 @@ class ilWebDAVUriBuilder
         }
         return $scheme . '://' . $this->host . $this->getWebDavPathToRef($a_ref_id);
     }
-
-    /**
-     * @param int $a_ref_id
-     * @return string
-     */
-    public function getWebDavDefaultUri(int $a_ref_id)
+    
+    public function getWebDavDefaultUri(int $a_ref_id) : string
     {
         return $this->getWebDavUriByPlaceholderName('default', $a_ref_id);
     }
-
-    /**
-     * @param int $a_ref_id
-     * @return string
-     */
-    public function getWebDavNautilusUri(int $a_ref_id)
+    
+    public function getWebDavNautilusUri(int $a_ref_id) : string
     {
         return $this->getWebDavUriByPlaceholderName('nautilus', $a_ref_id);
     }
-
-    /**
-     * @param int $a_ref_id
-     * @return string
-     */
-    public function getWebDavKonquerorUri(int $a_ref_id)
+    
+    public function getWebDavKonquerorUri(int $a_ref_id) : string
     {
         return $this->getWebDavUriByPlaceholderName('konqueror', $a_ref_id);
     }
-
-    /**
-     * @param int $a_ref_id
-     * @return string
-     */
-    public function getUriToMountInstructionModalByRef(int $a_ref_id)
+    
+    public function getUriToMountInstructionModalByRef(int $a_ref_id) : string
     {
         return $this->getWebDavPathToRef($a_ref_id) . '?' . $this->mount_instructions_query;
     }
-
-    /**
-     * @param string $language
-     * @return string
-     */
-    public function getUriToMountInstructionModalByLanguage(string $language)
+    
+    public function getUriToMountInstructionModalByLanguage(string $language) : string
     {
         return $this->getWebDavPathToLanguageTemplate($language) . '?' . $this->mount_instructions_query;
     }

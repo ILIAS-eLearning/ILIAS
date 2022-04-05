@@ -51,7 +51,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
         }
     }
     
-    private function buildSourcePoolSelectOptionsArray($availablePools)
+    private function buildSourcePoolSelectOptionsArray($availablePools) : array
     {
         $sourcePoolSelectOptionArray = array();
         
@@ -72,7 +72,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
         #$poolSelection->setOptions($this->buildSourcePoolSelectOptionsArray($availablePools));
 
         #$this->addInputItem($poolSelection, true);
-        
+
         $this->addFormButton(
             $this->lng->txt('tst_rnd_quest_set_tb_add_pool_btn'),
             #ilTestRandomQuestionSetConfigGUI::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM

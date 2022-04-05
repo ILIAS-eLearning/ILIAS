@@ -20,6 +20,7 @@
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
+    protected \ILIAS\HTTP\Services $http;
     protected ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
@@ -37,6 +38,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->http = $DIC->http();
     }
 
     /**
@@ -67,178 +69,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
     //// Classic editing
     ////
 
-    /**
-    * Edit data of table. (classic version)
-    */
-    public function editDataCl() : void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $this->setTabs();
-
-        $this->displayValidationError();
-        
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tabledata.html", "Services/COPage");
-        $dtpl = $this->tpl;
-        //$dtpl = new ilTemplate("tpl.tabledata.html", true, true, "Services/COPage");
-        $dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
-        $dtpl->setVariable("BB_MENU", $this->getBBMenu("cell_0_0"));
-
-        ilYuiUtil::initDragDrop();
-        ilYuiUtil::initConnection();
-        $this->tpl->addJavaScript("./Services/COPage/phpBB/3_0_5/editor.js");
-        $this->tpl->addJavaScript("./Services/COPage/js/paragraph_editing.js");
-
-        // get all rows
-        $xpc = xpath_new_context($this->dom);
-        $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
-            "/Table/TableRow";
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0; $i < count($res->nodeset); $i++) {
-            $xpc2 = xpath_new_context($this->dom);
-            $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
-                "/Table/TableRow[$i+1]/TableData";
-            $res2 = xpath_eval($xpc2, $path2);
-            
-            // if this is the first row -> col icons
-            if ($i == 0) {
-                for ($j = 0; $j < count($res2->nodeset); $j++) {
-                    if ($j == 0) {
-                        $dtpl->touchBlock("empty_td");
-                    }
-
-                    if ($j == 0) {
-                        if (count($res2->nodeset) == 1) {
-                            $move_type = "none";
-                        } else {
-                            $move_type = "forward";
-                        }
-                    } elseif ($j == (count($res2->nodeset) - 1)) {
-                        $move_type = "backward";
-                    } else {
-                        $move_type = "both";
-                    }
-                    $dtpl->setCurrentBlock("col_icon");
-                    $dtpl->setVariable("COL_ICON_ALT", $lng->txt("content_column"));
-                    $dtpl->setVariable("COL_ICON", ilUtil::getImagePath("col.svg"));
-                    $dtpl->setVariable("COL_ONCLICK", "COL_" . $move_type);
-                    $dtpl->setVariable("NR", $j);
-                    $dtpl->parseCurrentBlock();
-                }
-                $dtpl->setCurrentBlock("row");
-                $dtpl->parseCurrentBlock();
-            }
-
-
-            for ($j = 0; $j < count($res2->nodeset); $j++) {
-                // first col: row icons
-                if ($j == 0) {
-                    if ($i == 0) {
-                        if (count($res->nodeset) == 1) {
-                            $move_type = "none";
-                        } else {
-                            $move_type = "forward";
-                        }
-                    } elseif ($i == (count($res->nodeset) - 1)) {
-                        $move_type = "backward";
-                    } else {
-                        $move_type = "both";
-                    }
-                    $dtpl->setCurrentBlock("row_icon");
-                    $dtpl->setVariable("ROW_ICON_ALT", $lng->txt("content_row"));
-                    $dtpl->setVariable("ROW_ICON", ilUtil::getImagePath("row.svg"));
-                    $dtpl->setVariable("ROW_ONCLICK", "ROW_" . $move_type);
-                    $dtpl->setVariable("NR", $i);
-                    $dtpl->parseCurrentBlock();
-                }
-                
-                // cell
-                if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
-                    $dtpl->setCurrentBlock("cell");
-
-                    $cmd = $ilCtrl->getCmd();
-                    if ($cmd == "update") {
-                        $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
-                    } else {
-                        $s_text = ilPCParagraph::xml2output($this->content_obj->getCellText($i, $j));
-                    }
-    
-                    $dtpl->setVariable("PAR_TA_NAME", "cell[" . $i . "][" . $j . "]");
-                    $dtpl->setVariable("PAR_TA_ID", "cell_" . $i . "_" . $j);
-                    $dtpl->setVariable("PAR_TA_CONTENT", $s_text);
-                    
-                    $cs = $res2->nodeset[$j]->get_attribute("ColSpan");
-                    $rs = $res2->nodeset[$j]->get_attribute("RowSpan");
-                    //					$dtpl->setVariable("WIDTH", "140");
-                    //					$dtpl->setVariable("HEIGHT", "80");
-                    if ($cs > 1) {
-                        $dtpl->setVariable("COLSPAN", 'colspan="' . $cs . '"');
-                        $dtpl->setVariable("WIDTH", (140 + ($cs - 1) * 146));
-                    }
-                    if ($rs > 1) {
-                        $dtpl->setVariable("ROWSPAN", 'rowspan="' . $rs . '"');
-                        $dtpl->setVariable("HEIGHT", (80 + ($rs - 1) * 86));
-                    }
-                    $dtpl->parseCurrentBlock();
-                }
-            }
-            $dtpl->setCurrentBlock("row");
-            $dtpl->parseCurrentBlock();
-        }
-        
-        // init menues
-        $types = array("row", "col");
-        $moves = array("none", "backward", "both", "forward");
-        $commands = array(
-            "row" => array(	"newRowAfter" => "cont_ed_new_row_after",
-                            "newRowBefore" => "cont_ed_new_row_before",
-                            "moveRowUp" => "cont_ed_row_up",
-                            "moveRowDown" => "cont_ed_row_down",
-                            "deleteRow" => "cont_ed_delete_row"),
-            "col" => array(	"newColAfter" => "cont_ed_new_col_after",
-                            "newColBefore" => "cont_ed_new_col_before",
-                            "moveColLeft" => "cont_ed_col_left",
-                            "moveColRight" => "cont_ed_col_right",
-                            "deleteCol" => "cont_ed_delete_col")
-        );
-        foreach ($types as $type) {
-            foreach ($moves as $move) {
-                foreach ($commands[$type] as $command => $lang_var) {
-                    if ($move == "none" && (substr($command, 0, 4) == "move" || substr($command, 0, 6) == "delete")) {
-                        continue;
-                    }
-                    if (($move == "backward" && (in_array($command, array("movedown", "moveright")))) ||
-                        ($move == "forward" && (in_array($command, array("moveup", "moveleft"))))) {
-                        continue;
-                    }
-                    $this->tpl->setCurrentBlock("menu_item");
-                    $this->tpl->setVariable("MENU_ITEM_TITLE", $lng->txt($lang_var));
-                    $this->tpl->setVariable("CMD", $command);
-                    $this->tpl->setVariable("TYPE", $type);
-                    $this->tpl->parseCurrentBlock();
-                }
-                $this->tpl->setCurrentBlock("menu");
-                $this->tpl->setVariable("TYPE", $type);
-                $this->tpl->setVariable("MOVE", $move);
-                $this->tpl->parseCurrentBlock();
-            }
-        }
-        
-        // update/cancel
-        $this->tpl->setCurrentBlock("commands");
-        $this->tpl->setVariable("BTN_NAME", "update");
-        $this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-        $this->tpl->parseCurrentBlock();
-        
-        $this->tpl->setVariable(
-            "FORMACTION2",
-            $ilCtrl->getFormAction($this, "tableAction")
-        );
-        $this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
-    }
-    
     /**
      * Update table data in dom and update page in db
      */
@@ -273,7 +103,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->updated = $this->pg_obj->update();
 
         if ($a_redirect) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editData");
         }
     }
@@ -293,7 +123,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         // handle input data
         $data = array();
-        foreach ($_POST as $k => $content) {
+        $post = $this->http->request()->getParsedBody();
+        foreach ($post as $k => $content) {
             if (substr($k, 0, 5) != "cell_") {
                 continue;
             }
@@ -349,14 +180,14 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 $cell_obj->$tab_cmd();
                 $ret = $this->pg_obj->update();
                 if ($ret !== true) {
-                    ilUtil::sendFailure($ret[0][1], true);
+                    $this->main_tpl->setOnScreenMessage('failure', $ret[0][1], true);
                     $failed = true;
                 }
             }
         }
 
         if (!$failed) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         if ($this->request->getString("save_return") != "") {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);

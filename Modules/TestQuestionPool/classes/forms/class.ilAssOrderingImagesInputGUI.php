@@ -46,7 +46,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      *
      * @return bool
      */
-    public function getStylingDisabled()
+    public function getStylingDisabled() : bool
     {
         return false;
     }
@@ -63,7 +63,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      * @param integer $questionId
      * @return ilAssOrderingElementList
      */
-    public function getElementList($questionId)
+    public function getElementList($questionId) : ilAssOrderingElementList
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
@@ -73,7 +73,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      * @param string $filenameInput
      * @return bool
      */
-    protected function isValidFilenameInput($filenameInput)
+    protected function isValidFilenameInput($filenameInput) : bool
     {
         /* @var ilAssOrderingElement $filenameInput */
         return (bool) strlen($filenameInput->getContent());

@@ -4,10 +4,8 @@ use ILIAS\DI\Container;
 
 /**
  * Class ilOrgUnitUserAssignment
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 class ilOrgUnitUserAssignment extends \ActiveRecord
 {
 
@@ -19,10 +17,8 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         return 'il_orgu_ua';
     }
 
-
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_sequence   true
@@ -33,7 +29,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     protected $id = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
@@ -41,7 +36,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     protected $user_id = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
@@ -49,19 +43,16 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     protected $position_id = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
     protected $orgu_id = 0;
 
-
     /**
      * @param $user_id
      * @param $position_id
      * @param $orgu_id
-     *
      * @return \ilOrgUnitUserAssignment
      */
     public static function findOrCreateAssignment($user_id, $position_id, $orgu_id)
@@ -111,7 +102,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         parent::delete();
     }
 
-
     /**
      * @return int
      */
@@ -119,7 +109,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     {
         return $this->id;
     }
-
 
     /**
      * @param int $id
@@ -129,7 +118,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         $this->id = $id;
     }
 
-
     /**
      * @return int
      */
@@ -137,7 +125,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     {
         return $this->user_id;
     }
-
 
     /**
      * @param int $user_id
@@ -147,7 +134,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         $this->user_id = $user_id;
     }
 
-
     /**
      * @return int
      */
@@ -155,7 +141,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     {
         return $this->position_id;
     }
-
 
     /**
      * @param int $position_id
@@ -165,7 +150,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         $this->position_id = $position_id;
     }
 
-
     /**
      * @return int
      */
@@ -173,7 +157,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     {
         return $this->orgu_id;
     }
-
 
     /**
      * @param int $orgu_id

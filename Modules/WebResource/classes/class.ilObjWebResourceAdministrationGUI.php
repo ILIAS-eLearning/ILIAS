@@ -23,15 +23,15 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("webr");
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt("no_permission"), $this->ilErr->WARNING);
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
         }
 
         switch ($next_class) {
@@ -49,10 +49,9 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         global $DIC;
 
@@ -99,7 +98,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $ilSetting->set("links_dynamic", $form->getInput("links_dynamic"));
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "editSettings");
         }
         

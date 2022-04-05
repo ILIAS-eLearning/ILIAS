@@ -7,7 +7,7 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
     protected ilPRGMessagePrinter $messages;
     protected string $topic;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $collection = new ilPRGMessageCollection();
         $lng = $this->createMock(ilLanguage::class);

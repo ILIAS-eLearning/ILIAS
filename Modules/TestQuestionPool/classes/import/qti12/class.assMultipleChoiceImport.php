@@ -19,7 +19,7 @@ class assMultipleChoiceImport extends assQuestionImport
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQtiItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -32,7 +32,8 @@ class assMultipleChoiceImport extends assQuestionImport
         global $DIC;
         $ilUser = $DIC['ilUser'];
         // empty session variable for imported xhtml mobs
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
+
         $presentation = $item->getPresentation();
         $duration = $item->getDuration();
         $shuffle = 0;
@@ -221,7 +222,7 @@ class assMultipleChoiceImport extends assQuestionImport
                 $imagepath = $this->object->getImagePath();
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 $imagepath .= $answer["imagefile"]["label"];
                 $fh = fopen($imagepath, "wb");
@@ -249,19 +250,19 @@ class assMultipleChoiceImport extends assQuestionImport
         }
         $questiontext = $this->object->getQuestion();
         $answers = &$this->object->getAnswers();
-        if (is_array($_SESSION["import_mob_xhtml"])) {
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);

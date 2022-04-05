@@ -5,6 +5,19 @@ namespace ILIAS\ResourceStorage\StorageHandler;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Migrator
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -12,29 +25,15 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
  */
 class Migrator
 {
-    /**
-     * @var StorageHandlerFactory
-     */
-    private $handler_factory;
-    /**
-     * @var \ilDBInterface
-     */
-    private $database;
-    /**
-     * @var string
-     */
-    protected $filesystem_base_path;
+    private \ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory $handler_factory;
+    private \ilDBInterface $database;
+    protected string $filesystem_base_path;
 
-    protected $clean_up = true;
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
+    protected bool $clean_up = true;
+    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
 
     /**
      * Migrator constructor.
-     * @param StorageHandlerFactory $handler_factory
-     * @param \ilDBInterface        $database
      */
     public function __construct(
         StorageHandlerFactory $handler_factory,
@@ -62,13 +61,11 @@ class Migrator
             return false;
         }
 
-        if (!is_dir(dirname($destination_path))) {
-            if (!mkdir(dirname($destination_path), 0777, true)) {
-                return false;
-            }
+        if (!is_dir(dirname($destination_path)) && !mkdir(dirname($destination_path), 0777, true)) {
+            return false;
         }
         if (rename($existing_path, $destination_path)) {
-            $r = $this->database->manipulateF(
+            $this->database->manipulateF(
                 "UPDATE il_resource SET storage_id = %s WHERE identification = %s LIMIT 1",
                 ['text', 'text'],
                 [$to_handler_id, $resource->getIdentification()->serialize()]
@@ -84,7 +81,7 @@ class Migrator
         return false;
     }
 
-    public function removeEmptySubFolders($path) : bool
+    public function removeEmptySubFolders(string $path) : bool
     {
         $empty = true;
         foreach (glob($path . DIRECTORY_SEPARATOR . "*") as $file) {

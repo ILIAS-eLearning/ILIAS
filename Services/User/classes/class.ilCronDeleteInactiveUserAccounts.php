@@ -1,11 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Refinery\ConstraintViolationException;
-
-include_once "Services/Cron/classes/class.ilCronJob.php";
-include_once 'Services/Mail/classes/class.ilMimeMail.php';
-include_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This cron deletes user accounts by INACTIVITY period
@@ -28,10 +34,13 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
+    private ilCronJobRepository $cronRepository;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         if ($DIC) {
             if (isset($DIC['http'])) {
@@ -52,6 +61,10 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
             if (isset($DIC['rbacreview'])) {
                 $this->rbacReview = $DIC->rbac()->review();
+            }
+
+            if (isset($DIC['cron.repository'])) {
+                $this->cronRepository = $DIC->cron()->repository();
             }
 
             if (isset($DIC['ilSetting'])) {
@@ -79,6 +92,9 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
     }
 
+    /**
+     * @param string|int $number
+     */
     protected function isDecimal($number) : bool
     {
         $number = (string) $number;
@@ -231,7 +247,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     
     protected function calculateDeletionData(int $date_for_deletion) : int
     {
-        $cron_timing = ilCronManager::getCronJobData($this->getId());
+        $cron_timing = $this->cronRepository->getCronJobData($this->getId());
         $time_difference = 0;
         $multiplier = 1;
 
@@ -443,7 +459,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $this->settings->set('cron_inactive_user_reminder_period', (string) $reminder_period);
 
         if (!$valid) {
-            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
             return false;
         }
 

@@ -26,57 +26,70 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     public function __construct()
     {
         global $DIC;
-        parent::__construct();
-
         $this->db = $DIC->database();
+        parent::__construct($this->db, $DIC["component.repository"], "xtst");
     }
 
-    public function getComponentType()
+    /**
+     * Only very little classes seem to care about this:
+     *    - Services/Repository/classes/class.ilRepositoryObjectPlugin.php
+     *    - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php
+     *
+     * @param string $a_ctype
+     * @param string $a_cname
+     * @param string $a_slot_id
+     * @param string $a_pname
+     * @param string $a_img
+     *
+     * @return string
+     */
+    public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img) : string
     {
-        return IL_COMP_SERVICE;
-    }
-    
-    public function getComponentName()
-    {
-        return "Repository";
+        global $DIC;
+
+        $component_repository = $DIC["component.repository"];
+
+        $plugin = $component_repository->getPluginByName($a_pname);
+        $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
+
+        $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();
+
+        $img = ilUtil::getImagePath($d2 . "/" . $a_img);
+        if (is_int(strpos($img, "Customizing"))) {
+            return $img;
+        }
+
+        $d = $plugin->getPath();
+
+        return $d . "/templates/images/" . $a_img;
     }
 
-    public function getSlot()
-    {
-        return "RepositoryObject";
-    }
 
-    public function getSlotId()
-    {
-        return "robj";
-    }
 
-    protected function slotInit()
-    {
-        // nothing to do here
-    }
-    
     public static function _getIcon(string $a_type) : string
     {
-        return ilPlugin::_getImagePath(
-            IL_COMP_SERVICE,
+        global $DIC;
+        $component_repository = $DIC["component.repository"];
+        return self::_getImagePath(
+            ilComponentInfo::TYPE_SERVICES,
             "Repository",
             "robj",
-            ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type),
+            $component_repository->getPluginById($a_type)->getName(),
             "icon_" . $a_type . ".svg"
         );
     }
     
     public static function _getName(string $a_id) : string
     {
-        $name = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_id);
-        if ($name != "") {
-            return $name;
+        global $DIC;
+        $component_repository = $DIC["component.repository"];
+        if (!$component_repository->hasPluginId($a_id)) {
+            return "";
         }
-        return "";
+        return $component_repository->getPluginById($a_id)->getName();
     }
     
-    protected function beforeActivation()
+    protected function beforeActivation() : bool
     {
         $ilDB = $this->db;
         
@@ -189,7 +202,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     
     abstract protected function uninstallCustom() : void;
     
-    final protected function beforeUninstall()
+    final protected function beforeUninstall() : bool
     {
         if ($this->beforeUninstallCustom()) {
             $rep_util = new ilRepUtil();

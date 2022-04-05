@@ -16,7 +16,7 @@ class ilADTDateTimePresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             return (int) $this->getADT()->getDate()->get(IL_CAL_UNIX);

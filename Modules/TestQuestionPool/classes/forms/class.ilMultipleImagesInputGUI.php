@@ -82,7 +82,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      *
      * @return	array	Accepted Suffixes
      */
-    public function getSuffixes()
+    public function getSuffixes() : array
     {
         return $this->suffixes;
     }
@@ -90,7 +90,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @return string
      */
-    public function getImageRemovalCommand()
+    public function getImageRemovalCommand() : string
     {
         return $this->imageRemovalCommand;
     }
@@ -106,7 +106,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @return string
      */
-    public function getImageUploadCommand()
+    public function getImageUploadCommand() : string
     {
         return $this->imageUploadCommand;
     }
@@ -122,7 +122,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @return	boolean $editElementOccuranceEnabled
      */
-    public function isEditElementOccuranceEnabled()
+    public function isEditElementOccuranceEnabled() : bool
     {
         return $this->editElementOccuranceEnabled;
     }
@@ -138,7 +138,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @return boolean
      */
-    public function isEditElementOrderEnabled()
+    public function isEditElementOrderEnabled() : bool
     {
         return $this->editElementOrderEnabled;
     }
@@ -155,14 +155,14 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      * @param mixed $value
      * @return bool
      */
-    abstract protected function isValidFilenameInput($filenameInput);
+    abstract protected function isValidFilenameInput($filenameInput) : bool;
     
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
      *
      * @return	boolean	$validationSuccess
      */
-    public function onCheckInput()
+    public function onCheckInput() : bool
     {
         $lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
         $F = $_FILES[$this->getPostVar()];
@@ -178,17 +178,13 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 // error handling
                 if ($error > 0) {
                     switch ($error) {
-                    case UPLOAD_ERR_INI_SIZE:
+                        case UPLOAD_ERR_FORM_SIZE:
+                        case UPLOAD_ERR_INI_SIZE:
                         $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
                         return false;
                         break;
-                    
-                    case UPLOAD_ERR_FORM_SIZE:
-                        $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-                        return false;
-                        break;
-                    
-                    case UPLOAD_ERR_PARTIAL:
+
+                        case UPLOAD_ERR_PARTIAL:
                         $this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
                         return false;
                         break;
@@ -247,7 +243,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             $size_bytes = $F['size'][$index];
             // virus handling
             if (strlen($tmpname)) {
-                $vir = ilUtil::virusHandling($tmpname, $filename);
+                $vir = ilVirusScanner::virusHandling($tmpname, $filename);
                 if ($vir[0] == false) {
                     $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                     return false;
@@ -273,7 +269,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setCurrentBlock('image');
                 
                 $tpl->setVariable('STORED_IMAGE_SRC', $this->fetchContentImageSourceFromValue($value));
-                $tpl->setVariable('STORED_IMAGE_ALT', ilUtil::prepareFormOutput($this->fetchContentImageTitleFromValue($value)));
+                $tpl->setVariable(
+                    'STORED_IMAGE_ALT',
+                    ilLegacyFormElementsUtil::prepareFormOutput($this->fetchContentImageTitleFromValue($value))
+                );
                 $tpl->setVariable('STORED_IMAGE_FILENAME', $this->fetchContentImageTitleFromValue($value));
                 $tpl->setVariable("STORED_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::STORED_IMAGE_SUBFIELD_NAME, $i));
                 
@@ -335,7 +334,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl->parseCurrentBlock();
         */
         
-        $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+        $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("TEXT_YES", $lng->txt('yes'));
         $tpl->setVariable("TEXT_NO", $lng->txt('no'));
@@ -366,7 +365,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      * @param $value
      * @return bool
      */
-    protected function valueHasContentImageSource($value)
+    protected function valueHasContentImageSource($value) : bool
     {
         return isset($value['src']) && strlen($value['src']);
     }
@@ -375,7 +374,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      * @param $value
      * @return string
      */
-    protected function fetchContentImageSourceFromValue($value)
+    protected function fetchContentImageSourceFromValue($value) : ?string
     {
         if ($this->valueHasContentImageSource($value)) {
             return $value['src'];
@@ -388,15 +387,12 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      * @param $value
      * @return bool
      */
-    protected function valueHasContentImageTitle($value)
+    protected function valueHasContentImageTitle($value) : bool
     {
         return isset($value['title']) && strlen($value['title']);
     }
     
-    /**
-     * @param string $value
-     */
-    protected function fetchContentImageTitleFromValue($value)
+    protected function fetchContentImageTitleFromValue($value) : ?string
     {
         if ($this->valueHasContentImageTitle($value)) {
             return $value['title'];
@@ -408,7 +404,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @return ilTemplate
      */
-    protected function getTemplate()
+    protected function getTemplate() : ilTemplate
     {
         return new ilTemplate(self::RENDERING_TEMPLATE, true, true, "Services/Form");
     }

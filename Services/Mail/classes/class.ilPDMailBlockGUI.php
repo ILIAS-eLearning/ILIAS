@@ -3,6 +3,7 @@
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * BlockGUI class for Personal Desktop Mail block
@@ -220,9 +221,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
             [$mailId],
             $mbox->getTrashFolder()
         )) {
-            ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('mail_moved_to_trash'), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('mail_move_error'), true);
         }
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
@@ -246,7 +247,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     protected $new_rendering = true;
 
-    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?Item
     {
         $f = $this->ui->factory();
 

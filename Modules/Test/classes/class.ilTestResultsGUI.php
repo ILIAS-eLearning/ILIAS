@@ -50,6 +50,7 @@ class ilTestResultsGUI
      * @var ilTestObjectiveOrientedContainer
      */
     protected $objectiveParent;
+    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilTestParticipantsGUI constructor.
@@ -57,6 +58,8 @@ class ilTestResultsGUI
      */
     public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->testObj = $testObj;
         $this->questionSetConfig = $questionSetConfig;
     }
@@ -64,7 +67,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestObjectiveOrientedContainer
      */
-    public function getObjectiveParent()
+    public function getObjectiveParent() : ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }
@@ -80,7 +83,7 @@ class ilTestResultsGUI
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj() : ilObjTest
     {
         return $this->testObj;
     }
@@ -96,7 +99,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -112,7 +115,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ilTestAccess
     {
         return $this->testAccess;
     }
@@ -128,7 +131,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestSession
      */
-    public function getTestSession()
+    public function getTestSession() : ilTestSession
     {
         return $this->testSession;
     }
@@ -144,7 +147,7 @@ class ilTestResultsGUI
     /**
      * @return ilTestTabsManager
      */
-    public function getTestTabs()
+    public function getTestTabs() : ilTestTabsManager
     {
         return $this->testTabs;
     }
@@ -360,6 +363,6 @@ class ilTestResultsGUI
                 break;
         }
         
-        ilUtil::sendInfo($message);
+        $this->main_tpl->setOnScreenMessage('info', $message);
     }
 }

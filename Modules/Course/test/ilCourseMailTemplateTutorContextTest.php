@@ -2,8 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 
-include_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
-
 /**
  * Class ilCourseMailTemplateTutorContextTest
  */

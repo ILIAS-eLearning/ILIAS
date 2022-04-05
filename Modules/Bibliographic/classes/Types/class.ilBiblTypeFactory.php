@@ -66,10 +66,8 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
         switch ($file_ending) {
             case "ris":
                 return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
-                break;
             case "bib":
                 return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
-                break;
             default:
                 throw new ilException("no data type found for this file ending");
         }
@@ -81,10 +79,6 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
      */
     public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst) : int
     {
-        if ($type_inst instanceof ilRis) {
-            return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
-        } elseif ($type_inst instanceof ilBibTex) {
-            return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
-        }
+        return $type_inst->getId();
     }
 }

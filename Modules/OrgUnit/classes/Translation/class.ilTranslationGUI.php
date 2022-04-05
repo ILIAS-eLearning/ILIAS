@@ -3,12 +3,9 @@
 
 /**
  * Class ilTranslationGUI
- *
  * Based on methods of ilObjCategoryGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilTranslationGUI
 {
@@ -38,10 +35,10 @@ class ilTranslationGUI
      */
     protected $ilObjectOrgUnit;
 
-
     public function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
@@ -60,18 +57,16 @@ class ilTranslationGUI
         $this->ilAccess = $ilAccess;
 
         if (!$ilAccess->checkAccess('write', '', $this->ilObjectOrgUnit->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
     }
-
 
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd();
         $this->$cmd();
     }
-
 
     public function editTranslations($a_get_post_values = false, $a_add = false)
     {
@@ -104,7 +99,6 @@ class ilTranslationGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-
     /**
      * Save title and translations
      */
@@ -112,21 +106,21 @@ class ilTranslationGUI
     {
         // default language set?
         if (!isset($_POST["default"])) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
 
             return $this->editTranslations(true);
         }
 
         // all languages set?
         if (array_key_exists("", $_POST["lang"])) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_language_selected"));
 
             return $this->editTranslations(true);
         }
 
         // no single language is selected more than once?
         if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
-            ilUtil::sendFailure($this->lng->txt("msg_multi_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_multi_language_selected"));
 
             return $this->editTranslations(true);
         }
@@ -141,22 +135,21 @@ class ilTranslationGUI
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
-                    ($_POST["default"] == $k)?1:0
+                    ($_POST["default"] == $k) ? 1 : 0
                 );
             } else {
                 $this->ilObjectOrgUnit->addTranslation(
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
-                    ($_POST["default"] == $k)?1:0
+                    ($_POST["default"] == $k) ? 1 : 0
                 );
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editTranslations");
     }
-
 
     /**
      * Add a translation
@@ -173,7 +166,6 @@ class ilTranslationGUI
         }
     }
 
-
     /**
      * Remove translation
      */
@@ -187,7 +179,7 @@ class ilTranslationGUI
                     unset($_POST["desc"][$k]);
                     unset($_POST["lang"][$k]);
                 } else {
-                    ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_default_language"));
 
                     return $this->editTranslations();
                 }

@@ -1,3 +1,18 @@
+1.52.0 / 2022-02-21
+===================
+
+  * Add extensions from IANA for more `image/*` types
+  * Add extension `.asc` to `application/pgp-keys`
+  * Add extensions to various XML types
+  * Add new upstream MIME types
+
+1.51.0 / 2021-11-08
+===================
+
+  * Add new upstream MIME types
+  * Mark `image/vnd.microsoft.icon` as compressible
+  * Mark `image/vnd.ms-dds` as compressible
+
 1.50.0 / 2021-09-15
 ===================
 

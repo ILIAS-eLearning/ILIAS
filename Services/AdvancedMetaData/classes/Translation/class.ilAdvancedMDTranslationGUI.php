@@ -8,7 +8,6 @@ abstract class ilAdvancedMDTranslationGUI
     protected const CMD_ADD_TRANSLATION = 'addTranslations';
     protected const CMD_SAVE_ADDITIONAL_TRANSLATIONS = 'saveAdditionalTranslations';
 
-
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
@@ -29,6 +28,7 @@ abstract class ilAdvancedMDTranslationGUI
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('obj');
         $this->request = $DIC->http()->request();
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
         $this->record = $record;
     }
@@ -140,7 +140,7 @@ abstract class ilAdvancedMDTranslationGUI
         $form = $this->initCreateTranslationForm();
         if (!$form->checkInput()) {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->language->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage('failure', $this->language->txt('err_check_input'));
             $this->addTranslations($form);
             return;
         }
@@ -149,7 +149,7 @@ abstract class ilAdvancedMDTranslationGUI
             $languages->addTranslationEntry($language_code);
         }
 
-        ilUtil::sendSuccess($this->language->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->language->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 }

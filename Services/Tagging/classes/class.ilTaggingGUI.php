@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use \Psr\Http\Message\RequestInterface;
 
@@ -26,6 +40,7 @@ class ilTaggingGUI
     protected RequestInterface $request;
     protected string $mess = "";
     protected string $requested_mess = "";
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
@@ -33,6 +48,7 @@ class ilTaggingGUI
     public function __construct()
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -89,13 +105,13 @@ class ilTaggingGUI
         $tags_set = new ilSetting("tags");
         $forbidden = $tags_set->get("forbidden_tags");
         if ($forbidden != "") {
-            $this->forbidden = unserialize($forbidden);
+            $this->forbidden = unserialize($forbidden, ['allowed_classes' => false]);
         } else {
             $this->forbidden = array();
         }
     }
     
-    public function setUserId(int $a_userid)
+    public function setUserId(int $a_userid) : void
     {
         $this->userid = $a_userid;
     }
@@ -105,7 +121,7 @@ class ilTaggingGUI
         return $this->userid;
     }
 
-    public function setSaveCmd(string $a_savecmd)
+    public function setSaveCmd(string $a_savecmd) : void
     {
         $this->savecmd = $a_savecmd;
     }
@@ -115,7 +131,7 @@ class ilTaggingGUI
         return $this->savecmd;
     }
 
-    public function setInputFieldName(string $a_inputfieldname)
+    public function setInputFieldName(string $a_inputfieldname) : void
     {
         $this->inputfieldname = $a_inputfieldname;
     }
@@ -139,8 +155,9 @@ class ilTaggingGUI
         );
         $ttpl->setVariable(
             "VAL_TAGS",
-            ilUtil::prepareFormOutput(implode(", ", $tags))
+            ilLegacyFormElementsUtil::prepareFormOutput(implode(", ", $tags))
         );
+        $ttpl->setVariable("TAG_LABEL", $lng->txt("tagging_my_tags"));
         $ttpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $ttpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));
         $ttpl->setVariable("CMD_SAVE", $this->savecmd);
@@ -184,7 +201,7 @@ class ilTaggingGUI
             $this->getUserId(),
             $tags
         );
-        ilUtil::sendSuccess($lng->txt('msg_obj_modified'));
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt('msg_obj_modified'));
     }
     
     // Check whether a tag is forbiddens
@@ -320,7 +337,7 @@ class ilTaggingGUI
         );
         $tpl->setVariable(
             "VAL_TAGS",
-            ilUtil::prepareFormOutput(implode(", ", $tags))
+            ilLegacyFormElementsUtil::prepareFormOutput(implode(", ", $tags))
         );
         $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $tpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));

@@ -115,7 +115,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
         // allow only write access
         
         if (!$this->access->checkAccess("write", "", $this->testOBJ->getRefId())) {
-            ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
             $this->ctrl->redirectByClass('ilObjTestGUI', "infoScreen");
         }
         
@@ -152,9 +152,9 @@ class ilObjTestDynamicQuestionSetConfigGUI
         $this->questionSetConfig->loadFromDb();
         
         if ($this->questionSetConfig->areDepenciesBroken($this->tree)) {
-            ilUtil::sendFailure($this->questionSetConfig->getDepenciesBrokenMessage($this->lng));
+            $this->tpl->setOnScreenMessage('failure', $this->questionSetConfig->getDepenciesBrokenMessage($this->lng));
         } elseif ($this->questionSetConfig->areDepenciesInVulnerableState($this->tree)) {
-            ilUtil::sendInfo($this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lng));
+            $this->tpl->setOnScreenMessage('info', $this->questionSetConfig->getDepenciesInVulnerableStateMessage($this->lng));
         }
             
         if ($form === null) {
@@ -169,7 +169,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
     /**
      * @return integer
      */
-    protected function getSubmittedSourceQuestionPoolId()
+    protected function getSubmittedSourceQuestionPoolId() : int
     {
         return (int) $_POST['source_qpl_id'];
     }
@@ -187,23 +187,23 @@ class ilObjTestDynamicQuestionSetConfigGUI
         );
 
         if ($this->testOBJ->participantDataExist()) {
-            ilUtil::sendFailure($this->lng->txt("tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"), true);
-            return $this->showFormCmd($form);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part"), true);
+            $this->showFormCmd($form);
         }
         
         $errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
         $form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
         if ($errors) {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-            return $this->showFormCmd($form);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->showFormCmd($form);
         }
         
         $this->performSaveForm($form);
         
         $this->testOBJ->saveCompleteStatus($this->questionSetConfig);
 
-        ilUtil::sendSuccess($this->lng->txt("tst_msg_dynamic_question_set_config_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_dynamic_question_set_config_modified"), true);
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
     
@@ -251,7 +251,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
      *
      * @return ilPropertyFormGUI $form
      */
-    private function buildForm($sourceQuestionPoolId)
+    private function buildForm($sourceQuestionPoolId) : ilPropertyFormGUI
     {
         $this->questionSetConfig->loadFromDb($this->testOBJ->getTestId());
         
@@ -343,7 +343,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
      * @param array $questionPoolsData
      * @return array
      */
-    private function buildQuestionPoolSelectInputOptionArray($questionPoolsData)
+    private function buildQuestionPoolSelectInputOptionArray($questionPoolsData) : array
     {
         $questionPoolSelectInputOptions = array( '' => $this->lng->txt('please_select') );
         
@@ -354,7 +354,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
         return $questionPoolSelectInputOptions;
     }
     
-    private function buildTaxonomySelectInputOptionArray($questionPoolId)
+    private function buildTaxonomySelectInputOptionArray($questionPoolId) : array
     {
         $taxSelectOptions = array(
             0 => $this->lng->txt('please_select')

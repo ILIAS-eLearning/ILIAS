@@ -27,7 +27,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         parent::__construct($testOBJ);
     }
     
-    public function executeCommand()
+    public function executeCommand() : string
     {
         if (!$this->object->getEnableExamview()) {
             return '';
@@ -66,7 +66,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
      * @return string The name of the content block
      * @access public
      */
-    private function getContentBlockName()
+    private function getContentBlockName() : string
     {
         if ($this->object->getKioskMode()) {
             // See: https://mantis.ilias.de/view.php?id=27784
@@ -81,7 +81,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
     /**
      * @return ilToolbarGUI
      */
-    protected function buildToolbar($toolbarId)
+    protected function buildToolbar($toolbarId) : ilToolbarGUI
     {
         require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
         require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
@@ -125,7 +125,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         return $toolbar;
     }
     
-    protected function buildUserReviewOutput()
+    protected function buildUserReviewOutput() : string
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -219,7 +219,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
      *
      * @return string
      */
-    protected function buildPdfFilename()
+    protected function buildPdfFilename() : string
     {
         global $DIC;
         $ilSetting = $DIC['ilSetting'];
@@ -228,13 +228,13 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         
         require_once 'Services/Utilities/classes/class.ilUtil.php';
         
-        $path = ilUtil::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
+        $path = ilFileUtils::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
         
         if (!is_dir($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         
-        $filename = ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . '/' . $path . '/exam_N';
+        $filename = ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . '/' . $path . '/exam_N';
         $filename .= $inst_id . '-' . $this->testOutputGUI->object->getId();
         $filename .= '-' . $this->testSession->getActiveId() . '-';
         $filename .= $this->testSession->getPass() . '.pdf';

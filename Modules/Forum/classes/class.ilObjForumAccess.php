@@ -29,19 +29,19 @@ class ilObjForumAccess extends ilObjectAccess
         ];
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
 
         if ($t_arr[0] !== 'frm' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
         if (
-            $DIC->access()->checkAccess('read', '', $t_arr[1]) ||
-            $DIC->access()->checkAccess('visible', '', $t_arr[1])
+            $DIC->access()->checkAccess('read', '', (int) $t_arr[1]) ||
+            $DIC->access()->checkAccess('visible', '', (int) $t_arr[1])
         ) {
             return true;
         }
@@ -77,13 +77,13 @@ class ilObjForumAccess extends ilObjectAccess
         return $text;
     }
 
-    public static function _preloadData($a_obj_ids, $a_ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
         /*
         We are only able to preload the top_pk values for the forum ref_ids.
         Other data like statistics and last posts require permission checks per reference, so there is no added value for using an SQL IN() function in the queries
         */
-        ilObjForum::preloadForumIdsByRefIds((array) $a_ref_ids);
+        ilObjForum::preloadForumIdsByRefIds($ref_ids);
     }
 
     public static function getLastPostByRefId(int $ref_id) : array

@@ -1,79 +1,71 @@
-<?php
-
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
  * Add a search box to main menu
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
  *
  *
  * @ingroup ServicesSearch
  */
 class ilMainMenuSearchGUI
 {
-    protected $tpl = null;
-    protected $lng = null;
+    protected ?ilTemplate $tpl = null;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+
+    private GlobalHttpState $http;
+    private Factory $refinery;
+
+
+    private int $ref_id;
+    private bool $isContainer = true;
     
-    private $ref_id = ROOT_FOLDER_ID;
-    private $obj_id = 0;
-    private $type = '';
-    private $isContainer = true;
-    
-    /**
-     * Constructor
-     * @access public
-     */
     public function __construct()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $objDefinition = $DIC['objDefinition'];
-        $tree = $DIC['tree'];
-        
-        $this->lng = $lng;
-        
-        if (isset($_GET['ref_id'])) {
-            $this->ref_id = (int) $_GET['ref_id'];
-        }
-        $this->obj_id = ilObject::_lookupObjId($this->ref_id);
-        $this->type = ilObject::_lookupType($this->obj_id);
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("search");
+        $this->tree = $DIC->repositoryTree();
+        $this->ctrl = $DIC->ctrl();
+        $this->user = $DIC->user();
 
-        $lng->loadLanguageModule("search");
-        
-        /*
-        if(!$objDefinition->isContainer($this->type))
-        {
-            $this->isContainer = false;
-            $parent_id = $tree->getParentId($this->ref_id);
-            $this->obj_id = ilObject::_lookupObjId($parent_id);
-            $this->type = ilObject::_lookupType($this->obj_id);
-        }
-        */
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+        $this->initRefIdFromQuery();
     }
 
-    public function getHTML()
+    protected function initRefIdFromQuery() : void
     {
-        global $DIC;
+        $this->ref_id = ROOT_FOLDER_ID;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $this->ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+    }
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-
-        include_once "Services/jQuery/classes/class.iljQueryUtil.php";
+    public function getHTML() : string
+    {
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
         $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'Services/Search');
         $tpl->addJavascript('Services/Search/js/SearchMainMenu.js');
         
-        if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-            $this->tpl->setVariable('LABEL_SEARCH_OPTIONS', $lng->txt("label_search_options"));
-            if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled() or (int) $_GET['ref_id']) {
+        if ($this->user->getId() != ANONYMOUS_USER_ID) {
+            $this->tpl->setVariable('LABEL_SEARCH_OPTIONS', $this->lng->txt("label_search_options"));
+            if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled() || ($this->ref_id != ROOT_FOLDER_ID)) {
                 $this->tpl->setCurrentBlock("position");
-                $this->tpl->setVariable('TXT_GLOBALLY', $lng->txt("search_globally"));
+                $this->tpl->setVariable('TXT_GLOBALLY', $this->lng->txt("search_globally"));
                 $this->tpl->setVariable('ROOT_ID', ROOT_FOLDER_ID);
                 $this->tpl->parseCurrentBlock();
             } else {
@@ -81,34 +73,31 @@ class ilMainMenuSearchGUI
                 $this->tpl->setVariable('ROOT_ID_HID', ROOT_FOLDER_ID);
                 $this->tpl->parseCurrentBlock();
             }
-            if (isset($_GET['ref_id']) && (int) $_GET['ref_id']) {
+            if ($this->ref_id != ROOT_FOLDER_ID) {
                 $this->tpl->setCurrentBlock('position_rep');
-                $this->tpl->setVariable('TXT_CURRENT_POSITION', $lng->txt("search_at_current_position"));
-                $this->tpl->setVariable('REF_ID', (int) $_GET["ref_id"]);
+                $this->tpl->setVariable('TXT_CURRENT_POSITION', $this->lng->txt("search_at_current_position"));
+                $this->tpl->setVariable('REF_ID', $this->ref_id);
                 $this->tpl->parseCurrentBlock();
             }
         }
 
-        if ($ilUser->getId() != ANONYMOUS_USER_ID && ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
+        if ($this->user->getId() != ANONYMOUS_USER_ID && ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
             $this->tpl->setCurrentBlock('usr_search');
             $this->tpl->setVariable('TXT_USR_SEARCH', $this->lng->txt('search_users'));
             $this->tpl->parseCurrentBlock();
         }
-
         $this->tpl->setVariable(
             'FORMACTION',
-            $ilCtrl->getFormActionByClass(
+            $this->ctrl->getFormActionByClass(
                 ilSearchControllerGUI::class,
                 'remoteSearch'
             )
         );
-
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
-
         $this->tpl->setVariable(
             'AC_DATASOURCE',
-            $ilCtrl->getLinkTargetByClass(
+            $this->ctrl->getLinkTargetByClass(
                 ilSearchControllerGUI::class,
                 'autoComplete',
                 null,
@@ -118,17 +107,18 @@ class ilMainMenuSearchGUI
 
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
             ilUtil::getImagePath("icon_seas.svg"),
-            $lng->txt("search")
+            $this->lng->txt("search")
         ));
 
-        if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-            $this->tpl->setVariable('HREF_SEARCH_LINK', "ilias.php?baseClass=ilSearchControllerGUI");
-            $this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));
+        if ($this->user->getId() != ANONYMOUS_USER_ID) {
+            $this->tpl->setVariable(
+                'HREF_SEARCH_LINK',
+                'ilias.php?baseClass=' . ilSearchControllerGUI::class
+            );
+            $this->tpl->setVariable('TXT_SEARCH_LINK', $this->lng->txt("last_search_result"));
         }
-        
         // #10555 - we need the overlay for the autocomplete which is always active
-        $this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
-        include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+        $this->tpl->setVariable('TXT_SEARCH', $this->lng->txt("search"));
         $ov = new ilOverlayGUI("mm_search_menu");
         //$ov->setTrigger("main_menu_search", "none",
         //	"main_menu_search", "tr", "br");

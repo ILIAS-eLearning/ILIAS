@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclExpressionParser
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -61,7 +60,6 @@ class ilDclExpressionParser
             'MAX',
         );
 
-
     /**
      * @param string               $expression
      * @param ilDclBaseRecordModel $record
@@ -74,12 +72,10 @@ class ilDclExpressionParser
         $this->field = $field;
     }
 
-
     /**
      * Parse expression and return result.
      * This method loops the tokens and checks if Token is of type string or math. Concatenates results
      * to produce resulting string of parsed expression.
-     *
      * @return string
      * @throws ilException
      */
@@ -120,10 +116,8 @@ class ilDclExpressionParser
         return $parsed;
     }
 
-
     /**
      * @param $value
-     *
      * @return string
      */
     protected function formatScientific($value)
@@ -141,7 +135,6 @@ class ilDclExpressionParser
         return $value;
     }
 
-
     /**
      * @return array
      */
@@ -149,7 +142,6 @@ class ilDclExpressionParser
     {
         return self::$operators;
     }
-
 
     /**
      * @return array
@@ -159,12 +151,9 @@ class ilDclExpressionParser
         return self::$functions;
     }
 
-
     /**
      * Check if a given token is a math expression
-     *
      * @param string $token
-     *
      * @return bool
      */
     protected function isMathToken($token)
@@ -177,19 +166,17 @@ class ilDclExpressionParser
             }
             $operators = array_keys(self::getOperators());
             $functions = self::getFunctions();
-            $result = (bool) preg_match('#(\\' . implode("|\\", $operators) . '|' . implode('|', $functions) . ')#', $token);
+            $result = (bool) preg_match('#(\\' . implode("|\\", $operators) . '|' . implode('|', $functions) . ')#',
+                $token);
             self::$cache_math_tokens[$this->field->getId()][$token] = $result;
 
             return $result;
         }
     }
 
-
     /**
      * Execute any math functions inside a token
-     *
      * @param string $token
-     *
      * @return string
      */
     protected function calculateFunctions($token)
@@ -222,13 +209,10 @@ class ilDclExpressionParser
         return $token;
     }
 
-
     /**
      * Helper method to return the function and its arguments from a preg_replace_all $result array
-     *
      * @param       $index
      * @param array $data
-     *
      * @return array
      */
     protected function getFunctionArgs($index, array $data)
@@ -251,12 +235,9 @@ class ilDclExpressionParser
         return $return;
     }
 
-
     /**
      * Given an array of tokens, replace each token that is a placeholder (e.g. [[Field name]]) with it's value
-     *
      * @param array $tokens
-     *
      * @return array
      */
     protected function substituteFieldValues(array $tokens)
@@ -273,12 +254,9 @@ class ilDclExpressionParser
         return $replaced;
     }
 
-
     /**
      * Substitute field values in placehoders like [[Field Title]] from current record
-     *
      * @param string $placeholder
-     *
      * @return string
      * @throws ilException
      */
@@ -310,12 +288,9 @@ class ilDclExpressionParser
         return $this->record->getRecordFieldFormulaValue($field->getId());
     }
 
-
     /**
      * Parse a math expression
-     *
      * @param array $tokens
-     *
      * @return null
      * @throws Exception
      */
@@ -390,13 +365,10 @@ class ilDclExpressionParser
         }
     }
 
-
     /**
      * Calculate a function with its arguments
-     *
      * @param       $function Function name to calculate
      * @param array $args     Arguments of function
-     *
      * @return float|int|number
      * @throws ilException
      */
@@ -418,12 +390,10 @@ class ilDclExpressionParser
         }
     }
 
-
     /**
      * @param string $operator
      * @param float  $left
      * @param float  $right
-     *
      * @return float|number
      * @throws ilException
      */

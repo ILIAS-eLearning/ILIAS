@@ -4,10 +4,8 @@
 
 /**
  * StudyProgramme Administration Settings.
- *
  * @author       Michael Herren <mh@studer-raimann.ch>
  * @author       Stefan Hecken <stefan.hecken@concepts-and-training.de>
- *
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeTypeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
@@ -19,12 +17,6 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 
     public function __construct(array $data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
     {
-        global $DIC;
-        $this->error = $DIC['ilErr'];
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->access = $DIC['ilAccess'];
-        $this->setting = $DIC['ilSetting'];
-
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
         $this->type = 'prgs';
@@ -35,7 +27,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
     public function executeCommand() : void
     {
         //Check Permissions globally for all SubGUIs. We only check write permissions
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
         }
         $next_class = $this->ctrl->getNextClass($this);
@@ -102,7 +94,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
     public function saveSettings()
     {
         $this->checkPermission("write");
-        
+
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             if ($this->save($form)) {
@@ -115,20 +107,14 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
                 $this->ctrl->redirect($this, "editSettings");
             }
         }
-        
+
         $form->setValuesByPost();
         $this->editSettings($form);
     }
 
     public function getAdminTabs() : void
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        /**
-         * @var $rbacsystem ilRbacSystem
-         */
-
-        if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTargetByClass('ilObjStudyProgrammeAdminGUI', 'view')
@@ -142,7 +128,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
                 )
             );
         }
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
@@ -154,10 +140,10 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 
     public function _goto($ref_id) : void
     {
-        $this->ctrl->initBaseClass("ilAdministrationGUI");
+        $this->ctrl->setTargetScript('ilias.php');
         $this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "ref_id", $ref_id);
         $this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "admin_mode", "settings");
-        $this->ctrl->redirectByClass(array( "ilAdministrationGUI", "ilObjStudyProgrammeAdminGUI" ), "view");
+        $this->ctrl->redirectByClass(array("ilAdministrationGUI", "ilObjStudyProgrammeAdminGUI"), "view");
     }
 
     protected function save(ilPropertyFormGUI $form) : bool

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -12,6 +12,9 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  */
+
+use ILIAS\Modules\OrgUnit\ARHelper\DIC;
+use ILIAS\Data\DataSize;
 
 /**
  * Class ilFileStandardDropzoneInputGUI
@@ -44,7 +47,7 @@
  */
 class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbarItem
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    use DIC;
 
     public const ASYNC_FILEUPLOAD = "async_fileupload";
 
@@ -66,10 +69,10 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
      */
     protected int $max_files = 1;
     /**
-     * @var \ILIAS\Data\DataSize only files beneath this size will be accepted to upload. Currently
+     * @var DataSize only files beneath this size will be accepted to upload. Currently
      *      this uses the defined valued of the php.ini
      */
-    protected ?\ILIAS\Data\DataSize $max_file_size = null;
+    protected ?DataSize $max_file_size = null;
     /**
      * @var string The message which will be rendered within the dropzone.
      */
@@ -141,20 +144,20 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
 
 
     /**
-     * @return \ILIAS\Data\DataSize allowed size of files which can be uploaded
+     * @return DataSize allowed size of files which can be uploaded
      */
-    public function getMaxFilesize() : ?\ILIAS\Data\DataSize
+    public function getMaxFilesize() : ?DataSize
     {
         return $this->max_file_size;
     }
 
 
     /**
-     * @param \ILIAS\Data\DataSize $max_file_size only files beneath this size will be accepted to
+     * @param DataSize $max_file_size only files beneath this size will be accepted to
      *                                            upload. Currently this uses the defined valued of
      *                                            the php.ini
      */
-    public function setMaxFilesize(\ILIAS\Data\DataSize $max_file_size) : void
+    public function setMaxFilesize(DataSize $max_file_size) : void
     {
         $this->max_file_size = $max_file_size;
     }

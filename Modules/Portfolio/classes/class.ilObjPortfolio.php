@@ -1,15 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Portfolio
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjPortfolio extends ilObjPortfolioBase
 {
-    protected $default; // [bool]
+    protected bool $default;
 
     public function initType()
     {
@@ -20,22 +30,12 @@ class ilObjPortfolio extends ilObjPortfolioBase
     // PROPERTIES
     //
     
-    /**
-     * Set default
-     *
-     * @param bool $a_value
-     */
-    public function setDefault($a_value)
+    public function setDefault(bool $a_value) : void
     {
-        $this->default = (bool) $a_value;
+        $this->default = $a_value;
     }
 
-    /**
-     * Is default?
-     *
-     * @return bool
-     */
-    public function isDefault()
+    public function isDefault() : bool
     {
         return $this->default;
     }
@@ -65,7 +65,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         $a_fields["is_default"] = array("integer", $this->isDefault());
     }
     
-    protected function deleteAllPages()
+    protected function deleteAllPages() : void
     {
         // delete pages
         $pages = ilPortfolioPage::getAllPortfolioPages($this->id);
@@ -83,12 +83,11 @@ class ilObjPortfolio extends ilObjPortfolioBase
 
     /**
      * Set the user default portfolio
-     *
-     * @param int $a_user_id
-     * @param int $a_portfolio_id
      */
-    public static function setUserDefault($a_user_id, $a_portfolio_id = null)
-    {
+    public static function setUserDefault(
+        int $a_user_id,
+        ?int $a_portfolio_id = null
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -111,13 +110,12 @@ class ilObjPortfolio extends ilObjPortfolioBase
     }
 
     /**
-     * Get views of user
-     *
-     * @param int $a_user_id
-     * @return array
+     * Get portfolios of user
+     * @return array[]
      */
-    public static function getPortfoliosOfUser($a_user_id)
-    {
+    public static function getPortfoliosOfUser(
+        int $a_user_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -137,11 +135,8 @@ class ilObjPortfolio extends ilObjPortfolioBase
     
     /**
      * Get default portfolio of user
-     *
-     * @param type $a_user_id
-     * @return int
      */
-    public static function getDefaultPortfolio($a_user_id)
+    public static function getDefaultPortfolio(int $a_user_id) : ?int
     {
         global $DIC;
 
@@ -149,7 +144,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         $ilSetting = $DIC->settings();
         
         if (!$ilSetting->get('user_portfolios')) {
-            return;
+            return null;
         }
             
         $set = $ilDB->query("SELECT up.id FROM usr_portfolio up" .
@@ -158,16 +153,15 @@ class ilObjPortfolio extends ilObjPortfolioBase
             " AND up.is_default = " . $ilDB->quote(1, "integer"));
         $res = $ilDB->fetchAssoc($set);
         if ($res && $res["id"]) {
-            return $res["id"];
+            return (int) $res["id"];
         }
+        return null;
     }
     
     /**
      * Delete all portfolio data for user
-     *
-     * @param int $a_user_id
      */
-    public static function deleteUserPortfolios($a_user_id)
+    public static function deleteUserPortfolios(int $a_user_id) : void
     {
         $all = self::getPortfoliosOfUser($a_user_id);
         if ($all) {
@@ -182,7 +176,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         }
     }
     
-    public function deleteImage()
+    public function deleteImage() : void
     {
         if ($this->id) {
             parent::deleteImage();
@@ -190,7 +184,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         }
     }
     
-    public function uploadImage(array $a_upload)
+    public function uploadImage(array $a_upload) : bool
     {
         if (parent::uploadImage($a_upload)) {
             $this->handleQuotaUpdate();
@@ -199,12 +193,14 @@ class ilObjPortfolio extends ilObjPortfolioBase
         return false;
     }
     
-    protected function handleQuotaUpdate()
+    protected function handleQuotaUpdate() : void
     {
     }
     
-    public static function getAvailablePortfolioLinksForUserIds(array $a_owner_ids, $a_back_url = null)
-    {
+    public static function getAvailablePortfolioLinksForUserIds(
+        array $a_owner_ids,
+        ?string $a_back_url = null
+    ) : array {
         $res = array();
         
         $access_handler = new ilPortfolioAccessHandler();
@@ -226,9 +222,8 @@ class ilObjPortfolio extends ilObjPortfolioBase
 
     /**
      * Is export possible
-     * @return bool
      */
-    public function isCommentsExportPossible()
+    public function isCommentsExportPossible() : bool
     {
         $setting = $this->setting;
         $privacy = ilPrivacySettings::getInstance();

@@ -77,6 +77,8 @@ class DrilldownTest extends ILIAS_UI_TestBase
             $menu
         );
 
+        $menu = $f->menu()->drilldown('root', []);
+
         return $menu;
     }
 
@@ -94,7 +96,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetItems($menu)
+    public function testGetItems($menu) : void
     {
         $this->assertEquals(
             [],
@@ -121,7 +123,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         return $menu;
     }
 
-    public function testWithWrongEntry()
+    public function testWithWrongEntry() : void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = $this->getUIFactory();
@@ -131,48 +133,40 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testWithEntries
      */
-    public function testRendering(C\Menu\Drilldown $menu) : void
+    public function testRendering() : void
     {
         $r = $this->getDefaultRenderer();
+        $f = $this->getUIFactory();
+
+        $items = [
+            $f->menu()->sub('1', [
+                $f->menu()->sub('1.1', []),
+                $f->menu()->sub('1.2', []),
+            ]),
+            $f->menu()->sub('2', [])
+        ];
+        $menu = $f->menu()->drilldown('root', $items);
+
         $html = $r->render($menu);
-        $expected = <<<EOT
-<div class="il-drilldown" id="id_2"> 
-    <header class="show-title show-backnav"> 
-        <h2>root</h2> 
-        <div class="backnav">
-            <button class="btn btn-bulky" id="id_1" ><span class="glyph" aria-label="collapse/back" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span><span class="bulky-label"></span></button>
-        </div> 
-    </header>
-    <ul> 
-        <li> 
-            <button class="menulevel" aria-expanded="false">root<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
-            <ul>
-                <li> 
-                    <button class="menulevel" aria-expanded="false">sub<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
-                    <ul>
-                        <li>
-                            <button class="btn btn-default" data-action=""></button>
-                        </li>
-                        <li>
-                            <a class="glyph" href="" aria-label="show_who_is_online"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <hr />
-                </li>
-                <li>
-                    <button class="btn btn-default" data-action=""></button>
-                </li>
-            </ul> 
-        </li> 
-    </ul>
-</div>
-EOT;
+        $expected = file_get_contents(__DIR__ . "/drilldown_test.html");
 
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)
+        );
+    }
+
+    /**
+     * @depends testConstruction
+     */
+    public function testWithPersistenceId($menu) : void
+    {
+        $this->assertNull($menu->getPersistenceId()) ;
+
+        $id = "some_id";
+        $this->assertEquals(
+            $id,
+            $menu->withPersistenceId($id)->getPersistenceId()
         );
     }
 }

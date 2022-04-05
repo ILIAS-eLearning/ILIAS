@@ -18,12 +18,11 @@ use PHPUnit\Framework\TestSuite;
 require_once 'libs/composer/vendor/autoload.php';
 
 /**
- * Exercise test suite
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilServicesCOPageSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new self();
 
@@ -32,6 +31,9 @@ class ilServicesCOPageSuite extends TestSuite
 
         require_once("./Services/COPage/test/PCMapEditorSessionRepositoryTest.php");
         $suite->addTestSuite("PCMapEditorSessionRepositoryTest");
+
+        require_once("./Services/COPage/test/PCParagraphTest.php");
+        $suite->addTestSuite("PCParagraphTest");
 
         return $suite;
     }

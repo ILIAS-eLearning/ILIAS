@@ -24,7 +24,8 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->mainTemplate = $DIC->ui()->mainTemplate();
-        $this->ref_id = $this->parent_obj->ref_id;
+        $this->ref_id = $cmd_class_instance->ref_id;
+
         $this->setId('frmevents_' . $this->ref_id . '_' . $type);
 
         parent::__construct($cmd_class_instance, $cmd);
@@ -60,7 +61,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         return $this->ui_renderer->render($icon);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_USER_ID', $a_set['user_id']);
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
@@ -87,7 +88,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $interested_events = $row['interested_events'];
         $form = $this->getNotificationSettingsForm($row);
         $hidden_value = [
-            'ref_id' => $this->parent_obj->ref_id,
+            'ref_id' => $this->parent_obj->getRefId(),
             'notification_id' => $row['notification_id'],
             'usr_id_events' => $row['usr_id_events'],
             'forum_id' => $row['forum_id'],
@@ -109,8 +110,8 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         )->withActionButtons([
             $this->ui_factory->button()
                 ->primary($this->lng->txt('save'), '#')
-                ->withOnLoadCode(function ($id) use ($form) {
-                    return "$('#{$id}').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
+                ->withOnLoadCode(function (string $id) use ($form) : string {
+                    return "$('#$id').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
                 })
         ]);
 

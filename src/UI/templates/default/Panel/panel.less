@@ -10,7 +10,7 @@
 
 		margin: 0;
 		padding: @panel-heading-padding;
-		padding-bottom: @padding-small-vertical;
+		padding-bottom: @il-padding-small-vertical;
 
 		border: none;
 		.box-shadow(none);
@@ -42,7 +42,7 @@
 	}
 
 	.panel-body {
-		padding: @padding-large-vertical @padding-large-horizontal;
+		padding: @il-padding-large-vertical @il-padding-large-horizontal;
 		background-color: @il-main-bg;
 
 	}
@@ -72,7 +72,7 @@
 	.il-viewcontrol-sortation {
 		flex-shrink: 1;
 		order: 2;
-		margin-right: @padding-base-horizontal;
+		margin-right: @il-margin-base-horizontal;
 		margin-left: auto;
 	}
 	.panel-heading .dropdown {
@@ -87,7 +87,7 @@
 		order: 4;
 		background-color:@il-main-dark-bg;
 		text-align:center;
-		padding-top:@padding-base-horizontal;
+		padding-top:@il-padding-base-horizontal;
 	}
 }
 
@@ -101,7 +101,12 @@
 //Secondary Panel
 .panel-secondary{
 	.panel-heading.ilHeader{
-		padding: @padding-large-vertical @padding-large-horizontal;
+		padding: @il-padding-large-vertical @il-padding-large-horizontal;
+		h4 {
+			padding-top: @il-padding-small-vertical;
+			padding-bottom: @il-padding-small-vertical;
+		}
+
 		h2.ilHeader {
 			font-size: @font-size-h4;
 		}
@@ -113,20 +118,20 @@
 
 	.panel-body {
 		.il-item-group{
-			margin: 0 -@padding-large-horizontal;
+			margin: 0 -@il-margin-large-horizontal;
 			h3{
-				padding: @padding-large-vertical @padding-large-horizontal;
+				padding: @il-padding-large-vertical @il-padding-large-horizontal;
 			}
 			h4{
-				padding: @padding-large-vertical @padding-large-horizontal;
+				padding: @il-padding-large-vertical @il-padding-large-horizontal;
 			}
 
 			&:first-child{
-				margin: -@padding-large-vertical -@padding-large-horizontal 0 -@padding-large-horizontal;
+				margin: -@il-margin-large-vertical -@il-margin-large-horizontal 0 -@il-margin-large-horizontal;
 			}
 
 			.il-item{
-				padding-left: @padding-large-horizontal;
+				padding-left: @il-padding-large-horizontal;
 
 				.media-right{
 					vertical-align: middle;
@@ -137,7 +142,7 @@
 
 	.il-panel-listing-std-container > h2, .panel-body h4{
 		display: block;
-		padding: @padding-large-vertical 0;
+		padding: @il-padding-large-vertical 0;
 		font-size: @font-size-base;
 		color: @panel-heading-color;
 		margin: 0;
@@ -150,7 +155,7 @@
 
 //Sub Panel
 .panel-sub{
-	margin: -@padding-large-vertical -@padding-large-horizontal;
+	margin: -@il-margin-large-vertical -@il-margin-large-horizontal;
 
 	.panel-body{
 		margin: 0;
@@ -169,7 +174,7 @@
 		margin-bottom: 0;
 	}
 	> .panel-body > .panel {
-		margin-bottom: @padding-large-vertical;
+		margin-bottom: @il-margin-large-vertical;
 	}
 	.panel-heading{
 		min-height: 34px;
@@ -188,7 +193,7 @@
 		font-weight: 600;
 		float: left;
 		padding: @panel-heading-padding;
-		padding-bottom: @padding-small-vertical;
+		padding-bottom: @il-padding-small-vertical;
 		margin: 0;
 		line-height: @line-height-large;
 	}
@@ -200,7 +205,7 @@
 		padding: @panel-heading-padding;
 
 		&:not(:last-child){
-			padding-bottom: @padding-small-vertical;
+			padding-bottom: @il-padding-small-vertical;
 		}
 	}
 }

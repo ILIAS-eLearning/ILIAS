@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitPermissionTableGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
@@ -17,10 +16,8 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
      */
     private $ilOrgUnitPermission = null;
 
-
     /**
      * ilOrgUnitDefaultPermissionTableGUI constructor.
-     *
      * @param object               $a_parent_obj
      * @param string               $a_parent_cmd
      * @param \ilOrgUnitPermission $ilOrgUnitPermission
@@ -37,12 +34,14 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->setId('objpositionperm_' . $this->type);
 
         $this->dic()
-            ->ui()
-            ->mainTemplate()
-            ->addJavaScript('./Services/AccessControl/js/ilPermSelect.js');
+             ->ui()
+             ->mainTemplate()
+             ->addJavaScript('./Services/AccessControl/js/ilPermSelect.js');
 
-        $this->setTitle($this->dic()->language()->txt('orgu_permission_settings_'
-            . $this->context_string));
+        $this->setTitle(
+            $this->dic()->language()->txt('orgu_permission_settings_'
+                . $this->context_string)
+        );
         $this->setEnableHeader(true);
         $this->disable('sort');
         $this->setFormAction($this->dic()->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -55,7 +54,6 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->setCloseFormTag(false);
     }
 
-
     public function start()
     {
         $this->setEnableHeader(false);
@@ -65,38 +63,33 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->addMultiCommand(ilOrgUnitDefaultPermissionGUI::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-
     public function end()
     {
         $this->setCloseFormTag(true);
         $this->addCommandButton(ilOrgUnitDefaultPermissionGUI::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-
     /**
-     * @param \ilOrgUnitOperation $row
-     *
-     * @return bool
+     * @param array $a_set
+     * @return void
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('OBJ_TYPE', $this->context_string);
-        $this->tpl->setVariable('PERM_PERM_ID', $row->getOperationId());
-        if ($this->ilOrgUnitPermission->isOperationIdSelected($row->getOperationId())) {
+        $this->tpl->setVariable('PERM_PERM_ID', $a_set->getOperationId());
+        if ($this->ilOrgUnitPermission->isOperationIdSelected($a_set->getOperationId())) {
             $this->tpl->setVariable('PERM_CHECKED', "checked=checked");
         }
         // $this->tpl->setVariable('PERM_DISABLED', "disabled=disabled");
         $this->tpl->setVariable('DESC_TYPE', $this->context_string);
-        $this->tpl->setVariable('DESC_PERM_ID', $row->getOperationId());
+        $this->tpl->setVariable('DESC_PERM_ID', $a_set->getOperationId());
         $this->tpl->setVariable('TXT_PERMISSION', $this->dic()->language()->txt('orgu_op_'
-            . $row->getOperationString()));
+            . $a_set->getOperationString()));
     }
-
 
     public function collectData()
     {
     }
-
 
     /**
      * @return \ILIAS\DI\Container

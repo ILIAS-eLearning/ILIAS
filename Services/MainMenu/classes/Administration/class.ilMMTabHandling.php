@@ -6,32 +6,19 @@
  */
 class ilMMTabHandling
 {
-
-    /**
-     * @var int
-     */
-    private $ref_id;
-    /**
-     * @var ilRbacSystem
-     */
-    private $rbacsystem;
-    /**
-     * @var ilTabsGUI
-     */
-    private $tabs;
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilHelpGUI
-     */
-    private $help;
-
+    
+    private int $ref_id;
+    
+    private ilRbacSystem $rbacsystem;
+    
+    private ilTabsGUI $tabs;
+    
+    private ilLanguage $lng;
+    
+    protected ilCtrl $ctrl;
+    
+    private ilHelpGUI $help;
+    
     /**
      * ilMMTabHandling constructor.
      * @param int $ref_id
@@ -39,7 +26,7 @@ class ilMMTabHandling
     public function __construct(int $ref_id)
     {
         global $DIC;
-
+        
         $this->ref_id = $ref_id;
         $this->tabs   = $DIC['ilTabs'];
         $this->lng    = $DIC->language();
@@ -48,22 +35,20 @@ class ilMMTabHandling
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->help       = $DIC->help();
     }
-
-    /**
-     * @param string      $tab
-     * @param string|null $subtab
-     * @param bool        $backtab
-     * @param string|null $calling_class
-     */
-    public function initTabs(string $tab, string $subtab = null, bool $backtab = false, $calling_class = "")
-    {
+    
+    public function initTabs(
+        ?string $tab,
+        ?string $subtab = null,
+        bool $backtab = false,
+        ?string $calling_class = ""
+    ) : void {
         $this->tabs->clearTargets(); // clears Help-ID
-
+        
         // Help Screen-ID
         $this->help->setScreenIdComponent('mme');
         $this->help->setScreenId($tab);
         $this->help->setSubScreenId($subtab);
-
+        
         if ($this->rbacsystem->checkAccess('visible,read', $this->ref_id)) {
             $this->tabs->addTab(
                 ilObjMainMenuGUI::TAB_MAIN,

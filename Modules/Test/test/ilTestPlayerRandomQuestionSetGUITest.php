@@ -25,6 +25,7 @@ class ilTestPlayerRandomQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilUser();
+        $this->addGlobal_refinery();
 
         $_GET["ref_id"] = "0";
 

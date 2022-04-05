@@ -42,7 +42,6 @@ class ilChatroomConfigFileHandler
             ilDBConstants::TYPE_MYSQL,
             ilDBConstants::TYPE_INNODB,
             ilDBConstants::TYPE_PDO_MYSQL_INNODB,
-            ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
             ''
         ], true)) {
             $type = 'mysql';
@@ -85,9 +84,9 @@ class ilChatroomConfigFileHandler
      */
     protected function createDataDirIfNotExists() : string
     {
-        $path = ilUtil::getDataDir() . self::CHATROOM_DATA_DIR;
+        $path = ilFileUtils::getDataDir() . self::CHATROOM_DATA_DIR;
 
-        if (!is_dir($path) && !ilUtil::makeDir($path)) {
+        if (!is_dir($path) && !ilFileUtils::makeDir($path)) {
             throw new Exception('Directory cannot be created');
         }
 

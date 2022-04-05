@@ -1,53 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2018 - Denis Klöpfer <denis.kloepfer@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2018 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * An object carrying settings of an Individual Assessment obj
- * beyond the standart information
- *
- * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ * beyond the standard information
  */
 class ilIndividualAssessmentSettings
 {
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var string
-     */
-    protected $description;
-
-    /**
-     * @var	string
-     */
-    protected $content;
-
-    /**
-     * @var	string
-     */
-    protected $record_template;
-
-    /**
-     * @var bool
-     */
-    protected $event_time_place_required;
-
-    /**
-     * @var bool
-     */
-    protected $file_required;
+    protected int $obj_id;
+    protected string $title;
+    protected string $description;
+    protected string $content;
+    protected string $record_template;
+    protected bool $event_time_place_required;
+    protected bool $file_required;
 
     public function __construct(
         int $obj_id,
@@ -126,7 +97,7 @@ class ilIndividualAssessmentSettings
 
     public function toFormInput(
         Field\Factory $input,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         Refinery $refinery
     ) : Field\Input {
         return $input->section(
@@ -148,7 +119,7 @@ class ilIndividualAssessmentSettings
             $lng->txt("settings")
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(function ($value) {
-                return new \ilIndividualAssessmentSettings(
+                return new ilIndividualAssessmentSettings(
                     $this->getObjId(),
                     ...$value
                 );

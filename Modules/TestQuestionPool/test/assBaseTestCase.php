@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
  * Class assBaseTestCase
@@ -48,6 +50,12 @@ abstract class assBaseTestCase extends TestCase
         $DIC['rbacsystem'] = $rbacsystem_mock;
         $GLOBALS['rbacsystem'] = $rbacsystem_mock;
 
+        $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
+        $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
+        $DIC['refinery'] = $refineryMock;
+
+        $DIC['http'] = $this->getMockBuilder(ILIAS\HTTP\Services::class)->disableOriginalConstructor()->getMock();
+
         parent::setUp();
     }
 
@@ -65,25 +73,16 @@ abstract class assBaseTestCase extends TestCase
         $DIC[$name] = $GLOBALS[$name];
     }
 
-    /**
-     * @return \ilTemplate|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getGlobalTemplateMock()
     {
         return $this->getMockBuilder(\ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return \ilDBInterface|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getDatabaseMock()
     {
         return $this->getMockBuilder(\ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return \ILIAS|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getIliasMock()
     {
         $mock = $this->getMockBuilder(\ILIAS::class)->disableOriginalConstructor()->getMock();

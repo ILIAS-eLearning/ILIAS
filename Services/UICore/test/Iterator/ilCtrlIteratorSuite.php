@@ -21,12 +21,6 @@ class ilCtrlIteratorSuite extends TestSuite
         require_once __DIR__ . '/ilCtrlArrayIteratorTest.php';
         $suite->addTestSuite(ilCtrlArrayIteratorTest::class);
 
-        require_once __DIR__ . '/ilCtrlDirectoryIteratorTest.php';
-        $suite->addTestSuite(ilCtrlDirectoryIteratorTest::class);
-
-        require_once __DIR__ . '/ilCtrlPluginIteratorTest.php';
-        $suite->addTestSuite(ilCtrlPluginIteratorTest::class);
-
         return $suite;
     }
 }

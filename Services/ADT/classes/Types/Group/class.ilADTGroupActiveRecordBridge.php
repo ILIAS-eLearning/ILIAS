@@ -15,7 +15,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
     /**
      * @inheritDoc
      */
-    public function getFieldValue(string $a_field_name) : mixed
+    public function getFieldValue(string $a_field_name)
     {
         return '';
     }
@@ -23,7 +23,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
     /**
      * @inheritDoc
      */
-    public function setFieldValue(string $a_field_name, mixed $a_field_value) : void
+    public function setFieldValue(string $a_field_name, $a_field_value) : void
     {
     }
 

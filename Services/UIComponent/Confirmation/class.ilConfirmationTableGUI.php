@@ -50,7 +50,7 @@ class ilConfirmationTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->use_icons) {
             if ($a_set["img"] != "") {

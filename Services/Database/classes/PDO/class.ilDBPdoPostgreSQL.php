@@ -390,4 +390,17 @@ class ilDBPdoPostgreSQL extends ilDBPdo
     {
         return $this->manager->dropConstraint($table_name, "pk", true);
     }
+    
+    public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB) : bool
+    {
+        return false;
+    }
+    
+    public function migrateTableCollation(
+        string $table_name,
+        string $collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4
+    ) : bool {
+        return false;
+    }
+    
 }

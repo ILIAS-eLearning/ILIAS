@@ -1,35 +1,44 @@
-<?php
+<?php declare(strict_types = 1);
 
-/**
- * Class ilWebDAVSabreBrowserPlugin
+use Psr\Http\Message\UriInterface;
+use Sabre\DAV\Browser\Plugin;
+
+/******************************************************************************
  *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+/**
  * The only purpose for this class is to redirect a browsers WebDAV-Request to the mount-instructions page
  */
-class ilWebDAVSabreBrowserPlugin extends Sabre\DAV\Browser\Plugin
+class ilWebDAVSabreBrowserPlugin extends Plugin
 {
-    /** @var ilCtrl */
-    protected $ilCtrl;
-
-    /**
-     * Override the original contructor. ilCtrl is needed to redirect to the mount-instructions page.
-     *
-     * @param ilCtrl $ilCtrl
-     */
-    public function __construct(ilCtrl $ilCtrl)
+    protected ilCtrl $ilCtrl;
+    private string $mount_instruction_path;
+    
+    public function __construct(ilCtrl $ilCtrl, UriInterface $uri)
     {
+        $this->mount_instruction_path = $uri->getScheme() . '://';
+        $this->mount_instruction_path .= $uri->getHost();
+        $this->mount_instruction_path .= $uri->getPath();
+        $this->mount_instruction_path .= "?mount-instructions";
         $this->ctrl = $ilCtrl;
         parent::__construct(false);
     }
 
     /**
-     * Override the original generateDirectoryIndex method. Instead of creating the HTML-Code for a WebDAV site, redirect
-     * to the mount-instrunctions page. The ILIAS WebDAV Service is made to communicate with file managers. Browsers
-     * shall use the regular way to interact with ILIAS
-     *
-     * @param string $path
+     * @inheritdoc
      */
     public function generateDirectoryIndex($path)
     {
-        $this->ctrl->redirectToURL("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]?mount-instructions");
+        $this->ctrl->redirectToURL($this->mount_instruction_path);
     }
 }

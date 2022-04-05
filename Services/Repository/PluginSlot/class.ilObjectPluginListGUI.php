@@ -22,9 +22,13 @@
  */
 abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
+    protected ilComponentFactory $component_factory;
+
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         global $DIC;
+
+        $this->component_factory = $DIC["component.factory"];
 
         parent::__construct($a_context);
 
@@ -34,7 +38,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 
     protected ?ilObjectPlugin $plugin;
 
-    final public function init()
+    final public function init() : void
     {
         $this->initListActions();
         $this->initType();
@@ -57,15 +61,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     protected function getPlugin() : ?ilObjectPlugin
     {
         if (!$this->plugin) {
-            /** @var $p ilObjectPlugin */
-            $p =
-                ilPlugin::getPluginObject(
-                    IL_COMP_SERVICE,
-                    "Repository",
-                    "robj",
-                    ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType())
-                );
-            $this->plugin = $p;
+            $this->plugin = $this->component_factory->getPlugin($this->getType());
         }
         return $this->plugin;
     }
@@ -83,22 +79,22 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     }
     
 
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd) : string
     {
         return ilFrameTargetInfo::_getFrame("MainContent");
     }
 
-    public function getProperties()
+    public function getProperties() : array
     {
         return [];
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd) : string
     {
         
         // separate method for this line
         $cmd_link = "ilias.php?baseClass=ilObjPluginDispatchGUI&amp;" .
-            "cmd=forward&amp;ref_id=" . $this->ref_id . "&amp;forwardCmd=" . $a_cmd;
+            "cmd=forward&amp;ref_id=" . $this->ref_id . "&amp;forwardCmd=" . $cmd;
 
         return $cmd_link;
     }

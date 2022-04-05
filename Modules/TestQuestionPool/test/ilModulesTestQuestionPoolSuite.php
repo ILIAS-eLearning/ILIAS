@@ -5,15 +5,10 @@ use PHPUnit\Framework\TestSuite;
 
 class ilModulesTestQuestionPoolSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilModulesTestQuestionPoolSuite
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
 
         require_once("./Modules/TestQuestionPool/test/assBaseTestCase.php");
 

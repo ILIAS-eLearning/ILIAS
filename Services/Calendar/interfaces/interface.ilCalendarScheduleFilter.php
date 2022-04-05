@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -6,15 +6,30 @@
  * Calendar schedule filter interface
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ingroup ServicesCalendar
  */
 interface ilCalendarScheduleFilter
 {
-    public function filterCategories(array $a_cats);
-    
-    public function modifyEvent(ilCalendarEntry $a_event);
-    
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories);
+    /**
+     * @param array $a_cats
+     * @return array
+     */
+    public function filterCategories(array $a_cats) : array;
+
+    /**
+     * Modifies event properties. Return null to hide the event.
+     * @param ilCalendarEntry $a_event
+     * @return ilCalendarEntry|null
+     */
+    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry;
+
+    /**
+     * Add (return) an array of custom ilCalendarEntry's
+     * @param ilDate $start
+     * @param ilDate $end
+     * @param array  $a_categories
+     * @return ilCalendarEntry[]
+     */
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array;
 }

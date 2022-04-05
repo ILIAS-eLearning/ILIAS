@@ -55,11 +55,9 @@ class ilCertificateGUI
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     private ilCertificateTemplateRepository $templateRepository;
-    private ilFormFieldParser $formFieldParser;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private int $objectId;
     private ilCertificateFormRepository $settingsFormFactory;
-    private ilCertificatePlaceholderValues $placeholderValuesObject;
     private ilXlsFoParser $xlsFoParser;
     private ilCertificateDeleteAction $deleteAction;
     private ilCertificateTemplateExportAction $exportAction;
@@ -81,7 +79,6 @@ class ilCertificateGUI
         ?ilCertificateTemplateRepository $templateRepository = null,
         ?ilPageFormats $pageFormats = null,
         ?ilXlsFoParser $xlsFoParser = null,
-        ?ilFormFieldParser $formFieldParser = null,
         ?ilCertificateTemplateExportAction $exportAction = null,
         ?ilCertificateBackgroundImageUpload $upload = null,
         ?ilCertificateTemplatePreviewAction $previewAction = null,
@@ -112,8 +109,6 @@ class ilCertificateGUI
 
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
-        $this->placeholderValuesObject = $placeholderValuesObject;
-
         $this->objectId = $objectId;
 
         $logger = $DIC->logger()->cert();
@@ -141,11 +136,6 @@ class ilCertificateGUI
             $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
         }
         $this->deleteAction = $deleteAction;
-
-        if (null === $formFieldParser) {
-            $formFieldParser = new ilFormFieldParser();
-        }
-        $this->formFieldParser = $formFieldParser;
 
         if (null === $pageFormats) {
             $pageFormats = new ilPageFormats($DIC->language());
@@ -267,7 +257,7 @@ class ilCertificateGUI
         try {
             $this->previewAction->createPreviewPdf($this->objectId);
         } catch (Exception $exception) {
-            ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf', true));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
             $this->certificateEditor();
         }
     }
@@ -412,7 +402,7 @@ class ilCertificateGUI
 
             /** @var ilObject $object */
             $object = ilObjectFactory::getInstanceByObjId($this->objectId);
-            if (ilLPObjSettings::LP_MODE_DEACTIVATED == $mode && $object->getType() !== 'crs') {
+            if (ilLPObjSettings::LP_MODE_DEACTIVATED === $mode && $object->getType() !== 'crs') {
                 global $DIC;
 
                 $renderer = $DIC->ui()->renderer();
@@ -563,20 +553,20 @@ class ilCertificateGUI
                     );
 
                     $this->templateRepository->save($certificateTemplate);
-                    ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
                     $this->ctrl->redirect($this, "certificateEditor");
                 }
 
                 if ($previousCertificateTemplate->getId() !== null && $previousCertificateTemplate->isCurrentlyActive() !== $active) {
                     $this->templateRepository->updateActivity($previousCertificateTemplate, $active);
-                    ilUtil::sendInfo($this->lng->txt('certificate_change_active_status'), true);
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_change_active_status'), true);
                     $this->ctrl->redirect($this, "certificateEditor");
                 }
 
-                ilUtil::sendInfo($this->lng->txt('certificate_same_not_saved'), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_same_not_saved'), true);
                 $this->ctrl->redirect($this, "certificateEditor");
             } catch (Exception $e) {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             }
         }
 
@@ -601,7 +591,7 @@ class ilCertificateGUI
             $format = $this->settings->get('pageformat', '');
             $formats = $this->pageFormats->fetchPageFormats();
 
-            $formFieldArray = [
+            return [
                 'pageformat' => $format,
                 'pagewidth' => $formats['width'],
                 'pageheight' => $formats['height'],
@@ -611,8 +601,6 @@ class ilCertificateGUI
                 'margin_body_left' => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
                 'certificate_text' => $certificateTemplate->getCertificateContent()
             ];
-
-            return $formFieldArray;
         }
         return $this->settingsFormFactory->fetchFormFieldData($certificateTemplate->getCertificateContent());
     }

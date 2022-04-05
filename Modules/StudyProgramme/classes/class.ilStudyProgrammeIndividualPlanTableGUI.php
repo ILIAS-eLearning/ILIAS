@@ -75,46 +75,46 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->not_possible_image = "<img src='" . ilUtil::getImagePath("icon_not_ok.svg") . "' alt='not ok'>";
     }
 
-    protected function fillRow($set) : void
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("STATUS", $set['status_repr']);
+        $this->tpl->setVariable("STATUS", $a_set['status_repr']);
 
-        $title = $set["title"];
-        if ($set["program_status"] == ilStudyProgrammeSettings::STATUS_DRAFT) {
+        $title = $a_set["title"];
+        if ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_DRAFT) {
             $title .= " (" . $this->lng->txt("prg_status_draft") . ")";
-        } elseif ($set["program_status"] == ilStudyProgrammeSettings::STATUS_OUTDATED) {
+        } elseif ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_OUTDATED) {
             $title .= " (" . $this->lng->txt("prg_status_outdated") . ")";
         }
 
         $this->tpl->setVariable("TITLE", $title);
-        $this->tpl->setVariable("POINTS_CURRENT", $set["points_current"]);
+        $this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
         $this->tpl->setVariable(
             "POINTS_REQUIRED",
-            $this->getRequiredPointsInput($set["progress_id"], $set["status"], $set["points_required"])
+            $this->getRequiredPointsInput($a_set["progress_id"], $a_set["status"], $a_set["points_required"])
         );
         $this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect(
-            $set["progress_id"],
-            (int) $set["status"]
+            $a_set["progress_id"],
+            (int) $a_set["status"]
         ));
-        $this->tpl->setVariable("POSSIBLE", $set["possible"] ? $this->possible_image : $this->not_possible_image);
-        $this->tpl->setVariable("CHANGED_BY", $set["changed_by"]);
-        $this->tpl->setVariable("COMPLETION_BY", $set["completion_by"]);
+        $this->tpl->setVariable("POSSIBLE", $a_set["possible"] ? $this->possible_image : $this->not_possible_image);
+        $this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
+        $this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 
         foreach ($this->getSelectedColumns() as $column) {
             switch ($column) {
                 case self::SEL_COLUMN_ASSIGNMENT_DATE:
                     $this->tpl->setCurrentBlock("assignment_date");
-                    $this->tpl->setVariable("ASSIGNMENT_DATE", $set["assignment_date"]);
+                    $this->tpl->setVariable("ASSIGNMENT_DATE", $a_set["assignment_date"]);
                     $this->tpl->parseCurrentBlock("assignment_date");
                     break;
                 case self::SEL_COLUMN_DEADLINE:
                     $this->tpl->setCurrentBlock("deadline");
-                    $this->tpl->setVariable("DEADLINE", $this->getDeadlineInput($set["progress_id"], $set["deadline"]));
+                    $this->tpl->setVariable("DEADLINE", $this->getDeadlineInput($a_set["progress_id"], $a_set["deadline"]));
                     $this->tpl->parseCurrentBlock("deadline");
                     break;
                 case self::SEL_COLUMN_COMPLETION_DATE:
                     $this->tpl->setCurrentBlock("completion_date");
-                    $this->tpl->setVariable("COMPLETION_DATE", $set["completion_date"]);
+                    $this->tpl->setVariable("COMPLETION_DATE", $a_set["completion_date"]);
                     $this->tpl->parseCurrentBlock("completion_date");
                     break;
             }

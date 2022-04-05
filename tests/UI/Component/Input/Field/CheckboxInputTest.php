@@ -245,7 +245,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
             ->withNameFrom($this->name_source)
             ->withDisabled(true)
             ->withValue(true)
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called, $new_value) {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called, $new_value) : string {
                 $called = $v;
                 return $new_value;
             }))

@@ -197,7 +197,7 @@ EOT;
     /**
      * @depends testPermanentURL
      */
-    public function testRenderingPermUrl($footer)
+    public function testRenderingPermUrl($footer) : void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);
@@ -229,7 +229,7 @@ EOT;
     /**
      * @depends testGetAndSetModalsWithTrigger
      */
-    public function testRenderingModalsWithTriggers(C\MainControls\Footer $footer)
+    public function testRenderingModalsWithTriggers(C\MainControls\Footer $footer) : void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);

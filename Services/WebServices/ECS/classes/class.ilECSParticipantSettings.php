@@ -1,74 +1,49 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
 class ilECSParticipantSettings
 {
-    private static $instances = null;
+    private static ?array $instances = null;
 
-    private $export = array();
-    private $import = array();
-    private $export_type = array();
+    private array $export = array();
+    private array $import = array();
+    private array $export_type = array();
+    private int $server_id;
+
+    private ilDBInterface $db;
     
     /**
      * Constructor (Singleton)
-     *
-     * @access private
-     *
      */
-    private function __construct($a_server_id)
+    private function __construct(int $a_server_id)
     {
+        global $DIC;
+
+        $this->db = $DIC['ilDB'];
         $this->server_id = $a_server_id;
         $this->read();
-    }
-    
-    /**
-     * get instance
-     *
-     * @access public
-     * @static
-     *
-     */
-    public static function _getInstance()
-    {
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Using deprecated call');
-        $GLOBALS['DIC']['ilLog']->logStack();
-        return self::getInstanceByServerId(15);
     }
 
     /**
      * Get instance by server id
-     * @param int $a_server_id
-     * @return ilECSParticipantSettings
      */
-    public static function getInstanceByServerId($a_server_id)
+    public static function getInstanceByServerId(int $a_server_id) : ilECSParticipantSettings
     {
         if (isset(self::$instances[$a_server_id])) {
             return self::$instances[$a_server_id];
@@ -78,19 +53,13 @@ class ilECSParticipantSettings
     
     /**
      * Get all available mids
-     * @global  $ilDB
-     * @param type $a_server_id
-     * @return type
+     * @return int[] membership id
      */
-    public static function getAvailabeMids($a_server_id)
+    public function getAvailabeMids() : array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = 'SELECT mid FROM ecs_part_settings ' .
-                'WHERE sid = ' . $ilDB->quote($a_server_id, 'integer');
-        $res = $ilDB->query($query);
+            'WHERE sid = ' . $this->db->quote($this->server_id, 'integer');
+        $res = $this->db->query($query);
         
         $mids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -98,92 +67,18 @@ class ilECSParticipantSettings
         }
         return $mids;
     }
-    
 
-    /**
-     * Get participants which are enabled and export is allowed
-     */
-    public static function getExportableParticipants($a_type)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $query = 'SELECT sid,mid,export_types FROM ecs_part_settings ep ' .
-            'JOIN ecs_server es ON ep.sid = es.server_id ' .
-            'WHERE export = ' . $ilDB->quote(1, 'integer') . ' ' .
-            'AND active = ' . $ilDB->quote(1, 'integer') . ' ' .
-            'ORDER BY cname,es.title';
-        
-        $res = $ilDB->query($query);
-        $mids = array();
-        $counter = 0;
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (in_array($a_type, (array) unserialize($row->export_types))) {
-                $mids[$counter]['sid'] = $row->sid;
-                $mids[$counter]['mid'] = $row->mid;
-                $counter++;
-            }
-        }
-        return $mids;
-    }
-
-    /**
-     * Get server ids which allow an export
-     * @global <type> $ilDB
-     * @return <type>
-     */
-    public static function getExportServers()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = 'SELECT DISTINCT(sid) FROM ecs_part_settings  ep ' .
-            'JOIN ecs_server es ON ep.sid = es.server_id ' .
-            'WHERE export = ' . $ilDB->quote(1, 'integer') . ' ' .
-            'AND active = ' . $ilDB->quote(1, 'integer') . ' ';
-        $res = $ilDB->query($query);
-        $sids = array();
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = $row->sid;
-        }
-        return $sids;
-    }
-
-    /**
-     * Delete by server
-     * @global  $ilDB
-     * @param int $a_server_id
-     */
-    public static function deleteByServer($a_server_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = 'DELETE from ecs_part_settings ' .
-            'WHERE sid = ' . $ilDB->quote($a_server_id, 'integer');
-        $ilDB->manipulate($query);
-    }
     
     /**
      * Lookup mid of current cms participant
-     * @global  $ilDB
-     * @param int $a_server_id
      */
-    public static function loookupCmsMid($a_server_id)
+    public function lookupCmsMid()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
-        
         $query = 'SELECT mid FROM ecs_part_settings ' .
-                'WHERE sid = ' . $ilDB->quote($a_server_id, 'integer') . ' ' .
-                'AND import_type = ' . $ilDB->quote(ilECSParticipantSetting::IMPORT_CMS);
-        $res = $ilDB->query($query);
+                'WHERE sid = ' . $this->db->quote($this->server_id, 'integer') . ' ' .
+                'AND import_type = ' . $this->db->quote(ilECSParticipantSetting::IMPORT_CMS);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->mid;
         }
@@ -192,27 +87,20 @@ class ilECSParticipantSettings
 
     /**
      * Get server id
-     * @return int
      */
-    public function getServerId()
+    public function getServerId() : int
     {
         return $this->server_id;
     }
 
-
     /**
      * Read stored entry
-     * @return <type>
      */
-    public function read()
+    private function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT * FROM ecs_part_settings ' .
-            'WHERE sid = ' . $ilDB->quote($this->getServerId(), 'integer') . ' ';
-        $res = $ilDB->query($query);
+            'WHERE sid = ' . $this->db->quote($this->getServerId(), 'integer') . ' ';
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->export[$row->mid] = $row->export;
             $this->import[$row->mid] = $row->import;
@@ -224,9 +112,7 @@ class ilECSParticipantSettings
     }
 
     /**
-     * Check if import is allowed for scecific mid
-     * @param array $a_mids
-     * @return <type>
+     * Check if import is allowed for specific mid
      */
     public function isImportAllowed(array $a_mids)
     {
@@ -241,7 +127,6 @@ class ilECSParticipantSettings
     /**
      * get number of participants that are enabled
      *
-     * @access public
      * @deprecated
      */
     public function getEnabledParticipants()
@@ -257,9 +142,8 @@ class ilECSParticipantSettings
     }
     
     /**
-     * is partivcipant enabled
+     * is participant enabled
      *
-     * @access public
      * @param int mid
      * @deprecated
      *
@@ -272,7 +156,6 @@ class ilECSParticipantSettings
     /**
      * set enabled participants by community
      *
-     * @access public
      * @param int community id
      * @param array participant ids
      */

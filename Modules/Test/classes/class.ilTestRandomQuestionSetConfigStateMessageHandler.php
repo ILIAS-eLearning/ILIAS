@@ -79,7 +79,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     /**
      * @return ilTestRandomQuestionSetNonAvailablePool[]
      */
-    public function getLostPools()
+    public function getLostPools() : array
     {
         return $this->lostPools;
     }
@@ -95,7 +95,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     /**
      * @return boolean
      */
-    public function doesParticipantDataExists()
+    public function doesParticipantDataExists() : bool
     {
         return $this->participantDataExists;
     }
@@ -111,7 +111,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     /**
      * @return ilTestRandomQuestionSetConfigGUI
      */
-    public function getTargetGUI()
+    public function getTargetGUI() : ilTestRandomQuestionSetConfigGUI
     {
         return $this->targetGUI;
     }
@@ -127,7 +127,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     /**
      * @return string
      */
-    public function getContext()
+    public function getContext() : string
     {
         return $this->context;
     }
@@ -143,7 +143,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     /**
      * @return ilTestRandomQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestRandomQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
@@ -159,7 +159,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     /**
      * @return bool
      */
-    public function isValidationFailed()
+    public function isValidationFailed() : bool
     {
         return $this->validationFailed;
     }
@@ -172,18 +172,12 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         $this->validationFailed = $validationFailed;
     }
     
-    /**
-     * @return array
-     */
-    public function getValidationReportHtml()
+    public function getValidationReportHtml() : string
     {
         return implode('<br />', $this->validationReports);
     }
     
-    /**
-     * @return array
-     */
-    public function hasValidationReports()
+    public function hasValidationReports() : int
     {
         return count($this->validationReports);
     }
@@ -264,7 +258,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         }
     }
     
-    private function buildLostQuestionPoolsString()
+    private function buildLostQuestionPoolsString() : string
     {
         $titles = array();
         
@@ -275,7 +269,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         return implode(', ', $titles);
     }
     
-    private function getAfterRebuildQuestionStageCommand()
+    private function getAfterRebuildQuestionStageCommand() : string
     {
         switch ($this->getContext()) {
             case self::CONTEXT_POOL_SELECTION:
@@ -289,10 +283,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         }
     }
     
-    /**
-     * @return \ILIAS\UI\Component\Button\Standard
-     */
-    private function buildQuestionStageRebuildButton()
+    private function buildQuestionStageRebuildButton() : \ILIAS\UI\Component\Button\Standard
     {
         $this->ctrl->setParameter(
             $this->getTargetGUI(),
@@ -306,10 +297,10 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         );
         $label = $this->lng->txt('tst_btn_rebuild_random_question_stage');
 
-        return $this->DIC->ui()->factory()->button()->standard($label, $href);
+        return $this->DIC->ui()->factory()->button()->standard($label, $href)->withLoadingAnimationOnClick(true);
     }
 
-    private function buildGeneralConfigSubTabLink()
+    private function buildGeneralConfigSubTabLink() : string
     {
         $href = $this->ctrl->getLinkTarget(
             $this->getTargetGUI(),
@@ -321,7 +312,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         return "<a href=\"{$href}\">{$label}</a>";
     }
 
-    private function buildQuestionSelectionSubTabLink()
+    private function buildQuestionSelectionSubTabLink() : string
     {
         $href = $this->ctrl->getLinkTarget(
             $this->getTargetGUI(),
@@ -337,7 +328,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
      * @param $currentRequestCmd
      * @return bool
      */
-    private function isNoAvailableQuestionPoolsHintRequired()
+    private function isNoAvailableQuestionPoolsHintRequired() : bool
     {
         if ($this->getContext() != self::CONTEXT_POOL_SELECTION) {
             return false;
@@ -354,7 +345,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
      * @param $currentRequestCmd
      * @return bool
      */
-    private function isQuestionAmountConfigPerPoolHintRequired()
+    private function isQuestionAmountConfigPerPoolHintRequired() : bool
     {
         if ($this->getContext() != self::CONTEXT_GENERAL_CONFIG) {
             return false;
@@ -371,7 +362,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
      * @param $currentRequestCmd
      * @return bool
      */
-    private function isQuestionAmountConfigPerTestHintRequired()
+    private function isQuestionAmountConfigPerTestHintRequired() : bool
     {
         if ($this->getContext() != self::CONTEXT_POOL_SELECTION) {
             return false;
@@ -387,7 +378,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     /**
      * @return string
      */
-    protected function buildLostPoolsReportMessage()
+    protected function buildLostPoolsReportMessage() : string
     {
         $report = sprintf(
             $this->lng->txt('tst_msg_rand_quest_set_lost_pools'),

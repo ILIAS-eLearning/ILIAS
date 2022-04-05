@@ -34,7 +34,7 @@ class ilObjWikiAccess extends ilObjectAccess
     }
 
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show",
@@ -45,49 +45,49 @@ class ilObjWikiAccess extends ilObjectAccess
         return $commands;
     }
     
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
 
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "view":
 
-                if (!ilObjWikiAccess::_lookupOnline($a_obj_id)
-                    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                if (!self::_lookupOnline($obj_id)
+                    && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 break;
                 
             // for permission query feature
             case "infoScreen":
-                if (!ilObjWikiAccess::_lookupOnline($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                if (!self::_lookupOnline($obj_id)) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
-                    $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
 
         }
-        switch ($a_permission) {
+        switch ($permission) {
             case "read":
             case "visible":
-                if (!ilObjWikiAccess::_lookupOnline($a_obj_id) &&
-                    (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                if (!self::_lookupOnline($obj_id) &&
+                    (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
 
-                $info = ilExcRepoObjAssignment::getInstance()->getAccessInfo($a_ref_id, $a_user_id);
+                $info = ilExcRepoObjAssignment::getInstance()->getAccessInfo($ref_id, $user_id);
                 if (!$info->isGranted()) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, implode(" / ", $info->getNotGrantedReasons()));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, implode(" / ", $info->getNotGrantedReasons()));
                     return false;
                 }
                 break;
@@ -96,19 +96,19 @@ class ilObjWikiAccess extends ilObjectAccess
         return true;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        //	echo "-".$a_target."-"; exit;
-        $t_arr = explode("_", $a_target);
+        //	echo "-".$target."-"; exit;
+        $t_arr = explode("_", $target);
 
-        if ($t_arr[0] != "wiki" || (((int) $t_arr[1]) <= 0) && $t_arr[1] != "wpage") {
+        if ($t_arr[0] !== "wiki" || (((int) $t_arr[1]) <= 0) && $t_arr[1] !== "wpage") {
             return false;
         }
         
-        if ($t_arr[1] == "wpage") {
+        if ($t_arr[1] === "wpage") {
             $wpg_id = (int) $t_arr[2];
             $w_id = ilWikiPage::lookupWikiId($wpg_id);
             if ((int) $t_arr[3] > 0) {

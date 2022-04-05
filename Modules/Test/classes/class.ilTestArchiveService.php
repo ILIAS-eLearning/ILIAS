@@ -32,7 +32,7 @@ class ilTestArchiveService
     /**
      * @return ilTestParticipantData
      */
-    public function getParticipantData()
+    public function getParticipantData() : ?ilTestParticipantData
     {
         return $this->participantData;
     }
@@ -73,7 +73,7 @@ class ilTestArchiveService
      * @param $pass
      * @return string
      */
-    private function renderOverviewContent($activeId, $pass)
+    private function renderOverviewContent($activeId, $pass) : string
     {
         $results = $this->testOBJ->getTestResult(
             $activeId,
@@ -105,9 +105,9 @@ class ilTestArchiveService
      * @param $pass
      * @return string
      */
-    private function buildOverviewFilename($activeId, $pass)
+    private function buildOverviewFilename($activeId, $pass) : string
     {
-        $tmpFileName = ilUtil::ilTempnam();
+        $tmpFileName = ilFileUtils::ilTempnam();
         return dirname($tmpFileName) . '/scores-' . $this->testOBJ->getId() . '-' . $activeId . '-' . $pass . '.pdf';
     }
 }

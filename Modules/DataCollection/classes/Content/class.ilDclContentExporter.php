@@ -5,7 +5,6 @@
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
  * This Class avoids duplicated code by routing the request to the right place
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
@@ -38,11 +37,12 @@ class ilDclContentExporter
      * @var ilDclTable
      */
     protected $table;
-
+    private \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct($ref_id, $table_id = null, $filter = array())
     {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC['lng'];
 
         $this->ref_id = $ref_id;
@@ -56,13 +56,10 @@ class ilDclContentExporter
         $this->lng = $lng;
     }
 
-
     /**
      * Sanitize the given filename
      * The ilUtil::_sanitizeFilemame() does not clean enough
-     *
      * @param $filename
-     *
      * @return string
      */
     public function sanitizeFilename($filename)
@@ -72,12 +69,9 @@ class ilDclContentExporter
         return str_replace($dangerous_filename_characters, "_", iconv("utf-8", "ascii//TRANSLIT", $filename));
     }
 
-
     /**
      * Return export path
-     *
      * @param $format
-     *
      * @return string
      */
     public function getExportContentPath($format)
@@ -85,10 +79,8 @@ class ilDclContentExporter
         return ilExport::_getExportDirectory($this->dcl->getId(), $format, 'dcl') . '/';
     }
 
-
     /**
      * Fill a excel row
-     *
      * @param ilDclTable           $table
      * @param ilExcel              $worksheet
      * @param ilDclBaseRecordModel $record
@@ -104,10 +96,8 @@ class ilDclContentExporter
         }
     }
 
-
     /**
      * Fill Excel header
-     *
      * @param ilDclTable $table
      * @param ilExcel    $worksheet
      * @param            $row
@@ -123,10 +113,8 @@ class ilDclContentExporter
         }
     }
 
-
     /**
      * Fill Excel meta-data
-     *
      * @param $table
      * @param $worksheet
      * @param $row
@@ -135,14 +123,11 @@ class ilDclContentExporter
     {
     }
 
-
     /**
      * Creates an export of a specific datacollection table
-     *
      * @param string     $format
      * @param null       $filepath
      * @param bool|false $send
-     *
      * @return null|string|void
      */
     public function export($format = self::EXPORT_EXCEL, $filepath = null, $send = false)
@@ -153,7 +138,7 @@ class ilDclContentExporter
 
         if (empty($filepath)) {
             $filepath = $this->getExportContentPath($format);
-            ilUtil::makeDirParents($filepath);
+            ilFileUtils::makeDirParents($filepath);
 
             $basename = (isset($this->table_id)) ? $this->tables[0]->getTitle() : 'complete';
             $filename = time() . '__' . $basename . "_" . date("Y-m-d_H-i");
@@ -208,20 +193,17 @@ class ilDclContentExporter
         }
 
         if (!$data_available) {
-            ilUtil::sendInfo($this->lng->txt('dcl_no_export_content_available'));
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('dcl_no_export_content_available'));
 
             return false;
         }
 
         if (!$fields_available) {
             global $ilCtrl;
-            ilUtil::sendInfo(
-                sprintf(
-                    $this->lng->txt('dcl_no_export_fields_available'),
-                    $ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'), 'listFields')
-                )
-            );
-
+            $this->main_tpl->setOnScreenMessage('info', sprintf(
+                $this->lng->txt('dcl_no_export_fields_available'),
+                $ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'), 'listFields')
+            ));
             return false;
         }
 
@@ -233,13 +215,10 @@ class ilDclContentExporter
         }
     }
 
-
     /**
      * Start Export async
-     *
      * @param string $format
      * @param null   $filepath
-     *
      * @return mixed
      * @throws ilDclException
      */
@@ -272,7 +251,8 @@ class ilDclContentExporter
             $ilLog->warning('SOAP clone call failed. Calling clone method manually');
             require_once('./webservice/soap/include/inc.soap_functions.php');
             if (method_exists('ilSoapFunctions', $method)) {
-                $res = ilSoapFunctions::$method($new_session_id . '::' . $client_id, $this->dcl->getRefId(), $this->table_id, $format, $filepath);
+                $res = ilSoapFunctions::$method($new_session_id . '::' . $client_id, $this->dcl->getRefId(),
+                    $this->table_id, $format, $filepath);
             } else {
                 throw new ilDclException("SOAP call " . $method . " does not exists!");
             }

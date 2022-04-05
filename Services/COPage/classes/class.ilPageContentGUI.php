@@ -16,6 +16,8 @@
 use ILIAS\COPage\PC\EditGUIRequest;
 use ILIAS\COPage\Editor\EditSessionRepository;
 
+use ILIAS\Style;
+
 /**
  * User Interface for Editing of Page Content Objects (Paragraphs, Tables, ...)
  *
@@ -55,6 +57,7 @@ class ilPageContentGUI
         "quot" => "Quotation", "acc" => "Accent", "code" => "Code", "tex" => "Tex",
         "fn" => "Footnote", "xln" => "ExternalLink"
         );
+    protected Style\Content\CharacteristicManager $char_manager;
 
     public function __construct(
         ilPageObject $a_pg_obj,
@@ -154,25 +157,40 @@ class ilPageContentGUI
      */
     public function getCharacteristicsOfCurrentStyle(array $a_type) : void
     {
+        global $DIC;
+        $service = $DIC->contentStyle()->internal();
+        $access_manager = $service->domain()->access(
+            $this->requested_ref_id,
+            $DIC->user()->getId()
+        );
+
         if ($this->getStyleId() > 0 &&
             ilObject::_lookupType($this->getStyleId()) == "sty") {
-            $style = new ilObjStyleSheet($this->getStyleId());
-            $chars = array();
+            $char_manager = $service->domain()->characteristic(
+                $this->getStyleId(),
+                $access_manager
+            );
+
             if (!is_array($a_type)) {
                 $a_type = array($a_type);
             }
-            foreach ($a_type as $at) {
-                $chars = array_merge($chars, $style->getCharacteristics($at, true));
-            }
+            $chars = $char_manager->getByTypes($a_type, false, false);
             $new_chars = array();
-            if (is_array($chars)) {
-                foreach ($chars as $char) {
-                    if ($this->chars[$char] != "") {	// keep lang vars for standard chars
-                        $new_chars[$char] = $this->chars[$char];
-                    } else {
-                        $new_chars[$char] = $char;
+            foreach ($chars as $char) {
+                if ($this->chars[$char->getCharacteristic()] != "") {	// keep lang vars for standard chars
+                    $title = $char_manager->getPresentationTitle(
+                        $char->getType(),
+                        $char->getCharacteristic()
+                    );
+                    if ($title == "") {
+                        $title = $this->chars[$char->getCharacteristic()];
                     }
-                    asort($new_chars);
+                    $new_chars[$char->getCharacteristic()] = $title;
+                } else {
+                    $new_chars[$char->getCharacteristic()] = $char_manager->getPresentationTitle(
+                        $char->getType(),
+                        $char->getCharacteristic()
+                    );
                 }
             }
             $this->setCharacteristics($new_chars);
@@ -200,93 +218,6 @@ class ilPageContentGUI
     public function setHierId(string $a_hier_id) : void
     {
         $this->hier_id = $a_hier_id;
-    }
-
-    /**
-     * Get the bb menu incl. script
-     */
-    public function getBBMenu(string $a_ta_name = "par_content") : string
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
-        $btpl = new ilTemplate("tpl.bb_menu.html", true, true, "Services/COPage");
-
-        // not nice, should be set by context per method
-        if ($this->getPageConfig()->getEnableInternalLinks()) {
-            $btpl->setCurrentBlock("bb_ilink_button");
-            $btpl->setVariable(
-                "BB_LINK_ILINK",
-                $this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp")
-            );
-            $btpl->parseCurrentBlock();
-            
-            // add int link parts
-            $btpl->setCurrentBlock("int_link_prep");
-            $btpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
-                $ilCtrl->getLinkTargetByClass(
-                    array("ilpageeditorgui", "ilinternallinkgui"),
-                    "",
-                    false,
-                    true,
-                    false
-                )
-            ));
-            $btpl->parseCurrentBlock();
-        }
-
-        if ($this->getPageConfig()->getEnableKeywords()) {
-            $btpl->touchBlock("bb_kw_button");
-            $btpl->setVariable("TXT_KW", $this->lng->txt("cont_text_keyword"));
-        }
-        if ($this->pg_obj->getParentType() == "wpg") {
-            $btpl->setCurrentBlock("bb_wikilink_button2");
-            $btpl->setVariable("TXT_WIKI_BUTTON2", $lng->txt("obj_wiki"));
-            $btpl->setVariable("WIKI_BUTTON2_URL", $ilCtrl->getLinkTargetByClass("ilwikipagegui", ""));
-            $btpl->parseCurrentBlock();
-
-            $btpl->setCurrentBlock("bb_wikilink_button");
-            $btpl->setVariable("TXT_WLN2", $lng->txt("wiki_wiki_page"));
-            $btpl->parseCurrentBlock();
-        }
-        $mathJaxSetting = new ilSetting("MathJax");
-        $style = $this->getStyle();
-        //echo URL_TO_LATEX;
-        foreach (self::$common_bb_buttons as $c => $st) {
-            if (ilPageEditorSettings::lookupSettingByParentType($this->pg_obj->getParentType(), "active_" . $c, true)) {
-                if ($c != "tex" || $mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
-                    if (!in_array($c, array("acc", "com", "quot", "code"))) {
-                        $btpl->touchBlock("bb_" . $c . "_button");
-                        $btpl->setVariable("TXT_" . strtoupper($c), $this->lng->txt("cont_text_" . $c));
-                        $lng->toJS("cont_text_" . $c);
-                    }
-                }
-            }
-        }
-        
-        if ($this->getPageConfig()->getEnableAnchors()) {
-            $btpl->touchBlock("bb_anc_button");
-            $btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor") . ":");
-            $lng->toJS("cont_anchor");
-        }
-
-        $btpl->setVariable("CHAR_STYLE_SELECT", ilPCParagraphGUI::getCharStyleSelector($this->pg_obj->getParentType(), "il.COPageBB.setCharacterClass", $this->getStyleId()));
-        
-        // footnote
-        //		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
-        
-        //		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
-        $btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln_link"));
-        $lng->toJS("cont_text_iln");
-        //		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
-        //		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
-        $btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
-        $btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
-        $lng->toJS("wiki_wiki_page");
-        
-        $btpl->setVariable("PAR_TA_NAME", $a_ta_name);
-        
-        return $btpl->get();
     }
 
     // delete content element
@@ -473,9 +404,9 @@ class ilPageContentGUI
                     $error_str .= htmlentities($err_mess) . "<br />";
                 }
             }
-            ilUtil::sendFailure($error_str);
+            $this->tpl->setOnScreenMessage('failure', $error_str);
         } elseif ($this->updated != "" && $this->updated !== true) {
-            ilUtil::sendFailure("<b>Error(s):</b><br />" .
+            $this->tpl->setOnScreenMessage('failure', "<b>Error(s):</b><br />" .
                 $this->updated);
         }
     }
@@ -584,7 +515,7 @@ class ilPageContentGUI
         return $ilCtrl->getParentReturn($this) . "#add" . $pcid;
     }
 
-    protected function updateAndReturn()
+    protected function updateAndReturn() : void
     {
         $up = $this->pg_obj->update();
         if ($up === true) {

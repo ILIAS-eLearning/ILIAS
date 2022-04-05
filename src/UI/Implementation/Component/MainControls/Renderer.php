@@ -87,9 +87,7 @@ class Renderer extends AbstractComponentRenderer
             $this->trigger_signals[] = $trigger_signal;
             $btn_removetool = $close_buttons[$entry_id]
                ->withAdditionalOnloadCode(
-                   function ($id) use ($mb_id) {
-                       return "il.UI.maincontrols.mainbar.addPartIdAndEntry('$mb_id', 'remover', '$id', true);";
-                   }
+                   fn($id) => "il.UI.maincontrols.mainbar.addPartIdAndEntry('$mb_id', 'remover', '$id', true);"
                )
                 ->withOnClick($trigger_signal);
 
@@ -136,7 +134,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             $button = $button->withAdditionalOnLoadCode(
-                function ($id) use ($js, $mb_id, $k, $is_tool) {
+                function ($id) use ($js, $mb_id, $k, $is_tool) : string {
                     $add_as_tool = $is_tool ? 'true':'false';
                     $js .= "
                         il.UI.maincontrols.mainbar.addPartIdAndEntry('$mb_id', 'triggerer', '$id', $add_as_tool);
@@ -199,8 +197,7 @@ class Renderer extends AbstractComponentRenderer
         //tools-section trigger
         if (count($component->getToolEntries()) > 0) {
             $btn_tools = $component->getToolsButton()
-                ->withOnClick($component->getToggleToolsSignal())
-                ->withAriaRole(IBulky::MENUITEM);
+                ->withOnClick($component->getToggleToolsSignal());
 
             $tpl->setCurrentBlock("tools_trigger");
             $tpl->setVariable("BUTTON", $default_renderer->render($btn_tools));
@@ -308,17 +305,13 @@ class Renderer extends AbstractComponentRenderer
             $close = $close->withOnClick($signal);
             $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($close));
             $tpl->setVariable('CLOSE_URI', (string) $component->getDismissAction());
-            $component = $component->withAdditionalOnLoadCode(function ($id) use ($signal) {
-                return "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });";
-            });
+            $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });");
         }
 
         $more = $this->getUIFactory()->symbol()->glyph()->more("#");
         $tpl->setVariable('MORE_BUTTON', $default_renderer->render($more));
 
-        $component = $component->withAdditionalOnLoadCode(function ($id) {
-            return "il.UI.maincontrols.system_info.init('$id')";
-        });
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.maincontrols.system_info.init('$id')");
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
@@ -338,47 +331,47 @@ class Renderer extends AbstractComponentRenderer
         foreach ($entries as $id => $entry) {
             $use_block = $block;
             $engaged = (string) $id === $active;
-
+            $slate = null;
             if ($entry instanceof Slate) {
                 $f = $this->getUIFactory();
                 $secondary_signal = $entry->getToggleSignal();
-                $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
+                $clickable = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withEngagedState($engaged)
                     ->withOnClick($entry_signal)
                     ->appendOnClick($secondary_signal)
                     ->withAriaRole(IBulky::MENUITEM);
 
                 $slate = $entry;
-            } else {
-                $button = $entry;
-                $button = $button->withAriaRole(IBulky::MENUITEM);
+            } elseif ($entry instanceof IBulky) {
+                $clickable = $entry;
+                $clickable = $clickable->withAriaRole(IBulky::MENUITEM);
                 $slate = null;
+            } else {
+                $clickable = $entry;
             }
 
-            $button_html = $default_renderer->render($button);
+            $clickable_html = $default_renderer->render($clickable);
 
             if ($slate) {
-                $slate = $slate->withAriaRole(ISlate::MENU);
-
                 $tpl->setCurrentBlock("slate_item");
                 $tpl->setVariable("SLATE", $default_renderer->render($slate));
                 $tpl->parseCurrentBlock();
             }
 
             $tpl->setCurrentBlock($use_block);
-            $tpl->setVariable("BUTTON", $button_html);
+            $tpl->setVariable("BUTTON", $clickable_html);
             $tpl->parseCurrentBlock();
         }
     }
 
-    protected function bindMainbarJS(MainBar $component) : string
+    protected function bindMainbarJS(MainBar $component) : ?string
     {
         $trigger_signals = $this->trigger_signals;
 
         $inititally_active = $component->getActive();
 
         $component = $component->withOnLoadCode(
-            function ($id) use ($component, $trigger_signals, $inititally_active) {
+            function ($id) use ($component, $trigger_signals, $inititally_active) : string {
                 $disengage_all_signal = $component->getDisengageAllSignal();
                 $tools_toggle_signal = $component->getToggleToolsSignal();
 
@@ -395,7 +388,7 @@ class Renderer extends AbstractComponentRenderer
                 }
 
                 $js .= "
-                    $(window).resize(il.UI.maincontrols.mainbar.adjustToScreenSize);
+                    window.addEventListener('resize', il.UI.maincontrols.mainbar.adjustToScreenSize);
                     il.UI.maincontrols.mainbar.init('$inititally_active');
                 ";
                 return $js;

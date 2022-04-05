@@ -12,9 +12,9 @@
 class ilComplexGatewayElement extends ilBaseElement
 {
     /** @var string $element_varname */
-    public $element_varname;
+    public string $element_varname;
 
-    public function getPHP($element, ilWorkflowScaffold $class_object)
+    public function getPHP($element, ilWorkflowScaffold $class_object) : string
     {
         $code = "";
         $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);

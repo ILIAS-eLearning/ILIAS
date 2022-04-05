@@ -12,7 +12,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
     private static int $publicRoomObjId;
     private static ?bool $chat_enabled = null;
 
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
+    public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         parent::__construct($a_context);
         self::$publicRoomObjId = ilObjChatroom::_getPublicObjId();
@@ -38,7 +38,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
         $this->lng->loadLanguageModule('chatroom');
 
-        $room = ilChatroom::byObjectId((int) $this->obj_id);
+        $room = ilChatroom::byObjectId($this->obj_id);
         if ($room) {
             $props[] = [
                 'alert' => false,

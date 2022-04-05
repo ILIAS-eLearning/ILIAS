@@ -149,7 +149,7 @@ class ilWikiStat
         if (!$a_user_id) {
             $a_user_id = $ilUser->getId();
         }
-        if (!$a_user_id || $a_user_id == ANONYMOUS_USER_ID) {
+        if (!$a_user_id || $a_user_id === ANONYMOUS_USER_ID) {
             return;
         }
         
@@ -224,9 +224,9 @@ class ilWikiStat
                 if ($is_update) {
                     $values = array();
                     foreach ($a_values as $column => $value) {
-                        if ($value[0] == "increment") {
+                        if ($value[0] === "increment") {
                             $values[] = $column . " = " . $column . "+1";
-                        } elseif ($value[0] == "decrement") {
+                        } elseif ($value[0] === "decrement") {
                             $values[] = $column . " = " . $column . "-1";
                         } else {
                             $values[] = $column . " = " . $ilDB->quote($value[1], $value[0]);
@@ -247,9 +247,9 @@ class ilWikiStat
                     $values = array();
                     foreach ($a_values as $column => $value) {
                         $columns[] = $column;
-                        if ($value[0] == "increment") {
+                        if ($value[0] === "increment") {
                             $value[0] = "integer";
-                        } elseif ($value[0] == "decrement") {
+                        } elseif ($value[0] === "decrement") {
                             $value[0] = "integer";
                             $value[1] = 0;
                         }
@@ -293,7 +293,7 @@ class ilWikiStat
         int $a_wiki_id,
         int $a_page_id,
         array $a_values
-    ) {
+    ) : void {
         $primary = array(
             "wiki_id" => array("integer", $a_wiki_id),
             "page_id" => array("integer", $a_page_id),
@@ -339,7 +339,7 @@ class ilWikiStat
     protected static function countPages(
         int $a_wiki_id
     ) : int {
-        return sizeof(ilWikiPage::getAllWikiPages($a_wiki_id));
+        return count(ilWikiPage::getAllWikiPages($a_wiki_id));
     }
     
     /**
@@ -551,7 +551,7 @@ class ilWikiStat
         $deleted = null;
         
         $sql = "SELECT ts_day, " . sprintf($a_aggr_value, $a_field) . " " . $a_field;
-        if ($a_table == "wiki_stat_page" && $a_sub_field) {
+        if ($a_table === "wiki_stat_page" && $a_sub_field) {
             $sql .= ", MAX(deleted) deleted";
         }
         $sql .= " FROM " . $a_table .
@@ -580,7 +580,7 @@ class ilWikiStat
             $period_last = $a_day_to;
             
             // check if sub was deleted in period
-            if ($a_table == "wiki_stat_page" && $a_sub_field && $deleted) {
+            if ($a_table === "wiki_stat_page" && $a_sub_field && $deleted) {
                 $sql = "SELECT MAX(ts_day) last_day, MIN(ts_day) first_day" .
                     " FROM " . $a_table .
                     " WHERE wiki_id = " . $ilDB->quote($a_wiki_id, "integer") .
@@ -681,7 +681,7 @@ class ilWikiStat
         } else {
             $tmp = $all_aggr_ids = $deleted_in_period = $first_day_in_period = array();
             
-            if ($a_table != "wiki_stat_page") {
+            if ($a_table !== "wiki_stat_page") {
                 echo "can only build full period averages for wiki_stat_page";
                 exit();
             }
@@ -721,7 +721,7 @@ class ilWikiStat
             $set = $ilDB->query($sql);
             while ($row = $ilDB->fetchAssoc($set)) {
                 if (!in_array($row[$a_aggr_by], $all_aggr_ids)) {
-                    var_dump("unexpected wiki_stat_page_entry", $row);
+                    throw new ilWikiException("Unexpected wiki_stat_page_entry: " . print_r($row, true));
                 }
                 $tmp[$row[$a_aggr_by]][$row["ts_day"]] = $row[$a_field];
             }
@@ -758,7 +758,7 @@ class ilWikiStat
             foreach ($res as $day => $values) {
                 switch ($a_aggr_value) {
                     case "AVG(%s)":
-                        $res[$day] = array_sum($values) / sizeof($values);
+                        $res[$day] = array_sum($values) / count($values);
                         break;
                     
                     case "SUM(%s)":
@@ -766,7 +766,7 @@ class ilWikiStat
                         break;
                     
                     default:
-                        var_dump("unsupport aggr " . $a_aggr_value);
+                        throw new ilWikiException("Wiki: unsupport aggr " . $a_aggr_value);
                         break;
                 }
             }
@@ -1007,7 +1007,7 @@ class ilWikiStat
         
         foreach (array_keys($res) as $day) {
             // int-to-float
-            $res[$day] = $res[$day] / 100;
+            $res[$day] /= 100;
         }
         
         return $res;
@@ -1103,7 +1103,7 @@ class ilWikiStat
         int $a_page_id,
         string $a_day_from,
         string $a_day_to
-    ) {
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page_user", "changes", "SUM(%s)", "page_id", $a_page_id);
     }
     
@@ -1184,7 +1184,7 @@ class ilWikiStat
         int $a_page_id,
         string $a_day_from,
         string $a_day_to
-    ) {
+    ) : array {
         return self::getWikiAggr($a_wiki_id, $a_day_from, $a_day_to, "wiki_stat_page", "num_ratings", "SUM(%s)", "page_id", $a_page_id);
     }
     

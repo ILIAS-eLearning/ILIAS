@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -6,31 +6,31 @@
 * TableGUI class for search results
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ingroup ServicesSearch
 */
 class ilSearchResultTableGUI extends ilTable2GUI
 {
+    protected ilObjUser $user;
+    protected ilSearchResultPresentation $presenter;
+    protected ilObjectDefinition $objDefinition;
     
     /**
     * Constructor
     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_presenter)
+    public function __construct($a_parent_obj, $a_parent_cmd, ilSearchResultPresentation $a_presenter)
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
+        $this->user = $DIC->user();
+        $this->presenter = $a_presenter;
+        $this->objDefinition = $DIC['objDefinition'];
 
         $this->setId("ilSearchResultsTable");
 
-        $this->presenter = $a_presenter;
-        $this->setId('search_' . $GLOBALS['DIC']['ilUser']->getId());
+        $this->setId('search_' . $this->user->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setTitle($lng->txt("search_results"));
+        $this->setTitle($this->lng->txt("search_results"));
         $this->setLimit(999);
         //		$this->setId("srcres");
         
@@ -56,38 +56,29 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("actions"), "", "10px");
         
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.search_result_row.html", "Services/Search");
         //$this->disable("footer");
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(false);
         $this->setShowRowsSelector(false);
-        
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'relevance':
                 return true;
         }
-        
-        
         return parent::numericOrdering($a_field);
     }
     
     /**
      * Get selectable columns
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
-        
         return array('create_date' =>
                         array(
                             'txt' => $this->lng->txt('create_date'),
@@ -100,13 +91,8 @@ class ilSearchResultTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $objDefinition = $DIC['objDefinition'];
-
         $obj_id = $a_set["obj_id"];
         $ref_id = $a_set["ref_id"];
         $type = $a_set['type'];
@@ -115,10 +101,9 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $relevance = $a_set['relevance'];
         
         if (!$type) {
-            return false;
+            return;
         }
         
-        include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
         $item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
         $item_list_gui->initItem($ref_id, $obj_id, $type, $title, $description);
         $item_list_gui->setContainerObject($this->parent_obj);
@@ -135,13 +120,9 @@ class ilSearchResultTableGUI extends ilTable2GUI
             $item_html[$ref_id]['html'] = $html;
             $item_html[$ref_id]['type'] = $type;
         }
-        
-        global $DIC;
 
-        $lng = $DIC['lng'];
         
         if ($this->enabledRelevance()) {
-            include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
             $pbar = ilProgressBar::getInstance();
             $pbar->setCurrent($relevance);
             
@@ -164,13 +145,12 @@ class ilSearchResultTableGUI extends ilTable2GUI
         
         
 
-        if (!$objDefinition->isPlugin($type)) {
-            $type_txt = $lng->txt('icon') . ' ' . $lng->txt('obj_' . $type);
-            $icon = ilObject::_getIcon($obj_id, 'small', $type);
+        if (!$this->objDefinition->isPlugin($type)) {
+            $type_txt = $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type);
+            $icon = ilObject::_getIcon((int) $obj_id, 'small', $type);
         } else {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $type_txt = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
-            $icon = ilObject::_getIcon($obj_id, 'small', $type);
+            $icon = ilObject::_getIcon((int) $obj_id, 'small', $type);
         }
 
         $this->tpl->setVariable(
@@ -187,12 +167,10 @@ class ilSearchResultTableGUI extends ilTable2GUI
         );
     }
     
-    /**
-     * Check if relevance is visible
-     * @return
-     */
-    protected function enabledRelevance()
+    protected function enabledRelevance() : bool
     {
-        return ilSearchSettings::getInstance()->enabledLucene() and ilSearchSettings::getInstance()->isRelevanceVisible();
+        return
+            ilSearchSettings::getInstance()->enabledLucene() &&
+            ilSearchSettings::getInstance()->isRelevanceVisible();
     }
 }

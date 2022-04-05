@@ -268,7 +268,7 @@ class ilPageLayout
         $query = "SELECT * FROM page_layout $add ORDER BY title ";
         $result = $ilDB->query($query);
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            array_push($arr_layouts, $row);
+            $arr_layouts[] = $row;
         }
         return $arr_layouts;
     }
@@ -277,7 +277,7 @@ class ilPageLayout
         bool $a_active = false,
         bool $a_special_page = false,
         int $a_module = 0
-    ) {
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -302,7 +302,7 @@ class ilPageLayout
         $query = "SELECT layout_id FROM page_layout $add ORDER BY title ";
         $result = $ilDB->query($query);
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            array_push($arr_layouts, new ilPageLayout($row['layout_id']));
+            $arr_layouts[] = new ilPageLayout($row['layout_id']);
         }
 
         return $arr_layouts;
@@ -314,7 +314,7 @@ class ilPageLayout
     public static function activeLayouts(
         bool $a_special_page = false,
         int $a_module = 0
-    ) {
+    ) : array {
         return self::getLayouts(true, $a_special_page, $a_module);
     }
     

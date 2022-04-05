@@ -12,6 +12,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Component\MainControls\SystemInfo;
+use ILIAS\UI\Component\Toast\Container;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Component;
@@ -30,6 +31,7 @@ class Standard implements Page\Standard
     private ?MainBar $mainbar;
     private ?Breadcrumbs $breadcrumbs;
     private ?Image $logo;
+    private ?Container $overlay;
     private ?Footer $footer;
     private string $short_title;
     private string $view_title;
@@ -38,13 +40,15 @@ class Standard implements Page\Standard
     private bool $ui_demo = false;
     protected array $system_infos = [];
     protected string $text_direction = "ltr";
-
+    protected array $meta_data = [];
+    
     public function __construct(
         array $content,
         ?MetaBar $metabar = null,
         ?MainBar $mainbar = null,
         ?Breadcrumbs $locator = null,
         ?Image $logo = null,
+        ?Container $overlay = null,
         ?Footer $footer = null,
         string $title = '',
         string $short_title = '',
@@ -58,6 +62,7 @@ class Standard implements Page\Standard
         $this->mainbar = $mainbar;
         $this->breadcrumbs = $locator;
         $this->logo = $logo;
+        $this->overlay = $overlay;
         $this->footer = $footer;
         $this->title = $title;
         $this->short_title = $short_title;
@@ -267,7 +272,19 @@ class Standard implements Page\Standard
         $clone->footer = null;
         return $clone;
     }
-
+    
+    public function withAdditionalMetaDatum(string $key, string $value) : Page\Standard
+    {
+        $clone = clone $this;
+        $clone->meta_data[$key] = $value;
+        return $clone;
+    }
+    
+    public function getMetaData() : array
+    {
+        return $this->meta_data;
+    }
+    
     public function withSystemInfos(array $system_infos) : Page\Standard
     {
         $this->checkArgListElements("system_infos", $system_infos, [SystemInfo::class]);
@@ -303,5 +320,15 @@ class Standard implements Page\Standard
     public function getTextDirection() : string
     {
         return $this->text_direction;
+    }
+
+    public function hasOverlay() : bool
+    {
+        return $this->overlay instanceof Container;
+    }
+
+    public function getOverlay() : ?Container
+    {
+        return $this->overlay;
     }
 }

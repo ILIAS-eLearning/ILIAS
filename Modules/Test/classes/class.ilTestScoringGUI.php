@@ -44,7 +44,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess() : ilTestAccess
     {
         return $this->testAccess;
     }
@@ -73,7 +73,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $ilTabs->setSubTabActive($active_sub_tab);
     }
     
-    private function fetchActiveIdParameter()
+    private function fetchActiveIdParameter() : int
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -82,7 +82,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         
         if (!isset($_GET['active_id']) || !(int) $_GET['active_id']) {
             // allow only write access
-            ilUtil::sendFailure('no active id given!', true);
+            $this->tpl->setOnScreenMessage('failure', 'no active id given!', true);
             $ilCtrl->redirectByClass("ilobjtestgui", "infoScreen");
         } else {
             $activeId = (int) $_GET['active_id'];
@@ -121,7 +121,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         if (!ilObjAssessmentFolder::_mananuallyScoreableQuestionTypesExists()) {
             // allow only if at least one question type is marked for manual scoring
-            ilUtil::sendFailure($this->lng->txt("manscoring_not_allowed"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
             $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
         }
         
@@ -141,7 +141,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand() : string
     {
         return 'manscoring';
     }
@@ -149,7 +149,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return string
      */
-    protected function getActiveSubTabId()
+    protected function getActiveSubTabId() : string
     {
         return 'man_scoring';
     }
@@ -252,7 +252,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $form->setValuesByPost();
         
         if (!$form->checkInput()) {
-            ilUtil::sendFailure(sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
+            $this->tpl->setOnScreenMessage('failure', sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
             $this->showManScoringParticipantScreen($form);
             return false;
         }
@@ -278,7 +278,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         }
         
         if ($maxPointsExceeded) {
-            ilUtil::sendFailure(sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
+            $this->tpl->setOnScreenMessage('failure', sprintf($lng->txt('tst_save_manscoring_failed'), $pass + 1));
             $this->showManScoringParticipantScreen($form);
             return false;
         }
@@ -351,12 +351,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
         } else {
             $name_real_or_anon = $lng->txt('anonymous');
         }
-        ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $name_real_or_anon), true);
+        $this->tpl->setOnScreenMessage('success', sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $name_real_or_anon), true);
         if ($redirect == true) {
             $ilCtrl->redirect($this, 'showManScoringParticipantScreen');
-        } else {
-            return true;
         }
+        return true;
     }
 
     private function saveNextManScoringParticipantScreen()
@@ -396,7 +395,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         }
     }
 
-    private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false)
+    private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false) : ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -483,7 +482,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
     /**
      * @return ilTestManScoringParticipantsTableGUI
      */
-    private function buildManScoringParticipantsTable($withData = false)
+    private function buildManScoringParticipantsTable($withData = false) : ilTestManScoringParticipantsTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
         $table = new ilTestManScoringParticipantsTableGUI($this);

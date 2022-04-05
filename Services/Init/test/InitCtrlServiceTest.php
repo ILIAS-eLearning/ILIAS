@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +11,6 @@ use ILIAS\DI\Container;
 
 /**
  * Class InitCtrlServiceTest
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 final class InitCtrlServiceTest extends TestCase
@@ -60,8 +59,8 @@ final class InitCtrlServiceTest extends TestCase
             ->method('request')
             ->willReturn(
                 $this->createMock(ServerRequestInterface::class)
-            )
-        ;
+            );
+        $dic['component.factory'] = $this->createMock(ilComponentFactory::class);
 
         $this->assertFalse(isset($dic['ilCtrl']));
 

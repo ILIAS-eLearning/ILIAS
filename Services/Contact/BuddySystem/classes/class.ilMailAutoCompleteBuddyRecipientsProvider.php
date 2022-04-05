@@ -38,8 +38,8 @@ class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserPr
 
         if ($joins) {
             return 'usr_data ' . implode(' ', $joins);
-        } else {
-            return 'usr_data ';
         }
+
+        return 'usr_data ';
     }
 }

@@ -11,6 +11,7 @@
  */
 class ilTestLearningObjectivesStatusGUI
 {
+    private \ILIAS\Test\InternalRequestService $testrequest;
     /**
      * @var ilLanguage
      */
@@ -28,13 +29,15 @@ class ilTestLearningObjectivesStatusGUI
 
     public function __construct(ilLanguage $lng)
     {
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->lng = $lng;
     }
 
     /**
      * @return integer
      */
-    public function getCrsObjId()
+    public function getCrsObjId() : ?int
     {
         return $this->crsObjId;
     }
@@ -50,7 +53,7 @@ class ilTestLearningObjectivesStatusGUI
     /**
      * @return integer
      */
-    public function getUsrId()
+    public function getUsrId() : ?int
     {
         return $this->usrId;
     }
@@ -63,7 +66,7 @@ class ilTestLearningObjectivesStatusGUI
         $this->usrId = $usrId;
     }
     
-    public function getHTML($objectiveId = null)
+    public function getHTML($objectiveId = null) : string
     {
         $this->lng->loadLanguageModule('crs');
         
@@ -81,7 +84,7 @@ class ilTestLearningObjectivesStatusGUI
         return $tpl->get();
     }
     
-    private function getHeaderLangVar($objectiveId)
+    private function getHeaderLangVar($objectiveId) : string
     {
         if ($objectiveId) {
             return 'tst_objective_progress_header';
@@ -105,7 +108,7 @@ class ilTestLearningObjectivesStatusGUI
             $tpl->setVariable("OBJECTIVE_NOLINK_TITLE", $objtv["title"]);
             $tpl->parseCurrentBlock();
 
-            $objtv_icon = ilUtil::getTypeIconPath("lobj", $objtv["id"]);
+            $objtv_icon = ilObject::_getIcon($objtv["id"], "small", "lobj");
 
             $tpl->setCurrentBlock("objective_bl");
             $tpl->setVariable("OBJTV_ICON_URL", $objtv_icon);
@@ -122,7 +125,7 @@ class ilTestLearningObjectivesStatusGUI
                 // (!) we need to set an explicit ref_id param for ilObjTestGUI again to keep the things running (!)
                 
                 global $DIC; /* @var \ILIAS\DI\Container $DIC */
-                $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', (int) $_GET['ref_id']);
+                $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', $this->testrequest->getRefId());
             }
 
             $tpl->parseCurrentBlock();
@@ -133,7 +136,7 @@ class ilTestLearningObjectivesStatusGUI
         $tpl->parseCurrentBlock();
     }
     
-    private function getUsersObjectivesStatus($crsObjId, $usrId)
+    private function getUsersObjectivesStatus($crsObjId, $usrId) : array
     {
         $res = array();
 
@@ -187,7 +190,7 @@ class ilTestLearningObjectivesStatusGUI
         return $res;
     }
 
-    private function getUsersObjectivesResults($crsObjId, $usrId)
+    private function getUsersObjectivesResults($crsObjId, $usrId) : array
     {
         $res = array();
 

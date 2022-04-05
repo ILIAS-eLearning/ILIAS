@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilExcCriteriaTableGUI
  *
@@ -71,15 +85,15 @@ class ilExcCriteriaTableGUI extends ilTable2GUI
         
         $this->setData($data);
         
-        return (bool) sizeof($data);
+        return (bool) count($data);
     }
     
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
-        return in_array($a_field, array("pos"));
+        return $a_field === "pos";
     }
     
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

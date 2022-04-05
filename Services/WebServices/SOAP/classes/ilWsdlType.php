@@ -1,47 +1,47 @@
 <?php
+
 /**
  * Interface ilWsdlType
  */
 interface ilWsdlType
 {
+    /**
+     * @return string
+     */
+    public function getName() : string;
 
     /**
      * @return string
      */
-    public function getName();
+    public function getTypeClass() : string;
 
     /**
      * @return string
      */
-    public function getTypeClass();
+    public function getPhpType() : string;
 
     /**
      * @return string
      */
-    public function getPhpType();
+    public function getCompositor() : string;
 
     /**
      * @return string
      */
-    public function getCompositor();
-
-    /**
-     * @return string
-     */
-    public function getRestrictionBase();
+    public function getRestrictionBase() : string;
 
     /**
      * @return array
      */
-    public function getElements();
+    public function getElements() : array;
 
     /**
      * @return array
      */
-    public function getAttributes();
+    public function getAttributes() : array;
 
     /**
      * @return string
      */
-    public function getArrayType();
+    public function getArrayType() : string;
 }

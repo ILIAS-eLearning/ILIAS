@@ -1,30 +1,17 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceFile.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceDependency.php");
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * SCORM Resource
 *
@@ -35,13 +22,13 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceDependency.
 */
 class ilSCORMResource extends ilSCORMObject
 {
-    public $import_id;
-    public $resourcetype;
-    public $scormtype;
-    public $href;
-    public $xml_base;
-    public $files;
-    public $dependencies;
+    public string $import_id;
+    public string $resourcetype;
+    public ?string $scormtype;
+    public ?string $href;
+    public ?string $xml_base;
+    public array $files;
+    public array $dependencies;
 
 
     /**
@@ -50,7 +37,7 @@ class ilSCORMResource extends ilSCORMObject
     * @param	int		$a_id		Object ID
     * @access	public
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         $this->files = array();
         $this->dependencies = array();
@@ -58,81 +45,133 @@ class ilSCORMResource extends ilSCORMObject
         parent::__construct($a_id);
     }
 
-    public function getImportId()
+    /**
+     * @return string
+     */
+    public function getImportId() : string
     {
         return $this->import_id;
     }
 
-    public function setImportId($a_import_id)
+    /**
+     * @param string $a_import_id
+     * @return void
+     */
+    public function setImportId(string $a_import_id) : void
     {
         $this->import_id = $a_import_id;
     }
 
-    public function getResourceType()
+    /**
+     * @return string
+     */
+    public function getResourceType() : string
     {
         return $this->resourcetype;
     }
 
-    public function setResourceType($a_type)
+    /**
+     * @param string $a_type
+     * @return void
+     */
+    public function setResourceType(string $a_type) : void
     {
         $this->resourcetype = $a_type;
     }
 
-    public function getScormType()
+    /**
+     * @return string|null
+     */
+    public function getScormType() : ?string
     {
         return $this->scormtype;
     }
 
-    public function setScormType($a_scormtype)
+    /**
+     * @param string|null $a_scormtype
+     * @return void
+     */
+    public function setScormType(?string $a_scormtype) : void
     {
         $this->scormtype = $a_scormtype;
     }
 
-    public function getHRef()
+    /**
+     * @return string|null
+     */
+    public function getHRef() : ?string
     {
         return $this->href;
     }
 
-    public function setHRef($a_href)
+    /**
+     * @param string|null $a_href
+     * @return void
+     */
+    public function setHRef(?string $a_href) : void
     {
         $this->href = $a_href;
         $this->setTitle($a_href);
     }
 
-    public function getXmlBase()
+    /**
+     * @return string|null
+     */
+    public function getXmlBase() : ?string
     {
         return $this->xml_base;
     }
 
-    public function setXmlBase($a_xml_base)
+    /**
+     * @param string|null $a_xml_base
+     * @return void
+     */
+    public function setXmlBase(?string $a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    public function addFile(&$a_file_obj)
+    /**
+     * @param ilSCORMResourceFile $a_file_obj
+     * @return void
+     */
+    public function addFile(ilSCORMResourceFile &$a_file_obj) : void
     {
         $this->files[] = &$a_file_obj;
     }
 
-    public function &getFiles()
+    /**
+     * @return array
+     */
+    public function &getFiles() : array
     {
         return $this->files;
     }
 
-    public function addDependency(&$a_dependency)
+    /**
+     * @param ilSCORMResourceDependency $a_dependency
+     * @return void
+     */
+    public function addDependency(ilSCORMResourceDependency &$a_dependency) : void
     {
         $this->dependencies[] = &$a_dependency;
     }
 
-    public function &getDependencies()
+    /**
+     * @return array
+     */
+    public function &getDependencies() : array
     {
         return $this->dependencies;
     }
 
-    public function read()
+    /**
+     * @return void
+     */
+    public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
     
@@ -173,11 +212,16 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function readByIdRef($a_id_ref, $a_slm_id)
+    /**
+     * @param string $a_id_ref
+     * @param int $a_slm_id
+     * @return void
+     */
+    public function readByIdRef(string $a_id_ref, int $a_slm_id) : void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $ilBench->start("SCORMResource", "readByIdRef_Query");
         
@@ -198,11 +242,16 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public static function _lookupIdByIdRef($a_id_ref, $a_slm_id)
+    /**
+     * @param string $a_id_ref
+     * @param int $a_slm_id
+     * @return int
+     */
+    public static function _lookupIdByIdRef(string $a_id_ref, int $a_slm_id) : int
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $id_set = $ilDB->queryF(
             'SELECT ob.obj_id id FROM sc_resource res, scorm_object ob
@@ -219,10 +268,14 @@ class ilSCORMResource extends ilSCORMObject
         return 0;
     }
 
-    public static function _lookupScormType($a_obj_id)
+    /**
+     * @param int $a_obj_id
+     * @return string
+     */
+    public static function _lookupScormType(int $a_obj_id) : string
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $st_set = $ilDB->queryF(
             'SELECT scormtype FROM sc_resource WHERE obj_id = %s',
@@ -235,10 +288,13 @@ class ilSCORMResource extends ilSCORMObject
         return "";
     }
 
-    public function create()
+    /**
+     * @return void
+     */
+    public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -284,10 +340,13 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function update()
+    /**
+     * @return void
+     */
+    public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::update();
 
@@ -347,10 +406,13 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function delete()
+    /**
+     * @return void
+     */
+    public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::delete();
 

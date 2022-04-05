@@ -29,7 +29,7 @@ class ilObjRepositorySettings extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         // DISABLED
         return false;
@@ -177,15 +177,18 @@ class ilObjRepositorySettings extends ilObject
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
+        $component_repository = $DIC["component.repository"];
         $objDefinition = $DIC["objDefinition"];
         
         $res = array();
         
         // parse modules
-        foreach (ilModule::getAvailableCoreModules() as $mod) {
+        foreach ($component_repository->getComponents() as $mod) {
+            if ($mod->getType() !== ilComponentInfo::TYPE_MODULES) {
+                continue;
+            }
             $has_repo = false;
-            $rep_types = $objDefinition->getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $mod["subdir"]);
+            $rep_types = $objDefinition->getRepositoryObjectTypesForComponent(ilComponentInfo::TYPE_MODULES, $mod->getName());
             if (sizeof($rep_types) > 0) {
                 foreach ($rep_types as $ridx => $rt) {
                     // we only want to display repository modules
@@ -204,12 +207,9 @@ class ilObjRepositorySettings extends ilObject
         }
         
         // parse plugins
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-        foreach ($pl_names as $pl_name) {
-            $pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
-            if ($pl_id) {
-                $res[] = $pl_id;
-            }
+        $pl_names = $component_repository->getPluginSlotById("robj")->getActivePlugins();
+        foreach ($pl_names as $plugin) {
+            $res[] = $plugin->getId();
         }
         
         return $res;

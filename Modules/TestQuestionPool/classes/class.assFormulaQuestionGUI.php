@@ -31,7 +31,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
     {
         parent::__construct();
         $this->object = new assFormulaQuestion();
-        $this->newUnitId = null;
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
@@ -50,18 +49,18 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         $ilTabs->clearTargets();
 
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
+        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->request->getQuestionId());
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $q_type = $this->object->getQuestionType();
 
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
             $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
+            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
                     "edit_page",
@@ -69,7 +68,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     array("edit", "insert", "exec_pg"),
                     "",
                     "",
-                    $force_active
+                    false
                 );
             }
 
@@ -77,7 +76,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
 
         $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $url = "";
 
             if ($classname) {
@@ -151,7 +150,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     public function suggestRange()
     {
         if ($this->writePostData()) {
-            ilUtil::sendInfo($this->getErrorMessage());
+            $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
         }
         $this->editQuestion();
     }
@@ -238,7 +237,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
                 $checked = false;
                 if ($this->isSaveCommand()) {
-                    ilUtil::sendFailure($error_message);
+                    $this->tpl->setOnScreenMessage('failure', $error_message);
                 }
             }
             foreach ($found_results as $result) {
@@ -303,7 +302,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
      * @param bool $checkonly
      * @return bool
      */
-    public function editQuestion($checkonly = false)
+    public function editQuestion($checkonly = false) : bool
     {
         $save = $this->isSaveCommand();
         
@@ -328,12 +327,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         $variables = $this->object->getVariables();
         $categorized_units = $this->object->getUnitrepository()->getCategorizedUnits();
-        $result_units = $this->object->__get('resultunits');
+        $result_units = $this->object->getAllResultUnits();
         
         $unit_options = array();
         $category_name = '';
         $new_category = false;
-        foreach ((array) $categorized_units as $item) {
+        foreach ($categorized_units as $item) {
             /**
              * @var $item assFormulaQuestionUnitCategory|assFormulaQuestionUnit
              */
@@ -407,7 +406,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $form->addItem($intprecision);
             }
         }
-
+        $quest_vars = array();
+        $result_vars = array();
         $results = $this->object->getResults();
         if (count($results)) {
             require_once 'Services/Form/classes/class.ilMultiSelectInputGUI.php';
@@ -473,7 +473,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $tolerance->setSize(3);
                 $tolerance->setMinValue(0);
                 $tolerance->setMaxValue(100);
-                $tolerance->allowDecimals(false);
+                $tolerance->allowDecimals(true);
                 $tolerance->setInfo($this->lng->txt('tolerance_info'));
                 $tolerance->setValue($result->getTolerance());
                 
@@ -579,10 +579,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
             }
 
             $defined_result_vars = array();
-            $quest_vars = array();
 
             $defined_result_res = array();
-            $result_vars = array();
             
             foreach ($variables as $key => $object) {
                 $quest_vars[$key] = $key;
@@ -623,7 +621,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $result_has_undefined_res = array_diff($defined_result_res, $result_vars);
         }
         $error_message = '';
-        
+        $checked = false;
         if (count($result_has_undefined_vars) > 0 || count($question_has_unused_vars) > 0) {
             if (count($result_has_undefined_vars) > 0) {
                 $error_message .= $this->lng->txt("res_contains_undef_var") . '<br>';
@@ -634,7 +632,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     
             $checked = false;
             if ($save) {
-                ilUtil::sendFailure($error_message);
+                $this->tpl->setOnScreenMessage('failure', $error_message);
             }
         }
 
@@ -644,7 +642,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
         
         if ($save && !$checked) {
-            ilUtil::sendFailure($error_message);
+            $this->tpl->setOnScreenMessage('failure', $error_message);
         }
         
         if ($this->object->getId()) {
@@ -664,7 +662,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         if ($save) {
             $found_vars = array();
             $found_results = array();
-            foreach ((array) $_POST as $key => $value) {
+            foreach ($_POST as $key => $value) {
                 if (preg_match("/^unit_(\\\$v\d+)$/", $key, $matches)) {
                     array_push($found_vars, $matches[1]);
                 }
@@ -687,6 +685,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     if ($min_range->getValue() > $max_range->getValue()) {
                         $min_range->setAlert($this->lng->txt('err_range'));
                         $max_range->setAlert($this->lng->txt('err_range'));
+                        $custom_errors = true;
+                    }
+                    $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
+                    if ($intPrecision->getValue() > $max_range->getValue()) {
+                        $intPrecision->setAlert($this->lng->txt('err_division'));
                         $custom_errors = true;
                     }
                 }
@@ -733,17 +736,17 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     }
 
                     preg_match_all("/([$][v][0-9]*)/", $formula->getValue(), $form_vars);
-                    $result_has_undefined_vars = array_diff($form_vars[0], (array) $found_vars);
+                    $result_has_undefined_vars = array_diff($form_vars[0], $found_vars);
                     if (count($result_has_undefined_vars)) {
                         $errors = true;
-                        ilUtil::sendInfo($this->lng->txt('res_contains_undef_var'));
+                        $this->tpl->setOnScreenMessage('info', $this->lng->txt('res_contains_undef_var'));
                     }
                 }
             }
             
             if ($custom_errors && !$errors) {
                 $errors = true;
-                ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
             }
             $form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
             if ($errors) {
@@ -757,7 +760,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         return $errors;
     }
 
-    private function hasResultUnit($result, $unit_id, $resultunits)
+    private function hasResultUnit($result, $unit_id, $resultunits) : bool
     {
         if (array_key_exists($result->getResult(), $resultunits)) {
             if (array_key_exists($unit_id, $resultunits[$result->getResult()])) {
@@ -774,7 +777,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
      *
      * @return boolean True if advanced rating could be used, false otherwise
      */
-    private function canUseAdvancedRating($result)
+    private function canUseAdvancedRating($result) : bool
     {
         $resultunit = $result->getUnit();
 
@@ -801,18 +804,17 @@ class assFormulaQuestionGUI extends assQuestionGUI
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        $old_id = $_GET["q_id"];
+        $old_id = $this->request->getQuestionId();
         $result = $this->writePostData();
         if ($result == 0) {
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->saveTaxonomyAssignments();
             $this->object->saveToDb();
-            $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
+            $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+            if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                 $this->ctrl->redirect($this, "originalSyncForm");
-                return;
             } elseif ($_GET["calling_test"]) {
                 require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $test = new ilObjTest($_GET["calling_test"]);
@@ -845,7 +847,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $this->ctrl->setParameter($this, 'calling_test', $_GET['calling_test']);
                     #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 if ($_REQUEST['test_express_mode']) {
                     ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($q_id));
                 } else {
@@ -854,13 +856,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
             } else {
                 if ($this->object->getId() != $old_id) {
                     $this->callNewIdListeners($this->object->getId());
-                    ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                     $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
                 }
-                if (strcmp($_SESSION["info"], "") != 0) {
-                    ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
+                if (ilSession::get('info') != null) {
+                    $this->tpl->setOnScreenMessage('success', ilSession::get('info') . "<br />" . $this->lng->txt("msg_obj_modified"), true);
                 } else {
-                    ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 }
                 $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
             }
@@ -886,7 +888,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     /**
      * check input fields
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) {
             $this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
@@ -919,7 +921,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $show_correct_solution = false,
         $show_manual_scoring = false,
         $show_question_text = true
-    ) {
+    ) : string {
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
@@ -956,7 +958,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $pass = ilObjTest::_getPass($active_id);
                 }
             }
-            $user_solution = (array) $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
+            $user_solution = $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
         } elseif (is_object($this->getPreviewSession())) {
             $solutionValues = array();
 
@@ -967,7 +969,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
             
-            $user_solution = (array) $this->object->getBestSolution($solutionValues);
+            $user_solution = $this->object->getBestSolution($solutionValues);
         }
     
         $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution.html", true, true, 'Modules/TestQuestionPool');
@@ -996,7 +998,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false)
+    public function getPreview($show_question_only = false, $showInlineFeedback = false) : string
     {
         $user_solution = array();
         
@@ -1048,14 +1050,14 @@ class assFormulaQuestionGUI extends assQuestionGUI
     }
 
     // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false)
-    // hey.
+    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false) : string
+        // hey.
     {
-        ilUtil::sendInfo($this->lng->txt('enter_valid_values'));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('enter_valid_values'));
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if ($active_id) {
-            $solutions = (array) $this->object->getTestOutputSolutions($active_id, $pass);
+            $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             
             $actualPassIndex = null;
             if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {

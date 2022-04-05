@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Transformation;
+
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
@@ -46,6 +48,8 @@ class assClozeGap
      * @var boolean
      */
     public $shuffle;
+
+    private $shuffler;
     
     private $gap_size = 0;
 
@@ -85,13 +89,13 @@ class assClozeGap
     /**
      * Gets the items of a cloze gap
      *
-     * @param ilRandomArrayElementProvider $shuffler
+     * @param Transformation $shuffler
      * @return assAnswerCloze[] The list of items
      */
-    public function getItems(ilRandomArrayElementProvider $shuffler)
+    public function getItems(Transformation $shuffler) : array
     {
         if ($this->getShuffle()) {
-            return $shuffler->shuffle($this->items);
+            return $shuffler->transform($this->items);
         }
         
         return $this->items;
@@ -106,7 +110,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function getItemsRaw()
+    public function getItemsRaw() : array
     {
         return $this->items;
     }
@@ -120,7 +124,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function getItemCount()
+    public function getItemCount() : int
     {
         return count($this->items);
     }
@@ -245,7 +249,7 @@ class assClozeGap
      * @see $items
      * @return assAnswerCloze|null
      */
-    public function getItem($a_index)
+    public function getItem($a_index) : ?assAnswerCloze
     {
         if (array_key_exists($a_index, $this->items)) {
             return $this->items[$a_index];
@@ -284,10 +288,37 @@ class assClozeGap
      *
      * @return boolean Shuffle state
      */
-    public function getShuffle()
+    public function getShuffle() : bool
     {
         return $this->shuffle;
     }
+
+    /**
+     * @param ilArrayElementShuffler $shuffler
+     */
+    public function setShuffler(ilArrayElementShuffler $shuffler = null)
+    {
+        if ($shuffler == null) {
+            require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
+            $shuffler = new ilArrayElementShuffler();
+            $seed = $shuffler->buildRandomSeed();
+            $shuffler->setSeed($seed);
+        }
+        $this->shuffler = $shuffler;
+    }
+
+    /**
+     * @return ilArrayElementShuffler
+     */
+    public function getShuffler() : ilArrayElementShuffler
+    {
+        if ($this->shuffler == null) {
+            $this->setShuffler();
+        }
+        return $this->shuffler;
+    }
+
+
 
     /**
     * Returns the maximum width of the gap
@@ -297,7 +328,7 @@ class assClozeGap
     * @return integer The maximum width of the gap defined by the longest answer
     * @access public
     */
-    public function getMaxWidth()
+    public function getMaxWidth() : int
     {
         $maxwidth = 0;
         foreach ($this->items as $item) {
@@ -316,7 +347,7 @@ class assClozeGap
     * @return array The indexs of the best solutions
     * @access public
     */
-    public function getBestSolutionIndexes()
+    public function getBestSolutionIndexes() : array
     {
         $maxpoints = 0;
         foreach ($this->items as $key => $item) {
@@ -334,11 +365,11 @@ class assClozeGap
     }
 
     /**
-     * @param ilRandomArrayElementProvider $shuffler
+     * @param Transformation $shuffler
      * @param null | array $combinations
      * @return string
      */
-    public function getBestSolutionOutput(ilRandomArrayElementProvider $shuffler, $combinations = null)
+    public function getBestSolutionOutput(Transformation $shuffler, $combinations = null) : string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -392,12 +423,12 @@ class assClozeGap
     /**
      * @return int
      */
-    public function getGapSize()
+    public function getGapSize() : int
     {
         return $this->gap_size;
     }
     
-    public function numericRangeExists()
+    public function numericRangeExists() : bool
     {
         if ($this->getType() != CLOZE_NUMERIC) {
             return false;

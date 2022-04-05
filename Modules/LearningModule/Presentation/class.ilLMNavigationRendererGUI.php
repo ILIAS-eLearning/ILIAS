@@ -106,10 +106,6 @@ class ilLMNavigationRendererGUI
             $tpl->setVariable("HREF_PREV", $back_href);
             $tpl->setVariable("TXT_PREV", $this->lng->txt("back"));
             $tpl->setVariable("ALT_PREV", $this->lng->txt("back"));
-            $tpl->setVariable(
-                "PREV_ACC_KEY",
-                ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS)
-            );
             $tpl->setVariable("SPACER_PREV", $this->offline
                 ? "images/spacer.png"
                 : ilUtil::getImagePath("spacer.png"));
@@ -128,7 +124,7 @@ class ilLMNavigationRendererGUI
                     $this->lang,
                     true
                 );
-                $prev_title = ilUtil::shortenText($prev_title, 50, true);
+                $prev_title = ilStr::shortenTextExtended($prev_title, 50, true);
                 $prev_img =
                     ilUtil::getImagePath("nav_arr_L.png", false, "output", $this->offline);
 
@@ -161,10 +157,6 @@ class ilLMNavigationRendererGUI
                 $tpl->setVariable("SPACER_PREV", $this->offline
                     ? "images/spacer.png"
                     : ilUtil::getImagePath("spacer.png"));
-                $tpl->setVariable(
-                    "PREV_ACC_KEY",
-                    ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS)
-                );
             }
 
             $succ_id = $this->navigation_status->getSuccessorPageId();
@@ -180,7 +172,7 @@ class ilLMNavigationRendererGUI
                     $this->lang,
                     true
                 );
-                $succ_title = ilUtil::shortenText($succ_title, 50, true);
+                $succ_title = ilStr::shortenTextExtended($succ_title, 50, true);
                 $succ_img =
                     ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offline);
                 if (!$this->lm->cleanFrames()) {
@@ -212,10 +204,6 @@ class ilLMNavigationRendererGUI
                 $tpl->setVariable("SPACER_SUCC", $this->offline
                     ? "images/spacer.png"
                     : ilUtil::getImagePath("spacer.png"));
-                $tpl->setVariable(
-                    "NEXT_ACC_KEY",
-                    ilAccessKeyGUI::getAttribute(ilAccessKey::NEXT)
-                );
                 $tpl->parseCurrentBlock();
 
                 // check if successor page is not restricted

@@ -58,7 +58,7 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         $this->addCommandButton("saveOrderingAndIndent", $lng->txt("wiki_save_ordering_and_indent"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 
@@ -78,10 +78,10 @@ class ilImportantPagesTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable(
                 "SEL_INDENT",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $a_set["indent"],
                     "indent[" . $a_set["page_id"] . "]",
-                    array(0 => "0", 1 => "1", 2 => "2"),
+                    [0 => "0", 1 => "1", 2 => "2"],
                     false,
                     true
                 )

@@ -46,15 +46,14 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
 
     /**
      * Get command link url.
-     * @param	string		$a_cmd			command
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
 
         // does this make any sense!?
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->request->getRefId());
 
         return $cmd_link;

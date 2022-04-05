@@ -11,7 +11,7 @@ abstract class ilMailNotification
     public const SUBJECT_TITLE_LENGTH = 60;
     protected int $type;
     protected int $sender;
-    protected ilMail $mail;
+    protected ?ilMail $mail = null;
     protected string $subject = '';
     protected string $body = '';
     protected array $attachments = [];
@@ -206,7 +206,7 @@ abstract class ilMailNotification
         }
         $txt = ilObject::_lookupTitle($this->getObjId());
         if ($a_shorten) {
-            $txt = ilUtil::shortenText($txt, self::SUBJECT_TITLE_LENGTH, true);
+            $txt = ilStr::shortenTextExtended($txt, self::SUBJECT_TITLE_LENGTH, true);
         }
         return $txt;
     }

@@ -28,6 +28,7 @@ class ilExportIDTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     public bool $online_help_mode = false;
     protected EditingGUIRequest $request;
+    protected \ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
         object $a_parent_obj,
@@ -36,6 +37,7 @@ class ilExportIDTableGUI extends ilTable2GUI
         bool $a_oh_mode = false
     ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -93,7 +95,7 @@ class ilExportIDTableGUI extends ilTable2GUI
         return $this->online_help_mode;
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 
@@ -127,14 +129,14 @@ class ilExportIDTableGUI extends ilTable2GUI
             }
             $this->tpl->setVariable(
                 "EXPORT_ID",
-                ilUtil::prepareFormOutput(
+                ilLegacyFormElementsUtil::prepareFormOutput(
                     ilUtil::stripSlashes($req_export_ids[$a_set["obj_id"]])
                 )
             );
         } else {
             $this->tpl->setVariable(
                 "EXPORT_ID",
-                ilUtil::prepareFormOutput($exp_id)
+                ilLegacyFormElementsUtil::prepareFormOutput($exp_id)
             );
         }
 
@@ -151,7 +153,7 @@ class ilExportIDTableGUI extends ilTable2GUI
                 )
             );
             if (!$this->dup_info_given) {
-                ilUtil::sendInfo($lng->txt("content_some_export_ids_multiple_times"));
+                $this->main_tpl->setOnScreenMessage('info', $lng->txt("content_some_export_ids_multiple_times"));
                 $this->dup_info_given = true;
             }
         }

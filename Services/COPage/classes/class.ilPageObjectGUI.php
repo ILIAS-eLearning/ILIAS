@@ -49,7 +49,7 @@ class ilPageObjectGUI
     public string $page_back_title;
     protected int $notes_parent_id;
     protected ilPropertyFormGUI $form;
-    protected int $styleid;
+    protected int $styleid = 0;
     protected bool $enabledpagefocus;
     protected string $link_xml;
     protected int $old_nr = 0;
@@ -61,7 +61,6 @@ class ilPageObjectGUI
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     protected ilAccessHandler $access;
-    protected ilPluginAdmin $plugin_admin;
     protected ilLogger $log;
     protected ilObjUser $user;
     protected ilHelpGUI $help;
@@ -120,6 +119,9 @@ class ilPageObjectGUI
     protected string $prependinghtml = "";
     protected string $header = "";
     protected string $int_link_return = "";
+    protected bool $enabled_href = true;
+
+    protected ilComponentFactory $component_factory;
 
     /**
      * @param string $a_parent_type type of parent object
@@ -142,12 +144,12 @@ class ilPageObjectGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tabs_gui = $DIC->tabs();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->access = $DIC->access();
         $this->user = $DIC->user();
         $this->help = $DIC["ilHelp"];
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
+        $this->component_factory = $DIC["component.factory"];
 
         $this->request = $DIC
             ->copage()
@@ -301,7 +303,7 @@ class ilPageObjectGUI
         return $this->page_config;
     }
     
-    public function setPageObject(ilPageObject $a_pg_obj)
+    public function setPageObject(ilPageObject $a_pg_obj) : void
     {
         $this->obj = $a_pg_obj;
     }
@@ -672,6 +674,15 @@ class ilPageObjectGUI
         return $this->lng->txt("inactive");
     }
 
+    public function getEnabledHref() : bool
+    {
+        return $this->enabled_href;
+    }
+
+    public function setEnabledHref(bool $enable) : void
+    {
+        $this->enabled_href = $enable;
+    }
 
     /**
      * Activate meda data editor
@@ -730,18 +741,7 @@ class ilPageObjectGUI
     {
         $xml = "";
         if ($this->getOutputMode() == "edit") {
-            $pl_names = $this->plugin_admin->getActivePluginsForSlot(
-                IL_COMP_SERVICE,
-                "COPage",
-                "pgcp"
-            );
-            foreach ($pl_names as $pl_name) {
-                $plugin = $this->plugin_admin->getPluginObject(
-                    IL_COMP_SERVICE,
-                    "COPage",
-                    "pgcp",
-                    $pl_name
-                );
+            foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
                 if ($plugin->isValidParentType($this->getPageObject()->getParentType())) {
                     $xml .= '<ComponentPlugin Name="' . $plugin->getPluginName() .
                         '" InsertText="' . $plugin->txt(ilPageComponentPlugin::TXT_CMD_INSERT) . '" />';
@@ -808,7 +808,7 @@ class ilPageObjectGUI
                 $this->setEditorToolContext();
 
                 if (!$this->getEnableEditing()) {
-                    ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this, "preview");
                 }
                 $page_editor = new ilPageEditorGUI($this->getPageObject(), $this);
@@ -906,6 +906,9 @@ class ilPageObjectGUI
                     );
                 }
                 $ret = $this->$cmd();
+                if ($this->getOutputMode() == self::PREVIEW && $cmd == "preview") {
+                    $this->showEditToolbar();
+                }
                 break;
         }
         //echo "+$ret+";
@@ -972,7 +975,7 @@ class ilPageObjectGUI
         $lng = $this->lng;
         if ($this->getEnableEditing()) {
             $b = $ui->factory()->button()->standard(
-                $lng->txt("edit"),
+                $lng->txt("edit_page"),
                 $this->ctrl->getLinkTarget($this, "edit")
             );
             $this->toolbar->addComponent($b);
@@ -986,10 +989,6 @@ class ilPageObjectGUI
     {
         $main_tpl = $this->tpl;
         $sn_arr = [];
-
-        if ($this->getOutputMode() == self::PREVIEW) {
-            $this->showEditToolbar();
-        }
 
         $sel_js_mode = '';
         $paragraph_plugin_string = '';
@@ -1012,6 +1011,9 @@ class ilPageObjectGUI
         // init template
         if ($this->getOutputMode() == "edit") {
             $this->initEditing();
+            if (!$this->getPageObject()->getEditLock()) {
+                return "";
+            }
 
             $this->getPageObject()->buildDom();
 
@@ -1187,7 +1189,7 @@ class ilPageObjectGUI
                 $tpl->setVariable("TXT_LINKED_MOBS", $this->lng->txt("cont_linked_mobs"));
                 $tpl->setVariable(
                     "SEL_MED_LINKS",
-                    ilUtil::formSelect(0, "mob_id", $mob_links, false, true)
+                    ilLegacyFormElementsUtil::formSelect(0, "mob_id", $mob_links, false, true)
                 );
                 $tpl->setVariable("TXT_EDIT_MEDIA", $this->lng->txt("cont_edit_mob"));
                 $tpl->setVariable("TXT_COPY_TO_CLIPBOARD", $this->lng->txt("cont_copy_to_clipboard"));
@@ -1209,7 +1211,7 @@ class ilPageObjectGUI
                 $tpl->setVariable("TXT_CONTENT_SNIPPETS_USED", $this->lng->txt("cont_snippets_used"));
                 $tpl->setVariable(
                     "SEL_SNIPPETS",
-                    ilUtil::formSelect(0, "ci_id", $sn_arr, false, true)
+                    ilLegacyFormElementsUtil::formSelect(0, "ci_id", $sn_arr, false, true)
                 );
                 $tpl->setVariable("TXT_SHOW_INFO", $this->lng->txt("cont_show_info"));
                 $tpl->parseCurrentBlock();
@@ -1383,7 +1385,7 @@ class ilPageObjectGUI
 
         if ($this->getOutputMode() != "offline") {
             $enlarge_path = ilUtil::getImagePath("enlarge.svg");
-            $wb_path = ilUtil::getWebspaceDir("output") . "/";
+            $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
             $enlarge_path = "images/enlarge.svg";
             $wb_path = "";
@@ -1439,6 +1441,12 @@ class ilPageObjectGUI
         $cfg = $this->getPageConfig();
 
         $current_ts = time();
+
+        $enable_href = $this->getEnabledHref();
+        if ($this->getOutputMode() == self::EDIT) {
+            $enable_href = false;
+        }
+
         // added UTF-8 encoding otherwise umlaute are converted too
         $params = array('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title, ENT_QUOTES, "UTF-8"),
                          'enable_placeholder' => $cfg->getEnablePCType("PlaceHolder") ? "y" : "n",
@@ -1485,8 +1493,12 @@ class ilPageObjectGUI
                          'current_ts' => $current_ts,
                          'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                          'flv_video_player' => $flv_video_player,
-                         'page_perma_link' => $this->getPagePermaLink()
-                        );
+                         'page_perma_link' => $this->getPagePermaLink(),
+                         'activated_protection' =>
+                            ($this->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED) ? "y" : "n",
+                        'protection_text' => $this->lng->txt("cont_sec_protected_text"),
+                        'enable_href' => $enable_href
+    );
         if ($this->link_frame != "") {		// todo other link types
             $params["pg_frame"] = $this->link_frame;
         }
@@ -2001,9 +2013,8 @@ class ilPageObjectGUI
         $this->displayMedia(true);
     }
 
-    public function displayMedia($a_fullscreen = false) : void
+    public function displayMedia(bool $a_fullscreen = false) : void
     {
-        //$tpl = new ilCOPageGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $tpl->setCurrentBlock("ilMedia");
 
@@ -2038,7 +2049,7 @@ class ilPageObjectGUI
 
         //echo "<b>XML:</b>".htmlentities($xml);
         // determine target frames for internal links
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
@@ -2077,7 +2088,13 @@ class ilPageObjectGUI
     public function insertPageToc(string $a_output) : string
     {
         // extract all headings
-        $offsets = ilStr::strPosAll($a_output, "ilPageTocH");
+        $offsets = [];
+        $cpos = 0;
+        while (is_int($pos = strpos($a_output, "ilPageTocH", $cpos))) {
+            $offsets[] = $pos;
+            $cpos = $pos + 1;
+        }
+
         $page_heads = array();
         foreach ($offsets as $os) {
             $level = (int) substr($a_output, $os + 10, 1);
@@ -2111,6 +2128,7 @@ class ilPageObjectGUI
             $c_depth = 1;
             $c_par[1] = 0;
             $c_par[2] = 0;
+            $page_toc_ph = "<!--PageTocPH-->";
             foreach ($page_heads as $ind => $h) {
                 $i++;
                 $par = 0;
@@ -2124,7 +2142,7 @@ class ilPageObjectGUI
                     $par = $c_par[2];
                 }
 
-                $h["text"] = str_replace("<!--PageTocPH-->", "", $h["text"]);
+                $h["text"] = str_replace($page_toc_ph, "", $h["text"]);
 
                 // add the list node
                 $list->addListNode(
@@ -2163,8 +2181,9 @@ class ilPageObjectGUI
 
             if (count($numbers) > 0) {
                 foreach ($numbers as $n) {
-                    $a_output =
-                        ilStr::replaceFirsOccurence("<!--PageTocPH-->", $n . " ", $a_output);
+                    $a_output = (strpos($a_output, $page_toc_ph) !== false)
+                        ? substr_replace($a_output, $n . " ", strpos($a_output, $page_toc_ph), strlen($page_toc_ph))
+                        : $a_output;
                 }
             }
         } else {
@@ -2264,34 +2283,24 @@ class ilPageObjectGUI
     {
         // editing allowed?
         if (!$this->getEnableEditing()) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "preview");
         }
-
-        $this->setEditorToolContext();
 
         // not so nive workaround for container pages, bug #0015831
         $ptype = $this->getParentType();
         if ($ptype == "cont" && $this->requested_ref_id > 0) {
             $ptype = ilObject::_lookupType($this->requested_ref_id, true);
         }
+        $this->setScreenIdComponent();
         $this->help->setScreenId("edit_" . $ptype);
 
         // edit lock
         if (!$this->getPageObject()->getEditLock()) {
-            $info = $this->lng->txt("content_no_edit_lock");
-            $lock = $this->getPageObject()->getEditLockInfo();
-            $info .= "</br>" . $this->lng->txt("content_until") . ": " .
-                ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
-            $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
-                ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-            if (!$this->ctrl->isAsynch()) {
-                ilUtil::sendInfo($info);
-                return;
-            } else {
-                echo ilUtil::getSystemMessageHTML($info);
-                exit;
-            }
+            $this->showEditLockInfo();
+            return;
+        } else {
+            $this->setEditorToolContext();
         }
 
         $this->lng->toJS("paste");
@@ -2302,10 +2311,37 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_ed_par");
         $this->lng->toJS("cont_no_block");
         $this->lng->toJS("copg_error");
+        $this->lng->toJS("cont_ed_click_to_add_pg");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
+    }
+
+    protected function showEditLockInfo() : void
+    {
+        $info = $this->lng->txt("content_no_edit_lock");
+        $lock = $this->getPageObject()->getEditLockInfo();
+        $info .= "</br>" . $this->lng->txt("content_until") . ": " .
+            ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
+        $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
+            ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+
+        $back_link = $this->ui->factory()->link()->standard(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "finishEditing")
+        );
+
+        $mbox = $this->ui->factory()->messageBox()->info($info)
+            ->withLinks([$back_link]);
+        $rendered_mbox = $this->ui->renderer()->render($mbox);
+
+        if (!$this->ctrl->isAsynch()) {
+            $this->tpl->setContent($rendered_mbox);
+        } else {
+            echo $rendered_mbox;
+            exit;
+        }
     }
 
     public function edit() : string
@@ -2394,7 +2430,7 @@ class ilPageObjectGUI
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
 
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "fullscreen";
         $params = array('mode' => $mode, 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
@@ -2408,9 +2444,9 @@ class ilPageObjectGUI
     /**
     * display validation error
     *
-    * @param	string		$a_error		error string
+    * @param	string|array		$a_error		error string
     */
-    public function displayValidationError($a_error)
+    public function displayValidationError($a_error) : void
     {
         if (is_array($a_error)) {
             $error_str = "<b>Error(s):</b><br>";
@@ -2751,7 +2787,7 @@ class ilPageObjectGUI
                 );
             }
             $this->getPageObject()->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editActivation");
         }
         $this->form->setValuesByPost();
@@ -2877,7 +2913,7 @@ class ilPageObjectGUI
             $this->request->getString("opened_content_ajax_target")
         );
         
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"));
         $this->ctrl->redirect($this, "edit");
     }
     
@@ -2952,7 +2988,7 @@ class ilPageObjectGUI
     public function releasePageLock() : void
     {
         $this->getPageObject()->releasePageLock();
-        ilUtil::sendSuccess($this->lng->txt("cont_page_lock_released"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_page_lock_released"), true);
         $this->finishEditing();
     }
 
@@ -2976,7 +3012,7 @@ class ilPageObjectGUI
     /**
      * Add resources to template
      */
-    protected function addResourcesToTemplate(ilGlobalTemplateInterface $tpl)
+    protected function addResourcesToTemplate(ilGlobalTemplateInterface $tpl) : void
     {
         $collector = new \ILIAS\COPage\ResourcesCollector($this->getOutputMode(), $this->getPageObject());
 

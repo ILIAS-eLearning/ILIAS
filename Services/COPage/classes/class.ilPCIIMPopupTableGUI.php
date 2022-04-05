@@ -54,9 +54,9 @@ class ilPCIIMPopupTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_content_popups"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TID", $a_set["hier_id"] . ":" . $a_set["pc_id"]);
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
     }
 }

@@ -41,6 +41,7 @@ abstract class ilExplorerBaseGUI
     protected string $search_term = "";
     protected array $open_nodes = [];
     protected ilSessionIStorage $store;
+    protected bool $select_multi = false;
 
     /**
      * @var string|object|array
@@ -72,7 +73,7 @@ abstract class ilExplorerBaseGUI
         // get open nodes
         $this->store = new ilSessionIStorage("expl2");
         $open_nodes = $this->store->get("on_" . $this->id);
-        $this->open_nodes = unserialize($open_nodes) ?: [];
+        $this->open_nodes = unserialize($open_nodes, ['allowed_classes' => false]) ?: [];
         if (!is_array($this->open_nodes)) {
             $this->open_nodes = array();
         }
@@ -129,8 +130,8 @@ abstract class ilExplorerBaseGUI
 
     public static function createHTMLExportDirs(string $a_target_dir) : void
     {
-        ilUtil::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/lib/jstree-v.pre1.0");
-        ilUtil::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/js");
+        ilFileUtils::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/lib/jstree-v.pre1.0");
+        ilFileUtils::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/js");
     }
 
 
@@ -251,7 +252,7 @@ abstract class ilExplorerBaseGUI
      */
     public function getNodeOnClick($a_node) : string
     {
-        if ($this->select_postvar != "") {
+        if ($this->select_postvar !== "") {
             return $this->getSelectOnClick($a_node);
         }
         return "";
@@ -420,8 +421,8 @@ abstract class ilExplorerBaseGUI
      */
     public function handleCommand() : bool
     {
-        if ($this->requested_exp_cmd != "" &&
-            $this->requested_exp_cont == $this->getContainerId()) {
+        if ($this->requested_exp_cmd !== "" &&
+            $this->requested_exp_cont === $this->getContainerId()) {
             $cmd = $this->requested_exp_cmd;
             if (in_array($cmd, array("openNode", "closeNode", "getNodeAsync"))) {
                 $this->$cmd();
@@ -478,7 +479,7 @@ abstract class ilExplorerBaseGUI
             $this->open_nodes[] = $root;
         }
 
-        if ($this->requested_node_id != "") {
+        if ($this->requested_node_id !== "") {
             $id = $this->getNodeIdForDomNodeId($this->requested_node_id);
             $this->setSearchTerm(ilUtil::stripSlashes($this->requested_searchterm));
             $this->renderChilds($id, $etpl);
@@ -567,7 +568,11 @@ abstract class ilExplorerBaseGUI
             "html_data" => array()
         );
 
-        return 'il.Explorer2.init(' . json_encode($config) . ', ' . json_encode($js_tree_config) . ');';
+        return (
+            'il.Explorer2.init(' .
+            json_encode($config, JSON_THROW_ON_ERROR) . ', ' .
+            json_encode($js_tree_config, JSON_THROW_ON_ERROR) . ');'
+        );
     }
 
     protected function getJSTreePlugins() : array
@@ -585,11 +590,7 @@ abstract class ilExplorerBaseGUI
     {
         global $DIC;
 
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
+        $tpl = $a_main_tpl ?? $DIC["tpl"];
 
         iljQueryUtil::initjQuery($tpl);
 
@@ -674,7 +675,7 @@ abstract class ilExplorerBaseGUI
             $this->listItemStart($tpl, $a_node);
 
             // select mode?
-            if ($this->select_postvar != "" && $this->isNodeSelectable($a_node)) {
+            if ($this->select_postvar !== "" && $this->isNodeSelectable($a_node)) {
                 if ($this->select_multi) {
                     $tpl->setCurrentBlock("cb");
                     if (in_array($this->getNodeId($a_node), $this->selected_nodes)) {
@@ -698,7 +699,7 @@ abstract class ilExplorerBaseGUI
                 $tpl->touchBlock("hl");
             }
             $tpl->setCurrentBlock("content");
-            if ($this->getNodeIcon($a_node) != "") {
+            if ($this->getNodeIcon($a_node) !== "") {
                 $tpl->setVariable("ICON", ilUtil::img($this->getNodeIcon($a_node), $this->getNodeIconAlt($a_node)) . " ");
             }
             $tpl->setVariable("CONTENT", $this->getNodeContent($a_node));
@@ -706,7 +707,7 @@ abstract class ilExplorerBaseGUI
                 $tpl->setVariable("HREF", $this->getNodeHref($a_node));
             }
             $target = $this->getNodeTarget($a_node);
-            if ($target != "") {
+            if ($target !== "") {
                 $targetRelatedParams = array(
                     'target="' . $target . '"'
                 );
@@ -722,7 +723,7 @@ abstract class ilExplorerBaseGUI
                 $tpl->setVariable("A_CLASS", 'class="disabled"');
             } else {
                 $onclick = $this->getNodeOnClick($a_node);
-                if ($onclick != "") {
+                if ($onclick !== "") {
                     $tpl->setVariable("ONCLICK", 'onclick="' . $onclick . '"');
                 }
             }
@@ -750,7 +751,7 @@ abstract class ilExplorerBaseGUI
         $childs = $this->getChildsOfNode($a_node_id);
         $childs = $this->sortChilds($childs, $a_node_id);
 
-        if (count($childs) > 0 || ($this->getSearchTerm() != "" && $this->requested_node_id == $this->getDomNodeIdForNodeId($a_node_id))) {
+        if (count($childs) > 0 || ($this->getSearchTerm() !== "" && $this->requested_node_id === $this->getDomNodeIdForNodeId($a_node_id))) {
             // collect visible childs
 
             $visible_childs = [];
@@ -769,15 +770,14 @@ abstract class ilExplorerBaseGUI
 
             // search field, if too many childs
             $any = false;
-            if ($this->getChildLimit() > 0 && $this->getChildLimit() < $cnt_child
-                || ($this->getSearchTerm() != "")) {
+            if (($this->getChildLimit() > 0 && $this->getChildLimit() < $cnt_child) || $this->getSearchTerm() !== "") {
                 if (!$any) {
                     $this->listStart($tpl);
                     $any = true;
                 }
                 $tpl->setCurrentBlock("list_search");
                 $tpl->setVariable("SEARCH_CONTAINER_ID", $a_node_id);
-                if ($this->requested_node_id == $this->getDomNodeIdForNodeId($a_node_id)) {
+                if ($this->requested_node_id === $this->getDomNodeIdForNodeId($a_node_id)) {
                     $tpl->setVariable("SEARCH_VAL", $this->getSearchTerm());
                 }
                 $tpl->parseCurrentBlock();

@@ -1,10 +1,19 @@
-<?php
+<?php declare(strict_types = 1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
- * Class ilWebDAVMountInstructions
- *
- * This class creates the page and links for the WebDAV mount instruction page
- *
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
  */
@@ -20,11 +29,9 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     protected $clientOSFlavor;
     protected $clientOS;
     
-    protected $settings;
-    
-    protected $ref_id;
-    protected $obj_id;
-    protected $obj_title;
+    protected int $ref_id;
+    protected int $obj_id;
+    protected string $obj_title;
 
     protected $document_repository;
     protected $uri_provider;
@@ -48,7 +55,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array
     {
         foreach ($mount_instructions as $title => $mount_instruction) {
-            $mount_instruction = str_replace("[WEBFOLDER_ID]", $this->ref_id, $mount_instruction);
+            $mount_instruction = str_replace("[WEBFOLDER_ID]", (string) $this->ref_id, $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_TITLE]", $this->obj_title, $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_URI]", $this->uri_builder->getWebDavDefaultUri($this->ref_id), $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_URI_KONQUEROR]", $this->uri_builder->getWebDavKonquerorUri($this->ref_id), $mount_instruction);

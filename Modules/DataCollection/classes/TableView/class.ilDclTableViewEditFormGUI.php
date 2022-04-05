@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclTableViewEditFormGUI
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
@@ -21,7 +20,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
      */
     protected $parent_gui;
 
-
     public function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
     {
         global $DIC;
@@ -36,7 +34,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->ctrl->saveParameterByClass('ilDclTableViewGUI', 'tableview_id');
         $this->initForm();
     }
-
 
     protected function initForm()
     {
@@ -77,7 +74,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
-
     public function updateTableView()
     {
         $this->tableview->setTitle($this->getInput('title'));
@@ -85,9 +81,8 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->tableview->setRoles((array) $this->getInput('roles'));
         $this->tableview->update();
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->global_tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
     }
-
 
     public function createTableView()
     {
@@ -105,6 +100,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
 
         $this->ctrl->setParameterByClass('ilDclTableViewGUI', 'tableview_id', $this->tableview->getId());
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
+        $this->global_tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_created'), true);
     }
 }

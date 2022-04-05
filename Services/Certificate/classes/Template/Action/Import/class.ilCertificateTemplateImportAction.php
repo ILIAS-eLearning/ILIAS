@@ -83,7 +83,7 @@ class ilCertificateTemplateImportAction
      * @throws FileNotFoundException
      * @throws IOException
      * @throws ilDatabaseException
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function import(
         string $zipFile,
@@ -138,7 +138,7 @@ class ilCertificateTemplateImportAction
         $xsl = $certificate->getCertificateContent();
 
         foreach ($directoryInformation as $file) {
-            if (strcmp($file['type'], 'file') == 0) {
+            if (strcmp($file['type'], 'file') === 0) {
                 $filePath = $importPath . $subDirectoryName . $file['entry'];
                 if (strpos($file['entry'], '.xml') !== false) {
                     $xsl = $this->filesystem->read($filePath);
@@ -177,7 +177,7 @@ class ilCertificateTemplateImportAction
                         $originalImagePath,
                         $thumbnailImagePath,
                         'JPEG',
-                        (string) 100
+                        "100"
                     );
                 } elseif (strpos($file['entry'], '.svg') !== false) {
                     $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';

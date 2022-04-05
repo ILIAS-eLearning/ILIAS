@@ -1,57 +1,41 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Class ilOpenIdConnectSettingsGUI
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilOpenIdConnectUserSync
 {
     const AUTH_MODE = 'oidc';
 
-    /**
-     * @var ilOpenIdConnectSettings
-     */
-    protected $settings;
+    protected ilOpenIdConnectSettings $settings;
 
-    /**
-     * @var \ilLogger
-     */
-    protected $logger;
+    protected ilLogger $logger;
 
-    /**
-     * @var \ilXmlWriter
-     */
-    private $writer;
-    /**
-     * @var array
-     */
-    private $user_info = [];
+    private ilXmlWriter $writer;
 
-    /**
-     * @var string
-     */
-    private $ext_account = '';
+    private array $user_info = [];
 
+    private string $ext_account = '';
 
-    /**
-     * @var string
-     */
-    private $int_account = '';
+    private string $int_account = '';
 
-    /**
-     * @var int
-     */
-    private $usr_id = 0;
+    private int $usr_id = 0;
 
-
-    /**
-     * ilOpenIdConnectUserSync constructor.
-     * @param ilOpenIdConnectSettings $settings
-     */
-    public function __construct(\ilOpenIdConnectSettings $settings, $user_info)
+    public function __construct(\ilOpenIdConnectSettings $settings, array $user_info)
     {
         global $DIC;
 
@@ -63,34 +47,22 @@ class ilOpenIdConnectUserSync
         $this->user_info = $user_info;
     }
 
-    /**
-     * @param string $ext_account
-     */
-    public function setExternalAccount(string $ext_account)
+    public function setExternalAccount(string $ext_account) : void
     {
         $this->ext_account = $ext_account;
     }
 
-    /**
-     * @param string $int_account
-     */
-    public function setInternalAccount(string $int_account)
+    public function setInternalAccount(string $int_account) : void
     {
         $this->int_account = $int_account;
         $this->usr_id = ilObjUser::_lookupId($this->int_account);
     }
 
-    /**
-     * @return int
-     */
     public function getUserId() : int
     {
         return $this->usr_id;
     }
 
-    /**
-     * @return bool
-     */
     public function needsCreation() : bool
     {
         $this->logger->dump($this->int_account, \ilLogLevel::DEBUG);
@@ -98,10 +70,9 @@ class ilOpenIdConnectUserSync
     }
 
     /**
-     * @return bool
      * @throws ilOpenIdConnectSyncForbiddenException
      */
-    public function updateUser()
+    public function updateUser() : bool
     {
         if ($this->needsCreation() && !$this->settings->isSyncAllowed()) {
             throw new ilOpenIdConnectSyncForbiddenException('No internal account given.');
@@ -132,7 +103,7 @@ class ilOpenIdConnectUserSync
     /**
      * transform user data to xml
      */
-    protected function transformToXml()
+    protected function transformToXml() : void
     {
         $this->writer->xmlStartTag('Users');
 
@@ -289,10 +260,6 @@ class ilOpenIdConnectUserSync
         return $roles_assignable;
     }
 
-
-    /**
-     * @param string $connect_name
-     */
     protected function valueFrom(string $connect_name) : string
     {
         if (!$connect_name) {

@@ -42,7 +42,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
     public function getIntroductionHtml() : string
     {
         $tpl = new ilTemplate('tpl.dashboard_intro.html', true, true, 'Services/Dashboard');
-        $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon('', 'big', 'pd'));
+        $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon(0, 'big', 'pd'));
         $tpl->setVariable('TXT_WELCOME', $this->lng->txt('pdesk_intro'));
 
         $tpl->setVariable('TXT_INTRO_2', sprintf(

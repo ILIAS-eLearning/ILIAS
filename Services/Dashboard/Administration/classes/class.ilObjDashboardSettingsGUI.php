@@ -182,7 +182,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
 
 
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
     
@@ -342,7 +342,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $form_data['presentation']['avail_pres'] ?: []
         );
 
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ctrl->redirect($this, $redirect_cmd);
     }
 }

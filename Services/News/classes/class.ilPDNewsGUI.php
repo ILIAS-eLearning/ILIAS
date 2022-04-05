@@ -79,9 +79,6 @@ class ilPDNewsGUI
     public function displayHeader() : void
     {
         $this->tpl->setTitle($this->lng->txt("news"));
-        
-        // display infopanel if something happened
-        ilUtil::infoPanel();
     }
 
     public function view() : void

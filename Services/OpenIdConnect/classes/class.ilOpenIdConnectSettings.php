@@ -1,13 +1,24 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Class ilOpenIdConnectSettingsGUI
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- *
  */
+use ILIAS\Filesystem\Filesystem;
+
 class ilOpenIdConnectSettings
 {
     const FILE_STORAGE = 'openidconnect/login_form_image';
@@ -23,119 +34,48 @@ class ilOpenIdConnectSettings
     const LOGOUT_SCOPE_GLOBAL = 0;
     const LOGOUT_SCOPE_LOCAL = 1;
 
-    /**
-     * @var \ilOpenIdConnectSettings
-     *
-     */
-    private static $instance = null;
+    private static ?ilOpenIdConnectSettings $instance = null;
 
+    private ilSetting $storage;
 
-    /**
-     * @var \ilSetting
-     */
-    private $storage = null;
+    private Filesystem $filesystem;
 
-    /**
-     * @var \ILIAS\Filesystem\
-     */
-    private $filesystem = null;
+    private bool $active = false;
 
+    private string $provider = '';
 
-    /**
-     * @var bool
-     */
-    private $active = false;
+    private string $client_id = '';
 
-    /**
-     * @var string
-     */
-    private $provider = '';
+    private string $secret = '';
 
-    /**
-     * @var string
-     */
-    private $client_id = '';
+    private int $login_element_type = self::LOGIN_ELEMENT_TYPE_TXT;
 
-    /**
-     * @var string
-     */
-    private $secret = '';
+    private ?string $login_element_img_name = null;
 
-    /**
-     * @var int
-     */
-    private $login_element_type = self::LOGIN_ELEMENT_TYPE_TXT;
+    private ?string $login_element_text = null;
 
-    /**
-     * @var string
-     */
-    private $login_element_img_name;
+    private int $login_prompt_type = self::LOGIN_ENFORCE;
 
-    /**
-     * @var string
-     */
-    private $login_element_text;
+    private ?int $logout_scope = null;
 
-    /**
-     * @var int
-     */
-    private $login_prompt_type = self::LOGIN_ENFORCE;
+    private bool $custom_session = false;
 
+    private int $session_duration = 60;
 
-    /**
-     * @var int
-     */
-    private $logout_scope;
+    private ?bool $allow_sync;
 
-    /**
-     * @var bool
-     */
-    private $custom_session = false;
+    private ?int $role;
 
-    /**
-     * @var int
-     */
-    private $session_duration = 60;
+    private string $uid = '';
 
-    /**
-     * @var bool
-     */
-    private $allow_sync;
+    private array $profile_map = [];
 
-    /**
-     * @var int
-     */
-    private $role;
+    private array $profile_update_map = [];
 
-    /**
-     * @var string
-     */
-    private $uid = '';
+    private array $role_mappings = [];
 
-    /**
-     * @var array
-     */
-    private $profile_map = [];
+    private array $additional_scopes = [];
 
-    /**
-     * @var array
-     */
-    private $profile_update_map = [];
-
-    /**
-     * @var array
-     */
-    private $role_mappings = [];
-
-    /**
-     * @var array
-     */
-    private $additional_scopes = [];
-
-
-    /**
-     * ilOpenIdConnectSettings constructor.
-     */
     private function __construct()
     {
         global $DIC;
@@ -147,7 +87,6 @@ class ilOpenIdConnectSettings
 
     /**
      * Get singleton instance
-     * @return \ilOpenIdConnectSettings
      */
     public static function getInstance() : \ilOpenIdConnectSettings
     {
@@ -160,7 +99,7 @@ class ilOpenIdConnectSettings
     /**
      * @param bool $active
      */
-    public function setActive(bool $active)
+    public function setActive(bool $active) : void
     {
         $this->active = $active;
     }
@@ -176,7 +115,7 @@ class ilOpenIdConnectSettings
     /**
      * @param string $url
      */
-    public function setProvider(string $url)
+    public function setProvider(string $url) : void
     {
         $this->provider = $url;
     }
@@ -192,7 +131,7 @@ class ilOpenIdConnectSettings
     /**
      * @param string $client_id
      */
-    public function setClientId(string $client_id)
+    public function setClientId(string $client_id) : void
     {
         $this->client_id = $client_id;
     }
@@ -208,7 +147,7 @@ class ilOpenIdConnectSettings
     /**
      * @param string $secret
      */
-    public function setSecret(string $secret)
+    public function setSecret(string $secret) : void
     {
         $this->secret = $secret;
     }
@@ -224,7 +163,7 @@ class ilOpenIdConnectSettings
     /**
      * Set login element type
      */
-    public function setLoginElementType(int $type)
+    public function setLoginElementType(int $type) : void
     {
         $this->login_element_type = $type;
     }
@@ -240,7 +179,7 @@ class ilOpenIdConnectSettings
     /**
      * @param string $a_img_name
      */
-    public function setLoginElementImage(string $a_img_name)
+    public function setLoginElementImage(string $a_img_name) : void
     {
         $this->login_element_img_name = $a_img_name;
     }
@@ -253,7 +192,7 @@ class ilOpenIdConnectSettings
         return $this->login_element_img_name;
     }
 
-    public function setLoginElementText(string $text)
+    public function setLoginElementText(string $text) : void
     {
         $this->login_element_text = $text;
     }
@@ -267,7 +206,7 @@ class ilOpenIdConnectSettings
     /**
      * @param int $a_type
      */
-    public function setLoginPromptType(int $a_type)
+    public function setLoginPromptType(int $a_type) : void
     {
         $this->login_prompt_type = $a_type;
     }
@@ -283,7 +222,7 @@ class ilOpenIdConnectSettings
     /**
      * @param int $a_scope
      */
-    public function setLogoutScope(int $a_scope)
+    public function setLogoutScope(int $a_scope) : void
     {
         $this->logout_scope = $a_scope;
     }
@@ -299,7 +238,7 @@ class ilOpenIdConnectSettings
     /**
      * @param bool $a_stat
      */
-    public function useCustomSession(bool $a_stat)
+    public function useCustomSession(bool $a_stat) : void
     {
         $this->custom_session = $a_stat;
     }
@@ -315,7 +254,7 @@ class ilOpenIdConnectSettings
     /**
      * @param int $a_duration
      */
-    public function setSessionDuration(int $a_duration)
+    public function setSessionDuration(int $a_duration) : void
     {
         $this->session_duration = $a_duration;
     }
@@ -339,7 +278,7 @@ class ilOpenIdConnectSettings
     /**
      * @param bool $a_stat
      */
-    public function allowSync(bool $a_stat)
+    public function allowSync(bool $a_stat) : void
     {
         $this->allow_sync = $a_stat;
     }
@@ -347,7 +286,7 @@ class ilOpenIdConnectSettings
     /**
      * @param int $role
      */
-    public function setRole(int $role)
+    public function setRole(int $role) : void
     {
         $this->role = $role;
     }
@@ -363,7 +302,7 @@ class ilOpenIdConnectSettings
     /**
      * @param string $field
      */
-    public function setUidField(string $field)
+    public function setUidField(string $field) : void
     {
         $this->uid = $field;
     }
@@ -387,7 +326,7 @@ class ilOpenIdConnectSettings
     /**
      * @param array $additional_scopes
      */
-    public function setAdditionalScopes(array $additional_scopes)
+    public function setAdditionalScopes(array $additional_scopes) : void
     {
         $this->additional_scopes = $additional_scopes;
     }
@@ -409,7 +348,7 @@ class ilOpenIdConnectSettings
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function deleteImageFile()
+    public function deleteImageFile() : void
     {
         if ($this->filesystem->has(self::FILE_STORAGE . '/' . $this->getLoginElementImage())) {
             $this->filesystem->delete(self::FILE_STORAGE . '/' . $this->getLoginElementImage());
@@ -434,7 +373,7 @@ class ilOpenIdConnectSettings
         return implode(
             '/',
             [
-                \ilUtil::getWebspaceDir(),
+                ilFileUtils::getWebspaceDir(),
                 self::FILE_STORAGE . '/' . $this->getLoginElementImage()
             ]
         );
@@ -443,7 +382,7 @@ class ilOpenIdConnectSettings
     /**
      * @param array $a_role_mappings
      */
-    public function setRoleMappings(array $a_role_mappings)
+    public function setRoleMappings(array $a_role_mappings) : void
     {
         $this->role_mappings = $a_role_mappings;
     }
@@ -456,10 +395,6 @@ class ilOpenIdConnectSettings
         return (array) $this->role_mappings;
     }
 
-    /**
-     * @param $a_role_id
-     * @return string
-     */
     public function getRoleMappingValueForId($a_role_id) : string
     {
         if (
@@ -471,10 +406,6 @@ class ilOpenIdConnectSettings
         return '';
     }
 
-    /**
-     * @param $a_role_id
-     * @return string
-     */
     public function getRoleMappingUpdateForId($a_role_id) : bool
     {
         if (
@@ -483,10 +414,10 @@ class ilOpenIdConnectSettings
         ) {
             return (bool) $this->role_mappings[$a_role_id]['update'];
         }
-        return '';
+        return false;
     }
 
-    public function validateScopes(string $provider, array $custom_scopes)
+    public function validateScopes(string $provider, array $custom_scopes) : array
     {
         try {
             $curl = new ilCurlConnection($provider . '/.well-known/openid-configuration');
@@ -518,7 +449,7 @@ class ilOpenIdConnectSettings
     /**
      * Save in settings
      */
-    public function save()
+    public function save() : void
     {
         $this->storage->set('active', (int) $this->getActive());
         $this->storage->set('provider', $this->getProvider());
@@ -546,14 +477,14 @@ class ilOpenIdConnectSettings
     /**
      * Load from settings
      */
-    protected function load()
+    protected function load() : void
     {
         foreach ($this->getProfileMappingFields() as $field => $lang_key) {
             $this->profile_map[$field] = (string) $this->storage->get('pmap_' . $field, '');
             $this->profile_update_map[$field] = (bool) $this->storage->get('pumap_' . $field, '');
         }
 
-        $this->setActive((bool) $this->storage->get('active', 0));
+        $this->setActive((bool) $this->storage->get('active', (string) 0));
         $this->setProvider($this->storage->get('provider', ''));
         $this->setClientId($this->storage->get('client_id', ''));
         $this->setSecret($this->storage->get('secret', ''));
@@ -561,55 +492,36 @@ class ilOpenIdConnectSettings
         $this->setLoginElementImage($this->storage->get('le_img', ''));
         $this->setLoginElementText((string) $this->storage->get('le_text'));
         $this->setLoginElementType((int) $this->storage->get('le_type'));
-        $this->setLoginPromptType((int) $this->storage->get('prompt_type', self::LOGIN_ENFORCE));
-        $this->setLogoutScope((int) $this->storage->get('logout_scope', self::LOGOUT_SCOPE_GLOBAL));
-        $this->useCustomSession((bool) $this->storage->get('custom_session'), false);
-        $this->setSessionDuration((int) $this->storage->get('session_duration', 60));
-        $this->allowSync((bool) $this->storage->get('allow_sync'), false);
-        $this->setRole((int) $this->storage->get('role'), 0);
+        $this->setLoginPromptType((int) $this->storage->get('prompt_type', (string) self::LOGIN_ENFORCE));
+        $this->setLogoutScope((int) $this->storage->get('logout_scope', (string) self::LOGOUT_SCOPE_GLOBAL));
+        $this->useCustomSession((bool) $this->storage->get('custom_session'), (string) false);
+        $this->setSessionDuration((int) $this->storage->get('session_duration', (string) 60));
+        $this->allowSync((bool) $this->storage->get('allow_sync'), (string) false);
+        $this->setRole((int) $this->storage->get('role'), (string) 0);
         $this->setUidField((string) $this->storage->get('uid'), '');
         $this->setRoleMappings((array) unserialize($this->storage->get('role_mappings', serialize([]))));
     }
 
-    /**
-     * @param string $field
-     */
     public function getProfileMappingFieldValue(string $field) : string
     {
         return (string) $this->profile_map[$field];
     }
 
-    /**
-     * @param string $field
-     * @param string $value
-     */
-    public function setProfileMappingFieldValue(string $field, string $value)
+    public function setProfileMappingFieldValue(string $field, string $value) : void
     {
         $this->profile_map[$field] = $value;
     }
 
-    /**
-     * @param string $value
-     * @return bool
-     */
     public function getProfileMappingFieldUpdate(string $field) : bool
     {
         return (bool) $this->profile_update_map[$field];
     }
 
-    /**
-     * @param string $field
-     * @param bool $value
-     */
-    public function setProfileMappingFieldUpdate(string $field, bool $value)
+    public function setProfileMappingFieldUpdate(string $field, bool $value) : void
     {
         $this->profile_update_map[$field] = $value;
     }
 
-
-    /**
-     * @return array
-     */
     public function getProfileMappingFields() : array
     {
         return [

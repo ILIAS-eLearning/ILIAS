@@ -53,13 +53,6 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         parent::__construct($questionGUI);
     }
     
-    /**
-     * Execute Command
-     *
-     * @access	public
-     * @global	ilCtrl	$ilCtrl
-     * @return	mixed
-     */
     public function executeCommand()
     {
         global $DIC;
@@ -85,6 +78,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
                 return $this->$cmd();
                 break;
         }
+        return '';
     }
     
     /**
@@ -168,7 +162,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         // form input: hint text
         
         $nonEditableHintText = new ilNonEditableValueGUI($lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text', true);
-        $nonEditableHintText->setValue(ilUtil::prepareTextareaOutput($questionHint->getText(), true));
+        $nonEditableHintText->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($questionHint->getText(), true));
         $form->addItem($nonEditableHintText);
         
         // form input: hint points
@@ -301,7 +295,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         }
     }
     
-    private function isQuestionPreview()
+    private function isQuestionPreview() : bool
     {
         if ($this->questionHintTracking instanceof ilAssQuestionPreviewHintTracking) {
             return true;
@@ -318,7 +312,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @param boolean $xmlStyle
      * @return string $linkTarget
      */
-    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true)
+    public function getHintPresentationLinkTarget($hintId, $xmlStyle = true) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

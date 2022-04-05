@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +40,7 @@ class ilHierarchyFormGUI extends ilFormGUI
     protected object $parent_obj;
     protected string $parent_cmd = "";
     protected ilTree $tree;
-    protected string $currenttopnodeid = "";
+    protected int $currenttopnodeid = 0;
     protected string $title = "";
     protected string $checkboxname = "";
     protected string $dragicon = "";
@@ -56,7 +56,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -121,12 +120,12 @@ class ilHierarchyFormGUI extends ilFormGUI
         return $this->tree;
     }
 
-    public function setCurrentTopNodeId(string $a_currenttopnodeid) : void
+    public function setCurrentTopNodeId(int $a_currenttopnodeid) : void
     {
         $this->currenttopnodeid = $a_currenttopnodeid;
     }
 
-    public function getCurrentTopNodeId() : string
+    public function getCurrentTopNodeId() : int
     {
         return $this->currenttopnodeid;
     }
@@ -305,7 +304,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 
     protected static function _str($key) : string
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $w = $DIC->http()->wrapper();
@@ -374,7 +372,7 @@ class ilHierarchyFormGUI extends ilFormGUI
      * Get all childs of current node. Standard implementation uses
      * tree object.
      */
-    public function getChilds(?string $a_node_id = null) : array
+    public function getChilds(?int $a_node_id = null) : array
     {
         if ($a_node_id == null) {
             $a_node_id = $this->getCurrentTopNodeId();
@@ -613,8 +611,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 
         $childs = $this->getChilds($a_par_node["node_id"]);
         $a_childs = $childs;
-        $html = "";
-        $last_child = null;
         $ttpl = new ilTemplate("tpl.hierarchy_form_nodes.html", true, true, "Services/Form");
 
         // prepended drop area
@@ -681,9 +677,9 @@ class ilHierarchyFormGUI extends ilFormGUI
         
         // insert childs
         if (count($childs) > 0) {
-            for ($i = 0; $i < count($childs); $i++) {
+            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                 $next_sibling = ($i < (count($childs) - 1))
-                    ? $next_sibling = $childs[$i + 1]
+                    ? $childs[$i + 1]
                     : null;
 
                 $this->renderChild($ttpl, $childs[$i], $a_depth, $next_sibling);
@@ -746,7 +742,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         if (is_array($hl) && in_array($a_child["node_id"], $hl)) {
             $a_tpl->setVariable("CLASS", ' class="ilHFormHighlighted" ');
         }
-        $a_tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->getChildTitle($a_child)));
+        $a_tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->getChildTitle($a_child)));
         $a_tpl->setVariable("TNODE_ID", $a_child["node_id"]);
         $a_tpl->parseCurrentBlock();
         $grandchilds = [];

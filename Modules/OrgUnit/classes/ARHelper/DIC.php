@@ -2,9 +2,10 @@
 
 namespace ILIAS\Modules\OrgUnit\ARHelper;
 
+use ILIAS\HTTP\RawHTTPServices;
+
 /**
  * Class DIC
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 trait DIC
@@ -18,7 +19,6 @@ trait DIC
         return $GLOBALS['DIC'];
     }
 
-
     /**
      * @return \ilCtrl
      */
@@ -27,17 +27,14 @@ trait DIC
         return $this->dic()->ctrl();
     }
 
-
     /**
      * @param $variable
-     *
      * @return string
      */
     public function txt($variable)
     {
         return $this->lng()->txt($variable);
     }
-
 
     /**
      * @return \ilTemplate
@@ -47,7 +44,6 @@ trait DIC
         return $this->dic()->ui()->mainTemplate();
     }
 
-
     /**
      * @return \ilLanguage
      */
@@ -55,7 +51,6 @@ trait DIC
     {
         return $this->dic()->language();
     }
-
 
     /**
      * @return \ilTabsGUI
@@ -65,7 +60,6 @@ trait DIC
         return $this->dic()->tabs();
     }
 
-
     /**
      * @return \ILIAS\DI\UIServices
      */
@@ -73,7 +67,6 @@ trait DIC
     {
         return $this->dic()->ui();
     }
-
 
     /**
      * @return \ilObjUser
@@ -83,15 +76,13 @@ trait DIC
         return $this->dic()->user();
     }
 
-
     /**
-     * @return ILIAS\
+     * @return \ILIAS\HTTP\Services
      */
     protected function http()
     {
         return $this->dic()->http();
     }
-
 
     /**
      * @return \ilAccessHandler
@@ -101,7 +92,6 @@ trait DIC
         return $this->dic()->access();
     }
 
-
     /**
      * @return \ilToolbarGUI
      */
@@ -109,7 +99,6 @@ trait DIC
     {
         return $this->dic()->toolbar();
     }
-
 
     /**
      * @return \ilDB
@@ -129,10 +118,8 @@ trait DIC
         }
     }
 
-
     /**
      * @param $a_perm
-     *
      * @return bool
      */
     public function checkPermissionBoolAndReturn($a_perm)

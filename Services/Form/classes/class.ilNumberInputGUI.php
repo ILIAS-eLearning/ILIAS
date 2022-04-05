@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,7 +59,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $this->value = null;
             return;
         }
-        $this->value = (float) str_replace(',', '.', (string) $a_value);
+        $this->value = (float) str_replace(',', '.', $a_value);
         
         // integer
         if (!$this->areDecimalsAllowed()) {
@@ -71,7 +71,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $this->value = round($this->value, $this->getDecimals());
 
             // pad value to specified format
-            $this->value = number_format($this->value, $this->getDecimals(), ".", "");
+            $this->value = (float) number_format($this->value, $this->getDecimals(), ".", "");
         }
     }
 
@@ -256,9 +256,9 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 
         $tpl = new ilTemplate("tpl.prop_number.html", true, true, "Services/Form");
 
-        if (strlen($this->getValue())) {
+        if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_number_propval");
-            $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         $tpl->setCurrentBlock("prop_number");

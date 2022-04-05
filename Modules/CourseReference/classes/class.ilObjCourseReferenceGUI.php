@@ -22,16 +22,13 @@
 */
 
 include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGUI.php');
+
 /**
- *
- *
- * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @version      $Id$
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI, ilLearningProgressGUI
- *
- * @ingroup ModulesCourseReference
+ * @ingroup      ModulesCourseReference
  */
 class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
 {
@@ -49,14 +46,12 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
 
         $this->lng->loadLanguageModule('crs');
     }
-    
+
     /**
      * Execute command
-     *
      * @access public
-     *
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -80,10 +75,9 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
 
     /**
      * Add tabs
-     *
      * @access public
      */
-    protected function getTabs()
+    protected function getTabs() : void
     {
         global $DIC;
 
@@ -126,7 +120,6 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
         }
     }
 
-
     /**
      * @inheritdoc
      */
@@ -138,8 +131,8 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
             return $form;
         }
 
-        $path_info = \ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(), $this->object->getTargetRefId());
-
+        $path_info = \ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(),
+            $this->object->getTargetRefId());
 
         // nothing todo if no parent course is in path
         if (!$path_info->hasParentCourse()) {
@@ -166,7 +159,8 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
         $ok = true;
         $ok = parent::loadPropertiesFromSettingsForm($form);
 
-        $path_info = ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(), $this->object->getTargetRefId());
+        $path_info = ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(),
+            $this->object->getTargetRefId());
 
         $auto_update = $form->getInput('member_update');
         if ($auto_update && !$path_info->hasParentCourse()) {
@@ -184,10 +178,8 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
         return $ok;
     }
 
-
     /**
      * Support for goto php
-     *
      * @return void
      * @static
      */
@@ -202,7 +194,6 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
         $target_ref_id = $a_target;
         $write_access = $access->checkAccess('write', '', (int) $target_ref_id);
 
-
         if ($write_access) {
             $target_class = \ilObjCourseReferenceGUI::class;
         } else {
@@ -210,7 +201,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
             $target_class = \ilObjCourseGUI::class;
         }
 
-        $ctrl->initBaseClass(ilRepositoryGUI::class);
+        $ctrl->setTargetScript('ilias.php');
         $ctrl->setParameterByClass($target_class, 'ref_id', $target_ref_id);
         $ctrl->redirectByClass(
             [

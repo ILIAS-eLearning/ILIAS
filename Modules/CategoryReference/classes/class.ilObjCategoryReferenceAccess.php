@@ -34,7 +34,7 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands($a_ref_id = null)
+    public static function _getCommands($a_ref_id = null) : array
     {
         global $DIC;
 
@@ -44,7 +44,7 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
             // Only local (reference specific commands)
             $commands = array(
                 array("permission" => "visible", "cmd" => "", "lang_var" => "show","default" => true),
-                array("permission" => "write", "cmd" => "editReference", "lang_var" => "edit")
+                array("permission" => "write", "cmd" => "editReference", "lang_var" => "settings")
             );
         } else {
             $commands = ilObjCategoryAccess::_getCommands();

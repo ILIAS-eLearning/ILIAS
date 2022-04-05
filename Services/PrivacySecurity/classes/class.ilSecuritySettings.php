@@ -12,6 +12,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
+
 /**
  * Singleton class that stores all security settings
  * @author  Roland Küstermann <roland@kuestermann.com>
@@ -34,9 +35,10 @@ class ilSecuritySettings
     public const SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH = 10;
 
     private static ?self $instance = null;
-    private \ilDBInterface $db;
-    private \ilSetting $settings;
-    private \ilRbacReview $review;
+    private ilDBInterface $db;
+    private ilSetting $settings;
+    private ilRbacReview $review;
+    protected ilHTTPS $https;
 
     private bool $https_enable;
 
@@ -75,6 +77,7 @@ class ilSecuritySettings
         $this->db = $DIC->database();
         $this->settings = $DIC->settings();
         $this->review = $DIC->rbac()->review();
+        $this->https = $DIC['https'];
 
         $this->read();
     }
@@ -84,7 +87,7 @@ class ilSecuritySettings
      * @return ilSecuritySettings  instance
      * @access public
      */
-    public static function _getInstance() : \ilSecuritySettings
+    public static function _getInstance() : ilSecuritySettings
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self();
@@ -255,7 +258,7 @@ class ilSecuritySettings
      */
     public function save() : void
     {
-        $this->settings->set('https', (int) $this->isHTTPSEnabled());
+        $this->settings->set('https', (string) $this->isHTTPSEnabled());
 
         $this->settings->set('ps_password_chars_and_numbers_enabled', (string) $this->isPasswordCharsAndNumbersEnabled());
         $this->settings->set('ps_password_special_chars_enabled', (string) $this->isPasswordSpecialCharsEnabled());
@@ -274,8 +277,8 @@ class ilSecuritySettings
             'ps_password_change_on_first_login_enabled',
             (string) $this->isPasswordChangeOnFirstLoginEnabled()
         );
-        $this->settings->set('ps_prevent_simultaneous_logins', (int) $this->isPreventionOfSimultaneousLoginsEnabled());
-        $this->settings->set('ps_protect_admin', (int) $this->isAdminRoleProtected());
+        $this->settings->set('ps_prevent_simultaneous_logins', (string) $this->isPreventionOfSimultaneousLoginsEnabled());
+        $this->settings->set('ps_protect_admin', (string) $this->isAdminRoleProtected());
     }
 
     /**
@@ -335,14 +338,15 @@ class ilSecuritySettings
 
     /**
      * validate settings
-     * @return int 0, if everything is ok, an error code otherwise
+     * @param ilPropertyFormGUI|null $a_form
+     * @return int|null 0, if everything is ok, an error code otherwise
      */
-    public function validate(\ilPropertyFormGUI $a_form = null) : ?int
+    public function validate(ilPropertyFormGUI $a_form = null) : ?int
     {
         $code = null;
 
         if ($this->isHTTPSEnabled()) {
-            if (!ilHTTPS::_checkHTTPS()) {
+            if (!$this->https->checkHTTPS()) {
                 $code = ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE;
                 if (!$a_form) {
                     return $code;
@@ -418,7 +422,6 @@ class ilSecuritySettings
                        ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
             }
         }
-
         if ($this->getPasswordMaxAge() < 0) {
             $code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE;
             if (!$a_form) {
@@ -505,7 +508,7 @@ class ilSecuritySettings
      */
     public function setPasswordMustNotContainLoginnameStatus($status) : void
     {
-        $this->password_must_not_contain_loginname = $status;
+        $this->password_must_not_contain_loginname = (bool) $status;
     }
 
     /**

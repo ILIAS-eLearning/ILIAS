@@ -1,6 +1,17 @@
-<?php
-/* Copyright (c) 1998-20016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * TableGUI class for LTI consumer listing
  *
@@ -11,11 +22,13 @@
  */
 class ilObjectConsumerTableGUI extends ilTable2GUI
 {
-    protected $editable = true;
+    protected bool $editable = true;
+    protected \ILIAS\DI\Container $dic;
     
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
-        global $ilCtrl, $lng;
+        global $DIC;
+        $this->dic = $DIC;
 
         $this->setId("ltioconsumer");
 
@@ -23,18 +36,18 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 
         $this->setLimit(9999);
 
-        $this->setTitle($lng->txt("lti_object_consumer"));
+        $this->setTitle($DIC->language()->txt("lti_object_consumer"));
 
-        $this->addColumn($lng->txt("active"), "active");
-        $this->addColumn($lng->txt("title"), "title");
-        $this->addColumn($lng->txt("description"), "description");
-        $this->addColumn($lng->txt("prefix"), "prefix");
-        $this->addColumn($lng->txt("in_use"), "language");
-        $this->addColumn($lng->txt("objects"), "objects");
-        $this->addColumn($lng->txt("role"), "role");
-        $this->addColumn($lng->txt("actions"), "");
+        $this->addColumn($DIC->language()->txt("active"), "active");
+        $this->addColumn($DIC->language()->txt("title"), "title");
+        $this->addColumn($DIC->language()->txt("description"), "description");
+        $this->addColumn($DIC->language()->txt("prefix"), "prefix");
+        $this->addColumn($DIC->language()->txt("in_use"), "language");
+        $this->addColumn($DIC->language()->txt("objects"), "objects");
+        $this->addColumn($DIC->language()->txt("role"), "role");
+        $this->addColumn($DIC->language()->txt("actions"), "");
 
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.lti_consumer_list_row.html", "Services/LTI");
         $this->setDefaultOrderField("title");
 
@@ -44,9 +57,8 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Set editable. Depends on write access
      * => show/hide actions for consumers.
-     * @param bool $a_status
      */
-    public function setEditable($a_status)
+    public function setEditable(bool $a_status) : void
     {
         $this->editable = $a_status;
     }
@@ -54,7 +66,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Check if write permission given
      */
-    public function isEditable()
+    public function isEditable() : bool
     {
         return $this->editable;
     }
@@ -62,7 +74,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Get consumer data
      */
-    public function getItems()
+    public function getItems() : void
     {
         $dataConnector = new ilLTIDataConnector();
         
@@ -86,11 +98,9 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
-        global $lng, $ilCtrl;
-
-        $ilCtrl->setParameter($this->getParentObject(), "cid", $a_set["id"]);
+        $this->dic->ctrl()->setParameter($this->getParentObject(), "cid", $a_set["id"]);
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
@@ -98,7 +108,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_KEY", $a_set["key"]);
         $this->tpl->setVariable("TXT_SECRET", $a_set["secret"]);
         $this->tpl->setVariable("TXT_LANGUAGE", $a_set["language"]);
-        $obj_types = $this->parent_obj->object->getActiveObjectTypes($a_set["id"]);
+        $obj_types = ilObjLTIAdministration::getActiveObjectTypes($a_set["id"]);
         if ($obj_types) {
             foreach ($obj_types as $obj_type) {
                 $this->tpl->setCurrentBlock("objects");
@@ -117,23 +127,23 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         }
 
         if ($a_set["active"]) {
-            $this->tpl->setVariable("TXT_ACTIVE", $lng->txt('active'));
-            $label_status = $lng->txt("deactivate");
+            $this->tpl->setVariable("TXT_ACTIVE", $this->dic->language()->txt('active'));
+            $label_status = $this->dic->language()->txt("deactivate");
         } else {
-            $this->tpl->setVariable("TXT_ACTIVE", $lng->txt('inactive'));
-            $label_status = $lng->txt("activate");
+            $this->tpl->setVariable("TXT_ACTIVE", $this->dic->language()->txt('inactive'));
+            $label_status = $this->dic->language()->txt("activate");
         }
         
         if ($this->isEditable()) {
             $list = new ilAdvancedSelectionListGUI();
-            $list->setId($a_set["id"]);
-            $list->setListTitle($lng->txt("actions"));
+            $list->setId((string) $a_set["id"]);
+            $list->setListTitle($this->dic->language()->txt("actions"));
 
-            $edit_url = $ilCtrl->getLinkTarget($this->getParentObject(), "editConsumer");
-            $delete_url = $ilCtrl->getLinkTarget($this->getParentObject(), "deleteLTIConsumer");
-            $status_url = $ilCtrl->getLinkTarget($this->getParentObject(), "changeStatusLTIConsumer");
-            $list->addItem($lng->txt("edit"), "", $edit_url);
-            $list->addItem($lng->txt("delete"), "", $delete_url);
+            $edit_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "editConsumer");
+            $delete_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "deleteLTIConsumer");
+            $status_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "changeStatusLTIConsumer");
+            $list->addItem($this->dic->language()->txt("edit"), "", $edit_url);
+            $list->addItem($this->dic->language()->txt("delete"), "", $delete_url);
             $list->addItem($label_status, "", $status_url);
 
             $this->tpl->setVariable("ACTION", $list->getHTML());

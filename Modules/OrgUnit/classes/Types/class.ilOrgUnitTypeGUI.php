@@ -2,7 +2,6 @@
 
 /**
  * Class ilOrgUnitTypeGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -50,7 +49,6 @@ class ilOrgUnitTypeGUI
      */
     protected $parent_gui;
 
-
     /**
      * @param ilObjOrgUnitGUI $parent_gui
      */
@@ -82,7 +80,6 @@ class ilOrgUnitTypeGUI
         $this->lng->loadLanguageModule('meta');
         $this->checkAccess();
     }
-
 
     public function executeCommand()
     {
@@ -133,18 +130,16 @@ class ilOrgUnitTypeGUI
         }
     }
 
-
     /**
      * Check if user can edit types
      */
     protected function checkAccess()
     {
         if (!$this->access->checkAccess("write", "", $this->parent_gui->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui);
         }
     }
-
 
     /**
      * Add subtabs for editing type
@@ -153,14 +148,14 @@ class ilOrgUnitTypeGUI
     {
         $this->tabs->addSubTab('general', $this->lng->txt('meta_general'), $this->ctrl->getLinkTarget($this, 'edit'));
         if ($this->ilias->getSetting('custom_icons')) {
-            $this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'), $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
+            $this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'),
+                $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
         }
         if (count(ilOrgUnitType::getAvailableAdvancedMDRecordIds())) {
             $this->tabs->addSubTab('amd', $this->lng->txt('md_advanced'), $this->ctrl->getLinkTarget($this, 'editAMD'));
         }
         $this->tabs->setSubTabActive($active_tab_id);
     }
-
 
     /**
      * Display form for editing custom icons
@@ -171,7 +166,6 @@ class ilOrgUnitTypeGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
      * Save icon
      */
@@ -179,13 +173,12 @@ class ilOrgUnitTypeGUI
     {
         $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
         }
     }
-
 
     protected function editAMD()
     {
@@ -193,18 +186,16 @@ class ilOrgUnitTypeGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     protected function updateAMD()
     {
         $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
         }
     }
-
 
     /**
      * Display all types in a table with actions to edit/delete
@@ -220,7 +211,6 @@ class ilOrgUnitTypeGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-
     /**
      * Display form to create a new OrgUnit type
      */
@@ -229,7 +219,6 @@ class ilOrgUnitTypeGUI
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         $this->tpl->setContent($form->getHTML());
     }
-
 
     /**
      * Display form to edit an existing OrgUnit type
@@ -241,7 +230,6 @@ class ilOrgUnitTypeGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
      * Create (save) type
      */
@@ -249,13 +237,12 @@ class ilOrgUnitTypeGUI
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_created'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_created'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
         }
     }
-
 
     /**
      * Update (save) type
@@ -264,13 +251,12 @@ class ilOrgUnitTypeGUI
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
         }
     }
-
 
     /**
      * Delete a type
@@ -280,10 +266,10 @@ class ilOrgUnitTypeGUI
         $type = new ilOrgUnitType((int) $_GET['type_id']);
         try {
             $type->delete();
-            ilUtil::sendSuccess($this->lng->txt('orgu_type_msg_deleted'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('orgu_type_msg_deleted'), true);
             $this->ctrl->redirect($this);
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->ctrl->redirect($this);
         }
     }

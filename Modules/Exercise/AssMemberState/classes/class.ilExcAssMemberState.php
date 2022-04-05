@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Handles everything about the state (current phase) of a user in an assignment using
  * assignment, individual deadline, user and team information.
@@ -267,7 +281,7 @@ class ilExcAssMemberState
         if ($official_deadline - $this->time <= 0) {
             $time_str = $lng->txt("exc_time_over_short");
         } else {
-            $time_str = ilUtil::period2String(new ilDateTime($official_deadline, IL_CAL_UNIX));
+            $time_str = ilLegacyFormElementsUtil::period2String(new ilDateTime($official_deadline, IL_CAL_UNIX));
         }
 
         return $time_str;

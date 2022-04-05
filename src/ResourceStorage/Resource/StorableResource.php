@@ -7,33 +7,31 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface StorageResource
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface StorableResource
 {
-
-    /**
-     * @return ResourceIdentification
-     */
     public function getIdentification() : ResourceIdentification;
 
-    /**
-     * @return Revision
-     */
     public function getCurrentRevision() : Revision;
 
-    /**
-     * @param int $number
-     * @return Revision|null
-     */
     public function getSpecificRevision(int $number) : ?Revision;
 
-    /**
-     * @param int $number
-     * @return bool
-     */
     public function hasSpecificRevision(int $number) : bool;
 
     /**
@@ -46,48 +44,21 @@ interface StorableResource
      */
     public function getStakeholders() : array;
 
-    /**
-     * @param ResourceStakeholder $s
-     */
     public function addStakeholder(ResourceStakeholder $s) : void;
 
-    /**
-     * @param ResourceStakeholder $s
-     */
     public function removeStakeholder(ResourceStakeholder $s) : void;
 
-    /**
-     * @param Revision $revision
-     */
     public function addRevision(Revision $revision) : void;
 
-    /**
-     * @param Revision $revision
-     */
     public function removeRevision(Revision $revision) : void;
 
-    /**
-     * @param Revision $revision
-     */
     public function replaceRevision(Revision $revision) : void;
 
-    /**
-     * @param RevisionCollection $collection
-     */
     public function setRevisions(RevisionCollection $collection) : void;
 
-    /**
-     * @return string
-     */
     public function getStorageID() : string;
 
-    /**
-     * @param string $storage_id
-     */
     public function setStorageID(string $storage_id) : void;
 
-    /**
-     * @return int
-     */
     public function getMaxRevision() : int;
 }

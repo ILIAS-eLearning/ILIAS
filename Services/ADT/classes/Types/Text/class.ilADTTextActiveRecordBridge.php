@@ -25,12 +25,12 @@ class ilADTTextActiveRecordBridge extends ilADTActiveRecordBridge
         return array($field);
     }
 
-    public function getFieldValue(string $a_field_name) : mixed
+    public function getFieldValue(string $a_field_name)
     {
         return $this->getADT()->getText();
     }
 
-    public function setFieldValue(string $a_field_name, mixed $a_field_value) : void
+    public function setFieldValue(string $a_field_name, $a_field_value) : void
     {
         $this->getADT()->setText($a_field_value);
     }

@@ -20,7 +20,12 @@
  */
 abstract class ilPageConfig
 {
-    protected $int_link_def_id_is_ref = false;
+    // section protection
+    public const SEC_PROTECT_NONE = 0;          // page does not support section protection
+    public const SEC_PROTECT_EDITABLE = 1;      // current use can edit protected sections
+    public const SEC_PROTECT_PROTECTED = 2;     // current use cannot edit protected sections
+
+    protected bool $int_link_def_id_is_ref = false;
     protected ilLanguage $lng;
     protected array $int_link_filter = array("File", "PortfolioPage", "PortfolioTemplatePage");
     protected bool $prevent_rte_usage = false;
@@ -57,7 +62,9 @@ abstract class ilPageConfig
     protected string $page_obj_key = "";
     protected bool $link_filter_white_list = false;
     protected string $localization_lang = "";
-    
+    protected int $section_protection = self::SEC_PROTECT_NONE;
+    protected string $section_protection_info;
+
     final public function __construct()
     {
         global $DIC;
@@ -168,12 +175,7 @@ abstract class ilPageConfig
         $lng = $this->lng;
         
         $this->setLocalizationLanguage($lng->getLangKey());
-        if (is_array($a_val)) {
-            $this->int_link_filter =
-                array_merge($a_val, $this->int_link_filter);
-        } else {
-            $this->int_link_filter[] = $a_val;
-        }
+        $this->int_link_filter[] = $a_val;
     }
     
     public function removeIntLinkFilter(string $a_val) : void
@@ -437,5 +439,25 @@ abstract class ilPageConfig
     public function getUsePageContainer() : bool
     {
         return $this->use_page_container;
+    }
+
+    public function setSectionProtection(int $a_val) : void
+    {
+        $this->section_protection = $a_val;
+    }
+
+    public function getSectionProtection() : int
+    {
+        return $this->section_protection;
+    }
+
+    public function setSectionProtectionInfo(string $a_val) : void
+    {
+        $this->section_protection_info = $a_val;
+    }
+
+    public function getSectionProtectionInfo() : string
+    {
+        return $this->section_protection_info;
     }
 }

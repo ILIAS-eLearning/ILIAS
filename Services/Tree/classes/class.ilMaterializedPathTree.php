@@ -26,7 +26,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
         $this->tree = $a_tree;
         $this->db = $DIC->database();
-        $this->logger = $DIC->logger()->tree();
+        if (ilContext::getType() != "") {
+            $this->logger = $DIC->logger()->tree();
+        }
     }
 
     /**
@@ -49,7 +51,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
     /**
      * Get subtree ids
      * @param int $a_node_id
-     * @return array
+     * @return int[]
      */
     public function getSubTreeIds(int $a_node_id) : array
     {
@@ -68,7 +70,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         );
         $childs = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $childs[] = $row['child'];
+            $childs[] = (int) $row['child'];
         }
         return $childs;
     }
@@ -108,8 +110,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $type_str = '';
         if (is_array($a_types)) {
             if ($a_types) {
-                $type_str = "AND " . $this->db->in($this->getTree()->getObjectDataTable() . ".type", $a_types, false,
-                        "text");
+                $type_str = "AND " . $this->db->in(
+                    $this->getTree()->getObjectDataTable() . ".type",
+                    $a_types,
+                    false,
+                    "text"
+                );
             }
         }
 
@@ -156,8 +162,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $type_str = '';
         if (count($a_types)) {
             if ($a_types) {
-                $type_str = "AND " . $this->db->in($this->getTree()->getObjectDataTable() . ".type", $a_types, false,
-                        "text");
+                $type_str = "AND " . $this->db->in(
+                    $this->getTree()->getObjectDataTable() . ".type",
+                    $a_types,
+                    false,
+                    "text"
+                );
             }
         }
 
@@ -180,8 +190,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
             'BETWEEN ' .
             $this->db->quote($a_node['path'], 'text') . ' AND ' .
             $this->db->quote($a_node['path'] . '.Z', 'text') . ' ' .
-            'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote($this->getTree()->getTreeId(),
-                'integer') . ' ' .
+            'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
+                $this->getTree()->getTreeId(),
+                'integer'
+            ) . ' ' .
             $type_str . ' ' .
             'ORDER BY ' . $this->getTree()->getTreeTable() . '.path';
 
@@ -198,9 +210,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
             'WHERE child = ' . $this->db->quote($a_endnode, 'integer') . ' ';
         $res = $this->db->query($query);
 
-        $path = null;
+        $path = "";
         while ($row = $this->db->fetchAssoc($res)) {
-            $path = $row['path'];
+            $path = (string) $row['path'];
         }
 
         $pathIds = array_map('intval', explode('.', $path));
@@ -243,11 +255,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
             }
 
             $parentPath = $r->path;
-            $depth = $r->depth + 1;
+            $depth = (int) $r->depth + 1;
             $lft = 0;
             $rgt = 0;
 
-            $this->db->insert($this->getTree()->getTreeTable(),
+            $this->db->insert(
+                $this->getTree()->getTreeTable(),
                 array($this->getTree()->getTreePk() => array('integer', $this->getTree()->getTreeId()),
                       'child' => array('integer', $a_node_id),
                       'parent' => array('integer', $a_parent_id),
@@ -255,7 +268,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
                       'rgt' => array('integer', $rgt),
                       'depth' => array('integer', $depth),
                       'path' => array('text', $parentPath . "." . $a_node_id)
-                ));
+                )
+            );
         };
 
         // use ilAtomQuery to lock tables if tree is main tree
@@ -288,8 +302,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $query = 'DELETE FROM ' . $this->getTree()->getTreeTable() . ' ' .
                 'WHERE path BETWEEN ' . $this->db->quote($row['path'], 'text') . ' ' .
                 'AND ' . $this->db->quote($row['path'] . '.Z', 'text') . ' ' .
-                'AND ' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote($this->getTree()->getTreeId(),
-                    'integer');
+                'AND ' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
+                    $this->getTree()->getTreeId(),
+                    'integer'
+                );
             $this->db->manipulate($query);
         };
 
@@ -460,15 +476,17 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $db = $DIC->database();
 
         $q = ' UPDATE tree
-			SET path = CONCAT(COALESCE(' . $db->quote($parentPath, 'text') . ', \'\'), COALESCE( ' . $db->cast("child",
-                "text") . ' , \'\'))
+			SET path = CONCAT(COALESCE(' . $db->quote($parentPath, 'text') . ', \'\'), COALESCE( ' . $db->cast(
+            "child",
+            "text"
+        ) . ' , \'\'))
 			WHERE parent = %s';
         $r = $db->manipulateF($q, array('integer'), array($parent));
 
         $r = $db->queryF('SELECT child FROM tree WHERE parent = %s', array('integer'), array($parent));
 
         while ($row = $db->fetchAssoc($r)) {
-            self::createMaterializedPath($row['child'], $parentPath . $row['child'] . '.');
+            self::createMaterializedPath((int) $row['child'], (string) ($parentPath . $row['child'] . '.'));
         }
         return true;
     }
@@ -483,10 +501,14 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $treeClause1 = '';
             $treeClause2 = '';
         } else {
-            $treeClause1 = ' AND t1.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote($this->getTree()->getTreeId(),
-                    'integer');
-            $treeClause2 = ' AND t2.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote($this->getTree()->getTreeId(),
-                    'integer');
+            $treeClause1 = ' AND t1.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
+                $this->getTree()->getTreeId(),
+                'integer'
+            );
+            $treeClause2 = ' AND t2.' . $this->getTree()->getTreePk() . ' = ' . $this->db->quote(
+                $this->getTree()->getTreeId(),
+                'integer'
+            );
         }
 
         // first query for the path of the given node
@@ -499,7 +521,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $res = $this->db->query($query);
         $row = $this->db->fetchAssoc($res);
         if ($row[$this->getTree()->getTreePk()] == $this->getTree()->getTreeId()) {
-            $path = $row['path'];
+            $path = (string) $row['path'];
         } else {
             return [];
         }
@@ -509,8 +531,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
             "FROM " . $this->getTree()->getTreeTable() . " t2 " .
             "JOIN " . $this->getTree()->getTableReference() . " obr ON t2.child = obr.ref_id " .
             "JOIN " . $this->getTree()->getObjectDataTable() . " obd ON obr.obj_id = obd.obj_id " .
-            "WHERE t2.path BETWEEN " . $this->db->quote($path, 'text') . " AND " . $this->db->quote($path . '.Z',
-                'text') .
+            "WHERE t2.path BETWEEN " . $this->db->quote($path, 'text') . " AND " . $this->db->quote(
+                $path . '.Z',
+                'text'
+            ) .
             $treeClause2 . ' ' .
             "ORDER BY t2.path";
 
@@ -522,9 +546,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
                 continue;
             }
 
-            $nodes[$row['child']]['child'] = $row['child'];
-            $nodes[$row['child']]['type'] = $row['type'];
-            $nodes[$row['child']]['path'] = $row['path'];
+            $nodes[$row['child']]['child'] = (int) $row['child'];
+            $nodes[$row['child']]['type'] = (string) $row['type'];
+            $nodes[$row['child']]['path'] = (string) $row['path'];
         }
 
         $depth_first_compare = static function ($a, $b) {

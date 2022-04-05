@@ -1,50 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once './Services/Export/classes/class.ilXmlExporter.php';
-
 /**
-* Role Exporter
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesAccessControl
-*/
+ * Role Exporter
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAccessControl
+ */
 class ilAccessControlExporter extends ilXmlExporter
 {
-    private $writer = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-    
-    /**
-     * Init export
-     * @return void
-     */
     public function init() : void
     {
     }
-    
+
     /**
      * Get head dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @param string        entity
+     * @param string        target release
+     * @param array        ids
+     * @return        array        array of array with keys "component", entity", "ids"
      */
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
-        return array();
+        return [];
     }
-    
-    
+
     /**
      * Get xml
      * @param string $a_entity
@@ -57,21 +36,18 @@ class ilAccessControlExporter extends ilXmlExporter
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-        
-        include_once './Services/AccessControl/classes/class.ilRoleXmlExport.php';
+
         $writer = new ilRoleXmlExport();
-        
-        include_once './Services/Export/classes/class.ilExportOptions.php';
+
         $eo = ilExportOptions::getInstance();
         $eo->read();
-        
-        $rolf = $eo->getOptionByObjId($a_id, ilExportOptions::KEY_ROOT);
-        // @todo refactor rolf
+    
+        $rolf = $eo->getOptionByObjId((int) $a_id, ilExportOptions::KEY_ROOT);
         $writer->setRoles(array($a_id => $rolf));
         $writer->write();
         return $writer->xmlDumpMem(false);
     }
-    
+
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
@@ -86,7 +62,8 @@ class ilAccessControlExporter extends ilXmlExporter
                 "xsd_file" => "ilias_role_4_3.xsd",
                 "uses_dataset" => false,
                 "min" => "4.3.0",
-                "max" => "")
+                "max" => ""
+            )
         );
     }
 }

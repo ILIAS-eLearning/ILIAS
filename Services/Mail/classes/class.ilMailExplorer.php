@@ -15,17 +15,15 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailExplorer extends ilTreeExplorerGUI
 {
-    protected GlobalHttpState $http;
-    protected Refinery $refinery;
-    private ilMailGUI $parentObject;
-    protected int $currentFolderId = 0;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
+    private int $currentFolderId = 0;
 
     public function __construct(ilMailGUI $parentObject, int $userId)
     {
         global $DIC;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->parentObject = $parentObject;
 
         $this->tree = new ilTree($userId);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
@@ -41,7 +39,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
     protected function initFolder() : void
     {
-        $folderId = 0;
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
@@ -62,12 +59,10 @@ class ilMailExplorer extends ilTreeExplorerGUI
     {
         $f = $this->ui->factory();
 
-        $tree = $f->tree()
+        return $f->tree()
             ->expandable($this->getTreeLabel(), $this)
-            ->withData($this->tree->getChilds((int) $this->tree->readRootId()))
+            ->withData($this->tree->getChilds($this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
-
-        return $tree;
     }
 
     public function build(
@@ -75,9 +70,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $record,
         $environment = null
     ) : Node {
-        $node = parent::build($factory, $record, $environment);
-
-        return $node->withHighlighted($this->currentFolderId === (int) $record['child']);
+        return parent::build($factory, $record, $environment)->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
     protected function getNodeStateToggleCmdClasses($record) : array
@@ -98,6 +91,11 @@ class ilMailExplorer extends ilTreeExplorerGUI
         }
 
         return $content;
+    }
+
+    public function getNodeIconAlt($a_node) : string
+    {
+        return $this->getNodeContent($a_node);
     }
 
     public function getNodeIcon($a_node) : string

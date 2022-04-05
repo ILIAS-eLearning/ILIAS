@@ -1,15 +1,14 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Handles course mail placeholders
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @package ModulesCourse
  */
 class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {
-    const ID = 'crs_context_tutor_manual';
+    public const ID = 'crs_context_tutor_manual';
 
     /** @var array */
     protected static $periodInfoByObjIdCache = [];
@@ -67,12 +66,9 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         $lng->loadLanguageModule('trac');
 
         // tracking settings
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
         $tracking = new ilObjUserTracking();
 
-
         $placeholders = array();
-
 
         $placeholders['crs_title'] = array(
             'placeholder' => 'COURSE_TITLE',
@@ -117,7 +113,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 'label' => $lng->txt('trac_last_access')
             );
         }
-
 
         $placeholders['crs_link'] = array(
             'placeholder' => 'COURSE_LINK',
@@ -170,7 +165,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
             return '';
         }
 
-        $obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
+        $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
 
         $tracking = new ilObjUserTracking();
 
@@ -182,7 +177,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 return $ilObjDataCache->lookupTitle($obj_id);
 
             case 'crs_period_start':
-                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
                 if ($periodInfo) {
                     $useRelativeDates = ilDatePresentation::useRelativeDates();
                     ilDatePresentation::setUseRelativeDates(false);
@@ -195,7 +190,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 return '';
 
             case 'crs_period_end':
-                $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                $periodInfo = $this->getCachedPeriodByObjId($ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']));
                 if ($periodInfo) {
                     $useRelativeDates = ilDatePresentation::useRelativeDates();
                     ilDatePresentation::setUseRelativeDates(false);

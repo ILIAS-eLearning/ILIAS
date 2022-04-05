@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Exercise Administration Settings
  *
@@ -12,7 +26,7 @@
  */
 class ilObjExerciseAdministrationGUI extends ilObjectGUI
 {
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
 
@@ -73,7 +87,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
     {
         $this->tabs_gui->setTabActive('settings');
         
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
@@ -90,7 +104,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
             $exc_set = new ilSetting("excs");
             $exc_set->set("add_to_pd", (bool) $form->getInput("pd"));
             
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
         

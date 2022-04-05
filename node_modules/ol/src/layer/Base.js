@@ -9,6 +9,18 @@ import {assign} from '../obj.js';
 import {clamp} from '../math.js';
 
 /**
+ * @typedef {import("../ObjectEventType").Types|'change:extent'|'change:maxResolution'|'change:maxZoom'|
+ *    'change:minResolution'|'change:minZoom'|'change:opacity'|'change:visible'|'change:zIndex'} BaseLayerObjectEventTypes
+ */
+
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<BaseLayerObjectEventTypes, import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|BaseLayerObjectEventTypes, Return>} BaseLayerOnSignature
+ */
+
+/**
  * @typedef {Object} Options
  * @property {string} [className='ol-layer'] A CSS class name to set to the layer element.
  * @property {number} [opacity=1] Opacity (0, 1).
@@ -27,6 +39,7 @@ import {clamp} from '../math.js';
  * visible.
  * @property {number} [maxZoom] The maximum view zoom level (inclusive) at which this layer will
  * be visible.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
  */
 
 /**
@@ -46,10 +59,29 @@ class BaseLayer extends BaseObject {
   constructor(options) {
     super();
 
+    /***
+     * @type {BaseLayerOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {BaseLayerOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {BaseLayerOnSignature<void>}
+     */
+    this.un;
+
     /**
      * @type {Object<string, *>}
      */
     const properties = assign({}, options);
+    if (typeof options.properties === 'object') {
+      delete properties.properties;
+      assign(properties, options.properties);
+    }
 
     properties[LayerProperty.OPACITY] =
       options.opacity !== undefined ? options.opacity : 1;
@@ -95,7 +127,7 @@ class BaseLayer extends BaseObject {
    * This method is not meant to be called by layers or layer renderers because the state
    * is incorrect if the layer is included in a layer group.
    *
-   * @param {boolean=} opt_managed Layer is managed.
+   * @param {boolean} [opt_managed] Layer is managed.
    * @return {import("./Layer.js").State} Layer state.
    */
   getLayerState(opt_managed) {
@@ -111,8 +143,7 @@ class BaseLayer extends BaseObject {
     state.sourceState = this.getSourceState();
     state.visible = this.getVisible();
     state.extent = this.getExtent();
-    state.zIndex =
-      zIndex !== undefined ? zIndex : state.managed === false ? Infinity : 0;
+    state.zIndex = zIndex === undefined && !state.managed ? Infinity : zIndex;
     state.maxResolution = this.getMaxResolution();
     state.minResolution = Math.max(this.getMinResolution(), 0);
     state.minZoom = this.getMinZoom();
@@ -124,7 +155,7 @@ class BaseLayer extends BaseObject {
 
   /**
    * @abstract
-   * @param {Array<import("./Layer.js").default>=} opt_array Array of layers (to be
+   * @param {Array<import("./Layer.js").default>} [opt_array] Array of layers (to be
    *     modified in place).
    * @return {Array<import("./Layer.js").default>} Array of layers.
    */
@@ -134,7 +165,7 @@ class BaseLayer extends BaseObject {
 
   /**
    * @abstract
-   * @param {Array<import("./Layer.js").State>=} opt_states Optional list of layer
+   * @param {Array<import("./Layer.js").State>} [opt_states] Optional list of layer
    *     states (to be modified in place).
    * @return {Array<import("./Layer.js").State>} List of layer states.
    */
@@ -150,9 +181,9 @@ class BaseLayer extends BaseObject {
    * @api
    */
   getExtent() {
-    return /** @type {import("../extent.js").Extent|undefined} */ (this.get(
-      LayerProperty.EXTENT
-    ));
+    return /** @type {import("../extent.js").Extent|undefined} */ (
+      this.get(LayerProperty.EXTENT)
+    );
   }
 
   /**

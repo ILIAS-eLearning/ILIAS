@@ -7,12 +7,11 @@ use PHPUnit\Framework\TestSuite;
 require_once 'libs/composer/vendor/autoload.php';
 
 /**
- * Exercise test suite
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilServicesTaxonomySuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilServicesTaxonomySuite
     {
         $suite = new self();
 

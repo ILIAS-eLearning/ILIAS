@@ -38,12 +38,12 @@ class ilUserCertificateGUI
     private Filesystem $filesystem;
 
     public function __construct(
-        ?ilTemplate $template = null,
+        ?ilGlobalTemplateInterface $template = null,
         ?ilCtrl $ctrl = null,
         ?ilLanguage $language = null,
         ?ilObjUser $user = null,
         ?ilUserCertificateRepository $userCertificateRepository = null,
-        ?GuzzleHttp\Psr7\Request $request = null,
+        ?ServerRequestInterface $request = null,
         ?ilLogger $certificateLogger = null,
         ?ilSetting $certificateSettings = null,
         ?Factory $uiFactory = null,
@@ -148,7 +148,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilDateTimeException
-     * @throws ilWACException|JsonException
+     * @throws ilWACException
      */
     public function listCertificates() : void
     {
@@ -162,7 +162,6 @@ class ilUserCertificateGUI
         $provider = new ilUserCertificateTableProvider(
             $DIC->database(),
             $this->certificateLogger,
-            $this->ctrl,
             $this->language->txt('certificate_no_object_title')
         );
 
@@ -196,7 +195,7 @@ class ilUserCertificateGUI
 
             foreach ($data['items'] as $certificateData) {
                 $thumbnailImagePath = $certificateData['thumbnail_image_path'];
-                $imagePath = ilUtil::getWebspaceDir() . $thumbnailImagePath;
+                $imagePath = ilFileUtils::getWebspaceDir() . $thumbnailImagePath;
                 if ($thumbnailImagePath === null
                     || $thumbnailImagePath === ''
                     || !$this->filesystem->has($thumbnailImagePath)
@@ -229,7 +228,7 @@ class ilUserCertificateGUI
                 $objectTypeIcon = $this->uiFactory
                     ->symbol()
                     ->icon()
-                    ->standard($certificateData['obj_type'], $certificateData['obj_type'], 'small');
+                    ->standard($certificateData['obj_type'], $certificateData['obj_type']);
 
                 $objectTitle = $certificateData['title'];
                 $refIds = ilObject::_getAllReferences((int) $certificateData['obj_id']);
@@ -272,7 +271,7 @@ class ilUserCertificateGUI
 
             $uiComponents[] = $deck;
         } else {
-            ilUtil::sendInfo($this->language->txt('cert_currently_no_certs'));
+            $this->template->setOnScreenMessage('info', $this->language->txt('cert_currently_no_certs'));
         }
 
         $this->template->setContent($this->uiRenderer->render($uiComponents));
@@ -290,7 +289,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilWACException
-     * @throws ilDateTimeException|JsonException
+     * @throws ilDateTimeException
      */
     protected function applySortation() : void
     {
@@ -304,7 +303,7 @@ class ilUserCertificateGUI
     }
 
     /**
-     * @throws ilException|JsonException
+     * @throws ilException
      */
     public function download() : void
     {
@@ -319,7 +318,7 @@ class ilUserCertificateGUI
 
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
-            if ($userCertificate->getUserId() !== (int) $user->getId()) {
+            if ($userCertificate->getUserId() !== $user->getId()) {
                 throw new ilException(sprintf(
                     'User "%s" tried to access certificate: "%s"',
                     $user->getLogin(),
@@ -328,7 +327,7 @@ class ilUserCertificateGUI
             }
         } catch (ilException $exception) {
             $this->certificateLogger->warning($exception->getMessage());
-            ilUtil::sendFailure($language->txt('cert_error_no_access'));
+            $this->template->setOnScreenMessage('failure', $language->txt('cert_error_no_access'));
             $this->listCertificates();
             return;
         }

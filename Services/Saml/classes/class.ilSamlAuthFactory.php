@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Exception\IOException;
+
 /**
  * Class ilSamlAuthFactory
  */
@@ -23,7 +25,7 @@ class ilSamlAuthFactory
 
     /**
      * @return string
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
     public function getConfigDirectory() : string
     {
@@ -33,6 +35,6 @@ class ilSamlAuthFactory
 
         $fs->createDir(self::METADATA_PATH);
 
-        return rtrim(ilUtil::getDataDir(), '/') . '/' . self::METADATA_PATH;
+        return rtrim(ilFileUtils::getDataDir(), '/') . '/' . self::METADATA_PATH;
     }
 }

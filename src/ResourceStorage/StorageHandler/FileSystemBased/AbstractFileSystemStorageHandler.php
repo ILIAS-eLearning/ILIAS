@@ -17,6 +17,19 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class AbstractFileSystemStorageHandler
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -24,26 +37,11 @@ use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
 abstract class AbstractFileSystemStorageHandler implements StorageHandler
 {
     protected const DATA = 'data';
-    /**
-     * @var PathGenerator
-     */
-    protected $path_generator;
-    /**
-     * @var Filesystem
-     */
-    protected $fs;
-    /**
-     * @var UniqueIDIdentificationGenerator
-     */
-    protected $id;
-    /**
-     * @var int
-     */
-    protected $location;
-    /**
-     * @var bool
-     */
-    protected $links_possible = false;
+    protected \ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator $path_generator;
+    protected \ILIAS\Filesystem\Filesystem $fs;
+    protected \ILIAS\ResourceStorage\Identification\IdentificationGenerator $id;
+    protected int $location;
+    protected bool $links_possible = false;
 
     public function __construct(
         Filesystem $filesystem,
@@ -92,7 +90,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
             $linking = @link($original_absolute_path, $linked_absolute_path);
             /** @noinspection PhpUsageOfSilenceOperatorInspection */
             $unlinking = @unlink($original_absolute_path);
-
+            $stream->close();
             if ($linking && $unlinking && $this->fs->has($linked_filename)) {
                 $cleaner();
 
@@ -130,8 +128,12 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     {
         global $DIC;
 
-        $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), $this->location,
-            self::DATA);
+        $DIC->upload()->moveOneFileTo(
+            $revision->getUpload(),
+            $this->getRevisionPath($revision),
+            $this->location,
+            self::DATA
+        );
 
         return true;
     }
@@ -145,7 +147,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
             if ($revision->keepOriginal()) {
                 $stream = $revision->getStream();
                 $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
-
+                $stream->close();
             } else {
                 $target = $revision->getStream()->getMetadata('uri');
                 if ($this->links_possible) {
@@ -153,9 +155,12 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
                     link($target, $this->getAbsoluteRevisionPath($revision) . '/' . self::DATA);
                     unlink($target);
                 } else {
-                    $this->fs->rename(LegacyPathHelper::createRelativePath($target),
-                        $this->getRevisionPath($revision) . '/' . self::DATA);
+                    $this->fs->rename(
+                        LegacyPathHelper::createRelativePath($target),
+                        $this->getRevisionPath($revision) . '/' . self::DATA
+                    );
                 }
+                $revision->getStream()->close();
             }
         } catch (\Throwable $t) {
             return false;
@@ -169,6 +174,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         $stream = $this->getStream($revision->getRevisionToClone());
         try {
             $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
+            $stream->close();
         } catch (\Throwable $t) {
             return false;
         }
@@ -184,9 +190,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         try {
             $this->fs->deleteDir($this->getRevisionPath($revision));
         } catch (\Throwable $t) {
-
         }
-
     }
 
     /**
@@ -202,7 +206,6 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
             $this->cleanUpContainer($resource);
         } catch (\Throwable $t) {
         }
-
     }
 
     public function cleanUpContainer(StorableResource $resource) : void
@@ -241,13 +244,11 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
 
     private function getAbsoluteRevisionPath(Revision $revision) : string
     {
-        $str = rtrim(CLIENT_DATA_DIR, "/") . "/" . ltrim($this->getRevisionPath($revision), "/");
-        return $str;
+        return rtrim(CLIENT_DATA_DIR, "/") . "/" . ltrim($this->getRevisionPath($revision), "/");
     }
 
     public function movementImplementation() : string
     {
         return $this->links_possible ? 'link' : 'rename';
     }
-
 }

@@ -13,11 +13,11 @@
  * https://github.com/ILIAS-eLearning
  */
 
-define("IL_WIKI_ALL_PAGES", "all");
-define("IL_WIKI_NEW_PAGES", "new");
-define("IL_WIKI_POPULAR_PAGES", "popular");
-define("IL_WIKI_WHAT_LINKS_HERE", "what_links");
-define("IL_WIKI_ORPHANED_PAGES", "orphaned");
+const IL_WIKI_ALL_PAGES = "all";
+const IL_WIKI_NEW_PAGES = "new";
+const IL_WIKI_POPULAR_PAGES = "popular";
+const IL_WIKI_WHAT_LINKS_HERE = "what_links";
+const IL_WIKI_ORPHANED_PAGES = "orphaned";
 
 /**
  * TableGUI class for wiki pages table
@@ -104,10 +104,12 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         
         switch ($this->pg_list_mode) {
             case IL_WIKI_WHAT_LINKS_HERE:
-                $this->setTitle(sprintf(
-                    $lng->txt("wiki_what_links_to_page"),
-                    ilWikiPage::lookupTitle($this->page_id)
-                ));
+                $this->setTitle(
+                    sprintf(
+                        $lng->txt("wiki_what_links_to_page"),
+                        ilWikiPage::lookupTitle($this->page_id)
+                    )
+                );
                 break;
                 
             default:
@@ -159,25 +161,25 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $this->setData($pages);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
-        if ($a_field == "cnt") {
+        if ($a_field === "cnt") {
             return true;
         }
         return false;
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         
-        if ($this->pg_list_mode == IL_WIKI_NEW_PAGES) {
+        if ($this->pg_list_mode === IL_WIKI_NEW_PAGES) {
             $this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
             $this->tpl->setVariable(
                 "DATE",
                 ilDatePresentation::formatDate(new ilDateTime($a_set["created"], IL_CAL_DATETIME))
             );
-        } elseif ($this->pg_list_mode == IL_WIKI_POPULAR_PAGES) {
+        } elseif ($this->pg_list_mode === IL_WIKI_POPULAR_PAGES) {
             $this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
             $this->tpl->setVariable("HITS", $a_set["cnt"]);
         } else {
