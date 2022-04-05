@@ -23,7 +23,7 @@ module.exports = function(req, res)
 	var subscribers = room.getSubscribers();
 
 	function emitDeleteRoomBySocketId(socketId) {
-		namespace.getIO().connected[socketId].leave(room.getId());
+		namespace.getIO().sockets.get(socketId).leave(room.getId());
 		namespace.getIO().to(socketId).emit('private_room_deleted', action);
 	}
 
