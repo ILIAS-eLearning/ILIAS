@@ -33,7 +33,7 @@ class ImplementationOfInterfaceFinder
 
     public function __construct()
     {
-        $this->root = substr(__FILE__, 0, strpos(__FILE__, DIRECTORY_SEPARATOR."src"));
+        $this->root = substr(__FILE__, 0, strpos(__FILE__, DIRECTORY_SEPARATOR . "src"));
         $this->classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";
     }
 

@@ -108,7 +108,8 @@ class ImplementationOfAgentFinder implements AgentFinder
         ));
 
         if (count($agent_classes) === 0) {
-            return new class($name) extends \ilPluginDefaultAgent {};
+            return new class($name) extends \ilPluginDefaultAgent {
+            };
         }
 
         $agents = [];
@@ -160,15 +161,15 @@ class ImplementationOfAgentFinder implements AgentFinder
     /**
      * @return Generator <string>
      */
-    protected function getPluginNames() : \Generator 
+    protected function getPluginNames() : \Generator
     {
         $directories =
             new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator(__DIR__ . "/../../Customizing/global/plugins/")
             );
-        foreach($directories as $dir) {
+        foreach ($directories as $dir) {
             $groups = [];
-            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/(\\w+)/.$%", (string)$dir, $groups)) {
+            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/(\\w+)/.$%", (string) $dir, $groups)) {
                 yield $groups[4];
             }
         }
