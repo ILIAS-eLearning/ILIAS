@@ -56,7 +56,7 @@ class ObjectiveCollection implements Objective
             get_class($this) .
             implode(
                 array_map(
-                    fn($g): string => $g->getHash(),
+                    fn ($g) : string => $g->getHash(),
                     $this->objectives
                 )
             )

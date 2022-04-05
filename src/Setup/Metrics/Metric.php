@@ -203,7 +203,7 @@ final class Metric
                 return implode(
                     "\n",
                     array_map(
-                        function (string $k, Metric $v) use ($indentation): string {
+                        function (string $k, Metric $v) use ($indentation) : string {
                             if ($v->getType() === self::TYPE_COLLECTION) {
                                 $split = "\n";
                             } else {

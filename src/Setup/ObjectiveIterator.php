@@ -64,7 +64,7 @@ class ObjectiveIterator implements \Iterator
         $this->environment = $environment;
     }
 
-    public function markAsFailed(Objective $objective): void
+    public function markAsFailed(Objective $objective) : void
     {
         if (!isset($this->returned[$objective->getHash()])) {
             throw new \LogicException(
@@ -75,7 +75,7 @@ class ObjectiveIterator implements \Iterator
         $this->failed[$objective->getHash()] = true;
     }
 
-    public function rewind(): void
+    public function rewind() : void
     {
         $this->stack = [$this->objective];
         $this->current = null;
@@ -85,7 +85,7 @@ class ObjectiveIterator implements \Iterator
         $this->next();
     }
 
-    public function current(): \ILIAS\Setup\Objective
+    public function current() : \ILIAS\Setup\Objective
     {
         if ($this->current === null) {
             throw new \LogicException(
@@ -100,7 +100,7 @@ class ObjectiveIterator implements \Iterator
         return $this->current()->getHash();
     }
 
-    public function next(): void
+    public function next() : void
     {
         if ($this->stack === []) {
             $this->current = null;
@@ -165,7 +165,7 @@ class ObjectiveIterator implements \Iterator
         return $this->current !== null;
     }
 
-    protected function detectDependencyCycles(string $cur, string $next): void
+    protected function detectDependencyCycles(string $cur, string $next) : void
     {
         if (!isset($this->reverse_dependencies[$next])) {
             return;
@@ -180,7 +180,7 @@ class ObjectiveIterator implements \Iterator
         }
     }
 
-    protected function setReverseDependency(string $other, string $cur): void
+    protected function setReverseDependency(string $other, string $cur) : void
     {
         if (!isset($this->reverse_dependencies[$other])) {
             $this->reverse_dependencies[$other] = [];

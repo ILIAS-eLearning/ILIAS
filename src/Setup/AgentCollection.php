@@ -83,7 +83,7 @@ class AgentCollection implements Agent
     public function getArrayToConfigTransformation() : Transformation
     {
         return $this->refinery->in()->series([
-            $this->refinery->custom()->transformation(function ($in): array {
+            $this->refinery->custom()->transformation(function ($in) : array {
                 $out = [];
                 foreach ($this->agents as $key => $agent) {
                     if (!$agent->hasConfig()) {
@@ -95,7 +95,7 @@ class AgentCollection implements Agent
                 }
                 return $out;
             }),
-            $this->refinery->custom()->transformation(fn($v): array => [$v]),
+            $this->refinery->custom()->transformation(fn ($v) : array => [$v]),
             $this->refinery->to()->toNew(ConfigCollection::class)
         ]);
     }
@@ -139,7 +139,7 @@ class AgentCollection implements Agent
             "Collected Update Objectives",
             false,
             ...array_values(array_map(
-                function (string $k, Agent $v) use ($config): \ILIAS\Setup\Objective {
+                function (string $k, Agent $v) use ($config) : \ILIAS\Setup\Objective {
                     if ($config !== null) {
                         return $v->getUpdateObjective($config->maybeGetConfig($k));
                     }
@@ -160,7 +160,7 @@ class AgentCollection implements Agent
             "Collected Build Artifact Objectives",
             false,
             ...array_values(array_map(
-                fn(Agent $v): \ILIAS\Setup\Objective => $v->getBuildArtifactObjective(),
+                fn (Agent $v) : \ILIAS\Setup\Objective => $v->getBuildArtifactObjective(),
                 $this->agents
             ))
         );
@@ -175,7 +175,7 @@ class AgentCollection implements Agent
             "Collected Status Objectives",
             false,
             ...array_values(array_map(
-                fn(string $k, Agent $v): \ILIAS\Setup\Objective => $v->getStatusObjective(
+                fn (string $k, Agent $v) : \ILIAS\Setup\Objective => $v->getStatusObjective(
                     new Metrics\StorageOnPathWrapper($k, $storage)
                 ),
                 array_keys($this->agents),
@@ -209,7 +209,7 @@ class AgentCollection implements Agent
         return array_pop($names);
     }
 
-    protected function checkConfig(Config $config): void
+    protected function checkConfig(Config $config) : void
     {
         if (!($config instanceof ConfigCollection)) {
             throw new \InvalidArgumentException(

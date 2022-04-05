@@ -28,7 +28,7 @@ class PHPExtensionLoadedCondition extends ExternalConditionObjective
 
         return parent::__construct(
             "PHP extension \"$which\" loaded",
-            fn(Setup\Environment $env): bool => in_array($which, get_loaded_extensions()),
+            fn (Setup\Environment $env) : bool => in_array($which, get_loaded_extensions()),
             "ILIAS $ilias_version requires the PHP extension $which."
         );
     }

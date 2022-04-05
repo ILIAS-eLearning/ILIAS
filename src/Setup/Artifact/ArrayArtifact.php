@@ -42,7 +42,7 @@ class ArrayArtifact implements Setup\Artifact
         return "<?" . "php return " . var_export($this->data, true) . ";";
     }
 
-    private function check(array $a): void
+    private function check(array $a) : void
     {
         foreach ($a as $item) {
             if (is_string($item) || is_int($item) || is_float($item) || is_bool($item) || is_null($item)) {

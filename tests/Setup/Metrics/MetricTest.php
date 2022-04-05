@@ -240,7 +240,7 @@ METRIC;
            "bool_true" => new M(M::STABILITY_STABLE, M::TYPE_BOOL, true)
         ]);
 
-        $this->assertEquals(["bool_true" => "true"] , $metric->toArray());
+        $this->assertEquals(["bool_true" => "true"], $metric->toArray());
     }
 
     public function testToArrayWithDeepTwo() : void
@@ -251,7 +251,7 @@ METRIC;
             ])
         ]);
 
-        $this->assertEquals(["db" => ["bool_true" => "true"]] , $metric->toArray());
+        $this->assertEquals(["db" => ["bool_true" => "true"]], $metric->toArray());
     }
 
     public function testToUIReport() : void

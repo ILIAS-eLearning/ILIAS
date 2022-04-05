@@ -63,7 +63,7 @@ class Tentatively implements Setup\Objective
             return $this->other->getPreconditions($environment);
         }
         return array_map(
-            function ($p): \ILIAS\Setup\Objective\Tentatively {
+            function ($p) : \ILIAS\Setup\Objective\Tentatively {
                 if ($p instanceof Tentatively) {
                     return $p;
                 }
