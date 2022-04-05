@@ -180,21 +180,21 @@ abstract class ilAtomQueryBase
             ilAtomQuery::ISOLATION_READ_COMMITED,
             ilAtomQuery::ISOLATION_REPEATED_READ,
         ))) {
-            throw new ilAtomQueryException($isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
+            throw new ilAtomQueryException('Level: ' . $isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
         }
         // Check if a available Isolation level is selected
         if (!in_array($isolation_level, self::$available_isolations_levels)) {
-            throw new ilAtomQueryException($isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
+            throw new ilAtomQueryException('Level: ' . $isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
         }
     }
 
     /**
      * @throws \ilAtomQueryException
      */
-    public static function checkAnomaly(int $anomalie) : void
+    public static function checkAnomaly(int $anomaly) : void
     {
-        if (!in_array($anomalie, self::$possible_anomalies)) {
-            throw new ilAtomQueryException($anomalie, ilAtomQueryException::DB_ATOM_ANO_NOT_AVAILABLE);
+        if (!in_array($anomaly, self::$possible_anomalies)) {
+            throw new ilAtomQueryException('Anomaly: ' . $anomaly, ilAtomQueryException::DB_ATOM_ANO_NOT_AVAILABLE);
         }
     }
 

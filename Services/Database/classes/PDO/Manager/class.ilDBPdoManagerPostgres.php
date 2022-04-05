@@ -75,6 +75,8 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
                 $fd = $db->getFieldDefinition();
                 if ($fd !== null) {
                     $query = 'ADD ' . $fd->getDeclaration($field['type'], $field_name, $field);
+                }else {
+                    $query = '';
                 }
                 $result = $db->manipulate("ALTER TABLE $name $query");
             }
@@ -95,12 +97,17 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
                     $server_info = $db->getServerVersion();
 
                     if (is_array($server_info) && $server_info['major'] < 8) {
-                        throw new ilDatabaseException('changing column type for "' . $change_name ?? 'undefined' . '\" requires PostgreSQL 8.0 or above');
+                        $str = $change_name ?? 'undefined';
+                        throw new ilDatabaseException(
+                            'changing column type for "' . $str . '\" requires PostgreSQL 8.0 or above'
+                        );
                     }
 
                     $fd = $db->getFieldDefinition();
                     if ($fd !== null) {
                         $query = "ALTER $field_name TYPE " . $fd->getTypeDeclaration($field);
+                    } else {
+                        $query = '';
                     }
                     $result = $db->manipulate("ALTER TABLE $name $query");
                 }

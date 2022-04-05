@@ -1622,26 +1622,7 @@ abstract class ilDBPdoFieldDefinition
     {
         return true;
     }
-
-    /**
-     * @throws \ilDatabaseException
-     */
-    public function implodeArray($array, bool $type = false) : string//PHP8Review: array may can be also typehinted as such
-    {
-        $return = [];
-        if (!is_array($array) || empty($array)) {
-            return 'NULL';
-        }
-        if ($type) {
-            foreach ($array as $value) {
-                $return[] = $this->quote($value, $type);
-            }
-        } else {
-            $return = $array;
-        }
-
-        return implode(', ', $return);
-    }
+    
 
     /**
      * @throws \ilDatabaseException

@@ -86,6 +86,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
+        /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
             public function getRootLogger() : object
             {
