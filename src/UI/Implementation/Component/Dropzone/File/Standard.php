@@ -20,16 +20,6 @@ class Standard extends File implements StandardInterface
     protected string $message = "";
     protected ?Button $upload_button = null;
 
-    public function __construct(
-        InputFactory $input_factory,
-        ilLanguage $language,
-        UploadHandler $upload_handler,
-        string $post_url,
-        ?Input $metadata_input = null
-    ) {
-        parent::__construct($input_factory, $language, $upload_handler, $post_url, $metadata_input);
-    }
-
     public function withMessage(string $message) : self
     {
         $clone = clone $this;

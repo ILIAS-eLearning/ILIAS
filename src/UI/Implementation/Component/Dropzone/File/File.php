@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Container\Form\Standard as FormInterface;
-use ILIAS\UI\Implementation\Component\Input\Field\FileUploadAwareHelper;
+use ILIAS\UI\Implementation\Component\Input\Field\FileUploadHelper;
 use ILIAS\UI\Component\Dropzone\File\File as FileInterface;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
@@ -27,7 +27,7 @@ abstract class File implements FileInterface
     public const JAVASCRIPT_EVENT = 'drop';
     public const FILE_INPUT_KEY = 'files';
 
-    use FileUploadAwareHelper;
+    use FileUploadHelper;
     use JavaScriptBindable;
     use ComponentHelper;
     use Triggerer;
