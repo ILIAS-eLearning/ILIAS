@@ -45,7 +45,6 @@ class ilCopyWizardOptions
     protected ilTree $tree;
 
     private int $copy_id;
-    private int $source_id;
     private array $options = [];
     private array $tmp_tree = [];
 
