@@ -1439,7 +1439,10 @@ abstract class ilDBPdoFieldDefinition
 
         return "'" . $value . "'";
     }
-
+    
+    /**
+     * @param string|resource $value
+     */
     protected function readFile($value) : string
     {
         $close = false;
@@ -1467,20 +1470,27 @@ abstract class ilDBPdoFieldDefinition
 
         return $value;
     }
-
-    protected function quoteLOB($value, bool $quote, bool $escape_wildcards) : string//PHP8Review: see readFile()
+    
+    /**
+     * @param string|resource $value
+     */
+    protected function quoteLOB($value, bool $quote, bool $escape_wildcards) : string
     {
         $value = $this->readFile($value);
 
         return $this->quoteText($value, $quote, $escape_wildcards);
     }
-
-    protected function quoteCLOB($value, bool $quote, bool $escape_wildcards) : string//PHP8Review: see readFile()
+    /**
+     * @param string|resource $value
+     */
+    protected function quoteCLOB($value, bool $quote, bool $escape_wildcards) : string
     {
         return $this->quoteLOB($value, $quote, $escape_wildcards);
     }
-
-    protected function quoteBLOB($value, bool $quote, bool $escape_wildcards) : string//PHP8Review: see readFile()
+    /**
+     * @param string|resource $value
+     */
+    protected function quoteBLOB($value, bool $quote, bool $escape_wildcards) : string
     {
         return $this->quoteLOB($value, $quote, $escape_wildcards);
     }
@@ -1611,15 +1621,9 @@ abstract class ilDBPdoFieldDefinition
         $lob_index = $lob_data['wrapper_data']->lob_index;
         fclose($lob);
         if (isset($this->lobs[$lob_index])) {
-            $this->destroyLOBInternal($this->lobs[$lob_index]);
             unset($this->lobs[$lob_index]);
         }
 
-        return true;
-    }
-
-    protected function destroyLOBInternal(&$lob) : bool//PHP8Review: Missing parameter type
-    {
         return true;
     }
     

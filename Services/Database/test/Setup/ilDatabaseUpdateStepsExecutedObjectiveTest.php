@@ -94,9 +94,9 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
     public function testUsesExecutionLock() : void
     {
         $execution_log = new class($this) implements ilDatabaseUpdateStepExecutionLog {
-            protected $test;//PHP8Review: Missing complex/object typehint
+            protected ilDatabaseUpdateStepsExecutedObjectiveTest $test;
 
-            public function __construct($test)
+            public function __construct(ilDatabaseUpdateStepsExecutedObjectiveTest $test)
             {
                 $this->test = $test;
             }
