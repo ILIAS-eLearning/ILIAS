@@ -54,27 +54,38 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->initFilter();
 
         if (strpos($this->filter["yearmonth"], "-") === false) {
-            foreach ($this->getMonthsYear($this->filter["yearmonth"]) as $num => $caption) {
+            foreach ($this->getMonthsYear(
+                $this->filter["yearmonth"]
+            ) as $num => $caption) {
                 $this->addColumn($caption, "month_" . $num);
             }
         } else {
             foreach ($this->types as $type) {
                 if ($type != "avg") {
-                    $caption = " " . $this->lng->txt("trac_object_stat_lp_" . $type);
+                    $caption = " " . $this->lng->txt(
+                            "trac_object_stat_lp_" . $type
+                        );
                 } else {
                     $caption = " &#216;";
                 }
-                $this->addColumn($this->lng->txt("trac_members_short") . $caption, "mem_cnt_" . $type);
+                $this->addColumn(
+                    $this->lng->txt("trac_members_short") . $caption,
+                    "mem_cnt_" . $type
+                );
             }
 
             foreach ($this->status as $status) {
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+                $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
+                    $status
+                );
                 $text = ilLearningProgressBaseGUI::_getStatusText($status);
                 $icon = ilUtil::img($path, $text);
 
                 foreach ($this->types as $type) {
                     if ($type != "avg") {
-                        $caption = $icon . $this->lng->txt("trac_object_stat_lp_" . $type);
+                        $caption = $icon . $this->lng->txt(
+                                "trac_object_stat_lp_" . $type
+                            );
                     } else {
                         $caption = $icon . " &#216;";
                     }
@@ -87,13 +98,19 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             $this->setTitle($this->lng->txt("trac_object_stat_lp"));
 
             // $this->setSelectAllCheckbox("item_id");
-            $this->addMultiCommand("showLearningProgressGraph", $this->lng->txt("trac_show_graph"));
+            $this->addMultiCommand(
+                "showLearningProgressGraph", $this->lng->txt("trac_show_graph")
+            );
             $this->setResetCommand("resetLearningProgressFilter");
             $this->setFilterCommand("applyLearningProgressFilter");
         }
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.lp_object_statistics_lp_row.html", "Services/Tracking");
+        $this->setFormAction(
+            $this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd)
+        );
+        $this->setRowTemplate(
+            "tpl.lp_object_statistics_lp_row.html", "Services/Tracking"
+        );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
         $this->setEnableTitle(true);
@@ -135,7 +152,9 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->filter["type"] = "crs";
 
         // title/description
-        $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
+        $ti = new ilTextInputGUI(
+            $this->lng->txt("trac_title_description"), "query"
+        );
         $ti->setMaxLength(64);
         $ti->setSize(20);
         $this->addFilterItem($ti);
@@ -143,7 +162,10 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->filter["query"] = $ti->getValue();
 
         // year/month
-        $si = new ilSelectInputGUI($this->lng->txt("year") . " / " . $this->lng->txt("month"), "yearmonth");
+        $si = new ilSelectInputGUI(
+            $this->lng->txt("year") . " / " . $this->lng->txt("month"),
+            "yearmonth"
+        );
         $si->setOptions($this->getMonthsFilter());
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -153,13 +175,21 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->filter["yearmonth"] = $si->getValue();
 
         if (!strpos($this->filter["yearmonth"], "-")) {
-            $si = new ilSelectInputGUI($this->lng->txt("trac_figure"), "figure");
+            $si = new ilSelectInputGUI(
+                $this->lng->txt("trac_figure"), "figure"
+            );
             $options = array(
-                "mem_cnt_max" => $this->lng->txt("members") . " " . $this->lng->txt("trac_object_stat_lp_max"),
+                "mem_cnt_max" => $this->lng->txt(
+                        "members"
+                    ) . " " . $this->lng->txt("trac_object_stat_lp_max"),
                 "mem_cnt_avg" => $this->lng->txt("members") . " &#216;",
                 // we are using the db column names here (not the lp constants)!
-                "in_progress_max" => ilLearningProgressBaseGUI::_getStatusText(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) . " " . $this->lng->txt("trac_object_stat_lp_max"),
-                "in_progress_avg" => ilLearningProgressBaseGUI::_getStatusText(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) . " &#216;"
+                "in_progress_max" => ilLearningProgressBaseGUI::_getStatusText(
+                        ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+                    ) . " " . $this->lng->txt("trac_object_stat_lp_max"),
+                "in_progress_avg" => ilLearningProgressBaseGUI::_getStatusText(
+                        ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
+                    ) . " &#216;"
             );
             $si->setOptions($options);
             $this->addFilterItem($si);
@@ -191,40 +221,58 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 
             $yearmonth = explode("-", $this->filter["yearmonth"]);
             if (sizeof($yearmonth) == 1) {
-                foreach (ilTrQuery::getObjectLPStatistics($objects, $yearmonth[0]) as $item) {
+                foreach (ilTrQuery::getObjectLPStatistics(
+                    $objects, $yearmonth[0]
+                ) as $item) {
                     $obj_id = $item["obj_id"];
                     if (!isset($data[$obj_id])) {
                         $data[$obj_id]["obj_id"] = $obj_id;
-                        $data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
+                        $data[$obj_id]["title"] = ilObject::_lookupTitle(
+                            $obj_id
+                        );
                     }
 
                     $measure_type = substr($this->filter["measure"], -3);
                     $measure_field = substr($this->filter["measure"], 0, -4);
                     $value = $item[$measure_field . "_" . $measure_type];
-                    $idx = $item["yyyy"] . "-" . str_pad($item["mm"], 2, "0", STR_PAD_LEFT);
+                    $idx = $item["yyyy"] . "-" . str_pad(
+                            $item["mm"], 2, "0", STR_PAD_LEFT
+                        );
                     $data[$obj_id]["month_" . $idx] = $value;
                 }
 
                 if ($this->is_chart) {
                     // get data for single days (used in chart display)
-                    foreach (array_keys($this->getMonthsYear($yearmonth[0])) as $num) {
+                    foreach (array_keys(
+                                 $this->getMonthsYear($yearmonth[0])
+                             ) as $num) {
                         $num_string = explode('-', $num);
                         $num = (int) array_pop($num_string);
-                        foreach (ilTrQuery::getObjectLPStatistics($objects, $yearmonth[0], $num, true) as $item) {
+                        foreach (ilTrQuery::getObjectLPStatistics(
+                            $objects, $yearmonth[0], $num, true
+                        ) as $item) {
                             $idx = $yearmonth[0] .
-                                "-" . str_pad((string) $num, 2, "0", STR_PAD_LEFT) .
-                                "-" . str_pad($item["dd"], 2, "0", STR_PAD_LEFT);
+                                "-" . str_pad(
+                                    (string) $num, 2, "0", STR_PAD_LEFT
+                                ) .
+                                "-" . str_pad(
+                                    $item["dd"], 2, "0", STR_PAD_LEFT
+                                );
                             $this->chart_data[$item["obj_id"]][$idx] = $item;
                         }
                     }
                 }
             } else {
                 // get data aggregated for month
-                foreach (ilTrQuery::getObjectLPStatistics($objects, $yearmonth[0], (int) $yearmonth[1]) as $item) {
+                foreach (ilTrQuery::getObjectLPStatistics(
+                    $objects, $yearmonth[0], (int) $yearmonth[1]
+                ) as $item) {
                     $obj_id = $item["obj_id"];
                     if (!isset($data[$obj_id])) {
                         $data[$obj_id]["obj_id"] = $obj_id;
-                        $data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
+                        $data[$obj_id]["title"] = ilObject::_lookupTitle(
+                            $obj_id
+                        );
                         $this->initRow($data[$obj_id]);
                     }
 
@@ -274,8 +322,12 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $data = array();
         $all_status = array_merge(array("mem_cnt"), $this->status);
 
-        foreach (ilTrQuery::getObjectLPStatistics(array($a_obj_id), $this->filter["yearmonth"]) as $item) {
-            $month = "month_" . $item["yyyy"] . "-" . str_pad($item["mm"], 2, "0", STR_PAD_LEFT);
+        foreach (ilTrQuery::getObjectLPStatistics(
+            array($a_obj_id), $this->filter["yearmonth"]
+        ) as $item) {
+            $month = "month_" . $item["yyyy"] . "-" . str_pad(
+                    $item["mm"], 2, "0", STR_PAD_LEFT
+                );
 
             foreach ($all_status as $status) {
                 // status-id to field name
@@ -287,7 +339,9 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 // aggregated fields
                 foreach ($this->types as $type) {
                     $value = $item[$field . "_" . $type];
-                    $idx = $item["yyyy"] . "-" . str_pad($item["mm"], 2, "0", STR_PAD_LEFT);
+                    $idx = $item["yyyy"] . "-" . str_pad(
+                            $item["mm"], 2, "0", STR_PAD_LEFT
+                        );
                     $data[$status . "_" . $type]["month_" . $idx] = $value;
                 }
             }
@@ -299,15 +353,21 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             $type = substr($figure, -3);
 
             if ($status != "mem_cnt") {
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus((int) $status);
-                $text = ilLearningProgressBaseGUI::_getStatusText((int) $status);
+                $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
+                    (int) $status
+                );
+                $text = ilLearningProgressBaseGUI::_getStatusText(
+                    (int) $status
+                );
                 $icon = ilUtil::img($path, $text);
                 $text = $icon . " " . $text;
             } else {
                 $text = $this->lng->txt("members");
             }
             if ($type != "avg") {
-                $caption = $text . " " . $this->lng->txt("trac_object_stat_lp_" . $type);
+                $caption = $text . " " . $this->lng->txt(
+                        "trac_object_stat_lp_" . $type
+                    );
             } else {
                 $caption = $text . " &#216;";
             }
@@ -343,19 +403,29 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 
             // ajax details layer link
             if (strpos($this->filter["yearmonth"], "-") === false) {
-                $this->ctrl->setParameter($this->parent_obj, "item_id", $a_set["obj_id"]);
-                $url = $this->ctrl->getLinkTarget($this->parent_obj, "showLearningProgressDetails");
+                $this->ctrl->setParameter(
+                    $this->parent_obj, "item_id", $a_set["obj_id"]
+                );
+                $url = $this->ctrl->getLinkTarget(
+                    $this->parent_obj, "showLearningProgressDetails"
+                );
                 $a_set["title"] .= " (<a href=\"#\" onclick=\"ilObjStat.showLPDetails(event, '" . $url . "');\">Details</a>)";
                 $this->ctrl->setParameter($this->parent_obj, "item_id", "");
             }
 
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
-            $this->tpl->setVariable("ICON_SRC", ilObject::_getIcon(0, "tiny", $type));
+            $this->tpl->setVariable(
+                "ICON_SRC", ilObject::_getIcon(0, "tiny", $type)
+            );
             $this->tpl->setVariable("ICON_ALT", $this->lng->txt($type));
             $this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
-            if ($this->preselected && in_array($a_set["obj_id"], $this->preselected)) {
-                $this->tpl->setVariable("CHECKBOX_STATE", " checked=\"checked\"");
+            if ($this->preselected && in_array(
+                    $a_set["obj_id"], $this->preselected
+                )) {
+                $this->tpl->setVariable(
+                    "CHECKBOX_STATE", " checked=\"checked\""
+                );
             }
             $this->tpl->parseCurrentBlock();
         } else {
@@ -367,19 +437,29 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->tpl->setCurrentBlock("item");
 
         if (strpos($this->filter["yearmonth"], "-") === false) {
-            foreach (array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $num) {
+            foreach (array_keys(
+                         $this->getMonthsYear($this->filter["yearmonth"])
+                     ) as $num) {
                 $value = $this->anonymizeValue((int) $a_set["month_" . $num]);
                 $this->tpl->setVariable("ITEM_VALUE", $value);
                 $this->tpl->parseCurrentBlock();
             }
         } else {
             foreach ($this->types as $type) {
-                $this->tpl->setVariable("ITEM_VALUE", $this->anonymizeValue((int) $a_set["mem_cnt_" . $type]));
+                $this->tpl->setVariable(
+                    "ITEM_VALUE", $this->anonymizeValue(
+                    (int) $a_set["mem_cnt_" . $type]
+                )
+                );
                 $this->tpl->parseCurrentBlock();
             }
             foreach ($this->status as $status) {
                 foreach ($this->types as $type) {
-                    $this->tpl->setVariable("ITEM_VALUE", $this->anonymizeValue((int) $a_set[$status . "_" . $type]));
+                    $this->tpl->setVariable(
+                        "ITEM_VALUE", $this->anonymizeValue(
+                        (int) $a_set[$status . "_" . $type]
+                    )
+                    );
                     $this->tpl->parseCurrentBlock();
                 }
             }
@@ -398,10 +478,14 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 
         // needed for correct stacking
         $custom_order = array(
-            ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => array("#f7d408", "#fffa00"),
+            ilLPStatus::LP_STATUS_IN_PROGRESS_NUM => array("#f7d408",
+                                                           "#fffa00"
+            ),
             ilLPStatus::LP_STATUS_FAILED_NUM => array("#cf0202", "#f15b5b"),
             ilLPStatus::LP_STATUS_COMPLETED_NUM => array("#17aa0e", "#6ce148"),
-            ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => array("#a4a4a4", "#c4c4c4")
+            ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => array("#a4a4a4",
+                                                             "#c4c4c4"
+            )
         );
 
         $chart->setColors(array());
@@ -411,8 +495,12 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             if (in_array($object_id, $a_graph_items)) {
                 $series = array();
                 foreach ($custom_order as $status => $colors) {
-                    $series[$status] = $chart->getDataInstance(ilChartGrid::DATA_LINES);
-                    $series[$status]->setLabel(ilLearningProgressBaseGUI::_getStatusText($status));
+                    $series[$status] = $chart->getDataInstance(
+                        ilChartGrid::DATA_LINES
+                    );
+                    $series[$status]->setLabel(
+                        ilLearningProgressBaseGUI::_getStatusText($status)
+                    );
                     $chart_colors[] = $colors[0];
                 }
                 $chart->setColors($chart_colors);
@@ -421,9 +509,15 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                     $x_axis = $this->lng->txt("month");
 
                     $counter = 0;
-                    foreach (array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $month) {
+                    foreach (array_keys(
+                                 $this->getMonthsYear(
+                                     $this->filter["yearmonth"]
+                                 )
+                             ) as $month) {
                         for ($loop = 1; $loop < 32; $loop++) {
-                            $item_day = $month . "-" . str_pad((string) $loop, 2, "0", STR_PAD_LEFT);
+                            $item_day = $month . "-" . str_pad(
+                                    (string) $loop, 2, "0", STR_PAD_LEFT
+                                );
                             foreach (array_keys($custom_order) as $status) {
                                 if (isset($days[$item_day])) {
                                     // as there is only 1 entry per day, avg == sum
@@ -466,7 +560,9 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $labels = array();
         if (strpos($this->filter["yearmonth"], "-") === false) {
             $counter = 0;
-            foreach ($this->getMonthsYear($this->filter["yearmonth"], true) as $caption) {
+            foreach ($this->getMonthsYear(
+                $this->filter["yearmonth"], true
+            ) as $caption) {
                 $labels[$counter] = $caption;
                 $counter += 31;
             }

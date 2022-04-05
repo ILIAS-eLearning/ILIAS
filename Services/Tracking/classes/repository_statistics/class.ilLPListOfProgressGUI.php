@@ -29,9 +29,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
     {
         if ($this->http->wrapper()->query()->has('details_id')) {
             return $this->http->wrapper()->query()->retrieve(
-                    'details_id',
-                    $this->refinery->kindlyTo()->int()
-                );
+                'details_id',
+                $this->refinery->kindlyTo()->int()
+            );
         }
         return 0;
     }
@@ -45,7 +45,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $this->ctrl->setParameter($this, 'user_id', $this->getUserId());
         switch ($this->ctrl->getNextClass()) {
             case 'illpprogresstablegui':
-                $table_gui = new ilLPProgressTableGUI($this, "", $this->tracked_user);
+                $table_gui = new ilLPProgressTableGUI(
+                    $this, "", $this->tracked_user
+                );
                 $this->ctrl->setReturn($this, 'show');
                 $this->ctrl->forwardCommand($table_gui);
                 break;
@@ -114,7 +116,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             );
         }
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_progress_container.html', 'Services/Tracking');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.lp_progress_container.html',
+            'Services/Tracking'
+        );
 
         $info = new ilInfoScreenGUI($this);
         $info->setContextRefId($this->details_id);
@@ -122,7 +127,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $info->setContentObjType((string) $this->obj_type);
         $info->enableLearningProgress(true);
         $info->setFormAction($this->ctrl->getFormAction($this));
-        $this->__appendLPDetails($info, $this->details_obj_id, $this->tracked_user->getId());
+        $this->__appendLPDetails(
+            $info, $this->details_obj_id, $this->tracked_user->getId()
+        );
         $this->__showObjectDetails($info, $this->details_obj_id, false);
 
         // Finally set template variable
@@ -135,7 +142,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             foreach ($collection->getItems() as $item_id) {
                 if ($collection instanceof ilLPCollectionOfRepositoryObjects) {
                     $obj_id = ilObject::_lookupObjectId($item_id);
-                    if ($this->access->checkAccessOfUser($this->tracked_user->getId(), 'visible', '', $item_id)) {
+                    if ($this->access->checkAccessOfUser(
+                        $this->tracked_user->getId(), 'visible', '', $item_id
+                    )) {
                         $obj_ids[$obj_id] = array($item_id);
                     }
                 } else {
@@ -147,7 +156,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         // #15247
         if (count($obj_ids) > 0) {
             // seems obsolete
-            $personal_only = !ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId());
+            $personal_only = !ilLearningProgressAccess::checkPermission(
+                'read_learning_progress', $this->getRefId()
+            );
             $lp_table = new ilLPProgressTableGUI(
                 $this,
                 "details",
@@ -167,7 +178,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
     public function __showProgressList() : void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_list_progress.html', 'Services/Tracking');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.lp_list_progress.html',
+            'Services/Tracking'
+        );
 
         // User info
         $info = new ilInfoScreenGUI($this);
@@ -204,7 +218,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         if ($a_usr_id) {
             $user = ilObjectFactory::getInstanceByObjId($a_usr_id);
             if (!$user instanceof ilObjUser) {
-                throw new ilObjectNotFoundException('Invalid user id given: ' . $a_usr_id);
+                throw new ilObjectNotFoundException(
+                    'Invalid user id given: ' . $a_usr_id
+                );
             }
             $this->tracked_user = $user;
         } else {
@@ -218,12 +234,16 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         }
 
         if ($this->mode == self::LP_CONTEXT_ORG_UNIT &&
-            ilObjOrgUnitAccess::_checkAccessToUserLearningProgress($this->ref_id, $a_usr_id)) {
+            ilObjOrgUnitAccess::_checkAccessToUserLearningProgress(
+                $this->ref_id, $a_usr_id
+            )) {
             return false;
         }
 
         // Check access
-        if (!$this->rbacreview->isAssigned($this->user->getId(), SYSTEM_ROLE_ID)) {
+        if (!$this->rbacreview->isAssigned(
+            $this->user->getId(), SYSTEM_ROLE_ID
+        )) {
             $this->tracked_user = $this->user;
             return false;
         }
@@ -239,8 +259,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             $ref_ids = ilObject::_getAllReferences($a_details_id);
 
             $this->details_id = $a_details_id;
-            $this->details_obj_id = $this->ilObjectDataCache->lookupObjId($this->details_id);
-            $this->details_type = $this->ilObjectDataCache->lookupType($this->details_obj_id);
+            $this->details_obj_id = $this->ilObjectDataCache->lookupObjId(
+                $this->details_id
+            );
+            $this->details_type = $this->ilObjectDataCache->lookupType(
+                $this->details_obj_id
+            );
 
             $olp = ilObjectLP::getInstance($this->details_obj_id);
             $this->details_mode = $olp->getCurrentMode();

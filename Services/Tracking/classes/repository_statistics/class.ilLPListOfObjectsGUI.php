@@ -18,7 +18,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     public function __construct(int $a_mode, int $a_ref_id)
     {
         parent::__construct($a_mode, $a_ref_id);
-        $this->__initDetails($this->initDetailsIdFromRequest($this->getRefId()));
+        $this->__initDetails(
+            $this->initDetailsIdFromRequest($this->getRefId())
+        );
     }
 
     protected function initUserDetailsIdFromQuery() : int
@@ -72,7 +74,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                 $user_id = $this->initUserIdFromQuery();
                 $this->ctrl->setParameter($this, "user_id", $user_id);
 
-                $this->ctrl->setParameter($this, "details_id", $this->details_id);
+                $this->ctrl->setParameter(
+                    $this, "details_id", $this->details_id
+                );
 
                 $table_gui = new ilTrUserObjectsPropsTableGUI(
                     $this,
@@ -90,17 +94,23 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                     $this->details_id = ROOT_FOLDER_ID;
                     $cmd = "show";
                 }
-                $table_gui = new ilTrSummaryTableGUI($this, $cmd, $this->details_id);
+                $table_gui = new ilTrSummaryTableGUI(
+                    $this, $cmd, $this->details_id
+                );
                 $this->ctrl->forwardCommand($table_gui);
                 break;
 
             case 'iltrmatrixtablegui':
-                $table_gui = new ilTrMatrixTableGUI($this, "showUserObjectMatrix", $this->details_id);
+                $table_gui = new ilTrMatrixTableGUI(
+                    $this, "showUserObjectMatrix", $this->details_id
+                );
                 $this->ctrl->forwardCommand($table_gui);
                 break;
 
             case 'iltrobjectuserspropstablegui':
-                $this->ctrl->setParameter($this, "details_id", $this->details_id);
+                $this->ctrl->setParameter(
+                    $this, "details_id", $this->details_id
+                );
 
                 $table_gui = new ilTrObjectUsersPropsTableGUI(
                     $this,
@@ -125,15 +135,25 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             $this->__initDetails($details_id);
         }
 
-        if (!ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->details_id)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+        if (!ilLearningProgressAccess::checkPermission(
+            'edit_learning_progress', $this->details_id
+        )) {
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt("permission_denied"), true
+            );
             $this->ctrl->returnToParent($this);
         }
 
-        $this->__updateUser($this->initUserIdFromRequest(), $this->details_obj_id);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('trac_update_edit_user'), true);
+        $this->__updateUser(
+            $this->initUserIdFromRequest(), $this->details_obj_id
+        );
+        $this->tpl->setOnScreenMessage(
+            'success', $this->lng->txt('trac_update_edit_user'), true
+        );
 
-        $this->ctrl->setParameter($this, "details_id", $this->details_id); // #15043
+        $this->ctrl->setParameter(
+            $this, "details_id", $this->details_id
+        ); // #15043
 
         // #14993
         if (!$details_id) {
@@ -158,8 +178,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             $cancel = "details";
         }
 
-        if (!ilLearningProgressAccess::checkPermission('edit_learning_progress', $this->details_id)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+        if (!ilLearningProgressAccess::checkPermission(
+            'edit_learning_progress', $this->details_id
+        )) {
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt("permission_denied"), true
+            );
             $this->ctrl->returnToParent($this);
         }
 
@@ -181,7 +205,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
     public function details() : void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking'
+        );
 
         // Show back button
         if ($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP or
@@ -205,7 +231,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     public function __showUsersList($a_print_view = false) : void
     {
         if ($this->isAnonymized()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('permission_denied')
+            );
             return;
         }
         $this->ctrl->setParameter($this, "details_id", $this->details_id);
@@ -224,7 +252,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     public function userDetails() : void
     {
         if ($this->isAnonymized()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('permission_denied')
+            );
             return;
         }
 
@@ -239,12 +269,18 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         }
         if (!$print_view) {
             // Show back button
-            $this->toolbar->addButton($this->lng->txt('trac_view_list'), $this->ctrl->getLinkTarget($this, 'details'));
+            $this->toolbar->addButton(
+                $this->lng->txt('trac_view_list'), $this->ctrl->getLinkTarget(
+                $this, 'details'
+            )
+            );
         }
 
         $user_id = $this->initUserIdFromQuery();
         $this->ctrl->setParameter($this, "user_id", $user_id);
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking'
+        );
 
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
@@ -280,7 +316,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
     public function __listObjects() : void
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_list_objects.html', 'Services/Tracking');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.lp_list_objects.html',
+            'Services/Tracking'
+        );
 
         $lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
 
@@ -295,8 +334,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         }
         if ($a_details_id) {
             $this->details_id = $a_details_id;
-            $this->details_obj_id = $this->ilObjectDataCache->lookupObjId($this->details_id);
-            $this->details_type = $this->ilObjectDataCache->lookupType($this->details_obj_id);
+            $this->details_obj_id = $this->ilObjectDataCache->lookupObjId(
+                $this->details_id
+            );
+            $this->details_type = $this->ilObjectDataCache->lookupType(
+                $this->details_obj_id
+            );
 
             $olp = ilObjectLP::getInstance($this->details_obj_id);
             $this->details_mode = $olp->getCurrentMode();
@@ -308,7 +351,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
      */
     public function showObjectSummary() : void
     {
-        $table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId(), false);
+        $table = new ilTrSummaryTableGUI(
+            $this, "showObjectSummary", $this->getRefId(), false
+        );
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -318,10 +363,14 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     public function showUserObjectMatrix() : void
     {
         if ($this->isAnonymized()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('permission_denied')
+            );
             return;
         }
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking'
+        );
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
         if ($this->__showObjectDetails($info, $this->details_obj_id)) {
@@ -330,7 +379,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $table = new ilTrMatrixTableGUI($this, "showUserObjectMatrix", $this->getRefId());
+        $table = new ilTrMatrixTableGUI(
+            $this, "showUserObjectMatrix", $this->getRefId()
+        );
         $this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
         $this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
     }

@@ -36,8 +36,10 @@ class ilLPStatusFactory
         return $this->logger;
     }
 
-    public static function _getClassById(int $a_obj_id, ?int $a_mode = null) : string
-    {
+    public static function _getClassById(
+        int $a_obj_id,
+        ?int $a_mode = null
+    ) : string {
         if ($a_mode === null) {
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
@@ -72,8 +74,10 @@ class ilLPStatusFactory
         throw new ilInvalidLPStatusException($message);
     }
 
-    public static function _getClassByIdAndType(int $a_obj_id, string $a_type) : string
-    {
+    public static function _getClassByIdAndType(
+        int $a_obj_id,
+        string $a_type
+    ) : string {
         // id is ignored in the moment
         switch ($a_type) {
             case 'event':
@@ -87,8 +91,10 @@ class ilLPStatusFactory
         }
     }
 
-    public static function _getInstance(int $a_obj_id, ?int $a_mode = null) : ilLPStatus
-    {
+    public static function _getInstance(
+        int $a_obj_id,
+        ?int $a_mode = null
+    ) : ilLPStatus {
         if ($a_mode === null) {
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();

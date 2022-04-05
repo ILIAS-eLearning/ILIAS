@@ -19,13 +19,21 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
 
         $frm = new ilForum();
         $frm->setForumId($frm_properties->getObjId());
-        $statistics = $frm->getUserStatistics($frm_properties->isPostActivationEnabled());
+        $statistics = $frm->getUserStatistics(
+            $frm_properties->isPostActivationEnabled()
+        );
 
-        return array_map(static function (array $statisic) : int {
-            return (int) $statisic['pos_author_id'];
-        }, array_filter($statistics, static function (array $statistic) use ($num_required_postings) : bool {
-            return (int) $statistic['num_postings'] >= $num_required_postings;
-        }));
+        return array_map(
+            static function (array $statisic) : int {
+                return (int) $statisic['pos_author_id'];
+            }, array_filter(
+                   $statistics, static function (array $statistic) use (
+                   $num_required_postings
+               ) : bool {
+                   return (int) $statistic['num_postings'] >= $num_required_postings;
+               }
+               )
+        );
     }
 
     public static function _getInProgress(int $a_obj_id) : array
@@ -41,18 +49,29 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
 
         $frm = new ilForum();
         $frm->setForumId($frm_properties->getObjId());
-        $statistics = $frm->getUserStatistics($frm_properties->isPostActivationEnabled());
+        $statistics = $frm->getUserStatistics(
+            $frm_properties->isPostActivationEnabled()
+        );
 
-        return array_map(static function (array $statisic) : int {
-            return (int) $statisic['pos_author_id'];
-        }, array_filter($statistics, static function (array $statistic) use ($num_required_postings) : bool {
-            $num_user_postings = (int) $statistic['num_postings'];
-            return $num_user_postings > 0 && $num_user_postings < $num_required_postings;
-        }));
+        return array_map(
+            static function (array $statisic) : int {
+                return (int) $statisic['pos_author_id'];
+            }, array_filter(
+                   $statistics, static function (array $statistic) use (
+                   $num_required_postings
+               ) : bool {
+                   $num_user_postings = (int) $statistic['num_postings'];
+                   return $num_user_postings > 0 && $num_user_postings < $num_required_postings;
+               }
+               )
+        );
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
         $frm_properties = ilForumProperties::getInstance($a_obj_id);

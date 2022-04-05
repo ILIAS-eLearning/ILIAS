@@ -15,8 +15,11 @@ class ilTrackingAppEventListener implements ilAppEventListener
      * @param string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
      * @param array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
-    {
+    public static function handleEvent(
+        string $a_component,
+        string $a_event,
+        array $a_parameter
+    ) : void {
         $obj_id = $a_parameter['obj_id'] ?? null;
 
         switch ($a_component) {

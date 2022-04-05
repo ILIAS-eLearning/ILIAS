@@ -34,7 +34,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->addColumn($this->lng->txt("trac_title"), "title");
         $this->addColumn($this->lng->txt("object_id"), "obj_id");
         if (strpos($this->filter["yearmonth"], "-") === false) {
-            foreach ($this->getMonthsYear($this->filter["yearmonth"]) as $num => $caption) {
+            foreach ($this->getMonthsYear(
+                $this->filter["yearmonth"]
+            ) as $num => $caption) {
                 $this->addColumn($caption, "month_" . $num);
             }
         }
@@ -43,12 +45,18 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->setTitle($this->lng->txt("trac_object_stat_access"));
 
         // $this->setSelectAllCheckbox("item_id");
-        $this->addMultiCommand("showAccessGraph", $this->lng->txt("trac_show_graph"));
+        $this->addMultiCommand(
+            "showAccessGraph", $this->lng->txt("trac_show_graph")
+        );
         $this->setResetCommand("resetAccessFilter");
         $this->setFilterCommand("applyAccessFilter");
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.lp_object_statistics_row.html", "Services/Tracking");
+        $this->setFormAction(
+            $this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd)
+        );
+        $this->setRowTemplate(
+            "tpl.lp_object_statistics_row.html", "Services/Tracking"
+        );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
         $this->setEnableTitle(true);
@@ -87,7 +95,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->filter["type"] = $si->getValue();
 
         // title/description
-        $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
+        $ti = new ilTextInputGUI(
+            $this->lng->txt("trac_title_description"), "query"
+        );
         $ti->setMaxLength(64);
         $ti->setSize(20);
         $this->addFilterItem($ti);
@@ -96,10 +106,12 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
         // read_count/spent_seconds
         $si = new ilSelectInputGUI($this->lng->txt("trac_figure"), "figure");
-        $si->setOptions(array("read_count" => $this->lng->txt("trac_read_count"),
-                              "spent_seconds" => $this->lng->txt("trac_spent_seconds"),
-                              "users" => $this->lng->txt("users")
-        ));
+        $si->setOptions(
+            array("read_count" => $this->lng->txt("trac_read_count"),
+                  "spent_seconds" => $this->lng->txt("trac_spent_seconds"),
+                  "users" => $this->lng->txt("users")
+            )
+        );
         $this->addFilterItem($si);
         $si->readFromSession();
         if (!$si->getValue()) {
@@ -108,7 +120,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $this->filter["measure"] = $si->getValue();
 
         // year/month
-        $si = new ilSelectInputGUI($this->lng->txt("year") . " / " . $this->lng->txt("month"), "yearmonth");
+        $si = new ilSelectInputGUI(
+            $this->lng->txt("year") . " / " . $this->lng->txt("month"),
+            "yearmonth"
+        );
         $si->setOptions($this->getMonthsFilter());
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -124,16 +139,22 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $objects = [];
         if ($this->filter["type"] != "prtf") {
             // JF, 2016-06-06
-            $objects = $this->searchObjects($this->getCurrentFilter(true), "", null, false);
+            $objects = $this->searchObjects(
+                $this->getCurrentFilter(true), "", null, false
+            );
 
             if ($this->filter["type"] == "blog") {
-                foreach (ilTrQuery::getWorkspaceBlogs($this->filter["query"]) as $obj_id) {
+                foreach (ilTrQuery::getWorkspaceBlogs(
+                    $this->filter["query"]
+                ) as $obj_id) {
                     $objects[$obj_id] = array($obj_id);
                 }
             }
         } else {
             // portfolios are not part of repository
-            foreach (ilTrQuery::getPortfolios($this->filter["query"]) as $obj_id) {
+            foreach (ilTrQuery::getPortfolios(
+                $this->filter["query"]
+            ) as $obj_id) {
                 $objects[$obj_id] = array($obj_id);
             }
         }
@@ -141,12 +162,16 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         if ($objects) {
             $yearmonth = explode("-", $this->filter["yearmonth"]);
             if (sizeof($yearmonth) == 1) {
-                foreach (ilTrQuery::getObjectAccessStatistics($objects, $yearmonth[0]) as $obj_id => $months) {
+                foreach (ilTrQuery::getObjectAccessStatistics(
+                    $objects, $yearmonth[0]
+                ) as $obj_id => $months) {
                     $data[$obj_id]["obj_id"] = $obj_id;
                     $data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
 
                     foreach ($months as $month => $values) {
-                        $idx = $yearmonth[0] . "-" . str_pad($month, 2, "0", STR_PAD_LEFT);
+                        $idx = $yearmonth[0] . "-" . str_pad(
+                                $month, 2, "0", STR_PAD_LEFT
+                            );
                         $data[$obj_id]["month_" . $idx] = (int) $values[$this->filter["measure"]];
                         $data[$obj_id]["total"] += (int) $values[$this->filter["measure"]];
                     }
@@ -186,18 +211,24 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $type = ilObject::_lookupType($a_set["obj_id"]);
 
         $this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
-        $this->tpl->setVariable("ICON_SRC", ilObject::_getIcon(0, "tiny", $type));
+        $this->tpl->setVariable(
+            "ICON_SRC", ilObject::_getIcon(0, "tiny", $type)
+        );
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($type));
         $this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 
-        if ($this->preselected && in_array($a_set["obj_id"], $this->preselected)) {
+        if ($this->preselected && in_array(
+                $a_set["obj_id"], $this->preselected
+            )) {
             $this->tpl->setVariable("CHECKBOX_STATE", " checked=\"checked\"");
         }
 
         $sum = 0;
         if (strpos($this->filter["yearmonth"], "-") === false) {
             $this->tpl->setCurrentBlock("month");
-            foreach (array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $num) {
+            foreach (array_keys(
+                         $this->getMonthsYear($this->filter["yearmonth"])
+                     ) as $num) {
                 $value = (int) $a_set["month_" . $num];
                 if ($this->filter["measure"] != "spent_seconds") {
                     $value = $this->anonymizeValue($value);
@@ -232,7 +263,11 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                 $series->setLabel(ilObject::_lookupTitle($object["obj_id"]));
 
                 if (strpos($this->filter["yearmonth"], "-") === false) {
-                    foreach (array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $idx => $num) {
+                    foreach (array_keys(
+                                 $this->getMonthsYear(
+                                     $this->filter["yearmonth"]
+                                 )
+                             ) as $idx => $num) {
                         $value = (int) $object["month_" . $num];
                         $max_value = max($max_value, $value);
                         if ($this->filter["measure"] != "spent_seconds") {
@@ -263,7 +298,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
         $labels = array();
         if (strpos($this->filter["yearmonth"], "-") === false) {
-            foreach (array_values($this->getMonthsYear($this->filter["yearmonth"], true)) as $idx => $caption) {
+            foreach (array_values(
+                         $this->getMonthsYear($this->filter["yearmonth"], true)
+                     ) as $idx => $caption) {
                 $labels[$idx] = $caption;
             }
         } else {
@@ -280,14 +317,19 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
     {
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
-    {
+    protected function fillRowExcel(
+        ilExcel $a_excel,
+        int &$a_row,
+        array $a_set
+    ) : void {
         $a_excel->setCell($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
         $a_excel->setCell($a_row, 1, $a_set["obj_id"]);
 
         $col = 1;
         if (strpos($this->filter["yearmonth"], "-") === false) {
-            foreach (array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $num) {
+            foreach (array_keys(
+                         $this->getMonthsYear($this->filter["yearmonth"])
+                     ) as $num) {
                 $value = (int) $a_set["month_" . $num];
                 if ($this->filter["measure"] != "spent_seconds") {
                     $value = $this->anonymizeValue($value);
@@ -317,7 +359,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
         $a_csv->addColumn($a_set["obj_id"]);
 
         if (strpos($this->filter["yearmonth"], "-") === false) {
-            foreach (array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $num) {
+            foreach (array_keys(
+                         $this->getMonthsYear($this->filter["yearmonth"])
+                     ) as $num) {
                 $value = (int) $a_set["month_" . $num];
                 if ($this->filter["measure"] != "spent_seconds") {
                     $value = $this->anonymizeValue($value);

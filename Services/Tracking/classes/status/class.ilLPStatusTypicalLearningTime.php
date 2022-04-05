@@ -50,12 +50,17 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 
     public static function _getStatusInfo(int $a_obj_id) : array
     {
-        $status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
+        $status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds(
+            $a_obj_id
+        );
         return $status_info;
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'lm':
@@ -66,7 +71,9 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
                     $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
                     $tlt = $status_info['tlt'];
 
-                    $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
+                    $re = ilChangeEvent::_lookupReadEvents(
+                        $a_obj_id, $a_usr_id
+                    );
                     if ($re[0]['spent_seconds'] >= $tlt) {
                         $status = self::LP_STATUS_COMPLETED_NUM;
                     }
@@ -76,8 +83,11 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         return $status;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
-    {
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ) : int {
         $tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
         $spent = (int) $re[0]["spent_seconds"];

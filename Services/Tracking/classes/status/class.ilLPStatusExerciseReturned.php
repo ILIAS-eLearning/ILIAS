@@ -33,9 +33,15 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 
         $members = self::getMembers($a_obj_id);
         if ($members) {
-            $users = array_diff($members, ilLPStatusWrapper::_getInProgress($a_obj_id));
-            $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
-            $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
+            $users = array_diff(
+                $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+            );
+            $users = array_diff(
+                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            );
+            $users = array_diff(
+                $users, ilLPStatusWrapper::_getFailed($a_obj_id)
+            );
         }
         return $users;
     }
@@ -46,7 +52,9 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         $all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         $users = $users + $all;
 
-        $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+        $users = array_diff(
+            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+        );
         $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
 
         if ($users) {
@@ -70,8 +78,11 @@ class ilLPStatusExerciseReturned extends ilLPStatus
     /**
      * Determine status
      */
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -83,7 +94,9 @@ class ilLPStatusExerciseReturned extends ilLPStatus
                     ilExerciseMembers::_hasReturned($a_obj_id, $a_usr_id)) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
                 }
-                $ex_stat = ilExerciseMembers::_lookupStatus($a_obj_id, $a_usr_id);
+                $ex_stat = ilExerciseMembers::_lookupStatus(
+                    $a_obj_id, $a_usr_id
+                );
                 if ($ex_stat == "passed") {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }
@@ -106,42 +119,54 @@ class ilLPStatusExerciseReturned extends ilLPStatus
     /**
      * Get completed users for object
      */
-    public static function _lookupCompletedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupCompletedForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
                 return array();
             }
         }
-        return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
+        return self::_lookupStatusForObject(
+            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+        );
     }
 
     /**
      * Get failed users for object
      */
-    public static function _lookupFailedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupFailedForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
                 return array();
             }
         }
-        return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
+        return self::_lookupStatusForObject(
+            $a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids
+        );
     }
 
     /**
      * Get in progress users for object
      */
-    public static function _lookupInProgressForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupInProgressForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
                 return array();
             }
         }
-        return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+        return self::_lookupStatusForObject(
+            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+        );
     }
 }

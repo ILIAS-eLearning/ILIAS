@@ -102,7 +102,9 @@ class ilLPXmlWriter extends ilXmlWriter
         $this->xmlStartTag('LPData', array());
         $set = $this->db->query(
             $q = "SELECT * FROM ut_lp_marks " .
-                " WHERE status_changed >= " . $this->db->quote($this->getTimestamp(), "timestamp")
+                " WHERE status_changed >= " . $this->db->quote(
+                    $this->getTimestamp(), "timestamp"
+                )
         );
 
         while ($rec = $this->db->fetchAssoc($set)) {
@@ -113,7 +115,10 @@ class ilLPXmlWriter extends ilXmlWriter
 
             if (!is_array($this->getTypeFilter()) ||
                 (count($this->getTypeFilter()) == 0) ||
-                in_array(ilObject::_lookupType((int) $rec["obj_id"]), $this->getTypeFilter())) {
+                in_array(
+                    ilObject::_lookupType((int) $rec["obj_id"]),
+                    $this->getTypeFilter()
+                )) {
                 $this->xmlElement(
                     'LPChange',
                     array(

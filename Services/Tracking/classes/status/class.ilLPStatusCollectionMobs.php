@@ -53,8 +53,10 @@ class ilLPStatusCollectionMobs extends ilLPStatus
                 $res["in_progress"][$mob_id] = array();
             }
 
-            $set = $ilDB->query("SELECT obj_id, usr_id FROM read_event" .
-                " WHERE " . $ilDB->in("obj_id", $res["items"], "", "integer"));
+            $set = $ilDB->query(
+                "SELECT obj_id, usr_id FROM read_event" .
+                " WHERE " . $ilDB->in("obj_id", $res["items"], "", "integer")
+            );
             while ($row = $ilDB->fetchAssoc($set)) {
                 $res["completed"][(int) $row["obj_id"]][] = (int) $row["usr_id"];
             }
@@ -78,13 +80,13 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         foreach ($users as $user_id) {
             if ((!is_array($res["user_status"]["in_progress"]) || !in_array(
-                $user_id,
-                $res["user_status"]["in_progress"]
-            )) &&
+                        $user_id,
+                        $res["user_status"]["in_progress"]
+                    )) &&
                 (!is_array($res["user_status"]["completed"]) || !in_array(
-                    $user_id,
-                    $res["user_status"]["completed"]
-                ))) {
+                        $user_id,
+                        $res["user_status"]["completed"]
+                    ))) {
                 $res["user_status"]["in_progress"][] = (int) $user_id;
             }
         }
@@ -92,8 +94,10 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         return $res;
     }
 
-    protected static function getCollectionItems($a_obj_id, $a_include_titles = false)
-    {
+    protected static function getCollectionItems(
+        $a_obj_id,
+        $a_include_titles = false
+    ) {
         $res = array();
 
         $olp = ilObjectLP::getInstance($a_obj_id);
@@ -118,8 +122,11 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         return $res;
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;
@@ -132,9 +139,11 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 
             $found = array();
 
-            $set = $this->db->query("SELECT obj_id FROM read_event" .
+            $set = $this->db->query(
+                "SELECT obj_id FROM read_event" .
                 " WHERE usr_id = " . $this->db->quote($a_usr_id, "integer") .
-                " AND " . $this->db->in("obj_id", $items, false, "integer"));
+                " AND " . $this->db->in("obj_id", $items, false, "integer")
+            );
             while ($row = $this->db->fetchAssoc($set)) {
                 $found[] = (int) $row["obj_id"];
             }

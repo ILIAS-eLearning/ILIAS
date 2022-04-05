@@ -39,8 +39,12 @@ class ilLPStatusManualByTutor extends ilLPStatus
         $members = self::getMembers($a_obj_id);
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
-            $users = array_diff($members, ilLPStatusWrapper::_getInProgress($a_obj_id));
-            $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+            $users = array_diff(
+                $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+            );
+            $users = array_diff(
+                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            );
         }
 
         return $users;
@@ -57,7 +61,9 @@ class ilLPStatusManualByTutor extends ilLPStatus
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 
         // Exclude all users with status completed.
-        $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+        $users = array_diff(
+            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+        );
 
         if ($users) {
             // Exclude all non members
@@ -94,8 +100,11 @@ class ilLPStatusManualByTutor extends ilLPStatus
     /**
      * Determine status
      */
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -105,10 +114,16 @@ class ilLPStatusManualByTutor extends ilLPStatus
             case "crs":
             case "grp":
                 // completed?
-                $set = $this->db->query($q = "SELECT usr_id FROM ut_lp_marks " .
-                    "WHERE obj_id = " . $this->db->quote($a_obj_id, 'integer') . " " .
-                    "AND usr_id = " . $this->db->quote($a_usr_id, 'integer') . " " .
-                    "AND completed = '1' ");
+                $set = $this->db->query(
+                    $q = "SELECT usr_id FROM ut_lp_marks " .
+                        "WHERE obj_id = " . $this->db->quote(
+                            $a_obj_id, 'integer'
+                        ) . " " .
+                        "AND usr_id = " . $this->db->quote(
+                            $a_usr_id, 'integer'
+                        ) . " " .
+                        "AND completed = '1' "
+                );
                 if ($rec = $this->db->fetchAssoc($set)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 } else {
@@ -133,7 +148,9 @@ class ilLPStatusManualByTutor extends ilLPStatus
         switch ($ilObjDataCache->lookupType($a_obj_id)) {
             case 'crs':
             case 'grp':
-                return ilParticipants::getInstanceByObjId($a_obj_id)->getMembers();
+                return ilParticipants::getInstanceByObjId(
+                    $a_obj_id
+                )->getMembers();
         }
 
         return array();
@@ -142,36 +159,46 @@ class ilLPStatusManualByTutor extends ilLPStatus
     /**
      * Get completed users for object
      */
-    public static function _lookupCompletedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupCompletedForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
                 return array();
             }
         }
-        return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
+        return self::_lookupStatusForObject(
+            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+        );
     }
 
     /**
      * Get failed users for object
      */
-    public static function _lookupFailedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupFailedForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         return array();
     }
 
     /**
      * Get in progress users for object
      */
-    public static function _lookupInProgressForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupInProgressForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
                 return array();
             }
         }
-        return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+        return self::_lookupStatusForObject(
+            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+        );
     }
 }

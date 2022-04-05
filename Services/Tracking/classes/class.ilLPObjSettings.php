@@ -323,8 +323,10 @@ class ilLPObjSettings
 
     public function read() : bool
     {
-        $res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = " .
-            $this->db->quote($this->obj_id, 'integer'));
+        $res = $this->db->query(
+            "SELECT * FROM ut_lp_settings WHERE obj_id = " .
+            $this->db->quote($this->obj_id, 'integer')
+        );
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->is_stored = true;
             $this->obj_type = (string) $row->obj_type;
@@ -340,8 +342,12 @@ class ilLPObjSettings
         if (!$this->is_stored) {
             return $this->insert();
         }
-        $query = "UPDATE ut_lp_settings SET u_mode = " . $this->db->quote($this->getMode(), 'integer') . ", " .
-            "visits = " . $this->db->quote($this->getVisits(), 'integer') . " " .
+        $query = "UPDATE ut_lp_settings SET u_mode = " . $this->db->quote(
+                $this->getMode(), 'integer'
+            ) . ", " .
+            "visits = " . $this->db->quote(
+                $this->getVisits(), 'integer'
+            ) . " " .
             "WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer');
         $res = $this->db->manipulate($query);
         $this->read();
@@ -378,7 +384,9 @@ class ilLPObjSettings
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $query = "DELETE FROM ut_lp_settings WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer');
+        $query = "DELETE FROM ut_lp_settings WHERE obj_id = " . $ilDB->quote(
+                $a_obj_id, 'integer'
+            );
         $res = $ilDB->manipulate($query);
         return true;
     }
@@ -479,7 +487,9 @@ class ilLPObjSettings
         // invalid ut_lp_collections-entries are filtered
         // ut_lp_marks is deemed private user data
 
-        $ilDB->manipulate("DELETE FROM ut_lp_settings" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer"));
+        $ilDB->manipulate(
+            "DELETE FROM ut_lp_settings" .
+            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
+        );
     }
 }

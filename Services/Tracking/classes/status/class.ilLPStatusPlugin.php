@@ -28,7 +28,9 @@ class ilLPStatusPlugin extends ilLPStatus
                 return (array) $plugin->getLPNotAttempted();
             } else {
                 // re-use existing data for inactive plugin
-                return self::getLPStatusData($a_obj_id, self::LP_STATUS_NOT_ATTEMPTED_NUM);
+                return self::getLPStatusData(
+                    $a_obj_id, self::LP_STATUS_NOT_ATTEMPTED_NUM
+                );
             }
         }
         return array();
@@ -42,7 +44,9 @@ class ilLPStatusPlugin extends ilLPStatus
                 return (array) $plugin->getLPInProgress();
             } else {
                 // re-use existing data for inactive plugin
-                return self::getLPStatusData($a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM);
+                return self::getLPStatusData(
+                    $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM
+                );
             }
         }
         return array();
@@ -56,7 +60,9 @@ class ilLPStatusPlugin extends ilLPStatus
                 return (array) $plugin->getLPCompleted();
             } else {
                 // re-use existing data for inactive plugin
-                return self::getLPStatusData($a_obj_id, self::LP_STATUS_COMPLETED_NUM);
+                return self::getLPStatusData(
+                    $a_obj_id, self::LP_STATUS_COMPLETED_NUM
+                );
             }
         }
         return array();
@@ -70,14 +76,19 @@ class ilLPStatusPlugin extends ilLPStatus
                 return (array) $plugin->getLPFailed();
             } else {
                 // re-use existing data for inactive plugin
-                return self::getLPStatusData($a_obj_id, self::LP_STATUS_FAILED_NUM);
+                return self::getLPStatusData(
+                    $a_obj_id, self::LP_STATUS_FAILED_NUM
+                );
             }
         }
         return array();
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
             if ($plugin !== ilPluginLP::INACTIVE_PLUGIN) {
@@ -92,8 +103,11 @@ class ilLPStatusPlugin extends ilLPStatus
         return self::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
-    {
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ) : int {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
             if ($plugin !== ilPluginLP::INACTIVE_PLUGIN) {
@@ -111,17 +125,21 @@ class ilLPStatusPlugin extends ilLPStatus
     /**
      * Read existing LP status data
      */
-    protected static function getLPStatusData(int $a_obj_id, int $a_status) : array
-    {
+    protected static function getLPStatusData(
+        int $a_obj_id,
+        int $a_status
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
         $all = array();
-        $set = $ilDB->query("SELECT usr_id" .
+        $set = $ilDB->query(
+            "SELECT usr_id" .
             " FROM ut_lp_marks" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND status = " . $ilDB->quote($a_status, "integer"));
+            " AND status = " . $ilDB->quote($a_status, "integer")
+        );
         while ($row = $ilDB->fetchAssoc($set)) {
             $all[] = (int) $row["usr_id"];
         }
@@ -131,16 +149,20 @@ class ilLPStatusPlugin extends ilLPStatus
     /**
      * Read existing LP status data for user
      */
-    protected static function getLPDataForUser(int $a_obj_id, int $a_user_id) : int
-    {
+    protected static function getLPDataForUser(
+        int $a_obj_id,
+        int $a_user_id
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $set = $ilDB->query("SELECT status" .
+        $set = $ilDB->query(
+            "SELECT status" .
             " FROM ut_lp_marks" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND usr_id = " . $ilDB->quote($a_user_id, "integer"));
+            " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
+        );
         $row = $ilDB->fetchAssoc($set);
         $status = $row["status"];
         if (!$status) {
@@ -149,16 +171,20 @@ class ilLPStatusPlugin extends ilLPStatus
         return $status;
     }
 
-    protected static function getPercentageForUser(int $a_obj_id, int $a_user_id) : int
-    {
+    protected static function getPercentageForUser(
+        int $a_obj_id,
+        int $a_user_id
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $set = $ilDB->query("SELECT percentage" .
+        $set = $ilDB->query(
+            "SELECT percentage" .
             " FROM ut_lp_marks" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND usr_id = " . $ilDB->quote($a_user_id, "integer"));
+            " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
+        );
         $row = $ilDB->fetchAssoc($set);
         return (int) $row["percentage"];
     }

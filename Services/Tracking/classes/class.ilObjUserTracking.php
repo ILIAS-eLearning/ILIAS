@@ -131,7 +131,9 @@ class ilObjUserTracking extends ilObject
         global $DIC;
 
         $ilSetting = $DIC->settings();
-        return (int) $ilSetting->get("tracking_time_span", (string) self::DEFAULT_TIME_SPAN);
+        return (int) $ilSetting->get(
+            "tracking_time_span", (string) self::DEFAULT_TIME_SPAN
+        );
     }
 
     public function enableChangeEventTracking(bool $newValue) : void
@@ -153,37 +155,69 @@ class ilObjUserTracking extends ilObject
 
     public function hasExtendedData(int $a_code) : bool
     {
-        return (bool) ($this->extended_data & $a_code);
+        return (bool) ($this->extended_data&$a_code);
     }
 
     public function updateSettings()
     {
-        $this->settings->set("enable_tracking", (string) $this->enabledLearningProgress());
-        $this->settings->set("save_user_related_data", (string) $this->enabledUserRelatedData());
-        $this->settings->set("tracking_time_span", (string) $this->getValidTimeSpan());
+        $this->settings->set(
+            "enable_tracking", (string) $this->enabledLearningProgress()
+        );
+        $this->settings->set(
+            "save_user_related_data", (string) $this->enabledUserRelatedData()
+        );
+        $this->settings->set(
+            "tracking_time_span", (string) $this->getValidTimeSpan()
+        );
         $this->settings->set("lp_extended_data", (string) $this->extended_data);
-        $this->settings->set("object_statistics", (string) $this->enabledObjectStatistics());
+        $this->settings->set(
+            "object_statistics", (string) $this->enabledObjectStatistics()
+        );
         // $this->settings->set("lp_desktop", (int)$this->hasLearningProgressDesktop());
-        $this->settings->set("lp_learner", (string) $this->hasLearningProgressLearner());
-        $this->settings->set("session_statistics", (string) $this->enabledSessionStatistics());
-        $this->settings->set("lp_list_gui", (string) $this->hasLearningProgressListGUI());
+        $this->settings->set(
+            "lp_learner", (string) $this->hasLearningProgressLearner()
+        );
+        $this->settings->set(
+            "session_statistics", (string) $this->enabledSessionStatistics()
+        );
+        $this->settings->set(
+            "lp_list_gui", (string) $this->hasLearningProgressListGUI()
+        );
     }
 
     protected function __readSettings() : void
     {
-        $this->enableLearningProgress((bool) $this->settings->get("enable_tracking", '0'));
-        $this->enableUserRelatedData((bool) $this->settings->get("save_user_related_data", '0'));
-        $this->enableObjectStatistics((bool) $this->settings->get("object_statistics", '0'));
-        $this->setValidTimeSpan((int) $this->settings->get("tracking_time_span", (string) self::DEFAULT_TIME_SPAN));
-        $this->setLearningProgressLearner((bool) $this->settings->get("lp_learner", '1'));
-        $this->enableSessionStatistics((bool) $this->settings->get("session_statistics", '1'));
-        $this->setLearningProgressListGUI((bool) $this->settings->get("lp_list_gui", '0'));
+        $this->enableLearningProgress(
+            (bool) $this->settings->get("enable_tracking", '0')
+        );
+        $this->enableUserRelatedData(
+            (bool) $this->settings->get("save_user_related_data", '0')
+        );
+        $this->enableObjectStatistics(
+            (bool) $this->settings->get("object_statistics", '0')
+        );
+        $this->setValidTimeSpan(
+            (int) $this->settings->get(
+                "tracking_time_span", (string) self::DEFAULT_TIME_SPAN
+            )
+        );
+        $this->setLearningProgressLearner(
+            (bool) $this->settings->get("lp_learner", '1')
+        );
+        $this->enableSessionStatistics(
+            (bool) $this->settings->get("session_statistics", '1')
+        );
+        $this->setLearningProgressListGUI(
+            (bool) $this->settings->get("lp_list_gui", '0')
+        );
 
         // BEGIN ChangeEvent
         $this->enableChangeEventTracking(ilChangeEvent::_isActive());
         // END ChangeEvent
 
-        $this->setExtendedData((int) $this->settings->get("lp_extended_data", '0'));
+        $this->setExtendedData(
+            (int) $this->settings->get("lp_extended_data", '0')
+        );
     }
 
     public static function _deleteUser(int $a_usr_id) : void
@@ -203,11 +237,15 @@ class ilObjUserTracking extends ilObject
         );
         $aff = $ilDB->manipulate($query);
 
-        $query = "DELETE FROM ut_lp_marks WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
+        $query = "DELETE FROM ut_lp_marks WHERE usr_id = " . $ilDB->quote(
+                $a_usr_id, 'integer'
+            ) . " ";
         $res = $ilDB->manipulate($query);
 
-        $ilDB->manipulate("DELETE FROM ut_online WHERE usr_id = " .
-            $ilDB->quote($a_usr_id, "integer"));
+        $ilDB->manipulate(
+            "DELETE FROM ut_online WHERE usr_id = " .
+            $ilDB->quote($a_usr_id, "integer")
+        );
     }
 
     public static function _hasLearningProgressOtherUsers() : bool

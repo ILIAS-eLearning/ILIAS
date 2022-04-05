@@ -120,9 +120,15 @@ class ilLPMarks
         }
         $query = "UPDATE ut_lp_marks " .
             "SET mark = " . $this->db->quote($this->getMark(), 'text') . ", " .
-            "u_comment = " . $this->db->quote($this->getComment(), 'text') . ", " .
-            "completed = " . $this->db->quote($this->getCompleted(), 'integer') . " " .
-            "WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer') . " " .
+            "u_comment = " . $this->db->quote(
+                $this->getComment(), 'text'
+            ) . ", " .
+            "completed = " . $this->db->quote(
+                $this->getCompleted(), 'integer'
+            ) . " " .
+            "WHERE obj_id = " . $this->db->quote(
+                $this->getObjId(), 'integer'
+            ) . " " .
             "AND usr_id = " . $this->db->quote($this->getUserId(), 'integer');
         $res = $this->db->manipulate($query);
     }
@@ -145,15 +151,20 @@ class ilLPMarks
         return false;
     }
 
-    public static function getCompletionsOfUser(int $user_id, string $from, string $to) : array
-    {
+    public static function getCompletionsOfUser(
+        int $user_id,
+        string $from,
+        string $to
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
         $query = "SELECT * FROM ut_lp_marks " .
             "WHERE usr_id = " . $ilDB->quote($user_id, 'integer') .
-            " AND status = " . $ilDB->quote(ilLPStatus::LP_STATUS_COMPLETED_NUM, 'integer') .
+            " AND status = " . $ilDB->quote(
+                ilLPStatus::LP_STATUS_COMPLETED_NUM, 'integer'
+            ) .
             " AND status_changed >= " . $ilDB->quote($from, "timestamp") .
             " AND status_changed <= " . $ilDB->quote($to, "timestamp");
 
@@ -213,9 +224,13 @@ class ilLPMarks
     // Private
     public function __read() : bool
     {
-        $res = $this->db->query("SELECT * FROM ut_lp_marks " .
-            "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " " .
-            "AND usr_id = " . $this->db->quote($this->usr_id, 'integer'));
+        $res = $this->db->query(
+            "SELECT * FROM ut_lp_marks " .
+            "WHERE obj_id = " . $this->db->quote(
+                $this->obj_id, 'integer'
+            ) . " " .
+            "AND usr_id = " . $this->db->quote($this->usr_id, 'integer')
+        );
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->has_entry = true;
             $this->completed = (int) $row->completed;
@@ -241,14 +256,18 @@ class ilLPMarks
         $this->has_entry = true;
     }
 
-    public static function _deleteForUsers(int $a_obj_id, array $a_user_ids) : void
-    {
+    public static function _deleteForUsers(
+        int $a_obj_id,
+        array $a_user_ids
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $ilDB->manipulate("DELETE FROM ut_lp_marks" .
+        $ilDB->manipulate(
+            "DELETE FROM ut_lp_marks" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND " . $ilDB->in("usr_id", $a_user_ids, "", "integer"));
+            " AND " . $ilDB->in("usr_id", $a_user_ids, "", "integer")
+        );
     }
 
     public static function _getAllUserIds(int $a_obj_id) : array
@@ -258,8 +277,10 @@ class ilLPMarks
         $ilDB = $DIC['ilDB'];
 
         $res = array();
-        $set = $ilDB->query("SELECT usr_id FROM ut_lp_marks" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer"));
+        $set = $ilDB->query(
+            "SELECT usr_id FROM ut_lp_marks" .
+            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
+        );
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = (int) $row["usr_id"];
         }
