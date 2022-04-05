@@ -10,7 +10,6 @@ use ILIAS\DI\Container;
  */
 class ilSystemCheckTaskTest extends TestCase
 {
-
     protected Container $dic;
 
     protected function setUp() : void
@@ -25,7 +24,7 @@ class ilSystemCheckTaskTest extends TestCase
         $this->assertInstanceOf(ilSCTask::class, $task);
     }
 
-    public function testLastUpdate()
+    public function testLastUpdate() : void
     {
         $this->getMockBuilder(ilDateTime::class)
              ->disableOriginalConstructor()
