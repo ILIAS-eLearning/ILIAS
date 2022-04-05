@@ -2817,7 +2817,7 @@ class ilObjTestGUI extends ilObjectGUI
             $info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction(), true) .
                     $info->getHiddenToggleButton());
         } else {
-            $info->addSection("");
+            $info->addSection($this->lng->txt("show_details"));
             $info->addProperty("", $info->getHiddenToggleButton());
         }
 

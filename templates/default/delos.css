@@ -18455,12 +18455,17 @@ span.ilProfileBadge .modal .img-responsive {
   height: auto;
 }
 .ilBadgeDeck .il-card img {
+  object-fit: contain;
   width: 75%;
-  height: auto;
+  height: 200px;
 }
 .ilBadgeDeck .icon img {
   width: 100%;
   height: auto;
+}
+.ilBadgeDeck .il-card img.medium {
+  width: 35px;
+  height: 35px;
 }
 .ilBadgeDeck .modal .img-responsive {
   margin: auto;

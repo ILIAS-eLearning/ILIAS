@@ -1967,7 +1967,7 @@ class ilObjSurveyGUI extends ilObjectGUI
             $info->addProperty("", $this->object->prepareTextareaOutput($introduction) .
                 "<br />" . $info->getHiddenToggleButton());
         } else {
-            $info->addSection("");
+            $info->addSection($this->lng->txt("show_details"));
             $info->addProperty("", $info->getHiddenToggleButton());
         }
 
