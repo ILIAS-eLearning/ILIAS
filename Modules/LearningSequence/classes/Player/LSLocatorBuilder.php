@@ -37,6 +37,7 @@ class LSLocatorBuilder implements LocatorBuilder
 
     /**
      * @var array int[]|string[]
+     * @return int[][]|string[][]
      */
     public function getItems() : array
     {

@@ -43,7 +43,7 @@ use ILIAS\Data\URI;
  */
 class ilLSViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-    protected ?Collection $data_collection;
+    protected ?Collection $data_collection = null;
 
     /**
      * @inheritDoc

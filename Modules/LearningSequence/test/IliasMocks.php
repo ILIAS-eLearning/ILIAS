@@ -19,6 +19,7 @@
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Implementation\Component as CImpl;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 trait IliasMocks
 {
@@ -26,8 +27,10 @@ trait IliasMocks
      * Mock the UIFactory w/o all the Components.
      * You can easily return the desired component-factories
      * with setMethod/willReturn.
+     *
+     * @return UIFactory|MockObject
      */
-    protected function mockUIFactory()
+    protected function mockUIFactory() : UIFactory
     {
         $ui_reflection = new ReflectionClass(UIFactory::class);
         $methods = array_map(
@@ -65,14 +68,16 @@ trait IliasMocks
     }
 
 
-    public function uiFactoryBreadcrumbs()
+    public function uiFactoryBreadcrumbs() : CImpl\Breadcrumbs\Breadcrumbs
     {
         $args = func_get_args();
         return new CImpl\Breadcrumbs\Breadcrumbs($args[0]);
     }
-
-
-    protected function mockIlLanguage()
+    
+    /**
+     * @return ilLanguage|MockObject
+     */
+    protected function mockIlLanguage(): ilLanguage
     {
         $lng = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()

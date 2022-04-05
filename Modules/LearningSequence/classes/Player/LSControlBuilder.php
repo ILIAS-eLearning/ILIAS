@@ -74,6 +74,7 @@ class LSControlBuilder implements ControlBuilder
 
     /**
      * @var array Component[]
+     * @return \ILIAS\UI\Component\Component[]
      */
     public function getToggles() : array
     {
@@ -82,6 +83,7 @@ class LSControlBuilder implements ControlBuilder
 
     /**
      * @var array Component[]
+     * @return \ILIAS\UI\Component\Component[]
      */
     public function getModeControls() : array
     {
@@ -90,6 +92,7 @@ class LSControlBuilder implements ControlBuilder
 
     /**
      * @var array Component[]
+     * @return \ILIAS\UI\Component\Component[]
      */
     public function getControls() : array
     {

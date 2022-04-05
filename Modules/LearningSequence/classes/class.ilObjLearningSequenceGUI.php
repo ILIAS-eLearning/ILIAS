@@ -789,6 +789,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     /**
      * append additional types to ilRepositoryExplorerGUI's whitelist
+     * @return int[]|string[]
      */
     protected function getAdditionalWhitelistTypes() : array
     {
