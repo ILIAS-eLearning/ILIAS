@@ -29,10 +29,8 @@ class ilMembershipGUI
 {
     private ilObject $repository_object;
     private ?ilObjectGUI $repository_gui;
-
     protected GlobalHttpState $http;
     protected Factory $refinery;
-
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
     protected ilLogger $logger;
@@ -46,7 +44,6 @@ class ilMembershipGUI
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
     protected ilTree $tree;
-
     protected array $member_data = [];
 
     public function __construct(ilObjectGUI $repository_gui, ilObject $repository_obj)
@@ -70,7 +67,6 @@ class ilMembershipGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->rbacreview = $DIC->rbac()->review();
         $this->tree = $DIC->repositoryTree();
-
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
     }
@@ -172,7 +168,7 @@ class ilMembershipGUI
         string $a_type = '',
         int $a_ref_id = 0
     ) : bool {
-        if (!$a_ref_id) {
+        if ($a_ref_id === 0) {
             $a_ref_id = $this->getParentObject()->getRefId();
         }
         return $this->access->checkAccess($a_permission, $a_cmd, $a_ref_id);
@@ -183,7 +179,7 @@ class ilMembershipGUI
         string $a_pos_perm,
         int $a_ref_id = 0
     ) : bool {
-        if (!$a_ref_id) {
+        if ($a_ref_id === 0) {
             $a_ref_id = $this->getParentObject()->getRefId();
         }
         return $this->access->checkRbacOrPositionPermissionAccess($a_rbac_perm, $a_pos_perm, $a_ref_id);
@@ -930,7 +926,7 @@ class ilMembershipGUI
                 $toolbar->addSeparator();
             }
 
-            if ($a_back_cmd) {
+            if ($a_back_cmd !== null) {
                 $this->ctrl->setParameter($this, "back_cmd", $a_back_cmd);
             }
 

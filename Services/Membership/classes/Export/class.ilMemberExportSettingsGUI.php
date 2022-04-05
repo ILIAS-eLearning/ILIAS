@@ -82,7 +82,7 @@ class ilMemberExportSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initForm($a_type) : ilPropertyFormGUI
+    protected function initForm(string $a_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));

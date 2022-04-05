@@ -27,9 +27,7 @@ class ilMemberAgreement
     private int $user_id;
     private int $obj_id;
     private string $type;
-
     private ilPrivacySettings $privacy;
-
     private bool $accepted = false;
     private int $acceptance_time = 0;
 

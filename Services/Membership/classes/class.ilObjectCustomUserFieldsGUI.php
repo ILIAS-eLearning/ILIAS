@@ -31,7 +31,6 @@ class ilObjectCustomUserFieldsGUI
     protected const MODE_UPDATE = 2;
 
     private ?ilPropertyFormGUI $form = null;
-
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;
     private ilCtrlInterface $ctrl;
@@ -40,10 +39,8 @@ class ilObjectCustomUserFieldsGUI
     protected ilAccessHandler $accessHandler;
     protected ilToolbarGUI $toolbarGUI;
     protected ilObjUser $user;
-
     protected GlobalHttpState $http;
     protected Factory $refinery;
-
     private int $obj_id;
     private int $ref_id;
 

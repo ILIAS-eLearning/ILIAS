@@ -40,23 +40,19 @@ abstract class ilParticipants
     public const IL_ROLE_POSITION_MEMBER = 3;
 
     protected string $component = '';
-
     protected int $ref_id = 0;
     protected int $obj_id = 0;
     protected string $type = '';
-
     protected array $roles = [];
     protected array $role_data = [];
     protected array $roles_sorted = [];
     protected array $role_assignments = [];
-
     protected array $participants = [];
     protected array $participants_status = [];
     protected array $members = [];
     protected array $tutors = [];
     protected array $admins = [];
     protected array $subscribers = [];
-
     protected ilAppEventHandler $eventHandler;
     protected ilRbacReview $rbacReview;
     protected ilRbacAdmin $rbacAdmin;
@@ -83,16 +79,14 @@ abstract class ilParticipants
         $this->rbacAdmin = $DIC->rbac()->admin();
         $this->objectDataCache = $DIC['ilObjDataCache'];
         $this->error = $DIC['ilErr'];
-
         $this->component = $a_component_name;
-
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
-
+        $this->recommended_content_manager = new ilRecommendedContentManager();
+    
         $this->readParticipants();
         $this->readParticipantsStatus();
-        $this->recommended_content_manager = new ilRecommendedContentManager();
     }
 
     public static function getInstance(int $a_ref_id) : ilParticipants
@@ -672,10 +666,10 @@ abstract class ilParticipants
         $this->eventHandler->raise(
             $this->getComponent(),
             "deleteParticipant",
-            array(
+            [
                 'obj_id' => $this->obj_id,
                 'usr_id' => $a_usr_id
-            )
+            ]
         );
     }
 

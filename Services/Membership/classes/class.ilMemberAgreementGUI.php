@@ -31,17 +31,14 @@ class ilMemberAgreementGUI
     private int $ref_id;
     private int $obj_id;
     private string $type;
-
     protected GlobalHttpState $http;
     protected Factory $refinery;
     private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;
     private ilObjUser $user;
-
     private ilPrivacySettings $privacy;
     private ilMemberAgreement $agreement;
-
     private bool $required_fullfilled = false;
     private bool $agreement_required = false;
 
@@ -96,7 +93,7 @@ class ilMemberAgreementGUI
      */
     protected function showAgreement(?ilPropertyFormGUI $form = null) : void
     {
-        if (!$form instanceof ilPropertyFormGUI) {
+        if ($form === null) {
             $form = $this->initFormAgreement();
             self::setCourseDefinedFieldValues($form, $this->obj_id, $this->user->getId());
         }

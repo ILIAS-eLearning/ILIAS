@@ -23,22 +23,18 @@
  */
 abstract class ilRegistrationGUI
 {
-    protected \ILIAS\HTTP\GlobalHttpState $http;
-    protected \ILIAS\Refinery\Factory $refinery;
-    protected ilPrivacySettings $privacy;
-
-    protected ilObject $container;
     protected int $ref_id;
     protected int $obj_id;
     protected string $type;
-
+    protected string $join_error = '';
+    protected bool $registration_possible = true;
+    protected \ILIAS\HTTP\GlobalHttpState $http;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected ilPrivacySettings $privacy;
+    protected ilObject $container;
     protected ilParticipants $participants;
     protected ilWaitingList $waiting_list;
     protected ?ilPropertyFormGUI $form = null;
-
-    protected bool $registration_possible = true;
-    protected string $join_error = '';
-
     protected ilObjUser $user;
     protected ilTabsGUI $tabs;
     protected ilTree $tree;

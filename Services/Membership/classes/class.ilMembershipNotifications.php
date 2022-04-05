@@ -23,21 +23,19 @@
  */
 class ilMembershipNotifications
 {
+    protected const VALUE_OFF = 0;
+    protected const VALUE_ON = 1;
+    protected const VALUE_BLOCKED = 2;
+    protected const MODE_SELF = 1;
+    protected const MODE_ALL = 2;
+    protected const MODE_ALL_BLOCKED = 3;
+    protected const MODE_CUSTOM = 4;
+    
     protected int $ref_id;
     protected int $mode;
     /** @var array<int, int>  */
     protected array $custom;
     protected ?ilParticipants $participants = null;
-
-    protected const VALUE_OFF = 0;
-    protected const VALUE_ON = 1;
-    protected const VALUE_BLOCKED = 2;
-
-    protected const MODE_SELF = 1;
-    protected const MODE_ALL = 2;
-    protected const MODE_ALL_BLOCKED = 3;
-    protected const MODE_CUSTOM = 4;
-
     protected ilSetting $setting;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -48,7 +46,6 @@ class ilMembershipNotifications
         global $DIC;
 
         $this->db = $DIC->database();
-
         $this->ref_id = $a_ref_id;
         $this->custom = [];
         $this->setting = $DIC->settings();
@@ -56,7 +53,7 @@ class ilMembershipNotifications
         $this->user = $DIC->user();
 
         $this->setMode(self::MODE_SELF);
-        if ($this->ref_id) {
+        if ($this->ref_id !== 0) {
             $this->read();
         }
     }
@@ -285,7 +282,7 @@ class ilMembershipNotifications
             case self::MODE_SELF:
                 // current user!
                 $user = $this->getUser();
-                if ($user) {
+                if ($user instanceof ilObjUser) {
                     // blocked value not supported in user pref!
                     if ($a_status === true) {
                         $string_value = '1';
@@ -301,7 +298,7 @@ class ilMembershipNotifications
 
             case self::MODE_CUSTOM:
                 $user = $this->getUser($a_user_id);
-                if ($user) {
+                if ($user instanceof ilObjUser) {
                     $user_id = $user->getId();
 
                     // did status change at all?
@@ -367,9 +364,9 @@ class ilMembershipNotifications
         $tree = $DIC->repositoryTree();
         $log = $DIC->logger()->mmbr();
 
-        $res = array();
+        $res = [];
         if (self::isActive()) {
-            $objects = array();
+            $objects = [];
 
             // user-preference data (MODE_SELF)
             $log->debug("read usr_pref");

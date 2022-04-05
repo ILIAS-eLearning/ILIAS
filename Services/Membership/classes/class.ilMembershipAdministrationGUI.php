@@ -107,7 +107,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $this->setSubTabs('settings', self::SUB_TAB_GENERAL_SETTINGS);
         $this->tabs_gui->setTabActive('settings');
 
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
@@ -199,7 +199,12 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                         ilAdministrationSettingsFormHandler::VALUE_BOOL
                     )
                 );
-                return array(array("editSettings", $fields));
+                return [
+                    [
+                        "editSettings",
+                        $fields
+                    ]
+                ];
         }
         return [];
     }

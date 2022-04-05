@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-    
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,18 +23,19 @@
  */
 class ilWaitingListTableGUI extends ilTable2GUI
 {
-    protected ilObject $rep_object;
-    protected ilObjUser $user;
-
-    protected ilWaitingList $waiting_list;
-    protected array $wait = [];
-    protected array $wait_user_ids = [];
-
     protected static ?array $all_columns = null;
     protected static bool $has_odf_definitions;
+    protected array $wait = [];
+    protected array $wait_user_ids = [];
+    protected ilObject $rep_object;
+    protected ilObjUser $user;
+    protected ilWaitingList $waiting_list;
 
-    public function __construct(object $a_parent_obj, ilObject $rep_object, ilWaitingList $waiting_list)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        ilObject $rep_object,
+        ilWaitingList $waiting_list
+    ) {
         global $DIC;
 
         $this->rep_object = $rep_object;
@@ -105,7 +106,6 @@ class ilWaitingListTableGUI extends ilTable2GUI
     /**
      * Set user ids
      * @param int[] $a_user_ids
-     * @retrun void
      */
     public function setUserIds(array $a_user_ids) : void
     {

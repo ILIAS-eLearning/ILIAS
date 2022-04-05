@@ -23,14 +23,12 @@
  */
 class ilSubscriberTableGUI extends ilTable2GUI
 {
-    protected array $subscribers = array();
-
-    protected ilObject $rep_object;
-
     protected static ?array $all_columns = null;
     protected static bool $has_odf_definitions = false;
+    protected array $subscribers = array();
     protected bool $show_subject = true;
-
+    protected ilObject $rep_object;
+    
     public function __construct(
         object $a_parent_obj,
         ilObject $rep_object,

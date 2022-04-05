@@ -49,7 +49,7 @@ class ilMemberExportGUI
      * @access public
      * @param
      */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
@@ -218,7 +218,7 @@ class ilMemberExportGUI
 
     protected function handleIncoming() : void
     {
-        $settings = array();
+        $settings = [];
         $incoming = [];
         if ($this->http->wrapper()->post()->has('export_members')) {
             $incoming = $this->http->wrapper()->post()->retrieve(

@@ -42,18 +42,9 @@ class ilMembershipCronNotificationsData
 
     /**
      * news array (may include aggregated news which contains news as subitems)
-     * @var array[]
      */
     protected array $user_news_aggr = array();
-
-    /**
-     * @var array[]
-     */
     protected array $likes = array();
-
-    /**
-     * @var array
-     */
     protected array $comments = array();
     protected array $missing_news_per_user = array();
     protected array $missing_news = array();

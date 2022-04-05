@@ -27,7 +27,6 @@ class ilObjectCustomUserFieldHistory
     private int $user_id = 0;
     private int $update_user = 0;
     private ?ilDateTime $editing_time = null;
-
     protected ilDBInterface $db;
 
     public function __construct(int $a_obj_id, int $a_user_id)
@@ -35,7 +34,6 @@ class ilObjectCustomUserFieldHistory
         global $DIC;
 
         $this->db = $DIC->database();
-
         $this->obj_id = $a_obj_id;
         $this->user_id = $a_user_id;
         $this->read();

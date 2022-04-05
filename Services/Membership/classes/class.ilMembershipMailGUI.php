@@ -31,7 +31,6 @@ class ilMembershipMailGUI
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     private ilObjectGUI $object;
-
     protected GlobalHttpState $http;
     protected Factory $refinery;
     private ilGlobalTemplateInterface $main_tpl;
@@ -40,10 +39,8 @@ class ilMembershipMailGUI
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
         $this->object = $object;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -60,7 +57,6 @@ class ilMembershipMailGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-
             default:
                 $this->$cmd();
                 break;
@@ -80,7 +76,7 @@ class ilMembershipMailGUI
         return [];
     }
 
-    protected function initMemberIdFromGet()
+    protected function initMemberIdFromGet() : int
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -115,18 +111,23 @@ class ilMembershipMailGUI
         foreach ($particpants as $usr_id) {
             $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
-
-        ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-            $this->getCurrentObject(),
-            'members',
-            array(),
-            array('type' => 'new', 'rcp_to' => implode(',', $rcps), 'sig' => $this->createMailSignature())
-        ));
+        $this->ctrl->redirectToURL(
+            ilMailFormCall::getRedirectTarget(
+                $this->getCurrentObject(),
+                'members',
+                [],
+                [
+                    'type' => 'new',
+                    'rcp_to' => implode(',', $rcps),
+                    'sig' => $this->createMailSignature()
+                ]
+            )
+        );
     }
 
     protected function createMailSignature() : string
     {
-        $GLOBALS['DIC']['lng']->loadLanguageModule($this->getCurrentObject()->getObject()->getType());
+        $this->lng->loadLanguageModule($this->getCurrentObject()->getObject()->getType());
 
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt($this->getCurrentObject()->getObject()->getType() . '_mail_permanent_link');

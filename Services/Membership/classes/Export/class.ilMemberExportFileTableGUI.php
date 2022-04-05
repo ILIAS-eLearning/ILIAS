@@ -54,12 +54,12 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
     {
         $data = [];
         foreach ($a_fss_export->getMemberExportFiles() as $exp_file) {
-            $data[] = array(
+            $data[] = [
                 'id' => md5($exp_file['name']),
                 'type' => strtoupper($exp_file["type"]),
                 'date' => $exp_file['timest'],
                 'size' => $exp_file['size']
-            );
+            ];
         }
 
         $this->setData($data);

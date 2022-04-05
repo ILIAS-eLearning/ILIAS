@@ -23,14 +23,12 @@
  */
 abstract class ilWaitingList
 {
+    public static array $is_on_list = [];
     private int $obj_id = 0;
     private array $user_ids = [];
     private array $users = [];
-
     protected ilDBInterface $db;
     protected ilAppEventHandler $eventHandler;
-
-    public static array $is_on_list = [];
 
     public function __construct(int $a_obj_id)
     {

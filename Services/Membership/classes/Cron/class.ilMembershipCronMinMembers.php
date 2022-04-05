@@ -99,12 +99,7 @@ class ilMembershipCronMinMembers extends ilCronJob
     {
         foreach (ilObjCourse::findCoursesWithNotEnoughMembers() as $obj_id => $item) {
             $too_few = (bool) $item[0];
-
-            /*
-            $ilDB->manipulate("UPDATE crs_settings".
-                " SET cancel_end_noti = ".$ilDB->quote($now, "integer").
-                " WHERE obj_id = ".$ilDB->quote($obj_id, "integer"));
-            */
+            
 
             if ($too_few) {
                 // not enough members: notifiy course admins
@@ -119,12 +114,7 @@ class ilMembershipCronMinMembers extends ilCronJob
     {
         foreach (ilObjGroup::findGroupsWithNotEnoughMembers() as $obj_id => $item) {
             $too_few = (bool) $item[0];
-
-            /*
-            $ilDB->manipulate("UPDATE grp_settings".
-                " SET cancel_end_noti = ".$ilDB->quote($now, "integer").
-                " WHERE obj_id = ".$ilDB->quote($obj_id, "integer"));
-            */
+            
 
             if ($too_few) {
                 // not enough members: notifiy group admins
