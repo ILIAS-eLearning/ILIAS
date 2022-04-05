@@ -1663,6 +1663,7 @@ var PROJECTIONS = [
     new EPSG3857Projection('EPSG:102100'),
     new EPSG3857Projection('EPSG:102113'),
     new EPSG3857Projection('EPSG:900913'),
+    // PHP8-Review: Link with unencrypted protocol
     new EPSG3857Projection('http://www.opengis.net/gml/srs/epsg.xml#3857'),
 ];
 /**
@@ -1798,6 +1799,7 @@ var PROJECTIONS$1 = [
     new EPSG4326Projection('EPSG:4326', 'neu'),
     new EPSG4326Projection('urn:ogc:def:crs:OGC:1.3:CRS84'),
     new EPSG4326Projection('urn:ogc:def:crs:OGC:2:84'),
+    // PHP8-Review: Link with unencrypted protocol
     new EPSG4326Projection('http://www.opengis.net/gml/srs/epsg.xml#4326', 'neu'),
 ];
 
