@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\ArrayEnvironment;
@@ -27,18 +41,12 @@ class AchieveCommand extends Command
     use HasAgent;
     use HasConfigReader;
     use ObjectiveHelper;
-
+    
     protected static $defaultName = "achieve";
-
-    /**
-     * var Objective[]
-     */
-    protected $preconditions;
-
-    /**
-     * @var Refinery|null
-     */
-    protected $refinery;
+    
+    protected array $preconditions = [];
+    
+    protected Refinery $refinery;
 
     /**
      * @var Objective[] $preconditions will be achieved before command invocation
@@ -55,8 +63,8 @@ class AchieveCommand extends Command
         $this->preconditions = $preconditions;
         $this->refinery = $refinery;
     }
-
-    public function configure()
+    
+    protected function configure() : void
     {
         $this->setDescription("Achieve a named objective from an agent.");
         $this->addArgument(
@@ -75,8 +83,8 @@ class AchieveCommand extends Command
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the objective.");
         $this->addOption("list", null, InputOption::VALUE_NONE, "Lists all achievable objectives");
     }
-
-    public function execute(InputInterface $input, OutputInterface $output) : int
+    
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -97,7 +105,7 @@ class AchieveCommand extends Command
             (
                 $input->getOption("list") !== null
                 && is_bool($input->getOption("list"))
-                && (bool) $input->getOption("list")
+                && $input->getOption("list")
             )
             ||
             (
@@ -141,7 +149,7 @@ class AchieveCommand extends Command
             );
         }
 
-        if (count($this->preconditions) > 0) {
+        if ($this->preconditions !== []) {
             $objective = new ObjectiveWithPreconditions(
                 $objective->create(),
                 ...$this->preconditions
@@ -153,7 +161,7 @@ class AchieveCommand extends Command
         $environment = new ArrayEnvironment([
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
-        if ($config) {
+        if ($config !== null) {
             $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
         }
 
