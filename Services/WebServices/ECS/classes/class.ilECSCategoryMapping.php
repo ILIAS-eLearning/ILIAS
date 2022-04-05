@@ -24,63 +24,55 @@ class ilECSCategoryMapping
     /**
      * get active rules
      *
-     * @return array
-     * @static
+     * @return ilECSCategoryMappingRule[]
      */
-    public static function getActiveRules()
+    public static function getActiveRules() : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $rules = array();
+        $rules = [];
         $res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping');
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $rules[] = new ilECSCategoryMappingRule(intval($row->mapping_id));
+            $rules[] = new ilECSCategoryMappingRule((int) $row->mapping_id);
         }
         return $rules;
     }
-    
+
     /**
      * get matching category
-     *
-     * @param object	$econtent	ilECSEcontent
-     * @return
-     * @static
      */
-    public static function getMatchingCategory($a_server_id, $a_matchable_content)
+    public static function getMatchingCategory(int $a_server_id, array $a_matchable_content) : ?int
     {
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
+        $logger = $DIC->logger()->wsrv();
         
         if (is_null(self::$cached_active_rules)) {
             self::$cached_active_rules = self::getActiveRules();
         }
         foreach (self::$cached_active_rules as $rule) {
             if ($rule->matches($a_matchable_content)) {
-                $ilLog->write(__METHOD__ . ': Found assignment for field type: ' . $rule->getFieldName());
+                $logger->info(__METHOD__ . ': Found assignment for field type: ' . $rule->getFieldName());
                 return $rule->getContainerId();
             }
-            $ilLog->write(__METHOD__ . ': Category assignment failed for field: ' . $rule->getFieldName());
+            $logger->error(__METHOD__ . ': Category assignment failed for field: ' . $rule->getFieldName());
         }
         // Return default container
-        $ilLog->write(__METHOD__ . ': Using default container');
+        $logger->info(__METHOD__ . ': Using default container');
 
         return ilECSSetting::getInstanceByServerId($a_server_id)->getImportId();
     }
     
     /**
      * Handle update of ecs content and create references.
-     *
-     * @return
-     * @static
      */
-    public static function handleUpdate($a_obj_id, $a_server_id, $a_matchable_content)
+    public static function handleUpdate(int $a_obj_id, int $a_server_id, array $a_matchable_content) : bool
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
+        $tree = $DIC->repositoryTree();
+        $logger = $DIC->logger()->wsrv();
      
         $cat = self::getMatchingCategory($a_server_id, $a_matchable_content);
                     
@@ -90,50 +82,47 @@ class ilECSCategoryMapping
                 
         $exists = false;
         foreach (array_keys($references) as $ref_id) {
-            if ($tree->getParentId($ref_id) == $cat) {
+            if ($tree->getParentId($ref_id) === $cat) {
                 $exists = true;
             }
         }
-        $ilLog->write(__METHOD__ . ': Creating/Deleting references...');
+        $logger->info(__METHOD__ . ': Creating/Deleting references...');
         
         if (!$exists) {
-            $ilLog->write(__METHOD__ . ': Add new reference. STEP 1');
+            $logger->info(__METHOD__ . ': Add new reference. STEP 1');
             
             if ($obj_data = ilObjectFactory::getInstanceByRefId($a_ref_id, false)) {
                 $obj_data->createReference();
                 $obj_data->putInTree($cat);
                 $obj_data->setPermissions($cat);
-                $ilLog->write(__METHOD__ . ': Add new reference.');
+                $logger->info(__METHOD__ . ': Add new reference.');
             }
         }
         // Now delete old references
         foreach (array_keys($references) as $ref_id) {
             $parent = $tree->getParentId($ref_id);
-            if ($parent == $cat) {
+            if ($parent === $cat) {
                 continue;
             }
-            if (!in_array($parent, $all_cats)) {
+            if (!in_array($parent, $all_cats, true)) {
                 continue;
             }
             if ($to_delete = ilObjectFactory::getInstanceByRefId($ref_id)) {
                 $to_delete->delete();
-                $ilLog->write(__METHOD__ . ': Deleted deprecated reference.');
+                $logger->write(__METHOD__ . ': Deleted deprecated reference.');
             }
         }
         return true;
     }
-     
+
     /**
-     *
-     *
-     * @return
-     * @static
+     * @return int[] the container ids for the ecs container mapping
      */
-    public static function lookupHandledCategories()
+    public static function lookupHandledCategories() : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $ref_ids = [];
         $res = $ilDB->query("SELECT container_id FROM ecs_container_mapping ");
@@ -144,12 +133,9 @@ class ilECSCategoryMapping
     }
 
     /**
-     *
-     *
-     * @return
-     * @static
+     * @return array<string,string> tthe possible fields with translation
      */
-    public static function getPossibleFields()
+    public static function getPossibleFields() : array
     {
         global $DIC;
 

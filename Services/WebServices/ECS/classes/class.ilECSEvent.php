@@ -19,12 +19,12 @@
 */
 class ilECSEvent
 {
-    const CREATED = 'created';
-    const UPDATED = 'updated';
-    const DESTROYED = 'destroyed';
-    const NEW_EXPORT = 'new_export';
+    public const CREATED = 'created';
+    public const UPDATED = 'updated';
+    public const DESTROYED = 'destroyed';
+    public const NEW_EXPORT = 'new_export';
 
-    protected $json_obj = null;
+    protected $json_obj;
     public string $status = '';
     public string $ressource = '';
     public $ressource_id = 0;
@@ -45,22 +45,16 @@ class ilECSEvent
     
     /**
      * get title
-     *
-     * @access public
-     *
      */
-    public function getStatus()
+    public function getStatus() : string
     {
         return $this->status;
     }
     
     /**
      * getDescription
-     *
-     * @access public
-     *
      */
-    public function getRessource()
+    public function getRessource() : string
     {
         return $this->ressource;
     }
@@ -68,7 +62,7 @@ class ilECSEvent
     /**
      * Get ressource id
      */
-    public function getRessourceId()
+    public function getRessourceId() : int
     {
         return $this->ressource_id;
     }
@@ -76,9 +70,8 @@ class ilECSEvent
 
     /**
      * Get ressource type
-     * @return string
      */
-    public function getRessourceType()
+    public function getRessourceType() : ?string
     {
         return $this->ressource_type;
     }
@@ -86,11 +79,8 @@ class ilECSEvent
     
     /**
      * Read community entries and participants
-     *
-     * @access private
-     *
      */
-    private function read()
+    private function read() : void
     {
         $this->status = $this->json_obj->status;
         $this->ressource = $this->json_obj->ressource;

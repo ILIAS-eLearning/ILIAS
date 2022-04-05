@@ -44,7 +44,7 @@ class ilECSTimePlace
      * @param object json representation
      * @throws ilException
      */
-    public function loadFromJson($a_json)
+    public function loadFromJson($a_json) : void
     {
         if (!is_object($a_json)) {
             $this->logger->error(__METHOD__ . ': Cannot load from JSON. No object given.');
@@ -69,14 +69,11 @@ class ilECSTimePlace
 
     /**
      * set begin
-     *
-     * @access public
-     *
      */
-    public function setBegin($a_begin)
+    public function setBegin($a_begin) : void
     {
         // is it unix time ?
-        if (is_numeric($a_begin) and $a_begin) {
+        if (is_numeric($a_begin) && $a_begin) {
             $dt = new ilDateTime($a_begin, IL_CAL_UNIX, ilTimeZone::UTC);
             $this->end = $dt->get(IL_CAL_DATE);
         } else {
@@ -86,37 +83,27 @@ class ilECSTimePlace
 
     /**
      * get begin
-     *
-     * @access public
      */
-    public function getBegin()
+    public function getBegin() : string
     {
         return $this->begin;
     }
 
     /**
      * get begin as unix time
-     *
-     * @access public
-     *
      */
     public function getUTBegin()
     {
-        $dt = new ilDateTime($this->begin, IL_CAL_DATE, ilTimeZone::UTC);
-        return $dt->get(IL_CAL_UNIX);
+        return (new ilDateTime($this->begin, IL_CAL_DATE, ilTimeZone::UTC))->get(IL_CAL_UNIX);
     }
 
     /**
      * set end
-     *
-     * @access public
-     * @param string end
-     *
      */
-    public function setEnd($a_end)
+    public function setEnd(string $a_end) : void
     {
         // is it unix time ?
-        if (is_numeric($a_end) and $a_end) {
+        if (is_numeric($a_end) && $a_end) {
             $dt = new ilDateTime($a_end, IL_CAL_UNIX, ilTimeZone::UTC);
             $this->end = $dt->get(IL_CAL_DATE);
         } else {
@@ -126,69 +113,48 @@ class ilECSTimePlace
 
     /**
      * get end
-     *
-     * @access public
      */
-    public function getEnd()
+    public function getEnd() : string
     {
         return $this->end;
     }
 
     /**
      * get end as unix time
-     *
-     * @access public
-     *
      */
     public function getUTEnd()
     {
-        $dt = new ilDateTime($this->end, IL_CAL_DATE, ilTimeZone::UTC);
-        return $dt->get(IL_CAL_UNIX);
+        return (new ilDateTime($this->end, IL_CAL_DATE, ilTimeZone::UTC))->get(IL_CAL_UNIX);
     }
 
     /**
      * set room
-     *
-     * @access public
-     * @param string room
-     *
      */
-    public function setRoom($a_room)
+    public function setRoom(string $a_room) : void
     {
         $this->room = $a_room;
     }
 
     /**
      * get room
-     *
-     * @access public
-     *
      */
-    public function getRoom()
+    public function getRoom() : string
     {
         return $this->room;
     }
 
     /**
      * set cycle
-     *
-     * @access public
-     * @param
-     *
      */
-    public function setCycle($a_cycle)
+    public function setCycle($a_cycle) : void
     {
         $this->cycle = $a_cycle;
     }
 
     /**
      * get cycle
-     *
-     * @access public
-     * @param
-     *
      */
-    public function getCycle()
+    public function getCycle() : string
     {
         return $this->cycle;
     }

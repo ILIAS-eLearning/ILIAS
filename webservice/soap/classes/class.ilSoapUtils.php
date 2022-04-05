@@ -538,31 +538,6 @@ class ilSoapUtils extends ilSoapAdministration
     }
 
     /**
-     * @todo get rid of the soap wrapper
-     */
-    public function handleECSTasks(string $sid, int $a_server_id)
-    {
-        $this->initAuth($sid);
-        $this->initIlias();
-
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-        }
-
-        include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
-
-        global $DIC;
-
-        $ilLog = $DIC->logger()->wsrv();
-
-        $ilLog->info('Starting task execution...');
-        $scheduler = ilECSTaskScheduler::_getInstanceByServerId($a_server_id);
-        $scheduler->startTaskExecution();
-
-        return true;
-    }
-
-    /**
      * Method for soap webservice: deleteExpiredDualOptInUserObjects
      * This service will run in background. The client has not to wait for response.
      * @param string $sid    Session id + client id, separated by ::

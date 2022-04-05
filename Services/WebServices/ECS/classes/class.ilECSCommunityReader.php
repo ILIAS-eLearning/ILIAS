@@ -26,7 +26,10 @@ class ilECSCommunityReader
     private ilLogger $logger;
     private ilECSSetting $settings;
     private ilECSConnector $connector;
-    
+
+    /**
+     * @var ilECSCommunity[]
+     */
     private array $communities = array();
     private array $participants = array();
     private array $own_ids = array();
@@ -53,22 +56,16 @@ class ilECSCommunityReader
 
     /**
      * Get instance by server id
-     * @param int $a_server_id
-     * @return ilECSCommunityReader
      */
-    public static function getInstanceByServerId(int $a_server_id)
+    public static function getInstanceByServerId(int $a_server_id) : \ilECSCommunityReader
     {
-        if (isset(self::$instances[$a_server_id])) {
-            return self::$instances[$a_server_id];
-        }
-        return self::$instances[$a_server_id] = new ilECSCommunityReader(ilECSSetting::getInstanceByServerId($a_server_id));
+        return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSCommunityReader(ilECSSetting::getInstanceByServerId($a_server_id)));
     }
 
     /**
      * Get server setting
-     * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : \ilECSSetting
     {
         return $this->settings;
     }
@@ -77,7 +74,7 @@ class ilECSCommunityReader
      * Get participants
      * @return ilECSParticipant[]
      */
-    public function getParticipants()
+    public function getParticipants() : array
     {
         return $this->participants;
     }
@@ -85,13 +82,10 @@ class ilECSCommunityReader
 
     /**
      * get publishable ids
-     *
-     * @access public
-     *
      */
-    public function getOwnMIDs()
+    public function getOwnMIDs() : array
     {
-        return $this->own_ids ? $this->own_ids : array();
+        return $this->own_ids ?: [];
     }
     
     /**
@@ -100,9 +94,9 @@ class ilECSCommunityReader
      * @access public
      * @return \ilECSCommunity[]
      */
-    public function getCommunities()
+    public function getCommunities() : array
     {
-        return $this->communities ? $this->communities : array();
+        return $this->communities ?: [];
     }
     
     /**
@@ -110,12 +104,11 @@ class ilECSCommunityReader
      *
      * @access public
      * @param int comm_id
-     *
      */
-    public function getCommunityById($a_id)
+    public function getCommunityById($a_id) : ?ilECSCommunity
     {
         foreach ($this->communities as $community) {
-            if ($community->getId() == $a_id) {
+            if ($community->getId() === $a_id) {
                 return $community;
             }
         }
@@ -126,12 +119,12 @@ class ilECSCommunityReader
      * @param int $a_pid
      * @return \ilECSParticipant[]
      */
-    public function getParticipantsByPid($a_pid)
+    public function getParticipantsByPid($a_pid) : array
     {
         $participants = [];
         foreach ($this->getCommunities() as $community) {
             foreach ($community->getParticipants() as $participant) {
-                if ($participant->getPid() == $a_pid) {
+                if ($participant->getPid() === $a_pid) {
                     $participants[] = $participant;
                 }
             }
@@ -147,10 +140,10 @@ class ilECSCommunityReader
      */
     public function getParticipantByMID($a_mid)
     {
-        return isset($this->participants[$a_mid]) ? $this->participants[$a_mid] : false;
+        return $this->participants[$a_mid] ?? false;
     }
 
-    public function getParticipantNameByMid($a_mid)
+    public function getParticipantNameByMid($a_mid) : string
     {
         return isset($this->participants[$a_mid]) ?
             $this->participants[$a_mid]-> getParticipantName():
@@ -159,14 +152,12 @@ class ilECSCommunityReader
 
     /**
      * Get community by mid
-     * @param int $a_mid
-     * @return ilECSCommunity
      */
-    public function getCommunityByMID($a_mid)
+    public function getCommunityByMID(int $a_mid) : ?\ilECSCommunity
     {
         foreach ($this->communities as $community) {
             foreach ($community->getParticipants() as $part) {
-                if ($part->getMID() == $a_mid) {
+                if ($part->getMID() === $a_mid) {
                     return $community;
                 }
             }
@@ -175,56 +166,35 @@ class ilECSCommunityReader
     }
     
     /**
-     * get publishable communities
-     *
-     * @access public
-     *
-     */
-    public function getPublishableParticipants()
-    {
-        foreach ($this->getCommunities() as $community) {
-            foreach ($community->getParticipants() as $participant) {
-                if ($participant->isPublishable()) {
-                    $p_part[] = $participant;
-                }
-            }
-        }
-        return $p_part ? $p_part : array();
-    }
-    
-    /**
      * get enabled participants
-     *
-     * @access public
-     *
      */
-    public function getEnabledParticipants()
+    public function getEnabledParticipants() : array
     {
         $ps = ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId());
         $en = $ps->getEnabledParticipants();
+        $e_part = [];
         foreach ($this->getCommunities() as $community) {
             foreach ($community->getParticipants() as $participant) {
-                if (in_array($participant->getMid(), $en)) {
+                if (in_array($participant->getMid(), $en, true)) {
                     $e_part[] = $participant;
                 }
             }
         }
-        return $e_part ? $e_part : array();
+        return $e_part;
     }
 
     /**
      * Read
-     * @access private
-     * @throws ilECSConnectorException
      *
+     * @throws ilECSConnectorException
      */
-    private function read()
+    private function read() : void
     {
         try {
             $res = $this->connector->getMemberships();
 
             if (!is_array($res->getResult())) {
-                return false;
+                return;
             }
             foreach ($res->getResult() as $community) {
                 $tmp_comm = new ilECSCommunity($community);

@@ -26,7 +26,7 @@ class ilECSUriList
     /**
      * Add uri
      */
-    public function add(string $a_uri, int $a_link_id)
+    public function add(string $a_uri, int $a_link_id) : void
     {
         $this->uris[$a_link_id] = $a_uri;
     }

@@ -22,15 +22,14 @@
  */
 class ilECSMappingSettingsGUI
 {
-    const TAB_DIRECTORY = 1;
-    const TAB_COURSE = 2;
+    public const TAB_DIRECTORY = 1;
+    public const TAB_COURSE = 2;
     
     protected ilLogger $log;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
-    private ilTree $tree;
     private ilToolbarGUI $toolbar;
     
     private ilECSSettingsGUI $container;
@@ -50,7 +49,6 @@ class ilECSMappingSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->log = $DIC->logger()->wsrv();
         $this->tabs = $DIC->tabs();
-        $this->tree = $DIC->repositoryTree();
         $this->toolbar = $DIC->toolbar();
 
         $this->container = $settingsContainer;
@@ -61,18 +59,13 @@ class ilECSMappingSettingsGUI
 
     /**
      * Get container object
-     * @return ilObjectGUI
      */
-    public function getContainer()
+    public function getContainer() : \ilECSSettingsGUI
     {
         return $this->container;
     }
 
-    /**
-     *
-     * @return ilECSSetting
-     */
-    public function getServer()
+    public function getServer() : \ilECSSetting
     {
         return $this->server;
     }
@@ -81,7 +74,7 @@ class ilECSMappingSettingsGUI
      * Get mid
      * @return int Get mid
      */
-    public function getMid()
+    public function getMid() : int
     {
         return $this->mid;
     }
@@ -89,7 +82,7 @@ class ilECSMappingSettingsGUI
     /**
      * ilCtrl executeCommand
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->tpl->setTitle($this->lng->txt('ecs_campus_connect_title'));
 
@@ -101,25 +94,19 @@ class ilECSMappingSettingsGUI
         $cmd = $this->ctrl->getCmd();
 
         $this->setTabs();
-        switch ($next_class) {
-            default:
-                if (!$cmd) {
-                    $cmd = "cStart";
-                }
-                $this->$cmd();
-                break;
+        if (!$cmd) {
+            $cmd = "cStart";
         }
+        $this->$cmd();
 
         $this->tpl->setTitle($this->getServer()->getTitle());
         $this->tpl->setDescription('');
-
-        return true;
     }
 
     /**
      * return to parent container
      */
-    public function cancel()
+    public function cancel() : void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -131,34 +118,37 @@ class ilECSMappingSettingsGUI
 
     /**
      * Goto default page
-     * @return <type>
      */
-    protected function cStart()
+    protected function cStart() : void
     {
-        if (ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid())->isCourseAllocationEnabled()) {
-            return $this->cInitOverview();
+        if (ilECSNodeMappingSettings::getInstanceByServerMid(
+            $this->getServer()->getServerId(),
+            $this->getMid()
+        )->isCourseAllocationEnabled()) {
+            $this->cInitOverview();
+        } else {
+            $this->cSettings();
         }
-        return $this->cSettings();
     }
 
     /**
      * Goto default page
-     * @return <type>
      */
-    protected function dStart()
+    protected function dStart() : void
     {
         if (ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid())->isDirectoryMappingEnabled()) {
-            return $this->dTrees();
+            $this->dTrees();
+        } else {
+            $this->dSettings();
         }
-        return $this->dSettings();
     }
     
     /**
      * Show overview page
      */
-    protected function cInitOverview($form = null, $current_attribute = null)
+    protected function cInitOverview($form = null, $current_attribute = null) : void
     {
-        $current_node = (array) (($_REQUEST['lnodes']) ? $_REQUEST['lnodes'] : ROOT_FOLDER_ID);
+        $current_node = (array) (($_REQUEST['lnodes']) ?: ROOT_FOLDER_ID);
         $current_node = end($current_node);
         
         $this->ctrl->setParameter($this, 'lnodes', $current_node);
@@ -182,8 +172,7 @@ class ilECSMappingSettingsGUI
                     );
 
                     $current_attribute =
-                        $existing ?
-                        $existing :
+                        $existing ?:
                         '';
                     /*
                         ilECSCourseAttributes::getInstance(
@@ -204,7 +193,7 @@ class ilECSMappingSettingsGUI
     /**
      * Add one attribute in form
      */
-    protected function cAddAttribute()
+    protected function cAddAttribute() : void
     {
         $next_attribute = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid())->getNextAttributeName((string) $_REQUEST['ecs_ca']);
         $this->cInitOverview(null, $next_attribute);
@@ -213,7 +202,7 @@ class ilECSMappingSettingsGUI
     /**
      * Delete last attribute in form
      */
-    protected function cDeleteAttribute()
+    protected function cDeleteAttribute() : void
     {
         $prev_attribute = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid())->getPreviousAttributeName((string) $_REQUEST['ecs_ca']);
         $this->cInitOverview(null, $prev_attribute);
@@ -222,7 +211,7 @@ class ilECSMappingSettingsGUI
     /**
      * Show local explorer
      */
-    protected function cShowLocalExplorer()
+    protected function cShowLocalExplorer() : \ilECSNodeMappingLocalExplorer
     {
         $explorer = new ilECSNodeMappingLocalExplorer(
             $this->ctrl->getLinkTarget($this, 'cInitOverview'),
@@ -253,7 +242,7 @@ class ilECSMappingSettingsGUI
     /**
      * Init the mapping form
      */
-    protected function cInitMappingForm($current_node, $current_attribute)
+    protected function cInitMappingForm($current_node, $current_attribute) : \ilPropertyFormGUI
     {
         $attributes_obj = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid());
         
@@ -277,12 +266,12 @@ class ilECSMappingSettingsGUI
             $form->addItem($section);
 
             $isfilter = new ilRadioGroupInputGUI($this->lng->txt('ecs_cmap_form_filter'), $att_name . '_is_filter');
-            $isfilter->setValue($rule->isFilterEnabled() ? 1 : 0);
+            $isfilter->setValue($rule->isFilterEnabled() ? "1" : "0");
 
-            $all_values = new ilRadioOption($this->lng->txt('ecs_cmap_form_all_values'), 0);
+            $all_values = new ilRadioOption($this->lng->txt('ecs_cmap_form_all_values'), "0");
             $isfilter->addOption($all_values);
 
-            $use_filter = new ilRadioOption($this->lng->txt('ecs_cmap_form_filter_by_values'), 1);
+            $use_filter = new ilRadioOption($this->lng->txt('ecs_cmap_form_filter_by_values'), "1");
             $filter = new ilTextInputGUI('', $att_name . '_filter');
             $filter->setInfo($this->lng->txt('ecs_cmap_form_filter_info'));
             $filter->setSize(50);
@@ -298,7 +287,7 @@ class ilECSMappingSettingsGUI
             // Create subdirs
             $subdirs = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_form_create_subdirs'), $att_name . '_subdirs');
             $subdirs->setChecked($rule->isSubdirCreationEnabled());
-            $subdirs->setValue(1);
+            $subdirs->setValue("1");
 
             // Subdir types (disabled in spec)
             /*
@@ -375,7 +364,7 @@ class ilECSMappingSettingsGUI
     /**
      * Save overview
      */
-    protected function cSaveOverview()
+    protected function cSaveOverview() : void
     {
         $current_node = (int) $_REQUEST['lnodes'];
         $current_att = (string) $_REQUEST['ecs_ca'];
@@ -418,7 +407,7 @@ class ilECSMappingSettingsGUI
         $this->cInitOverview($form, $current_att);
     }
     
-    protected function cDeleteRulesOfNode()
+    protected function cDeleteRulesOfNode() : void
     {
         $current_node = (int) $_REQUEST['lnodes'];
         
@@ -441,9 +430,8 @@ class ilECSMappingSettingsGUI
 
     /**
      * Show course allocation
-     * @return bool
      */
-    protected function cSettings(ilPropertyFormGUI $form = null)
+    protected function cSettings(ilPropertyFormGUI $form = null) : bool
     {
         $this->setSubTabs(self::TAB_COURSE);
         $this->tabs->activateTab('ecs_crs_allocation');
@@ -461,7 +449,7 @@ class ilECSMappingSettingsGUI
     /**
      * Init settings form
      */
-    protected function initFormCSettings()
+    protected function initFormCSettings() : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -575,7 +563,7 @@ class ilECSMappingSettingsGUI
     /**
      * Show directory allocation
      */
-    protected function dSettings(ilPropertyFormGUI $form = null)
+    protected function dSettings(ilPropertyFormGUI $form = null) : bool
     {
         $this->setSubTabs(self::TAB_DIRECTORY);
         $this->tabs->activateTab('ecs_dir_allocation');
@@ -593,16 +581,16 @@ class ilECSMappingSettingsGUI
     /**
      * Update course settings
      */
-    protected function cUpdateSettings()
+    protected function cUpdateSettings() : void
     {
         $form = $this->initFormCSettings();
         if ($form->checkInput()) {
             $settings = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid());
-            $settings->enableCourseAllocation(boolval($form->getInput('enabled')));
-            $settings->setDefaultCourseCategory(intval($form->getInput('default_cat')));
-            $settings->enableAllInOne(boolval($form->getInput('allinone')));
-            $settings->setAllInOneCategory(intval($form->getInput('allinone_cat')));
-            $settings->enableAttributeMapping(boolval($form->getInput('multiple')));
+            $settings->enableCourseAllocation((bool) $form->getInput('enabled'));
+            $settings->setDefaultCourseCategory((int) $form->getInput('default_cat'));
+            $settings->enableAllInOne((bool) $form->getInput('allinone'));
+            $settings->setAllInOneCategory((int) $form->getInput('allinone_cat'));
+            $settings->enableAttributeMapping((bool) $form->getInput('multiple'));
             $settings->setAuthMode($form->getInput('auth_mode'));
 
             $role_mappings = array();
@@ -640,16 +628,16 @@ class ilECSMappingSettingsGUI
         $form->setValuesByPost();
         $this->cSettings($form);
     }
-    
+
     /**
      * Show active attributes
      */
-    protected function cAttributes()
+    protected function cAttributes() : void
     {
         $this->setSubTabs(self::TAB_COURSE);
         $this->tabs->setTabActive('ecs_crs_allocation');
         $this->tabs->setSubTabActive('cAttributes');
-        
+
         $table = new ilECSCourseAttributesTableGUI(
             $this,
             'attributes',
@@ -663,16 +651,16 @@ class ilECSMappingSettingsGUI
                 $this->getMid()
             )->getAttributes()
         );
-        
+
         $this->tpl->setContent($table->getHTML());
     }
-    
-    
+
+
 
     /**
      * Update node mapping settings
      */
-    protected function dUpdateSettings()
+    protected function dUpdateSettings() : void
     {
         $form = $this->initFormDSettings();
         if ($form->checkInput()) {
@@ -691,7 +679,7 @@ class ilECSMappingSettingsGUI
     /**
      *
      */
-    protected function initFormDSettings()
+    protected function initFormDSettings() : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -715,7 +703,7 @@ class ilECSMappingSettingsGUI
     /**
      * Show directory trees
      */
-    protected function dTrees()
+    protected function dTrees() : bool
     {
         $this->setSubTabs(self::TAB_DIRECTORY);
         $this->tabs->activateSubTab('dTrees');
@@ -742,7 +730,7 @@ class ilECSMappingSettingsGUI
     /**
      * Delete tree settings
      */
-    protected function dConfirmDeleteTree()
+    protected function dConfirmDeleteTree() : void
     {
         $this->setSubTabs(self::TAB_DIRECTORY);
         $this->tabs->activateSubTab('dTrees');
@@ -754,7 +742,7 @@ class ilECSMappingSettingsGUI
 
         $confirm->addItem(
             'tid',
-            (int) $_REQUEST['tid'],
+            $_REQUEST['tid'],
             ilECSCmsData::lookupTitle(
                 $this->getServer()->getServerId(),
                 $this->getMid(),
@@ -770,7 +758,7 @@ class ilECSMappingSettingsGUI
     /**
      * Delete tree
      */
-    protected function dDeleteTree()
+    protected function dDeleteTree() : void
     {
         $this->log->info('Deleting tree');
 
@@ -809,7 +797,7 @@ class ilECSMappingSettingsGUI
     /**
      * Edit directory tree assignments
      */
-    protected function dEditTree(ilPropertyFormGUI $form = null)
+    protected function dEditTree(ilPropertyFormGUI $form = null) : void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ecs_edit_tree.html', 'Services/WebServices/ECS');
 
@@ -843,7 +831,7 @@ class ilECSMappingSettingsGUI
     /**
      * Init form settings
      */
-    protected function dInitFormTreeSettings(ilPropertyFormGUI $form = null)
+    protected function dInitFormTreeSettings(ilPropertyFormGUI $form = null) : \ilPropertyFormGUI
     {
         if ($form instanceof ilPropertyFormGUI) {
             return $form;
@@ -879,7 +867,7 @@ class ilECSMappingSettingsGUI
             $this->getMid(),
             (int) $_REQUEST['tid']
         );
-        $mapping_advanced = ($mapping_status != ilECSMappingUtils::MAPPED_MANUAL ? true : false);
+        $mapping_advanced = ($mapping_status !== ilECSMappingUtils::MAPPED_MANUAL);
 
         // Status (readonly)
         $status = new ilNonEditableValueGUI($this->lng->txt('status'), '');
@@ -888,7 +876,7 @@ class ilECSMappingSettingsGUI
 
         // title update
         $title = new ilCheckboxInputGUI($this->lng->txt('ecs_title_updates'), 'title');
-        $title->setValue(1);
+        $title->setValue("1");
         $title->setChecked($assignment->isTitleUpdateEnabled());
         #$title->setInfo($this->lng->txt('ecs_title_update_info'));
         $form->addItem($title);
@@ -897,14 +885,14 @@ class ilECSMappingSettingsGUI
         $position = new ilCheckboxInputGUI($this->lng->txt('ecs_position_updates'), 'position');
         $position->setDisabled(!$mapping_advanced);
         $position->setChecked($mapping_advanced && $assignment->isPositionUpdateEnabled());
-        $position->setValue(1);
+        $position->setValue("1");
         #$position->setInfo($this->lng->txt('ecs_position_update_info'));
         $form->addItem($position);
 
         $tree = new ilCheckboxInputGUI($this->lng->txt('ecs_tree_updates'), 'tree');
         $tree->setDisabled(!$mapping_advanced);
         $tree->setChecked($mapping_advanced && $assignment->isTreeUpdateEnabled());
-        $tree->setValue(1);
+        $tree->setValue("1");
         #$tree->setInfo($this->lng->txt('ecs_tree_update_info'));
         $form->addItem($tree);
 
@@ -915,7 +903,7 @@ class ilECSMappingSettingsGUI
      *
      * @return boolean Update global settings
      */
-    protected function dUpdateTreeSettings()
+    protected function dUpdateTreeSettings() : bool
     {
         $assignment = new ilECSNodeMappingAssignment(
             $this->getServer()->getServerId(),
@@ -933,7 +921,7 @@ class ilECSMappingSettingsGUI
             $assignment->enablePositionUpdate($form->getInput('position'));
             $assignment->update();
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved', true));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved', "1"));
             $this->ctrl->redirect($this, 'dEditTree');
         }
 
@@ -946,7 +934,7 @@ class ilECSMappingSettingsGUI
     /**
      * Synchronize Tree
      */
-    protected function dSynchronizeTree()
+    protected function dSynchronizeTree() : void
     {
         $sync = new ilECSCmsTreeSynchronizer(
             $this->getServer(),
@@ -957,17 +945,17 @@ class ilECSMappingSettingsGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_cms_tree_synchronized'), true);
         $this->ctrl->redirect($this, 'dTrees');
     }
-    
-    protected function dSynchronizeTrees()
+
+    protected function dSynchronizeTrees() : void
     {
         $this->log->dump('Start synchronizing cms directory trees');
-        
+
         try {
             $connector = new ilECSDirectoryTreeConnector($this->getServer());
             $res = $connector->getDirectoryTrees();
-            
+
             $this->log->dump($res, ilLogLevel::DEBUG);
-            
+
             foreach ((array) $res->getLinkIds() as $cms_id) {
                 $event = new ilECSEventQueueReader($this->getServer());
                 $event->add(
@@ -986,7 +974,7 @@ class ilECSMappingSettingsGUI
     /**
      * Show local explorer
      */
-    protected function dShowLocalExplorer()
+    protected function dShowLocalExplorer() : \ilECSNodeMappingLocalExplorer
     {
         $explorer = new ilECSNodeMappingLocalExplorer(
             $this->ctrl->getLinkTarget($this, 'dEditTree'),
@@ -1019,7 +1007,7 @@ class ilECSMappingSettingsGUI
     /**
      * Show cms explorer
      */
-    protected function dShowCmsExplorer(ilExplorer $localExplorer)
+    protected function dShowCmsExplorer(ilExplorer $localExplorer) : void
     {
         $explorer = new ilECSNodeMappingCmsExplorer(
             $this->ctrl->getLinkTarget($this, 'dEditTree'),
@@ -1075,23 +1063,22 @@ class ilECSMappingSettingsGUI
 
     /**
      * Init tree
-     * @return
      */
-    protected function dInitEditTree()
+    protected function dInitEditTree() : void
     {
         ilECSCmsData::updateStatus(
             $this->getServer()->getServerId(),
             $this->getMid(),
             (int) $_REQUEST['tid']
         );
-        return $this->dEditTree();
+        $this->dEditTree();
     }
 
 
     /**
      * Do mapping
      */
-    protected function dMap()
+    protected function dMap() : void
     {
         if (!$_POST['lnodes']) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -1109,7 +1096,7 @@ class ilECSMappingSettingsGUI
 
 
         $nodes = (array) $_POST['rnodes'];
-        $nodes = (array) array_reverse($nodes);
+        $nodes = array_reverse($nodes);
 
         foreach ($nodes as $cms_id) {
             $assignment = new ilECSNodeMappingAssignment(
@@ -1157,7 +1144,7 @@ class ilECSMappingSettingsGUI
     /**
      * Show directory trees
      */
-    protected function dMappingOverview()
+    protected function dMappingOverview() : void
     {
         $this->setSubTabs(self::TAB_DIRECTORY);
         $this->tabs->activateSubTab('dMappingOverview');
@@ -1169,7 +1156,7 @@ class ilECSMappingSettingsGUI
     /**
      * Set tabs
      */
-    protected function setTabs()
+    protected function setTabs() : void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
@@ -1177,7 +1164,7 @@ class ilECSMappingSettingsGUI
             $this->ctrl->getParentReturnByClass(self::class)
         );
         // Directories are only visible for import type campus managment.
-        if (ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId())->lookupCmsMid() == $this->getMid()) {
+        if (ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId())->lookupCmsMid() === $this->getMid()) {
             $this->tabs->addTab(
                 'ecs_dir_allocation',
                 $this->lng->txt('ecs_dir_alloc'),
@@ -1196,9 +1183,9 @@ class ilECSMappingSettingsGUI
      * Set Sub tabs
      * @param string $a_tab
      */
-    protected function setSubTabs($a_tab)
+    protected function setSubTabs($a_tab) : void
     {
-        if ($a_tab == self::TAB_DIRECTORY) {
+        if ($a_tab === self::TAB_DIRECTORY) {
             $this->tabs->addSubTab(
                 'dMappingOverview',
                 $this->lng->txt('ecs_cc_mapping_overview'),
@@ -1215,7 +1202,7 @@ class ilECSMappingSettingsGUI
                 $this->ctrl->getLinkTarget($this, 'dSettings')
             );
         }
-        if ($a_tab == self::TAB_COURSE) {
+        if ($a_tab === self::TAB_COURSE) {
             if (ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid())->isCourseAllocationEnabled()) {
                 $this->tabs->addSubTab(
                     'cInitTree',

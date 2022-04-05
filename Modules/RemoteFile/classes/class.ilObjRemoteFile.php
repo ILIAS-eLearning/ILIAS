@@ -91,22 +91,22 @@ class ilObjRemoteFile extends ilRemoteObjectBase
         $a_fields["version_tstamp"] = array("integer", time());
     }
 
-    protected function doUpdateCustomFields(array &$a_fields)
+    protected function doUpdateCustomFields(array &$a_fields) : void
     {
         $a_fields["version"] = array("integer", $this->getVersion());
         $a_fields["version_tstamp"] = array("integer", $this->getVersionDateTime());
     }
 
-    protected function doReadCustomFields($a_row)
+    protected function doReadCustomFields($a_row) : void
     {
         $this->setVersion($a_row->version);
         $this->setVersionDateTime($a_row->version_tstamp);
     }
     
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content) : void
     {
-        $this->setVersion($a_ecs_content->version);
-        $this->setVersionDateTime($a_ecs_content->version_date);
+        $this->setVersion($ecs_content->version);
+        $this->setVersionDateTime($ecs_content->version_date);
     }
     
     /**

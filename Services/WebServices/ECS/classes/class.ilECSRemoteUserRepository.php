@@ -21,10 +21,7 @@ class ilECSRemoteUserRepository
 {
     private ilDBInterface $db;
 
-    /**
-     * Constructor (Singleton)
-     */
-    private function __construct()
+    public function __construct()
     {
         global $DIC;
 
@@ -44,28 +41,11 @@ class ilECSRemoteUserRepository
             'AND mid = ' . $this->db->quote($mid, 'integer') . ' ' .
             'AND usr_id = ' . $this->db->quote($usr_id, 'integer');
         $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (bool) $row->eru_id;
         }
         return false;
     }
-
-//     /**
-//      * Update remote user entry
-//      * @return boolean
-//      */
-//     public function update(\ilECSRemoteUser $remoteUser): bool
-//     {
-
-//         $query = 'UPDATE ecs_remote_user SET ' .
-//             'sid = ' . $this->db->quote($this->getServerId(), 'integer') . ', ' .
-//             'mid = ' . $this->db->quote($this->getMid(), 'integer') . ', ' .
-//             'usr_id = ' . $this->db->quote($this->getUserId(), 'text') . ', ' .
-//             'remote_usr_id = ' . $this->db->quote($this->getRemoteUserId(), 'text') . ' ' .
-//             'WHERE eru_id = ' . $this->db->quote($this->getId());
-//         $this->db->manipulate($query);
-//         return true;
-//     }
 
     /**
      * Create new remote user entry
@@ -75,16 +55,16 @@ class ilECSRemoteUserRepository
         int $mid,
         int $usr_id,
         string $remote_usr_id
-    ) {
+    ) : void {
         if (!$this->exists($sid, $mid, $usr_id)) {
             $next_id = $this->db->nextId('ecs_remote_user');
             $query = 'INSERT INTO ecs_remote_user (eru_id, sid, mid, usr_id, remote_usr_id) ' .
                 'VALUES( ' .
                 $this->db->quote($next_id) . ', ' .
-                $this->db->quote($this->getServerId(), 'integer') . ', ' .
-                $this->db->quote($this->getMid(), 'integer') . ', ' .
-                $this->db->quote($this->getUserId(), 'integer') . ', ' .
-                $this->db->quote($this->getRemoteUserId(), 'text') . ' ' .
+                $this->db->quote($sid, 'integer') . ', ' .
+                $this->db->quote($mid, 'integer') . ', ' .
+                $this->db->quote($usr_id, 'integer') . ', ' .
+                $this->db->quote($remote_usr_id, 'text') . ' ' .
                 ')';
             $this->db->manipulate($query);
         }
@@ -92,12 +72,12 @@ class ilECSRemoteUserRepository
     /**
      * Read data set
      */
-    public function getECSRemoteUserById(int $remoteUserId) : \ilECSRemoteUser
+    public function getECSRemoteUserById(int $remoteUserId) : ?ilECSRemoteUser
     {
         $query = 'SELECT * FROM ecs_remote_user ' .
             'WHERE eru_id = ' . $this->db->quote($remoteUserId, 'integer');
         $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return new ilECSRemoteUser(
                 $remoteUserId,
                 $row->sid,
@@ -111,15 +91,13 @@ class ilECSRemoteUserRepository
 
     /**
      * Get instance for usr_id
-     * @param type $a_usr_id
-     * @return \ilECSRemoteUser|null
      */
-    public function getECSRemoteUserByUsrId($a_usr_id) : \ilECSRemoteUser
+    public function getECSRemoteUserByUsrId(int $a_usr_id) : ?ilECSRemoteUser
     {
         $query = 'SELECT eru_id FROM ecs_remote_user ' .
             'WHERE usr_id = ' . $this->db->quote($a_usr_id, 'integer');
         $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $this->getECSRemoteUserById($row->eru_id);
         }
         return null;

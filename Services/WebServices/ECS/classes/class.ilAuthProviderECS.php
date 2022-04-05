@@ -19,11 +19,11 @@
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterface
+class ilAuthProviderECS extends ilAuthProvider
 {
     private ilIniFile $clientIniFile;
     private ilRbacAdmin $rbacAdmin;
-    private ilSetting $settings;
+    private ilSetting $setting;
 
     protected ?int $mid = null;
     protected ?string $abreviation = null;
@@ -43,7 +43,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         global $DIC;
 
         $this->clientIniFile = $DIC->clientIni();
-        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->rbacAdmin = $DIC->rbac()->admin();
         $this->setting = $DIC->settings();
 
         $this->initECSServices();
@@ -51,10 +51,6 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
     
     /**
      * get abbreviation
-     *
-     * @access public
-     * @param
-     *
      */
     public function getAbreviation() : string
     {
@@ -168,7 +164,8 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
     public function validateHash() : bool
     {
         // fetch hash
-        if (isset($_GET['ecs_hash']) and strlen($_GET['ecs_hash'])) {
+        $hash = "";
+        if (isset($_GET['ecs_hash']) && $_GET['ecs_hash'] !== '') {
             $hash = $_GET['ecs_hash'];
         }
         if (isset($_GET['ecs_hash_url'])) {
@@ -269,20 +266,20 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 
         // Time limit
         $userObj->setTimeLimitOwner(7);
-        $userObj->setTimeLimitUnlimited(0);
+        $userObj->setTimeLimitUnlimited(false);
         $userObj->setTimeLimitFrom(time() - 5);
-        $userObj->setTimeLimitUntil(time() + $this->clientIniFile->readVariable("session", "expire"));
+        $userObj->setTimeLimitUntil(time() + (int) $this->clientIniFile->readVariable("session", "expire"));
 
         // Create user in DB
         $userObj->setOwner(6);
         $userObj->create();
-        $userObj->setActive(1);
+        $userObj->setActive(true);
         $userObj->updateOwner();
         $userObj->saveAsNew();
         $userObj->writePrefs();
 
         if ($this->getCurrentServer()->getGlobalRole()) {
-            $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $userObj->getId(), true);
+            $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $userObj->getId());
         }
         ilObject::_writeImportId($userObj->getId(), $user->getImportId());
 
@@ -309,9 +306,9 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         
         $until = $user_obj->getTimeLimitUntil();
 
-        if ($until < (time() + $this->clientIniFile->readVariable('session', 'expire'))) {
+        if ($until < (time() + (int) $this->clientIniFile->readVariable('session', 'expire'))) {
             $user_obj->setTimeLimitFrom(time() - 60);
-            $user_obj->setTimeLimitUntil(time() + $this->clientIniFile->readVariable("session", "expire"));
+            $user_obj->setTimeLimitUntil(time() + (int) $this->clientIniFile->readVariable("session", "expire"));
         }
         $user_obj->update();
         $user_obj->refreshLogin();
@@ -319,8 +316,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
         if ($this->getCurrentServer()->getGlobalRole()) {
             $this->rbacAdmin->assignUser(
                 $this->getCurrentServer()->getGlobalRole(),
-                $user_obj->getId(),
-                true
+                $user_obj->getId()
             );
         }
         
