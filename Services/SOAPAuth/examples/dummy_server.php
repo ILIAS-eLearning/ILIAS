@@ -27,6 +27,6 @@ global $HTTP_RAW_POST_DATA;
 
 ini_set("display_errors", "1");
 error_reporting(E_ALL & ~E_NOTICE);
-include_once './Services/SOAPAuth/classes/class.ilSoapDummyAuthServer.php';
+include_once './Services/SOAPAuth/examples/class.ilSoapDummyAuthServer.php';
 $server = new ilSoapDummyAuthServer();
 $server->start();
