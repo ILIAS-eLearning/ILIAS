@@ -37,7 +37,6 @@ class ilObjLearningSequence extends ilContainer
     protected ?ArrayAccess $di = null;
     protected ?ArrayAccess $local_di = null;
     protected ?ilObjLearningSequenceAccess $ls_access = null;
-
     protected ArrayAccess $dic;
     protected ilCtrl $ctrl;
     protected ilNewsService $il_news;
@@ -55,7 +54,6 @@ class ilObjLearningSequence extends ilContainer
         $this->user = $DIC['ilUser'];
         $this->tree = $DIC['tree'];
         $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
-        $this->rbacadmin = $DIC['rbacadmin'];
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->il_news = $DIC->news();
         $this->il_condition_handler = new ilConditionHandler();
@@ -155,7 +153,7 @@ class ilObjLearningSequence extends ilContainer
             $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_admin');
         }
 
-        $this->rbacadmin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
+        $this->rbac_admin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
         $this->log->write(__METHOD__ . ' : Finished copying of role lso_admin.');
 
         $member = $this->getDefaultMemberRole();
@@ -165,7 +163,7 @@ class ilObjLearningSequence extends ilContainer
             $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_member');
         }
 
-        $this->rbacadmin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
+        $this->rbac_admin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
         $this->log->write(__METHOD__ . ' : Finished copying of role lso_member.');
 
         return true;

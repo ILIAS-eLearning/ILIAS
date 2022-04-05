@@ -35,7 +35,6 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
     protected \ILIAS\Refinery\Factory $refinery;
-
     protected ilLSGlobalSettingsDB $settings_db;
 
     public function __construct($data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
@@ -44,7 +43,6 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
 
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
-        $this->rbacsystem = $DIC['rbacsystem'];
 
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
@@ -58,7 +56,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
     public function getAdminTabs() : void
     {
         $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(self::class, self::CMD_EDIT));
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');
         }
     }
