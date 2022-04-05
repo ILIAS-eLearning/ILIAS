@@ -331,7 +331,7 @@ class ilDBUpdate
         $ilCtrlStructureReader = null;
         $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
 
         //search for desired $nr
         reset($this->filecontent);
@@ -696,7 +696,7 @@ class ilDBUpdate
         $ilCtrlStructureReader = null;
         $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
 
         $str = "";
 
