@@ -4,7 +4,7 @@
  * Class ilObjMainMenuAccess
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilObjMainMenuAccess extends ilObjectAccess
+class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
 {
     private ilObjUser $user;
     private ilRbacSystem $rbacsystem;

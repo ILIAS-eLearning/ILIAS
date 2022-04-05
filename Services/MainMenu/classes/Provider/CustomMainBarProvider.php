@@ -41,16 +41,16 @@ use ilMMRepositoryLinkItemRenderer;
  */
 class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
 {
-    private ilObjMainMenuAccess $mm_access;
+    private \ilMainMenuAccess $mm_access;
     protected Container $dic;
 
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic)
+    public function __construct(Container $dic, \ilMainMenuAccess $access = null)
     {
         parent::__construct($dic);
-        $this->mm_access = new ilObjMainMenuAccess();
+        $this->mm_access = $access ?? new ilObjMainMenuAccess();
     }
 
     /**
