@@ -30,22 +30,22 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_2() : void
     {
-        $this->db->queryF(
+        $this->db->manipulateF(
             'DELETE FROM settings WHERE module = %s AND keyword = %s',
             ['text', 'text'],
             ['notifications', 'enable_mail']
         );
-        $this->db->queryF(
+        $this->db->manipulateF(
             'UPDATE settings SET keyword = %s WHERE module = %s AND keyword = %s',
             ['text', 'text', 'text'],
             ['osd_interval', 'notifications', 'osd_polling_intervall']
         );
-        $this->db->queryF(
+        $this->db->manipulateF(
             'UPDATE settings SET module = %s, keyword = %s WHERE module = %s AND keyword = %s',
             ['text', 'text', 'text', 'text'],
             ['notifications', 'play_sound', 'chatroom', 'play_invitation_sound']
         );
-        $this->db->queryF(
+        $this->db->manipulateF(
             'UPDATE usr_pref SET keyword = %s WHERE keyword = %s',
             ['text', 'text'],
             ['play_sound', 'chat_play_invitation_sound']
@@ -54,7 +54,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_3() : void
     {
-        $this->db->queryF('DELETE FROM notification_usercfg WHERE module = %s', ['text'], ['osd_main']);
+        $this->db->manipulateF('DELETE FROM notification_usercfg WHERE module = %s', ['text'], ['osd_main']);
         ilNotificationSetupHelper::registerType(
             'buddysystem_request',
             'buddysystem_request',
@@ -81,7 +81,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
                 'channel' => array('text', 'osd')
             )
         );
-        $this->db->queryF(
+        $this->db->manipulateF(
             'UPDATE notification_osd SET type = %s WHERE type = %s AND serialized LIKE %s',
             ['text', 'text', 'text'],
             ['who_is_online', 'osd_main', '%icon_usr.svg%']
@@ -105,7 +105,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
                 'channel' => array('text', 'osd')
             )
         );
-        $this->db->queryF(
+        $this->db->manipulateF(
             'UPDATE notification_osd SET type = %s WHERE type = %s AND serialized LIKE %s',
             ['text', 'text', 'text'],
             ['badge_received', 'osd_main', '%icon_bdga.svg%']
