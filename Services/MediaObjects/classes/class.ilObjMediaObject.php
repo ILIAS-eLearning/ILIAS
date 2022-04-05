@@ -15,6 +15,7 @@
 
 use ILIAS\FileUpload\MimeType;
 
+// PHP8-Review: Define constant name can be replaced with 'const' syntax
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
 define("IL_MODE_FULL", 3);
@@ -45,6 +46,7 @@ class ilObjMediaObject extends ilObject
         parent::__construct($a_id, false);
     }
 
+    // PHP8-Review: Parameter's name changed during inheritance
     public static function _exists(
         int $a_id,
         bool $a_reference = false,
@@ -108,6 +110,7 @@ class ilObjMediaObject extends ilObject
 
     protected function beforeMDUpdateListener(string $a_element) : bool
     {
+        // PHP8-Review: 'switch' with single 'case'
         switch ($a_element) {
             case 'General':
 

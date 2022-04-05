@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  */
-
+// PHP8-Review: Define constant name can be replaced with 'const' syntax
 define("IL_AREA_RECT", "Rect");
 define("IL_AREA_CIRCLE", "Circle");
 define("IL_AREA_POLY", "Poly");

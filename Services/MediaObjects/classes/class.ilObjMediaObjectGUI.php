@@ -1432,6 +1432,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * set admin tabs
      */
+    // PHP8-Review: Method visibility should not be overridden
     public function setTabs() : void
     {
         // catch feedback message
@@ -1448,6 +1449,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
 
+    // PHP8-Review: Method visibility should not be overridden
     public function getTabs() : void
     {
         $ilHelp = $this->help;

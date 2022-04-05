@@ -156,7 +156,7 @@ class ilMediaItem
                     return "gif";
                 }
                 break;
-            
+            // PHP8-Review: Duplicate branch in switch statement
             case "svg":
                 if ($im_types & IMG_PNG) {
                     return "png";
@@ -702,6 +702,7 @@ class ilMediaItem
             return false;
         }
         // do not allow to change the src attribute
+        // PHP8-Review: 'in_array' can be replaced with comparison
         if (in_array(strtolower(trim($a_par)), array("src"))) {
             return false;
         }
