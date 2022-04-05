@@ -8,12 +8,7 @@
  */
 class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL
 {
-
-    /**
-     * @var string
-     */
-    protected $storage_engine = 'InnoDB';
-
+    protected string $storage_engine = 'InnoDB';
 
     public function supportsFulltext() : bool
     {
@@ -27,7 +22,7 @@ class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL
     }
 
 
-    public function addFulltextIndex(string $table_name, array $afields, string $a_name = 'in') : bool
+    public function addFulltextIndex(string $table_name, array $fields, string $name = 'in') : bool
     {
         return false; // NOT SUPPORTED
     }

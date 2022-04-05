@@ -23,16 +23,16 @@ $n = $DIC->database()->numRows($result);
 ## Supported Column Types and Attributes
 ilDBInterface supports a number of abstract column types and attributes. The following table lists the supported column types, their attributes and the mapping to the different DBMS column types.
 
-| ilDBInterface Type Supported by ILIAS | Supported Attributes                                | MySQL Mapping                             | Oracle Mapping                                          | 
-|------------------------------|-----------------------------------------------------|-------------------------------------------|---------------------------------------------------------| 
-| text                         | notnull, length (must be >0 <=4000), default, fixed | varchar, char                             | char, varchar2                                          | 
-| integer                      | notnull, length (must be 1, 2, 3, 4 or 8),          | tinyint, smallint, mediumint, int, bigint | number(3), number(5), number(8), number(10), number(20) | 
-|                              | unsigned must not be true, default                  |                                           |                                                         | 
-| float                        | notnull, default                                    | double                                    | number                                                  | 
-| date                         | notnull, default                                    | date                                      | date                                                    | 
-| time                         | notnull, default                                    | time                                      | date                                                    | 
-| timestamp                    | notnull, default                                    | datetime                                  | date                                                    | 
-| clob                         | notnull, default                                    | longtext                                  | clob                                                    | 
+| ilDBInterface Type Supported by ILIAS | Supported Attributes                                | MySQL Mapping                             | Oracle Mapping                                          |
+|---------------------------------------|-----------------------------------------------------|-------------------------------------------|---------------------------------------------------------|
+| text                                  | notnull, length (must be >0 <=4000), default, fixed | varchar, char                             | char, varchar2                                          |
+| integer                               | notnull, length (must be 1, 2, 3, 4 or 8),          | tinyint, smallint, mediumint, int, bigint | number(3), number(5), number(8), number(10), number(20) |
+|                                       | unsigned must not be true, default                  |                                           |                                                         |
+| float                                 | notnull, default                                    | double                                    | number                                                  |
+| date                                  | notnull, default                                    | date                                      | date                                                    |
+| time                                  | notnull, default                                    | time                                      | date                                                    |
+| timestamp                             | notnull, default                                    | datetime                                  | date                                                    |
+| clob                                  | notnull, default                                    | longtext                                  | clob                                                    |
 
 
 ## Queries
