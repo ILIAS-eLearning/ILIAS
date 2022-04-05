@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,20 +6,9 @@ use ILIAS\Setup;
 
 class ilUtilitiesSetupConfig implements Setup\Config
 {
-    /**
-     * @var string
-     */
-    protected $path_to_convert;
-    
-    /**
-     * @var string
-     */
-    protected $path_to_zip;
-    
-    /**
-     * @var string
-     */
-    protected $path_to_unzip;
+    protected string $path_to_convert;
+    protected string $path_to_zip;
+    protected string $path_to_unzip;
     
     public function __construct(
         string $path_to_convert,
