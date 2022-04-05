@@ -3,7 +3,7 @@
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Node.js Version][node-version-image]][node-version-url]
-[![Build Status][travis-image]][travis-url]
+[![Build Status][github-actions-ci-image]][github-actions-ci-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
 Create and parse HTTP `Content-Disposition` header
@@ -67,7 +67,7 @@ it). The type is normalized to lower-case.
 ### contentDisposition.parse(string)
 
 ```js
-var disposition = contentDisposition.parse('attachment; filename="EURO rates.txt"; filename*=UTF-8\'\'%e2%82%ac%20rates.txt');
+var disposition = contentDisposition.parse('attachment; filename="EURO rates.txt"; filename*=UTF-8\'\'%e2%82%ac%20rates.txt')
 ```
 
 Parse a `Content-Disposition` header string. This automatically handles extended
@@ -88,12 +88,13 @@ are shown for the string `'attachment; filename="EURO rates.txt"; filename*=UTF-
 ```js
 var contentDisposition = require('content-disposition')
 var destroy = require('destroy')
+var fs = require('fs')
 var http = require('http')
 var onFinished = require('on-finished')
 
 var filePath = '/path/to/public/plans.pdf'
 
-http.createServer(function onRequest(req, res) {
+http.createServer(function onRequest (req, res) {
   // set headers
   res.setHeader('Content-Type', 'application/pdf')
   res.setHeader('Content-Disposition', contentDisposition(filePath))
@@ -101,7 +102,7 @@ http.createServer(function onRequest(req, res) {
   // send file
   var stream = fs.createReadStream(filePath)
   stream.pipe(res)
-  onFinished(res, function (err) {
+  onFinished(res, function () {
     destroy(stream)
   })
 })
@@ -129,13 +130,13 @@ $ npm test
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/content-disposition.svg?style=flat
+[npm-image]: https://img.shields.io/npm/v/content-disposition.svg
 [npm-url]: https://npmjs.org/package/content-disposition
-[node-version-image]: https://img.shields.io/node/v/content-disposition.svg?style=flat
+[node-version-image]: https://img.shields.io/node/v/content-disposition.svg
 [node-version-url]: https://nodejs.org/en/download
-[travis-image]: https://img.shields.io/travis/jshttp/content-disposition.svg?style=flat
-[travis-url]: https://travis-ci.org/jshttp/content-disposition
-[coveralls-image]: https://img.shields.io/coveralls/jshttp/content-disposition.svg?style=flat
+[coveralls-image]: https://img.shields.io/coveralls/jshttp/content-disposition.svg
 [coveralls-url]: https://coveralls.io/r/jshttp/content-disposition?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/content-disposition.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/content-disposition.svg
 [downloads-url]: https://npmjs.org/package/content-disposition
+[github-actions-ci-image]: https://img.shields.io/github/workflow/status/jshttp/content-disposition/ci/master?label=ci
+[github-actions-ci-url]: https://github.com/jshttp/content-disposition?query=workflow%3Aci
