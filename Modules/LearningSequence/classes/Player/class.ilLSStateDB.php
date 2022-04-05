@@ -141,7 +141,7 @@ class ilLSStateDB
 
     protected function entryExistsFor(int $lso_ref_id, int $usr_id) : bool
     {
-        return count($this->select($lso_ref_id, [$usr_id])) > 0;
+        return $this->select($lso_ref_id, [$usr_id]) !== [];
     }
 
     protected function insert(int $lso_ref_id, int $usr_id) : void
@@ -187,7 +187,7 @@ class ilLSStateDB
             . "WHERE lso_ref_id = " . $this->db->quote($lso_ref_id, "integer") . PHP_EOL
         ;
 
-        if (count($usr_ids) > 0) {
+        if ($usr_ids !== []) {
             $query .= "AND usr_id IN (" . implode(',', $usr_ids) . ")";
         }
 
@@ -197,7 +197,7 @@ class ilLSStateDB
     public function deleteForItem(int $lso_ref_id, int $item_ref_id) : void
     {
         $all_states = $this->select($lso_ref_id);
-        if (count($all_states) === 0) {
+        if ($all_states === []) {
             return;
         }
 
@@ -276,7 +276,7 @@ class ilLSStateDB
             . "WHERE lso_ref_id = " . $this->db->quote($lso_ref_id, "integer") . PHP_EOL
         ;
 
-        if (count($usr_ids) > 0) {
+        if ($usr_ids !== []) {
             $query .= "AND usr_id IN (" . implode(',', $usr_ids) . ")";
         }
 

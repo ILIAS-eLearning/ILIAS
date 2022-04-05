@@ -68,9 +68,8 @@ trait IliasMocks
     }
 
 
-    public function uiFactoryBreadcrumbs() : CImpl\Breadcrumbs\Breadcrumbs
+    public function uiFactoryBreadcrumbs(...$args) : CImpl\Breadcrumbs\Breadcrumbs
     {
-        $args = func_get_args();
         return new CImpl\Breadcrumbs\Breadcrumbs($args[0]);
     }
     

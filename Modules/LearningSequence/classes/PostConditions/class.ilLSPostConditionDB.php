@@ -36,7 +36,7 @@ class ilLSPostConditionDB
      */
     public function select(array $ref_ids) : array
     {
-        if (count($ref_ids) === 0) {
+        if ($ref_ids === []) {
             return [];
         }
 
@@ -70,7 +70,7 @@ class ilLSPostConditionDB
 
     public function delete(array $ref_ids, ilDBInterface $db = null) : void
     {
-        if (count($ref_ids) === 0) {
+        if ($ref_ids === []) {
             return;
         }
 
@@ -102,7 +102,7 @@ class ilLSPostConditionDB
      */
     public function upsert(array $ls_post_conditions) : void
     {
-        if (count($ls_post_conditions) === 0) {
+        if ($ls_post_conditions === []) {
             return;
         }
 

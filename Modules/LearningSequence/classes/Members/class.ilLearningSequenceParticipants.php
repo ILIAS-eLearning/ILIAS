@@ -52,7 +52,7 @@ class ilLearningSequenceParticipants extends ilParticipants
         $app_event_handler = $DIC['ilAppEventHandler'];
         $settings = $DIC["ilSetting"];
 
-        if (isset(self::$instances[$obj_id]) and self::$instances[$obj_id]) {
+        if (isset(self::$instances[$obj_id]) && self::$instances[$obj_id]) {
             return self::$instances[$obj_id];
         }
 
@@ -100,11 +100,7 @@ class ilLearningSequenceParticipants extends ilParticipants
 
     public function add(int $a_usr_id, int $a_role) : bool
     {
-        if (parent::add($a_usr_id, $a_role)) {
-            return true;
-        }
-
-        return false;
+        return parent::add($a_usr_id, $a_role);
     }
 
     public function addSubscriber(int $a_usr_id) : void

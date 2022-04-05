@@ -68,7 +68,7 @@ class ilLSCurriculumBuilder
             $steps
         );
 
-        if (count($steps) > 0) {
+        if ($steps !== []) {
             $current_position = max(0, $this->ls_items->getCurrentItemPosition());
             $workflow = $workflow->withActive($current_position);
         }

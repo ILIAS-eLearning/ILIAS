@@ -117,7 +117,7 @@ class ilObjLearningSequenceLearnerGUI
         );
 
         $curriculum = $this->curriculum_builder->getLearnerCurriculum();
-        if (count($curriculum->getSteps()) > 0) {
+        if ($curriculum->getSteps() !== []) {
             $this->tpl->setRightContent(
                 $this->getWrappedHTML([$curriculum])
             );

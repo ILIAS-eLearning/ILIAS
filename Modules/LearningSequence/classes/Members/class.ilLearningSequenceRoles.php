@@ -259,7 +259,7 @@ class ilLearningSequenceRoles
             }
 
             if ($privacy->enabledLearningSequenceAccessTimes()) {
-                if (isset($progress[$usr_id]['ts']) and $progress[$usr_id]['ts']) {
+                if (isset($progress[$usr_id]['ts']) && $progress[$usr_id]['ts']) {
                     $data['access_time'] = ilDatePresentation::formatDate(
                         $date = new ilDateTime($progress[$usr_id]['ts'], IL_CAL_UNIX)
                     );

@@ -165,7 +165,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 
         $md_flat = [];
         foreach ($meta_data as $md_label => $values) {
-            if (count($values) > 0) {
+            if ($values !== []) {
                 $md_flat[$this->lng->txt($md_label)] = implode(', ', $values);
             }
         }

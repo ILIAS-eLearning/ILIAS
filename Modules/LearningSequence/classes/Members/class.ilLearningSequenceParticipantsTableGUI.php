@@ -355,7 +355,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         }
 
         // Custom user data fields
-        if ($udf_ids) {
+        if ($udf_ids !== []) {
             $data = ilUserDefinedData::lookupData($ls_participants, $udf_ids);
             foreach ($data as $usr_id => $fields) {
                 if (!$this->checkAcceptance((int) $usr_id)) {

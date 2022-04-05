@@ -54,11 +54,7 @@ class LSItemOnlineStatus
     public function hasOnlineStatus(int $ref_id) : bool
     {
         $type = $this->getObjectTypeFor($ref_id);
-        if (in_array($type, self::$obj_with_online_status)) {
-            return true;
-        }
-
-        return false;
+        return in_array($type, self::$obj_with_online_status);
     }
 
     protected function getObjectTypeFor(int $ref_id) : string

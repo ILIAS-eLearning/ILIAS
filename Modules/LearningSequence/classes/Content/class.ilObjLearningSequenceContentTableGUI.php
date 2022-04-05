@@ -183,7 +183,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
             }
         );
 
-        if (count($props) > 0) {
+        if ($props !== []) {
             return array_shift($props)['link'];
         }
         return null;
