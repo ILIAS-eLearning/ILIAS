@@ -50,8 +50,10 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
         foreach ($this->getSelectedColumns() as $c) {
             $l = $c;
-            if (in_array($l,
-                array("last_access", "first_access", "read_count", "spent_seconds", "mark", "status", "percentage"))) {
+            if (in_array(
+                $l,
+                array("last_access", "first_access", "read_count", "spent_seconds", "mark", "status", "percentage")
+            )) {
                 $l = "trac_" . $l;
             }
             if ($l == "u_comment") {
@@ -242,8 +244,10 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                 if ($a_set[$c] != "" || $c == "status") {
                     switch ($c) {
                         case "first_access":
-                            $val = ilDatePresentation::formatDate(new ilDateTime($a_set[$c],
-                                IL_CAL_DATETIME));
+                            $val = ilDatePresentation::formatDate(new ilDateTime(
+                                $a_set[$c],
+                                IL_CAL_DATETIME
+                            ));
                             break;
 
                         case "last_access":
@@ -263,15 +267,19 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                                 $timing = $this->showTimingsWarning($a_set["ref_id"], $this->user_id);
                                 if ($timing) {
                                     if ($timing !== true) {
-                                        $timing = ": " . ilDatePresentation::formatDate(new ilDate($timing,
-                                                IL_CAL_UNIX));
+                                        $timing = ": " . ilDatePresentation::formatDate(new ilDate(
+                                            $timing,
+                                            IL_CAL_UNIX
+                                        ));
                                     } else {
                                         $timing = "";
                                     }
                                     $this->tpl->setCurrentBlock('warning_img');
                                     $this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.svg'));
-                                    $this->tpl->setVariable('WARNING_ALT',
-                                        $this->lng->txt('trac_time_passed') . $timing);
+                                    $this->tpl->setVariable(
+                                        'WARNING_ALT',
+                                        $this->lng->txt('trac_time_passed') . $timing
+                                    );
                                     $this->tpl->parseCurrentBlock();
                                 }
                             }
@@ -281,8 +289,10 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                             if (!ilObjectLP::supportsSpentSeconds($a_set["type"])) {
                                 $val = "-";
                             } else {
-                                $val = ilDatePresentation::secondsToString($a_set[$c],
-                                    ($a_set[$c] < 3600 ? true : false)); // #14858
+                                $val = ilDatePresentation::secondsToString(
+                                    $a_set[$c],
+                                    ($a_set[$c] < 3600 ? true : false)
+                                ); // #14858
                             }
                             break;
 
@@ -383,8 +393,10 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             if (!in_array($a_set["type"], array("sco", "lobj")) && !$this->getPrintMode()) {
                 $this->tpl->setCurrentBlock("item_command");
                 $this->ctrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $a_set["ref_id"]);
-                $this->tpl->setVariable("HREF_COMMAND",
-                    $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
+                $this->tpl->setVariable(
+                    "HREF_COMMAND",
+                    $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser')
+                );
                 $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('edit'));
                 $this->ctrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
                 $this->tpl->parseCurrentBlock();

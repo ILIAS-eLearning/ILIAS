@@ -91,7 +91,7 @@ class ilLPCronObjectStatistics extends ilCronJob
     /**
      * gather course data
      */
-    protected function gatherCourseLPData()
+    protected function gatherCourseLPData() : int
     {
         $count = 0;
 
@@ -154,7 +154,7 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $count;
     }
 
-    protected function gatherTypesData()
+    protected function gatherTypesData() : int
     {
         $count = 0;
         $data = ilTrQuery::getObjectTypeStatistics();
@@ -183,7 +183,7 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $count;
     }
 
-    protected function gatherUserData()
+    protected function gatherUserData() : int
     {
         $count = 0;
         $to = mktime(23, 59, 59, date("m", $this->date), date("d", $this->date), date("Y", $this->date));

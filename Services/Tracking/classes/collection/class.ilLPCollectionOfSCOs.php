@@ -14,7 +14,6 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     public function getPossibleItems() : array
     {
         if (!isset(self::$possible_items[$this->obj_id])) {
-
             $items = array();
 
             switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
@@ -110,10 +109,14 @@ class ilLPCollectionOfSCOs extends ilLPCollection
         global $DIC;
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
             case 'scorm':
-                $res_a = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote($item_a_id,
-                        'integer'))->fetchAssoc();
-                $res_b = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote($item_b_id,
-                        'integer'))->fetchAssoc();
+                $res_a = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote(
+                    $item_a_id,
+                    'integer'
+                ))->fetchAssoc();
+                $res_b = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote(
+                    $item_b_id,
+                    'integer'
+                ))->fetchAssoc();
                 return (
                     $res_a
                     && $res_b
@@ -121,10 +124,14 @@ class ilLPCollectionOfSCOs extends ilLPCollection
                     && ($res_a['identifierref'] == $res_b['identifierref'])
                 );
             case 'scorm2004':
-                $res_a = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote($item_a_id,
-                        'integer'))->fetchAssoc();
-                $res_b = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote($item_b_id,
-                        'integer'))->fetchAssoc();
+                $res_a = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote(
+                    $item_a_id,
+                    'integer'
+                ))->fetchAssoc();
+                $res_b = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote(
+                    $item_b_id,
+                    'integer'
+                ))->fetchAssoc();
                 return (
                     $res_a
                     && $res_b

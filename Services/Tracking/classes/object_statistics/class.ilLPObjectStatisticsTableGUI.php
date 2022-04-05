@@ -152,8 +152,11 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                     }
                 }
             } else {
-                foreach (ilTrQuery::getObjectAccessStatistics($objects, (string) $yearmonth[0],
-                    (string) $yearmonth[1]) as $obj_id => $days) {
+                foreach (ilTrQuery::getObjectAccessStatistics(
+                    $objects,
+                    (string) $yearmonth[0],
+                    (string) $yearmonth[1]
+                ) as $obj_id => $days) {
                     $data[$obj_id]["obj_id"] = $obj_id;
                     $data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
 

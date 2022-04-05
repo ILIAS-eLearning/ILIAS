@@ -274,7 +274,7 @@ class ilLPObjSettings
      * @access public
      * @param int new obj id
      */
-    public function cloneSettings($a_new_obj_id)
+    public function cloneSettings(int $a_new_obj_id) : bool
     {
         global $DIC;
 

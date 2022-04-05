@@ -246,8 +246,12 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 
                 if ($this->is_chart) {
                     // get data for single days (used in chart display)
-                    foreach (ilTrQuery::getObjectLPStatistics($objects, $yearmonth[0], (int) $yearmonth[1],
-                        true) as $item) {
+                    foreach (ilTrQuery::getObjectLPStatistics(
+                        $objects,
+                        $yearmonth[0],
+                        (int) $yearmonth[1],
+                        true
+                    ) as $item) {
                         $this->chart_data[$item["obj_id"]][$item["dd"]] = $item;
                     }
                 }
@@ -263,7 +267,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         }
 
         $this->setData($data);
-
     }
 
     protected function getDetailItems(int $a_obj_id) : void

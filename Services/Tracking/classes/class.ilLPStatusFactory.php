@@ -22,7 +22,6 @@ class ilLPStatusFactory
             self::$instance = new self();
         }
         return self::$instance;
-
     }
 
     private function __construct()
@@ -62,6 +61,7 @@ class ilLPStatusFactory
                     return self::_getClassById($a_obj_id, $mode);
                 }
             } else {
+                // PHP8-Review: Expression result is not used anywhere
                 self::includeClass($class);
                 self::$class_by_obj_id[$a_obj_id] = $class;
                 return $class;
@@ -86,6 +86,7 @@ class ilLPStatusFactory
         // id is ignored in the moment
         switch ($a_type) {
             case 'event':
+                // PHP8-Review: Expression result is not used anywhere
                 self::includeClass('ilLPStatusEvent');
                 return 'ilLPStatusEvent';
 
@@ -117,6 +118,7 @@ class ilLPStatusFactory
                     return self::_getInstance($a_obj_id, $mode);
                 }
             } else {
+                // PHP8-Review: Expression result is not used anywhere
                 self::includeClass($class);
                 return new $class($a_obj_id);
             }

@@ -35,10 +35,14 @@ class ilTrQuery
                 " u_mode, type, visits, mark, u_comment" .
                 " FROM object_data" .
                 " LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)" .
-                " LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id AND read_event.usr_id = " . $ilDB->quote($a_user_id,
-                    "integer") . ")" .
-                " LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id AND ut_lp_marks.usr_id = " . $ilDB->quote($a_user_id,
-                    "integer") . ")" .
+                " LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id AND read_event.usr_id = " . $ilDB->quote(
+                    $a_user_id,
+                    "integer"
+                ) . ")" .
+                " LEFT JOIN ut_lp_marks ON (ut_lp_marks.obj_id = object_data.obj_id AND ut_lp_marks.usr_id = " . $ilDB->quote(
+                    $a_user_id,
+                    "integer"
+                ) . ")" .
                 // " WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(ilLPObjSettings::LP_MODE_DEACTIVATED, "integer").")".
                 " WHERE " . $ilDB->in("object_data.obj_id", $obj_ids, false, "integer") .
                 " ORDER BY title";
@@ -87,8 +91,10 @@ class ilTrQuery
 
         $lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_obj_id, $a_objective_ids);
 
-        $query = "SELECT crs_id, crs_objectives.objective_id AS obj_id, title," . $ilDB->quote("lobj",
-                "text") . " AS type" .
+        $query = "SELECT crs_id, crs_objectives.objective_id AS obj_id, title," . $ilDB->quote(
+            "lobj",
+            "text"
+        ) . " AS type" .
             " FROM crs_objectives" .
             " WHERE " . $ilDB->in("crs_objectives.objective_id", $a_objective_ids, false, "integer") .
             " AND active = " . $ilDB->quote(1, "integer") .
@@ -248,8 +254,10 @@ class ilTrQuery
             " AND read_event.obj_id = " . $ilDB->quote($obj_id, "integer") . ")" .
             " LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id " .
             " AND ut_lp_marks.obj_id = " . $ilDB->quote($obj_id, "integer") . ")" .
-            " LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = " . $ilDB->quote("language",
-                "text") . ")" .
+            " LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = " . $ilDB->quote(
+                "language",
+                "text"
+            ) . ")" .
             self::buildFilters($where, $a_filters);
 
         $queries = array(array("fields" => $fields, "query" => $query));
@@ -304,8 +312,12 @@ class ilTrQuery
         }
 
         if (is_array($a_udf) && count($a_udf) > 0) {
-            $query = "SELECT usr_id, field_id, value FROM udf_text WHERE " . $ilDB->in("field_id", $a_udf, false,
-                    "integer");
+            $query = "SELECT usr_id, field_id, value FROM udf_text WHERE " . $ilDB->in(
+                "field_id",
+                $a_udf,
+                false,
+                "integer"
+            );
             $set = $ilDB->query($query);
             $udf = array();
             while ($row = $ilDB->fetchAssoc($set)) {
@@ -327,8 +339,12 @@ class ilTrQuery
                 $all_public[] = $row["usr_id"];
             }
             $query = "SELECT usr_id,keyword FROM usr_pref WHERE " . $ilDB->like("keyword", "text", "public_%", false) .
-                " AND value = " . $ilDB->quote("y", "text") . " AND " . $ilDB->in("usr_id", $all_public, false,
-                    "integer");
+                " AND value = " . $ilDB->quote("y", "text") . " AND " . $ilDB->in(
+                    "usr_id",
+                    $all_public,
+                    false,
+                    "integer"
+                );
             $set = $ilDB->query($query);
             $public = array();
             while ($row = $ilDB->fetchAssoc($set)) {
@@ -474,8 +490,11 @@ class ilTrQuery
             // #15379 - objectives data
             if ($objects["objectives_parent_id"]) {
                 $objtv_ids = ilCourseObjective::_getObjectiveIds($objects["objectives_parent_id"], true);
-                foreach (self::getObjectivesStatusForUser($a_user_id, $objects["objectives_parent_id"],
-                    $objtv_ids) as $item) {
+                foreach (self::getObjectivesStatusForUser(
+                    $a_user_id,
+                    $objects["objectives_parent_id"],
+                    $objtv_ids
+                ) as $item) {
                     $result["set"][] = $item;
                     $result["cnt"]++;
                 }
@@ -530,8 +549,10 @@ class ilTrQuery
             " mark, e_comment" .
             " FROM event" .
             " JOIN event_appointment ON (event.obj_id = event_appointment.event_id)" .
-            " LEFT JOIN event_participants ON (event_participants.event_id = event.obj_id AND usr_id = " . $ilDB->quote($a_user_id,
-                "integer") . ")" .
+            " LEFT JOIN event_participants ON (event_participants.event_id = event.obj_id AND usr_id = " . $ilDB->quote(
+                $a_user_id,
+                "integer"
+            ) . ")" .
             " WHERE " . $ilDB->in("obj_id", $obj_ids, false, "integer");
         $set = $ilDB->query($query);
         $sessions = array();
@@ -643,8 +664,10 @@ class ilTrQuery
             " AND obj_id = " . $ilDB->quote($obj_id, "integer") . ")" .
             " LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id " .
             " AND ut_lp_marks.obj_id = " . $ilDB->quote($obj_id, "integer") . ")" .
-            " LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = " . $ilDB->quote("language",
-                "text") . ")" .
+            " LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = " . $ilDB->quote(
+                "language",
+                "text"
+            ) . ")" .
             self::buildFilters($where, $a_filters, true);
 
         $fields[] = 'COUNT(usr_data.usr_id) AS user_count';
@@ -880,8 +903,10 @@ class ilTrQuery
                     case "status":
                         if ($value == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
                             // #10645 - not_attempted is default
-                            $where[] = "(ut_lp_marks.status = " . $ilDB->quote(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
-                                    "text") .
+                            $where[] = "(ut_lp_marks.status = " . $ilDB->quote(
+                                ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
+                                "text"
+                            ) .
                                 " OR ut_lp_marks.status IS NULL)";
                             break;
                         }
@@ -903,12 +928,16 @@ class ilTrQuery
                             }
                         } else {
                             if ($value["from"]) {
-                                $having[] = "ROUND(AVG(ut_lp_marks." . $id . ")) >= " . $ilDB->quote($value["from"],
-                                        "integer");
+                                $having[] = "ROUND(AVG(ut_lp_marks." . $id . ")) >= " . $ilDB->quote(
+                                    $value["from"],
+                                    "integer"
+                                );
                             }
                             if ($value["to"]) {
-                                $having[] = "ROUND(AVG(ut_lp_marks." . $id . ")) <= " . $ilDB->quote($value["to"],
-                                        "integer");
+                                $having[] = "ROUND(AVG(ut_lp_marks." . $id . ")) <= " . $ilDB->quote(
+                                    $value["to"],
+                                    "integer"
+                                );
                             }
                         }
                         break;
@@ -961,22 +990,30 @@ class ilTrQuery
                     case "read_count":
                         if (!$a_aggregate) {
                             if ($value["from"]) {
-                                $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"],
-                                        "integer");
+                                $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
+                                    $value["from"],
+                                    "integer"
+                                );
                             }
                             if ($value["to"]) {
-                                $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote($value["to"],
-                                        "integer") .
+                                $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
+                                    $value["to"],
+                                    "integer"
+                                ) .
                                     " OR (read_event." . $id . "+read_event.childs_" . $id . ") IS NULL)";
                             }
                         } else {
                             if ($value["from"]) {
-                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"],
-                                        "integer");
+                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
+                                    $value["from"],
+                                    "integer"
+                                );
                             }
                             if ($value["to"]) {
-                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote($value["to"],
-                                        "integer");
+                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
+                                    $value["to"],
+                                    "integer"
+                                );
                             }
                         }
                         break;
@@ -984,22 +1021,30 @@ class ilTrQuery
                     case "spent_seconds":
                         if (!$a_aggregate) {
                             if ($value["from"]) {
-                                $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"],
-                                        "integer");
+                                $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
+                                    $value["from"],
+                                    "integer"
+                                );
                             }
                             if ($value["to"]) {
-                                $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote($value["to"],
-                                        "integer") .
+                                $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
+                                    $value["to"],
+                                    "integer"
+                                ) .
                                     " OR (read_event." . $id . "+read_event.childs_" . $id . ") IS NULL)";
                             }
                         } else {
                             if ($value["from"]) {
-                                $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) >= " . $ilDB->quote($value["from"],
-                                        "integer");
+                                $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) >= " . $ilDB->quote(
+                                    $value["from"],
+                                    "integer"
+                                );
                             }
                             if ($value["to"]) {
-                                $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) <= " . $ilDB->quote($value["to"],
-                                        "integer");
+                                $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) <= " . $ilDB->quote(
+                                    $value["to"],
+                                    "integer"
+                                );
                             }
                         }
                         break;
@@ -1119,7 +1164,6 @@ class ilTrQuery
         bool $a_refresh_status = true,
         ?array $a_user_ids = null
     ) : array {
-
         $object_ids = array($a_parent_obj_id);
         $ref_ids = array($a_parent_obj_id => $a_parent_ref_id);
         $objectives_parent_id = $scorm = $subitems = false;
@@ -1129,8 +1173,10 @@ class ilTrQuery
         switch ($mode) {
             // what about LP_MODE_SCORM_PACKAGE ?
             case ilLPObjSettings::LP_MODE_SCORM:
-                $status_scorm = get_class(ilLPStatusFactory::_getInstance($a_parent_obj_id,
-                    ilLPObjSettings::LP_MODE_SCORM));
+                $status_scorm = get_class(ilLPStatusFactory::_getInstance(
+                    $a_parent_obj_id,
+                    ilLPObjSettings::LP_MODE_SCORM
+                ));
                 $scorm = $status_scorm::_getStatusInfo($a_parent_obj_id);
                 break;
 
@@ -1342,8 +1388,10 @@ class ilTrQuery
                     " AND read_event.obj_id = " . $ilDB->quote($obj_id, "integer") . ")" .
                     " LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id " .
                     " AND ut_lp_marks.obj_id = " . $ilDB->quote($obj_id, "integer") . ")" .
-                    " LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = " . $ilDB->quote("language",
-                        "text") . ")" .
+                    " LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = " . $ilDB->quote(
+                        "language",
+                        "text"
+                    ) . ")" .
                     self::buildFilters($where);
 
                 $raw = self::executeQueries(array(array("fields" => $fields, "query" => $query)), "login");

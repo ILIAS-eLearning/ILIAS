@@ -77,10 +77,14 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         foreach ($users as $user_id) {
-            if ((!is_array($res["user_status"]["in_progress"]) || !in_array($user_id,
-                        $res["user_status"]["in_progress"])) &&
-                (!is_array($res["user_status"]["completed"]) || !in_array($user_id,
-                        $res["user_status"]["completed"]))) {
+            if ((!is_array($res["user_status"]["in_progress"]) || !in_array(
+                $user_id,
+                $res["user_status"]["in_progress"]
+            )) &&
+                (!is_array($res["user_status"]["completed"]) || !in_array(
+                    $user_id,
+                    $res["user_status"]["completed"]
+                ))) {
                 $res["user_status"]["in_progress"][] = (int) $user_id;
             }
         }

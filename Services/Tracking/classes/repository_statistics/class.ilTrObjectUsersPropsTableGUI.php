@@ -222,8 +222,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 case "last_access":
                 case "create_date":
                 case 'status_changed':
-                    $item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_DATETIME_RANGE, true,
-                        $meta["txt"]);
+                    $item = $this->addFilterItemByMetaType(
+                        $column,
+                        ilTable2GUI::FILTER_DATETIME_RANGE,
+                        true,
+                        $meta["txt"]
+                    );
                     $this->filter[$column] = $item->getDate();
                     break;
 
@@ -234,8 +238,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
                 case "read_count":
                 case "percentage":
-                    $item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_NUMBER_RANGE, true,
-                        $meta["txt"]);
+                    $item = $this->addFilterItemByMetaType(
+                        $column,
+                        ilTable2GUI::FILTER_NUMBER_RANGE,
+                        true,
+                        $meta["txt"]
+                    );
                     $this->filter[$column] = $item->getValue();
                     break;
 
@@ -251,8 +259,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                     break;
 
                 case "sel_country":
-                    $item = $this->addFilterItemByMetaType("sel_country", ilTable2GUI::FILTER_SELECT, true,
-                        $meta["txt"]);
+                    $item = $this->addFilterItemByMetaType(
+                        "sel_country",
+                        ilTable2GUI::FILTER_SELECT,
+                        true,
+                        $meta["txt"]
+                    );
 
                     $options = array();
                     foreach (ilCountry::getCountryCodes() as $c) {
@@ -285,8 +297,12 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
                 case "spent_seconds":
                     if (ilObjectLP::supportsSpentSeconds($this->type)) {
-                        $item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE,
-                            true, $meta["txt"]);
+                        $item = $this->addFilterItemByMetaType(
+                            "spent_seconds",
+                            ilTable2GUI::FILTER_DURATION_RANGE,
+                            true,
+                            $meta["txt"]
+                        );
                         $this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
                         $this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
                     }
@@ -348,16 +364,20 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             if ($this->has_collection ||
                 $this->objDefinition->isContainer($this->type)) {
                 $this->tpl->setCurrentBlock("item_command");
-                $this->tpl->setVariable("HREF_COMMAND",
-                    $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails"));
+                $this->tpl->setVariable(
+                    "HREF_COMMAND",
+                    $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", "userdetails")
+                );
                 $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('details'));
                 $this->tpl->parseCurrentBlock();
             }
 
             if ($this->has_edit) {
                 $this->tpl->setCurrentBlock("item_command");
-                $this->tpl->setVariable("HREF_COMMAND",
-                    $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", "edituser"));
+                $this->tpl->setVariable(
+                    "HREF_COMMAND",
+                    $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", "edituser")
+                );
                 $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('edit'));
                 $this->tpl->parseCurrentBlock();
             }

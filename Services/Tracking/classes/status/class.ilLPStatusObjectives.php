@@ -80,8 +80,10 @@ class ilLPStatusObjectives extends ilLPStatus
         if ($status_info['num_objectives']) {
             $in = $ilDB->in('objective_id', $status_info['objectives'], false, 'integer');
 
-            foreach (ilLOUserResults::getSummarizedObjectiveStatusForLP($a_obj_id,
-                $status_info['objectives']) as $user_id => $user_status) {
+            foreach (ilLOUserResults::getSummarizedObjectiveStatusForLP(
+                $a_obj_id,
+                $status_info['objectives']
+            ) as $user_id => $user_status) {
                 $status_info['user_status'][$user_status][] = $user_id;
             }
 
@@ -126,8 +128,11 @@ class ilLPStatusObjectives extends ilLPStatus
                     $objectives = ilCourseObjective::_getObjectiveIds($a_obj_id, true);
                     if ($objectives) {
                         // #14051 - getSummarizedObjectiveStatusForLP() might return null
-                        $objtv_status = ilLOUserResults::getSummarizedObjectiveStatusForLP($a_obj_id, $objectives,
-                            $a_usr_id);
+                        $objtv_status = ilLOUserResults::getSummarizedObjectiveStatusForLP(
+                            $a_obj_id,
+                            $objectives,
+                            $a_usr_id
+                        );
                         if ($objtv_status !== null) {
                             $status = $objtv_status;
                         }

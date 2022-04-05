@@ -25,7 +25,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setShowRowsSelector(false);
-
     }
 
     public function getNode() : int
@@ -62,7 +61,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-
         $this->tpl->setCurrentBlock('item_row');
         $this->tpl->setVariable('ITEM_ID', $a_set['id']);
         $this->tpl->setVariable('COLL_TITLE', $a_set['title']);
@@ -91,8 +89,10 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent'));
 
                 $path = new ilPathGUI();
-                $this->tpl->setVariable('COLL_PATH',
-                    $this->lng->txt('path') . ': ' . $path->getPath($this->getNode(), $a_set['ref_id']));
+                $this->tpl->setVariable(
+                    'COLL_PATH',
+                    $this->lng->txt('path') . ': ' . $path->getPath($this->getNode(), $a_set['ref_id'])
+                );
 
                 $mode_suffix = '';
                 if (
@@ -199,7 +199,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                     ilLegacyFormElementsUtil::formSelect($day, 'tlt[' . $a_set['id'] . '][d]', $options, false, true)
                 );
 
-                $this->tpl->setVariable("SEL_TLT",
+                $this->tpl->setVariable(
+                    "SEL_TLT",
                     ilLegacyFormElementsUtil::makeTimeSelect(
                         'tlt[' . $a_set['id'] . ']',
                         true,
