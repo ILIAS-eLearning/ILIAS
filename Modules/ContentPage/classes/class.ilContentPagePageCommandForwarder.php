@@ -237,16 +237,16 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
      */
     public function forward(string $ctrlLink = '') : string
     {
+        $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
+        $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
+
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:
 
-                $pageObjectGui = $this->buildEditingPageObjectGUI('');
+                $pageObjectGui = $this->buildEditingPageObjectGUI($language);
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:
-                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
-                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
-
                 $pageObjectGUI = $this->buildPresentationPageObjectGUI($language);
 
                 if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
@@ -258,9 +258,6 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
                 return $this->ctrl->getHTML($pageObjectGUI);
 
             case self::PRESENTATION_MODE_EMBEDDED_PRESENTATION:
-                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
-                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
-
                 $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI($language);
 
                 if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
