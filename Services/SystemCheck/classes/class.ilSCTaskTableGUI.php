@@ -9,7 +9,6 @@
 class ilSCTaskTableGUI extends ilTable2GUI
 {
     private int $group_id = 0;
-    private $component_task_handler = null;
 
     private ilAccess $access;
 

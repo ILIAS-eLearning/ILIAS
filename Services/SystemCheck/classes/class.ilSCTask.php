@@ -85,15 +85,13 @@ class ilSCTask
 
     public function read() : bool
     {
-
-
         if (!$this->getId()) {
             return false;
         }
 
         $query = 'SELECT * FROM sysc_tasks ' .
             'WHERE id = ' . $this->db->quote($this->getId(), ilDBConstants::T_INTEGER);
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setGroupId($row->grp_id);
             $this->setLastUpdate(new ilDateTime($row->last_update, IL_CAL_DATETIME, ilTimeZone::UTC));
@@ -105,8 +103,6 @@ class ilSCTask
 
     public function create() : int
     {
-
-
         $this->id = $this->db->nextId('sysc_tasks');
 
         $query = 'INSERT INTO sysc_tasks (id,grp_id,status,identifier) ' .
@@ -122,7 +118,6 @@ class ilSCTask
 
     public function update() : void
     {
-
         $query = 'UPDATE sysc_tasks SET ' .
             'last_update = ' . $this->db->quote($this->getLastUpdate()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC), ilDBConstants::T_TIMESTAMP) . ', ' .
             'status = ' . $this->db->quote($this->getStatus(), ilDBConstants::T_INTEGER) . ', ' .

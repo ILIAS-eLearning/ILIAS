@@ -20,8 +20,8 @@ abstract class ilSCComponentTaskGUI
         $this->task = $task;
 
         $this->ctrl = $DIC->ctrl();
-        $this->lng  = $DIC->language();
-        $this->tpl  = $DIC->ui()->mainTemplate();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class ilSCComponentTaskGUI
     public function executeCommand() : void
     {
         $next_class = $this->getCtrl()->getNextClass($this);
-        $cmd        = $this->getCtrl()->getCmd();
+        $cmd = $this->getCtrl()->getCmd();
 
         switch ($next_class) {
             default:

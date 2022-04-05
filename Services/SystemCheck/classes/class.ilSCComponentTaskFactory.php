@@ -8,10 +8,8 @@
  */
 class ilSCComponentTaskFactory
 {
-
     public static function getComponentTaskGUIForGroup(int $a_group_id, ?int $a_task_id = null) : ?ilSCComponentTaskGUI
     {
-
         $component_id = ilSCGroup::lookupComponent($a_group_id);
 
         $task = null;
@@ -34,7 +32,7 @@ class ilSCComponentTaskFactory
         $component_id = ilSCGroup::lookupComponent($a_group_id);
         switch ($component_id) {
             case 'tree':
-                if (ilSCTasks::lookupIdentifierForTask($a_task_id) == ilSCTreeTasksGUI::TYPE_DUMP) {
+                if (ilSCTasks::lookupIdentifierForTask($a_task_id) === ilSCTreeTasksGUI::TYPE_DUMP) {
                     return new ilSCTreeDumpTask($a_task_id);
                 }
         }
@@ -43,7 +41,6 @@ class ilSCComponentTaskFactory
 
     public static function getComponentTask(int $a_task_id) : ilSCTreeTasksGUI
     {
-
         $group_id = ilSCTasks::lookupGroupId($a_task_id);
 
         return self::getComponentTaskGUIForGroup($group_id, $a_task_id);
