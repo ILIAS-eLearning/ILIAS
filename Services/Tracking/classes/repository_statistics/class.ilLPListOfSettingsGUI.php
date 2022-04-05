@@ -319,11 +319,11 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
     /**
      * @throws ilCtrlException
-     * @todo fix POST tlt
      */
     protected function updateTLT() : void
     {
-        foreach ($_POST['tlt'] as $item_id => $item) {
+        $tlt = (array) ($this->http->request()->getParsedBody()['tlt'] ?? []) ;
+        foreach ($tlt as $item_id => $item) {
             $md_obj = new ilMD($this->getObjId(), $item_id, 'st');
             if (!is_object($md_section = $md_obj->getEducational())) {
                 $md_section = $md_obj->addEducational();

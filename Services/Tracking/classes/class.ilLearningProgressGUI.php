@@ -106,7 +106,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
         if (strlen($next_class = $this->ctrl->getNextClass())) {
             if ($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP) {
-                $_SESSION['il_lp_history'] = $next_class;
+                ilSession::set('il_lp_history', $next_class);
             }
             return $next_class;
         }
@@ -156,22 +156,22 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     }
 
                     // validate session
-                    switch ($_SESSION['il_lp_history']) {
+                    switch (ilSession::get('il_lp_history')) {
                         case 'illplistofobjectsgui':
                             if (!$has_edit) {
-                                $_SESSION['il_lp_history'] = null;
+                                ilSession::clear('il_lp_history');
                             }
                             break;
 
                         case 'illplistofprogressgui':
                             if (!$has_personal) {
-                                $_SESSION['il_lp_history'] = null;
+                                ilSession::clear('il_lp_history');
                             }
                             break;
                     }
 
-                    if ($_SESSION['il_lp_history']) {
-                        return $_SESSION['il_lp_history'];
+                    if (ilSession::get('il_lp_history')) {
+                        return ilSession::get('il_lp_history');
                     } elseif ($tgt) {
                         return $tgt;
                     }

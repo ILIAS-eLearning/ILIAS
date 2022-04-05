@@ -138,13 +138,26 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $obj->writeToSession();
             }
 
-            if (isset($_REQUEST["tbltplcrt"])) {
-                $this->ctrl->setParameter($this->parent_obj, "tbltplcrt", $_REQUEST["tbltplcrt"]);
+            if ($this->http->wrapper()->query()->has('tbltplcrt')) {
+                $this->ctrl->setParameter(
+                    $this->parent_obj,
+                    "tbltplcrt",
+                    $this->http->wrapper()->query()->retrieve(
+                        'tbltplcrt',
+                        $this->refinery->kindlyTo()->string()
+                    )
+                );
             }
-            if (isset($_REQUEST["tbltpldel"])) {
-                $this->ctrl->setParameter($this->parent_obj, "tbltpldel", $_REQUEST["tbltpldel"]);
+            if ($this->http->wrapper()->query()->has('tbltpldel')) {
+                $this->ctrl->setParameter(
+                    $this->parent_obj,
+                    "tbltpldel",
+                    $this->http->wrapper()->query()->retrieve(
+                        'tbltpldel',
+                        $this->refinery->kindlyTo()->string()
+                    )
+                );
             }
-
             $this->ctrl->redirect($this->parent_obj, $this->parent_cmd);
         } else {
             // e.g. repository selector
@@ -165,8 +178,14 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $template = array();
         $sig = null;
 
+        $ref_id = 0;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
         // repository-object-specific
-        $ref_id = (int) $_REQUEST["ref_id"];
         if ($ref_id) {
             $obj_lp = ilObjectLP::getInstance(ilObject::_lookupObjectId($ref_id));
             $tmpl_id = $obj_lp->getMailTemplateId();

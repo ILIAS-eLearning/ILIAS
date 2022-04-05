@@ -18,7 +18,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     public function __construct(int $a_mode, int $a_ref_id)
     {
         parent::__construct($a_mode, $a_ref_id);
-        $this->__initDetails($this->initDetailsIdFromRequest());
+        $this->__initDetails($this->initDetailsIdFromRequest($this->getRefId()));
     }
 
     protected function initUserDetailsIdFromQuery() : int
@@ -46,7 +46,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         return 0;
     }
 
-    protected function initDetailsIdFromRequest() : int
+    protected function initDetailsIdFromRequest(int $default_id) : int
     {
         if ($this->http->wrapper()->query()->has('details_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -60,7 +60,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        return 0;
+        return $default_id;
     }
 
     public function executeCommand() : void
@@ -294,7 +294,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             $a_details_id = $this->getRefId();
         }
         if ($a_details_id) {
-            $_GET['details_id'] = $a_details_id;
             $this->details_id = $a_details_id;
             $this->details_obj_id = $this->ilObjectDataCache->lookupObjId($this->details_id);
             $this->details_type = $this->ilObjectDataCache->lookupType($this->details_obj_id);

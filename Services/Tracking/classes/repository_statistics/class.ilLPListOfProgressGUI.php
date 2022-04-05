@@ -21,8 +21,19 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $this->__initUser($a_user_id);
 
         // Set item id for details
-        $this->__initDetails((int) $_GET['details_id']);
+        $this->__initDetails($this->initDetailsIdFromQuery());
         $this->ctrl->saveParameter($this, 'details_id');
+    }
+
+    protected function initDetailsIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('details_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                    'details_id',
+                    $this->refinery->kindlyTo()->int()
+                );
+        }
+        return 0;
     }
 
     /**

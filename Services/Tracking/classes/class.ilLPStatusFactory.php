@@ -71,7 +71,7 @@ class ilLPStatusFactory
         $factory->getLogger()->logStack(ilLogLevel::ERROR, $message);
         throw new ilInvalidLPStatusException($message);
     }
-    
+
     public static function _getClassByIdAndType(int $a_obj_id, string $a_type) : string
     {
         // id is ignored in the moment
