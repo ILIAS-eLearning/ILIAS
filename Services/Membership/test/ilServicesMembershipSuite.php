@@ -22,6 +22,8 @@ class ilServicesMembershipSuite extends TestSuite
 {
     public static function suite() : ilServicesMembershipSuite
     {
+        /** @noRector  */
+        require_once("./Services/Membership/test/ilWaitingListTest.php");
         $suite = new ilServicesMembershipSuite();
         $suite->addTestSuite("ilWaitingListTest");
 
