@@ -515,7 +515,7 @@ class ilAttendanceList
                     // member/local
                     default:
                         if (!$this->has_local_role) {
-                            $valid_user_ids = array_merge($valid_user_ids, (array) $members);
+                            $valid_user_ids = array_merge($valid_user_ids, $members);
                         } else {
                             $valid_user_ids = array_merge($valid_user_ids, (array) $members[$role_id]);
                         }
@@ -541,7 +541,7 @@ class ilAttendanceList
         $valid_user_ids = ilUtil::_sortIds(array_unique($valid_user_ids), 'usr_data', 'lastname', 'usr_id');
         foreach ($valid_user_ids as $user_id) {
             if ($this->callback) {
-                $user_data = call_user_func_array($this->callback, array($user_id, $filters));
+                $user_data = call_user_func_array($this->callback, [(int) $user_id, $filters]);
                 if (!$user_data) {
                     continue;
                 }
@@ -572,7 +572,7 @@ class ilAttendanceList
                                 $value = (string) $user_data[$id];
                                 break;
                         }
-                        $tpl->setVariable("TXT_PRESET", (string) $value);
+                        $tpl->setVariable("TXT_PRESET", $value);
                         $tpl->parseCurrentBlock();
                     }
                 }

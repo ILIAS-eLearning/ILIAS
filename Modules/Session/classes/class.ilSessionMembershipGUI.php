@@ -303,12 +303,12 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         return false;
     }
 
-    public function getAttendanceListUserData(int $a_user_id, array $a_filters) : ?array
+    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
     {
-        $data = $this->getMembersObject()->getEventParticipants()->getUser($a_user_id);
+        $data = $this->getMembersObject()->getEventParticipants()->getUser($user_id);
         
-        if ($a_filters && $a_filters["registered"] && !$data["registered"]) {
-            return null;
+        if ($filters && $filters["registered"] && !$data["registered"]) {
+            return [];
         }
         
         $data['registered'] = $data['registered'] ?

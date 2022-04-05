@@ -220,7 +220,7 @@ class ilMembershipNotifications
             case self::MODE_CUSTOM:
                 foreach ($this->custom as $user_id => $status) {
                     if ($status !== self::VALUE_OFF) {
-                        $users[] = (int) $user_id;
+                        $users[] = $user_id;
                     }
                 }
                 break;

@@ -403,7 +403,12 @@ class ilMembershipGUI
 
         $this->tpl->setVariable('MEMBERS', $table->getHTML());
     }
-
+    
+    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
+    {
+        return [];
+    }
+    
     /**
      * Apply filter for participant table
      */
@@ -1519,7 +1524,7 @@ class ilMembershipGUI
 
         $list = $this->initAttendanceList();
         $list->initFromForm();
-        $list->setCallback(array($this, 'getAttendanceListUserData'));
+        $list->setCallback([$this, 'getAttendanceListUserData']);
         $this->member_data = $this->getPrintMemberData(
             $this->filterUserIdsByRbacOrPositionOfCurrentUser(
                 $this->getMembersObject()->getParticipants()
@@ -1546,7 +1551,7 @@ class ilMembershipGUI
         $list->setId('0');
         $form = $list->initForm('printForMembersOutput');
         $list->initFromForm();
-        $list->setCallback(array($this, 'getAttendanceListUserData'));
+        $list->setCallback([$this, 'getAttendanceListUserData']);
         $this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
         $list->getNonMemberUserData($this->member_data);
         $list->getFullscreenHTML();
