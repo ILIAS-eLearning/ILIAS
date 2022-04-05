@@ -103,7 +103,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
             $item = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
             $position = (int) $data['position'];
             $item->setPosition($position);
-            $item->setActiveStatus(isset($data['active']) && (bool) $data['active']);
+            $item->setActiveStatus(isset($data['active']) && $data['active']);
             $item->setParent($this->unhash((string) $data['parent']));
             $this->repository->updateItem($item);
         }

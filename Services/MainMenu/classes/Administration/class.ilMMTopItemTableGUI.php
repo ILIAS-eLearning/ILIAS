@@ -63,7 +63,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         
         $item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
         
-        $this->tpl->setVariable('IDENTIFIER', ilMMTopItemGUI::IDENTIFIER);
+        $this->tpl->setVariable('IDENTIFIER', ilMMAbstractItemGUI::IDENTIFIER);
         $this->tpl->setVariable('ID', $this->hash($item_facade->getId()));
         $this->tpl->setVariable('NATIVE_ID', $item_facade->getId());
         $this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
@@ -81,7 +81,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());
         
-        $this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER, $this->hash($a_set['identification']));
+        $this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER, $this->hash($a_set['identification']));
         $this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $this->hash($a_set['identification']));
         
         if ($this->access->hasUserPermissionTo('write')) {

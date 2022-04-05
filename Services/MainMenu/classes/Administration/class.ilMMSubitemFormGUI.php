@@ -61,7 +61,7 @@ class ilMMSubitemFormGUI
         $this->item_facade = $item;
         $this->repository = $repository;
         if (!$this->item_facade->isEmpty()) {
-            $this->ctrl->saveParameterByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::IDENTIFIER);
+            $this->ctrl->saveParameterByClass(ilMMSubItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER);
         }
         
         $this->initForm();

@@ -26,7 +26,6 @@ class ilMMItemTranslationGUI
     
     /**
      * ilMMItemTranslationGUI constructor.
-     * @param ilMMItemFacadeInterface $item_facade
      */
     public function __construct(ilMMItemFacadeInterface $item_facade, ilMMItemRepository $repository)
     {

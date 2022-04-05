@@ -87,6 +87,5 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
     public function setAction(string $action) : void
     {
         // Setting action not possible for non custom items
-        return;
     }
 }

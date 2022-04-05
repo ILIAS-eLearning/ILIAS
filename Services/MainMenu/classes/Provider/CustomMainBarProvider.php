@@ -136,28 +136,28 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         // TopParentItem
         $c->add(
             new TypeInformation(
-            TopParentItem::class,
-            $this->translateType(TopParentItem::class),
-            new TopParentItemRenderer()
-        )
+                TopParentItem::class,
+                $this->translateType(TopParentItem::class),
+                new TopParentItemRenderer()
+            )
         );
         // TopLinkItem
         $c->add(
             new TypeInformation(
-            TopLinkItem::class,
-            $this->translateType(TopLinkItem::class),
-            new ilMMTopLinkItemRenderer(),
-            new ilMMTypeHandlerTopLink()
-        )
+                TopLinkItem::class,
+                $this->translateType(TopLinkItem::class),
+                new ilMMTopLinkItemRenderer(),
+                new ilMMTypeHandlerTopLink()
+            )
         );
         // Link
         $c->add(
             new TypeInformation(
-            Link::class,
-            $this->translateType(Link::class),
-            new ilMMLinkItemRenderer(),
-            new ilMMTypeHandlerLink()
-        )
+                Link::class,
+                $this->translateType(Link::class),
+                new ilMMLinkItemRenderer(),
+                new ilMMTypeHandlerLink()
+            )
         );
 
         // LinkList
@@ -172,22 +172,22 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         // Separator
         $c->add(
             new TypeInformation(
-            Separator::class,
-            $this->translateType(Separator::class),
-            new SeparatorItemRenderer(),
-            new ilMMTypeHandlerSeparator(),
-            $this->translateByline(Separator::class)
-        )
+                Separator::class,
+                $this->translateType(Separator::class),
+                new SeparatorItemRenderer(),
+                new ilMMTypeHandlerSeparator(),
+                $this->translateByline(Separator::class)
+            )
         );
 
         // RepositoryLink
         $c->add(
             new TypeInformation(
-            RepositoryLink::class,
-            $this->translateType(RepositoryLink::class),
-            new ilMMRepositoryLinkItemRenderer(),
-            new ilMMTypeHandlerRepositoryLink()
-        )
+                RepositoryLink::class,
+                $this->translateType(RepositoryLink::class),
+                new ilMMRepositoryLinkItemRenderer(),
+                new ilMMTypeHandlerRepositoryLink()
+            )
         );
 
         // Lost

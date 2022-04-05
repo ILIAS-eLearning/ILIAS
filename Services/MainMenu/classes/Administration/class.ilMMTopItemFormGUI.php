@@ -62,7 +62,7 @@ class ilMMTopItemFormGUI
         $this->lng = $lng;
         $this->item_facade = $item;
         if (!$this->item_facade->isEmpty()) {
-            $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER);
+            $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER);
         }
         
         $this->initForm();

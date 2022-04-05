@@ -54,6 +54,7 @@ class ilMMTabHandling
                 $this->lng->txt(ilObjMainMenuGUI::TAB_MAIN),
                 $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, ilObjMainMenuGUI::TAB_MAIN)
             );
+            /** @noinspection PhpSwitchStatementWitSingleBranchInspection */
             switch ($tab) {
                 case ilObjMainMenuGUI::TAB_MAIN:
                     $this->tabs->addSubTab(

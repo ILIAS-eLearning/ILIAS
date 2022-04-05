@@ -138,15 +138,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     {
         return true;
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function delete() : void
-    {
-        parent::delete();
-    }
+    
 
     /**
      * @inheritDoc

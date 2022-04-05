@@ -68,6 +68,9 @@ class ilMMSubItemTableGUI extends ilTable2GUI
 
     protected function addAndReadFilterItem(ilFormPropertyGUI $field) : void
     {
+        if (!$field instanceof ilTableFilterItem) {
+            return;
+        }
         $this->addFilterItem($field);
         $field->readFromSession();
         if ($field instanceof ilCheckboxInputGUI) {
@@ -140,7 +143,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
 
         $this->ctrl->setParameterByClass(
             ilMMSubItemGUI::class,
-            ilMMSubItemGUI::IDENTIFIER,
+            ilMMAbstractItemGUI::IDENTIFIER,
             $this->hash($a_set['identification'])
         );
         $this->ctrl->setParameterByClass(
