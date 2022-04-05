@@ -34,19 +34,19 @@ class ilSOAPStructureObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         if (!$target_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->__raiseError('No valid reference id given.', 'Client');
+            return $this->raiseError('No valid reference id given.', 'Client');
         }
 
         $structureReaderClassname = "ilSoap" . strtoupper($target_obj->getType()) . "StructureReader";
         $filename = "./webservice/soap/classes/class." . $structureReaderClassname . ".php";
 
         if (!file_exists($filename)) {
-            return $this->__raiseError("Object type '" . $target_obj->getType() . "'is not supported.", 'Client');
+            return $this->raiseError("Object type '" . $target_obj->getType() . "'is not supported.", 'Client');
         }
 
         include_once $filename;
@@ -56,7 +56,7 @@ class ilSOAPStructureObjectAdministration extends ilSoapAdministration
         $structureObject = &$structureReader->getStructureObject();
         $xml_writer->setStructureObject($structureObject);
         if (!$xml_writer->start()) {
-            return $this->__raiseError('Cannot create object xml !', 'Server');
+            return $this->raiseError('Cannot create object xml !', 'Server');
         }
         return $xml_writer->getXML();
     }

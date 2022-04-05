@@ -11,7 +11,10 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 {
     protected static array $possible_items = array();
 
-    public function getPossibleItems($a_ref_id)
+    /**
+     * @return array|mixed
+     */
+    public function getPossibleItems(int $a_ref_id)
     {
         if (!isset(self::$possible_items[$a_ref_id])) {
             $obj_id = ilObject::_lookupObjectId($a_ref_id);
@@ -24,7 +27,9 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
             $tree->setTreeTablePK("lm_id");
             foreach ($tree->getChilds($tree->readRootId()) as $child) {
                 if ($child["type"] == "st") {
-                    $child["tlt"] = ilMDEducational::_getTypicalLearningTimeSeconds($obj_id, $child["obj_id"]);
+                    $child["tlt"] = ilMDEducational::_getTypicalLearningTimeSeconds(
+                        $obj_id, $child["obj_id"]
+                    );
                     $items[$child["obj_id"]] = $child;
                 }
             }
@@ -35,6 +40,9 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
         return self::$possible_items[$a_ref_id];
     }
 
+    /**
+     * @return array
+     */
     public function getTableGUIData(int $a_parent_ref_id) : array
     {
         $data = array();
@@ -50,7 +58,9 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
             $tmp['status'] = $this->isAssignedEntry($item['obj_id']);
 
             // #12158
-            $tmp['url'] = ilLink::_getLink($a_parent_ref_id, $parent_type, null, "_" . $tmp['id']);
+            $tmp['url'] = ilLink::_getLink(
+                $a_parent_ref_id, $parent_type, null, "_" . $tmp['id']
+            );
 
             if ($this->mode == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
                 $tmp['tlt'] = $item['tlt'];

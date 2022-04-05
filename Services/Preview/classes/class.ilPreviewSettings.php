@@ -23,17 +23,17 @@
  */
 class ilPreviewSettings
 {
-    const MAX_PREVIEWS_DEFAULT = 5;
-    const MAX_PREVIEWS_MIN = 1;
-    const MAX_PREVIEWS_MAX = 20;
+    public const MAX_PREVIEWS_DEFAULT = 5;
+    public const MAX_PREVIEWS_MIN = 1;
+    public const MAX_PREVIEWS_MAX = 20;
 
-    const IMAGE_SIZE_DEFAULT = 280;
-    const IMAGE_SIZE_MIN = 50;
-    const IMAGE_SIZE_MAX = 600;
+    private const IMAGE_SIZE_DEFAULT = 280;
+    private const IMAGE_SIZE_MIN = 50;
+    private const IMAGE_SIZE_MAX = 600;
 
-    const IMAGE_QUALITY_DEFAULT = 85;
-    const IMAGE_QUALITY_MIN = 20;
-    const IMAGE_QUALITY_MAX = 100;
+    private const IMAGE_QUALITY_DEFAULT = 85;
+    private const IMAGE_QUALITY_MIN = 20;
+    private const IMAGE_QUALITY_MAX = 100;
 
     /**
      * The instance of the ilPreviewSettings.
@@ -71,7 +71,7 @@ class ilPreviewSettings
     private function __construct()
     {
         $this->settings = new ilSetting("preview");
-        $this->preview_enabled = $this->settings->get('preview_enabled', false) == true;
+        $this->preview_enabled = (bool) $this->settings->get('preview_enabled', '0') === true;
         $this->max_previews = $this->settings->get('max_previews_per_object', self::MAX_PREVIEWS_DEFAULT);
     }
 
@@ -83,7 +83,7 @@ class ilPreviewSettings
     public static function setPreviewEnabled(bool $a_value) : void
     {
         $instance = self::getInstance();
-        $instance->preview_enabled = $a_value == true;
+        $instance->preview_enabled = $a_value === true;
         $instance->settings->set('preview_enabled', $instance->preview_enabled);
     }
 
@@ -168,7 +168,7 @@ class ilPreviewSettings
      */
     private static function getInstance() : \ilPreviewSettings
     {
-        if (self::$instance == null) {
+        if (self::$instance === null) {
             self::$instance = new ilPreviewSettings();
         }
 

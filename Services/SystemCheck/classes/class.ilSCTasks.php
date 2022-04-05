@@ -8,7 +8,6 @@
  */
 class ilSCTasks
 {
-
     private static array $instances = array();
 
     private int $grp_id = 0;
@@ -20,7 +19,7 @@ class ilSCTasks
     {
         global $DIC;
 
-        $this->db     = $DIC->database();
+        $this->db = $DIC->database();
         $this->grp_id = $a_grp_id;
         $this->read();
     }
@@ -40,10 +39,10 @@ class ilSCTasks
     {
         global $DIC;
 
-        $db    = $DIC->database();
+        $db = $DIC->database();
         $query = 'select identifier from sysc_tasks ' .
             'where id = ' . $db->quote($a_task_id, ilDBConstants::T_INTEGER);
-        $res   = $db->query($query);
+        $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->identifier;
         }
@@ -53,7 +52,7 @@ class ilSCTasks
     public function updateFromComponentDefinition(string $a_identifier) : int
     {
         foreach ($this->getTasks() as $task) {
-            if ($task->getIdentifier() == $a_identifier) {
+            if ($task->getIdentifier() === $a_identifier) {
                 return 1;
             }
         }
@@ -74,7 +73,7 @@ class ilSCTasks
 
         $query = 'SELECT grp_id FROM sysc_tasks ' .
             'WHERE id = ' . $ilDB->quote($a_task_id, ilDBConstants::T_INTEGER);
-        $res   = $ilDB->query($query);
+        $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->grp_id;
         }
@@ -90,7 +89,7 @@ class ilSCTasks
             if (!$task->isActive()) {
                 continue;
             }
-            if ($task->getStatus() == ilSCTask::STATUS_COMPLETED) {
+            if ($task->getStatus() === ilSCTask::STATUS_COMPLETED) {
                 $num_completed++;
             }
         }
@@ -107,7 +106,7 @@ class ilSCTasks
                 continue;
             }
 
-            if ($task->getStatus() == ilSCTask::STATUS_FAILED) {
+            if ($task->getStatus() === ilSCTask::STATUS_FAILED) {
                 $num_failed++;
             }
         }
@@ -123,7 +122,7 @@ class ilSCTasks
         $query = 'SELECT MAX(last_update) last_update FROM sysc_tasks ' .
             'WHERE status = ' . $ilDB->quote(ilSCTask::STATUS_FAILED, ilDBConstants::T_INTEGER) . ' ' .
             'AND grp_id = ' . $ilDB->quote($a_grp_id, ilDBConstants::T_INTEGER);
-        $res   = $ilDB->query($query);
+        $res = $ilDB->query($query);
 
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return new ilDateTime($row->last_update, IL_CAL_DATETIME, ilTimeZone::UTC);
@@ -146,10 +145,9 @@ class ilSCTasks
 
     protected function read() : void
     {
-
         $query = 'SELECT id, grp_id FROM sysc_tasks ' .
             'ORDER BY id ';
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
 
         $this->tasks = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

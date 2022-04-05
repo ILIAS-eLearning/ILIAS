@@ -26,31 +26,30 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
     private ?int $obj_id = null;
     private ?\ilPreview $preview = null;
     /**
-     * @var \ilWorkspaceAccessHandler|null|object
+     * @var ilWorkspaceAccessHandler|ilAccessHandler|null
      */
-    private $access_handler = null;
+    private ?object $access_handler = null;
     private ?int $context = null;
     private ?\ilCtrl $ctrl = null;
     private ?\ilLanguage $lng = null;
     private static bool $initialized = false;
 
-    const CONTEXT_REPOSITORY = 1;
-    const CONTEXT_WORKSPACE = 2;
+    public const CONTEXT_REPOSITORY = 1;
+    public const CONTEXT_WORKSPACE = 2;
 
     /**
      * Creates a new preview GUI.
      * @param int $a_node_id The node id.
      * @param int $a_context The context of the preview.
      * @param int $a_obj_id The object id.
-     * @param object $a_access_handler The access handler to use.
+     * @param ilWorkspaceAccessHandler|ilAccessHandler|null $a_access_handler The access handler to use.
      */
     public function __construct(
         ?int $a_node_id = null,
         ?int $a_context = self::CONTEXT_REPOSITORY,
         ?int $a_obj_id = null,
-        $a_access_handler = null
-    )
-    {
+        ?object $a_access_handler = null
+    ) {
         global $DIC;
         // assign values
         $this->ctrl = $DIC->ctrl();
@@ -63,7 +62,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
             : null;
 
         // if we are the base class, get the id's from the query string
-        if (strtolower($base_class) === strtolower(ilPreviewGUI::class)) {
+        if (strtolower($base_class) === strtolower(__CLASS__)) {
             $this->node_id = $query->has('node_id')
                 ? $query->retrieve('node_id', $DIC->refinery()->kindlyTo()->int())
                 : 0;
@@ -92,7 +91,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
 
         // object id NOT provided?
         if ($a_obj_id === null) {
-            if ($this->context == self::CONTEXT_WORKSPACE) {
+            if ($this->context === self::CONTEXT_WORKSPACE) {
                 $a_obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
             } else {
                 $a_obj_id = ilObject::_lookupObjId($this->node_id);
@@ -105,7 +104,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
 
         // if the call is NOT async initialize our stuff
         if (!$this->ctrl->isAsynch()) {
-            ilPreviewGUI::initPreview();
+            self::initPreview();
         }
     }
 
@@ -130,11 +129,13 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param $a_html_id string The id of the HTML element that contains the preview.
      * @return string The JavaScript code to show the preview.
      */
-    public function getJSCall($a_html_id) : string
+    public function getJSCall(string $a_html_id) : string
     {
         $status = $this->preview->getRenderStatus();
-        $command = $status == ilPreview::RENDER_STATUS_NONE ? "renderPreview" : "";
-        $loading_text = self::jsonSafeString($this->lng->txt($status == ilPreview::RENDER_STATUS_NONE ? "preview_status_creating" : "preview_loading"));
+        $command = $status === ilPreview::RENDER_STATUS_NONE ? "renderPreview" : "";
+        $loading_text = self::jsonSafeString(
+            $this->lng->txt($status === ilPreview::RENDER_STATUS_NONE ? "preview_status_creating" : "preview_loading")
+        );
 
         // build the url
         $link = $this->buildUrl($command);
@@ -145,7 +146,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * Gets the HTML that displays the preview.
      * @return string The HTML that displays the preview.
      */
-    public function getPreviewHTML()
+    public function getPreviewHTML() : string
     {
         // load the template
         $tmpl = new ilTemplate("tpl.preview.html", true, true, "Services/Preview");
@@ -202,9 +203,9 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
 
             // no further processing!
             exit;
-        } else {
-            return $tmpl->get();
         }
+
+        return $tmpl->get();
     }
 
     /**
@@ -247,9 +248,9 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param $a_cmd string The command to create.
      * @param $btn_topic string The topic to get the button text.
      * @param $loading_topic string The topic to get the loading text.
-     * @param $a_display_status array An array containing the statuses when the command should be visible.
+     * @param $a_display_status string[] An array containing the statuses when the command should be visible.
      */
-    private function renderCommand($tmpl, $a_cmd, string $btn_topic, string $loading_topic, $a_display_status) : void
+    private function renderCommand(ilTemplate $tmpl, string $a_cmd, string $btn_topic, string $loading_topic, array $a_display_status) : void
     {
         $preview_html_id = $this->getHtmlId();
         $preview_status = $this->preview->getRenderStatus();
@@ -259,13 +260,13 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
         $script_args = "event, { id: '{$this->node_id}', htmlId: '$preview_html_id', url: '$link', loadingText: '$loading_text' }";
 
         $action_class = "";
-        if (!is_array($a_display_status) || !in_array($preview_status, $a_display_status)) {
+        if (!in_array($preview_status, $a_display_status, true)) {
             $action_class = "ilPreviewActionHidden";
         }
 
         $tmpl->setCurrentBlock("preview_action");
         $tmpl->setVariable("CLICK_ACTION", "il.Preview.$a_cmd($script_args);");
-        $tmpl->setVariable("ACTION_CLASS", "$action_class");
+        $tmpl->setVariable("ACTION_CLASS", $action_class);
         $tmpl->setVariable("ACTION_ID", "preview_{$a_cmd}_" . $preview_html_id);
         $tmpl->setVariable("TXT_ACTION", $this->lng->txt($btn_topic));
         $tmpl->parseCurrentBlock();
@@ -316,7 +317,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param $a_async bool true, to create a URL to call asynchronous; otherwise, false.
      * @return string The created URL.
      */
-    private function buildUrl($a_cmd = "", $a_async = true) : string
+    private function buildUrl(string $a_cmd = "", bool $a_async = true) : string
     {
         $link = "ilias.php?baseClass=ilPreviewGUI&node_id={$this->node_id}&context={$this->context}&obj_id={$this->obj_id}";
 
@@ -373,10 +374,12 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.showPreview = \"" . self::jsonSafeString($DIC->language()->txt("preview_show"))
                                                   . "\";");
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.texts.close = \"" . ilLegacyFormElementsUtil::prepareFormOutput(
-                $DIC->language()->txt("close")
-            ) . "\";");
+            $DIC->language()->txt("close")
+        ) . "\";");
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.previewSize = " . ilPreviewSettings::getImageSize() . ";");
-        $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.initialHtml = " . json_encode($initialHtml) . ";");
+        $DIC->ui()->mainTemplate()->addOnLoadCode(
+            "il.Preview.initialHtml = " . json_encode($initialHtml, JSON_THROW_ON_ERROR) . ";"
+        );
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.highlightClass = \"ilContainerListItemOuterHighlight\";");
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Preview.init();");
 

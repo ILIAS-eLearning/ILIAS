@@ -31,8 +31,11 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
         $this->lng->loadLanguageModule("trac");
         $from = new ilDateTime($ts_start, IL_CAL_UNIX);
         $to = new ilDateTime($ts_end, IL_CAL_UNIX);
-        $completions = ilLPMarks::getCompletionsOfUser($this->getUserId(), $from->get(IL_CAL_DATETIME),
-            $to->get(IL_CAL_DATETIME));
+        $completions = ilLPMarks::getCompletionsOfUser(
+            $this->getUserId(),
+            $from->get(IL_CAL_DATETIME),
+            $to->get(IL_CAL_DATETIME)
+        );
         $entries = [];
         foreach ($completions as $c) {
             $ts = new ilDateTime($c["status_changed"], IL_CAL_DATETIME);

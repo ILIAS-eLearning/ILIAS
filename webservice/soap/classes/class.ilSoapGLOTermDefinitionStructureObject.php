@@ -40,7 +40,6 @@ class ilSoapGLOTermDefinitionStructureObject extends ilSoapStructureObject
 
     public function getGotoLink() : string
     {
-        /* @var $ilInit ilInitialisation */
         return "";
     }
 }

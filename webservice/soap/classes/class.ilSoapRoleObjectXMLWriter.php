@@ -17,7 +17,6 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
     public string $xml = '';
     private array $roles = [];
     private string $role_type = '';
-    private int $user_id = 0;
 
     public function __construct()
     {
@@ -26,7 +25,6 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
         $ilUser = $DIC->user();
 
         parent::__construct();
-        $this->user_id = $ilUser->getId();
     }
 
     public function setObjects(array $roles) : void
@@ -44,29 +42,29 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-        if (!is_array($this->roles)) {
+        if ($this->roles === []) {
             return false;
         }
 
-        $this->__buildHeader();
+        $this->buildHeader();
 
         include_once './Services/AccessControl/classes/class.ilObjRole.php';
         include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
         foreach ($this->roles as $role) {
             // if role type is not empty and does not match, then continue;
-            if (!empty($this->role_type) && strcasecmp($this->role_type, $role["role_type"]) != 0) {
+            if (!empty($this->role_type) && strcasecmp($this->role_type, $role["role_type"]) !== 0) {
                 continue;
             }
             if ($rbacreview->isRoleDeleted($role["obj_id"])) {
                 continue;
             }
 
-            $attrs = array('role_type' => ucwords($role["role_type"]),
-                           'id' => "il_" . IL_INST_ID . "_role_" . $role["obj_id"]
-            );
+            $attrs = [
+                'role_type' => ucwords($role["role_type"]),
+                'id' => "il_" . IL_INST_ID . "_role_" . $role["obj_id"]
+            ];
 
-            // open tag
             $this->xmlStartTag("Role", $attrs);
             $this->xmlElement('Title', null, $role["title"]);
             $this->xmlElement('Description', null, $role["description"]);
@@ -76,11 +74,19 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
                 $ownerObj = ilObjectFactory::getInstanceByRefId($ref_id, false);
 
                 if (is_object($ownerObj)) {
-                    $attrs = array("obj_id" =>
-                                       "il_" . IL_INST_ID . "_" . $ownerObj->getType() . "_" . $ownerObj->getId(),
-                                   "ref_id" => $ownerObj->getRefId(),
-                                   "type" => $ownerObj->getType()
-                    );
+                    $attrs = [
+                        "obj_id" => implode(
+                            '_',
+                            [
+                                "il",
+                                IL_INST_ID,
+                                $ownerObj->getType(),
+                                $ownerObj->getId()
+                            ]
+                        ),
+                        "ref_id" => $ownerObj->getRefId(),
+                        "type" => $ownerObj->getType()
+                    ];
                     $this->xmlStartTag('AssignedObject', $attrs);
                     $this->xmlElement('Title', null, $ownerObj->getTitle());
                     $this->xmlElement('Description', null, $ownerObj->getDescription());
@@ -90,7 +96,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
             }
             $this->xmlEndTag("Role");
         }
-        $this->__buildFooter();
+        $this->buildFooter();
         return true;
     }
 
@@ -99,7 +105,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
         return $this->xmlDumpMem(false);
     }
 
-    public function __buildHeader() : void
+    private function buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_role_object_3_10.dtd\">");
         $this->xmlSetGenCmt("Roles information of ilias system");
@@ -107,7 +113,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
         $this->xmlStartTag('Roles');
     }
 
-    public function __buildFooter() : void
+    private function buildFooter() : void
     {
         $this->xmlEndTag('Roles');
     }

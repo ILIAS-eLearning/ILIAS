@@ -5,28 +5,17 @@
  */
 interface ilDBPdoInterface extends ilDBInterface
 {
-
     public function getServerVersion(bool $native = false) : int;
 
-    /**
-     * @return mixed[]
-     */
     public function queryCol(string $query, int $type = ilDBConstants::FETCHMODE_DEFAULT, int $colnum = 0) : array;
 
-    /**
-     * @param array|null $types
-     * @return mixed[]
-     */
     public function queryRow(
         string $query,
-        array $types = null,
+        ?array $types = null,
         int $fetchmode = ilDBConstants::FETCHMODE_DEFAULT
     ) : array;
 
-    /**
-     * @param mixed $value
-     */
-    public function escape($value, bool $escape_wildcards = false) : string;
+    public function escape(string $value, bool $escape_wildcards = false) : string;
 
     public function escapePattern(string $text) : string;
     
@@ -46,10 +35,7 @@ interface ilDBPdoInterface extends ilDBInterface
 
     public function supportsCollationMigration() : bool;
 
-    /**
-     * @param string $name
-     */
-    public function addUniqueConstraint(string $table, array $fields, $name = "con") : bool;
+    public function addUniqueConstraint(string $table, array $fields, string $name = "con") : bool;
 
     public function dropUniqueConstraint(string $table, string $name = "con") : bool;
 

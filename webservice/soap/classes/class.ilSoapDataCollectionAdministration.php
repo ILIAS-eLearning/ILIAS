@@ -46,24 +46,24 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
     ) {
         $this->initAuth($sid);
         $this->initIlias();
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         require_once "Modules/DataCollection/classes/class.ilObjDataCollection.php";
         if (!$target_obj = new ilObjDataCollection($target_ref_id)) {
-            return $this->__raiseError('No valid target given.', 'CLIENT');
+            return $this->raiseError('No valid target given.', 'CLIENT');
         }
 
         if (ilObject::_isInTrash($target_ref_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 "Parent with ID $target_ref_id has been deleted.",
                 'CLIENT_TARGET_DELETED'
             );
         }
 
         if (!ilObjDataCollectionAccess::hasReadAccess($target_ref_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'Check access failed. No permission to read DataCollection',
                 "CLIENT_PERMISSION_ISSUE"
             );
@@ -74,7 +74,7 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
             $exporter = new ilDclContentExporter($target_ref_id, $table_id);
             return $exporter->export($format, $filepath);
         } catch (ilException $exception) {
-            return $this->__raiseError($exception->getMessage(), $exception->getCode());
+            return $this->raiseError($exception->getMessage(), $exception->getCode());
         }
     }
 }

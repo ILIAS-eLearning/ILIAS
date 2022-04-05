@@ -64,15 +64,20 @@ class ilLPStatusSCORMPackage extends ilLPStatus
      * @param object        object (optional depends on object type)
      * @return    int        status
      */
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
 
-        $scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser($a_obj_id, $a_usr_id);
+        $scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser(
+            $a_obj_id, $a_usr_id
+        );
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($scorm_status) {
             case "in_progress":
@@ -96,12 +101,16 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         $in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
         $completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
         $failed = ilLPStatusWrapper::_getFailed($a_obj_id);
-        $all_active_users = array_unique(array_merge($in_progress, $completed, $failed));
+        $all_active_users = array_unique(
+            array_merge($in_progress, $completed, $failed)
+        );
 
         // get all tracked users regardless of SCOs
         $all_tracked_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
 
-        $not_attempted_users = array_diff($all_tracked_users, $all_active_users);
+        $not_attempted_users = array_diff(
+            $all_tracked_users, $all_active_users
+        );
         unset($all_tracked_users);
         unset($all_active_users);
 
@@ -109,13 +118,18 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         if ($not_attempted_users) {
             foreach ($not_attempted_users as $usr_id) {
                 // this will update any (parent) collections if necessary
-                ilLPStatus::writeStatus($a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, 0);
+                ilLPStatus::writeStatus(
+                    $a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, 0
+                );
             }
         }
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
-    {
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ) : int {
         return 0;//todo!
     }
 }

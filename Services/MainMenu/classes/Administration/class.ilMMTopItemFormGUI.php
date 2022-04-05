@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
@@ -7,6 +7,7 @@ use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\HTTP\Services;
 
 /**
  * Class ilMMTopItemFormGUI
@@ -18,7 +19,7 @@ class ilMMTopItemFormGUI
     
     private const F_ICON = 'icon';
     
-    private \ILIAS\HTTP\Services $http;
+    private Services $http;
     
     private ilMMItemRepository $repository;
     
@@ -49,19 +50,19 @@ class ilMMTopItemFormGUI
         Factory $ui_fa,
         Renderer $ui_re,
         ilLanguage $lng,
-        \ILIAS\HTTP\Services $http,
+        Services $http,
         ilMMItemFacadeInterface $item,
         ilMMItemRepository $repository
     ) {
-        $this->repository  = $repository;
-        $this->http        = $http;
-        $this->ctrl        = $ctrl;
-        $this->ui_fa       = $ui_fa;
-        $this->ui_re       = $ui_re;
-        $this->lng         = $lng;
+        $this->repository = $repository;
+        $this->http = $http;
+        $this->ctrl = $ctrl;
+        $this->ui_fa = $ui_fa;
+        $this->ui_re = $ui_re;
+        $this->lng = $lng;
         $this->item_facade = $item;
         if (!$this->item_facade->isEmpty()) {
-            $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER);
+            $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER);
         }
         
         $this->initForm();
@@ -72,7 +73,7 @@ class ilMMTopItemFormGUI
         $txt = function ($key) {
             return $this->lng->txt($key);
         };
-        $f   = function () : InputFactory {
+        $f = function () : InputFactory {
             return $this->ui_fa->input();
         };
         
@@ -100,11 +101,14 @@ class ilMMTopItemFormGUI
         // TYPE
         if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
             $type_groups = $this->getTypeGroups($f);
-            $type        = $f()->field()->switchableGroup($type_groups, $txt('topitem_type'),
-                $txt('topitem_type_byline'))->withRequired(true);
+            $type = $f()->field()->switchableGroup(
+                $type_groups,
+                $txt('topitem_type'),
+                $txt('topitem_type_byline')
+            )->withRequired(true);
             if (!$this->item_facade->isEmpty()) {
                 $string = $this->item_facade->getType() === '' ? TopParentItem::class : $this->item_facade->getType();
-                $type   = $type->withValue($this->hash($string));
+                $type = $type->withValue($this->hash($string));
             } else {
                 $type = $type->withValue($this->hash(TopParentItem::class));
             }
@@ -112,18 +116,18 @@ class ilMMTopItemFormGUI
         }
         
         // ACTIVE
-        $active                = $f()->field()->checkbox($txt('topitem_active'), $txt('topitem_active_byline'));
-        $active                = $active->withValue($this->item_facade->isActivated());
+        $active = $f()->field()->checkbox($txt('topitem_active'), $txt('topitem_active_byline'));
+        $active = $active->withValue($this->item_facade->isActivated());
         $items[self::F_ACTIVE] = $active;
         
         // ROLE BASED VISIBILITY
         if ($this->item_facade->supportsRoleBasedVisibility()) {
-            $access                      = new ilObjMainMenuAccess();
+            $access = new ilObjMainMenuAccess();
             $value_role_based_visibility = null;
             if ($this->item_facade->hasRoleBasedVisibility() && $this->item_facade->getGlobalRoleIDs()) {
                 $value_role_based_visibility[0] = $this->item_facade->getGlobalRoleIDs();
             }
-            $role_based_visibility                = $f()->field()->optionalGroup(
+            $role_based_visibility = $f()->field()->optionalGroup(
                 [
                     $f()->field()->multiSelect(
                         $txt('sub_global_roles'),
@@ -138,20 +142,24 @@ class ilMMTopItemFormGUI
         
         // RETURN FORM
         if ($this->item_facade->isEmpty()) {
-            $section    = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_ADD), "");
-            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class,
-                ilMMTopItemGUI::CMD_CREATE), [$section]);
+            $section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_ADD), "");
+            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(
+                ilMMTopItemGUI::class,
+                ilMMTopItemGUI::CMD_CREATE
+            ), [$section]);
         } else {
-            $section    = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_EDIT), "");
-            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class,
-                ilMMTopItemGUI::CMD_UPDATE), [$section]);
+            $section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_EDIT), "");
+            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(
+                ilMMTopItemGUI::class,
+                ilMMTopItemGUI::CMD_UPDATE
+            ), [$section]);
         }
     }
     
     public function save() : bool
     {
         $this->form = $this->form->withRequest($this->http->request());
-        $data       = $this->form->getData();
+        $data = $this->form->getData();
         if (is_null($data)) {
             return false;
         }
@@ -161,7 +169,7 @@ class ilMMTopItemFormGUI
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         if ($this->item_facade->supportsRoleBasedVisibility()) {
             $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
-            if ((bool) $data[0][self::F_ROLE_BASED_VISIBILITY] and (bool) !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
+            if ($data[0][self::F_ROLE_BASED_VISIBILITY] and !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
                 $this->item_facade->setGlobalRoleIDs((array) $data[0][self::F_ROLE_BASED_VISIBILITY][0]);
             }
         }
@@ -180,9 +188,9 @@ class ilMMTopItemFormGUI
         }
         
         if ($this->item_facade->isCustom()) {
-            $type               = $this->item_facade->getType();
+            $type = $this->item_facade->getType();
             $type_specific_data = (array) $data[0][self::F_TYPE][1];
-            $type_handler       = $this->repository->getTypeHandlerForType($type);
+            $type_handler = $this->repository->getTypeHandlerForType($type);
             $type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
         }
         
@@ -205,15 +213,17 @@ class ilMMTopItemFormGUI
      */
     private function getTypeGroups(Closure $f) : array
     {
-        $type_groups       = [];
+        $type_groups = [];
         $type_informations = $this->repository->getPossibleTopItemTypesWithInformation();
         foreach ($type_informations as $classname => $information) {
             if ($this->item_facade->isEmpty()
                 || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
             ) { // https://mantis.ilias.de/view.php?id=24152
-                $inputs                               = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
-                $type_groups[$this->hash($classname)] = $f()->field()->group($inputs,
-                    $information->getTypeNameForPresentation());
+                $inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+                $type_groups[$this->hash($classname)] = $f()->field()->group(
+                    $inputs,
+                    $information->getTypeNameForPresentation()
+                );
             }
         }
         

@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\MainMenu\Provider\CustomMainBarProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 
 /**
  * Class ilMMNullItemFacade
@@ -11,7 +12,6 @@ use ILIAS\MainMenu\Provider\CustomMainBarProvider;
  */
 class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeInterface
 {
-    
     private ?string $parent_identification = "";
     private bool $active_status;
     protected bool $top_item = false;
@@ -87,7 +87,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
         global $DIC;
         $provider = new CustomMainBarProvider($DIC);
         $this->raw_item = $provider->getSingleCustomItem($s);
-        if ($this->parent_identification && $this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+        if ($this->parent_identification && $this->raw_item instanceof isChild) {
             global $DIC;
             $this->raw_item = $this->raw_item->withParent($DIC->globalScreen()->identification()->fromSerializedIdentification($this->parent_identification));
         }
@@ -99,7 +99,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
         $this->mm_item->setIdentification($this->raw_item->getProviderIdentification()->serialize());
         $this->mm_item->setParentIdentification($this->parent_identification);
         $this->mm_item->setActive($this->active_status);
-        if ($this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+        if ($this->raw_item instanceof isChild) {
             $this->mm_item->setParentIdentification($this->raw_item->getParent()->serialize());
         }
 
@@ -138,15 +138,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     {
         return true;
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function delete() : void
-    {
-        parent::delete();
-    }
+    
 
     /**
      * @inheritDoc
@@ -155,5 +147,4 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     {
         return true;
     }
-
 }

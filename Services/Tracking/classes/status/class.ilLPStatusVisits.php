@@ -52,8 +52,11 @@ class ilLPStatusVisits extends ilLPStatus
         return $status_info;
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -69,7 +72,9 @@ class ilLPStatusVisits extends ilLPStatus
                     $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
                     $required_visits = $status_info['visits'];
 
-                    $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
+                    $re = ilChangeEvent::_lookupReadEvents(
+                        $a_obj_id, $a_usr_id
+                    );
                     if ($re[0]['read_count'] >= $required_visits) {
                         $status = self::LP_STATUS_COMPLETED_NUM;
                     }
@@ -79,8 +84,11 @@ class ilLPStatusVisits extends ilLPStatus
         return $status;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
-    {
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ) : int {
         $reqv = ilLPObjSettings::_lookupVisits($a_obj_id);
 
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);

@@ -39,7 +39,7 @@ class ilCopyWizardOptionsTest extends TestCase
 
         $GLOBALS[$name] = $value;
         unset($DIC[$name]);
-        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
+        $DIC[$name] = static function (Container $c) use ($value) {
             return $value;
         };
     }

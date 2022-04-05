@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilMMItemTranslationTableGUI
@@ -18,7 +18,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
      */
     public function __construct(ilMMItemTranslationGUI $a_parent_obj, ilMMItemFacadeInterface $item_facade)
     {
-        $table_id          = self::class;
+        $table_id = self::class;
         $this->item_facade = $item_facade;
         $this->setId($table_id);
         $this->setPrefix($table_id);
@@ -50,20 +50,20 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
         $this->parseData();
     }
     
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn($this->lng->txt('mm_translation_select'), '', '15px', true);
         $this->addColumn($this->lng->txt('mm_translation_lang'));
         $this->addColumn($this->lng->txt('mm_translation_trans'));
     }
     
-    protected function initCommands()
+    protected function initCommands() : void
     {
         $this->addMultiCommand(ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS, $this->lng
             ->txt("delete"));
     }
     
-    protected function parseData()
+    protected function parseData() : void
     {
         $this->setData(ilMMItemTranslationStorage::where(['identification' => $this->item_facade->getId()])->getArray());
     }

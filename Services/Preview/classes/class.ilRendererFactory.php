@@ -23,19 +23,30 @@
 final class ilRendererFactory
 {
     /**
-     * The available renderers.
+     * @var ilFilePreviewRenderer[]
      */
-    private static ?array $renderers = null;
-
+    private array $renderers = [];
+    
+    /**
+     * @param ilFilePreviewRenderer[] $additional_renderers
+     */
+    public function __construct(array $additional_renderers = [])
+    {
+        $base_renderers = [
+            new ilImageMagickRenderer(),
+            new ilGhostscriptRenderer()
+        ];
+        $this->renderers = array_merge($additional_renderers, $base_renderers);
+    }
+    
     /**
      * Gets an array containing all available preview renderers.
      *
-     * @return array All available preview renderers.
+     * @return ilFilePreviewRenderer[] All available preview renderers.
      */
-    public static function getRenderers() : array
+    public function getRenderers() : array
     {
-        self::loadAvailableRenderers();
-        return self::$renderers ?? [];
+        return $this->renderers;
     }
 
     /**
@@ -44,12 +55,10 @@ final class ilRendererFactory
      * @param ilPReview $preview The preview to get the renderer for.
      * @return ilPreviewRenderer A renderer or null if no renderer matches the preview object.
      */
-    public static function getRenderer(\ilPReview $preview) : ?ilPreviewRenderer
+    public function getRenderer(\ilPreview $preview) : ?ilPreviewRenderer
     {
-        $renderers = self::getRenderers();
-
         // check each renderer if it supports that preview object
-        foreach ($renderers as $renderer) {
+        foreach ($this->getRenderers() as $renderer) {
             if ($renderer->supports($preview)) {
                 return $renderer;
             }
@@ -57,23 +66,5 @@ final class ilRendererFactory
 
         // no matching renderer was found
         return null;
-    }
-
-    private static function loadAvailableRenderers() : void
-    {
-        // already loaded?
-        if (self::$renderers != null) {
-            return;
-        }
-
-        $r = [];
-
-        // get registered and active plugins
-        $r[] = new ilImageMagickRenderer();
-        if (ilGhostscriptRenderer::isGhostscriptInstalled()) {
-            $r[] = new ilGhostscriptRenderer();
-        }
-
-        self::$renderers = $r;
     }
 }

@@ -6,7 +6,6 @@
  */
 interface ilDBPdoManagerInterface
 {
-
     public function getIndexName(string $idx) : string;
 
     public function getSequenceName(string $sqn) : string;

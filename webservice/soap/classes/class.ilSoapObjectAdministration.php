@@ -32,17 +32,16 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
-
     public function getObjIdByImportId(string $sid, string $import_id)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$import_id) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No import id given.',
                 'Client'
             );
@@ -61,11 +60,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$import_id) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No import id given.',
                 'Client'
             );
@@ -79,7 +78,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $new_refs = [];
         foreach ($ref_ids as $ref_id) {
-            // only get non deleted reference ids
             if ($tree->isInTree($ref_id)) {
                 $new_refs[] = $ref_id;
             }
@@ -92,11 +90,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$obj_id) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No object id given.',
                 'Client'
             );
@@ -121,33 +119,34 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        if (!count($ref_ids) || !is_array($ref_ids)) {
-            return $this->__raiseError('No reference id(s) given.', 'Client');
+        if (!count($ref_ids)) {
+            return $this->raiseError('No reference id(s) given.', 'Client');
         }
 
-        $obj_ids = array();
-        if (count($ref_ids)) {
-            foreach ($ref_ids as $ref_id) {
-                $ref_id = trim($ref_id);
-                if (!is_numeric($ref_id)) {
-                    return $this->__raiseError('Reference ID has to be numeric. Value: ' . $ref_id, 'Client');
-                }
-
-                $obj_id = ilObject::_lookupObjectId($ref_id);
-                if (!$obj_id) {
-                    return $this->__raiseError('No object found for reference ID. Value: ' . $ref_id, 'Client');
-                }
-                if (!ilObject::_hasUntrashedReference($obj_id)) {
-                    return $this->__raiseError('No untrashed reference found for reference ID. Value: ' . $ref_id,
-                        'Client');
-                }
-                $obj_ids[] = $obj_id;
+        $obj_ids = [];
+        foreach ($ref_ids as $ref_id) {
+            $ref_id = trim($ref_id);
+            if (!is_numeric($ref_id)) {
+                return $this->raiseError('Reference ID has to be numeric. Value: ' . $ref_id, 'Client');
             }
+
+            $obj_id = ilObject::_lookupObjectId($ref_id);
+            if (!$obj_id) {
+                return $this->raiseError('No object found for reference ID. Value: ' . $ref_id, 'Client');
+            }
+            if (!ilObject::_hasUntrashedReference($obj_id)) {
+                return $this->raiseError(
+                    'No untrashed reference found for reference ID. Value: ' . $ref_id,
+                    'Client'
+                );
+            }
+            $obj_ids[] = $obj_id;
         }
+
         return $obj_ids;
     }
 
@@ -156,20 +155,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!is_numeric($a_ref_id)) {
-            return $this->__raiseError(
-                'No valid reference id given. Please choose an existing reference id of an ILIAS object',
-                'Client'
-            );
-        }
+
         if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false)) {
-            return $this->__raiseError('Cannot create object instance!', 'Server');
+            return $this->raiseError('Cannot create object instance!', 'Server');
         }
         if (ilObject::_isInTrash($a_ref_id)) {
-            return $this->__raiseError("Object with ID $a_ref_id has been deleted.", 'Client');
+            return $this->raiseError("Object with ID $a_ref_id has been deleted.", 'Client');
         }
         include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
@@ -183,7 +177,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         if ($xml_writer->start()) {
             return $xml_writer->getXML();
         }
-        return $this->__raiseError('Cannot create object xml !', 'Server');
+        return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
     public function getObjectsByTitle(string $sid, string $a_title, int $user_id)
@@ -191,11 +185,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($a_title)) {
-            return $this->__raiseError(
+        if ($a_title === '') {
+            return $this->raiseError(
                 'No valid query string given.',
                 'Client'
             );
@@ -206,7 +200,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 $query_parser->getMessage(),
                 'Client'
             );
@@ -220,14 +214,14 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $object_search->appendToFilter('rolt');
         $res = $object_search->performSearch();
         if ($user_id) {
-            $res->setUserId((int) $user_id);
+            $res->setUserId($user_id);
         }
 
         $res->filter(ROOT_FOLDER_ID, true);
 
         $objs = array();
         foreach ($res->getUniqueResults() as $entry) {
-            if ($entry['type'] == 'role' or $entry['type'] == 'rolt') {
+            if ($entry['type'] === 'role' || $entry['type'] === 'rolt') {
                 if ($tmp = ilObjectFactory::getInstanceByObjId($entry['obj_id'], false)) {
                     $objs[] = $tmp;
                 }
@@ -253,7 +247,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         if ($xml_writer->start()) {
             return $xml_writer->getXML();
         }
-        return $this->__raiseError('Cannot create object xml !', 'Server');
+        return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
     public function searchObjects(string $sid, array $types, string $key, string $combination, int $user_id)
@@ -261,23 +255,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!is_array($types)) {
-            return $this->__raiseError(
-                'Types must be an array of object types.',
-                'Client'
-            );
-        }
-        if ($combination != 'and' and $combination != 'or') {
-            return $this->__raiseError(
+
+        if ($combination !== 'and' && $combination !== 'or') {
+            return $this->raiseError(
                 'No valid combination given. Must be "and" or "or".',
                 'Client'
             );
         }
 
-        $higlighter = null;
+        $highlighter = null;
         include_once './Services/Search/classes/class.ilSearchSettings.php';
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             ilSearchSettings::getInstance()->setMaxHits(25);
@@ -285,12 +274,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $typeFilterQuery = '';
             if (is_array($types)) {
                 foreach ($types as $objectType) {
-                    if (0 === strlen($typeFilterQuery)) {
+                    if ($typeFilterQuery === '') {
                         $typeFilterQuery .= '+( ';
                     } else {
                         $typeFilterQuery .= 'OR';
                     }
-                    $typeFilterQuery .= (' type:' . (string) $objectType . ' ');
+                    $typeFilterQuery .= (' type:' . $objectType . ' ');
                 }
                 $typeFilterQuery .= ') ';
             }
@@ -312,7 +301,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $result_ids = $filter->getResults();
             $objs = array();
             $objs[ROOT_FOLDER_ID] = ilObjectFactory::getInstanceByRefId(ROOT_FOLDER_ID, false);
-            foreach ((array) $result_ids as $ref_id => $obj_id) {
+            foreach ($result_ids as $ref_id => $obj_id) {
                 $obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
                 if ($obj instanceof ilObject) {
                     $objs[] = $obj;
@@ -327,30 +316,24 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             include_once './Services/Search/classes/class.ilQueryParser.php';
 
             $query_parser = new ilQueryParser($key);
-            #$query_parser->setMinWordLength(3);
-            $query_parser->setCombination($combination == 'and' ? ilQueryParser::QP_COMBINATION_AND : ilQueryParser::QP_COMBINATION_OR);
+            $query_parser->setCombination($combination === 'and' ? ilQueryParser::QP_COMBINATION_AND : ilQueryParser::QP_COMBINATION_OR);
             $query_parser->parse();
             if (!$query_parser->validate()) {
-                return $this->__raiseError(
+                return $this->raiseError(
                     $query_parser->getMessage(),
                     'Client'
                 );
             }
-
-            #include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
-            #$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
 
             include_once './Services/Search/classes/Like/class.ilLikeObjectSearch.php';
             $object_search = new ilLikeObjectSearch($query_parser);
             $object_search->setFilter($types);
             $res = $object_search->performSearch();
             if ($user_id) {
-                $res->setUserId((int) $user_id);
+                $res->setUserId($user_id);
             }
-            // begin-patch fm
             $res->setMaxHits(100);
-            // begin-patch fm
-            $res->filter(ROOT_FOLDER_ID, $combination == 'and' ? true : false);
+            $res->filter(ROOT_FOLDER_ID, $combination === 'and');
             $counter = 0;
             $objs = array();
             foreach ($res->getUniqueResults() as $entry) {
@@ -367,10 +350,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
         $xml_writer = new ilObjectXMLWriter();
-        // begin-patch fm
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             $xml_writer->enableReferences(false);
-            $xml_writer->setMode(ilObjectXmlWriter::MODE_SEARCH_RESULT);
+            $xml_writer->setMode(ilObjectXMLWriter::MODE_SEARCH_RESULT);
             $xml_writer->setHighlighter($highlighter);
         }
 
@@ -383,11 +365,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $xml_writer->setObjects($objs);
         if ($xml_writer->start()) {
-            #$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$xml_writer->xmlDumpMem(true));
             return $xml_writer->getXML();
         }
 
-        return $this->__raiseError('Cannot create object xml !', 'Server');
+        return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
     public function getTreeChilds(string $sid, int $ref_id, array $types, int $user_id)
@@ -395,8 +376,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         $all = false;
@@ -406,13 +387,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $tree = $DIC['tree'];
 
         if (!$target_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid reference id given.',
                 'Client'
             );
         }
-        if (intval($ref_id) == SYSTEM_FOLDER_ID) {
-            return $this->__raiseError(
+        if ($ref_id === SYSTEM_FOLDER_ID) {
+            return $this->raiseError(
                 'No valid reference id given.',
                 'Client'
             );
@@ -425,7 +406,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $objs = array();
 
         foreach ($tree->getChilds($ref_id, 'title') as $child) {
-            if ($all or in_array($child['type'], $types)) {
+            if ($all || in_array($child['type'], $types, true)) {
                 if ($tmp = ilObjectFactory::getInstanceByRefId($child['ref_id'], false)) {
                     $objs[] = $tmp;
                 }
@@ -444,7 +425,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         if ($xml_writer->start()) {
             return $xml_writer->getXML();
         }
-        return $this->__raiseError('Cannot create object xml !', 'Server');
+        return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
     public function getXMLTree(string $sid, int $ref_id, array $types, int $user_id)
@@ -452,8 +433,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -463,19 +444,19 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $nodedata = $tree->getNodeData($ref_id);
         $nodearray = $tree->getSubTree($nodedata);
 
-        $filter = (array) $types;
+        $filter = $types;
 
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
         $nodes = [];
         foreach ($nodearray as $node) {
-            if (!$objDefinition->isAdministrationObject($node['type']) && !$objDefinition->isSystemObject($node['type'])) {
-                if (!in_array($node['type'], $filter)) {
-                    if ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false)) {
-                        $nodes[] = $tmp;
-                    }
-                }
+            if (
+                !$objDefinition->isAdministrationObject($node['type']) &&
+                !$objDefinition->isSystemObject($node['type']) &&
+                !in_array($node['type'], $filter, true) &&
+                ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))) {
+                $nodes[] = $tmp;
             }
         }
 
@@ -493,7 +474,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $xml_writer->getXML();
         }
 
-        return $this->__raiseError('Cannot create object xml !', 'Server');
+        return $this->raiseError('Cannot create object xml !', 'Server');
     }
 
     public function addObject(string $sid, int $a_target_id, string $a_xml)
@@ -501,11 +482,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($a_xml)) {
-            return $this->__raiseError(
+        if ($a_xml === '') {
+            return $this->raiseError(
                 'No valid xml string given.',
                 'Client'
             );
@@ -520,19 +501,19 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
         if (!$target_obj = ilObjectFactory::getInstanceByRefId($a_target_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid target given.',
                 'Client'
             );
         }
 
         if (ilObject::_isInTrash($a_target_id)) {
-            return $this->__raiseError("Parent with ID $a_target_id has been deleted.", 'Client');
+            return $this->raiseError("Parent with ID $a_target_id has been deleted.", 'Client');
         }
 
         $allowed_types = array('root', 'cat', 'grp', 'crs', 'fold');
         if (!in_array($target_obj->getType(), $allowed_types)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid target type. Target must be reference id of "course, group, category or folder"',
                 'Client'
             );
@@ -541,7 +522,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $allowed_subtypes = $target_obj->getPossibleSubObjects();
         $allowed = [];
         foreach ($allowed_subtypes as $row) {
-            if ($row['name'] != 'rolf') {
+            if ($row['name'] !== 'rolf') {
                 $allowed[] = $row['name'];
             }
         }
@@ -552,9 +533,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         try {
             $xml_parser->startParsing();
         } catch (ilSaxParserException $se) {
-            return $this->__raiseError($se->getMessage(), 'Client');
+            return $this->raiseError($se->getMessage(), 'Client');
         } catch (ilObjectXMLException $e) {
-            return $this->__raiseError($e->getMessage(), 'Client');
+            return $this->raiseError($e->getMessage(), 'Client');
         }
 
         $newObj = null;
@@ -565,23 +546,23 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
 
             // Check possible subtype
-            if (!in_array($object_data['type'], $allowed)) {
-                return $this->__raiseError(
+            if (!in_array($object_data['type'], $allowed, true)) {
+                return $this->raiseError(
                     'Objects of type: ' . $object_data['type'] . ' are not allowed to be subobjects of type ' .
                     $target_obj->getType() . '!',
                     'Client'
                 );
             }
             if (!$rbacsystem->checkAccess('create', $a_target_id, $object_data['type'])) {
-                return $this->__raiseError(
+                return $this->raiseError(
                     'No permission to create objects of type ' . $object_data['type'] . '!',
                     'Client'
                 );
             }
 
             // It's not possible to add objects with non unique import ids
-            if (strlen($object_data['import_id']) and ilObject::_lookupObjIdByImportId($object_data['import_id'])) {
-                return $this->__raiseError(
+            if ($object_data['import_id'] != '' && ilObject::_lookupObjIdByImportId($object_data['import_id'])) {
+                return $this->raiseError(
                     'An object with import id ' . $object_data['import_id'] . ' already exists!',
                     'Server'
                 );
@@ -595,10 +576,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             require_once($location . "/class.ilObj" . $class_name . ".php");
 
             $newObj = new $class_constr();
-            if (isset($object_data['owner']) && strlen($object_data['owner'])) {
+            if (isset($object_data['owner']) && $object_data['owner'] != '') {
                 if ((int) $object_data['owner']) {
                     if (ilObject::_exists((int) $object_data['owner']) &&
-                        $ilObjDataCache->lookupType((int) $object_data['owner']) == 'usr') {
+                        $ilObjDataCache->lookupType((int) $object_data['owner']) === 'usr') {
                         $newObj->setOwner((int) $object_data['owner']);
                     }
                 } else {
@@ -610,7 +591,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
 
             $newObj->setType($object_data['type']);
-            if (strlen($object_data['import_id'])) {
+            if ($object_data['import_id'] != '') {
                 $newObj->setImportId($object_data['import_id']);
             }
 
@@ -628,23 +609,25 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 case 'grp':
                     // Add member
                     $newObj->addMember(
-                        $object_data['owner'] ? $object_data['owner'] : $ilUser->getId(),
+                        $object_data['owner'] ?: $ilUser->getId(),
                         $newObj->getDefaultAdminRole()
                     );
                     break;
 
-                // begin-patch fm
                 case 'crs':
                     $newObj->getMemberObject()->add($ilUser->getId(), ilParticipants::IL_CRS_ADMIN);
                     break;
-                // end-patch fm
                 case 'lm':
                     $newObj->createLMTree();
                     break;
                 case 'cat':
                     /** @var $newObj ilObjCategory */
-                    $newObj->addTranslation($object_data["title"], $object_data["description"], $lng->getLangKey(),
-                        true);
+                    $newObj->addTranslation(
+                        $object_data["title"],
+                        $object_data["description"],
+                        $lng->getLangKey(),
+                        true
+                    );
                     break;
             }
 
@@ -662,20 +645,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-        }
-        if (!is_numeric($a_source_id)) {
-            return $this->__raiseError(
-                'No source id given.',
-                'Client'
-            );
-        }
-        if (!is_numeric($a_target_id)) {
-            return $this->__raiseError(
-                'No target id given.',
-                'Client'
-            );
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -685,22 +656,22 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $tree = $DIC['tree'];
 
         if (!$source_obj = ilObjectFactory::getInstanceByRefId($a_source_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid source id given.',
                 'Client'
             );
         }
         if (!$target_obj = ilObjectFactory::getInstanceByRefId($a_target_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid target id given.',
                 'Client'
             );
         }
 
         if (!$objDefinition->allowLink($source_obj->getType()) and
-            $source_obj->getType() != 'cat' and
-            $source_obj->getType() != 'crs') {
-            return $this->__raiseError(
+            $source_obj->getType() !== 'cat' and
+            $source_obj->getType() !== 'crs') {
+            return $this->raiseError(
                 'Linking of object type: ' . $source_obj->getType() . ' is not allowed',
                 'Client'
             );
@@ -709,12 +680,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $allowed_subtypes = $target_obj->getPossibleSubObjects();
         $allowed = [];
         foreach ($allowed_subtypes as $row) {
-            if ($row['name'] != 'rolf') {
+            if ($row['name'] !== 'rolf') {
                 $allowed[] = $row['name'];
             }
         }
-        if (!in_array($source_obj->getType(), $allowed)) {
-            return $this->__raiseError(
+        if (!in_array($source_obj->getType(), $allowed, true)) {
+            return $this->raiseError(
                 'Objects of type: ' . $source_obj->getType() . ' are not allowed to be subobjects of type ' .
                 $target_obj->getType() . '!',
                 'Client'
@@ -723,24 +694,24 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         // Permission checks
         if (!$rbacsystem->checkAccess('create', $target_obj->getRefId(), $source_obj->getType())) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No permission to create objects of type ' . $source_obj->getType() . '!',
                 'Client'
             );
         }
         if (!$rbacsystem->checkAccess('delete', $source_obj->getRefId())) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No permission to link object with id: ' . $source_obj->getRefId() . '!',
                 'Client'
             );
         }
 
-        if ($source_obj->getType() != 'cat' and $source_obj->getType() != 'crs') {
+        if ($source_obj->getType() !== 'cat' and $source_obj->getType() !== 'crs') {
             // check if object already linked to target
             $possibleChilds = $tree->getChildsByType($target_obj->getRefId(), $source_obj->getType());
             foreach ($possibleChilds as $child) {
-                if ($child["obj_id"] == $source_obj->getId()) {
-                    return $this->__raiseError("Object already linked to target.", "Client");
+                if ((int) $child["obj_id"] === $source_obj->getId()) {
+                    return $this->raiseError("Object already linked to target.", "Client");
                 }
             }
 
@@ -751,37 +722,38 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $source_obj->setPermissions($target_obj->getRefId());
 
             return $new_ref_id ?: "0";
-        } else {
-            $new_ref = null;
-            switch ($source_obj->getType()) {
-                case 'cat':
-                    include_once('./Modules/CategoryReference/classes/class.ilObjCategoryReference.php');
-                    $new_ref = new ilObjCategoryReference();
-                    break;
-
-                case 'crs':
-                    include_once('./Modules/CourseReference/classes/class.ilObjCourseReference.php');
-                    $new_ref = new ilObjCourseReference();
-                    break;
-                case 'grp':
-                    include_once('./Modules/GroupReference/classes/class.ilObjGroupReference.php');
-                    $new_ref = new ilObjGroupReference();
-                    break;
-            }
-            $new_ref->create();
-            $new_ref_id = $new_ref->createReference();
-
-            $new_ref->putInTree($target_obj->getRefId());
-            $new_ref->setPermissions($target_obj->getRefId());
-
-            $new_ref->setTargetId($source_obj->getId());
-            $new_ref->update();
-
-            if (!$new_ref instanceof ilObject) {
-                return 0;
-            }
-            return $new_ref_id ?: 0;
         }
+
+        $new_ref = null;
+        switch ($source_obj->getType()) {
+            case 'cat':
+                include_once('./Modules/CategoryReference/classes/class.ilObjCategoryReference.php');
+                $new_ref = new ilObjCategoryReference();
+                break;
+
+            case 'crs':
+                include_once('./Modules/CourseReference/classes/class.ilObjCourseReference.php');
+                $new_ref = new ilObjCourseReference();
+                break;
+            case 'grp':
+                include_once('./Modules/GroupReference/classes/class.ilObjGroupReference.php');
+                $new_ref = new ilObjGroupReference();
+                break;
+        }
+        $new_ref->create();
+        $new_ref_id = $new_ref->createReference();
+
+        $new_ref->putInTree($target_obj->getRefId());
+        $new_ref->setPermissions($target_obj->getRefId());
+
+        $new_ref->setTargetId($source_obj->getId());
+        $new_ref->update();
+
+        if (!$new_ref instanceof ilObject) {
+            return 0;
+        }
+
+        return $new_ref_id ?: 0;
     }
 
     public function deleteObject(string $sid, int $reference_id)
@@ -789,15 +761,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!is_numeric($reference_id)) {
-            return $this->__raiseError(
-                'No reference id given.',
-                'Client'
-            );
-        }
+
         global $DIC;
 
         $tree = $DIC->repositoryTree();
@@ -806,25 +773,24 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $user = $DIC->user();
 
         if (!$del_obj = ilObjectFactory::getInstanceByRefId($reference_id, false)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No valid reference id given.',
                 'Client'
             );
         }
         if (!$rbacsystem->checkAccess('delete', $del_obj->getRefId())) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No permission to delete object with id: ' . $del_obj->getRefId() . '!',
                 'Client'
             );
         }
 
-        // Delete tree
         if ($tree->isDeleted($reference_id)) {
-            return $this->__raiseError('Node already deleted', 'Server');
+            return $this->raiseError('Node already deleted', 'Server');
         }
 
-        if ($del_obj->getType() == 'rolf') {
-            return $this->__raiseError('Delete is not available for role folders.', 'Client');
+        if ($del_obj->getType() === 'rolf') {
+            return $this->raiseError('Delete is not available for role folders.', 'Client');
         }
 
         $subnodes = $tree->getSubTree($tree->getNodeData($reference_id));
@@ -832,7 +798,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $rbacadmin->revokePermission($subnode["child"]);
         }
         if (!$tree->moveToTrash($reference_id, true, $user->getId())) {
-            return $this->__raiseError('Node already deleted', 'Client');
+            return $this->raiseError('Node already deleted', 'Client');
         }
         return true;
     }
@@ -842,11 +808,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($import_id)) {
-            return $this->__raiseError(
+        if ($import_id === '') {
+            return $this->raiseError(
                 'No import id given. Aborting!',
                 'Client'
             );
@@ -859,7 +825,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         // get obj_id
         if (!$obj_id = ilObject::_lookupObjIdByImportId($import_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No object found with import id: ' . $import_id,
                 'Client'
             );
@@ -874,7 +840,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
         }
         if (!$permission_ok) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No permission to delete the object with import id: ' . $import_id,
                 'Server'
             );
@@ -890,7 +856,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 $ilLog->write('Soap: removeFromSystemByImportId(). Deleting object with title id: ' . $node['title']);
                 $tmp_obj = ilObjectFactory::getInstanceByRefId($node['ref_id']);
                 if (!is_object($tmp_obj)) {
-                    return $this->__raiseError(
+                    return $this->raiseError(
                         'Cannot create instance of reference id: ' . $node['ref_id'],
                         'Server'
                     );
@@ -908,11 +874,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($a_xml)) {
-            return $this->__raiseError(
+        if ($a_xml === '') {
+            return $this->raiseError(
                 'No valid xml string given.',
                 'Client'
             );
@@ -931,9 +897,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         try {
             $xml_parser->startParsing();
         } catch (ilSaxParserException $se) {
-            return $this->__raiseError($se->getMessage(), 'Client');
+            return $this->raiseError($se->getMessage(), 'Client');
         } catch (ilObjectXMLException $e) {
-            return $this->__raiseError($e->getMessage(), 'Client');
+            return $this->raiseError($e->getMessage(), 'Client');
         }
 
         // Validate incoming data
@@ -945,8 +911,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
 
             if (!$object_data["obj_id"]) {
-                return $this->__raiseError('No obj_id in xml found.', 'Client');
-            } elseif ((int) $object_data["obj_id"] == -1 && count($object_data["references"]) > 0) {
+                return $this->raiseError('No obj_id in xml found.', 'Client');
+            } elseif ((int) $object_data["obj_id"] === -1 && count($object_data["references"]) > 0) {
                 // object id might be unknown, resolve references instead to determine object id
                 // all references should point to the same object, so using the first one is ok.
                 foreach ($object_data["references"] as $refid) {
@@ -958,29 +924,35 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
                 $obj_id_from_refid = ilObject::_lookupObjectId($object_data["references"][0]);
                 if (!$obj_id_from_refid) {
-                    return $this->__raiseError('No obj_id found for reference id ' . $object_data["references"][0],
-                        'CLIENT_OBJECT_NOT_FOUND');
-                } else {
-                    $tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
-                    $object_data["obj_id"] = $obj_id_from_refid;
+                    return $this->raiseError(
+                        'No obj_id found for reference id ' . $object_data["references"][0],
+                        'CLIENT_OBJECT_NOT_FOUND'
+                    );
                 }
+
+                $tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
+                $object_data["obj_id"] = $obj_id_from_refid;
             }
 
             $tmp_obj = ilObjectFactory::getInstanceByObjId($object_data['obj_id'], false);
-            if ($tmp_obj == null) {
-                return $this->__raiseError('No object for id ' . $object_data['obj_id'] . '!',
-                    'CLIENT_OBJECT_NOT_FOUND');
-            } else {
-                $object_data["instance"] = $tmp_obj;
+            if ($tmp_obj === null) {
+                return $this->raiseError(
+                    'No object for id ' . $object_data['obj_id'] . '!',
+                    'CLIENT_OBJECT_NOT_FOUND'
+                );
             }
 
-            if ($object_data['type'] == 'role') {
+            $object_data["instance"] = $tmp_obj;
+
+            if ($object_data['type'] === 'role') {
                 $rolf_ids = $rbacreview->getFoldersAssignedToRole($object_data['obj_id'], true);
                 $rolf_id = $rolf_ids[0];
 
                 if (!$rbacsystem->checkAccess('write', $rolf_id)) {
-                    return $this->__raiseError('No write permission for object with id ' . $object_data['obj_id'] . '!',
-                        'Client');
+                    return $this->raiseError(
+                        'No write permission for object with id ' . $object_data['obj_id'] . '!',
+                        'Client'
+                    );
                 }
             } else {
                 $permission_ok = false;
@@ -991,11 +963,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                     }
                 }
                 if (!$permission_ok) {
-                    return $this->__raiseError('No write permission for object with id ' . $object_data['obj_id'] . '!',
-                        'Client');
+                    return $this->raiseError(
+                        'No write permission for object with id ' . $object_data['obj_id'] . '!',
+                        'Client'
+                    );
                 }
             }
         }
+        unset($object_data);
+
         // perform update
         if (count($object_datas) > 0) {
             foreach ($object_datas as $object_data) {
@@ -1012,7 +988,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 }
 
                 $tmp_obj->update();
-                if (strlen($object_data['owner']) && is_numeric($object_data['owner'])) {
+                if ($object_data['owner'] != '' && is_numeric($object_data['owner'])) {
                     $tmp_obj->setOwner($object_data['owner']);
                     $tmp_obj->updateOwner();
                 }
@@ -1027,8 +1003,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once './webservice/soap/classes/class.ilSoapUtils.php';
@@ -1044,21 +1020,21 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         // does source object exist
         if (!$source_object_type = ilObjectFactory::getTypeByRefId($ref_id, false)) {
-            return $this->__raiseError('No valid source given.', 'Client');
+            return $this->raiseError('No valid source given.', 'Client');
         }
 
         // does target object exist
         if (!$target_object_type = ilObjectFactory::getTypeByRefId($target_id, false)) {
-            return $this->__raiseError('No valid target given.', 'Client');
+            return $this->raiseError('No valid target given.', 'Client');
         }
 
         // check for trash
         if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError('Object is trashed.', 'Client');
+            return $this->raiseError('Object is trashed.', 'Client');
         }
 
         if (ilObject::_isInTrash($target_id)) {
-            return $this->__raiseError('Object is trashed.', 'Client');
+            return $this->raiseError('Object is trashed.', 'Client');
         }
 
         $canAddType = $this->canAddType($source_object_type, $target_object_type, $target_id);
@@ -1069,14 +1045,14 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         // check if object already linked to target
         $possibleChilds = $tree->getChildsByType($target_id, $ref_id);
         foreach ($possibleChilds as $child) {
-            if ($child["obj_id"] == $ref_id) {
-                return $this->__raiseError("Object already exists in target.", "Client");
+            if ((int) $child["obj_id"] === $ref_id) {
+                return $this->raiseError("Object already exists in target.", "Client");
             }
         }
 
         // CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
         if ($tree->isGrandChild($ref_id, $target_id)) {
-            return $this->__raiseError("Cannot move object into itself.", "Client");
+            return $this->raiseError("Cannot move object into itself.", "Client");
         }
 
         $old_parent = $tree->getParentId($ref_id);
@@ -1098,8 +1074,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once './webservice/soap/classes/class.ilSoapUtils.php';
@@ -1116,13 +1092,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         try {
             $xml_parser->startParsing();
         } catch (ilSaxParserException $se) {
-            return $this->__raiseError($se->getMessage(), "Client");
+            return $this->raiseError($se->getMessage(), "Client");
         }
 
         // checking copy permissions, objects and create permissions
         if (!$rbacsystem->checkAccess('copy', $xml_parser->getSourceId())) {
-            return $this->__raiseError("Missing copy permissions for object with reference id " . $xml_parser->getSourceId(),
-                'Client');
+            return $this->raiseError(
+                "Missing copy permissions for object with reference id " . $xml_parser->getSourceId(),
+                'Client'
+            );
         }
 
         // checking copy permissions, objects and create permissions
@@ -1131,12 +1109,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         // does source object exist
         if (!$source_object_type = ilObjectFactory::getTypeByRefId($source_id, false)) {
-            return $this->__raiseError('No valid source given.', 'Client');
+            return $this->raiseError('No valid source given.', 'Client');
         }
 
         // does target object exist
         if (!$target_object_type = ilObjectFactory::getTypeByRefId($xml_parser->getTargetId(), false)) {
-            return $this->__raiseError('No valid target given.', 'Client');
+            return $this->raiseError('No valid target given.', 'Client');
         }
 
         $canAddType = $this->canAddType($source_object_type, $target_object_type, $target_id);
@@ -1164,22 +1142,22 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             );
 
             return $ret['ref_id'];
-        } else {
-            // create copy wizard settings
-            $copy_id = ilCopyWizardOptions::_allocateCopyId();
-            $wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
-            $wizard_options->saveOwner($ilUser->getId());
-            $wizard_options->saveRoot($source_id);
-
-            foreach ($options as $source_id => $option) {
-                $wizard_options->addEntry($source_id, $option);
-            }
-            $wizard_options->read();
-
-            // call object clone
-            $newObject = $source_object->cloneObject($xml_parser->getTargetId(), $copy_id);
-            return is_object($newObject) ? $newObject->getRefId() : -1;
         }
+
+        // create copy wizard settings
+        $copy_id = ilCopyWizardOptions::_allocateCopyId();
+        $wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
+        $wizard_options->saveOwner($ilUser->getId());
+        $wizard_options->saveRoot($source_id);
+
+        foreach ($options as $source_id => $option) {
+            $wizard_options->addEntry($source_id, $option);
+        }
+        $wizard_options->read();
+
+        // call object clone
+        $newObject = $source_object->cloneObject($xml_parser->getTargetId(), $copy_id);
+        return is_object($newObject) ? $newObject->getRefId() : -1;
     }
 
     public function getPathForRefId(string $sid, int $ref_id)
@@ -1187,8 +1165,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -1200,11 +1178,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $ilUser = $DIC['ilUser'];
 
         if (!$rbacsystem->checkAccess('read', $ref_id)) {
-            return $this->__raiseError("Missing read permissions for object with reference id " . $ref_id, 'Client');
+            return $this->raiseError("Missing read permissions for object with reference id " . $ref_id, 'Client');
         }
 
         if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError("Object is in Trash", 'Client');
+            return $this->raiseError("Object is in Trash", 'Client');
         }
         global $DIC;
 
@@ -1223,10 +1201,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $writer = new ilXMLResultSetWriter($xmlResultSet);
         foreach ($items as $item) {
-            if ($item["ref_id"] == $ref_id) {
+            if ((int) $item["ref_id"] === $ref_id) {
                 continue;
             }
-            if ($item["title"] == "ILIAS" && $item["type"] == "root") {
+            if ($item["title"] === "ILIAS" && $item["type"] === "root") {
                 $item["title"] = $lng->txt("repository");
             }
 
@@ -1249,26 +1227,30 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
 
         $allowed_types = array('root', 'cat', 'grp', 'crs', 'fold');
-        if (!in_array($target_type, $allowed_types)) {
-            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
-                'Client');
+        if (!in_array($target_type, $allowed_types, true)) {
+            return $this->raiseError(
+                'No valid target type. Target must be reference id of "course, group, category or folder"',
+                'Client'
+            );
         }
 
         $allowed_subtypes = $objDefinition->getSubObjects($target_type);
         $allowed = array();
 
         foreach ($allowed_subtypes as $row) {
-            if ($row['name'] != 'rolf') {
+            if ($row['name'] !== 'rolf') {
                 $allowed[] = $row['name'];
             }
         }
 
-        if (!in_array($type, $allowed)) {
-            return $this->__raiseError('Objects of type: ' . $type . ' are not allowed to be subobjects of type ' . $target_type . '!',
-                'Client');
+        if (!in_array($type, $allowed, true)) {
+            return $this->raiseError(
+                'Objects of type: ' . $type . ' are not allowed to be subobjects of type ' . $target_type . '!',
+                'Client'
+            );
         }
         if (!$rbacsystem->checkAccess('create', $target_id, $type)) {
-            return $this->__raiseError('No permission to create objects of type ' . $type . '!', 'Client');
+            return $this->raiseError('No permission to create objects of type ' . $type . '!', 'Client');
         }
 
         return true;
@@ -1283,27 +1265,27 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         if (!isset($a_object_data['references']) or !count($a_object_data['references'])) {
             return true;
         }
-        if ($a_action == 'create') {
-            if (count($a_object_data['references']) > 1) {
-                if (in_array($a_object_data['type'], array('cat', 'crs', 'grp', 'fold'))) {
-                    return $this->__raiseError(
-                        "Cannot create references for type " . $a_object_data['type'],
-                        'Client'
-                    );
-                }
+        if ($a_action === 'create') {
+            if (count($a_object_data['references']) > 1 && in_array(
+                $a_object_data['type'],
+                ['cat', 'crs', 'grp', 'fold'],
+                true
+            )) {
+                return $this->raiseError(
+                    "Cannot create references for type " . $a_object_data['type'],
+                    'Client'
+                );
             }
-            if (count($a_object_data['references']) == 1) {
-                if ($a_target_id != $a_object_data['references'][0]['parent_id']) {
-                    return $this->__raiseError(
-                        "Cannot create references for type " . $a_object_data['type'],
-                        'Client'
-                    );
-                }
+            if (count($a_object_data['references']) === 1 && $a_target_id != $a_object_data['references'][0]['parent_id']) {
+                return $this->raiseError(
+                    "Cannot create references for type " . $a_object_data['type'],
+                    'Client'
+                );
             }
 
             foreach ($a_object_data['references'] as $ref_data) {
                 if (!$ref_data['parent_id']) {
-                    return $this->__raiseError('Element References: No parent Id given!', 'Client');
+                    return $this->raiseError('Element References: No parent Id given!', 'Client');
                 }
 
                 $target_type = ilObject::_lookupType(ilObject::_lookupObjId($ref_data['parent_id']));
@@ -1315,46 +1297,50 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return true;
         }
 
-        if ($a_action == 'update') {
+        if ($a_action === 'update') {
             foreach ($a_object_data['references'] as $ref_data) {
                 if (!$ref_data['ref_id']) {
-                    return $this->__raiseError('Element References: No reference id given!', 'Client');
+                    return $this->raiseError('Element References: No reference id given!', 'Client');
                 }
                 // check permissions
                 if (!$ilAccess->checkAccess('write', '', $ref_data['ref_id'])) {
-                    return $this->__raiseError('No write permission for object with reference id ' . $ref_data['ref_id'] . '!',
-                        'Client');
+                    return $this->raiseError(
+                        'No write permission for object with reference id ' . $ref_data['ref_id'] . '!',
+                        'Client'
+                    );
                 }
                 // TODO: check if all references belong to the same object
             }
             return true;
         }
+
+        // TODO PHP8-REVIEW Missing return value
     }
 
-    private function updateReferences(array $a_object_data)
+    private function updateReferences(array $a_object_data) : void
     {
         global $DIC;
 
         $tree = $DIC['tree'];
         $ilLog = $DIC['ilLog'];
 
-        if (!isset($a_object_data['references']) or !count($a_object_data['references'])) {
+        if (!isset($a_object_data['references']) || !count($a_object_data['references'])) {
             return;
         }
 
         foreach ($a_object_data['references'] as $ref_data) {
-            if (isset($ref_data['time_target']) /* and ($crs_ref_id = $tree->checkForParentType($ref_data['ref_id'],'crs')) */) {
+            if (isset($ref_data['time_target'])) {
                 include_once('./webservice/soap/classes/class.ilObjectXMLWriter.php');
                 include_once('./Services/Object/classes/class.ilObjectActivation.php');
                 $old = ilObjectActivation::getItem($ref_data['ref_id']);
 
                 $items = new ilObjectActivation();
-                $items->toggleChangeable(isset($ref_data['time_target']['changeable']) ? $ref_data['time_target']['changeable'] : $old['changeable']);
-                $items->setTimingStart(isset($ref_data['time_target']['starting_time']) ? $ref_data['time_target']['starting_time'] : $old['timing_start']);
-                $items->setTimingEnd(isset($ref_data['time_target']['ending_time']) ? $ref_data['time_target']['ending_time'] : $old['timing_end']);
-                $items->toggleVisible(isset($ref_data['time_target']['timing_visibility']) ? $ref_data['time_target']['timing_visibility'] : $old['visible']);
-                $items->setSuggestionStart(isset($ref_data['time_target']['suggestion_start']) ? $ref_data['time_target']['suggestion_start'] : $old['suggestion_start']);
-                $items->setSuggestionEnd(isset($ref_data['time_target']['suggestion_end']) ? $ref_data['time_target']['suggestion_end'] : $old['suggestion_end']);
+                $items->toggleChangeable($ref_data['time_target']['changeable'] ?? $old['changeable']);
+                $items->setTimingStart($ref_data['time_target']['starting_time'] ?? $old['timing_start']);
+                $items->setTimingEnd($ref_data['time_target']['ending_time'] ?? $old['timing_end']);
+                $items->toggleVisible($ref_data['time_target']['timing_visibility'] ?? $old['visible']);
+                $items->setSuggestionStart($ref_data['time_target']['suggestion_start'] ?? $old['suggestion_start']);
+                $items->setSuggestionEnd($ref_data['time_target']['suggestion_end'] ?? $old['suggestion_end']);
 
                 switch ($ref_data['time_target']['timing_type']) {
                     case ilObjectXMLWriter::TIMING_DEACTIVATED:
@@ -1381,18 +1367,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
+        $tree = $DIC->repositoryTree();
         $ilLog = $DIC['ilLog'];
 
-        if (!isset($a_object_data['references']) or !count($a_object_data['references'])) {
+        if (!isset($a_object_data['references']) || !count($a_object_data['references'])) {
             return;
         }
 
         $original_id = $source->getRefId();
 
         foreach ($a_object_data['references'] as $ref_data) {
-            $new_ref_id = $ref_id = $original_id;
-            if ($tree->getParentId($original_id) != $ref_data['parent_id']) {
+            $new_ref_id = $original_id;
+            if ($tree->getParentId($original_id) !== (int) $ref_data['parent_id']) {
                 // New reference requested => create it
                 $new_ref_id = $source->createReference();
                 $source->putInTree($ref_data['parent_id']);

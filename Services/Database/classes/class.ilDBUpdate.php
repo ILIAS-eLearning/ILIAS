@@ -85,7 +85,7 @@ class ilDBUpdate
         }
     }
 
-    public function initStep(int $i): void
+    public function initStep(int $i) : void
     {
         //
     }
@@ -193,9 +193,7 @@ class ilDBUpdate
 
     /**
      * execute a query
-     * @param object    DB
-     * @param string    query
-     * @return mixed|bool
+     * @return bool
      */
     public function execQuery(ilDBInterface $db, string $str) : bool
     {
@@ -241,13 +239,10 @@ class ilDBUpdate
         return true;
     }
 
-    /**
-     * @param $ilCtrlStructureReader
-     * @param $ilMySQLAbstraction
-     * @param $ilDB
-     */
-    private function initGlobalsRequiredForUpdateSteps(&$ilCtrlStructureReader, &$ilMySQLAbstraction, &$ilDB) : void
-    {
+    private function initGlobalsRequiredForUpdateSteps(
+        ?ilCtrlStructureReader &$ilCtrlStructureReader,
+        ?ilDBInterface &$ilDB
+    ) : void {
         global $DIC;
 
         // TODO: There is currently a huge mixup of globals, $DIC and dependencies, esprecially in setup and during DB-Updates. This leads to many problems. The following core tries to provide the needed dependencies for the dbupdate-script. The code hopefully will change in the future.
@@ -276,12 +271,11 @@ class ilDBUpdate
      * Apply update
      * @return bool|void
      */
-    public function applyUpdate($a_break = 0)
+    public function applyUpdate(int $a_break = 0)
     {
         $ilCtrlStructureReader = null;
-        $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
 
         $f = $this->fileVersion;
         $c = $this->currentVersion;
@@ -329,15 +323,15 @@ class ilDBUpdate
 
     /**
      * apply an update
-     * @param int nr number what patch to apply (Reference: Patch for https://mantis.ilias.de/view.php?id=28550)
+     * @param int $nr number what patch to apply (Reference: Patch for https://mantis.ilias.de/view.php?id=28550)
      * @access private
      */
-    public function applyUpdateNr(&$nr, $hotfix = false, $custom_update = false) : bool
+    public function applyUpdateNr(int $nr, $hotfix = false, $custom_update = false) : bool
     {
         $ilCtrlStructureReader = null;
         $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
 
         //search for desired $nr
         reset($this->filecontent);
@@ -355,7 +349,7 @@ class ilDBUpdate
         }
 
         //update not found
-        if ($i == count($this->filecontent)) {
+        if ($i === count($this->filecontent)) {
             $this->error = "update_not_found";
 
             return false;
@@ -378,7 +372,7 @@ class ilDBUpdate
         foreach ($update as $row) {
             if (preg_match("/<\?php/", $row)) {
                 if (count($sql) > 0) {
-                    if ($this->execQuery($this->db, implode("\n", $sql)) == false) {
+                    if ($this->execQuery($this->db, implode("\n", $sql)) === false) {
                         return false;
                     }
                     $sql = array();
@@ -396,18 +390,18 @@ class ilDBUpdate
                 }
                 $mode = "sql";
             } else {
-                if ($mode == "sql") {
+                if ($mode === "sql") {
                     $sql[] = $row;
                 }
 
-                if ($mode == "php") {
+                if ($mode === "php") {
                     $php[] = $row;
                 }
             } //else
         } //foreach
 
-        if ($mode == "sql" && count($sql) > 0) {
-            if ($this->execQuery($this->db, implode("\n", $sql)) == false) {
+        if ($mode === "sql" && count($sql) > 0) {
+            if ($this->execQuery($this->db, implode("\n", $sql)) === false) {
                 $this->error = "dump_error: " . $this->error;
 
                 return false;
@@ -432,10 +426,7 @@ class ilDBUpdate
         return true;
     }
 
-    /**
-     * @return bool|void
-     */
-    public function getDBVersionStatus()
+    public function getDBVersionStatus() : bool
     {
         return !($this->fileVersion > $this->currentVersion);
     }
@@ -460,12 +451,13 @@ class ilDBUpdate
         return $a;
     }
 
-    public function getTableStatus($table)
+    /**
+     * @return mixed
+     */
+    public function getTableStatus(string $table)
     {
         $query = "ANALYZE TABLE " . $table;
-        $res = $this->db->query($query);
-
-        return $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+        return $this->db->query($query)->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
     }
 
 
@@ -474,9 +466,8 @@ class ilDBUpdate
     ////
     /**
      * Get current hotfix version
-     * @return null
      */
-    public function getHotfixCurrentVersion()
+    public function getHotfixCurrentVersion() : ?int
     {
         $this->readHotfixInfo();
 
@@ -486,12 +477,12 @@ class ilDBUpdate
     /**
      * Set current hotfix version
      */
-    public function setHotfixCurrentVersion($a_version) : bool
+    public function setHotfixCurrentVersion(int $a_version) : bool
     {
         $this->readHotfixInfo();
         $this->hotfix_setting->set(
             "db_hotfixes_" . $this->hotfix_version[0],
-            $a_version
+            (string) $a_version
         );
         $this->hotfix_current_version = $a_version;
 
@@ -500,9 +491,8 @@ class ilDBUpdate
 
     /**
      * Get current hotfix version
-     * @return null
      */
-    public function getHotfixFileVersion()
+    public function getHotfixFileVersion() : ?int
     {
         $this->readHotfixInfo();
 
@@ -512,7 +502,7 @@ class ilDBUpdate
     /**
      * Set current hotfix version
      */
-    public function readHotfixFileVersion($a_file_content) : int
+    public function readHotfixFileVersion(array $a_file_content) : int
     {
         //go through filecontent and search for last occurence of <#x>
         reset($a_file_content);
@@ -530,7 +520,7 @@ class ilDBUpdate
     /**
      * Get status of hotfix file
      */
-    public function readHotfixInfo($a_force = false): void
+    public function readHotfixInfo(bool $a_force = false) : void
     {
         if (isset($this->hotfix_info_read) && $this->hotfix_info_read && !$a_force) {
             return;
@@ -566,9 +556,8 @@ class ilDBUpdate
     public function applyHotfix() : bool
     {
         $ilCtrlStructureReader = null;
-        $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
         $this->readHotfixInfo(true);
 
         $f = $this->getHotfixFileVersion();
@@ -579,7 +568,7 @@ class ilDBUpdate
             for ($i = ($c + 1); $i <= $f; $i++) {
                 $this->filecontent = $this->hotfix_content;
 
-                if ($this->applyUpdateNr($i, true) == false) {
+                if ($this->applyUpdateNr($i, true) === false) {
                     $msg[] = array("msg" => "update_error: " . $this->error,
                                    "nr" => $i,
                     );
@@ -601,10 +590,7 @@ class ilDBUpdate
         return true;
     }
 
-    /**
-     * @return mixed|int|null
-     */
-    public function getCustomUpdatesCurrentVersion(): ?int
+    public function getCustomUpdatesCurrentVersion() : ?int
     {
         $this->readCustomUpdatesInfo();
 
@@ -620,9 +606,6 @@ class ilDBUpdate
         return true;
     }
 
-    /**
-     * @return mixed|null
-     */
     public function getCustomUpdatesFileVersion() : ?int
     {
         $this->readCustomUpdatesInfo();
@@ -630,7 +613,7 @@ class ilDBUpdate
         return $this->custom_updates_file_version;
     }
 
-    public function readCustomUpdatesFileVersion($a_file_content) : int
+    public function readCustomUpdatesFileVersion(array $a_file_content) : int
     {
         //go through filecontent and search for last occurence of <#x>
         reset($a_file_content);
@@ -645,7 +628,7 @@ class ilDBUpdate
         return (int) $version;
     }
 
-    public function readCustomUpdatesInfo($a_force = false): void
+    public function readCustomUpdatesInfo(bool $a_force = false) : void
     {
         if ($this->custom_updates_info_read && !$a_force) {
             return;
@@ -655,7 +638,7 @@ class ilDBUpdate
         $custom_updates_file = $this->PATH . "setup/sql/dbupdate_custom.php";
         if (is_file($custom_updates_file)) {
             $this->custom_updates_content = @file($custom_updates_file);
-            $this->custom_updates_current_version = (int) $this->custom_updates_setting->get('db_version_custom', 0);
+            $this->custom_updates_current_version = (int) $this->custom_updates_setting->get('db_version_custom', "0");
             $this->custom_updates_file_version = $this->readCustomUpdatesFileVersion($this->custom_updates_content);
         }
         $this->custom_updates_info_read = true;
@@ -670,9 +653,8 @@ class ilDBUpdate
     public function applyCustomUpdates() : bool
     {
         $ilCtrlStructureReader = null;
-        $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
         $this->readCustomUpdatesInfo(true);
 
         $f = $this->getCustomUpdatesFileVersion();
@@ -683,7 +665,7 @@ class ilDBUpdate
             for ($i = ($c + 1); $i <= $f; $i++) {
                 $this->filecontent = $this->custom_updates_content;
 
-                if ($this->applyUpdateNr($i, false, true) == false) {
+                if ($this->applyUpdateNr($i, false, true) === false) {
                     $msg[] = array("msg" => "update_error: " . $this->error,
                                    "nr" => $i,
                     );
@@ -709,12 +691,12 @@ class ilDBUpdate
      * Get update steps as string (for presentation)
      * @return string steps from the update file
      */
-    public function getUpdateSteps($a_break = 0) : string
+    public function getUpdateSteps(int $a_break = 0) : string
     {
         $ilCtrlStructureReader = null;
         $ilMySQLAbstraction = null;
         $ilDB = null;
-        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
+        $this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilDB);
 
         $str = "";
 
@@ -768,9 +750,8 @@ class ilDBUpdate
 
     /**
      * Get single update step for presentation
-     * @return bool|string
      */
-    public function getUpdateStepNr($nr, $hotfix = false, $custom_update = false)
+    public function getUpdateStepNr(int $nr, bool $hotfix = false, bool $custom_update = false) : string
     {
         $str = "";
 
@@ -786,8 +767,8 @@ class ilDBUpdate
         }
 
         //update not found
-        if ($i == count($this->filecontent)) {
-            return false;
+        if ($i === count($this->filecontent)) {
+            return '';
         }
 
         $i++;

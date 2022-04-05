@@ -37,7 +37,9 @@ class ilLPStatusWrapper
         }
 
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
-        self::$not_attempted_cache[$a_obj_id] = $class::_getNotAttempted($a_obj_id);
+        self::$not_attempted_cache[$a_obj_id] = $class::_getNotAttempted(
+            $a_obj_id
+        );
 
         return self::$not_attempted_cache[$a_obj_id];
     }
@@ -161,13 +163,19 @@ class ilLPStatusWrapper
     /**
      * Static function to read the number of user who have the status 'not_attempted'
      */
-    public static function _getCountNotAttemptedByType(int $a_obj_id, string $a_type) : int
-    {
-        return count(ilLPStatusWrapper::_getNotAttemptedByType($a_obj_id, $a_type));
+    public static function _getCountNotAttemptedByType(
+        int $a_obj_id,
+        string $a_type
+    ) : int {
+        return count(
+            ilLPStatusWrapper::_getNotAttemptedByType($a_obj_id, $a_type)
+        );
     }
 
-    public static function _getNotAttemptedByType(int $a_obj_id, string $a_type) : array
-    {
+    public static function _getNotAttemptedByType(
+        int $a_obj_id,
+        string $a_type
+    ) : array {
         static $cache = array();
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
@@ -180,13 +188,19 @@ class ilLPStatusWrapper
         return $cache[$a_obj_id . '_' . $a_type];
     }
 
-    public static function _getCountInProgressByType(int $a_obj_id, string $a_type) : int
-    {
-        return count(ilLPStatusWrapper::_getInProgressByType($a_obj_id, $a_type));
+    public static function _getCountInProgressByType(
+        int $a_obj_id,
+        string $a_type
+    ) : int {
+        return count(
+            ilLPStatusWrapper::_getInProgressByType($a_obj_id, $a_type)
+        );
     }
 
-    public static function _getInProgressByType(int $a_obj_id, string $a_type) : array
-    {
+    public static function _getInProgressByType(
+        int $a_obj_id,
+        string $a_type
+    ) : array {
         static $cache = array();
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
@@ -199,13 +213,19 @@ class ilLPStatusWrapper
         return $cache[$a_obj_id . '_' . $a_type];
     }
 
-    public static function _getCountCompletedByType(int $a_obj_id, string $a_type) : int
-    {
-        return count(ilLPStatusWrapper::_getCompletedByType($a_obj_id, $a_type));
+    public static function _getCountCompletedByType(
+        int $a_obj_id,
+        string $a_type
+    ) : int {
+        return count(
+            ilLPStatusWrapper::_getCompletedByType($a_obj_id, $a_type)
+        );
     }
 
-    public static function _getCompletedByType(int $a_obj_id, string $a_type) : array
-    {
+    public static function _getCompletedByType(
+        int $a_obj_id,
+        string $a_type
+    ) : array {
         static $cache = array();
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
@@ -218,13 +238,17 @@ class ilLPStatusWrapper
         return $cache[$a_obj_id . '_' . $a_type];
     }
 
-    public static function _getCountFailedByType(int $a_obj_id, string $a_type) : int
-    {
+    public static function _getCountFailedByType(
+        int $a_obj_id,
+        string $a_type
+    ) : int {
         return count(ilLPStatusWrapper::_getFailedByType($a_obj_id, $a_type));
     }
 
-    public static function _getFailedByType(int $a_obj_id, string $a_type) : array
-    {
+    public static function _getFailedByType(
+        int $a_obj_id,
+        string $a_type
+    ) : array {
         static $cache = array();
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
@@ -237,8 +261,10 @@ class ilLPStatusWrapper
         return $cache[$a_obj_id . '_' . $a_type];
     }
 
-    public static function _getStatusInfoByType(int $a_obj_id, string $a_type) : array
-    {
+    public static function _getStatusInfoByType(
+        int $a_obj_id,
+        string $a_type
+    ) : array {
         static $cache = array();
 
         if (isset($cache[$a_obj_id . '_' . $a_type])) {
@@ -260,7 +286,9 @@ class ilLPStatusWrapper
     ) : void {
         $trac_obj = ilLPStatusFactory::_getInstance($a_obj_id);
         if (strtolower(get_class($trac_obj)) != "illpstatus") {
-            $trac_obj->_updateStatus($a_obj_id, $a_usr_id, $a_obj, $a_percentage, $a_force_raise);
+            $trac_obj->_updateStatus(
+                $a_obj_id, $a_usr_id, $a_obj, $a_percentage, $a_force_raise
+            );
         }
     }
 
@@ -270,8 +298,10 @@ class ilLPStatusWrapper
         $trac_obj->_setDirty($a_obj_id);
     }
 
-    public static function _refreshStatus(int $a_obj_id, ?array $a_users = null) : void
-    {
+    public static function _refreshStatus(
+        int $a_obj_id,
+        ?array $a_users = null
+    ) : void {
         $trac_obj = ilLPStatusFactory::_getInstance($a_obj_id);
         $trac_obj->refreshStatus($a_obj_id, $a_users);
     }
@@ -289,25 +319,33 @@ class ilLPStatusWrapper
         return $st;
     }
 
-    public static function _removeStatusCache(int $a_obj_id, int $a_usr_id) : void
-    {
+    public static function _removeStatusCache(
+        int $a_obj_id,
+        int $a_usr_id
+    ) : void {
         unset(self::$status_cache[$a_obj_id][$a_usr_id]);
     }
 
-    public static function _lookupCompletedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupCompletedForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
         return $class::_lookupCompletedForObject($a_obj_id, $a_user_ids);
     }
 
-    public static function _lookupFailedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupFailedForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
         return $class::_lookupFailedForObject($a_obj_id, $a_user_ids);
     }
 
-    public static function _lookupInProgressForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupInProgressForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         $class = ilLPStatusFactory::_getClassById($a_obj_id);
         return $class::_lookupInProgressForObject($a_obj_id, $a_user_ids);
     }

@@ -85,8 +85,11 @@ class ilLPStatusCollectionManual extends ilLPStatus
         return $status_info;
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $info = self::_getStatusInfo($a_obj_id);
 
         if (is_array($info["completed"])) {
@@ -112,8 +115,10 @@ class ilLPStatusCollectionManual extends ilLPStatus
         return self::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
-    public static function _getObjectStatus($a_obj_id, $a_user_id = null) : array
-    {
+    public static function _getObjectStatus(
+        $a_obj_id,
+        $a_user_id = null
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -131,14 +136,19 @@ class ilLPStatusCollectionManual extends ilLPStatus
             if (!$a_user_id) {
                 $res[(int) $row["subitem_id"]][(int) $row["usr_id"]] = (int) $row["completed"];
             } else {
-                $res[(int) $row["subitem_id"]] = array((int) $row["completed"], $row["last_change"]);
+                $res[(int) $row["subitem_id"]] = array((int) $row["completed"],
+                                                       $row["last_change"]
+                );
             }
         }
         return $res;
     }
 
-    public static function _setObjectStatus(int $a_obj_id, int $a_user_id, array $a_completed = null) : void
-    {
+    public static function _setObjectStatus(
+        int $a_obj_id,
+        int $a_user_id,
+        array $a_completed = null
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -157,23 +167,41 @@ class ilLPStatusCollectionManual extends ilLPStatus
             foreach ($collection->getItems() as $item_id) {
                 if (isset($existing[$item_id])) {
                     // value changed
-                    if ((!$existing[$item_id][0] && in_array($item_id, $a_completed)) ||
-                        ($existing[$item_id][0] && !in_array($item_id, $a_completed))) {
-                        $ilDB->manipulate("UPDATE ut_lp_coll_manual SET " .
-                            " completed = " . $ilDB->quote(in_array($item_id, $a_completed), "integer") .
-                            " , last_change = " . $ilDB->quote($now, "integer") .
-                            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-                            " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
-                            " AND subitem_id = " . $ilDB->quote($item_id, "integer"));
+                    if ((!$existing[$item_id][0] && in_array(
+                                $item_id, $a_completed
+                            )) ||
+                        ($existing[$item_id][0] && !in_array(
+                                $item_id, $a_completed
+                            ))) {
+                        $ilDB->manipulate(
+                            "UPDATE ut_lp_coll_manual SET " .
+                            " completed = " . $ilDB->quote(
+                                in_array($item_id, $a_completed), "integer"
+                            ) .
+                            " , last_change = " . $ilDB->quote(
+                                $now, "integer"
+                            ) .
+                            " WHERE obj_id = " . $ilDB->quote(
+                                $a_obj_id, "integer"
+                            ) .
+                            " AND usr_id = " . $ilDB->quote(
+                                $a_user_id, "integer"
+                            ) .
+                            " AND subitem_id = " . $ilDB->quote(
+                                $item_id, "integer"
+                            )
+                        );
                     }
                 } elseif (in_array($item_id, $a_completed)) {
-                    $ilDB->manipulate("INSERT INTO ut_lp_coll_manual" .
+                    $ilDB->manipulate(
+                        "INSERT INTO ut_lp_coll_manual" .
                         "(obj_id,usr_id,subitem_id,completed,last_change)" .
                         " VALUES (" . $ilDB->quote($a_obj_id, "integer") .
                         " , " . $ilDB->quote($a_user_id, "integer") .
                         " , " . $ilDB->quote($item_id, "integer") .
                         " , " . $ilDB->quote(1, "integer") .
-                        " , " . $ilDB->quote($now, "integer") . ")");
+                        " , " . $ilDB->quote($now, "integer") . ")"
+                    );
                 }
             }
         }

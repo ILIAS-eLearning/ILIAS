@@ -25,7 +25,7 @@ class ilAtomQueryTransaction extends ilAtomQueryBase implements ilAtomQuery
     /**
      * @throws \ilAtomQueryException
      */
-    protected function runWithTransactions(): void
+    protected function runWithTransactions() : void
     {
         $i = 0;
         do {

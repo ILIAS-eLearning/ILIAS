@@ -28,7 +28,7 @@ class ilXMLResultSetParser extends ilSaxParser
     }
 
     /**
-     * @param resource    reference to the xml parser
+     * @param XMLParser|resource A reference to the xml parser
      */
     public function setHandlers($a_xml_parser) : void
     {
@@ -38,9 +38,9 @@ class ilXMLResultSetParser extends ilSaxParser
     }
 
     /**
-     * @param resource $a_xml_parser xml parser
-     * @param string   $a_name       element name
-     * @param array    $a_attribs    element attributes array
+     * @param XMLParser|resource $a_xml_parser xml parser
+     * @param string $a_name element name
+     * @param array $a_attribs element attributes array
      * @return void
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
@@ -65,9 +65,9 @@ class ilXMLResultSetParser extends ilSaxParser
     }
 
     /**
-     * handler for end of element
-     * @param resource $a_xml_parser xml parser
-     * @param string   $a_name       element name
+     * Handler for end of element
+     * @param XMLParser|resource $a_xml_parser xml parser
+     * @param string $a_name element name
      * @return void
      */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
@@ -82,14 +82,14 @@ class ilXMLResultSetParser extends ilSaxParser
     }
 
     /**
-     * handler for character data
-     * @param resource $a_xml_parser xml parser
-     * @param string   $a_data       character data
+     * Handler for character data
+     * @param XMLParser|resource $a_xml_parser xml parser
+     * @param string $a_data character data
      * @return void
      */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
-        if ($a_data != "\n") {
+        if ($a_data !== "\n") {
             // Replace multiple tabs with one space
             $a_data = preg_replace("/\t+/", " ", $a_data);
             $this->cdata .= trim($a_data);

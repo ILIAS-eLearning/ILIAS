@@ -57,8 +57,8 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     {
         $this->initAuth($session_id);
         $this->initIlias();
-        if (!$this->__checkSession($session_id)) {
-            throw new ilSoapPluginException($this->__getMessage());
+        if (!$this->checkSession($session_id)) {
+            throw new ilSoapPluginException($this->getMessage());
         }
     }
 
@@ -142,7 +142,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
      */
     protected function error($message)
     {
-        throw $this->__raiseError($message, 'ERROR');
+        throw $this->raiseError($message, 'ERROR');
     }
 
     /**

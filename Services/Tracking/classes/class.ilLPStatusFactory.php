@@ -22,7 +22,6 @@ class ilLPStatusFactory
             self::$instance = new self();
         }
         return self::$instance;
-
     }
 
     private function __construct()
@@ -37,8 +36,10 @@ class ilLPStatusFactory
         return $this->logger;
     }
 
-    public static function _getClassById(int $a_obj_id, ?int $a_mode = null) : string
-    {
+    public static function _getClassById(
+        int $a_obj_id,
+        ?int $a_mode = null
+    ) : string {
         if ($a_mode === null) {
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
@@ -62,7 +63,6 @@ class ilLPStatusFactory
                     return self::_getClassById($a_obj_id, $mode);
                 }
             } else {
-                self::includeClass($class);
                 self::$class_by_obj_id[$a_obj_id] = $class;
                 return $class;
             }
@@ -74,19 +74,13 @@ class ilLPStatusFactory
         throw new ilInvalidLPStatusException($message);
     }
 
-    protected static function includeClass(string $a_class) : void
-    {
-        $path = ($a_class == 'ilLPStatus')
-            ? 'Services/Tracking/classes/'
-            : 'Services/Tracking/classes/status/';
-    }
-
-    public static function _getClassByIdAndType(int $a_obj_id, string $a_type) : string
-    {
+    public static function _getClassByIdAndType(
+        int $a_obj_id,
+        string $a_type
+    ) : string {
         // id is ignored in the moment
         switch ($a_type) {
             case 'event':
-                self::includeClass('ilLPStatusEvent');
                 return 'ilLPStatusEvent';
 
             default:
@@ -97,8 +91,10 @@ class ilLPStatusFactory
         }
     }
 
-    public static function _getInstance(int $a_obj_id, ?int $a_mode = null) : ilLPStatus
-    {
+    public static function _getInstance(
+        int $a_obj_id,
+        ?int $a_mode = null
+    ) : ilLPStatus {
         if ($a_mode === null) {
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
@@ -117,7 +113,6 @@ class ilLPStatusFactory
                     return self::_getInstance($a_obj_id, $mode);
                 }
             } else {
-                self::includeClass($class);
                 return new $class($a_obj_id);
             }
         }

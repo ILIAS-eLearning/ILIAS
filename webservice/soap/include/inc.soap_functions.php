@@ -463,7 +463,7 @@ class ilSoapFunctions
 
         $sass = new ilSoapTestAdministration();
 
-        return $sass->saveQuestionResult($sid, $user_id, $test_id, $question_id, $pass, $solution);
+        return $sass->saveQuestionResult($sid, $user_id, $test_id, $question_id, $pass, $solution);// TODO PHP8-REVIEW Method undefined
     }
 
     public static function saveQuestion($sid, $active_id, $question_id, $pass, $solution)
@@ -844,7 +844,7 @@ class ilSoapFunctions
      */
     public static function buildHTTPPath()
     {
-        if ($_SERVER["HTTPS"] == "on") {
+        if ($_SERVER["HTTPS"] === "on") {
             $protocol = 'https://';
         } else {
             $protocol = 'http://';
@@ -930,34 +930,7 @@ class ilSoapFunctions
 
         return $sou->deleteExpiredDualOptInUserObjects($sid, $usr_id);
     }
-    
-    /*
-    public static function getSkillCompletionDateForTriggerRefId($sid, $usr_id, $a_ref_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
-        $s = new ilSoapSkillAdministration();
 
-        $res = $s->getCompletionDateForTriggerRefId($sid, $usr_id, $a_ref_id);
-        return $res;
-    }
-
-    public static function checkSkillUserCertificateForTriggerRefId($sid, $usr_id, $a_ref_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
-
-        $s = new ilSoapSkillAdministration();
-        return $s->checkUserCertificateForTriggerRefId($sid, $usr_id, $a_ref_id);
-    }
-
-    public static function getSkillTriggerOfAllCertificates($sid, $usr_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
-
-        $s = new ilSoapSkillAdministration();
-        return $s->getTriggerOfAllCertificates($sid, $usr_id);
-    }
-    */
-    
     /**
      * Delete progress
      * @param string $sid
@@ -1111,7 +1084,7 @@ class ilSoapFunctions
         $soapHook = new ilSoapHook($DIC['component.factory']);
         // Method name may be invoked with namespace e.g. 'myMethod' vs 'ns:myMethod'
         if (strpos($name, ':') !== false) {
-            list($_, $name) = explode(':', $name);
+            [$_, $name] = explode(':', $name);
         }
         $method = $soapHook->getMethodByName($name);
         if ($method) {

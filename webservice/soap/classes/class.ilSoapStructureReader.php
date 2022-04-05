@@ -28,7 +28,7 @@ class ilSoapStructureReader
 
     public function isValid() : bool
     {
-        return $this->structureObject != null && is_a($this->structureObject, "ilSoapStructureObject");
+        return $this->structureObject instanceof \ilSoapStructureObject;
     }
 
     public function getObject() : ilObject

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
@@ -7,7 +7,6 @@ use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult as HandlerResultInterface;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\UI\Component\Input\Field\HandlerResult;
 
 /**
  * Class ilMMUploadHandlerGUI
