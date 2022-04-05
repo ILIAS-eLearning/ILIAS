@@ -575,7 +575,8 @@ class ilMembershipGUI
         }
 
         if (!$has_admin && is_array($post_roles)) {
-            foreach ($_POST['roles'] as $usrId => $roleIdsToBeAssigned) {
+            // TODO PHP8 Review: Check change of SuperGlobals
+            foreach ($post_roles as $usrId => $roleIdsToBeAssigned) {
                 if (in_array($adminRoleId, $roleIdsToBeAssigned)) {
                     $has_admin = true;
                     break;
