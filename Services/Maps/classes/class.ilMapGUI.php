@@ -165,6 +165,7 @@ abstract class ilMapGUI
         return $this->central_marker;
     }
 
+    // PHP8-Review: return type missing
     public function addUserMarker(int $user_id)
     {
         return $this->user_marker[] = $user_id;

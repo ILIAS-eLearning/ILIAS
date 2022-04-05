@@ -60,7 +60,8 @@ class ilMapUtil
     {
         return self::settings()->get("std_longitude");
     }
-
+    
+    // PHP8-Review: return type missing
     public static function setStdZoom(string $zoom)
     {
         self::settings()->set("std_zoom", $zoom);
@@ -97,7 +98,8 @@ class ilMapUtil
         return $std_tile ?: self::DEFAULT_TILE;
     }
     
-
+    
+    // PHP8-Review: return type missing
     public static function setStdGeolocationServer($geolocation)
     {
         self::settings()->set("std_geolocation", $geolocation);
