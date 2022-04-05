@@ -20,6 +20,8 @@ class DecoratedPagePartProvider implements PagePartProvider
     const PURPOSE_TITLE = 'ptitle';
     const PURPOSE_SHORTTITLE = 'stitle';
     const PURPOSE_VIEWTITLE = 'vtitle';
+    const PURPOSE_LOGO = 'plogo';
+    const PURPOSE_RESPONSIVE_LOGO = 'prlogo';
 
     /**
      * @var PagePartProvider
@@ -109,9 +111,14 @@ class DecoratedPagePartProvider implements PagePartProvider
      */
     public function getLogo() : ?Image
     {
-        return $this->getDecoratedOrOriginal(Image::class, $this->original->getLogo());
+        return $this->getDecoratedOrOriginal(self::PURPOSE_LOGO, $this->original->getLogo());
     }
 
+
+    public function getResponsiveLogo() : ?Image
+    {
+        return $this->getDecoratedOrOriginal(self::PURPOSE_RESPONSIVE_LOGO, $this->original->getResponsiveLogo());
+    }
 
     /**
      * @inheritDoc

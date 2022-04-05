@@ -9,6 +9,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\MainControls\Mainbar;
 use ILIAS\UI\Component\MainControls\Metabar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
+use ILIAS\UI\Component\MainControls\Footer;
 
 /**
  * This describes the Page.
@@ -16,66 +17,33 @@ use ILIAS\UI\Component\MainControls\ModeInfo;
 interface Standard extends Page, JavaScriptBindable
 {
 
-    /**
-     * @param Metabar $meta_bar
-     *
-     * @return Standard
-     */
-    public function withMetabar(Metabar $meta_bar) : Standard;
+    public function withMetabar(MetaBar $meta_bar) : Standard;
 
-    /**
-     * @param Mainbar $main_bar
-     *
-     * @return Standard
-     */
     public function withMainbar(MainBar $main_bar) : Standard;
 
-    /**
-     * @param Image $logo
-     *
-     * @return Standard
-     */
     public function withLogo(Image $logo) : Standard;
 
-    /**
-     * @return bool
-     */
+    public function withResponsiveLogo(Image $logo) : Standard;
+
     public function hasMetabar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasMainbar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasLogo() : bool;
 
-    /**
-     * @return Metabar|null
-     */
-    public function getMetabar();
+    public function hasResponsiveLogo() : bool;
 
-    /**
-     * @return Mainbar|null
-     */
-    public function getMainbar();
+    public function getMetabar() : ?Metabar;
 
-    /**
-     * @return Breadcrumbs|null
-     */
-    public function getBreadcrumbs();
+    public function getMainbar() : ?Mainbar;
 
-    /**
-     * @return Image|null
-     */
-    public function getLogo();
+    public function getBreadcrumbs() : ?Breadcrumbs;
 
-    /**
-     * @return Footer|null
-     */
-    public function getFooter();
+    public function getLogo() : ?Image;
+
+    public function getResponsiveLogo() : ?Image;
+
+    public function getFooter() : ?Footer;
 
     public function withTitle(string $title) : Standard;
 

@@ -35,6 +35,7 @@ class StandardPageBuilder implements PageBuilder
     public function build(PagePartProvider $parts) : Page
     {
         $header_image = $parts->getLogo();
+        $responsive_header_image = $parts->getResponsiveLogo();
         $main_bar = $parts->getMainBar();
         $meta_bar = $parts->getMetaBar();
         $bread_crumbs = $parts->getBreadCrumbs();
@@ -43,7 +44,7 @@ class StandardPageBuilder implements PageBuilder
         $short_title = $parts->getShortTitle();
         $view_title = $parts->getViewTitle();
 
-        return $this->ui->factory()->layout()->page()->standard(
+        $page = $this->ui->factory()->layout()->page()->standard(
             [$parts->getContent()],
             $meta_bar,
             $main_bar,
@@ -54,5 +55,11 @@ class StandardPageBuilder implements PageBuilder
             $short_title,
             $view_title
         );
+
+        if (null !== $responsive_header_image) {
+            $page = $page->withResponsiveLogo($responsive_header_image);
+        }
+
+        return $page;
     }
 }

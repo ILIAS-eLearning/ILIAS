@@ -25,6 +25,9 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->mainbar = $this->createMock(MainBar::class);
         $this->crumbs = $this->createMock(Breadcrumbs::class);
         $this->logo = $this->createMock(Image::class);
+        $this->logo->method("getCanonicalName")->willReturn("Logo Stub");
+        $this->responsive_logo = $this->createMock(Image::class);
+        $this->responsive_logo->method("getCanonicalName")->willReturn("Responsive Logo Stub");
         $this->contents = array(new Legacy('some content', $sig_gen));
         $this->title = 'pagetitle';
 
@@ -37,10 +40,10 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->logo,
             null,
             $this->title
-        );
+        )->withResponsiveLogo($this->responsive_logo);
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Layout\\Page\\Standard",
@@ -48,7 +51,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetContent()
+    public function testGetContent() : void
     {
         $this->assertEquals(
             $this->contents,
@@ -56,7 +59,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMetabar()
+    public function testGetMetabar() : void
     {
         $this->assertEquals(
             $this->metabar,
@@ -64,7 +67,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMainbar()
+    public function testGetMainbar() : void
     {
         $this->assertEquals(
             $this->mainbar,
@@ -72,7 +75,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetBreadcrumbs()
+    public function testGetBreadcrumbs() : void
     {
         $this->assertEquals(
             $this->crumbs,
@@ -80,7 +83,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetLogo()
+    public function testGetLogo() : void
     {
         $this->assertEquals(
             $this->logo,
@@ -88,7 +91,25 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithWrongContents()
+    public function testHasLogo() : void
+    {
+        $this->assertTrue($this->stdpage->hasLogo());
+    }
+
+    public function testGetResponsiveLogo() : void
+    {
+        $this->assertEquals(
+            $this->responsive_logo,
+            $this->stdpage->getResponsiveLogo()
+        );
+    }
+
+    public function testHasResponsiveLogo() : void
+    {
+        $this->assertTrue($this->stdpage->hasResponsiveLogo());
+    }
+
+    public function testWithWrongContents() : void
     {
         $this->expectException(TypeError::class);
         $this->stdpage = $this->factory->standard(
@@ -100,7 +121,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetTitle()
+    public function testGetTitle() : void
     {
         $this->assertEquals(
             $this->title,
@@ -108,7 +129,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTitle()
+    public function testWithTitle() : void
     {
         $title = 'some title';
         $this->assertEquals(
@@ -116,7 +137,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withTitle($title)->getTitle()
         );
     }
-    public function testWithShortTitle()
+    public function testWithShortTitle() : void
     {
         $title = 'some short title';
         $this->assertEquals(
@@ -124,7 +145,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withShortTitle($title)->getShortTitle()
         );
     }
-    public function testWithViewTitle()
+    public function testWithViewTitle() : void
     {
         $title = 'some view title';
         $this->assertEquals(

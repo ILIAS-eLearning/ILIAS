@@ -40,6 +40,7 @@ interface PagePartProvider
      */
     public function getLogo() : ?Image;
 
+    public function getResponsiveLogo() : ?Image;
 
     /**
      * @return Footer|null

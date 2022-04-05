@@ -70,6 +70,7 @@ class MainLayoutCollector extends AbstractBaseCollector
 
         $final_content_modification = new NullModification();
         $final_logo_modification = new NullModification();
+        $final_responsive_logo_modification = new NullModification();
         $final_breadcrumbs_modification = new NullModification();
         $final_main_bar_modification = new NullModification();
         $final_meta_bar_modification = new NullModification();
@@ -91,15 +92,22 @@ class MainLayoutCollector extends AbstractBaseCollector
             // LOGO
             $logo_modification = $provider->getLogoModification($called_contexts);
             $this->replaceModification($final_logo_modification, $logo_modification, LogoModification::class);
+            // RESPONSIVE LOGO
+            $responsive_logo_modification = $provider->getResponsiveLogoModification($called_contexts);
+            $this->replaceModification($final_responsive_logo_modification, $responsive_logo_modification,
+                LogoModification::class);
             // BREADCRUMBS
             $breadcrumbs_modification = $provider->getBreadCrumbsModification($called_contexts);
-            $this->replaceModification($final_breadcrumbs_modification, $breadcrumbs_modification, BreadCrumbsModification::class);
+            $this->replaceModification($final_breadcrumbs_modification, $breadcrumbs_modification,
+                BreadCrumbsModification::class);
             // MAINBAR
             $main_bar_modification = $provider->getMainBarModification($called_contexts);
-            $this->replaceModification($final_main_bar_modification, $main_bar_modification, MainBarModification::class);
+            $this->replaceModification($final_main_bar_modification, $main_bar_modification,
+                MainBarModification::class);
             // METABAR
             $meta_bar_modification = $provider->getMetaBarModification($called_contexts);
-            $this->replaceModification($final_meta_bar_modification, $meta_bar_modification, MetaBarModification::class);
+            $this->replaceModification($final_meta_bar_modification, $meta_bar_modification,
+                MetaBarModification::class);
             // FOOTER
             $footer_modification = $provider->getFooterModification($called_contexts);
             $this->replaceModification($final_footer_modification, $footer_modification, FooterModification::class);
@@ -111,10 +119,12 @@ class MainLayoutCollector extends AbstractBaseCollector
             $this->replaceModification($final_title_modification, $title_modification, TitleModification::class);
 
             $short_title_modification = $provider->getShortTitleModification($called_contexts);
-            $this->replaceModification($final_short_title_modification, $short_title_modification, ShortTitleModification::class);
+            $this->replaceModification($final_short_title_modification, $short_title_modification,
+                ShortTitleModification::class);
 
             $view_title_modification = $provider->getViewTitleModification($called_contexts);
-            $this->replaceModification($final_view_title_modification, $view_title_modification, ViewTitleModification::class);
+            $this->replaceModification($final_view_title_modification, $view_title_modification,
+                ViewTitleModification::class);
         }
 
         if ($final_content_modification->hasValidModification()) {
@@ -122,6 +132,9 @@ class MainLayoutCollector extends AbstractBaseCollector
         }
         if ($final_logo_modification->hasValidModification()) {
             $this->modification_handler->modifyLogoWithClosure($final_logo_modification->getModification());
+        }
+        if ($final_responsive_logo_modification->hasValidModification()) {
+            $this->modification_handler->modifyResponsiveLogoWithClosure($final_responsive_logo_modification->getModification());
         }
         if ($final_breadcrumbs_modification->hasValidModification()) {
             $this->modification_handler->modifyBreadCrumbsWithClosure($final_breadcrumbs_modification->getModification());
