@@ -61,7 +61,8 @@ class ilPreview
      * The status of the rendering process.
      */
     private string $render_status = self::RENDER_STATUS_NONE;
-
+    protected ilRendererFactory $factory;
+    
     /**
      * Creates a new ilPreview.
      *
@@ -72,7 +73,7 @@ class ilPreview
     {
         $this->obj_id = $a_obj_id;
         $this->obj_type = $a_type;
-
+        $this->factory = new ilRendererFactory();
         $this->init();
     }
 
@@ -151,7 +152,8 @@ class ilPreview
         if ($preview->exists()) {
             return true;
         }
-        $renderer = ilRendererFactory::getRenderer($preview);
+        $factory = new ilRendererFactory();
+        $renderer = $factory->getRenderer($preview);
         return $renderer !== null;
     }
 
@@ -189,7 +191,8 @@ class ilPreview
         if (!ilPreviewSettings::isPreviewEnabled()) {
             return false;
         }
-        $renderer = ilRendererFactory::getRenderer($this);
+        $factory = new ilRendererFactory();
+        $renderer = $factory->getRenderer($this);
 
         // no renderer available?
         if ($renderer === null) {
