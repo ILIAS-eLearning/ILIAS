@@ -95,9 +95,7 @@ class AgentCollection implements Agent
                 }
                 return $out;
             }),
-            $this->refinery->custom()->transformation(function ($v): array {
-                return [$v];
-            }),
+            $this->refinery->custom()->transformation(fn($v): array => [$v]),
             $this->refinery->to()->toNew(ConfigCollection::class)
         ]);
     }
@@ -162,9 +160,7 @@ class AgentCollection implements Agent
             "Collected Build Artifact Objectives",
             false,
             ...array_values(array_map(
-                function (Agent $v): \ILIAS\Setup\Objective {
-                    return $v->getBuildArtifactObjective();
-                },
+                fn(Agent $v): \ILIAS\Setup\Objective => $v->getBuildArtifactObjective(),
                 $this->agents
             ))
         );
@@ -179,11 +175,9 @@ class AgentCollection implements Agent
             "Collected Status Objectives",
             false,
             ...array_values(array_map(
-                function (string $k, Agent $v) use ($storage): \ILIAS\Setup\Objective {
-                    return $v->getStatusObjective(
-                        new Metrics\StorageOnPathWrapper($k, $storage)
-                    );
-                },
+                fn(string $k, Agent $v): \ILIAS\Setup\Objective => $v->getStatusObjective(
+                    new Metrics\StorageOnPathWrapper($k, $storage)
+                ),
                 array_keys($this->agents),
                 array_values($this->agents)
             ))

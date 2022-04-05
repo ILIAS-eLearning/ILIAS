@@ -97,9 +97,7 @@ class ImplementationOfInterfaceFinder
             "|",
             array_map(
                 // fix path-separators to respect windows' backspaces.
-                function ($v): string {
-                    return "(" . str_replace('/', '(/|\\\\)', $v) . ")";
-                },
+                fn($v): string => "(" . str_replace('/', '(/|\\\\)', $v) . ")",
                 $ignore
             )
         );
