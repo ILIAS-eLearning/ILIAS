@@ -51,7 +51,7 @@ class ilECSNodeMappingAssignment
         $this->read();
     }
     
-    public function isMapped()
+    public function isMapped() : bool
     {
         return $this->mapped;
     }
@@ -61,12 +61,12 @@ class ilECSNodeMappingAssignment
         return $this->server_id;
     }
     
-    public function setServerId($a_id)
+    public function setServerId($a_id) : void
     {
         $this->server_id = $a_id;
     }
 
-    public function setMemberId($a_member_id)
+    public function setMemberId($a_member_id) : void
     {
         $this->mid = $a_member_id;
     }
@@ -81,7 +81,7 @@ class ilECSNodeMappingAssignment
         return $this->cs_root;
     }
 
-    public function setTreeId($root)
+    public function setTreeId($root) : void
     {
         $this->cs_root = $root;
     }
@@ -91,7 +91,7 @@ class ilECSNodeMappingAssignment
         return $this->cs_id;
     }
 
-    public function setCSId($id)
+    public function setCSId($id) : void
     {
         $this->cs_id = $id;
     }
@@ -101,7 +101,7 @@ class ilECSNodeMappingAssignment
         return $this->ref_id;
     }
 
-    public function setRefId($a_id)
+    public function setRefId($a_id) : void
     {
         $this->ref_id = $a_id;
     }
@@ -111,37 +111,37 @@ class ilECSNodeMappingAssignment
         return $this->obj_id;
     }
 
-    public function setObjId($id)
+    public function setObjId($id) : void
     {
         $this->obj_id = $id;
     }
 
-    public function isTitleUpdateEnabled()
+    public function isTitleUpdateEnabled() : bool
     {
         return $this->title_update;
     }
 
-    public function enableTitleUpdate($enabled)
+    public function enableTitleUpdate($enabled) : void
     {
         $this->title_update = $enabled;
     }
 
-    public function isPositionUpdateEnabled()
+    public function isPositionUpdateEnabled() : bool
     {
         return $this->position_update;
     }
 
-    public function enablePositionUpdate($enabled)
+    public function enablePositionUpdate($enabled) : void
     {
         $this->position_update = $enabled;
     }
 
-    public function isTreeUpdateEnabled()
+    public function isTreeUpdateEnabled() : bool
     {
         return $this->tree_update;
     }
 
-    public function enableTreeUpdate($enabled)
+    public function enableTreeUpdate($enabled) : void
     {
         $this->tree_update = $enabled;
     }
@@ -149,13 +149,13 @@ class ilECSNodeMappingAssignment
     /**
      * Update node mapping
      */
-    public function update()
+    public function update() : void
     {
         $this->delete();
         $this->create();
     }
 
-    public function create()
+    public function create() : bool
     {
         $query = 'INSERT INTO ecs_node_mapping_a (server_id,mid,cs_root,cs_id,ref_id,obj_id,title_update,position_update,tree_update) ' .
             'VALUES( ' .
@@ -177,7 +177,7 @@ class ilECSNodeMappingAssignment
     /**
      * Delete entry
      */
-    public function delete()
+    public function delete() : void
     {
         $query = 'DELETE FROM ecs_node_mapping_a ' .
             'WHERE server_id = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
@@ -192,7 +192,7 @@ class ilECSNodeMappingAssignment
     /**
      * read settings
      */
-    protected function read()
+    protected function read() : void
     {
         $query = 'SELECT * FROM ecs_node_mapping_a ' .
             'WHERE server_id = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
@@ -211,7 +211,7 @@ class ilECSNodeMappingAssignment
         }
     }
     
-    public static function deleteByServerId($a_server_id)
+    public static function deleteByServerId($a_server_id) : bool
     {
         global $DIC;
 

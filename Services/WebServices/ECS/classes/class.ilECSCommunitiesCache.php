@@ -43,15 +43,11 @@ class ilECSCommunitiesCache
      */
     public static function getInstance() : ilECSCommunitiesCache
     {
-        if (isset(self::$instance)) {
-            return self::$instance;
-        }
-        return self::$instance = new ilECSCommunitiesCache();
+        return self::$instance ?? (self::$instance = new ilECSCommunitiesCache());
     }
 
     /**
      * Delete comunities by server id
-     * @param <type> $a_server_id
      */
     public function delete(int $a_server_id) : void
     {
@@ -63,11 +59,11 @@ class ilECSCommunitiesCache
     
     /**
      * Get communities
-     * @return array ilECSCommunityCache
+     * @return ilECSCommunityCache[]
      */
     public function getCommunities() : array
     {
-        return (array) $this->communities;
+        return $this->communities;
     }
 
     /**
@@ -76,10 +72,8 @@ class ilECSCommunitiesCache
     public function lookupOwnId(int $a_server_id, int $a_mid) : int
     {
         foreach ($this->getCommunities() as $com) {
-            if ($com->getServerId() == $a_server_id) {
-                if (in_array($a_mid, $com->getMids())) {
-                    return $com->getOwnId();
-                }
+            if (($com->getServerId() === $a_server_id) && in_array($a_mid, $com->getMids(), true)) {
+                return $com->getOwnId();
             }
         }
         return 0;
@@ -93,10 +87,8 @@ class ilECSCommunitiesCache
     public function lookupTitle(int $a_server_id, int $a_mid) : string
     {
         foreach ($this->getCommunities() as $com) {
-            if ($com->getServerId() == $a_server_id) {
-                if (in_array($a_mid, $com->getMids())) {
-                    return $com->getCommunityName();
-                }
+            if (($com->getServerId() === $a_server_id) && in_array($a_mid, $com->getMids(), true)) {
+                return $com->getCommunityName();
             }
         }
         return '';
@@ -110,7 +102,7 @@ class ilECSCommunitiesCache
         $query = 'SELECT sid,cid FROM ecs_community ';
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->communities[] = ilECSCommunityCache::getInstance(intval($row->sid), intval($row->cid));
+            $this->communities[] = ilECSCommunityCache::getInstance((int) $row->sid, (int) $row->cid);
         }
     }
 }

@@ -21,15 +21,14 @@
  */
 class ilECSServerSettings
 {
-    const ALL_SERVER = 0;
-    const ACTIVE_SERVER = 1;
-    const INACTIVE_SERVER = 2;
+    public const ALL_SERVER = 0;
+    public const ACTIVE_SERVER = 1;
+    public const INACTIVE_SERVER = 2;
 
     private static ilECSServerSettings $instance;
 
     // Injected
     private ilDBInterface $db;
-    private ilLogger $log;
 
     // Local
     private array $servers;
@@ -43,7 +42,6 @@ class ilECSServerSettings
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->log = $DIC->logger()->wsrv();
 
         $this->readServers();
     }
@@ -55,10 +53,7 @@ class ilECSServerSettings
      */
     public static function getInstance() : ilECSServerSettings
     {
-        if (isset(self::$instance)) {
-            return self::$instance;
-        }
-        return self::$instance = new ilECSServerSettings();
+        return self::$instance ?? (self::$instance = new ilECSServerSettings());
     }
 
     /**
@@ -72,9 +67,8 @@ class ilECSServerSettings
 
     /**
      * Check if there is any server
-     * @return bool
      */
-    public function serverExists()
+    public function serverExists() : bool
     {
         return count($this->getServers(static::ALL_SERVER)) ? true : false;
     }
@@ -91,10 +85,10 @@ class ilECSServerSettings
                 return $this->servers;
                 break;
             case static::ACTIVE_SERVER:
-                return array_filter($this->servers, fn (ilECSSetting $server) => $server->isEnabled());
+                return array_filter($this->servers, static fn (ilECSSetting $server) => $server->isEnabled());
                 break;
             case static::INACTIVE_SERVER:
-                return array_filter($this->servers, fn (ilECSSetting $server) => !$server->isEnabled());
+                return array_filter($this->servers, static fn (ilECSSetting $server) => !$server->isEnabled());
                 break;
             default:
                 throw new InvalidArgumentException();
@@ -104,7 +98,7 @@ class ilECSServerSettings
     /**
      * Read all servers
      */
-    private function readServers()
+    private function readServers() : void
     {
         $query = 'SELECT server_id FROM ecs_server ' .
             'ORDER BY title ';
@@ -112,7 +106,7 @@ class ilECSServerSettings
 
         $this->servers = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $server_id = intval($row->server_id);
+            $server_id = (int) $row->server_id;
             $this->servers[$server_id] = ilECSSetting::getInstanceByServerId($server_id);
         }
     }

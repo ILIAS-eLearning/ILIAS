@@ -37,10 +37,10 @@ class ilECSOrganisation
      * @param object json representation
      * @throws ilException
      */
-    public function loadFromJson($a_json)
+    public function loadFromJson($a_json) : void
     {
         if (!is_object($a_json)) {
-            $this->logger->warn(__METHOD__ . ': Cannot load from JSON. No object given.');
+            $this->logger->warning(__METHOD__ . ': Cannot load from JSON. No object given.');
             throw new ilException('Cannot parse ECSParticipant.');
         }
         $this->name = $a_json->name;

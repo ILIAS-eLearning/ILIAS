@@ -19,7 +19,7 @@
 */
 class ilECSCommunity
 {
-    protected $json_obj = null;
+    protected object $json_obj;
     protected string $title = '';
     protected string $description = '';
     protected int $id = 0;
@@ -30,11 +30,9 @@ class ilECSCommunity
     /**
      * Constructor
      *
-     * @access public
      * @param object json object
-     *
      */
-    public function __construct($json_obj)
+    public function __construct(object $json_obj)
     {
         $this->json_obj = $json_obj;
         $this->read();
@@ -42,22 +40,16 @@ class ilECSCommunity
     
     /**
      * get title
-     *
-     * @access public
-     *
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
     
     /**
      * getDescription
-     *
-     * @access public
-     *
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -65,20 +57,19 @@ class ilECSCommunity
     /**
      * get participants
      *
-     * @access public
-     * @return \ilECSParticipant
+     * @return ilECSParticipant[]
      */
-    public function getParticipants()
+    public function getParticipants() : array
     {
-        return $this->participants ? $this->participants : array();
+        return $this->participants ?: [];
     }
 
     /**
      * Get array of mids of all participants
      */
-    public function getMids()
+    public function getMids() : array
     {
-        $mids = array();
+        $mids = [];
         foreach ($this->getParticipants() as $part) {
             $mids[] = $part->getMID();
         }
@@ -88,7 +79,7 @@ class ilECSCommunity
     /**
      * Get own mid of community
      */
-    public function getOwnId()
+    public function getOwnId() : int
     {
         foreach ($this->getParticipants() as $part) {
             if ($part->isSelf()) {
@@ -101,11 +92,8 @@ class ilECSCommunity
     
     /**
      * get id
-     *
-     * @access public
-     *
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -113,11 +101,8 @@ class ilECSCommunity
     
     /**
      * Read community entries and participants
-     *
-     * @access private
-     *
      */
-    private function read()
+    private function read() : void
     {
         $this->title = $this->json_obj->community->name;
         $this->description = $this->json_obj->community->description;

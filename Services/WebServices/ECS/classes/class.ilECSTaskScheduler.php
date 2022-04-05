@@ -19,7 +19,7 @@
 */
 class ilECSTaskScheduler
 {
-    const MAX_TASKS = 30;
+    public const MAX_TASKS = 30;
     
     private static array $instances = array();
     
@@ -35,9 +35,6 @@ class ilECSTaskScheduler
     
     /**
      * Singleton constructor
-     *
-     * @access public
-     *
      */
     private function __construct(ilECSSetting $setting)
     {
@@ -55,59 +52,20 @@ class ilECSTaskScheduler
      * Private access use
      * ilECSTaskScheduler::start() or
      * ilECSTaskScheduler::startTaskExecution
-     *
-     * @access private
-     * @static
-     *
-     * @return ilECSTaskScheduler
-     *
      */
-    public static function _getInstanceByServerId($a_server_id)
+    public static function _getInstanceByServerId($a_server_id) : \ilECSTaskScheduler
     {
-        if (isset(self::$instances[$a_server_id])) {
-            return self::$instances[$a_server_id];
-        }
-        return self::$instances[$a_server_id] =
-            new ilECSTaskScheduler(
-                ilECSSetting::getInstanceByServerId($a_server_id)
-            );
-    }
-
-    /**
-     * Start task scheduler for each server instance
-     */
-    public static function start()
-    {
-        if (ilContext::getType() != ilContext::CONTEXT_WEB) {
-            return;
-        }
-        
-        $servers = ilECSServerSettings::getInstance();
-        foreach ($servers->getServers(ilECSServerSettings::ACTIVE_SERVER) as $server) {
-            $sched = new ilECSTaskScheduler($server);
-            if ($sched->checkNextExecution()) {
-                $sched->initNextExecution();
-            }
-        }
-    }
-
-    /**
-     * Static version iterates over all active instances
-     */
-    public static function startExecution()
-    {
-        $server = ilECSServerSettings::getInstance();
-        foreach ($server->getServers(ilECSServerSettings::ACTIVE_SERVER) as $server) {
-            $sched = new ilECSTaskScheduler($server);
-            $sched->startTaskExecution();
-        }
+        return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] =
+                new ilECSTaskScheduler(
+                    ilECSSetting::getInstanceByServerId($a_server_id)
+                ));
     }
 
     /**
      * Get server setting
      * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : \ilECSSetting
     {
         return $this->settings;
     }
@@ -115,11 +73,8 @@ class ilECSTaskScheduler
 
     /**
      * Start Tasks
-     *
-     * @access private
-     *
      */
-    public function startTaskExecution()
+    public function startTaskExecution() : bool
     {
         try {
             $this->readMIDs();
@@ -136,27 +91,17 @@ class ilECSTaskScheduler
     
     /**
      * Read EContent
-     *
-     * @access private
-     *
      */
-    private function readEvents()
+    private function readEvents() : void
     {
-        try {
-            $this->event_reader = new ilECSEventQueueReader($this->getServer());
-            $this->event_reader->refresh();
-        } catch (ilException $exc) {
-            throw $exc;
-        }
+        $this->event_reader = new ilECSEventQueueReader($this->getServer());
+        $this->event_reader->refresh();
     }
     
     /**
      * Handle events
-     *
-     * @access private
-     *
      */
-    private function handleEvents()
+    private function handleEvents() : void
     {
         for ($i = 0;$i < self::MAX_TASKS;$i++) {
             if (!$event = $this->event_reader->shift()) {
@@ -179,7 +124,11 @@ class ilECSTaskScheduler
                 case ilECSEventQueueReader::TYPE_REMOTE_WIKI:
                 case ilECSEventQueueReader::TYPE_REMOTE_TEST:
                     $handler = ilRemoteObjectBase::getInstanceByEventType($event['type']);
-                    $this->log->write("got handler " . get_class($handler));
+                    if ($handler) {
+                        $this->log->debug("got handler " . get_class($handler));
+                    } else {
+                        $this->log->error("Could not get handler for :" . $event['type']);
+                    }
                     break;
                 
                 case ilECSEventQueueReader::TYPE_DIRECTORY_TREES:
@@ -223,31 +172,33 @@ class ilECSTaskScheduler
             }
             
             $res = false;
-            switch ($event['op']) {
-                case ilECSEvent::NEW_EXPORT:
-                    // DEPRECATED?
-                    // $this->handleNewlyCreate($event['id']);
-                    // $this->log->write(__METHOD__.': Handling new creation. DONE');
-                    break;
-            
-                case ilECSEvent::DESTROYED:
-                    $res = $handler->handleDelete($this->getServer(), $event['id'], $this->mids);
-                    $this->log->info(__METHOD__ . ': Handling delete. DONE');
-                    break;
-                        
-                case ilECSEvent::CREATED:
-                    $res = $handler->handleCreate($this->getServer(), $event['id'], $this->mids);
-                    $this->log->info(__METHOD__ . ': Handling create. DONE');
-                    break;
-                
-                case ilECSEvent::UPDATED:
-                    $res = $handler->handleUpdate($this->getServer(), $event['id'], $this->mids);
-                    $this->log->info(__METHOD__ . ': Handling update. DONE');
-                    break;
-                
-                default:
-                    $this->log->info(__METHOD__ . ': Unknown event operation in queue ' . $event['op']);
-                    break;
+            if (isset($handler)) {
+                switch ($event['op']) {
+                    case ilECSEvent::NEW_EXPORT:
+                        // DEPRECATED?
+                        // $this->handleNewlyCreate($event['id']);
+                        // $this->log->write(__METHOD__.': Handling new creation. DONE');
+                        break;
+
+                    case ilECSEvent::DESTROYED:
+                        $res = $handler->handleDelete($this->getServer(), $event['id'], $this->mids);
+                        $this->log->info(__METHOD__ . ': Handling delete. DONE');
+                        break;
+
+                    case ilECSEvent::CREATED:
+                        $res = $handler->handleCreate($this->getServer(), $event['id'], $this->mids);
+                        $this->log->info(__METHOD__ . ': Handling create. DONE');
+                        break;
+
+                    case ilECSEvent::UPDATED:
+                        $res = $handler->handleUpdate($this->getServer(), $event['id'], $this->mids);
+                        $this->log->info(__METHOD__ . ': Handling update. DONE');
+                        break;
+
+                    default:
+                        $this->log->info(__METHOD__ . ': Unknown event operation in queue ' . $event['op']);
+                        break;
+                }
             }
             if ($res) {
                 $this->log->info(__METHOD__ . ': Processing of event done ' . $event['event_id']);
@@ -260,109 +211,35 @@ class ilECSTaskScheduler
     
     /**
      * Delete deprecate ECS accounts
-     *
-     * @access private
-     *
      */
-    private function handleDeprecatedAccounts()
+    private function handleDeprecatedAccounts() : void
     {
         $query = "SELECT usr_id FROM usr_data WHERE auth_mode = 'ecs' " .
             "AND time_limit_until < " . time() . " " .
             "AND time_limit_unlimited = 0 " .
             "AND (time_limit_until - time_limit_from) < 7200";
         $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($user_obj = ilObjectFactory::getInstanceByObjId($row->usr_id, false)) {
-                $this->log->info(__METHOD__ . ': Deleting deprecated ECS user account ' . $user_obj->getLogin());
-                $user_obj->delete();
-            }
-            // only one user
-            break;
+        if (($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) &&
+            $user_obj = ilObjectFactory::getInstanceByObjId($row->usr_id, false)) {
+            $this->log->info(__METHOD__ . ': Deleting deprecated ECS user account ' . $user_obj->getLogin());
+            $user_obj->delete();
         }
-        return true;
     }
     
     /**
      * Read MID's of this installation
-     *
-     * @access private
-     *
      */
-    private function readMIDs()
+    private function readMIDs() : void
     {
-        try {
-            $this->mids = array();
-            
-            $reader = ilECSCommunityReader::getInstanceByServerId($this->getServer()->getServerId());
-            foreach ($reader->getCommunities() as $com) {
-                foreach ($com->getParticipants() as $part) {
-                    if ($part->isSelf()) {
-                        $this->mids[] = $part->getMID();
-                    }
+        $this->mids = array();
+
+        $reader = ilECSCommunityReader::getInstanceByServerId($this->getServer()->getServerId());
+        foreach ($reader->getCommunities() as $com) {
+            foreach ($com->getParticipants() as $part) {
+                if ($part->isSelf()) {
+                    $this->mids[] = $part->getMID();
                 }
             }
-        } catch (ilException $exc) {
-            throw $exc;
-        }
-    }
-    
-    
-    /**
-     * Start
-     *
-     * @access public
-     *
-     */
-    public function checkNextExecution()
-    {
-        if (!$this->settings->isEnabled()) {
-            return false;
-        }
-        
-        if (!$this->settings->checkImportId()) {
-            $this->log->warning('Import ID is deleted or not of type "category". Aborting');
-            return false;
-        }
-
-        // check next task excecution time:
-        // If it's greater than time() directly increase this value with the polling time
-        /* synchronized { */
-        $query = 'UPDATE settings SET ' .
-            'value = ' . $this->db->quote(time() + $this->settings->getPollingTime(), 'text') . ' ' .
-            'WHERE module = ' . $this->db->quote('ecs', 'text') . ' ' .
-            'AND keyword = ' . $this->db->quote('next_execution_' . $this->settings->getServerId(), 'text') . ' ' .
-            'AND value < ' . $this->db->quote(time(), 'text');
-        $affected_rows = $this->db->manipulate($query);
-        /* } */
-
-
-        if (!$affected_rows) {
-            // Nothing to do
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * Call next task scheduler run
-     */
-    protected function initNextExecution()
-    {
-        // Start task execution as backend process
-        $soap_client = new ilSoapClient();
-        $soap_client->setResponseTimeout(1);
-        $soap_client->enableWSDL(true);
-
-        $new_session_id = ilSession::_duplicate($_COOKIE[session_name()]);
-        $client_id = $_COOKIE['ilClientId'];
-
-        if ($soap_client->init() and 0) {
-            $this->log->info('Calling soap handleECSTasks method...');
-            $soap_client->call('handleECSTasks', array($new_session_id . '::' . $client_id,$this->settings->getServerId()));
-        } else {
-            $this->log->info('SOAP call failed. Calling clone method manually. ');
-            ilSoapFunctions::handleECSTasks($new_session_id . '::' . $client_id, $this->settings->getServerId());
         }
     }
 }

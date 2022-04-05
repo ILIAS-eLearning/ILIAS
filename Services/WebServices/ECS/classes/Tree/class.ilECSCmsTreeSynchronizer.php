@@ -26,18 +26,14 @@ class ilECSCmsTreeSynchronizer
     private ilTree $tree;
     
     private ?\ilECSSetting $server = null;
-    private $mid = null;
-    private $tree_id = null;
+    private $mid;
+    private $tree_id;
     private ?\ilECSCmsTree $ecs_tree = null;
     
     private array $default_settings = array();
     private ?\ilECSNodeMappingSettings $global_settings = null;
-    
-    
-    /**
-     * Constructor
-     */
-    public function __construct(ilECSSetting $server, $mid, $tree_id)
+
+    public function __construct(ilECSSetting $server, int $mid, int $tree_id)
     {
         global $DIC;
         
@@ -51,53 +47,45 @@ class ilECSCmsTreeSynchronizer
         $this->ecs_tree = new ilECSCmsTree($tree_id);
         $this->tree_id = $tree_id;
         
-        $this->global_settings = ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->mid);
+        $this->global_settings = ilECSNodeMappingSettings::getInstanceByServerMid($this->server->getServerId(), $this->mid);
     }
     
     /**
      * Get server
-     * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : ?\ilECSSetting
     {
         return $this->server;
     }
-    
-    /**
-     * @return ilECSCmsTree
-     */
-    public function getECSTree()
+
+    public function getECSTree() : ?\ilECSCmsTree
     {
         return $this->ecs_tree;
     }
     
     /**
      * Get default settings
-     * @return type
      */
-    public function getDefaultSettings()
+    public function getDefaultSettings() : array
     {
-        return (array) $this->default_settings;
+        return $this->default_settings;
     }
     
     /**
      * get global settings
-     * @return ilECSNodeMappingSettings
      */
-    public function getGlobalSettings()
+    public function getGlobalSettings() : ?\ilECSNodeMappingSettings
     {
         return $this->global_settings;
     }
     
     /**
      * Synchronize tree
-     *
-     * @return boolean
      */
-    public function sync()
+    public function sync() : bool
     {
         $this->default_settings = ilECSNodeMappingAssignments::lookupSettings(
-            $this->getServer()->getServerId(),
+            $this->server->getServerId(),
             $this->mid,
             $this->tree_id,
             0
@@ -121,19 +109,17 @@ class ilECSCmsTreeSynchronizer
     
     /**
      * Start tree update check
-     * @param type $a_root_obj_id
-     * @return bool
      */
-    protected function checkTreeUpdates($a_root_obj_id)
+    protected function checkTreeUpdates(int $a_root_obj_id) : void
     {
-        if ($this->default_settings['tree_update'] == false) {
-            $this->logger->info('Tree update disabled for tree with id ' . $this->getECSTree()->getTreeId());
-            return false;
+        if ($this->default_settings['tree_update'] === false) {
+            $this->logger->info('Tree update disabled for tree with id ' . $this->ecs_tree->getTreeId());
+            return;
         }
         
         // Start recursion
         $mapping = new ilECSNodeMappingAssignment(
-            $this->getServer()->getServerId(),
+            $this->server->getServerId(),
             $this->mid,
             $this->tree_id,
             $a_root_obj_id
@@ -146,17 +132,15 @@ class ilECSCmsTreeSynchronizer
     
     /**
      * Handle tree update (recursively)
-     * @param type $a_parent_ref_id
-     * @param type $tnode_id
      */
-    protected function handleTreeUpdate($a_parent_ref_id, $a_tnode_id)
+    protected function handleTreeUpdate(int $a_parent_ref_id, int $a_tnode_id) : bool
     {
         // Check if node is already imported at location "parent_ref_id"
         // If not => move it
         $cms_data = new ilECSCmsData($a_tnode_id);
         
         $import_obj_id = ilECSImportManager::getInstance()->lookupObjIdByContentId(
-            $this->getServer()->getServerId(),
+            $this->server->getServerId(),
             $this->mid,
             $cms_data->getCmsId()
         );
@@ -170,15 +154,15 @@ class ilECSCmsTreeSynchronizer
         $import_ref_id = end($ref_ids);
         $import_ref_id_parent = $this->tree->getParentId($import_ref_id);
         
-        if ($a_parent_ref_id != $import_ref_id_parent) {
+        if ($a_parent_ref_id !== $import_ref_id_parent) {
             // move node
             $this->logger->info('Moving node ' . $a_parent_ref_id . ' to ' . $import_ref_id);
             $this->tree->moveTree($import_ref_id, $a_parent_ref_id);
         }
         
         // iterate through childs
-        $childs = $this->getECSTree()->getChilds($a_tnode_id);
-        foreach ((array) $childs as $node) {
+        $childs = $this->ecs_tree->getChilds($a_tnode_id);
+        foreach ($childs as $node) {
             $this->handleTreeUpdate($import_ref_id, $node['child']);
         }
         return true;
@@ -186,15 +170,13 @@ class ilECSCmsTreeSynchronizer
     
     /**
      * Sync node
-     * @param type $cs_id
-     * @param type $setting
      */
-    protected function syncNode($tree_obj_id, $parent_id, $a_mapped = false)
+    protected function syncNode($tree_obj_id, $parent_id, $a_mapped = false) : bool
     {
-        $childs = $this->getECSTree()->getChilds($tree_obj_id);
+        $childs = $this->ecs_tree->getChilds($tree_obj_id);
         
         $assignment = new ilECSNodeMappingAssignment(
-            $this->getServer()->getServerId(),
+            $this->server->getServerId(),
             $this->mid,
             $this->tree_id,
             $tree_obj_id
@@ -226,7 +208,6 @@ class ilECSCmsTreeSynchronizer
     
     /**
      * Sync category
-     * @param ilECSNodeMappingAssignment $ass
      */
     protected function syncCategory(ilECSNodeMappingAssignment $ass, $parent_id)
     {
@@ -236,17 +217,17 @@ class ilECSCmsTreeSynchronizer
         // perform title update
         // perform position update
         $obj_id = ilECSImportManager::getInstance()->lookupObjIdByContentId(
-            $this->getServer()->getServerId(),
+            $this->server->getServerId(),
             $this->mid,
             $data->getCmsId()
         );
         if ($obj_id) {
             $refs = ilObject::_getAllReferences($obj_id);
             $ref_id = end($refs);
-            
-            
+
+
             $cat = ilObjectFactory::getInstanceByRefId($ref_id, false);
-            if (($cat instanceof ilObject) and $this->default_settings['title_update']) {
+            if (($cat instanceof ilObject) && $this->default_settings['title_update']) {
                 $this->logger->info('Updating cms category ');
                 $this->logger->info('Title is ' . $data->getTitle());
                 $cat->deleteTranslation($this->lng->getDefaultLanguage());
@@ -254,7 +235,7 @@ class ilECSCmsTreeSynchronizer
                     $data->getTitle(),
                     $cat->getLongDescription(),
                     $this->lng->getDefaultLanguage(),
-                    1
+                    $this->lng->getDefaultLanguage()
                 );
                 $cat->setTitle($data->getTitle());
                 $cat->update();
@@ -262,9 +243,11 @@ class ilECSCmsTreeSynchronizer
                 $this->logger->info('Updating cms category -> nothing to do');
             }
             return $ref_id;
-        } elseif ($this->getGlobalSettings()->isEmptyContainerCreationEnabled()) {
+        }
+
+        if ($this->global_settings->isEmptyContainerCreationEnabled()) {
             $this->logger->info('Creating new cms category');
-            
+
             // Create category
             $cat = new ilObjCategory();
             $cat->setOwner(SYSTEM_USER_ID);
@@ -278,23 +261,23 @@ class ilECSCmsTreeSynchronizer
                 $data->getTitle(),
                 $cat->getLongDescription(),
                 $this->lng->getDefaultLanguage(),
-                1
+                $this->lng->getDefaultLanguage()
             );
-            
+
             // set imported
             $import = new ilECSImport(
-                $this->getServer()->getServerId(),
+                $this->server->getServerId(),
                 $cat->getId()
             );
             $import->setMID($this->mid);
             $import->setContentId($data->getCmsId());
             $import->setImported(true);
             $import->save();
-            
+
             return $cat->getRefId();
-        } else {
-            $this->logger->info('Creation of empty containers is disabled.');
-            return 0;
         }
+
+        $this->logger->info('Creation of empty containers is disabled.');
+        return 0;
     }
 }

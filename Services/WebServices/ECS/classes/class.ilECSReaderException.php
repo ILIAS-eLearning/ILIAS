@@ -20,8 +20,4 @@
 */
 class ilECSReaderException extends ilException
 {
-    public function __construct($a_message, $a_code = 0)
-    {
-        parent::__construct($a_message, $a_code);
-    }
 }

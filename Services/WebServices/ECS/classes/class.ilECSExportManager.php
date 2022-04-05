@@ -52,7 +52,7 @@ class ilECSExportManager
         $query = 'SELECT * FROM ecs_export ' .
             'WHERE obj_id = ' . $this->db->quote($a_obj_id, 'integer');
         $res = $this->db->query($query);
-        while ($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return true;
         }
         return false;
@@ -159,7 +159,7 @@ class ilECSExportManager
      */
     public function _deleteEContentIds(int $a_server_id, array $a_ids) : bool
     {
-        if (!is_array($a_ids) or !count($a_ids)) {
+        if (!is_array($a_ids) || !count($a_ids)) {
             return true;
         }
         $query = "DELETE FROM ecs_export WHERE " . $this->db->in('econtent_id', $a_ids, false, 'integer') . ' ' .
@@ -187,7 +187,7 @@ class ilECSExportManager
             "WHERE econtent_id = " . $this->db->quote($a_econtent_id, 'integer') . " " .
             'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
         $res = $this->db->query($query);
-        while ($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return false;
         }
         return true;

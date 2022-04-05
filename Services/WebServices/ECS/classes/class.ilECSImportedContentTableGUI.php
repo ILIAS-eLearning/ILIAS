@@ -43,7 +43,9 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.content_row.html', 'Services/WebServices/ECS');
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
+        if ($a_parent_obj) {
+            $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
+        }
     }
     
     /**
@@ -53,7 +55,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
      * @param array row data
      *
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         #$this->tpl->setVariable('VAL_LINK',ilLink::_getLink($a_set['ref_id'],'rcrs'));
@@ -75,7 +77,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
             $p_title = ilObject::_lookupTitle($p_obj_id);
             $p_type = ilObject::_lookupType($p_obj_id);
             $this->tpl->setCurrentBlock('link');
-            $this->tpl->setVariable('LINK_IMG', ilObject::_getIcon('tiny', $p_type, $p_obj_id));
+            $this->tpl->setVariable('LINK_IMG', ilObject::_getIcon($p_obj_id, 'tiny', $p_type));
             $this->tpl->setVariable('LINK_CONTAINER', $p_title);
             $this->tpl->setVariable('LINK_LINK', ilLink::_getLink($parent, $p_type));
             $this->tpl->parseCurrentBlock();
@@ -92,33 +94,33 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TXT_END', $this->lng->txt('ecs_field_end'));
         $this->tpl->setVariable('TXT_LECTURER', $this->lng->txt('ecs_field_lecturer'));
 
-        $settings = ilECSDataMappingSettings::getInstanceByServerId(intval($a_set['sid']));
+        $settings = ilECSDataMappingSettings::getInstanceByServerId((int) $a_set['sid']);
         
         $values = ilECSUtils::getAdvancedMDValuesForObjId($a_set['obj_id']);
         
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'lecturer')) {
-            $this->tpl->setVariable('VAL_LECTURER', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_LECTURER', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'term')) {
-            $this->tpl->setVariable('VAL_TERM', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_TERM', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'courseID')) {
-            $this->tpl->setVariable('VAL_CRS_ID', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_CRS_ID', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'courseType')) {
-            $this->tpl->setVariable('VAL_CRS_TYPE', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_CRS_TYPE', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'credits')) {
-            $this->tpl->setVariable('VAL_CREDITS', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_CREDITS', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'semester_hours')) {
-            $this->tpl->setVariable('VAL_SWS', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_SWS', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'room')) {
-            $this->tpl->setVariable('VAL_ROOM', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_ROOM', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'cycle')) {
-            $this->tpl->setVariable('VAL_CYCLE', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_CYCLE', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'begin')) {
             $this->tpl->setVariable('VAL_START', isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field], IL_CAL_UNIX)) : '--');
@@ -135,7 +137,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
      * @param array array of remote course ids
      *
      */
-    public function parse($a_rcrs)
+    public function parse($a_rcrs) : void
     {
         // Preload object data
         $this->objDataCache->preloadReferenceCache($a_rcrs);
@@ -166,7 +168,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
                     $reader = null;
                 }
 
-                if ($reader and ($participant = $reader->getParticipantByMID($mid))) {
+                if ($reader && ($participant = $reader->getParticipantByMID($mid))) {
                     $tmp_arr['from'] = $participant->getParticipantName();
                     $tmp_arr['from_info'] = $participant->getDescription();
                 }

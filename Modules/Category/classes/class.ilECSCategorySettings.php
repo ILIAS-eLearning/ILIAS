@@ -10,7 +10,7 @@
  */
 class ilECSCategorySettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return '/campusconnect/categories';
     }

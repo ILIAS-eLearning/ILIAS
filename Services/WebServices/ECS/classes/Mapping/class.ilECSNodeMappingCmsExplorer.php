@@ -21,8 +21,8 @@
  */
 class ilECSNodeMappingCmsExplorer extends ilExplorer
 {
-    const SEL_TYPE_CHECK = 1;
-    const SEL_TYPE_RADIO = 2;
+    public const SEL_TYPE_CHECK = 1;
+    public const SEL_TYPE_RADIO = 2;
 
     private $server_id;
     private $mid;
@@ -31,7 +31,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     private array $checked_items = array();
     private string $post_var = '';
     private array $form_items = array();
-    private int $type = 0;
+    private int $type;
 
     public function __construct($a_target, $a_server_id, $a_mid, $a_tree_id)
     {
@@ -53,16 +53,13 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     /**
      * Set cms tree
      */
-    public function setTree(ilECSCmsTree $tree)
+    public function setTree(ilECSCmsTree $tree) : void
     {
         $this->tree = $tree;
     }
 
     /**
      * no item is clickable
-     * @param string $a_type
-     * @param <type> $a_ref_id
-     * @return bool
      */
     public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
@@ -71,38 +68,37 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
     /**
      * Add form item
-     * @param <type> $type
      */
-    public function addFormItemForType($type)
+    public function addFormItemForType($type) : void
     {
         $this->form_items[$type] = true;
     }
 
-    public function removeFormItemForType($type)
+    public function removeFormItemForType($type) : void
     {
         $this->form_items[$type] = false;
     }
 
-    public function setCheckedItems($a_checked_items = array())
+    public function setCheckedItems($a_checked_items = array()) : void
     {
         $this->checked_items = $a_checked_items;
     }
 
-    public function isItemChecked($a_id)
+    public function isItemChecked($a_id) : bool
     {
-        return in_array($a_id, $this->checked_items) ? true : false;
+        return in_array($a_id, $this->checked_items, true) ? true : false;
     }
 
-    public function setPostVar($a_post_var)
+    public function setPostVar($a_post_var) : void
     {
         $this->post_var = $a_post_var;
     }
-    public function getPostVar()
+    public function getPostVar() : string
     {
         return $this->post_var;
     }
 
-    public function buildFormItem($a_node_id, $a_type)
+    public function buildFormItem($a_node_id, $a_type) : string
     {
         if (!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) {
             return '';
@@ -115,9 +111,9 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             $a_node_id
         );
         
-        if ($status == ilECSCmsData::MAPPING_DELETED) {
+        if ($status === ilECSCmsData::MAPPING_DELETED) {
             return ilLegacyFormElementsUtil::formCheckbox(
-                (int) $this->isItemChecked($a_node_id),
+                $this->isItemChecked($a_node_id),
                 $this->post_var,
                 $a_node_id,
                 true
@@ -126,7 +122,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
         switch ($this->type) {
             case self::SEL_TYPE_CHECK:
                 return ilLegacyFormElementsUtil::formCheckbox(
-                    (int) $this->isItemChecked($a_node_id),
+                    $this->isItemChecked($a_node_id),
                     $this->post_var,
                     $a_node_id
                 );
@@ -134,24 +130,27 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
             case self::SEL_TYPE_RADIO:
                 return ilLegacyFormElementsUtil::formRadioButton(
-                    (int) $this->isItemChecked($a_node_id),
+                    $this->isItemChecked($a_node_id),
                     $this->post_var,
                     $a_node_id
                 );
                 break;
         }
+
+        return '';
     }
 
     public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0) : void
     {
-        if (!isset($a_node_id) or !is_array($a_option)) {
-            $this->ilias->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
-                                    "node_id: " . $a_node_id . " options:" . var_dump($a_option), $this->ilias->error_obj->WARNING);
+        global $DIC;
+        if (!isset($a_node_id) || !is_array($a_option)) {
+            $this->error->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
+                                    "node_id: " . $a_node_id . " options:" . print_r($a_option, true), $this->error->WARNING);
         }
 
         $pic = false;
         foreach ($a_option["tab"] as $picture) {
-            if ($picture == 'plus') {
+            if ($picture === 'plus') {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $this->lng->txt("expand"));
                 $target = $this->createTarget('+', $a_node_id);
@@ -162,7 +161,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
                 $pic = true;
             }
 
-            if ($picture == 'minus' && $this->show_minus) {
+            if ($picture === 'minus' && $this->show_minus) {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $this->lng->txt("collapse"));
                 $target = $this->createTarget('-', $a_node_id);
@@ -190,13 +189,13 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             $tpl->parseCurrentBlock();
         }
 
-        if (strlen($formItem = $this->buildFormItem($a_node_id, $a_option['type']))) {
+        if ($formItem = ($this->buildFormItem($a_node_id, $a_option['type']) !== '')) {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->isClickable($a_option["type"], $a_node_id, $a_obj_id)) {	// output link
+        if ($this->isClickable($a_option["type"], $a_node_id)) {	// output link
             $tpl->setCurrentBlock("link");
             //$target = (strpos($this->target, "?") === false) ?
             //	$this->target."?" : $this->target."&";
@@ -205,11 +204,11 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
             $style_class = $this->getNodeStyleClass($a_node_id, $a_option["type"]);
 
-            if ($style_class != "") {
+            if ($style_class !== "") {
                 $tpl->setVariable("A_CLASS", ' class="' . $style_class . '" ');
             }
 
-            if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) != "") {
+            if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) !== "") {
                 $tpl->setVariable("ONCLICK", "onClick=\"$onclick\"");
             }
 
@@ -231,10 +230,9 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
                 )
             );
             $frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
-            if ($frame_target != "") {
+            if ($frame_target !== "") {
                 $tpl->setVariable("TARGET", " target=\"" . $frame_target . "\"");
             }
-            $tpl->parseCurrentBlock();
         } else {			// output text only
             $tpl->setCurrentBlock("text");
             $tpl->setVariable(
@@ -253,8 +251,8 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
                     true
                 )
             );
-            $tpl->parseCurrentBlock();
         }
+        $tpl->parseCurrentBlock();
 
         $tpl->setCurrentBlock("list_item");
         $tpl->parseCurrentBlock();
@@ -285,7 +283,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
         $tpl->setVariable("TXT_ALT_IMG", $title);
         $tpl->parseCurrentBlock();
 
-        if (strlen($formItem = $this->buildFormItem($a_obj_id, $a_option['type']))) {
+        if ($formItem = ($this->buildFormItem($a_obj_id, $a_option['type']) !== '')) {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
@@ -296,10 +294,6 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
     public function buildTitle(string $a_title, $a_id, string $a_type) : string
     {
-        if (strlen($a_title) >= 22) {
-            #$title = substr($title, 0,22).'...';
-        }
-        
         $status = ilECSCmsData::lookupStatusByObjId(
             $this->server_id,
             $this->mid,
@@ -319,12 +313,10 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             case ilECSCmsData::MAPPING_PENDING_NOT_DISCONNECTABLE:
                 return '<font style="font-style: italic">' . $a_title . '</font>';
 
-            case ilECSCmsData::MAPPING_MAPPED:
-                return $a_title;
-
             case ilECSCmsData::MAPPING_DELETED:
                 return '<font class="warning">' . $a_title . '</font>';
 
+            case ilECSCmsData::MAPPING_MAPPED:
             default:
                 return $a_title;
         }

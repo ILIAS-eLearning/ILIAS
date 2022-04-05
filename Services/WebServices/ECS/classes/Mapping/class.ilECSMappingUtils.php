@@ -21,22 +21,19 @@
  */
 class ilECSMappingUtils
 {
-    const MAPPED_WHOLE_TREE = 1;
-    const MAPPED_MANUAL = 2;
-    const MAPPED_UNMAPPED = 3;
+    public const MAPPED_WHOLE_TREE = 1;
+    public const MAPPED_MANUAL = 2;
+    public const MAPPED_UNMAPPED = 3;
     
-    const PARALLEL_ONE_COURSE = 0;
-    const PARALLEL_GROUPS_IN_COURSE = 1;
-    const PARALLEL_ALL_COURSES = 2;
-    const PARALLEL_COURSES_FOR_LECTURERS = 3;
+    public const PARALLEL_ONE_COURSE = 0;
+    public const PARALLEL_GROUPS_IN_COURSE = 1;
+    public const PARALLEL_ALL_COURSES = 2;
+    public const PARALLEL_COURSES_FOR_LECTURERS = 3;
 
     /**
      * Lookup mapping status
-     * @param int $a_server_id
-     * @param int $a_tree_id
-     * @return int
      */
-    public static function lookupMappingStatus($a_server_id, $a_mid, $a_tree_id)
+    public static function lookupMappingStatus(int $a_server_id, int $a_mid, int $a_tree_id) : int
     {
         if (ilECSNodeMappingAssignments::hasAssignments($a_server_id, $a_mid, $a_tree_id)) {
             if (ilECSNodeMappingAssignments::isWholeTreeMapped($a_server_id, $a_mid, $a_tree_id)) {
@@ -55,13 +52,11 @@ class ilECSMappingUtils
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
-        return $lng->txt('ecs_node_mapping_status_' . $a_status);
+        return $DIC['lng']->txt('ecs_node_mapping_status_' . $a_status);
     }
     
     
-    public static function getCourseMappingFieldInfo()
+    public static function getCourseMappingFieldInfo() : array
     {
         global $DIC;
 
@@ -88,7 +83,7 @@ class ilECSMappingUtils
         return $field_info;
     }
     
-    public static function getCourseMappingFieldSelectOptions()
+    public static function getCourseMappingFieldSelectOptions() : array
     {
         global $DIC;
 
@@ -103,11 +98,8 @@ class ilECSMappingUtils
     
     /**
      * Get course value by mapping
-     * @param type $course
-     * @param type $a_field
-     * @return array
      */
-    public static function getCourseValueByMappingAttribute($course, $a_field)
+    public static function getCourseValueByMappingAttribute($course, $a_field) : array
     {
         switch ($a_field) {
             case 'organisation':
@@ -130,7 +122,7 @@ class ilECSMappingUtils
                 $lecturers = array();
                 foreach ((array) $course->groups as $group) {
                     foreach ((array) $group->lecturers as $lecturer) {
-                        $lecturers[] = (string) ($lecturer->lastName . ', ' . $lecturer->firstName);
+                        $lecturers[] = $lecturer->lastName . ', ' . $lecturer->firstName;
                     }
                 }
                 return $lecturers;
@@ -153,7 +145,7 @@ class ilECSMappingUtils
                 return $modules;
                 
             case 'venue':
-                $venues[] = array();
+                $venues = [];
                 foreach ((array) $course->groups as $group) {
                     foreach ((array) $group->datesAndVenues as $venue) {
                         $venues[] = (string) $venue->venue;
@@ -168,7 +160,7 @@ class ilECSMappingUtils
     /**
      * Get role mapping info
      */
-    public static function getRoleMappingInfo($a_role_type_info = 0)
+    public static function getRoleMappingInfo($a_role_type_info = 0) : array
     {
         //KEEP!!! until the defines are turned into proper constants
         include_once './Services/Membership/classes/class.ilParticipants.php';
@@ -206,16 +198,15 @@ class ilECSMappingUtils
         );
         if (!$a_role_type_info) {
             return $roles;
-        } else {
-            return $roles[$a_role_type_info];
         }
+        return $roles[$a_role_type_info];
     }
     
     /**
      * Get auth mode selection
      * @return array
      */
-    public static function getAuthModeSelection()
+    public static function getAuthModeSelection() : array
     {
         global $DIC;
 
