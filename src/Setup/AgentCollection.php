@@ -83,7 +83,7 @@ class AgentCollection implements Agent
     public function getArrayToConfigTransformation() : Transformation
     {
         return $this->refinery->in()->series([
-            $this->refinery->custom()->transformation(function ($in) {
+            $this->refinery->custom()->transformation(function ($in): array {
                 $out = [];
                 foreach ($this->agents as $key => $agent) {
                     if (!$agent->hasConfig()) {
@@ -95,7 +95,7 @@ class AgentCollection implements Agent
                 }
                 return $out;
             }),
-            $this->refinery->custom()->transformation(function ($v) {
+            $this->refinery->custom()->transformation(function ($v): array {
                 return [$v];
             }),
             $this->refinery->to()->toNew(ConfigCollection::class)
@@ -141,7 +141,7 @@ class AgentCollection implements Agent
             "Collected Update Objectives",
             false,
             ...array_values(array_map(
-                function (string $k, Agent $v) use ($config) {
+                function (string $k, Agent $v) use ($config): \ILIAS\Setup\Objective {
                     if ($config) {
                         return $v->getUpdateObjective($config->maybeGetConfig($k));
                     }
@@ -162,7 +162,7 @@ class AgentCollection implements Agent
             "Collected Build Artifact Objectives",
             false,
             ...array_values(array_map(
-                function (Agent $v) {
+                function (Agent $v): \ILIAS\Setup\Objective {
                     return $v->getBuildArtifactObjective();
                 },
                 $this->agents
@@ -179,7 +179,7 @@ class AgentCollection implements Agent
             "Collected Status Objectives",
             false,
             ...array_values(array_map(
-                function (string $k, Agent $v) use ($storage) {
+                function (string $k, Agent $v) use ($storage): \ILIAS\Setup\Objective {
                     return $v->getStatusObjective(
                         new Metrics\StorageOnPathWrapper($k, $storage)
                     );
@@ -215,7 +215,7 @@ class AgentCollection implements Agent
         return array_pop($names);
     }
 
-    protected function checkConfig(Config $config)
+    protected function checkConfig(Config $config): void
     {
         if (!($config instanceof ConfigCollection)) {
             throw new \InvalidArgumentException(

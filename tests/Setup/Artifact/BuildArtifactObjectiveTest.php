@@ -29,12 +29,12 @@ class BuildArtifactObjectiveTest extends TestCase
     /**
      * @var Artifact|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $artifact;
+    protected Artifact $artifact;
 
     /**
      * @var Setup\Environment|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $env;
+    protected Setup\Environment $env;
 
     public function setUp() : void
     {

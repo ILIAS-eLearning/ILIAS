@@ -69,10 +69,13 @@ abstract class CollectedObjective implements Setup\Objective
         return false;
     }
 
+    /**
+     * @return \ILIAS\Setup\Objective\Tentatively[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return array_map(
-            function (Setup\Objective $o) {
+            function (Setup\Objective $o): \ILIAS\Setup\Objective\Tentatively {
                 return new Setup\Objective\Tentatively($o);
             },
             $this->getTentativePreconditions($environment)

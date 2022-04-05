@@ -44,7 +44,7 @@ class BuildArtifactsCommand extends Command
         $this->agent_finder = $agent_finder;
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription("Build static artifacts from source");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the setup.");

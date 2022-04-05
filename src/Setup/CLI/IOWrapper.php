@@ -136,7 +136,7 @@ class IOWrapper implements AdminInteraction
         $this->style->text($text);
     }
 
-    public function startObjective(string $label, bool $is_notable)
+    public function startObjective(string $label, bool $is_notable) : void
     {
         $this->last_objective_was_notable = $is_notable;
         $this->last_objective_label = $label;
@@ -146,7 +146,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    public function finishedLastObjective()
+    public function finishedLastObjective() : void
     {
         if ($this->output_in_objective) {
             $this->startObjective($this->last_objective_label, $this->last_objective_was_notable);
@@ -157,7 +157,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    public function failedLastObjective()
+    public function failedLastObjective() : void
     {
         // Always show label of failed objectives.
         if ($this->output_in_objective || !$this->last_objective_was_notable) {
@@ -177,7 +177,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    protected function showLastObjectiveLabel()
+    protected function showLastObjectiveLabel() : bool
     {
         return $this->last_objective_was_notable
             || $this->out->isVeryVerbose()

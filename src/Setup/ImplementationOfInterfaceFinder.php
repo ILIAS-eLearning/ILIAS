@@ -50,7 +50,8 @@ class ImplementationOfInterfaceFinder
     public function __construct()
     {
         $this->root = substr(__FILE__, 0, strpos(__FILE__, DIRECTORY_SEPARATOR . "src"));
-        $this->classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";
+        $external_classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";
+        $this->classmap = $external_classmap ?: null;
     }
 
     /**
@@ -63,7 +64,6 @@ class ImplementationOfInterfaceFinder
      * @param   string $interface
      * @param   string[] $additional_ignore
      * @param   string|null $matching_path
-     * @return  \Iterator
      */
     public function getMatchingClassNames(
         string $interface,
@@ -97,7 +97,7 @@ class ImplementationOfInterfaceFinder
             "|",
             array_map(
                 // fix path-separators to respect windows' backspaces.
-                function ($v) {
+                function ($v): string {
                     return "(" . str_replace('/', '(/|\\\\)', $v) . ")";
                 },
                 $ignore

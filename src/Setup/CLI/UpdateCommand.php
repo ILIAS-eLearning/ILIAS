@@ -57,7 +57,7 @@ class UpdateCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription("Updates an existing ILIAS installation");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the update");

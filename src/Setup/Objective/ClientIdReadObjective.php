@@ -73,7 +73,7 @@ class ClientIdReadObjective implements Setup\Objective
         $dir = $this->getDataDirectoryPath();
         $candidates = array_filter(
             $this->scanDirectory($dir),
-            function ($c) use ($dir) {
+            function ($c) use ($dir): bool {
                 if ($c == "." || $c == "..") {
                     return false;
                 }

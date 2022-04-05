@@ -41,18 +41,12 @@ class AchieveCommand extends Command
     use HasAgent;
     use HasConfigReader;
     use ObjectiveHelper;
-
+    
     protected static $defaultName = "achieve";
-
-    /**
-     * var Objective[]
-     */
-    protected $preconditions;
-
-    /**
-     * @var Refinery|null
-     */
-    protected $refinery;
+    
+    protected array $preconditions = [];
+    
+    protected Refinery $refinery;
 
     /**
      * @var Objective[] $preconditions will be achieved before command invocation
@@ -69,8 +63,8 @@ class AchieveCommand extends Command
         $this->preconditions = $preconditions;
         $this->refinery = $refinery;
     }
-
-    public function configure()
+    
+    protected function configure() : void
     {
         $this->setDescription("Achieve a named objective from an agent.");
         $this->addArgument(
@@ -89,8 +83,8 @@ class AchieveCommand extends Command
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the objective.");
         $this->addOption("list", null, InputOption::VALUE_NONE, "Lists all achievable objectives");
     }
-
-    public function execute(InputInterface $input, OutputInterface $output) : int
+    
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -111,7 +105,7 @@ class AchieveCommand extends Command
             (
                 $input->getOption("list") !== null
                 && is_bool($input->getOption("list"))
-                && (bool) $input->getOption("list")
+                && $input->getOption("list")
             )
             ||
             (

@@ -95,7 +95,7 @@ final class Metric
         $this->description = $description;
     }
 
-    protected function checkStability($stability, $type)
+    protected function checkStability(string $stability, string $type) : void
     {
         if (
             $stability !== self::STABILITY_CONFIG
@@ -109,7 +109,7 @@ final class Metric
         }
     }
 
-    protected function checkType($type)
+    protected function checkType($type) : void
     {
         if (
             $type !== self::TYPE_BOOL
@@ -125,7 +125,7 @@ final class Metric
         }
     }
 
-    protected function checkValue($type, $value)
+    protected function checkValue($type, $value) : void
     {
         if (
             ($type === self::TYPE_BOOL && !is_bool($value))
@@ -203,7 +203,7 @@ final class Metric
                 return implode(
                     "\n",
                     array_map(
-                        function (string $k, Metric $v) use ($indentation) {
+                        function (string $k, Metric $v) use ($indentation): string {
                             if ($v->getType() === self::TYPE_COLLECTION) {
                                 $split = "\n";
                             } else {
@@ -257,7 +257,7 @@ final class Metric
         }
     }
 
-    protected function getIndentation(int $indentation = 0)
+    protected function getIndentation(int $indentation = 0) : string
     {
         $res = "";
         while ($indentation--) {

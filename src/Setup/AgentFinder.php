@@ -53,9 +53,6 @@ interface AgentFinder
 
     /**
      * Derive a name for the agent based on a class name.
-     *
-     * @param string $class_name
-     * @return string
      */
     public function getAgentNameByClassName(string $class_name) : string;
 }

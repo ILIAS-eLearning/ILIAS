@@ -32,7 +32,7 @@ class MetricTest extends TestCase
     /**
      * @dataProvider metricProvider
      */
-    public function testConstructMetric($stability, $type, $value, $description, $success) : void
+    public function testConstructMetric(string $stability, string $type, $value, string $description, bool $success) : void
     {
         if (!$success) {
             $this->expectException(\InvalidArgumentException::class);

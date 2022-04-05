@@ -23,7 +23,7 @@ use ILIAS\UI\Component\Input\Field\Input as Input;
 
 trait Helper
 {
-    protected function newAgent()
+    protected function newAgent() : Setup\Agent
     {
         static $no = 0;
 
@@ -44,7 +44,7 @@ trait Helper
         });
     }
 
-    protected function newObjective()
+    protected function newObjective() : Setup\Objective
     {
         static $no = 0;
 
@@ -61,7 +61,7 @@ trait Helper
         return $goal;
     }
 
-    protected function newInput()
+    protected function newInput() : Input
     {
         static $no = 0;
 
@@ -74,7 +74,7 @@ trait Helper
         return $input;
     }
 
-    protected function newConfig()
+    protected function newConfig() : Setup\Config
     {
         static $no = 0;
 

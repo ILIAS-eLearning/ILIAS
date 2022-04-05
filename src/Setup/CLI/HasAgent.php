@@ -29,7 +29,7 @@ trait HasAgent
 {
     protected ?AgentFinder $agent_finder = null;
 
-    protected function configureCommandForPlugins()
+    protected function configureCommandForPlugins() : void
     {
         $this->addOption("plugin", null, InputOption::VALUE_REQUIRED, "Name of the plugin to run the command for.");
         $this->addOption("no-plugins", null, InputOption::VALUE_NONE, "Ignore all plugins when running the command.");

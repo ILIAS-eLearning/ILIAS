@@ -25,10 +25,7 @@ use ILIAS\Setup;
  */
 class ArrayArtifact implements Setup\Artifact
 {
-    /**
-     * @var array
-     */
-    private $data = [];
+    private array $data = [];
 
     /**
      * @param array  $data - may only contain primitive data
@@ -45,7 +42,7 @@ class ArrayArtifact implements Setup\Artifact
         return "<?" . "php return " . var_export($this->data, true) . ";";
     }
 
-    private function check(array $a)
+    private function check(array $a): void
     {
         foreach ($a as $item) {
             if (is_string($item) || is_int($item) || is_float($item) || is_bool($item) || is_null($item)) {

@@ -45,7 +45,7 @@ class InstallCommand extends Command
     /**
      * var Objective[]
      */
-    protected array $preconditions;
+    protected array $preconditions = [];
 
     /**
      * @var Objective[] $preconditions will be achieved before command invocation
@@ -58,7 +58,7 @@ class InstallCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription("Creates a fresh ILIAS installation based on the config");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");

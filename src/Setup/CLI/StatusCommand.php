@@ -43,7 +43,7 @@ class StatusCommand extends Command
         $this->agent_finder = $agent_finder;
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription("Collect and show status information about the installation.");
         $this->configureCommandForPlugins();

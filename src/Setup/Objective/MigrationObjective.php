@@ -30,7 +30,6 @@ class MigrationObjective implements Setup\Objective
 
     /**
      * MigrationObjective constructor.
-     * @param Setup\Migration $migration
      * @param int|null        $steps
      */
     public function __construct(Setup\Migration $migration, int $steps = null)

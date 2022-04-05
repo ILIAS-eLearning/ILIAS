@@ -54,7 +54,7 @@ class MigrateCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription("Starts and manages migrations needed after an update of ILIAS");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");

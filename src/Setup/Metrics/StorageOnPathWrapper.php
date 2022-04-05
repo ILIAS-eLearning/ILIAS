@@ -22,15 +22,8 @@ class StorageOnPathWrapper implements Storage
 {
     use StorageConvenience;
 
-    /**
-     * @var string
-     */
-    protected $path;
-
-    /**
-     * @var Storage
-     */
-    protected $other;
+    protected string $path;
+    protected Storage $other;
 
     public function __construct(string $path, Storage $other)
     {

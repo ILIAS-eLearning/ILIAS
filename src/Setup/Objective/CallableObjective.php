@@ -79,6 +79,7 @@ class CallableObjective implements Setup\Objective
 
     /**
      * @inheritdocs
+     * @return \ILIAS\Setup\Objective[]
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {

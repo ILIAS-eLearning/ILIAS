@@ -24,7 +24,7 @@ class CanCreateDirectoriesInDirectoryCondition extends ExternalConditionObjectiv
 {
     const PROBE_NAME = "probe_for_directory_creation";
 
-    public function __construct($which)
+    public function __construct(string $which)
     {
         return parent::__construct(
             "Can create directories in '$which'",

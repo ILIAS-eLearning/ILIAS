@@ -24,7 +24,7 @@ class CanCreateFilesInDirectoryCondition extends ExternalConditionObjective
 {
     const PROBE_NAME = "probe_for_file_creation";
 
-    public function __construct($which)
+    public function __construct(string $which)
     {
         return parent::__construct(
             "Can create files in '$which'",

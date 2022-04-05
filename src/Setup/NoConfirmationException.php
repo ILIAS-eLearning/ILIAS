@@ -31,7 +31,7 @@ class NoConfirmationException extends \RuntimeException
         $this->confirmation = $confirmation;
     }
 
-    public function getRequestedConfirmation()
+    public function getRequestedConfirmation() : string
     {
         return $this->confirmation;
     }
