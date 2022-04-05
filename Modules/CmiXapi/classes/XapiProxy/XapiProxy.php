@@ -246,7 +246,8 @@
                 }
             }
         }
-
+	
+	/*
         private function isSubStatementCheck($obj) {
             if (
                 isset($obj->context) &&
@@ -254,6 +255,51 @@
                 is_array($obj->context->contextActivities->parent)
             ) {
                 $this->log()->debug($this->msg("is Substatement"));
+                return true;
+            }
+            else {
+                $this->log()->debug($this->msg("is not Substatement"));
+                return false;
+            }
+        }
+	*/
+	
+	private function isSubStatementCheck($obj) {
+            $subStatementValidation = false;
+            $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId()); // get ActivityId in Constructor for better performance, is also used in handleEvaluationStatement
+            $objActivityId = $object->getActivityId();
+            $statementActivityId = $obj->object->id;
+            if ($statementActivityId != $objActivityId) {
+                $this->log()->debug($this->msg("statement object id " . $statementActivityId . " != activityId " . $objActivityId));
+                $this->log()->debug($this->msg("is Substatement"));
+                if ($subStatementValidation) {
+                    $activityFound = false;
+                    if ( isset($obj->context) && isset($obj->context->contextActivities) )
+                    {
+                        if ( is_array($obj->context->contextActivities->parent) )
+                        {
+                            foreach ($obj->context->contextActivities->parent as $p) {
+                                if ($p->id == $objActivityId) {
+                                    $activityFound = true;
+                                    $this->log()->debug($this->msg("activityId found in parent"));
+                                    break;
+                                }
+                            }
+                        }
+                        if ( !$activityFound && is_array($obj->context->contextActivities->grouping) ) {
+                            foreach ($obj->context->contextActivities->grouping as $g) {
+                                if ($g->id == $objActivityId) {
+                                    $activityFound = true;
+                                    $this->log()->debug($this->msg("activityId found in grouping"));
+                                    break;
+                                }
+                            }
+                        }
+                        if (!$activityFound) {
+                            $this->log()->warning($this->msg("no valid activityId found in statement"));
+                        }
+                    }
+                }
                 return true;
             }
             else {
