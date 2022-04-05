@@ -6,7 +6,6 @@ namespace ILIAS\Setup;
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use Symfony\Component\Mime\Exception\LogicException;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**

@@ -159,7 +159,7 @@ class ImplementationOfAgentFinder implements AgentFinder
     }
 
     /**
-     * @return Generator <string>
+     * @return \Generator <string>
      */
     protected function getPluginNames() : \Generator
     {
