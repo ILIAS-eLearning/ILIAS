@@ -1,17 +1,17 @@
 <?php
-
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilPDSelectedItemsBlockViewSettings
@@ -50,12 +50,14 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     protected static array $availableSortOptionsByView = [
         self::VIEW_SELECTED_ITEMS => [
             self::SORT_BY_LOCATION,
-            self::SORT_BY_TYPE
+            self::SORT_BY_TYPE,
+            self::SORT_BY_ALPHABET,
         ],
         self::VIEW_MY_MEMBERSHIPS => [
             self::SORT_BY_LOCATION,
             self::SORT_BY_TYPE,
-            self::SORT_BY_START_DATE
+            self::SORT_BY_START_DATE,
+            self::SORT_BY_ALPHABET,
         ],
         self::VIEW_MY_STUDYPROGRAMME => []
     ];
@@ -153,6 +155,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         return self::SORT_BY_TYPE;
     }
 
+    public function getSortByAlphabetMode() : string
+    {
+        return self::SORT_BY_ALPHABET;
+    }
+
     public function getAvailableSortOptionsByView(int $view) : array
     {
         return self::$availableSortOptionsByView[$view];
@@ -177,6 +184,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function isSortedByType() : bool
     {
         return $this->currentSortOption === $this->getSortByTypeMode();
+    }
+
+    public function isSortedByAlphabet() : bool
+    {
+        return $this->currentSortOption === $this->getSortByAlphabetMode();
     }
 
     public function isSortedByLocation() : bool
