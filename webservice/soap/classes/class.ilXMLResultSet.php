@@ -38,7 +38,7 @@ class ilXMLResultSet
 
     public function getColumnName(int $index) : ?string
     {
-        if (is_numeric($index) && ($index < 0 || $index > count($this->colspecs))) {
+        if ($index < 0 || $index > count($this->colspecs)) {
             return null;
         }
         return $this->colspecs[$index] instanceof ilXMLResultSetColumn ? $this->colspecs[$index]->getName() : null;
@@ -49,7 +49,7 @@ class ilXMLResultSet
      */
     public function addColumn(string $columnname) : void
     {
-        $this->colspecs [count($this->colspecs)] = new ilXMLResultSetColumn(count($this->colspecs), $columnname);
+        $this->colspecs[] = new ilXMLResultSetColumn(count($this->colspecs), $columnname);
     }
 
     /**
@@ -59,7 +59,7 @@ class ilXMLResultSet
     {
         $idx = 0;
         foreach ($this->colspecs as $colspec) {
-            if (strcasecmp($columnname, $colspec->getName()) == 0) {
+            if (strcasecmp($columnname, $colspec->getName()) === 0) {
                 return $idx;
             }
             $idx++;
@@ -72,7 +72,7 @@ class ilXMLResultSet
      */
     public function hasColumn(string $columnname) : bool
     {
-        return $this->getIndexForColumn($columnname) != -1;
+        return $this->getIndexForColumn($columnname) !== -1;
     }
 
     /**

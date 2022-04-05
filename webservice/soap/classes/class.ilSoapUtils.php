@@ -50,8 +50,8 @@ class ilSoapUtils extends ilSoapAdministration
         global $DIC;
         $logger = $DIC->logger->wsrv();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once 'Services/Mail/classes/class.ilMail.php';
@@ -67,42 +67,39 @@ class ilSoapUtils extends ilSoapAdministration
                 foreach (libxml_get_errors() as $err) {
                     $error .= ($err->message . ' ');
                 }
-                return $this->__raiseError($error, 'CLIENT');
+                return $this->raiseError($error, 'CLIENT');
             }
             $parser->start();
         } catch (InvalidArgumentException|ilSaxParserException $e) {
             $logger->warning($e->getMessage());
-            return $this->__raiseError($e->getMessage(), 'CLIENT');
+            return $this->raiseError($e->getMessage(), 'CLIENT');
         }
         $mails = $parser->getMails();
         $ilUser = $DIC->user();
 
         foreach ($mails as $mail) {
-            // Prepare attachments
             include_once './Services/Mail/classes/class.ilFileDataMail.php';
             $file = new ilFileDataMail($ilUser->getId());
             $attachments = [];
             foreach ((array) $mail['attachments'] as $attachment) {
-                // TODO: Error handling
                 $file->storeAsAttachment($attachment['name'], $attachment['content']);
                 $attachments[] = ilFileUtils::_sanitizeFilemame($attachment['name']);
             }
 
             $mail_obj = new ilMail($ilUser->getId());
             $mail_obj->setSaveInSentbox(true);
-            $mail_obj->saveAttachments((array) $attachments);
+            $mail_obj->saveAttachments($attachments);
             $mail_obj->enqueue(
                 implode(',', (array) $mail['to']),
                 implode(',', (array) $mail['cc']),
                 implode(',', (array) $mail['bcc']),
                 $mail['subject'],
                 implode("\n", (array) $mail['body']),
-                (array) $attachments,
+                $attachments,
                 (bool) $mail['usePlaceholders']
             );
 
-            // Finally unlink attachments
-            foreach ((array) $attachments as $att) {
+            foreach ($attachments as $att) {
                 $file->unlinkFile($att);
             }
             $mail_obj->savePostData(
@@ -112,8 +109,7 @@ class ilSoapUtils extends ilSoapAdministration
                 '',
                 '',
                 '',
-                '',
-                false
+                ''
             );
         }
         return true;
@@ -124,8 +120,8 @@ class ilSoapUtils extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -137,8 +133,8 @@ class ilSoapUtils extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -154,8 +150,8 @@ class ilSoapUtils extends ilSoapAdministration
             $this->initAuth($sid);
             $this->initIlias();
 
-            if (!$this->__checkSession($sid)) {
-                return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+            if (!$this->checkSession($sid)) {
+                return $this->raiseError($this->getMessage(), $this->getMessageCode());
             }
         }
 
@@ -217,8 +213,8 @@ class ilSoapUtils extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            ilLoggerFactory::getLogger('obj')->error('Object cloning failed. Invalid session given: ' . $this->__getMessage());
+        if (!$this->checkSession($sid)) {
+            ilLoggerFactory::getLogger('obj')->error('Object cloning failed. Invalid session given: ' . $this->getMessage());
         }
 
         global $DIC;
@@ -295,10 +291,8 @@ class ilSoapUtils extends ilSoapAdministration
             return $default_mode;
         }
 
-        if ($this->findMappedReferenceForNode($cpo, $node)) {
-            if ($default_mode == \ilCopyWizardOptions::COPY_WIZARD_COPY) {
-                return \ilCopyWizardOptions::COPY_WIZARD_LINK_TO_TARGET;
-            }
+        if ($this->findMappedReferenceForNode($cpo, $node) && $default_mode == \ilCopyWizardOptions::COPY_WIZARD_COPY) {
+            return \ilCopyWizardOptions::COPY_WIZARD_LINK_TO_TARGET;
         }
         return $default_mode;
     }
@@ -317,7 +311,7 @@ class ilSoapUtils extends ilSoapAdministration
             $logger->debug('Validating node: ' . $ref_id . ' and root ' . $root);
             $logger->dump($DIC->repositoryTree()->getRelation($ref_id, $root));
 
-            if ($DIC->repositoryTree()->getRelation($ref_id, $root) != \ilTree::RELATION_CHILD) {
+            if ($DIC->repositoryTree()->getRelation($ref_id, $root) !== \ilTree::RELATION_CHILD) {
                 $logger->debug('Ignoring non child relation');
                 continue;
             }
@@ -403,7 +397,7 @@ class ilSoapUtils extends ilSoapAdministration
             return 0;
         }
 
-        $orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
+        $orig = ilObjectFactory::getInstanceByRefId($source_id);
         $new_obj = $orig->cloneObject((int) $target_id, $cp_options->getCopyId());
 
         if (!is_object($new_obj)) {
@@ -437,7 +431,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
         $target_id = $mappings[$source_id];
 
-        $orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
+        $orig = ilObjectFactory::getInstanceByRefId($source_id);
         $orig->cloneDependencies($target_id, $cp_options->getCopyId());
     }
 
@@ -516,7 +510,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
         $target_id = $mappings[$parent_id];
 
-        $orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
+        $orig = ilObjectFactory::getInstanceByRefId($source_id);
         $new_ref_id = $orig->createReference();
         $orig->putInTree($target_id);
         $orig->setPermissions($target_id);
@@ -545,8 +539,8 @@ class ilSoapUtils extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
@@ -569,7 +563,7 @@ class ilSoapUtils extends ilSoapAdministration
      * @param int    $usr_id User id of the actuator
      * @return    bool
      */
-    public function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id)
+    public function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id) : bool
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -591,7 +585,7 @@ class ilSoapUtils extends ilSoapAdministration
          * a new registration with the same login name in a few seconds ;-)
          *
          */
-        if ((int) $usr_id > 0) {
+        if ($usr_id > 0) {
             $query .= 'SELECT usr_id, create_date, reg_hash FROM usr_data '
                 . 'WHERE active = 0 '
                 . 'AND reg_hash IS NOT NULL '
@@ -616,15 +610,16 @@ class ilSoapUtils extends ilSoapAdministration
 
         $num_deleted_users = 0;
         while ($row = $ilDB->fetchAssoc($res)) {
-            if ($row['usr_id'] == ANONYMOUS_USER_ID || $row['usr_id'] == SYSTEM_USER_ID) {
-                continue;
-            }
-            if (!strlen($row['reg_hash'])) {
+            if ((int) $row['usr_id'] === ANONYMOUS_USER_ID || (int) $row['usr_id'] === SYSTEM_USER_ID) {
                 continue;
             }
 
-            if ((int) $oRegSettigs->getRegistrationHashLifetime() > 0 &&
-                $row['create_date'] != '' &&
+            if (($row['reg_hash'] ?? '') === '') {
+                continue;
+            }
+
+            if (($row['create_date'] ?? '') !== '' &&
+                $oRegSettigs->getRegistrationHashLifetime() > 0 &&
                 time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
                 $user = ilObjectFactory::getInstanceByObjId($row['usr_id'], false);
                 if ($user instanceof ilObjUser) {

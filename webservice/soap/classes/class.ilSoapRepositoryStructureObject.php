@@ -61,14 +61,16 @@ class ilSoapRepositoryStructureObject extends ilSoapStructureObject
         return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() . "_" . $this->getRefId() . "&client_id=" . CLIENT_ID;
     }
 
+    /**
+     * @return array{type: string, ref_id: int, obj_id: int}
+     */
     public function _getXMLAttributes() : array
     {
-        $attrs = array('type' => $this->getType(),
-                       'obj_id' => $this->getObjId(),
-                       'ref_id' => $this->getRefId()
-        );
-
-        return $attrs;
+        return [
+            'type' => $this->getType(),
+            'obj_id' => $this->getObjId(),
+            'ref_id' => $this->getRefId()
+        ];
     }
 
     public function _getTagName() : string
