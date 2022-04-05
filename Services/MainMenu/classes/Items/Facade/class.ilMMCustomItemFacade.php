@@ -22,7 +22,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
  */
 class ilMMCustomItemFacade extends ilMMAbstractItemFacade
 {
-    
     protected ?ilMMCustomItemStorage $custom_item_storage;
     
     protected string $action = '';

@@ -26,7 +26,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
  */
 abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 {
-    
     protected bool $role_based_visibility = false;
     
     protected array $global_role_ids = [];
@@ -50,11 +49,11 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         IdentificationInterface $identification,
         Main $collector
     ) {
-        $this->identification   = $identification;
-        $this->raw_item          = $collector->getSingleItemFromRaw($identification);
-        $this->filtered_item          = $collector->getSingleItemFromFilter($identification);
+        $this->identification = $identification;
+        $this->raw_item = $collector->getSingleItemFromRaw($identification);
+        $this->filtered_item = $collector->getSingleItemFromFilter($identification);
         $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->raw_item));
-        $this->mm_item          = ilMMItemStorage::register($this->raw_item);
+        $this->mm_item = ilMMItemStorage::register($this->raw_item);
     }
     
     public function getId() : string
@@ -401,7 +400,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if ($this->isDeletable()) {
             $this->deleteAssociatedTranslations();
             $serialize = $this->identification->serialize();
-            $mm        = ilMMItemStorage::find($serialize);
+            $mm = ilMMItemStorage::find($serialize);
             if ($mm instanceof ilMMItemStorage) {
                 $mm->delete();
             }

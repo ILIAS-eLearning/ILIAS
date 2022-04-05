@@ -34,5 +34,4 @@ class ilMMStorageStakeholder extends AbstractResourceStakeholder
     {
         return 6;
     }
-
 }

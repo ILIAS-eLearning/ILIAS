@@ -19,7 +19,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
  */
 class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 {
-    
     private static StandardTopItemsProvider $instance;
 
     private BasicAccessCheckClosures $basic_access_helper;
@@ -40,7 +39,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @return StandardTopItemsProvider
      */
-    public static function getInstance():StandardTopItemsProvider
+    public static function getInstance() : StandardTopItemsProvider
     {
         global $DIC;
         if (!isset(self::$instance)) {

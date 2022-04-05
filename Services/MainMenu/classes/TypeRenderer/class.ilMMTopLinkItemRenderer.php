@@ -16,5 +16,4 @@ class ilMMTopLinkItemRenderer extends TopLinkItemRenderer
     {
         return parent::getComponentWithContent($this->addDisengageDecorator($item));
     }
-
 }

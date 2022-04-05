@@ -25,7 +25,6 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
 {
-
     protected array $links = [];
 
     const F_ACTION = 'action';

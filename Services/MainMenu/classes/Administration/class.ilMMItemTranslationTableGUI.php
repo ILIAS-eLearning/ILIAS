@@ -18,7 +18,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
      */
     public function __construct(ilMMItemTranslationGUI $a_parent_obj, ilMMItemFacadeInterface $item_facade)
     {
-        $table_id          = self::class;
+        $table_id = self::class;
         $this->item_facade = $item_facade;
         $this->setId($table_id);
         $this->setPrefix($table_id);

@@ -12,7 +12,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
  */
 class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeInterface
 {
-    
     private ?string $parent_identification = "";
     private bool $active_status;
     protected bool $top_item = false;
@@ -156,5 +155,4 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     {
         return true;
     }
-
 }

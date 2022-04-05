@@ -6,7 +6,6 @@
  */
 class ilMMTabHandling
 {
-    
     private int $ref_id;
     
     private ilRbacSystem $rbacsystem;
@@ -28,12 +27,12 @@ class ilMMTabHandling
         global $DIC;
         
         $this->ref_id = $ref_id;
-        $this->tabs   = $DIC['ilTabs'];
-        $this->lng    = $DIC->language();
+        $this->tabs = $DIC['ilTabs'];
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('mme');
-        $this->ctrl       = $DIC['ilCtrl'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->help       = $DIC->help();
+        $this->help = $DIC->help();
     }
     
     public function initTabs(

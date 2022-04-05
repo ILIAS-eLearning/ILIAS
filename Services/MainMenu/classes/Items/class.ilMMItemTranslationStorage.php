@@ -21,7 +21,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
             return new self();
         }
         $language_identification = "{$identification->serialize()}|$language_key";
-        $mt                      = ilMMItemTranslationStorage::find($language_identification);
+        $mt = ilMMItemTranslationStorage::find($language_identification);
         if (!$mt instanceof ilMMItemTranslationStorage) {
             $mt = new ilMMItemTranslationStorage();
             $mt->setId($language_identification);

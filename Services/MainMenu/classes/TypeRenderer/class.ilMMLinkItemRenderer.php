@@ -16,5 +16,4 @@ class ilMMLinkItemRenderer extends LinkItemRenderer
     {
         return parent::getComponentWithContent($this->addDisengageDecorator($item));
     }
-
 }

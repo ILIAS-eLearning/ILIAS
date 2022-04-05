@@ -19,7 +19,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
  */
 class ilMMItemRepository
 {
-    
     private ilDBInterface $db;
 
     private ilGlobalCache $cache;
@@ -35,8 +34,8 @@ class ilMMItemRepository
     public function __construct()
     {
         global $DIC;
-        $this->cache          = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
-        $this->db             = $DIC->database();
+        $this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+        $this->db = $DIC->database();
         $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
         $this->main_collector->collectOnce();
         $this->services = $DIC->globalScreen();
@@ -92,7 +91,7 @@ class ilMMItemRepository
      */
     public function getSubItemsForTable() : array
     {
-        $r      = $this->db->query(
+        $r = $this->db->query(
             "SELECT sub_items.*, top_items.position AS parent_position
 FROM il_mm_items AS sub_items
 LEFT JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification
@@ -177,7 +176,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
             $parents = [];
             foreach ($this->getTopItems() as $top_item_identification => $data) {
                 $identification = $this->services->identification()->fromSerializedIdentification($top_item_identification);
-                $item           = $this->getSingleItem($identification);
+                $item = $this->getSingleItem($identification);
                 if ($item instanceof TopParentItem) {
                     $parents[$top_item_identification] = $this->getItemFacade($identification)
                                                               ->getDefaultTitle();

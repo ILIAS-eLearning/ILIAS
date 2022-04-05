@@ -57,17 +57,17 @@ class ilMMAbstractItemGUI
     {
         global $DIC;
         
-        $this->repository   = new ilMMItemRepository();
+        $this->repository = new ilMMItemRepository();
         $this->tab_handling = $tab_handling;
-        $this->tabs         = $DIC['ilTabs'];
-        $this->lng          = $DIC->language();
-        $this->ctrl         = $DIC['ilCtrl'];
-        $this->tpl          = $DIC['tpl'];
-        $this->tree         = $DIC['tree'];
-        $this->toolbar      = $DIC['ilToolbar'];
-        $this->http         = $DIC->http();
-        $this->ui           = $DIC->ui();
-        $this->access       = new ilObjMainMenuAccess();
+        $this->tabs = $DIC['ilTabs'];
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tpl = $DIC['tpl'];
+        $this->tree = $DIC['tree'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->http = $DIC->http();
+        $this->ui = $DIC->ui();
+        $this->access = new ilObjMainMenuAccess();
         
         $this->lng->loadLanguageModule('form');
     }
@@ -86,7 +86,7 @@ class ilMMAbstractItemGUI
             return $cmd;
         }
         
-        $r    = $this->http->request();
+        $r = $this->http->request();
         $post = $r->getParsedBody();
         
         if ($cmd == "" && isset($post['interruptive_items'])) {
@@ -104,12 +104,12 @@ class ilMMAbstractItemGUI
      */
     protected function getMMItemFromRequest() : ilMMItemFacadeInterface
     {
-        $r    = $this->http->request();
-        $get  = $r->getQueryParams();
+        $r = $this->http->request();
+        $get = $r->getQueryParams();
         $post = $r->getParsedBody();
         
         if (isset($post['interruptive_items'])) {
-            $string         = $post['interruptive_items'][0];
+            $string = $post['interruptive_items'][0];
             $identification = $this->unhash($string);
         } else {
             $identification = $this->unhash($get[self::IDENTIFIER]);
