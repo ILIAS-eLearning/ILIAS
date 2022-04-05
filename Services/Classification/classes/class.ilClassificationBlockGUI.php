@@ -79,7 +79,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
         
         $cmd = $ilCtrl->getCmd();
         $next_class = $ilCtrl->getNextClass($this);
-        
+
+        // PHP8-Review: 'switch' with single 'case'
         switch ($next_class) {
             default:
                 // explorer call
@@ -101,7 +102,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
         if ($ilCtrl->isAsynch()) {
             return "";
         }
-                
+
+        // PHP8-Review: 'switch' with single 'case'
         switch ($ilCtrl->getCmd()) {
             case "filterContainer":
                 return IL_SCREEN_CENTER;
@@ -140,7 +142,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
         exit();
     }
-    
+
+    // PHP8-Review: Method visibility should not be overridden
     public function getLegacyContent() : string
     {
         $tpl = $this->main_tpl;
