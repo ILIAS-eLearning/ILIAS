@@ -64,7 +64,7 @@ class ilImageMagickRenderer extends ilFilePreviewRenderer
     {
         $filepath = $obj->getFile();
         $tmpPath = $this->prepareFileForExec($filepath);
-        $isTemporary = $tmpPath != $filepath;
+        $isTemporary = $tmpPath !== $filepath;
         return array(new ilRenderedImage($tmpPath . "[0]", $isTemporary));
     }
 }

@@ -278,7 +278,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('info', $lng->txt("ghostscript_not_configured"));
         }
 
-        $renderers = ilRendererFactory::getRenderers();
+        $factory = new ilRendererFactory();
+        $renderers = $factory->getRenderers();
         $array_wrapper = array_map(function (ilFilePreviewRenderer $renderer) : array {
             return [
                 'name' => $renderer->getName(),
