@@ -61,8 +61,6 @@ class ilLPStatusFactory
                     return self::_getClassById($a_obj_id, $mode);
                 }
             } else {
-                // PHP8-Review: Expression result is not used anywhere
-                self::includeClass($class);
                 self::$class_by_obj_id[$a_obj_id] = $class;
                 return $class;
             }
@@ -73,21 +71,12 @@ class ilLPStatusFactory
         $factory->getLogger()->logStack(ilLogLevel::ERROR, $message);
         throw new ilInvalidLPStatusException($message);
     }
-
-    protected static function includeClass(string $a_class) : void
-    {
-        $path = ($a_class == 'ilLPStatus')
-            ? 'Services/Tracking/classes/'
-            : 'Services/Tracking/classes/status/';
-    }
-
+    
     public static function _getClassByIdAndType(int $a_obj_id, string $a_type) : string
     {
         // id is ignored in the moment
         switch ($a_type) {
             case 'event':
-                // PHP8-Review: Expression result is not used anywhere
-                self::includeClass('ilLPStatusEvent');
                 return 'ilLPStatusEvent';
 
             default:
@@ -118,8 +107,6 @@ class ilLPStatusFactory
                     return self::_getInstance($a_obj_id, $mode);
                 }
             } else {
-                // PHP8-Review: Expression result is not used anywhere
-                self::includeClass($class);
                 return new $class($a_obj_id);
             }
         }

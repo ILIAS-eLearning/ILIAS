@@ -83,8 +83,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         // show back to list
         $crs_id = 0;
         if ($this->http->wrapper()->query()->has('crs_id')) {
-            // PHP8-Review: Required parameter '$transformation' missing
             $crs_id = $this->http->wrapper()->query()->retrieve(
+                'crs_id',
                 $this->refinery->kindlyTo()->int()
             );
         }
