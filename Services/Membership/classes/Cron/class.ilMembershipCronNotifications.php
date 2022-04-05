@@ -128,7 +128,6 @@ class ilMembershipCronNotifications extends ilCronJob
         }
 
         ilDatePresentation::setUseRelativeDates($old_dt);
-        $lng = $old_lng;
 
         $this->logger->debug("save run");
 
@@ -410,7 +409,7 @@ class ilMembershipCronNotifications extends ilCronJob
         $counter = 0;
         $obj_index = array();
         $txt = "";
-        foreach ($tmp as $path => $item) {
+        foreach ($tmp as $item) {
             $counter++;
 
             $txt .= "(" . $counter . ") " . $item["title"] . "\n" .

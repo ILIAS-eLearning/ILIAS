@@ -42,7 +42,6 @@ class ilObjectCustomUserFieldHistory
     }
 
     /**
-     * @param int $a_obj_id
      * @return array<int, array<{update_user: int, editing_time: ilDateTime}>>
      * @throws ilDateTimeException
      */

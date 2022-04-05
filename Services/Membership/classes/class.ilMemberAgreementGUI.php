@@ -34,8 +34,6 @@ class ilMemberAgreementGUI
 
     protected GlobalHttpState $http;
     protected Factory $refinery;
-
-    private ilDBInterface $db;
     private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;

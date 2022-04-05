@@ -26,7 +26,6 @@ interface ilMembershipRegistrationCodes
 {
     /**
      * Lookup all objects with reg_access_code enabled and
-     * @param string $a_code
      * @return int[]
      */
     public static function lookupObjectsByCode(string $a_code) : array;

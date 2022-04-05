@@ -185,9 +185,6 @@ class ilMemberExport
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getOrderedExportableFields() : array
     {
         $field_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
@@ -414,7 +411,7 @@ class ilMemberExport
         }
         if ($this->settings->enabled('subscribers')) {
             $this->user_ids = array_merge($tmp_ids = $this->members->getSubscribers(), $this->user_ids);
-            $this->readCourseData($tmp_ids, 'subscriber');
+            $this->readCourseData($tmp_ids);
         }
         if ($this->settings->enabled('waiting_list')) {
             $waiting_list = new ilCourseWaitingList($this->obj_id);
@@ -433,9 +430,8 @@ class ilMemberExport
      * Read All User related course data
      * @param int[]
      * @param string
-     * @return void
      */
-    private function readCourseData(array $a_user_ids, string $a_status = 'member') : void
+    private function readCourseData(array $a_user_ids) : void
     {
         foreach ($a_user_ids as $user_id) {
             // Read course related data

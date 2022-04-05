@@ -122,7 +122,6 @@ class ilMemberAgreement
 
     /**
      * Lookup users who have accepted the agreement
-     * @param int $a_obj_id
      * @return int[]
      */
     public static function lookupAcceptedAgreements(int $a_obj_id) : array

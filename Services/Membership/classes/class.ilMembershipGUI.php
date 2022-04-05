@@ -597,7 +597,7 @@ class ilMembershipGUI
 
         if (!$has_admin && is_array($post_roles)) {
             // TODO PHP8 Review: Check change of SuperGlobals
-            foreach ($post_roles as $usrId => $roleIdsToBeAssigned) {
+            foreach ($post_roles as $roleIdsToBeAssigned) {
                 if (in_array($adminRoleId, $roleIdsToBeAssigned)) {
                     $has_admin = true;
                     break;
@@ -1121,9 +1121,6 @@ class ilMembershipGUI
         return $subscriber;
     }
 
-    /**
-     * @return ilSubscriberTableGUI
-     */
     protected function initSubscriberTable() : ilSubscriberTableGUI
     {
         $subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(), true, true);
@@ -1565,7 +1562,7 @@ class ilMembershipGUI
         $list = $this->initAttendanceList();
         $list->setTitle($this->lng->txt('obj_' . $this->getParentObject()->getType()) . ': ' . $this->getParentObject()->getTitle());
         $list->setId('0');
-        $form = $list->initForm('printForMembersOutput');
+        $list->initForm('printForMembersOutput');
         $list->initFromForm();
         $list->setCallback([$this, 'getAttendanceListUserData']);
         $this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
@@ -1582,9 +1579,6 @@ class ilMembershipGUI
     {
         global $DIC;
 
-        /**
-         * @var ilWaitingList
-         */
         $waiting_list = $this->initWaitingList();
 
         if ($this instanceof ilSessionMembershipGUI) {
@@ -1635,9 +1629,6 @@ class ilMembershipGUI
             $list->addPreset('progress', $this->lng->txt('learning_progress'), true);
         }
 
-        /**
-         * @var ilPrivacySettings
-         */
         $privacy = ilPrivacySettings::getInstance();
         if ($privacy->enabledAccessTimesByType($this->getParentObject()->getType())) {
             $list->addPreset('access', $this->lng->txt('last_access'), true);

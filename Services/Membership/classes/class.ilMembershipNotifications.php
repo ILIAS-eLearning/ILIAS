@@ -408,9 +408,6 @@ class ilMembershipNotifications
 
     /**
      * Add notification settings to form
-     * @param int                    $a_ref_id
-     * @param ilPropertyFormGUI|null $a_form
-     * @param ilFormPropertyGUI|null $a_input
      */
     public static function addToSettingsForm(
         int $a_ref_id,

@@ -245,8 +245,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
             $usr_data_fields[] = $field;
         }
-
-        $l = $this->getLimit();
+        
         $usr_data = ilUserQuery::getUserListData(
             $this->getOrderField(),
             $this->getOrderDirection(),

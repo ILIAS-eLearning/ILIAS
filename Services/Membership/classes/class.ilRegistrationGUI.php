@@ -263,8 +263,6 @@ abstract class ilRegistrationGUI
         $cdf->setValue($this->lng->txt($this->type . '_ps_cdf_info'));
         $cdf->setRequired(true);
         foreach ($cdf_fields as $field_obj) {
-            $course_user_data = new ilCourseUserData($this->user->getId(), $field_obj->getId());
-
             switch ($field_obj->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
                     $select = new ilSelectInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');

@@ -35,7 +35,7 @@ class ilAttendanceList
     /**
      * @var ?callable
      */
-    protected $callback = null;
+    protected $callback;
     protected array $presets = [];
     protected array $role_data = [];
     protected array $roles = [];
@@ -198,7 +198,6 @@ class ilAttendanceList
 
     /**
      * Get user data for subscribers and waiting list
-     * @param array &$a_res
      */
     public function getNonMemberUserData(array &$a_res) : void
     {
@@ -280,8 +279,6 @@ class ilAttendanceList
 
     /**
      * Init form
-     * @param string $a_cmd
-     * @return ilPropertyFormGUI
      */
     public function initForm(string $a_cmd = "") : ilPropertyFormGUI
     {
@@ -488,7 +485,7 @@ class ilAttendanceList
         }
 
         $tpl->setCurrentBlock('head_item');
-        foreach ($this->presets as $id => $item) {
+        foreach ($this->presets as $item) {
             if ($item[1]) {
                 $tpl->setVariable('TXT_HEAD', $item[0]);
                 $tpl->parseCurrentBlock();

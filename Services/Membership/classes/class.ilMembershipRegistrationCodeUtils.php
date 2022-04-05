@@ -33,7 +33,6 @@ class ilMembershipRegistrationCodeUtils
 
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
-        $ilUser = $DIC->user();
 
         $lng->loadLanguageModule($a_type);
         try {
@@ -73,9 +72,7 @@ class ilMembershipRegistrationCodeUtils
     /**
      * Use a registration code and assign the logged in user
      * to the (parent) course/group that offer the code.
-     * @param string $a_code
      * @param int    $a_endnode Reference id of node in tree
-     * @return void
      * @throws ilDatabaseException
      * @throws ilMembershipRegistrationException
      * @throws ilObjectNotFoundException
@@ -128,7 +125,6 @@ class ilMembershipRegistrationCodeUtils
 
     /**
      * Get all objects with enabled access codes
-     * @param string $a_code
      * @return int[]
      */
     protected static function lookupObjectsByCode(string $a_code) : array

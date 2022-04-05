@@ -198,7 +198,6 @@ abstract class ilParticipant
     /**
      * Get component name
      * Used for event handling
-     * @return string
      */
     protected function getComponent() : string
     {
@@ -259,10 +258,9 @@ abstract class ilParticipant
     protected function readParticipant() : void
     {
         $this->roles = $this->rbacReview->getRolesOfRoleFolder($this->ref_id, false);
-        $users = [];
         $this->member_roles = [];
         foreach ($this->roles as $role_id) {
-            $title = $this->objectDataCache->lookupTitle((int) $role_id);
+            $title = $this->objectDataCache->lookupTitle($role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
                     $this->member_roles[] = $role_id;

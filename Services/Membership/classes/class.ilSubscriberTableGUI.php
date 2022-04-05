@@ -241,7 +241,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
      * read data
      * @access protected
      * @param int[] subscriber ids
-     * @return void
      * @throws ilDateTimeException
      */
     public function readSubscriberData(array $a_subscriber_ids) : void

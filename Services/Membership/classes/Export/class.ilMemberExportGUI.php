@@ -388,8 +388,6 @@ class ilMemberExportGUI
         $confirmation_gui->setHeaderText($this->lng->txt('info_delete_sure') /* .' '.$this->lng->txt('ps_delete_export_files') */);
         $confirmation_gui->setCancel($this->lng->txt('cancel'), 'show');
         $confirmation_gui->setConfirm($this->lng->txt('delete'), 'deleteExportFile');
-
-        $counter = 0;
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if (!in_array(md5($file['name']), $file_ids)) {
                 continue;
@@ -413,7 +411,6 @@ class ilMemberExportGUI
         if (!count($file_ids)) {
             $this->ctrl->redirect($this, 'show');
         }
-        $counter = 0;
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if (!in_array(md5($file['name']), $file_ids)) {
                 continue;

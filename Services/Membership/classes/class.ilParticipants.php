@@ -204,8 +204,7 @@ abstract class ilParticipants
         bool $a_only_member_roles
     ) : array {
         global $DIC;
-
-        $logger = $DIC->logger()->mmbr();
+        
         $ilDB = $DIC->database();
 
         $j2 = $a2 = '';
@@ -245,7 +244,6 @@ abstract class ilParticipants
      * Get course or group membership
      * @param int      $a_usr_id usr_id
      * @param string[] $a_type   array of object types
-     * @param bool     $a_only_member_role
      * @return int[]
      */
     public static function _getMembershipByType(
@@ -619,7 +617,6 @@ abstract class ilParticipants
      * Check if users for deletion are last admins
      * @access public
      * @param int[] array of user ids for deletion
-     * @return bool
      * @todo   fix this and add unit test
      */
     public function checkLastAdmin(array $a_usr_ids) : bool
@@ -813,7 +810,6 @@ abstract class ilParticipants
 
     /**
      * @param int[]
-     * @return bool
      */
     public function deleteParticipants(array $a_user_ids) : bool
     {
@@ -861,15 +857,13 @@ abstract class ilParticipants
     protected function readParticipants() : void
     {
         $this->roles = $this->rbacReview->getRolesOfRoleFolder($this->ref_id, false);
-
-        $users = [];
         $this->participants = [];
         $this->members = $this->admins = $this->tutors = [];
 
         $additional_roles = [];
         $auto_generated_roles = [];
         foreach ($this->roles as $role_id) {
-            $title = $this->objectDataCache->lookupTitle((int) $role_id);
+            $title = $this->objectDataCache->lookupTitle($role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
@@ -1033,7 +1027,6 @@ abstract class ilParticipants
     }
 
     /**
-     * @param int $a_obj_id
      * @return int[]
      */
     public static function lookupSubscribers(int $a_obj_id) : array
@@ -1242,7 +1235,6 @@ abstract class ilParticipants
     }
 
     /**
-     * @param int $a_usr_id
      * @return array<{time: int, usr_id: int, subject: string}>
      */
     protected function readSubscriberData(int $a_usr_id) : array
@@ -1332,8 +1324,6 @@ abstract class ilParticipants
 
     /**
      * Set role order position
-     * @param int $a_user_id
-     * @return string
      */
     public function setRoleOrderPosition(int $a_user_id) : string
     {
