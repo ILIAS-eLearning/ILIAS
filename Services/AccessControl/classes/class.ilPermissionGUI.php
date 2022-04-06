@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * New PermissionGUI (extends from old ilPermission2GUI)
  * RBAC related output
@@ -226,33 +240,33 @@ class ilPermissionGUI extends ilPermission2GUI
     protected function savePermissions()
     {
         global $DIC;
-        
+
         $rbacreview = $DIC['rbacreview'];
         $objDefinition = $DIC['objDefinition'];
         $rbacadmin = $DIC['rbacadmin'];
-        
+
         $table = new ilObjectRolePermissionTableGUI($this, 'perm', $this->getCurrentObject()->getRefId());
-        
+
         $roles = $this->applyRoleFilter(
             $rbacreview->getParentRoleIds($this->getCurrentObject()->getRefId()),
             (int) $table->getFilterItemByPostVar('role')->getValue()
         );
-        
+
         // Log history
         $log_old = ilRbacLog::gatherFaPa($this->getCurrentObject()->getRefId(), array_keys((array) $roles));
-        
+
         # all possible create permissions
         $possible_ops_ids = $rbacreview->getOperationsByTypeAndClass(
             $this->getCurrentObject()->getType(),
             'create'
         );
-        
+
         # createable (activated) create permissions
         $create_types = $objDefinition->getCreatableSubObjects(
             $this->getCurrentObject()->getType()
         );
         $createable_ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys((array) $create_types));
-        
+
         $post_perm = $this->wrapper->post()->has('perm')
             ? $this->wrapper->post()->retrieve(
                 'perm',
@@ -263,18 +277,18 @@ class ilPermissionGUI extends ilPermission2GUI
                 )
             )
             : [];
-        
+
         foreach ($roles as $role => $role_data) {
             if ($role_data['protected']) {
                 continue;
             }
-            
+
             $new_ops = array_keys((array) $post_perm[$role]);
             $old_ops = $rbacreview->getRoleOperationsOnObject(
                 $role,
                 $this->getCurrentObject()->getRefId()
             );
-            
+
             // Add operations which were enabled and are not activated.
             foreach ($possible_ops_ids as $create_ops_id) {
                 if (in_array($create_ops_id, $createable_ops_ids)) {
@@ -284,19 +298,19 @@ class ilPermissionGUI extends ilPermission2GUI
                     $new_ops[] = $create_ops_id;
                 }
             }
-            
+
             $rbacadmin->revokePermission(
                 $this->getCurrentObject()->getRefId(),
                 $role
             );
-            
+
             $rbacadmin->grantPermission(
                 $role,
                 array_unique($new_ops),
                 $this->getCurrentObject()->getRefId()
             );
         }
-        
+
         if (ilPermissionGUI::hasContainerCommands($this->getCurrentObject()->getType())) {
             $inherit_post = $this->wrapper->post()->has('inherit')
                 ? $this->wrapper->post()->retrieve(
@@ -306,7 +320,7 @@ class ilPermissionGUI extends ilPermission2GUI
                     )
                 )
                 : [];
-            
+
             foreach ($roles as $role) {
                 $obj_id = (int) $role['obj_id'];
                 $parent_id = (int) $role['parent'];
@@ -347,7 +361,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 }
             }
         }
-        
+
         // Protect permissions
         if (ilPermissionGUI::hasContainerCommands($this->getCurrentObject()->getType())) {
             $protected_post = $this->wrapper->post()->has('protect')
@@ -369,11 +383,11 @@ class ilPermissionGUI extends ilPermission2GUI
                 }
             }
         }
-        
+
         $log_new = ilRbacLog::gatherFaPa($this->getCurrentObject()->getRefId(), array_keys((array) $roles));
         $log = ilRbacLog::diffFaPa($log_old, $log_new);
         ilRbacLog::add(ilRbacLog::EDIT_PERMISSIONS, $this->getCurrentObject()->getRefId(), $log);
-        
+
         $blocked_info = $this->getModifiedBlockedSettings();
         ilLoggerFactory::getLogger('ac')->debug('Blocked settings: ' . print_r($blocked_info, true));
         if ($blocked_info['num'] > 0) {
