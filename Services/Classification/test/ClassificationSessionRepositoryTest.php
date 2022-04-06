@@ -19,7 +19,7 @@ class ClassificationSessionRepositoryTest extends TestCase
     {
     }
 
-    public function testValueForProvider()
+    public function testValueForProvider() : void
     {
         $repo = $this->repo;
         $repo->setValueForProvider("prov", [1,2,3]);
@@ -29,7 +29,7 @@ class ClassificationSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testUnsetAll()
+    public function testUnsetAll() : void
     {
         $repo = $this->repo;
         $repo->setValueForProvider("prov", [1,2,3]);
@@ -40,7 +40,7 @@ class ClassificationSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testUnsetValueForProvider()
+    public function testUnsetValueForProvider() : void
     {
         $repo = $this->repo;
         $repo->setValueForProvider("prov1", [1,2,3]);
