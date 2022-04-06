@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -12,8 +12,6 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  */
-
-use ILIAS\Style\Content;
 
 /**
  * Class ilObjStyleSheet
@@ -285,7 +283,7 @@ class ilObjStyleSheet extends ilObject
         );
 
     // these types are expandable, i.e. the user can define new style classes
-    public static $expandable_types = array(
+    public static array $expandable_types = array(
             "text_block",
             "text_inline", "section", "media_cont", "media_caption", "table", "table_cell", "flist_li", "table_caption",
                 "list_o", "list_u",
@@ -579,10 +577,11 @@ class ilObjStyleSheet extends ilObject
         $this->lng = $DIC->language();
         $this->type = "sty";
         $this->style = array();
+        $this->ilias = $DIC["ilias"];
+
         if ($a_call_by_reference) {
             $this->ilias->raiseError("Can't instantiate style object via reference id.", $this->ilias->error_obj->FATAL);
         }
-
         parent::__construct($a_id, false);
     }
 
@@ -798,9 +797,9 @@ class ilObjStyleSheet extends ilObject
                     $clonable = true;
                 }
             } else {
-                $obj_ids = ilObjContentObject::_lookupContObjIdByStyleId($style_rec["id"]);
+                $obj_ids = ilObjContentObject::_lookupContObjIdByStyleId((int) $style_rec["id"]);
                 if (count($obj_ids) == 0) {
-                    $obj_ids = self::lookupObjectForStyle($style_rec["id"]);
+                    $obj_ids = self::lookupObjectForStyle((int) $style_rec["id"]);
                 }
                 foreach ($obj_ids as $id) {
                     $ref = ilObject::_getAllReferences($id);
@@ -813,7 +812,7 @@ class ilObjStyleSheet extends ilObject
             }
             if ($clonable) {
                 $clonable_styles[(int) $style_rec["id"]] =
-                    ilObject::_lookupTitle($style_rec["id"]);
+                    ilObject::_lookupTitle((int) $style_rec["id"]);
             }
         }
 
@@ -990,7 +989,7 @@ class ilObjStyleSheet extends ilObject
             array("integer", "text", "text"),
             array($this->getId(), $a_char, $a_style_type)
         );
-        if ($rec = $ilDB->fetchAssoc($set)) {
+        if ($ilDB->fetchAssoc($set)) {
             return true;
         }
         return false;
@@ -1565,7 +1564,7 @@ class ilObjStyleSheet extends ilObject
         }
         fclose($css_file);
         //	exit;
-        $this->setUpToDate(true);
+        $this->setUpToDate();
         $this->_writeUpToDate($this->getId(), true);
     }
 
@@ -1958,7 +1957,7 @@ class ilObjStyleSheet extends ilObject
         $file = pathinfo($file_name);
 
         // unzip file
-        if (strtolower($file["extension"] == "zip")) {
+        if (strtolower($file["extension"]) == "zip") {
             ilFileUtils::unzip($im_dir . "/" . $file_name);
             $subdir = basename($file["basename"], "." . $file["extension"]);
             if (!is_dir($im_dir . "/" . $subdir)) {
@@ -2299,7 +2298,7 @@ class ilObjStyleSheet extends ilObject
                         );
                             
                         // if not, create style parameter
-                        if (!($rec = $ilDB->fetchAssoc($set))) {
+                        if (!($ilDB->fetchAssoc($set))) {
                             $spid = $ilDB->nextId("style_parameter");
                             $st = $ilDB->manipulateF(
                                 "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value) " .
@@ -2979,7 +2978,7 @@ class ilObjStyleSheet extends ilObject
         $ilDB = $this->db;
         
         $tid = $ilDB->nextId("style_template");
-        $ilDB->manipulate($q = "INSERT INTO style_template " .
+        $ilDB->manipulate("INSERT INTO style_template " .
             "(id, style_id, name, temp_type)" .
             " VALUES (" .
             $ilDB->quote($tid, "integer") . "," .
@@ -2989,7 +2988,7 @@ class ilObjStyleSheet extends ilObject
             ")");
         
         foreach ($a_classes as $t => $c) {
-            $ilDB->manipulate($q = "INSERT INTO style_template_class " .
+            $ilDB->manipulate("INSERT INTO style_template_class " .
                 "(template_id, class_type, class)" .
                 " VALUES (" .
                 $ilDB->quote($tid, "integer") . "," .
@@ -3025,7 +3024,7 @@ class ilObjStyleSheet extends ilObject
             "template_id = " . $ilDB->quote($a_t_id, "integer")
         );
         foreach ($a_classes as $t => $c) {
-            $ilDB->manipulate($q = "INSERT INTO style_template_class " .
+            $ilDB->manipulate("INSERT INTO style_template_class " .
                 "(template_id, class_type, class)" .
                 " VALUES (" .
                 $ilDB->quote($a_t_id, "integer") . "," .
@@ -3042,7 +3041,7 @@ class ilObjStyleSheet extends ilObject
     ) : void {
         $ilDB = $this->db;
 
-        $ilDB->manipulate($q = "INSERT INTO style_template_class " .
+        $ilDB->manipulate("INSERT INTO style_template_class " .
             "(template_id, class_type, class)" .
             " VALUES (" .
             $ilDB->quote($a_t_id, "integer") . "," .
@@ -3062,7 +3061,7 @@ class ilObjStyleSheet extends ilObject
         $set = $ilDB->query("SELECT * FROM style_template WHERE " .
             "style_id = " . $ilDB->quote($this->getId(), "integer") . " AND " .
             "name = " . $ilDB->quote($a_template_name, "text"));
-        if ($rec = $ilDB->fetchAssoc($set)) {
+        if ($ilDB->fetchAssoc($set)) {
             return true;
         }
         return false;

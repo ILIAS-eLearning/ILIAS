@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,6 +13,11 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Style\Content\Object\ObjectManager;
+use ILIAS\Style\Content\Container\ContainerManager;
+use ILIAS\Style\Content\InternalDomainService;
+use ILIAS\Style\Content\InternalGUIService;
+
 /**
  * Style settings of a repository object
  * @author Alexander Killing <killing@leifos.de>
@@ -20,45 +25,18 @@
  */
 class ilObjectContentStyleSettingsGUI
 {
-    /**
-     * @var \ILIAS\Style\Content\Object\ObjectManager
-     */
-    protected $object_manager;
-
-    /**
-     * @var \ILIAS\Style\Content\Container\ContainerManager
-     */
-    protected $container_manager;
-
-    /**
-     * @var \ILIAS\Style\Content\InternalDomainService
-     */
-    protected $domain;
-
-    /**
-     * @var \ILIAS\Style\Content\InternalGUIService
-     */
-    protected $gui;
-
-    /**
-     * @var int
-     */
-    protected $current_style_id;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var int
-     */
-    protected $obj_id;
-    private \ilGlobalTemplateInterface $main_tpl;
+    protected ObjectManager $object_manager;
+    protected ContainerManager $container_manager;
+    protected InternalDomainService $domain;
+    protected InternalGUIService $gui;
+    protected int $current_style_id;
+    protected int $ref_id;
+    protected int $obj_id;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
-        \ILIAS\Style\Content\InternalDomainService $domain_service,
-        \ILIAS\Style\Content\InternalGUIService $gui_service,
+        InternalDomainService $domain_service,
+        InternalGUIService $gui_service,
         ?int $current_style_id,
         int $ref_id,
         int $obj_id
@@ -142,7 +120,7 @@ class ilObjectContentStyleSettingsGUI
         $lng->loadLanguageModule("style");
 
         $form = new ilPropertyFormGUI();
-        $fixed_style = $settings->get("fixed_content_style_id");
+        $fixed_style = (int) $settings->get("fixed_content_style_id");
         if ($fixed_style > 0) {
             $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
             $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
@@ -233,7 +211,6 @@ class ilObjectContentStyleSettingsGUI
         $style_gui = new ilObjStyleSheetGUI(
             "",
             $this->current_style_id,
-            false,
             false
         );
         $style_id = $ctrl->forwardCommand($style_gui);
@@ -279,7 +256,7 @@ class ilObjectContentStyleSettingsGUI
     /**
      * Save style settings
      */
-    protected function saveStyleSettings()
+    protected function saveStyleSettings() : void
     {
         $settings = $this->domain->settings();
         $lng = $this->domain->lng();
@@ -299,7 +276,6 @@ class ilObjectContentStyleSettingsGUI
 
     protected function saveIndividualStyleSettings() : void
     {
-        $settings = $this->domain->settings();
         $lng = $this->domain->lng();
         $ctrl = $this->gui->ctrl();
 

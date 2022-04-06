@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,7 @@
 
 use ILIAS\Style\Content\Access;
 use ILIAS\Style\Content;
+use ILIAS\DI\UIServices;
 
 /**
  * TableGUI class for style editor (image list)
@@ -25,9 +26,9 @@ class ilStyleImageTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
     protected ilRbacSystem $rbacsystem;
-    protected \ilObjStyleSheet $style_obj;
+    protected ilObjStyleSheet $style_obj;
     protected Access\StyleAccessManager $access_manager;
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIServices $ui;
     protected Content\ImageManager $image_manager;
 
     /**

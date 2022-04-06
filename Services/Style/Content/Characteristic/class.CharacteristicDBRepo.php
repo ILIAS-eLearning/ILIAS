@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,16 +15,19 @@
 
 namespace ILIAS\Style\Content;
 
+use ilDBInterface;
+use ilObjStyleSheet;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class CharacteristicDBRepo
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     protected InternalDataService $factory;
 
     public function __construct(
-        \ilDBInterface $db,
+        ilDBInterface $db,
         InternalDataService $factory
     ) {
         $this->db = $db;
@@ -38,7 +41,7 @@ class CharacteristicDBRepo
         bool $hidden = false,
         int $order_nr = 0,
         bool $outdated = false
-    ) {
+    ) : void {
         $db = $this->db;
 
         $db->insert("style_char", [
@@ -64,7 +67,7 @@ class CharacteristicDBRepo
             ["integer", "text", "text"],
             [$style_id, $type, $char]
         );
-        if ($rec = $db->fetchAssoc($set)) {
+        if ($db->fetchAssoc($set)) {
             return true;
         }
         return false;
@@ -170,7 +173,7 @@ class CharacteristicDBRepo
         int $style_id,
         string $super_type
     ) : array {
-        $stypes = \ilObjStyleSheet::_getStyleSuperTypes();
+        $stypes = ilObjStyleSheet::_getStyleSuperTypes();
         $types = $stypes[$super_type];
 
         return $this->getByTypes(
@@ -325,7 +328,7 @@ class CharacteristicDBRepo
             [$style_id, $a_tag, $a_class, $a_mq_id, $a_custom, $a_type, $a_par]
         );
 
-        if ($rec = $set->fetchRow()) {
+        if ($set->fetchRow()) {
             $db->update(
                 "style_parameter",
                 [

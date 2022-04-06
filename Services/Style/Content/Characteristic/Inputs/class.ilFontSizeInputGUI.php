@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +22,7 @@ class ilFontSizeInputGUI extends ilFormPropertyGUI
 {
     protected ilObjUser $user;
 
-    protected $value = "";
+    protected string $value = "";
     
     public function __construct(string $a_title = "", string $a_postvar = "")
     {

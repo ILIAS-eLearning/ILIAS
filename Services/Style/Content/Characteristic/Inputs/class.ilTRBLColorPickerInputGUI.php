@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Color picker form for selecting color hexcodes using yui library (all/top/right/bottom/left)
  *
