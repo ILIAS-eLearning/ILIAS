@@ -60,6 +60,7 @@ if ($request_wrapper->has('new_metabar_ui') && $request_wrapper->retrieve('new_m
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
+    $responsive_logo = $f->image()->responsive("templates/default/images/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pageMetabarDemoCrumbs($f);
     $metabar = buildMetabar($f);
     $mainbar = pageMetabarDemoMainbar($f, $renderer);
@@ -75,6 +76,8 @@ if ($request_wrapper->has('new_metabar_ui') && $request_wrapper->retrieve('new_m
         $mainbar,
         $breadcrumbs,
         $logo,
+        $responsive_logo,
+        null,
         $footer,
         'UI Meta Bar DEMO', //page title
         'ILIAS', //short title

@@ -30,6 +30,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     protected MetaBar $metabar;
     protected Breadcrumbs $crumbs;
     protected Image $logo;
+    protected Image $responsive_logo;
     protected Container $overlay;
     protected string $title;
 
@@ -49,6 +50,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->crumbs->method("getCanonicalName")->willReturn("Breadcrumbs Stub");
         $this->logo = $this->createMock(Image::class);
         $this->logo->method("getCanonicalName")->willReturn("Logo Stub");
+        $this->responsive_logo = $this->createMock(Image::class);
+        $this->responsive_logo->method("getCanonicalName")->willReturn("Responsive Logo Stub");
         $this->overlay = $this->createMock(Container::class);
         $this->overlay->method("getCanonicalName")->willReturn("Overlay Stub");
         $this->contents = array(new Legacy('some content', $sig_gen));
@@ -61,6 +64,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->mainbar,
             $this->crumbs,
             $this->logo,
+            $this->responsive_logo,
             $this->overlay,
             null,
             $this->title
@@ -113,6 +117,24 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->logo,
             $this->stdpage->getLogo()
         );
+    }
+
+    public function testHasLogo() : void
+    {
+        $this->assertTrue($this->stdpage->hasLogo());
+    }
+
+    public function testGetResponsiveLogo() : void
+    {
+        $this->assertEquals(
+            $this->responsive_logo,
+            $this->stdpage->getResponsiveLogo()
+        );
+    }
+
+    public function testHasResponsiveLogo() : void
+    {
+        $this->assertTrue($this->stdpage->hasResponsiveLogo());
     }
 
     public function testGetOverlay() : void
@@ -202,48 +224,35 @@ class StandardPageTest extends ILIAS_UI_TestBase
 
         $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	<title>Short Title: View Title</title>
-	<style></style>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Short Title: View Title</title>
+    <style></style>
 </head>
+
 <body>
-	<div class="il-page-overlay">
-		Overlay Stub
-	</div>
-	<div class="il-layout-page">
-		<header>
-			<div class="header-inner">
-				<div class="il-logo">
-					Logo Stub
-					<div class="il-pagetitle">
-						Title
-					</div>
-				</div>
-				MetaBar Stub
-			</div>
-		</header>
-		<div class="il-system-infos">
-		</div>
-		<div class="nav il-maincontrols">
-			MainBar Stub
-		</div>
-		<!-- html5 main-tag is not supported in IE / div is needed -->
-		<main class="il-layout-page-content">
-			<div>
-				some content
-			</div>
-		</main>
-	</div>
-	<script>
-		il.Util.addOnLoad(function() {
-		});
-	</script>
+    <div class="il-page-overlay">Overlay Stub</div>
+    <div class="il-layout-page">
+        <header>
+            <div class="header-inner">
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                    <div class="il-pagetitle">Title</div>
+                </div>MetaBar Stub
+            </div>
+        </header>
+        <div class="il-system-infos"></div>
+        <div class="nav il-maincontrols">MainBar Stub</div>
+        <main class="il-layout-page-content">
+            <div>some content</div>
+        </main>
+    </div>
+    <script>il.Util.addOnLoad(function() {});</script>
 </body>
-</html>
-');
+
+</html>');
         $this->assertEquals($exptected, $html);
     }
 
@@ -256,48 +265,35 @@ class StandardPageTest extends ILIAS_UI_TestBase
 
         $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
 <html lang="en" dir="rtl">
+
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	<title>: </title>
-	<style></style>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>:</title>
+    <style></style>
 </head>
+
 <body>
-	<div class="il-page-overlay">
-		Overlay Stub
-	</div>
-	<div class="il-layout-page">
-		<header>
-			<div class="header-inner">
-				<div class="il-logo">
-					Logo Stub
-					<div class="il-pagetitle">
-						pagetitle
-					</div>
-				</div>
-				MetaBar Stub
-			</div>
-		</header>
-		<div class="il-system-infos">
-		</div>
-		<div class="nav il-maincontrols">
-			MainBar Stub
-		</div>
-		<!-- html5 main-tag is not supported in IE / div is needed -->
-		<main class="il-layout-page-content">
-			<div>
-				some content
-			</div>
-		</main>
-	</div>
-	<script>
-		il.Util.addOnLoad(function() {
-		});
-	</script>
+    <div class="il-page-overlay">Overlay Stub</div>
+    <div class="il-layout-page">
+        <header>
+            <div class="header-inner">
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                    <div class="il-pagetitle">pagetitle</div>
+                </div>MetaBar Stub
+            </div>
+        </header>
+        <div class="il-system-infos"></div>
+        <div class="nav il-maincontrols">MainBar Stub</div>
+        <main class="il-layout-page-content">
+            <div>some content</div>
+        </main>
+    </div>
+    <script>il.Util.addOnLoad(function() {});</script>
 </body>
-</html>
-');
+
+</html>');
         $this->assertEquals($exptected, $html);
     }
     
@@ -311,32 +307,36 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-   <head>
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-      <title>: </title>
-      <style></style>
-      <meta name="meta_datum_key_1" content="meta_datum_value_1" />
-      <meta name="meta_datum_key_2" content="meta_datum_value_2" />
-   </head>
-   <body>
-      <div class="il-page-overlay">Overlay Stub</div>
-      <div class="il-layout-page">
-         <header>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>:</title>
+    <style></style>
+    <meta name="meta_datum_key_1" content="meta_datum_value_1" />
+    <meta name="meta_datum_key_2" content="meta_datum_value_2" />
+</head>
+
+<body>
+    <div class="il-page-overlay">Overlay Stub</div>
+    <div class="il-layout-page">
+        <header>
             <div class="header-inner">
-               <div class="il-logo">Logo Stub<div class="il-pagetitle">pagetitle</div></div>MetaBar Stub</div>
-         </header>
-         
-         <div class="il-system-infos"></div>
-         <div class="nav il-maincontrols">MainBar Stub</div>
-         <!-- html5 main-tag is not supported in IE / div is needed -->
-         <main class="il-layout-page-content">
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                    <div class="il-pagetitle">pagetitle</div>
+                </div>MetaBar Stub
+            </div>
+        </header>
+        <div class="il-system-infos"></div>
+        <div class="nav il-maincontrols">MainBar Stub</div>
+        <main class="il-layout-page-content">
             <div>some content</div>
-         </main>
-      </div>
-      <script>il.Util.addOnLoad(function() {});</script>
-   </body>
+        </main>
+    </div>
+    <script>il.Util.addOnLoad(function() {});</script>
+</body>
+
 </html>');
         $this->assertEquals($expected, $html);
     }
@@ -371,6 +371,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->mainbar,
             $crumbs,
             $this->logo,
+            $this->responsive_logo,
             $this->overlay,
             null,
             $this->title
@@ -380,56 +381,49 @@ class StandardPageTest extends ILIAS_UI_TestBase
 
         $exptected = $this->brutallyTrimHTML('<!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	<title>:</title>
-	<style></style>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>:</title>
+    <style></style>
 </head>
+
 <body>
-	<div class="il-page-overlay">
-		Overlay Stub
-	</div>
-	<div class="il-layout-page">
-		<header>
-			<div class="header-inner">
-				<div class="il-logo">
-					Logo Stub
-					<div class="il-pagetitle">
-						pagetitle
-					</div>
-				</div>
-				<nav class="il-header-locator">
-					<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">label3<span class="caret"></span></button><ul class="dropdown-menu"><li><button class="btn btn-link" data-action="#" id="id_1">label2</button></li><li><button class="btn btn-link" data-action="#" id="id_2">label1</button></li></ul></div>
-				</nav>
-				MetaBar Stub
-			</div>
-		</header>
-		<div class="il-system-infos">
-		</div>
-		<div class="nav il-maincontrols">
-			MainBar Stub
-		</div>
-		<!-- html5 main-tag is not supported in IE / div is needed -->
-		<main class="il-layout-page-content">
-			<div>
-				<div class="breadcrumbs">
-					<nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">
-						<div class="breadcrumb"><span class="crumb"><a href="#">label1</a></span><span class="crumb"><a href="#">label2</a></span><span class="crumb"><a href="#">label3</a></span></div>
-					</nav>
-				</div>
-				some content
-			</div>
-		</main>
-	</div>
-	<script>
-		il.Util.addOnLoad(function() {
-		});
-	</script>
+    <div class="il-page-overlay">Overlay Stub</div>
+    <div class="il-layout-page">
+        <header>
+            <div class="header-inner">
+                <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+                    <div class="il-pagetitle">pagetitle</div>
+                </div>
+                <nav class="il-header-locator">
+                    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">label3<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><button class="btn btn-link" data-action="#" id="id_1">label2</button></li>
+                            <li><button class="btn btn-link" data-action="#" id="id_2">label1</button></li>
+                        </ul>
+                    </div>
+                </nav>MetaBar Stub
+            </div>
+        </header>
+        <div class="il-system-infos"></div>
+        <div class="nav il-maincontrols">MainBar Stub</div>
+        <main class="il-layout-page-content">
+            <div>
+                <div class="breadcrumbs">
+                    <nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">
+                        <div class="breadcrumb"><span class="crumb"><a href="#">label1</a></span><span class="crumb"><a href="#">label2</a></span><span class="crumb"><a href="#">label3</a></span></div>
+                    </nav>
+                </div>some content
+            </div>
+        </main>
+    </div>
+    <script>il.Util.addOnLoad(function() {});</script>
 </body>
-</html>
-');
+
+</html>');
         $this->assertEquals($exptected, $html);
     }
 }
