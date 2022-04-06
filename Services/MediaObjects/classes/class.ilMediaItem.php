@@ -34,9 +34,11 @@ class ilMediaItem
     public string $height = "";
     public string $caption = "";
     public string $halign = "";
+    // PHP8-Review: no value type specified in iterable type array.
     public array $parameters = [];
     public int $mob_id = 0;
     public int $nr = 0;
+    // PHP8-Review: no value type specified in iterable type array.
     public array $mapareas = [];
     public int $map_cnt = 0;
     /**
@@ -105,14 +107,12 @@ class ilMediaItem
     }
     
     /**
-    * returns the best supported image type by this PHP build
-    *
-    * @param	string	$desired_type	desired image type ("jpg" | "gif" | "png")
-    *
-    * @return    string                    supported image type ("jpg" | "gif" | "png" | "")
-    * @static
-    *
-    */
+     * returns the best supported image type by this PHP build
+     *
+     * @param string $a_desired_type
+     * @return string supported image type ("jpg" | "gif" | "png" | "")
+     * @static
+     */
     private static function getGDSupportedImageType(string $a_desired_type) : string
     {
         $a_desired_type = strtolower($a_desired_type);
@@ -156,7 +156,7 @@ class ilMediaItem
                     return "gif";
                 }
                 break;
-            
+            // PHP8-Review: Duplicate branch in switch statement
             case "svg":
                 if ($im_types & IMG_PNG) {
                     return "png";
@@ -251,7 +251,7 @@ class ilMediaItem
         }
     }
 
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
 
@@ -589,7 +589,8 @@ class ilMediaItem
     {
         return $this->mapareas[$nr - 1] ?? null;
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getMapAreas() : array
     {
         return $this->mapareas;
@@ -614,7 +615,8 @@ class ilMediaItem
     {
         $this->height = $a_height;
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getOriginalSize() : ?array
     {
         $mob_dir = ilObjMediaObject::_getDirectory($this->getMobId());
@@ -702,13 +704,15 @@ class ilMediaItem
             return false;
         }
         // do not allow to change the src attribute
+        // PHP8-Review: 'in_array' can be replaced with comparison
         if (in_array(strtolower(trim($a_par)), array("src"))) {
             return false;
         }
 
         return true;
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getParameters() : array
     {
         return $this->parameters;
@@ -1152,6 +1156,7 @@ class ilMediaItem
      * get all internal links of map areas of a mob
      * @param int $a_mob_id media object id
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function _getMapAreasIntLinks(
         int $a_mob_id
     ) : array {
@@ -1201,6 +1206,7 @@ class ilMediaItem
      * @param string $a_hash upload hash
      * @return array
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getMediaItemsForUploadHash(
         string $a_hash
     ) : array {

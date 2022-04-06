@@ -51,7 +51,8 @@ class ilMediaObjectDataSet extends ilDataSet
     {
         return $this->use_previous_import_ids;
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getSupportedVersions() : array
     {
         return array("5.1.0", "4.3.0", "4.1.0");
@@ -62,6 +63,7 @@ class ilMediaObjectDataSet extends ilDataSet
         return "https://www.ilias.de/xml/Services/MediaObject/" . $a_entity;
     }
     
+    // PHP8-Review: return type has no value type specified in iterable type array.
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         // mob
@@ -153,6 +155,7 @@ class ilMediaObjectDataSet extends ilDataSet
     public function readData(
         string $a_entity,
         string $a_version,
+        // PHP8-Review: parameter $a_ids with no value type specified in iterable type array.
         array $a_ids
     ) : void {
         $ilDB = $this->db;
@@ -260,9 +263,11 @@ class ilMediaObjectDataSet extends ilDataSet
     /**
      * Determine the dependent sets of data
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     protected function getDependencies(
         string $a_entity,
         string $a_version,
+        // PHP8-Review: parameter $a_rec, $a_ids with no value type specified in iterable type array.
         ?array $a_rec = null,
         ?array $a_ids = null
     ) : array {
@@ -280,10 +285,12 @@ class ilMediaObjectDataSet extends ilDataSet
         }
         return [];
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getXmlRecord(
         string $a_entity,
         string $a_version,
+        // PHP8-Review: parameter $a_set with no value type specified in iterable type array.
         array $a_set
     ) : array {
         if ($a_entity == "mob") {
@@ -296,6 +303,7 @@ class ilMediaObjectDataSet extends ilDataSet
     
     public function importRecord(
         string $a_entity,
+        // PHP8-Review: parameter $a_types, $a_rec with no value type specified in iterable type array.
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,

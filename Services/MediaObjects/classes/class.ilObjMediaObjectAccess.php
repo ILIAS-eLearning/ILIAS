@@ -252,9 +252,9 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     /**
      * Check access rights for glossary terms
      * This checks also learning modules linking the term
-     * @param    int         object id (glossary)
-     * @param    int         page id (definition)
-     * @return   bool     access given (true/false)
+     * @param int $obj_id       object id (glossary)
+     * @param int $page_id      page id (definition)
+     * @return bool            access given (true/false)
      */
     protected function checkAccessGlossaryTerm(
         int $obj_id,
@@ -271,6 +271,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
 
         if ($sources) {
             foreach ($sources as $src) {
+                // PHP8-Review: 'switch' with single 'case'
                 switch ($src['type']) {
                     // Give access if term is linked by a learning module with read access.
                     // The term including media is shown by the learning module presentation!

@@ -53,6 +53,7 @@ class ilMobMultiSrtUpload
      * @throws ilException
      * @throws ilMobSrtUploadException
      */
+    // PHP8-Review: parameter $a_file with no value type specified in iterable type array.
     public function uploadMultipleSubtitleFile(
         array $a_file
     ) : void {
@@ -78,6 +79,7 @@ class ilMobMultiSrtUpload
     /**
      * Get all srt files of srt multi upload
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getMultiSrtFiles() : array
     {
         $items = array();

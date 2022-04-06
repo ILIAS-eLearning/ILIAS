@@ -19,6 +19,7 @@
  */
 class ilFFmpeg
 {
+    // PHP8-Review: $last_return type has no value type specified in iterable type array.
     public static ?array $last_return = array();
 
     /**
@@ -27,6 +28,7 @@ class ilFFmpeg
      * For source formats no specification is needed here. For target formats
      * we use fixed parameters that should result in best web media practice.
      */
+    // PHP8-Review: $formats type has no value type specified in iterable type array.
     public static array $formats = array(
         "video/3pgg" => array(
             "source" => true,
@@ -65,6 +67,7 @@ class ilFFmpeg
     /**
      * Get desired target mime types
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getTargetMimeTypes() : array
     {
         $ttypes = array();
@@ -76,6 +79,7 @@ class ilFFmpeg
         return $ttypes;
     }
     
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getSourceMimeTypes() : array
     {
         $ttypes = array();
@@ -102,6 +106,7 @@ class ilFFmpeg
     /**
      * Get possible target formats
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getPossibleTargetMimeTypes(
         string $a_source_mime_type
     ) : array {
@@ -127,6 +132,7 @@ class ilFFmpeg
     /**
      * Execute ffmpeg
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function exec(string $args) : array
     {
         return ilShellUtil::execQuoted(self::getCmd(), $args);
@@ -135,6 +141,7 @@ class ilFFmpeg
     /**
      * Get all supported codecs
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getSupportedCodecsInfo() : array
     {
         $codecs = self::exec("-codecs");
@@ -144,6 +151,7 @@ class ilFFmpeg
     /**
      * Get all supported formats
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getSupportedFormatsInfo() : array
     {
         $formats = self::exec("-formats");
@@ -154,6 +162,7 @@ class ilFFmpeg
     /**
      * Get last return values
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getLastReturnValues() : ?array
     {
         return self::$last_return;
@@ -186,8 +195,8 @@ class ilFFmpeg
         
         $sec = $a_sec;
         $cmd = "-y -i " . ilShellUtil::escapeShellArg(
-                $a_file
-            ) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilShellUtil::escapeShellArg($target_file);
+            $a_file
+        ) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilShellUtil::escapeShellArg($target_file);
         $ret = self::exec($cmd . " 2>&1");
         self::$last_return = $ret;
         

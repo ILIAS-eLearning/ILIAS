@@ -20,6 +20,7 @@
  */
 class ilMediaAnalyzer
 {
+    // PHP8-Review: $file_info type has no value type specified in iterable type array.
     protected array $file_info;
     protected getID3 $getid3;
     public string $file;

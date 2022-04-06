@@ -58,11 +58,17 @@ class ilPlayerUtil
         }
     }
     
+    /**
+     * @return string[]
+     */
     public static function getCssFilePaths() : array
     {
         return array(self::getLocalMediaElementCssPath());
     }
     
+    /**
+     * @return string[]
+     */
     public static function getJsFilePaths() : array
     {
         return array(

@@ -15,6 +15,7 @@
 
 use ILIAS\FileUpload\MimeType;
 
+// PHP8-Review: Define constant name can be replaced with 'const' syntax
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
 define("IL_MODE_FULL", 3);
@@ -27,7 +28,7 @@ class ilObjMediaObject extends ilObject
     protected ilObjUser $user;
     public bool $is_alias;
     public string $origin_id;
-    public array $media_items;
+    public array $media_items;  // PHP8-Review: type has no value type specified in iterable type array.
     public bool $contains_int_link;
 
     public function __construct(
@@ -45,6 +46,7 @@ class ilObjMediaObject extends ilObject
         parent::__construct($a_id, false);
     }
 
+    // PHP8-Review: Parameter's name changed during inheritance
     public static function _exists(
         int $a_id,
         bool $a_reference = false,
@@ -108,6 +110,7 @@ class ilObjMediaObject extends ilObject
 
     protected function beforeMDUpdateListener(string $a_element) : bool
     {
+        // PHP8-Review: 'switch' with single 'case'
         switch ($a_element) {
             case 'General':
 
@@ -181,6 +184,7 @@ class ilObjMediaObject extends ilObject
         $this->media_items[] = $a_item;
     }
 
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function &getMediaItems() : array
     {
         return $this->media_items;
@@ -220,7 +224,7 @@ class ilObjMediaObject extends ilObject
         $this->media_items = $media_items;
     }
     
-    public function removeAllMediaItems()
+    public function removeAllMediaItems() : void
     {
         $this->media_items = array();
     }
@@ -274,7 +278,8 @@ class ilObjMediaObject extends ilObject
     {
         return $this->origin_id;
     }
-
+    
+    // PHP8-Review: parameter with no type specified
     public function create($a_create_meta_data = false, $a_save_media_items = true) : int
     {
         $id = parent::create();
@@ -306,7 +311,8 @@ class ilObjMediaObject extends ilObject
 
         return $id;
     }
-
+    
+    // PHP8-Review: parameter with no type specified
     public function update($a_upload = false) : bool
     {
         parent::update();
@@ -482,6 +488,7 @@ class ilObjMediaObject extends ilObject
     /**
      * Get files of directory
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getFilesOfDirectory(
         string $a_subdir = ""
     ) : array {
@@ -832,6 +839,7 @@ class ilObjMediaObject extends ilObject
         }
     }
 
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function _getMobsOfObject(
         string $a_type,
         int $a_id,
@@ -924,6 +932,7 @@ class ilObjMediaObject extends ilObject
     /**
      * get all usages of current media object
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getUsages(
         bool $a_include_history = true
     ) : array {
@@ -935,6 +944,7 @@ class ilObjMediaObject extends ilObject
      *
      * @todo: This should be all in one context -> mob id table
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function lookupUsages(
         int $a_id,
         bool $a_include_history = true
@@ -1027,6 +1037,7 @@ class ilObjMediaObject extends ilObject
      * see ilWebAccessChecker
      */
     public static function getParentObjectIdForUsage(
+        // PHP8-Review: parameter $a_usage with no value type specified in iterable type array.
         array $a_usage,
         bool $a_include_all_access_obj_ids = false
     ) : ?int {
@@ -1233,6 +1244,7 @@ class ilObjMediaObject extends ilObject
         string $a_file,
         int $a_width,
         int $a_height,
+        // PHP8-Review: parameter $a_constrain_prop with no type specified
         $a_constrain_prop = false
     ) : string {
         $file_path = pathinfo($a_file);
@@ -1264,6 +1276,7 @@ class ilObjMediaObject extends ilObject
         return $mime;
     }
 
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function _determineWidthHeight(
         string $a_format,
         string $a_type,
@@ -1508,6 +1521,7 @@ class ilObjMediaObject extends ilObject
      * Get all media objects linked in map areas of this media object
      * @param int[] $a_ignore array of IDs that should be ignored
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getLinkedMediaObjects(
         array $a_ignore = []
     ) : array {
@@ -1538,6 +1552,7 @@ class ilObjMediaObject extends ilObject
      * Get restricted file types (this is for the input form, this list
      * will be empty, if "allowed list" is empty)
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getRestrictedFileTypes() : array
     {
         return array_filter(self::getAllowedFileTypes(), function ($v) {
@@ -1548,6 +1563,7 @@ class ilObjMediaObject extends ilObject
     /**
      * Get forbidden file types
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getForbiddenFileTypes() : array
     {
         $mset = new ilSetting("mobs");
@@ -1565,6 +1581,7 @@ class ilObjMediaObject extends ilObject
     /**
      * Get allowed file types
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getAllowedFileTypes() : array
     {
         $mset = new ilSetting("mobs");
@@ -1627,6 +1644,7 @@ class ilObjMediaObject extends ilObject
     }
     
     public function uploadVideoPreviewPic(
+        // PHP8-Review: parameter $a_prevpic with no value type specified in iterable type array.
         array $a_prevpic
     ) : void {
         // remove old one
@@ -1746,6 +1764,7 @@ class ilObjMediaObject extends ilObject
      * Upload multi srt file
      */
     public function uploadMultipleSubtitleFile(
+        // PHP8-Review: parameter $a_file with no value type specified in iterable type array.
         array $a_file
     ) : void {
         $lng = $this->lng;
@@ -1772,6 +1791,7 @@ class ilObjMediaObject extends ilObject
     /**
      * Get all srt files of srt multi upload
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getMultiSrtFiles() : array
     {
         $items = array();
