@@ -73,9 +73,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
         global $DIC;
 
         $ctrl = $DIC->ctrl();
-
         $this->lng->loadLanguageModule("grp");
-
         $coll = ilUserActionCollection::getInstance();
 
         $commands = self::getCommandAccess($this->user_id);
