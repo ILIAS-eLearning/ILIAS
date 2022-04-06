@@ -81,7 +81,7 @@ class ilSCORMExplorer extends ilExplorer
         return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id;//PHP8Review: Use of $_ global. Pls use the DIC instead
     }
 
-    public function setOutput(int $a_parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false) : void //PHP8Review: Missing Typehint
+    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, $a_highlighted_subtree = false) : void //PHP8Review: This parent should be typestrict, but exceeds the scorm scope, so i just leave a recommendation here
 //    public function setOutput(int $a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
         $this->format_options = $this->createOutputArray($a_parent_id);
