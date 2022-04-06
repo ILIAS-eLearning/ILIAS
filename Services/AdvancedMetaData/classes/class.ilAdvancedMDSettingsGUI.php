@@ -477,6 +477,7 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
+    //PHP8 Code Review: POST usage needs to be reduced/avoided all along the file
     /**
      * Download XML file
      * @access public

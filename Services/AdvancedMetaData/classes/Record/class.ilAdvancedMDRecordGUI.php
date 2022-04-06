@@ -539,6 +539,7 @@ class ilAdvancedMDRecordGUI
         }
     }
 
+    //PHP8 Code Review: POST usage needs to be reduced/avoided
     /**
      * Save selection per object
      */

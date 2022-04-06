@@ -46,7 +46,7 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
 
     /**
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      */
     protected function setGlobalVariable(string $name, $value) : void
     {

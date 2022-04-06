@@ -313,7 +313,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     {
         return is_array($this->confirm_objects) && count($this->confirm_objects) > 0;
     }
-
+    //PHP8 Code Review: POST usage needs to be reduced/avoided all along the file
     public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
