@@ -7,12 +7,6 @@ use PHPUnit\Framework\TestCase;
  */
 class LikeStandardGUIRequestTest extends TestCase
 {
-    // PHP8-Review: Redundant method override
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -31,7 +25,7 @@ class LikeStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testValue()
+    public function testValue() : void
     {
         $request = $this->getRequest(
             [
@@ -46,7 +40,7 @@ class LikeStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testExpressionKey()
+    public function testExpressionKey() : void
     {
         $request = $this->getRequest(
             [
@@ -61,7 +55,7 @@ class LikeStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testModalSignalId()
+    public function testModalSignalId() : void
     {
         $request = $this->getRequest(
             [
