@@ -45,7 +45,7 @@ class ilChartDataBars extends ilChartData
         string $a_align = "center",
         bool $a_horizontal = false
     ) : void {
-        $this->bar_width = (float) str_replace(",", ".", $a_width); //PHP8-Review: Parameter #3 $subject of function str_replace expects array|string, float given.
+        $this->bar_width = (float) str_replace(",", ".", (string) $a_width);
         if (in_array($a_align, array("center", "left"))) {
             $this->bar_align = $a_align;
         }

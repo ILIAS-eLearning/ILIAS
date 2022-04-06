@@ -30,7 +30,7 @@ class ilChartDataSpider extends ilChartData
         
         $fill = $this->getFill();
         if ($fill["color"] != "") {
-            $a_data[count($a_data) - 1]->color = ilChart::renderColor($fill["color"], "0.5"); // PHP8-Review: Parameter #2 $a_opacity of static method ilChart::renderColor() expects float, string given.
+            $a_data[count($a_data) - 1]->color = ilChart::renderColor($fill["color"], 0.5);
         }
     }
     
@@ -44,7 +44,7 @@ class ilChartDataSpider extends ilChartData
         
         
         $spider->legs = new stdClass();
-        $spider->legs->fillStyle = ilChart::renderColor("#000", "0.7"); // PHP8-Review: Parameter #2 $a_opacity of static method ilChart::renderColor() expects float, string given.
+        $spider->legs->fillStyle = ilChart::renderColor("#000", 0.7);
         switch (count($a_chart->getLegLabels())) {
             case 4:
             case 6:

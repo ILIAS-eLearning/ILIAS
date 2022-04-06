@@ -77,11 +77,11 @@ abstract class ilChartData
 
     public function setFill(
         float $a_value,
-        string $a_color = null
+        string $a_color = ""
     ) : void {
         $this->fill = $a_value;
-        if (ilChart::isValidColor((string) $a_color)) {
-            $this->fill_color = $a_color; //PHP8-Review: Property ilChartData::$fill_color (string) does not accept string|null.
+        if (ilChart::isValidColor($a_color)) {
+            $this->fill_color = $a_color;
         }
     }
 
