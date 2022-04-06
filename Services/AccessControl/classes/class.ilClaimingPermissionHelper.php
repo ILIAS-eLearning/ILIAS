@@ -134,8 +134,6 @@ abstract class ilClaimingPermissionHelper
      * Get context ids for context type (uses cache)
      *
      * @see self::readContextIds()
-     * @param int $a_context_type
-     * @return array
      */
     protected function getValidContextIds(int $a_context_type) : array
     {
@@ -224,7 +222,7 @@ abstract class ilClaimingPermissionHelper
         $valid = true;
         
         if (!is_array($this->plugins)) {
-            $this->plugins = (array) $this->getActivePlugins();
+            $this->plugins = $this->getActivePlugins();
         }
         
         foreach ($this->plugins as $plugin) {
@@ -248,7 +246,7 @@ abstract class ilClaimingPermissionHelper
         $adv_md_types = $obj_def->getAdvancedMetaDataTypes();
 
         $valid_accepted_types = array();
-        foreach ($adv_md_types as $idx => $value) {
+        foreach ($adv_md_types as $value) {
             if (in_array($value['obj_type'], $accepted_types) || in_array($value['sub_type'], $accepted_types)) {
                 array_push($valid_accepted_types, $value['obj_type']);
             }

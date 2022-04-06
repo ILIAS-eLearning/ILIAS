@@ -70,7 +70,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 }
                 $this->ctrl->setReturn($this, 'perm');
                 $this->gui_obj = new ilObjRoleGUI("", $role_id, false, false);
-                $ret = $this->ctrl->forwardCommand($this->gui_obj);
+                $this->ctrl->forwardCommand($this->gui_obj);
                 break;
             
             case 'ildidactictemplategui':
@@ -212,7 +212,6 @@ class ilPermissionGUI extends ilPermission2GUI
                     unset($a_roles[$role_id]);
                 }
                 return $a_roles;
-                break;
             
             // only roles which use a local policy
             case ilObjectRolePermissionTableGUI::ROLE_FILTER_LOCAL_POLICY:

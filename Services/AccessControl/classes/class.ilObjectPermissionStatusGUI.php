@@ -165,7 +165,6 @@ class ilObjectPermissionStatusGUI
 
     /**
      * get Assigned Valid Roles
-     * @return array
      */
     public function getAssignedValidRoles() : array
     {
@@ -220,7 +219,6 @@ class ilObjectPermissionStatusGUI
 
     /**
      * ilUser
-     * @return ilObjUser
      */
     public function getUser() : ilObjUser
     {
@@ -413,7 +411,6 @@ class ilObjectPermissionStatusGUI
 
     /**
      * Available Roles Table Data
-     * @return array
      */
     public function getAvailableRolesTableData() : array
     {

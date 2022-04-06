@@ -29,7 +29,6 @@ class ilAccessControlImporter extends ilXmlImporter
     /**
      * Import XML
      * @param
-     * @return void
      */
     public function importXmlRepresentation(
         string $a_entity,

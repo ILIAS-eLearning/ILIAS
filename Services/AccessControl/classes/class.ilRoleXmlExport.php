@@ -101,8 +101,6 @@ class ilRoleXmlExport extends ilXmlWriter
 
     /**
      * Write xml presentation of one role
-     * @param int $a_role_id
-     * @param int $a_rolf
      */
     private function writeRole(int $a_role_id, int $a_rolf) : void
     {

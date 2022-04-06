@@ -461,7 +461,7 @@ class ilRbacAdmin
             'AND parent = ' . $this->db->quote($a_dest_parent, 'integer');
         $res = $this->db->manipulate($query);
 
-        foreach ($operations as $row => $op) {
+        foreach ($operations as $op) {
             $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
                 'VALUES (' .
                 $this->db->quote($a_dest_id, 'integer') . "," .
@@ -523,7 +523,7 @@ class ilRbacAdmin
         $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
             'VALUES (?,?,?,?)';
         $sta = $this->db->prepareManip($query, array('integer', 'text', 'integer', 'integer'));
-        foreach ($operations as $key => $set) {
+        foreach ($operations as $set) {
             $this->db->execute($sta, array(
                 $a_dest_id,
                 $set['type'],

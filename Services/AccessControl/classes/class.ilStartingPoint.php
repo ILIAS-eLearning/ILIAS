@@ -118,7 +118,6 @@ class ilStartingPoint
 
     /**
      * Gets calendar view
-     * @return int
      */
     public function getCalendarView() : int
     {
@@ -127,7 +126,6 @@ class ilStartingPoint
 
     /**
      * Sets calendar view
-     * @param int $calendar_view
      */
     public function setCalendarView(int $calendar_view) : void
     {
@@ -151,7 +149,6 @@ class ilStartingPoint
 
     /**
      * Get all the starting points in database
-     * @return array
      */
     public static function getStartingPoints() : array
     {
@@ -181,7 +178,7 @@ class ilStartingPoint
     public static function onRoleDeleted(ilObjRole $role) : void
     {
         foreach (self::getRolesWithStartingPoint() as $roleId => $data) {
-            if ((int) $roleId === (int) $role->getId()) {
+            if ((int) $roleId === $role->getId()) {
                 $sp = new self((int) $data['id']);
                 $sp->delete();
             } elseif (
@@ -225,7 +222,6 @@ class ilStartingPoint
 
     /**
      * Get id and title of the roles without starting points
-     * @return array
      */
     public static function getGlobalRolesWithoutStartingPoint() : array
     {
@@ -351,7 +347,7 @@ class ilStartingPoint
     {
         $ord_const = 0;
         $rearranged = [];
-        foreach ($a_items as $k => $v) {
+        foreach ($a_items as $v) {
             $v['starting_position'] = $ord_const;
             $rearranged[$ord_const] = $v;
             $ord_const = $ord_const + 10;

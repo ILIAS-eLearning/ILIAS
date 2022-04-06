@@ -199,9 +199,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string           $a_type
      * @param array|int|string $a_op
-     * @return string
      */
     protected function getOPCaption(string $a_type, $a_op) : string
     {

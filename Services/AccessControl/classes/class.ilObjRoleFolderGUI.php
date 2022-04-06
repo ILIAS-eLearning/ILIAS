@@ -260,7 +260,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
      */
     protected function chooseCopyBehaviourObject(?ilPropertyFormGUI $form = null) : void
     {
-        $copy_source = $this->initCopySourceFromGET();
+        $this->initCopySourceFromGET();
 
         $this->ctrl->saveParameter($this, 'csource');
         $this->tabs_gui->clearTargets();
@@ -744,7 +744,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $admin = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('adm_adm_role_protect'), 'admin_role');
         $admin->setDisabled(!$this->rbac_review->isAssigned($user->getId(), SYSTEM_ROLE_ID));
         $admin->setInfo($this->lng->txt('adm_adm_role_protect_info'));
-        $admin->setChecked((bool) $security->isAdminRoleProtected());
+        $admin->setChecked($security->isAdminRoleProtected());
         $admin->setValue((string) 1);
         $form->addItem($admin);
 
@@ -786,7 +786,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                 $privacy = ilPrivacySettings::getInstance();
 
                 $subitems = null;
-                if ((bool) $privacy->enabledRbacLog()) {
+                if ($privacy->enabledRbacLog()) {
                     $subitems = array('rbac_log_age' => $privacy->getRbacLogAge());
                 }
                 $fields = array('rbac_log' => array($privacy->enabledRbacLog(),

@@ -63,7 +63,6 @@ class ilObjRoleFolder extends ilObject
         global $DIC;
 
         $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
 
         $roleObj = new ilObjRole();
         $roleObj->setTitle($a_title);

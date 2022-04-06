@@ -288,7 +288,6 @@ class ilRbacReview
     /**
      * Get the number of assigned users to roles (not properly deleted user accounts are not counted)
      * @param int[] $a_roles
-     * @return int
      */
     public function getNumberOfAssignedUsers(array $a_roles) : int
     {
@@ -353,7 +352,6 @@ class ilRbacReview
      * of a course or a group.
      * @param int        usr_id
      * @param int[]        role_ids
-     * @return    bool
      */
     public function isAssignedToAtLeastOneGivenRole(int $a_usr_id, array $a_role_ids) : bool
     {
@@ -815,7 +813,6 @@ class ilRbacReview
             // all (assignable) roles
             case self::FILTER_ALL:
                 return $this->getAssignableRoles(true, true, $title_filter);
-                break;
 
             // all (assignable) global roles
             case self::FILTER_ALL_GLOBAL:

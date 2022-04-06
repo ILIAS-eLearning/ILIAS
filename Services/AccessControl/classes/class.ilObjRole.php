@@ -524,10 +524,7 @@ class ilObjRole extends ilObject
 
     /**
      * Change existing objects
-     * @param int $a_start_node
-     * @param int $a_mode
      * @param array filter Filter of object types (array('all') => change all objects
-     * @return void
      */
     public function changeExistingObjects(
         int $a_start_node,
@@ -572,8 +569,6 @@ class ilObjRole extends ilObject
     protected function deleteLocalPolicies(int $a_start, array $a_policies, array $a_filter) : array
     {
         global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
         $rbacadmin = $DIC['rbacadmin'];
 
         $local_policies = array();
@@ -792,9 +787,6 @@ class ilObjRole extends ilObject
 
     /**
      * Update operation stack
-     * @param array $a_stack
-     * @param int   $a_node
-     * @return bool
      */
     protected function updateOperationStack(
         array &$a_stack,
@@ -802,7 +794,6 @@ class ilObjRole extends ilObject
         bool $a_init = false
     ) : bool {
         $has_policies = null;
-        $policy_origin = null;
 
         if ($a_node == ROOT_FOLDER_ID) {
             $has_policies = true;
@@ -837,7 +828,6 @@ class ilObjRole extends ilObject
     protected function updatePolicyStack(array &$a_stack, int $a_node) : bool
     {
         $has_policies = null;
-        $policy_origin = null;
 
         if ($a_node == ROOT_FOLDER_ID) {
             $has_policies = true;
@@ -912,8 +902,6 @@ class ilObjRole extends ilObject
                 $template_id = $course_non_member_id;
                 break;
         }
-
-        $current_ops = $a_current_ops[$a_type];
 
         // Create intersection template permissions
         if ($template_id) {

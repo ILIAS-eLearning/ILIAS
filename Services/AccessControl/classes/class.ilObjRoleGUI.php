@@ -290,7 +290,6 @@ class ilObjRoleGUI extends ilObjectGUI
     /**
      * Store form input in role object
      * @param object $role
-     * @return void
      */
     protected function loadRoleProperties(ilObjRole $role, ilPropertyFormGUI $form) : void
     {
@@ -592,7 +591,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->WARNING);
         }
 
-        $this->object->setParent((int) $this->obj_ref_id);
+        $this->object->setParent($this->obj_ref_id);
         $this->object->delete();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_deleted_role'), true);
 
@@ -779,7 +778,6 @@ class ilObjRoleGUI extends ilObjectGUI
 
     /**
      * @param int[]
-     * @return void
      */
     public function addUserObject(array $a_user_ids) : void
     {
@@ -1104,7 +1102,6 @@ class ilObjRoleGUI extends ilObjectGUI
 
     /**
      * Check if a confirmation about further settings is required or not
-     * @return bool
      */
     protected function isChangeExistingObjectsConfirmationRequired() : bool
     {
@@ -1122,9 +1119,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
     /**
      * Show confirmation screen
-     * @param bool     $recursive
      * @param string[] $recursive_list
-     * @return void
      */
     protected function showChangeExistingObjectsConfirmation(bool $recursive, array $recursive_list) : void
     {

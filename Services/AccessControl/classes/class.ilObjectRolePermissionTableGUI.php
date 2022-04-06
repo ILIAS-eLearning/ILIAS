@@ -30,7 +30,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     public const ROLE_FILTER_LOCAL_OBJECT = 5;
 
     private int $ref_id;
-    private array $roles = [];
     private array $tree_path_ids = [];
     private array $activeOperations = [];
     private array $visible_roles = [];
@@ -77,7 +76,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
      */
     public function getPathIds() : array
     {
-        return (array) $this->tree_path_ids;
+        return $this->tree_path_ids;
     }
 
     /**
@@ -208,7 +207,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 
         // block role
         if (isset($a_set['show_block_row'])) {
-            foreach ($this->getVisibleRoles() as $counter => $role_info) {
+            foreach ($this->getVisibleRoles() as $role_info) {
                 $this->tpl->setCurrentBlock('role_block');
                 $this->tpl->setVariable('BLOCK_ROLE_ID', $role_info['obj_id']);
                 $this->tpl->setVariable('TXT_BLOCK', $this->lng->txt('role_block_role'));
@@ -349,7 +348,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         if (ilPermissionGUI::hasContainerCommands($this->getObjType())) {
             $roles = array();
             $local_roles = $this->review->getRolesOfObject($this->getRefId());
-            foreach ($this->getVisibleRoles() as $role_id => $role_data) {
+            foreach ($this->getVisibleRoles() as $role_data) {
                 $roles[$role_data['obj_id']] = array(
                     'blocked' => $role_data['blocked'],
                     'protected' => $role_data['protected'],
@@ -366,7 +365,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         // Protect permissions
         if (ilPermissionGUI::hasContainerCommands($this->getObjType())) {
             $roles = array();
-            foreach ($this->getVisibleRoles() as $role_id => $role_data) {
+            foreach ($this->getVisibleRoles() as $role_data) {
                 $roles[$role_data['obj_id']] = array(
                     'blocked' => $role_data['blocked'],
                     'protected_allowed' => $this->review->isAssignable($role_data['obj_id'], $this->getRefId()),
@@ -493,7 +492,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $column_width = 100 / count($possible_roles);
             $column_width .= '%';
         } else {
-            $column_widht = "0%";
         }
 
         $all_roles = array();
@@ -564,7 +562,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $this->tree->getPathId($this->getRefId())
         );
 
-        $reduced_path_hierarchy = (array) array_diff(
+        $reduced_path_hierarchy = array_diff(
             $path_hierarchy,
             array(
                 $this->getRefId(),

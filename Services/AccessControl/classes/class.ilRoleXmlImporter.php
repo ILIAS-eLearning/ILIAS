@@ -205,7 +205,7 @@ class ilRoleXmlImporter
             $this->logger->debug('Creating new role template');
             $this->role = new ilObjRoleTemplate();
         }
-        $this->role->setImportId((string) $import_id);
+        $this->role->setImportId($import_id);
     }
 
     protected function parseXmlErrors() : string
