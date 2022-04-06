@@ -167,7 +167,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             $found = null;
             foreach ($this->getSubTreeTags() as $tags) {
                 foreach (array_keys($tags) as $tag) {
-                    if (md5($tag) == $tag_code) {
+                    if (md5($tag) == $tag_code) { //PHP8-Review: Parameter #1 $str of function md5 expects string, int|string given
                         $found = $tag;
                         break(2);
                     }
@@ -186,7 +186,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     $a_saved[$type][] = $found;
                 }
             }
-            return $a_saved;
+            return $a_saved; // PHP8-Review: Method ilTaggingClassificationProvider::importPostData() should return array but returns array|null.
         }
         return [];
     }
@@ -246,8 +246,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             }
         }
 
-        if (sizeof($res)) {
-            return array_unique($res);
+        if (sizeof($res)) { // PHP8-Review: Parameter #1 $var of function sizeof expects array|Countable, array<int, (int|string)>|null given
+            return array_unique($res); // PHP8-Review: Parameter #1 $array of function array_unique expects array, array<int, (int|string)>|null given
         }
         return [];
     }
@@ -255,7 +255,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     protected function getSubTreeTags() : array
     {
         return [];
-        $tree = $this->tree;
+        $tree = $this->tree; // PHP8-Review: Unreachable statement - code above always terminates
         $ilUser = $this->user;
         $sub_ids = array();
 

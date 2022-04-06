@@ -53,7 +53,7 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
                     $tags_set = new \ilSetting("tags");
                     return (bool) $tags_set->get("enable");
                 })
-                ->withTitle($title)
+                ->withTitle($title) //PHP8-Review: Call to an undefined method ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem::withTitle()
                 ->withSupportsAsynchronousLoading(true)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () {
