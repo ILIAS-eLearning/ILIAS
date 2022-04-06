@@ -17,6 +17,14 @@ class ilPasswordUtils
         try {
             return random_bytes($length);
         } catch (Throwable $e) {
+            if (!defined('PHP_WINDOWS_VERSION_BUILD') && extension_loaded('openssl')) {
+                $secure = null;
+                $rand = openssl_random_pseudo_bytes($length, $secure);
+                if (false !== $rand && $secure === true) {
+                    return $rand;
+                }
+            }
+
             $rand = '';
             for ($i = 0; $i < $length; ++$i) {
                 $rand .= chr(random_int(0, 255));
