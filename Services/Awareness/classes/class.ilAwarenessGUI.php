@@ -33,7 +33,8 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     protected ilCtrl $ctrl;
     protected UIServices $ui;
     protected ilLanguage $lng;
-
+    
+    // PHP8-Review: Constructor has an unused parameter $data_service
     public function __construct(
         InternalDataService $data_service,
         InternalDomainService $domain_service,
@@ -90,6 +91,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
      * Get awareness list (ajax)
      * @throws ilWACException
      */
+    // PHP8-Review: return type has no value type specified in iterable type array
     public function getAwarenessList(bool $return = false) : ?array
     {
         $filter = $this->request->getFilter();

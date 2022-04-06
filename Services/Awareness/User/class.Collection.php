@@ -21,6 +21,7 @@ namespace ILIAS\Awareness\User;
  */
 class Collection implements \Countable
 {
+    // PHP8-Review: $users has no value type specified in iterable type array
     protected array $users = array();
 
     /**

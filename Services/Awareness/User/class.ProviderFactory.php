@@ -23,6 +23,7 @@ use ILIAS\DI\Container;
  */
 class ProviderFactory
 {
+    // PHP8-Review: no value type specified in iterable type array
     protected static array $providers = array(
         array(
             "component" => "Services/Contact/BuddySystem",
@@ -71,7 +72,8 @@ class ProviderFactory
         foreach (self::$providers as $p) {
             $providers[] = new $p["class"]($this->dic);
         }
-
+    
+        // PHP8-Review: should return array<ILIAS\Awareness\User\Provider> but returns array<int, object>
         return $providers;
     }
 }

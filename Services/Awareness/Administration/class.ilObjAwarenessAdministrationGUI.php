@@ -24,6 +24,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     protected \ILIAS\Awareness\AdminManager $admin_manager;
 
     public function __construct(
+        // PHP8-Review: parameter $a_data with no type specified
         $a_data,
         int $a_id,
         bool $a_call_by_reference = true,
@@ -120,7 +121,8 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    public function editSettings($a_form = null)
+    // PHP8-Review: parameter $a_form with no type specified
+    public function editSettings($a_form = null) : bool
     {
         $this->tabs_gui->setTabActive('settings');
         $this->setSubTabs("settings");
@@ -135,7 +137,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -177,7 +179,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function cancel()
+    public function cancel() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -189,6 +191,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
      *
      * @access protected
      */
+    // PHP8-Review: no return type specified
     protected function initFormSettings()
     {
         $lng = $this->lng;

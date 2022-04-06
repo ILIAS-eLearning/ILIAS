@@ -32,7 +32,8 @@ class AdminManager
     protected \ilSetting $settings;
     protected int $user_id;
     protected int $ref_id = 0;
-
+    
+    // PHP8-Review: Constructor has an unused parameter $data_service, $repo_service
     public function __construct(
         int $ref_id,
         InternalDataService $data_service,
@@ -75,7 +76,8 @@ class AdminManager
     {
         return ($this->getActivationMode($provider_id) == self::MODE_INCL_OFFLINE);
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array
     public function getModeOptions() : array
     {
         $options = array(
