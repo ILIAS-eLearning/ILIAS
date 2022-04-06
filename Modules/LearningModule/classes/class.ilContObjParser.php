@@ -221,6 +221,7 @@ class ilContObjParser extends ilMDSaxParser
             $page_obj->buildDom();
             $page_obj->resolveIntLinks();
             $page_obj->resolveIIMMediaAliases($this->mob_mapping);
+            // PHP8-Review: 'in_array' can be replaced with comparison
             if (in_array($this->coType, array("lm"))) {
                 $page_obj->resolveQuestionReferences($this->qst_mapping);
             }
@@ -367,6 +368,7 @@ class ilContObjParser extends ilMDSaxParser
 
     public function getOpenCount(string $a_name) : int
     {
+        // PHP8-Review: 'isset' can be replaced with coalesce
         if (isset($this->cnt[$a_name])) {
             return $this->cnt[$a_name];
         } else {

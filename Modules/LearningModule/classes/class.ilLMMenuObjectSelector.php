@@ -106,6 +106,7 @@ class ilLMMenuObjectSelector extends ilExplorer
         $tpl->setCurrentBlock("text");
         $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
         $tpl->parseCurrentBlock();
+        // PHP8-Review: Empty index operator not supported for strings
         $this->output[] = $tpl->get();
     }
 }

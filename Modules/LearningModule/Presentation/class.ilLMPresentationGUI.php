@@ -2436,6 +2436,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function getHTML(array $pars) : string
     {
         $this->addResourceFiles();
+        // PHP8-Review: 'switch' with single 'case'
         switch ($pars["cmd"]) {
             case "layout":
                 $tpl = new ilTemplate("tpl.embedded_view.html", true, true, "Modules/LearningModule");

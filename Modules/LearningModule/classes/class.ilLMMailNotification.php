@@ -44,7 +44,8 @@ class ilLMMailNotification extends ilMailNotification
     public function send() : bool
     {
         $ilUser = $this->user;
-        
+    
+        // PHP8-Review: 'switch' with single 'case'
         switch ($this->getType()) {
             case self::TYPE_USER_BLOCKED:
                 

@@ -1382,6 +1382,7 @@ class ilObjContentObject extends ilObject
         ilLog $expLog
     ) : void {
         $attrs = array();
+        // PHP8-Review: 'switch' with single 'case'
         switch ($this->getType()) {
             case "lm":
                 $attrs["Type"] = "LearningModule";
@@ -1683,6 +1684,7 @@ class ilObjContentObject extends ilObject
 
         // sort files
         ksort($file);
+        // PHP8-Review: Array internal pointer reset is unnecessary
         reset($file);
         return $file;
     }
@@ -1732,6 +1734,7 @@ class ilObjContentObject extends ilObject
 
         // sort files
         sort($file);
+        // PHP8-Review: Array internal pointer reset is unnecessary
         reset($file);
 
         return $file;
@@ -2014,7 +2017,8 @@ class ilObjContentObject extends ilObject
         
         return $mess;
     }
-
+    
+    // PHP8-Review: Parameter's name changed during inheritance
     public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningModule $new_obj */

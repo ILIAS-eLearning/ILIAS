@@ -176,6 +176,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             }
         }
         foreach ($todel as $k) {
+            // PHP8-Review: Undefined variable '$items'
             unset($items[$k]);
         }
         
@@ -213,6 +214,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             }
         }
         foreach ($todel as $k) {
+            // PHP8-Review: Undefined variable '$items'
             unset($items[$k]);
         }
         

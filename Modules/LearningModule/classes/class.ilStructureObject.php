@@ -134,8 +134,10 @@ class ilStructureObject extends ilLMObject
 
         return $a_value;
     }
-
+    
+    // PHP8-Review: Declaration of overridden method should be compatible with parent class
     public static function _getPresentationTitle(
+        // PHP8-Review: Parameter's name changed during inheritance
         int $a_st_id,
         string $a_mode = self::CHAPTER_TITLE,
         bool $a_include_numbers = false,

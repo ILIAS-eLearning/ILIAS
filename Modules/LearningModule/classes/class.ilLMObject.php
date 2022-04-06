@@ -477,6 +477,7 @@ class ilLMObject
             
             foreach ($childs as $page) {
                 if ($page["type"] == "pg" and in_array($page["obj_id"], $a_pages)) {
+                    // PHP8-Review: 'array_push()' with single element
                     array_push($a_pages, $row["obj_id"]);
                     break;
                 }

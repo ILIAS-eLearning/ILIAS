@@ -144,6 +144,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
 
         $toc = $builder->tableOfContent($this->lm->getTitle(), 'layout', 0);
         $lm_toc_renderer = new ilLMSlateTocRendererGUI($this->lm_pres_service);
+        // PHP8-Review: Parameter '$toc' type is not compatible with declaration
         $lm_toc_renderer->renderLSToc($toc);
 
         // learning progress
