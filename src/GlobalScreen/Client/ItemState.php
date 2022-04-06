@@ -24,11 +24,9 @@ class ItemState
     use Hasher;
     
     public const LEVEL_OF_TOOL = 1;
-    public const LEVEL_OF_TOPITEM = 2;
-    public const LEVEL_OF_SUBITEM = 10;
     public const COOKIE_NS_GS = 'gs_active_items';
     private IdentificationInterface $identification;
-    private array $storage = [];
+    private array $storage;
     
     /**
      * ItemState constructor.

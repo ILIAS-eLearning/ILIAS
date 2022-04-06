@@ -4,11 +4,11 @@ use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use Iterator;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -148,9 +148,9 @@ class Map implements Filterable, Walkable
     }
     
     /**
-     * @return \Iterator<\ArrayObject>
+     * @return Iterator<\ArrayObject>
      */
-    public function getAllFromFilter() : \Iterator
+    public function getAllFromFilter() : Iterator
     {
         $this->applyFilters();
         

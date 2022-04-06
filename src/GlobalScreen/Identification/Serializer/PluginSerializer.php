@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use LogicException;
 
 /******************************************************************************
  *
@@ -41,7 +42,7 @@ class PluginSerializer implements SerializerInterface
         $str = "{$identification->getPluginId()}{$divider}{$identification->getClassName()}{$divider}{$identification->getInternalIdentifier()}";
         
         if (strlen($str) > SerializerInterface::MAX_LENGTH) {
-            throw new \LogicException("Serialized Identifications MUST be shorter than " . SerializerInterface::MAX_LENGTH . " characters");
+            throw new LogicException("Serialized Identifications MUST be shorter than " . SerializerInterface::MAX_LENGTH . " characters");
         }
         
         return $str;

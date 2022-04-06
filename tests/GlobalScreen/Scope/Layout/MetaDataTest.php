@@ -4,9 +4,6 @@ namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Css;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData\MetaDatum;
 
 require_once('./libs/composer/vendor/autoload.php');

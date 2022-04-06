@@ -2,7 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
-use ILIAS\DI\Container;
+use ilInitialisation;
 
 /******************************************************************************
  *
@@ -23,7 +23,7 @@ class CallbackHandler
     
     public function run() : void
     {
-        \ilInitialisation::initILIAS();
+        ilInitialisation::initILIAS();
         global $DIC;
         $DIC->ctrl()->setTargetScript("/ilias.php");
         $GS = $DIC->globalScreen();

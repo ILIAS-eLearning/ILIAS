@@ -13,6 +13,9 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ilUserUtil;
 use ilUtil;
+use ILIAS\GlobalScreen\Services;
+use ILIAS\DI\UIServices;
+use ilLanguage;
 
 /******************************************************************************
  *
@@ -36,23 +39,11 @@ class StandardPagePartProvider implements PagePartProvider
 {
     use isSupportedTrait;
     use SlateSessionStateCode;
-    
-    /**
-     * @var Legacy
-     */
-    protected $content;
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    protected $gs;
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-    /**
-     * @var \ilLanguage
-     */
-    protected $lang;
+
+    protected Legacy $content;
+    protected Services $gs;
+    protected UIServices $ui;
+    protected ilLanguage $lang;
     
     /**
      * @inheritDoc
@@ -122,7 +113,7 @@ class StandardPagePartProvider implements PagePartProvider
         }
         
         // Tools
-        $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), $this->lang->txt('more'));
+        $grid_icon = $f->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_tool.svg"), $this->lang->txt('more'));
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, $this->lang->txt('tools'), "#")->withEngagedState(true);

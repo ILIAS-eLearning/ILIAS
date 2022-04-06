@@ -2,7 +2,6 @@
 
 namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
-use Closure;
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
@@ -16,6 +15,7 @@ use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use Generator;
 
 /******************************************************************************
  *
@@ -118,7 +118,7 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         usort($this->tools, $this->getItemSorter());
     }
     
-    public function getItemsForUIRepresentation() : \Generator
+    public function getItemsForUIRepresentation() : Generator
     {
         yield from $this->tools;
     }
