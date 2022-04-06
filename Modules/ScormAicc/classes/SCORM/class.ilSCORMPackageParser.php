@@ -22,24 +22,22 @@
 */
 class ilSCORMPackageParser extends ilSaxParser
 {
-    public $cnt;				// counts open elements
-    public $current_element;	// store current element type
-    public $slm_object;
-    public $parent_stack;		// stack of current parent nodes
-    public $tree_created;		// flag that determines wether the scorm tree has been created
-    public $scorm_tree;		// manifest tree
-    public $current_organization;	// current organization object
-    public $current_resource;	// current resource object
-    public $item_stack;		// current open item objects
+    public $cnt;				// counts open elements//PHP8Review: Missing Typehint
+    public array $current_element;	// store current element type
+    public $slm_object;//PHP8Review: Missing Typehint (probably ilObjSCORMModule)
+    public array $parent_stack;		// stack of current parent nodes
+    public bool $tree_created;		// flag that determines wether the scorm tree has been created
+    public $scorm_tree;		// manifest tree//PHP8Review: Missing Typehint
+    public $current_organization;	// current organization object//PHP8Review: Missing Typehint
+    public $current_resource;	// current resource object//PHP8Review: Missing Typehint
+    public array $item_stack;		// current open item objects
     public string $package_title = "";	// title for the package (title from organisation)
-
 
     /**
     * Constructor
     *
     * @param	object		$a_lm_object	must be of type ilObjLearningModule
     * @param	string		$a_xml_file		xml file
-    * @access	public
     */
     public function __construct(object $a_slm_object, string $a_xml_file)
     {
@@ -56,7 +54,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * set event handler
      * should be overwritten by inherited class
      *
-     * @param $a_xml_parser
+     * @param resource $a_xml_parser
      * @return void
      */
     public function setHandlers($a_xml_parser) : void
@@ -67,7 +65,6 @@ class ilSCORMPackageParser extends ilSaxParser
     }
 
     /**
-     * @return void
      * @throws ilSaxParserException
      */
     public function startParsing() : void
@@ -75,9 +72,6 @@ class ilSCORMPackageParser extends ilSaxParser
         parent::startParsing();
     }
 
-    /**
-     * @return string
-     */
     public function getPackageTitle() : string
     {
         return $this->package_title;
@@ -85,9 +79,6 @@ class ilSCORMPackageParser extends ilSaxParser
 
     /**
      * update parsing status for a element begin
-     *
-     * @param string $a_name
-     * @return void
      */
     public function beginElement(string $a_name) : void
     {
@@ -96,14 +87,11 @@ class ilSCORMPackageParser extends ilSaxParser
 //        } else {
 //            $this->cnt[$a_name]++;
 //        }
-        $this->current_element[count($this->current_element)] = $a_name;
+        $this->current_element[] = $a_name;
     }
 
     /**
      * update parsing status for an element ending
-     *
-     * @param string $a_name
-     * @return void
      */
     public function endElement(string $a_name) : void
     {
@@ -113,18 +101,12 @@ class ilSCORMPackageParser extends ilSaxParser
 
     /**
      * returns current element
-     *
-     * @return string
      */
     public function getCurrentElement() : string
     {
         return ($this->current_element[count($this->current_element) - 1]);
     }
 
-    /**
-     * @param int $nr
-     * @return string
-     */
     public function getAncestorElement(int $nr = 1) : string
     {
         return ($this->current_element[count($this->current_element) - 1 - $nr]);
@@ -143,18 +125,13 @@ class ilSCORMPackageParser extends ilSaxParser
 //    }
 
     /**
-     *     * generate a tag with given name and attributes
-     *
-     * @param string     $type  "start" | "end" for starting or ending tag
-     * @param string     $name  element/tag name
-     * @param array|null $attr  array of attributes
-     * @return string
+     * generate a tag with given name and attributes
      */
     public function buildTag(string $type, string $name, ?array $attr = null) : string
     {
         $tag = "<";
 
-        if ($type == "end") {
+        if ($type === "end") {
             $tag .= "/";
         }
 
@@ -171,9 +148,6 @@ class ilSCORMPackageParser extends ilSaxParser
         return $tag;
     }
 
-    /**
-     * @return int
-     */
     public function getCurrentParent() : int
     {
         return $this->parent_stack[count($this->parent_stack) - 1];
@@ -181,13 +155,8 @@ class ilSCORMPackageParser extends ilSaxParser
 
     /**
      * handler for begin of element
-     *
-     * @param        $a_xml_parser
-     * @param string $a_name
-     * @param array  $a_attribs
-     * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void//PHP8Review: Missing Typehint
     {
         //echo "<br>handlerBeginTag:".$a_name;
         switch ($a_name) {
@@ -199,12 +168,12 @@ class ilSCORMPackageParser extends ilSaxParser
                 $manifest->setXmlBase($a_attribs["xml:base"]);
                 $manifest->create();
                 if (!$this->tree_created) {
-                    $this->sc_tree = new ilSCORMTree($this->slm_object->getId());
+                    $this->sc_tree = new ilSCORMTree($this->slm_object->getId());//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
                     $this->sc_tree->addTree($this->slm_object->getId(), $manifest->getId());
                 } else {
                     $this->sc_tree->insertNode($manifest->getId(), $this->getCurrentParent());
                 }
-                array_push($this->parent_stack, $manifest->getId());
+                $this->parent_stack[] = $manifest->getId();
                 break;
 
             case "organizations":
@@ -213,7 +182,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $organizations->setDefaultOrganization($a_attribs["default"]);
                 $organizations->create();
                 $this->sc_tree->insertNode($organizations->getId(), $this->getCurrentParent());
-                array_push($this->parent_stack, $organizations->getId());
+                $this->parent_stack[] = $organizations->getId();
                 break;
 
             case "organization":
@@ -224,7 +193,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $organization->create();
                 $this->current_organization = &$organization;
                 $this->sc_tree->insertNode($organization->getId(), $this->getCurrentParent());
-                array_push($this->parent_stack, $organization->getId());
+                $this->parent_stack[] = $organization->getId();
                 break;
 
             case "item":
@@ -232,7 +201,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $item->setSLMId($this->slm_object->getId());
                 $item->setImportId($a_attribs["identifier"]);
                 $item->setIdentifierRef($a_attribs["identifierref"]);
-                if (strtolower((string) $a_attribs["isvisible"]) != "false") {
+                if (strtolower((string) $a_attribs["isvisible"]) !== "false") {
                     $item->setVisible(true);
                 } else {
                     $item->setVisible(false);
@@ -240,8 +209,8 @@ class ilSCORMPackageParser extends ilSaxParser
                 $item->setParameters($a_attribs["parameters"]);
                 $item->create();
                 $this->sc_tree->insertNode($item->getId(), $this->getCurrentParent());
-                array_push($this->parent_stack, $item->getId());
-                $this->item_stack[count($this->item_stack)] = &$item;
+                $this->parent_stack[] = $item->getId();
+                $this->item_stack[] = &$item;
                 break;
 
             case "adlcp:prerequisites":
@@ -254,7 +223,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $resources->setXmlBase($a_attribs["xml:base"]);
                 $resources->create();
                 $this->sc_tree->insertNode($resources->getId(), $this->getCurrentParent());
-                array_push($this->parent_stack, $resources->getId());
+                $this->parent_stack[] = $resources->getId();
                 break;
 
             case "resource":
@@ -268,7 +237,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $resource->create();
                 $this->current_resource = &$resource;
                 $this->sc_tree->insertNode($resource->getId(), $this->getCurrentParent());
-                array_push($this->parent_stack, $resource->getId());
+                $this->parent_stack[] = $resource->getId();
                 break;
 
             case "file":
@@ -289,12 +258,8 @@ class ilSCORMPackageParser extends ilSaxParser
 
     /**
      * handler for end of element
-     *
-     * @param        $a_xml_parser
-     * @param string $a_name
-     * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name) : void//PHP8Review: Missing Typehint
     {
         //echo "<br>handlerEndTag:".$a_name;
 
@@ -327,12 +292,8 @@ class ilSCORMPackageParser extends ilSaxParser
 
     /**
      * handler for character data
-     *
-     * @param             $a_xml_parser
-     * @param string|null $a_data
-     * @return void
      */
-    public function handlerCharacterData($a_xml_parser, ?string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, ?string $a_data) : void//PHP8Review: Missing Typehint
     {
         //echo "<br>handlerCharacterData:".$this->getCurrentElement().":".$a_data;
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA

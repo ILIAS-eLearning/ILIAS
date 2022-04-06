@@ -18,15 +18,9 @@ class ilSCORMExplorer extends ilExplorer
     /**
      * id of root folder
      */
-    public $slm_obj;
+    public $slm_obj;//PHP8Review: Missing Typehint (probably ilObjScormModule)
 
-    /**
-     * Constructor
-     * @access    public
-     * @param string $a_target
-     * @param        $a_slm_obj
-     */
-    public function __construct(string $a_target, &$a_slm_obj)
+    public function __construct(string $a_target, &$a_slm_obj) : void//PHP8Review: Missing Typehint
     {
         parent::__construct($a_target);
         $this->slm_obj = $a_slm_obj;
@@ -37,26 +31,16 @@ class ilSCORMExplorer extends ilExplorer
         $this->setOrderColumn("");
     }
 
-    /**
-     * @param int $a_node_id
-     * @return ilSCORMItem
-     */
     public function getItem(int $a_node_id) : \ilSCORMItem
     {
         return new ilSCORMItem($a_node_id);
     }
 
-    /**
-     * @return string
-     */
     public function getIconImagePathPrefix() : string
     {
         return "scorm/";
     }
 
-    /**
-     * @return int
-     */
     public function getNodesToSkip() : int
     {
         return 2;
@@ -64,14 +48,9 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * overwritten method from base class
-     *
-     * @param ilTemplate $tpl
-     * @param            $a_obj_id
-     * @param array      $a_option
-     * @return void
      * @throws ilTemplateException
      */
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void//PHP8Review: Missing Typehint
     {
         global $DIC;
         $lng = $DIC->language();
@@ -89,14 +68,8 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * Creates Get Parameter
-     * @access    private
-     * @param string $a_type
-     * @param integer
-     * @param bool   $a_highlighted_subtree
-     * @param bool   $a_append_anch
-     * @return    string
      */
-    public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true) : string
+    public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true) : string//PHP8Review: Missing Typehint
     {
         // SET expand parameter:
         //     positive if object is expanded
@@ -108,14 +81,7 @@ class ilSCORMExplorer extends ilExplorer
         return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id;
     }
 
-    /**
-     * @param $a_parent_id
-     * @param $a_depth
-     * @param $a_obj_id
-     * @param $a_highlighted_subtree
-     * @return void
-     */
-    public function setOutput($a_parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false) : void
+    public function setOutput(int $a_parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false) : void //PHP8Review: Missing Typehint
 //    public function setOutput(int $a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
         $this->format_options = $this->createOutputArray($a_parent_id);
@@ -123,9 +89,6 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * recursive creating of outputs
-     * @param int   $a_parent_id
-     * @param array $options
-     * @return array
      */
     protected function createOutputArray(int $a_parent_id, array $options = array()) : array
     {
@@ -166,39 +129,22 @@ class ilSCORMExplorer extends ilExplorer
         return $options;
     }
 
-    /**
-     * @param        $a_ref_id
-     * @param string $a_type
-     * @return bool
-     */
-    public function isVisible($a_ref_id, string $a_type) : bool
+    public function isVisible($a_ref_id, string $a_type) : bool//PHP8Review: Missing Typehint
     {
-        if ($a_type == "sre") {
-            return false;
-        } else {
-            return true;
-        }
+        return $a_type !== "sre";
     }
 
     /**
      * Creates output template
-     * @access    public
-     * @param bool $jsApi
-     * @return    string
      * @throws ilTemplateException
      */
     public function getOutput(bool $jsApi = false) : string
     {
-        $output = $this->createOutput($this->format_options, $jsApi);
-
-        return $output->get();
+        return $this->createOutput($this->format_options, $jsApi)->get();
     }
 
     /**
      * recursive creation of output templates
-     * @param array $option
-     * @param bool  $jsApi
-     * @return ilTemplate
      * @throws ilTemplateException
      */
     public function createOutput(array $option, bool $jsApi) : \ilTemplate
@@ -226,30 +172,19 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * can i click on the module name
-     *
-     * @param $a_type
-     * @param $a_ref_id
-     * @return bool
      */
-    public function isClickable($a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $a_type, int $a_ref_id = 0) : bool//PHP8Review: This parent should be typestrict, but exceeds the scorm scope, so i just leave a recommendation here
     {
-        if ($a_type != "sit") {
+        if ($a_type !== "sit") {
             return false;
-        } else {
-            $sc_object = new ilSCORMItem($a_ref_id);
-            if ($sc_object->getIdentifierRef() != "") {
-                return true;
-            }
         }
-        return false;
+
+        $sc_object = new ilSCORMItem($a_ref_id);
+        return $sc_object->getIdentifierRef() != "";
     }
 
     /**
      * insert the option data in $tpl
-     * @param array      $option
-     * @param ilTemplate $tpl
-     * @param bool       $jsApi
-     * @return ilTemplate
      * @throws ilTemplateException
      */
     protected function insertObject(array $option, ilTemplate $tpl, bool $jsApi) : \ilTemplate
@@ -287,7 +222,7 @@ class ilSCORMExplorer extends ilExplorer
                     $tpl->setVariable("ONCLICK", " onclick=\"parent.API.IliasLaunch('" . $option["id"] . "');return false;\"");
                 } else {
                     $tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API."
-                        . ($scormtype == 'asset' ? 'IliasLaunchAsset' : 'IliasLaunchSahs')
+                        . ($scormtype === 'asset' ? 'IliasLaunchAsset' : 'IliasLaunchSahs')
                         . "('" . $option["id"] . "');return false;\"");
                 }
             }
@@ -306,11 +241,6 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * tpl is filled with option state
-     * @param ilTemplate $tpl
-     * @param array      $a_option
-     * @param int        $a_node_id
-     * @param string     $scormtype
-     * @return void
      * @throws ilTemplateException
      */
     public function getOutputIcons(\ilTemplate $tpl, array $a_option, int $a_node_id, string $scormtype = "sco") : void
@@ -320,7 +250,7 @@ class ilSCORMExplorer extends ilExplorer
 
         $tpl->setCurrentBlock("icon");
 
-        if ($scormtype == 'asset') {
+        if ($scormtype === 'asset') {
             $tpl->setVariable('ICON_IMAGE', ilUtil::getImagePath($this->getIconImagePathPrefix() . "asset.svg"));
             $tpl->setVariable('TXT_ALT_IMG', '');
             $tpl->parseCurrentBlock();
@@ -338,18 +268,18 @@ class ilSCORMExplorer extends ilExplorer
                 ? "not attempted"
                 : $trdata["cmi.core.lesson_status"];
 
-        $statusChar = strtolower(substr($status, 0, 1));
-        if ($statusChar == "f") {
+        $statusChar = strtolower($status[0]);
+        if ($statusChar === "f") {
             $status = "failed";
-        } elseif ($statusChar == "b") {
+        } elseif ($statusChar === "b") {
             $status = "browsed";
-        } elseif ($statusChar == "c") {
+        } elseif ($statusChar === "c") {
             $status = "completed";
-        } elseif ($statusChar == "n") {
+        } elseif ($statusChar === "n") {
             $status = "not_attempted";
-        } elseif ($statusChar == "p") {
+        } elseif ($statusChar === "p") {
             $status = "passed";
-        } elseif ($statusChar == "r") {
+        } elseif ($statusChar === "r") {
             $status = "running";
         }
             
@@ -364,7 +294,7 @@ class ilSCORMExplorer extends ilExplorer
 
         // total time
         if ($trdata["cmi.core.total_time"] != "" &&
-                $trdata["cmi.core.total_time"] != "0000:00:00.00") {
+                $trdata["cmi.core.total_time"] !== "0000:00:00.00") {
             $alt .= ", " . $lng->txt("cont_total_time") .
                 ": " . $trdata["cmi.core.total_time"];
         }

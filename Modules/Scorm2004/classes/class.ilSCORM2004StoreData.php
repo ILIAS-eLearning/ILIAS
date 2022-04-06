@@ -9,13 +9,6 @@
  */
 class ilSCORM2004StoreData
 {
-    /**
-     * @param int      $packageId
-     * @param int      $refId
-     * @param bool     $time_from_lms
-     * @param int|null $userId
-     * @return void
-     */
     public static function scormPlayerUnload(int $packageId, int $refId, bool $time_from_lms, ?int $userId = null) : void
     {
         global $DIC;
@@ -79,12 +72,6 @@ class ilSCORM2004StoreData
         print("");
     }
 
-    /**
-     * @param int    $packageId
-     * @param int    $userId
-     * @param string $hash
-     * @return void
-     */
     public static function checkIfAllowed(int $packageId, int $userId, string $hash) : void
     {
         global $DIC;
@@ -98,14 +85,11 @@ class ilSCORM2004StoreData
         $rowtmp = $ilDB->fetchAssoc($res);
         if ((string) $rowtmp['hash'] == $hash) {
             return;
-        } else {
-            die("not allowed");
         }
+
+        die("not allowed");
     }
 
-    /**
-     * @return void
-     */
     protected static function ensureObjectDataCacheExistence() : void
     {
         /**
@@ -124,18 +108,6 @@ class ilSCORM2004StoreData
         $GLOBALS['DIC']['ilObjDataCache'] = $ilObjDataCache;
     }
 
-    /**
-     * @param int         $packageId
-     * @param int         $refId
-     * @param string      $defaultLessonMode
-     * @param bool        $comments
-     * @param bool        $interactions
-     * @param bool        $objectives
-     * @param bool        $time_from_lms
-     * @param string|null $data
-     * @param int|null    $userId
-     * @return void
-     */
     public static function persistCMIData(
         int $packageId,
         int $refId,
@@ -151,7 +123,7 @@ class ilSCORM2004StoreData
 
         $ilLog = ilLoggerFactory::getLogger('sc13');
 
-        if ($defaultLessonMode == "browse") {
+        if ($defaultLessonMode === "browse") {
             return;
         }
 
@@ -167,7 +139,6 @@ class ilSCORM2004StoreData
             self::checkIfAllowed($packageId, $userId, $data->hash);
             //			header('Access-Control-Allow-Origin: http://localhost:50012');//just for tests - not for release UK
         }
-        $return = array();
         $return = ilSCORM2004StoreData::setCMIData(
             $userId,
             $packageId,
@@ -202,15 +173,6 @@ class ilSCORM2004StoreData
         }
     }
 
-    /**
-     * @param int    $userId
-     * @param int    $packageId
-     * @param object $data
-     * @param bool   $getComments
-     * @param bool   $getInteractions
-     * @param bool   $getObjectives
-     * @return array
-     */
     public static function setCMIData(
         int $userId,
         int $packageId,
@@ -393,9 +355,9 @@ class ilSCORM2004StoreData
                         $row[2] = $ilDB->nextId('cmi_objective');
                         $cmi_interaction_id = null;
                         if ($row[0] != null) {
-                            for ($i = 0; $i < count($a_map_cmi_interaction_id); $i++) {
-                                if ($row[0] == $a_map_cmi_interaction_id[$i][0]) {
-                                    $cmi_interaction_id = $a_map_cmi_interaction_id[$i][1];
+                            foreach ($a_map_cmi_interaction_id as $i => $value) {
+                                if ($row[0] == $value[0]) {
+                                    $cmi_interaction_id = $value[1];
                                 }
                             }
                         }
@@ -419,9 +381,9 @@ class ilSCORM2004StoreData
                     case 'correct_response':
                         $cmi_interaction_id = null;
                         if ($row[1] !== null) {
-                            for ($i = 0; $i < count($a_map_cmi_interaction_id); $i++) {
-                                if ($row[1] == $a_map_cmi_interaction_id[$i][0]) {
-                                    $cmi_interaction_id = $a_map_cmi_interaction_id[$i][1];
+                            foreach ($a_map_cmi_interaction_id as $i => $value) {
+                                if ($row[1] == $value[0]) {
+                                    $cmi_interaction_id = $value[1];
                                 }
                             }
                             $row[0] = $ilDB->nextId('cmi_correct_response');
@@ -438,12 +400,6 @@ class ilSCORM2004StoreData
         return $result;
     }
 
-    /**
-     * @param int    $userId
-     * @param int    $packageId
-     * @param object $data
-     * @return void
-     */
     protected static function setGlobalObjectives(int $userId, int $packageId, object $data) : void
     {
         $ilLog = ilLoggerFactory::getLogger('sc13');
@@ -458,12 +414,6 @@ class ilSCORM2004StoreData
     //saves global_objectives to database
     //$dowrite only if changed adl_seq_utilities
 
-    /**
-     * @param int        $user
-     * @param int        $package
-     * @param array|null $g_data
-     * @return array|null[]
-     */
     public static function writeGObjective(int $user, int $package, ?array $g_data) : array
     {
         global $DIC;
@@ -503,7 +453,7 @@ class ilSCORM2004StoreData
                 $toset = $o_value;
                 $dbuser = $user;
 
-                if ($key == "status") {
+                if ($key === "status") {
 
                     //special handling for status
                     $completed = $g_data->$key->$skey->$user->{"completed"};
@@ -575,7 +525,7 @@ class ilSCORM2004StoreData
             $existing_key_template .= "'{$obj_id}',";
         }
         //remove trailing ','
-        $existing_key_template = substr($existing_key_template, 0, strlen($existing_key_template) - 1);
+        $existing_key_template = substr($existing_key_template, 0, -1);
         $existing_keys = array();
 
         if ($existing_key_template != "") {
@@ -673,15 +623,6 @@ class ilSCORM2004StoreData
         return $returnAr;
     }
 
-    /**
-     * @param int    $userId
-     * @param int    $packageId
-     * @param int    $refId
-     * @param object $data
-     * @param int    $new_global_status
-     * @param bool   $time_from_lms
-     * @return void
-     */
     public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, int $new_global_status, bool $time_from_lms) : void
     {
         global $DIC;
