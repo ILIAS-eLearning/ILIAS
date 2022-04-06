@@ -163,7 +163,6 @@ class ilAdvancedMDRecord
 
     /**
      * get activated obj types
-     * @param string[]
      */
     public static function _getActivatedObjTypes() : array
     {
@@ -768,7 +767,8 @@ class ilAdvancedMDRecord
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
-
+    
+        // PHP8-Review: Redundant cast to boolean
         if ((bool) $a_delete_before) {
             $ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE " .
                 " obj_id = " . $ilDB->quote($a_obj_id, "integer") .
@@ -823,6 +823,7 @@ class ilAdvancedMDRecord
         $new_obj->setActive($this->isActive());
         $new_obj->setTitle($this->getTitle());
         $new_obj->setDescription($this->getDescription());
+        // PHP8-Review: Ternary expression can be replaced with short version
         $new_obj->setParentObject($a_parent_obj_id
             ? $a_parent_obj_id
             : $this->getParentObject());

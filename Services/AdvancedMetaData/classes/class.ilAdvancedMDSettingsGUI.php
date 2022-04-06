@@ -192,6 +192,7 @@ class ilAdvancedMDSettingsGUI
         ?string $obj_type,
         ?string $sub_type
     ) : void {
+        // PHP8-Review: 'if' statement with common parts
         if ($context === self::CONTEXT_ADMINISTRATION) {
             $this->ref_id = $ref_id;
             $this->obj_id = null;
@@ -590,6 +591,7 @@ class ilAdvancedMDSettingsGUI
         // add items to delete
         foreach ($record_ids as $record_id) {
             $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
+            // PHP8-Review: Ternary expression can be replaced with short version
             $c_gui->addItem("record_id[]", $record_id, $record->getTitle() ? $record->getTitle() : 'No Title');
         }
         $this->tpl->setContent($c_gui->getHTML());
@@ -751,6 +753,7 @@ class ilAdvancedMDSettingsGUI
         // add items to delete
         foreach ($field_ids as $field_id) {
             $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+            // PHP8-Review: Ternary expression can be replaced with short version
             $c_gui->addItem("field_id[]", $field_id, $field->getTitle() ? $field->getTitle() : 'No Title');
         }
         $this->tpl->setContent($c_gui->getHTML());

@@ -115,6 +115,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_data       character data
      */
+    // PHP8-Review: Parameter's name changed during inheritance
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {

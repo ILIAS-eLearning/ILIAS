@@ -498,6 +498,7 @@ class ilAdvancedMDRecordGUI
      */
     private function handleECSDefinitions($a_definition) : bool
     {
+        // PHP8-Review: 'if' statement with common parts
         if (ilECSServerSettings::getInstance()->activeServerExists() or
             ($this->obj_type != 'crs' and $this->obj_type != 'rcrs')
         ) {

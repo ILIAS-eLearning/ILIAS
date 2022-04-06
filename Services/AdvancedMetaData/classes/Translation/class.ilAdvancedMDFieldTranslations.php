@@ -222,8 +222,10 @@ class ilAdvancedMDFieldTranslations
 
     public function getTitleForLanguage(int $field_id, string $language) : string
     {
-        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id,
-                $language)->getTitle())) {
+        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation(
+            $field_id,
+            $language
+        )->getTitle())) {
             return $this->getTranslation($field_id, $language)->getTitle();
         }
         if (
@@ -240,8 +242,10 @@ class ilAdvancedMDFieldTranslations
 
     public function getDescriptionForLanguage(int $field_id, string $language) : string
     {
-        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id,
-                $language)->getDescription())) {
+        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation(
+            $field_id,
+            $language
+        )->getDescription())) {
             return $this->getTranslation($field_id, $language)->getDescription();
         }
         if ($this->getTranslation($field_id, $this->getDefaultLanguage()) &&

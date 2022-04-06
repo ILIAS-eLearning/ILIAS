@@ -99,6 +99,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         $this->setMin($a_def["min"]);
         $this->setMax($a_def["max"]);
         $this->setSuffix($a_def["suffix"]);
+        // PHP8-Review: 'isset' can be replaced with coalesce
         $this->setSuffixTranslations(isset($a_def['suffix_translations']) ? $a_def['suffix_translations'] : []);
     }
 

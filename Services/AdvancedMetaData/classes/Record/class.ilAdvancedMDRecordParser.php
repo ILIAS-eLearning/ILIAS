@@ -295,6 +295,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 return true;
 
             default:
+                // PHP8-Review: Redundant cast to string
                 throw new InvalidArgumentException('Current parsing mode is not supported. Mode: ' . (string) $this->getMode());
         }
     }
@@ -349,6 +350,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         }
         foreach ($this->fields as $field) {
             $field->setRecordId($this->getCurrentRecord()->getRecordId());
+            // PHP8-Review: 'switch' with single 'case'
             switch ($this->getMode()) {
                 case self::MODE_INSERT:
                     $field->save();

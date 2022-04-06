@@ -65,5 +65,4 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
         $GLOBALS['DIC'] = $this->dic;
         $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
     }
-
 }
