@@ -31,6 +31,7 @@ class Standard implements Page\Standard
     private ?MainBar $mainbar;
     private ?Breadcrumbs $breadcrumbs;
     private ?Image $logo;
+    private ?Image $responsive_logo;
     private ?Container $overlay;
     private ?Footer $footer;
     private string $short_title;
@@ -48,6 +49,7 @@ class Standard implements Page\Standard
         ?MainBar $mainbar = null,
         ?Breadcrumbs $locator = null,
         ?Image $logo = null,
+        ?Image $responsive_logo = null,
         ?Container $overlay = null,
         ?Footer $footer = null,
         string $title = '',
@@ -62,6 +64,7 @@ class Standard implements Page\Standard
         $this->mainbar = $mainbar;
         $this->breadcrumbs = $locator;
         $this->logo = $logo;
+        $this->responsive_logo = $responsive_logo;
         $this->overlay = $overlay;
         $this->footer = $footer;
         $this->title = $title;
@@ -89,13 +92,17 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function withLogo(Image $logo) : Page\Standard
     {
         $clone = clone $this;
         $clone->logo = $logo;
+        return $clone;
+    }
+
+    public function withResponsiveLogo(Image $logo) : Page\Standard
+    {
+        $clone = clone $this;
+        $clone->responsive_logo = $logo;
         return $clone;
     }
 
@@ -133,9 +140,11 @@ class Standard implements Page\Standard
         return ($this->logo instanceof Image);
     }
 
-    /**
-     * @inheritDoc
-     */
+    public function hasResponsiveLogo() : bool
+    {
+        return ($this->responsive_logo instanceof Image);
+    }
+
     public function hasFooter() : bool
     {
         return ($this->footer instanceof Footer);
@@ -181,9 +190,11 @@ class Standard implements Page\Standard
         return $this->logo;
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function getResponsiveLogo() : ?Image
+    {
+        return $this->responsive_logo;
+    }
+
     public function getFooter() : ?Footer
     {
         return $this->footer;

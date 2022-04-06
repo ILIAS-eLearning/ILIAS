@@ -70,7 +70,12 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-    
+
+    public function getResponsiveLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
+    {
+        return null;
+    }
+
     /**
      * @inheritDoc
      */

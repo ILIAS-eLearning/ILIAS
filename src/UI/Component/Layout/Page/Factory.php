@@ -69,6 +69,7 @@ interface Factory
      * @param  \ILIAS\UI\Component\MainControls\MetaBar $mainbar
      * @param  \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs $locator
      * @param  \ILIAS\UI\Component\Image\Image $logo
+     * @param  \ILIAS\UI\Component\Image\Image $responsive_logo
      * @param  \ILIAS\UI\Component\Toast\Container $overlay
      * @param  \ILIAS\UI\Component\MainControls\Footer $footer
      * @param  string $title
@@ -82,6 +83,7 @@ interface Factory
         MainBar $mainbar = null,
         Breadcrumbs $locator = null,
         Image $logo = null,
+        Image $responsive_logo = null,
         Container $overlay = null,
         Footer $footer = null,
         string $title = '',

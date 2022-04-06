@@ -29,21 +29,27 @@ interface Standard extends Page, JavaScriptBindable
 
     public function withLogo(Image $logo) : Standard;
 
+    public function withResponsiveLogo(Image $logo) : Standard;
+
     public function hasMetabar() : bool;
 
     public function hasMainbar() : bool;
 
     public function hasLogo() : bool;
 
+    public function hasResponsiveLogo() : bool;
+
     public function hasOverlay() : bool;
 
-    public function getMetabar() : ?MetaBar;
+    public function getMetabar() : ?Metabar;
 
     public function getMainbar() : ?MainBar;
 
     public function getBreadcrumbs() : ?Breadcrumbs;
 
     public function getLogo() : ?Image;
+
+    public function getResponsiveLogo() : ?Image;
 
     public function getOverlay() : ?Container;
 
