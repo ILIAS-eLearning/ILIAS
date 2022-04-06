@@ -56,8 +56,7 @@ class ilRatingCategoryGUI
         $this->request = $DIC->http()->request();
         $lng = $DIC->language();
 
-        // PHP8-Review: Type cast is unnecessary
-        $this->parent_id = (int) $a_parent_id;
+        $this->parent_id = $a_parent_id;
         $this->export_callback = $a_export_callback;
         $this->export_subobj_title = $a_export_subobj_title;
         
@@ -85,7 +84,6 @@ class ilRatingCategoryGUI
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("listCategories");
 
-        // PHP8-Review: 'switch' with single 'case'
         switch ($next_class) {
             default:
                 $this->$cmd();

@@ -36,8 +36,7 @@ class ilRatingDataSet extends ilDataSet
      */
     protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        // PHP8-Review: Link with unencrypted protocol
-        return "http://www.ilias.de/xml/Services/Rating/" . $a_entity;
+        return "https://www.ilias.de/xml/Services/Rating/" . $a_entity;
     }
     
     /**
@@ -46,7 +45,6 @@ class ilRatingDataSet extends ilDataSet
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "rating_category") {
-            // PHP8-Review: 'switch' with single 'case'
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -72,7 +70,6 @@ class ilRatingDataSet extends ilDataSet
         }
                 
         if ($a_entity == "rating_category") {
-            // PHP8-Review: 'switch' with single 'case'
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT id, parent_id, title," .
@@ -100,7 +97,6 @@ class ilRatingDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ) : void {
-        // PHP8-Review: 'switch' with single 'case'
         switch ($a_entity) {
             case "rating_category":
                 if ($parent_id = $a_mapping->getMapping('Services/Rating', 'rating_category_parent_id', $a_rec['ParentId'])) {

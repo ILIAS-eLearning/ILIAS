@@ -64,8 +64,7 @@ class ilRating
         if ($a_category_id) {
             $ilDB->manipulate("DELETE FROM il_rating WHERE " .
                 "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
-                // PHP8-Review: Type cast is unnecessary
-                "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+                "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
                 "obj_type = " . $ilDB->quote($a_obj_type, "text") . " AND " .
                 "sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") . " AND " .
                 $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true) . " AND " .
@@ -74,27 +73,22 @@ class ilRating
         
         $ilDB->manipulate("DELETE FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
-            // PHP8-Review: Type cast is unnecessary
-            "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") . " AND " .
             "sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") . " AND " .
             $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true) . " AND " .
-            // PHP8-Review: Type cast is unnecessary
-            "category_id = " . $ilDB->quote((int) $a_category_id, "integer"));
+            "category_id = " . $ilDB->quote($a_category_id, "integer"));
 
-        // PHP8-Review: Type cast is unnecessary
-        if ((int) $a_rating) {
+        if ($a_rating) {
             $ilDB->manipulate("INSERT INTO il_rating (user_id, obj_id, obj_type," .
                 "sub_obj_id, sub_obj_type, category_id, rating, tstamp) VALUES (" .
                 $ilDB->quote($a_user_id, "integer") . "," .
-                // PHP8-Review: Type cast is unnecessary
-                $ilDB->quote((int) $a_obj_id, "integer") . "," .
+                $ilDB->quote($a_obj_id, "integer") . "," .
                 $ilDB->quote($a_obj_type, "text") . "," .
                 $ilDB->quote((int) $a_sub_obj_id, "integer") . "," .
                 $ilDB->quote($a_sub_obj_type, "text") . "," .
                 $ilDB->quote($a_category_id, "integer") . "," .
-                // PHP8-Review: Type cast is unnecessary
-                $ilDB->quote((int) $a_rating, "integer") . "," .
+                $ilDB->quote($a_rating, "integer") . "," .
                 $ilDB->quote(time(), "integer") . ")");
         }
     }
@@ -121,11 +115,9 @@ class ilRating
         
         $ilDB->manipulate("DELETE FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
-            // PHP8-Review: Type cast is unnecessary
-            "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") . " AND " .
-            // PHP8-Review: Type cast is unnecessary
-            "sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") . " AND " .
+            "sub_obj_id = " . $ilDB->quote($a_sub_obj_id, "integer") . " AND " .
             $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true));
     }
     
@@ -158,15 +150,12 @@ class ilRating
         
         $q = "SELECT AVG(rating) av FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
-            // PHP8-Review: Type cast is unnecessary
-            "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") . " AND " .
-            // PHP8-Review: Type cast is unnecessary
-            "sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") . " AND " .
+            "sub_obj_id = " . $ilDB->quote($a_sub_obj_id, "integer") . " AND " .
             $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
         if ($a_category_id !== null) {
-            // PHP8-Review: Type cast is unnecessary
-            $q .= " AND category_id = " . $ilDB->quote((int) $a_category_id, "integer");
+            $q .= " AND category_id = " . $ilDB->quote($a_category_id, "integer");
         }
         $set = $ilDB->query($q);
         $rec = $ilDB->fetchAssoc($set);
@@ -198,20 +187,17 @@ class ilRating
         }
         
         $q = "SELECT AVG(rating) av FROM il_rating" .
-            // PHP8-Review: Type cast is unnecessary
-            " WHERE obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") .
+            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND obj_type = " . $ilDB->quote($a_obj_type, "text");
         if ($a_sub_obj_id) {
-            // PHP8-Review: Type cast is unnecessary
-            $q .= " AND sub_obj_id = " . $ilDB->quote((int) $a_sub_obj_id, "integer") .
+            $q .= " AND sub_obj_id = " . $ilDB->quote($a_sub_obj_id, "integer") .
                 " AND " . $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
         } else {
             $q .= " AND sub_obj_type = " . $ilDB->quote("-", "text"); // #13913
         }
         
         if ($a_category_id !== null) {
-            // PHP8-Review: Type cast is unnecessary
-            $q .= " AND category_id = " . $ilDB->quote((int) $a_category_id, "integer");
+            $q .= " AND category_id = " . $ilDB->quote($a_category_id, "integer");
         }
         $q .= " GROUP BY user_id";
         $set = $ilDB->query($q);
@@ -248,8 +234,7 @@ class ilRating
         $res = array();
         $q = "SELECT sub_obj_id, sub_obj_type, rating, category_id, user_id, tstamp " .
             "FROM il_rating WHERE " .
-            // PHP8-Review: Type cast is unnecessary
-            "obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") .
             " ORDER BY tstamp";
         if ($a_category_ids) {
