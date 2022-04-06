@@ -10,7 +10,7 @@
  */
 class ilLangDeprecated
 {
-    const ILIAS_CLASS_FILE_RE = "class\..*\.php$";
+    private const ILIAS_CLASS_FILE_RE = "class\..*\.php$";
 
     protected array $candidates;
     private \ilDBInterface $db;
@@ -101,7 +101,7 @@ class ilLangDeprecated
                 case T_STRING:
                 case T_CONSTANT_ENCAPSED_STRING:
                     $lv = str_replace(array("'", '"'), "", $tokens[$i][1]);
-                    if ($lv != "") {
+                    if ($lv !== "") {
                         unset($this->candidates[$lv]);
                     }
                     break;

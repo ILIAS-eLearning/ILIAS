@@ -19,7 +19,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
     /**
      * @inheritDoc
      */
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -30,7 +30,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
     /**
      * @inheritDoc
      */
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         if ($client_ini) {
@@ -57,7 +57,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             $local_file = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_STABLE,
                 Setup\Metrics\Metric::TYPE_BOOL,
-                in_array($lang, $local_languages),
+                in_array($lang, $local_languages, true),
                 "Is there a local language file for the language?"
             );
             $local_changes = new Setup\Metrics\Metric(
@@ -74,7 +74,7 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                     "local_changes" => $local_changes
                 ]
             );
-        };
+        }
         $installed_languages = new Setup\Metrics\Metric(
             Setup\Metrics\Metric::STABILITY_STABLE,
             Setup\Metrics\Metric::TYPE_COLLECTION,

@@ -93,15 +93,13 @@ class ilLanguageTableGUI extends ilTable2GUI
         }
 
         // set remark color
+        $remark = "";
         switch ($a_set["info"]) {
             case "file_not_found":
                 $remark = "<span class=\"smallred\"> " . $this->lng->txt($a_set["info"]) . "</span>";
                 break;
             case "new_language":
                 //$remark = "<span class=\"smallgreen\"> ".$lng->txt($a_set["info"])."</span>";
-                break;
-            default:
-                $remark = "";
                 break;
         }
         
@@ -111,7 +109,7 @@ class ilLanguageTableGUI extends ilTable2GUI
             $remark .= "<span class=\"smallgreen\"> " . $this->lng->txt("language_translation_enabled") . "</span>";
         }
 
-        if ($a_set["desc"] != "not_installed") {
+        if ($a_set["desc"] !== "not_installed") {
             $this->tpl->setVariable(
                 "LAST_REFRESH",
                 ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"], IL_CAL_DATETIME))
@@ -127,12 +125,13 @@ class ilLanguageTableGUI extends ilTable2GUI
         $this->tpl->setVariable("NR_OF_USERS", ilObjLanguage::countUsers($a_set["key"]));
 
         // make language name clickable
-        if ($ilAccess->checkAccess("write", "", $this->folder->getRefId())) {
-            if (strpos($a_set["description"], "installed") === 0) {
-                $this->ctrl->setParameterByClass("ilobjlanguageextgui", "obj_id", $a_set["obj_id"]);
-                $url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui", "");
-                $a_set["name"] = '<a href="' . $url . '">' . $a_set["name"] . '</a>';
-            }
+        if ($ilAccess->checkAccess("write", "", $this->folder->getRefId()) && strpos(
+            $a_set["description"],
+            "installed"
+        ) === 0) {
+            $this->ctrl->setParameterByClass("ilobjlanguageextgui", "obj_id", $a_set["obj_id"]);
+            $url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui", "");
+            $a_set["name"] = '<a href="' . $url . '">' . $a_set["name"] . '</a>';
         }
 
         $this->tpl->setVariable("VAL_LANGUAGE", $a_set["name"] . $status);

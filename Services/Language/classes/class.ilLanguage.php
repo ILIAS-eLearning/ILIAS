@@ -25,7 +25,7 @@
  */
 class ilLanguage
 {
-    public $ilias;
+    public ILIAS $ilias;
     public array $text = [];
     public string $lang_default;
     public string $lang_user;
@@ -83,7 +83,7 @@ class ilLanguage
 
         $langs = $this->getInstalledLanguages();
 
-        if (!in_array($this->lang_key, $langs)) {
+        if (!in_array($this->lang_key, $langs, true)) {
             $this->lang_key = $this->lang_default;
         }
 
@@ -93,8 +93,6 @@ class ilLanguage
             $this->cached_modules = $this->global_cache->getTranslations();
         }
         $this->loadLanguageModule("common");
-
-        return true;
     }
 
     /**
@@ -142,10 +140,10 @@ class ilLanguage
      */
     public function txtlng(string $a_module, string $a_topic, string $a_language) : string
     {
-        if (strcmp($a_language, $this->lang_key) == 0) {
+        if (strcmp($a_language, $this->lang_key) === 0) {
             return $this->txt($a_topic);
         } else {
-            return ilLanguage::_lookupEntry($a_language, $a_module, $a_topic);
+            return self::_lookupEntry($a_language, $a_module, $a_topic);
         }
     }
 
@@ -162,23 +160,20 @@ class ilLanguage
         // remember the used topics
         self::$used_topics[$a_topic] = $a_topic;
 
-        $translation = "";
-        if (isset($this->text[$a_topic])) {
-            $translation = $this->text[$a_topic];
-        }
+        $translation = $this->text[$a_topic] ?? "";
 
-        if ($translation == "" && $a_default_lang_fallback_mod != "") {
+        if ($translation === "" && $a_default_lang_fallback_mod !== "") {
             // #13467 - try current language first (could be missing module)
             if ($this->lang_key != $this->lang_default) {
-                $translation = ilLanguage::_lookupEntry(
+                $translation = self::_lookupEntry(
                     $this->lang_key,
                     $a_default_lang_fallback_mod,
                     $a_topic
                 );
             }
             // try default language last
-            if ($translation == "" || $translation == "-" . $a_topic . "-") {
-                $translation = ilLanguage::_lookupEntry(
+            if ($translation === "" || $translation === "-" . $a_topic . "-") {
+                $translation = self::_lookupEntry(
                     $this->lang_default,
                     $a_default_lang_fallback_mod,
                     $a_topic
@@ -187,17 +182,18 @@ class ilLanguage
         }
 
 
-        if ($translation == "") {
+        if ($translation === "") {
             if (ILIAS_LOG_ENABLED && is_object($this->log)) {
                 $this->log->debug("Language (" . $this->lang_key . "): topic -" . $a_topic . "- not present");
             }
             return "-" . $a_topic . "-";
-        } else {
-            if ($this->usage_log_enabled) {
-                self::logUsage($this->map_modules_txt[$a_topic], $a_topic);
-            }
-            return $translation;
         }
+
+        if ($this->usage_log_enabled) {
+            self::logUsage($this->map_modules_txt[$a_topic], $a_topic);
+        }
+
+        return $translation;
     }
 
     /**
@@ -211,12 +207,12 @@ class ilLanguage
     /**
      * Load language module
      */
-    public function loadLanguageModule(string $a_module)
+    public function loadLanguageModule(string $a_module) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        if (in_array($a_module, $this->loaded_modules)) {
+        if (in_array($a_module, $this->loaded_modules, true)) {
             return;
         }
 
@@ -253,7 +249,7 @@ class ilLanguage
             return;
         }
 
-        $new_text = unserialize($row["lang_array"]);
+        $new_text = unserialize($row["lang_array"], ["allowed_classes" => false]);
         if (is_array($new_text)) {
             $this->text = array_merge($this->text, $new_text);
 
@@ -373,7 +369,7 @@ class ilLanguage
     /**
      * Builds a global default language instance
      */
-    public static function getFallbackInstance()
+    public static function getFallbackInstance() : ilLanguage
     {
         return new self("en");
     }
@@ -384,22 +380,21 @@ class ilLanguage
     public static function getGlobalInstance() : self
     {
         global $DIC;
+
         $ilSetting = $DIC->settings();
+
+        $ilUser = null;
         if ($DIC->offsetExists("ilUser")) {
             $ilUser = $DIC->user();
         }
 
-        if (!ilSession::get("lang") && empty($_GET["lang"])) {
-            if ($ilUser instanceof ilObjUser &&
-                (!$ilUser->getId() || $ilUser->isAnonymous())
-            ) {
-                require_once "Services/Language/classes/class.ilLanguageDetection.php";
-                $language_detection = new ilLanguageDetection();
-                $language = $language_detection->detect();
+        if (!ilSession::get("lang") && empty($_GET["lang"]) && $ilUser instanceof ilObjUser &&
+            (!$ilUser->getId() || $ilUser->isAnonymous())) {
+            $language_detection = new ilLanguageDetection();
+            $language = $language_detection->detect();
 
-                $ilUser->setPref("language", $language);
-                $_GET["lang"] = $language;
-            }
+            $ilUser->setPref("language", $language);
+            $_GET["lang"] = $language;
         }
 
         if (isset($_POST["change_lang_to"]) && $_POST["change_lang_to"] != "") {
@@ -419,8 +414,8 @@ class ilLanguage
 
         // check whether lang selection is valid
         $langs = self::_getInstalledLanguages();
-        if (!in_array(ilSession::get("lang"), $langs)) {
-            if ($ilSetting instanceof ilSetting && $ilSetting->get("language") != "") {
+        if (!in_array(ilSession::get("lang"), $langs, true)) {
+            if ($ilSetting instanceof ilSetting && (string) $ilSetting->get("language", '') !== "") {
                 ilSession::set("lang", $ilSetting->get("language"));
             } else {
                 ilSession::set("lang", $langs[0]);
@@ -489,7 +484,7 @@ class ilLanguage
      */
     protected static function logUsage(string $a_module, string $a_identifier) : void
     {
-        if ($a_module != "" && $a_identifier != "") {
+        if ($a_module !== "" && $a_identifier !== "") {
             self::$lng_log[$a_identifier] = $a_module;
         }
     }
@@ -506,7 +501,7 @@ class ilLanguage
         $ilClientIniFile = $DIC->clientIni();
         $ilDB = $DIC->database();
 
-        if (!(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQLMyISAM)) || !$ilClientIniFile instanceof ilIniFile) {
+        if (!$ilClientIniFile instanceof ilIniFile) {
             return false;
         }
 
@@ -515,7 +510,7 @@ class ilLanguage
         }
 
         if (!$ilClientIniFile->variableExists("system", "LANGUAGE_LOG")) {
-            return $ilClientIniFile->readVariable("system", "LANGUAGE_LOG") == 1;
+            return (int) $ilClientIniFile->readVariable("system", "LANGUAGE_LOG") === 1;
         }
         return false;
     }
@@ -534,11 +529,11 @@ class ilLanguage
 
         $ilDB = $DIC->database();
 
-        foreach ((array) self::$lng_log as $identifier => $module) {
+        foreach (self::$lng_log as $identifier => $module) {
             $wave[] = "(" . $ilDB->quote($module, "text") . ', ' . $ilDB->quote($identifier, "text") . ")";
             unset(self::$lng_log[$identifier]);
 
-            if (count($wave) == 150 || (count(self::$lng_log) == 0 && count($wave) > 0)) {
+            if (count($wave) === 150 || (count(self::$lng_log) === 0 && count($wave) > 0)) {
                 $query = "REPLACE INTO lng_log (module, identifier) VALUES " . implode(", ", $wave);
                 $ilDB->manipulate($query);
 

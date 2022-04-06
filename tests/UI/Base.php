@@ -145,7 +145,7 @@ class ilLanguageMock extends ilLanguage
 
     public string $lang_module = 'common';
 
-    public function loadLanguageModule(string $lang_module)
+    public function loadLanguageModule(string $a_module) : void
     {
     }
 
