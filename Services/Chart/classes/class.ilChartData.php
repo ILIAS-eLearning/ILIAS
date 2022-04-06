@@ -57,7 +57,7 @@ abstract class ilChartData
     public function addPoint(
         float $a_x,
         ?float $a_y = null
-    ) {
+    ) : void {
         if ($a_y !== null) {
             $this->data[] = array($a_x, $a_y);
         } else {
@@ -81,7 +81,7 @@ abstract class ilChartData
     ) : void {
         $this->fill = $a_value;
         if (ilChart::isValidColor((string) $a_color)) {
-            $this->fill_color = $a_color;
+            $this->fill_color = $a_color; //PHP8-Review: Property ilChartData::$fill_color (string) does not accept string|null.
         }
     }
 
