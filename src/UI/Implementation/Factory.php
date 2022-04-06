@@ -139,6 +139,11 @@ class Factory implements \ILIAS\UI\Factory
         return $this->image_factory;
     }
 
+    public function player() : C\Player\Factory
+    {
+        return new Component\Player\Factory();
+    }
+
     /**
      * @inheritdoc
      */

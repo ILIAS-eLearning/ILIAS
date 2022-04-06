@@ -113,6 +113,9 @@ class NoUIFactory implements Factory
     public function toast() : C\Toast\Factory
     {
     }
+    public function player() : C\Player\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry

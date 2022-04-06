@@ -269,6 +269,13 @@ These should be replaced by PSR-7 (or the ILIAS-Wrapper thereof). For some locat
 require to inject the dependency in a proper way, which makes this a little more tedious than
 it might meet the eye.
 
+### Player: Improve Transcript Presentation
+
+ILIAS 8 introduces an Audio Player component presenting an optional transcript text in a Modal. There are several possible follow ups, see the open discussion at https://github.com/ILIAS-eLearning/ILIAS/pull/4033
+- Add a player instance within the Modal enabling to control the audio while reading the transcript.
+- Introduce a KS component for transcript presentation following the structure of the WebVTT format.
+- Add support for WebVTT files to the Audio Player component.
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again

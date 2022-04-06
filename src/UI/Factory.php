@@ -76,6 +76,34 @@ interface Factory
      * ---
      * description:
      *   purpose: >
+     *       The Player component is used to play and control a media source. The source
+     *       is either a relative web root path or a URL of an external resource.
+     *   composition: >
+     *       The Player component is composed by a play/pause button, a playtime presentation,
+     *       a volume button, a volume slider and a time slider. Players dedicated to
+     *       concrete media types MAY add additional visual elements.
+     * rules:
+     *   accessibility:
+     *     1: >
+     *        The play/pause button MUST be accessible via tab key and allow to start/stop the media when the
+     *        space/return key is being pressed.
+     *     2: >
+     *        The playing position SHOULD be adjustable by using the cursor left/right keys.
+     *     3: >
+     *        The volume SHOULD be adjustable by using the cursor up/down keys.
+     *   style:
+     *     1: >
+     *        The widget will be presented with the full width of its container. The controls will use a default
+     *        high contrast presentation provided by the respective library being used.
+     * ----
+     * @return  \ILIAS\UI\Component\Player\Factory
+     */
+    public function player() : C\Player\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
      *     A divider marks a thematic change in a sequence of other components. A Horizontal Divider
      *     is used to mark a thematic change in sequence of elements that are stacked from top to bottom,
      *     e.g. in a Dropdown. A Vertical Divider is used to mark a thematic change in a sequence of elements
