@@ -27,6 +27,7 @@ class RatingCategoryTest extends TestCase
 {
     //protected $backupGlobals = false;
 
+    // PHP8-Review: Redundant method override
     protected function setUp() : void
     {
         parent::setUp();

@@ -138,6 +138,7 @@ class ilRatingGUI
     
     public function enableCategories(bool $a_value) : void
     {
+        // PHP8-Review: Type cast is unnecessary
         $this->enable_categories = (bool) $a_value;
     }
     
@@ -182,6 +183,7 @@ class ilRatingGUI
                     "avg" => 0,
                     "cnt" => 0
                 ];
+                // PHP8-Review: Redundant cast to boolean
                 if ((bool) $a_average) {
                     $overall_rating = ilRating::getOverallRatingForObject(
                         $this->obj_id,
@@ -193,6 +195,7 @@ class ilRatingGUI
 
                 // user rating links
                 for ($i = 1; $i <= 5; $i++) {
+                    // PHP8-Review: Redundant cast to boolean
                     if ((bool) $a_average &&
                         $i == $rating) {
                         $ttpl->setCurrentBlock("rating_mark_simple");
@@ -220,7 +223,8 @@ class ilRatingGUI
                         $onclick = str_replace("%rating%", $i, $a_onclick);
                         $ttpl->setVariable("ONCLICK_RATING", ' onclick="' . $onclick . '"');
                     }
-                    
+
+                    // PHP8-Review: Redundant cast to boolean
                     if ((bool) $a_average) {
                         $ref_rating = $overall_rating["avg"];
                     } else {
@@ -275,8 +279,8 @@ class ilRatingGUI
                     $ttpl->setVariable("TXT_RATING_SIMPLE", $rate_text);
                     $ttpl->parseCurrentBlock();
                 }
-                
 
+                // PHP8-Review: Redundant cast to boolean
                 if ((bool) $a_average &&
                     $overall_rating["cnt"]) {
                     $ttpl->setCurrentBlock("number_votes_simple");
