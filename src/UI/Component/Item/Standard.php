@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\Item;
 
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Image\Image;
+use \ILIAS\UI\Component\Player\Audio;
 use ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
 use ILIAS\Data\Color;
 use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
@@ -32,6 +33,11 @@ interface Standard extends Item
     public function withLeadImage(Image $image) : Standard;
 
     /**
+     * Set audio player
+     */
+    public function withAudioPlayer(Audio $audio) : Standard;
+
+    /**
      * Set icon as lead
      */
     public function withLeadIcon(Icon $icon) : Standard;
@@ -50,6 +56,8 @@ interface Standard extends Item
      * @return null|string|Image|Icon
      */
     public function getLead();
+
+    public function getAudioPlayer() : ?Audio;
 
     /**
      * Set progress meter chart

@@ -7797,6 +7797,9 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item .row .row > .col-md-6 {
   margin-bottom: 6px;
 }
+.il-item .il-item-audio {
+  padding: 6px 0;
+}
 .il-item-marker {
   border-left: 5px solid;
 }
