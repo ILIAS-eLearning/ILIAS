@@ -37,7 +37,7 @@ class ContextCollection
     /**
      * @param ScreenContext $context
      */
-    public function push(ScreenContext $context)
+    public function push(ScreenContext $context) : void
     {
         $this->stack[] = $context;
     }

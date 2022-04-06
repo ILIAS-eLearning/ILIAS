@@ -66,7 +66,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     /**
      * @inheritDoc
      */
-    public function getSymbol() : \ILIAS\UI\Component\Symbol\Symbol
+    public function getSymbol() : Symbol
     {
         return $this->symbol;
     }

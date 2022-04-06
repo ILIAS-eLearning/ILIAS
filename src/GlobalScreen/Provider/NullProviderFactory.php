@@ -1,13 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\NullItemInformation;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.

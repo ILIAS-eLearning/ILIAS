@@ -1,11 +1,11 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector;
 
-use Closure;
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
+use Generator;
 
 /******************************************************************************
  *
@@ -76,9 +76,9 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     }
     
     /**
-     * @return \Generator
+     * @return Generator
      */
-    public function getItemsForUIRepresentation() : \Generator
+    public function getItemsForUIRepresentation() : Generator
     {
         yield from $this->items;
     }

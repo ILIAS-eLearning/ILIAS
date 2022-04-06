@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Glyph;
 use ILIAS\UI\Component\Symbol\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
+use LogicException;
 
 /******************************************************************************
  *
@@ -102,7 +103,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
         // bugfix mantis 25526: make aria labels mandatory
         if (($symbol instanceof Glyph\Glyph && $symbol->getAriaLabel() === "") ||
             ($symbol instanceof Icon\Icon && $symbol->getLabel() === "")) {
-            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+            throw new LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
         
         $clone = clone($this);

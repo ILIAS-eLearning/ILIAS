@@ -3,6 +3,7 @@
 use Closure;
 use LogicException;
 use ReflectionFunction;
+use ReflectionException;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -129,7 +130,7 @@ abstract class AbstractLayoutModification implements LayoutModification
                     return false;
                 }
             }
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             return false;
         }
         

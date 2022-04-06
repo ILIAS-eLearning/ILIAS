@@ -7,6 +7,8 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use Iterator;
+use Generator;
 
 /******************************************************************************
  *
@@ -32,7 +34,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     /**
      * @var NotificationProvider[]
      */
-    private array $providers = [];
+    private array $providers;
     /**
      * @var isItem[]
      */
@@ -54,9 +56,9 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     
     /**
      * Generator yielding the Notifications from the set of providers
-     * @return \Iterator<\ILIAS\GlobalScreen\Scope\Notification\Factory\isItem[]>
+     * @return Iterator <\ILIAS\GlobalScreen\Scope\Notification\Factory\isItem[]>
      */
-    private function returnNotificationsFromProviders() : \Iterator
+    private function returnNotificationsFromProviders() : Iterator
     {
         foreach ($this->providers as $provider) {
             yield $provider->getNotifications();
@@ -64,9 +66,9 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     }
     
     /**
-     * @return \Iterator<\ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification[]>
+     * @return Iterator <\ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification[]>
      */
-    private function returnAdministrativeNotificationsFromProviders() : \Iterator
+    private function returnAdministrativeNotificationsFromProviders() : Iterator
     {
         foreach ($this->providers as $provider) {
             yield $provider->getAdministrativeNotifications();
@@ -104,7 +106,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     /**
      * @inheritDoc
      */
-    public function getItemsForUIRepresentation() : \Generator
+    public function getItemsForUIRepresentation() : Generator
     {
         yield from $this->notifications;
     }
@@ -134,7 +136,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
                         }
                     }
                 } else {
-                    if ($s_notification->getOldAmount() > 0) {
+                    if ($notification->getOldAmount() > 0) {
                         $count++;
                     }
                 }
@@ -163,7 +165,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
                         }
                     }
                 } else {
-                    if ($s_notification->getNewAmount() > 0) {
+                    if ($notification->getNewAmount() > 0) {
                         $count++;
                     }
                 }

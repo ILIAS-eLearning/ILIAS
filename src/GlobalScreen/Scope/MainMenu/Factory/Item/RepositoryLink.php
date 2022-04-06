@@ -5,15 +5,13 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
-use ILIAS\UI\Component\Changeable;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ilLink;
-use ilObject2;
+use LogicException;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -123,7 +121,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        throw new \LogicException("Repository-Links are always internal");
+        throw new LogicException("Repository-Links are always internal");
     }
     
     /**

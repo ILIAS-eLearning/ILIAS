@@ -10,6 +10,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Collector\MainNotificationCollector;
 use ILIAS\GlobalScreen\Scope\Tool\Collector\MainToolCollector;
 use ILIAS\GlobalScreen\SingletonTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use Throwable;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -43,7 +44,7 @@ class CollectorFactory
     
     /**
      * @return MainMenuMainCollector
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function mainmenu() : MainMenuMainCollector
     {

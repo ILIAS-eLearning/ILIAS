@@ -35,7 +35,7 @@ abstract class AbstractBaseCollector implements Collector
         if (!$this->hasBeenCollected()) {
             $this->collectStructure();
             $this->prepareItemsForUIRepresentation();
-            $this->filterItemsByVisibilty(false);
+            $this->filterItemsByVisibilty();
             $this->cleanupItemsForUIRepresentation();
             $this->sortItemsForUIRepresentation();
             $this->setCollected();

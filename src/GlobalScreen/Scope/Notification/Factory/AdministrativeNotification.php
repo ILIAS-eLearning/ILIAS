@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\AdministrativeNotificationRenderer;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\NotificationRenderer;
 use ILIAS\UI\Factory as UIFactory;
+use Closure;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -34,8 +35,8 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
     
     protected string $summary;
     
-    protected ?\Closure  $available_callable = null;
-    protected ?\Closure $visiblility_callable = null;
+    protected ?Closure  $available_callable = null;
+    protected ?Closure $visiblility_callable = null;
     protected bool $is_always_available = false;
     protected string $denotation = self::DENOTATION_NEUTRAL;
     

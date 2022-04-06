@@ -16,7 +16,7 @@
  */
 class OnLoadCode extends AbstractMedia
 {
-    private int $batch = 2;
+    private int $batch;
     
     /**
      * OnLoadCode constructor.
