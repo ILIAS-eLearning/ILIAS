@@ -24,23 +24,19 @@ class ilObjRoleGUI extends ilObjectGUI
     protected int $obj_obj_id = 0;
     protected string $obj_obj_type = '';
     protected string $container_type = '';
-
     protected $role_id = 0;
-
     protected ilRbacAdmin $rbacadmin;
     protected ilHelpGUI $help;
-
     private ilLogger $logger;
-
     private GlobalHttpState $http;
     protected Factory $refinery;
-
-    /**
-     * Constructor
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = false, $a_prepare_output = true)
-    {
+    
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = false,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->rbacadmin = $DIC->rbac()->admin();
@@ -202,7 +198,7 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function showDefaultPermissionSettings() : bool
     {
-        return $this->objDefinition->isContainer($this->getContainerType());
+        return $this->obj_definition->isContainer($this->getContainerType());
     }
 
     protected function initFormRoleProperties(int $a_mode) : ilPropertyFormGUI

@@ -83,8 +83,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         $usr_data = ilUserQuery::getUserListData(
             ilUtil::stripSlashes($this->getOrderField()),
             ilUtil::stripSlashes($this->getOrderDirection()),
-            ilUtil::stripSlashes($this->getOffset()),
-            ilUtil::stripSlashes($this->getLimit()),
+            $this->getOffset(),
+            $this->getLimit(),
             '',
             '',
             null,
@@ -93,8 +93,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
             0,
             $this->getRoleId()
         );
-        $this->setMaxCount($usr_data["cnt"]);
-        $this->setData($usr_data["set"]);
+        $this->setMaxCount((int) $usr_data["cnt"]);
+        $this->setData((array) $usr_data["set"]);
     }
 
     /**
