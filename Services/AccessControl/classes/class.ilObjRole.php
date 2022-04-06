@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjRole
  * @author     Stefan Meyer <meyer@leifos.com>
@@ -22,8 +36,8 @@ class ilObjRole extends ilObject
 
     public ?int $parent = null;
 
-    protected $allow_register = false;
-    protected $assign_users = false;
+    protected bool $allow_register = false;
+    protected bool $assign_users = false;
 
     /**
      * Constructor
@@ -31,16 +45,13 @@ class ilObjRole extends ilObject
      * @param int    reference_id or object_id
      * @param bool    treat the id as reference_id (true) or object_id (false)
      */
-    public function __construct($a_id = 0, $a_call_by_reference = false)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = false)
     {
         global $DIC;
 
         $this->logger = $DIC->logger()->ac();
         $this->type = "role";
         parent::__construct($a_id, $a_call_by_reference);
-
-        $this->rbacadmin = $DIC->rbac()->admin();
-        $this->rbacreview = $DIC->rbac()->review();
     }
 
     public static function createDefaultRole(
@@ -263,13 +274,13 @@ class ilObjRole extends ilObject
         global $DIC;
 
         // Temporary bugfix
-        if ($this->rbacreview->hasMultipleAssignments($this->getId())) {
+        if ($this->rbac_review->hasMultipleAssignments($this->getId())) {
             $this->logger->warning('Found role with multiple assignments: role_id: ' . $this->getId());
             $this->logger->warning('Aborted deletion of role.');
             return false;
         }
 
-        if ($this->rbacreview->isAssignable($this->getId(), $this->getParent())) {
+        if ($this->rbac_review->isAssignable($this->getId(), $this->getParent())) {
             $this->logger->debug('Handling assignable role...');
             // do not delete a global role, if the role is the last
             // role a user is assigned to.
@@ -284,11 +295,11 @@ class ilObjRole extends ilObject
                 // The role is a global role: check if
                 // we find users who aren't assigned to any
                 // other global role than this one.
-                $user_ids = $this->rbacreview->assignedUsers($this->getId());
+                $user_ids = $this->rbac_review->assignedUsers($this->getId());
 
                 foreach ($user_ids as $user_id) {
                     // get all roles each user has
-                    $role_ids = $this->rbacreview->assignedRoles($user_id);
+                    $role_ids = $this->rbac_review->assignedRoles($user_id);
 
                     // is last role?
                     if (count($role_ids) == 1) {
@@ -298,7 +309,7 @@ class ilObjRole extends ilObject
             }
 
             // users with last role found?
-            if (count($last_role_user_ids) > 0) {
+            if ($last_role_user_ids !== []) {
                 $user_names = array();
                 foreach ($last_role_user_ids as $user_id) {
                     // GET OBJECT TITLE
@@ -314,7 +325,7 @@ class ilObjRole extends ilObject
                     $users . "<br/>" . $this->lng->txt("msg_user_last_role2"), $this->ilias->error_obj->WARNING);
             } else {
                 $this->logger->debug('Starting deletion of assignable role: role_id: ' . $this->getId());
-                $this->rbacadmin->deleteRole($this->getId(), $this->getParent());
+                $this->rbac_admin->deleteRole($this->getId(), $this->getParent());
 
                 // Delete ldap role group mappings
                 ilLDAPRoleGroupMappingSettings::_deleteByRole($this->getId());
@@ -329,18 +340,17 @@ class ilObjRole extends ilObject
         } else {
             $this->logger->debug('Starting deletion of linked role: role_id ' . $this->getId());
             // linked local role: INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
-            $this->rbacadmin->deleteLocalRole($this->getId(), $this->getParent());
+            $this->rbac_admin->deleteLocalRole($this->getId(), $this->getParent());
         }
         return true;
     }
 
     /**
      * Get number of users assigned to role
-     * @return int
      */
-    public function getCountMembers()
+    public function getCountMembers() : int
     {
-        return count($this->rbacreview->assignedUsers($this->getId()));
+        return count($this->rbac_review->assignedUsers($this->getId()));
     }
 
     public static function _getTranslation(string $a_role_title) : string
@@ -477,10 +487,10 @@ class ilObjRole extends ilObject
 
     public function __getPermissionDefinitions() : array
     {
-        $operation_info = $this->rbacreview->getOperationAssignment();
+        $operation_info = $this->rbac_review->getOperationAssignment();
         $rbac_objects = $rbac_operations = [];
         foreach ($operation_info as $info) {
-            if ($this->objDefinition->getDevMode($info['type'])) {
+            if ($this->obj_definition->getDevMode($info['type'])) {
                 continue;
             }
             $rbac_objects[$info['typ_id']] = array("obj_id" => $info['typ_id'],
@@ -488,11 +498,11 @@ class ilObjRole extends ilObject
             );
 
             // handle plugin permission texts
-            $txt = $this->objDefinition->isPlugin($info['type'])
+            $txt = $this->obj_definition->isPlugin($info['type'])
                 ? ilObjectPlugin::lookupTxtById($info['type'], $info['type'] . "_" . $info['operation'])
                 : $this->lng->txt($info['type'] . "_" . $info['operation']);
             if (substr($info['operation'], 0, 7) == "create_" &&
-                $this->objDefinition->isPlugin(substr($info['operation'], 7))) {
+                $this->obj_definition->isPlugin(substr($info['operation'], 7))) {
                 $txt = ilObjectPlugin::lookupTxtById(
                     substr($info['operation'], 7),
                     $info['type'] . "_" . $info['operation']
@@ -514,10 +524,7 @@ class ilObjRole extends ilObject
 
     /**
      * Change existing objects
-     * @param int $a_start_node
-     * @param int $a_mode
      * @param array filter Filter of object types (array('all') => change all objects
-     * @return void
      */
     public function changeExistingObjects(
         int $a_start_node,
@@ -531,7 +538,7 @@ class ilObjRole extends ilObject
         $nodes = $this->tree->getRbacSubtreeInfo($a_start_node);
 
         // get local policies
-        $all_local_policies = $this->rbacreview->getObjectsWithStopedInheritance($this->getId());
+        $all_local_policies = $this->rbac_review->getObjectsWithStopedInheritance($this->getId());
 
         // filter relevant roles
         $local_policies = array();
@@ -562,17 +569,15 @@ class ilObjRole extends ilObject
     protected function deleteLocalPolicies(int $a_start, array $a_policies, array $a_filter) : array
     {
         global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
         $rbacadmin = $DIC['rbacadmin'];
 
         $local_policies = array();
         foreach ($a_policies as $policy) {
-            if ($policy == $a_start or $policy == SYSTEM_FOLDER_ID) {
+            if ($policy == $a_start || $policy == SYSTEM_FOLDER_ID) {
                 $local_policies[] = $policy;
                 continue;
             }
-            if (!in_array('all', $a_filter) and !in_array(
+            if (!in_array('all', $a_filter) && !in_array(
                 ilObject::_lookupType(ilObject::_lookupObjId($policy)),
                 $a_filter
             )) {
@@ -600,7 +605,7 @@ class ilObjRole extends ilObject
         $node_stack = array();
 
         $start_node = current($a_nodes);
-        array_push($node_stack, $start_node);
+        $node_stack[] = $start_node;
         $this->updatePolicyStack($policy_stack, $start_node['child']);
 
         if ($a_operation_mode == self::MODE_READ_OPERATIONS) {
@@ -646,7 +651,7 @@ class ilObjRole extends ilObject
             if ($node['child'] == $start_node['child']) {
                 if ($this->isHandledObjectType($a_filter, $a_exclusion_filter, $node['type'])) {
                     if ($rbac_log_active) {
-                        $rbac_log_roles = $this->rbacreview->getParentRoleIds($node['child'], false);
+                        $rbac_log_roles = $this->rbac_review->getParentRoleIds($node['child'], false);
                         $rbac_log_old = ilRbacLog::gatherFaPa((int) $node['child'], array_keys($rbac_log_roles));
                     }
 
@@ -669,11 +674,11 @@ class ilObjRole extends ilObject
             }
 
             // Node has local policies => update permission stack and continue
-            if (in_array($node['child'], $a_policies) and ($node['child'] != SYSTEM_FOLDER_ID)) {
+            if (in_array($node['child'], $a_policies) && $node['child'] != SYSTEM_FOLDER_ID) {
                 $local_policy = true;
                 $this->updatePolicyStack($policy_stack, $node['child']);
                 $this->updateOperationStack($operation_stack, $node['child']);
-                array_push($node_stack, $node);
+                $node_stack[] = $node;
                 continue;
             }
 
@@ -683,7 +688,7 @@ class ilObjRole extends ilObject
             }
 
             if ($rbac_log_active) {
-                $rbac_log_roles = $this->rbacreview->getParentRoleIds($node['child'], false);
+                $rbac_log_roles = $this->rbac_review->getParentRoleIds($node['child'], false);
                 $rbac_log_old = ilRbacLog::gatherFaPa((int) $node['child'], array_keys($rbac_log_roles));
             }
 
@@ -697,7 +702,7 @@ class ilObjRole extends ilObject
                 $this->createPermissionIntersection($policy_stack, $perms[$node['type']], $node['child'], $node['type']);
                 if ($this->updateOperationStack($operation_stack, $node['child'])) {
                     $this->updatePolicyStack($policy_stack, $node['child']);
-                    array_push($node_stack, $node);
+                    $node_stack[] = $node;
                 }
             }
 
@@ -782,9 +787,6 @@ class ilObjRole extends ilObject
 
     /**
      * Update operation stack
-     * @param array $a_stack
-     * @param int   $a_node
-     * @return bool
      */
     protected function updateOperationStack(
         array &$a_stack,
@@ -792,19 +794,18 @@ class ilObjRole extends ilObject
         bool $a_init = false
     ) : bool {
         $has_policies = null;
-        $policy_origin = null;
 
         if ($a_node == ROOT_FOLDER_ID) {
             $has_policies = true;
             $policy_origin = ROLE_FOLDER_ID;
         } else {
-            $has_policies = $this->rbacreview->getLocalPolicies($a_node);
+            $has_policies = $this->rbac_review->getLocalPolicies($a_node);
             $policy_origin = $a_node;
 
             if ($a_init) {
-                $parent_roles = $this->rbacreview->getParentRoleIds($a_node, false);
+                $parent_roles = $this->rbac_review->getParentRoleIds($a_node, false);
                 if ($parent_roles[$this->getId()]) {
-                    $a_stack[] = $this->rbacreview->getAllOperationsOfRole(
+                    $a_stack[] = $this->rbac_review->getAllOperationsOfRole(
                         $this->getId(),
                         $parent_roles[$this->getId()]['parent']
                     );
@@ -817,7 +818,7 @@ class ilObjRole extends ilObject
             return false;
         }
 
-        $a_stack[] = $this->rbacreview->getAllOperationsOfRole(
+        $a_stack[] = $this->rbac_review->getAllOperationsOfRole(
             $this->getId(),
             $policy_origin
         );
@@ -827,13 +828,12 @@ class ilObjRole extends ilObject
     protected function updatePolicyStack(array &$a_stack, int $a_node) : bool
     {
         $has_policies = null;
-        $policy_origin = null;
 
         if ($a_node == ROOT_FOLDER_ID) {
             $has_policies = true;
             $policy_origin = ROLE_FOLDER_ID;
         } else {
-            $has_policies = $this->rbacreview->getLocalPolicies($a_node);
+            $has_policies = $this->rbac_review->getLocalPolicies($a_node);
             $policy_origin = $a_node;
         }
 
@@ -903,11 +903,9 @@ class ilObjRole extends ilObject
                 break;
         }
 
-        $current_ops = $a_current_ops[$a_type];
-
         // Create intersection template permissions
         if ($template_id) {
-            $this->rbacadmin->copyRolePermissionIntersection(
+            $this->rbac_admin->copyRolePermissionIntersection(
                 $template_id,
                 ROLE_FOLDER_ID,
                 $this->getId(),
@@ -917,8 +915,8 @@ class ilObjRole extends ilObject
             );
         } else {
         }
-        if ($a_id and !$GLOBALS['DIC']['rbacreview']->isRoleAssignedToObject($this->getId(), $a_id)) {
-            $this->rbacadmin->assignRoleToFolder($this->getId(), $a_id, "n");
+        if ($a_id && !$GLOBALS['DIC']['rbacreview']->isRoleAssignedToObject($this->getId(), $a_id)) {
+            $this->rbac_admin->assignRoleToFolder($this->getId(), $a_id, "n");
         }
     }
-} // END class.ilObjRole
+}

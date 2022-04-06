@@ -568,8 +568,8 @@ class ilUserQuery
         $query->setCourseGroupFilter($a_course_group_filter);
         $query->setRoleFilter($a_role_filter);
         $query->setUserFolder($a_user_folder_filter);
-        $query->setAdditionalFields($a_additional_fields);
-        $query->setUserFilter($a_user_filter);
+        $query->setAdditionalFields($a_additional_fields ?? []);
+        $query->setUserFilter($a_user_filter ?? []);
         $query->setFirstLetterLastname($a_first_letter);
         $query->setAuthenticationFilter($a_authentication_filter);
         return $query->query();

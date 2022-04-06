@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * This class displays the permission status of a user concerning a specific object.
  * ("Permissions" -> "Permission of User")
@@ -12,11 +26,9 @@
 class ilObjectPermissionStatusGUI
 {
     public ilObjUser $user;
-    protected $lng;
-    protected $ctrl;
-
+    protected ilLanguage $lng;
+    protected ilCtrlInterface $ctrl;
     protected ilGlobalTemplateInterface $tpl;
-
     protected ilObject $object;
     protected ilRbacReview $rbacreview;
     protected ilToolbarGUI $toolbar;
@@ -153,7 +165,6 @@ class ilObjectPermissionStatusGUI
 
     /**
      * get Assigned Valid Roles
-     * @return array
      */
     public function getAssignedValidRoles() : array
     {
@@ -201,14 +212,13 @@ class ilObjectPermissionStatusGUI
 
         $cmds = call_user_func(array($full_class, "_getCommands"));
 
-        array_push($cmds, array('permission' => 'visible', 'cmd' => 'info'));
+        $cmds[] = array('permission' => 'visible', 'cmd' => 'info');
 
         return $cmds;
     }
 
     /**
      * ilUser
-     * @return ilObjUser
      */
     public function getUser() : ilObjUser
     {
@@ -275,7 +285,7 @@ class ilObjectPermissionStatusGUI
         $cmds = $this->getCommands($this->object->getType());
 
         foreach ($cmds as $cmd) {
-            if (!count($cmd)) {
+            if (count($cmd) === 0) {
                 continue;
             }
             $ilAccess->clear();
@@ -294,7 +304,7 @@ class ilObjectPermissionStatusGUI
         $okay = "il_ItemOkayProperty";
         $text = "";
 
-        if (!$infos) {
+        if ($infos === []) {
             $text = "<span class=\"" . $okay . "\">" . $this->lng->txt("access") . "</span><br/> ";
         } else {
             foreach ($infos as $info) {
@@ -324,9 +334,8 @@ class ilObjectPermissionStatusGUI
 
     /**
      * Access Permissions Table Data
-     * @return array
      */
-    public function getAccessPermissionTableData()
+    public function getAccessPermissionTableData() : array
     {
         global $DIC;
 
@@ -402,7 +411,6 @@ class ilObjectPermissionStatusGUI
 
     /**
      * Available Roles Table Data
-     * @return array
      */
     public function getAvailableRolesTableData() : array
     {
