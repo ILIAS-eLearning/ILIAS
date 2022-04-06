@@ -171,7 +171,7 @@ class ilSettingsPermissionGUI
     /**
      * Show form
      */
-    public function showForm()
+    public function showForm() : void
     {
         $form = $this->initPermissionForm();
         $this->tpl->setContent($form->getHTML());

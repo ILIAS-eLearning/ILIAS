@@ -26,7 +26,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         $this->setId('available_roles' . $a_parent_obj->user->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);

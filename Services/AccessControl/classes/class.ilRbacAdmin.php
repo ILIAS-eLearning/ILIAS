@@ -147,7 +147,7 @@ class ilRbacAdmin
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('rbac_ua');
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id, $a_limit, $a_limited_roles) {
+            function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id, $a_limit, $a_limited_roles) : void {
                 $ret = true;
                 $limit_query = 'SELECT COUNT(*) num FROM rbac_ua ' .
                     'WHERE ' . $ilDB->in('rol_id', (array) $a_limited_roles, false, 'integer');

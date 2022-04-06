@@ -237,7 +237,7 @@ class ilPermissionGUI extends ilPermission2GUI
         }
     }
     
-    protected function savePermissions()
+    protected function savePermissions() : void
     {
         global $DIC;
 
@@ -678,7 +678,7 @@ class ilPermissionGUI extends ilPermission2GUI
      * is displayed in the permission settings dialogue for an object
      * TODO: change this bahaviour
      */
-    protected function addRole()
+    protected function addRole() : void
     {
         $form = $this->initRoleForm();
         if ($form->checkInput()) {

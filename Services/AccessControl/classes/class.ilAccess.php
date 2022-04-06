@@ -197,7 +197,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function setResults(array $a_results)
+    public function setResults(array $a_results) : void
     {
         $this->results = $a_results;
     }

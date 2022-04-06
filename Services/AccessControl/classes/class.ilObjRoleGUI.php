@@ -517,7 +517,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->permSaveObject(true);
     }
 
-    protected function adoptPermObject()
+    protected function adoptPermObject() : void
     {
         $output = array();
         $parent_role_ids = $this->rbac_review->getParentRoleIds($this->obj_ref_id, true);

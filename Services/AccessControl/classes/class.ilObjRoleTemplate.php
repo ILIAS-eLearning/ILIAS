@@ -22,7 +22,7 @@
  */
 class ilObjRoleTemplate extends ilObject
 {
-    public function __construct($a_id = 0, $a_call_by_reference = false)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = false)
     {
         $this->type = "rolt";
         parent::__construct($a_id, $a_call_by_reference);
