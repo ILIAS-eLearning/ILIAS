@@ -59,6 +59,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     {
         $cmd = $this->ctrl->getCmd();
 
+        // PHP8-Review: 'in_array' can be replaced with comparison
         if (in_array($cmd, array("getAwarenessList"))) {
             $this->$cmd();
         }
