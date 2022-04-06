@@ -736,7 +736,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission)
+    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, string $permission) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission(
             $user_ids,
@@ -747,7 +747,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission)
+    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission(
             $user_ids,
@@ -759,7 +759,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function isCurrentUserBasedOnPositionsAllowedTo($permission, array $on_user_ids)
+    public function isCurrentUserBasedOnPositionsAllowedTo(string $permission, array $on_user_ids) : bool
     {
         return $this->ilOrgUnitPositionAccess->isCurrentUserBasedOnPositionsAllowedTo($permission, $on_user_ids);
     }
@@ -767,7 +767,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids)
+    public function isUserBasedOnPositionsAllowedTo(int $which_user_id, string $permission, array $on_user_ids) : bool
     {
         return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo(
             $which_user_id,
@@ -779,7 +779,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkPositionAccess($pos_perm, $ref_id)
+    public function checkPositionAccess(string $pos_perm, int $ref_id) : bool
     {
         return $this->ilOrgUnitPositionAccess->checkPositionAccess($pos_perm, $ref_id);
     }
@@ -787,7 +787,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id)
+    public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id) : bool
     {
         return $this->ilOrgUnitPositionAccess->checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id);
     }
@@ -795,7 +795,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids)
+    public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
     }
@@ -803,7 +803,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids)
+    public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, $user_ids);
     }
@@ -811,7 +811,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids)
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(string $rbac_perm, string $pos_perm, int $ref_id, array $user_ids) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser(
             $rbac_perm,
@@ -824,7 +824,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function hasCurrentUserAnyPositionAccess($ref_id)
+    public function hasCurrentUserAnyPositionAccess(int $ref_id) : bool
     {
         return $this->ilOrgUnitPositionAccess->hasCurrentUserAnyPositionAccess($ref_id);
     }
@@ -832,7 +832,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id)
+    public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id) : bool
     {
         return $this->ilOrgUnitPositionAccess->hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id);
     }

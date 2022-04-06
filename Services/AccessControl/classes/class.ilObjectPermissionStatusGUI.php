@@ -12,11 +12,9 @@
 class ilObjectPermissionStatusGUI
 {
     public ilObjUser $user;
-    protected $lng;
-    protected $ctrl;
-
+    protected ilLanguage $lng;
+    protected ilCtrlInterface $ctrl;
     protected ilGlobalTemplateInterface $tpl;
-
     protected ilObject $object;
     protected ilRbacReview $rbacreview;
     protected ilToolbarGUI $toolbar;
@@ -324,9 +322,8 @@ class ilObjectPermissionStatusGUI
 
     /**
      * Access Permissions Table Data
-     * @return array
      */
-    public function getAccessPermissionTableData()
+    public function getAccessPermissionTableData() : array
     {
         global $DIC;
 

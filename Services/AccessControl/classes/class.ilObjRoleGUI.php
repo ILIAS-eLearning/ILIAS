@@ -24,7 +24,7 @@ class ilObjRoleGUI extends ilObjectGUI
     protected int $obj_obj_id = 0;
     protected string $obj_obj_type = '';
     protected string $container_type = '';
-    protected $role_id = 0;
+    protected int $role_id = 0;
     protected ilRbacAdmin $rbacadmin;
     protected ilHelpGUI $help;
     private ilLogger $logger;
@@ -1264,11 +1264,11 @@ class ilObjRoleGUI extends ilObjectGUI
         }
     }
 
-    /*
+    /**
      * Ensure access to role for ref_id
      * @throws ilObjectException
      */
-    protected function ensureRoleAccessForContext()
+    protected function ensureRoleAccessForContext() : bool
     {
         // creation of roles
         if (
@@ -1296,4 +1296,4 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         return true;
     }
-} // END class.ilObjRoleGUI
+}

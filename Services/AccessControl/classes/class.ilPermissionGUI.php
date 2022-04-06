@@ -37,7 +37,7 @@ class ilPermissionGUI extends ilPermission2GUI
      *
      * @return
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // access to all functions in this class are only allowed if edit_permission is granted
         if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->getObject()->getRefId())) {
@@ -82,7 +82,6 @@ class ilPermissionGUI extends ilPermission2GUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
     
     public function getCurrentObject() : object
@@ -499,12 +498,12 @@ class ilPermissionGUI extends ilPermission2GUI
         }
     }
     
-    public static function hasContainerCommands($a_type)
+    public static function hasContainerCommands(string $a_type) : bool
     {
         global $DIC;
         
         $objDefinition = $DIC['objDefinition'];
-        return $objDefinition->isContainer($a_type) and $a_type != 'root' and $a_type != 'adm' and $a_type != 'rolf';
+        return $objDefinition->isContainer($a_type) && $a_type != 'root' && $a_type != 'adm' && $a_type != 'rolf';
     }
     
     protected function displayImportRoleForm(ilPropertyFormGUI $form = null) : void

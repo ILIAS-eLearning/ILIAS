@@ -53,9 +53,9 @@ class ilObjRoleTemplate extends ilObject
         return false;
     }
 
-    public function getFilterOfInternalTemplate()
+    public function getFilterOfInternalTemplate() : array
     {
-        $filter = array();
+        $filter = [];
         switch ($this->getTitle()) {
             case "il_grp_admin":
             case "il_grp_member":
@@ -86,4 +86,4 @@ class ilObjRoleTemplate extends ilObject
 
         return $filter;
     }
-} // END class.ilObjRoleTemplate
+}

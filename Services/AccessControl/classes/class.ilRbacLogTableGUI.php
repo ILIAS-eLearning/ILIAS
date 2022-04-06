@@ -9,10 +9,9 @@
  */
 class ilRbacLogTableGUI extends ilTable2GUI
 {
-    protected $operations = array();
-    protected $filter = array();
-    protected $action_map = array();
-
+    protected array $operations = [];
+    protected array $filter = [];
+    protected array $action_map = [];
     private int $ref_id;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)

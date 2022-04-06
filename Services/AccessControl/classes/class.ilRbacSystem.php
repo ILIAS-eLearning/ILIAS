@@ -20,7 +20,7 @@ class ilRbacSystem
 
     protected static ?ilRbacSystem $instance = null;
 
-    protected $mem_view;
+    protected array $mem_view = [];
 
     protected static array $user_role_cache = [];
 

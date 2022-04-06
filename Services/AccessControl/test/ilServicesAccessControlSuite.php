@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesAccessControlSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : TestSuite
     {
         $suite = new ilServicesAccessControlSuite();
         include_once("./Services/AccessControl/test/ilRBACTest.php");

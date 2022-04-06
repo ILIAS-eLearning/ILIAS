@@ -17,15 +17,15 @@ class ilStartingPoint
     public const FALLBACK_RULE = 1;
     public const ROLE_BASED = 2;
     public const USER_SELECTION_RULE = 3;
-
-    protected $starting_point;
-    protected $starting_object;
-    protected $starting_position;
-    protected $rule_type;
-    protected $rule_options; // array serialized in db
+    
+    protected ?int $starting_point = null;
+    protected ?int $starting_object = null;
+    protected ?int $starting_position = null;
+    protected ?int $rule_type = null;
+    protected ?string $rule_options = null; // array serialized in db
     protected int $id;
-    protected $calendar_view;
-    protected $calendar_period;
+    protected ?int $calendar_view = null;
+    protected ?int $calendar_period = null;
 
     protected ilDBInterface $db;
 
@@ -130,7 +130,7 @@ class ilStartingPoint
         $this->calendar_period = $calendar_period;
     }
 
-    public function getRuleOptions() : int
+    public function getRuleOptions() : ?string
     {
         return $this->rule_options;
     }
@@ -183,19 +183,19 @@ class ilStartingPoint
     /**
      * get array with all roles which have starting point defined.
      */
-    public static function getRolesWithStartingPoint()
+    public static function getRolesWithStartingPoint() : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $query = "SELECT * FROM usr_starting_point WHERE rule_options LIKE %s";
-        $res = $ilDB->queryF($query, array('text'), array("%role_id%"));
+        $res = $ilDB->queryF($query, ['text'], ["%role_id%"]);
 
-        $roles = array();
+        $roles = [];
         while ($sp = $ilDB->fetchAssoc($res)) {
             $options = unserialize($sp['rule_options']);
 
-            $roles[$options['role_id']] = array(
+            $roles[$options['role_id']] = [
                 "id" => (int) $sp['id'],
                 "starting_point" => (int) $sp['starting_point'],
                 "starting_object" => (int) $sp['starting_object'],
@@ -204,7 +204,7 @@ class ilStartingPoint
                 "position" => (int) $sp['position'],
                 "role_id" => (int) $options['role_id'],
 
-            );
+            ];
         }
         return $roles;
     }
