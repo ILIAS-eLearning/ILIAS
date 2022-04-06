@@ -18,6 +18,7 @@ abstract class ilMapGUI
     protected bool $enable_type_control;
     protected bool $enable_update_listener;
     protected bool $enable_navigation_control;
+    // PHP8-Review: $user_marker type has no value type specified in iterable type array
     protected array $user_marker;
     protected bool $large_map_control;
     protected bool $central_marker;

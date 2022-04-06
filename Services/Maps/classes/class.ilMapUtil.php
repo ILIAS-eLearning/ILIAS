@@ -99,7 +99,7 @@ class ilMapUtil
     }
     
     
-    // PHP8-Review: return type missing
+    // PHP8-Review: return type missing and parameter $geolocation with no type specified.
     public static function setStdGeolocationServer($geolocation)
     {
         self::settings()->set("std_geolocation", $geolocation);
@@ -117,6 +117,7 @@ class ilMapUtil
     /**
     * Get default longitude, latitude and zoom.
     */
+    // PHP8-Review: return type has no value type specified in iterable type array
     public static function getDefaultSettings() : array
     {
         return [
@@ -146,6 +147,7 @@ class ilMapUtil
     /**
     * Get a dict { $id => $name } for available maps services.
     */
+    // PHP8-Review: return type has no value type specified in iterable type array
     public static function getAvailableMapTypes() : array
     {
         global $DIC;
