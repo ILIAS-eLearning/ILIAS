@@ -173,7 +173,7 @@ class ilSCORMExplorer extends ilExplorer
     /**
      * can i click on the module name
      */
-    public function isClickable(string $a_type, int $a_ref_id = 0) : bool//PHP8Review: This parent should be typestrict, but exceeds the scorm scope, so i just leave a recommendation here
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool//PHP8Review: This parent should be typestrict, but exceeds the scorm scope, so i just leave a recommendation here
     {
         if ($a_type !== "sit") {
             return false;
