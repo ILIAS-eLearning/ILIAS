@@ -271,7 +271,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
 
         if ($sources) {
             foreach ($sources as $src) {
-                // PHP8-Review: 'switch' with single 'case'
                 switch ($src['type']) {
                     // Give access if term is linked by a learning module with read access.
                     // The term including media is shown by the learning module presentation!

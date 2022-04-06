@@ -28,11 +28,9 @@ class ilMediaObjectsExporter extends ilXmlExporter
         $this->ds->setDSPrefix("ds");
     }
     
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getXmlExportTailDependencies(
         string $a_entity,
         string $a_target_release,
-        // PHP8-Review: parameter $a_ids with no value type specified in iterable type array.
         array $a_ids
     ) : array {
         $md_ids = array();
@@ -58,7 +56,9 @@ class ilMediaObjectsExporter extends ilXmlExporter
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    // PHP8-Review: return type has no value type specified in iterable type array.
+    /**
+     * @return array[]
+     */
     public function getValidSchemaVersions(
         string $a_entity
     ) : array {

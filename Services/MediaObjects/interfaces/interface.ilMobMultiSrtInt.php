@@ -24,9 +24,8 @@ interface ilMobMultiSrtInt
      */
     public function getUploadDir() : string;
     
-    // PHP8-Review: return type has no value type specified in iterable type array.
     /**
-     * @return array array of target media objects ids
+     * @return int[] target media objects ids
      */
     public function getMobIds() : array;
 }

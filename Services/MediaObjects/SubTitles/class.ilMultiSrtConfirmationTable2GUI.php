@@ -58,7 +58,6 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
         $this->addCommandButton("cancelMultiSrt", $lng->txt("cancel"));
     }
 
-    // PHP8-Review: parameter $a_set with no value type specified in iterable type array.
     protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;

@@ -19,7 +19,6 @@
  */
 class ilFFmpeg
 {
-    // PHP8-Review: $last_return type has no value type specified in iterable type array.
     public static ?array $last_return = array();
 
     /**
@@ -27,8 +26,8 @@ class ilFFmpeg
      * do not reflect the complexity of media container/codec variants.
      * For source formats no specification is needed here. For target formats
      * we use fixed parameters that should result in best web media practice.
+     * @var array[]
      */
-    // PHP8-Review: $formats type has no value type specified in iterable type array.
     public static array $formats = array(
         "video/3pgg" => array(
             "source" => true,
@@ -67,7 +66,6 @@ class ilFFmpeg
     /**
      * Get desired target mime types
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getTargetMimeTypes() : array
     {
         $ttypes = array();
@@ -78,8 +76,10 @@ class ilFFmpeg
         }
         return $ttypes;
     }
-    
-    // PHP8-Review: return type has no value type specified in iterable type array.
+
+    /**
+     * @return string[]
+     */
     public static function getSourceMimeTypes() : array
     {
         $ttypes = array();
@@ -97,30 +97,13 @@ class ilFFmpeg
     public static function supportsImageExtraction(
         string $a_mime
     ) : bool {
-        if (in_array($a_mime, self::getSourceMimeTypes())) {
+        if (in_array($a_mime, self::getSourceMimeTypes(), true)) {
             return true;
         }
         return false;
     }
     
-    /**
-     * Get possible target formats
-     */
-    // PHP8-Review: return type has no value type specified in iterable type array.
-    public static function getPossibleTargetMimeTypes(
-        string $a_source_mime_type
-    ) : array {
-        $pt = array();
-        if (in_array($a_source_mime_type, self::getSourceMimeTypes())) {
-            foreach (self::getTargetMimeTypes() as $tm) {
-                if ($tm != $a_source_mime_type) {
-                    $pt[$tm] = $tm;
-                }
-            }
-        }
-        return $pt;
-    }
-    
+
     /**
      * Get ffmpeg command
      */
@@ -132,37 +115,14 @@ class ilFFmpeg
     /**
      * Execute ffmpeg
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function exec(string $args) : array
     {
         return ilShellUtil::execQuoted(self::getCmd(), $args);
     }
-    
-    /**
-     * Get all supported codecs
-     */
-    // PHP8-Review: return type has no value type specified in iterable type array.
-    public static function getSupportedCodecsInfo() : array
-    {
-        $codecs = self::exec("-codecs");
-        return $codecs;
-    }
 
-    /**
-     * Get all supported formats
-     */
-    // PHP8-Review: return type has no value type specified in iterable type array.
-    public static function getSupportedFormatsInfo() : array
-    {
-        $formats = self::exec("-formats");
-        
-        return $formats;
-    }
-    
     /**
      * Get last return values
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getLastReturnValues() : ?array
     {
         return self::$last_return;

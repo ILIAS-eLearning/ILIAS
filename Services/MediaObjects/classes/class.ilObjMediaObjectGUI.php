@@ -43,8 +43,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public string $target_script = "";
     public bool $enabledmapareas = true;
 
+    /**
+     * @param mixed $data
+     */
     public function __construct(
-        $a_data,    // PHP8-Review: no type specified
+        $a_data,
         int $a_id = 0,
         bool $a_call_by_reference = false,
         bool $a_prepare_output = false
@@ -95,7 +98,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
      * Get adv md record type
      * @throws ilMediaObjectsException
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getAdvMdRecordObject() : ?array
     {
         if ($this->adv_type == null) {
@@ -261,8 +263,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    // PHP8-Review: parameter $a_mode: no type specified.
-    public function initForm($a_mode = "create") : void
+    public function initForm(string $a_mode = "create") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1434,8 +1435,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * set admin tabs
      */
-    // PHP8-Review: Method visibility should not be overridden
-    public function setTabs() : void
+    protected function setTabs() : void
     {
         // catch feedback message
         $this->getTabs();
@@ -1451,8 +1451,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
 
-    // PHP8-Review: Method visibility should not be overridden
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $ilHelp = $this->help;
 
@@ -1535,19 +1534,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
     
-    /**
-     * @deprecated
-     */
-    public function showVideoToolObject() : void
-    {
-        $tpl = $this->tpl;
-
-        $formats = ilFFmpeg::getSupportedFormatsInfo();
-        $formats_str = implode("<br />", $formats);
-        $tpl->setContent($formats_str);
-    }
-    
-
     /**
      * Include media object presentation JS
      */

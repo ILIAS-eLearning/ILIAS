@@ -153,7 +153,6 @@ class ImageMapManager
         );
     }
     
-    // PHP8-Review: return type has no value type specified in iterable type array
     public function getInternalLink() : array
     {
         return $this->repo->getInternalLink();

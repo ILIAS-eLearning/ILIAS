@@ -24,7 +24,6 @@ class ilMediaImageUtil
      * Get image size from location
      * @throws ilCurlConnectionException
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getImageSize(string $a_location) : ?array
     {
         if (substr($a_location, 0, 4) == "http") {

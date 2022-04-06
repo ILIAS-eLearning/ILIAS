@@ -28,7 +28,9 @@ class ImageMapEditSessionRepository
     {
     }
 
-    // PHP8-Review: no return type specified.
+    /**
+     * @return mixed|null
+     */
     protected function get(string $key)
     {
         if (\ilSession::has(self::KEY_BASE . $key)) {
@@ -37,7 +39,9 @@ class ImageMapEditSessionRepository
         return null;
     }
 
-    // PHP8-Review: parameter $val with no type specified.
+    /**
+     * @param mixed $val
+     */
     protected function set(string $key, $val) : void
     {
         \ilSession::set(self::KEY_BASE . $key, $val);

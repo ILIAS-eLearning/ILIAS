@@ -36,8 +36,8 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract YouTube Parameter
+     * @return array<string,string>
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractYouTubeParameters(
         string $a_location
     ) : array {
@@ -70,8 +70,8 @@ class ilExternalMediaAnalyzer
 
     /**
      * Extract Flickr Parameter
+     * @return array<string,string>
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractFlickrParameters(
         string $a_location
     ) : array {
@@ -122,8 +122,8 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract GoogleVideo Parameter
+     * @return array<string,string>
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractGoogleVideoParameters(
         string $a_location
     ) : array {
@@ -154,8 +154,8 @@ class ilExternalMediaAnalyzer
 
     /**
      * Extract Vimeo Parameter
+     * @return array<string,string>
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractVimeoParameters(
         string $a_location
     ) : array {
@@ -186,8 +186,8 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract GoogleDocument Parameter
+     * @return array<string,string>
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractGoogleDocumentParameters(
         string $a_location
     ) : array {
@@ -220,17 +220,12 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract URL information to parameter array
+     * @return array<string,string>
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractUrlParameters(
         string $a_location,
-        // PHP8-Review: parameter $a_parameter with no value type specified in iterable type array.
         array $a_parameter
     ) : array {
-        if (!is_array($a_parameter)) {
-            $a_parameter = array();
-        }
-        
         $ext_par = array();
         
         // YouTube

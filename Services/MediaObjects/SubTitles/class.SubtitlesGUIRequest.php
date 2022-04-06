@@ -31,13 +31,11 @@ class SubtitlesGUIRequest
         );
     }
     
-    // PHP8-Review: return type has no value type specified in iterable type array
     public function getSrtFiles() : array
     {
         return $this->strArray("srt");
     }
     
-    // PHP8-Review: return type has no value type specified in iterable type array
     public function getFiles() : array
     {
         return $this->strArray("file");

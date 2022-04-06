@@ -131,7 +131,6 @@ class ImageMapGUIRequest
         return $this->str("area_link_ext");
     }
     
-    // PHP8-Review: return type has no value type specified in iterable type array
     public function getArea() : array
     {
         return $this->strArray("area");

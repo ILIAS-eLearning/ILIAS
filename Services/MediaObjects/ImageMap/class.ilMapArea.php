@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  */
-// PHP8-Review: Define constant name can be replaced with 'const' syntax
+
 define("IL_AREA_RECT", "Rect");
 define("IL_AREA_CIRCLE", "Circle");
 define("IL_AREA_POLY", "Poly");
@@ -207,7 +207,6 @@ class ilMapArea
      *
      * @param	int		$a_item_id		media item id
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function _getIntLinks(
         int $a_item_id
     ) : array {
@@ -238,7 +237,6 @@ class ilMapArea
     /**
      * Get areas for a certain target
      */
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function _getMobsForTarget(
         string $a_type,
         string $a_target
@@ -261,7 +259,6 @@ class ilMapArea
         return $mobs;
     }
     
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getAllHighlightModes() : array
     {
         global $DIC;
@@ -286,7 +283,6 @@ class ilMapArea
         return $this->highlight_mode;
     }
     
-    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function getAllHighlightClasses() : array
     {
         global $DIC;
@@ -428,8 +424,7 @@ class ilMapArea
     /**
      * get link target (internal link only)
      */
-    // PHP8-Review: parameter $a_insert_inst with no type specified.
-    public function getTarget($a_insert_inst = false) : string
+    public function getTarget(bool $a_insert_inst = false) : string
     {
         $target = $this->il_target;
 
