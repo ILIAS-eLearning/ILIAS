@@ -418,10 +418,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         return ilArrayUtil::sortArray($print_member, 'name', $print_order, false, true);
     }
 
-    public function getAttendanceListUserData(int $a_user_id) : array
+    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
     {
-        if (is_array($this->member_data) && array_key_exists($a_user_id, $this->member_data)) {
-            return $this->member_data[$a_user_id];
+        if (is_array($this->member_data) && array_key_exists($user_id, $this->member_data)) {
+            return $this->member_data[$user_id];
         }
         return [];
     }

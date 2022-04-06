@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Base class for attendance lists
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -19,7 +35,7 @@ class ilAttendanceList
     /**
      * @var ?callable
      */
-    protected $callback = null;
+    protected $callback;
     protected array $presets = [];
     protected array $role_data = [];
     protected array $roles = [];
@@ -182,7 +198,6 @@ class ilAttendanceList
 
     /**
      * Get user data for subscribers and waiting list
-     * @param array &$a_res
      */
     public function getNonMemberUserData(array &$a_res) : void
     {
@@ -264,8 +279,6 @@ class ilAttendanceList
 
     /**
      * Init form
-     * @param string $a_cmd
-     * @return ilPropertyFormGUI
      */
     public function initForm(string $a_cmd = "") : ilPropertyFormGUI
     {
@@ -472,7 +485,7 @@ class ilAttendanceList
         }
 
         $tpl->setCurrentBlock('head_item');
-        foreach ($this->presets as $id => $item) {
+        foreach ($this->presets as $item) {
             if ($item[1]) {
                 $tpl->setVariable('TXT_HEAD', $item[0]);
                 $tpl->parseCurrentBlock();
@@ -515,7 +528,7 @@ class ilAttendanceList
                     // member/local
                     default:
                         if (!$this->has_local_role) {
-                            $valid_user_ids = array_merge($valid_user_ids, (array) $members);
+                            $valid_user_ids = array_merge($valid_user_ids, $members);
                         } else {
                             $valid_user_ids = array_merge($valid_user_ids, (array) $members[$role_id]);
                         }
@@ -541,7 +554,7 @@ class ilAttendanceList
         $valid_user_ids = ilUtil::_sortIds(array_unique($valid_user_ids), 'usr_data', 'lastname', 'usr_id');
         foreach ($valid_user_ids as $user_id) {
             if ($this->callback) {
-                $user_data = call_user_func_array($this->callback, array($user_id, $filters));
+                $user_data = call_user_func_array($this->callback, [(int) $user_id, $filters]);
                 if (!$user_data) {
                     continue;
                 }
@@ -572,7 +585,7 @@ class ilAttendanceList
                                 $value = (string) $user_data[$id];
                                 break;
                         }
-                        $tpl->setVariable("TXT_PRESET", (string) $value);
+                        $tpl->setVariable("TXT_PRESET", $value);
                         $tpl->parseCurrentBlock();
                     }
                 }

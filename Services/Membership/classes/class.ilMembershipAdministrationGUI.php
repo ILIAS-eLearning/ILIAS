@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Membership Administration Settings
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -11,7 +27,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
     protected const SUB_TAB_GENERAL_SETTINGS = 'settings';
     protected const SUB_TAB_PRINT_VIEW = 'print_view';
 
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         $this->type = $this->getType();
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -91,7 +107,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $this->setSubTabs('settings', self::SUB_TAB_GENERAL_SETTINGS);
         $this->tabs_gui->setTabActive('settings');
 
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
@@ -183,7 +199,12 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                         ilAdministrationSettingsFormHandler::VALUE_BOOL
                     )
                 );
-                return array(array("editSettings", $fields));
+                return [
+                    [
+                        "editSettings",
+                        $fields
+                    ]
+                ];
         }
         return [];
     }

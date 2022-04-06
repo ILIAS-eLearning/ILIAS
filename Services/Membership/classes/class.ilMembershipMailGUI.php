@@ -1,7 +1,23 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -15,7 +31,6 @@ class ilMembershipMailGUI
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     private ilObjectGUI $object;
-
     protected GlobalHttpState $http;
     protected Factory $refinery;
     private ilGlobalTemplateInterface $main_tpl;
@@ -24,10 +39,8 @@ class ilMembershipMailGUI
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
         $this->object = $object;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -44,7 +57,6 @@ class ilMembershipMailGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-
             default:
                 $this->$cmd();
                 break;
@@ -64,7 +76,7 @@ class ilMembershipMailGUI
         return [];
     }
 
-    protected function initMemberIdFromGet()
+    protected function initMemberIdFromGet() : int
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -99,18 +111,23 @@ class ilMembershipMailGUI
         foreach ($particpants as $usr_id) {
             $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
-
-        ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-            $this->getCurrentObject(),
-            'members',
-            array(),
-            array('type' => 'new', 'rcp_to' => implode(',', $rcps), 'sig' => $this->createMailSignature())
-        ));
+        $this->ctrl->redirectToURL(
+            ilMailFormCall::getRedirectTarget(
+                $this->getCurrentObject(),
+                'members',
+                [],
+                [
+                    'type' => 'new',
+                    'rcp_to' => implode(',', $rcps),
+                    'sig' => $this->createMailSignature()
+                ]
+            )
+        );
     }
 
     protected function createMailSignature() : string
     {
-        $GLOBALS['DIC']['lng']->loadLanguageModule($this->getCurrentObject()->getObject()->getType());
+        $this->lng->loadLanguageModule($this->getCurrentObject()->getObject()->getType());
 
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt($this->getCurrentObject()->getObject()->getType() . '_mail_permanent_link');

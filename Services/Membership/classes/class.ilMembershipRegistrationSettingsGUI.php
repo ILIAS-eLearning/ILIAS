@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Registration settings
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -10,10 +26,9 @@ abstract class ilMembershipRegistrationSettingsGUI
 {
     private ilObject $object;
     private ilObjectGUI $gui_object;
-    private array $options = [];
-
     protected ilLanguage $lng;
-
+    private array $options = [];
+    
     public function __construct(ilObjectGUI $gui_object, ilObject $object, array $a_options)
     {
         global $DIC;
@@ -122,16 +137,6 @@ abstract class ilMembershipRegistrationSettingsGUI
             // max member
             $lim = new ilCheckboxInputGUI($this->txt('reg_max_members_short'), 'registration_membership_limited');
             $lim->setValue("1");
-            #$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
-            #$lim->setChecked($this->object->isMembershipLimited());
-
-            /* JF, 2015-08-31 - only used in sessions which cannot support min members (yet)
-            $min = new ilTextInputGUI($this->txt('reg_min_members'),'registration_min_members');
-            $min->setSize(3);
-            $min->setMaxLength(4);
-            $min->setInfo($this->txt('reg_min_members_info'));
-            $lim->addSubItem($min);
-            */
 
             $max = new ilTextInputGUI($this->txt('reg_max_members'), 'registration_max_members');
             #$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
@@ -140,15 +145,6 @@ abstract class ilMembershipRegistrationSettingsGUI
             $max->setMaxLength(4);
             $max->setInfo($this->txt('reg_max_members_info'));
             $lim->addSubItem($max);
-
-            /*
-            $wait = new ilCheckboxInputGUI($this->txt('reg_waiting_list'),'waiting_list');
-            $wait->setValue(1);
-            //$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
-            $wait->setInfo($this->txt('reg_waiting_list_info'));
-            #$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
-            $lim->addSubItem($wait);
-            */
 
             $wait = new ilRadioGroupInputGUI($this->txt('reg_waiting_list'), 'waiting_list');
 
