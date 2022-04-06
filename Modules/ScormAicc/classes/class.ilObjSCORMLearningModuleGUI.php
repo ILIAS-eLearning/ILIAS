@@ -820,7 +820,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteTracking");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeleteTracking");
 
-        foreach ($_POST["user"] as $id) {
+        foreach ($_POST["user"] as $id) {//PHP8Review: Use of $_ global. Pls use the DIC instead
             if (ilObject::_exists((int) $id) && ilObject::_lookUpType((int) $id) === "usr") {
                 $user = new ilObjUser((int) $id);
 
@@ -851,7 +851,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     public function confirmedDeleteTracking() : void
     {
-        $this->object->deleteTrackingDataOfUsers($_POST["user"]);
+        $this->object->deleteTrackingDataOfUsers($_POST["user"]);//PHP8Review: Use of $_ global. Pls use the DIC instead
         $this->ctrl->redirect($this, "modifyTrackingItems");
     }
 
@@ -941,12 +941,12 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function exportSelectionUsers() : void
     {
-        if (!count((array) $_POST['user'])) {
+        if (!count((array) $_POST['user'])) {//PHP8Review: Use of $_ global. Pls use the DIC instead
             //ilUtil::sendFailure($this->lng->txt('select_one'),true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'modifyTrackingItems');
         } else {
-            $this->object->exportSelected(false, $_POST["user"]);
+            $this->object->exportSelected(false, $_POST["user"]);//PHP8Review: Use of $_ global. Pls use the DIC instead
         }
     }
 

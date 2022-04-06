@@ -158,8 +158,8 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     {
         $id = explode("_", $a_target);
 
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
+        $_GET["baseClass"] = "ilsharedresourceGUI";//PHP8Review: Use of $_ global. Pls use the DIC instead
+        $_GET["wsp_id"] = $id[0];//PHP8Review: Use of $_ global. Pls use the DIC instead
         exit;
     }
 

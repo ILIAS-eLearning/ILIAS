@@ -120,7 +120,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 $exporter = new ilScormAiccExporter();
                 $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", (string) $obj_id);
             } elseif ($cmd === "download") {
-                $file = $_GET["file"];
+                $file = $_GET["file"];//PHP8Review: Use of $_ global. Pls use the DIC instead
                 $ftmp = explode(":", $file);
                 $fileName = (string) $ftmp[1];
                 $exportDir = ilExport::_getExportDirectory($obj_id);
@@ -129,7 +129,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 //not possible - no array
 //                $files = $report = $DIC->http()->wrapper()->post()->retrieve('file',$DIC->refinery()->kindlyTo()->string());
-                $files = $_POST['file'];
+                $files = $_POST['file'];//PHP8Review: Use of $_ global. Pls use the DIC instead
                 foreach ($files as $file) {
                     $file = explode(":", $file);
                     $file[1] = basename($file[1]);

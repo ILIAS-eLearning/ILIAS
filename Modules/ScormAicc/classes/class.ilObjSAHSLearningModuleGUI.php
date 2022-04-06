@@ -724,16 +724,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $parts = explode("_", $a_target);
 
         if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
-            $_GET["cmd"] = "";
-            $_GET["baseClass"] = "ilSAHSEditGUI";
-            $_GET["ref_id"] = $parts[0];
-            $_GET["obj_id"] = $parts[1];
+            $_GET["cmd"] = "";//PHP8Review: Use of $_ global. Pls use the DIC instead
+            $_GET["baseClass"] = "ilSAHSEditGUI";//PHP8Review: Use of $_ global. Pls use the DIC instead
+            $_GET["ref_id"] = $parts[0];//PHP8Review: Use of $_ global. Pls use the DIC instead
+            $_GET["obj_id"] = $parts[1];//PHP8Review: Use of $_ global. Pls use the DIC instead
             exit;
         }
         if ($ilAccess->checkAccess("visible", "", (int) $parts[0]) || $ilAccess->checkAccess("read", "", (int) $parts[0])) {
-            $_GET["cmd"] = "infoScreen";
-            $_GET["baseClass"] = "ilSAHSPresentationGUI";
-            $_GET["ref_id"] = $parts[0];
+            $_GET["cmd"] = "infoScreen";//PHP8Review: Use of $_ global. Pls use the DIC instead
+            $_GET["baseClass"] = "ilSAHSPresentationGUI";//PHP8Review: Use of $_ global. Pls use the DIC instead
+            $_GET["ref_id"] = $parts[0];//PHP8Review: Use of $_ global. Pls use the DIC instead
             exit;
         }
 

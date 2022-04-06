@@ -78,7 +78,7 @@ class ilSCORMExplorer extends ilExplorer
             ? $a_node_id
             : -(int) $a_node_id;
 
-        return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id;
+        return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id;//PHP8Review: Use of $_ global. Pls use the DIC instead
     }
 
     public function setOutput(int $a_parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false) : void //PHP8Review: Missing Typehint
