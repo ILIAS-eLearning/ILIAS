@@ -66,8 +66,6 @@ class ilSCORMTree extends ilTree
         } else {
             $order_clause = "ORDER BY " . $this->table_tree . ".lft";
         }
-
-        //666
     
         $r = $ilDB->queryF(
             "
