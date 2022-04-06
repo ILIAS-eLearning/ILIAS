@@ -565,7 +565,7 @@ class ilObjStyleSheet extends ilObject
     protected static string $basic_style_file = "./libs/ilias/Style/basic_style/style.xml";
     protected static string $basic_style_zip = "./libs/ilias/Style/basic_style/style.zip";
     protected static string $basic_style_image_dir = "./libs/ilias/Style/basic_style/images";
-    protected static DOMDocument $basic_style_dom;
+    protected static ?DOMDocument $basic_style_dom = null;
     
     public function __construct(
         int $a_id = 0,
@@ -1183,14 +1183,18 @@ class ilObjStyleSheet extends ilObject
         $ilErr = $DIC["ilErr"];
         
         $sty_data_dir = ilFileUtils::getWebspaceDir() . "/sty";
-        ilFileUtils::makeDir($sty_data_dir);
+        if (!is_dir($sty_data_dir)) {
+            ilFileUtils::makeDir($sty_data_dir);
+        }
         if (!is_writable($sty_data_dir)) {
             $ilErr->raiseError("Style data directory (" . $sty_data_dir
                 . ") not writeable.", $ilErr->FATAL);
         }
  
         $style_dir = $sty_data_dir . "/sty_" . $a_style_id;
-        ilFileUtils::makeDir($style_dir);
+        if (!is_dir($style_dir)) {
+            ilFileUtils::makeDir($style_dir);
+        }
         if (!is_dir($style_dir)) {
             $ilErr->raiseError("Creation of style directory failed (" .
                 $style_dir . ").", $ilErr->FATAL);
@@ -1198,7 +1202,9 @@ class ilObjStyleSheet extends ilObject
 
         // create images subdirectory
         $im_dir = $style_dir . "/images";
-        ilFileUtils::makeDir($im_dir);
+        if (!is_dir($im_dir)) {
+            ilFileUtils::makeDir($im_dir);
+        }
         if (!is_dir($im_dir)) {
             $ilErr->raiseError("Creation of Import Directory failed (" .
                 $im_dir . ").", $ilErr->FATAL);
@@ -1390,7 +1396,7 @@ class ilObjStyleSheet extends ilObject
         $res = $ilDB->query($q);
         $sty = $ilDB->fetchAssoc($res);
         $this->setUpToDate((boolean) $sty["uptodate"]);
-        $this->setScope($sty["category"]);
+        $this->setScope((int) $sty["category"]);
 
         // get style characteristics records
         $this->chars = array();
@@ -1427,7 +1433,7 @@ class ilObjStyleSheet extends ilObject
         } else {
             $css_file_name = $a_target_file;
         }
-        $css_file = fopen($css_file_name, "w");
+        $css_file = fopen($css_file_name, 'wb');
         
         $page_background = "";
 
@@ -1584,15 +1590,15 @@ class ilObjStyleSheet extends ilObject
         // check global fixed content style
         $fixed_style = $ilSetting->get("fixed_content_style_id");
         if ($fixed_style > 0) {
-            $a_style_id = $fixed_style;
+            $a_style_id = (int) $fixed_style;
         }
 
         // check global default style
         if ($a_style_id <= 0) {
-            $a_style_id = $ilSetting->get("default_content_style_id");
+            $a_style_id = (int) $ilSetting->get("default_content_style_id");
         }
 
-        if ($a_style_id > 0 && ilObject::_lookupType($a_style_id) == "sty") {
+        if ($a_style_id > 0 && ilObject::_lookupType($a_style_id) === "sty") {
             return $a_style_id;
         }
         
@@ -1630,12 +1636,12 @@ class ilObjStyleSheet extends ilObject
         // check global fixed content style
         $fixed_style = $ilSetting->get("fixed_content_style_id");
         if ($fixed_style > 0) {
-            $a_style_id = $fixed_style;
+            $a_style_id = (int) $fixed_style;
         }
 
         // check global default style
         if ($a_style_id <= 0) {
-            $a_style_id = $ilSetting->get("default_content_style_id");
+            $a_style_id = (int) $ilSetting->get("default_content_style_id");
         }
 
         if ($a_style_id > 0 && ilObject::_exists($a_style_id)) {
@@ -1885,7 +1891,7 @@ class ilObjStyleSheet extends ilObject
         $file = $a_dir . "/style.xml";
         
         // open file
-        if (!($fp = fopen($file, "w"))) {
+        if (!($fp = fopen($file, 'wb'))) {
             die("<b>Error</b>: Could not open \"" . $file . "\" for writing" .
                     " in <b>" . __FILE__ . "</b> on line <b>" . __LINE__ . "</b><br />");
         }
@@ -2940,7 +2946,7 @@ class ilObjStyleSheet extends ilObject
         
         $templates = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec["classes"] = $this->getTemplateClasses($rec["id"]);
+            $rec["classes"] = $this->getTemplateClasses((int) $rec["id"]);
             $templates[] = $rec;
         }
         
@@ -3079,7 +3085,7 @@ class ilObjStyleSheet extends ilObject
             " AND id = " . $ilDB->quote($a_t_id, "integer"));
         
         if ($rec = $ilDB->fetchAssoc($set)) {
-            $rec["classes"] = $this->getTemplateClasses($rec["id"]);
+            $rec["classes"] = $this->getTemplateClasses((int) $rec["id"]);
 
             $template = $rec;
             return $template;

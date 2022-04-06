@@ -37,6 +37,7 @@ trait GlobalDICDomainServices
     protected ResourceStorage\Services $resource_storage;
     protected LoggingServices $logger;
     protected \ilSetting $settings;
+    protected \ilObjectDefinition $object_definition;
 
     protected function initDomainServices(\ILIAS\DI\Container $DIC)
     {
@@ -51,6 +52,7 @@ trait GlobalDICDomainServices
         $this->resource_storage = $DIC->resourceStorage();
         $this->event = $DIC->event();
         $this->settings = $DIC->settings();
+        $this->object_definition = $DIC["objDefinition"];
     }
 
     public function repositoryTree() : \ilTree
@@ -106,5 +108,10 @@ trait GlobalDICDomainServices
     public function settings() : \ilSetting
     {
         return $this->settings;
+    }
+
+    public function objectDefinition() : \ilObjectDefinition
+    {
+        return $this->object_definition;
     }
 }

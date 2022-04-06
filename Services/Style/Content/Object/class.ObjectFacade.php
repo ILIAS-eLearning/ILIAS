@@ -38,7 +38,7 @@ class ObjectFacade
         int $obj_id = 0
     ) {
         $this->ref_id = $ref_id;
-        $this->ref_id = ($obj_id > 0)
+        $this->obj_id = ($obj_id > 0)
             ? $obj_id
             : ilObject::_lookupObjId($ref_id);
         $this->domain_service = $domain_service;

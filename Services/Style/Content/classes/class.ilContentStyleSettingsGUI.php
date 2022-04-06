@@ -122,8 +122,8 @@ class ilContentStyleSettingsGUI
         $from_styles = $to_styles = $data = array();
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
-            $style["active"] = ilObjStyleSheet::_lookupActive($style["id"]);
-            $style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
+            $style["active"] = ilObjStyleSheet::_lookupActive((int) $style["id"]);
+            $style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs((int) $style["id"]);
             $data[$style["title"] . ":" . $style["id"]]
                 = $style;
             if ($style["lm_nr"] > 0) {

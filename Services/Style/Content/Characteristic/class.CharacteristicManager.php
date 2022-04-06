@@ -145,7 +145,7 @@ class CharacteristicManager
             $characteristic
         );
 
-        $titles = $char->getTitles();
+        $titles = $char ? $char->getTitles() : [];
 
         $lang = $this->user->getLanguage();
 

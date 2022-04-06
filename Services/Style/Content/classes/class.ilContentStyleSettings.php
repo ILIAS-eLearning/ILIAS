@@ -78,7 +78,7 @@ class ilContentStyleSettings
         while ($style_rec = $ilDB->fetchAssoc($style_set)) {
             $this->styles[$style_rec["style_id"]] =
                 array("id" => $style_rec["style_id"],
-                    "title" => ilObject::_lookupTitle($style_rec["style_id"]),
+                    "title" => ilObject::_lookupTitle((int) $style_rec["style_id"]),
                     "category" => $style_rec["category"]);
         }
 

@@ -162,13 +162,6 @@ class ilObjectContentStyleSettingsGUI
             }
 
             if ($style_id <= 0 || !$this->object_manager->isOwned($style_id)) {
-                $style_sel = ilLegacyFormElementsUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
                 $style_sel = new ilSelectInputGUI(
                     $lng->txt("style_current_style"),
                     "style_id"

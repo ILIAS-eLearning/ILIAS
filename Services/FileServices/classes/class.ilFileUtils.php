@@ -441,6 +441,9 @@ class ilFileUtils
         
         // create directory with file permissions of parent directory
         umask(0000);
+        if (is_dir($a_dir)) {
+            return true;
+        }
         return mkdir($a_dir, fileperms($path));
     }
     

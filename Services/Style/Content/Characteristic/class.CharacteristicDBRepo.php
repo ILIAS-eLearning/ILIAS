@@ -100,11 +100,11 @@ class CharacteristicDBRepo
             return $this->factory->characteristic(
                 $type,
                 $characteristic,
-                $rec["hide"],
+                (bool) $rec["hide"],
                 $titles,
                 $style_id,
-                $rec["order_nr"],
-                $rec["outdated"]
+                (int) $rec["order_nr"],
+                (bool) $rec["outdated"]
             );
         }
         return null;
@@ -155,11 +155,11 @@ class CharacteristicDBRepo
             $chars[] = $this->factory->characteristic(
                 $rec["type"],
                 $rec["characteristic"],
-                $rec["hide"],
+                (bool) $rec["hide"],
                 $titles,
                 $style_id,
-                $rec["order_nr"],
-                $rec["outdated"]
+                (int) $rec["order_nr"],
+                (bool) $rec["outdated"]
             );
         }
         return $chars;
