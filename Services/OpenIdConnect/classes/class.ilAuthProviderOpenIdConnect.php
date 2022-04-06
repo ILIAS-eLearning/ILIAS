@@ -23,11 +23,18 @@ use Jumbojett\OpenIDConnectClient;
 class ilAuthProviderOpenIdConnect extends ilAuthProvider
 {
     private ilOpenIdConnectSettings $settings;
+    /** @var array $body */
+    private $body;
+    private ilLogger $logger;
 
     public function __construct(ilAuthCredentials $credentials)
     {
+        global $DIC;
         parent::__construct($credentials);
+
+        $this->logger = $DIC->logger()->auth();
         $this->settings = ilOpenIdConnectSettings::getInstance();
+        $this->body = $DIC->http()->request()->getParsedBody();
     }
 
     public function handleLogout() : void
@@ -37,7 +44,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
         }
 
         $auth_token = ilSession::get('oidc_auth_token');
-        $this->getLogger()->debug('Using token: ' . $auth_token);
+        $this->logger->debug('Using token: ' . $auth_token);
 
         if (isset($auth_token) && $auth_token !== '') {
             ilSession::set('oidc_auth_token', '');
@@ -65,7 +72,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
                 $oidc->setHttpProxy($host);
             }
 
-            $this->getLogger()->debug(
+            $this->logger->debug(
                 'Redirect url is: ' .
                 $oidc->getRedirectURL()
             );
@@ -79,32 +86,31 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
 
             $oidc->addScope($this->settings->getAllScopes());
             $oidc->addAuthParam(['response_mode' => 'form_post']);
-            switch ($this->settings->getLoginPromptType()) {
-                case ilOpenIdConnectSettings::LOGIN_ENFORCE:
-                    $oidc->addAuthParam(['prompt' => 'login']);
-                    break;
+            if ($this->settings->getLoginPromptType() === ilOpenIdConnectSettings::LOGIN_ENFORCE) {
+                $oidc->addAuthParam(['prompt' => 'login']);
             }
             $oidc->setAllowImplicitFlow(true);
 
             $oidc->authenticate();
             // user is authenticated, otherwise redirected to authorization endpoint or exception
-            $this->getLogger()->dump($_REQUEST, ilLogLevel::DEBUG);
+            $this->logger->dump($this->body, ilLogLevel::DEBUG);
 
             $claims = $oidc->getVerifiedClaims(null);
-            $this->getLogger()->dump($claims, ilLogLevel::DEBUG);
+            $this->logger->dump($claims, ilLogLevel::DEBUG);
             $status = $this->handleUpdate($status, $claims);
 
             // @todo : provide a general solution for all authentication methods
-            $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();// TODO PHP8-REVIEW Please eliminate this. Mutating the request is not allowed and will not work in ILIAS 8.
+            //$_GET['target'] = $this->getCredentials()->getRedirectionTarget();// TODO PHP8-REVIEW Please eliminate this. Mutating the request is not allowed and will not work in ILIAS 8.
 
-            if ($this->settings->getLogoutScope() === ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL) {
-                $token = $oidc->requestClientCredentialsToken();
-                ilSession::set('oidc_auth_token', $token->access_token);
-            }
+            //TODO fix this. There is a PR and it is broken in 7 as well
+            //if ($this->settings->getLogoutScope() === ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL) {
+            //$token = $oidc->requestClientCredentialsToken();
+            //ilSession::set('oidc_auth_token', $token->access_token);
+            //}
             return true;
         } catch (Exception $e) {
-            $this->getLogger()->warning($e->getMessage());
-            $this->getLogger()->warning($e->getCode());
+            $this->logger->warning($e->getMessage());
+            $this->logger->warning((string) $e->getCode());
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setTranslatedReason($e->getMessage());
             return false;
@@ -120,17 +126,17 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
     private function handleUpdate(ilAuthStatus $status, $user_info) : ilAuthStatus
     {
         if (!is_object($user_info)) {
-            $this->getLogger()->error('Received invalid user credentials: ');
-            $this->getLogger()->dump($user_info, ilLogLevel::ERROR);
+            $this->logger->error('Received invalid user credentials: ');
+            $this->logger->dump($user_info, ilLogLevel::ERROR);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');
             return $status;
         }
 
         $uid_field = $this->settings->getUidField();
-        $ext_account = $user_info->$uid_field;
+        $ext_account = $user_info->{$uid_field};
 
-        $this->getLogger()->debug('Authenticated external account: ' . $ext_account);
+        $this->logger->debug('Authenticated external account: ' . $ext_account);
 
 
         $int_account = ilObjUser::_checkExternalAuthAccount(
@@ -154,7 +160,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $status->setAuthenticatedUserId($user_id);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 
-            $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();// TODO PHP8-REVIEW Please eliminate this. Mutating the request is not allowed and will not work in ILIAS 8.
+            //$_GET['target'] = $this->getCredentials()->getRedirectionTarget();// TODO PHP8-REVIEW Please eliminate this. Mutating the request is not allowed and will not work in ILIAS 8.
         } catch (ilOpenIdConnectSyncForbiddenException $e) {
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');

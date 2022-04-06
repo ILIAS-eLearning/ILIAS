@@ -27,7 +27,9 @@ class ilOpenIdConnectSettingsGUI
     private const STAB_ROLES = 'roles';
 
     private const DEFAULT_CMD = 'settings';
-    private int $ref_id = 0;
+    private int $ref_id;
+    /** @var array $body */
+    private $body;
     private ilOpenIdConnectSettings $settings;
     private ilLanguage $lng;
     private ilCtrl $ctrl;
@@ -57,7 +59,7 @@ class ilOpenIdConnectSettingsGUI
         $this->review = $DIC->rbac()->review();
         $this->error = $DIC['ilErr'];
         $this->upload = $DIC->upload();
-
+        $this->body = $DIC->http()->request()->getParsedBody();
         $this->settings = ilOpenIdConnectSettings::getInstance();
     }
 
@@ -540,7 +542,7 @@ class ilOpenIdConnectSettingsGUI
         $this->checkAccess('write');
         $form = $this->initRolesForm();
         if ($form->checkInput()) {
-            $this->logger->dump($_POST, ilLogLevel::DEBUG); // TODO PHP8-REVIEW Please Use the `getParsedBody()` method of the HTTP request instead
+            $this->logger->dump($this->body, ilLogLevel::DEBUG);
 
 
             $role_settings = [];
@@ -554,11 +556,13 @@ class ilOpenIdConnectSettingsGUI
                 $this->logger->dump($role_params, ilLogLevel::DEBUG);
 
                 if (count($role_params) !== 2) {
-                    $form->getItemByPostVar('role_map_' . $role_id)->setAlert($this->lng->txt('msg_wrong_format'));
+                    if ($form->getItemByPostVar('role_map_' . $role_id)) {
+                        $form->getItemByPostVar('role_map_' . $role_id)->setAlert($this->lng->txt('msg_wrong_format'));
+                    }
                     $role_valid = false;
                     continue;
                 }
-                $role_settings[(int) $role_id]['update'] = (bool) !$form->getInput('role_map_update_' . $role_id);
+                $role_settings[(int) $role_id]['update'] = !$form->getInput('role_map_update_' . $role_id);
                 $role_settings[(int) $role_id]['value'] = (string) $form->getInput('role_map_' . $role_id);
             }
 

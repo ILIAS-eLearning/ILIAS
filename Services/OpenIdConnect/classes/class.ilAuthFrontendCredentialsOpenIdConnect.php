@@ -20,14 +20,21 @@
 class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
 {
     private const SESSION_TARGET = 'oidc_target';
+    private const QUERY_PARAM_TARGET = 'target';
 
     private ilOpenIdConnectSettings $settings;
     private ?string $target = null;
 
     public function __construct()
     {
+        global $DIC;
+
         parent::__construct();
         $this->settings = ilOpenIdConnectSettings::getInstance();
+        $httpquery = $DIC->http()->wrapper()->query();
+        if ($httpquery->has(self::QUERY_PARAM_TARGET)) {
+            $this->target = $httpquery->retrieve(self::QUERY_PARAM_TARGET, $DIC->refinery()->to()->string());
+        }
     }
 
     protected function getSettings() : ilOpenIdConnectSettings
@@ -35,7 +42,7 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
         return $this->settings;
     }
 
-    public function getRedirectionTarget() : string
+    public function getRedirectionTarget() : ?string
     {
         return $this->target;
     }
@@ -50,8 +57,7 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
 
     protected function parseRedirectionTarget() : void
     {
-        if (!empty($_GET['target'])) { // TODO PHP8-REVIEW Please eliminate this.
-            $this->target = $_GET['target']; // TODO PHP8-REVIEW Please eliminate this.
+        if ($this->target) {
             ilSession::set(self::SESSION_TARGET, $this->target);
         } elseif (ilSession::get(self::SESSION_TARGET)) {
             $this->target = ilSession::get(self::SESSION_TARGET);

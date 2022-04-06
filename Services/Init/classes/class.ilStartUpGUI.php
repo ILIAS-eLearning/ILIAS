@@ -1929,7 +1929,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 $this->logger->debug('Authentication successful; Redirecting to starting page.');
-                ilInitialisation::redirectToStartingPage();
+                if ($credentials->getRedirectionTarget()) {
+                    ilInitialisation::redirectToStartingPage($credentials->getRedirectionTarget());
+                } else {
+                    ilInitialisation::redirectToStartingPage();
+                }
                 return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:

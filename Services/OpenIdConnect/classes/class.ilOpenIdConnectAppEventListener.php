@@ -32,14 +32,11 @@ class ilOpenIdConnectAppEventListener implements ilAppEventListener
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
-        ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-        if ($a_component === 'Services/Authentication') {
-            ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-            if ($a_event === 'beforeLogout') {
-                ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-                $listener = new self();
-                $listener->handleLogoutFor($a_parameter['user_id']);
-            }
+        global $DIC;
+        $DIC->logger()->auth()->debug($a_component . ' : ' . $a_event);
+        if (($a_component === 'Services/Authentication') && $a_event === 'beforeLogout') {
+            $listener = new self();
+            $listener->handleLogoutFor($a_parameter['user_id']);
         }
     }
 }

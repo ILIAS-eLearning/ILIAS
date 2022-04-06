@@ -312,6 +312,7 @@ class ilOpenIdConnectSettings
 
     public function validateScopes(string $provider, array $custom_scopes) : array
     {
+        $result = [];
         try {
             $curl = new ilCurlConnection($provider . '/.well-known/openid-configuration');
             $curl->init();
@@ -322,20 +323,17 @@ class ilOpenIdConnectSettings
 
             $response = json_decode($curl->exec(), false, 512, JSON_THROW_ON_ERROR);
 
-            if ($curl->getInfo(CURLINFO_RESPONSE_CODE) !== 200) {
-                return array();
+            if ($curl->getInfo(CURLINFO_RESPONSE_CODE) === 200) {
+                $available_scopes = $response->scopes_supported;
+                array_unshift($custom_scopes, self::DEFAULT_SCOPE);
+
+                $result = array_diff($custom_scopes, $available_scopes);
             }
-
-            $available_scopes = $response->scopes_supported;
-            array_unshift($custom_scopes, self::DEFAULT_SCOPE);
-
-            $result = array_diff($custom_scopes, $available_scopes);
-        } catch (ilCurlConnectionException $e) {
-            throw $e;
         } finally {
-            $curl->close();
+            if (isset($curl)) {
+                $curl->close();
+            }
         }
-
         return $result;
     }
 
@@ -384,11 +382,11 @@ class ilOpenIdConnectSettings
         $this->setLoginElementType((int) $this->storage->get('le_type'));
         $this->setLoginPromptType((int) $this->storage->get('prompt_type', (string) self::LOGIN_ENFORCE));
         $this->setLogoutScope((int) $this->storage->get('logout_scope', (string) self::LOGOUT_SCOPE_GLOBAL));
-        $this->useCustomSession((bool) $this->storage->get('custom_session'), '0');
+        $this->useCustomSession((bool) $this->storage->get('custom_session', '0'));
         $this->setSessionDuration((int) $this->storage->get('session_duration', '60'));
-        $this->allowSync((bool) $this->storage->get('allow_sync'), '0');
-        $this->setRole((int) $this->storage->get('role'), '0');
-        $this->setUidField((string) $this->storage->get('uid'), '');
+        $this->allowSync((bool) $this->storage->get('allow_sync', '0'));
+        $this->setRole((int) $this->storage->get('role', '0'));
+        $this->setUidField((string) $this->storage->get('uid', ''));
         $this->setRoleMappings((array) unserialize(
             $this->storage->get('role_mappings', serialize([])),
             ['allowed_classes' => false]

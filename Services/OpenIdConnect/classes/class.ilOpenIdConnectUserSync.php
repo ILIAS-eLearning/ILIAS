@@ -204,7 +204,7 @@ class ilOpenIdConnectUserSync
             }
 
             if (is_array($this->user_info->{$role_attribute})) {
-                if (!in_array($role_value, $this->user_info->{$role_attribute})) {
+                if (!in_array($role_value, $this->user_info->{$role_attribute}, true)) {
                     $this->logger->debug('User account has no ' . $role_value);
                     continue;
                 }
@@ -256,7 +256,6 @@ class ilOpenIdConnectUserSync
             return '';
         }
 
-        $val = $this->user_info->{$connect_name};
-        return $val;
+        return $this->user_info->{$connect_name};
     }
 }
