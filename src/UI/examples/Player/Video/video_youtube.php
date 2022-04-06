@@ -16,23 +16,15 @@
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Component\Player;
+namespace ILIAS\UI\examples\Player\Video;
 
-use ILIAS\UI\Component\Player as P;
-
-/**
- * @author Alexander Killing <killing@leifos.de>
- * @package ILIAS\UI\Implementation\Component\Player
- */
-class Factory implements P\Factory
+function video_youtube() : string
 {
-    public function audio(string $source, string $transcript = "") : P\Audio
-    {
-        return new Audio($source, $transcript);
-    }
+    global $DIC;
+    $renderer = $DIC->ui()->renderer();
+    $f = $DIC->ui()->factory();
 
-    public function video(string $source) : P\Video
-    {
-        return new Video($source);
-    }
+    $video = $f->player()->video("https://www.youtube.com/watch?v=YSN2osYbshQ");
+
+    return $renderer->render($video);
 }

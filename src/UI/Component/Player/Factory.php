@@ -44,4 +44,35 @@ interface Factory
      * @return \ILIAS\UI\Component\Player\Audio
      */
     public function audio(string $source, string $transcript = "") : Audio;
+
+    /**
+     * ---
+     * description:
+     *   purpose: The Video component is used to play and control mp4 video files, youtube or vimeo videos.
+     *   composition: >
+     *       The Video component is composed by a video area, play/pause button, a playtime presentation,
+     *       a volume button, a volume slider and a time slider. Additionally it optionally
+     *       provides subtitles stored in WebVTT files, see https://en.wikipedia.org/wiki/WebVTT.
+     * rules:
+     *   accessibility:
+     *     1: >
+     *        The play/pause button MUST be accessible via tab key and allow to start/stop the video when the
+     *        space/return key is being pressed.
+     *     2: >
+     *        The playing position SHOULD be adjustable by using the cursor left/right keys.
+     *     3: >
+     *        The volume SHOULD be adjustable by using the cursor up/down keys.
+     *     4: >
+     *        A subtitle file SHOULD be provided, if the video content contains speech.
+     *   style:
+     *     1: >
+     *        The widget will be presented with the full width of its container.
+     * context:
+     *   - Main Content
+     *   - Modal Content
+     * ----
+     * @param string $source mp4 file path, youtube or vimeo url
+     * @return \ILIAS\UI\Component\Player\Video
+     */
+    public function video(string $source) : Video;
 }

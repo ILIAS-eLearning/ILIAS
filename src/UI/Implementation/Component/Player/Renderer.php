@@ -38,6 +38,9 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Player\Audio) {
             return $this->renderAudio($component, $default_renderer);
         }
+        if ($component instanceof Component\Player\Video) {
+            return $this->renderVideo($component, $default_renderer);
+        }
         return "";
     }
 
@@ -71,10 +74,41 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    public function renderVideo(
+        Component\Component $component,
+        RendererInterface $default_renderer
+    ) : string {
+        $tpl = $this->getTemplate("tpl.video.html", true, true);
+
+        $component = $component->withAdditionalOnLoadCode(function ($id) {
+            return "$('#$id').mediaelementplayer();";
+        });
+        $id = $this->bindJavaScript($component);
+
+        foreach ($component->getSubtitleFiles() as $lang_key => $file) {
+            $tpl->setCurrentBlock("track");
+            $tpl->setVariable("TRACK_SOURCE", $file);
+            $tpl->setVariable("TRACK_LANG", $lang_key);
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($component->getPoster() !== "") {
+            $tpl->setCurrentBlock("poster");
+            $tpl->setVariable("POSTER_SOURCE", $component->getPoster());
+            $tpl->parseCurrentBlock();
+        }
+
+        $tpl->setVariable("ID", $id);
+        $tpl->setVariable("SOURCE", $component->getSource());
+
+        return $tpl->get();
+    }
+
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register('./node_modules/mediaelement/build/mediaelement-and-player.min.js');
+        $registry->register('./node_modules/mediaelement/build/renderers/vimeo.min.js');
         $registry->register('./node_modules/mediaelement/build/mediaelementplayer.min.css');
     }
 
