@@ -1,12 +1,27 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Base class for course and group participants
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  * @ingroup ServicesMembership
  */
-
 /**
  * @todo move these constants to ilParticipants
  */
@@ -25,23 +40,19 @@ abstract class ilParticipants
     public const IL_ROLE_POSITION_MEMBER = 3;
 
     protected string $component = '';
-
     protected int $ref_id = 0;
     protected int $obj_id = 0;
     protected string $type = '';
-
     protected array $roles = [];
     protected array $role_data = [];
     protected array $roles_sorted = [];
     protected array $role_assignments = [];
-
     protected array $participants = [];
     protected array $participants_status = [];
     protected array $members = [];
     protected array $tutors = [];
     protected array $admins = [];
     protected array $subscribers = [];
-
     protected ilAppEventHandler $eventHandler;
     protected ilRbacReview $rbacReview;
     protected ilRbacAdmin $rbacAdmin;
@@ -68,16 +79,14 @@ abstract class ilParticipants
         $this->rbacAdmin = $DIC->rbac()->admin();
         $this->objectDataCache = $DIC['ilObjDataCache'];
         $this->error = $DIC['ilErr'];
-
         $this->component = $a_component_name;
-
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
-
+        $this->recommended_content_manager = new ilRecommendedContentManager();
+    
         $this->readParticipants();
         $this->readParticipantsStatus();
-        $this->recommended_content_manager = new ilRecommendedContentManager();
     }
 
     public static function getInstance(int $a_ref_id) : ilParticipants
@@ -189,8 +198,7 @@ abstract class ilParticipants
         bool $a_only_member_roles
     ) : array {
         global $DIC;
-
-        $logger = $DIC->logger()->mmbr();
+        
         $ilDB = $DIC->database();
 
         $j2 = $a2 = '';
@@ -230,7 +238,6 @@ abstract class ilParticipants
      * Get course or group membership
      * @param int      $a_usr_id usr_id
      * @param string[] $a_type   array of object types
-     * @param bool     $a_only_member_role
      * @return int[]
      */
     public static function _getMembershipByType(
@@ -604,7 +611,6 @@ abstract class ilParticipants
      * Check if users for deletion are last admins
      * @access public
      * @param int[] array of user ids for deletion
-     * @return bool
      * @todo   fix this and add unit test
      */
     public function checkLastAdmin(array $a_usr_ids) : bool
@@ -660,10 +666,10 @@ abstract class ilParticipants
         $this->eventHandler->raise(
             $this->getComponent(),
             "deleteParticipant",
-            array(
+            [
                 'obj_id' => $this->obj_id,
                 'usr_id' => $a_usr_id
-            )
+            ]
         );
     }
 
@@ -798,7 +804,6 @@ abstract class ilParticipants
 
     /**
      * @param int[]
-     * @return bool
      */
     public function deleteParticipants(array $a_user_ids) : bool
     {
@@ -846,15 +851,13 @@ abstract class ilParticipants
     protected function readParticipants() : void
     {
         $this->roles = $this->rbacReview->getRolesOfRoleFolder($this->ref_id, false);
-
-        $users = [];
         $this->participants = [];
         $this->members = $this->admins = $this->tutors = [];
 
         $additional_roles = [];
         $auto_generated_roles = [];
         foreach ($this->roles as $role_id) {
-            $title = $this->objectDataCache->lookupTitle((int) $role_id);
+            $title = $this->objectDataCache->lookupTitle($role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
@@ -1018,7 +1021,6 @@ abstract class ilParticipants
     }
 
     /**
-     * @param int $a_obj_id
      * @return int[]
      */
     public static function lookupSubscribers(int $a_obj_id) : array
@@ -1053,7 +1055,7 @@ abstract class ilParticipants
         return count($this->getSubscribers());
     }
 
-    public function getSubscriberData($a_usr_id) : array
+    public function getSubscriberData(int $a_usr_id) : array
     {
         return $this->readSubscriberData($a_usr_id);
     }
@@ -1227,7 +1229,6 @@ abstract class ilParticipants
     }
 
     /**
-     * @param int $a_usr_id
      * @return array<{time: int, usr_id: int, subject: string}>
      */
     protected function readSubscriberData(int $a_usr_id) : array
@@ -1317,8 +1318,6 @@ abstract class ilParticipants
 
     /**
      * Set role order position
-     * @param int $a_user_id
-     * @return string
      */
     public function setRoleOrderPosition(int $a_user_id) : string
     {

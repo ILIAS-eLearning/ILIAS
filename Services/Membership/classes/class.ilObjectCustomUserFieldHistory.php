@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Editing history for object custom user fields
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -11,7 +27,6 @@ class ilObjectCustomUserFieldHistory
     private int $user_id = 0;
     private int $update_user = 0;
     private ?ilDateTime $editing_time = null;
-
     protected ilDBInterface $db;
 
     public function __construct(int $a_obj_id, int $a_user_id)
@@ -19,14 +34,12 @@ class ilObjectCustomUserFieldHistory
         global $DIC;
 
         $this->db = $DIC->database();
-
         $this->obj_id = $a_obj_id;
         $this->user_id = $a_user_id;
         $this->read();
     }
 
     /**
-     * @param int $a_obj_id
      * @return array<int, array<{update_user: int, editing_time: ilDateTime}>>
      * @throws ilDateTimeException
      */
@@ -63,7 +76,7 @@ class ilObjectCustomUserFieldHistory
         $this->editing_time = $dt;
     }
 
-    public function getEditingTime() : ilDateTime
+    public function getEditingTime() : ?\ilDateTime
     {
         return $this->editing_time;
     }
