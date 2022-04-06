@@ -65,7 +65,7 @@ class ilChartGrid extends ilChart
      * @param int|array $a_y
      * @param bool $a_labeled
      */
-    public function setTicks($a_x, $a_y, bool $a_labeled = false)
+    public function setTicks($a_x, $a_y, bool $a_labeled = false) : void
     {
         $this->ticks = array("x" => $a_x, "y" => $a_y, "labeled" => $a_labeled);
     }
