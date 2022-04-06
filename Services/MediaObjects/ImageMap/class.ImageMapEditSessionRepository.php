@@ -28,6 +28,7 @@ class ImageMapEditSessionRepository
     {
     }
 
+    // PHP8-Review: no return type specified.
     protected function get(string $key)
     {
         if (\ilSession::has(self::KEY_BASE . $key)) {
@@ -36,6 +37,7 @@ class ImageMapEditSessionRepository
         return null;
     }
 
+    // PHP8-Review: parameter $val with no type specified.
     protected function set(string $key, $val) : void
     {
         \ilSession::set(self::KEY_BASE . $key, $val);
@@ -162,7 +164,10 @@ class ImageMapEditSessionRepository
         $this->set("il_targetframe", $target_frame);
         $this->set("il_anchor", $anchor);
     }
-
+    
+    /**
+     * @return string[]
+     */
     public function getInternalLink() : array
     {
         return [

@@ -44,7 +44,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public bool $enabledmapareas = true;
 
     public function __construct(
-        $a_data,
+        $a_data,    // PHP8-Review: no type specified
         int $a_id = 0,
         bool $a_call_by_reference = false,
         bool $a_prepare_output = false
@@ -95,6 +95,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
      * Get adv md record type
      * @throws ilMediaObjectsException
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public function getAdvMdRecordObject() : ?array
     {
         if ($this->adv_type == null) {
@@ -260,6 +261,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $tpl->setContent($this->form_gui->getHTML());
     }
 
+    // PHP8-Review: parameter $a_mode: no type specified.
     public function initForm($a_mode = "create") : void
     {
         $lng = $this->lng;

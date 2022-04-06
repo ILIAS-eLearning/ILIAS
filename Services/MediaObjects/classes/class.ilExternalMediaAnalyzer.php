@@ -37,6 +37,7 @@ class ilExternalMediaAnalyzer
     /**
      * Extract YouTube Parameter
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractYouTubeParameters(
         string $a_location
     ) : array {
@@ -70,6 +71,7 @@ class ilExternalMediaAnalyzer
     /**
      * Extract Flickr Parameter
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractFlickrParameters(
         string $a_location
     ) : array {
@@ -121,6 +123,7 @@ class ilExternalMediaAnalyzer
     /**
      * Extract GoogleVideo Parameter
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractGoogleVideoParameters(
         string $a_location
     ) : array {
@@ -152,6 +155,7 @@ class ilExternalMediaAnalyzer
     /**
      * Extract Vimeo Parameter
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractVimeoParameters(
         string $a_location
     ) : array {
@@ -183,6 +187,7 @@ class ilExternalMediaAnalyzer
     /**
      * Extract GoogleDocument Parameter
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractGoogleDocumentParameters(
         string $a_location
     ) : array {
@@ -216,8 +221,10 @@ class ilExternalMediaAnalyzer
     /**
      * Extract URL information to parameter array
      */
+    // PHP8-Review: return type has no value type specified in iterable type array.
     public static function extractUrlParameters(
         string $a_location,
+        // PHP8-Review: parameter $a_parameter with no value type specified in iterable type array.
         array $a_parameter
     ) : array {
         if (!is_array($a_parameter)) {

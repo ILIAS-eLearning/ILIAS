@@ -109,6 +109,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         $this->setData($agg_usages);
     }
     
+    // PHP8-Review: parameter $a_set with no value type specified in iterable type array.
     protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;

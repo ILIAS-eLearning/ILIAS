@@ -252,9 +252,9 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     /**
      * Check access rights for glossary terms
      * This checks also learning modules linking the term
-     * @param    int         object id (glossary)
-     * @param    int         page id (definition)
-     * @return   bool     access given (true/false)
+     * @param int $obj_id       object id (glossary)
+     * @param int $page_id      page id (definition)
+     * @return bool            access given (true/false)
      */
     protected function checkAccessGlossaryTerm(
         int $obj_id,

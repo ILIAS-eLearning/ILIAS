@@ -21,6 +21,7 @@
 class ilImageMapTableGUI extends ilTable2GUI
 {
     protected ilObjMediaObject $media_object;
+    // PHP8-Review: $highl_classes, $highl_modes type has no value type specified in iterable type array.
     protected array $highl_classes;
     protected array $highl_modes;
     protected ilAccessHandler $access;
@@ -99,7 +100,7 @@ class ilImageMapTableGUI extends ilTable2GUI
 
         $this->setData($areas);
     }
-    
+    // PHP8-Review: parameter $a_set with no value type specified in iterable type array.
     protected function fillRow(array $a_set) : void
     {
         $area = $a_set["area"];

@@ -29,7 +29,8 @@ class ilMediaCreationGUI
     public const POOL_VIEW_FOLDER = "fold";
     public const POOL_VIEW_ALL = "all";
     protected CreationGUIRequest $request;
-
+    
+    // PHP8-Review: parameter $accept_types with no value type specified in iterable type array.
     protected array $accept_types = [1,2,3,4];
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -38,6 +39,7 @@ class ilMediaCreationGUI
     protected Closure $after_url_saving;
     protected Closure $after_pool_insert;
     protected ilAccessHandler $access;
+    // PHP8-Review: parameter $all_suffixes, $all_mime_types with no value type specified in iterable type array.
     protected array $all_suffixes = [];
     protected array $all_mime_types = [];
     protected \ILIAS\DI\UIServices $ui;
@@ -45,6 +47,7 @@ class ilMediaCreationGUI
     protected string $pool_view = self::POOL_VIEW_FOLDER;
 
     public function __construct(
+        // PHP8-Review: parameter $accept_types with no value type specified in iterable type array.
         array $accept_types,
         Closure $after_upload,
         Closure $after_url_saving,
@@ -83,27 +86,32 @@ class ilMediaCreationGUI
     }
 
     public function setAllSuffixes(
+        // PHP8-Review: parameter $a_val with no value type specified in iterable type array.
         array $a_val
     ) : void {
         $this->all_suffixes = $a_val;
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array
     public function getAllSuffixes() : array
     {
         return $this->all_suffixes;
     }
 
     public function setAllMimeTypes(
+        // PHP8-Review: parameter $a_val with no value type specified in iterable type array.
         array $a_val
     ) : void {
         $this->all_mime_types = $a_val;
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array
     public function getAllMimeTypes() : array
     {
         return $this->all_mime_types;
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array
     protected function getSuffixes() : array
     {
         $suffixes = [];
@@ -115,7 +123,8 @@ class ilMediaCreationGUI
         }
         return $suffixes;
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array
     protected function getMimeTypes() : array
     {
         $mimes = [];
