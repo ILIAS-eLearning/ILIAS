@@ -275,7 +275,7 @@ class ilRbacAdmin
             array($a_rol_id, $a_ref_id)
         );
 
-        if (!count($a_ops)) {
+        if ($a_ops === []) {
             return;
         }
 
@@ -332,7 +332,7 @@ class ilRbacAdmin
             }
 
             // return if no role in array
-            if (!$role_ids) {
+            if ($role_ids === []) {
                 return;
             }
 
@@ -569,7 +569,7 @@ class ilRbacAdmin
         // and the other direction...
         foreach ($s2_ops as $type => $ops) {
             foreach ($ops as $op) {
-                if (!isset($s1_ops[$type]) or !in_array($op, $s1_ops[$type])) {
+                if (!isset($s1_ops[$type]) || !in_array($op, $s1_ops[$type])) {
                     $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
                         'VALUES( ' .
                         $this->db->quote($a_dest_id, 'integer') . ', ' .
@@ -601,7 +601,7 @@ class ilRbacAdmin
 
         foreach ($s1_ops as $type => $ops) {
             foreach ($ops as $op) {
-                if (isset($d_ops[$type]) and in_array($op, $d_ops[$type])) {
+                if (isset($d_ops[$type]) && in_array($op, $d_ops[$type])) {
                     $query = 'DELETE FROM rbac_templates ' .
                         'WHERE rol_id = ' . $this->db->quote($a_dest_id, 'integer') . ' ' .
                         'AND type = ' . $this->db->quote($type, 'text') . ' ' .
@@ -752,7 +752,7 @@ class ilRbacAdmin
             }
             $real_local[] = $role_data;
         }
-        if (!count($real_local)) {
+        if ($real_local === []) {
             return;
         }
         // Create role folder
@@ -885,7 +885,7 @@ class ilRbacAdmin
             }
         }
 
-        if (!count($for_deletion) and !count($for_addition)) {
+        if ($for_deletion === [] && $for_addition === []) {
             $this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
             return;
         }
@@ -912,7 +912,7 @@ class ilRbacAdmin
                 continue;
             }
 
-            foreach ($for_deletion as $role_id => $role_data) {
+            foreach (array_keys($for_deletion) as $role_id) {
                 $this->deleteLocalRole($role_id, $node_id);
                 $this->revokePermission($node_id, $role_id, false);
                 //var_dump("<pre>",'REVOKE',$role_id,$node_id,$rolf_id,"</pre>");

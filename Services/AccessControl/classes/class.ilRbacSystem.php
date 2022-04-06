@@ -70,7 +70,7 @@ class ilRbacSystem
 
     public static function getInstance() : ilRbacSystem
     {
-        if (!self::$instance) {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -217,7 +217,7 @@ class ilRbacSystem
             }
         }
 
-        if (count($ref_ids) > 0) {
+        if ($ref_ids !== []) {
             // Data is not in PA cache, perform database query
             $q = "SELECT * FROM rbac_pa " .
                 "WHERE " . $this->db->in("ref_id", $ref_ids, false, "integer");

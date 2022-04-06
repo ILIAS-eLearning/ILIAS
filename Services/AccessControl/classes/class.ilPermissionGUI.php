@@ -125,8 +125,7 @@ class ilPermissionGUI extends ilPermission2GUI
             $this->toolbar->addSeparator();
         }
         
-        if ($this->objDefinition->hasLocalRoles($this->getCurrentObject()->getType()) and
-            !$this->isAdministrationObject()
+        if ($this->objDefinition->hasLocalRoles($this->getCurrentObject()->getType()) && !$this->isAdministrationObject()
         ) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
             
@@ -627,7 +626,7 @@ class ilPermissionGUI extends ilPermission2GUI
             
             $parent_role_ids = $this->rbacreview->getParentRoleIds($this->gui_obj->getObject()->getRefId(), true);
             $ids = [];
-            foreach ($parent_role_ids as $id => $tmp) {
+            foreach (array_keys($parent_role_ids) as $id) {
                 $ids[] = $id;
             }
             

@@ -212,7 +212,7 @@ class ilObjectPermissionStatusGUI
 
         $cmds = call_user_func(array($full_class, "_getCommands"));
 
-        array_push($cmds, array('permission' => 'visible', 'cmd' => 'info'));
+        $cmds[] = array('permission' => 'visible', 'cmd' => 'info');
 
         return $cmds;
     }
@@ -285,7 +285,7 @@ class ilObjectPermissionStatusGUI
         $cmds = $this->getCommands($this->object->getType());
 
         foreach ($cmds as $cmd) {
-            if (!count($cmd)) {
+            if (count($cmd) === 0) {
                 continue;
             }
             $ilAccess->clear();
@@ -304,7 +304,7 @@ class ilObjectPermissionStatusGUI
         $okay = "il_ItemOkayProperty";
         $text = "";
 
-        if (!$infos) {
+        if ($infos === []) {
             $text = "<span class=\"" . $okay . "\">" . $this->lng->txt("access") . "</span><br/> ";
         } else {
             foreach ($infos as $info) {

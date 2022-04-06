@@ -100,7 +100,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
         if (!$this->getShowOptions()) {
             return;
         }
-        if (isset($a_set['recursive']) and !$this->show_admin_permissions) {
+        if (isset($a_set['recursive']) && !$this->show_admin_permissions) {
             $this->tpl->setCurrentBlock('recursive');
             $this->tpl->setVariable('TXT_RECURSIVE', $this->lng->txt('change_existing_objects'));
             $this->tpl->setVariable('DESC_RECURSIVE', $this->lng->txt('change_existing_objects_desc'));

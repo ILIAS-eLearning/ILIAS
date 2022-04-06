@@ -233,7 +233,7 @@ class ilStartingPoint
 
         $ids_roles_with_sp = array();
         foreach ($roles_with_starting_point as $role) {
-            array_push($ids_roles_with_sp, $role['role_id']);
+            $ids_roles_with_sp[] = $role['role_id'];
         }
 
         $ids_roles_without_sp = array_diff($global_roles, $ids_roles_with_sp);
@@ -350,7 +350,7 @@ class ilStartingPoint
         foreach ($a_items as $v) {
             $v['starting_position'] = $ord_const;
             $rearranged[$ord_const] = $v;
-            $ord_const = $ord_const + 10;
+            $ord_const += 10;
         }
         return $rearranged;
     }

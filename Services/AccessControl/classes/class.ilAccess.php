@@ -386,7 +386,7 @@ class ilAccess implements ilAccessHandler
         $stored_access = $this->getStoredAccessResult($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 
         //var_dump($stored_access);
-        if (count($stored_access)) {
+        if ($stored_access !== []) {
             if (isset($stored_access['info']) && $stored_access['info'] instanceof ilAccessInfo) {
                 $this->current_info = $stored_access["info"];
             }
@@ -512,7 +512,7 @@ class ilAccess implements ilAccessHandler
     ) : bool {
         $path = $this->repositoryTree->getPathId($a_ref_id);
         foreach ($path as $id) {
-            if ($a_ref_id == $id) {
+            if ($a_ref_id === $id) {
                 continue;
             }
             $access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
@@ -555,7 +555,7 @@ class ilAccess implements ilAccessHandler
         }
 
         // #10852 - member view check
-        if ($a_user_id == $this->user->getId()) {
+        if ($a_user_id === $this->user->getId()) {
             // #10905 - activate parent container ONLY
             $memview = ilMemberViewSettings::getInstance();
             if ($memview->isActiveForRefId($a_ref_id) &&
@@ -599,7 +599,7 @@ class ilAccess implements ilAccessHandler
         }
 
         // if current permission is visible and visible is set in activation
-        if ($a_permission == 'visible' and $item_data['visible']) {
+        if ($a_permission == 'visible' && $item_data['visible']) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
         }
@@ -711,7 +711,7 @@ class ilAccess implements ilAccessHandler
             $a_obj_id,
             $a_user_id
         );
-        if (!($obj_access === true)) {
+        if ($obj_access !== true) {
             //Note: We must not add an info item here, because one is going
             //      to be added by the user function we just called a few
             //      lines above.

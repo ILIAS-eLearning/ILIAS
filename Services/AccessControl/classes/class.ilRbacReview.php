@@ -243,7 +243,7 @@ class ilRbacReview
      */
     protected function __setTemplateFilter(bool $a_templates) : string
     {
-        if ($a_templates === true) {
+        if ($a_templates) {
             $where = "WHERE " . $this->db->in('object_data.type', array('role', 'rolt'), false, 'text') . " ";
         } else {
             $where = "WHERE " . $this->db->in('object_data.type', array('role'), false, 'text') . " ";
@@ -320,7 +320,7 @@ class ilRbacReview
         $query = "SELECT usr_id FROM rbac_ua WHERE rol_id= " . $this->db->quote($a_rol_id, 'integer');
         $res = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($res)) {
-            array_push($result_arr, (int) $row["usr_id"]);
+            $result_arr[] = (int) $row["usr_id"];
         }
         self::$assigned_users_cache[$a_rol_id] = $result_arr;
         return $result_arr;
@@ -401,7 +401,7 @@ class ilRbacReview
         while ($row = $this->db->fetchObject($res)) {
             $role_arr[] = $row->rol_id;
         }
-        return $role_arr ? $role_arr : array();
+        return $role_arr !== [] ? $role_arr : array();
     }
 
     /**
@@ -764,7 +764,7 @@ class ilRbacReview
             'WHERE assign = ' . $this->db->quote('n', 'text') . ' ' .
             'AND rol_id = ' . $this->db->quote($a_rol_id, 'integer') . ' ';
 
-        if ($a_filter) {
+        if ($a_filter !== []) {
             $query .= ('AND ' . $this->db->in('parent', (array) $a_filter, false, 'integer'));
         }
 
@@ -868,12 +868,12 @@ class ilRbacReview
             $prefix = substr($row["title"], 0, 3) == "il_";
 
             // all (assignable) internal local roles only
-            if ($a_filter == 4 and !$prefix) {
+            if ($a_filter == 4 && !$prefix) {
                 continue;
             }
 
             // all (assignable) non internal local roles only
-            if ($a_filter == 5 and $prefix) {
+            if ($a_filter == 5 && $prefix) {
                 continue;
             }
 
@@ -909,7 +909,7 @@ class ilRbacReview
         global $DIC;
 
         $ilDB = $DIC->database();
-        if (!count($operations)) {
+        if ($operations === []) {
             return array();
         }
 
@@ -967,7 +967,7 @@ class ilRbacReview
             $operations[] = ('create_' . $type);
         }
 
-        if (!count($operations)) {
+        if ($operations === []) {
             return array();
         }
 
@@ -1132,7 +1132,7 @@ class ilRbacReview
         // internal cache
         static $obj_cache = array();
 
-        if (isset($obj_cache[$a_role_id]) and $obj_cache[$a_role_id]) {
+        if (isset($obj_cache[$a_role_id]) && $obj_cache[$a_role_id]) {
             return $obj_cache[$a_role_id];
         }
 
@@ -1170,7 +1170,7 @@ class ilRbacReview
     {
         $rolf_list = $this->getFoldersAssignedToRole($a_role_id, false);
         $deleted = true;
-        if (count($rolf_list)) {
+        if ($rolf_list !== []) {
             foreach ($rolf_list as $rolf) {
                 // only list roles that are not set to status "deleted"
                 if (!$this->isDeleted($rolf)) {

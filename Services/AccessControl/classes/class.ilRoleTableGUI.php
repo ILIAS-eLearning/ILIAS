@@ -101,10 +101,7 @@ class ilRoleTableGUI extends ilTable2GUI
         }
 
         if (
-            ($a_set['obj_id'] != ANONYMOUS_ROLE_ID and
-                $a_set['obj_id'] != SYSTEM_ROLE_ID and
-                substr($a_set['title_orig'], 0, 3) != 'il_') or
-            $this->getType() == self::TYPE_SEARCH) {
+            $a_set['obj_id'] != ANONYMOUS_ROLE_ID && $a_set['obj_id'] != SYSTEM_ROLE_ID && substr($a_set['title_orig'], 0, 3) != 'il_' || $this->getType() == self::TYPE_SEARCH) {
             $this->tpl->setVariable('VAL_ID', $a_set['obj_id']);
         }
         $this->tpl->setVariable('VAL_TITLE_LINKED', $a_set['title']);
@@ -311,7 +308,7 @@ class ilRoleTableGUI extends ilTable2GUI
                 $rows[$counter]['rtype'] = $auto ? self::TYPE_ROLT_AU : self::TYPE_ROLT_UD;
             } elseif ($role['parent'] == ROLE_FOLDER_ID) {
                 // Roles
-                if ($role['obj_id'] == ANONYMOUS_ROLE_ID or $role['obj_id'] == SYSTEM_ROLE_ID) {
+                if ($role['obj_id'] == ANONYMOUS_ROLE_ID || $role['obj_id'] == SYSTEM_ROLE_ID) {
                     $rows[$counter]['rtype'] = self::TYPE_GLOBAL_AU;
                 } else {
                     $rows[$counter]['rtype'] = self::TYPE_GLOBAL_UD;

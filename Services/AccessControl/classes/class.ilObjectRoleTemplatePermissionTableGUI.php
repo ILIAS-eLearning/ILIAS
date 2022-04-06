@@ -231,7 +231,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             $operation = $this->review->getOperation($ops_id);
 
             $perm['ops_id'] = $ops_id;
-            $perm['set'] = (in_array($ops_id, $operations) or $this->getRoleId() == SYSTEM_ROLE_ID);
+            $perm['set'] = (in_array($ops_id, $operations) || $this->getRoleId() == SYSTEM_ROLE_ID);
             $perm['name'] = $operation['operation'];
 
             $rows[] = $perm;
@@ -249,7 +249,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             }
 
             $perm['ops_id'] = $ops_id;
-            $perm['set'] = (in_array($ops_id, $operations) or $this->getRoleId() == SYSTEM_ROLE_ID);
+            $perm['set'] = (in_array($ops_id, $operations) || $this->getRoleId() == SYSTEM_ROLE_ID);
 
             $perm['name'] = 'create_' . $info['name'];
             $perm['create_type'] = $info['name'];

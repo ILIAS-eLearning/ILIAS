@@ -398,7 +398,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $adjustment_type = $form->getInput('type');
             foreach ((array) $roles as $role_id) {
-                if ($role_id != $source) {
+                if ($role_id !== $source) {
                     $start_obj = $this->rbac_review->getRoleFolderOfRole($role_id);
                     $this->logger->debug('Start object: ' . $start_obj);
 
@@ -484,7 +484,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $form = $this->initCopyBehaviourForm();
         if ($form->checkInput()) {
             foreach ((array) $roles as $role_id) {
-                if ($role_id != $source) {
+                if ($role_id !== $source) {
                     $this->doRemoveRolePermissions($source, $role_id);
                 }
             }
@@ -596,7 +596,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     protected function confirmDeleteObject() : void
     {
         $roles = $this->initRolesFromPOST();
-        if (!count($roles)) {
+        if ($roles === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'view');
         }
@@ -688,7 +688,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
     public function editSettingsObject(ilPropertyFormGUI $a_form = null) : void
     {
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initSettingsForm();
         }
 

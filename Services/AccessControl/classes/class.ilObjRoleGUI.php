@@ -521,7 +521,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $output = array();
         $parent_role_ids = $this->rbac_review->getParentRoleIds($this->obj_ref_id, true);
         $ids = array();
-        foreach ($parent_role_ids as $id => $tmp) {
+        foreach (array_keys($parent_role_ids) as $id) {
             $ids[] = $id;
         }
         // Sort ids
@@ -628,7 +628,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $subs = ilObjRole::getSubObjects($this->getParentType(), $a_show_admin_permissions);
         }
 
-        foreach ($subs as $subtype => $def) {
+        foreach (array_keys($subs) as $subtype) {
             // Delete per object type
             $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->obj_ref_id, $subtype);
         }
@@ -790,7 +790,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_role_not_assignable'), true);
             return;
         }
-        if (!$a_user_ids) {
+        if ($a_user_ids === []) {
             $GLOBALS['DIC']['lng']->loadLanguageModule('search');
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);
             return;
@@ -845,7 +845,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 )
             );
         }
-        if (!count($selected_users)) {
+        if (count($selected_users) === 0) {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -863,10 +863,10 @@ class ilObjRoleGUI extends ilObjectGUI
             $assigned_roles = $this->rbac_review->assignedRoles($user);
             $assigned_global_roles = array_intersect($assigned_roles, $global_roles);
 
-            if (count($assigned_roles) == 1 or (count($assigned_global_roles) == 1 and in_array(
+            if (count($assigned_roles) == 1 || count($assigned_global_roles) == 1 && in_array(
                 $this->object->getId(),
                 $assigned_global_roles
-            ))) {
+            )) {
                 $userObj = $this->ilias->obj_factory->getInstanceByObjId($user);
                 $last_role[$user] = $userObj->getFullName();
                 unset($userObj);
@@ -884,7 +884,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->object->update();
 
         // raise error if last role was taken from a user...
-        if (count($last_role)) {
+        if ($last_role !== []) {
             $user_list = implode(", ", $last_role);
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_is_last_role') . ': ' . $user_list . '<br />' . $this->lng->txt('msg_min_one_role'), true);
         } else {
@@ -1236,7 +1236,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 )
             );
         }
-        if (!count($users)) {
+        if (count($users) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'userassignment');
         }

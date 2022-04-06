@@ -309,7 +309,7 @@ class ilObjRole extends ilObject
             }
 
             // users with last role found?
-            if (count($last_role_user_ids) > 0) {
+            if ($last_role_user_ids !== []) {
                 $user_names = array();
                 foreach ($last_role_user_ids as $user_id) {
                     // GET OBJECT TITLE
@@ -573,11 +573,11 @@ class ilObjRole extends ilObject
 
         $local_policies = array();
         foreach ($a_policies as $policy) {
-            if ($policy == $a_start or $policy == SYSTEM_FOLDER_ID) {
+            if ($policy == $a_start || $policy == SYSTEM_FOLDER_ID) {
                 $local_policies[] = $policy;
                 continue;
             }
-            if (!in_array('all', $a_filter) and !in_array(
+            if (!in_array('all', $a_filter) && !in_array(
                 ilObject::_lookupType(ilObject::_lookupObjId($policy)),
                 $a_filter
             )) {
@@ -605,7 +605,7 @@ class ilObjRole extends ilObject
         $node_stack = array();
 
         $start_node = current($a_nodes);
-        array_push($node_stack, $start_node);
+        $node_stack[] = $start_node;
         $this->updatePolicyStack($policy_stack, $start_node['child']);
 
         if ($a_operation_mode == self::MODE_READ_OPERATIONS) {
@@ -674,11 +674,11 @@ class ilObjRole extends ilObject
             }
 
             // Node has local policies => update permission stack and continue
-            if (in_array($node['child'], $a_policies) and ($node['child'] != SYSTEM_FOLDER_ID)) {
+            if (in_array($node['child'], $a_policies) && $node['child'] != SYSTEM_FOLDER_ID) {
                 $local_policy = true;
                 $this->updatePolicyStack($policy_stack, $node['child']);
                 $this->updateOperationStack($operation_stack, $node['child']);
-                array_push($node_stack, $node);
+                $node_stack[] = $node;
                 continue;
             }
 
@@ -702,7 +702,7 @@ class ilObjRole extends ilObject
                 $this->createPermissionIntersection($policy_stack, $perms[$node['type']], $node['child'], $node['type']);
                 if ($this->updateOperationStack($operation_stack, $node['child'])) {
                     $this->updatePolicyStack($policy_stack, $node['child']);
-                    array_push($node_stack, $node);
+                    $node_stack[] = $node;
                 }
             }
 
@@ -915,7 +915,7 @@ class ilObjRole extends ilObject
             );
         } else {
         }
-        if ($a_id and !$GLOBALS['DIC']['rbacreview']->isRoleAssignedToObject($this->getId(), $a_id)) {
+        if ($a_id && !$GLOBALS['DIC']['rbacreview']->isRoleAssignedToObject($this->getId(), $a_id)) {
             $this->rbac_admin->assignRoleToFolder($this->getId(), $a_id, "n");
         }
     }

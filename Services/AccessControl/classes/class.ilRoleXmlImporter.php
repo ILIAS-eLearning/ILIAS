@@ -152,7 +152,7 @@ class ilRoleXmlImporter
                 $ops_id = (int) $operations[trim((string) $sxml_op)];
                 $ops = trim((string) $sxml_op);
 
-                if ($ops_group and $ops_id) {
+                if ($ops_group && $ops_id) {
                     $this->rbacadmin->setRolePermission(
                         $this->getRole()->getId(),
                         $ops_group,

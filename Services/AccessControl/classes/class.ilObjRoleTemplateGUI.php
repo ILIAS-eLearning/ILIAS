@@ -134,7 +134,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         if (!$this->rbac_system->checkAccess("create_rolt", $this->rolf_ref_id)) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
-        if (!$form) {
+        if ($form === null) {
             $form = $this->initFormRoleTemplate(self::FORM_MODE_CREATE);
         }
         $this->tpl->setContent($form->getHTML());
@@ -151,7 +151,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
         }
 
-        if (!$form) {
+        if ($form === null) {
             $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         }
         $this->tpl->setContent($form->getHTML());
@@ -293,7 +293,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         //$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
         $subs = ilObjRole::getSubObjects('root', false);
 
-        foreach ($subs as $subtype => $def) {
+        foreach (array_keys($subs) as $subtype) {
             // Delete per object type
             $this->rbac_admin->deleteRolePermission($this->object->getId(), $this->ref_id, $subtype);
         }

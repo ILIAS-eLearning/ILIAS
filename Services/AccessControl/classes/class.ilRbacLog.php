@@ -77,11 +77,11 @@ class ilRbacLog
         // roles
         foreach ((array) $a_old["ops"] as $role_id => $ops) {
             $diff = array_diff($ops, $a_new["ops"][$role_id]);
-            if (sizeof($diff)) {
+            if ($diff !== []) {
                 $result["ops"][$role_id]["rmv"] = array_values($diff);
             }
             $diff = array_diff($a_new["ops"][$role_id], $ops);
-            if (sizeof($diff)) {
+            if ($diff !== []) {
                 $result["ops"][$role_id]["add"] = array_values($diff);
             }
         }
@@ -93,11 +93,11 @@ class ilRbacLog
                 $result["inht"]["add"] = $a_new["inht"];
             } else {
                 $diff = array_diff($a_old["inht"], $a_new["inht"]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result["inht"]["rmv"] = array_values($diff);
                 }
                 $diff = array_diff($a_new["inht"], $a_old["inht"]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result["inht"]["add"] = array_values($diff);
                 }
             }
@@ -124,11 +124,11 @@ class ilRbacLog
                 $result[$type]["rmv"] = $a_old[$type];
             } else {
                 $diff = array_diff($a_old[$type], $a_new[$type]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result[$type]["rmv"] = array_values($diff);
                 }
                 $diff = array_diff($a_new[$type], $a_old[$type]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result[$type]["add"] = array_values($diff);
                 }
             }
@@ -143,7 +143,7 @@ class ilRbacLog
         $ilUser = $DIC->user();
         $ilDB = $DIC->database();
 
-        if (self::isValidAction($a_action) && sizeof($a_diff)) {
+        if (self::isValidAction($a_action) && count($a_diff)) {
             if ($a_source_ref_id) {
                 $a_diff["src"] = $a_source_ref_id;
             }
