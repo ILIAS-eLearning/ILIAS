@@ -12,8 +12,10 @@ class ilLPStatusLtiOutcome extends ilLPStatus
 {
     private static array $userResultCache = array();
 
-    private function getLtiUserResult(int $objId, int $usrId) : ilLTIConsumerResult
-    {
+    private function getLtiUserResult(
+        int $objId,
+        int $usrId
+    ) : ilLTIConsumerResult {
         if (!isset(self::$userResultCache[$objId])) {
             self::$userResultCache[$objId] = array();
         }
@@ -33,8 +35,11 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         return $object;
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
 
         if ($ltiResult instanceof ilLTIConsumerResult) {
@@ -51,8 +56,11 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         return self::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
-    {
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ) : int {
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
 
         if ($ltiResult instanceof ilLTIConsumerResult) {

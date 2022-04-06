@@ -34,14 +34,21 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 
             $this->gui->getObject()->update();
             $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->saveTileImage();
-            // @todo: Do not rely on raw post data
-            $settings = $this->http->request()->getParsedBody();
+
             $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
+            $requestSettings = $room->getSettings();
             if (!$room) {
                 $room = new ilChatroom();
-                $settings['object_id'] = $this->gui->getObject()->getId();
+                $requestSettings['object_id'] = $this->gui->getObject()->getId();
             }
-            $room->saveSettings($settings);
+
+            foreach ($requestSettings as $setting => &$value) {
+                if ($settingsForm->getItemByPostVar($setting) !== null) {
+                    $value = $settingsForm->getInput($setting);
+                }
+            }
+
+            $room->saveSettings($requestSettings);
 
             $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('saved_successfully'), true);
             $this->ilCtrl->redirect($this->gui, 'settings-general');
@@ -73,16 +80,16 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
                 'title' => $this->gui->getObject()->getTitle(),
                 'desc' => $this->gui->getObject()->getDescription(),
                 'access_period' => [
-                    'start' => $this->gui->getObject()->getAccessBegin() ? new ilDateTime(
+                    'start' => $this->gui->getObject()->getAccessBegin() ? (new ilDateTime(
                         $this->gui->getObject()->getAccessBegin(),
                         IL_CAL_UNIX
-                    ) : null,
-                    'end' => $this->gui->getObject()->getAccessEnd() ? new ilDateTime(
+                    ))->get(IL_CAL_DATETIME) : '',
+                    'end' => $this->gui->getObject()->getAccessEnd() ? (new ilDateTime(
                         $this->gui->getObject()->getAccessEnd(),
                         IL_CAL_UNIX
-                    ) : null
+                    ))->get(IL_CAL_DATETIME) : ''
                 ],
-                'access_visibility' => $this->gui->getObject()->getAccessVisibility()
+                'access_visibility' => (bool) $this->gui->getObject()->getAccessVisibility()
             ];
 
             $presentationHeader = new ilFormSectionHeaderGUI();

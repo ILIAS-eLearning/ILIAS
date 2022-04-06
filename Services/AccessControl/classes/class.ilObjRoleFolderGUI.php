@@ -1,26 +1,20 @@
 <?php declare(strict_types=1);
 
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -49,7 +43,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
      * Constructor
      * @access    public
      */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
 
@@ -266,7 +260,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
      */
     protected function chooseCopyBehaviourObject(?ilPropertyFormGUI $form = null) : void
     {
-        $copy_source = $this->initCopySourceFromGET();
+        $this->initCopySourceFromGET();
 
         $this->ctrl->saveParameter($this, 'csource');
         $this->tabs_gui->clearTargets();
@@ -404,7 +398,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $adjustment_type = $form->getInput('type');
             foreach ((array) $roles as $role_id) {
-                if ($role_id != $source) {
+                if ($role_id !== $source) {
                     $start_obj = $this->rbac_review->getRoleFolderOfRole($role_id);
                     $this->logger->debug('Start object: ' . $start_obj);
 
@@ -490,7 +484,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $form = $this->initCopyBehaviourForm();
         if ($form->checkInput()) {
             foreach ((array) $roles as $role_id) {
-                if ($role_id != $source) {
+                if ($role_id !== $source) {
                     $this->doRemoveRolePermissions($source, $role_id);
                 }
             }
@@ -602,7 +596,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     protected function confirmDeleteObject() : void
     {
         $roles = $this->initRolesFromPOST();
-        if (!count($roles)) {
+        if ($roles === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'view');
         }
@@ -694,7 +688,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
     public function editSettingsObject(ilPropertyFormGUI $a_form = null) : void
     {
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initSettingsForm();
         }
 
@@ -750,7 +744,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $admin = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('adm_adm_role_protect'), 'admin_role');
         $admin->setDisabled(!$this->rbac_review->isAssigned($user->getId(), SYSTEM_ROLE_ID));
         $admin->setInfo($this->lng->txt('adm_adm_role_protect_info'));
-        $admin->setChecked((bool) $security->isAdminRoleProtected());
+        $admin->setChecked($security->isAdminRoleProtected());
         $admin->setValue((string) 1);
         $form->addItem($admin);
 
@@ -792,7 +786,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                 $privacy = ilPrivacySettings::getInstance();
 
                 $subitems = null;
-                if ((bool) $privacy->enabledRbacLog()) {
+                if ($privacy->enabledRbacLog()) {
                     $subitems = array('rbac_log_age' => $privacy->getRbacLogAge());
                 }
                 $fields = array('rbac_log' => array($privacy->enabledRbacLog(),

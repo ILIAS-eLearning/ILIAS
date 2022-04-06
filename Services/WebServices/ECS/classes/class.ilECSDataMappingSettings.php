@@ -47,16 +47,11 @@ class ilECSDataMappingSettings
      */
     public static function getInstanceByServerId($a_server_id) : ilECSDataMappingSettings
     {
-        if (isset(self::$instances[$a_server_id])) {
-            return self::$instances[$a_server_id];
-        }
-        return self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id);
+        return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id));
     }
 
     /**
      * Delete server
-     * @global ilDB $ilDB
-     * @param int $a_server_id
      */
     public function delete() : void
     {
@@ -70,7 +65,6 @@ class ilECSDataMappingSettings
 
     /**
      * Get actice ecs setting
-     * @return ilECSSetting
      */
     public function getServer() : ilECSSetting
     {
@@ -98,9 +92,7 @@ class ilECSDataMappingSettings
      */
     public function getMappingByECSName(int $a_mapping_type, string $a_key) : int
     {
-        return isset($this->mappings[$a_mapping_type][$a_key]) ?
-            $this->mappings[$a_mapping_type][$a_key] :
-            0;
+        return $this->mappings[$a_mapping_type][$a_key] ?? 0;
     }
 
     

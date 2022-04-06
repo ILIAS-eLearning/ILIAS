@@ -30,6 +30,7 @@ if ($request_wrapper->has('new_ui') && $request_wrapper->retrieve('new_ui', $ref
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
+    $responsive_logo = $f->image()->responsive("templates/default/images/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pagedemoCrumbs($f);
     $metabar = pagedemoMetabar($f);
     $mainbar = pagedemoMainbar($f, $renderer);
@@ -53,6 +54,8 @@ if ($request_wrapper->has('new_ui') && $request_wrapper->retrieve('new_ui', $ref
         $mainbar,
         $breadcrumbs,
         $logo,
+        $responsive_logo,
+        null,
         $footer,
         'UI PAGE DEMO', //page title
         'ILIAS', //short title

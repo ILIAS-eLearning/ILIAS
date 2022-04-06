@@ -21,20 +21,20 @@
 */
 class ilECSEventQueueReader
 {
-    const TYPE_EXPORTED = 'exported';
-    const TYPE_DIRECTORY_TREES = 'directory_trees';
-    const TYPE_CMS_COURSES = 'courses';
-    const TYPE_CMS_COURSE_MEMBERS = 'course_members';
-    const TYPE_REMOTE_COURSE = 'rcrs';
-    const TYPE_REMOTE_CATEGORY = 'rcat';
-    const TYPE_REMOTE_FILE = 'rfil';
-    const TYPE_REMOTE_GLOSSARY = 'rglo';
-    const TYPE_REMOTE_GROUP = 'rgrp';
-    const TYPE_REMOTE_LEARNING_MODULE = 'rlm';
-    const TYPE_REMOTE_WIKI = 'rwik';
-    const TYPE_REMOTE_TEST = 'rtst';
-    const TYPE_COURSE_URLS = 'course_urls';
-    const TYPE_ENROLMENT_STATUS = 'member_status';
+    public const TYPE_EXPORTED = 'exported';
+    public const TYPE_DIRECTORY_TREES = 'directory_trees';
+    public const TYPE_CMS_COURSES = 'courses';
+    public const TYPE_CMS_COURSE_MEMBERS = 'course_members';
+    public const TYPE_REMOTE_COURSE = 'rcrs';
+    public const TYPE_REMOTE_CATEGORY = 'rcat';
+    public const TYPE_REMOTE_FILE = 'rfil';
+    public const TYPE_REMOTE_GLOSSARY = 'rglo';
+    public const TYPE_REMOTE_GROUP = 'rgrp';
+    public const TYPE_REMOTE_LEARNING_MODULE = 'rlm';
+    public const TYPE_REMOTE_WIKI = 'rwik';
+    public const TYPE_REMOTE_TEST = 'rtst';
+    public const TYPE_COURSE_URLS = 'course_urls';
+    public const TYPE_ENROLMENT_STATUS = 'member_status';
     
     private ilLogger $logger;
     private ilDBInterface $db;
@@ -61,11 +61,8 @@ class ilECSEventQueueReader
     
     /**
      * Convert object type to event type
-     *
-     * @param string $a_obj_type
-     * @return string
      */
-    protected static function getEventTypeFromObjectType($a_obj_type)
+    protected static function getEventTypeFromObjectType(string $a_obj_type) : string
     {
         // currently they are the same for all resource types
         return $a_obj_type;
@@ -73,10 +70,8 @@ class ilECSEventQueueReader
     
     /**
      * All available content types
-     *
-     * @return array
      */
-    public static function getAllEContentTypes()
+    public static function getAllEContentTypes() : array
     {
         return array(self::TYPE_REMOTE_COURSE, self::TYPE_REMOTE_CATEGORY,
             self::TYPE_REMOTE_FILE, self::TYPE_REMOTE_GLOSSARY, self::TYPE_REMOTE_GROUP,
@@ -91,7 +86,7 @@ class ilECSEventQueueReader
      * @param bool $a_sender_only
      * @return array type => ids
      */
-    protected static function getAllResourceIds(ilECSSetting $server, array $a_types, $a_sender_only = false)
+    protected static function getAllResourceIds(ilECSSetting $server, array $a_types, $a_sender_only = false) : array
     {
         $list = array();
         foreach ($a_types as $type) {
@@ -107,11 +102,9 @@ class ilECSEventQueueReader
     /**
      * Reread all imported econtent.
      *
-     * @return bool
-     * @static
-     * throws ilException, ilECSConnectorException
+     * @throws ilException, ilECSConnectorException
      */
-    public function handleImportReset()
+    public function handleImportReset() : bool
     {
         try {
             $types = self::getAllEContentTypes();
@@ -125,7 +118,7 @@ class ilECSEventQueueReader
             $this->logger->info(__METHOD__ . ': List = ' . print_r($list, true));
             
             foreach ($list as $resource_type => $link_ids) {
-                if (!in_array($resource_type, ilECSUtils::getPossibleRemoteTypes())) {
+                if (!in_array($resource_type, ilECSUtils::getPossibleRemoteTypes(), true)) {
                     $this->logger->info(__METHOD__ . ': Ignoring resource type ' . $resource_type);
                     continue;
                 }
@@ -181,11 +174,9 @@ class ilECSEventQueueReader
      * Handle export reset.
      * Delete exported econtent and create it again
      *
-     * @return bool
-     * @static
-     * throws ilException, ilECSConnectorException
+     * @throws ilException, ilECSConnectorException
      */
-    public function handleExportReset()
+    public function handleExportReset() : bool
     {
         // Delete all export events
 
@@ -200,16 +191,16 @@ class ilECSEventQueueReader
         
         
         // merge in one array
-        $all_remote_ids = array();
+        $all_remote_ids = [];
         foreach ($list as $resource_type => $remote_ids) {
-            $all_remote_ids = array_merge($all_remote_ids, (array) $remote_ids);
+            $all_remote_ids += (array) $remote_ids;
         }
         $all_remote_ids = array_unique($all_remote_ids);
         
         $this->logger->info(__METHOD__ . ': Resources = ' . print_r($all_remote_ids, true));
         $this->logger->info(__METHOD__ . ': Local = ' . print_r($local_econtent_ids, true));
         foreach ($local_econtent_ids as $local_econtent_id => $local_obj_id) {
-            if (!in_array($local_econtent_id, $all_remote_ids)) {
+            if (!in_array($local_econtent_id, $all_remote_ids, true)) {
                 // Delete this deprecated info
                 $this->logger->info(__METHOD__ . ': Deleting deprecated econtent id ' . $local_econtent_id);
                 $exportManager->_deleteEContentIds($this->settings->getServerId(), array($local_econtent_id));
@@ -221,9 +212,8 @@ class ilECSEventQueueReader
 
     /**
      * get server settings
-     * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : \ilECSSetting
     {
         return $this->settings;
     }
@@ -231,21 +221,16 @@ class ilECSEventQueueReader
     
     /**
      * get all events
-     *
-     * @access public
-     *
      */
-    public function getEvents()
+    public function getEvents() : array
     {
-        return $this->events ? $this->events : array();
+        return $this->events ?: array();
     }
     
     /**
      * Delete all events
-     *
-     * @access public
      */
-    public function deleteAll()
+    public function deleteAll() : bool
     {
         $query = "DELETE FROM ecs_events " .
             'WHERE server_id = ' . $this->db->quote($this->settings->getServerId(), 'integer');
@@ -255,11 +240,8 @@ class ilECSEventQueueReader
     
     /**
      * Delete all econtents
-     *
-     * @access public
-     * @param array $a_types
      */
-    public function deleteAllEContentEvents(array $a_types)
+    public function deleteAllEContentEvents(array $a_types) : bool
     {
         $query = "DELETE FROM ecs_events " .
             "WHERE " . $this->db->in("type", $a_types, false, "text") . ' ' .
@@ -270,10 +252,8 @@ class ilECSEventQueueReader
     
     /**
      * Delete all exported events
-     *
-     * @access public
      */
-    protected function deleteAllExportedEvents()
+    protected function deleteAllExportedEvents() : bool
     {
         $query = "DELETE FROM ecs_events " .
             "WHERE type = " . $this->db->quote(self::TYPE_EXPORTED, 'text') . ' ' .
@@ -285,10 +265,9 @@ class ilECSEventQueueReader
     /**
      * Fetch events from fifo
      * Using fifo
-     * @access public
      * @throws ilECSConnectorException
      */
-    public function refresh()
+    public function refresh() : void
     {
         try {
             $connector = new ilECSConnector($this->getServer());
@@ -296,7 +275,7 @@ class ilECSEventQueueReader
                 $res = $connector->readEventFifo(false);
 
                 if (!count($res->getResult())) {
-                    return true;
+                    return;
                 }
 
                 foreach ($res->getResult() as $result) {
@@ -319,10 +298,8 @@ class ilECSEventQueueReader
 
     /**
      * Delete by server id
-     * @global ilDB $ilDB
-     * @param int $a_server_id
      */
-    public function delete()
+    public function delete() : void
     {
         $query = 'DELETE FROM ecs_events ' .
             'WHERE server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
@@ -332,7 +309,7 @@ class ilECSEventQueueReader
     /**
      * Write event to db
      */
-    private function writeEventToDB(ilECSEvent $ev)
+    private function writeEventToDB(ilECSEvent $ev) : void
     {
         // this should probably be moved elsewhere
         switch ($ev->getRessourceType()) {
@@ -416,7 +393,7 @@ class ilECSEventQueueReader
                 $this->db->quote($this->getServer()->getServerId(), 'integer') . ' ' .
                 ')';
             $this->db->manipulate($query);
-            return true;
+            return;
         }
         // Do update
         $do_update = false;
@@ -436,7 +413,7 @@ class ilECSEventQueueReader
         }
 
         if (!$do_update) {
-            return true;
+            return;
         }
         $query = "UPDATE ecs_events " .
             "SET op = " . $this->db->quote($ev->getStatus(), 'text') . " " .
@@ -444,34 +421,24 @@ class ilECSEventQueueReader
             'AND type = ' . $this->db->quote($type) . ' ' .
             'AND server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
         $this->db->manipulate($query);
-        return true;
     }
     
     /**
      * get and delete the first event entry
      *
-     * @access public
      * @return array event data or an empty array if the queue is empty
      */
-    public function shift()
+    public function shift() : array
     {
         $event = array_shift($this->events);
-        if ($event == null) {
-            return array();
-        } else {
-            
-            #$this->delete($event['event_id']);
-            return $event;
-        }
+        return $event ?? [];
     }
     
     
     /**
      * add
-     *
-     * @access public
      */
-    public function add($a_type, $a_id, $a_op)
+    public function add($a_type, $a_id, $a_op) : bool
     {
         $next_id = $this->db->nextId('ecs_events');
         $query = "INSERT INTO ecs_events (event_id,type,id,op,server_id) " .
@@ -496,11 +463,8 @@ class ilECSEventQueueReader
     
     /**
      * update one entry
-     *
-     * @access private
-     *
      */
-    private function update($a_type, $a_id, $a_operation)
+    private function update($a_type, $a_id, $a_operation) : void
     {
         $query = "UPDATE ecs_events " .
             "SET op = " . $this->db->quote($a_operation, 'text') . " " .
@@ -512,11 +476,8 @@ class ilECSEventQueueReader
     
     /**
      * delete
-     * @access private
-     * @param int event id
-     *
      */
-    public function deleteEvent($a_event_id)
+    public function deleteEvent(int $a_event_id) : bool
     {
         $query = "DELETE FROM ecs_events " .
             "WHERE event_id = " . $this->db->quote($a_event_id, 'integer') . " " .
@@ -528,9 +489,8 @@ class ilECSEventQueueReader
     
     /**
      * Read
-     * @access public
      */
-    public function read()
+    public function read() : bool
     {
         $query = "SELECT * FROM ecs_events  " .
             'WHERE server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer') . ' ' .
@@ -547,6 +507,18 @@ class ilECSEventQueueReader
             $this->econtent_ids[$row->event_id] = $row->event_id;
             ++$counter;
         }
+        return true;
+    }
+
+    public static function deleteByServerId($a_server_id) : bool
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $query = 'DELETE FROM ecs_events' .
+            ' WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer');
+        $ilDB->manipulate($query);
         return true;
     }
 }

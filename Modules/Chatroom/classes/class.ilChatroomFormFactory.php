@@ -32,7 +32,10 @@ class ilChatroomFormFactory
      */
     public static function applyValues(ilPropertyFormGUI $form, array $values) : void
     {
-        $form->setValuesByArray($values);
+        $form->setValuesByArray(array_map(
+            static fn ($value) => is_int($value) ? (string) $value : $value,
+            $values
+        ));
     }
 
     /**

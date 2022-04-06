@@ -274,10 +274,10 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
                     $clientSettings->get('enable_browser_notifications', '0') &&
-                    ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
+                    ilUtil::yn2tf((string) $DIC->user()->getPref('chat_osc_browser_notifications'))
                 ),
                 'broadcast_typing' => (
-                    ilUtil::yn2tf($DIC->user()->getPref('chat_broadcast_typing'))
+                    ilUtil::yn2tf((string) $DIC->user()->getPref('chat_broadcast_typing'))
                 ),
                 'notificationIconPath' => ilUtil::getImagePath('icon_chta.png'),
             );

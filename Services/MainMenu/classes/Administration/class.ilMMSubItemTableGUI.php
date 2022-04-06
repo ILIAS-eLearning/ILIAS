@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
@@ -66,8 +66,11 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $this->addAndReadFilterItem($table_entry_status);
     }
 
-    protected function addAndReadFilterItem(ilFormPropertyGUI $field):void
+    protected function addAndReadFilterItem(ilFormPropertyGUI $field) : void
     {
+        if (!$field instanceof ilTableFilterItem) {
+            return;
+        }
         $this->addFilterItem($field);
         $field->readFromSession();
         if ($field instanceof ilCheckboxInputGUI) {
@@ -77,7 +80,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         }
     }
 
-    private function initColumns()
+    private function initColumns() : void
     {
         $this->addColumn($this->lng->txt('sub_parent'));
         $this->addColumn($this->lng->txt('sub_position'));
@@ -112,8 +115,10 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                 $parent_identification_string = $item_facade->getParentIdentificationString();
                 $current_parent_identification = $this->item_repository->resolveIdentificationFromString($parent_identification_string);
                 $current_parent_item = $this->item_repository->getSingleItemFromFilter($current_parent_identification);
-                $this->tpl->setVariable("PARENT_TITLE",
-                    $current_parent_item instanceof hasTitle ? $current_parent_item->getTitle() : "-");
+                $this->tpl->setVariable(
+                    "PARENT_TITLE",
+                    $current_parent_item instanceof hasTitle ? $current_parent_item->getTitle() : "-"
+                );
                 $position = 1;
             }
         }
@@ -138,7 +143,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
 
         $this->ctrl->setParameterByClass(
             ilMMSubItemGUI::class,
-            ilMMSubItemGUI::IDENTIFIER,
+            ilMMAbstractItemGUI::IDENTIFIER,
             $this->hash($a_set['identification'])
         );
         $this->ctrl->setParameterByClass(

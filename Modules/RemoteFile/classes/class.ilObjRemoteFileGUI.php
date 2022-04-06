@@ -42,7 +42,7 @@ class ilObjRemoteFileGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         return 'rfil';
     }
     
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
     {
         $a_info->addProperty($this->lng->txt('version'), $this->object->getVersion());
         $a_info->addProperty(

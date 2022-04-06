@@ -19,7 +19,6 @@ abstract class Form implements C\Input\Container\Form\Form
 {
     use ComponentHelper;
 
-    protected Input\NameSource $name_source;
     protected C\Input\Field\Group $input_group;
     protected ?Transformation $transformation;
     protected ?string $error = null;
@@ -36,10 +35,9 @@ abstract class Form implements C\Input\Container\Form\Form
         $this->checkArgListElements("input", $inputs, $classes);
         // TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
 
-        $this->name_source = $name_source;
         $this->input_group = $field_factory->group(
             $inputs
-        )->withNameFrom($this->name_source);
+        )->withNameFrom($name_source);
 
         $this->transformation = null;
     }

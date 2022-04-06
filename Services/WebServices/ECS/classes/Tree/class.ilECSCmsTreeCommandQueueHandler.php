@@ -43,10 +43,9 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 
 
     /**
-     * Handle create
-     * @param type $a_content_id
+     * @inheritdoc
      */
-    public function handleCreate(ilECSSetting $server, $a_content_id)
+    public function handleCreate(ilECSSetting $server, $a_content_id) : bool
     {
         $this->log->debug('ECS cms tree create');
         
@@ -106,10 +105,8 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 
     /**
      * Handle delete
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleDelete(ilECSSetting $server, $a_content_id)
+    public function handleDelete(ilECSSetting $server, int $a_content_id) : bool
     {
         $this->log->debug('ECS cms tree delete');
         
@@ -132,10 +129,8 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 
     /**
      * Handle update
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleUpdate(ilECSSetting $server, $a_content_id)
+    public function handleUpdate(ilECSSetting $server, $a_content_id) : bool
     {
         $this->log->debug('ECS cms tree update');
         
@@ -258,16 +253,16 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
             $a_content_id
         );
         
-        foreach ((array) $deleted as $obj_id) {
+        foreach ($deleted as $obj_id) {
             $parent = 0;
-            foreach (array_values($old_nodes) as $node) {
-                if ($node['child'] == $obj_id) {
+            foreach ($old_nodes as $node) {
+                if ($node['child'] === $obj_id) {
                     $parent = $node['parent'];
                     break;
                 }
             }
             
-            if ($tree->isInTree($parent) and $parent) {
+            if ($parent && $tree->isInTree($parent)) {
                 $tree->insertNode($obj_id, $parent);
             }
         }
@@ -286,7 +281,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
     /**
      * init handler
      */
-    private function init()
+    private function init() : void
     {
         $this->mid = ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId())->lookupCmsMid();
     }

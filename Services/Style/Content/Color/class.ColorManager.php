@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,7 @@
 namespace ILIAS\Style\Content;
 
 use ILIAS\Style\Content\Access;
+use ilObjStyleSheet;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -85,7 +86,7 @@ class ColorManager
             $code
         );
 
-        \ilObjStyleSheet::_writeUpToDate($this->style_id, false);
+        ilObjStyleSheet::_writeUpToDate($this->style_id, false);
 
         // rename also the name in the style parameter values
         if ($name != $new_name) {

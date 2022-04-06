@@ -19,27 +19,21 @@
  */
 class ilECSCourseConnector extends ilECSConnector
 {
-    public function __construct(ilECSSetting $settings = null)
-    {
-        parent::__construct($settings);
-    }
-
-
     /**
      * Get single directory tree
-     * @return array an array of ecs cms directory tree entries
+     * @return mixed an array of ecs cms directory tree entries
      */
     public function getCourse($course_id, $a_details = false)
     {
         $this->path_postfix = '/campusconnect/courses/' . (int) $course_id;
         
-        if ($a_details and $course_id) {
+        if ($a_details && $course_id) {
             $this->path_postfix .= '/details';
         }
 
         try {
             $this->prepareConnection();
-            $this->setHeader(array());
+            $this->setHeader([]);
             if ($a_details) {
                 $this->addHeader('Accept', 'application/json');
             } else {
@@ -48,7 +42,7 @@ class ilECSCourseConnector extends ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
             
-            if (substr($res, 0, 4) == 'http') {
+            if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);
             } else {

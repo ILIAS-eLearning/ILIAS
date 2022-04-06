@@ -31,7 +31,7 @@ class ilSCGroup
 
         $query = 'SELECT component FROM sysc_groups ' .
             'WHERE id = ' . $ilDB->quote($a_id, ilDBConstants::T_INTEGER);
-        $res   = $ilDB->query($query);
+        $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (string) $row->component;
         }
@@ -78,15 +78,13 @@ class ilSCGroup
 
     public function read() : bool
     {
-
-
         if (!$this->getId()) {
             return false;
         }
 
         $query = 'SELECT * FROM sysc_groups ' .
             'WHERE id = ' . $this->db->quote($this->getId(), ilDBConstants::T_INTEGER);
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setComponentId($row->component);
             $this->setLastUpdate(new ilDateTime($row->last_update, IL_CAL_DATETIME, ilTimeZone::UTC));
@@ -97,8 +95,6 @@ class ilSCGroup
 
     public function create() : int
     {
-
-
         $this->id = $this->db->nextId('sysc_groups');
 
         $query = 'INSERT INTO sysc_groups (id,component,status) ' .

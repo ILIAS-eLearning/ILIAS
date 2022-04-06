@@ -22,22 +22,12 @@
  */
 class ilECSDirectoryTreeConnector extends ilECSConnector
 {
-
-    /**
-     * Constructor
-     * @param ilECSSetting $settings
-     */
-    public function __construct(ilECSSetting $settings = null)
-    {
-        parent::__construct($settings);
-    }
-
     /**
      * Get directory tree
      * @return ilECSResult
      * @throws ilECSConnectorException
      */
-    public function getDirectoryTrees($a_mid = 0)
+    public function getDirectoryTrees($a_mid = 0) : ?\ilECSResult
     {
         $this->path_postfix = '/campusconnect/directory_trees';
 
@@ -53,8 +43,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
 
-            $ecsResult = new ilECSResult($res, ilECSResult::RESULT_TYPE_URL_LIST);
-            return $ecsResult->getResult();
+            return (new ilECSResult($res, ilECSResult::RESULT_TYPE_URL_LIST))->getResult();
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }
@@ -62,9 +51,9 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 
     /**
      * Get single directory tree
-     * @return array an array of ecs cms directory tree entries
+     * @return ilECSResult an array of ecs cms directory tree entries
      */
-    public function getDirectoryTree($tree_id)
+    public function getDirectoryTree($tree_id) : ilECSResult
     {
         $this->path_postfix = '/campusconnect/directory_trees/' . (int) $tree_id;
 
@@ -75,7 +64,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
             
-            if (substr($res, 0, 4) == 'http') {
+            if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);
             } else {

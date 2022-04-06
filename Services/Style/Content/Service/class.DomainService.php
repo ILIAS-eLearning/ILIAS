@@ -15,7 +15,6 @@
 
 namespace ILIAS\Style\Content;
 
-use ILIAS\DI\Container;
 use ILIAS\Style\Content\Object\ObjectFacade;
 
 /**
@@ -25,9 +24,6 @@ use ILIAS\Style\Content\Object\ObjectFacade;
  */
 class DomainService
 {
-    /**
-     * @var InternalService
-     */
     private InternalService $internal;
 
     public function __construct(

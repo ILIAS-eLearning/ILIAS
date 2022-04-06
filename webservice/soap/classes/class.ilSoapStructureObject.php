@@ -44,7 +44,7 @@ class ilSoapStructureObject
         $this->parentRefId = $parentRefId;
     }
 
-    public function addStructureObject(ilSoapStructureObject $structureObject)
+    public function addStructureObject(ilSoapStructureObject $structureObject) : void
     {
         $this->structureObjects [$structureObject->getObjId()] = $structureObject;
     }
@@ -54,17 +54,11 @@ class ilSoapStructureObject
         return $this->structureObjects;
     }
 
-    /**
-     *    set current ObjId
-     */
     public function setObjId(int $value) : void
     {
         $this->obj_id = $value;
     }
 
-    /**
-     * return current object id
-     */
     public function getObjId() : int
     {
         return $this->obj_id;
@@ -102,21 +96,24 @@ class ilSoapStructureObject
 
     public function getGotoLink() : string
     {
-        return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() . "_" . $this->getObjId() . (is_numeric($this->getParentRefId()) ? "_" . $this->getParentRefId() : "") . "&client_id=" . CLIENT_ID;
+        return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() .
+            "_" . $this->getObjId() .
+            (is_numeric($this->getParentRefId()) ? "_" . $this->getParentRefId() : "") . "&client_id=" . CLIENT_ID;
     }
 
-    /**
-     *    return current internal_link
-     */
     public function getInternalLink() : string
     {
         return '';
     }
 
+    /**
+     * @return array{type: string, obj_id: int}
+     */
     public function _getXMLAttributes() : array
     {
-        return array('type' => $this->getType(),
-                     'obj_id' => $this->getObjId()
+        return array(
+            'type' => $this->getType(),
+            'obj_id' => $this->getObjId()
         );
     }
 
@@ -125,17 +122,11 @@ class ilSoapStructureObject
         return "StructureObject";
     }
 
-    /**
-     * set ref id for parent object (used for permanent link if set)
-     */
     public function setParentRefId(int $parentRefId) : void
     {
         $this->parentRefId = $parentRefId;
     }
 
-    /**
-     * read access to parents ref id
-     */
     public function getParentRefId() : ?int
     {
         return $this->parentRefId;
@@ -145,7 +136,6 @@ class ilSoapStructureObject
     {
         $attrs = $this->_getXMLAttributes();
 
-        // open tag
         $xml_writer->xmlStartTag($this->_getTagName(), $attrs);
 
         $xml_writer->xmlElement('Title', null, $this->getTitle());
@@ -155,7 +145,6 @@ class ilSoapStructureObject
 
         $xml_writer->xmlStartTag("StructureObjects");
 
-        // handle sub elements
         $structureObjects = $this->getStructureObjects();
 
         foreach ($structureObjects as $structureObject) {

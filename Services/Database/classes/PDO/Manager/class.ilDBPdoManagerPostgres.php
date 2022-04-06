@@ -11,7 +11,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     /**
      * @return \ilPostgresQueryUtils
      */
-    public function getQueryUtils(): \ilMySQLQueryUtils
+    public function getQueryUtils() : \ilMySQLQueryUtils
     {
         if ($this->query_utils === null) {
             $this->query_utils = new ilPostgresQueryUtils($this->db_instance);
@@ -26,10 +26,6 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         return (bool) $this->pdo->exec($this->getQueryUtils()->createTable($name, $fields, $options));
     }
 
-
-    /**
-     * @return mixed[]
-     */
     public function listTables(string $database = null) : array
     {
         $db = $this->db_instance;
@@ -76,7 +72,12 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
 
         if (!empty($changes['add']) && is_array($changes['add'])) {
             foreach ($changes['add'] as $field_name => $field) {
-                $query = 'ADD ' . $db->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
+                $fd = $db->getFieldDefinition();
+                if ($fd !== null) {
+                    $query = 'ADD ' . $fd->getDeclaration($field['type'], $field_name, $field);
+                }else {
+                    $query = '';
+                }
                 $result = $db->manipulate("ALTER TABLE $name $query");
             }
         }
@@ -96,11 +97,18 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
                     $server_info = $db->getServerVersion();
 
                     if (is_array($server_info) && $server_info['major'] < 8) {
-                        /** @noinspection PhpUndefinedVariableInspection */
-                        throw new ilDatabaseException('changing column type for "' . $change_name ?? 'undefined' . '\" requires PostgreSQL 8.0 or above');
+                        $str = $change_name ?? 'undefined';
+                        throw new ilDatabaseException(
+                            'changing column type for "' . $str . '\" requires PostgreSQL 8.0 or above'
+                        );
                     }
 
-                    $query = "ALTER $field_name TYPE " . $db->getFieldDefinition()->getTypeDeclaration($field);
+                    $fd = $db->getFieldDefinition();
+                    if ($fd !== null) {
+                        $query = "ALTER $field_name TYPE " . $fd->getTypeDeclaration($field);
+                    } else {
+                        $query = '';
+                    }
                     $result = $db->manipulate("ALTER TABLE $name $query");
                 }
                 if (array_key_exists('default', $field)) {
@@ -134,10 +142,6 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         return true;
     }
 
-
-    /**
-     * @return mixed[]
-     */
     public function listTableFields(string $table) : array
     {
         $db = $this->db_instance;
@@ -217,8 +221,10 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         $db = $this->db_instance;
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
-
-        return $db->manipulate("CREATE SEQUENCE $sequence_name INCREMENT 1" . ($start < 1 ? " MINVALUE $start" : '') . " START $start");
+    
+        return 0 < $db->manipulate(
+            "CREATE SEQUENCE $sequence_name INCREMENT 1" . ($start < 1 ? " MINVALUE $start" : '') . " START $start"
+        );
     }
 
 
@@ -227,8 +233,8 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         $db = $this->db_instance;
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
-
-        return $db->manipulate("DROP SEQUENCE $sequence_name");
+    
+        return 0 < $db->manipulate("DROP SEQUENCE $sequence_name");
     }
 
 
@@ -238,8 +244,8 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
 
         $name = $this->getIndexName($name);
         $name = $db->quoteIdentifier($this->getDBInstance()->constraintName($table, $name), true);
-
-        return $db->manipulate("DROP INDEX $name");
+    
+        return 0 < $db->manipulate("DROP INDEX $name");
     }
 
 
@@ -254,12 +260,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         return $idx;
     }
 
-
-    /**
-     * @param string|null $database
-     * @return mixed[]
-     */
-    public function listSequences(string $database = null) : array
+    public function listSequences(?string $database = null) : array
     {
         $db = $this->db_instance;
 

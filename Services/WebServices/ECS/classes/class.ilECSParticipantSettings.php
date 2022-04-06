@@ -23,11 +23,11 @@ class ilECSParticipantSettings
 
     private array $export = array();
     private array $import = array();
-    private array $export_type = array();
+
     private int $server_id;
 
     private ilDBInterface $db;
-    
+
     /**
      * Constructor (Singleton)
      */
@@ -45,10 +45,7 @@ class ilECSParticipantSettings
      */
     public static function getInstanceByServerId(int $a_server_id) : ilECSParticipantSettings
     {
-        if (isset(self::$instances[$a_server_id])) {
-            return self::$instances[$a_server_id];
-        }
-        return self::$instances[$a_server_id] = new ilECSParticipantSettings($a_server_id);
+        return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSParticipantSettings($a_server_id));
     }
     
     /**
@@ -79,7 +76,7 @@ class ilECSParticipantSettings
                 'WHERE sid = ' . $this->db->quote($this->server_id, 'integer') . ' ' .
                 'AND import_type = ' . $this->db->quote(ilECSParticipantSetting::IMPORT_CMS);
         $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->mid;
         }
         return 0;
@@ -96,7 +93,7 @@ class ilECSParticipantSettings
     /**
      * Read stored entry
      */
-    private function read()
+    private function read() : void
     {
         $query = 'SELECT * FROM ecs_part_settings ' .
             'WHERE sid = ' . $this->db->quote($this->getServerId(), 'integer') . ' ';
@@ -104,17 +101,13 @@ class ilECSParticipantSettings
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->export[$row->mid] = $row->export;
             $this->import[$row->mid] = $row->import;
-            $this->import_type[$row->mid] = $row->import_type;
-            $this->export_types[$row->mid] = (array) unserialize($row->export_types);
-            $this->import_types[$row->mid] = (array) unserialize($row->import_types);
         }
-        return true;
     }
 
     /**
      * Check if import is allowed for specific mid
      */
-    public function isImportAllowed(array $a_mids)
+    public function isImportAllowed(array $a_mids) : bool
     {
         foreach ($a_mids as $mid) {
             if ($this->import[$mid]) {
@@ -129,7 +122,7 @@ class ilECSParticipantSettings
      *
      * @deprecated
      */
-    public function getEnabledParticipants()
+    public function getEnabledParticipants() : array
     {
         $ret = array();
         foreach ($this->export as $mid => $enabled) {
@@ -138,7 +131,6 @@ class ilECSParticipantSettings
             }
         }
         return $ret;
-        #return $this->enabled ? $this->enabled : array();
     }
     
     /**
@@ -148,19 +140,8 @@ class ilECSParticipantSettings
      * @deprecated
      *
      */
-    public function isEnabled($a_mid)
+    public function isEnabled($a_mid) : bool
     {
         return $this->export[$a_mid] ? true : false;
-    }
-    
-    /**
-     * set enabled participants by community
-     *
-     * @param int community id
-     * @param array participant ids
-     */
-    public function setEnabledParticipants($a_parts)
-    {
-        $this->enabled = (array) $a_parts;
     }
 }

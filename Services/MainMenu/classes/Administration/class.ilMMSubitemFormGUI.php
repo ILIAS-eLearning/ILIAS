@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
@@ -46,16 +46,22 @@ class ilMMSubitemFormGUI
      * @param ilMMItemFacadeInterface $item
      * @param ilMMItemRepository      $repository
      */
-    public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, ilMMItemFacadeInterface $item, ilMMItemRepository $repository)
-    {
-        $this->ctrl        = $ctrl;
-        $this->ui_fa       = $ui_fa;
-        $this->ui_re       = $ui_re;
-        $this->lng         = $lng;
+    public function __construct(
+        ilCtrl $ctrl,
+        Factory $ui_fa,
+        Renderer $ui_re,
+        ilLanguage $lng,
+        ilMMItemFacadeInterface $item,
+        ilMMItemRepository $repository
+    ) {
+        $this->ctrl = $ctrl;
+        $this->ui_fa = $ui_fa;
+        $this->ui_re = $ui_re;
+        $this->lng = $lng;
         $this->item_facade = $item;
-        $this->repository  = $repository;
+        $this->repository = $repository;
         if (!$this->item_facade->isEmpty()) {
-            $this->ctrl->saveParameterByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::IDENTIFIER);
+            $this->ctrl->saveParameterByClass(ilMMSubItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER);
         }
         
         $this->initForm();
@@ -67,7 +73,7 @@ class ilMMSubitemFormGUI
         $txt = function ($id) : string {
             return $this->lng->txt($id);
         };
-        $f   = function () : InputFactory {
+        $f = function () : InputFactory {
             return $this->ui_fa->input();
         };
         
@@ -80,10 +86,10 @@ class ilMMSubitemFormGUI
         // TYPE
         if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
             $type_groups = $this->getTypeGroups($f);
-            $type        = $f()->field()->switchableGroup($type_groups, $txt('sub_type'), $txt('sub_type_byline'))->withRequired(true);
+            $type = $f()->field()->switchableGroup($type_groups, $txt('sub_type'), $txt('sub_type_byline'))->withRequired(true);
             if (!$this->item_facade->isEmpty()) {
                 $string = $this->item_facade->getType() === '' ? Link::class : $this->item_facade->getType();
-                $type   = $type->withValue($this->hash($string));
+                $type = $type->withValue($this->hash($string));
             } else {
                 $type = $type->withValue($this->hash(Link::class));
             }
@@ -109,21 +115,21 @@ class ilMMSubitemFormGUI
         if (!$this->item_facade->isEmpty() && !$this->item_facade->isInLostItem()) {
             $parent = $parent->withValue($this->item_facade->getParentIdentificationString());
         } else {
-            $array  = array_keys($this->repository->getPossibleParentsForFormAndTable());
+            $array = array_keys($this->repository->getPossibleParentsForFormAndTable());
             $parent = $parent->withValue(reset($array));
         }
         $items[self::F_PARENT] = $parent;
         
         // ACTIVE
-        $active                = $f()->field()->checkbox($txt('sub_active'), $txt('sub_active_byline'));
-        $active                = $active->withValue($this->item_facade->isActivated());
+        $active = $f()->field()->checkbox($txt('sub_active'), $txt('sub_active_byline'));
+        $active = $active->withValue($this->item_facade->isActivated());
         $items[self::F_ACTIVE] = $active;
         
         // ROLE BASED VISIBILITY
-        if($this->item_facade->supportsRoleBasedVisibility()) {
-            $access                         = new ilObjMainMenuAccess();
-            $value_role_based_visibility    = NULL;
-            if($this->item_facade->hasRoleBasedVisibility() && !empty($this->item_facade->getGlobalRoleIDs())) {
+        if ($this->item_facade->supportsRoleBasedVisibility()) {
+            $access = new ilObjMainMenuAccess();
+            $value_role_based_visibility = null;
+            if ($this->item_facade->hasRoleBasedVisibility() && !empty($this->item_facade->getGlobalRoleIDs())) {
                 $value_role_based_visibility[0] = $this->item_facade->getGlobalRoleIDs();
             }
             $role_based_visibility = $f()->field()->optionalGroup(
@@ -141,11 +147,11 @@ class ilMMSubitemFormGUI
 
         // RETURN FORM
         if ($this->item_facade->isEmpty()) {
-            $section    = $f()->field()->section($items, $txt(ilMMSubItemGUI::CMD_ADD), "");
+            $section = $f()->field()->section($items, $txt(ilMMSubItemGUI::CMD_ADD), "");
             $this->form = $f()->container()->form()
                               ->standard($this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CREATE), [$section]);
         } else {
-            $section    = $f()->field()->section($items, $txt(ilMMSubItemGUI::CMD_EDIT), "");
+            $section = $f()->field()->section($items, $txt(ilMMSubItemGUI::CMD_EDIT), "");
             $this->form = $f()->container()->form()
                               ->standard($this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_UPDATE), [$section]);
         }
@@ -154,9 +160,9 @@ class ilMMSubitemFormGUI
     public function save() : bool
     {
         global $DIC;
-        $r          = new ilMMItemRepository();
+        $r = new ilMMItemRepository();
         $this->form = $this->form->withRequest($DIC->http()->request());
-        $data       = $this->form->getData();
+        $data = $this->form->getData();
         
         if (is_null($data)) {
             return false;
@@ -166,7 +172,7 @@ class ilMMSubitemFormGUI
         $this->item_facade->setDefaultTitle((string) $data[0][self::F_TITLE]);
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
-        if ((bool) $data[0][self::F_ROLE_BASED_VISIBILITY] and (bool) !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
+        if ($data[0][self::F_ROLE_BASED_VISIBILITY] and !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
             $this->item_facade->setGlobalRoleIDs((array) $data[0][self::F_ROLE_BASED_VISIBILITY][0]);
         }
         if ((string) $data[0][self::F_PARENT]) {
@@ -186,9 +192,9 @@ class ilMMSubitemFormGUI
         }
         
         if ($this->item_facade->isCustom()) {
-            $type               = $this->item_facade->getType();
+            $type = $this->item_facade->getType();
             $type_specific_data = (array) $data[0][self::F_TYPE][1];
-            $type_handler       = $this->repository->getTypeHandlerForType($type);
+            $type_handler = $this->repository->getTypeHandlerForType($type);
             $type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
         }
         
@@ -208,13 +214,13 @@ class ilMMSubitemFormGUI
      */
     private function getTypeGroups(Closure $f) : array
     {
-        $type_groups       = [];
+        $type_groups = [];
         $type_informations = $this->repository->getPossibleSubItemTypesWithInformation();
         foreach ($type_informations as $classname => $information) {
             if ($this->item_facade->isEmpty()
                 || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
             ) { // https://mantis.ilias.de/view.php?id=24152
-                $inputs                               = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+                $inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
                 $type_groups[$this->hash($classname)] = $f()->field()->group($inputs, $information->getTypeNameForPresentation());
             }
         }

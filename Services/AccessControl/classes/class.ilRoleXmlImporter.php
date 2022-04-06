@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Description of class
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -31,7 +45,6 @@ class ilRoleXmlImporter
         $this->language = $DIC->language();
 
         $this->role_folder = $a_role_folder_id;
-
     }
 
     public function setXml(string $a_xml) : void
@@ -139,7 +152,7 @@ class ilRoleXmlImporter
                 $ops_id = (int) $operations[trim((string) $sxml_op)];
                 $ops = trim((string) $sxml_op);
 
-                if ($ops_group and $ops_id) {
+                if ($ops_group && $ops_id) {
                     $this->rbacadmin->setRolePermission(
                         $this->getRole()->getId(),
                         $ops_group,
@@ -192,7 +205,7 @@ class ilRoleXmlImporter
             $this->logger->debug('Creating new role template');
             $this->role = new ilObjRoleTemplate();
         }
-        $this->role->setImportId((string) $import_id);
+        $this->role->setImportId($import_id);
     }
 
     protected function parseXmlErrors() : string

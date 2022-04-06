@@ -31,8 +31,11 @@ class ilLearningProgressAccess
     /**
      * wrapper for rbac access checks
      */
-    public static function checkPermission(string $a_permission, int $a_ref_id, ?int $a_user_id = null) : bool
-    {
+    public static function checkPermission(
+        string $a_permission,
+        int $a_ref_id,
+        ?int $a_user_id = null
+    ) : bool {
         global $DIC;
 
         if ($a_user_id === null) {
@@ -47,14 +50,18 @@ class ilLearningProgressAccess
                 $a_ref_id
             );
         }
-        return $DIC->access()->checkAccessOfUser($a_user_id, $a_permission, '', $a_ref_id);
+        return $DIC->access()->checkAccessOfUser(
+            $a_user_id, $a_permission, '', $a_ref_id
+        );
     }
 
     /**
      * check access to learning progress
      */
-    public static function checkAccess(int $a_ref_id, bool $a_allow_only_read = true) : bool
-    {
+    public static function checkAccess(
+        int $a_ref_id,
+        bool $a_allow_only_read = true
+    ) : bool {
         global $DIC;
 
         if ($DIC->user()->getId() == ANONYMOUS_USER_ID) {
@@ -66,7 +73,9 @@ class ilLearningProgressAccess
         }
 
         $olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
-        if ($DIC->access()->checkAccess('read_learning_progress', '', $a_ref_id) ||
+        if ($DIC->access()->checkAccess(
+                'read_learning_progress', '', $a_ref_id
+            ) ||
             (
                 $DIC->access()->checkRbacOrPositionPermissionAccess(
                     ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
@@ -82,7 +91,9 @@ class ilLearningProgressAccess
             return false;
         }
         // edit learning progress is sufficient: #0029313
-        if ($DIC->access()->checkAccess('edit_learning_progress', '', $a_ref_id)) {
+        if ($DIC->access()->checkAccess(
+            'edit_learning_progress', '', $a_ref_id
+        )) {
             return true;
         }
 

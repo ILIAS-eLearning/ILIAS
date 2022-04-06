@@ -149,21 +149,21 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
         $a_fields["availability_end"] = array("integer", 0);
     }
 
-    protected function doUpdateCustomFields(array &$a_fields)
+    protected function doUpdateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
         $a_fields["availability_start"] = array("integer", (int) $this->getStartingTime());
         $a_fields["availability_end"] = array("integer", (int) $this->getEndingTime());
     }
 
-    protected function doReadCustomFields($a_row)
+    protected function doReadCustomFields($a_row) : void
     {
         $this->setAvailabilityType($a_row->availability_type);
         $this->setStartingTime($a_row->availability_start);
         $this->setEndingTime($a_row->availability_end);
     }
     
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content) : void
     {
         // add custom values
         // $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);

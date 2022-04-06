@@ -20,8 +20,11 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         return self::getParticipants($a_obj_id, true);
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $survey_id = self::getSurveyId($a_obj_id);
         if (!$survey_id) {
             return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -43,14 +46,18 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $set = $ilDB->query("SELECT survey_id FROM svy_svy" .
-            " WHERE obj_fi = " . $ilDB->quote($a_obj_id));
+        $set = $ilDB->query(
+            "SELECT survey_id FROM svy_svy" .
+            " WHERE obj_fi = " . $ilDB->quote($a_obj_id)
+        );
         $row = $ilDB->fetchAssoc($set);
         return (int) $row["survey_id"];
     }
 
-    public static function getParticipants(int $a_obj_id, bool $a_only_finished = false) : array
-    {
+    public static function getParticipants(
+        int $a_obj_id,
+        bool $a_only_finished = false
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

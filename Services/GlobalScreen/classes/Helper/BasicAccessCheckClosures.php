@@ -103,7 +103,7 @@ class BasicAccessCheckClosures
     {
         static $has_admin_access;
         if (!isset($has_admin_access)) {
-            $has_admin_access = (bool) ($this->dic->rbac()->system()->checkAccess('visible', SYSTEM_FOLDER_ID));
+            $has_admin_access = (bool) ($this->dic->rbac()->system()->checkAccess('visible', \SYSTEM_FOLDER_ID));
         }
         return $this->getClosureWithOptinalClosure(static function () use ($has_admin_access) : bool {
             return $has_admin_access;

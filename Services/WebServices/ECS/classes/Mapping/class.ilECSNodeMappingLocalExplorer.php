@@ -21,16 +21,16 @@
  */
 class ilECSNodeMappingLocalExplorer extends ilExplorer
 {
-    const SEL_TYPE_CHECK = 1;
-    const SEL_TYPE_RADIO = 2;
+    public const SEL_TYPE_CHECK = 1;
+    public const SEL_TYPE_RADIO = 2;
 
     private array $checked_items = array();
     private string $post_var = '';
     private array $form_items = array();
-    private int $type = 0;
+    private int $type;
     
-    private int $sid = 0;
-    private int $mid = 0;
+    private int $sid;
+    private int $mid;
     
     private array $mappings = array();
 
@@ -62,12 +62,12 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         $this->initMappings();
     }
     
-    public function getSid()
+    public function getSid() : int
     {
         return $this->sid;
     }
     
-    public function getMid()
+    public function getMid() : int
     {
         return $this->mid;
     }
@@ -75,7 +75,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     /**
      * no item is clickable
      * @param string $a_type
-     * @param <type> $a_ref_id
+     * @param int $a_ref_id
      * @return bool
      */
     public function isClickable(string $a_type, $a_ref_id = 0) : bool
@@ -85,43 +85,42 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
     /**
      * Add form item
-     * @param <type> $type
      */
-    public function addFormItemForType($type)
+    public function addFormItemForType($type) : void
     {
         $this->form_items[$type] = true;
     }
 
-    public function removeFormItemForType($type)
+    public function removeFormItemForType($type) : void
     {
         $this->form_items[$type] = false;
     }
 
-    public function setCheckedItems($a_checked_items = array())
+    public function setCheckedItems($a_checked_items = array()) : void
     {
         $this->checked_items = $a_checked_items;
     }
 
-    public function getCheckedItems()
+    public function getCheckedItems() : array
     {
-        return (array) $this->checked_items;
+        return $this->checked_items;
     }
 
-    public function isItemChecked($a_id)
+    public function isItemChecked($a_id) : bool
     {
-        return in_array($a_id, $this->checked_items) ? true : false;
+        return in_array($a_id, $this->checked_items, true);
     }
 
-    public function setPostVar($a_post_var)
+    public function setPostVar(string $a_post_var) : void
     {
         $this->post_var = $a_post_var;
     }
-    public function getPostVar()
+    public function getPostVar() : string
     {
         return $this->post_var;
     }
 
-    public function buildFormItem($a_node_id, $a_type)
+    public function buildFormItem($a_node_id, $a_type) : string
     {
         if (!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) {
             return '';
@@ -130,33 +129,31 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         switch ($this->type) {
             case self::SEL_TYPE_CHECK:
                 return ilLegacyFormElementsUtil::formCheckbox(
-                    (int) $this->isItemChecked($a_node_id),
+                    $this->isItemChecked($a_node_id),
                     $this->post_var,
                     $a_node_id
                 );
-                break;
-
             case self::SEL_TYPE_RADIO:
                 return ilLegacyFormElementsUtil::formRadioButton(
-                    (int) $this->isItemChecked($a_node_id),
+                    $this->isItemChecked($a_node_id),
                     $this->post_var,
                     $a_node_id,
                     "document.getElementById('map').submit(); return false;"
                 );
-                break;
         }
+        return '';
     }
 
     public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0) : void
     {
-        if (!isset($a_node_id) or !is_array($a_option)) {
-            $this->ilias->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
-                                    "node_id: " . $a_node_id . " options:" . var_dump($a_option), $this->ilias->error_obj->WARNING);
+        if (!isset($a_node_id) || !is_array($a_option)) {
+            $this->error->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
+                                    "node_id: " . $a_node_id . " options:" . print_r($a_option, true), $this->error->WARNING);
         }
 
         $pic = false;
         foreach ($a_option["tab"] as $picture) {
-            if ($picture == 'plus') {
+            if ($picture === 'plus') {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $this->lng->txt("expand"));
                 $target = $this->createTarget('+', $a_node_id);
@@ -167,7 +164,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
                 $pic = true;
             }
 
-            if ($picture == 'minus' && $this->show_minus) {
+            if ($picture === 'minus' && $this->show_minus) {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $this->lng->txt("collapse"));
                 $target = $this->createTarget('-', $a_node_id);
@@ -195,13 +192,13 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             $tpl->parseCurrentBlock();
         }
 
-        if (strlen($formItem = $this->buildFormItem($a_node_id, $a_option['type']))) {
+        if ($formItem = ($this->buildFormItem($a_node_id, $a_option['type']) !== '')) {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->isClickable($a_option["type"], $a_node_id, $a_obj_id)) {	// output link
+        if ($this->isClickable($a_option["type"], $a_node_id)) {	// output link
             $tpl->setCurrentBlock("link");
             //$target = (strpos($this->target, "?") === false) ?
             //	$this->target."?" : $this->target."&";
@@ -210,11 +207,11 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
             $style_class = $this->getNodeStyleClass($a_node_id, $a_option["type"]);
 
-            if ($style_class != "") {
+            if ($style_class !== "") {
                 $tpl->setVariable("A_CLASS", ' class="' . $style_class . '" ');
             }
 
-            if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) != "") {
+            if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) !== "") {
                 $tpl->setVariable("ONCLICK", "onClick=\"$onclick\"");
             }
 
@@ -232,10 +229,9 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
                 )
             );
             $frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
-            if ($frame_target != "") {
+            if ($frame_target !== "") {
                 $tpl->setVariable("TARGET", " target=\"" . $frame_target . "\"");
             }
-            $tpl->parseCurrentBlock();
         } else {			// output text only
             $tpl->setCurrentBlock("text");
             $tpl->setVariable(
@@ -250,8 +246,8 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
                     true
                 )
             );
-            $tpl->parseCurrentBlock();
         }
+        $tpl->parseCurrentBlock();
 
         $tpl->setCurrentBlock("list_item");
         $tpl->parseCurrentBlock();
@@ -276,7 +272,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         $tpl->setCurrentBlock("icon");
         $nd = $this->tree->getNodeData(ROOT_FOLDER_ID);
         $title = $nd["title"];
-        if ($title == "ILIAS") {
+        if ($title === "ILIAS") {
             $title = $this->lng->txt("repository");
         }
 
@@ -284,7 +280,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         $tpl->setVariable("TXT_ALT_IMG", $title);
         $tpl->parseCurrentBlock();
 
-        if (strlen($formItem = $this->buildFormItem($a_obj_id, $a_option['type']))) {
+        if (($formItem = $this->buildFormItem($a_obj_id, $a_option['type'])) !== '') {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
@@ -302,10 +298,6 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     
     /**
      * Format title (bold for direct mappings, italic for child mappings)
-     * @param string $a_title
-     * @param type   $a_id
-     * @param string $a_type
-     * @return string
      */
     public function buildTitle(string $a_title, $a_id, string $a_type) : string
     {
@@ -321,7 +313,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     /**
      * Init (read) current mappings
      */
-    protected function initMappings()
+    protected function initMappings() : bool
     {
         $mappings = array();
         foreach (ilECSCourseMappingRule::getRuleRefIds($this->getSid(), $this->getMid()) as $ref_id) {
@@ -334,15 +326,15 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         return true;
     }
     
-    protected function isMapped($a_ref_id)
+    protected function isMapped($a_ref_id) : bool
     {
         return array_key_exists($a_ref_id, $this->mappings);
     }
     
-    protected function hasParentMapping($a_ref_id)
+    protected function hasParentMapping($a_ref_id) : bool
     {
-        foreach (array_values($this->mappings) as $parent_nodes) {
-            if (in_array($a_ref_id, $parent_nodes)) {
+        foreach ($this->mappings as $parent_nodes) {
+            if (in_array($a_ref_id, $parent_nodes, true)) {
                 return true;
             }
         }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\Style\Content;
 
@@ -50,7 +50,7 @@ class ilPasteStyleCharacteristicTableGUI extends ilTable2GUI
         //$this->addMultiCommand("", $lng->txt(""));
         $this->addCommandButton("pasteCharacteristics", $lng->txt("paste"));
         $this->addCommandButton("edit", $lng->txt("cancel"));
-        $this->addHiddenInput("from_style_id", $this->from_style_id);
+        $this->addHiddenInput("from_style_id", (string) $this->from_style_id);
     }
 
     /**

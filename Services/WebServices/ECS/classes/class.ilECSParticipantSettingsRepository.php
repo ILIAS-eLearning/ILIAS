@@ -31,7 +31,7 @@ class ilECSParticipantSettingsRepository
     /**
      * Get participants which are enabled and export is allowed
      */
-    public function getExportableParticipants($a_type)
+    public function getExportableParticipants($a_type) : array
     {
         $query = 'SELECT sid,mid,export_types FROM ecs_part_settings ep ' .
             'JOIN ecs_server es ON ep.sid = es.server_id ' .
@@ -43,7 +43,7 @@ class ilECSParticipantSettingsRepository
         $mids = array();
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (in_array($a_type, (array) unserialize($row->export_types))) {
+            if (in_array($a_type, (array) unserialize($row->export_types, ['allowed_classes' => true]), true)) {
                 $mids[$counter]['sid'] = $row->sid;
                 $mids[$counter]['mid'] = $row->mid;
                 $counter++;
@@ -54,10 +54,8 @@ class ilECSParticipantSettingsRepository
 
     /**
      * Get server ids which allow an export
-     * @global <type> $ilDB
-     * @return <type>
      */
-    public function getServersContaingExports()
+    public function getServersContaingExports() : array
     {
         $query = 'SELECT DISTINCT(sid) FROM ecs_part_settings  ep ' .
             'JOIN ecs_server es ON ep.sid = es.server_id ' .

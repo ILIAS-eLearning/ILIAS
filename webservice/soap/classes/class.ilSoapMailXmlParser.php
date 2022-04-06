@@ -22,9 +22,6 @@ class ilSoapMailXmlParser extends ilSaxParser
     protected array $lines = [];
     protected string $cdata = '';
 
-    /**
-     * Constructor
-     */
     public function __construct(string $a_xml)
     {
         parent::__construct('', true);
@@ -32,12 +29,9 @@ class ilSoapMailXmlParser extends ilSaxParser
         $this->setXMLContent($a_xml);
     }
 
-    /**
-     * Get parsed mails
-     */
     public function getMails() : array
     {
-        return (array) $this->mails;
+        return $this->mails;
     }
 
     public function start() : bool
@@ -47,9 +41,8 @@ class ilSoapMailXmlParser extends ilSaxParser
     }
 
     /**
-     * set event handlers
-     * @param resource    reference to the xml parser
-     * @access    private
+     * Set event handlers
+     * @param XMLParser|resource A reference to the xml parser
      */
     public function setHandlers($a_xml_parser) : void
     {
@@ -60,9 +53,9 @@ class ilSoapMailXmlParser extends ilSaxParser
 
     /**
      * handler for begin of element
-     * @param resource $a_xml_parser xml parser
-     * @param string   $a_name       element name
-     * @param array    $a_attribs    element attributes array
+     * @param XMLParser|resource $a_xml_parser xml parser
+     * @param string $a_name element name
+     * @param array $a_attribs element attributes array
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
@@ -70,7 +63,7 @@ class ilSoapMailXmlParser extends ilSaxParser
             case 'Mail':
                 $this->mail = array();
                 $this->mail['usePlaceholders'] = (bool) $a_attribs['usePlaceholders'];
-                $this->mail['type'] = $a_attribs['type'] == 'System' ? 'system' : 'normal';
+                $this->mail['type'] = $a_attribs['type'] === 'System' ? 'system' : 'normal';
                 break;
 
             case 'To':
@@ -101,9 +94,9 @@ class ilSoapMailXmlParser extends ilSaxParser
     }
 
     /**
-     * handler for end of element
-     * @param resource $a_xml_parser xml parser
-     * @param string   $a_name       element name
+     * Handler for end of element
+     * @param XMLParser|resource $a_xml_parser xml parser
+     * @param string $a_name element name
      */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
@@ -117,7 +110,7 @@ class ilSoapMailXmlParser extends ilSaxParser
                 break;
 
             case 'Message':
-                $this->mail['body'] = (array) $this->lines;
+                $this->mail['body'] = $this->lines;
                 break;
 
             case 'P':
@@ -133,16 +126,21 @@ class ilSoapMailXmlParser extends ilSaxParser
         $this->cdata = '';
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_data
+     * @return void
+     */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
-        if ($a_data != "\n") {
+        if ($a_data !== "\n") {
             // Replace multiple tabs with one space
             $a_data = preg_replace("/\t+/", " ", $a_data);
             $this->cdata .= $a_data;
         }
     }
 
-    protected function parseName(array $a_attribs)
+    protected function parseName(array $a_attribs)// TODO PHP8-REVIEW Return type missing
     {
         if ($a_attribs['obj_id']) {
             $il_id = explode('_', $a_attribs['obj_id']);
@@ -151,8 +149,8 @@ class ilSoapMailXmlParser extends ilSaxParser
                 throw new InvalidArgumentException("Invalid user id given: obj_id => " . $a_attribs['obj_id']);
             }
             return $user->getLogin();
-        } else {
-            return $a_attribs['name'];
         }
+
+        return $a_attribs['name'];
     }
 }

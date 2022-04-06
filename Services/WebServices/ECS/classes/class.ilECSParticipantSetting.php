@@ -19,25 +19,25 @@
 */
 class ilECSParticipantSetting
 {
-    const AUTH_VERSION_4 = 1;
-    const AUTH_VERSION_5 = 2;
+    public const AUTH_VERSION_4 = 1;
+    public const AUTH_VERSION_5 = 2;
     
-    const PERSON_EPPN = 1;
-    const PERSON_LUID = 2;
-    const PERSON_LOGIN = 3;
-    const PERSON_UID = 4;
+    public const PERSON_EPPN = 1;
+    public const PERSON_LUID = 2;
+    public const PERSON_LOGIN = 3;
+    public const PERSON_UID = 4;
 
-    protected static array $instances = array();
+    protected static array $instances = [];
 
 
     // :TODO: what types are needed?
-    const IMPORT_UNCHANGED = 0;
-    const IMPORT_RCRS = 1;
-    const IMPORT_CRS = 2;
-    const IMPORT_CMS = 3;
+    public const IMPORT_UNCHANGED = 0;
+    public const IMPORT_RCRS = 1;
+    public const IMPORT_CRS = 2;
+    public const IMPORT_CMS = 3;
     
-    private int $server_id = 0;
-    private int $mid = 0;
+    private int $server_id;
+    private int $mid;
     private bool $export = false;
     private bool $import = false;
     private int $import_type = 1;
@@ -123,7 +123,7 @@ class ilECSParticipantSetting
 
     public function setImportType(int $a_type) : void
     {
-        if ($a_type != self::IMPORT_UNCHANGED) {
+        if ($a_type !== self::IMPORT_UNCHANGED) {
             $this->import_type = $a_type;
         }
     }
@@ -148,14 +148,14 @@ class ilECSParticipantSetting
         return $this->cname;
     }
 
-    public function setCommunityName(string $a_name)
+    public function setCommunityName(string $a_name) : void
     {
         $this->cname = $a_name;
     }
     
     public function isTokenEnabled() : bool
     {
-        return (bool) $this->token;
+        return $this->token;
     }
     
     public function enableToken(bool $a_stat) : void
@@ -173,14 +173,14 @@ class ilECSParticipantSetting
         return $this->export_types;
     }
     
-    public function setImportTypes(array $a_types)
+    public function setImportTypes(array $a_types) : void
     {
         $this->import_types = $a_types;
     }
     
     public function isDeprecatedTokenEnabled() : bool
     {
-        return (bool) $this->dtoken;
+        return $this->dtoken;
     }
     
     public function enableDeprecatedToken(bool $a_stat) : void
@@ -209,19 +209,19 @@ class ilECSParticipantSetting
         }
         $query = 'UPDATE ecs_part_settings ' .
             'SET ' .
-            'sid = ' . $this->db->quote((int) $this->getServerId(), 'integer') . ', ' .
-            'mid = ' . $this->db->quote((int) $this->getMid(), 'integer') . ', ' .
+            'sid = ' . $this->db->quote($this->getServerId(), 'integer') . ', ' .
+            'mid = ' . $this->db->quote($this->getMid(), 'integer') . ', ' .
             'export = ' . $this->db->quote((int) $this->isExportEnabled(), 'integer') . ', ' .
             'import = ' . $this->db->quote((int) $this->isImportEnabled(), 'integer') . ', ' .
-            'import_type = ' . $this->db->quote((int) $this->getImportType(), 'integer') . ', ' .
+            'import_type = ' . $this->db->quote($this->getImportType(), 'integer') . ', ' .
             'title = ' . $this->db->quote($this->getTitle(), 'text') . ', ' .
             'cname = ' . $this->db->quote($this->getCommunityName(), 'text') . ', ' .
             'token = ' . $this->db->quote($this->isTokenEnabled(), 'integer') . ', ' .
             'dtoken = ' . $this->db->quote($this->isDeprecatedTokenEnabled(), 'integer') . ', ' .
             'export_types = ' . $this->db->quote(serialize($this->getExportTypes()), 'text') . ', ' .
             'import_types = ' . $this->db->quote(serialize($this->getImportTypes()), 'text') . ' ' .
-            'WHERE sid = ' . $this->db->quote((int) $this->getServerId(), 'integer') . ' ' .
-            'AND mid  = ' . $this->db->quote((int) $this->getMid(), 'integer');
+            'WHERE sid = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
+            'AND mid  = ' . $this->db->quote($this->getMid(), 'integer');
         $this->db->manipulate($query);
         return true;
     }
@@ -235,7 +235,7 @@ class ilECSParticipantSetting
             $this->db->quote($this->getMid(), 'integer') . ', ' .
             $this->db->quote((int) $this->isExportEnabled(), 'integer') . ', ' .
             $this->db->quote((int) $this->isImportEnabled(), 'integer') . ', ' .
-            $this->db->quote((int) $this->getImportType(), 'integer') . ', ' .
+            $this->db->quote($this->getImportType(), 'integer') . ', ' .
             $this->db->quote($this->getTitle(), 'text') . ', ' .
             $this->db->quote($this->getCommunityName(), 'text') . ', ' .
             $this->db->quote($this->isTokenEnabled(), 'integer') . ', ' .
@@ -249,7 +249,6 @@ class ilECSParticipantSetting
 
     /**
      * Delete one participant entry
-     * @return <type>
      */
     public function delete() : bool
     {
@@ -262,9 +261,8 @@ class ilECSParticipantSetting
 
     /**
      * Read stored entry
-     * @return <type>
      */
-    private function read() : bool
+    private function read() : void
     {
         $query = 'SELECT * FROM ecs_part_settings ' .
             'WHERE sid = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
@@ -283,9 +281,8 @@ class ilECSParticipantSetting
             $this->enableToken((bool) $row->token);
             $this->enableDeprecatedToken((bool) $row->dtoken);
             
-            $this->setExportTypes((array) unserialize($row->export_types));
-            $this->setImportTypes((array) unserialize($row->import_types));
+            $this->setExportTypes((array) unserialize($row->export_types, ['allowed_classes' => true]));
+            $this->setImportTypes((array) unserialize($row->import_types, ['allowed_classes' => true]));
         }
-        return true;
     }
 }

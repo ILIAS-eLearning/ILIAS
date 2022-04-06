@@ -17,10 +17,7 @@ use ILIAS\Setup;
  *****************************************************************************/
 class ilPreviewSetupConfig implements Setup\Config
 {
-    /**
-     * @var string|null
-     */
-    protected $path_to_ghostscript;
+    protected ?string $path_to_ghostscript;
 
     public function __construct(
         ?string $path_to_ghostscript

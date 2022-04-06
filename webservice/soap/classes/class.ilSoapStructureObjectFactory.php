@@ -31,9 +31,8 @@ class ilSoapStructureObjectFactory
 {
     public function getInstanceForObject(ilObject $object) : ?ilSoapStructureObject
     {
-        $classname = ilSoapStructureObjectFactory::_getClassnameForType($object->getType());
-
-        if ($classname != null) {
+        $classname = $this->_getClassnameForType($object->getType());
+        if ($classname !== null) {
             switch ($object->getType()) {
                 case "lm":
                 case "glo":
@@ -44,9 +43,9 @@ class ilSoapStructureObjectFactory
                         $object->getLongDescription(),
                         $object->getRefId()
                     );
-                    break;
             }
         }
+
         return null;
     }
 
@@ -57,8 +56,8 @@ class ilSoapStructureObjectFactory
         string $description,
         int $parentRefId
     ) : ?ilSoapStructureObject {
-        $classname = ilSoapStructureObjectFactory::_getClassnameForType($type);
-        if ($classname == null) {
+        $classname = $this->_getClassnameForType($type);
+        if ($classname === null) {
             return null;
         }
 
@@ -68,6 +67,7 @@ class ilSoapStructureObjectFactory
     public function _getClassnameForType(string $type) : ?string
     {
         switch ($type) {
+            case "glo":
             case "lm":
                 include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
                 return "ilSoapRepositoryStructureObject";
@@ -77,9 +77,6 @@ class ilSoapStructureObjectFactory
             case "pg":
                 include_once "./webservice/soap/classes/class.ilSoapLMPageStructureObject.php";
                 return "ilSoapLMPageStructureObject";
-            case "glo":
-                include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
-                return "ilSoapRepositoryStructureObject";
             case "git":
                 include_once "./webservice/soap/classes/class.ilSoapGLOTermStructureObject.php";
                 return "ilSoapGLOTermStructureObject";
@@ -88,6 +85,7 @@ class ilSoapStructureObjectFactory
                 return "ilSoapGLOTermDefinitionStructureObject";
 
         }
+
         return null;
     }
 }

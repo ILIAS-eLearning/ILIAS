@@ -25,8 +25,11 @@ class ilLPStatusContentVisited extends ilLPStatus
     /**
      * @inheritdoc
      */
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */

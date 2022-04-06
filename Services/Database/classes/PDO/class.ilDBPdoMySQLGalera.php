@@ -8,17 +8,12 @@
  */
 class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB
 {
-
     public function supportsTransactions() : bool
     {
         return true;
     }
 
-
-    /**
-     * @return \ilAtomQuery
-     */
-    public function buildAtomQuery()
+    public function buildAtomQuery() : ilAtomQuery
     {
         return new ilAtomQueryTransaction($this);
     }

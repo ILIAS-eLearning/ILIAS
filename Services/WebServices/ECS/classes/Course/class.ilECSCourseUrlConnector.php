@@ -21,16 +21,11 @@
  */
 class ilECSCourseUrlConnector extends ilECSConnector
 {
-    public function __construct(ilECSSetting $settings = null)
-    {
-        parent::__construct($settings);
-    }
-    
     /**
      * Send url of newly created courses to ecs
      * @throws ilECSConnectorException
      */
-    public function addUrl(ilECSCourseUrl $url, $a_target_mid)
+    public function addUrl(ilECSCourseUrl $url, $a_target_mid) : void
     {
         $this->logger->info(__METHOD__ . ': Add new course url ...');
 
@@ -45,22 +40,23 @@ class ilECSCourseUrlConnector extends ilECSConnector
 
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_POST, true);
-            $this->curl->setOpt(CURLOPT_POSTFIELDS, json_encode($url));
+            $this->curl->setOpt(CURLOPT_POSTFIELDS, json_encode($url, JSON_THROW_ON_ERROR));
             
-            $this->logger->debug('Sending url ' . print_r(json_encode($url), true));
+            $this->logger->debug('Sending url ' . print_r(json_encode($url, JSON_THROW_ON_ERROR), true));
             
             $this->call();
 
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
     
             $this->logger->debug('Checking HTTP status...');
-            if ($info != self::HTTP_CODE_CREATED) {
+            if ($info !== self::HTTP_CODE_CREATED) {
                 $this->logger->debug('Cannot create course url ressource, did not receive HTTP 201. ');
-                $this->logger->debug('POST was: ' . json_encode($url));
+                $this->logger->debug('POST was: ' . json_encode($url, JSON_THROW_ON_ERROR));
                 $this->logger->debug('HTTP code: ' . $info);
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
             $this->logger->debug('... got HTTP 201 (created)');
+            //TODO add returning of the new created courseurl id
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }

@@ -28,7 +28,7 @@ class ilECSCmsTree extends ilTree
         $this->useCache(false);
     }
 
-    public function insertRootNode($tree, $a_child)
+    public function insertRootNode(int $tree, int $a_child) : bool
     {
         $query = 'INSERT INTO ecs_cms_tree ' .
             '(tree,child,parent,lft,rgt,depth) ' .
@@ -48,7 +48,7 @@ class ilECSCmsTree extends ilTree
     /**
      * Delete tree by tree_id
      */
-    public static function deleteByTreeId($a_tree_id)
+    public static function deleteByTreeId(int $a_tree_id) : bool
     {
         global $DIC;
 
@@ -63,14 +63,13 @@ class ilECSCmsTree extends ilTree
 
     /**
      * Check if tree exists
-     * @param int $a_tree_id
      */
-    public function treeExists($a_tree_id)
+    public function treeExists(int $a_tree_id) : bool
     {
         $query = 'SELECT COUNT(*) num FROM ecs_cms_tree WHERE tree = ' . $this->db->quote($a_tree_id, 'integer');
         $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->num > 0 ? true : false;
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return $row->num > 0;
         }
         return false;
     }
@@ -79,7 +78,7 @@ class ilECSCmsTree extends ilTree
     /**
      * lookup root id
      */
-    public static function lookupRootId($a_tree_id)
+    public static function lookupRootId($a_tree_id) : int
     {
         global $DIC;
 
@@ -87,8 +86,8 @@ class ilECSCmsTree extends ilTree
 
         $query = 'SELECT child FROM ecs_cms_tree WHERE tree = ' . $ilDB->quote($a_tree_id, 'integer');
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->child;
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->child;
         }
         return 0;
     }

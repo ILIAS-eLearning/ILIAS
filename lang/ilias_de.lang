@@ -164,7 +164,7 @@ administration#:#adm_user_starting_point#:#Persönliche Startseite
 administration#:#adm_user_starting_point_ref_id_info#:# Öffnen Sie das Objekt, welches Sie als Persönliche Startseite festlegen wollen. Kopieren Sie aus der Browserzeile die Zahl hinter "ref_id=" und tragen Sie diese in das Eingabefeld ein.
 administration#:#adm_user_starting_point_ref_id#:#Referenz-ID
 administration#:#adm_value#:#Vordefinierter Wert
-administration#:#allow_change_loginname#:#Ändern des Benutzernamens in den Persönlichen Daten
+administration#:#allow_change_loginname#:#Ändern des Anmeldenamens erlauben
 administration#:#analysis_options#:#Analyse-Optionen
 administration#:#analyze_data#:#Analysiere und repariere Datenintegrität
 administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
@@ -178,7 +178,7 @@ administration#:#apache_auth_security#:#Sicherheitseinstellungen
 administration#:#apache_auth_settings#:#Apache
 administration#:#apache_auth_target_override_login#:#Ziel-URL für Login-Seite
 administration#:#apache_auth_username_by_function#:#Zuweisung durch eigene Funktion
-administration#:#apache_auth_username_config#:#Benutzernamenkonfiguration
+administration#:#apache_auth_username_config#:#Konfiguration für Anmeldenamen
 administration#:#apache_auth_username_config_type#:#Typ
 administration#:#apache_auth_username_direct_mapping#:#Direkte Zuweisung
 administration#:#apache_auth_username_direct_mapping_fieldname#:#Feld für Zuweisung
@@ -215,8 +215,8 @@ administration#:#git_hash_short#:#Commit Hash (kurz): %s
 administration#:#git_last_commit#:#Letzter Commit: %s
 administration#:#git_revision#:#Nummer: %s
 administration#:#group_export#:#Sichtbar in der Gruppenteilnehmerverwaltung
-administration#:#history_loginname#:#Benutzernamen Historie
-administration#:#initializing_gaps#:#Initialisiere Lücken in der Baumstruktur...
+administration#:#history_loginname#:#Verlauf der Anmeldenamen
+administration#:#initializing_gaps#:#Initialisiere Lücken in der Baumstruktur ...
 administration#:#language_all_modules#:#Alle Module
 administration#:#language_change_settings#:#Spracheinstellungen ändern
 administration#:#language_cleared_local#:#Die lokalen Änderungen wurden in der Datenbank gelöscht.
@@ -286,10 +286,10 @@ administration#:#language_settings#:#Spracheinstellungen
 administration#:#language_statistics#:#Statistik
 administration#:#language_translation_enabled#:#Seitenübersetzung aktiviert
 administration#:#language_variables_saved#:#Die Änderungen an den Sprachvariablen wurden erfolgreich gespeichert.
-administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier das Intervall ein (in Tagen), in dem ein Benutzer seinen Benutzernamen ändern darf. Falls Sie 0 eintragen, kann ein Benutzer jederzeit seinen Benutzernamen ändern.
+administration#:#loginname_change_blocking_time_info#:#Tragen Sie hier den Zeitraum in Tagen ein, nach dem eine Person den eigenen Anmeldenamen wieder ändern darf. Falls Sie 0 eintragen, kann der eigene Anmeldename jederzeit geändert werden.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Bitte tragen Sie einen numerischen Wert ein.
-administration#:#loginname_change_blocking_time#:#Sperrzeit für Änderung des Benutzernamens
-administration#:#loginname_history_info#:#Falls aktiviert, werden Änderungen von Benutzernamen in der Datenbank erfasst. Diese Historie ist in der Datenbanktabelle 'loginname_history' einsehbar.
+administration#:#loginname_change_blocking_time#:#Sperrzeit für Änderung des Anmeldenamens
+administration#:#loginname_history_info#:#Frühere Anmeldenamen sind in der Datenbanktabelle „loginname_history“ einsehbar.
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#nothing_to_purge#:#Nichts zu eliminieren...
@@ -338,8 +338,8 @@ administration#:#restoring_missing_objs#:#Stelle verlorene Objekte wieder her
 administration#:#restoring_trash#:#Stellt gelöschte Objekte wieder her...
 administration#:#restoring_unbound_objs#:#Stellt nicht zugeordnete Objekte und Teilobjekte wieder her...
 administration#:#restoring#:#Wiederhergestellt...
-administration#:#reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie wieder verwendet werden.
-administration#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Benutzernamen
+administration#:#reuse_of_loginnames_contained_in_history_info#:#Anmeldenamen, die von einer Person bereits zuvor genutzt wurden, können erneut verwendet werden.
+administration#:#reuse_of_loginnames_contained_in_history#:#Wiederverwendung von Anmeldenamen
 administration#:#scan_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nicht zugeordneten Objekten
 administration#:#scan_details#:#Details der Untersuchung
 administration#:#scan_modes#:#Benutze Untersuchungsmodi
@@ -362,7 +362,7 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#user_criteria_desc#:#Eindeutiges Benutzermerkmal für den Import/Export von Testergebnissen. Das Merkmal wird benötigt, um einen identischen Benutzer auf unterschiedlichen ILIAS-Systemen zu identifizieren.
 administration#:#user_criteria#:#Eindeutiges Benutzermerkmal
-administration#:#usr_loginname_history_info#:#Der Benutzer änderte seinen Benutzernamen zuletzt am %s. Der vorherige Benutzername war: %s.
+administration#:#usr_loginname_history_info#:#Die Person änderte den Anmeldenamen zuletzt am %s. Der vorherige Anmeldename war: %s.
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
 administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#view_last_log#:#Zeige letztes Scan-Log
@@ -1437,7 +1437,7 @@ assessment#:#tst_finish_notification#:#Benachrichtigung
 assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine E-Mail versendet. Die E-Mail wird an den Benutzer versendet, welcher im Reiter "Rechte" unter "Im Besitz von" eingetragen ist. Die E-Mail enthält die folgenden Informationen:###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
-assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Beendens
+assessment#:#tst_finish_notification_simple#:#Nur Anmeldename und Datum des Beendens
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_gap_analysis#:#Gap-Analyse
 assessment#:#tst_general_properties#:#Einstellungen des Tests
@@ -2003,7 +2003,7 @@ auth#:#auth_account_code_used#:#Ihr Account wurde re-aktiviert. Bitte loggen Sie
 auth#:#auth_account_migration_keep#:#Bestehendes Benutzerkonto migrieren
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration#:#Neues ILIAS-Benutzerkonto
-auth#:#auth_account_migration_new#:#Neues Benutzerkonto anlegen
+auth#:#auth_account_migration_new#:#Neues ILIAS-Benutzerkonto anlegen
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert. Sie können sich nun einloggen.
 auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Benutzername/Passwort auch für jene Benutzerkonten möglich, deren Authentifizierungsmodus SAML ist.
 auth#:#auth_auth_settings#:#Einstellungen
@@ -2686,7 +2686,7 @@ certificate#:#certificate_ph_institution#:#Institution des Teilnehmers oder der 
 certificate#:#certificate_ph_introduction#:#Die folgenden Platzhalter dürfen verwendet werden
 certificate#:#certificate_ph_lastaccess#:#Datum und Uhrzeit des letzten Zugriffs des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_lastname#:#Nachname des Teilnehmers oder der Teilnehmerin
-certificate#:#certificate_ph_login#:#Benutzername
+certificate#:#certificate_ph_login#:#Anmeldename
 certificate#:#certificate_ph_mark#:#Erreichte Note
 certificate#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
 certificate#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
@@ -2794,10 +2794,10 @@ chatroom_adm#:#server_settings#:#Chat-Server-Einstellungen
 chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
 chatroom_adm#:#smiley#:#Smilies
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
-chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
+chatroom#:#allow_custom_usernames#:#Frei wählbare Chat-Namen
 chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
-chatroom#:#autogen_usernames#:#Automatisch generierte Benutzernamen
-chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzernamen bei anonymen Benutzern. '#' wird automatisch durch eine Zahl ersetzt
+chatroom#:#autogen_usernames#:#Chat-Namen für anonyme Teilnahme
+chatroom#:#autogen_usernames_info#:#Nicht angemeldete Personen bekommen automatisch einen Chat-Namen, damit sie unterschieden werden können. Die Raute wird dabei automatisch durch eine Zahl ersetzt.
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt.
 chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
@@ -2912,7 +2912,7 @@ chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
 chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
 chatroom#:#create_private_room_text#:#Name des Séparées
-chatroom#:#custom_username#:#Eigener Benutzername
+chatroom#:#custom_username#:#Eigener Chat-Name
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
@@ -2957,6 +2957,7 @@ chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
 chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
 chatroom#:#period#:#Zeitraum
 chatroom#:#permissions#:#Rechte
+chatroom#:#preferred_chatname#:#Gewünschter Name###Neu eingeführte Variable im Rahmen des Gendermainstreaming für ILIAS 8
 chatroom#:#private_room_closed#:#Der Raum <b>#title#</b> wurde geschlossen.
 chatroom#:#private_room_entered_user#:#Der Benutzer <b>#username#</b> hat das Separée <b>#title#</b> betreten.
 chatroom#:#private_room_entered#:#Willkommen im Séparée <b>#title#</b>.
@@ -2965,7 +2966,7 @@ chatroom#:#private_rooms_enabled_info#:#Wenn aktiviert, können Benutzer Sépar�
 chatroom#:#private_rooms_enabled#:#Séparées aktivieren
 chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.
 chatroom#:#scope#:#Raum/Séparée
-chatroom#:#select_custom_username#:#Benutzernamen auswählen
+chatroom#:#select_custom_username#:#Angezeigter Name im Chat
 chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der <a href="%1$s" target="_blank">Readme-Datei</a>.
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
@@ -5712,11 +5713,11 @@ common#:#udf_update_select_field#:#Auswahlliste bearbeiten
 common#:#udf_update_text_field#:#Textfeld bearbeiten
 common#:#udf_update_wysiwyg_field#:#Feld für Textbereich bearbeiten (WYSIWYG)
 common#:#uid#:#UID
-common#:#ums_create_new_account#:#Neues Benutzerkonto anlegen
-common#:#ums_explanation_2#:#Sollte dies nicht Ihre Benutzerkennung sein, klicken Sie bitte auf 'Neues Benutzerkonto anlegen'.
-common#:#ums_explanation_3#:#Ihre externe Benutzerkennung konnte keinem ILIAS-Account zugeordnet werden. Aber ILIAS hat mehrere Accounts mit Ihrer E-Mail-Adresse entdeckt. Sollte eine dieser Benutzerkennung Ihnen gehören, loggen Sie sich bitte mit Ihrem ILIAS-Passwort ein.
-common#:#ums_explanation_4#:#Sollte keine dieser Benutzerkennungen Ihnen gehören, klicken Sie bitte auf 'Neues Benutzerkonto anlegen'.
-common#:#ums_explanation#:#Ihre externe Benutzerkennung konnte keinem ILIAS-Account zugeordnet werden. Aber ILIAS hat einen Account mit Ihrer E-Mail-Adresse entdeckt. Sollte dies Ihre Benutzerkennung sein, loggen Sie sich bitte mit Ihrem ILIAS-Passwort ein.
+common#:#ums_create_new_account#:#Neues ILIAS-Konto anlegen
+common#:#ums_explanation_2#:#Sollte keines dieser ILIAS-Konten Ihnen gehören, klicken Sie bitte auf „Neues ILIAS-Konto anlegen“.
+common#:#ums_explanation_3#:#Ihre externe Zugangskennung konnte in ILIAS keinen persönlichen Zugangsdaten zugeordnet werden. Ihre E-Mail-Adresse wird von mehreren ILIAS-Konten verwendet. Sollte eines davon Ihr Konto sein, loggen Sie sich bitte mit Ihrem ILIAS-Passwort ein.
+common#:#ums_explanation_4#:#Sollte dies nicht Ihr Konto sein, klicken Sie bitte auf „Neues ILIAS-Konto anlegen“.
+common#:#ums_explanation#:#Ihre externe Zugangskennung konnte in ILIAS keinen persönlichen Zugangsdaten zugeordnet werden. Allerdings wurde ein ILIAS-Konto mit Ihrer E-Mail-Adresse entdeckt. Sollte dies Ihr Konto sein, loggen Sie sich bitte mit Ihrem ILIAS-Passwort ein.
 common#:#unambiguousness#:#Unterscheidungsmerkmal
 common#:#uncheck_all#:#Auswahl aufheben
 common#:#unchecked#:#Nicht ausgewählt
@@ -7924,6 +7925,7 @@ dash#:#dash_sortation#:#Sortierung
 dash#:#dash_sort_by_location#:#Nach Ort sortieren
 dash#:#dash_sort_by_start_date#:#Nach Startdatum sortieren
 dash#:#dash_sort_by_type#:#Nach Typ sortieren
+dash#:#dash_sort_by_alphabet#:#Nach Alphabet sortieren
 dash#:#dash_studyprogramme#:#Meine Studienprogramme
 dash#:#dash_tile#:#Kacheln
 dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
@@ -16332,6 +16334,11 @@ ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ '%s' sind nicht erlaubt.
+ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
+ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen, entfernen Sie ein paaru m fortzufahren.
+ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten, prüfen Sie die Konsole für mehr Infos.
+ui#:#ui_tag_required#:#Bitte geben sie mindestens ein Tag ein.
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen

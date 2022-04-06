@@ -37,30 +37,31 @@ class ilSoapFileAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
 
         if (!$target_obj = ilObjectFactory::getInstanceByRefId($target_id, false)) {
-            return $this->__raiseError('No valid target given.', 'Client');
+            return $this->raiseError('No valid target given.', 'Client');
         }
 
         if (ilObject::_isInTrash($target_id)) {
-            return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
+            return $this->raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
         }
 
-        // Check access
         $allowed_types = array('cat', 'grp', 'crs', 'fold', 'root');
         if (!in_array($target_obj->getType(), $allowed_types)) {
-            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"',
-                'Client');
+            return $this->raiseError(
+                'No valid target type. Target must be reference id of "course, group, category or folder"',
+                'Client'
+            );
         }
 
         if (!$ilAccess->checkAccess('create', '', $target_id, "file")) {
-            return $this->__raiseError('No permission to create Files in target  ' . $target_id . '!', 'Client');
+            return $this->raiseError('No permission to create Files in target  ' . $target_id . '!', 'Client');
         }
 
         // create object, put it into the tree and use the parser to update the settings
@@ -89,22 +90,24 @@ class ilSoapFileAdministration extends ilSoapAdministration
                 #$file->update();
 
                 return $file->getRefId();
-            } else {
-                return $this->__raiseError("Could not add file", "Server");
             }
+
+            return $this->raiseError("Could not add file", "Server");
         } catch (ilFileException $exception) {
-            return $this->__raiseError($exception->getMessage(),
-                $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
+            return $this->raiseError(
+                $exception->getMessage(),
+                $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server"
+            );
         }
     }
 
-    public function updateFile(string $sid, int $ref_id, string $file_xml)
+    public function updateFile(string $sid, int $requested_ref_id, string $file_xml)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         global $DIC;
 
@@ -113,18 +116,17 @@ class ilSoapFileAdministration extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
         $ilAccess = $DIC['ilAccess'];
 
-        if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError('Cannot perform update since file has been deleted.', 'CLIENT_OBJECT_DELETED');
+        if (ilObject::_isInTrash($requested_ref_id)) {
+            return $this->raiseError('Cannot perform update since file has been deleted.', 'CLIENT_OBJECT_DELETED');
         }
-        // get obj_id
-        if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
-            return $this->__raiseError(
-                'No File found for id: ' . $ref_id,
+
+        if (!$obj_id = ilObject::_lookupObjectId($requested_ref_id)) {
+            return $this->raiseError(
+                'No File found for id: ' . $requested_ref_id,
                 'Client'
             );
         }
 
-        // Check access
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
             if ($ilAccess->checkAccess('write', '', $ref_id)) {
@@ -134,17 +136,18 @@ class ilSoapFileAdministration extends ilSoapAdministration
         }
 
         if (!$permission_ok) {
-            return $this->__raiseError(
-                'No permission to edit the File with id: ' . $ref_id,
+            return $this->raiseError(
+                'No permission to edit the File with id: ' . $requested_ref_id,
                 'Server'
             );
         }
 
+        /** @var ilObjFile $file */
         $file = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
-        if (!is_object($file) || $file->getType() != "file") {
-            return $this->__raiseError(
-                'Wrong obj id or type for File with id ' . $ref_id,
+        if (!is_object($file) || $file->getType() !== "file") {
+            return $this->raiseError(
+                'Wrong obj id or type for File with id ' . $requested_ref_id,
                 'Server'
             );
         }
@@ -160,7 +163,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
                 return $file->update();
             }
         } catch (ilFileException $exception) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 $exception->getMessage(),
                 $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server"
             );
@@ -168,20 +171,22 @@ class ilSoapFileAdministration extends ilSoapAdministration
         return false;
     }
 
-    public function getFileXML(string $sid, int $ref_id, int $attachFileContentsMode)
+    public function getFileXML(string $sid, int $requested_ref_id, int $attachFileContentsMode)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        if (!strlen($ref_id)) {
-            return $this->__raiseError(
+
+        if (!($requested_ref_id > 0)) {
+            return $this->raiseError(
                 'No ref id given. Aborting!',
                 'Client'
             );
         }
+
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
@@ -189,19 +194,17 @@ class ilSoapFileAdministration extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
         $ilAccess = $DIC['ilAccess'];
 
-        // get obj_id
-        if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
-            return $this->__raiseError(
-                'No File found for id: ' . $ref_id,
+        if (!$obj_id = ilObject::_lookupObjectId($requested_ref_id)) {
+            return $this->raiseError(
+                'No File found for id: ' . $requested_ref_id,
                 'Client'
             );
         }
 
-        if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError("Object with ID $ref_id has been deleted.", 'Client');
+        if (ilObject::_isInTrash($requested_ref_id)) {
+            return $this->raiseError("Object with ID $requested_ref_id has been deleted.", 'Client');
         }
 
-        // Check access
         $permission_ok = false;
         foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
             if ($ilAccess->checkAccess('read', '', $ref_id)) {
@@ -211,24 +214,24 @@ class ilSoapFileAdministration extends ilSoapAdministration
         }
 
         if (!$permission_ok) {
-            return $this->__raiseError(
-                'No permission to edit the object with id: ' . $ref_id,
+            return $this->raiseError(
+                'No permission to edit the object with id: ' . $requested_ref_id,
                 'Server'
             );
         }
 
+        /** @var ilObjFile $file */
         $file = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
-        if (!is_object($file) || $file->getType() != "file") {
-            return $this->__raiseError(
-                'Wrong obj id or type for File with id ' . $ref_id,
+        if (!is_object($file) || $file->getType() !== "file") {
+            return $this->raiseError(
+                'Wrong obj id or type for File with id ' . $requested_ref_id,
                 'Server'
             );
         }
-        // store into xml result set
+
         include_once './Modules/File/classes/class.ilFileXMLWriter.php';
 
-        // create writer
         $xmlWriter = new ilFileXMLWriter();
         $xmlWriter->setFile($file);
         $xmlWriter->setAttachFileContents($attachFileContentsMode);

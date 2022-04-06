@@ -22,10 +22,9 @@
  */
 class ilGhostscriptRenderer extends ilFilePreviewRenderer
 {
-    // constants
     private const SUPPORTED_FORMATS = "eps,pdf,pdfa,ps";
 
-    // variables
+    /** @var string[]|null */
     private static ?array $supported_formats = null;
 
     /**
@@ -56,7 +55,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
      * The images do not need to be of the preview image size.
      *
      * @param ilObjFile $obj The object to create images from.
-     * @return array An array of ilRenderedImage containing the absolute file paths to the images.
+     * @return ilRenderedImage[] An array of ilRenderedImage containing the absolute file paths to the images.
      */
     protected function renderImages(\ilObject $obj) : array
     {
@@ -85,7 +84,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
         ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $args);
 
         // was a temporary file created? then delete it
-        if ($filepath != $inputFile) {
+        if ($filepath !== $inputFile) {
             @unlink($inputFile);
         }
 

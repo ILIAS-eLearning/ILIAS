@@ -21,24 +21,20 @@
  */
 class ilECSEContentDetails
 {
-    private array $senders = array();
+    private array $senders = [];
     private ?int $sender_index = null;
-    private array $receivers = array();
-    private $url = array();
-    private string $content_type = "";
+    private array $receivers = [];
+    private string $url = "";
     private int $owner = 0;
 
-    private array $receiver_info = array();
+    private array $receiver_info = [];
     private ilLogger $logger;
 
-    public function __construct($a_server_id, $a_econtent_id, $a_resource_type)
+    public function __construct()
     {
         global $DIC;
 
         $this->logger = $DIC->logger()->wsrv();
-
-        $resource = $this->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type);
-        $this->loadFromJson($resource);
     }
     
     /**
@@ -49,18 +45,20 @@ class ilECSEContentDetails
      * @param string $a_resource_type
      * @return ilECSEContentDetails
      */
-    public static function getInstance($a_server_id, $a_econtent_id, $a_resource_type) : ilECSEContentDetails
+    public static function getInstanceFromServer($a_server_id, $a_econtent_id, $a_resource_type) : ilECSEContentDetails
     {
-        return new self($a_server_id, $a_econtent_id, $a_resource_type);
+        $instance = new self();
+        $instance->loadFromJson($instance->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type));
+        return $instance;
     }
 
 
-    private function loadFromServer($a_server_id, $a_econtent_id, $a_resource_type) : object
+    private function loadFromServer($a_server_id, $a_econtent_id, $a_resource_type) : ?object
     {
         try {
             $connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($a_server_id));
             $res = $connector->getResource($a_resource_type, $a_econtent_id, true);
-            if ($res->getHTTPCode() == ilECSConnector::HTTP_CODE_NOT_FOUND) {
+            if ($res->getHTTPCode() === ilECSConnector::HTTP_CODE_NOT_FOUND) {
                 return null;
             }
             if (!is_object($res->getResult())) {
@@ -75,87 +73,74 @@ class ilECSEContentDetails
     }
     /**
      * Get senders
-     * @return array
      */
-    public function getSenders()
+    public function getSenders() : array
     {
-        return (array) $this->senders;
+        return $this->senders;
     }
 
     /**
      * get first sender
      */
-    public function getFirstSender()
+    public function getFirstSender() : int
     {
-        return isset($this->senders[0]) ? $this->senders[0] : 0;
+        return $this->senders[0] ?? 0;
     }
     
     /**
      * Get sender from whom we received the ressource
      * According to the documentation the sender and receiver arrays have corresponding indexes.
      */
-    public function getMySender()
+    public function getMySender() : int
     {
         return $this->senders[$this->sender_index];
     }
 
     /**
      * Get recievers
-     * @return <type>
      */
-    public function getReceivers()
+    public function getReceivers() : array
     {
-        return (array) $this->receivers;
+        return $this->receivers;
     }
     
     /**
      * Get first receiver
-     * @return int
      */
-    public function getFirstReceiver()
+    public function getFirstReceiver() : int
     {
-        foreach ($this->getReceivers() as $mid) {
-            return $mid;
-        }
-        return 0;
+        return count($this->receivers) ? $this->receivers[0] : 0;
     }
 
     /**
      * Get receiver info
-     * @return array
      */
-    public function getReceiverInfo()
+    public function getReceiverInfo() : array
     {
-        return (array) $this->receiver_info;
+        return $this->receiver_info;
     }
 
     /**
      * Get url
-     * @return string
      */
-    public function getUrl()
+    public function getUrl() : string
     {
         return $this->url;
     }
 
-    public function getOwner()
+    public function getOwner() : int
     {
-        return (int) $this->owner;
+        return $this->owner;
     }
 
     /**
      * Load from JSON object
      *
-     * @access public
      * @param object JSON object
      * @throws ilException
      */
-    public function loadFromJson($json)
+    public function loadFromJson(object $json) : bool
     {
-        if (!is_object($json)) {
-            $this->logger->info(__METHOD__ . ': Cannot load from JSON. No object given.');
-            throw new ilException('Cannot parse ECS content details.');
-        }
         $this->logger->info(print_r($json, true));
         foreach ((array) $json->senders as $sender) {
             $this->senders[] = $sender->mid;
@@ -164,14 +149,14 @@ class ilECSEContentDetails
         $index = 0;
         foreach ((array) $json->receivers as $receiver) {
             $this->receivers[] = $receiver->mid;
-            if ($receiver->itsyou and $this->sender_index === null) {
+            if ($receiver->itsyou && $this->sender_index === null) {
                 $this->sender_index = $index;
             }
             ++$index;
         }
 
         // Collect in one array
-        for ($i = 0; $i < count($this->getReceivers()); ++$i) {
+        for ($i = 0, $iMax = count($this->getReceivers()); $i < $iMax; ++$i) {
             $this->receiver_info[$this->senders[$i]] = $this->receivers[$i];
         }
 
@@ -180,7 +165,6 @@ class ilECSEContentDetails
         }
 
         $this->url = $json->url;
-        $this->content_type = $json->content_type;
         return true;
     }
 }

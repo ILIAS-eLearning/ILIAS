@@ -6,16 +6,15 @@
  */
 class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
 {
-
+    /**
+     * @var int[]
+     */
     protected array $options = array(
         'default_text_field_length' => 4096,
         'decimal_places' => 2,
     );
 
-    /**
-     * @param $field
-     */
-    public function getTypeDeclaration($field) : string
+    public function getTypeDeclaration(array $field) : string
     {
         switch ($field['type']) {
             case 'text':
@@ -76,11 +75,9 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
     }
 
     /**
-     * @param $name
-     * @param $field
      * @throws \ilDatabaseException
      */
-    protected function getIntegerDeclaration($name, $field) : string
+    protected function getIntegerDeclaration(string $name, array $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -106,11 +103,9 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
     }
 
     /**
-     * @param $field
-     * @return mixed[]
      * @throws \ilDatabaseException
      */
-    protected function mapNativeDatatypeInternal($field) : array
+    protected function mapNativeDatatypeInternal(array $field) : array
     {
         $db_type = strtolower($field['type']);
         $length = $field['length'];

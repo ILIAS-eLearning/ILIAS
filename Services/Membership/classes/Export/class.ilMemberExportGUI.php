@@ -1,21 +1,26 @@
 <?php declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory;
 
-/******************************************************************************
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -44,7 +49,7 @@ class ilMemberExportGUI
      * @access public
      * @param
      */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
@@ -213,7 +218,7 @@ class ilMemberExportGUI
 
     protected function handleIncoming() : void
     {
-        $settings = array();
+        $settings = [];
         $incoming = [];
         if ($this->http->wrapper()->post()->has('export_members')) {
             $incoming = $this->http->wrapper()->post()->retrieve(
@@ -383,8 +388,6 @@ class ilMemberExportGUI
         $confirmation_gui->setHeaderText($this->lng->txt('info_delete_sure') /* .' '.$this->lng->txt('ps_delete_export_files') */);
         $confirmation_gui->setCancel($this->lng->txt('cancel'), 'show');
         $confirmation_gui->setConfirm($this->lng->txt('delete'), 'deleteExportFile');
-
-        $counter = 0;
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if (!in_array(md5($file['name']), $file_ids)) {
                 continue;
@@ -408,7 +411,6 @@ class ilMemberExportGUI
         if (!count($file_ids)) {
             $this->ctrl->redirect($this, 'show');
         }
-        $counter = 0;
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if (!in_array(md5($file['name']), $file_ids)) {
                 continue;

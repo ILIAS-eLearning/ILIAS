@@ -34,5 +34,5 @@ interface ilDatabaseUpdateSteps
      * Do not use anything from the globals or the DIC inside your steps, only use
      * the instance of the database provided here.
      */
-    public function prepare(\ilDBInterface $db);
+    public function prepare(\ilDBInterface $db) : void;
 }

@@ -19,30 +19,21 @@
 */
 class ilECSParticipant
 {
-    protected object $json_obj;
-    protected int $cid;
-    protected int $pid;
-    protected $mid;
-    protected $email;
-    protected $certid;
-    protected $dns;
-    protected $description;
-    protected $participantname;
-    protected bool $is_self;
+    private int $cid;
+    private int $pid;
+    private int $mid;
+    private string $email;
+    private string $dns;
+    private string $description;
+    private string $participantname;
+    private bool $is_self;
 
     private ilECSOrganisation $org;
-
-    private ilLogger $logger;
     
     public function __construct(object $json_obj, int $a_cid)
     {
-        global $DIC;
-
-        $this->logger = $DIC->logger()->wsrv();
-
-        $this->json_obj = $json_obj;
         $this->cid = $a_cid;
-        $this->read();
+        $this->read($json_obj);
     }
     
     /**
@@ -56,7 +47,7 @@ class ilECSParticipant
     /**
      * get mid
      */
-    public function getMID()
+    public function getMID() : int
     {
         return $this->mid;
     }
@@ -64,7 +55,7 @@ class ilECSParticipant
     /**
      * get email
      */
-    public function getEmail()
+    public function getEmail() : string
     {
         return $this->email;
     }
@@ -73,7 +64,7 @@ class ilECSParticipant
     /**
      * get dns
      */
-    public function getDNS()
+    public function getDNS() : string
     {
         return $this->dns;
     }
@@ -81,7 +72,7 @@ class ilECSParticipant
     /**
      * get description
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -89,17 +80,9 @@ class ilECSParticipant
     /**
      * get participant name
      */
-    public function getParticipantName()
+    public function getParticipantName() : string
     {
         return $this->participantname;
-    }
-    
-    /**
-     * get abbreviation of participant
-     */
-    public function getAbbreviation()
-    {
-        return $this->abr;
     }
 
     /**
@@ -111,33 +94,11 @@ class ilECSParticipant
     }
     
     /**
-     * is publishable (enabled and mid with own cert id)
-     */
-    public function isPublishable() : bool
-    {
-        return $this->isSelf();
-    }
-    
-    /**
      * is self
      */
     public function isSelf() : bool
     {
         return $this->is_self;
-    }
-    
-    
-    /**
-     * is Enabled
-     *
-     * @access public
-     *
-     */
-    public function isEnabled()
-    {
-        $this->logger->err(__METHOD__ . ': Using deprecated call');
-        $this->logger->logStack();
-        return false;
     }
 
     /**
@@ -152,21 +113,20 @@ class ilECSParticipant
     /**
      * Read
      */
-    private function read() : bool
+    private function read(object $json_obj) : void
     {
-        $this->pid = $this->json_obj->pid;
-        $this->mid = $this->json_obj->mid;
-        $this->email = $this->json_obj->email;
-        $this->dns = $this->json_obj->dns;
-        $this->description = $this->json_obj->description;
+        $this->pid = $json_obj->pid;
+        $this->mid = $json_obj->mid;
+        $this->email = $json_obj->email;
+        $this->dns = $json_obj->dns;
+        $this->description = $json_obj->description;
 
-        $this->participantname = $this->json_obj->name;
-        $this->is_self = $this->json_obj->itsyou;
+        $this->participantname = $json_obj->name;
+        $this->is_self = $json_obj->itsyou;
 
         $this->org = new ilECSOrganisation();
-        if (is_object($this->json_obj->org)) {
-            $this->org->loadFromJson($this->json_obj->org);
+        if (is_object($json_obj->org)) {
+            $this->org->loadFromJson($json_obj->org);
         }
-        return true;
     }
 }

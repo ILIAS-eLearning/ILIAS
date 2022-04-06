@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -125,7 +125,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return ilMMTypeActionStorage
      */
-    public static function find($primary_key, array $add_constructor_args = array()): ilMMTypeActionStorage
+    public static function find($primary_key, array $add_constructor_args = array()) : ilMMTypeActionStorage
     {
         $parent = parent::find($primary_key, $add_constructor_args);
         if ($parent === null) {

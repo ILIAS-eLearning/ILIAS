@@ -105,9 +105,17 @@ class ModificationHandler
      */
     public function modifyLogoWithClosure(Closure $closure_returning_image) : void
     {
-        $this->replaceWithAutoWiredInstance(Image::class, $closure_returning_image);
+        $this->replaceWithAutoWiredInstance(DecoratedPagePartProvider::PURPOSE_LOGO, $closure_returning_image);
     }
-    
+
+    public function modifyResponsiveLogoWithClosure(Closure $closure_returning_image)
+    {
+        $this->replaceWithAutoWiredInstance(
+            DecoratedPagePartProvider::PURPOSE_RESPONSIVE_LOGO,
+            $closure_returning_image
+        );
+    }
+
     /**
      * @param Closure $closure_returning_breadcrumbs
      * Have a look at the README.md for an example.

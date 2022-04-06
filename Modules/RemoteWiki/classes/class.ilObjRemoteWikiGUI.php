@@ -41,7 +41,7 @@ class ilObjRemoteWikiGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         return 'rwik';
     }
     
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
     {
         $a_info->addProperty($this->lng->txt('ecs_availability'), $this->availabilityToString());
     }
@@ -58,7 +58,7 @@ class ilObjRemoteWikiGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         return '';
     }
     
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form)
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form) : void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('ecs_availability'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());

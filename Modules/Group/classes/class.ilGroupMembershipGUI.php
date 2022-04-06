@@ -216,7 +216,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
      */
     protected function getDefaultRole() : ?int
     {
-        return $this->getParentGUI()->object->getDefaultMemberRole();
+        return $this->getParentGUI()->getObject()->getDefaultMemberRole();
     }
     
     public function getPrintMemberData(array $a_members) : array
@@ -229,10 +229,10 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     /**
      * Callback from attendance list
      */
-    public function getAttendanceListUserData(int $a_user_id) : array
+    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
     {
-        if (is_array($this->member_data) && array_key_exists($a_user_id, $this->member_data)) {
-            $user_data = $this->member_data[$a_user_id];
+        if (is_array($this->member_data) && array_key_exists($user_id, $this->member_data)) {
+            $user_data = $this->member_data[$user_id];
             $user_data['access'] = $this->member_data['access_time'];
             $user_data['progress'] = $this->lng->txt($this->member_data['progress']);
             return $user_data;

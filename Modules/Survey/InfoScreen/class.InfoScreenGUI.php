@@ -171,7 +171,7 @@ class InfoScreenGUI
             $info->addProperty("", $survey->prepareTextareaOutput($introduction) .
                 "<br />" . $info->getHiddenToggleButton());
         } else {
-            $info->addSection("");
+            $info->addSection($this->lng->txt("show_details"));
             $info->addProperty("", $info->getHiddenToggleButton());
         }
 

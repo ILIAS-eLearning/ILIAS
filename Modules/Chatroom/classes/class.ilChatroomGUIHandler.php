@@ -126,7 +126,7 @@ abstract class ilChatroomGUIHandler
     /**
      * Checks for success param in an json decoded response
      * @param string|false $response
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful($response) : bool
     {

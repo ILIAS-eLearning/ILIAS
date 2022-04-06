@@ -19,13 +19,11 @@
 */
 class ilECSResult
 {
-    const RESULT_TYPE_JSON = 1;
-    const RESULT_TYPE_URL_LIST = 2;
-    
-    private ilLogger $logger;
-    
+    public const RESULT_TYPE_JSON = 1;
+    public const RESULT_TYPE_URL_LIST = 2;
+
     private int $http_code = 0;
-    private int $result_type = 0;
+    private int $result_type;
     private $result;
     
     private array $headers = array();
@@ -41,9 +39,6 @@ class ilECSResult
      */
     public function __construct(string $a_res, int $a_type = self::RESULT_TYPE_JSON)
     {
-        global $DIC;
-        
-        $this->logger = $DIC->logger()->wsrv();
         $this->result_type = $a_type;
 
         $this->init($a_res, $a_type);
@@ -74,9 +69,7 @@ class ilECSResult
     /**
      * get result
      *
-     * @access public
      * @return mixed JSON object, array of objects or false in case of errors.
-     *
      */
     public function getResult()
     {
@@ -92,32 +85,30 @@ class ilECSResult
      * Set header
      * @param array $a_headers
      */
-    public function setHeaders(array $a_headers)
+    public function setHeaders(array $a_headers) : void
     {
         $this->headers = $a_headers;
     }
     
     /**
      * get headers
-     *
-     * @access public
      */
     public function getHeaders() : array
     {
-        return $this->headers ? $this->headers : array();
+        return $this->headers ?: [];
     }
     
     /**
      * init result (json_decode)
      */
-    private function init(string $result_string, int $result_type)
+    private function init(string $result_string, int $result_type) : void
     {
         switch ($result_type) {
             case self::RESULT_TYPE_JSON:
                 if ($result_string) {
-                    $this->result = json_decode($result_string);
+                    $this->result = json_decode($result_string, false, 512, JSON_THROW_ON_ERROR);
                 } else {
-                    $this->result = array();
+                    $this->result = [];
                 }
                 break;
 
@@ -125,7 +116,6 @@ class ilECSResult
                 $this->result = $this->parseUriList($result_string);
                 break;
         }
-        return true;
     }
 
     /**
@@ -133,13 +123,13 @@ class ilECSResult
      * @param string $a_content
      * @return ilECSUriList
      */
-    private function parseUriList(string $a_content)
+    private function parseUriList(string $a_content) : \ilECSUriList
     {
         $list = new ilECSUriList();
         $lines = explode("\n", $a_content);
         foreach ($lines as $line) {
             $line = trim($line);
-            if (!strlen($line)) {
+            if ($line === '') {
                 continue;
             }
             $uri_parts = explode("/", $line);

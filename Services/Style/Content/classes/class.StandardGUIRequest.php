@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,14 +16,16 @@
 namespace ILIAS\Style\Content;
 
 use ILIAS\Repository;
+use ILIAS\HTTP\Services;
+use ILIAS\Refinery\Factory;
 
 class StandardGUIRequest
 {
     use Repository\BaseGUIRequest;
 
     public function __construct(
-        \ILIAS\HTTP\Services $http,
-        \ILIAS\Refinery\Factory $refinery,
+        Services $http,
+        Factory $refinery,
         ?array $passed_query_params = null,
         ?array $passed_post_data = null
     ) {

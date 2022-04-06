@@ -29,7 +29,9 @@ class ilLPStatusTestPassed extends ilLPStatus
 {
     public static function _getInProgress(int $a_obj_id) : array
     {
-        $userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'in_progress');
+        $userIds = self::getUserIdsByResultArrayStatus(
+            $a_obj_id, 'in_progress'
+        );
         return $userIds;
     }
 
@@ -49,8 +51,10 @@ class ilLPStatusTestPassed extends ilLPStatus
         return self::getUserIdsByResultArrayStatus($a_obj_id, 'failed');
     }
 
-    private static function getUserIdsByResultArrayStatus($objId, $resultArrayStatus)
-    {
+    private static function getUserIdsByResultArrayStatus(
+        $objId,
+        $resultArrayStatus
+    ) {
         $status_info = ilLPStatusWrapper::_getStatusInfo($objId);
 
         $user_ids = array();
@@ -93,15 +97,21 @@ class ilLPStatusTestPassed extends ilLPStatus
      * the status is "failed" unless the score is enough to pass the test, which makes the
      * learning progress status "completed".
      */
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        $res = $this->db->query("
-			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $this->db->quoteIdentifier("sequences") . ", tst_active.last_finished_pass,
+        $res = $this->db->query(
+            "
+			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $this->db->quoteIdentifier(
+                "sequences"
+            ) . ", tst_active.last_finished_pass,
 				CASE WHEN
 					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
 				THEN '1'
@@ -115,11 +125,11 @@ class ilLPStatusTestPassed extends ilLPStatus
 			WHERE tst_active.user_fi = {$this->db->quote($a_usr_id, "integer")}
 			AND tst_active.test_fi = {$this->db->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id), ilDBConstants::T_INTEGER)}
 			GROUP BY tst_active.active_id, tst_active.tries, is_last_pass
-		");
+		"
+        );
 
         if ($rec = $this->db->fetchAssoc($res)) {
             if ($rec['sequences'] > 0) {
-
                 $test_obj = new ilObjTest($a_obj_id, false);
                 $is_passed = ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
 
@@ -128,7 +138,9 @@ class ilLPStatusTestPassed extends ilLPStatus
                     if ($rec['last_finished_pass'] != null && $rec['sequences'] - 1 == $rec['last_finished_pass']) {
                         $is_finished = true;
                     }
-                    $status = $this->determineStatusForScoreLastPassTests($is_finished, $is_passed);
+                    $status = $this->determineStatusForScoreLastPassTests(
+                        $is_finished, $is_passed
+                    );
                 } elseif ($test_obj->getPassScoring() == SCORE_BEST_PASS) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
@@ -146,8 +158,10 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $status;
     }
 
-    protected function determineStatusForScoreLastPassTests(bool $is_finished, bool $passed) : int
-    {
+    protected function determineStatusForScoreLastPassTests(
+        bool $is_finished,
+        bool $passed
+    ) : int {
         $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
         if ($is_finished) {
@@ -168,21 +182,32 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $status;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
-    {
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $set = $this->db->query("SELECT tst_result_cache.*, tst_active.user_fi FROM " .
+        $set = $this->db->query(
+            "SELECT tst_result_cache.*, tst_active.user_fi FROM " .
             "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)" .
             " JOIN tst_tests ON (tst_tests.test_id = tst_active.test_fi) " .
-            " WHERE tst_tests.obj_fi = " . $this->db->quote($a_obj_id, "integer") .
-            " AND tst_active.user_fi = " . $this->db->quote($a_usr_id, "integer"));
+            " WHERE tst_tests.obj_fi = " . $this->db->quote(
+                $a_obj_id, "integer"
+            ) .
+            " AND tst_active.user_fi = " . $this->db->quote(
+                $a_usr_id, "integer"
+            )
+        );
         $per = 0;
         if ($rec = $this->db->fetchAssoc($set)) {
             if ($rec["max_points"] > 0) {
-                $per = min(100, 100 / $rec["max_points"] * $rec["reached_points"]);
+                $per = min(
+                    100, 100 / $rec["max_points"] * $rec["reached_points"]
+                );
             } else {
                 // According to mantis #12305
                 $per = 0;

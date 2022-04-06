@@ -39,7 +39,7 @@ class ilECSServerTableGUI extends ilTable2GUI
     /**
      * Init Table
      */
-    public function initTable()
+    public function initTable() : void
     {
         $this->setTitle($this->lng->txt('ecs_available_ecs'));
         $this->setRowTemplate('tpl.ecs_server_row.html', 'Services/WebServices/ECS');
@@ -47,22 +47,21 @@ class ilECSServerTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('ecs_tbl_active'), '', '1%');
         $this->addColumn($this->lng->txt('title'), '', '80%');
 
-        if ($this->access->checkAccess('write', '', intval($_REQUEST["ref_id"]))) {
+        if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
             $this->addColumn($this->lng->txt('actions'), '', '19%');
         }
     }
 
     /**
      * Fill row
-
-     * @param array $set
+ * @param array $a_set
      */
-    public function fillRow(array $set) : void
+    protected function fillRow(array $a_set) : void
     {
-        $this->ctrl->setParameter($this->getParentObject(), 'server_id', $set['server_id']);
-        $this->ctrl->setParameterByClass('ilecsmappingsettingsgui', 'server_id', $set['server_id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'server_id', $a_set['server_id']);
+        $this->ctrl->setParameterByClass('ilecsmappingsettingsgui', 'server_id', $a_set['server_id']);
 
-        if ($set['active']) {
+        if ($a_set['active']) {
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('ecs_activated'));
         } else {
@@ -71,18 +70,18 @@ class ilECSServerTableGUI extends ilTable2GUI
         }
         
 
-        $this->tpl->setVariable('VAL_TITLE', ilECSSetting::getInstanceByServerId($set['server_id'])->getTitle());
+        $this->tpl->setVariable('VAL_TITLE', ilECSSetting::getInstanceByServerId($a_set['server_id'])->getTitle());
         $this->tpl->setVariable('LINK_EDIT', $this->ctrl->getLinkTarget($this->getParentObject(), 'edit'));
         $this->tpl->setVariable('TXT_SRV_ADDR', $this->lng->txt('ecs_server_addr'));
 
-        if (ilECSSetting::getInstanceByServerId($set['server_id'])->getServer()) {
-            $this->tpl->setVariable('VAL_DESC', ilECSSetting::getInstanceByServerId($set['server_id'])->getServer());
+        if (ilECSSetting::getInstanceByServerId($a_set['server_id'])->getServer()) {
+            $this->tpl->setVariable('VAL_DESC', ilECSSetting::getInstanceByServerId($a_set['server_id'])->getServer());
         } else {
             $this->tpl->setVariable('VAL_DESC', $this->lng->txt('ecs_not_configured'));
         }
 
-        $dt = ilECSSetting::getInstanceByServerId($set['server_id'])->fetchCertificateExpiration();
-        if ($dt != null) {
+        $dt = ilECSSetting::getInstanceByServerId($a_set['server_id'])->fetchCertificateExpiration();
+        if ($dt !== null) {
             $this->tpl->setVariable('TXT_CERT_VALID', $this->lng->txt('ecs_cert_valid_until'));
             
             $now = new ilDateTime(time(), IL_CAL_UNIX);
@@ -91,24 +90,23 @@ class ilECSServerTableGUI extends ilTable2GUI
             if (ilDateTime::_before($dt, $now)) {
                 $this->tpl->setCurrentBlock('invalid');
                 $this->tpl->setVariable('VAL_ICERT', ilDatePresentation::formatDate($dt));
-                $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock('valid');
                 $this->tpl->setVariable('VAL_VCERT', ilDatePresentation::formatDate($dt));
-                $this->tpl->parseCurrentBlock();
             }
+            $this->tpl->parseCurrentBlock();
         }
 
-        if ($this->access->checkAccess('write', '', intval($_REQUEST["ref_id"]))) {
+        if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
             // Actions
             $list = new ilAdvancedSelectionListGUI();
             $list->setSelectionHeaderClass('small');
             $list->setItemLinkClass('small');
-            $list->setId('actl_' . $set['server_id']);
+            $list->setId('actl_' . $a_set['server_id']);
             $list->setListTitle($this->lng->txt('actions'));
 
 
-            if (ilECSSetting::getInstanceByServerId($set['server_id'])->isEnabled()) {
+            if (ilECSSetting::getInstanceByServerId($a_set['server_id'])->isEnabled()) {
                 $list->addItem($this->lng->txt('ecs_deactivate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'deactivate'));
             } else {
                 $list->addItem($this->lng->txt('ecs_activate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'activate'));
@@ -127,11 +125,10 @@ class ilECSServerTableGUI extends ilTable2GUI
 
     /**
      * Parse available servers
-     * @param ilECSServerSettings $servers
      */
-    public function parse(ilECSServerSettings $servers)
+    public function parse(ilECSServerSettings $servers) : void
     {
-        $rows = array();
+        $rows = [];
         foreach ($servers->getServers(ilECSServerSettings::ALL_SERVER) as $server) {
             $tmp['server_id'] = $server->getServerId();
             $tmp['active'] = $server->isEnabled();

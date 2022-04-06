@@ -13,9 +13,9 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInterface
 {
-    public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
+    public function __construct($data = null, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         // TODO: PHP 8 This will be removed with another ILIAS 8 feature, please ignore this on review
         if (isset($_REQUEST['cmd']) && in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications'))) {
@@ -26,7 +26,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         }
 
         $this->type = 'chtr';
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        parent::__construct($data, $id, $call_by_reference, false);
         $this->lng->loadLanguageModule('chatroom');
         $this->lng->loadLanguageModule('chatroom_adm');
     }

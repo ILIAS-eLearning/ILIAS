@@ -31,8 +31,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
     /**
      * Constructor
      */
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd, int $ref_id)
-    {
+    public function __construct(
+        ?object $a_parent_obj,
+        string $a_parent_cmd,
+        int $ref_id
+    ) {
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -48,7 +51,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         if ($this->in_group) {
             $this->in_group = ilObject::_lookupObjId($this->in_group);
         } else {
-            $this->in_course = $this->tree->checkForParentType($this->ref_id, "crs");
+            $this->in_course = $this->tree->checkForParentType(
+                $this->ref_id, "crs"
+            );
             if ($this->in_course) {
                 $this->in_course = ilObject::_lookupObjId($this->in_course);
             }
@@ -61,16 +66,24 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
         $this->parseTitle($this->obj_id, "trac_matrix");
         $this->setEnableHeader(true);
-        $this->setFormAction($this->ctrl->getFormActionByClass(get_class($this)));
-        $this->setRowTemplate("tpl.user_object_matrix_row.html", "Services/Tracking");
+        $this->setFormAction(
+            $this->ctrl->getFormActionByClass(get_class($this))
+        );
+        $this->setRowTemplate(
+            "tpl.user_object_matrix_row.html", "Services/Tracking"
+        );
         $this->setDefaultOrderField("login");
         $this->setDefaultOrderDirection("asc");
         $this->setShowTemplates(true);
 
         // see ilObjCourseGUI::addMailToMemberButton()
         $mail = new ilMail($DIC->user()->getId());
-        if ($this->rbacsystem->checkAccess("internal_mail", $mail->getMailObjectReferenceId())) {
-            $this->addMultiCommand("mailselectedusers", $this->lng->txt("send_mail"));
+        if ($this->rbacsystem->checkAccess(
+            "internal_mail", $mail->getMailObjectReferenceId()
+        )) {
+            $this->addMultiCommand(
+                "mailselectedusers", $this->lng->txt("send_mail")
+            );
         }
 
         $this->lng->loadLanguageModule('user');
@@ -114,14 +127,18 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 $sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c;
             }
 
-            $this->addColumn($title, $sort_id, "", false, "", implode(" - ", $tooltip));
+            $this->addColumn(
+                $title, $sort_id, "", false, "", implode(" - ", $tooltip)
+            );
         }
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
     }
 
     public function initFilter() : void
     {
-        $item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT, false, $this->lng->txt('login'));
+        $item = $this->addFilterItemByMetaType(
+            "name", ilTable2GUI::FILTER_TEXT, false, $this->lng->txt('login')
+        );
         $this->filter["name"] = $item->getValue();
 
         // #14949 - is called before constructor, so we have to do it ourselves
@@ -133,12 +150,16 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
     public function getSelectableColumns() : array
     {
-        $user_cols = $this->getSelectableUserColumns($this->in_course, $this->in_group);
+        $user_cols = $this->getSelectableUserColumns(
+            $this->in_course, $this->in_group
+        );
         $columns = [];
         if ($this->obj_ids === null) {
             // we cannot use the selected columns because they are not ready yet
             // so we use all available columns, should be ok anyways
-            $this->obj_ids = $this->getItems(array_keys($user_cols[0]), $user_cols[1]);
+            $this->obj_ids = $this->getItems(
+                array_keys($user_cols[0]), $user_cols[1]
+            );
         }
         $parent = [];
         if (is_array($this->obj_ids)) {
@@ -153,7 +174,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                     $ref_id = $this->ref_ids[$obj_id];
                     if ($ref_id &&
-                        !ilLearningProgressAccess::checkPermission('read_learning_progress', $ref_id)) {
+                        !ilLearningProgressAccess::checkPermission(
+                            'read_learning_progress', $ref_id
+                        )) {
                         $no_perm = true;
                         $this->privacy_cols[] = $obj_id;
                     }
@@ -186,24 +209,36 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             }
             if (sizeof($this->objective_ids)) {
                 foreach ($this->objective_ids as $obj_id => $title) {
-                    $tmp_cols[strtolower($title) . "#~#objtv_" . $obj_id] = array("txt" => $title, "default" => true);
+                    $tmp_cols[strtolower(
+                        $title
+                    ) . "#~#objtv_" . $obj_id] = array("txt" => $title,
+                                                       "default" => true
+                    );
                 }
             }
             if (sizeof($this->sco_ids)) {
                 foreach ($this->sco_ids as $obj_id => $title) {
                     $icon = ilObject::_getIcon($obj_id, "tiny", "sco");
-                    $tmp_cols[strtolower($title) . "#~#objsco_" . $obj_id] = array("txt" => $title,
-                                                                                   "icon" => $icon,
-                                                                                   "default" => true
+                    $tmp_cols[strtolower(
+                        $title
+                    ) . "#~#objsco_" . $obj_id] = array("txt" => $title,
+                                                        "icon" => $icon,
+                                                        "default" => true
                     );
                 }
             }
             if (sizeof($this->subitem_ids)) {
                 foreach ($this->subitem_ids as $obj_id => $title) {
-                    $icon = ilObject::_getIcon($obj_id, "tiny", ilTrQuery::getSubItemType($this->obj_id));
-                    $tmp_cols[strtolower($title) . "#~#objsub_" . $obj_id] = array("txt" => $title,
-                                                                                   "icon" => $icon,
-                                                                                   "default" => true
+                    $icon = ilObject::_getIcon(
+                        $obj_id, "tiny", ilTrQuery::getSubItemType(
+                        $this->obj_id
+                    )
+                    );
+                    $tmp_cols[strtolower(
+                        $title
+                    ) . "#~#objsub_" . $obj_id] = array("txt" => $title,
+                                                        "icon" => $icon,
+                                                        "default" => true
                     );
                 }
             }
@@ -236,8 +271,10 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         return $columns;
     }
 
-    public function getItems(array $a_user_fields, array $a_privary_fields = null) : array
-    {
+    public function getItems(
+        array $a_user_fields,
+        array $a_privary_fields = null
+    ) : array {
         // #17081
         if ($this->restore_filter) {
             $name = $this->restore_filter_values["name"];
@@ -245,7 +282,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             $this->filter["name"] = $name;
         }
 
-        $collection = ilTrQuery::getObjectIds($this->obj_id, $this->ref_id, true);
+        $collection = ilTrQuery::getObjectIds(
+            $this->obj_id, $this->ref_id, true
+        );
         if ($collection["object_ids"]) {
             // we need these for the timing warnings
             $this->ref_ids = $collection["ref_ids"];
@@ -266,11 +305,19 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 }
             }
 
-            $data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"],
-                $a_user_fields, $a_privary_fields, $check_agreement);
+            $data = ilTrQuery::getUserObjectMatrix(
+                $this->ref_id,
+                $collection["object_ids"],
+                $this->filter["name"],
+                $a_user_fields,
+                $a_privary_fields,
+                $check_agreement
+            );
             if ($collection["objectives_parent_id"] && $data["users"]) {
                 // sub-items: learning objectives
-                $objectives = ilTrQuery::getUserObjectiveMatrix($collection["objectives_parent_id"], $data["users"]);
+                $objectives = ilTrQuery::getUserObjectiveMatrix(
+                    $collection["objectives_parent_id"], $data["users"]
+                );
 
                 $this->objective_ids = array();
 
@@ -281,7 +328,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                             $data["set"][$user_id][$obj_id] = $status;
 
                             if (!in_array($obj_id, $this->objective_ids)) {
-                                $this->objective_ids[$objective_id] = ilCourseObjective::lookupObjectiveTitle($objective_id);
+                                $this->objective_ids[$objective_id] = ilCourseObjective::lookupObjectiveTitle(
+                                    $objective_id
+                                );
                             }
                         }
                     }
@@ -302,11 +351,17 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                         // then check completed since failed should superseed completed
                         // (before completed has been checked before failed)
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-                        if (in_array($user_id, $collection["scorm"]["failed"][$sco])) {
+                        if (in_array(
+                            $user_id, $collection["scorm"]["failed"][$sco]
+                        )) {
                             $status = ilLPStatus::LP_STATUS_FAILED_NUM;
-                        } elseif (in_array($user_id, $collection["scorm"]["completed"][$sco])) {
+                        } elseif (in_array(
+                            $user_id, $collection["scorm"]["completed"][$sco]
+                        )) {
                             $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-                        } elseif (in_array($user_id, $collection["scorm"]["in_progress"][$sco])) {
+                        } elseif (in_array(
+                            $user_id, $collection["scorm"]["in_progress"][$sco]
+                        )) {
                             $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
                         }
 
@@ -323,10 +378,18 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                         $this->subitem_ids[$item_id] = $collection["subitems"]["item_titles"][$item_id];
 
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-                        if (in_array($user_id, $collection["subitems"]["completed"][$item_id])) {
+                        if (in_array(
+                            $user_id,
+                            $collection["subitems"]["completed"][$item_id]
+                        )) {
                             $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-                        } elseif (is_array($collection["subitems"]["in_progress"]) &&
-                            in_array($user_id, $collection["subitems"]["in_progress"][$item_id])) {
+                        } elseif (is_array(
+                                $collection["subitems"]["in_progress"]
+                            ) &&
+                            in_array(
+                                $user_id,
+                                $collection["subitems"]["in_progress"][$item_id]
+                            )) {
                             $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
                         }
 
@@ -393,24 +456,44 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                         : null;
 
                     if ($status != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-                        $timing = $this->showTimingsWarning($this->ref_ids[$obj_id], $a_set["usr_id"]);
+                        $timing = $this->showTimingsWarning(
+                            $this->ref_ids[$obj_id], $a_set["usr_id"]
+                        );
                         if ($timing) {
                             if ($timing !== true) {
-                                $timing = ": " . ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+                                $timing = ": " . ilDatePresentation::formatDate(
+                                        new ilDate($timing, IL_CAL_UNIX)
+                                    );
                             } else {
                                 $timing = "";
                             }
                             $this->tpl->setCurrentBlock('warning_img');
-                            $this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.svg'));
-                            $this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed') . $timing);
+                            $this->tpl->setVariable(
+                                'WARNING_IMG', ilUtil::getImagePath(
+                                'time_warn.svg'
+                            )
+                            );
+                            $this->tpl->setVariable(
+                                'WARNING_ALT', $this->lng->txt(
+                                                 'trac_time_passed'
+                                             ) . $timing
+                            );
                             $this->tpl->parseCurrentBlock();
                         }
                     }
 
                     $this->tpl->setCurrentBlock("objects");
-                    $this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", (string) $status, ""));
-                    $this->tpl->setVariable("VAL_PERCENTAGE",
-                        $this->parseValue("percentage", (string) $percentage, ""));
+                    $this->tpl->setVariable(
+                        "VAL_STATUS", $this->parseValue(
+                        "status", (string) $status, ""
+                    )
+                    );
+                    $this->tpl->setVariable(
+                        "VAL_PERCENTAGE",
+                        $this->parseValue(
+                            "percentage", (string) $percentage, ""
+                        )
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -423,7 +506,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                     $this->tpl->setCurrentBlock("objects");
                     if (!$a_set["privacy_conflict"]) {
-                        $this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", (string) $status, ""));
+                        $this->tpl->setVariable(
+                            "VAL_STATUS", $this->parseValue(
+                            "status", (string) $status, ""
+                        )
+                        );
                     } else {
                         $this->tpl->setVariable("VAL_STATUS", "&nbsp;");
                     }
@@ -433,7 +520,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 default:
                     $this->tpl->setCurrentBlock("user_field");
                     if (!$a_set["privacy_conflict"]) {
-                        $this->tpl->setVariable("VAL_UF", $this->parseValue($c, $a_set[$c], ""));
+                        $this->tpl->setVariable(
+                            "VAL_UF", $this->parseValue(
+                            $c, $a_set[$c], ""
+                        )
+                        );
                     } else {
                         $this->tpl->setVariable("VAL_UF", "&nbsp;");
                     }
@@ -477,16 +568,24 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                 $type = $this->ilObjDataCache->lookupType((int) $obj_id);
                 if ($DIC['objDefinition']->isPlugin($type)) {
-                    $type_text = ilObjectPlugin::lookupTxtById($type, 'obj_' . $type);
+                    $type_text = ilObjectPlugin::lookupTxtById(
+                        $type, 'obj_' . $type
+                    );
                 } else {
                     $type_text = $this->lng->txt($type);
                 }
 
-                $a_excel->setCell($a_row, $cnt, "(" . $type_text . ") " . $labels[$c]["txt"]);
+                $a_excel->setCell(
+                    $a_row, $cnt, "(" . $type_text . ") " . $labels[$c]["txt"]
+                );
 
                 if (is_array($this->perc_map) && $this->perc_map[$obj_id]) {
                     $cnt++;
-                    $a_excel->setCell($a_row, $cnt, $this->lng->txt("trac_percentage") . " (%)");
+                    $a_excel->setCell(
+                        $a_row, $cnt, $this->lng->txt(
+                                  "trac_percentage"
+                              ) . " (%)"
+                    );
                 }
             } else {
                 $a_excel->setCell($a_row, $cnt, $labels[$c]["txt"]);
@@ -494,11 +593,16 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             $cnt++;
         }
 
-        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt) . $a_row);
+        $a_excel->setBold(
+            "A" . $a_row . ":" . $a_excel->getColumnCoord($cnt) . $a_row
+        );
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
-    {
+    protected function fillRowExcel(
+        ilExcel $a_excel,
+        int &$a_row,
+        array $a_set
+    ) : void {
         $a_excel->setCell($a_row, 0, $a_set["login"]);
 
         $cnt = 1;
@@ -506,7 +610,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             switch ($c) {
                 case (substr($c, 0, 4) == "obj_"):
                     $obj_id = substr($c, 4);
-                    $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
+                    $val = ilLearningProgressBaseGUI::_getStatusText(
+                        (int) $a_set[$c]
+                    );
                     $a_excel->setCell($a_row, $cnt, $val);
 
                     if (is_array($this->perc_map) && $this->perc_map[$obj_id]) {
@@ -522,7 +628,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 case (substr($c, 0, 6) == "objtv_"):
                 case (substr($c, 0, 7) == "objsco_"):
                 case (substr($c, 0, 7) == "objsub_"):
-                    $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
+                    $val = ilLearningProgressBaseGUI::_getStatusText(
+                        (int) $a_set[$c]
+                    );
                     $a_excel->setCell($a_row, $cnt, $val);
                     break;
 
@@ -556,7 +664,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                 $type = $this->ilObjDataCache->lookupType((int) $obj_id);
                 if ($DIC['objDefinition']->isPlugin($type)) {
-                    $type_text = ilObjectPlugin::lookupTxtById($type, 'obj_' . $type);
+                    $type_text = ilObjectPlugin::lookupTxtById(
+                        $type, 'obj_' . $type
+                    );
                 } else {
                     $type_text = $this->lng->txt($type);
                 }
@@ -564,7 +674,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 $a_csv->addColumn("(" . $type_text . ") " . $labels[$c]["txt"]);
 
                 if (is_array($this->perc_map) && $this->perc_map[$obj_id]) {
-                    $a_csv->addColumn($this->lng->txt("trac_percentage") . " (%)");
+                    $a_csv->addColumn(
+                        $this->lng->txt("trac_percentage") . " (%)"
+                    );
                 }
             } else {
                 $a_csv->addColumn($labels[$c]["txt"]);
@@ -582,7 +694,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             switch ($c) {
                 case (substr($c, 0, 4) == "obj_"):
                     $obj_id = substr($c, 4);
-                    $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
+                    $val = ilLearningProgressBaseGUI::_getStatusText(
+                        (int) $a_set[$c]
+                    );
                     $a_csv->addColumn($val);
 
                     if (is_array($this->perc_map) && $this->perc_map[$obj_id]) {
@@ -597,7 +711,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 case (substr($c, 0, 6) == "objtv_"):
                 case (substr($c, 0, 7) == "objsco_"):
                 case (substr($c, 0, 7) == "objsub_"):
-                    $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
+                    $val = ilLearningProgressBaseGUI::_getStatusText(
+                        (int) $a_set[$c]
+                    );
                     $a_csv->addColumn($val);
                     break;
 

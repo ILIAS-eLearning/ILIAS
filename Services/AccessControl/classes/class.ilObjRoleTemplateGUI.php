@@ -1,9 +1,23 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilObjRoleTemplateGUI
@@ -24,7 +38,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     private GlobalHttpState $http;
     protected Factory $refinery;
 
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
 
@@ -120,7 +134,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         if (!$this->rbac_system->checkAccess("create_rolt", $this->rolf_ref_id)) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
-        if (!$form) {
+        if ($form === null) {
             $form = $this->initFormRoleTemplate(self::FORM_MODE_CREATE);
         }
         $this->tpl->setContent($form->getHTML());
@@ -137,7 +151,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
         }
 
-        if (!$form) {
+        if ($form === null) {
             $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         }
         $this->tpl->setContent($form->getHTML());
@@ -279,7 +293,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         //$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
         $subs = ilObjRole::getSubObjects('root', false);
 
-        foreach ($subs as $subtype => $def) {
+        foreach (array_keys($subs) as $subtype) {
             // Delete per object type
             $this->rbac_admin->deleteRolePermission($this->object->getId(), $this->ref_id, $subtype);
         }

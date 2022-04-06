@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -13,6 +13,10 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+
 /**
  * Interface ilMMItemFacadeInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -25,11 +29,11 @@ interface ilMMItemFacadeInterface
     //
     public function itemStorage() : ilMMItemStorage;
     
-    public function getRawItem() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+    public function getRawItem() : isItem;
     
-    public function getFilteredItem() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+    public function getFilteredItem() : isItem;
     
-    public function identification() : \ILIAS\GlobalScreen\Identification\IdentificationInterface;
+    public function identification() : IdentificationInterface;
     
     
     //

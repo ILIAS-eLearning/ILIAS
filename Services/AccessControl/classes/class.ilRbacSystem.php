@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -20,7 +34,7 @@ class ilRbacSystem
 
     protected static ?ilRbacSystem $instance = null;
 
-    protected $mem_view;
+    protected array $mem_view = [];
 
     protected static array $user_role_cache = [];
 
@@ -56,7 +70,7 @@ class ilRbacSystem
 
     public static function getInstance() : ilRbacSystem
     {
-        if (!self::$instance) {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -203,7 +217,7 @@ class ilRbacSystem
             }
         }
 
-        if (count($ref_ids) > 0) {
+        if ($ref_ids !== []) {
             // Data is not in PA cache, perform database query
             $q = "SELECT * FROM rbac_pa " .
                 "WHERE " . $this->db->in("ref_id", $ref_ids, false, "integer");

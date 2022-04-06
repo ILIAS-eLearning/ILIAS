@@ -15,20 +15,15 @@ interface ilQueryUtilsInterface
 
 
     /**
-     * @param mixed       $value
-     * @param string|null $type
+     * @param mixed $value
      */
-    public function quote($value, string $type = null) : string;
+    public function quote($value, ?string $type = null) : string;
 
 
     public function concat(array $values, bool $allow_null = true) : string;
 
 
-    /**
-     * @param $a_needle
-     * @param $a_string
-     */
-    public function locate($a_needle, $a_string, int $a_start_pos = 1) : string;
+    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string;
 
 
     public function free(ilPDOStatement $statement) : bool;
@@ -44,48 +39,28 @@ interface ilQueryUtilsInterface
 
 
     /**
-     * @param $column
-     * @param $type
      * @throws \ilDatabaseException
      */
-    public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true):string;
+    public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true) : string;
 
 
-    /**
-     * @return string
-     */
-    public function now();
+    public function now() : string;
 
 
-    /**
-     * @return string
-     */
-    public function lock(array $tables);
+    public function lock(array $tables) : string;
 
 
-    /**
-     * @return string
-     */
-    public function unlock();
+    public function unlock() : string;
 
 
-    /**
-     * @param $a_name
-     * @return mixed
-     */
-    public function createDatabase($a_name, string $a_charset = "utf8", string $a_collation = "");
+    public function createDatabase(string $name, string $charset = "utf8", string $collation = "") : string;
 
 
-    /**
-     *
-     * @return string
-     */
-    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null);
+    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null) : string;
 
 
     /**
      * @param mixed $a_dest_type
-     * @return string
      */
-    public function cast(string $a_field_name, $a_dest_type);
+    public function cast(string $a_field_name, $a_dest_type) : string;
 }

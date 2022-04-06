@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,7 @@
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\Style\Content;
 use ILIAS\Style\Content\Access;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**
  * Characteristics UI
@@ -39,7 +40,7 @@ class ilStyleCharacteristicGUI
     protected Content\ImageManager $image_manager;
     protected Content\InternalGUIService $gui_service;
     protected Content\InternalDomainService $domain_service;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
         Content\InternalDomainService $domain_service,
@@ -455,7 +456,6 @@ class ilStyleCharacteristicGUI
 
     protected function editTagStyle() : void
     {
-        $tpl = $this->gui_service->mainTemplate();
         $ilToolbar = $this->gui_service->toolbar();
         $lng = $this->domain_service->lng();
         $ilCtrl = $this->gui_service->ctrl();
@@ -524,7 +524,6 @@ class ilStyleCharacteristicGUI
                 $basepar = $basepar[0];
 
                 $var = str_replace("-", "_", $basepar);
-                $up_par = strtoupper($var);
 
                 switch (ilObjStyleSheet::_getStyleParameterInputType($par)) {
                     case "select":
@@ -644,7 +643,7 @@ class ilStyleCharacteristicGUI
      */
     protected function getValues(ilPropertyFormGUI $form) : void
     {
-        $cur_parameters = $this->extractParametersOfTag(false);
+        $cur_parameters = $this->extractParametersOfTag();
         $parameters = ilObjStyleSheet::_getStyleParameters();
         foreach ($parameters as $p => $v) {
             $filtered_groups = ilObjStyleSheet::_getFilteredGroups();
@@ -771,7 +770,7 @@ class ilStyleCharacteristicGUI
 
                 case "color":
                     $color = trim($form->getInput($basepar));
-                    if ($color != "" && trim(substr($color, 0, 1) != "!")) {
+                    if ($color != "" && trim(substr($color, 0, 1)) != "!") {
                         $color = "#" . $color;
                     }
                     $this->writeStylePar($basepar, $color);
@@ -864,7 +863,7 @@ class ilStyleCharacteristicGUI
     /**
      * @throws ilCtrlException
      */
-    protected function getTagTitlesForm() : Form\Standard
+    protected function getTagTitlesForm() : Standard
     {
         $ui = $this->gui_service->ui();
         $f = $ui->factory();
@@ -976,7 +975,7 @@ class ilStyleCharacteristicGUI
         if (count($chars) > 0) {
             foreach ($chars as $c) {
                 $c_parts = explode(".", $c);
-                if (!\ilObjStyleSheet::isCoreStyle($c_parts[0], $c_parts[2])) {
+                if (!ilObjStyleSheet::isCoreStyle($c_parts[0], $c_parts[2])) {
                     $this->manager->saveOutdated(
                         $c_parts[0],
                         $c_parts[2],
@@ -1006,7 +1005,7 @@ class ilStyleCharacteristicGUI
         if (count($chars) > 0) {
             foreach ($chars as $c) {
                 $c_parts = explode(".", $c);
-                if (!\ilObjStyleSheet::isCoreStyle($c_parts[0], $c_parts[2])) {
+                if (!ilObjStyleSheet::isCoreStyle($c_parts[0], $c_parts[2])) {
                     $this->manager->saveOutdated(
                         $c_parts[0],
                         $c_parts[2],
@@ -1067,7 +1066,7 @@ class ilStyleCharacteristicGUI
      * Init past within style form
      * @throws ilCtrlException
      */
-    public function getPasteWithinStyleForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getPasteWithinStyleForm() : Standard
     {
         $ui = $this->gui_service->ui();
         $f = $ui->factory();
@@ -1091,7 +1090,7 @@ class ilStyleCharacteristicGUI
      * Init past from other style form
      * @throws ilCtrlException
      */
-    public function getPasteFromOtherStyleForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getPasteFromOtherStyleForm() : Standard
     {
         $ui = $this->gui_service->ui();
         $lng = $this->domain_service->lng();

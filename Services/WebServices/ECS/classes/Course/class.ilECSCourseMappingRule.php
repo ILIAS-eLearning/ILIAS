@@ -19,8 +19,8 @@
  */
 class ilECSCourseMappingRule
 {
-    const SUBDIR_ATTRIBUTE_NAME = 1;
-    const SUBDIR_VALUE = 2;
+    public const SUBDIR_ATTRIBUTE_NAME = 1;
+    public const SUBDIR_VALUE = 2;
     
     private ilLogger $logger;
     private ilTree $tree;
@@ -28,17 +28,16 @@ class ilECSCourseMappingRule
     private ilDBInterface $db;
     
     private int $rid;
-    private $sid;
-    private $mid;
+    private int $sid;
+    private int $mid;
     private $attribute;
-    private $ref_id;
+    private int $ref_id;
     private bool $is_filter = false;
     private $filter;
     private array $filter_elements = [];
     private bool $create_subdir = true;
-    private int $subdir_type = self::SUBDIR_VALUE;
     private string $directory = '';
-    
+
     public function __construct(int $a_rid = 0)
     {
         global $DIC;
@@ -54,9 +53,8 @@ class ilECSCourseMappingRule
     
     /**
      * Lookup existing attributes
-     * @return array
      */
-    public static function lookupLastExistingAttribute(int $a_sid, int $a_mid, int $a_ref_id)
+    public static function lookupLastExistingAttribute(int $a_sid, int $a_mid, int $a_ref_id) : array
     {
         global $DIC;
 
@@ -76,7 +74,7 @@ class ilECSCourseMappingRule
         return $attributes;
     }
     
-    public static function getRuleRefIds(int $a_sid, int $a_mid)
+    public static function getRuleRefIds(int $a_sid, int $a_mid) : array
     {
         global $DIC;
 
@@ -106,9 +104,6 @@ class ilECSCourseMappingRule
     
     /**
      * Get all rule of ref_id
-     * @param type $a_sid
-     * @param type $a_mid
-     * @param type $a_ref_id
      * @return int[]
      */
     public static function getRulesOfRefId(int $a_sid, int $a_mid, int $a_ref_id) : array
@@ -145,11 +140,9 @@ class ilECSCourseMappingRule
     
     /**
      * Check if rule matches
-     * @param type $course
-     * @param type $a_start_rule_id
      * @return string 0 if not matches; otherwise rule_id_index @see matches
      */
-    public static function isMatching($course, $a_sid, $a_mid, $a_ref_id)
+    public static function isMatching($course, $a_sid, $a_mid, $a_ref_id) : string
     {
         global $DIC;
 
@@ -167,27 +160,19 @@ class ilECSCourseMappingRule
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $rule = new ilECSCourseMappingRule($row->rid);
             $matches = $rule->matches($course);
-            if ($matches == -1) {
+            if ($matches === -1) {
                 return '0';
             }
             $does_match = true;
-            $sortable_index .= str_pad($matches, 4, '0', STR_PAD_LEFT);
+            $sortable_index .= str_pad((string) $matches, 4, '0', STR_PAD_LEFT);
         }
         if ($does_match) {
             return $sortable_index;
         }
         return "0";
     }
-    
-    /**
-     *
-     * @param type $course
-     * @param type $a_sid
-     * @param type $a_mid
-     * @param type $a_ref_id
-     * @return array
-     */
-    public static function doMappings($course, $a_sid, $a_mid, $a_ref_id)
+
+    public static function doMappings($course, $a_sid, $a_mid, $a_ref_id) : array
     {
         global $DIC;
 
@@ -204,13 +189,13 @@ class ilECSCourseMappingRule
         $last_level_category = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $rule = new ilECSCourseMappingRule($row->rid);
-            if ($level == 1) {
+            if ($level === 1) {
                 $last_level_category[] = $rule->getRefId();
             }
 
             $found_new_level = false;
             $new_level_cats = array();
-            foreach ((array) $last_level_category as $cat_ref_id) {
+            foreach ($last_level_category as $cat_ref_id) {
                 $refs = $rule->doMapping($course, $cat_ref_id);
                 foreach ($refs as $new_ref_id) {
                     $found_new_level = true;
@@ -223,25 +208,24 @@ class ilECSCourseMappingRule
             $level++;
         }
         
-        return (array) $last_level_category;
+        return $last_level_category;
     }
     
     /**
      * Do mapping
-     * @param type $course
-     * @param type $parent_ref
      */
-    public function doMapping($course, $parent_ref)
+    public function doMapping($course, int $parent_ref) : array
     {
         if (!$this->isSubdirCreationEnabled()) {
-            return array();
+            return [];
         }
         $values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
         
         $childs = $this->tree->getChildsByType($parent_ref, 'cat');
+        $category_references = [];
         foreach ($values as $value) {
             $found = false;
-            foreach ((array) $childs as $child) {
+            foreach ($childs as $child) {
                 // category already created
                 if (strcmp($child['title'], $value) === 0) {
                     $found = true;
@@ -253,14 +237,14 @@ class ilECSCourseMappingRule
                 $category_references[] = $this->createCategory($value, $parent_ref);
             }
         }
-        return (array) $category_references;
+        return $category_references;
     }
     
     /**
      * Create attribute category
      * @return int $ref_id;
      */
-    protected function createCategory($a_title, $a_parent_ref)
+    protected function createCategory($a_title, $a_parent_ref) : int
     {
         // Create category
         $cat = new ilObjCategory();
@@ -275,7 +259,7 @@ class ilECSCourseMappingRule
             $a_title,
             $cat->getLongDescription(),
             $this->lng->getDefaultLanguage(),
-            1
+            $this->lng->getDefaultLanguage()
         );
         return $cat->getRefId();
     }
@@ -283,10 +267,9 @@ class ilECSCourseMappingRule
 
     /**
      * Check if rule matches
-     * @param type $course
      * @return int -1 does not match, 0 matches with disabled filter, >0 matches xth index in course attribute value.
      */
-    public function matches($course)
+    public function matches($course) : int
     {
         if ($this->isFilterEnabled()) {
             $values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
@@ -311,13 +294,8 @@ class ilECSCourseMappingRule
     
     /**
      * Get rule instance by attribute
-     * @param type $a_sid
-     * @param type $a_mid
-     * @param type $a_ref_id
-     * @param type $a_att
-     * @return \ilECSCourseMappingRule
      */
-    public static function getInstanceByAttribute($a_sid, $a_mid, $a_ref_id, $a_att)
+    public static function getInstanceByAttribute($a_sid, $a_mid, $a_ref_id, $a_att) : \ilECSCourseMappingRule
     {
         global $DIC;
 
@@ -330,43 +308,43 @@ class ilECSCourseMappingRule
                 'AND attribute = ' . $ilDB->quote($a_att, 'text');
 
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return new ilECSCourseMappingRule($row->rid);
         }
         return new ilECSCourseMappingRule();
     }
     
-    public function setRuleId($a_rule_id)
+    public function setRuleId(int $a_rule_id) : void
     {
         $this->rid = $a_rule_id;
     }
     
-    public function getRuleId()
+    public function getRuleId() : int
     {
         return $this->rid;
     }
     
-    public function setServerId($a_server_id)
+    public function setServerId(int $a_server_id) : void
     {
         $this->sid = $a_server_id;
     }
     
-    public function getServerId()
+    public function getServerId() : int
     {
         return $this->sid;
     }
 
-    public function setMid($a_mid)
+    public function setMid(int $a_mid) : void
     {
         $this->mid = $a_mid;
     }
     
-    public function getMid()
+    public function getMid() : int
     {
         return $this->mid;
     }
     
-    public function setAttribute($a_att)
+    public function setAttribute($a_att) : void
     {
         $this->attribute = $a_att;
     }
@@ -376,27 +354,27 @@ class ilECSCourseMappingRule
         return $this->attribute;
     }
     
-    public function setRefId($a_ref_id)
+    public function setRefId($a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
     
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
     
-    public function enableFilter($a_status)
+    public function enableFilter($a_status) : void
     {
         $this->is_filter = $a_status;
     }
     
-    public function isFilterEnabled()
+    public function isFilterEnabled() : bool
     {
         return $this->is_filter;
     }
     
-    public function setFilter($a_filter)
+    public function setFilter($a_filter) : void
     {
         $this->filter = $a_filter;
     }
@@ -406,42 +384,37 @@ class ilECSCourseMappingRule
         return $this->filter;
     }
     
-    public function getFilterElements()
+    public function getFilterElements() : array
     {
-        return (array) $this->filter_elements;
+        return $this->filter_elements;
     }
     
-    public function enableSubdirCreation($a_stat)
+    public function enableSubdirCreation($a_stat) : void
     {
         $this->create_subdir = $a_stat;
     }
     
-    public function isSubdirCreationEnabled()
+    public function isSubdirCreationEnabled() : bool
     {
         return $this->create_subdir;
     }
     
-    public function setSubDirectoryType($a_type)
-    {
-        $this->subdir_type = $a_type;
-    }
-    
-    public function getSubDirectoryType()
+    public function getSubDirectoryType() : int
     {
         return self::SUBDIR_VALUE;
     }
     
-    public function setDirectory($a_dir)
+    public function setDirectory($a_dir) : void
     {
         $this->directory = $a_dir;
     }
     
-    public function getDirectory()
+    public function getDirectory() : string
     {
         return $this->directory;
     }
     
-    public function delete()
+    public function delete() : bool
     {
         $query = 'DELETE from ecs_cmap_rule ' .
             'WHERE rid = ' . $this->db->quote($this->getRuleId(), 'integer');
@@ -451,9 +424,8 @@ class ilECSCourseMappingRule
     
     /**
      * Save a new rule
-     * @return boolean
      */
-    public function save()
+    public function save() : int
     {
         $this->setRuleId($this->db->nextId('ecs_cmap_rule'));
         $query = 'INSERT INTO ecs_cmap_rule ' .
@@ -477,7 +449,7 @@ class ilECSCourseMappingRule
     /**
      * Update mapping rule
      */
-    public function update()
+    public function update() : void
     {
         $query = 'UPDATE ecs_cmap_rule ' . ' ' .
                 'SET ' .
@@ -495,10 +467,10 @@ class ilECSCourseMappingRule
     /**
      * Read db entries
      */
-    protected function read()
+    protected function read() : void
     {
         if (!$this->getRuleId()) {
-            return true;
+            return;
         }
         $query = 'SELECT * from ecs_cmap_rule ' . ' ' .
             'WHERE rid = ' . $this->db->quote($this->getRuleId(), 'integer');
@@ -511,7 +483,7 @@ class ilECSCourseMappingRule
             $this->enableFilter($row->is_filter);
             $this->setFilter($row->filter);
             $this->enableSubdirCreation($row->create_subdir);
-            $this->setSubDirectoryType($row->subdir_type);
+            //TODO create database update step to remove unneed variable
             $this->setDirectory($row->directory);
         }
         
@@ -521,7 +493,7 @@ class ilECSCourseMappingRule
     /**
      * Parse filter
      */
-    protected function parseFilter()
+    protected function parseFilter() : void
     {
         $filter = $this->getFilter();
         //$this->logger->debug('Original filter: ' . $filter);
@@ -532,7 +504,7 @@ class ilECSCourseMappingRule
         $filter_elements = explode(',', $escaped_filter);
         foreach ((array) $filter_elements as $filter_element) {
             $replaced = str_replace('#:#', ',', $filter_element);
-            if (strlen(trim($replaced))) {
+            if (trim($replaced) !== '') {
                 $this->filter_elements[] = $replaced;
             }
         }

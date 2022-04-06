@@ -1,17 +1,17 @@
 <?php
-
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 abstract class ilPDSelectedItemsBlockViewGUI
 {
@@ -280,5 +280,22 @@ abstract class ilPDSelectedItemsBlockViewGUI
         }
 
         return $grouped_items;
+    }
+
+    /**
+     * @return ilPDSelectedItemsBlockGroup[]
+     */
+    protected function sortItemsByAlphabetInOneGroup() : array
+    {
+        $items = array_values($this->provider->getItems());
+
+        usort($items, static function (array $first, array $second) : int {
+            return strnatcmp(strtolower($first['title']), strtolower($second['title']));
+        });
+
+        $group = new ilPDSelectedItemsBlockGroup();
+        array_map([$group, 'pushItem'], $items);
+
+        return [$group];
     }
 }

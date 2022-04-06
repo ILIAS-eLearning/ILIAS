@@ -18,7 +18,7 @@ abstract class ilSoapHookPlugin extends ilPlugin
      * Get any (new) types which the SOAP methods may use.
      * These types are registered in WSDL.
      *
-     * @see ilNusoapUserAdministrationAdapter::__registerMethods()
+     * @see ilNusoapUserAdministrationAdapter::registerMethods()
      *
      * @return ilWsdlType[]
      */

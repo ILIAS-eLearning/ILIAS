@@ -40,12 +40,12 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
         return 'rcrs';
     }
 
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
     {
         $a_info->addProperty($this->lng->txt('crs_visibility'), $this->availabilityToString());
     }
     
-    protected function availabilityToString()
+    protected function availabilityToString() : string
     {
         switch ($this->object->getAvailabilityType()) {
             case ilObjRemoteCourse::ACTIVATION_OFFLINE:
@@ -63,7 +63,7 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
         return '';
     }
     
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form)
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form) : void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('crs_visibility'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());

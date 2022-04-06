@@ -19,7 +19,7 @@ class ilECSCourseSettings extends ilECSObjectSettings
         parent::__construct($a_content_object);
     }
 
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return '/campusconnect/courselinks';
     }
@@ -29,8 +29,11 @@ class ilECSCourseSettings extends ilECSObjectSettings
         $json = $this->getJsonCore('application/ecs-course');
 
         // meta language
-        $lang = ilMDLanguage::_lookupFirstLanguage($this->content_obj->getId(), $this->content_obj->getId(),
-            $this->content_obj->getType());
+        $lang = ilMDLanguage::_lookupFirstLanguage(
+            $this->content_obj->getId(),
+            $this->content_obj->getId(),
+            $this->content_obj->getType()
+        );
         if (strlen($lang)) {
             $json->lang = $lang . '_' . strtoupper($lang);
         }

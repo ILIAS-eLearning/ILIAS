@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -122,8 +122,8 @@ class ilContentStyleSettingsGUI
         $from_styles = $to_styles = $data = array();
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
-            $style["active"] = ilObjStyleSheet::_lookupActive($style["id"]);
-            $style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
+            $style["active"] = ilObjStyleSheet::_lookupActive((int) $style["id"]);
+            $style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs((int) $style["id"]);
             $data[$style["title"] . ":" . $style["id"]]
                 = $style;
             if ($style["lm_nr"] > 0) {
@@ -292,13 +292,13 @@ class ilContentStyleSettingsGUI
             $def_style = $ilSetting->get("default_content_style_id");
 
             if ($def_style != $this->request->getId()) {
-                $ilSetting->set("default_content_style_id", $this->request->getId());
+                $ilSetting->set("default_content_style_id", (string) $this->request->getId());
             } else {
                 $ilSetting->delete("default_content_style_id");
             }
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
     /**
@@ -317,11 +317,11 @@ class ilContentStyleSettingsGUI
             if ($fixed_style == $this->request->getId()) {
                 $ilSetting->delete("fixed_content_style_id");
             } else {
-                $ilSetting->set("fixed_content_style_id", $this->request->getId());
+                $ilSetting->set("fixed_content_style_id", (string) $this->request->getId());
             }
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
     public function saveActiveStyles() : void
@@ -329,12 +329,12 @@ class ilContentStyleSettingsGUI
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
             if ($this->request->getSelectedStandard($style["id"]) == 1) {
-                ilObjStyleSheet::_writeActive((int) $style["id"], 1);
+                ilObjStyleSheet::_writeActive((int) $style["id"], true);
             } else {
-                ilObjStyleSheet::_writeActive((int) $style["id"], 0);
+                ilObjStyleSheet::_writeActive((int) $style["id"], false);
             }
         }
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
     /**
@@ -419,6 +419,6 @@ class ilContentStyleSettingsGUI
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 }

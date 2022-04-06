@@ -7,7 +7,10 @@
  */
 abstract class ilDBPdoMySQL extends ilDBPdo
 {
-    protected $modes = [
+    /**
+     * @var string[]
+     */
+    protected array $modes = [
         'STRICT_TRANS_TABLES',
         'STRICT_ALL_TABLES',
         'IGNORE_SPACE',
@@ -22,7 +25,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         return false;
     }
 
-    public function initHelpers()
+    public function initHelpers() : void
     {
         $this->manager = new ilDBPdoManager($this->pdo, $this);
         $this->reverse = new ilDBPdoReverse($this->pdo, $this);
@@ -40,7 +43,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
     }
 
     /**
-     * @return int[]|bool[]
+     * @return array<int, int|bool>
      */
     protected function getAdditionalAttributes() : array
     {
@@ -74,9 +77,14 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         }
         $errors = [];
         $tables = $this->listTables();
-        array_walk($tables, function (string $table_name) use (&$errors, $engine) {
-            if (!$this->migrateTableToEngine($table_name, $engine)) {
-                $errors[] = $table_name;
+        array_walk($tables, function (string $table_name) use (&$errors, $engine) : void {
+            try {
+                $this->pdo->exec("ALTER TABLE $table_name ENGINE=$engine");
+                if ($this->sequenceExists($table_name)) {
+                    $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE=$engine");
+                }
+            } catch (Exception $e) {
+                $errors[$table_name] = $e->getMessage();
             }
         });
     
@@ -107,7 +115,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         $manager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
         $errors = [];
         foreach ($manager->listTables() as $table_name) {
-            if(!$this->migrateTableCollation($table_name, $collation)) {
+            if (!$this->migrateTableCollation($table_name, $collation)) {
                 $errors[] = $table_name;
             }
         }

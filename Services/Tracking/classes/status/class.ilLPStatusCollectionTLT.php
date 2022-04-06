@@ -19,7 +19,9 @@ class ilLPStatusCollectionTLT extends ilLPStatus
             $users = array_unique($users);
         }
 
-        $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+        $users = array_diff(
+            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+        );
 
         return $users;
     }
@@ -60,7 +62,9 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 $status_info["in_progress"][$item_id] = array();
                 $status_info["completed"][$item_id] = array();
 
-                $status_info["tlt"][$item_id] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id, $item_id);
+                $status_info["tlt"][$item_id] = ilMDEducational::_getTypicalLearningTimeSeconds(
+                    $a_obj_id, $item_id
+                );
             }
 
             $ref_ids = ilObject::_getAllReferences($a_obj_id);
@@ -79,9 +83,11 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                     $status_info["item_titles"][$item_id] = $possible_items[$item_id]["title"];
                 }
 
-                $set = $ilDB->query("SELECT obj_id,usr_id,spent_seconds" .
+                $set = $ilDB->query(
+                    "SELECT obj_id,usr_id,spent_seconds" .
                     " FROM lm_read_event" .
-                    " WHERE " . $ilDB->in("obj_id", $chapter_ids, "", "integer"));
+                    " WHERE " . $ilDB->in("obj_id", $chapter_ids, "", "integer")
+                );
                 while ($row = $ilDB->fetchAssoc($set)) {
                     if ($row["spent_seconds"] < $status_info["tlt"][$row["obj_id"]]) {
                         $status_info["in_progress"][$row["obj_id"]][] = $row["usr_id"];
@@ -94,8 +100,11 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         return $status_info;
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $info = self::_getStatusInfo($a_obj_id);
 
         $completed_once = false;

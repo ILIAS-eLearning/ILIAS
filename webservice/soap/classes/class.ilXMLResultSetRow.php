@@ -28,6 +28,7 @@
  */
 class ilXMLResultSetRow
 {
+    /** @var array<int|string, string> */
     private array $columns = [];
 
     /**
@@ -41,6 +42,9 @@ class ilXMLResultSetRow
         $this->columns[$index] = $value;
     }
 
+    /**
+     * @return array<int|string, string>
+     */
     public function getColumns() : array
     {
         return $this->columns;
@@ -62,16 +66,17 @@ class ilXMLResultSetRow
      * @param int|string $idx
      * @return string
      */
-    public function getValue($idx)
+    public function getValue($idx) : string
     {
         if (is_string($idx) && !array_key_exists($idx, $this->columns)) {
             throw new DomainException('Invalid index given: ' . $idx);
-        } elseif (
-            is_int($idx) &&
-            ($idx < 0 || $idx >= count($this->columns))
-        ) {
+        }
+
+        if (is_int($idx) &&
+            ($idx < 0 || $idx >= count($this->columns))) {
             throw new DomainException("Index too small or too large: " . $idx);
         }
+
         return $this->columns[$idx];
     }
 }

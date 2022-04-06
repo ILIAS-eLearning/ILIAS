@@ -21,18 +21,18 @@
 */
 class ilECSCategoryMappingRule
 {
-    const ATTR_STRING = 1;
-    const ATTR_INT = 2;
-    const ATTR_ARRAY = 3;
+    public const ATTR_STRING = 1;
+    public const ATTR_INT = 2;
+    public const ATTR_ARRAY = 3;
     
-    const TYPE_FIXED = 0;
-    const TYPE_DURATION = 1;
-    const TYPE_BY_TYPE = 2;
+    public const TYPE_FIXED = 0;
+    public const TYPE_DURATION = 1;
+    public const TYPE_BY_TYPE = 2;
     
-    const ERR_MISSING_VALUE = 'ecs_err_missing_value';
-    const ERR_INVALID_DATES = 'ecs_err_invalid_dates';
-    const ERR_INVALID_TYPE = 'ecs_err_invalid_type';
-    const ERR_MISSING_BY_TYPE = 'ecs_err_invalid_by_type';
+    public const ERR_MISSING_VALUE = 'ecs_err_missing_value';
+    public const ERR_INVALID_DATES = 'ecs_err_invalid_dates';
+    public const ERR_INVALID_TYPE = 'ecs_err_invalid_type';
+    public const ERR_MISSING_BY_TYPE = 'ecs_err_invalid_by_type';
     
     private ilDBInterface $db;
     private ilLanguage $language;
@@ -95,7 +95,6 @@ class ilECSCategoryMappingRule
     
     /**
      * get container id
-     * @return
      */
     public function getContainerId() : ?int
     {
@@ -105,7 +104,6 @@ class ilECSCategoryMappingRule
     /**
      * set date range start
      * @param  object $start ilDate
-     * @return
      */
     public function setDateRangeStart(ilDate $start) : void
     {
@@ -114,11 +112,10 @@ class ilECSCategoryMappingRule
     
     /**
      * get date range start
-     * @return
      */
     public function getDateRangeStart() : ilDate
     {
-        return $this->range_dt_start ? $this->range_dt_start : new ilDate(time(), IL_CAL_UNIX);
+        return $this->range_dt_start ?: new ilDate(time(), IL_CAL_UNIX);
     }
     
     /**
@@ -168,7 +165,7 @@ class ilECSCategoryMappingRule
      * set mapping type
      * @param int $a_type	Mapping type
      */
-    public function setMappingType(int $a_type)
+    public function setMappingType(int $a_type) : void
     {
         $this->mapping_type = $a_type;
     }
@@ -247,7 +244,7 @@ class ilECSCategoryMappingRule
      */
     public function update() : void
     {
-        if ($this->getMappingType() == self::TYPE_BY_TYPE) {
+        if ($this->getMappingType() === self::TYPE_BY_TYPE) {
             $mapping_value = $this->getByType();
         } else {
             $mapping_value = $this->getMappingValue();
@@ -280,7 +277,7 @@ class ilECSCategoryMappingRule
      */
     public function save() : void
     {
-        if ($this->getMappingType() == self::TYPE_BY_TYPE) {
+        if ($this->getMappingType() === self::TYPE_BY_TYPE) {
             $mapping_value = $this->getByType();
         } else {
             $mapping_value = $this->getMappingValue();
@@ -305,30 +302,29 @@ class ilECSCategoryMappingRule
     
     /**
      * validate rule
-     * @return
      */
-    public function validate() : int
+    public function validate() : string
     {
-        if (ilObject::_lookupType(ilObject::_lookupObjId($this->getContainerId())) != 'cat') {
+        if (ilObject::_lookupType(ilObject::_lookupObjId($this->getContainerId())) !== 'cat') {
             return self::ERR_INVALID_TYPE;
         }
         if (!ilDateTime::_after($this->getDateRangeEnd(), $this->getDateRangeStart(), IL_CAL_DAY)) {
             return self::ERR_INVALID_DATES;
         }
-        if ($this->getMappingType() == self::TYPE_DURATION && !in_array($this->getFieldName(), array('begin', 'end'))) {
+        if ($this->getMappingType() === self::TYPE_DURATION && !in_array($this->getFieldName(), array('begin', 'end'))) {
             return self::ERR_MISSING_VALUE;
         }
         // handled by form gui?
-        if ($this->getMappingType() == self::TYPE_FIXED and !$this->getMappingValue()) {
+        if ($this->getMappingType() === self::TYPE_FIXED || !$this->getMappingValue()) {
             return self::ERR_MISSING_VALUE;
         }
-        if ($this->getMappingType() == self::TYPE_BY_TYPE && $this->getFieldName() != 'type') {
+        if ($this->getMappingType() === self::TYPE_BY_TYPE && $this->getFieldName() !== 'type') {
             return self::ERR_MISSING_BY_TYPE;
         }
-        if ($this->getMappingType() != self::TYPE_BY_TYPE && $this->getFieldName() == 'type') {
+        if ($this->getMappingType() !== self::TYPE_BY_TYPE && $this->getFieldName() === 'type') {
             return self::ERR_MISSING_VALUE;
         }
-        return 0;
+        return '';
     }
     
     /**
@@ -340,7 +336,7 @@ class ilECSCategoryMappingRule
         switch ($this->getMappingType()) {
             case self::TYPE_FIXED:
 
-                if ($this->getFieldName() == 'part_id') {
+                if ($this->getFieldName() === 'part_id') {
                     return $this->language->txt('ecs_field_' . $this->getFieldName()) . ': ' . $this->participantsToString();
                 }
                 return $this->language->txt('ecs_field_' . $this->getFieldName()) . ': ' . $this->getMappingValue();
@@ -354,6 +350,7 @@ class ilECSCategoryMappingRule
             case self::TYPE_BY_TYPE:
                 return $this->language->txt('type') . ': ' . $this->language->txt('obj_' . $this->getByType());
         }
+        return "";
     }
     
     /**
@@ -387,7 +384,6 @@ class ilECSCategoryMappingRule
 
     /**
      * Check if rule matches a specific econtent
-     * @param array	 $a_matchable_content
      */
     public function matches(array $a_matchable_content) : bool
     {
@@ -432,7 +428,7 @@ class ilECSCategoryMappingRule
                     
                     foreach ($this->getMappingAsArray() as $attribute_value) {
                         $attribute_value = trim($attribute_value);
-                        if (strcasecmp($attribute_value, $value) == 0) {
+                        if (strcasecmp($attribute_value, $value) === 0) {
                             return true;
                         }
                     }
@@ -461,14 +457,14 @@ class ilECSCategoryMappingRule
             array($this->getMappingId())
         );
         while ($row = $this->db->fetchObject($res)) {
-            $this->setMappingId(intval($row->mapping_id));
+            $this->setMappingId((int) $row->mapping_id);
             $this->setDateRangeStart($row->date_range_start ? new ilDate($row->date_range_start, IL_CAL_UNIX) : null);
             $this->setDateRangeEnd($row->date_range_end ? new ilDate($row->date_range_end, IL_CAL_UNIX) : null);
-            $this->setMappingType(intval($row->mapping_type));
+            $this->setMappingType((int) $row->mapping_type);
             $this->setFieldName($row->field_name);
-            $this->setContainerId(intval($row->container_id));
+            $this->setContainerId((int) $row->container_id);
             
-            if ($this->getMappingType() == self::TYPE_BY_TYPE) {
+            if ($this->getMappingType() === self::TYPE_BY_TYPE) {
                 $this->setByType($row->mapping_value);
             } else {
                 $this->setMappingValue($row->mapping_value);

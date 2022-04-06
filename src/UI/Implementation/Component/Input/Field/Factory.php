@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data;
+use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -157,9 +158,13 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null) : Field\File
-    {
-        return new File($this->data_factory, $this->refinery, $handler, $label, $byline);
+    public function file(
+        UploadHandler $handler,
+        string $label,
+        string $byline = null,
+        Input $metadata_input = null
+    ) : Field\File {
+        return new File($this->lng, $this->data_factory, $this->refinery, $handler, $label, $metadata_input, $byline);
     }
 
     /**
@@ -176,5 +181,13 @@ class Factory implements Field\Factory
     public function link(string $label, string $byline = null) : Field\Link
     {
         return new Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hidden() : Field\Hidden
+    {
+        return new Hidden($this->data_factory, $this->refinery);
     }
 }

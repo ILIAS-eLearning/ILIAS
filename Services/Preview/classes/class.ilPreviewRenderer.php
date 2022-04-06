@@ -27,7 +27,7 @@ abstract class ilPreviewRenderer
      *
      * @return string The name of the renderer.
      */
-    public function getName()
+    public function getName() : string
     {
         $name = get_class($this);
 
@@ -36,7 +36,7 @@ abstract class ilPreviewRenderer
         }
 
         if (strpos($name, "Renderer") === (strlen($name) - 8)) {
-            $name = substr($name, 0, strlen($name) - 8) . " Renderer";
+            $name = substr($name, 0, -8) . " Renderer";
         }
 
         return $name;
@@ -65,7 +65,7 @@ abstract class ilPreviewRenderer
      * @param ilPreview $preview The preview object to check.
      * @return bool true, if the renderer supports the specified preview object; otherwise, false.
      */
-    public function supports(\ilPreview $preview)
+    public function supports(\ilPreview $preview) : bool
     {
         // contains type?
         return in_array($preview->getObjType(), $this->getSupportedRepositoryTypes());
@@ -79,7 +79,7 @@ abstract class ilPreviewRenderer
      * @param bool $async true, if the rendering should be done asynchronously; otherwise, false.
      * @return bool true, if the preview was successfully rendered; otherwise, false.
      */
-    final public function render(\ilPreview $preview, \ilObject $obj, bool $async)
+    final public function render(\ilPreview $preview, \ilObject $obj, bool $async) : ?bool
     {
         $preview->setRenderDate(ilUtil::now());
         $preview->setRenderStatus(ilPreview::RENDER_STATUS_PENDING);
@@ -105,11 +105,11 @@ abstract class ilPreviewRenderer
             $preview->setRenderDate(ilUtil::now());
             $preview->setRenderStatus($success ? ilPreview::RENDER_STATUS_CREATED : ilPreview::RENDER_STATUS_FAILED);
             return $success;
-        } else {
-            $preview->setRenderDate(ilUtil::now());
-            $preview->setRenderStatus(ilPreview::RENDER_STATUS_FAILED);
-            return false;
         }
+
+        $preview->setRenderDate(ilUtil::now());
+        $preview->setRenderStatus(ilPreview::RENDER_STATUS_FAILED);
+        return false;
     }
 
     /**
@@ -119,7 +119,7 @@ abstract class ilPreviewRenderer
      * @param string $dest_img_path The destination image path.
      * @return bool true, if the preview was created; otherwise, false.
      */
-    private function createPreviewImage(string $src_img_path, string $dest_img_path)
+    private function createPreviewImage(string $src_img_path, string $dest_img_path) : bool
     {
         // create resize argument
         $imgSize = $this->getImageSize();
@@ -146,14 +146,14 @@ abstract class ilPreviewRenderer
      * @param ilObject $obj The object to create images from.
      * @return array An array of ilRenderedImage containing the absolute file paths to the images.
      */
-    abstract protected function renderImages(\ilObject $obj);
+    abstract protected function renderImages(\ilObject $obj) : array;
 
     /**
      * Gets the size of the preview images in pixels.
      *
      * @return int The current value
      */
-    final protected function getImageSize()
+    final protected function getImageSize() : int
     {
         return ilPreviewSettings::getImageSize();
     }
@@ -163,7 +163,7 @@ abstract class ilPreviewRenderer
      *
      * @return int The current value
      */
-    final protected function getImageQuality()
+    final protected function getImageQuality() : int
     {
         return ilPreviewSettings::getImageQuality();
     }
@@ -173,7 +173,7 @@ abstract class ilPreviewRenderer
      *
      * @return int The current value
      */
-    final protected function getMaximumNumberOfPreviews()
+    final protected function getMaximumNumberOfPreviews() : int
     {
         return ilPreviewSettings::getMaximumPreviews();
     }

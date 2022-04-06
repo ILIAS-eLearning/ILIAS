@@ -11,14 +11,14 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
     protected GlobalHttpState $http;
 
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($data, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
 
         $this->http = $DIC->http();
 
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+        parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
 

@@ -44,8 +44,8 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
     {
         $this->initAuth($session_id);
         $this->initIlias();
-        if (!$this->__checkSession($session_id)) {
-            throw new ilSoapPluginException($this->__getMessage());
+        if (!$this->checkSession($session_id)) {
+            throw new ilSoapPluginException($this->getMessage());
         }
     }
 
@@ -74,7 +74,7 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
      * @return void
      * @throws ilSoapPluginException
      */
-    protected function __raiseError(string $a_message, $a_code)
+    protected function raiseError(string $a_message, $a_code)
     {
         throw new ilSoapPluginException($a_message, $a_code);
     }

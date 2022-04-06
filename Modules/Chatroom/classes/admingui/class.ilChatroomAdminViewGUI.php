@@ -150,7 +150,10 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $serverSettings = $adminSettings->loadGeneralSettings();
 
         if ($form === null) {
-            $clientSettings = $adminSettings->loadClientSettings();
+            $clientSettings = array_map(
+                static fn ($value) => is_int($value) ? (string) $value : $value,
+                $adminSettings->loadClientSettings()
+            );
             $factory = new ilChatroomFormFactory();
             $form = $factory->getClientSettingsForm();
             $form->setValuesByArray($clientSettings);

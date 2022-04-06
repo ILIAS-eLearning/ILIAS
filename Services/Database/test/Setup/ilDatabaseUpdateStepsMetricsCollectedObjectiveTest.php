@@ -9,7 +9,7 @@ class Test_ilDatabaseUpdateSteps2 implements ilDatabaseUpdateSteps
 {
     protected ?ilDBInterface $db = null;
 
-    public function prepare(ilDBInterface $db)
+    public function prepare(ilDBInterface $db) : void
     {
         $this->db = $db;
     }

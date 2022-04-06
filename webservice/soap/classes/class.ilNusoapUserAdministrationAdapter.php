@@ -49,10 +49,7 @@ require_once('./Services/Init/classes/class.ilInitialisation.php');
 
 class ilNusoapUserAdministrationAdapter
 {
-    /*
-     * @var object Nusoap-Server
-     */
-    public $server = null;
+    public soap_server $server;
 
     public function __construct(bool $a_use_wsdl = true)
     {
@@ -65,10 +62,10 @@ class ilNusoapUserAdministrationAdapter
         $this->server->class = "ilSoapFunctions";
 
         if ($a_use_wsdl) {
-            $this->__enableWSDL();
+            $this->enableWSDL();
         }
 
-        $this->__registerMethods();
+        $this->registerMethods();
     }
 
     public function start() : void
@@ -78,13 +75,12 @@ class ilNusoapUserAdministrationAdapter
         exit();
     }
 
-    // PRIVATE
-    public function __enableWSDL() : void
+    private function enableWSDL() : void
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
     }
 
-    public function __registerMethods() : void
+    private function registerMethods() : void
     {
 
         // Add useful complex types. E.g. array("a","b") or array(1,2)
@@ -868,18 +864,6 @@ class ilNusoapUserAdministrationAdapter
         );
 
         $this->server->register(
-            'handleECSTasks',
-            array('sid' => 'xsd:string', 'server_id' => 'xsd:int'),
-            array('success' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#handleECSTasks',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS handleECSTasks(): Only for internal usage.' .
-            'Syntax, parameters may change in future releases. '
-        );
-
-        $this->server->register(
             'ilCloneDependencies',
             array('sid' => 'xsd:string', 'copy_identifier' => 'xsd:int'),
             array('success' => 'xsd:boolean'),
@@ -1588,7 +1572,7 @@ class ilNusoapUserAdministrationAdapter
     /**
      * Register any methods and types of SOAP plugins to the SOAP server
      */
-    protected function handleSoapPlugins()
+    protected function handleSoapPlugins() : void
     {
         // Note: We need a context that does not handle authentication at this point, because this is
         // handled by an actual SOAP request which always contains the session ID and client

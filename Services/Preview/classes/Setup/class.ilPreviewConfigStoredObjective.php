@@ -17,10 +17,7 @@ use ILIAS\Setup;
  *****************************************************************************/
 class ilPreviewConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilPreviewSetupConfig
-     */
-    protected $config;
+    protected \ilPreviewSetupConfig $config;
 
     public function __construct(
         \ilPreviewSetupConfig $config
