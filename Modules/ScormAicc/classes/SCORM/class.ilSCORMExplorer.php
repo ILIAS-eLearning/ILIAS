@@ -20,7 +20,7 @@ class ilSCORMExplorer extends ilExplorer
      */
     public $slm_obj;//PHP8Review: Missing Typehint (probably ilObjScormModule)
 
-    public function __construct(string $a_target, &$a_slm_obj) : void//PHP8Review: Missing Typehint
+    public function __construct(string $a_target, &$a_slm_obj)//PHP8Review: Missing Typehint
     {
         parent::__construct($a_target);
         $this->slm_obj = $a_slm_obj;
