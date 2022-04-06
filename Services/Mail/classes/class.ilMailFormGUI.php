@@ -30,7 +30,7 @@ class ilMailFormGUI
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;
     private ilFormatMail $umail;
-    private ilMailBox $mbox;
+    private ilMailbox $mbox;
     private ilFileDataMail $mfile;
     private GlobalHttpState $http;
     private Refinery $refinery;
@@ -176,11 +176,7 @@ class ilMailFormGUI
 
         $mailer = $this->umail
             ->withContextId(ilMailFormCall::getContextId() ?: '')
-            ->withContextParameters(
-                is_array(ilMailFormCall::getContextParameters()) ?
-                    ilMailFormCall::getContextParameters() :
-                    []
-            );
+            ->withContextParameters(ilMailFormCall::getContextParameters());
 
         $mailer->setSaveInSentbox(true);
 
@@ -740,7 +736,7 @@ class ilMailFormGUI
 
         $inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
         $inp->setSize(50);
-        $inp->setValue((string) ($mailData['rcp_bcc'] ?? ''));
+        $inp->setValue($mailData['rcp_bcc'] ?? '');
         $inp->setDataSource($dsDataLink, ',');
         $form_gui->addItem($inp);
 

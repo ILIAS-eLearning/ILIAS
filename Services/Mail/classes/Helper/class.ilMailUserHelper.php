@@ -9,7 +9,7 @@
 class ilMailUserHelper
 {
     /**
-     * @param array $usrIds int[]
+     * @param int[] $usrIds
      * @return string[]
      */
     public function getUsernameMapForIds(array $usrIds) : array

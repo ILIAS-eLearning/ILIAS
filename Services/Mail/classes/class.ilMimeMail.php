@@ -79,7 +79,7 @@ class ilMimeMail
     }
 
     /**
-     * @param string|string[] To email address, accept both a single address or an array of addresses
+     * @param string|string[] $to To email address, accept both a single address or an array of addresses
      */
     public function To($to) : void
     {
@@ -91,7 +91,7 @@ class ilMimeMail
     }
 
     /**
-     * @param string|string[] CC email address, accept both a single address or an array of addresses
+     * @param string|string[] $cc CC email address, accept both a single address or an array of addresses
      */
     public function Cc($cc) : void
     {
@@ -103,7 +103,7 @@ class ilMimeMail
     }
 
     /**
-     * @param string|string[] BCC email address, accept both a single address or an array of addresses
+     * @param string|string[] $bcc BCC email address, accept both a single address or an array of addresses
      */
     public function Bcc($bcc) : void
     {
@@ -235,9 +235,8 @@ class ilMimeMail
     private function removeHTMLTags(string $maybeHTML) : string
     {
         $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybeHTML);
-        $maybeHTML = strip_tags($maybeHTML);
-
-        return $maybeHTML;
+        
+        return strip_tags($maybeHTML);
     }
 
     protected function buildBodyMultiParts(string $skin) : void
@@ -297,7 +296,7 @@ class ilMimeMail
             new DirectoryIterator($directory),
             '/\.(jpg|jpeg|gif|svg|png)$/i'
         ) as $file) {
-            /** @var $file SplFileInfo */
+            /** @var SplFileInfo $file */
             $cid = 'img/' . $file->getFilename();
 
             $this->images[$cid] = [

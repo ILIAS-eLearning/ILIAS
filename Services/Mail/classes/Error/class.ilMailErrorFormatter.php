@@ -17,7 +17,7 @@ class ilMailErrorFormatter
     /**
      * Formats an error string based on the passed list of errors. If the list contains > 1 elements, the 1st error
      * will be used as a headline for the list of errors.
-     * @param $errors ilMailError[]
+     * @param ilMailError[] $errors
      */
     public function format(array $errors) : string
     {
@@ -34,13 +34,13 @@ class ilMailErrorFormatter
 
             if (
                 $translation === $error->getLanguageVariable() ||
-                0 === count($error->getPlaceholderValues())
+                0 === count($error->getPlaceHolderValues())
             ) {
                 $errorsToDisplay[] = $translation;
             } else {
                 $escapedPlaceholderValues = array_map(static function (string $address) : string {
                     return ilLegacyFormElementsUtil::prepareFormOutput($address);
-                }, $error->getPlaceholderValues());
+                }, $error->getPlaceHolderValues());
 
                 array_unshift($escapedPlaceholderValues, $translation);
                 $errorsToDisplay[] = sprintf(...$escapedPlaceholderValues);

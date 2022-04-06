@@ -229,7 +229,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @param array{name:string, tmp_name:string}
+     * @param array{name:string, tmp_name:string} $file
      */
     public function storeUploadedFile(array $file) : void
     {
@@ -268,7 +268,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @param string[] filenames to delete
+     * @param string[] $a_filenames Filenames to delete
      * @return string error message with filename that couldn't be deleted
      */
     public function unlinkFiles(array $a_filenames) : string

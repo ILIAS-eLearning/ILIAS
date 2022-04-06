@@ -31,7 +31,11 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
             ];
         }
 
-        return [];
+        return [
+            'login' => '',
+            'firstname' => '',
+            'lastname' => '',
+        ];
     }
 
     public function key() : string
@@ -61,15 +65,18 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
                 'trim',
                 preg_split("/[ ]*[;,][ ]*/", trim($this->data['login']))
             ));
+
             foreach ($parts as $part) {
                 if (ilStr::strPos(ilStr::strToLower($part), ilStr::strToLower($this->term)) !== false) {
                     $this->users_stack[] = $part;
                 }
             }
+
             if ($this->users_stack) {
                 $this->data = [];
             }
         }
+
         return is_array($this->data) || count($this->users_stack) > 0;
     }
 

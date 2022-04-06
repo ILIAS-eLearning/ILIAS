@@ -148,7 +148,7 @@ class ilMail
         $recipients = array_filter(array_map('trim', explode(',', $recipients)));
         foreach ($recipients as $recipient) {
             $usrId = ilObjUser::_lookupId($recipient);
-            if ($usrId > 0) {
+            if (is_int($usrId) && $usrId > 0) {
                 $pp = ilObjUser::_lookupPref($usrId, 'public_profile');
                 if ($pp === 'g' || ($pp === 'y' && !$this->actor->isAnonymous())) {
                     $user = $this->getUserInstanceById($usrId);

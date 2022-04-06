@@ -243,7 +243,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $column['txt'],
                     isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
                     $column['width'] ?? '',
-                    isset($column['is_checkbox']) && (bool) $column['is_checkbox']
+                    isset($column['is_checkbox']) && $column['is_checkbox']
                 );
             }
         }

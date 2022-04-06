@@ -91,7 +91,7 @@ class ilMassMailTaskProcessor
         }
 
         foreach ($mailValueObjects as $mailValueObject) {
-            if (false === ($mailValueObject instanceof ilMailValueObject)) {
+            if (!($mailValueObject instanceof ilMailValueObject)) {
                 throw new ilException('Array MUST contain ilMailValueObjects ONLY');
             }
         }

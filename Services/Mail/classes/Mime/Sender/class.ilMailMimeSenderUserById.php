@@ -7,7 +7,7 @@
  */
 class ilMailMimeSenderUserById extends ilMailMimeSenderUser
 {
-    /** @var ilObjUser[] */
+    /** @var array<int, ilObjUser> */
     protected static array $userInstances = [];
 
     public function __construct(ilSetting $settings, int $usrId)

@@ -68,9 +68,7 @@ class ilMailTemplateRepository
     {
         if (count($templateIds) > 0) {
             $this->db->manipulate(
-                '
-				DELETE FROM mail_man_tpl WHERE ' .
-                $this->db->in('tpl_id', $templateIds, false, 'integer')
+                'DELETE FROM mail_man_tpl WHERE ' . $this->db->in('tpl_id', $templateIds, false, 'integer')
             );
         }
     }

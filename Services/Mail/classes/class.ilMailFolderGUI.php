@@ -24,7 +24,7 @@ class ilMailFolderGUI
     private ilTabsGUI $tabs;
     private ilObjUser $user;
     public ilMail $umail;
-    public ilMailBox $mbox;
+    public ilMailbox $mbox;
     private GlobalHttpState $http;
     private Refinery $refinery;
     private int $currentFolderId = 0;
@@ -601,9 +601,7 @@ class ilMailFolderGUI
         $this->ctrl->clearParameters($this);
         $form->setTitle($this->lng->txt('mail_mails_of'));
 
-        /**
-         * @var $sender ilObjUser
-         */
+        /** @var ilObjUser $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
         $replyBtn = null;
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
@@ -837,9 +835,7 @@ class ilMailFolderGUI
         }
         $mailData = $this->umail->getMail($mailId);
 
-        /**
-         * @var $sender ilObjUser
-         */
+        /** @var ilObjUser $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
 
         $tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));

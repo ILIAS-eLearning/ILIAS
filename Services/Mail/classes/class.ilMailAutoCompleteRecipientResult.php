@@ -17,7 +17,10 @@ class ilMailAutoCompleteRecipientResult
     protected int $mode = self::MODE_STOP_ON_MAX_ENTRIES;
     protected int $max_entries;
     /** @var array{hasMoreResults: bool, items: array} */
-    public array $result = [];
+    public array $result = [
+        'items' => [],
+        'hasMoreResults' => false
+    ];
 
     public function __construct(int $mode)
     {
@@ -27,9 +30,6 @@ class ilMailAutoCompleteRecipientResult
         $this->user_id = $DIC->user()->getId();
         $this->max_entries = ilSearchSettings::getInstance()->getAutoCompleteLength();
         
-        $this->result['items'] = [];
-        $this->result['hasMoreResults'] = false;
-
         $this->initMode($mode);
     }
 
@@ -65,7 +65,7 @@ class ilMailAutoCompleteRecipientResult
 
     public function addResult(string $login, string $firstname, string $lastname) : void
     {
-        if (!isset($this->handled_recipients[$login])) {
+        if ($login !== '' && !isset($this->handled_recipients[$login])) {
             $recipient = [];
             $recipient['value'] = $login;
 
@@ -81,7 +81,7 @@ class ilMailAutoCompleteRecipientResult
     }
 
     /**
-     * @return array{hasMoreResults: bool, items: array}
+     * @return array{hasMoreResults: bool, items: array{value: string, label: string}[]}
      */
     public function getItems() : array
     {

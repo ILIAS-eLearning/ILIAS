@@ -286,13 +286,11 @@ class ilMailTemplateGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
-        if (count($templateIds) === 0) {
-            if ($this->http->wrapper()->query()->has('tpl_id')) {
-                $templateIds = [$this->http->wrapper()->query()->retrieve(
-                    'tpl_id',
-                    $this->refinery->kindlyTo()->int()
-                )];
-            }
+        if (count($templateIds) === 0 && $this->http->wrapper()->query()->has('tpl_id')) {
+            $templateIds = [$this->http->wrapper()->query()->retrieve(
+                'tpl_id',
+                $this->refinery->kindlyTo()->int()
+            )];
         }
 
         if (0 === count($templateIds)) {

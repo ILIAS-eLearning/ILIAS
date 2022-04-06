@@ -24,8 +24,6 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         $tpl = $this->getMockBuilder(ilGlobalTemplateInterface::class)->disableOriginalConstructor()->getMock();
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
-        $mail = $this->getMockBuilder(ilFormatMail::class)->disableOriginalConstructor()->getMock();
-        $mailBox = $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock();
 
         return new ilMailOptionsGUI(
             $tpl,
@@ -34,8 +32,6 @@ class ilMailOptionsGUITest extends ilMailBaseTest
             $lng,
             $user,
             $httpState,
-            $mail,
-            $mailBox,
             new Factory(new \ILIAS\Data\Factory(), $lng)
         );
     }

@@ -80,7 +80,7 @@ class ilMailAppEventListener implements ilAppEventListener
      */
     public static function handleEvent($a_component, $a_event, $a_parameter) : void
     {
-        $listener = new static();
+        $listener = new self();
         $listener
             ->withComponent($a_component)
             ->withEvent($a_event)

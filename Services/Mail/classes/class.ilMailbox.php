@@ -18,7 +18,13 @@ class ilMailbox
     /** @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string} */
     protected array $actions = [];
     /** @var array{b_inbox: string, c_trash: string, d_drafts: string, e_sent: string, z_local : string} */
-    protected array $defaultFolders = [];
+    protected array $defaultFolders = [
+        'b_inbox' => 'inbox',
+        'c_trash' => 'trash',
+        'd_drafts' => 'drafts',
+        'e_sent' => 'sent',
+        'z_local' => 'local',
+    ];
     protected string $table_mail_obj_data;
     protected string $table_tree;
 
@@ -51,15 +57,6 @@ class ilMailbox
                 'deleteMails' => $this->lng->txt('delete'),
             ];
         }
-
-        // array contains basic folders and there lng translation for every new user
-        $this->defaultFolders = [
-            'b_inbox' => 'inbox',
-            'c_trash' => 'trash',
-            'd_drafts' => 'drafts',
-            'e_sent' => 'sent',
-            'z_local' => 'local',
-        ];
     }
 
     public function getInboxFolder() : int

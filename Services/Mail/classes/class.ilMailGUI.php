@@ -21,7 +21,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
     private int $currentFolderId = 0;
     private ilObjUser $user;
     public ilMail $umail;
-    public ilMailBox $mbox;
+    public ilMailbox $mbox;
 
     public function __construct()
     {

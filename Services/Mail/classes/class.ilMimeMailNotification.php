@@ -43,15 +43,15 @@ abstract class ilMimeMailNotification extends ilMailNotification
     }
 
     /**
-     * @param int|string|ilObjUser
+     * @param int|string|ilObjUser $rcp
      * @throws ilMailException
      */
     protected function handleCurrentRecipient($rcp) : void
     {
         if (is_numeric($rcp)) {
-            /** @var $rcp ilObjUser */
+            /** @var ilObjUser $rcp */
             $rcp = ilObjectFactory::getInstanceByObjId((int) $rcp, false);
-            if (!$rcp) {
+            if (!($rcp instanceof ilObjUser)) {
                 throw new ilMailException('no_recipient_found');
             }
             $this->setCurrentRecipient($rcp->getEmail());
