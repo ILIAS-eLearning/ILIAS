@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery;
 
@@ -26,6 +40,8 @@ trait ProblemBuilder
 
     /**
      * Get the problem message
+     * @param mixed $value
+     * @return string
      */
     final public function getErrorMessage($value) : string
     {
@@ -38,9 +54,8 @@ trait ProblemBuilder
     }
 
     /**
-     * Get the closure to be passed to the error-function that does i18n and
-     * sprintf.
-     * @return  Closure
+     * Get the closure to be passed to the error-function that does i18n and sprintf.
+     * @return Closure
      */
     final protected function getLngClosure() : Closure
     {
