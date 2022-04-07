@@ -6,6 +6,7 @@ namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
+use ilLanguage;
 
 class Parallel extends Constraint
 {
@@ -22,7 +23,7 @@ class Parallel extends Constraint
      */
     protected array $failed_constraints;
 
-    public function __construct(array $constraints, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->constraints = $constraints;
         parent::__construct(
@@ -40,7 +41,7 @@ class Parallel extends Constraint
             },
             function ($txt, $value) {
                 $messages = [];
-                foreach ($this->failed_constraints as $key => $constraint) {
+                foreach ($this->failed_constraints as $constraint) {
                     $messages[] = $constraint->getErrorMessage($value);
                 }
 

@@ -4,15 +4,15 @@
 
 namespace ILIAS\Refinery\String;
 
-use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ilLanguage;
 
 class HasMaxLength extends CustomConstraint
 {
     protected int $max_length;
 
-    public function __construct(int $max_length, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(int $max_length, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->max_length = $max_length;
         parent::__construct(

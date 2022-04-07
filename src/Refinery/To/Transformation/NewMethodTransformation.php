@@ -6,8 +6,8 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use InvalidArgumentException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -23,7 +23,7 @@ class NewMethodTransformation implements Transformation
     public function __construct(object $object, string $methodToCall)
     {
         if (false === method_exists($object, $methodToCall)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The second parameter MUST be an method of the object'
             );
         }

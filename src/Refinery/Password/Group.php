@@ -5,11 +5,7 @@
 namespace ILIAS\Refinery\Password;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Password\HasLowerChars;
-use ILIAS\Refinery\Password\HasMinLength;
-use ILIAS\Refinery\Password\HasNumbers;
-use ILIAS\Refinery\Password\HasSpecialChars;
-use ILIAS\Refinery\Password\HasUpperChars;
+use ilLanguage;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -17,9 +13,9 @@ use ILIAS\Refinery\Password\HasUpperChars;
 class Group
 {
     protected Factory $data_factory;
-    protected \ilLanguage $lng;
+    protected ilLanguage $lng;
 
-    public function __construct(Factory $data_factory, \ilLanguage $lng)
+    public function __construct(Factory $data_factory, ilLanguage $lng)
     {
         $this->data_factory = $data_factory;
         $this->lng = $lng;

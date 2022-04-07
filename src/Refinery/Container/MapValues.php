@@ -8,6 +8,7 @@ use ILIAS\Data\Factory;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use InvalidArgumentException;
 
 /**
  * Adds to any array keys for each value
@@ -18,11 +19,9 @@ class MapValues implements Transformation
     use DeriveApplyToFromTransform;
 
     protected string $type;
+    private Transformation $trafo;
     private Factory $factory;
 
-    /**
-     * @param string[] | int[] $labels
-     */
     public function __construct(Transformation $trafo, Factory $factory)
     {
         $this->trafo = $trafo;
@@ -35,7 +34,7 @@ class MapValues implements Transformation
     public function transform($from)
     {
         if (!is_array($from)) {
-            throw new \InvalidArgumentException(__METHOD__ . " argument is not an array.");
+            throw new InvalidArgumentException(__METHOD__ . " argument is not an array.");
         }
 
         return array_map(function ($a) {

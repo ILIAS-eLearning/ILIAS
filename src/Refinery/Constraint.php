@@ -6,6 +6,7 @@
 namespace ILIAS\Refinery;
 
 use ILIAS\Data\Result;
+use UnexpectedValueException;
 
 /**
  * A constraint encodes some resrtictions on values.
@@ -19,7 +20,7 @@ interface Constraint extends Transformation
      *
      * Should not throw if accepts($value).
      *
-     * @throws  \UnexpectedValueException if value does not comply with encoded constraint.
+     * @throws  UnexpectedValueException if value does not comply with encoded constraint.
      * @param   mixed  $value
      * @return  null
      */

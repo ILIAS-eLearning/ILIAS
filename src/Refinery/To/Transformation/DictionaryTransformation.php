@@ -43,7 +43,7 @@ class DictionaryTransformation implements Constraint
         return $result;
     }
 
-    public function getError()
+    public function getError() : string
     {
         return 'The value MUST be an array with only string keys.';
     }

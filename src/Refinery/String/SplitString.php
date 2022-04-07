@@ -8,6 +8,7 @@ use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use InvalidArgumentException;
 
 /**
  * Split a string by delimiter into array
@@ -31,7 +32,7 @@ class SplitString implements Transformation
     public function transform($from)
     {
         if (!is_string($from)) {
-            throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+            throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
         }
 
         return explode($this->delimiter, $from);
@@ -44,7 +45,7 @@ class SplitString implements Transformation
     {
         $dataValue = $result->value();
         if (false === is_string($dataValue)) {
-            $exception = new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+            $exception = new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
             return $this->factory->error($exception);
         }
 

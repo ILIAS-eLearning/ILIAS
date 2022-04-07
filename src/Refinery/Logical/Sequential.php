@@ -6,6 +6,7 @@ namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
+use ilLanguage;
 
 class Sequential extends Constraint
 {
@@ -15,19 +16,19 @@ class Sequential extends Constraint
     protected array $constraints;
 
     /**
-     * Theres a test to show this state will never be visible
+     * There's a test to show this state will never be visible
      * SequentialTest::testCorrectErrorMessagesAfterMultiAccept
      *
      * @var Constraint
      */
     protected Constraint $failed_constraint;
 
-    public function __construct(array $constraints, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->constraints = $constraints;
         parent::__construct(
             function ($value) {
-                foreach ($this->constraints as $key => $constraint) {
+                foreach ($this->constraints as $constraint) {
                     if (!$constraint->accepts($value)) {
                         $this->failed_constraint = $constraint;
                         return false;

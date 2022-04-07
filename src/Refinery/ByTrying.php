@@ -4,12 +4,8 @@
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\ProblemBuilder;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Data;
-use ILIAS\Refinery\ConstraintViolationException;
+use ilLanguage;
 
 class ByTrying implements Transformation
 {
@@ -29,7 +25,7 @@ class ByTrying implements Transformation
      */
     protected $error;
 
-    public function __construct(array $transformations, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(array $transformations, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->transformations = $transformations;
         $this->data_factory = $data_factory;

@@ -6,10 +6,7 @@ namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Refinery\Logical\LogicalOr;
-use ILIAS\Refinery\Logical\Not;
-use ILIAS\Refinery\Logical\Parallel;
-use ILIAS\Refinery\Logical\Sequential;
+use ilLanguage;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -17,9 +14,9 @@ use ILIAS\Refinery\Logical\Sequential;
 class Group
 {
     private Factory $dataFactory;
-    private \ilLanguage $language;
+    private ilLanguage $language;
 
-    public function __construct(Factory $dataFactory, \ilLanguage $language)
+    public function __construct(Factory $dataFactory, ilLanguage $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;

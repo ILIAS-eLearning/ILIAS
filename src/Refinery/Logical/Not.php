@@ -6,12 +6,13 @@ namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
+use ilLanguage;
 
 class Not extends Constraint
 {
     protected Constraint $constraint;
 
-    public function __construct(Constraint $constraint, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(Constraint $constraint, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->constraint = $constraint;
         parent::__construct(

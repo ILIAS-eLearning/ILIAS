@@ -7,6 +7,11 @@ namespace ILIAS\Refinery\String;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
+use InvalidArgumentException;
+use DOMDocument;
+use DOMText;
+use DOMCdataSection;
+use DOMXPath;
 
 class EstimatedReadingTime implements Transformation
 {
@@ -28,7 +33,7 @@ class EstimatedReadingTime implements Transformation
     public function transform($from)
     {
         if (!is_string($from)) {
-            throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+            throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
         }
 
         return $this->calculate($from);
@@ -42,19 +47,19 @@ class EstimatedReadingTime implements Transformation
             'UTF-8'
         );
 
-        $document = new \DOMDocument();
+        $document = new DOMDocument();
         if (!@$document->loadHTML($text)) {
-            throw new \InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string.");
+            throw new InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string.");
         }
         
         $numberOfWords = 0;
 
-        $xpath = new \DOMXPath($document);
+        $xpath = new DOMXPath($document);
         $textNodes = $xpath->query('//text()');
         if ($textNodes->length > 0) {
             foreach ($textNodes as $textNode) {
-                /** @var \DOMText|\DOMCdataSection $textNode */
-                if ($textNode instanceof \DOMCdataSection) {
+                /** @var DOMText|DOMCdataSection $textNode */
+                if ($textNode instanceof DOMCdataSection) {
                     continue;
                 }
 

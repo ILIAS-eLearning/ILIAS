@@ -67,7 +67,7 @@ class TupleTransformation implements Constraint
     /**
      * @inheritdoc
      */
-    public function getError()
+    public function getError() : string
     {
         return $this->error;
     }

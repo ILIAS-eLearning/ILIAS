@@ -16,6 +16,7 @@ use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\NullTransformation;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Data\Factory;
 
 /**
  * Transformations in this group transform data to primitive types to establish
@@ -30,9 +31,9 @@ use ILIAS\Refinery\Transformation;
  */
 class Group
 {
-    private \ILIAS\Data\Factory $dataFactory;
+    private Factory $dataFactory;
 
-    public function __construct(\ILIAS\Data\Factory $dataFactory)
+    public function __construct(Factory $dataFactory)
     {
         $this->dataFactory = $dataFactory;
     }

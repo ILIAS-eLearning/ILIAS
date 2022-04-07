@@ -7,6 +7,7 @@ namespace ILIAS\Refinery\String;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use InvalidArgumentException;
 
 /**
  * Strip tags from a string.
@@ -22,7 +23,7 @@ class StripTags implements Transformation
     public function transform($from)
     {
         if (!is_string($from)) {
-            throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+            throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
         }
 
         return strip_tags($from);

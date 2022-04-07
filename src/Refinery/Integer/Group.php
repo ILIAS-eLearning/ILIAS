@@ -5,6 +5,7 @@
 namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Data\Factory;
+use ilLanguage;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -12,9 +13,9 @@ use ILIAS\Data\Factory;
 class Group
 {
     private Factory $dataFactory;
-    private \ilLanguage $language;
+    private ilLanguage $language;
 
-    public function __construct(Factory $dataFactory, \ilLanguage $language)
+    public function __construct(Factory $dataFactory, ilLanguage $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;

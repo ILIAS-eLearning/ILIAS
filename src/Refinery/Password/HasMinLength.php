@@ -5,14 +5,14 @@
 namespace ILIAS\Refinery\Password;
 
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
-use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
+use ilLanguage;
 
 class HasMinLength extends CustomConstraint
 {
     protected int $min_length;
 
-    public function __construct(int $min_length, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(int $min_length, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->min_length = $min_length;
         parent::__construct(
