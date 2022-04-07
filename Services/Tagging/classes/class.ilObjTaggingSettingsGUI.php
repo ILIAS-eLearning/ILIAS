@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 class ilObjTaggingSettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilTabsGUI $tabs;
     protected string $requested_tag;
 
@@ -36,7 +37,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     public function __construct(string $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
-        // PHP8-Review: Access to an undefined property ilObjTaggingSettingsGUI::$rbacsystem
+
         $this->rbacsystem = $DIC->rbac()->system();
         $this->access = $DIC->access();
         $this->tabs = $DIC->tabs();
@@ -66,7 +67,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
-        // PHP8-Review: Access to an undefined property ilObjTaggingSettingsGUI::$rbacsystem
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilObjectException($this->lng->txt("permission_denied"));
         }
@@ -89,7 +89,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        // PHP8-Review: Access to an undefined property ilObjTaggingSettingsGUI::$rbacsystem
         $rbacsystem = $this->rbacsystem;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
@@ -122,7 +121,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "editSettings")
             );
 
-            // PHP8-Review: Access to an undefined property ilObjTaggingSettingsGUI::$rbacsystem
             if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
                 $ilTabs->addSubTab(
                     "forbidden_tags",

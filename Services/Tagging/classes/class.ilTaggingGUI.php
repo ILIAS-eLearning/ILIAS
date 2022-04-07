@@ -106,7 +106,7 @@ class ilTaggingGUI
         $tags_set = new ilSetting("tags");
         $forbidden = $tags_set->get("forbidden_tags");
         if ($forbidden != "") {
-            $this->forbidden = unserialize($forbidden, ['allowed_classes' => false]); // PHP8-Review: Parameter #1 $variable_representation of function unserialize expects string, string|null given. Property ilTaggingGUI::$forbidden (array) does not accept mixed.
+            $this->forbidden = unserialize((string) $forbidden, ['allowed_classes' => false]);
         } else {
             $this->forbidden = array();
         }

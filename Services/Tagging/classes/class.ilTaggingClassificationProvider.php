@@ -165,7 +165,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             $found = null;
             foreach ($this->getSubTreeTags() as $tags) {
                 foreach (array_keys($tags) as $tag) {
-                    if (md5($tag) == $tag_code) { //PHP8-Review: Parameter #1 $str of function md5 expects string, int|string given
+                    if (md5((string) $tag) === $tag_code) {
                         $found = $tag;
                         break(2);
                     }
@@ -184,7 +184,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     $a_saved[$type][] = $found;
                 }
             }
-            return $a_saved; // PHP8-Review: Method ilTaggingClassificationProvider::importPostData() should return array but returns array|null.
+            return $a_saved ?? [];
         }
         return [];
     }
@@ -244,8 +244,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             }
         }
 
-        if (sizeof($res)) { // PHP8-Review: Parameter #1 $var of function sizeof expects array|Countable, array<int, (int|string)>|null given
-            return array_unique($res); // PHP8-Review: Parameter #1 $array of function array_unique expects array, array<int, (int|string)>|null given
+        if (!is_null($res) && count($res) > 0) {
+            return array_unique($res);
         }
         return [];
     }
@@ -253,7 +253,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     protected function getSubTreeTags() : array
     {
         return [];
-        $tree = $this->tree; // PHP8-Review: Unreachable statement - code above always terminates
+        /*
+        $tree = $this->tree;
         $ilUser = $this->user;
         $sub_ids = array();
 
@@ -283,7 +284,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 
             return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());
         }
-        return [];
+        return [];*/
     }
 
     public function initListGUI(ilObjectListGUI $a_list_gui) : void
