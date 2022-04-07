@@ -102,7 +102,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 $mail_type = 0;
                 switch ($this->getParentObject()->getType()) {
                     case 'crs':
-                        $mail_type = ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER
+                        $mail_type = ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER;
                         break;
                 }
                 $this->getMembersObject()->sendNotification($mail_type, $usr_id);

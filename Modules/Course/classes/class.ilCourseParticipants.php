@@ -227,7 +227,7 @@ class ilCourseParticipants extends ilParticipants
                 $mail->send();
                 break;
 
-            case ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER
+            case ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
