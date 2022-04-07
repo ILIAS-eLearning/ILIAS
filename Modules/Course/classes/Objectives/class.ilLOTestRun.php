@@ -16,13 +16,11 @@ class ilLOTestRun
     protected array $questions = array();
 
     protected ilDBInterface $db;
-    private ilLogger $logger;
 
     public function __construct(int $a_crs_id, int $a_user_id, int $a_test_id, int $a_objective_id)
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->crs();
         $this->db = $DIC->database();
 
         $this->container_id = $a_crs_id;

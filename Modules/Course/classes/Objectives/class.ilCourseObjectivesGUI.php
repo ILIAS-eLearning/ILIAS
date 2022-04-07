@@ -538,7 +538,7 @@ class ilCourseObjectivesGUI
         }
         $chapters = [];
         if ($this->http->wrapper()->post()->has('chapters')) {
-            $materials = $this->http->wrapper()->post()->retrieve(
+            $chapters = $this->http->wrapper()->post()->retrieve(
                 'chapters',
                 $this->refinery->kindlyTo()->listOf(
                     $this->refinery->kindlyTo()->string()

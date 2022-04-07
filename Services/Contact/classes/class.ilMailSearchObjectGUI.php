@@ -403,7 +403,7 @@ abstract class ilMailSearchObjectGUI
         foreach ($obj_ids as $obj_id) {
             /** @var ilObjGroup|ilObjCourse $object */
             $object = ilObjectFactory::getInstanceByObjId($obj_id);
-            if ((int) $object->getShowMembers() === $object->SHOW_MEMBERS_DISABLED) {
+            if (!$object->getShowMembers()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
                 $this->showMyObjects();
                 return;

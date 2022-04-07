@@ -8,8 +8,6 @@
  */
 class ilTimingsManageTableGUI extends ilTable2GUI
 {
-    private ilLogger $logger;
-
     private ilObject $container;
     private ilObjCourse $main_container;
     private bool $failure = false;
@@ -25,7 +23,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
     ) {
         global $DIC;
 
-        $this->logger = $DIC->logger()->obj();
         $this->container = $a_container_obj;
         $this->main_container = $a_main_container;
         $this->setId('manage_timings_' . $this->getContainerObject()->getRefId());

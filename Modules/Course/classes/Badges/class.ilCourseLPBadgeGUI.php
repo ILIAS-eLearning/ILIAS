@@ -65,6 +65,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         foreach ($sub_items as $node) {
             if (ilObjectLP::isSupportedObjectType($node["type"])) {
                 $class = ilObjectLP::getTypeClass($node["type"]);
+                /** @noinspection PhpUndefinedMethodInspection */
                 $modes = $class::getDefaultModes(ilObjUserTracking::_enabledLearningProgress());
                 if (sizeof($modes) > 1) {
                     $res[] = $node["type"];

@@ -29,9 +29,7 @@
 class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 {
     private int $objective_id = 0;
-    private ilCourseObjective $objective;
     private ilCourseObjectiveMaterials $objective_lm;
-    private ilObject $course_obj;
 
     protected ilObjectDefinition $objectDefinition;
 
@@ -42,7 +40,6 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->objectDefinition = $DIC['ilObjDefinition'];
 
         $this->objective_id = $a_objective_id;
-        $this->course_obj = $a_course_obj;
 
         parent::__construct($a_parent_obj, 'materialAssignment');
         $this->lng->loadLanguageModule('crs');
@@ -152,7 +149,6 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 
     protected function initObjectiveAssignments() : void
     {
-        $this->objective = new ilCourseObjective($this->course_obj, $this->objective_id);
         $this->objective_lm = new ilCourseObjectiveMaterials($this->objective_id);
     }
 }

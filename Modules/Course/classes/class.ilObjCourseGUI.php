@@ -1108,7 +1108,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $min->setSubmitFormOnEnter(true);
         $min->setSize(4);
         $min->setMaxLength(4);
-        $min->setValue($this->object->getSubscriptionMinMembers() ? $this->object->getSubscriptionMinMembers() : '');
+        $min->setValue($this->object->getSubscriptionMinMembers() ?: '');
         $min->setTitle($this->lng->txt('crs_subscription_min_members'));
         $min->setInfo($this->lng->txt('crs_subscription_min_members_info'));
         $lim->addSubItem($min);
@@ -1117,7 +1117,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $max->setSubmitFormOnEnter(true);
         $max->setSize(4);
         $max->setMaxLength(4);
-        $max->setValue($this->object->getSubscriptionMaxMembers() ? $this->object->getSubscriptionMaxMembers() : '');
+        $max->setValue($this->object->getSubscriptionMaxMembers() ?: '');
         $max->setTitle($this->lng->txt('crs_subscription_max_members'));
         $max->setInfo($this->lng->txt('crs_reg_max_info'));
 
@@ -1498,7 +1498,7 @@ class ilObjCourseGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function showPossibleSubObjects() : void
+    protected function showPossibleSubObjects() : void
     {
         if (
             $this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE &&
@@ -1720,7 +1720,7 @@ class ilObjCourseGUI extends ilContainerGUI
         );
     }
 
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $this->help->setScreenIdComponent("crs");
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
@@ -2132,9 +2132,12 @@ class ilObjCourseGUI extends ilContainerGUI
                 break;
 
             case "ilobjectcontentstylesettingsgui":
+
+                global $DIC;
+
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
-                $settings_gui = $this->content_style_gui
+                $settings_gui = $DIC->contentStyle()->gui()
                     ->objectSettingsGUIForRefId(
                         null,
                         $this->object->getRefId()
@@ -2217,7 +2220,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 if (
                     !($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
                         $this->access->checkAccess('manage_members', "", $this->object->getRefId())) &&
-                    $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
+                    $this->rbac_system->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
                     $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->MESSAGE);
                 }
 
@@ -2325,7 +2328,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     && !$this->access->checkAccess("read", '', $this->object->getRefId())
                     || $cmd == 'join'
                     || $cmd == 'subscribe') {
-                    if ($this->rbacsystem->checkAccess('join', $this->object->getRefId()) &&
+                    if ($this->rbac_system->checkAccess('join', $this->object->getRefId()) &&
                         !ilCourseParticipants::_isParticipant($this->object->getRefId(), $this->user->getId())) {
                         $this->ctrl->redirectByClass("ilCourseRegistrationGUI");
                     } else {
@@ -2700,7 +2703,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $settings = ilMemberViewSettings::getInstance();
             if ($settings->isActive() and $settings->getContainer() != $this->object->getRefId()) {
                 $settings->setContainer($this->object->getRefId());
-                $this->rbacsystem->initMemberView();
+                $this->rbac_system->initMemberView();
             }
         }
         return parent::prepareOutput($show_subobjects);

@@ -22,7 +22,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     private bool $in_registration = false;
     private bool $in_period = false;
     private bool $in_period_with_time = false;
-    private bool $in_settings = false;
 
     private ?ilDateTime $period_start = null;
     private ?ilDateTime $period_end = null;
@@ -149,7 +148,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Settings':
-                $this->in_settings = true;
                 break;
             case 'Availability':
                 $this->in_availability = true;
@@ -470,7 +468,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Settings':
-                $this->in_settings = false;
                 break;
 
             case 'Availability':

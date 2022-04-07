@@ -510,7 +510,7 @@ class ilLOTestQuestionAdapter
         $questionList->setParentObjId($testObjId);
 
         $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-        $questionList->setQuestionIdsFilter($questionIds);
+        $questionList->setIncludeQuestionIdsFilter($questionIds);
         $questionList->load();
 
         return $questionList->getQuestionDataArray();

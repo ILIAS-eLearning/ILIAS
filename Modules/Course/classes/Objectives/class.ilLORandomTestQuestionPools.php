@@ -178,9 +178,6 @@ class ilLORandomTestQuestionPools
             foreach ((array) ilObject::_getAllReferences($this->getTestId()) as $tmp => $ref_id) {
                 $test_ref_id = $ref_id;
                 $mapped_id = $mappings[$ref_id];
-                if ($mapped_id) {
-                    continue;
-                }
             }
             if (!$mapped_id) {
                 ilLoggerFactory::getLogger('crs')->debug('No test mapping found for random question pool assignment: ' . $this->getTestId() . ' ' . $sequence);

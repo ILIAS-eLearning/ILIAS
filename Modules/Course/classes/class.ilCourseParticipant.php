@@ -38,20 +38,6 @@ class ilCourseParticipant extends ilParticipant
     {
         $this->type = 'crs';
 
-        $this->NOTIFY_DISMISS_SUBSCRIBER = 1;
-        $this->NOTIFY_ACCEPT_SUBSCRIBER = 2;
-        $this->NOTIFY_DISMISS_MEMBER = 3;
-        $this->NOTIFY_BLOCK_MEMBER = 4;
-        $this->NOTIFY_UNBLOCK_MEMBER = 5;
-        $this->NOTIFY_ACCEPT_USER = 6;
-        $this->NOTIFY_ADMINS = 7;
-        $this->NOTIFY_STATUS_CHANGED = 8;
-        $this->NOTIFY_SUBSCRIPTION_REQUEST = 9;
-
-        $this->NOTIFY_REGISTERED = 10;
-        $this->NOTIFY_UNSUBSCRIBE = 11;
-        $this->NOTIFY_WAITING_LIST = 12;
-
         parent::__construct(self::COMPONENT_NAME, $a_obj_id, $a_usr_id);
     }
 

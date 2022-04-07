@@ -29,6 +29,9 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     public const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
     public const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
 
+    public const TYPE_NOTIFICATION_ADMINS = 33;
+    public const TYPE_NOTIFICATION_ADMINS_REGISTRATION_REQUEST = 34;
+
     /**
      * @var array $permanent_enabled_notifications
      * Notifications which are not affected by "mail_crs_member_notification" setting

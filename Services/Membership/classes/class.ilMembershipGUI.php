@@ -629,7 +629,7 @@ class ilMembershipGUI
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->updatePassed($usr_id, in_array($usr_id, $passed), true);
                 $this->getMembersObject()->sendNotification(
-                    $this->getMembersObject()->NOTIFY_STATUS_CHANGED,
+                    ilCourseMembershipMailNotification::TYPE_STATUS_CHANGED,
                     $usr_id
                 );
             }
@@ -748,7 +748,7 @@ class ilMembershipGUI
                 // @todo more generic
                 switch ($this->getParentObject()->getType()) {
                     case 'crs':
-                        $mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
+                        $mail_type = ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER;
                         break;
                     case 'grp':
                         $mail_type = ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER;
@@ -1203,7 +1203,7 @@ class ilMembershipGUI
             foreach ($subscribers as $usr_id) {
                 if ($this instanceof ilCourseMembershipGUI) {
                     $this->getMembersObject()->sendNotification(
-                        $this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
+                        ilCourseMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
                         $usr_id
                     );
                 }
@@ -1251,7 +1251,7 @@ class ilMembershipGUI
             foreach ($subscribers as $usr_id) {
                 if ($this instanceof ilCourseMembershipGUI) {
                     $this->getMembersObject()->sendNotification(
-                        $this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER,
+                        ilCourseMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
                         $usr_id
                     );
                     $this->getParentObject()->checkLPStatusSync($usr_id);
@@ -1354,7 +1354,7 @@ class ilMembershipGUI
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
                 $this->getMembersObject()->sendNotification(
-                    $this->getMembersObject()->NOTIFY_ACCEPT_USER,
+                    ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                     (int) $user_id,
                     true
                 );
@@ -1439,7 +1439,7 @@ class ilMembershipGUI
 
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->sendNotification(
-                    $this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
+                    ilCourseMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
                     (int) $user_id,
                     true
                 );

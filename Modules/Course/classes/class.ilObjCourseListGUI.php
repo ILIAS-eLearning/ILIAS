@@ -11,7 +11,6 @@
 class ilObjCourseListGUI extends ilObjectListGUI
 {
     private ?ilCertificateObjectsForUserPreloader $certificatePreloader = null;
-    private bool $conditions_ok = false;
 
     /**
      * @inheritDoc
@@ -48,8 +47,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
         string $description = ""
     ) : void {
         parent::initItem($ref_id, $obj_id, $type, $title, $description);
-
-        $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($ref_id, $this->obj_id);
     }
 
     protected function getCertificatePreloader() : ilCertificateObjectsForUserPreloader

@@ -20,6 +20,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
         global $DIC;
 
         $this->user_id = $a_usr_id;
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->crs();
     }
 

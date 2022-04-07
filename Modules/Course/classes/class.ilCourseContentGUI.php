@@ -13,6 +13,7 @@ use ILIAS\Refinery\Factory;
  */
 class ilCourseContentGUI
 {
+    protected ilGlobalTemplateInterface $main_tpl;
     protected ilContainerGUI $container_gui;
     protected ilContainer $container_obj;
     protected ilObjCourse $course_obj;
@@ -33,8 +34,8 @@ class ilCourseContentGUI
     public function __construct(ilContainerGUI $container_gui_obj)
     {
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
 
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -298,7 +299,6 @@ class ilCourseContentGUI
                 $tu->update();
             } else {
                 $failed['ref_id'] = 'crs_timing_err_valid_dates';
-                continue;
             }
         }
         if (!$failed) {
