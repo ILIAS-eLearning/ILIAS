@@ -28,6 +28,7 @@ class InternalDomainService
     protected Container $dic;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
+    // PHP8-Review: $managers, $collectors have no value type specified in iterable type array
     protected static array $managers = array();
     protected static array $collectors = array();
 

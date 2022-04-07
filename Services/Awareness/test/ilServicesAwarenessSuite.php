@@ -22,6 +22,7 @@ require_once 'libs/composer/vendor/autoload.php';
  */
 class ilServicesAwarenessSuite extends TestSuite
 {
+    // PHP8-Review: no return type specified
     public static function suite()
     {
         $suite = new self();

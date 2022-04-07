@@ -26,6 +26,7 @@ use ILIAS\Awareness\InternalDomainService;
  */
 class Collector
 {
+    // PHP8-Review: $online_users, $online_user_ids, $collections have no value type specified in iterable type array
     protected static ?array $online_users = null;
     protected static array $online_user_ids = array();
     protected \ilRbacReview $rbacreview;
@@ -42,6 +43,7 @@ class Collector
         int $user_id,
         int $ref_id,
         InternalDataService $data_service,
+        // PHP8-Review: unused parameter $repo_service
         InternalRepoService $repo_service,
         InternalDomainService $domain_service
     ) {
@@ -54,7 +56,8 @@ class Collector
             ->admin($ref_id);
         $this->rbacreview = $domain_service->rbac()->review();
     }
-
+    
+    // PHP8-Review: return type has no value type specified in iterable type array
     public static function getOnlineUsers() : array
     {
         if (self::$online_users === null) {
@@ -76,6 +79,7 @@ class Collector
     /**
      * Collect users
      */
+    // PHP8-Review: return type has no value type specified in iterable type array
     public function collectUsers(bool $a_online_only = false) : array
     {
         $rbacreview = $this->rbacreview;
@@ -166,7 +170,8 @@ class Collector
 
         return $this->collections;
     }
-
+    
+    // PHP8-Review: no value type specified in iterable type array
     public function collectUsersFromProvider(Provider $prov, ?array $online_users) : Collection
     {
         $coll = $this->data_service->userCollection();
