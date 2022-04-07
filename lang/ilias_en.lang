@@ -10586,7 +10586,7 @@ mail#:#first_email_missing_info#:#Selection not possible because no e-mail addre
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#invite_to_chat#:#Invite to Chat
-mail#:#linebreak#:#Line break
+mail#:#linebreak#:#Line Break
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
@@ -10667,9 +10667,9 @@ mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' addr
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#mail_incoming_both#:#local and forwarding
-mail#:#mail_incoming#:#Incoming mail
+mail#:#mail_incoming#:#Incoming Mail
 mail#:#mail_incoming_local#:#only local
-mail#:#mail_incoming_mail#:#Incoming mail
+mail#:#mail_incoming_mail#:#Incoming Mail
 mail#:#mail_incoming_smtp#:#forward to e-mail address
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
