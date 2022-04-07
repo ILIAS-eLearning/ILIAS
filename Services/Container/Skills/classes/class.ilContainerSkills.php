@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+
 /**
  * Skills of a container
  *
@@ -25,6 +27,7 @@
 class ilContainerSkills
 {
     protected ilDBInterface $db;
+    protected SkillTreeService $tree_service;
     protected array $skills = [];
     protected int $id = 0;
 
@@ -33,6 +36,7 @@ class ilContainerSkills
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->tree_service = $DIC->skills()->tree();
 
         $this->setId($a_obj_id);
         if ($a_obj_id > 0) {
@@ -78,7 +82,7 @@ class ilContainerSkills
      */
     public function getOrderedSkills() : array
     {
-        $vtree = new ilVirtualSkillTree();
+        $vtree = $this->tree_service->getGlobalVirtualSkillTree();
         return $vtree->getOrderedNodeset($this->getSkills(), "skill_id", "tref_id");
     }
 

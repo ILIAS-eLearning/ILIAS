@@ -99,9 +99,9 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
                     $type = ilObject::_lookupType($obj_id);
                     $type_txt = $this->lng->txt("obj_" . $type);
                     
-                    if ($type === null) {
+                    if ($type == "") {
                         // invalid object/user
-                    } elseif ($type != "usr") {
+                    } elseif ($type !== "usr") {
                         $title = $caption = ilObject::_lookupTitle($obj_id);
                     } else {
                         $caption = ilUserUtil::getNamePresentation($obj_id, false, true);

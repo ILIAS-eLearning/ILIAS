@@ -1262,7 +1262,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $ilAccess = $DIC['ilAccess'];
 
-        if (!isset($a_object_data['references']) or !count($a_object_data['references'])) {
+        if (!isset($a_object_data['references']) || !count($a_object_data['references'])) {
             return true;
         }
         if ($a_action === 'create') {
@@ -1313,8 +1313,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             }
             return true;
         }
-
-        // TODO PHP8-REVIEW Missing return value
+        return true;
     }
 
     private function updateReferences(array $a_object_data) : void

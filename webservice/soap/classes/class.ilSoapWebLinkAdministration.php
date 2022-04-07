@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './webservice/soap/classes/class.ilSoapAdministration.php';
-
 /**
  * Soap methods for adminstrating web links
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -73,7 +71,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 
         try {
             include_once './Modules/WebResource/classes/class.ilWebLinkXmlWriter.php';
-            $writer = new ilWebLinkXmlWriter();// TODO PHP8-REVIEW Missing argument
+            $writer = new ilWebLinkXmlWriter(true);
             $writer->setObjId($obj_id);
             $writer->write();
 

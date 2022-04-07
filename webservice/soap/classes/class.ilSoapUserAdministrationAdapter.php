@@ -31,7 +31,7 @@ class ilSoapUserAdministrationAdapter
 
     public function __construct()
     {
-        $this->server = new SoapServer();// TODO PHP8-REVIEW Missing argument
+        $this->server = new SoapServer(null);
         $this->registerMethods();
     }
 

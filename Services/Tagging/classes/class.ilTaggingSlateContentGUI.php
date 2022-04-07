@@ -78,6 +78,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd();
 
+        // PHP8 Review: 'switch' with single 'case'
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("showResourcesForTag", "showTagCloud"))) {
@@ -308,6 +309,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
 
     protected function getCurrentTag() : string
     {
+        // PHP8 Review: Type cast is unnecessary
         return (string) $this->store->get(self::CURRENT_TAG_KEY);
     }
 

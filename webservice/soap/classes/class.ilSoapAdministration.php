@@ -251,9 +251,7 @@ class ilSoapAdministration
         $writer->start();
         if (is_array($clientdirs)) {
             foreach ($clientdirs as $clientdir) {
-                if (is_object($clientInfo = $this->getClientInfo(null, $clientdir))) {
-                    $writer->addClient($clientInfo);
-                }
+                $writer->addClient($clientdir);
             }
         }
         $writer->end();
@@ -276,68 +274,12 @@ class ilSoapAdministration
         require_once("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
-        if (is_object($client = $this->getClientInfo(null, $clientdir))) {
-            $writer->addClient($client);
-        } else {
-            return $this->raiseError("Client ID $clientid does not exist!", 'Client');
+        if (!$writer->addClient($clientdir)) {
+            return $this->raiseError(
+                'Client ID ' . $clientid . 'does not exist!', 'Client'
+            );
         }
         $writer->end();
         return $writer->getXML();
-    }
-
-    private function getClientInfo($init, $client_dir)// TODO PHP8-REVIEW Type hint missing
-    {
-        global $DIC;
-
-        $ini_file = "./" . $client_dir . "/client.ini.php";
-
-        // get settings from ini file
-        require_once("./Services/Init/classes/class.ilIniFile.php");
-
-        $ilClientIniFile = new ilIniFile($ini_file);
-        $ilClientIniFile->read();
-        if ($ilClientIniFile->ERROR !== "") {
-            return false;
-        }
-        $client_id = $ilClientIniFile->readVariable('client', 'name');
-        if ($ilClientIniFile->variableExists('client', 'expose')) {
-            $client_expose = $ilClientIniFile->readVariable('client', 'expose');
-            if ($client_expose === "0") {
-                return false;
-            }
-        }
-
-        // build dsn of database connection and connect
-        $ilDB = ilDBWrapperFactory::getWrapper(
-            $ilClientIniFile->readVariable("db", "type")
-        );
-        $ilDB->initFromIniFile($ilClientIniFile);
-        if ($ilDB->connect(true)) {
-            unset($DIC['ilDB']);
-            $DIC['ilDB'] = $ilDB;
-
-            require_once("Services/Administration/classes/class.ilSetting.php");
-
-            $settings = new ilSetting();
-            unset($DIC["ilSetting"]);
-            $DIC["ilSetting"] = $settings;
-            // workaround to determine http path of client
-            define("IL_INST_ID", (int) $settings->get("inst_id", '0'));
-            $settings->access = $ilClientIniFile->readVariable("client", "access");// TODO PHP8-REVIEW Property dynamically declared
-            $settings->description = $ilClientIniFile->readVariable("client", "description");// TODO PHP8-REVIEW Property dynamically declared
-            $settings->session = min(// TODO PHP8-REVIEW Property dynamically declared
-                (int) ini_get("session.gc_maxlifetime"),
-                (int) $ilClientIniFile->readVariable("session", "expire")
-            );
-            $settings->language = $ilClientIniFile->readVariable("language", "default");// TODO PHP8-REVIEW Property dynamically declared
-            $settings->clientid = basename($client_dir); // TODO PHP8-REVIEW Property dynamically declared
-            $settings->default_show_users_online = $settings->get("show_users_online");// TODO PHP8-REVIEW Property dynamically declared
-            $settings->default_hits_per_page = $settings->get("hits_per_page");// TODO PHP8-REVIEW Property dynamically declared
-            $skin = $ilClientIniFile->readVariable("layout", "skin");
-            $style = $ilClientIniFile->readVariable("layout", "style");
-            $settings->default_skin_style = $skin . ":" . $style;// TODO PHP8-REVIEW Property dynamically declared
-            return $settings;
-        }
-        return null;
     }
 }

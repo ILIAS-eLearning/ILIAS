@@ -3318,7 +3318,7 @@ class ilObjStyleSheet extends ilObject
             return 0;
         }
 
-        if (ilObject::_lookupType($rec["style_id"]) == "sty") {
+        if (ilObject::_lookupType((int) $rec["style_id"]) == "sty") {
             return (int) $rec["style_id"];
         }
         
