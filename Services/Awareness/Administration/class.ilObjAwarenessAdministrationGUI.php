@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Awareness tool administration
@@ -23,8 +26,10 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 {
     protected \ILIAS\Awareness\AdminManager $admin_manager;
 
+    /**
+     * @param mixed $a_data
+     */
     public function __construct(
-        // PHP8-Review: parameter $a_data with no type specified
         $a_data,
         int $a_id,
         bool $a_call_by_reference = true,
@@ -121,8 +126,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    // PHP8-Review: parameter $a_form with no type specified
-    public function editSettings($a_form = null) : bool
+    public function editSettings(?ilPropertyFormGUI $a_form = null) : bool
     {
         $this->tabs_gui->setTabActive('settings');
         $this->setSubTabs("settings");
@@ -186,13 +190,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "view");
     }
         
-    /**
-     * Init settings property form
-     *
-     * @access protected
-     */
-    // PHP8-Review: no return type specified
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         

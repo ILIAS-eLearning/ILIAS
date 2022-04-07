@@ -36,7 +36,6 @@ class WidgetManager
     protected int $ref_id = 0;
     protected User\Collector $user_collector;
     protected \ilUserActionCollector $action_collector;
-    // PHP8-Review: no value type specified in iterable type array
     protected array $user_collections;
     protected ?array $data = null;
     protected ?array $online_user_data = null;
@@ -130,8 +129,7 @@ class WidgetManager
         return true;
     }
     
-    // PHP8-Review: no return type specified
-    public function processMetaBar()
+    public function processMetaBar() : Counter
     {
         $cache_period = (int) $this->settings->get("caching_period");
         $last_update = $this->session_repo->getLastUpdate();
@@ -157,7 +155,6 @@ class WidgetManager
      * @param bool $a_online_only true, if only online users should be collected
      * @return array array of collections
      */
-    // PHP8-Review: return type has no value type specified in iterable type array
     public function getUserCollections(bool $a_online_only = false) : array
     {
         if (!isset($this->user_collections[(int) $a_online_only])) {
@@ -199,7 +196,6 @@ class WidgetManager
      * @param string $a_ts timestamp
      * @return array array of data objects
      */
-    // PHP8-Review: return type has no value type specified in iterable type array
     public function getOnlineUserData(string $a_ts = "") : array
     {
         $online_user_data = array();
@@ -269,7 +265,6 @@ class WidgetManager
      * @return array array of data objects
      * @throws \ilWACException
      */
-    // PHP8-Review: return type has no value type specified in iterable type array
     public function getListData(string $filter = "") : array
     {
         if ($this->user_id == ANONYMOUS_USER_ID) {

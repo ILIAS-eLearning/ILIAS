@@ -31,7 +31,6 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider
         return $this->if->identifier('awareness');
     }
     
-    // PHP8-Review: return type has no value type specified in iterable type array
     public function getAllIdentifications() : array
     {
         return [$this->getId()];

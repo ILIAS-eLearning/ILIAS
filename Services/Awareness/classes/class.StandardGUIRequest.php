@@ -21,7 +21,6 @@ class StandardGUIRequest
 {
     use Repository\BaseGUIRequest;
     
-    // PHP8-Review: __construct() has parameter $passed_query_params, $passed_post_data with no value type specified in iterable type array
     public function __construct(
         \ILIAS\HTTP\Services $http,
         \ILIAS\Refinery\Factory $refinery,
