@@ -63,7 +63,7 @@ class ilChatroomConfigFileHandler
      * Writes $content to file named by $filename
      * @param string $content
      * @param string $filename
-     * @throws Exception
+     * @throws RuntimeException
      */
     protected function writeDataToFile(string $content, string $filename) : void
     {
@@ -71,7 +71,7 @@ class ilChatroomConfigFileHandler
         $handle = fopen($path . $filename, 'wb');
 
         if (!fwrite($handle, $content)) {
-            throw new Exception('Cannot write to file');
+            throw new RuntimeException('Cannot write to file');
         }
 
         fclose($handle);
@@ -80,14 +80,14 @@ class ilChatroomConfigFileHandler
     /**
      * Creates a data directory for configuration files, if the directory does not already exists.
      * @return string
-     * @throws Exception Throws Exception if data dir creation failed
+     * @throws RuntimeException Throws Exception if data dir creation failed
      */
     protected function createDataDirIfNotExists() : string
     {
         $path = ilFileUtils::getDataDir() . self::CHATROOM_DATA_DIR;
 
         if (!is_dir($path) && !ilFileUtils::makeDir($path)) {
-            throw new Exception('Directory cannot be created');
+            throw new RuntimeException('Directory cannot be created');
         }
 
         return $path;

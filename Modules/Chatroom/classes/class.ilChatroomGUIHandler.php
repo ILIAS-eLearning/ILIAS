@@ -21,7 +21,7 @@ abstract class ilChatroomGUIHandler
 {
     protected ilChatroomObjectGUI $gui;
     protected ilObjUser $ilUser;
-    protected ilCtrl $ilCtrl;
+    protected ilCtrlInterface $ilCtrl;
     protected ilLanguage $ilLng;
     protected Filesystem $webDirectory;
     protected ilObjectService $obj_service;
@@ -92,11 +92,6 @@ abstract class ilChatroomGUIHandler
         return $this->http->wrapper()->post()->has($key);
     }
 
-    /**
-     * Executes given $method if existing, otherwise executes executeDefault() method.
-     * @param string $method
-     * @return mixed
-     */
     public function execute(string $method) : void
     {
         $this->ilLng->loadLanguageModule('chatroom');

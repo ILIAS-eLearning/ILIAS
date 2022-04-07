@@ -12,8 +12,6 @@ use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
  */
 abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
 {
-    private const TEST_REF_ID = 99;
-
     /** @var MockObject|ilChatroomObjectGui */
     protected $gui;
 
@@ -98,20 +96,6 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
         $this->setGlobalVariable('ilUser', $user);
 
         return $user;
-    }
-
-    protected function createIlObjChatroomGUIMock($object) : ilObjChatroomGUI
-    {
-        $this->gui = $this->getMockBuilder(ilObjChatroomGUI::class)
-            ->disableOriginalConstructor()
-            ->disableArgumentCloning()
-            ->onlyMethods(
-                ['getRefId', 'getConnector', 'switchToVisibleMode']
-            )->getMock();
-        $this->gui->ref_id = self::TEST_REF_ID;
-        $this->gui->object = $object;
-
-        return $this->gui;
     }
 
     protected function createIlObjChatroomGUIGetConnectorMock($returnValue) : void

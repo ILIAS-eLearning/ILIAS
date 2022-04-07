@@ -165,7 +165,9 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         if (ilChatroom::checkUserPermissions('write', $this->gui->getRefId(), false)) {
             $form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
         } else {
-            $form->getItemByPostVar('auth')->setIsReadOnly(true);
+            /** @var ilChatroomAuthInputGUI $item */
+            $item = $form->getItemByPostVar('auth');
+            $item->setIsReadOnly(true);
         }
         $form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
 

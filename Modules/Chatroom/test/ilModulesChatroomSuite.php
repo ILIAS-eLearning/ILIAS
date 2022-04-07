@@ -20,22 +20,22 @@ class ilModulesChatroomSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once 'class.ilChatroomAbstractTest.php';
-        require_once 'class.ilChatroomAbstractTaskTest.php';
+        require_once __DIR__ . '/class.ilChatroomAbstractTest.php';
+        require_once __DIR__ . '/class.ilChatroomAbstractTaskTest.php';
 
-        require_once 'class.ilObjChatroomTest.php';
+        require_once __DIR__ . '/class.ilObjChatroomTest.php';
         $suite->addTestSuite(ilObjChatroomTest::class);
 
-        require_once 'class.ilChatroomServerSettingsTest.php';
+        require_once __DIR__ . '/class.ilChatroomServerSettingsTest.php';
         $suite->addTestSuite(ilChatroomServerSettingsTest::class);
 
-        require_once 'class.ilObjChatroomAdminAccessTest.php';
+        require_once __DIR__ . '/class.ilObjChatroomAdminAccessTest.php';
         $suite->addTestSuite(ilObjChatroomAdminAccessTest::class);
 
-        require_once 'class.ilObjChatroomAccessTest.php';
+        require_once __DIR__ . '/class.ilObjChatroomAccessTest.php';
         $suite->addTestSuite(ilObjChatroomAccessTest::class);
 
-        require_once 'class.ilChatroomUserTest.php';
+        require_once __DIR__ . '/class.ilChatroomUserTest.php';
         $suite->addTestSuite(ilChatroomUserTest::class);
 
         return $suite;

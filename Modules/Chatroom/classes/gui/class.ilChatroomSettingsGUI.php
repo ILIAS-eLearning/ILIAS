@@ -22,6 +22,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
             $this->gui->getObject()->setTitle($settingsForm->getInput('title'));
             $this->gui->getObject()->setDescription($settingsForm->getInput('desc'));
 
+            /** @var ilDateDurationInputGUI $period */
             $period = $settingsForm->getItemByPostVar('access_period');
             if ($period->getStart() && $period->getEnd()) {
                 $this->gui->getObject()->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);

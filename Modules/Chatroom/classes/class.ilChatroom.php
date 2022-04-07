@@ -831,7 +831,7 @@ class ilChatroom
         if ($recipient_id > 0 && ANONYMOUS_USER_ID !== $recipient_id) {
             if (is_numeric($sender) && $sender > 0) {
                 $sender_id = $sender;
-                /** @var $usr ilObjUser */
+                /** @var ilObjUser $usr */
                 $usr = ilObjectFactory::getInstanceByObjId($sender);
                 $public_name = $usr->getPublicName();
             } elseif ($sender instanceof ilChatroomUser) {

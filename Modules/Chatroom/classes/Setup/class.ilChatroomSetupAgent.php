@@ -14,7 +14,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     private const PORT_MAX = 65535;
 
     /** @var string[] */
-    public static $LOG_LEVELS = [
+    public static array $LOG_LEVELS = [
         'emerg',
         'alert',
         'crit',
