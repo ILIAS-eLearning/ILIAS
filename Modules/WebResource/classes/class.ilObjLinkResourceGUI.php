@@ -58,6 +58,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->lng->loadLanguageModule("webr");
         $this->http = $DIC->http();
         $this->navigationHistory = $DIC['ilNavigationHistory'];
+        $this->settings = $DIC->settings();
     }
 
     public function getType() : string
@@ -712,7 +713,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $links->setInternal(ilLinkInputGUI::isInternalLink($data['tar']));
             $links->update();
 
-            if (strlen($data['nam']) and $data['val']) {
+            if (strlen($data['nam'] ?? '') && $data['val'] ?? '') {
                 $param = new ilParameterAppender($this->object->getId());
                 $param->setName(ilUtil::stripSlashes($data['nam']));
                 $param->setValue((int) $data['val']);
@@ -776,17 +777,17 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->link->setTarget(str_replace('"', '', $link_input));
         $this->link->setTitle($this->form->getInput('title'));
         $this->link->setDescription($this->form->getInput('desc'));
-        $this->link->setDisableCheckStatus($this->form->getInput('che'));
+        $this->link->setDisableCheckStatus((bool) $this->form->getInput('che'));
         $this->link->setInternal(ilLinkInputGUI::isInternalLink($link_input));
 
         if ($a_mode == self::LINK_MOD_CREATE) {
             $this->link->setActiveStatus(true);
         } else {
-            $this->link->setActiveStatus($this->form->getInput('act'));
+            $this->link->setActiveStatus((bool) $this->form->getInput('act'));
         }
 
         if ($a_mode == self::LINK_MOD_EDIT) {
-            $this->link->setValidStatus($this->form->getInput('vali'));
+            $this->link->setValidStatus((bool) $this->form->getInput('vali'));
         } else {
             $this->link->setValidStatus(true);
         }

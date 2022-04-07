@@ -299,7 +299,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
             ilLegacyFormElementsUtil::formCheckbox(
-                false, 'link_ids[]', $a_set['id']
+                false, 'link_ids[]', (string) $a_set['id']
             )
         );
 

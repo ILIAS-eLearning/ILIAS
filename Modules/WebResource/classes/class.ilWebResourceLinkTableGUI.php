@@ -33,18 +33,22 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         bool $a_sorting = false
     ) {
+        global $DIC;
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->access = $DIC->access();
 
         // Initialize
         if ($this->access->checkAccess(
-            'write', '', $this->getParentObject()->object->getRefId()
+            'write', '', $this->getParentObject()->getObject()->getRefId()
         )) {
             $this->editable = true;
         }
 
         $this->enableLinkSorting($a_sorting);
         $this->webresource_items = new ilLinkResourceItems(
-            $this->getParentObject()->object->getId()
+            $this->getParentObject()->getObject()->getId()
         );
 
         $this->setTitle($this->lng->txt('web_resources'));
@@ -144,7 +148,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         $actions->setItemLinkClass("xsmall");
 
         $actions->setListTitle($this->lng->txt('actions'));
-        $actions->setId($a_set['link_id']);
+        $actions->setId((string) $a_set['link_id']);
 
         $actions->addItem(
             $this->lng->txt('edit'),
@@ -191,7 +195,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
     protected function initSorting()
     {
         $this->link_sort_mode = ilContainerSortingSettings::_lookupSortMode(
-            $this->getParentObject()->object->getId()
+            $this->getParentObject()->getObject()->getId()
         );
     }
 }
