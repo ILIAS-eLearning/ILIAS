@@ -163,6 +163,7 @@ class ilAdvancedMDRecord
 
     /**
      * get activated obj types
+     * @return string[]
      */
     public static function _getActivatedObjTypes() : array
     {
