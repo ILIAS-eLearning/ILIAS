@@ -9,7 +9,7 @@ class ilTermsOfServiceHistorizedDocument implements ilTermsOfServiceSignableDocu
 {
     private ilTermsOfServiceAcceptanceEntity $entity;
     private ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria;
-    private ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
+    private ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;  // PHP8-Review: Property is only written but never read
 
     public function __construct(
         ilTermsOfServiceAcceptanceEntity $entity,

@@ -88,7 +88,7 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
                 throw new InvalidArgumentException('Please provide a valid numerical offset.');
             }
 
-            $this->db->setLimit($params['limit'], $params['offset']);
+            $this->db->setLimit($params['limit'], $params['offset']);  //PHP8-Review: Parameter #2 $offset of method ilDBInterface::setLimit() expects int, float|int|string given
         }
 
         $where = $where !== '' ? 'WHERE ' . $where : '';

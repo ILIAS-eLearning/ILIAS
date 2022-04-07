@@ -34,11 +34,11 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements ilTermsOfServiceCrit
             return false;
         }
 
-        if (!$this->rbacReview->isGlobalRole($roleId)) {
+        if (!$this->rbacReview->isGlobalRole($roleId)) { //PHP8-Review: ilRbacReview::isGlobalRole() expects int, int<1, max>|string given
             return false;
         }
 
-        return $this->rbacReview->isAssigned($user->getId(), $roleId);
+        return $this->rbacReview->isAssigned($user->getId(), $roleId); //PHP8-Review: ilRbacReview::isAssigned() expects int, int<1, max>|string given
     }
 
     public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
