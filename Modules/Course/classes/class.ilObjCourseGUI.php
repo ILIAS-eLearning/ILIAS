@@ -2880,7 +2880,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        ilUtil::redirect(ilLink::_getLink($tid);
+        ilUtil::redirect(ilLink::_getLink($tid));
     }
 
     protected function redirectLocToTestObject($a_force_new_run = null) : void
