@@ -41,6 +41,7 @@ interface Video extends Player
 
     /**
      * Set initially shown poster image
+     * @param string $poster relative web root path of an image file, URL of an external image resource (png,jpg,svg,gif)
      */
     public function withPoster(string $poster) : \ILIAS\UI\Component\Player\Video;
 
