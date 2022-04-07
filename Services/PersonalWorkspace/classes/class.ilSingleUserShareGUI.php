@@ -43,7 +43,6 @@ class ilSingleUserShareGUI
     {
         $forward_class = $this->ctrl->getNextClass($this);
 
-        // PHP8-Review: 'switch' with single 'case'
         switch ($forward_class) {
             default:
                 if (!($cmd = $this->ctrl->getCmd())) {
@@ -86,7 +85,7 @@ class ilSingleUserShareGUI
         $form = $this->getShareForm();
 
         if ($form->checkInput()) {
-            if ($user_id = ilObjUser::_lookupId($form->getInput('name'))) { // PHP8-Review: Parameter #1 $a_user_str of static method ilObjUser::_lookupId() expects array<string>|string, mixed given.
+            if ($user_id = ilObjUser::_lookupId((string) $form->getInput('name'))) {
                 $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
 
                 if (!in_array($user_id, $existing)) {

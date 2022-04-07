@@ -172,11 +172,12 @@ class ilWorkspaceTree extends ilTree
     
     /**
      * Get all workspace objects of specific type
+     * @return array[]
      */
     public function getObjectsFromType(
         string $a_type,
         bool $a_with_data = false
-    ) : array { // PHP8-Review: Method return type has no value type specified in iterable type array.
+    ) : array {
         return $this->getSubTree(
             $this->getNodeData($this->getRootId()),
             $a_with_data,

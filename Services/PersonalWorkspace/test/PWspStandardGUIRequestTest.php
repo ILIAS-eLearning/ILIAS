@@ -11,17 +11,11 @@ class PWspStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    // PHP8-Review: Redundant method override
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\PersonalWorkspace\StandardGUIRequest // PHP8-Review: Method has parameters with no value type specified in iterable type array.
+    protected function getRequest(array $get, array $post) : \ILIAS\PersonalWorkspace\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
