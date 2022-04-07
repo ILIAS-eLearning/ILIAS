@@ -17,13 +17,13 @@ class ilServicesHtmlSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once 'ilHtmlPurifierCompositeTest.php';
+        require_once __DIR__ . '/ilHtmlPurifierCompositeTest.php';
         $suite->addTestSuite(ilHtmlPurifierCompositeTest::class);
 
-        require_once 'ilHtmlPurifierLibWrapperTest.php';
+        require_once __DIR__ . '/ilHtmlPurifierLibWrapperTest.php';
         $suite->addTestSuite(ilHtmlPurifierLibWrapperTest::class);
 
-        require_once 'ilHtmlDomNodeIteratorTest.php';
+        require_once __DIR__ . '/ilHtmlDomNodeIteratorTest.php';
         $suite->addTestSuite(ilHtmlDomNodeIteratorTest::class);
 
         return $suite;
