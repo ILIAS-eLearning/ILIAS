@@ -9,9 +9,9 @@
  */
 class ilDerivedTaskService
 {
-    protected \ilTaskServiceDependencies $_deps;
+    protected ilTaskServiceDependencies $_deps;
 
-    protected \ilTaskService $service;
+    protected ilTaskService $service;
 
     /**
      * Constructor
@@ -24,8 +24,6 @@ class ilDerivedTaskService
 
     /**
      * Subservice for derived tasks
-     *
-     * @return ilDerivedTaskService
      */
     public function factory() : ilDerivedTaskFactory
     {

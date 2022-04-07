@@ -9,7 +9,7 @@
  */
 class ilDerivedTaskCollector
 {
-    protected \ilTaskService $service;
+    protected ilTaskService $service;
 
     /**
      * Constructor
