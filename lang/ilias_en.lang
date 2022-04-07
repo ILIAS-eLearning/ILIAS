@@ -5076,8 +5076,8 @@ common#:#obj_tool_setting_calendar_active#:#Calendar
 common#:#obj_tool_setting_calendar_active_info#:#A calendar is available.
 common#:#obj_tool_setting_calendar#:#Calendar Block
 common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block is displayed in the ‘Contents’ tab.
-common#:#obj_tool_setting_custom_metadata#:#Custom Metadata
-common#:#obj_tool_setting_custom_metadata_info#:#If activated metadata can be configured.
+common#:#obj_tool_setting_custom_metadata#:#Manage Custom Metadata
+common#:#obj_tool_setting_custom_metadata_info#:#Custom Metadata sets can be managed in the "Metadata" tab.
 common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
 common#:#obj_tool_setting_news#:#News
 common#:#obj_tos_desc#:#Terms of Service Settings
@@ -11640,7 +11640,7 @@ meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Structure
 meta#:#meta_subjectmatterexpert#:#Subject matter expert(s)
 meta#:#meta_tab_advmd#:#Custom Metadata
-meta#:#meta_tab_advmd_def#:#Custom Metadata Definition
+meta#:#meta_tab_advmd_def#:#Manage Custom Metadata Sets
 meta#:#meta_table#:#Table
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_taxon_path#:#Taxon Path
