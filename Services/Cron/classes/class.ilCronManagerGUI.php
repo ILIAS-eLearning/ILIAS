@@ -69,7 +69,7 @@ class ilCronManagerGUI
     /**
      * @param string $key
      * @param \ILIAS\Refinery\Transformation $trafo
-     * @param bool $checkExistence
+     * @param bool $forceRetrieval
      * @param mixed $default
      * @return mixed|null
      */
