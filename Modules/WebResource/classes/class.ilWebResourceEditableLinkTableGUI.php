@@ -17,12 +17,10 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPService;
 
 /**
-* TableGUI class for search results
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ingroup ModulesWebResource
-*/
+ * TableGUI class for search results
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesWebResource
+ */
 class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 {
     protected Refinery $refinery;
@@ -41,33 +39,40 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->refinery = $DIC->refinery();
 
         // Initialize
-        $this->webresource_items = new ilLinkResourceItems($this->getParentObject()->getObject()->getId());
-        
-        
+        $this->webresource_items = new ilLinkResourceItems(
+            $this->getParentObject()->getObject()->getId()
+        );
+
         $this->setTitle($this->lng->txt('webr_edit_links'));
         $this->addColumn('', '', '1px');
         $this->addColumn($this->lng->txt('title'), 'title', '25%');
         $this->addColumn($this->lng->txt('target'), 'target', '25%');
         $this->addColumn($this->lng->txt('valid'), 'valid', '10px');
         $this->addColumn($this->lng->txt('webr_active'), 'active', '10px');
-        $this->addColumn($this->lng->txt('webr_disable_check'), 'disable_check', '10px');
+        $this->addColumn(
+            $this->lng->txt('webr_disable_check'), 'disable_check', '10px'
+        );
 
         $this->setEnableHeader(true);
-        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
-        $this->setRowTemplate("tpl.webr_editable_link_row.html", 'Modules/WebResource');
+        $this->setFormAction(
+            $this->ctrl->getFormAction($this->getParentObject())
+        );
+        $this->setRowTemplate(
+            "tpl.webr_editable_link_row.html", 'Modules/WebResource'
+        );
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(true);
         $this->setSelectAllCheckbox('link_ids');
-        
+
         $this->addMultiCommand('confirmDeleteLink', $this->lng->txt('delete'));
         $this->addCommandButton('updateLinks', $this->lng->txt('save'));
     }
-    
+
     public function setInvalidLinks(array $a_links) : void
     {
         $this->invalid = $a_links;
     }
-    
+
     public function getInvalidLinks() : array
     {
         return $this->invalid;
@@ -92,15 +97,16 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $tmp['valid'] = $link['valid'];
             $tmp['last_check'] = $link['last_check'];
             $tmp['params'] = [];
-            
+
             $rows[] = $tmp;
         }
         $this->setData($rows);
     }
-    
+
     public function updateFromPost()
     {
-        $request_link_info = (array) ($this->http->request()->getParsedBody()['links'] ?? []);
+        $request_link_info = (array) ($this->http->request()->getParsedBody(
+            )['links'] ?? []);
 
         $rows = [];
         foreach ($this->getData() as $link) {
@@ -119,16 +125,15 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         }
         $this->setData($rows);
     }
-    
-    
+
     public function parse() : void
     {
         $rows = [];
-        
+
         $items = $this->getWebResourceItems()->sortItems(
             $this->getWebResourceItems()->getAllItems()
         );
-        
+
         foreach ($items as $link) {
             $tmp['id'] = $link['link_id'];
             $tmp['title'] = $link['title'];
@@ -144,88 +149,132 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         }
         $this->setData($rows);
     }
-    
+
     protected function fillRow(array $a_set) : void
     {
         if (!stristr($a_set['target'], '|')) {
             $this->tpl->setCurrentBlock('external');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
-            $this->tpl->setVariable('VAL_TARGET', ilLegacyFormElementsUtil::prepareFormOutput($a_set['target']));
+            $this->tpl->setVariable(
+                'VAL_TARGET', ilLegacyFormElementsUtil::prepareFormOutput(
+                $a_set['target']
+            )
+            );
             $this->tpl->parseCurrentBlock();
         } else {
-            $this->ctrl->setParameterByClass('ilinternallinkgui', 'postvar', 'tar_' . $a_set['id']);
-            $trigger_link = array(get_class($this->parent_obj), 'ilinternallinkgui');
-            $trigger_link = $this->ctrl->getLinkTargetByClass($trigger_link, '', '', true, false);
-            $this->ctrl->setParameterByClass('ilinternallinkgui', 'postvar', '');
-            
+            $this->ctrl->setParameterByClass(
+                'ilinternallinkgui', 'postvar', 'tar_' . $a_set['id']
+            );
+            $trigger_link = array(get_class($this->parent_obj),
+                                  'ilinternallinkgui'
+            );
+            $trigger_link = $this->ctrl->getLinkTargetByClass(
+                $trigger_link, '', '', true, false
+            );
+            $this->ctrl->setParameterByClass(
+                'ilinternallinkgui', 'postvar', ''
+            );
+
             $this->tpl->setCurrentBlock('internal');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
             $this->tpl->setVariable('VAL_TRIGGER_INTERNAL', $trigger_link);
-            $this->tpl->setVariable('TXT_TRIGGER_INTERNAL', $this->lng->txt('edit'));
-                
+            $this->tpl->setVariable(
+                'TXT_TRIGGER_INTERNAL', $this->lng->txt('edit')
+            );
+
             // info about current link
             if ($a_set['target']) {
                 $parts = explode('|', $a_set['target']);
-                
+
                 $this->tpl->setVariable('VAL_INTERNAL_TYPE', $parts[0]);
                 $this->tpl->setVariable('VAL_INTERNAL_ID', $parts[1]);
-                
+
                 $parts = ilLinkInputGUI::getTranslatedValue($a_set['target']);
-                
-                $this->tpl->setVariable('TXT_TRIGGER_INFO', $parts['type'] . ' "' .
-                    $parts['name'] . '"');
+
+                $this->tpl->setVariable(
+                    'TXT_TRIGGER_INFO', $parts['type'] . ' "' .
+                                      $parts['name'] . '"'
+                );
             }
-            
+
             $this->tpl->parseCurrentBlock();
         }
-        
-        $this->tpl->setVariable('TXT_LAST_CHECK', $this->lng->txt('webr_last_check_table'));
+
+        $this->tpl->setVariable(
+            'TXT_LAST_CHECK', $this->lng->txt('webr_last_check_table')
+        );
         $this->tpl->setVariable(
             'LAST_CHECK',
             $a_set['last_check'] ?
-            ilDatePresentation::formatDate(new ilDateTime($a_set['last_check'], IL_CAL_UNIX)) :
-            $this->lng->txt('no_date')
+                ilDatePresentation::formatDate(
+                    new ilDateTime($a_set['last_check'], IL_CAL_UNIX)
+                ) :
+                $this->lng->txt('no_date')
         );
-        
+
         // Valid
         $this->tpl->setVariable(
             'VAL_VALID',
-            ilLegacyFormElementsUtil::formCheckbox($a_set['valid'], 'links[' . $a_set['id'] . '][vali]', '1')
+            ilLegacyFormElementsUtil::formCheckbox(
+                $a_set['valid'], 'links[' . $a_set['id'] . '][vali]', '1'
+            )
         );
-        
+
         // Active
         $this->tpl->setVariable(
             'VAL_ACTIVE',
-            ilLegacyFormElementsUtil::formCheckbox($a_set['active'], 'links[' . $a_set['id'] . '][act]', '1')
+            ilLegacyFormElementsUtil::formCheckbox(
+                $a_set['active'], 'links[' . $a_set['id'] . '][act]', '1'
+            )
         );
 
         // Valid
         $this->tpl->setVariable(
             'VAL_CHECK',
-            ilLegacyFormElementsUtil::formCheckbox($a_set['disable_check'], 'links[' . $a_set['id'] . '][che]', '1')
+            ilLegacyFormElementsUtil::formCheckbox(
+                $a_set['disable_check'], 'links[' . $a_set['id'] . '][che]', '1'
+            )
         );
-        
+
         // Dynamic parameters
         foreach ($a_set['params'] as $param_id => $param) {
             $this->tpl->setCurrentBlock('dyn_del_row');
             $this->tpl->setVariable('TXT_DYN_DEL', $this->lng->txt('delete'));
-            $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'param_id', $param_id);
-            $this->tpl->setVariable('DYN_DEL_LINK', $this->ctrl->getLinkTarget($this->getParentObject(), 'deleteParameter'));
-            $this->tpl->setVariable('VAL_DYN', ilParameterAppender::parameterToInfo($param['name'], $param['value']));
+            $this->ctrl->setParameterByClass(
+                get_class($this->getParentObject()), 'param_id', $param_id
+            );
+            $this->tpl->setVariable(
+                'DYN_DEL_LINK', $this->ctrl->getLinkTarget(
+                $this->getParentObject(), 'deleteParameter'
+            )
+            );
+            $this->tpl->setVariable(
+                'VAL_DYN', ilParameterAppender::parameterToInfo(
+                $param['name'], $param['value']
+            )
+            );
             $this->tpl->parseCurrentBlock();
         }
         if ($a_set['params']) {
             $this->tpl->setCurrentBlock('dyn_del_rows');
-            $this->tpl->setVariable('TXT_EXISTING', $this->lng->txt('links_existing_params'));
+            $this->tpl->setVariable(
+                'TXT_EXISTING', $this->lng->txt('links_existing_params')
+            );
             $this->tpl->parseCurrentBlock();
         }
-        
+
         if (ilParameterAppender::_isEnabled()) {
             $this->tpl->setCurrentBlock('dyn_add');
-            $this->tpl->setVariable('TXT_DYN_ADD', $this->lng->txt('links_add_param'));
-            
-            $this->tpl->setVariable('TXT_DYN_NAME', $this->lng->txt('links_name'));
-            $this->tpl->setVariable('TXT_DYN_VALUE', $this->lng->txt('links_value'));
+            $this->tpl->setVariable(
+                'TXT_DYN_ADD', $this->lng->txt('links_add_param')
+            );
+
+            $this->tpl->setVariable(
+                'TXT_DYN_NAME', $this->lng->txt('links_name')
+            );
+            $this->tpl->setVariable(
+                'TXT_DYN_VALUE', $this->lng->txt('links_value')
+            );
             $this->tpl->setVariable('VAL_DYN_NAME', $a_set['name']);
             $this->tpl->setVariable('DYN_ID', $a_set['id']);
             $this->tpl->setVariable(
@@ -244,20 +293,30 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         if (in_array($a_set['id'], $this->getInvalidLinks())) {
             $this->tpl->setVariable('CSS_ROW', 'warn');
         }
-        
+
         // Check
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
-            ilLegacyFormElementsUtil::formCheckbox(false, 'link_ids[]', $a_set['id'])
+            ilLegacyFormElementsUtil::formCheckbox(
+                false, 'link_ids[]', $a_set['id']
+            )
         );
-        
+
         // Column title
         $this->tpl->setVariable('TXT_TITLE', $this->lng->txt('title'));
-        $this->tpl->setVariable('VAL_TITLE', ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
+        $this->tpl->setVariable(
+            'VAL_TITLE', ilLegacyFormElementsUtil::prepareFormOutput(
+            $a_set['title']
+        )
+        );
         $this->tpl->setVariable('TXT_DESC', $this->lng->txt('description'));
-        $this->tpl->setVariable('VAL_DESC', ilLegacyFormElementsUtil::prepareFormOutput($a_set['description']));
-        
+        $this->tpl->setVariable(
+            'VAL_DESC', ilLegacyFormElementsUtil::prepareFormOutput(
+            $a_set['description']
+        )
+        );
+
         // Column Target
         $this->tpl->setVariable('TXT_TARGET', $this->lng->txt('target'));
     }

@@ -14,15 +14,14 @@
  */
 
 /**
-* XML writer for weblinks
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ModulesWebResource
-*/
+ * XML writer for weblinks
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesWebResource
+ */
 class ilWebLinkXmlWriter extends ilXmlWriter
 {
     private bool $add_header = true;
-    
+
     private int $obj_id = 0;
     private ?ilObjLinkResource $weblink = null;
 
@@ -31,12 +30,12 @@ class ilWebLinkXmlWriter extends ilXmlWriter
         $this->add_header = $a_add_header;
         parent::__construct();
     }
-    
+
     public function setObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
     }
-    
+
     /**
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr or no obj_id is given
      */
@@ -48,33 +47,40 @@ class ilWebLinkXmlWriter extends ilXmlWriter
         }
         $this->weblink->toXML($this);
     }
-    
+
     /**
      */
     protected function buildHeader() : bool
     {
-        $this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_weblinks_5_1.dtd\">");
+        $this->xmlSetDtdDef(
+            "<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_weblinks_5_1.dtd\">"
+        );
         $this->xmlSetGenCmt("WebLink Object");
         $this->xmlHeader();
         return true;
     }
-    
-    
+
     /**
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr
      */
     protected function init() : void
     {
         $this->xmlClear();
-        
+
         if (!$this->obj_id) {
             throw new UnexpectedValueException('No obj_id given: ');
         }
-        if (!$this->weblink = ilObjectFactory::getInstanceByObjId($this->obj_id, false)) {
-            throw new UnexpectedValueException('Invalid obj_id given: ' . $this->obj_id);
+        if (!$this->weblink = ilObjectFactory::getInstanceByObjId(
+            $this->obj_id, false
+        )) {
+            throw new UnexpectedValueException(
+                'Invalid obj_id given: ' . $this->obj_id
+            );
         }
         if ($this->weblink->getType() != 'webr') {
-            throw new UnexpectedValueException('Invalid obj_id given. Object is not of type webr');
+            throw new UnexpectedValueException(
+                'Invalid obj_id given. Object is not of type webr'
+            );
         }
     }
 }

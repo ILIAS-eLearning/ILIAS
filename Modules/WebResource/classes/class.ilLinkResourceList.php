@@ -15,7 +15,6 @@
 
 /**
  * Class ilLinkResourceList
- *
  * @author Thomas Famula <famula@leifos.com>
  */
 class ilLinkResourceList
@@ -27,7 +26,6 @@ class ilLinkResourceList
     protected int $m_date = 0;
 
     protected ilDBInterface $db;
-
 
     public function __construct(int $webr_id)
     {
@@ -88,11 +86,12 @@ class ilLinkResourceList
         return $this->m_date;
     }
 
-
     public function read() : bool
     {
         $query = "SELECT * FROM webr_lists " .
-            "WHERE webr_id = " . $this->db->quote($this->getListResourceId(), 'integer');
+            "WHERE webr_id = " . $this->db->quote(
+                $this->getListResourceId(), 'integer'
+            );
 
         $res = $this->db->query($query);
         if ($this->db->numRows($res)) {
@@ -110,7 +109,9 @@ class ilLinkResourceList
     public function delete(bool $a_update_history = true) : bool
     {
         $query = "DELETE FROM webr_lists " .
-            "WHERE webr_id = " . $this->db->quote($this->getListResourceId(), 'integer');
+            "WHERE webr_id = " . $this->db->quote(
+                $this->getListResourceId(), 'integer'
+            );
         $res = $this->db->manipulate($query);
 
         if ($a_update_history) {
@@ -134,10 +135,18 @@ class ilLinkResourceList
         }
         $this->setLastUpdateDate(time());
         $query = "UPDATE webr_lists " .
-            "SET title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
-            "description = " . $this->db->quote($this->getDescription(), 'text') . ", " .
-            "last_update = " . $this->db->quote($this->getLastUpdateDate(), 'integer') . " " .
-            "WHERE webr_id = " . $this->db->quote($this->getListResourceId(), 'integer');
+            "SET title = " . $this->db->quote(
+                $this->getTitle(), 'text'
+            ) . ", " .
+            "description = " . $this->db->quote(
+                $this->getDescription(), 'text'
+            ) . ", " .
+            "last_update = " . $this->db->quote(
+                $this->getLastUpdateDate(), 'integer'
+            ) . " " .
+            "WHERE webr_id = " . $this->db->quote(
+                $this->getListResourceId(), 'integer'
+            );
         $res = $this->db->manipulate($query);
 
         if ($a_update_history) {

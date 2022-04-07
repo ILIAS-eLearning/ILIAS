@@ -17,17 +17,13 @@ use ILIAS\HTTP\Services as HTTPService;
 use ILIAS\UI\Component\Component;
 
 /**
-* Class ilObjLinkResourceGUI
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ilCtrl_Calls ilObjLinkResourceGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI, ilWorkspaceAccessGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjLinkResourceGUI: ilPropertyFormGUI, ilInternalLinkGUI
-*
-*
-* @ingroup ModulesWebResource
-*/
+ * Class ilObjLinkResourceGUI
+ * @author       Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ilCtrl_Calls ilObjLinkResourceGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI, ilWorkspaceAccessGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjLinkResourceGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ingroup      ModulesWebResource
+ */
 class ilObjLinkResourceGUI extends ilObject2GUI
 {
     protected const VIEW_MODE_VIEW = 1;
@@ -98,7 +94,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         switch ($next_class) {
             case "ilinfoscreengui":
                 $this->prepareOutput();
-                $this->infoScreenForward();	// forwards command
+                $this->infoScreenForward();    // forwards command
                 break;
 
             case 'ilobjectmetadatagui':
@@ -160,11 +156,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
 
         if (!$this->getCreationMode()) {
-            ilMDUtils::_fillHTMLMetaTags($this->object->getId(), $this->object->getId(), 'webr');
+            ilMDUtils::_fillHTMLMetaTags(
+                $this->object->getId(), $this->object->getId(), 'webr'
+            );
             $this->addHeaderAction();
         }
     }
-    
+
     protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
         $this->initFormLink(self::LINK_MOD_CREATE);
@@ -201,23 +199,28 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->link->setLinkResourceId($new_object->getId());
             $link_id = $this->link->add();
             $this->link->updateValid(true);
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_link_added'));
+            $this->tpl->setOnScreenMessage(
+                'success', $this->lng->txt('webr_link_added')
+            );
         }
         if ($this->form->getInput('tar_mode_type') === 'list') {
             // Save list
             $this->list->setListResourceId($new_object->getId());
             $this->list->add();
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_list_added'));
+            $this->tpl->setOnScreenMessage(
+                'success', $this->lng->txt('webr_list_added')
+            );
         }
 
         // personal workspace
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             $this->ctrl->redirect($this, "editLinks");
-        }
-        // repository
+        } // repository
         else {
-            ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" .
-                $new_object->getRefId() . "&cmd=switchViewMode&switch_mode=2");
+            ilUtil::redirect(
+                "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" .
+                $new_object->getRefId() . "&cmd=switchViewMode&switch_mode=2"
+            );
         }
     }
 
@@ -257,29 +260,38 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $sort->update();
 
             // tile image
-            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+            $obj_service->commonSettings()->legacyForm(
+                $form, $this->object
+            )->saveTileImage();
+            $this->tpl->setOnScreenMessage(
+                'success', $this->lng->txt('settings_saved'), true
+            );
             $this->ctrl->redirect($this, 'settings');
         }
 
         $form->setValuesByPost();
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage(
+            'failure', $this->lng->txt('err_check_input')
+        );
         $this->tpl->setContent($form->getHTML());
     }
-
 
     protected function initFormSettings() : ilPropertyFormGUI
     {
         $obj_service = $this->object_service;
 
         $this->form = new ilPropertyFormGUI();
-        $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
+        $this->form->setFormAction(
+            $this->ctrl->getFormAction($this, 'saveSettings')
+        );
 
         if (ilLinkResourceList::checkListStatus($this->object->getId())) {
             $this->form->setTitle($this->lng->txt('webr_edit_settings'));
 
             // Title
-            $tit = new ilTextInputGUI($this->lng->txt('webr_list_title'), 'title');
+            $tit = new ilTextInputGUI(
+                $this->lng->txt('webr_list_title'), 'title'
+            );
             $tit->setValue($this->object->getTitle());
             $tit->setRequired(true);
             $tit->setSize(40);
@@ -287,7 +299,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->form->addItem($tit);
 
             // Description
-            $des = new ilTextAreaInputGUI($this->lng->txt('webr_list_desc'), 'desc');
+            $des = new ilTextAreaInputGUI(
+                $this->lng->txt('webr_list_desc'), 'desc'
+            );
             $des->setValue($this->object->getDescription());
             $des->setCols(40);
             $des->setRows(3);
@@ -298,10 +312,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->form->addItem($section);
 
             // tile image
-            $obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
+            $obj_service->commonSettings()->legacyForm(
+                $this->form, $this->object
+            )->addTileImage();
 
             // Sorting
-            $sor = new ilRadioGroupInputGUI($this->lng->txt('webr_sorting'), 'sor');
+            $sor = new ilRadioGroupInputGUI(
+                $this->lng->txt('webr_sorting'), 'sor'
+            );
             $sor->setRequired(true);
             $sor->setValue(
                 (string) ilContainerSortingSettings::_lookupSortMode(
@@ -335,14 +353,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->form->addItem($des);
 
             // tile image
-            $obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
+            $obj_service->commonSettings()->legacyForm(
+                $this->form, $this->object
+            )->addTileImage();
         }
 
         $this->form->addCommandButton('saveSettings', $this->lng->txt('save'));
         $this->form->addCommandButton('view', $this->lng->txt('cancel'));
         return $this->form;
     }
-
 
     public function editLink() : void
     {
@@ -357,7 +376,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             );
         }
         if (!$link_id) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('select_one'), true
+            );
             $this->ctrl->redirect($this, 'view');
         }
         $form = $this->initFormLink(self::LINK_MOD_EDIT);
@@ -376,7 +397,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        if ($this->checkLinkInput(self::LINK_MOD_EDIT, $valid, $this->object->getId(), $link_id)) {
+        if ($this->checkLinkInput(
+            self::LINK_MOD_EDIT, $valid, $this->object->getId(), $link_id
+        )) {
             $this->link->setLinkId($link_id);
             $this->link->update();
             if (
@@ -390,10 +413,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->object->setDescription($form->getInput('desc'));
                 $this->object->update();
             }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage(
+                'success', $this->lng->txt('settings_saved'), true
+            );
             $this->ctrl->redirect($this, 'view');
         }
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage(
+            'failure', $this->lng->txt('err_check_input')
+        );
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
     }
@@ -416,16 +443,18 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $form_id = 'form_' . $this->form->getId();
 
         $submit = $f->button()->primary($this->lng->txt('save'), '#')
-            ->withOnLoadCode(function ($id) use ($form_id) {
-                return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
-            });
+                    ->withOnLoadCode(
+                        function ($id) use ($form_id) {
+                            return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
+                        }
+                    );
         $info = $f->messageBox()->info($this->lng->txt('webr_new_list_info'));
 
         $modal = $f->modal()->roundtrip(
             $this->lng->txt('webr_new_list'),
             $f->legacy($r->render($info) . $this->form->getHTML())
         )
-            ->withActionButtons([$submit]);
+                   ->withActionButtons([$submit]);
 
         $submit = '';
         if ($this->http->wrapper()->post()->has('sbmt')) {
@@ -453,10 +482,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
             $this->initList(self::LINK_MOD_SET_LIST, $this->object->getId());
             $this->list->add();
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_list_set'), true);
+            $this->tpl->setOnScreenMessage(
+                'success', $this->lng->txt('webr_list_set'), true
+            );
             $this->ctrl->redirect($this, 'view');
         }
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), true);
+        $this->tpl->setOnScreenMessage(
+            'failure', $this->lng->txt('err_check_input'), true
+        );
         $form->setValuesByPost();
         $this->view();
     }
@@ -479,7 +512,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         if ($this->checkLinkInput(
             self::LINK_MOD_ADD,
             $valid,
-            $this->object->getId(), 0)
+            $this->object->getId(), 0
+        )
         ) {
             $link_id = $this->link->add();
             $this->link->updateValid(true);
@@ -490,10 +524,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             ) {
                 $this->dynamic->add($link_id);
             }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_link_added'), true);
+            $this->tpl->setOnScreenMessage(
+                'success', $this->lng->txt('webr_link_added'), true
+            );
             $this->ctrl->redirect($this, 'view');
         }
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+        $this->tpl->setOnScreenMessage(
+            'failure', $this->lng->txt('err_check_input')
+        );
         $this->form->setValuesByPost();
         $this->activateTabs('content', 'id_content_view');
         $this->tpl->setContent($form->getHTML());
@@ -515,12 +553,18 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         );
 
         if (!$param_id) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('select_one'), true
+            );
             $this->ctrl->redirect($this, 'view');
         }
         $param = new ilParameterAppender($this->object->getId());
         $param->delete($param_id);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('links_parameter_deleted'), true);
+        $this->tpl->setOnScreenMessage(
+            'success', $this->lng->txt(
+            'links_parameter_deleted'
+        ), true
+        );
         $this->ctrl->redirect($this, 'editLinks');
     }
 
@@ -533,15 +577,20 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->refinery->kindlyTo()->int()
         );
         if (!$param_id) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('select_one'), true
+            );
             $this->ctrl->redirect($this, 'view');
         }
         $param = new ilParameterAppender($this->object->getId());
         $param->delete($param_id);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('links_parameter_deleted'), true);
+        $this->tpl->setOnScreenMessage(
+            'success', $this->lng->txt(
+            'links_parameter_deleted'
+        ), true
+        );
         $this->ctrl->redirect($this, 'view');
     }
-
 
     protected function updateLinks() : void
     {
@@ -559,11 +608,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
 
         if ($ids === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('select_one'), true
+            );
             $this->ctrl->redirect($this, 'view');
         }
 
-        $link_post = (array) ($this->http->request()->getParsedBody()['links'] ?? []);
+        $link_post = (array) ($this->http->request()->getParsedBody(
+            )['links'] ?? []);
 
         // Validate
         $invalid = [];
@@ -571,8 +623,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $data = $link_post[$link_id];
 
             if (
-                $this->http->wrapper()->post()->has('tar_' . $link_id . '_ajax_type') &&
-                $this->http->wrapper()->post()->has('tar_' . $link_id . '_ajax_id')
+                $this->http->wrapper()->post()->has(
+                    'tar_' . $link_id . '_ajax_type'
+                ) &&
+                $this->http->wrapper()->post()->has(
+                    'tar_' . $link_id . '_ajax_id'
+                )
             ) {
                 $data['tar'] =
                     $this->http->wrapper()->post()->retrieve(
@@ -602,8 +658,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
 
         if (count($invalid)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-            $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.webr_manage.html', 'Modules/WebResource');
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('err_check_input')
+            );
+            $this->tpl->addBlockFile(
+                'ADM_CONTENT', 'adm_content', 'tpl.webr_manage.html',
+                'Modules/WebResource'
+            );
             $table = new ilWebResourceEditableLinkTableGUI($this, 'view');
             $table->setInvalidLinks($invalid);
             $table->parseSelectedLinks($ids);
@@ -618,8 +679,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $data = $link_post[$link_id];
 
             if (
-                $this->http->wrapper()->post()->has('tar_' . $link_id . '_ajax_type') &&
-                $this->http->wrapper()->post()->has('tar_' . $link_id . '_ajax_id')
+                $this->http->wrapper()->post()->has(
+                    'tar_' . $link_id . '_ajax_type'
+                ) &&
+                $this->http->wrapper()->post()->has(
+                    'tar_' . $link_id . '_ajax_id'
+                )
             ) {
                 $data['tar'] =
                     $this->http->wrapper()->post()->retrieve(
@@ -631,11 +696,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                         $this->refinery->kindlyTo()->string()
                     );
             }
-            $orig = ilLinkResourceItems::lookupItem($this->object->getId(), $link_id);
+            $orig = ilLinkResourceItems::lookupItem(
+                $this->object->getId(), $link_id
+            );
             $links->setLinkId($link_id);
             $links->setTitle(ilUtil::stripSlashes($data['title']));
             $links->setDescription(ilUtil::stripSlashes($data['desc']));
-            $links->setTarget(str_replace('"', '', ilUtil::stripSlashes($data['tar'])));
+            $links->setTarget(
+                str_replace('"', '', ilUtil::stripSlashes($data['tar']))
+            );
             $links->setActiveStatus((bool) $data['act']);
             $links->setDisableCheckStatus((bool) $data['che']);
             $links->setLastCheckDate($orig['last_check']);
@@ -651,11 +720,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             }
             if (!ilLinkResourceList::checkListStatus($this->object->getId())) {
                 $this->object->setTitle(ilUtil::stripSlashes($data['title']));
-                $this->object->setDescription(ilUtil::stripSlashes($data['desc']));
+                $this->object->setDescription(
+                    ilUtil::stripSlashes($data['desc'])
+                );
                 $this->object->update();
             }
         }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage(
+            'success', $this->lng->txt('settings_saved'), true
+        );
         $this->ctrl->redirect($this, 'view');
     }
 
@@ -690,9 +763,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-
-    protected function checkLinkInput(int $a_mode, bool $a_valid, int $a_webr_id = 0, int $a_link_id = 0) : bool
-    {
+    protected function checkLinkInput(
+        int $a_mode,
+        bool $a_valid,
+        int $a_webr_id = 0,
+        int $a_link_id = 0
+    ) : bool {
         $valid = $a_valid;
 
         $link_input = $this->form->getInput('tar');
@@ -724,11 +800,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         if (!$this->dynamic->validate()) {
             switch ($this->dynamic->getErrorCode()) {
                 case ilParameterAppender::LINKS_ERR_NO_NAME:
-                    $this->form->getItemByPostVar('nam')->setAlert($this->lng->txt('links_no_name_given'));
+                    $this->form->getItemByPostVar('nam')->setAlert(
+                        $this->lng->txt('links_no_name_given')
+                    );
                     return false;
 
                 case ilParameterAppender::LINKS_ERR_NO_VALUE:
-                    $this->form->getItemByPostVar('val')->setAlert($this->lng->txt('links_no_value_given'));
+                    $this->form->getItemByPostVar('val')->setAlert(
+                        $this->lng->txt('links_no_value_given')
+                    );
                     return false;
 
                 case ilParameterAppender::LINKS_ERR_NO_NAME_VALUE:
@@ -739,7 +819,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
         return $valid;
     }
-
 
     protected function initFormLink(int $a_mode) : ilPropertyFormGUI
     {
@@ -754,8 +833,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->form->setTableWidth('600px');
 
                 // Buttons
-                $this->form->addCommandButton('save', $this->lng->txt('webr_add'));
-                $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+                $this->form->addCommandButton(
+                    'save', $this->lng->txt('webr_add')
+                );
+                $this->form->addCommandButton(
+                    'cancel', $this->lng->txt('cancel')
+                );
                 break;
 
             case self::LINK_MOD_ADD:
@@ -763,35 +846,51 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->form->setTitle($this->lng->txt('webr_new_link'));
 
                 // Buttons
-                $this->form->addCommandButton('saveAddLink', $this->lng->txt('webr_add'));
-                $this->form->addCommandButton('view', $this->lng->txt('cancel'));
+                $this->form->addCommandButton(
+                    'saveAddLink', $this->lng->txt('webr_add')
+                );
+                $this->form->addCommandButton(
+                    'view', $this->lng->txt('cancel')
+                );
                 break;
 
             case self::LINK_MOD_EDIT:
                 // Header
-                $this->ctrl->setParameter($this, 'link_id', (int) $_REQUEST['link_id']);
+                $this->ctrl->setParameter(
+                    $this, 'link_id', (int) $_REQUEST['link_id']
+                );
                 $this->form->setTitle($this->lng->txt('webr_edit'));
 
                 // Buttons
-                $this->form->addCommandButton('updateLink', $this->lng->txt('save'));
-                $this->form->addCommandButton('view', $this->lng->txt('cancel'));
+                $this->form->addCommandButton(
+                    'updateLink', $this->lng->txt('save')
+                );
+                $this->form->addCommandButton(
+                    'view', $this->lng->txt('cancel')
+                );
                 break;
         }
 
         if ($a_mode == self::LINK_MOD_SET_LIST) {
             $this->form->setValuesByPost();
-            $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveLinkList'));
+            $this->form->setFormAction(
+                $this->ctrl->getFormAction($this, 'saveLinkList')
+            );
             $this->form->setId(uniqid('form'));
 
             // List Title
-            $title = new ilTextInputGUI($this->lng->txt('webr_list_title'), 'lti');
+            $title = new ilTextInputGUI(
+                $this->lng->txt('webr_list_title'), 'lti'
+            );
             $title->setRequired(true);
             $title->setSize(40);
             $title->setMaxLength(127);
             $this->form->addItem($title);
 
             // List Description
-            $desc = new ilTextAreaInputGUI($this->lng->txt('webr_list_desc'), 'tde');
+            $desc = new ilTextAreaInputGUI(
+                $this->lng->txt('webr_list_desc'), 'tde'
+            );
             $desc->setRows(3);
             $desc->setCols(40);
             $this->form->addItem($desc);
@@ -802,7 +901,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         } else {
             $this->form->setFormAction($this->ctrl->getFormAction($this));
 
-            $tar = new ilLinkInputGUI($this->lng->txt('type'), 'tar'); // lng var
+            $tar = new ilLinkInputGUI(
+                $this->lng->txt('type'), 'tar'
+            ); // lng var
             if ($a_mode == self::LINK_MOD_CREATE) {
                 $tar->setAllowedLinkTypes(ilLinkInputGUI::LIST);
             }
@@ -815,23 +916,28 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 )
             );
             $tar->setExternalLinkMaxLength(1000);
-            $tar->setInternalLinkFilterTypes(array("PageObject", "GlossaryItem", "RepositoryItem"));
+            $tar->setInternalLinkFilterTypes(
+                array("PageObject", "GlossaryItem", "RepositoryItem")
+            );
             $tar->setRequired(true);
             $this->form->addItem($tar);
 
             // Title
-            $tit = new ilTextInputGUI($this->lng->txt('webr_link_title'), 'title');
+            $tit = new ilTextInputGUI(
+                $this->lng->txt('webr_link_title'), 'title'
+            );
             $tit->setRequired(true);
             $tit->setSize(40);
             $tit->setMaxLength(127);
             $this->form->addItem($tit);
 
             // Description
-            $des = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
+            $des = new ilTextAreaInputGUI(
+                $this->lng->txt('description'), 'desc'
+            );
             $des->setRows(3);
             $des->setCols(40);
             $this->form->addItem($des);
-
 
             if ($a_mode != self::LINK_MOD_CREATE) {
                 // Active
@@ -841,7 +947,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->form->addItem($act);
 
                 // Check
-                $che = new ilCheckboxInputGUI($this->lng->txt('webr_disable_check'), 'che');
+                $che = new ilCheckboxInputGUI(
+                    $this->lng->txt('webr_disable_check'), 'che'
+                );
                 $che->setValue((string) 1);
                 $this->form->addItem($che);
             }
@@ -852,23 +960,44 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->form->addItem($val);
             }
 
-            if (ilParameterAppender::_isEnabled() && $a_mode != self::LINK_MOD_CREATE) {
-                $dyn = new ilNonEditableValueGUI($this->lng->txt('links_dyn_parameter'));
+            if (ilParameterAppender::_isEnabled(
+                ) && $a_mode != self::LINK_MOD_CREATE) {
+                $dyn = new ilNonEditableValueGUI(
+                    $this->lng->txt('links_dyn_parameter')
+                );
                 $dyn->setInfo($this->lng->txt('links_dynamic_info'));
 
-
-                if (count($links = ilParameterAppender::_getParams((int) $_GET['link_id']))) {
-                    $ex = new ilCustomInputGUI($this->lng->txt('links_existing_params'), 'ex');
+                if (count(
+                    $links = ilParameterAppender::_getParams(
+                        (int) $_GET['link_id']
+                    )
+                )) {
+                    $ex = new ilCustomInputGUI(
+                        $this->lng->txt('links_existing_params'), 'ex'
+                    );
                     $dyn->addSubItem($ex);
 
                     foreach ($links as $id => $link) {
                         $p = new ilCustomInputGUI();
 
-                        $ptpl = new ilTemplate('tpl.link_dyn_param_edit.html', true, true, 'Modules/WebResource');
-                        $ptpl->setVariable('INFO_TXT', ilParameterAppender::parameterToInfo($link['name'], $link['value']));
+                        $ptpl = new ilTemplate(
+                            'tpl.link_dyn_param_edit.html', true, true,
+                            'Modules/WebResource'
+                        );
+                        $ptpl->setVariable(
+                            'INFO_TXT', ilParameterAppender::parameterToInfo(
+                            $link['name'], $link['value']
+                        )
+                        );
                         $this->ctrl->setParameter($this, 'param_id', $id);
-                        $ptpl->setVariable('LINK_DEL', $this->ctrl->getLinkTarget($this, 'deleteParameterForm'));
-                        $ptpl->setVariable('LINK_TXT', $this->lng->txt('delete'));
+                        $ptpl->setVariable(
+                            'LINK_DEL', $this->ctrl->getLinkTarget(
+                            $this, 'deleteParameterForm'
+                        )
+                        );
+                        $ptpl->setVariable(
+                            'LINK_TXT', $this->lng->txt('delete')
+                        );
                         $p->setHtml($ptpl->get());
                         $dyn->addSubItem($p);
                     }
@@ -881,7 +1010,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $dyn->addSubItem($nam);
 
                 // Dynamic value
-                $val = new ilSelectInputGUI($this->lng->txt('links_value'), 'val');
+                $val = new ilSelectInputGUI(
+                    $this->lng->txt('links_value'), 'val'
+                );
                 $val->setOptions(ilParameterAppender::_getOptionSelect());
                 $val->setValue(0);
                 $dyn->addSubItem($val);
@@ -900,11 +1031,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $new_view_mode = $this->view_mode;
         if ($force_view_mode !== null) {
             $new_view_mode = $force_view_mode;
-        } else if ($this->http->wrapper()->query()->has('switch_mode')) {
-            $new_view_mode = $this->http->wrapper()->query()->retrieve(
-                'switch_mode',
-                $this->refinery->kindlyTo()->int()
-            );
+        } else {
+            if ($this->http->wrapper()->query()->has('switch_mode')) {
+                $new_view_mode = $this->http->wrapper()->query()->retrieve(
+                    'switch_mode',
+                    $this->refinery->kindlyTo()->int()
+                );
+            }
         }
         $this->initViewMode($new_view_mode);
         $this->view();
@@ -917,7 +1050,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     {
         $this->switchViewMode(self::VIEW_MODE_MANAGE);
     }
-
 
     public function view() : void
     {
@@ -939,7 +1071,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
                 case self::VIEW_MODE_SORT:
                     // #14638
-                    if (ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL) {
+                    if (ilContainerSortingSettings::_lookupSortMode(
+                            $this->object->getId()
+                        ) == ilContainer::SORT_MANUAL) {
                         $this->sort();
                         break;
                     }
@@ -951,7 +1085,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                     break;
             }
         }
-        $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
+        $this->tpl->setPermanentLink(
+            $this->object->getType(), $this->object->getRefId()
+        );
     }
 
     protected function manage() : void
@@ -959,7 +1095,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_manage');
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.webr_manage.html', 'Modules/WebResource');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.webr_manage.html',
+            'Modules/WebResource'
+        );
         $this->showToolbar('ACTION_BUTTONS');
 
         $table = new ilWebResourceEditableLinkTableGUI($this, 'view');
@@ -981,7 +1120,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $table = new ilWebResourceLinkTableGUI($this, 'showLinks');
         $table->parse();
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.webr_view.html', 'Modules/WebResource');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.webr_view.html',
+            'Modules/WebResource'
+        );
         $this->showToolbar('ACTION_BUTTONS');
         $this->tpl->setVariable('LINK_TABLE', $table->getHTML());
     }
@@ -994,7 +1136,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $table = new ilWebResourceLinkTableGUI($this, 'sort', true);
         $table->parse();
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.webr_view.html', 'Modules/WebResource');
+        $this->tpl->addBlockFile(
+            'ADM_CONTENT', 'adm_content', 'tpl.webr_view.html',
+            'Modules/WebResource'
+        );
         $this->showToolbar('ACTION_BUTTONS');
         $this->tpl->setVariable('LINK_TABLE', $table->getHTML());
     }
@@ -1016,10 +1161,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             );
         }
         $sort->savePost($position);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage(
+            'success', $this->lng->txt('settings_saved'), true
+        );
         $this->view();
     }
-
 
     protected function showToolbar(string $a_tpl_var) : void
     {
@@ -1039,11 +1185,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->lng->txt('webr_add'),
                 $this->ctrl->getLinkTarget($this, 'addLink')
             );
-        }
-        elseif ($this->checkPermissionBool('write')) {
+        } elseif ($this->checkPermissionBool('write')) {
             $modal = $this->getLinkToListModal();
-            $button = $f->button()->standard($this->lng->txt('webr_set_to_list'), '#')
-                ->withOnClick($modal->getShowSignal());
+            $button = $f->button()->standard(
+                $this->lng->txt('webr_set_to_list'), '#'
+            )
+                        ->withOnClick($modal->getShowSignal());
 
             $this->tpl->setVariable("MODAL", $r->render([$modal]));
 
@@ -1069,16 +1216,20 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 'link_id',
                 $this->refinery->kindlyTo()->int()
             );
-        } else if ($this->http->wrapper()->post()->has('link_ids')) {
-            $link_ids = $this->http->wrapper()->post()->retrieve(
-                'link_ids',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
+        } else {
+            if ($this->http->wrapper()->post()->has('link_ids')) {
+                $link_ids = $this->http->wrapper()->post()->retrieve(
+                    'link_ids',
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                );
+            }
         }
         if ($link_ids === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('select_one')
+            );
             $this->view();
             return;
         }
@@ -1115,7 +1266,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         foreach ($link_ids as $link_id) {
             $links->delete($link_id);
         }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_deleted_items'), true);
+        $this->tpl->setOnScreenMessage(
+            'success', $this->lng->txt('webr_deleted_items'), true
+        );
         $this->ctrl->redirect($this, 'view');
     }
 
@@ -1133,21 +1286,24 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             );
         }
         if (!$link_id) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage(
+                'failure', $this->lng->txt('select_one'), true
+            );
             $this->ctrl->redirect($this, 'view');
         }
         $links->setLinkId($link_id);
         $links->updateActive(false);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_inactive_success'), true);
+        $this->tpl->setOnScreenMessage(
+            'success', $this->lng->txt('webr_inactive_success'), true
+        );
         $this->ctrl->redirect($this, 'view');
     }
 
-
     /**
-    * this one is called from the info button in the repository
-    * not very nice to set cmdClass/Cmd manually, if everything
-    * works through ilCtrl in the future this may be changed
-    */
+     * this one is called from the info button in the repository
+     * not very nice to set cmdClass/Cmd manually, if everything
+     * works through ilCtrl in the future this may be changed
+     */
     public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
@@ -1156,8 +1312,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     }
 
     /**
-    * show information screen
-    */
+     * show information screen
+     */
     public function infoScreenForward() : void
     {
         if (!$this->checkPermissionBool('visible')) {
@@ -1170,23 +1326,28 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $info->enablePrivateNotes();
 
         // standard meta data
-        $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
+        $info->addMetaDataSections(
+            $this->object->getId(), 0, $this->object->getType()
+        );
 
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            $info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
+            $info->addProperty(
+                $this->lng->txt("perma_link"), $this->getPermanentLinkWidget()
+            );
         }
 
         // forward the command
         $this->ctrl->forwardCommand($info);
     }
 
-
     public function history() : void
     {
         $this->checkPermission('write');
         $this->tabs_gui->activateTab('id_history');
 
-        $hist_gui = new ilHistoryTableGUI($this, "history", $this->object->getId(), $this->object->getType());
+        $hist_gui = new ilHistoryTableGUI(
+            $this, "history", $this->object->getId(), $this->object->getType()
+        );
         $hist_gui->initTable();
         $this->tpl->setContent($hist_gui->getHTML());
     }
@@ -1194,28 +1355,40 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     /**
      * Activate tab and subtabs
      */
-    protected function activateTabs(string $a_active_tab, string $a_active_subtab = '') : void
-    {
+    protected function activateTabs(
+        string $a_active_tab,
+        string $a_active_subtab = ''
+    ) : void {
         switch ($a_active_tab) {
             case 'content':
                 if ($this->checkPermissionBool('write')) {
                     $this->lng->loadLanguageModule('cntr');
 
-                    $this->ctrl->setParameter($this, 'switch_mode', self::VIEW_MODE_VIEW);
+                    $this->ctrl->setParameter(
+                        $this, 'switch_mode', self::VIEW_MODE_VIEW
+                    );
                     $this->tabs_gui->addSubTab(
                         'id_content_view',
                         $this->lng->txt('view'),
                         $this->ctrl->getLinkTarget($this, 'switchViewMode')
                     );
-                    $this->ctrl->setParameter($this, 'switch_mode', self::VIEW_MODE_MANAGE);
+                    $this->ctrl->setParameter(
+                        $this, 'switch_mode', self::VIEW_MODE_MANAGE
+                    );
                     $this->tabs_gui->addSubTab(
                         'id_content_manage',
                         $this->lng->txt('cntr_manage'),
                         $this->ctrl->getLinkTarget($this, 'switchViewMode')
                     );
-                    if ((ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
-                        and ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL) {
-                        $this->ctrl->setParameter($this, 'switch_mode', self::VIEW_MODE_SORT);
+                    if ((ilLinkResourceItems::lookupNumberOfLinks(
+                                $this->object->getId()
+                            ) > 1)
+                        and ilContainerSortingSettings::_lookupSortMode(
+                            $this->object->getId()
+                        ) == ilContainer::SORT_MANUAL) {
+                        $this->ctrl->setParameter(
+                            $this, 'switch_mode', self::VIEW_MODE_SORT
+                        );
                         $this->tabs_gui->addSubTab(
                             'id_content_ordering',
                             $this->lng->txt('cntr_ordering'),
@@ -1230,7 +1403,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $this->tabs_gui->activateTab('id_content');
     }
-    
+
     protected function setTabs() : void
     {
         global $DIC;
@@ -1311,7 +1484,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $ilLocator = $DIC['ilLocator'];
         if (is_object($this->object)) {
-            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this), "", $this->object->getRefId(), "webr");
+            $ilLocator->addItem(
+                $this->object->getTitle(), $this->ctrl->getLinkTarget($this),
+                "", $this->object->getRefId(), "webr"
+            );
         }
     }
 
@@ -1392,8 +1568,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    protected function redirectToLink(int $a_ref_id, int $a_obj_id, string $a_url) : void
-    {
+    protected function redirectToLink(
+        int $a_ref_id,
+        int $a_obj_id,
+        string $a_url
+    ) : void {
         if ($a_url) {
             require_once('Services/Tracking/classes/class.ilChangeEvent.php');
             ilChangeEvent::_recordReadEvent(
@@ -1408,7 +1587,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
     public function exportHTML() : void
     {
-        $tpl = new ilTemplate("tpl.export_html.html", true, true, "Modules/WebResource");
+        $tpl = new ilTemplate(
+            "tpl.export_html.html", true, true, "Modules/WebResource"
+        );
 
         $items = new ilLinkResourceItems($this->object->getId());
         foreach ($items->getAllItems() as $item) {
@@ -1432,9 +1613,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $tpl->setVariable("TXT_TITLE", $this->object->getTitle());
         $tpl->setVariable("TXT_DESC", $this->object->getLongDescription());
 
-        $tpl->setVariable("INST_ID", ($this->settings->get('short_inst_name') != "")
+        $tpl->setVariable(
+            "INST_ID", ($this->settings->get('short_inst_name') != "")
             ? $this->settings->get('short_inst_name')
-            : "ILIAS");
+            : "ILIAS"
+        );
 
         ilUtil::deliverData($tpl->get(), "bookmarks.html");
     }
@@ -1452,7 +1635,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         if ($a_additional && substr($a_additional, -3) == "wsp") {
 
             $ctrl->setTargetScript('ilias.php');
-            $ctrl->setParameterByClass(ilSharedResourceGUI::class, 'wsp_id', $a_target);
+            $ctrl->setParameterByClass(
+                ilSharedResourceGUI::class, 'wsp_id', $a_target
+            );
             $ctrl->redirectByClass(
                 [
                     ilSharedResourceGUI::class
@@ -1464,19 +1649,27 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         // Will be replaced in future releases by ilAccess::checkAccess()
         if ($ilAccess->checkAccess("read", "", (int) $a_target)) {
-            ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target);
+            ilUtil::redirect(
+                "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target
+            );
         } else {
             // to do: force flat view
             if ($ilAccess->checkAccess("visible", "", (int) $a_target)) {
-                ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target . "&cmd=infoScreen");
+                ilUtil::redirect(
+                    "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target . "&cmd=infoScreen"
+                );
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                    $main_tpl->setOnScreenMessage('failure', sprintf(
+                    $main_tpl->setOnScreenMessage(
+                        'failure', sprintf(
                         $lng->txt("msg_no_perm_read_item"),
-                        ilObject::_lookupTitle(ilObject::_lookupObjId(
-                            (int) $a_target
-                        ))
-                    ), true);
+                        ilObject::_lookupTitle(
+                            ilObject::_lookupObjId(
+                                (int) $a_target
+                            )
+                        )
+                    ), true
+                    );
                     ilObjectGUI::_gotoRepositoryRoot();
                 }
             }

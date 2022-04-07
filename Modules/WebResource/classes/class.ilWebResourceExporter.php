@@ -14,12 +14,10 @@
  */
 
 /**
-* Booking definition
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ServicesBooking
-*/
+ * Booking definition
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesBooking
+ */
 class ilWebResourceExporter extends ilXmlExporter
 {
     private ?ilWebLinkXmlWriter $writer = null;
@@ -40,8 +38,11 @@ class ilWebResourceExporter extends ilXmlExporter
     /**
      * @inheritDoc
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
-    {
+    public function getXmlRepresentation(
+        string $a_entity,
+        string $a_schema_version,
+        string $a_id
+    ) : string {
         try {
             $this->writer = new ilWebLinkXmlWriter(false);
             $this->writer->setObjId((int) $a_id);
@@ -56,8 +57,11 @@ class ilWebResourceExporter extends ilXmlExporter
     /**
      * @inheritDoc
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
-    {
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ) : array {
         $deps = [];
         // service settings
         $deps[] = [
@@ -80,7 +84,8 @@ class ilWebResourceExporter extends ilXmlExporter
                 "xsd_file" => "ilias_webr_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",
-                "max" => "")
+                "max" => ""
+            )
         );
     }
 

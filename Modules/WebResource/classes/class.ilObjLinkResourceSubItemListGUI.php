@@ -14,26 +14,35 @@
  */
 
 /**
-* Show glossary terms
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ * Show glossary terms
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
 {
     public function getHTML() : string
     {
         $this->lng->loadLanguageModule('webr');
         foreach ($this->getSubItemIds(true) as $sub_item) {
-            if (is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(), $sub_item))) {
+            if (is_object($this->getHighlighter()) and strlen(
+                    $this->getHighlighter()->getContent(
+                        $this->getObjId(), $sub_item
+                    )
+                )) {
                 $this->tpl->setCurrentBlock('sea_fragment');
-                $this->tpl->setVariable('TXT_FRAGMENT', $this->getHighlighter()->getContent($this->getObjId(), $sub_item));
+                $this->tpl->setVariable(
+                    'TXT_FRAGMENT', $this->getHighlighter()->getContent(
+                    $this->getObjId(), $sub_item
+                )
+                );
                 $this->tpl->parseCurrentBlock();
             }
             $this->tpl->setCurrentBlock('subitem');
             $this->tpl->setVariable('SUBITEM_TYPE', $this->lng->txt('webr'));
             $this->tpl->setVariable('SEPERATOR', ':');
-            
-            $link_data = ilLinkResourceItems::lookupItem($this->getObjId(), $sub_item);
+
+            $link_data = ilLinkResourceItems::lookupItem(
+                $this->getObjId(), $sub_item
+            );
             $link_data = ilParameterAppender::_append($link_data);
 
             // handle internal links (#10620)
@@ -45,19 +54,21 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
                 if ($parts[0] == "term") {
                     $parts[0] = "git";
                 }
-                $link_data["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
+                $link_data["target"] = ilLink::_getStaticLink(
+                    $parts[1], $parts[0]
+                );
             }
-            
+
             $this->tpl->setVariable('LINK', $link_data['target']);
             $this->tpl->setVariable('TARGET', '_blank');
             $this->tpl->setVariable('TITLE', $link_data['title']);
-            
+
             if (count($this->getSubItemIds(true)) > 1) {
                 $this->parseRelevance($sub_item);
             }
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->showDetailsLink();
         return $this->tpl->get();
     }

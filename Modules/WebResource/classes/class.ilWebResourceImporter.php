@@ -14,12 +14,10 @@
  */
 
 /**
-* Webresource xml importer
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ModulesWebResource
-*/
+ * Webresource xml importer
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ModulesWebResource
+ */
 class ilWebResourceImporter extends ilXmlImporter
 {
     protected ?ilObjLinkResource $link = null;
@@ -37,9 +35,15 @@ class ilWebResourceImporter extends ilXmlImporter
     /**
      * @inheritDoc
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
+        if ($new_id = $a_mapping->getMapping(
+            'Services/Container', 'objs', $a_id
+        )) {
             $this->link = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
             $this->link = new ilObjLinkResource();
@@ -51,13 +55,18 @@ class ilWebResourceImporter extends ilXmlImporter
             $parser = new ilWebLinkXmlParser($this->link, $a_xml);
             $parser->setMode(ilWebLinkXmlParser::MODE_CREATE);
             $parser->start();
-            $a_mapping->addMapping('Modules/WebResource', 'webr', $a_id,
-                                   (string) $this->link->getId()
+            $a_mapping->addMapping(
+                'Modules/WebResource', 'webr', $a_id,
+                (string) $this->link->getId()
             );
         } catch (ilSaxParserException $e) {
-            $this->logger->error(': Parsing failed with message, "' . $e->getMessage() . '".');
+            $this->logger->error(
+                ': Parsing failed with message, "' . $e->getMessage() . '".'
+            );
         } catch (ilWebLinkXMLParserException $e) {
-            $this->logger->error(': Parsing failed with message, "' . $e->getMessage() . '".');
+            $this->logger->error(
+                ': Parsing failed with message, "' . $e->getMessage() . '".'
+            );
         }
     }
 }

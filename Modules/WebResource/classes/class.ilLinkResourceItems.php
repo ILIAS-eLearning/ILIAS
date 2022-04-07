@@ -14,11 +14,10 @@
  */
 
 /**
-* Class ilLinkResourceItems
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ModulesWebResource
-*/
+ * Class ilLinkResourceItems
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ModulesWebResource
+ */
 class ilLinkResourceItems
 {
     protected ilDBInterface $db;
@@ -28,7 +27,7 @@ class ilLinkResourceItems
     private $description = '';
     private string $target = '';
     private bool $status = false;
-    private bool $check  = false;
+    private bool $check = false;
     private int $c_date = 0;
     private int $m_date = 0;
     private int $last_check = 0;
@@ -39,9 +38,9 @@ class ilLinkResourceItems
     private int $webr_id;
 
     /**
-    * Constructor
-    * @access public
-    */
+     * Constructor
+     * @access public
+     */
     public function __construct($webr_id)
     {
         global $DIC;
@@ -50,7 +49,7 @@ class ilLinkResourceItems
         $this->webr_id = $webr_id;
         $this->db = $DIC->database();
     }
-    
+
     public static function lookupItem(int $a_webr_id, int $a_link_id) : array
     {
         global $DIC;
@@ -85,128 +84,151 @@ class ilLinkResourceItems
 
         $ilDB = $DIC->database();
         $query = 'UPDATE webr_items SET ' .
-                'title = ' . $ilDB->quote($a_title, 'text') . ' ' .
-                'WHERE link_id = ' . $ilDB->quote($a_link_id, 'integer');
+            'title = ' . $ilDB->quote($a_title, 'text') . ' ' .
+            'WHERE link_id = ' . $ilDB->quote($a_link_id, 'integer');
         $ilDB->manipulate($query);
     }
-    
-    
 
     // SET GET
     public function setLinkResourceRefId(int $a_ref_id) : void
     {
         $this->webr_ref_id = $a_ref_id;
     }
+
     public function getLinkResourceRefId() : int
     {
         return $this->webr_ref_id;
     }
+
     public function setLinkResourceId(int $a_id) : void
     {
         $this->webr_id = $a_id;
     }
+
     public function getLinkResourceId() : int
     {
         return $this->webr_id;
     }
+
     public function setLinkId(int $a_id) : void
     {
         $this->id = $a_id;
     }
+
     public function getLinkId() : int
     {
         return $this->id;
     }
+
     public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
+
     public function getTitle() : string
     {
         return $this->title;
     }
+
     public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
+
     public function getDescription() : string
     {
         return $this->description;
     }
+
     public function setTarget(string $a_target) : void
     {
         $this->target = $a_target;
     }
+
     public function getTarget() : string
     {
         return $this->target;
     }
+
     public function setActiveStatus(bool $a_status) : void
     {
         $this->status = $a_status;
     }
+
     public function getActiveStatus() : bool
     {
         return $this->status;
     }
+
     public function setDisableCheckStatus(bool $a_status) : void
     {
         $this->check = $a_status;
     }
+
     public function getDisableCheckStatus() : bool
     {
         return $this->check;
     }
+
     // PRIVATE
     public function __setCreateDate(int $a_date) : void
     {
         $this->c_date = $a_date;
     }
+
     public function getCreateDate() : int
     {
         return $this->c_date;
     }
+
     // PRIVATE
     public function __setLastUpdateDate(int $a_date) : void
     {
         $this->m_date = $a_date;
     }
+
     public function getLastUpdateDate() : int
     {
         return $this->m_date;
     }
+
     public function setLastCheckDate(int $a_date) : void
     {
         $this->last_check = $a_date;
     }
+
     public function getLastCheckDate() : int
     {
         return $this->last_check;
     }
+
     public function setValidStatus(bool $a_status) : void
     {
         $this->valid = $a_status;
     }
+
     public function getValidStatus() : bool
     {
         return $this->valid;
     }
+
     public function setInternal(bool $a_status) : void
     {
         $this->internal = $a_status;
     }
+
     public function getInternal() : bool
     {
         return $this->internal;
     }
-    
+
     /**
      * Copy web resource items
      */
     public function cloneItems(int $a_new_id) : bool
     {
         $appender = new ilParameterAppender($this->getLinkResourceId());
-        
+
         foreach ($this->getAllItems() as $item) {
             $new_item = new ilLinkResourceItems($a_new_id);
             $new_item->setTitle($item['title']);
@@ -220,7 +242,9 @@ class ilLinkResourceItems
             $new_item->add(true);
 
             // Add parameters
-            foreach (ilParameterAppender::_getParams($item['link_id']) as $param_id => $data) {
+            foreach (ilParameterAppender::_getParams(
+                $item['link_id']
+            ) as $param_id => $data) {
                 $appender->setName($data['name']);
                 $appender->setValue($data['value']);
                 $appender->add($new_item->getLinkId());
@@ -234,7 +258,9 @@ class ilLinkResourceItems
     {
         $item = $this->getItem($a_item_id);
         $query = "DELETE FROM webr_items " .
-            "WHERE webr_id = " . $this->db->quote($this->getLinkResourceId(), 'integer') . " " .
+            "WHERE webr_id = " . $this->db->quote(
+                $this->getLinkResourceId(), 'integer'
+            ) . " " .
             "AND link_id = " . $this->db->quote($a_item_id, 'integer');
         $res = $this->db->manipulate($query);
 
@@ -255,19 +281,39 @@ class ilLinkResourceItems
         }
         $this->__setLastUpdateDate(time());
         $query = "UPDATE webr_items " .
-            "SET title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
-            "description = " . $this->db->quote($this->getDescription(), 'text') . ", " .
+            "SET title = " . $this->db->quote(
+                $this->getTitle(), 'text'
+            ) . ", " .
+            "description = " . $this->db->quote(
+                $this->getDescription(), 'text'
+            ) . ", " .
             "target = " . $this->db->quote($this->getTarget(), 'text') . ", " .
-            "active = " . $this->db->quote($this->getActiveStatus(), 'integer') . ", " .
-            "valid = " . $this->db->quote($this->getValidStatus(), 'integer') . ", " .
-            "disable_check = " . $this->db->quote($this->getDisableCheckStatus(), 'integer') . ", " .
-            "internal = " . $this->db->quote($this->getInternal(), 'integer') . ", " .
-            "last_update = " . $this->db->quote($this->getLastUpdateDate(), 'integer') . ", " .
-            "last_check = " . $this->db->quote($this->getLastCheckDate(), 'integer') . " " .
-            "WHERE link_id = " . $this->db->quote($this->getLinkId(), 'integer') . " " .
-            "AND webr_id = " . $this->db->quote($this->getLinkResourceId(), 'integer');
+            "active = " . $this->db->quote(
+                $this->getActiveStatus(), 'integer'
+            ) . ", " .
+            "valid = " . $this->db->quote(
+                $this->getValidStatus(), 'integer'
+            ) . ", " .
+            "disable_check = " . $this->db->quote(
+                $this->getDisableCheckStatus(), 'integer'
+            ) . ", " .
+            "internal = " . $this->db->quote(
+                $this->getInternal(), 'integer'
+            ) . ", " .
+            "last_update = " . $this->db->quote(
+                $this->getLastUpdateDate(), 'integer'
+            ) . ", " .
+            "last_check = " . $this->db->quote(
+                $this->getLastCheckDate(), 'integer'
+            ) . " " .
+            "WHERE link_id = " . $this->db->quote(
+                $this->getLinkId(), 'integer'
+            ) . " " .
+            "AND webr_id = " . $this->db->quote(
+                $this->getLinkResourceId(), 'integer'
+            );
         $res = $this->db->manipulate($query);
-        
+
         if ($a_update_history) {
             ilHistory::_createEntry(
                 $this->getLinkResourceId(),
@@ -283,7 +329,9 @@ class ilLinkResourceItems
     {
         $query = "UPDATE webr_items " .
             "SET valid = " . $this->db->quote($a_status, 'integer') . " " .
-            "WHERE link_id = " . $this->db->quote($this->getLinkId(), 'integer');
+            "WHERE link_id = " . $this->db->quote(
+                $this->getLinkId(), 'integer'
+            );
         $res = $this->db->manipulate($query);
 
         return true;
@@ -293,17 +341,24 @@ class ilLinkResourceItems
     {
         $query = "UPDATE webr_items " .
             "SET active = " . $this->db->quote($a_status, 'integer') . " " .
-            "WHERE link_id = " . $this->db->quote($this->getLinkId(), 'integer');
+            "WHERE link_id = " . $this->db->quote(
+                $this->getLinkId(), 'integer'
+            );
 
         $this->db->query($query);
 
         return true;
     }
+
     public function updateDisableCheck(bool $a_status) : bool
     {
         $query = "UPDATE webr_items " .
-            "SET disable_check = " . $this->db->quote($a_status, 'integer') . " " .
-            "WHERE link_id = " . $this->db->quote($this->getLinkId(), 'integer');
+            "SET disable_check = " . $this->db->quote(
+                $a_status, 'integer'
+            ) . " " .
+            "WHERE link_id = " . $this->db->quote(
+                $this->getLinkId(), 'integer'
+            );
         $res = $this->db->manipulate($query);
 
         return true;
@@ -314,47 +369,56 @@ class ilLinkResourceItems
         if ($a_offset) {
             $period = $a_offset ?: 0;
             $time = time() - $period;
-            
-            
+
             $query = "UPDATE webr_items " .
-                "SET last_check = " . $this->db->quote(time(), 'integer') . " " .
-                "WHERE webr_id = " . $this->db->quote($this->getLinkResourceId(), 'integer') . " " .
+                "SET last_check = " . $this->db->quote(
+                    time(), 'integer'
+                ) . " " .
+                "WHERE webr_id = " . $this->db->quote(
+                    $this->getLinkResourceId(), 'integer'
+                ) . " " .
                 "AND disable_check = '0' " .
                 "AND last_check < " . $this->db->quote($time, 'integer');
             $res = $this->db->manipulate($query);
         } else {
             $query = "UPDATE webr_items " .
-                "SET last_check = " . $this->db->quote(time(), 'integer') . " " .
-                "WHERE webr_id = " . $this->db->quote($this->getLinkResourceId(), 'integer') . " " .
+                "SET last_check = " . $this->db->quote(
+                    time(), 'integer'
+                ) . " " .
+                "WHERE webr_id = " . $this->db->quote(
+                    $this->getLinkResourceId(), 'integer'
+                ) . " " .
                 "AND disable_check = '0' ";
             $res = $this->db->manipulate($query);
         }
         return true;
     }
 
-    public function updateValidByCheck(int $a_offset = 0)  : bool
+    public function updateValidByCheck(int $a_offset = 0) : bool
     {
         if ($a_offset) {
             $period = $a_offset ?: 0;
             $time = time() - $period;
-            
-            
+
             $query = "UPDATE webr_items " .
                 "SET valid = '1' " .
                 "WHERE disable_check = '0' " .
-                "AND webr_id = " . $this->db->quote($this->getLinkResourceId(), 'integer') . " " .
+                "AND webr_id = " . $this->db->quote(
+                    $this->getLinkResourceId(), 'integer'
+                ) . " " .
                 "AND last_check < " . $this->db->quote($time, 'integer');
             $res = $this->db->manipulate($query);
         } else {
             $query = "UPDATE webr_items " .
                 "SET valid = '1' " .
                 "WHERE disable_check = '0' " .
-                "AND webr_id = " . $this->db->quote($this->getLinkResourceId(), 'integer');
+                "AND webr_id = " . $this->db->quote(
+                    $this->getLinkResourceId(), 'integer'
+                );
             $res = $this->db->manipulate($query);
         }
         return true;
     }
-
 
     public function add(bool $a_update_history = true) : int
     {
@@ -381,7 +445,7 @@ class ilLinkResourceItems
 
         $link_id = $next_id;
         $this->setLinkId($link_id);
-        
+
         if ($a_update_history) {
             ilHistory::_createEntry(
                 $this->getLinkResourceId(),
@@ -391,6 +455,7 @@ class ilLinkResourceItems
         }
         return $link_id;
     }
+
     public function readItem(int $a_link_id) : bool
     {
         $query = "SELECT * FROM webr_items " .
@@ -413,13 +478,14 @@ class ilLinkResourceItems
         return true;
     }
 
-
     public function getItem(int $a_link_id) : array
     {
         $query = "SELECT * FROM webr_items " .
-            "WHERE webr_id = " . $this->db->quote($this->getLinkResourceId(), 'integer') . " " .
+            "WHERE webr_id = " . $this->db->quote(
+                $this->getLinkResourceId(), 'integer'
+            ) . " " .
             "AND link_id = " . $this->db->quote($a_link_id, 'integer');
-            
+
         $res = $this->db->query($query);
         $item = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -457,11 +523,13 @@ class ilLinkResourceItems
         }
         return $link_ids;
     }
-        
+
     public function getAllItems()
     {
         $query = "SELECT * FROM webr_items " .
-            "WHERE webr_id = " . $this->db->quote($this->getLinkResourceId(), 'integer');
+            "WHERE webr_id = " . $this->db->quote(
+                $this->getLinkResourceId(), 'integer'
+            );
 
         $res = $this->db->query($query);
         $items = [];
@@ -480,22 +548,28 @@ class ilLinkResourceItems
         }
         return $items;
     }
-    
+
     /**
      * Sort items (sorting mode depends on sorting setting)
      */
     public function sortItems(array $a_items) : array
     {
-        $mode = ilContainerSortingSettings::_lookupSortMode($this->getLinkResourceId());
-        
+        $mode = ilContainerSortingSettings::_lookupSortMode(
+            $this->getLinkResourceId()
+        );
+
         if ($mode == ilContainer::SORT_TITLE) {
-            $a_items = ilArrayUtil::sortArray($a_items, 'title', 'asc', false, true);
+            $a_items = ilArrayUtil::sortArray(
+                $a_items, 'title', 'asc', false, true
+            );
             return $a_items;
         }
 
         $sorted = $unsorted = [];
         if ($mode == ilContainer::SORT_MANUAL) {
-            $pos = ilContainerSorting::lookupPositions($this->getLinkResourceId());
+            $pos = ilContainerSorting::lookupPositions(
+                $this->getLinkResourceId()
+            );
             foreach ($a_items as $link_id => $item) {
                 if (isset($pos[$link_id])) {
                     $sorted[$link_id] = $item;
@@ -504,16 +578,18 @@ class ilLinkResourceItems
                     $unsorted[$link_id] = $item;
                 }
             }
-            $sorted = ilArrayUtil::sortArray($sorted, 'position', 'asc', true, true);
-            $unsorted = ilArrayUtil::sortArray($unsorted, 'title', 'asc', false, true);
+            $sorted = ilArrayUtil::sortArray(
+                $sorted, 'position', 'asc', true, true
+            );
+            $unsorted = ilArrayUtil::sortArray(
+                $unsorted, 'title', 'asc', false, true
+            );
             $a_items = $sorted + $unsorted;
             return $a_items;
         }
         return $a_items;
     }
-    
-    
-    
+
     public function getActivatedItems() : array
     {
         $active_items = [];
@@ -540,22 +616,24 @@ class ilLinkResourceItems
         }
         return $check_items;
     }
-        
-
 
     public static function _deleteAll(int $webr_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilDB->manipulate("DELETE FROM webr_items WHERE webr_id = " . $ilDB->quote($webr_id, 'integer'));
+        $ilDB->manipulate(
+            "DELETE FROM webr_items WHERE webr_id = " . $ilDB->quote(
+                $webr_id, 'integer'
+            )
+        );
         return true;
     }
 
     /**
-    * Check whether there is only one active link in the web resource.
-    * In this case this link is shown in a new browser window
-    */
+     * Check whether there is only one active link in the web resource.
+     * In this case this link is shown in a new browser window
+     */
     public static function _isSingular(int $a_webr_id) : bool
     {
         global $DIC;
@@ -568,7 +646,7 @@ class ilLinkResourceItems
         $res = $ilDB->query($query);
         return $res->numRows() == 1;
     }
-    
+
     /**
      * Get number of assigned links
      */
@@ -585,19 +663,18 @@ class ilLinkResourceItems
     }
 
     /**
-    * Get first link item
-    * Check before with _isSingular() if there is more or less than one
-    */
+     * Get first link item
+     * Check before with _isSingular() if there is more or less than one
+     */
     public static function _getFirstLink(int $a_webr_id) : array
     {
         return ilObjLinkResourceAccess::_getFirstLink($a_webr_id);
     }
-    
+
     public function validate() : bool
     {
         return $this->getTarget() && $this->getTitle();
     }
-
 
     /**
      * Write link XML
@@ -605,12 +682,12 @@ class ilLinkResourceItems
     public function toXML(ilXmlWriter $writer) : void
     {
         $items = $this->sortItems($this->getAllItems());
-        
+
         $position = 0;
         foreach ($items as $item_id => $item) {
             ++$position;
             $link = self::lookupItem($this->getLinkResourceId(), $item_id);
-            
+
             $writer->xmlStartTag(
                 'WebLink',
                 array(
@@ -625,24 +702,26 @@ class ilLinkResourceItems
             $writer->xmlElement('Title', array(), $link['title']);
             $writer->xmlElement('Description', array(), $link['description']);
             $writer->xmlElement('Target', array(), $link['target']);
-            
+
             // Dynamic parameters
-            foreach (ilParameterAppender::_getParams($link['link_id']) as $param_id => $param) {
+            foreach (ilParameterAppender::_getParams(
+                $link['link_id']
+            ) as $param_id => $param) {
                 $value = '';
                 switch ($param['value']) {
                     case ilParameterAppender::LINKS_USER_ID:
                         $value = 'userId';
                         break;
-                    
+
                     case ilParameterAppender::LINKS_LOGIN:
                         $value = 'userName';
                         break;
-                        
+
                     case ilParameterAppender::LINKS_MATRICULATION:
                         $value = 'matriculation';
                         break;
                 }
-                
+
                 if (!$value) {
                     // Fix for deprecated LINKS_SESSION
                     continue;
@@ -657,7 +736,7 @@ class ilLinkResourceItems
                     )
                 );
             }
-            
+
             $writer->xmlEndTag('WebLink');
         }
     }

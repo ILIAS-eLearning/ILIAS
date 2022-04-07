@@ -14,11 +14,10 @@
  */
 
 /**
-* XML parser exception
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ModulesWebResource
-*/
+ * XML parser exception
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ModulesWebResource
+ */
 class ilWebLinkXmlParserException extends ilException
 {
 }

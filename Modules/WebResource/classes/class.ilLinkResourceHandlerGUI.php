@@ -13,20 +13,16 @@
  * https://github.com/ILIAS-eLearning
  */
 
-
 use ILIAS\HTTP\Services as HTTPService;
 use ILIAS\Refinery\Factory as Refinery;
 
 /**
-* Handles user interface for link resources.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilLinkResourceHandlerGUI: ilObjLinkResourceGUI
-*
-* @ingroup ModulesWebResource
-*/
+ * Handles user interface for link resources.
+ * @author       Alex Killing <alex.killing@gmx.de>
+ * @version      $Id$
+ * @ilCtrl_Calls ilLinkResourceHandlerGUI: ilObjLinkResourceGUI
+ * @ingroup      ModulesWebResource
+ */
 class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
 {
     protected Refinery $refinery;
@@ -36,7 +32,6 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
     protected ilAccessHandler $access;
     protected ilNavigationHistory $navigationHistory;
     protected ilGlobalTemplateInterface $tpl;
-
 
     public function __construct()
     {
@@ -50,7 +45,7 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
         $this->refinery = $DIC->refinery();
         $this->tpl = $DIC->ui()->mainTemplate();
     }
-    
+
     public function executeCommand() : void
     {
         global $DIC;
@@ -76,7 +71,9 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
         }
         switch ($next_class) {
             case 'ilobjlinkresourcegui':
-                $link_gui = new ilObjLinkResourceGUI($ref_id, ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
+                $link_gui = new ilObjLinkResourceGUI(
+                    $ref_id, ilObjLinkResourceGUI::REPOSITORY_NODE_ID
+                );
                 $this->ctrl->forwardCommand($link_gui);
                 break;
         }

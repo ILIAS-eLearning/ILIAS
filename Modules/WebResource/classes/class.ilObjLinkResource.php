@@ -14,12 +14,10 @@
  */
 
 /**
-* Class ilObjLinkResource
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ModulesWebResource
-*/
+ * Class ilObjLinkResource
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ModulesWebResource
+ */
 class ilObjLinkResource extends ilObject
 {
     private ?ilLinkResourceItems $items_obj = null;
@@ -63,19 +61,21 @@ class ilObjLinkResource extends ilObject
         }
         switch ($a_element) {
             case 'General':
-                    if (ilLinkResourceItems::lookupNumberOfLinks($this->getId()) == 1) {
-                        $link_arr = ilLinkResourceItems::_getFirstLink($this->getId());
-                        $link = new ilLinkResourceItems($this->getId());
-                        $link->readItem($link_arr['link_id']);
-                        $link->setTitle($title);
-                        $link->setDescription($description);
-                        $link->update();
-                    }
-                    break;
+                if (ilLinkResourceItems::lookupNumberOfLinks(
+                        $this->getId()
+                    ) == 1) {
+                    $link_arr = ilLinkResourceItems::_getFirstLink(
+                        $this->getId()
+                    );
+                    $link = new ilLinkResourceItems($this->getId());
+                    $link->readItem($link_arr['link_id']);
+                    $link->setTitle($title);
+                    $link->setDescription($description);
+                    $link->update();
+                }
+                break;
         }
     }
-
-
 
     public function delete() : bool
     {
@@ -101,8 +101,11 @@ class ilObjLinkResource extends ilObject
         return true;
     }
 
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
-    {
+    public function cloneObject(
+        int $a_target_id,
+        int $a_copy_id = 0,
+        bool $a_omit_tree = false
+    ) : ?ilObject {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
 
@@ -113,14 +116,18 @@ class ilObjLinkResource extends ilObject
         // append copy info weblink title
         if (ilLinkResourceItems::_isSingular($new_obj->getId())) {
             $first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
-            ilLinkResourceItems::updateTitle($first['link_id'], $new_obj->getTitle());
+            ilLinkResourceItems::updateTitle(
+                $first['link_id'], $new_obj->getTitle()
+            );
         }
         return $new_obj;
     }
 
     public function toXML(ilXmlWriter $writer) : void
     {
-        $attribs = array("obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId());
+        $attribs = array("obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId(
+            )
+        );
 
         $writer->xmlStartTag('WebLinks', $attribs);
 
@@ -152,7 +159,6 @@ class ilObjLinkResource extends ilObject
         $links->toXML($writer);
         $writer->xmlEndTag('WebLinks');
     }
-
 
     // PRIVATE
 } // END class.ilObjLinkResource

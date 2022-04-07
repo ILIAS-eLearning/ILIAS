@@ -15,9 +15,7 @@
 
 /**
  * Class ilObjWebResourceAdministration
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ModulesWebResource
  */
 class ilObjWebResourceAdministration extends ilObject

@@ -15,7 +15,6 @@
 
 /**
  * Class ilObjWebResourceAdministrationAccess
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjWebResourceAdministrationAccess extends ilObjectAccess

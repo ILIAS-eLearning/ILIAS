@@ -14,13 +14,11 @@
  */
 
 /**
-* Class ilParameterAppender
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWebResource
-*/
+ * Class ilParameterAppender
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ModulesWebResource
+ */
 class ilParameterAppender
 {
     public const LINKS_TYPE_UNDEFINED = 0;
@@ -49,13 +47,15 @@ class ilParameterAppender
         $this->settings = $DIC->settings();
         $this->webr_id = $webr_id;
     }
-    
+
     /**
      * Get parameter ids of link
      * @return int[]
      */
-    public static function getParameterIds(int $a_webr_id, int $a_link_id) : array
-    {
+    public static function getParameterIds(
+        int $a_webr_id,
+        int $a_link_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -79,7 +79,7 @@ class ilParameterAppender
     {
         $this->webr_id = $a_obj_id;
     }
-    
+
     public function getObjId() : int
     {
         return $this->webr_id;
@@ -89,14 +89,17 @@ class ilParameterAppender
     {
         $this->name = $a_name;
     }
+
     public function getName() : string
     {
         return $this->name;
     }
+
     public function setValue(int $a_value) : void
     {
         $this->value = $a_value;
     }
+
     public function getValue() : int
     {
         return $this->value;
@@ -121,7 +124,6 @@ class ilParameterAppender
         return true;
     }
 
-    
     public function add(int $a_link_id) : int
     {
         if (!$a_link_id) {
@@ -144,16 +146,18 @@ class ilParameterAppender
 
         return $next_id;
     }
-    
+
     public function delete($a_param_id) : bool
     {
         $query = "DELETE FROM webr_params " .
-            "WHERE param_id = " . $this->db->quote($a_param_id, 'integer') . " " .
+            "WHERE param_id = " . $this->db->quote(
+                $a_param_id, 'integer'
+            ) . " " .
             "AND webr_id = " . $this->db->quote($this->getObjId(), 'integer');
         $res = $this->db->manipulate($query);
         return true;
     }
-    
+
     /**
      * Check if dynamic parameters are enabled
      */
@@ -170,7 +174,9 @@ class ilParameterAppender
         global $DIC;
 
         $ilUser = $DIC->user();
-        if (count($params = ilParameterAppender::_getParams($a_link_data['link_id']))) {
+        if (count(
+            $params = ilParameterAppender::_getParams($a_link_data['link_id'])
+        )) {
             // Check for prefix
             foreach ($params as $param_data) {
                 if (!strpos($a_link_data['target'], '?')) {
@@ -181,17 +187,19 @@ class ilParameterAppender
                 $a_link_data['target'] .= ($param_data['name'] . "=");
                 switch ($param_data['value']) {
                     case self::LINKS_LOGIN:
-                        $a_link_data['target'] .= (urlencode($ilUser->getLogin()));
+                        $a_link_data['target'] .= (urlencode(
+                            $ilUser->getLogin()
+                        ));
                         break;
-                        
+
                     case self::LINKS_SESSION_ID:
                         $a_link_data['target'] .= (session_id());
                         break;
-                        
+
                     case self::LINKS_USER_ID:
                         $a_link_data['target'] .= ($ilUser->getId());
                         break;
-                        
+
                     case self::LINKS_MATRICULATION:
                         $a_link_data['target'] .= ($ilUser->getMatriculation());
                         break;
@@ -200,7 +208,7 @@ class ilParameterAppender
         }
         return $a_link_data;
     }
-        
+
     /**
      * Get dynamic parameter definitions
      */
@@ -212,32 +220,36 @@ class ilParameterAppender
 
         $params = [];
 
-        $res = $ilDB->query("SELECT * FROM webr_params WHERE link_id = " .
-            $ilDB->quote($a_link_id, 'integer'));
+        $res = $ilDB->query(
+            "SELECT * FROM webr_params WHERE link_id = " .
+            $ilDB->quote($a_link_id, 'integer')
+        );
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $params[$row->param_id]['name'] = (string) $row->name;
             $params[$row->param_id]['value'] = (int) $row->value;
         }
         return $params;
     }
-    
+
     /**
      * Get info text describing an existing dynamic link
      */
-    public static function parameterToInfo(string $a_name, int $a_value) : string
-    {
+    public static function parameterToInfo(
+        string $a_name,
+        int $a_value
+    ) : string {
         $info = $a_name;
-        
+
         switch ($a_value) {
             case self::LINKS_USER_ID:
                 return $info . '=USER_ID';
-                
+
             case self::LINKS_SESSION_ID:
                 return $info . '=SESSION_ID';
-                
+
             case self::LINKS_LOGIN:
                 return $info . '=LOGIN';
-                
+
             case self::LINKS_MATRICULATION:
                 return $info . '=MATRICULATION';
         }
