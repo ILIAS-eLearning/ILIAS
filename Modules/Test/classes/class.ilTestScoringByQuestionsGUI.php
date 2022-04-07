@@ -132,7 +132,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             'qst_id' => $questionData['qid'],
                             'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                             'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
-			    'name' => $participant->getName()
+                            'name' => $participant->getName()
                         ] + $feedback;
                     }
                 }
@@ -519,6 +519,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $reached_points_form->setMinValue(0);
         $reached_points_form->setDisabled($disable);
         $reached_points_form->setValue($reached_points);
+        $reached_points_form->setClientSideValidation(true);
         $form->addItem($reached_points_form);
 
         $hidden_points = new ilHiddenInputGUI('qst_max_points');
