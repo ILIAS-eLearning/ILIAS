@@ -56,13 +56,6 @@ interface Factory
      * rules:
      *   accessibility:
      *     1: >
-     *        The play/pause button MUST be accessible via tab key and allow to start/stop the video when the
-     *        space/return key is being pressed.
-     *     2: >
-     *        The playing position SHOULD be adjustable by using the cursor left/right keys.
-     *     3: >
-     *        The volume SHOULD be adjustable by using the cursor up/down keys.
-     *     4: >
      *        A subtitle file SHOULD be provided, if the video content contains speech.
      *   style:
      *     1: >
