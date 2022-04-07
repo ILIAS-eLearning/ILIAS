@@ -40,7 +40,7 @@ class Subscriber
     }
 
     /**
-     * @return int[]
+     * @return array<int, array{public_name: string, profile_image: string}>
      */
     public function getInitialUserProfileData() : array
     {
