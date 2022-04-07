@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilTermsOfServiceWithdrawalGUIHelper
 {
     protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilSetting $setting;
     protected ilObjUser $user;
     protected Factory $uiFactory;

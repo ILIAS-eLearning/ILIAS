@@ -34,7 +34,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->expects($this->once())
             ->method('redirectToURL');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
             return $ctrl;
         };
 
@@ -295,7 +295,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
             return $ctrl;
         };
 
@@ -401,7 +401,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
             return $ctrl;
         };
 

@@ -19,8 +19,8 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
     protected ilObjTermsOfService $tos;
     /** @var MockObject|ilGlobalTemplateInterface */
     protected ilGlobalTemplateInterface $tpl;
-    /** @var MockObject|ilCtrl */
-    protected ilCtrl $ctrl;
+    /** @var MockObject|ilCtrlInterface */
+    protected ilCtrlInterface $ctrl;
     /** @var MockObject|ilLanguage */
     protected ilLanguage $lng;
     /** @var MockObject|ilRbacSystem */

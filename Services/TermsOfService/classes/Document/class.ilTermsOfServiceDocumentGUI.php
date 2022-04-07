@@ -17,7 +17,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
     protected ilObjTermsOfService $tos;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilRbacSystem $rbacsystem;
     protected ilErrorHandling $error;
@@ -38,7 +38,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         ilGlobalTemplateInterface $tpl,
         ilObjUser $user,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,
         ilErrorHandling $error,
