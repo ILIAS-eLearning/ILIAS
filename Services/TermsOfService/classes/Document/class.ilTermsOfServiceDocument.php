@@ -197,7 +197,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     }
 
     /**
-     * @param ilTermsOfServiceDocumentCriterionAssignment
+     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
      * @throws OutOfBoundsException
      */
     public function detachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) : void
