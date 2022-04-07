@@ -57,7 +57,7 @@ class ilObjectXMLParser extends ilSaxParser
             case 'Object':
                 ++$this->curr_obj;
 
-                $this->addProperty('type', $a_attribs['type']);
+                $this->addProperty('type', (string) $a_attribs['type']);
                 $this->addProperty(
                     'obj_id',
                     is_numeric($a_attribs['obj_id']) ? (int) $a_attribs["obj_id"] : ilUtil::__extractId(
@@ -173,7 +173,12 @@ class ilObjectXMLParser extends ilSaxParser
         }
     }
 
-    private function addProperty($a_name, $a_value) : void// TODO PHP8-REVIEW Type hint missing
+    /**
+     * @param string$a_name
+     * @param string | int $a_value
+     * @return void
+     */
+    private function addProperty(string $a_name, $a_value) : void
     {
         $this->object_data[$this->curr_obj][$a_name] = $a_value;
     }

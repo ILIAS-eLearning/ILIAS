@@ -131,7 +131,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         return true;
     }
 
-    public function assignCourseMember(string $sid, int $course_id, int $user_id, int $type)
+    public function assignCourseMember(string $sid, int $course_id, int $user_id, string $type)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -162,9 +162,9 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if (ilObject::_lookupType($user_id) !== 'usr') {
             return $this->raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
         }
-        if ($type !== 'Admin' && // TODO PHP8-REVIEW Wrong type
-            $type !== 'Tutor' && // TODO PHP8-REVIEW Wrong type
-            $type !== 'Member') {// TODO PHP8-REVIEW Wrong type
+        if ($type !== 'Admin' &&
+            $type !== 'Tutor' &&
+            $type !== 'Member') {
             return $this->raiseError(
                 'Invalid type given. Parameter "type" must be "Admin", "Tutor" or "Member"',
                 'Client'

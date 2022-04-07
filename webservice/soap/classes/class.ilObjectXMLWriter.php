@@ -160,24 +160,8 @@ class ilObjectXMLWriter extends ilXmlWriter
         }
 
         $this->xmlStartTag('Object', $attrs);
-
-        if ($this->mode === self::MODE_SEARCH_RESULT) {
-            $title = $object->getTitle();// TODO PHP8-REVIEW Unnecessary operations: The variablers are not used
-            if ($this->highlighter->getTitle($object->getId(), 0)) {
-                $title = $this->highlighter->getTitle($object->getId(), 0);
-            }
-            $description = $object->getDescription();// TODO PHP8-REVIEW Unnecessary operations: The variablers are not used
-            if ($this->highlighter->getDescription($object->getId(), 0)) {
-                $description = $this->highlighter->getDescription($object->getId(), 0);
-            }
-
-            $this->xmlElement('Title', null, $object->getTitle());
-            $this->xmlElement('Description', null, $object->getDescription());
-        } else {
-            $this->xmlElement('Title', null, $object->getTitle());
-            $this->xmlElement('Description', null, $object->getDescription());
-        }
-
+        $this->xmlElement('Title', null, $object->getTitle());
+        $this->xmlElement('Description', null, $object->getDescription());
         $this->xmlElement('Owner', null, $object->getOwner());
         $this->xmlElement('CreateDate', null, $object->getCreateDate());
         $this->xmlElement('LastUpdate', null, $object->getLastUpdateDate());
