@@ -48,7 +48,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
         asort($options);
 
         $roleSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
-        $roleSelection->setValue((int) ($config['role_id'] ?? 0));
+        $roleSelection->setValue((int) ($config['role_id'] ?? 0)); //PHP8-Review:  Parameter #1 $a_value of method ilSelectInputGUI::setValue() expects array|string, int given
 
         $option->addSubItem($roleSelection);
 
