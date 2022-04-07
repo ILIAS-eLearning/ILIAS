@@ -292,7 +292,7 @@ class ilMailSearchGUI
             $users = ilUserFilter::getInstance()->filter($contacts_search_result->getResultIds());
             $users = array_intersect($users, $relations->getKeys());
 
-            $tbl_contacts = new ilTable2GUI($this);
+            $tbl_contacts = new ilMailSearchResultsTableGUI($this, 'contacts');
             $tbl_contacts->setTitle($this->lng->txt('mail_addressbook'));
             $tbl_contacts->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Contact');
 
@@ -387,7 +387,7 @@ class ilMailSearchGUI
         include_once 'Services/User/classes/class.ilUserFilter.php';
         $users = ilUserFilter::getInstance()->filter($all_results->getResultIds());
         if (count($users)) {
-            $tbl_users = new ilTable2GUI($this);
+            $tbl_users = new ilMailSearchResultsTableGUI($this, 'usr');
             $tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
             $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
 
@@ -473,7 +473,7 @@ class ilMailSearchGUI
 
         $visible_groups = array();
         if ($group_results->getResults()) {
-            $tbl_grp = new ilTable2GUI($this);
+            $tbl_grp = new ilMailSearchResultsTableGUI($this, 'grp');
             $tbl_grp->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('groups'));
             $tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html', 'Services/Contact');
 
@@ -539,6 +539,8 @@ class ilMailSearchGUI
         if (count($users) || count($visible_groups) || count($relations)) {
             $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
             $this->tpl->setVariable("ALT_ARROW", '');
+            $this->tpl->setVariable("IMG_ARROW_UP", ilUtil::getImagePath("arrow_upright.svg"));
+            $this->tpl->setVariable("ALT_ARROW_UP", '');
 
             if ($this->isDefaultRequestContext()) {
                 $this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('adopt'));
