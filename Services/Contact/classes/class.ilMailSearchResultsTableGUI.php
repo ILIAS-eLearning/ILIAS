@@ -23,5 +23,4 @@ class ilMailSearchResultsTableGUI extends ilTable2GUI
         $this->setId('mail_sr_' . $context);
         parent::__construct($gui);
     }
-
 }
