@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+
 /**
  * Collector of skills for a container
  *
@@ -30,16 +32,20 @@ class ilContSkillCollector
     protected ilContainerGlobalProfiles $container_global_profiles;
     protected ilContainerLocalProfiles $container_local_profiles;
     protected ilSkillManagementSettings $skmg_settings;
+    protected SkillTreeService $tree_service;
 
     public function __construct(
         ilContainerSkills $a_cont_skills,
         ilContainerGlobalProfiles $a_cont_glb_profiles,
         ilContainerLocalProfiles $a_cont_lcl_profiles
     ) {
+        global $DIC;
+
         $this->container_skills = $a_cont_skills;
         $this->container_global_profiles = $a_cont_glb_profiles;
         $this->container_local_profiles = $a_cont_lcl_profiles;
         $this->skmg_settings = new ilSkillManagementSettings();
+        $this->tree_service = $DIC->skills()->tree();
     }
 
     public function getSkillsForTableGUI() : array
@@ -52,7 +58,7 @@ class ilContSkillCollector
         $this->tab_skills = array_merge($s_skills, $p_skills);
 
         // order skills per virtual skill tree
-        $vtree = new ilVirtualSkillTree();
+        $vtree = $this->tree_service->getGlobalVirtualSkillTree();
         $this->tab_skills = $vtree->getOrderedNodeset($this->tab_skills, "base_skill_id", "tref_id");
 
         return $this->tab_skills;

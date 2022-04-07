@@ -71,7 +71,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 
         $this->lng->loadLanguageModule("skmg");
         
-        $this->tree = new ilGlobalSkillTree();
+        $this->tree = $this->skill_tree_factory->getGlobalTree();
         $this->root_id = $this->tree->readRootId();
         
         parent::__construct("pskill_sel", $a_parent_obj, $a_parent_cmd, $this->tree);

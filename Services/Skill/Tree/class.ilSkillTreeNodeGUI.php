@@ -311,7 +311,7 @@ class ilSkillTreeNodeGUI
         $values["description"] = $this->node_object->getDescription();
         $values["order_nr"] = $this->node_object->getOrderNr();
         $values["self_eval"] = $this->node_object->getSelfEvaluation();
-        $values["status"] = $this->node_object->getStatus();
+        $values["status"] = (string) $this->node_object->getStatus();
         
         $this->form->setValuesByArray($values);
     }
