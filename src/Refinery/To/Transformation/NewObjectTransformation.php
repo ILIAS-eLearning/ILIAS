@@ -6,6 +6,8 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -23,11 +25,11 @@ class NewObjectTransformation implements Transformation
 
     /**
      * @inheritdoc
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function transform($from)
     {
-        $class = new \ReflectionClass($this->className);
+        $class = new ReflectionClass($this->className);
         $instance = $class->newInstanceArgs($from);
 
         return $instance;
@@ -35,7 +37,7 @@ class NewObjectTransformation implements Transformation
 
     /**
      * @inheritdoc
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __invoke($from)
     {

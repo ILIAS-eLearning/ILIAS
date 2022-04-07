@@ -5,9 +5,11 @@
 namespace ILIAS\Refinery\DateTime;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use DateTimeZone;
+use InvalidArgumentException;
+use DateTimeImmutable;
 
 /**
  * Change the timezone (and only the timezone) of php's \DateTimeImmutable WITHOUT changing the date-value.
@@ -18,7 +20,7 @@ class ChangeTimezone implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    private \DateTimeZone $timezone;
+    private DateTimeZone $timezone;
 
     /**
      * @param string $timezone
@@ -26,9 +28,9 @@ class ChangeTimezone implements Transformation
     public function __construct(string $timezone)
     {
         if (!in_array($timezone, timezone_identifiers_list(), true)) {
-            throw new \InvalidArgumentException("$timezone is not a valid timezone identifier", 1);
+            throw new InvalidArgumentException("$timezone is not a valid timezone identifier", 1);
         }
-        $this->timezone = new \DateTimeZone($timezone);
+        $this->timezone = new DateTimeZone($timezone);
     }
 
     /**
@@ -36,12 +38,12 @@ class ChangeTimezone implements Transformation
      */
     public function transform($from)
     {
-        if (!$from instanceof \DateTimeImmutable) {
-            throw new \InvalidArgumentException("$from is not a DateTimeImmutable-object", 1);
+        if (!$from instanceof DateTimeImmutable) {
+            throw new InvalidArgumentException("$from is not a DateTimeImmutable-object", 1);
         }
         
         $ts = $from->format('Y-m-d H:i:s');
-        $to = new \DateTimeImmutable($ts, $this->timezone);
+        $to = new DateTimeImmutable($ts, $this->timezone);
         return $to;
     }
 }

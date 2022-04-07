@@ -6,8 +6,8 @@ namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\In;
 use ILIAS\Refinery\To;
-use ILIAS\Refinery\ByTrying;
 use ILIAS\Refinery\Random\Group as RandomGroup;
+use ilLanguage;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -15,9 +15,9 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 class Factory
 {
     private \ILIAS\Data\Factory $dataFactory;
-    private \ilLanguage $language;
+    private ilLanguage $language;
 
-    public function __construct(\ILIAS\Data\Factory $dataFactory, \ilLanguage $language)
+    public function __construct(\ILIAS\Data\Factory $dataFactory, ilLanguage $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;

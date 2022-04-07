@@ -8,6 +8,8 @@ use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
+use DateTimeImmutable;
+use DateTimeInterface;
 
 /**
  * Transform date format to DateTimeImmutable
@@ -26,30 +28,30 @@ class DateTimeTransformation implements Transformation
      */
     public function transform($from)
     {
-        if ($from instanceof \DateTimeImmutable) {
+        if ($from instanceof DateTimeImmutable) {
             return $from;
         }
 
         $formats = [
-            \DateTimeImmutable::ATOM,
-            \DateTimeImmutable::COOKIE,
-            \DateTimeImmutable::ISO8601,
-            \DateTimeImmutable::RFC822,
-            \DateTimeImmutable::RFC7231,
-            \DateTimeImmutable::RFC3339_EXTENDED
+            DateTimeInterface::ATOM,
+            DateTimeInterface::COOKIE,
+            DateTimeInterface::ISO8601,
+            DateTimeInterface::RFC822,
+            DateTimeInterface::RFC7231,
+            DateTimeInterface::RFC3339_EXTENDED
         ];
 
         if (is_string($from)) {
             foreach ($formats as $format) {
-                $res = \DateTimeImmutable::createFromFormat($format, $from);
-                if ($res instanceof \DateTimeImmutable) {
+                $res = DateTimeImmutable::createFromFormat($format, $from);
+                if ($res instanceof DateTimeImmutable) {
                     return $res;
                 }
             }
         }
 
         if (is_int($from) || is_float($from)) {
-            return new \DateTimeImmutable("@" . round($from));
+            return new DateTimeImmutable("@" . round($from));
         }
 
         throw new ConstraintViolationException(

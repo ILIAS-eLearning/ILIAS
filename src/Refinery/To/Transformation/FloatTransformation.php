@@ -28,7 +28,7 @@ class FloatTransformation implements Constraint
         return (float) $from;
     }
 
-    public function getError()
+    public function getError() : string
     {
         return 'The value MUST be of type string.';
     }

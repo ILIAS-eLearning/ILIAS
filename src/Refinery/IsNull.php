@@ -6,7 +6,7 @@ namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Constraint;
+use ilLanguage;
 
 /**
  * Class IsNull
@@ -17,7 +17,7 @@ use ILIAS\Refinery\Constraint;
  */
 class IsNull extends CustomConstraint
 {
-    public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
             function ($value) {

@@ -5,6 +5,7 @@
 namespace ILIAS\Refinery;
 
 use ILIAS\Data\Result;
+use Exception;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -16,7 +17,7 @@ trait DeriveTransformFromApplyTo
     /**
      * @param mixed $from
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function transform($from)
     {
@@ -25,11 +26,11 @@ trait DeriveTransformFromApplyTo
         if (true === $result->isError()) {
             $error = $result->error();
 
-            if ($error instanceof \Exception) {
+            if ($error instanceof Exception) {
                 throw $error;
             }
 
-            throw new \Exception($error);
+            throw new Exception($error);
         }
         return $result->value();
     }

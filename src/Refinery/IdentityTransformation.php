@@ -5,10 +5,7 @@
  */
 namespace ILIAS\Refinery;
 
-use ILIAS\Data\Result;
-use ILIAS\Data\Result\Ok;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
+use InvalidArgumentException;
 
 class IdentityTransformation implements Transformation
 {
@@ -16,7 +13,7 @@ class IdentityTransformation implements Transformation
     use DeriveApplyToFromTransform;
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function transform($from)
     {

@@ -8,6 +8,7 @@ use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use InvalidArgumentException;
 
 /**
  * Adds to any array keys for each value
@@ -37,11 +38,11 @@ class AddLabels implements Transformation
     public function transform($from)
     {
         if (!is_array($from)) {
-            throw new \InvalidArgumentException(__METHOD__ . " argument is not an array.");
+            throw new InvalidArgumentException(__METHOD__ . " argument is not an array.");
         }
 
         if (count($from) !== count($this->labels)) {
-            throw new \InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
+            throw new InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
         }
 
         return array_combine($this->labels, $from);
@@ -54,12 +55,12 @@ class AddLabels implements Transformation
     {
         $dataValue = $result->value();
         if (false === is_array($dataValue)) {
-            $exception = new \InvalidArgumentException(__METHOD__ . " argument is not an array.");
+            $exception = new InvalidArgumentException(__METHOD__ . " argument is not an array.");
             return $this->factory->error($exception);
         }
 
         if (count($dataValue) !== count($this->labels)) {
-            $exception = new \InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
+            $exception = new InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
             return $this->factory->error($exception);
         }
 

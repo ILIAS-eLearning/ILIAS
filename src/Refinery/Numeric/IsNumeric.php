@@ -4,13 +4,13 @@
 
 namespace ILIAS\Refinery\Numeric;
 
-use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
+use ilLanguage;
 
 class IsNumeric extends CustomConstraint
 {
-    public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
             function ($value) {

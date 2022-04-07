@@ -9,6 +9,7 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Data;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\ProblemBuilder;
+use ilLanguage;
 
 class Constraint implements ConstraintInterface
 {
@@ -17,7 +18,7 @@ class Constraint implements ConstraintInterface
     use ProblemBuilder;
 
     protected Data\Factory $data_factory;
-    protected \ilLanguage $lng;
+    protected ilLanguage $lng;
 
     /**
      * @var callable
@@ -38,7 +39,7 @@ class Constraint implements ConstraintInterface
      *
      * @param string|callable	$error
      */
-    public function __construct(callable $is_ok, $error, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(callable $is_ok, $error, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->is_ok = $is_ok;
         $this->error = $error;

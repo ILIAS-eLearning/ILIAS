@@ -43,7 +43,7 @@ class ListTransformation implements Constraint
         return $result;
     }
 
-    public function getError()
+    public function getError() : string
     {
         return 'The value MUST be of type array.';
     }

@@ -7,12 +7,13 @@ namespace ILIAS\Refinery\Integer;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ilLanguage;
 
 class LessThanOrEqual extends CustomConstraint implements Constraint
 {
     protected int $max;
 
-    public function __construct(int $max, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(int $max, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->max = $max;
         parent::__construct(

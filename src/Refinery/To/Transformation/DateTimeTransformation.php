@@ -9,6 +9,8 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
+use DateTimeImmutable;
+use Exception;
 
 /**
  * Transform a string representing a datetime-value to php's DateTimeImmutable
@@ -28,7 +30,7 @@ class DateTimeTransformation implements Constraint
     public function transform($from)
     {
         $this->check($from);
-        return new \DateTimeImmutable($from);
+        return new DateTimeImmutable($from);
     }
 
     public function getError()
@@ -48,8 +50,8 @@ class DateTimeTransformation implements Constraint
     public function accepts($value) : bool
     {
         try {
-            new \DateTimeImmutable($value);
-        } catch (\Exception $e) {
+            new DateTimeImmutable($value);
+        } catch (Exception $e) {
             $this->error = $e->getMessage();
             return false;
         }

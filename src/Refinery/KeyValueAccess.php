@@ -2,11 +2,15 @@
 
 namespace ILIAS\Refinery;
 
+use Closure;
+use ArrayAccess;
+use Countable;
+
 /**
  * Class KeyValueAccess
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class KeyValueAccess implements \ArrayAccess, \Countable
+class KeyValueAccess implements ArrayAccess, Countable
 {
     private array $raw_values;
     protected Transformation $trafo;
@@ -44,7 +48,7 @@ class KeyValueAccess implements \ArrayAccess, \Countable
             : $this->getApplicator()($this->raw_values[$offset]);
     }
 
-    private function getApplicator() : \Closure
+    private function getApplicator() : Closure
     {
         return function ($value) {
             if (is_array($value)) {

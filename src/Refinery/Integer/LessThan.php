@@ -4,15 +4,15 @@
 
 namespace ILIAS\Refinery\Integer;
 
-use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ilLanguage;
 
 class LessThan extends CustomConstraint
 {
     protected int $max;
 
-    public function __construct(int $max, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(int $max, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->max = $max;
         parent::__construct(

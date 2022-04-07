@@ -6,6 +6,7 @@ namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
+use ilLanguage;
 
 /**
  * Class LogicalOr
@@ -23,9 +24,9 @@ class LogicalOr extends Constraint
      * LogicalOr constructor.
      * @param Constraint[] $other
      * @param Data\Factory $data_factory
-     * @param \ilLanguage $lng
+     * @param ilLanguage $lng
      */
-    public function __construct(array $other, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(array $other, Data\Factory $data_factory, ilLanguage $lng)
     {
         $this->other = $other;
 

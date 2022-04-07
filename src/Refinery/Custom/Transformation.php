@@ -5,7 +5,6 @@
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Data\Factory;
-use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation as TransformationInterface;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;

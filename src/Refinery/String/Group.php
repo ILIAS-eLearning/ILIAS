@@ -5,10 +5,8 @@
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\String\HasMaxLength;
-use ILIAS\Refinery\String\HasMinLength;
-use ILIAS\Refinery\String\SplitString;
 use ILIAS\Refinery\Transformation;
+use ilLanguage;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -16,9 +14,9 @@ use ILIAS\Refinery\Transformation;
 class Group
 {
     private Factory $dataFactory;
-    private \ilLanguage $language;
+    private ilLanguage $language;
 
-    public function __construct(Factory $dataFactory, \ilLanguage $language)
+    public function __construct(Factory $dataFactory, ilLanguage $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;

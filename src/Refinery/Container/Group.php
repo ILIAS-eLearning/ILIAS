@@ -5,8 +5,7 @@
 namespace ILIAS\Refinery\Container;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Container\AddLabels;
-use ILIAS\Refinery\Custom\Transformation;
+use ILIAS\Refinery\Transformation;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -28,7 +27,7 @@ class Group
         return new AddLabels($labels, $this->dataFactory);
     }
 
-    public function mapValues(\ILIAS\Refinery\Transformation $trafo) : MapValues
+    public function mapValues(Transformation $trafo) : MapValues
     {
         return new MapValues($trafo, $this->dataFactory);
     }

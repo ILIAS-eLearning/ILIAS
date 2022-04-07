@@ -5,11 +5,7 @@
  */
 namespace ILIAS\Refinery\Random\Transformation;
 
-use ILIAS\Data\Result;
-use ILIAS\Data\Result\Ok;
-use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Random\Seed\Seed;
-use ILIAS\Refinery\IdentityTransformation;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
@@ -44,7 +40,7 @@ class ShuffleTransformation implements Transformation
             throw new ConstraintViolationException('not an array', 'no_array');
         }
         $this->seed->seedRandomGenerator();
-        \shuffle($array);
+        shuffle($array);
 
         return $array;
     }

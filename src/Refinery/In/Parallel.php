@@ -8,6 +8,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use InvalidArgumentException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -24,7 +25,7 @@ class Parallel implements Transformation
 
     /**
      * @param array $transformations
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(array $transformations)
     {

@@ -4,7 +4,9 @@
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Refinery\ConstraintViolationException;
+
+use Closure;
+use InvalidArgumentException;
 
 trait ProblemBuilder
 {
@@ -40,14 +42,14 @@ trait ProblemBuilder
      * Get the closure to be passed to the error-function that does i18n and
      * sprintf.
      *
-     * @return  \Closure
+     * @return  Closure
      */
     final protected function getLngClosure()
     {
         return function () {
             $args = func_get_args();
             if (count($args) < 1) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     "Expected an id of a lang var as first parameter"
                 );
             }

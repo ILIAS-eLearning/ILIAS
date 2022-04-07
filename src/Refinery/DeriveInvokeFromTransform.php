@@ -3,7 +3,8 @@
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Data\Result;
+use Exception;
+use InvalidArgumentException;
 
 /**
  * @author  Richard Klees <richard.klees@concepts-and-training.de>
@@ -13,12 +14,12 @@ trait DeriveInvokeFromTransform
     /**
      * @param mixed $from
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     abstract public function transform($from);
 
     /**
-     * @throws \InvalidArgumentException  if the argument could not be transformed
+     * @throws InvalidArgumentException  if the argument could not be transformed
      * @param  mixed  $from
      * @return mixed
      */
