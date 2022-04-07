@@ -63,7 +63,7 @@ class ilSamlSettingsGUI
     ];
 
     protected int $ref_id;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $access;
