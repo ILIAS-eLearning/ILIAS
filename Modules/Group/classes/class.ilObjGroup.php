@@ -51,7 +51,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     private int $group_status = 0;
     private int $group_type = GRP_TYPE_UNKNOWN;
     private int $reg_type = GRP_REGISTRATION_DIRECT;
-    private bool $reg_enabled = true;
     private bool $reg_unlimited = true;
     private ?ilDateTime $reg_start = null;
     private ?ilDateTime $reg_end = null;
@@ -70,9 +69,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     private ?ilDateTime $grp_start = null;
     private ?ilDateTime $grp_end = null;
     private bool $auto_notification = true;
-    private bool $grp_start_time_indication = false;
-    private ?ilDateTime $start = null;
-    private ?ilDateTime $end = null;
     private string $latitude = '';
     private string $longitude = '';
     private int $locationzoom = 0;
@@ -97,7 +93,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * @inheritDoc
     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
 
@@ -1543,7 +1539,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $tree = $DIC->repositoryTree();
 
         $res = array();
-        $now = date("Y-m-d H:i:s");
         $before = new ilDateTime(time(), IL_CAL_UNIX);
         $before->increment(IL_CAL_DAY, -1);
         $now_date = $before->get(IL_CAL_DATETIME);
@@ -1613,8 +1608,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $this->items = ilContainerSessionsContentGUI::prepareSessionPresentationLimitation(
             $this->items,
             $this,
-            (bool) $a_admin_panel_enabled,
-            (bool) $a_include_side_block
+            $a_admin_panel_enabled,
+            $a_include_side_block
         );
         return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
     }

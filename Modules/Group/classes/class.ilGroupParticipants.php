@@ -43,7 +43,7 @@ class ilGroupParticipants extends ilParticipants
      * @access protected
      * @param int obj_id of container
      */
-    public function __construct($a_obj_id)
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 
@@ -104,7 +104,7 @@ class ilGroupParticipants extends ilParticipants
     {
         parent::addSubscriber($a_usr_id);
 
-        $this->logger()->grp()->info('Raise new event: Modules/Group addSubscriber.');
+        $this->logger->grp()->info('Raise new event: Modules/Group addSubscriber.');
         $this->eventHandler->raise(
             "Modules/Group",
             'addSubscriber',

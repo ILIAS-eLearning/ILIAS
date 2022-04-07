@@ -35,7 +35,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
     */
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = false)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference, bool $a_prepare_output = false)
     {
         global $DIC;
 
@@ -894,7 +894,6 @@ class ilObjGroupGUI extends ilContainerGUI
             $name = ilObjUser::_lookupName($usr_id);
             $tmp_data['firstname'] = $name['firstname'];
             $tmp_data['lastname'] = $name['lastname'];
-            $tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
             $tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
             $tmp_data['contact'] = $this->object->members_obj->isContact($usr_id) ? 1 : 0;
             $tmp_data['usr_id'] = $usr_id;
@@ -1938,7 +1937,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
     public function getLocalRoles() : array
     {
-        $local_roles = $this->object->getLocalGroupRoles(false);
+        $local_roles = $this->object->getLocalGroupRoles();
         $grp_member = $this->object->getDefaultMemberRole();
         $grp_roles = array();
 

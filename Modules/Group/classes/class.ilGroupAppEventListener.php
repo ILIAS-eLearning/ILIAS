@@ -35,7 +35,6 @@ class ilGroupAppEventListener
             return;
         }
 
-        $new_status = null;
         if ($a_event == 'assignUser') {
             $this->getLogger()->debug('Handling assign user event for type grp.');
             $new_status = 1;

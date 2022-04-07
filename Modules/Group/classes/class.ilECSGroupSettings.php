@@ -17,7 +17,10 @@ class ilECSGroupSettings extends ilECSObjectSettings
     {
         return '/campusconnect/groups';
     }
-    
+
+    /**
+     * @return object|stdClass
+     */
     protected function buildJson(ilECSSetting $a_server)
     {
         return $this->getJsonCore('application/ecs-group');
