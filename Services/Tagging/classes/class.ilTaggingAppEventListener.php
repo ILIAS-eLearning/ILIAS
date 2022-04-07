@@ -34,6 +34,7 @@ class ilTaggingAppEventListener
         string $a_event,
         array $a_parameter
     ) : void {
+        // PHP8 Review: 'switch' with single 'case'
         switch ($a_component) {
             case "Services/Object":
                 switch ($a_event) {
