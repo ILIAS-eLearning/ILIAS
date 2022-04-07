@@ -14668,30 +14668,6 @@ skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resou
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_usage#:#Usage
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
-sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
-sop#:#sop_check_system_requirements#:#Checking system requirements
-sop#:#sop_desc_export#:#A learning module in offline mode can only be used offline. Once the tracking data has been imported back to ILIAS, the learning module will be online again.
-sop#:#sop_export#:#SCORM Learning Module Export
-sop#:#sop_lm_not_exists#:#The Learning Module does not exist in the offline storage of this browser. <br />Please use use same device and browser as on Learning Module export.<br /><br />If this is the right device and right browser maybe the Learning Module was removed by deleting the browser cache. Please contact your admininstrator.
-sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player.
-sop#:#sop_msg_export_content#:#Transferring content to SCORM Offline Manager. This might need a moment. Please be patient.
-sop#:#sop_msg_export_failure#:#Transferring content or data to SCORM Offline Manager was not successful.
-sop#:#sop_msg_export_ok#:#Transferring content and tracking data was successful
-sop#:#sop_msg_export_tracking#:#Transferring tracking data to SCORM Offline Manager. Please wait some seconds
-sop#:#sop_msg_lm_not_exists#:#The learning module does either not exist or is inactive in the SCORM Offline Manager.
-sop#:#sop_msg_push_tracking_ok#:#Transfer of tracking data was successful.
-sop#:#sop_msg_push_tracking#:#Transferring tracking data to ILIAS. Please wait a moment.
-sop#:#sop_purge_cache#:#Delete offline cache of Learning Module
-sop#:#sop_push_tracking#:#Import tracking data
-sop#:#sop_reload_page#:#Reload page
-sop#:#sop_start_som#:#Start SOM
-sop#:#sop_start_sop#:#Start Learning Module offline
-sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.
-sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.
-sop#:#sop_text_export#:#Export SCORM Learning Module for offline use
-sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
-sop#:#sop_text_start_offline#:#Start Learning Module in offline mode
-sop#:#sop_text_start_som#:#Start SCORM Offline Manager
 style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
 style#:#adapt_icons#:#Adapt Icon Colors
