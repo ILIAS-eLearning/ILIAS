@@ -7273,7 +7273,7 @@ crs#:#crs_access#:#Zugang
 crs#:#crs_activate_notification#:#Benachrichtigung aktivieren
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
-crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Tutoren verfügbar.
+crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt

@@ -7262,7 +7262,7 @@ crs#:#crs_access#:#Access
 crs#:#crs_activate_notification#:#Activate Notification
 crs#:#crs_activation#:#Activation
 crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability but members cannot access the course.
-crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and tutors will have access to it.
+crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and roles with permission "Edit Settings" have access to it.
 crs#:#crs_add_archive_html#:#Create a HTML Archive
 crs#:#crs_add_archive_xml#:#Create a XML Archive
 crs#:#crs_added#:#Added new course
