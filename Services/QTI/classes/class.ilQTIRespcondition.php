@@ -34,36 +34,26 @@ const CONTINUE_NO = "2";
 */
 class ilQTIRespcondition
 {
-    /** @var string|null */
-    public $continue;
-
-    /** @var string|null */
-    public $title;
-
-    /** @var string|null */
-    public $comment;
-
-    /** @var ilQTIConditionvar|null */
-    public $conditionvar;
-
+    public ?string $continue;
+    public ?string $title;
+    public ?string $comment;
+    public ?ilQTIConditionvar $conditionvar;
     /** @var ilQTISetvar[] */
-    public $setvar;
-
+    public array $setvar;
     /** @var ilQTIDisplayfeedback[] */
-    public $displayfeedback;
-
-    public $respcond_extension;
+    public array $displayfeedback;
     
     public function __construct()
     {
-        $this->setvar = array();
-        $this->displayfeedback = array();
+        $this->continue = null;
+        $this->title = null;
+        $this->comment = null;
+        $this->conditionvar = null;
+        $this->setvar = [];
+        $this->displayfeedback = [];
     }
 
-    /**
-     * @param string
-     */
-    public function setContinue($a_continue) : void
+    public function setContinue(string $a_continue) : void
     {
         switch (strtolower($a_continue)) {
             case "1":
@@ -77,78 +67,47 @@ class ilQTIRespcondition
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getContinue()
+    public function getContinue() : ?string
     {
         return $this->continue;
     }
 
-    /**
-     * @param string $a_title
-     */
-    public function setTitle($a_title) : void
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $a_comment
-     */
-    public function setComment($a_comment) : void
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComment()
+    public function getComment() : ?string
     {
         return $this->comment;
     }
 
-    /**
-     * @param ilQTIConditionvar $a_conditionvar
-     */
-    public function setConditionvar($a_conditionvar) : void
+    public function setConditionvar(ilQTIConditionvar $a_conditionvar) : void
     {
         $this->conditionvar = $a_conditionvar;
     }
 
-    /**
-     * @return ilQTIConditionvar|null
-     */
-    public function getConditionvar()
+    public function getConditionvar() : ?ilQTIConditionvar
     {
         return $this->conditionvar;
     }
-    
-    public function setRespcond_extension($a_respcond_extension) : void
-    {
-        $this->respcond_extension = $a_respcond_extension;
-    }
-    
-    public function getRespcond_extension()
-    {
-        return $this->respcond_extension;
-    }
-    
-    public function addSetvar($a_setvar) : void
+
+    public function addSetvar(ilQTISetvar $a_setvar) : void
     {
         $this->setvar[] = $a_setvar;
     }
     
-    public function addDisplayfeedback($a_displayfeedback) : void
+    public function addDisplayfeedback(ilQTIDisplayfeedback $a_displayfeedback) : void
     {
         $this->displayfeedback[] = $a_displayfeedback;
     }

@@ -41,50 +41,36 @@ const FIBTYPE_SCIENTIFIC = "4";
 */
 class ilQTIRenderFib
 {
-    /** @var string|null */
-    public $minnumber;
-
-    /** @var string|null */
-    public $maxnumber;
-
+    public ?string $minnumber;
+    public ?string $maxnumber;
     /** @var ilQTIResponseLabel[] */
-    public $response_labels;
-
+    public array $response_labels;
     /** @var ilQTIMaterial[] */
-    public $material;
-
-    /** @var string|null */
-    public $prompt;
-
-    /** @var string */
-    public $encoding;
-
-    /** @var string|null */
-    public $fibtype;
-
-    /** @var string|null */
-    public $rows;
-
-    /** @var string|null */
-    public $maxchars;
-
-    /** @var string|null */
-    public $columns;
-
-    /** @var string|null */
-    public $charset;
+    public array $material;
+    public ?string $prompt;
+    public string $encoding;
+    public ?string $fibtype;
+    public ?string $rows;
+    public ?string $maxchars;
+    public ?string $columns;
+    public ?string $charset;
 
     public function __construct()
     {
-        $this->response_labels = array();
-        $this->material = array();
+        $this->minnumber = null;
+        $this->maxnumber = null;
+        $this->response_labels = [];
+        $this->material = [];
+        $this->prompt = null;
         $this->encoding = "UTF-8";
+        $this->fibtype = null;
+        $this->rows = null;
+        $this->maxchars = null;
+        $this->columns = null;
+        $this->charset = null;
     }
 
-    /**
-     * @param string $a_prompt
-     */
-    public function setPrompt($a_prompt) : void
+    public function setPrompt(string $a_prompt) : void
     {
         switch (strtolower($a_prompt)) {
             case "1":
@@ -106,18 +92,12 @@ class ilQTIRenderFib
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPrompt()
+    public function getPrompt() : ?string
     {
         return $this->prompt;
     }
 
-    /**
-     * @param string $a_fibtype
-     */
-    public function setFibtype($a_fibtype) : void
+    public function setFibtype(string $a_fibtype) : void
     {
         switch (strtolower($a_fibtype)) {
             case "1":
@@ -139,132 +119,87 @@ class ilQTIRenderFib
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFibtype()
+    public function getFibtype() : ?string
     {
         return $this->fibtype;
     }
 
-    /**
-     * @param string $a_minnumber
-     */
-    public function setMinnumber($a_minnumber) : void
+    public function setMinnumber(string $a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMinnumber()
+    public function getMinnumber() : ?string
     {
         return $this->minnumber;
     }
 
-    /**
-     * @param string $a_maxnumber
-     */
-    public function setMaxnumber($a_maxnumber) : void
+    public function setMaxnumber(string $a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMaxnumber()
+    public function getMaxnumber() : ?string
     {
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label) : void
+    public function addResponseLabel(ilQTIResponseLabel $a_response_label) : void
     {
         $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material) : void
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
         $this->material[] = $a_material;
     }
 
-    /**
-     * @param string $a_encoding
-     */
-    public function setEncoding($a_encoding) : void
+    public function setEncoding(string $a_encoding) : void
     {
         $this->encoding = $a_encoding;
     }
 
-    /**
-     * @return string
-     */
-    public function getEncoding()
+    public function getEncoding() : string
     {
         return $this->encoding;
     }
 
-    /**
-     * @param string $a_rows
-     */
-    public function setRows($a_rows) : void
+    public function setRows(string $a_rows) : void
     {
         $this->rows = $a_rows;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRows()
+    public function getRows() : ?string
     {
         return $this->rows;
     }
 
-    /**
-     * @param string $a_maxchars
-     */
-    public function setMaxchars($a_maxchars) : void
+    public function setMaxchars(string $a_maxchars) : void
     {
         $this->maxchars = $a_maxchars;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMaxchars()
+    public function getMaxchars() : ?string
     {
         return $this->maxchars;
     }
 
-    /**
-     * @param string $a_columns
-     */
-    public function setColumns($a_columns) : void
+    public function setColumns(string $a_columns) : void
     {
         $this->columns = $a_columns;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getColumns()
+    public function getColumns() : ?string
     {
         return $this->columns;
     }
 
-    /**
-     * @param string $a_charset
-     */
-    public function setCharset($a_charset) : void
+    public function setCharset(string $a_charset) : void
     {
         $this->charset = $a_charset;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCharset()
+    public function getCharset() : ?string
     {
         return $this->charset;
     }

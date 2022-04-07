@@ -50,52 +50,36 @@ const AREATYPE_BOUNDED = "3";
 */
 class ilQTIResponseVar
 {
-    /** @var string|null */
-    public $vartype;
-
-    /** @var string|null */
-    public $case;
-
-    /** @var string|null */
-    public $respident;
-
-    /** @var string|null */
-    public $index;
-
-    /** @var string|null */
-    public $setmatch;
-
-    /** @var string|null */
-    public $areatype;
-
-    /** @var string|null */
-    public $content;
+    public ?string $vartype;
+    public ?string $case;
+    public ?string $respident;
+    public ?string $index;
+    public ?string $setmatch;
+    public ?string $areatype;
+    public ?string $content;
     
-    public function __construct($a_vartype)
+    public function __construct(string $a_vartype)
     {
         $this->setVartype($a_vartype);
+        $this->case = null;
+        $this->respident = null;
+        $this->index = null;
+        $this->setmatch = null;
+        $this->areatype = null;
+        $this->content = null;
     }
 
-    /**
-     * @param string $a_vartype
-     */
-    public function setVartype($a_vartype) : void
+    public function setVartype(string $a_vartype) : void
     {
         $this->vartype = $a_vartype;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getVartype()
+    public function getVartype() : ?string
     {
         return $this->vartype;
     }
 
-    /**
-     * @param string $a_case
-     */
-    public function setCase($a_case) : void
+    public function setCase(string $a_case) : void
     {
         switch (strtolower($a_case)) {
             case "1":
@@ -109,50 +93,32 @@ class ilQTIResponseVar
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCase()
+    public function getCase() : ?string
     {
         return $this->case;
     }
 
-    /**
-     * @param string $a_respident
-     */
-    public function setRespident($a_respident) : void
+    public function setRespident(string $a_respident) : void
     {
         $this->respident = $a_respident;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRespident()
+    public function getRespident() : ?string
     {
         return $this->respident;
     }
 
-    /**
-     * @param string $a_index
-     */
-    public function setIndex($a_index) : void
+    public function setIndex(string $a_index) : void
     {
         $this->index = $a_index;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIndex()
+    public function getIndex() : ?string
     {
         return $this->index;
     }
 
-    /**
-     * @param string $a_setmatch
-     */
-    public function setSetmatch($a_setmatch) : void
+    public function setSetmatch(string $a_setmatch) : void
     {
         switch (strtolower($a_setmatch)) {
             case "1":
@@ -166,18 +132,12 @@ class ilQTIResponseVar
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSetmatch()
+    public function getSetmatch() : ?string
     {
         return $this->setmatch;
     }
 
-    /**
-     * @param string $a_areatype
-     */
-    public function setAreatype($a_areatype) : void
+    public function setAreatype(string $a_areatype) : void
     {
         switch (strtolower($a_areatype)) {
             case "1":
@@ -195,26 +155,17 @@ class ilQTIResponseVar
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getAreatype()
+    public function getAreatype() : ?string
     {
         return $this->areatype;
     }
 
-    /**
-     * @param string $a_content
-     */
-    public function setContent($a_content) : void
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getContent()
+    public function getContent() : ?string
     {
         return $this->content;
     }

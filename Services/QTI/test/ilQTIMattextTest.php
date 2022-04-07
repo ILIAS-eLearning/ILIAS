@@ -40,7 +40,7 @@ class ilQTIMattextTest extends TestCase
     /**
      * @dataProvider xmlSpaces
      */
-    public function testSetGetXmlspace($input, $expected) : void
+    public function testSetGetXmlspace(string $input, ?string $expected) : void
     {
         $instance = new ilQTIMattext();
         $instance->setXmlspace($input);

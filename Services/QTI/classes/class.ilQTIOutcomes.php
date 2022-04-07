@@ -31,34 +31,27 @@
 */
 class ilQTIOutcomes
 {
-    /** @var string|null */
-    public $comment;
-
-    /** @var ilQTIDecvar[] */
-    public $decvar;
+    public ?string $comment;
+    /** @var (null|ilQTIDecvar)[] */
+    public array $decvar;
     
     public function __construct()
     {
-        $this->decvar = array();
+        $this->comment = null;
+        $this->decvar = [];
     }
 
-    /**
-     * @param string $a_comment
-     */
-    public function setComment($a_comment) : void
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComment()
+    public function getComment() : ?string
     {
         return $this->comment;
     }
     
-    public function addDecvar($a_decvar) : void
+    public function addDecvar(?ilQTIDecvar $a_decvar) : void
     {
         $this->decvar[] = $a_decvar;
     }

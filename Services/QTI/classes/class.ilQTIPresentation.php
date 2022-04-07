@@ -31,140 +31,105 @@
 */
 class ilQTIPresentation
 {
-    /** @var string|null */
-    public $label;
-
-    /** @var string|null */
-    public $xmllang;
-
-    /** @var string|null */
-    public $x0;
-
-    /** @var string|null */
-    public $y0;
-
-    /** @var string|null */
-    public $width;
-
-    /** @var string|null */
-    public $height;
-
-    /**
-     * @var array
-     */
-    public $material;
+    public ?string $label;
+    public ?string $xmllang;
+    public ?string $x0;
+    public ?string $y0;
+    public ?string $width;
+    public ?string $height;
+    /** @var ilQTIMaterial[] */
+    public array $material;
 
     /**
      * @var ilQTIResponse[]
      */
-    public $response;
+    public array $response;
 
     /**
      * @var array{type: string, index: int}[]
      */
-    public $order;
+    public array $order;
     
     public function __construct()
     {
-        $this->response = array();
-        $this->material = array();
-        $this->order = array();
+        $this->label = null;
+        $this->xmllang = null;
+        $this->x0 = null;
+        $this->y0 = null;
+        $this->width = null;
+        $this->height = null;
+        $this->response = [];
+        $this->material = [];
+        $this->order = [];
     }
 
-    /**
-     * @param string $a_label
-     */
-    public function setLabel($a_label) : void
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getLabel()
+    public function getLabel() : ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param string $a_xmllang
-     */
-    public function setXmllang($a_xmllang) : void
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getXmllang()
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
     
-    public function setX0($a_x0) : void
+    public function setX0(string $a_x0) : void
     {
         $this->x0 = $a_x0;
     }
     
-    public function getX0()
+    public function getX0() : ?string
     {
         return $this->x0;
     }
     
-    public function setY0($a_y0) : void
+    public function setY0(string $a_y0) : void
     {
         $this->y0 = $a_y0;
     }
     
-    public function getY0()
+    public function getY0() : ?string
     {
         return $this->y0;
     }
 
-    /**
-     * @param string $a_width
-     */
-    public function setWidth($a_width) : void
+    public function setWidth(string $a_width) : void
     {
         $this->width = $a_width;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getWidth()
+    public function getWidth() : ?string
     {
         return $this->width;
     }
 
-    /**
-     * @param string $a_height
-     */
-    public function setHeight($a_height) : void
+    public function setHeight(string $a_height) : void
     {
         $this->height = $a_height;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getHeight()
+    public function getHeight() : ?string
     {
         return $this->height;
     }
     
-    public function addMaterial($a_material) : void
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
         $count = array_push($this->material, $a_material);
         $this->order[] = array("type" => "material", "index" => $count - 1);
     }
 
-    /**
-     * @param ilQTIResponse $a_response
-     */
-    public function addResponse($a_response) : void
+    public function addResponse(ilQTIResponse $a_response) : void
     {
         $count = array_push($this->response, $a_response);
         $this->order[] = array("type" => "response", "index" => $count - 1);

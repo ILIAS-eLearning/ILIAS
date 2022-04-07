@@ -48,40 +48,39 @@ const NUMTYPE_SCIENTIFIC = "3";
 */
 class ilQTIResponse
 {
-    /** @var int */
-    public $flow;
-
+    public int $flow;
     /** @var int|string */
     public $response_type;
-
-    /** @var string|null */
-    public $ident;
-
-    /** @var string */
-    public $rcardinality;
+    public ?string $ident;
+    public ?string $rcardinality;
 
     /**
      * @var ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib|null
      */
     public $render_type;
-    public $material1;
-    public $material2;
+    public ?ilQTIMaterial $material1;
+    public ?ilQTIMaterial $material2;
+    public ?string $rtiming;
+    public ?string $numtype;
 
-    /** @var string|null */
-    public $rtiming;
-
-    /** @var string|null */
-    public $numtype;
-    
+    /**
+     * @param string|int $a_response_type
+     */
     public function __construct($a_response_type = 0)
     {
         $this->flow = 0;
         $this->render_type = null;
         $this->response_type = $a_response_type;
+        $this->ident = null;
+        $this->rcardinality = null;
+        $this->material1 = null;
+        $this->material2 = null;
+        $this->rtiming = null;
+        $this->numtype = null;
     }
 
     /**
-     * @param int
+     * @param string|int $a_responsetype
      */
     public function setResponsetype($a_responsetype) : void
     {
@@ -96,26 +95,17 @@ class ilQTIResponse
         return $this->response_type;
     }
 
-    /**
-     * @param string $a_ident
-     */
-    public function setIdent($a_ident) : void
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIdent()
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
 
-    /**
-     * @param string
-     */
-    public function setRCardinality($a_rcardinality) : void
+    public function setRCardinality(string $a_rcardinality) : void
     {
         switch (strtolower($a_rcardinality)) {
             case "single":
@@ -133,18 +123,12 @@ class ilQTIResponse
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRCardinality()
+    public function getRCardinality() : ?string
     {
         return $this->rcardinality;
     }
 
-    /**
-     * @param string
-     */
-    public function setRTiming($a_rtiming) : void
+    public function setRTiming(string $a_rtiming) : void
     {
         switch (strtolower($a_rtiming)) {
             case "no":
@@ -158,18 +142,12 @@ class ilQTIResponse
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRTiming()
+    public function getRTiming() : ?string
     {
         return $this->rtiming;
     }
 
-    /**
-     * @param string $a_numtype
-     */
-    public function setNumtype($a_numtype) : void
+    public function setNumtype(string $a_numtype) : void
     {
         switch (strtolower($a_numtype)) {
             case "integer":
@@ -187,10 +165,7 @@ class ilQTIResponse
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getNumtype()
+    public function getNumtype() : ?string
     {
         return $this->numtype;
     }
@@ -211,38 +186,32 @@ class ilQTIResponse
         return $this->render_type;
     }
 
-    /**
-     * @param int $a_flow
-     */
-    public function setFlow($a_flow) : void
+    public function setFlow(int $a_flow) : void
     {
         $this->flow = $a_flow;
     }
 
-    /**
-     * @return int
-     */
-    public function getFlow()
+    public function getFlow() : int
     {
         return $this->flow;
     }
     
-    public function setMaterial1($a_material) : void
+    public function setMaterial1(ilQTIMaterial $a_material) : void
     {
         $this->material1 = $a_material;
     }
     
-    public function getMaterial1()
+    public function getMaterial1() : ?ilQTIMaterial
     {
         return $this->material1;
     }
 
-    public function setMaterial2($a_material) : void
+    public function setMaterial2(ilQTIMaterial $a_material) : void
     {
         $this->material2 = $a_material;
     }
     
-    public function getMaterial2()
+    public function getMaterial2() : ?ilQTIMaterial
     {
         return $this->material2;
     }
