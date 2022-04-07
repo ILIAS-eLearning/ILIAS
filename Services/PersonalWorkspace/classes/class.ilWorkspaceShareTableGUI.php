@@ -26,9 +26,9 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
     protected ilObjUser $user;
     protected ilWorkspaceAccessHandler $handler;
     protected ?int $parent_node_id = null;
-    protected array $filter;
-    protected array $crs_ids;
-    protected array $grp_ids;
+    protected array $filter; // PHP8-Review: Property has no value type specified in iterable type array.
+    protected array $crs_ids; // PHP8-Review: Property has no value type specified in iterable type array.
+    protected array $grp_ids; // PHP8-Review: Property has no value type specified in iterable type array.
     protected bool $portfolio_mode = false;
     protected StandardGUIRequest $std_request;
 
@@ -170,7 +170,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         } else {
             $options = array("prtf" => $lng->txt("obj_prtf"));
         }
-        if (sizeof($options)) {
+        if (sizeof($options)) { // PHP8-Review: If condition is always true.
             asort($options);
             $item = $this->addFilterItemByMetaType("obj_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_object_type"));
             $item->setOptions($options);
@@ -203,7 +203,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             }
         }
         
-        if (sizeof($options)) {
+        if (sizeof($options)) { // PHP8-Review: If condition is always true.
             // asort($options);
             $item = $this->addFilterItemByMetaType("acl_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_type"));
             $item->setOptions(array("" => $lng->txt("search_any")) + $options);
@@ -264,7 +264,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // PHP8-Review: Method has parameter with no value type specified in iterable type array.
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

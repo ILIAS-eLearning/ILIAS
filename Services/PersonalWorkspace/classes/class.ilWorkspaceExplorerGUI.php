@@ -31,7 +31,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     protected $select_gui = null;
     protected string $select_cmd = "";
     protected string $select_par = "";
-    protected array $selectable_types = array();
+    protected array $selectable_types = array(); //PHP8-Review: Property ilWorkspaceExplorerGUI::$selectable_types type has no value type specified in iterable type array.
     protected bool $activate_highlighting = false;
     protected StandardGUIRequest $request;
 
@@ -96,12 +96,12 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return $this->activate_highlighting;
     }
 
-    public function setSelectableTypes(array $a_val) : void
+    public function setSelectableTypes(array $a_val) : void // PHP8-Review: Method has parameter with no value type specified in iterable type array.
     {
         $this->selectable_types = $a_val;
     }
     
-    public function getSelectableTypes() : array
+    public function getSelectableTypes() : array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         return $this->selectable_types;
     }
@@ -116,7 +116,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return $this->custom_link_target;
     }
 
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node) : string // PHP8-Review: Method has parameter $a_node with no value type specified.
     {
         if ($this->select_postvar != "") {
             return "";
@@ -145,15 +145,15 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         } else {
             $target_path = $this->parent_obj;
         }
-        $target_path = $target_path + [$target_class];
-        $ilCtrl->setParameterByClass($target_class, $this->select_par, $a_node["child"]);
+        $target_path = $target_path + [$target_class]; // PHP8-Review: Binary operation "+" between array|string and array{object|string|null} results in an error.
+        $ilCtrl->setParameterByClass($target_class, $this->select_par, $a_node["child"]); //PHP8-Review: Parameter #1 $a_class of method ilCtrl::setParameterByClass() expects string, object|string|null given.
         $ret = $ilCtrl->getLinkTargetByClass($target_path, $this->select_cmd);
-        $ilCtrl->setParameterByClass($target_class, $this->select_par, $this->request->getSelectPar());
+        $ilCtrl->setParameterByClass($target_class, $this->select_par, $this->request->getSelectPar());  //PHP8-Review: Parameter #1 $a_class of method ilCtrl::setParameterByClass() expects string, object|string|null given.
 
         return $ret;
     }
 
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node) : string // PHP8-Review: Method has parameter $a_node with no value type specified.
     {
         $lng = $this->lng;
 
@@ -164,7 +164,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return $a_node["title"];
     }
     
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node) : bool // PHP8-Review: Method has parameter $a_node with no value type specified.
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -172,7 +172,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
 
-    protected function isNodeSelectable($a_node) : bool
+    protected function isNodeSelectable($a_node) : bool // PHP8-Review: Method has parameter $a_node with no value type specified.
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -180,16 +180,17 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
 
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node) : string // PHP8-Review: Method has parameter $a_node with no value type specified.
     {
         $t = $a_node["type"];
+        // PHP8-Review: 'in_array' can be replaced with comparison
         if (in_array($t, array("sktr"))) {
             return ilUtil::getImagePath("icon_skll.svg");
         }
         return ilUtil::getImagePath("icon_" . $t . ".svg");
     }
 
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node) : bool // PHP8-Review: Method has parameter $a_node with no value type specified.
     {
         $wsp_id = $this->request->getWspId();
         if ($this->getActivateHighlighting() &&

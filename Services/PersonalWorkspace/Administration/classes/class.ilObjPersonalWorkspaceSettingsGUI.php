@@ -29,7 +29,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
     protected ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
-        $a_data,
+        $a_data, // PHP8-Review: Method ilObjPersonalWorkspaceSettingsGUI::__construct() has parameter $a_data with no type specified.
         int $a_id,
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true
@@ -135,25 +135,25 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         // Enable 'Personal Workspace'
         $wsp_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_personal_resources'), 'wsp');
         $wsp_prop->setValue('1');
-        $wsp_prop->setChecked(($ilSetting->get('disable_personal_workspace') ? '0' : '1'));
+        $wsp_prop->setChecked(($ilSetting->get('disable_personal_workspace') ? '0' : '1')); // PHP8-Review: Parameter #1 $a_checked of method ilCheckboxInputGUI::setChecked() expects bool, string given.
         $form->addItem($wsp_prop);
 
         // Enable 'Blogs'
         $blog_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_blogs'), 'blog');
         $blog_prop->setValue('1');
-        $blog_prop->setChecked(($ilSetting->get('disable_wsp_blogs') ? '0' : '1'));
+        $blog_prop->setChecked(($ilSetting->get('disable_wsp_blogs') ? '0' : '1')); // PHP8-Review: Parameter #1 $a_checked of method ilCheckboxInputGUI::setChecked() expects bool, string given.
         $wsp_prop->addSubItem($blog_prop);
 
         // Enable 'Files'
         $file_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_files'), 'file');
         $file_prop->setValue('1');
-        $file_prop->setChecked(($ilSetting->get('disable_wsp_files') ? '0' : '1'));
+        $file_prop->setChecked(($ilSetting->get('disable_wsp_files') ? '0' : '1')); // PHP8-Review: Parameter #1 $a_checked of method ilCheckboxInputGUI::setChecked() expects bool, string given.
         $wsp_prop->addSubItem($file_prop);
 
         // Enable 'Links'
         $link_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_links'), 'link');
         $link_prop->setValue('1');
-        $link_prop->setChecked(($ilSetting->get('disable_wsp_links') ? '0' : '1'));
+        $link_prop->setChecked(($ilSetting->get('disable_wsp_links') ? '0' : '1')); // PHP8-Review: Parameter #1 $a_checked of method ilCheckboxInputGUI::setChecked() expects bool, string given.
         $wsp_prop->addSubItem($link_prop);
 
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
@@ -188,10 +188,10 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
                 $link = 0;
             }
 
-            $ilSetting->set('disable_personal_workspace', (int) $wsp);
-            $ilSetting->set('disable_wsp_blogs', (int) $blog);
-            $ilSetting->set('disable_wsp_files', (int) $file);
-            $ilSetting->set('disable_wsp_links', (int) $link);
+            $ilSetting->set('disable_personal_workspace', (int) $wsp); // PHP8-Review: Parameter #2 $a_val of method ilSetting::set() expects string, int given. Cannot cast mixed to int.
+            $ilSetting->set('disable_wsp_blogs', (int) $blog);  // PHP8-Review: Parameter #2 $a_val of method ilSetting::set() expects string, int given.Cannot cast mixed to int.
+            $ilSetting->set('disable_wsp_files', (int) $file);  // PHP8-Review: Parameter #2 $a_val of method ilSetting::set() expects string, int given.Cannot cast mixed to int.
+            $ilSetting->set('disable_wsp_links', (int) $link);  // PHP8-Review: Parameter #2 $a_val of method ilSetting::set() expects string, int given.Cannot cast mixed to int.
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
