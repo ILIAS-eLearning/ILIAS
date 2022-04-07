@@ -104,7 +104,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
             self::CMD_LP_TO_INCOMPLETE
         ])) {
             $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-            if ((int) $learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
+            if ($learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
                 $marks = new ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
 
                 $old_state = $marks->getCompleted();
