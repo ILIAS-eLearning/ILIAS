@@ -10026,7 +10026,6 @@ itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks 
 itgr#:#itgr_edit#:#Objekteblock bearbeiten
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
-itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird nicht angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
 itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_item#:#Objekte, die eingebunden werden können
 itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.

@@ -9999,7 +9999,6 @@ itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)
 itgr#:#itgr_hide_title#:#Hide Title
-itgr#:#itgr_hide_title_info#:#Hides title of item group in presentation for learner.
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.
