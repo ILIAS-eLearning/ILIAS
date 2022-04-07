@@ -25,6 +25,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
     protected $maxvalue_visible = false;
     protected $decimals;
     protected $allow_decimals = false;
+    protected $client_side_validation = false;
     
     /**
     * Constructor
@@ -378,11 +379,13 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
                 " disabled=\"disabled\""
             );
         }
-        
-        /*
-        $tpl->setVariable("JS_DECIMALS_ALLOWED", (int)$this->areDecimalsAllowed());
-        */
-        
+
+        if ($this->client_side_validation) {
+            $tpl->setVariable("JS_DECIMALS_ALLOWED", (int) $this->areDecimalsAllowed());
+            $tpl->setVariable("JS_ID", $this->getFieldId());
+        }
+
+
         // constraints
         if ($this->areDecimalsAllowed() && $this->getDecimals() > 0) {
             $constraints = $lng->txt("form_format") . ": ###." . str_repeat("#", $this->getDecimals());
@@ -420,5 +423,10 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         if ($value != "") {
             return (int) $value;
         }
+    }
+
+    public function setClientSideValidation(bool $validate) : void
+    {
+        $this->client_side_validation = $validate;
     }
 }
