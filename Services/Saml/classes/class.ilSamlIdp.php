@@ -151,7 +151,7 @@ class ilSamlIdp
         $this->setLocalLocalAuthenticationStatus((bool) $form->getInput('allow_local_auth'));
         $this->setAccountMigrationStatus((bool) $form->getInput('account_migr_status'));
 
-        /** @var $metadata ilSamlIdpMetadataInputGUI */
+        /** @var ilSamlIdpMetadataInputGUI $metadata */
         $metadata = $form->getItemByPostVar('metadata');
         $this->setEntityId($metadata->getValue());
     }
