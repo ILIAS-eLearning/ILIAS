@@ -63,9 +63,9 @@ class DictionaryTransformation implements Constraint
             return false;
         }
 
-        return count(array_filter($value, function ($key) {
+        return count(array_filter($value, static function ($key) : bool {
             return !is_string($key);
-        }, ARRAY_FILTER_USE_KEY)) == 0;
+        }, ARRAY_FILTER_USE_KEY)) === 0;
     }
 
     public function problemWith($value) : ?string

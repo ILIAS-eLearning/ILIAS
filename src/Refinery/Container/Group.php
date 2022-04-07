@@ -22,7 +22,7 @@ class Group
     /**
      * Adds to any array keys for each value
      */
-    public function addLabels(array $labels) : addLabels
+    public function addLabels(array $labels) : AddLabels
     {
         return new AddLabels($labels, $this->dataFactory);
     }

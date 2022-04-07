@@ -13,10 +13,10 @@ class HasNumbers extends CustomConstraint
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            function (Data\Password $value) {
+            static function (Data\Password $value) : bool {
                 return (bool) preg_match('/[0-9]/', $value->toString());
             },
-            function ($value) {
+            static function ($value) : string {
                 return "Password must contain numbers.";
             },
             $data_factory,

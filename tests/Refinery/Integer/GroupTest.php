@@ -1,29 +1,44 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\Integer;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Integer\Group;
+use ILIAS\Refinery\Integer\Group as IntegerGroup;
 use ILIAS\Refinery\Integer\GreaterThan;
 use ILIAS\Refinery\Integer\LessThan;
 use ILIAS\Tests\Refinery\TestCase;
 use ILIAS\Refinery\Integer\GreaterThanOrEqual;
 use ILIAS\Refinery\Integer\LessThanOrEqual;
+use ilLanguage;
 
 class GroupTest extends TestCase
 {
-    private Group $group;
+    private IntegerGroup $group;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $dataFactory = new Factory();
-        $language = $this->getMockBuilder('\ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->group = new Group($dataFactory, $language);
+        $this->group = new IntegerGroup($dataFactory, $language);
     }
 
     public function testGreaterThanInstance() : void

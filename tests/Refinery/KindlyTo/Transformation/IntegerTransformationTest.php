@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
@@ -7,24 +22,21 @@ use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 
-/**
- * Test transformations in this Group
- */
 class IntegerTransformationTest extends TestCase
 {
-    private $transformation;
+    private IntegerTransformation $transformation;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->transformation = new IntegerTransformation();
     }
 
     /**
      * @dataProvider IntegerTestDataProvider
-     * @param $originVal
-     * @param $expectedVal
+     * @param mixed $originVal
+     * @param int $expectedVal
      */
-    public function testIntegerTransformation($originVal, $expectedVal)
+    public function testIntegerTransformation($originVal, int $expectedVal) : void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsInt($transformedValue);
@@ -33,19 +45,19 @@ class IntegerTransformationTest extends TestCase
 
     /**
      * @dataProvider TransformationFailureDataProvider
-     * @param $failingValue
+     * @param mixed $failingValue
      */
-    public function testTransformIsInvalid($failingValue)
+    public function testTransformIsInvalid($failingValue) : void
     {
         $this->expectException(ConstraintViolationException::class);
         $this->transformation->transform($failingValue);
     }
 
-    public function IntegerTestDataProvider()
+    public function IntegerTestDataProvider() : array
     {
         return [
-            'pos_bool' => [true, (int) 1],
-            'neg_bool' => [false, (int) 0],
+            'pos_bool' => [true, 1],
+            'neg_bool' => [false, 0],
             'float_val' => [20.5, 21],
             'float_val_round_up' => [0.51, 1],
             'float_val_round_down' => [0.49, 0],
@@ -57,7 +69,7 @@ class IntegerTransformationTest extends TestCase
         ];
     }
 
-    public function TransformationFailureDataProvider()
+    public function TransformationFailureDataProvider() : array
     {
         return [
             'bigger_than_int_max' => ["9223372036854775808"],

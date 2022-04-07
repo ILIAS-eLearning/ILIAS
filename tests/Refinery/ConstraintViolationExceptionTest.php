@@ -1,29 +1,42 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+use ILIAS\Refinery\ConstraintViolationException;
+
 class ConstraintViolationExceptionTest extends TestCase
 {
-    public function testTranslationOfMessage()
+    public function testTranslationOfMessage() : void
     {
-        $that = $this;
-        $callback = function ($languageId) use ($that) {
-            $that->assertEquals('some_key', $languageId);
+        $callback = function (string $languageId) : string {
+            $this->assertEquals('some_key', $languageId);
             return 'Some text "%s" and "%s"';
         };
 
         try {
-            throw new \ILIAS\Refinery\ConstraintViolationException(
+            throw new ConstraintViolationException(
                 'This is an error message for developers',
                 'some_key',
                 'Value To Replace',
                 'Some important stuff'
             );
-        } catch (\ILIAS\Refinery\ConstraintViolationException $exception) {
+        } catch (ConstraintViolationException $exception) {
             $this->assertEquals(
                 'Some text "Value To Replace" and "Some important stuff"',
                 $exception->getTranslatedMessage($callback)

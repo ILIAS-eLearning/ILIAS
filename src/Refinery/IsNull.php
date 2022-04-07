@@ -20,10 +20,10 @@ class IsNull extends CustomConstraint
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            function ($value) {
+            static function ($value) : bool {
                 return is_null($value);
             },
-            function ($txt, $value) {
+            static function ($txt, $value) : string {
                 return $txt("not_a_null", gettype($value));
             },
             $data_factory,

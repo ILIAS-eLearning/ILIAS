@@ -12,33 +12,30 @@ class MakeClickable implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /**
-     * @return string
-     */
-    public function transform($maybeHTML)
+    public function transform($from) : string
     {
-        $this->requireString($maybeHTML);
+        $this->requireString($from);
 
         $endOfMatch = 0;
         $stringParts = [];
         $matches = [];
-        while (1 === preg_match('@(^|[^[:alnum:]])(((https?://)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)@', substr($maybeHTML, $endOfMatch), $matches)) {
+        while (1 === preg_match('@(^|[^[:alnum:]])(((https?://)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)@', substr($from, $endOfMatch), $matches)) {
             $oldIndex = $endOfMatch;
-            $endOfMatch += strpos(substr($maybeHTML, $endOfMatch), $matches[0]);
-            $stringParts[] = substr($maybeHTML, $oldIndex, $endOfMatch - $oldIndex);
+            $endOfMatch += strpos(substr($from, $endOfMatch), $matches[0]);
+            $stringParts[] = substr($from, $oldIndex, $endOfMatch - $oldIndex);
             $startOfMatch = $endOfMatch;
             $endOfMatch += strlen($matches[1] . $matches[2]);
-            if ($this->shouldReplace($maybeHTML, $startOfMatch, $endOfMatch)) {
+            if ($this->shouldReplace($from, $startOfMatch, $endOfMatch)) {
                 $maybeProtocol = '' === $matches[4] ? 'https://' : '';
-                $stringParts[] = sprintf('%s<a href="%s">%s</a>', $matches[1], $maybeProtocol . $matches[2], $matches[2], $matches[6]);
+                $stringParts[] = sprintf('%s<a href="%s">%s</a>', $matches[1], $maybeProtocol . $matches[2], $matches[2]);
                 continue;
             }
             $stringParts[] = $matches[1] . $matches[2];
         }
 
-        $stringParts[] = substr($maybeHTML, $endOfMatch);
+        $stringParts[] = substr($from, $endOfMatch);
 
-        return join('', $stringParts);
+        return implode('', $stringParts);
     }
 
     private function regexPos(string $regexp, string $string) : int

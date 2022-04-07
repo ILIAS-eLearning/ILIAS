@@ -13,10 +13,10 @@ class IsNumeric extends CustomConstraint
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            function ($value) {
+            static function ($value) : bool {
                 return is_numeric($value);
             },
-            function ($txt, $value) {
+            static function ($txt, $value) : string {
                 if ('' === $value) {
                     return $txt("not_numeric_empty_string");
                 }

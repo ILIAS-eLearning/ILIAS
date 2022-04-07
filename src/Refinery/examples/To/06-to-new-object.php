@@ -9,9 +9,9 @@ function toNewObject()
 {
     class SomeOtherClass
     {
-        private $firstParameter;
-        private $secondParameter;
-        private $thirdParameter;
+        private string $firstParameter;
+        private int $secondParameter;
+        private string $thirdParameter;
 
         public function __construct(
             string $firstParameter,
@@ -27,17 +27,30 @@ function toNewObject()
         {
             return $this->firstParameter;
         }
-    }
+        
+        public function getFirstParameter() : string
+        {
+            return $this->firstParameter;
+        }
 
+        public function getSecodParameter() : string
+        {
+            return $this->secondParameter;
+        }
+
+        public function getThirdParameter() : string
+        {
+            return $this->thirdParameter;
+        }
+    }
+    
     global $DIC;
 
     $refinery = $DIC->refinery();
 
-    $transformation = $refinery->to()->toNew(
-        'SomeOtherClass'
-    );
+    $transformation = $refinery->to()->toNew(SomeOtherClass::class);
 
-    $result = $transformation->transform(array('firstParameter', 2, 'thirdParameter'));
+    $result = $transformation->transform(['firstParameter', 2, 'thirdParameter']);
 
-    return assert('firstParameter' === $result->say());
+    return assert('firstParameter' === $result->getFirstParameter());
 }

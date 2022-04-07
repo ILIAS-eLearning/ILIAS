@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
@@ -7,24 +22,21 @@ use ILIAS\Refinery\KindlyTo\Transformation\BooleanTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 use ILIAS\Refinery\ConstraintViolationException;
 
-/**
- * Test transformations in this Group
- */
 class BooleanTransformationTest extends TestCase
 {
-    private $transformation;
+    private BooleanTransformation $transformation;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->transformation = new BooleanTransformation();
     }
 
     /**
      * @dataProvider BooleanTestDataProvider
-     * @param $originVal
+     * @param mixed $originVal
      * @param bool $expectedVal
      */
-    public function testBooleanTransformation($originVal, $expectedVal)
+    public function testBooleanTransformation($originVal, bool $expectedVal) : void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsBool($transformedValue);
@@ -33,15 +45,15 @@ class BooleanTransformationTest extends TestCase
 
     /**
      * @dataProvider TransformationFailureDataProvider
-     * @param $failingValue
+     * @param mixed $failingValue
      */
-    public function testTransformIsInvalid($failingValue)
+    public function testTransformIsInvalid($failingValue) : void
     {
         $this->expectException(ConstraintViolationException::class);
         $this->transformation->transform($failingValue);
     }
 
-    public function BooleanTestDataProvider()
+    public function BooleanTestDataProvider() : array
     {
         return [
             'true' => [true, true],
@@ -61,8 +73,7 @@ class BooleanTransformationTest extends TestCase
         ];
     }
 
-
-    public function TransformationFailureDataProvider()
+    public function TransformationFailureDataProvider() : array
     {
         return [
             'null' => [null],

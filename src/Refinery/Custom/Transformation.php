@@ -20,16 +20,16 @@ class Transformation implements TransformationInterface
     /**
      * @var callable
      */
-    protected $transform;
+    protected $transformation;
     private Factory $factory;
 
     /**
-     * @param callable $transform
+     * @param callable $transformation
      * @param Factory $factory
      */
-    public function __construct(callable $transform, Factory $factory)
+    public function __construct(callable $transformation, Factory $factory)
     {
-        $this->transform = $transform;
+        $this->transformation = $transformation;
         $this->factory = $factory;
     }
 
@@ -38,6 +38,6 @@ class Transformation implements TransformationInterface
      */
     public function transform($from)
     {
-        return call_user_func($this->transform, $from);
+        return call_user_func($this->transformation, $from);
     }
 }
