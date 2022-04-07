@@ -37,8 +37,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $this->objectDefinition = $DIC['ilObjDefinition'];
-
+        $this->objectDefinition = $DIC['objDefinition'];
         $this->objective_id = $a_objective_id;
 
         parent::__construct($a_parent_obj, 'materialAssignment');

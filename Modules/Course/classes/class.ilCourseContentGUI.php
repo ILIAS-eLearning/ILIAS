@@ -283,7 +283,9 @@ class ilCourseContentGUI
         }
         $this->tabs->clearSubTabs();
         $failed = array();
-        foreach ((array) $_POST['item'] as $ref_id => $data) {
+
+        $post_item = (array) ($this->http->request()->getParsedBody()['item']) ?? [];
+        foreach ($post_item as $ref_id => $data) {
             $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
             $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
 
@@ -430,7 +432,8 @@ class ilCourseContentGUI
 
         $failed = array();
         $all_items = array();
-        foreach ((array) $_POST['item'] as $ref_id => $data) {
+        $post_item = (array) ($this->http->request()->getParsedBody()['item']) ?? [];
+        foreach ($post_item as $ref_id => $data) {
             $item_obj = new ilObjectActivation();
             $item_obj->read($ref_id);
 

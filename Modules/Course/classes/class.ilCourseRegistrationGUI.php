@@ -310,7 +310,12 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             return false;
         }
         if ($this->container->getSubscriptionType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD) {
-            if (!strlen($pass = ilUtil::stripSlashes($_POST['grp_passw']))) {
+
+            $pass = $this->http->wrapper()->post()->retrieve(
+                'grp_passw',
+                $this->refinery->kindlyTo()->string()
+            );
+            if (!strlen($pass)) {
                 $this->join_error = $this->lng->txt('crs_password_required');
                 return false;
             }
@@ -366,7 +371,12 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
                 $this->participants->addSubscriber($this->user->getId());
                 $this->participants->updateSubscriptionTime($this->user->getId(), time());
-                $this->participants->updateSubject($this->user->getId(), ilUtil::stripSlashes($_POST['subject']));
+
+                $subject = $this->http->wrapper()->post()->retrieve(
+                    'subject',
+                    $this->refinery->kindlyTo()->string()
+                );
+                $this->participants->updateSubject($this->user->getId(), $subject);
                 $this->participants->sendNotification(
                     ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS_REGISTRATION_REQUEST,
                     $this->user->getId()

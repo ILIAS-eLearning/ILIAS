@@ -2210,7 +2210,14 @@ class ilObjCourseGUI extends ilContainerGUI
                     $GLOBALS['DIC']['ilCtrl']->getLinkTarget($this, 'members')
                 );
 
-                $result_view = new ilLOMemberTestResultGUI($this, $this->object, (int) $_REQUEST['uid']);
+                $uid = 0;
+                if ($this->http->wrapper()->query()->has('uid')) {
+                    $uid = $this->http->wrapper()->query()->retrieve(
+                        'uid',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+                $result_view = new ilLOMemberTestResultGUI($this, $this->object, $uid);
                 $this->ctrl->forwardCommand($result_view);
                 break;
 
@@ -2792,7 +2799,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $user_id = null;
         if ($this->access->checkAccess('manage_members', '', $this->ref_id)) {
-            $user_id = $_REQUEST["member_id"];
+            $user_id = 0;
+            if ($this->http->wrapper()->query()->has('member_id')) {
+                $user_id = $this->http->wrapper()->query()->retrieve(
+                    'member_id',
+                    $this->refinery->kindlyTo()->int()
+                );
+            }
         }
         if (!$user_id) {
             $user_id = $this->user->getId();
@@ -2828,16 +2841,14 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function saveSortingObject() : void
     {
-        if (isset($_POST['position']["lobj"])) {
-            $lobj = $_POST['position']["lobj"];
-            unset($_POST['position']["lobj"]);
-
+        $post_position = (array) ($this->http->request()->getParsedBody()['position'] ?? []);
+        if (isset($post_position['lobj'])) {
+            $lobj = $post_position['lobj'];
             $objective_order = array();
             foreach ($lobj as $objective_id => $materials) {
                 $objective_order[$objective_id] = $materials[0];
                 unset($lobj[$objective_id][0]);
             }
-
             // objective order
             asort($objective_order);
             $pos = 0;
@@ -2857,19 +2868,37 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
             }
         }
-
         parent::saveSortingObject();
     }
 
     protected function redirectLocToTestConfirmedObject() : void
     {
-        ilUtil::redirect(ilLink::_getLink((int) $_REQUEST['tid']));
+        $tid = 0;
+        if ($this->http->wrapper()->query()->has('tid')) {
+            $tid = $this->http->wrapper()->query()->retrieve(
+                'tid',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        ilUtil::redirect(ilLink::_getLink($tid);
     }
 
     protected function redirectLocToTestObject($a_force_new_run = null) : void
     {
-        $objective_id = (int) $_REQUEST['objective_id'];
-        $test_id = (int) $_REQUEST['tid'];
+        $tid = 0;
+        if ($this->http->wrapper()->query()->has('tid')) {
+            $tid = $this->http->wrapper()->query()->retrieve(
+                'tid',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $objective_id = 0;
+        if ($this->http->wrapper()->query()->has('objective_id')) {
+            $objective_id = $this->http->wrapper()->query()->retrieve(
+                'objective_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
 
         $res = new ilLOUserResults(
             $this->object->getId(),
@@ -2896,10 +2925,10 @@ class ilObjCourseGUI extends ilContainerGUI
 
         if ($has_completed) {
             // show confirmation
-            $this->redirectLocToTestConfirmation($objective_id, $test_id);
+            $this->redirectLocToTestConfirmation($objective_id, $tid);
             return;
         }
-        ilUtil::redirect(ilLink::_getLink($test_id));
+        ilUtil::redirect(ilLink::_getLink($tid));
     }
 
     /**

@@ -21,6 +21,9 @@
         +-----------------------------------------------------------------------------+
 */
 
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
@@ -28,12 +31,21 @@
  */
 class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
 {
+    protected HTTPServices $http;
+    protected Refinery $refinery;
     protected ilObject $course_obj;
+
 
     public function __construct(object $a_parent_obj, ilObject $a_course_obj)
     {
+        global $DIC;
+
         $this->course_obj = $a_course_obj;
         parent::__construct($a_parent_obj, 'questionOverview');
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         $this->lng->loadLanguageModule('crs');
         $this->setFormName('questions');
         $this->addColumn($this->lng->txt('title'), 'title', '33%');
@@ -120,6 +132,24 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
 
     public function parse(array $a_objective_ids) : void
     {
+        $post_self_limits = [];
+        if ($this->http->wrapper()->post()->has('self')) {
+            $post_self_limits = $this->http->wrapper()->post()->retrieve(
+                'self',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->float()
+                )
+            );
+        }
+        $post_final_limits = [];
+        if ($this->http->wrapper()->post()->has('final')) {
+            $post_final_limits = $this->http->wrapper()->post()->retrieve(
+                'final',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->float()
+                )
+            );
+        }
 
         $objectives = array();
         foreach ($a_objective_ids as $objective_id) {
@@ -130,8 +160,8 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
 
             $tests = array();
             foreach ($question_obj->getSelfAssessmentTests() as $tmp_test) {
-                if (isset($_POST['self'][$objective_id])) {
-                    $objective_data['self_limit'] = $_POST['self'][$objective_id];
+                if (isset($post_self_limits[$objective_id])) {
+                    $objective_data['self_limit'] = (float) $post_self_limits[$objective_id];
                 } else {
                     $objective_data['self_limit'] = $tmp_test['limit'];
                 }
@@ -155,8 +185,8 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             // Final tests
             $tests = array();
             foreach ($question_obj->getFinalTests() as $tmp_test) {
-                if (isset($_POST['final'][$objective_id])) {
-                    $objective_data['final_limit'] = $_POST['final'][$objective_id];
+                if (isset($post_final_limits[$objective_id])) {
+                    $objective_data['final_limit'] = (float) $post_final_limits[$objective_id];
                 } else {
                     $objective_data['final_limit'] = $tmp_test['limit'];
                 }
