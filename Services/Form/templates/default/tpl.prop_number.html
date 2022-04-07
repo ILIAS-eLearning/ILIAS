@@ -2,10 +2,12 @@
 <div class="form-inline">
 		<input style="text-align:right;" class="form-control" type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_number_propval -->value="{PROPERTY_VALUE}" <!-- END prop_number_propval -->{DISABLED} {REQUIRED} /> {INPUT_SUFFIX}
 		<div class="help-block">{TXT_NUMBER_CONSTRAINTS}</div>
-		<!--
-		<script language="JavaScript" type="text/javascript">
-		il.Form.initNumericCheck("{ID}", "{JS_DECIMALS_ALLOWED}");
-		</script>
-		-->
+	
 </div>
 <!-- END prop_number -->
+
+<!-- BEGIN prop_number_client_validation -->
+<script language="JavaScript" type="text/javascript">
+	il.Form.initNumericCheck("{JS_ID}", "{JS_DECIMALS_ALLOWED}");
+</script>
+<!-- END prop_number_client_validation -->

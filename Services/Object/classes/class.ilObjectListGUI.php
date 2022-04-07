@@ -1591,7 +1591,8 @@ class ilObjectListGUI
 
         // see bug #16519
         $d = $this->getDescription();
-        $d = strip_tags($d, "<b>");
+        // even b tag produced bugs, see #32304
+        $d = strip_tags($d);
         $this->tpl->setCurrentBlock("item_description");
         $this->tpl->setVariable("TXT_DESC", $d);
         $this->tpl->parseCurrentBlock();
@@ -3743,6 +3744,9 @@ class ilObjectListGUI
     ) : ?\ILIAS\UI\Component\Item\Item {
         $ui = $this->ui;
 
+        // even b tag produced bugs, see #32304
+        $description = strip_tags($description);
+
         $this->initItem(
             $ref_id,
             $obj_id,
@@ -3855,6 +3859,9 @@ class ilObjectListGUI
         string $description
     ) : ?\ILIAS\UI\Component\Card\Card {
         $ui = $this->ui;
+
+        // even b tag produced bugs, see #32304
+        $description = strip_tags($description);
 
         $this->initItem(
             $ref_id,

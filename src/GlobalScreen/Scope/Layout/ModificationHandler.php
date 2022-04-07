@@ -97,21 +97,25 @@ class ModificationHandler
         $this->replaceWithAutoWiredInstance(MetaBar::class, $closure_returning_meta_bar);
     }
 
-
     /**
      * @param Closure $closure_returning_image
-     *
      * Have a look at the README.md for an example.
      */
     public function modifyLogoWithClosure(Closure $closure_returning_image)
     {
-        $this->replaceWithAutoWiredInstance(Image::class, $closure_returning_image);
+        $this->replaceWithAutoWiredInstance(DecoratedPagePartProvider::PURPOSE_LOGO, $closure_returning_image);
     }
 
+    public function modifyResponsiveLogoWithClosure(Closure $closure_returning_image)
+    {
+        $this->replaceWithAutoWiredInstance(
+            DecoratedPagePartProvider::PURPOSE_RESPONSIVE_LOGO,
+            $closure_returning_image
+        );
+    }
 
     /**
      * @param Closure $closure_returning_breadcrumbs
-     *
      * Have a look at the README.md for an example.
      */
     public function modifyBreadCrumbsWithClosure(Closure $closure_returning_breadcrumbs)

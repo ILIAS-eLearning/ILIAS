@@ -10133,7 +10133,7 @@ tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selecte
 tax#:#tax_please_select_target#:#Please select the target.
 rep#:#rep_activation_availability#:#Availability
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and tutors will have access to it.
+crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and roles with permission "Edit Settings" have access to it.
 rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_limited_start#:#Start Time
 rep#:#rep_activation_limited_end#:#Finish Time
@@ -13222,12 +13222,12 @@ blog#:#blog_contributors#:#Blog-Contributors
 meta#:#meta_obj_type_inactive#:#Dataset not Used
 meta#:#meta_obj_type_mandatory#:#Dataset always offered
 meta#:#meta_obj_type_optional#:#Dataset needs activation
-common#:#obj_tool_setting_custom_metadata#:#Custom Metadata
-common#:#obj_tool_setting_custom_metadata_info#:#If activated metadata can be configured.
+common#:#obj_tool_setting_custom_metadata#:#Manage Custom Metadata
+common#:#obj_tool_setting_custom_metadata_info#:#Custom Metadata sets can be managed in the "Metadata" tab.
 meta#:#meta_section#:#Section
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Custom Metadata
-meta#:#meta_tab_advmd_def#:#Custom Metadata Definition
+meta#:#meta_tab_advmd_def#:#Manage Custom Metadata Sets
 meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
 prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio

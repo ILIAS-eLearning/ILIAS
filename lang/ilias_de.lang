@@ -3899,13 +3899,13 @@ common#:#obj_tags_desc#:#Einstellungen für Tagging
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_tool_setting_calendar#:#Kalender-Block
-common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_calendar_info#:#Der Block „Kalender“ wird im Reiter „Inhalt“ angezeigt.
 common#:#obj_tool_setting_calendar_active#:#Kalender
 common#:#obj_tool_setting_calendar_active_info#:#Der Kalender ist aktiviert.
-common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
-common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
+common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten verwalten
+common#:#obj_tool_setting_custom_metadata_info#:#Benutzerdefinierte Metadatensätze können im Reiter „Metadaten“ verwaltet werden.
 common#:#obj_tool_setting_news#:#Neuigkeiten
-common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_news_info#:#Der Block „Neuigkeiten“ wird im Reiter „Inhalt“ angezeigt.
 common#:#obj_tos#:#Nutzungsvereinbarungen
 common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
@@ -10156,7 +10156,7 @@ wiki#:#wiki_deactivate_page_rating#:#Bewertung nicht erlauben
 rating#:#rating_overlay_submit#:#Bewerten
 rep#:#rep_activation_availability#:#Verfügbarkeit
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Tutoren verfügbar.
+crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 rep#:#rep_activation_access#:#Zugriff
 rep#:#rep_activation_limited_start#:#Anfang
 rep#:#rep_activation_limited_end#:#Ende
@@ -13279,7 +13279,7 @@ grp#:#reg_grp_min_members#:#Minimale Anzahl
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus der Gruppe ist jetzt nicht mehr möglich.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
-crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen aktuell nicht die für sie definierte Mindestanzahl an Teilnehmerinnen und Teilnehmern:
+crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen aktuell nicht die Mindestanzahl an Mitgliedern:
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
 grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste auf.  Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
@@ -13688,8 +13688,8 @@ content#:#cont_width_height_info#:#Die Größe der Darstellung kann festgelegt w
 meta#:#md_adv_field_filter_warning#:#Die Feldtypen %s werden aktuell nicht als Tabellenfilter unterstützt.
 grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Gruppenadministratoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
 grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
-crs#:#mem_cron_min_members_reason#:#Sie erhalten diese E-Mail, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
-crs#:#mem_cron_min_members_task#:#Informieren Sie die bereits angemeldeten Personen rechtzeitig, falls der Kurs nicht stattfindet, da es nicht genügend Teilnehmende gibt. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen entsprechend an.
+crs#:#mem_cron_min_members_reason#:#Möchten Sie keine Benachrichtigungen mehr für diese Kurse und Gruppen erhalten, deaktivieren Sie in den jeweiligen Objekten die Checkbox „Benachrichtigung“ im Reiter „Mitglieder“.
+crs#:#mem_cron_min_members_task#:#Informieren Sie die bereits angemeldeten Personen rechtzeitig, falls die Veranstaltung nicht stattfindet. Oder ändern Sie die Mindestanzahl der Mitglieder bzw. den Beitrittszeitraum. Passen Sie hierzu die Einstellungen im Abschnitt „Zeitlich begrenzter Beitritt“ bzw. „Begrenzte Mitgliederanzahl“ an.
 common#:#prg_copy_threads_info#:#Bitte wählen Sie aus, welche Elemente des Studienprogramms kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#prg_wizard_page#:#Studienprogramm kopieren (Schritt 2/2)
 crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele

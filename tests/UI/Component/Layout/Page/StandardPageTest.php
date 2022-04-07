@@ -59,6 +59,8 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->crumbs->method("getCanonicalName")->willReturn("Breadcrumbs Stub");
         $this->logo = $this->createMock(Image::class);
         $this->logo->method("getCanonicalName")->willReturn("Logo Stub");
+        $this->responsive_logo = $this->createMock(Image::class);
+        $this->responsive_logo->method("getCanonicalName")->willReturn("Responsive Logo Stub");
         $this->contents = array(new Legacy('some content', $sig_gen));
         $this->title = 'pagetitle';
 
@@ -71,10 +73,10 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->logo,
             null,
             $this->title
-        );
+        )->withResponsiveLogo($this->responsive_logo);
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Layout\\Page\\Standard",
@@ -82,7 +84,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetContent()
+    public function testGetContent() : void
     {
         $this->assertEquals(
             $this->contents,
@@ -90,7 +92,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMetabar()
+    public function testGetMetabar() : void
     {
         $this->assertEquals(
             $this->metabar,
@@ -98,7 +100,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMainbar()
+    public function testGetMainbar() : void
     {
         $this->assertEquals(
             $this->mainbar,
@@ -106,7 +108,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetBreadcrumbs()
+    public function testGetBreadcrumbs() : void
     {
         $this->assertEquals(
             $this->crumbs,
@@ -114,7 +116,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetLogo()
+    public function testGetLogo() : void
     {
         $this->assertEquals(
             $this->logo,
@@ -122,7 +124,25 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithWrongContents()
+    public function testHasLogo() : void
+    {
+        $this->assertTrue($this->stdpage->hasLogo());
+    }
+
+    public function testGetResponsiveLogo() : void
+    {
+        $this->assertEquals(
+            $this->responsive_logo,
+            $this->stdpage->getResponsiveLogo()
+        );
+    }
+
+    public function testHasResponsiveLogo() : void
+    {
+        $this->assertTrue($this->stdpage->hasResponsiveLogo());
+    }
+
+    public function testWithWrongContents() : void
     {
         $this->expectException(TypeError::class);
         $this->stdpage = $this->factory->standard(
@@ -134,7 +154,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetTitle()
+    public function testGetTitle() : void
     {
         $this->assertEquals(
             $this->title,
@@ -142,7 +162,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTitle()
+    public function testWithTitle() : void
     {
         $title = 'some title';
         $this->assertEquals(
@@ -150,7 +170,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withTitle($title)->getTitle()
         );
     }
-    public function testWithShortTitle()
+    public function testWithShortTitle() : void
     {
         $title = 'some short title';
         $this->assertEquals(
@@ -158,7 +178,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withShortTitle($title)->getShortTitle()
         );
     }
-    public function testWithViewTitle()
+    public function testWithViewTitle() : void
     {
         $title = 'some view title';
         $this->assertEquals(
@@ -167,7 +187,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTextDirection()
+    public function testWithTextDirection() : void
     {
         $this->assertEquals("ltr", $this->stdpage->getTextDirection());
         $this->assertEquals(
@@ -178,7 +198,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderingWithTitle()
+    public function testRenderingWithTitle() : void
     {
         $this->stdpage = $this->stdpage
             ->withTitle("Title")
@@ -202,7 +222,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <div class="il-layout-page">
          <header>
             <div class="header-inner">
-               <div class="il-logo">Logo Stub<div class="il-pagetitle">Title</div></div>MetaBar Stub</div>
+              <div class="il-logo">
+                <span class="hidden-xs">Logo Stub</span>
+                <span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-pagetitle">Title</div>
+              </div>MetaBar Stub
+            </div>
          </header>
          <div class="breadcrumbs"></div>
          <div class="il-system-infos"></div>
@@ -218,7 +243,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->assertEquals($exptected, $html);
     }
 
-    public function testRenderingWithRtlLanguage()
+    public function testRenderingWithRtlLanguage() : void
     {
         $this->stdpage = $this->stdpage->withTextDirection($this->stdpage::RTL);
 
@@ -239,7 +264,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <div class="il-layout-page">
          <header>
             <div class="header-inner">
-               <div class="il-logo">Logo Stub<div class="il-pagetitle">pagetitle</div></div>MetaBar Stub</div>
+              <div class="il-logo">
+                <span class="hidden-xs">Logo Stub</span>
+                <span class="visible-xs">Responsive Logo Stub</span>
+                <div class="il-pagetitle">pagetitle</div>
+              </div>MetaBar Stub
+            </div>
          </header>
          <div class="breadcrumbs"></div>
          <div class="il-system-infos"></div>

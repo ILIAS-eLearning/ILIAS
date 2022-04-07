@@ -168,15 +168,33 @@ class StandardPagePartProvider implements PagePartProvider
     public function getLogo() : ?Image
     {
         $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
+
+        return $this->ui->factory()->image()
+                        ->standard($std_logo, "ILIAS")
+                        ->withAction($this->getStartingPointAsUrl());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getResponsiveLogo() : ?Image
+    {
+        $responsive_logo = ilUtil::getImagePath("HeaderIconResponsive.svg");
+
+        return $this->ui->factory()->image()
+                        ->standard($responsive_logo, "ILIAS")
+                        ->withAction($this->getStartingPointAsUrl());
+    }
+
+    protected function getStartingPointAsUrl() : string
+    {
         $std_logo_link = ilUserUtil::getStartingPointAsUrl();
         if (!$std_logo_link) {
             $std_logo_link = "./goto.php?target=root_1";
         }
-
-        return $this->ui->factory()->image()
-                        ->standard($std_logo, "ILIAS")
-                        ->withAction($std_logo_link);
+        return $std_logo_link;
     }
+
 
     /**
      * @inheritDoc
