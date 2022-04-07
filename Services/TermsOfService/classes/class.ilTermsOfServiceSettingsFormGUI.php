@@ -88,7 +88,9 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
 
         if (!$this->tos->getStatus()) {
             $this->translatedError = $this->lng->txt('tos_no_documents_exist_cant_save');
-            $this->getItemByPostVar('tos_status')->setChecked(false);
+            /** @var ilCheckboxInputGUI $item */
+            $item = $this->getItemByPostVar('tos_status');
+            $item->setChecked(false);
             return false;
         }
 

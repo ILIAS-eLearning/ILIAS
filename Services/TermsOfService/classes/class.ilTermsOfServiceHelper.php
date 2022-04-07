@@ -44,7 +44,7 @@ class ilTermsOfServiceHelper
 
     public static function isEnabled() : bool
     {
-        return (new static())->tos->getStatus();
+        return (new self())->tos->getStatus();
     }
 
     public function isGloballyEnabled() : bool
