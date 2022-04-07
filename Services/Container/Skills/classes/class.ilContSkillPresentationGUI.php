@@ -90,7 +90,7 @@ class ilContSkillPresentationGUI
     {
         $type = $this->container->getType();
         $ref_id = $this->container->getRefId();
-        $this->tpl->setPermanentLink($type, "", $ref_id . "_comp", "", "");
+        $this->tpl->setPermanentLink($type, 0, $ref_id . "_comp", "", "");
     }
 
     protected function getPersonalSkillsGUI() : ilPersonalSkillsGUI

@@ -223,10 +223,8 @@ class ilWorkspaceAccessHandler
 
     /**
      * Get all permissions of node
-     * @param int $a_node_id
-     * @return array
      */
-    public function getPermissions(int $a_node_id) : array
+    public function getPermissions(int $a_node_id) : array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         return self::_getPermissions($a_node_id);
     }
@@ -234,7 +232,7 @@ class ilWorkspaceAccessHandler
     /**
      * Get all permissions to node
      */
-    public static function _getPermissions(int $a_node_id) : array
+    public static function _getPermissions(int $a_node_id) : array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         global $DIC;
 
@@ -296,7 +294,7 @@ class ilWorkspaceAccessHandler
         return (bool) $ilDB->numRows($set);
     }
     
-    public static function getPossibleSharedTargets() : array
+    public static function getPossibleSharedTargets() : array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         global $DIC;
 
@@ -318,7 +316,7 @@ class ilWorkspaceAccessHandler
         return $obj_ids;
     }
     
-    public function getSharedOwners() : array
+    public function getSharedOwners() : array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -332,7 +330,7 @@ class ilWorkspaceAccessHandler
             " JOIN tree_workspace tree ON (tree.child = ref.wsp_id)" .
             " JOIN acl_ws acl ON (acl.node_id = tree.child)" .
             " JOIN usr_data u on (u.usr_id = obj.owner)" .
-            " WHERE " . $ilDB->in("acl.object_id", $obj_ids, "", "integer") .
+            " WHERE " . $ilDB->in("acl.object_id", $obj_ids, "", "integer") . // PHP8-Review: Parameter #3 $negate of method ilDBInterface::in() expects bool, string given.
             " AND obj.owner <> " . $ilDB->quote($ilUser->getId(), "integer") .
             " ORDER BY u.lastname, u.firstname, u.title");
         while ($row = $ilDB->fetchAssoc($set)) {
@@ -345,7 +343,7 @@ class ilWorkspaceAccessHandler
         return $user_ids;
     }
     
-    public function getSharedObjects(int $a_owner_id) : array
+    public function getSharedObjects(int $a_owner_id) : array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         $ilDB = $this->db;
         
@@ -357,7 +355,7 @@ class ilWorkspaceAccessHandler
             " JOIN object_reference_ws ref ON (obj.obj_id = ref.obj_id)" .
             " JOIN tree_workspace tree ON (tree.child = ref.wsp_id)" .
             " JOIN acl_ws acl ON (acl.node_id = tree.child)" .
-            " WHERE " . $ilDB->in("acl.object_id", $obj_ids, "", "integer") .
+            " WHERE " . $ilDB->in("acl.object_id", $obj_ids, "", "integer") . // PHP8-Review: Parameter #3 $negate of method ilDBInterface::in() expects bool, string given.
             " AND obj.owner = " . $ilDB->quote($a_owner_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[$row["wsp_id"]] = $row["obj_id"];
@@ -366,7 +364,7 @@ class ilWorkspaceAccessHandler
         return $res;
     }
     
-    public function findSharedObjects(
+    public function findSharedObjects(// PHP8-Review: Method return type and parameters have no value type specified in iterable type array.
         array $a_filter = null,
         array $a_crs_ids = null,
         array $a_grp_ids = null
@@ -434,7 +432,7 @@ class ilWorkspaceAccessHandler
             if (!sizeof($usr_ids)) {
                 return [];
             }
-            $sql .= " AND " . $ilDB->in("obj.owner", $usr_ids, "", "integer");
+            $sql .= " AND " . $ilDB->in("obj.owner", $usr_ids, "", "integer"); // PHP8-Review: Parameter #3 $negate of method ilDBInterface::in() expects bool, string given.
         }
         
         if ($a_filter["acl_date"]) {
@@ -499,7 +497,7 @@ class ilWorkspaceAccessHandler
         return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, $a_additional . "_wsp");
     }
     
-    public function getObjectsIShare() : array
+    public function getObjectsIShare() : array // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -518,7 +516,7 @@ class ilWorkspaceAccessHandler
         return $res;
     }
         
-    public static function getObjectDataFromNode(int $a_node_id) : ?array
+    public static function getObjectDataFromNode(int $a_node_id) : ?array  // PHP8-Review: Method return type has no value type specified in iterable type array.
     {
         global $DIC;
 
