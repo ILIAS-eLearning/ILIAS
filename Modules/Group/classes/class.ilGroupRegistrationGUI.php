@@ -220,7 +220,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         }
         
         switch ($this->container->getRegistrationType()) {
-            case GRP_REGISTRATION_DEACTIVATED:
+            case ilGroupConstants::GRP_REGISTRATION_DEACTIVATED:
                 $reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
                 $reg->setValue($this->lng->txt('grp_reg_disabled'));
                 #$reg->setAlert($this->lng->txt('grp_reg_deactivated_alert'));
@@ -231,7 +231,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 
                 break;
                 
-            case GRP_REGISTRATION_PASSWORD:
+            case ilGroupConstants::GRP_REGISTRATION_PASSWORD:
                 $txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
                 $txt->setValue($this->lng->txt('grp_pass_request'));
                     
@@ -247,7 +247,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 $this->form->addItem($txt);
                 break;
                 
-            case GRP_REGISTRATION_REQUEST:
+            case ilGroupConstants::GRP_REGISTRATION_REQUEST:
                 
                 // no "request" info if waiting list is active
                 if ($this->isWaitingListActive()) {
@@ -280,7 +280,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 $this->form->addItem($txt);
                 break;
                 
-            case GRP_REGISTRATION_DIRECT:
+            case ilGroupConstants::GRP_REGISTRATION_DIRECT:
 
                 // no "direct registration" info if waiting list is active
                 if ($this->isWaitingListActive()) {
@@ -304,7 +304,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
     {
         parent::addCommandButtons();
         switch ($this->container->getRegistrationType()) {
-            case GRP_REGISTRATION_REQUEST:
+            case ilGroupConstants::GRP_REGISTRATION_REQUEST:
                 if ($this->participants->isSubscriber($this->user->getId())) {
                     $this->form->clearCommandButtons();
                     $this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('grp_update_subscr_request'));
@@ -338,7 +338,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             $this->join_error = $this->lng->txt('mem_error_preconditions');
             return false;
         }
-        if ($this->container->getRegistrationType() == GRP_REGISTRATION_PASSWORD) {
+        if ($this->container->getRegistrationType() == ilGroupConstants::GRP_REGISTRATION_PASSWORD) {
             $password = '';
             if ($this->http->wrapper()->post()->has('grp_passw')) {
                 $password = $this->http->wrapper()->post()->retrieve(
@@ -402,7 +402,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         }
 
         switch ($this->container->getRegistrationType()) {
-            case GRP_REGISTRATION_REQUEST:
+            case ilGroupConstants::GRP_REGISTRATION_REQUEST:
                 
                 $this->participants->addSubscriber($this->user->getId());
                 $this->participants->updateSubscriptionTime($this->user->getId(), time());

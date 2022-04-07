@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use \ILIAS\DI\UIServices;
+use ILIAS\DI\UIServices;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 

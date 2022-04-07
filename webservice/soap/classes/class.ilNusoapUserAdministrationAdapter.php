@@ -1548,6 +1548,7 @@ class ilNusoapUserAdministrationAdapter
         }
 
         // If a client ID is submitted, there might be some SOAP plugins registering methods/types
+        // no initialized ILIAS => no request wrapper available.
         if (isset($_GET['client_id'])) {
             $this->handleSoapPlugins();
         }

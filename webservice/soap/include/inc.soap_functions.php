@@ -1063,6 +1063,7 @@ class ilSoapFunctions
     public function __call($name, $arguments)
     {
         // SoapHookPlugins need the client-ID submitted
+        // no initialized ILIAS => no request wrapper available.
         if (!isset($_GET['client_id'])) {
             throw new SoapFault('SOAP-ENV:Server', "Function '{$name}' does not exist");
         }
