@@ -104,7 +104,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
             $external = true;
         }
 
-        $this->user->writePref('consent_withdrawal_requested', 1);
+        $this->user->writePref('consent_withdrawal_requested', '1');
 
         if ($external) {
             $this->ctrl->setParameter($guiClass, 'withdrawal_relogin_content', 'external');
@@ -147,7 +147,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
             $lng_suffix = '_no_consent_yet';
         }
         $question = $this->lng->txt('withdrawal_sure_account' . $lng_suffix);
-        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion', '0')) {
+        if (!$isLdapUser && $this->setting->get('tos_withdrawal_usr_deletion', '0')) {
             $question = $this->lng->txt('withdrawal_sure_account_deletion' . $lng_suffix);
         }
 
