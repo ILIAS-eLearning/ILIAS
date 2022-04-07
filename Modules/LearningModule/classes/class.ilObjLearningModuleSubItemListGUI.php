@@ -19,7 +19,8 @@
 class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 {
     protected ilObjUser $user;
-
+    
+    // PHP8-Review: parameter $a_cmd_class with no type specified
     public function __construct($a_cmd_class)
     {
         global $DIC;

@@ -173,6 +173,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
         }
     }
 
+    // PHP8-Review: should return bool but returns string
     public static function isInfoEnabled(int $obj_id) : bool
     {
         return ilContainer::_lookupContainerSetting(

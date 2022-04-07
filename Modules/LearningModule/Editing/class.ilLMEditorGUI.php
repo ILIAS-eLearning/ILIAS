@@ -142,12 +142,14 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
 
         $next_class = $this->ctrl->getNextClass($this);
 
+        // PHP8-Review: Right side of && is always true
         if ($next_class == "" && ($cmd != "explorer")
             && ($cmd != "showImageMap")) {
             $next_class = "ilobjlearningmodulegui";
         }
 
         // show footer
+        // PHP8-Review: Negated boolean expression is always true
         $show_footer = !(($cmd == "explorer"));
             
         switch ($next_class) {

@@ -57,6 +57,7 @@ class ilLMMenuRendererGUI
         ilAccessHandler $access,
         ilObjUser $user,
         ilLanguage $lng,
+        // PHP8-Review: no type specified
         $main_tpl,
         Closure $additional_content_collector
     ) {
@@ -110,6 +111,7 @@ class ilLMMenuRendererGUI
         // content
         if (!$this->offline && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
+            // PHP8-Review: Negated boolean expression is always false
             if (!$active["content"]) {
                 $this->toolbar->addComponent(
                     $this->ui_factory->button()->standard($this->lng->txt("content"), $ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"))
@@ -118,13 +120,15 @@ class ilLMMenuRendererGUI
         } elseif ($this->offline) {
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
-
+    
+        // PHP8-Review: Negated boolean expression is always false
         if (!$active["content"]) {
             return "";
         }
 
         // info button
         if ($this->lm->isInfoEnabled() && $this->export_format != "scorm" && !$this->offline) {
+            // PHP8-Review: Negated boolean expression is always true
             if (!$this->offline) {
                 $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
                 $link = $this->ctrl->getLinkTargetByClass(

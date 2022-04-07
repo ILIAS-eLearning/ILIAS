@@ -77,11 +77,13 @@ class ilLMMenuObjectSelector extends ilExplorer
         return "";
     }
 
+    // PHP8-Review: parameter $a_ref_id with no type specified
     public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         return in_array($a_type, $this->selectable_types) and $a_ref_id != $this->ref_id;
     }
-
+    
+    // PHP8-Review: parameter $a_parent_id with no type specified
     public function showChilds($a_parent_id) : bool
     {
         $rbacsystem = $this->rbacsystem;
@@ -97,6 +99,7 @@ class ilLMMenuObjectSelector extends ilExplorer
         }
     }
 
+    // PHP8-Review: parameter $a_obj_id with no type specified
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;

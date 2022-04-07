@@ -28,6 +28,7 @@ class ilLMObjectGUI
     public ilLMObject $obj;
     public ilCtrl $ctrl;
     public ilObjLearningModule $content_object;
+    // PHP8-Review: $actions has no type specified
     public $actions;
 
     protected \ILIAS\DI\UIServices $ui;
@@ -42,7 +43,6 @@ class ilLMObjectGUI
     /**
     * constructor
     *
-    * @param	object		$a_content_obj		content object
     */
     public function __construct(ilObjLearningModule $a_content_obj)
     {

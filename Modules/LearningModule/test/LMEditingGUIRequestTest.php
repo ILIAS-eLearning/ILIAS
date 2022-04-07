@@ -35,7 +35,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -50,7 +50,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testFirstChild()
+    public function testFirstChild() : void
     {
         $request = $this->getRequest(
             [
@@ -65,7 +65,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testMulti()
+    public function testMulti() : void
     {
         $request = $this->getRequest(
             [
@@ -80,7 +80,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testNodeId()
+    public function testNodeId() : void
     {
         $request = $this->getRequest(
             [
@@ -95,7 +95,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testTitles()
+    public function testTitles() : void
     {
         $request = $this->getRequest(
             [
@@ -110,7 +110,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testIds()
+    public function testIds() : void
     {
         $request = $this->getRequest(
             [

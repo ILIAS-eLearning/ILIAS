@@ -50,6 +50,7 @@ class ilEditClipboard
         if ($lm_action != "") {
             return $lm_action;
         } else {
+            // PHP8-Review: should return string but returns false
             return false;
         }
     }

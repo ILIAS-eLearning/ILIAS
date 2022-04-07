@@ -46,7 +46,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     /**
      * Set content object dependent page object (co page)
      */
-    public function setLMPageObject(ilLMPageObject $a_pg_obj)
+    public function setLMPageObject(ilLMPageObject $a_pg_obj) : void
     {
         $this->obj = $a_pg_obj;
         $this->obj->setLMId($this->content_object->getId());
@@ -98,6 +98,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 }
 
                 // set page view link
+                // PHP8-Review: If condition is always true
                 if ($showViewInFrameset) {
                     $view_frame = ilFrameTargetInfo::_getFrame("MainContent");
                 } else {

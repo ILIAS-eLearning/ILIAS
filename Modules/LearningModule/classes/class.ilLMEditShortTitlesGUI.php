@@ -51,7 +51,7 @@ class ilLMEditShortTitlesGUI
             : $requested_transl;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("listShortTitles");

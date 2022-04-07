@@ -68,6 +68,7 @@ class ilStructureObject extends ilLMObject
     /**
      * copy chapter
      */
+    // PHP8-Review: no return type specified.
     public function copy(
         ilObjLearningModule $a_target_lm
     ) {
@@ -243,7 +244,7 @@ class ilStructureObject extends ilLMObject
         ilXmlWriter $a_xml_writer,
         int $a_inst,
         ilLog $expLog
-    ) {
+    ) : void {
         $childs = $this->tree->getChilds($this->getId());
         foreach ($childs as $child) {
             if ($child["type"] != "st") {

@@ -93,6 +93,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         if (is_object($this->lm_pres)) {
             return;
         }
+        // PHP8-Review: Unreachable statement - code above always terminates
         $this->lm_pres = new ilLMPresentationGUI(
             "",
             false,
@@ -230,6 +231,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     ) : Component {
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
+        // PHP8-Review: getHTML() invoked with 3 parameters, 1-2 required
         $content .= $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);
         $content .= $this->uiRenderer->render($this->additional_content);
         return $factory->legacy($content);

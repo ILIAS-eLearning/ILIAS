@@ -60,6 +60,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected \ILIAS\Style\Content\Service $content_style_service;
 
     public function __construct(
+        // PHP8-Review: parameter $a_data with no type specified, unused parameter $a_prepare_output.
         $a_data,
         int $a_id = 0,
         bool $a_call_by_reference = true,
@@ -223,6 +224,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
                 $pg_gui = new ilLMPageObjectGUI($this->lm);
                 if ($this->requested_obj_id > 0) {
+                    // PHP8-Review: Class ilLMPageObject referenced with incorrect case: ilLmPageObject.
                     /** @var ilLmPageObject $obj */
                     $obj = ilLMObjectFactory::getInstance($this->lm, $this->requested_obj_id);
                     $pg_gui->setLMPageObject($obj);
@@ -1527,7 +1529,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
      */
     public function addLocations(
         bool $a_omit_obj_id = false
-    ) {
+    ) : void {
         $locator = $this->locator;
 
         $obj_id = 0;
@@ -1809,6 +1811,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
 
         // info
+        // PHP8-Review: Cannot call method isInfoEnabled() on ilObject|null.
         if ($this->object->isInfoEnabled()) {
             $ilTabs->addTab(
                 "info",
