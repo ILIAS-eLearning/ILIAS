@@ -166,7 +166,7 @@ class ilParameterAppender
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        return (bool) $ilSetting->get('links_dynamic', false);
+        return (bool) $ilSetting->get('links_dynamic', '');
     }
 
     public static function _append(array $a_link_data) : array

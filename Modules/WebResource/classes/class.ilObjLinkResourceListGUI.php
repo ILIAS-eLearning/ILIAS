@@ -107,10 +107,13 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
      */
     public function getCommandLink(string $cmd) : string
     {
-        $cmd_class = $this->request_wrapper->retrieve(
-            'cmdClass',
-            $this->refinery->kindlyTo()->string()
-        );
+        $cmd_class = '';
+        if ($this->request_wrapper->has('cmd_class')) {
+            $cmd_class = $this->request_wrapper->retrieve(
+                'cmdClass',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         if (
             $this->request_wrapper->has('wsp_id') ||
             strcasecmp($cmd_class, ilPersonalWorkspaceGUI::class) === 0
