@@ -110,7 +110,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
         return $this->criterion_id;
     }
 
-    public function equals($other) : bool
+    public function equals($other) : bool //PHP8-Review: ilTermsOfServiceDocumentCriterionAssignment::equals() has parameter $other with no type specified
     {
         if (!($other instanceof static)) {
             return false;
