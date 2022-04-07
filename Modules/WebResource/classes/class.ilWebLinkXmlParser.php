@@ -1,17 +1,18 @@
-<?php
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ */
+
 /**
 * XML  parser for weblink xml
 *
@@ -22,22 +23,26 @@
 */
 class ilWebLinkXmlParser extends ilMDSaxParser
 {
-    const MODE_UNDEFINED = 0;
-    const MODE_UPDATE = 1;
-    const MODE_CREATE = 2;
+    protected const MODE_UNDEFINED = 0;
+    public const MODE_UPDATE = 1;
+    public const MODE_CREATE = 2;
 
-    private $webl;
+    private ilObjLinkResource $webl;
     private int $mode = self::MODE_UNDEFINED;
-
     private bool $in_metadata = false;
+    private array $sorting_positions = [];
+    private string $cdata = '';
 
-    private array $sorting_positions = array();
     private int $current_sorting_position = 0;
+    private bool $current_link_update = false;
+    private bool $current_link_delete = false;
+    private array $current_parameters = [];
+    private ?ilLinkResourceItems $current_link = null;
 
     /**
      * Constructor
      */
-    public function __construct($webr, $xml)
+    public function __construct(ilObjLinkResource $webr, string $xml)
     {
         parent::__construct();
         $this->setXMLContent($xml);
@@ -49,57 +54,34 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
     /**
      * set weblink
-     * @param ilObject $webl
-     * @return
      */
-    public function setWebLink(ilObject $webl) : void
+    public function setWebLink(ilObjLinkResource $webl) : void
     {
         $this->webl = $webl;
     }
 
-    /**
-     * Get weblink object
-     */
-    public function getWebLink() : ?\ilObject
+    public function getWebLink() : ilObjLinkResource
     {
         return $this->webl;
     }
 
-    /**
-     * Set parsing mode
-     * @return
-     */
     public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
 
-    /**
-     * Return parsing mode
-     * @return
-     */
     public function getMode() : int
     {
         return $this->mode;
     }
 
-    /**
-     *
-     * @return
-     * @throws	ilSaxParserException	if invalid xml structure is given
-     * @throws	ilWebLinkXMLParserException	missing elements
-     */
-
-    public function start()
+    public function start() : void
     {
-        return $this->startParsing();
+        $this->startParsing();
     }
 
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
+     * @inheritDoc
     */
     public function setHandlers($a_xml_parser) : void
     {
@@ -109,10 +91,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     }
 
     /**
-    * handler for begin of element
-    * @param	resource $a_xml_parser xml parser
-    * @param string      $a_name       element name
-    * @param array       $a_attribs    element attributes array
+     * @inheritDoc
     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
@@ -138,10 +117,10 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
             case 'WebLink':
 
-                $this->current_sorting_position = ($a_attribs['position'] ? $a_attribs['position'] : 0);
+                $this->current_sorting_position = (int) ($a_attribs['position'] ?: 0);
                 $this->current_link_update = false;
                 $this->current_link_delete = false;
-                $this->current_parameters = array();
+                $this->current_parameters = [];
 
                 if ($this->getMode() == self::MODE_CREATE or (isset($a_attribs['action']) and $a_attribs['action'] == 'Create')) {
                     // New weblink
@@ -164,7 +143,9 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 }
 
                 // Active
-                $this->current_link->setActiveStatus($a_attribs['active'] ? 1 : 0);
+                $this->current_link->setActiveStatus(
+                    (bool) $a_attribs['active']
+                );
 
                 // Valid
                 if (!isset($a_attribs['valid'])) {
@@ -172,10 +153,12 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 } else {
                     $valid = $a_attribs['valid'] ? 1 : 0;
                 }
-                $this->current_link->setValidStatus($valid);
+                $this->current_link->setValidStatus((bool) $valid);
 
                 // Disable check
-                $this->current_link->setDisableCheckStatus($a_attribs['disableValidation'] ? 1 : 0);
+                $this->current_link->setDisableCheckStatus(
+                    (bool) $a_attribs['disableValidation']
+                );
 
                 // internal
                 if (isset($a_attribs['internal'])) {
@@ -211,39 +194,35 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 break;
 
             case 'DynamicParameter':
-
                 $param = new ilParameterAppender($this->getWebLink()->getId());
                 $param->setName($a_attribs['name']);
 
                 switch ($a_attribs['type']) {
                     case 'userName':
-                        $param->setValue(LINKS_LOGIN);
+                        $param->setValue(ilParameterAppender::LINKS_LOGIN);
                         break;
 
                     case 'userId':
-                        $param->setValue(LINKS_USER_ID);
+                        $param->setValue(ilParameterAppender::LINKS_USER_ID);
                         break;
 
                     case 'matriculation':
-                        $param->setValue(LINKS_MATRICULATION);
+                        $param->setValue(
+                            ilParameterAppender::LINKS_MATRICULATION
+                        );
                         break;
 
                     default:
                         throw new ilWebLinkXmlParserException('Invalid attribute "type" given for element "Dynamic parameter". Aborting');
                         break;
                 }
-
                 $this->current_parameters[] = $param;
                 break;
         }
     }
 
     /**
-    * handler for end of element
-    * @param	resource $a_xml_parser xml parser
-    * @param	string   $a_name       element name
-    * @throws	ilSaxParserException	if invalid xml structure is given
-    * @throws	ilWebLinkXMLParserException	missing elements
+     * @inheritDoc
     */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
@@ -293,7 +272,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
 
                 // store positions
-                $this->sorting_positions[$this->current_link->getLinkId()] = (int) $this->current_sorting_position;
+                $this->sorting_positions[$this->current_link->getLinkId()] = $this->current_sorting_position;
 
                 unset($this->current_link);
                 break;
@@ -321,13 +300,9 @@ class ilWebLinkXmlParser extends ilMDSaxParser
         $this->cdata = '';
     }
 
-
-
     /**
-    * handler for character data
-    * @param	resource $a_xml_parser xml parser
-    * @param	string   $a_data       character data
-    */
+     * @inheritDoc
+     */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($this->in_metadata) {

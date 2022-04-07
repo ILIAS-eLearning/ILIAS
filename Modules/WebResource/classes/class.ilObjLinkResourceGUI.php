@@ -1,16 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-require_once "./Services/Object/classes/class.ilObject2GUI.php";
-include_once('./Modules/WebResource/classes/class.ilParameterAppender.php');
-require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandling.php';
+use ILIAS\HTTP\Services as HTTPService;
+use ILIAS\UI\Component\Component;
 
 /**
 * Class ilObjLinkResourceGUI
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI, ilWorkspaceAccessGUI, ilCommonActionDispatcherGUI
@@ -19,45 +28,73 @@ require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandl
 *
 * @ingroup ModulesWebResource
 */
-class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHandling
+class ilObjLinkResourceGUI extends ilObject2GUI
 {
-    const VIEW_MODE_VIEW = 1;
-    const VIEW_MODE_MANAGE = 2;
-    const VIEW_MODE_SORT = 3;
+    protected const VIEW_MODE_VIEW = 1;
+    protected const VIEW_MODE_MANAGE = 2;
+    protected const VIEW_MODE_SORT = 3;
 
-    const LINK_MOD_CREATE = 1;
-    const LINK_MOD_EDIT = 2;
-    const LINK_MOD_ADD = 3;
-    const LINK_MOD_SET_LIST = 4;
-    const LINK_MOD_EDIT_LIST = 5;
-    
+    protected const LINK_MOD_CREATE = 1;
+    protected const LINK_MOD_EDIT = 2;
+    protected const LINK_MOD_ADD = 3;
+    protected const LINK_MOD_SET_LIST = 4;
+    protected const LINK_MOD_EDIT_LIST = 5;
+
+    protected HTTPService $http;
+    protected ilNavigationHistory $navigationHistory;
+
+    private int $view_mode = self::VIEW_MODE_VIEW;
+
+    private ?ilPropertyFormGUI $form = null;
+    private ?ilLinkResourceItems $link = null;
+    private ?ilLinkResourceList $list = null;
+    private ?ilParameterAppender $dynamic = null;
+
+    public function __construct(
+        int $id = 0,
+        int $id_type = self::REPOSITORY_NODE_ID,
+        int $parent_node_id = 0
+    ) {
+        global $DIC;
+
+        parent::__construct($id, $id_type, $parent_node_id);
+
+        $this->lng->loadLanguageModule("webr");
+        $this->http = $DIC->http();
+        $this->navigationHistory = $DIC['ilNavigationHistory'];
+    }
+
     public function getType() : string
     {
         return "webr";
     }
 
+    /**
+     * @todo no view mode for workspace?
+     */
+    protected function initViewMode(?int $new_view_mode = null) : void
+    {
+        if ($new_view_mode !== null) {
+            ilSession::set('webr_view_mode', $new_view_mode);
+        }
+        if (ilSession::has('webr_view_mode')) {
+            $this->view_mode = (int) ilSession::get('webr_view_mode');
+        }
+    }
+
     public function executeCommand() : void
     {
-        global $DIC;
+        $this->initViewMode();
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilErr = $DIC['ilErr'];
-        $ilAccess = $DIC['ilAccess'];
-
-
-        //if($this->ctrl->getTargetScript() == 'link_resources.php')
-        if ($_GET["baseClass"] == 'ilLinkResourceHandlerGUI') {
-            $_GET['view_mode'] = isset($_GET['switch_mode']) ? $_GET['switch_mode'] : $_GET['view_mode'];
-            $ilCtrl->saveParameter($this, 'view_mode');
+        $base_class = $this->http->wrapper()->query()->retrieve(
+            'baseClass',
+            $this->refinery->kindlyTo()->string()
+        );
+        if ($base_class === ilLinkResourceHandlerGUI::class) {
             $this->__prepareOutput();
         }
-
-        $this->lng->loadLanguageModule("webr");
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-
         switch ($next_class) {
             case "ilinfoscreengui":
                 $this->prepareOutput();
@@ -67,23 +104,20 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             case 'ilobjectmetadatagui':
                 $this->checkPermission('write'); // #18563
                 $this->prepareOutput();
-                $ilTabs->activateTab('id_meta_data');
-                include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
+                $this->tabs_gui->activateTab('id_meta_data');
                 $md_gui = new ilObjectMetaDataGUI($this->object);
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
             case 'ilpermissiongui':
                 $this->prepareOutput();
-                $ilTabs->activateTab('id_permissions');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+                $this->tabs_gui->activateTab('id_permissions');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilobjectcopygui':
                 $this->prepareOutput();
-                include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType('webr');
                 $this->ctrl->forwardCommand($cp);
@@ -92,7 +126,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             case 'ilexportgui':
                 $this->prepareOutput();
                 $this->tabs_gui->setTabActive('export');
-                include_once './Services/Export/classes/class.ilExportGUI.php';
                 $exp = new ilExportGUI($this);
                 $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
@@ -105,20 +138,18 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 break;
 
             case "ilpropertyformgui":
-                include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
                 $this->initFormLink(self::LINK_MOD_EDIT);
                 $this->ctrl->forwardCommand($this->form);
                 break;
 
             case "ilinternallinkgui":
                 $this->lng->loadLanguageModule("content");
-                require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
                 $link_gui->filterLinkType("PageObject");
                 $link_gui->filterLinkType("GlossaryItem");
                 $link_gui->filterLinkType("RepositoryItem");
                 $link_gui->setFilterWhiteList(true);
-                $ilCtrl->forwardCommand($link_gui);
+                $this->ctrl->forwardCommand($link_gui);
                 break;
 
             default:
@@ -129,10 +160,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         }
 
         if (!$this->getCreationMode()) {
-            // Fill meta header tags
-            include_once('Services/MetaData/classes/class.ilMDUtils.php');
             ilMDUtils::_fillHTMLMetaTags($this->object->getId(), $this->object->getId(), 'webr');
-
             $this->addHeaderAction();
         }
     }
@@ -143,28 +171,24 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         return $this->form;
     }
 
-    /**
-     * Save new object
-     * @access	public
-     */
     public function save() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->initFormLink(self::LINK_MOD_CREATE);
         $valid = $this->form->checkInput();
-        if ($this->checkLinkInput(self::LINK_MOD_CREATE, $valid, 0, 0)
-            && $this->form->getInput('tar_mode_type') == 'single') {
-            // Save new object
+        if (
+            $this->checkLinkInput(self::LINK_MOD_CREATE, $valid, 0, 0) &&
+            $this->form->getInput('tar_mode_type') === 'single'
+        ) {
             parent::save();
         } elseif ($valid && $this->form->getInput('tar_mode_type') == 'list') {
             $this->initList(self::LINK_MOD_CREATE, 0);
             parent::save();
         } else {
             // Data incomplete or invalid
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('err_check_input')
+            );
             $this->form->setValuesByPost();
             $this->tpl->setContent($this->form->getHTML());
         }
@@ -172,20 +196,17 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
     protected function afterSave(ilObject $new_object) : void
     {
-        if ($this->form->getInput('tar_mode_type') == 'single') {
+        if ($this->form->getInput('tar_mode_type') === 'single') {
             // Save link
             $this->link->setLinkResourceId($new_object->getId());
             $link_id = $this->link->add();
             $this->link->updateValid(true);
-
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_link_added'));
         }
-
-        if ($this->form->getInput('tar_mode_type') == 'list') {
+        if ($this->form->getInput('tar_mode_type') === 'list') {
             // Save list
             $this->list->setListResourceId($new_object->getId());
             $this->list->add();
-
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_list_added'));
         }
 
@@ -200,78 +221,57 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         }
     }
 
-    /**
-     * Edit settings
-     * Title, Description, Sorting
-     * @return
-     */
-    protected function settings()
+    protected function settings() : void
     {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
-
         $this->checkPermission('write');
-        $ilTabs->activateTab('id_settings');
+        $this->tabs_gui->activateTab('id_settings');
 
-        $this->initFormSettings();
-        $this->tpl->setContent($this->form->getHTML());
+        $form = $this->initFormSettings();
+        $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Save container settings
-     * @return
-     */
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
         global $DIC;
 
         $obj_service = $this->object_service;
-        $ilTabs = $DIC['ilTabs'];
 
         $this->checkPermission('write');
-        $ilTabs->activateTab('id_settings');
+        $this->tabs_gui->activateTab('id_settings');
 
-        $this->initFormSettings();
-        $valid = $this->form->checkInput();
+        $form = $this->initFormSettings();
+        $valid = $form->checkInput();
         if ($valid) {
             // update list
             $this->initList(self::LINK_MOD_EDIT_LIST, $this->object->getId());
             $this->list->update();
 
             // update object
-            $this->object->setTitle($this->form->getInput('title'));
-            $this->object->setDescription($this->form->getInput('desc'));
+            $this->object->setTitle($form->getInput('title'));
+            $this->object->setDescription($form->getInput('desc'));
             $this->object->update();
 
             // update sorting
             $sort = new ilContainerSortingSettings($this->object->getId());
-            $sort->setSortMode($this->form->getInput('sor'));
+            $sort->setSortMode($form->getInput('sor'));
             $sort->update();
 
             // tile image
-            $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
-
-
+            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         }
 
-        $this->form->setValuesByPost();
+        $form->setValuesByPost();
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
 
-    /**
-     * Show settings form
-     * @return
-     */
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
         $obj_service = $this->object_service;
 
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
 
@@ -303,17 +303,21 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             // Sorting
             $sor = new ilRadioGroupInputGUI($this->lng->txt('webr_sorting'), 'sor');
             $sor->setRequired(true);
-            $sor->setValue(ilContainerSortingSettings::_lookupSortMode($this->object->getId()));
+            $sor->setValue(
+                (string) ilContainerSortingSettings::_lookupSortMode(
+                    $this->object->getId()
+                )
+            );
 
             $opt = new ilRadioOption(
                 $this->lng->txt('webr_sort_title'),
-                ilContainer::SORT_TITLE
+                (string) ilContainer::SORT_TITLE
             );
             $sor->addOption($opt);
 
             $opm = new ilRadioOption(
                 $this->lng->txt('webr_sort_manual'),
-                ilContainer::SORT_MANUAL
+                (string) ilContainer::SORT_MANUAL
             );
             $sor->addOption($opm);
             $this->form->addItem($sor);
@@ -336,69 +340,68 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
         $this->form->addCommandButton('saveSettings', $this->lng->txt('save'));
         $this->form->addCommandButton('view', $this->lng->txt('cancel'));
+        return $this->form;
     }
 
 
-    /**
-     * Edit a single link
-     * @return
-     */
-    public function editLink()
+    public function editLink() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_view');
 
-        if (!(int) $_GET['link_id']) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'view');
+        $link_id = 0;
+        if ($this->http->wrapper()->query()->has('link_id')) {
+            $link_id = $this->http->wrapper()->query()->retrieve(
+                'link_id',
+                $this->refinery->kindlyTo()->int()
+            );
         }
-
-        $this->initFormLink(self::LINK_MOD_EDIT);
-        $this->setValuesFromLink((int) $_GET['link_id']);
-        $this->tpl->setContent($this->form->getHTML());
+        if (!$link_id) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->ctrl->redirect($this, 'view');
+        }
+        $form = $this->initFormLink(self::LINK_MOD_EDIT);
+        $this->setValuesFromLink($link_id);
+        $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Save after editing
-     * @return
-     */
-    public function updateLink()
+    public function updateLink() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->initFormLink(self::LINK_MOD_EDIT);
-        $valid = $this->form->checkInput();
-        if ($this->checkLinkInput(self::LINK_MOD_EDIT, $valid, $this->object->getId(), (int) $_REQUEST['link_id'])) {
-            $this->link->setLinkId((int) $_REQUEST['link_id']);
+        $form = $this->initFormLink(self::LINK_MOD_EDIT);
+        $valid = $form->checkInput();
+        $link_id = 0;
+        if ($this->http->wrapper()->query()->has('link_id')) {
+            $link_id = $this->http->wrapper()->query()->retrieve(
+                'link_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($this->checkLinkInput(self::LINK_MOD_EDIT, $valid, $this->object->getId(), $link_id)) {
+            $this->link->setLinkId($link_id);
             $this->link->update();
-            if (ilParameterAppender::_isEnabled() and is_object($this->dynamic)) {
-                $this->dynamic->add((int) $_REQUEST['link_id']);
+            if (
+                ilParameterAppender::_isEnabled() &&
+                $this->dynamic !== null
+            ) {
+                $this->dynamic->add($link_id);
             }
-
             if (!ilLinkResourceList::checkListStatus($this->object->getId())) {
-                $this->object->setTitle($this->form->getInput('title'));
-                $this->object->setDescription($this->form->getInput('desc'));
+                $this->object->setTitle($form->getInput('title'));
+                $this->object->setDescription($form->getInput('desc'));
                 $this->object->update();
             }
-
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $ilCtrl->redirect($this, 'view');
+            $this->ctrl->redirect($this, 'view');
         }
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-        $this->form->setValuesByPost();
-        $this->tpl->setContent($this->form->getHTML());
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
 
     /**
      * Get form to transform a single weblink to a weblink list
      */
-    public function getLinkToListModal()
+    public function getLinkToListModal() : Component
     {
         global $DIC;
 
@@ -424,174 +427,163 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         )
             ->withActionButtons([$submit]);
 
+        $submit = '';
+        if ($this->http->wrapper()->post()->has('sbmt')) {
+            $submit = $this->http->wrapper()->post()->retrieve(
+                'sbmt',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         // modal triggers its show signal on load if form validation failed
-        if (isset($_POST['sbmt']) && $_POST['sbmt'] == 'submit') {
+        if ($submit === 'submit') {
             $modal = $modal->withOnLoad($modal->getShowSignal());
         }
-
         return $modal;
     }
 
-    /**
-     * Save form data
-     */
-    public function saveLinkList()
+    public function saveLinkList() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->checkPermission('write');
-
-        $this->initFormLink(self::LINK_MOD_SET_LIST);
-        $valid = $this->form->checkInput();
+        $form = $this->initFormLink(self::LINK_MOD_SET_LIST);
+        $valid = $form->checkInput();
         if ($valid) {
-            // Save list data
-            $this->object->setTitle($this->form->getInput('lti'));
-            $this->object->setDescription($this->form->getInput('tde'));
+            $this->object->setTitle($form->getInput('lti'));
+            $this->object->setDescription($form->getInput('tde'));
             $this->object->update();
 
-            // Save Link List
             $this->initList(self::LINK_MOD_SET_LIST, $this->object->getId());
             $this->list->add();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_list_set'), true);
-            $ilCtrl->redirect($this, 'view');
+            $this->ctrl->redirect($this, 'view');
         }
-
-        // Error handling
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), true);
-        $this->form->setValuesByPost();
+        $form->setValuesByPost();
         $this->view();
     }
 
-    /**
-     * Add an additional link
-     * @return
-     */
-    public function addLink()
+    public function addLink() : void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_view');
 
-        $this->initFormLink(self::LINK_MOD_ADD);
-        $this->tpl->setContent($this->form->getHTML());
+        $form = $this->initFormLink(self::LINK_MOD_ADD);
+        $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Save form data
-     * @return
-     */
-    public function saveAddLink()
+    public function saveAddLink() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->checkPermission('write');
 
-        $this->initFormLink(self::LINK_MOD_ADD);
-        $valid = $this->form->checkInput();
-        if ($this->checkLinkInput(self::LINK_MOD_ADD, $valid, $this->object->getId(), 0)) {
-            // Save Link
+        $form = $this->initFormLink(self::LINK_MOD_ADD);
+        $valid = $form->checkInput();
+        if ($this->checkLinkInput(
+            self::LINK_MOD_ADD,
+            $valid,
+            $this->object->getId(), 0)
+        ) {
             $link_id = $this->link->add();
             $this->link->updateValid(true);
 
-            // Dynamic parameters
-            if (ilParameterAppender::_isEnabled() and is_object($this->dynamic)) {
+            if (
+                ilParameterAppender::_isEnabled() &&
+                $this->dynamic !== null
+            ) {
                 $this->dynamic->add($link_id);
             }
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_link_added'), true);
-            $ilCtrl->redirect($this, 'view');
+            $this->ctrl->redirect($this, 'view');
         }
-        // Error handling
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->form->setValuesByPost();
-
         $this->activateTabs('content', 'id_content_view');
-        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Delete a dynamic parameter
-     * @return
-     */
-    protected function deleteParameter()
+    protected function deleteParameter() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->checkPermission('write');
 
-        $this->ctrl->setParameter($this, 'link_id', (int) $_GET['link_id']);
+        $link_id = $this->http->wrapper()->query()->retrieve(
+            'link_id',
+            $this->refinery->kindlyTo()->int()
+        );
+        $this->ctrl->setParameter($this, 'link_id', $link_id);
 
-        if (!isset($_GET['param_id'])) {
+        $param_id = $this->http->wrapper()->query()->retrieve(
+            'param_id',
+            $this->refinery->kindlyTo()->int()
+        );
+
+        if (!$param_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'view');
+            $this->ctrl->redirect($this, 'view');
         }
-
-        include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
         $param = new ilParameterAppender($this->object->getId());
-        $param->delete((int) $_GET['param_id']);
-
+        $param->delete($param_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('links_parameter_deleted'), true);
-        $ilCtrl->redirect($this, 'editLinks');
+        $this->ctrl->redirect($this, 'editLinks');
     }
 
-    protected function deleteParameterForm()
+    protected function deleteParameterForm() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->checkPermission('write');
 
-        if (!isset($_GET['param_id'])) {
+        $param_id = $this->http->wrapper()->query()->retrieve(
+            'param_id',
+            $this->refinery->kindlyTo()->int()
+        );
+        if (!$param_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'view');
+            $this->ctrl->redirect($this, 'view');
         }
-
-        include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
         $param = new ilParameterAppender($this->object->getId());
-        $param->delete((int) $_GET['param_id']);
-
+        $param->delete($param_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('links_parameter_deleted'), true);
-        $ilCtrl->redirect($this, 'view');
+        $this->ctrl->redirect($this, 'view');
     }
 
 
-    /**
-     * Update all visible links
-     * @return
-     */
-    protected function updateLinks()
+    protected function updateLinks() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->checkPermission('write');
         $this->activateTabs('content', '');
 
-        if (!is_array($_POST['ids'])) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'view');
+        $ids = [];
+        if ($this->http->wrapper()->post()->has('ids')) {
+            $ids = $this->http->wrapper()->post()->retrieve(
+                'ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         }
 
+        if ($ids === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->ctrl->redirect($this, 'view');
+        }
+
+        $link_post = (array) ($this->http->request()->getParsedBody()['links'] ?? []);
+
         // Validate
-        $invalid = array();
-        foreach ($_POST['ids'] as $link_id) {
-            $data = $_POST['links'][$link_id];
+        $invalid = [];
+        foreach ($ids as $link_id) {
+            $data = $link_post[$link_id];
 
-            // handle internal links
-            if ($_POST['tar_' . $link_id . '_ajax_type'] &&
-                $_POST['tar_' . $link_id . '_ajax_id']) {
-                $data['tar'] = $_POST['links'][$link_id]['tar'] =
-                    $_POST['tar_' . $link_id . '_ajax_type'] . '|' .
-                    $_POST['tar_' . $link_id . '_ajax_id'];
+            if (
+                $this->http->wrapper()->post()->has('tar_' . $link_id . '_ajax_type') &&
+                $this->http->wrapper()->post()->has('tar_' . $link_id . '_ajax_id')
+            ) {
+                $data['tar'] =
+                    $this->http->wrapper()->post()->retrieve(
+                        'tar_' . $link_id . '_ajax_type',
+                        $this->refinery->kindlyTo()->string()
+                    ) . '|' .
+                    $this->http->wrapper()->post()->retrieve(
+                        'tar_' . $link_id . '_ajax_id',
+                        $this->refinery->kindlyTo()->string()
+                    );
             }
-
-
             if (!strlen($data['title'])) {
                 $invalid[] = $link_id;
                 continue;
@@ -606,42 +598,48 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             }
             if (!$data['nam'] and $data['val']) {
                 $invalid[] = $link_id;
-                continue;
             }
         }
 
         if (count($invalid)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.webr_manage.html', 'Modules/WebResource');
-
-            include_once './Modules/WebResource/classes/class.ilWebResourceEditableLinkTableGUI.php';
             $table = new ilWebResourceEditableLinkTableGUI($this, 'view');
             $table->setInvalidLinks($invalid);
-            $table->parseSelectedLinks($_POST['ids']);
+            $table->parseSelectedLinks($ids);
             $table->updateFromPost();
             $this->tpl->setVariable('TABLE_LINKS', $table->getHTML());
-            return false;
+            return;
         }
-
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $links = new ilLinkResourceItems($this->object->getId());
 
         // Save Settings
-        include_once './Services/Form/classes/class.ilFormPropertyGUI.php';
-        include_once './Services/Form/classes/class.ilLinkInputGUI.php';
-        foreach ($_POST['ids'] as $link_id) {
-            $data = $_POST['links'][$link_id];
+        foreach ($ids as $link_id) {
+            $data = $link_post[$link_id];
 
+            if (
+                $this->http->wrapper()->post()->has('tar_' . $link_id . '_ajax_type') &&
+                $this->http->wrapper()->post()->has('tar_' . $link_id . '_ajax_id')
+            ) {
+                $data['tar'] =
+                    $this->http->wrapper()->post()->retrieve(
+                        'tar_' . $link_id . '_ajax_type',
+                        $this->refinery->kindlyTo()->string()
+                    ) . '|' .
+                    $this->http->wrapper()->post()->retrieve(
+                        'tar_' . $link_id . '_ajax_id',
+                        $this->refinery->kindlyTo()->string()
+                    );
+            }
             $orig = ilLinkResourceItems::lookupItem($this->object->getId(), $link_id);
-
             $links->setLinkId($link_id);
             $links->setTitle(ilUtil::stripSlashes($data['title']));
             $links->setDescription(ilUtil::stripSlashes($data['desc']));
             $links->setTarget(str_replace('"', '', ilUtil::stripSlashes($data['tar'])));
-            $links->setActiveStatus((int) $data['act']);
-            $links->setDisableCheckStatus((int) $data['che']);
+            $links->setActiveStatus((bool) $data['act']);
+            $links->setDisableCheckStatus((bool) $data['che']);
             $links->setLastCheckDate($orig['last_check']);
-            $links->setValidStatus((int) $data['vali']);
+            $links->setValidStatus((bool) $data['vali']);
             $links->setInternal(ilLinkInputGUI::isInternalLink($data['tar']));
             $links->update();
 
@@ -651,35 +649,20 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 $param->setValue((int) $data['val']);
                 $param->add($link_id);
             }
-
             if (!ilLinkResourceList::checkListStatus($this->object->getId())) {
                 $this->object->setTitle(ilUtil::stripSlashes($data['title']));
                 $this->object->setDescription(ilUtil::stripSlashes($data['desc']));
                 $this->object->update();
             }
-
-            // TODO: Dynamic parameters
         }
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $ilCtrl->redirect($this, 'view');
+        $this->ctrl->redirect($this, 'view');
     }
 
-    /**
-     * Set form values from link
-     * @param object $a_link_id
-     * @return
-     */
-    protected function setValuesFromLink($a_link_id)
+    protected function setValuesFromLink(int $a_link_id) : void
     {
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $link = new ilLinkResourceItems($this->object->getId());
-
         $values = $link->getItem($a_link_id);
-
-        if (ilParameterAppender::_isEnabled()) {
-        }
-
         $this->form->setValuesByArray(
             array(
                 'title' => $values['title'],
@@ -692,13 +675,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         );
     }
 
-    /**
-     * Init a new link list
-     *
-     * @param int $a_mode
-     * @param int $a_webr_id
-     */
-    protected function initList(int $a_mode, int $a_webr_id = 0)
+    protected function initList(int $a_mode, int $a_webr_id = 0) : void
     {
         if ($a_mode == self::LINK_MOD_CREATE || $a_mode == self::LINK_MOD_EDIT_LIST) {
             $this->list = new ilLinkResourceList($a_webr_id);
@@ -714,23 +691,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     }
 
 
-    /**
-     * Check input after creating a new link
-     * @param object $a_mode
-     * @param bool $a_valid
-     * @param object $a_webr_id [optional]
-     * @param object $a_link_id [optional]
-     * @return
-     */
-    protected function checkLinkInput($a_mode, $a_valid, $a_webr_id = 0, $a_link_id = 0)
+    protected function checkLinkInput(int $a_mode, bool $a_valid, int $a_webr_id = 0, int $a_link_id = 0) : bool
     {
         $valid = $a_valid;
 
         $link_input = $this->form->getInput('tar');
-
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $this->link = new ilLinkResourceItems($a_webr_id);
-        $this->link->setTarget(str_replace('"', '', ilUtil::stripSlashes($link_input)));
+        $this->link->setTarget(str_replace('"', '', $link_input));
         $this->link->setTitle($this->form->getInput('title'));
         $this->link->setDescription($this->form->getInput('desc'));
         $this->link->setDisableCheckStatus($this->form->getInput('che'));
@@ -747,7 +714,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         } else {
             $this->link->setValidStatus(true);
         }
-
         if (!ilParameterAppender::_isEnabled()) {
             return $valid;
         }
@@ -757,15 +723,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->dynamic->setValue($this->form->getInput('val'));
         if (!$this->dynamic->validate()) {
             switch ($this->dynamic->getErrorCode()) {
-                case LINKS_ERR_NO_NAME:
+                case ilParameterAppender::LINKS_ERR_NO_NAME:
                     $this->form->getItemByPostVar('nam')->setAlert($this->lng->txt('links_no_name_given'));
                     return false;
 
-                case LINKS_ERR_NO_VALUE:
+                case ilParameterAppender::LINKS_ERR_NO_VALUE:
                     $this->form->getItemByPostVar('val')->setAlert($this->lng->txt('links_no_value_given'));
                     return false;
 
-                case LINKS_ERR_NO_NAME_VALUE:
+                case ilParameterAppender::LINKS_ERR_NO_NAME_VALUE:
                     // Nothing entered => no error
                     return $valid;
             }
@@ -775,22 +741,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     }
 
 
-    /**
-     * Show create/edit single link
-     * @param int form mode
-     * @return
-     */
-    protected function initFormLink($a_mode)
+    protected function initFormLink(int $a_mode) : ilPropertyFormGUI
     {
-        global $DIC;
+        $this->tabs_gui->activateTab("id_content");
 
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->activateTab("id_content");
-
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $this->form = new ilPropertyFormGUI();
-
         switch ($a_mode) {
             case self::LINK_MOD_CREATE:
                 // Header
@@ -847,15 +802,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         } else {
             $this->form->setFormAction($this->ctrl->getFormAction($this));
 
-            // Target
-            /*
-            $tar = new ilTextInputGUI($this->lng->txt('webr_link_target'),'tar');
-            $tar->setValue("http://");
-
-            $tar->setSize(40);
-            $tar->setMaxLength(500);
-            */
-            include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
             $tar = new ilLinkInputGUI($this->lng->txt('type'), 'tar'); // lng var
             if ($a_mode == self::LINK_MOD_CREATE) {
                 $tar->setAllowedLinkTypes(ilLinkInputGUI::LIST);
@@ -891,12 +837,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 // Active
                 $act = new ilCheckboxInputGUI($this->lng->txt('active'), 'act');
                 $act->setChecked(true);
-                $act->setValue(1);
+                $act->setValue((string) 1);
                 $this->form->addItem($act);
 
                 // Check
                 $che = new ilCheckboxInputGUI($this->lng->txt('webr_disable_check'), 'che');
-                $che->setValue(1);
+                $che->setValue((string) 1);
                 $this->form->addItem($che);
             }
 
@@ -928,14 +874,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                     }
                 }
 
-                // Existing parameters
-
-                // New parameter
-                if ($a_mode != self::LINK_MOD_CREATE) {
-                    #$new = new ilCustomInputGUI($this->lng->txt('links_add_param'),'');
-                    #$dyn->addSubItem($new);
-                }
-
                 // Dynyamic name
                 $nam = new ilTextInputGUI($this->lng->txt('links_name'), 'nam');
                 $nam->setSize(12);
@@ -951,53 +889,50 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 $this->form->addItem($dyn);
             }
         }
+        return $this->form;
     }
 
     /**
      * Switch between "View" "Manage" and "Sort"
-     * @return
      */
-    protected function switchViewMode()
+    protected function switchViewMode(?int $force_view_mode = null) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $_REQUEST['view_mode'] = $_GET['view_mode'] = (int) $_GET['switch_mode'];
+        $new_view_mode = $this->view_mode;
+        if ($force_view_mode !== null) {
+            $new_view_mode = $force_view_mode;
+        } else if ($this->http->wrapper()->query()->has('switch_mode')) {
+            $new_view_mode = $this->http->wrapper()->query()->retrieve(
+                'switch_mode',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $this->initViewMode($new_view_mode);
         $this->view();
     }
 
     /**
      * Start with manage mode
-     * @return
      */
-    protected function editLinks()
+    protected function editLinks() : void
     {
-        $_GET['switch_mode'] = self::VIEW_MODE_MANAGE;
-        $this->switchViewMode();
+        $this->switchViewMode(self::VIEW_MODE_MANAGE);
     }
 
 
-    /**
-     * View object
-     * @return
-     */
     public function view() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->activateTab("id_content");
-
+        $this->tabs_gui->activateTab("id_content");
         $this->checkPermission('read');
 
-        if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
+        $base_class = $this->http->wrapper()->query()->retrieve(
+            'baseClass',
+            $this->refinery->kindlyTo()->string()
+        );
+        if (strcasecmp($base_class, ilAdministrationGUI::class) === 0) {
             parent::view();
             return;
         } else {
-            switch ((int) $_REQUEST['view_mode']) {
+            switch ($this->view_mode) {
                 case self::VIEW_MODE_MANAGE:
                     $this->manage();
                     break;
@@ -1008,22 +943,18 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                         $this->sort();
                         break;
                     }
-                    // fallthrough
+                    $this->showLinks();
+                    break;
 
-                    // no break
                 default:
                     $this->showLinks();
                     break;
             }
         }
-        $GLOBALS['DIC']['tpl']->setPermanentLink($this->object->getType(), $this->object->getRefId());
+        $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
     }
 
-    /**
-     * Manage links
-     * @return
-     */
-    protected function manage()
+    protected function manage() : void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_manage');
@@ -1031,11 +962,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.webr_manage.html', 'Modules/WebResource');
         $this->showToolbar('ACTION_BUTTONS');
 
-        include_once './Modules/WebResource/classes/class.ilWebResourceEditableLinkTableGUI.php';
         $table = new ilWebResourceEditableLinkTableGUI($this, 'view');
         $table->parse();
 
-        include_once './Services/Link/classes/class.ilInternalLinkGUI.php';
         $js = ilInternalLinkGUI::getInitHTML("");
 
         $this->tpl->addJavaScript("Modules/WebResource/js/intLink.js");
@@ -1044,16 +973,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->tpl->setVariable('TABLE_LINKS', $table->getHTML() . $js);
     }
 
-    /**
-     * Show all active links
-     * @return
-     */
-    protected function showLinks()
+    protected function showLinks() : void
     {
         $this->checkPermission('read');
         $this->activateTabs('content', 'id_content_view');
 
-        include_once './Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php';
         $table = new ilWebResourceLinkTableGUI($this, 'showLinks');
         $table->parse();
 
@@ -1062,16 +986,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->tpl->setVariable('LINK_TABLE', $table->getHTML());
     }
 
-    /**
-     * Sort web links
-     * @return
-     */
-    protected function sort()
+    protected function sort() : void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_ordering');
 
-        include_once './Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php';
         $table = new ilWebResourceLinkTableGUI($this, 'sort', true);
         $table->parse();
 
@@ -1080,32 +999,32 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->tpl->setVariable('LINK_TABLE', $table->getHTML());
     }
 
-    /**
-     * Save nmanual sorting
-     * @return
-     */
-    protected function saveSorting()
+    protected function saveSorting() : void
     {
         $this->checkPermission('write');
-
         $sort = ilContainerSorting::_getInstance($this->object->getId());
-        $sort->savePost((array) $_POST['position']);
 
+        $position = [];
+        if ($this->http->wrapper()->post()->has('position')) {
+            $position = $this->http->wrapper()->post()->retrieve(
+                'position',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        $sort->savePost($position);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->view();
     }
 
 
-    /**
-     * Show toolbar
-     * @param string $a_tpl_var Name of template variable
-     * @return
-     */
-    protected function showToolbar($a_tpl_var)
+    protected function showToolbar(string $a_tpl_var) : void
     {
         global $DIC;
 
-        include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
         $tool = new ilToolbarGUI();
         $tool->setFormAction($this->ctrl->getFormAction($this));
 
@@ -1139,32 +1058,32 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->tpl->setVariable($a_tpl_var, $tool->getHTML());
     }
 
-    /**
-     * Show delete confirmation screen
-     * @return
-     */
-    protected function confirmDeleteLink()
+    protected function confirmDeleteLink() : void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_view');
 
-        $link_ids = array();
-
-        if (is_array($_POST['link_ids'])) {
-            $link_ids = $_POST['link_ids'];
-        } elseif (isset($_GET['link_id'])) {
-            $link_ids = array($_GET['link_id']);
+        $link_ids = [];
+        if ($this->http->wrapper()->query()->has('link_id')) {
+            $link_ids = (array) $this->http->wrapper()->query()->retrieve(
+                'link_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        } else if ($this->http->wrapper()->post()->has('link_ids')) {
+            $link_ids = $this->http->wrapper()->post()->retrieve(
+                'link_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         }
-
-        if (!count($link_ids) > 0) {
+        if ($link_ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->view();
-            return false;
+            return;
         }
 
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $links = new ilLinkResourceItems($this->object->getId());
-
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this, 'view'));
         $confirm->setHeaderText($this->lng->txt('webr_sure_delete_items'));
@@ -1178,53 +1097,49 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    /**
-     * Delete links
-     * @return
-     */
-    protected function deleteLinks()
+    protected function deleteLinks() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->checkPermission('write');
 
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $links = new ilLinkResourceItems($this->object->getId());
 
-        foreach ($_POST['link_ids'] as $link_id) {
+        $link_ids = [];
+        if ($this->http->wrapper()->post()->has('link_ids')) {
+            $link_ids = $this->http->wrapper()->post()->retrieve(
+                'link_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        foreach ($link_ids as $link_id) {
             $links->delete($link_id);
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_deleted_items'), true);
-        $ilCtrl->redirect($this, 'view');
+        $this->ctrl->redirect($this, 'view');
     }
 
-    /**
-     * Deactivate links
-     * @return
-     */
-    protected function deactivateLink()
+    protected function deactivateLink() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->checkPermission('write');
 
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $links = new ilLinkResourceItems($this->object->getId());
 
-        if (!$_GET['link_id']) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'view');
+        $link_id = 0;
+        if ($this->http->wrapper()->query()->has('link_id')) {
+            $link_ids = (array) $this->http->wrapper()->query()->retrieve(
+                'link_id',
+                $this->refinery->kindlyTo()->int()
+            );
         }
-
-        $links->setLinkId((int) $_GET['link_id']);
+        if (!$link_id) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->ctrl->redirect($this, 'view');
+        }
+        $links->setLinkId($link_id);
         $links->updateActive(false);
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('webr_inactive_success'), true);
-        $ilCtrl->redirect($this, 'view');
+        $this->ctrl->redirect($this, 'view');
     }
 
 
@@ -1233,7 +1148,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     * not very nice to set cmdClass/Cmd manually, if everything
     * works through ilCtrl in the future this may be changed
     */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -1243,18 +1158,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     /**
     * show information screen
     */
-    public function infoScreenForward()
+    public function infoScreenForward() : void
     {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
-
         if (!$this->checkPermissionBool('visible')) {
             $this->checkPermission('read');
         }
-        $ilTabs->activateTab('id_info');
+        $this->tabs_gui->activateTab('id_info');
 
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
 
         $info->enablePrivateNotes();
@@ -1271,223 +1181,67 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     }
 
 
-    public function history()
+    public function history() : void
     {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
-
         $this->checkPermission('write');
-        $ilTabs->activateTab('id_history');
+        $this->tabs_gui->activateTab('id_history');
 
-        include_once("./Services/History/classes/class.ilHistoryTableGUI.php");
-        $hist_gui = new ilHistoryTableGUI($this, "history", $this->object->getId(), $this->object->getType);
+        $hist_gui = new ilHistoryTableGUI($this, "history", $this->object->getId(), $this->object->getType());
         $hist_gui->initTable();
         $this->tpl->setContent($hist_gui->getHTML());
     }
 
     /**
-     * @param	array Unformatted array
-     * @return	array Formatted array
-     * @access	public
-     *@see		ilLinkCheckerGUIRowHandling::formatInvalidLinkArray()
-     */
-    public function formatInvalidLinkArray(array $row) : array
-    {
-        $this->object->items_obj->readItem($row['page_id']);
-        $row['title'] = $this->object->items_obj->getTitle();
-
-        require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setSelectionHeaderClass('small');
-        $actions->setItemLinkClass('xsmall');
-        $actions->setListTitle($this->lng->txt('actions'));
-        $actions->setId($row['page_id']);
-        $this->ctrl->setParameter($this, 'link_id', $row['page_id']);
-        $actions->addItem(
-            $this->lng->txt('edit'),
-            '',
-            $this->ctrl->getLinkTarget($this, 'editLink')
-        );
-        $this->ctrl->clearParameters($this);
-        $row['action_html'] = $actions->getHTML();
-
-        return $row;
-    }
-
-    /**
-     * Show link validation
-     * @return
-     */
-    protected function linkChecker()
-    {
-        global $DIC;
-
-        $ilias = $DIC['ilias'];
-        $ilUser = $DIC['ilUser'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $this->checkPermission('write');
-        $ilTabs->activateTab('id_link_check');
-
-        $this->__initLinkChecker();
-        $this->object->initLinkResourceItemsObject();
-
-        require_once './Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
-
-        $toolbar = new ilToolbarGUI();
-
-        if ((bool) $ilias->getSetting('cron_web_resource_check')) {
-            include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
-            include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
-            $chb = new ilCheckboxInputGUI($this->lng->txt('link_check_message_a'), 'link_check_message');
-            $chb->setValue(1);
-            $chb->setChecked((bool) ilLinkCheckNotify::_getNotifyStatus($ilUser->getId(), $this->object->getId()));
-            $chb->setOptionTitle($this->lng->txt('link_check_message_b'));
-
-            $toolbar->addInputItem($chb);
-            $toolbar->addFormButton($this->lng->txt('save'), 'saveLinkCheck');
-            $toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'saveLinkCheck'));
-        }
-
-        $tgui = new ilLinkCheckerTableGUI($this, 'linkChecker');
-        $tgui->setLinkChecker($this->link_checker_obj)
-             ->setRowHandler($this)
-             ->setRefreshButton($this->lng->txt('refresh'), 'refreshLinkCheck');
-
-        return $tpl->setContent($tgui->prepareHTML()->getHTML() . $toolbar->getHTML());
-    }
-
-    public function saveLinkCheck()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
-        include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
-
-        $link_check_notify = new ilLinkCheckNotify($ilDB);
-        $link_check_notify->setUserId($ilUser->getId());
-        $link_check_notify->setObjId($this->object->getId());
-
-        if ($_POST['link_check_message']) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('link_check_message_enabled'));
-            $link_check_notify->addNotifier();
-        } else {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('link_check_message_disabled'));
-            $link_check_notify->deleteNotifier();
-        }
-        $this->linkChecker();
-
-        return true;
-    }
-
-
-
-    public function refreshLinkCheck()
-    {
-        $this->__initLinkChecker();
-        $this->object->initLinkResourceItemsObject();
-
-        // Set all link to valid. After check invalid links will be set to invalid
-        $this->object->items_obj->updateValidByCheck();
-
-        foreach ($this->link_checker_obj->checkWebResourceLinks() as $invalid) {
-            $this->object->items_obj->readItem($invalid['page_id']);
-            $this->object->items_obj->setActiveStatus(false);
-            $this->object->items_obj->setValidStatus(false);
-            $this->object->items_obj->update(false);
-        }
-
-        $this->object->items_obj->updateLastCheck();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('link_checker_refreshed'));
-
-        $this->linkChecker();
-
-        return true;
-    }
-
-    public function __initLinkChecker()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        include_once './Services/LinkChecker/classes/class.ilLinkChecker.php';
-
-        $this->link_checker_obj = new ilLinkChecker($ilDB, false);
-        $this->link_checker_obj->setObjId($this->object->getId());
-
-        return true;
-    }
-
-
-    /**
      * Activate tab and subtabs
-     * @param string $a_active_tab
-     * @param string $a_active_subtab [optional]
-     * @return
      */
-    protected function activateTabs($a_active_tab, $a_active_subtab = '')
+    protected function activateTabs(string $a_active_tab, string $a_active_subtab = '') : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-
         switch ($a_active_tab) {
             case 'content':
                 if ($this->checkPermissionBool('write')) {
                     $this->lng->loadLanguageModule('cntr');
 
                     $this->ctrl->setParameter($this, 'switch_mode', self::VIEW_MODE_VIEW);
-                    $ilTabs->addSubTab(
+                    $this->tabs_gui->addSubTab(
                         'id_content_view',
-                        $lng->txt('view'),
+                        $this->lng->txt('view'),
                         $this->ctrl->getLinkTarget($this, 'switchViewMode')
                     );
                     $this->ctrl->setParameter($this, 'switch_mode', self::VIEW_MODE_MANAGE);
-                    $ilTabs->addSubTab(
+                    $this->tabs_gui->addSubTab(
                         'id_content_manage',
-                        $lng->txt('cntr_manage'),
+                        $this->lng->txt('cntr_manage'),
                         $this->ctrl->getLinkTarget($this, 'switchViewMode')
                     );
                     if ((ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
                         and ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL) {
                         $this->ctrl->setParameter($this, 'switch_mode', self::VIEW_MODE_SORT);
-                        $ilTabs->addSubTab(
+                        $this->tabs_gui->addSubTab(
                             'id_content_ordering',
                             $this->lng->txt('cntr_ordering'),
                             $this->ctrl->getLinkTarget($this, 'switchViewMode')
                         );
                     }
 
-                    $ilCtrl->clearParameters($this);
-                    $ilTabs->activateSubTab($a_active_subtab);
+                    $this->ctrl->clearParameters($this);
+                    $this->tabs_gui->activateSubTab($a_active_subtab);
                 }
         }
 
-        $ilTabs->activateTab('id_content');
+        $this->tabs_gui->activateTab('id_content');
     }
     
-    public function setTabs() : void
+    protected function setTabs() : void
     {
         global $DIC;
 
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
         $ilHelp = $DIC['ilHelp'];
-
         $ilHelp->setScreenIdComponent("webr");
 
         if ($this->checkPermissionBool('read')) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 "id_content",
-                $lng->txt("content"),
+                $this->lng->txt("content"),
                 $this->ctrl->getLinkTarget($this, "view")
             );
         }
@@ -1496,53 +1250,43 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             $this->checkPermissionBool('visible') ||
             $this->checkPermissionBool('read')
         ) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 "id_info",
-                $lng->txt("info_short"),
+                $this->lng->txt("info_short"),
                 $this->ctrl->getLinkTarget($this, "infoScreen")
             );
         }
 
         if ($this->checkPermissionBool('write') and !$this->getCreationMode()) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 "id_settings",
-                $lng->txt("settings"),
+                $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "settings")
             );
         }
 
         if ($this->checkPermissionBool('write')) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 "id_history",
-                $lng->txt("history"),
+                $this->lng->txt("history"),
                 $this->ctrl->getLinkTarget($this, "history")
             );
         }
 
         if ($this->checkPermissionBool('write')) {
-            // Check if pear library is available
-            $ilTabs->addTab(
-                "id_link_check",
-                $lng->txt("link_check"),
-                $this->ctrl->getLinkTarget($this, "linkChecker")
-            );
-        }
-
-        if ($this->checkPermissionBool('write')) {
-            include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
             $mdgui = new ilObjectMetaDataGUI($this->object);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
-                $ilTabs->addTab(
+                $this->tabs_gui->addTab(
                     "id_meta_data",
-                    $lng->txt("meta_data"),
+                    $this->lng->txt("meta_data"),
                     $mdtab
                 );
             }
         }
 
         if ($this->checkPermissionBool('write')) {
-            $ilTabs->addTab(
+            $this->tabs_gui->addTab(
                 'export',
                 $this->lng->txt('export'),
                 $this->ctrl->getLinkTargetByClass('ilexportgui', '')
@@ -1553,40 +1297,28 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         parent::setTabs();
     }
 
-    // PRIVATE
-    public function __prepareOutput()
+    public function __prepareOutput() : void
     {
-        // output objects
-        // $this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-        // $this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
         $this->tpl->setLocator();
-
-        // output message
-        if ($this->message) {
-            $this->tpl->setOnScreenMessage('info', $this->message);
-        }
     }
 
-    public function addLocatorItems() : void
+    /**
+     * @todo is this required?
+     */
+    protected function addLocatorItems() : void
     {
         global $DIC;
 
         $ilLocator = $DIC['ilLocator'];
-
         if (is_object($this->object)) {
             $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this), "", $this->object->getRefId(), "webr");
         }
     }
 
-    protected function handleSubItemLinks($a_target)
+    protected function handleSubItemLinks(string $a_target) : string
     {
         // #15647 - handle internal links
-        include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
-        include_once "Services/Form/classes/class.ilLinkInputGUI.php";
-
         if (ilLinkInputGUI::isInternalLink($a_target)) {
-            include_once("./Services/Link/classes/class.ilLink.php");
 
             // #10612
             $parts = explode("|", $a_target);
@@ -1620,75 +1352,64 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         return $a_target;
     }
 
-    public function callDirectLink()
+    public function callDirectLink() : void
     {
         $obj_id = $this->object->getId();
 
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         if (ilLinkResourceItems::_isSingular($obj_id)) {
             $url = ilLinkResourceItems::_getFirstLink($obj_id);
             if ($url["target"]) {
                 $url["target"] = $this->handleSubItemLinks($url["target"]);
 
-                include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
                 if (ilParameterAppender::_isEnabled()) {
                     $url = ilParameterAppender::_append($url);
                 }
-
                 $this->redirectToLink($this->ref_id, $obj_id, $url["target"]);
             }
         }
     }
 
-    public function callLink()
+    public function callLink() : void
     {
-        if ($_REQUEST["link_id"]) {
+        if ($this->http->wrapper()->query()->has('link_id')) {
+
+            $link_id = $this->http->wrapper()->query()->retrieve(
+                'link_id',
+                $this->refinery->kindlyTo()->int()
+            );
             $obj_id = $this->object->getId();
 
-            include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
             $items = new ilLinkResourceItems($obj_id);
-            $item = $items->getItem($_REQUEST["link_id"]);
+            $item = $items->getItem($link_id);
             if ($item["target"]) {
                 $item["target"] = $this->handleSubItemLinks($item["target"]);
 
-                include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
                 if (ilParameterAppender::_isEnabled()) {
                     $item = ilParameterAppender::_append($item);
                 }
-                ilLoggerFactory::getLogger('webr')->debug('Redirecting to: ' . $item['target']);
                 $this->redirectToLink($this->ref_id, $obj_id, $item["target"]);
             }
         }
     }
 
-    protected function redirectToLink($a_ref_id, $a_obj_id, $a_url)
+    protected function redirectToLink(int $a_ref_id, int $a_obj_id, string $a_url) : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
         if ($a_url) {
             require_once('Services/Tracking/classes/class.ilChangeEvent.php');
             ilChangeEvent::_recordReadEvent(
                 "webr",
                 $a_ref_id,
                 $a_obj_id,
-                $ilUser->getId()
+                $this->user->getId()
             );
-
             ilUtil::redirect($a_url);
         }
     }
 
-    public function exportHTML()
+    public function exportHTML() : void
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
         $tpl = new ilTemplate("tpl.export_html.html", true, true, "Modules/WebResource");
 
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $items = new ilLinkResourceItems($this->object->getId());
         foreach ($items->getAllItems() as $item) {
             if (!$item["active"]) {
@@ -1711,41 +1432,50 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $tpl->setVariable("TXT_TITLE", $this->object->getTitle());
         $tpl->setVariable("TXT_DESC", $this->object->getLongDescription());
 
-        $tpl->setVariable("INST_ID", ($ilSetting->get('short_inst_name') != "")
-            ? $ilSetting->get('short_inst_name')
+        $tpl->setVariable("INST_ID", ($this->settings->get('short_inst_name') != "")
+            ? $this->settings->get('short_inst_name')
             : "ILIAS");
 
         ilUtil::deliverData($tpl->get(), "bookmarks.html");
     }
 
-    public static function _goto($a_target, $a_additional = null)
+    public static function _goto(string $a_target, $a_additional = null) : void
     {
         global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
 
-        $ilAccess = $DIC['ilAccess'];
+        $main_tpl = $DIC->ui()->mainTemplate();
+        $ilAccess = $DIC->access();
+        $lng = $DIC->language();
+        $ctrl = $DIC->ctrl();
         $ilErr = $DIC['ilErr'];
-        $lng = $DIC['lng'];
 
         if ($a_additional && substr($a_additional, -3) == "wsp") {
-            $_GET["baseClass"] = "ilsharedresourceGUI";
-            $_GET["wsp_id"] = $a_target;
-            include("ilias.php");
-            exit;
+
+            $ctrl->setTargetScript('ilias.php');
+            $ctrl->setParameterByClass(ilSharedResourceGUI::class, 'wsp_id', $a_target);
+            $ctrl->redirectByClass(
+                [
+                    ilSharedResourceGUI::class
+                ],
+                'edit'
+            );
+            return;
         }
 
         // Will be replaced in future releases by ilAccess::checkAccess()
-        if ($ilAccess->checkAccess("read", "", $a_target)) {
-            ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=$a_target");
+        if ($ilAccess->checkAccess("read", "", (int) $a_target)) {
+            ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target);
         } else {
             // to do: force flat view
-            if ($ilAccess->checkAccess("visible", "", $a_target)) {
+            if ($ilAccess->checkAccess("visible", "", (int) $a_target)) {
                 ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $a_target . "&cmd=infoScreen");
             } else {
                 if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
                     $main_tpl->setOnScreenMessage('failure', sprintf(
                         $lng->txt("msg_no_perm_read_item"),
-                        ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                        ilObject::_lookupTitle(ilObject::_lookupObjId(
+                            (int) $a_target
+                        ))
                     ), true);
                     ilObjectGUI::_gotoRepositoryRoot();
                 }
