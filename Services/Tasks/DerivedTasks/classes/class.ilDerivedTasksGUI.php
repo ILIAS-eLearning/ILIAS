@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\DI\Container;
+use ILIAS\DI\UIServices;
+
 /**
  * Derived tasks list
  *
@@ -9,51 +12,20 @@
  */
 class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected ?\ILIAS\DI\Container $dic;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * @var ilTaskService
-     */
-    protected $task;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilHelp
-     */
-    protected $help;
+    protected ?Container $dic;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilTaskService $task;
+    protected ilObjUser $user;
+    protected UIServices $ui;
+    protected ilLanguage $lng;
+    protected ilHelpGUI $help;
 
     /**
      * Constructor
-     * @param \ILIAS\DI\Container|null $dic
+     * @param Container|null $dic
      */
-    public function __construct(\ILIAS\DI\Container $di_container = null)
+    public function __construct(Container $di_container = null)
     {
         global $DIC;
 
@@ -85,7 +57,7 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
 
-        if (in_array($cmd, array("show"))) {
+        if ($cmd == "show") {
             $this->$cmd();
         }
         $main_tpl->printToStdout();

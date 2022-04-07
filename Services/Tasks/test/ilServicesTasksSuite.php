@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesTasksSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilServicesTasksSuite
     {
 
         //PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;

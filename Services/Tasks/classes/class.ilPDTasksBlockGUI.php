@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\UI\Component\Item\Item;
+
 /**
  * BlockGUI class for Tasks on PD
  *
@@ -224,7 +226,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?Item
     {
         $factory = $this->ui->factory();
         $lng = $this->lng;
