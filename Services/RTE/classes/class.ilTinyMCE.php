@@ -66,7 +66,7 @@ class ilTinyMCE extends ilRTE
     {
         if (!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng')) {
             parent::addPlugin('ilimgupload');
-            parent::addButton('ilimgupload');
+            $this->addButton('ilimgupload');
             parent::removePlugin('ibrowser');
             parent::removePlugin('image');
 

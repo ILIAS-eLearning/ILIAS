@@ -103,7 +103,6 @@ class ilRTE
      * @param int $obj_id
      * @param string $obj_type
      * @param string[] $tags
-     * @return string
      */
     public function addCustomRTESupport(int $obj_id, string $obj_type, array $tags) : void
     {
@@ -254,7 +253,7 @@ class ilRTE
 
     /**
      * Returns the disabled RTE buttons
-     * @param bool $as_array Should the disabled buttons be returned as a string or as an array
+     * @param bool $as_list Should the disabled buttons be returned as a string or as an array
      * @return string[]|string
      */
     public function getDisabledButtons(bool $as_list = true)

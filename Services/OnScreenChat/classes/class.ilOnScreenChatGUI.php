@@ -34,7 +34,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 
     private ILIAS\DI\Container $dic;
     private ILIAS\HTTP\Services $http;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilObjUser $actor;
 
     public function __construct()
