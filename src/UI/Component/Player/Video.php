@@ -28,6 +28,8 @@ interface Video extends Player
 {
     /**
      * Set a subtitle file path (vtt file). For WebVTT format, see https://en.wikipedia.org/wiki/WebVTT.
+     * @param string $lang_key two letter lang key, e.g. "de", "en"
+     * @param string $subtitle_file relative web root path of a vtt file
      */
     public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file) : \ILIAS\UI\Component\Player\Video;
 
@@ -42,8 +44,5 @@ interface Video extends Player
      */
     public function withPoster(string $poster) : \ILIAS\UI\Component\Player\Video;
 
-    /**
-     * Get poster
-     */
     public function getPoster() : string;
 }

@@ -39,7 +39,7 @@ interface Factory
      * context:
      *   - Listing Items in Panels
      * ----
-     * @param string $source
+     * @param string $source relative web root path of an mp3 file or a URL of an external mp3 resource
      * @param string $transcript
      * @return \ILIAS\UI\Component\Player\Audio
      */
@@ -71,7 +71,8 @@ interface Factory
      *   - Main Content
      *   - Modal Content
      * ----
-     * @param string $source mp4 file path, youtube or vimeo url
+     * @param string $source relative web root path of an mp4 file, URL of an external mp4 resource,
+     *                       youtube or vimeo URL
      * @return \ILIAS\UI\Component\Player\Video
      */
     public function video(string $source) : Video;
