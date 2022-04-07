@@ -20,7 +20,6 @@
  */
 class ilWorkspaceTree extends ilTree
 {
-
     public function __construct(
         int $a_tree_id,
         int $a_root_id = 0
@@ -177,7 +176,7 @@ class ilWorkspaceTree extends ilTree
     public function getObjectsFromType(
         string $a_type,
         bool $a_with_data = false
-    ) : array {
+    ) : array { // PHP8-Review: Method return type has no value type specified in iterable type array.
         return $this->getSubTree(
             $this->getNodeData($this->getRootId()),
             $a_with_data,
