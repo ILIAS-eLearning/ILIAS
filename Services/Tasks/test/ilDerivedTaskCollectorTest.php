@@ -6,9 +6,9 @@ require_once __DIR__ . '/bootstrap.php';
 /**
  * @author  <killing@leifos.de>
  */
-class ilDerivedTaskCollectorTest extends \ilTasksTestBase
+class ilDerivedTaskCollectorTest extends ilTasksTestBase
 {
-    public function testGetEntries()
+    public function testGetEntries() : void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();

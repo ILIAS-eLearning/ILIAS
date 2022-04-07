@@ -9,13 +9,12 @@
  */
 class ilDerivedTaskFactory
 {
-    protected \ilTaskServiceDependencies $_deps;
+    protected ilTaskServiceDependencies $_deps;
 
-    protected \ilTaskService $service;
+    protected ilTaskService $service;
 
     /**
      * Constructor
-     * @param ilTaskServiceDependencies $_deps
      */
     public function __construct(ilTaskService $service)
     {
@@ -33,11 +32,8 @@ class ilDerivedTaskFactory
 
     /**
      * Entry collector
-     *
-     * @param
-     * @return
      */
-    public function collector() : \ilDerivedTaskCollector
+    public function collector() : ilDerivedTaskCollector
     {
         return new ilDerivedTaskCollector($this->service);
     }
@@ -46,7 +42,7 @@ class ilDerivedTaskFactory
      * Get all task providers
      *
      * @param bool $active_only get only active providers
-     * @param int $user_id get instances for user with user id
+     * @param int|null $user_id get instances for user with user id
      * @return ilLearningHistoryProviderInterface[]
      */
     public function getAllProviders(bool $active_only = false, int $user_id = null) : array

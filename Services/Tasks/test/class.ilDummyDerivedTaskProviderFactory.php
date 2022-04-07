@@ -9,10 +9,7 @@
  */
 class ilDummyDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 {
-    /**
-     * @var ilTaskService
-     */
-    protected $task_service;
+    protected ilTaskService $task_service;
 
     /**
      * Constructor
