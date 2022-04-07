@@ -10,7 +10,7 @@ final class ilSamlIdpXmlMetadataParser
     private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter;
     private Result $result;
     private bool $xmlErrorState = false;
-    /** @var LibXMLError */
+    /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
     public function __construct(DataTypeFactory $dataFactory, ilSamlIdpXmlMetadataErrorFormatter $errorFormatter)
