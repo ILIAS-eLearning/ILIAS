@@ -87,13 +87,13 @@ class TupleTransformation implements Constraint
             return false;
         }
 
-        return count(array_filter($value, function ($key) {
+        return count(array_filter($value, function ($key) : bool {
             if (!array_key_exists($key, $this->transformations)) {
                 $this->error = sprintf('There is no entry "%s" defined in the transformation array', $key);
                 return true;
             }
             return false;
-        }, ARRAY_FILTER_USE_KEY)) == 0;
+        }, ARRAY_FILTER_USE_KEY)) === 0;
     }
 
     private function isLengthOfValueAndTransformationEqual($values) : bool

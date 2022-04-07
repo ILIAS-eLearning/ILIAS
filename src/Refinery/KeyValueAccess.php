@@ -82,7 +82,7 @@ class KeyValueAccess implements ArrayAccess, Countable
     /**
      * @inheritDoc
      */
-    public function count()
+    public function count() : int
     {
         return count($this->raw_values);
     }

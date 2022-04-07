@@ -33,7 +33,7 @@ class DateTimeTransformation implements Constraint
         return new DateTimeImmutable($from);
     }
 
-    public function getError()
+    public function getError() : string
     {
         return $this->error;
     }

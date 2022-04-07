@@ -4,7 +4,6 @@
 
 namespace ILIAS\Refinery;
 
-
 use Closure;
 use InvalidArgumentException;
 
@@ -41,10 +40,9 @@ trait ProblemBuilder
     /**
      * Get the closure to be passed to the error-function that does i18n and
      * sprintf.
-     *
      * @return  Closure
      */
-    final protected function getLngClosure()
+    final protected function getLngClosure() : Closure
     {
         return function () {
             $args = func_get_args();
@@ -53,12 +51,13 @@ trait ProblemBuilder
                     "Expected an id of a lang var as first parameter"
                 );
             }
+
             $error = $this->lng->txt($args[0]);
             if (count($args) > 1) {
                 $args[0] = $error;
                 for ($i = 0, $numArgs = count($args); $i < $numArgs; $i++) {
                     $v = $args[$i];
-                    if ((is_array($v) || (is_object($v) && !method_exists($v, "__toString")) || is_null($v))) {
+                    if (is_array($v) || is_null($v) || (is_object($v) && !method_exists($v, "__toString"))) {
                         if (is_array($v)) {
                             $args[$i] = "array";
                         } elseif (is_null($v)) {
@@ -70,6 +69,7 @@ trait ProblemBuilder
                 }
                 $error = sprintf(...$args);
             }
+
             return $error;
         };
     }

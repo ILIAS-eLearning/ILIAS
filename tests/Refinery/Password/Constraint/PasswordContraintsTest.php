@@ -1,6 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -8,11 +22,6 @@ use ILIAS\Refinery;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Test standard-constraints of a password.
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
- */
 class PasswordContraintsTest extends TestCase
 {
 
@@ -21,7 +30,7 @@ class PasswordContraintsTest extends TestCase
      *
      * @return array[[$constraint,$ok_values,$error_values]]
      */
-    public function constraintsProvider()
+    public function constraintsProvider() : array
     {
         $lng = $this->createMock(\ilLanguage::class);
         $d = new \ILIAS\Data\Factory();
@@ -62,7 +71,7 @@ class PasswordContraintsTest extends TestCase
     /**
      * @dataProvider constraintsProvider
      */
-    public function testAccept($constraint, $ok_values, $error_values)
+    public function testAccept($constraint, $ok_values, $error_values) : void
     {
         foreach ($ok_values as $ok_value) {
             $this->assertTrue($constraint->accepts($ok_value));

@@ -40,7 +40,7 @@ class ByTrying implements Transformation
     /**
      * @inheritdoc
      */
-    protected function getError()
+    protected function getError() : callable
     {
         return $this->error;
     }

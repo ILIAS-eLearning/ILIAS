@@ -4,6 +4,7 @@
 
 namespace ILIAS\Refinery\String;
 
+use ErrorException;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
@@ -48,8 +49,19 @@ class EstimatedReadingTime implements Transformation
         );
 
         $document = new DOMDocument();
-        if (!@$document->loadHTML($text)) {
-            throw new InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string.");
+
+        set_error_handler(static function (int $severity, string $message, string $file, int $line, array $errcontext) : void {
+            throw new ErrorException($message, $severity, $severity, $file, $line);
+        });
+
+        try {
+            if (!$document->loadHTML($text)) {
+                throw new InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string.");
+            }
+        } catch (ErrorException $e) {
+            throw new InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string: " . $e->getMessage());
+        } finally {
+            restore_error_handler();
         }
         
         $numberOfWords = 0;

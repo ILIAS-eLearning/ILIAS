@@ -30,18 +30,14 @@ class ShuffleTransformation implements Transformation
         $this->seed = $seed;
     }
 
-    /**
-     * @throws ConstraintViolationException
-     * @return array
-     */
-    public function transform($array)
+    public function transform($from) : array
     {
-        if (!is_array($array)) {
+        if (!is_array($from)) {
             throw new ConstraintViolationException('not an array', 'no_array');
         }
         $this->seed->seedRandomGenerator();
-        shuffle($array);
+        shuffle($from);
 
-        return $array;
+        return $from;
     }
 }

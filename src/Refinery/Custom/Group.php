@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -7,20 +22,14 @@
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Data\Factory;
+use ilLanguage;
 
 class Group
 {
-    /**
-     * @var Factory
-     */
-    private $dataFactory;
+    private Factory $dataFactory;
+    private ilLanguage $language;
 
-    /**
-     * @var \ilLanguage
-     */
-    private $language;
-
-    public function __construct(Factory $dataFactory, \ilLanguage $language)
+    public function __construct(Factory $dataFactory, ilLanguage $language)
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;
@@ -28,7 +37,7 @@ class Group
 
     /**
      * @param callable $callable
-     * @param $error
+     * @param string|callable $error
      * @return Constraint
      */
     public function constraint(callable $callable, $error) : Constraint
@@ -41,10 +50,6 @@ class Group
         );
     }
 
-    /**
-     * @param callable $transform
-     * @return Transformation
-     */
     public function transformation(callable $transform) : Transformation
     {
         return new Transformation($transform, $this->dataFactory);
