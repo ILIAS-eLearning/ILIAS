@@ -3615,12 +3615,12 @@ common#:#cat_added#:#Kategorie angelegt
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#cat_edit#:#Einstellungen der Kategorie
-common#:#cat_edit#:#Einstellungen des Kategorielinks
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
 common#:#categories#:#Kategorien
 common#:#cat#:#Kategorie
 common#:#cat_new#:#Neue Kategorie anlegen
 common#:#catr_add#:#Kategorielink anlegen
+common#:#catr_edit#:#Einstellungen des Kategorielinks
 common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie einen Link erstellen möchten.
 common#:#catr#:#Kategorielink
 common#:#catr_new#:#Neuen Kategorielink anlegen
@@ -7922,10 +7922,10 @@ dash#:#dash_presentation#:#Präsentation
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_sortation#:#Sortierung
+dash#:#dash_sort_by_alphabet#:#Nach Alphabet sortieren
 dash#:#dash_sort_by_location#:#Nach Ort sortieren
 dash#:#dash_sort_by_start_date#:#Nach Startdatum sortieren
 dash#:#dash_sort_by_type#:#Nach Typ sortieren
-dash#:#dash_sort_by_alphabet#:#Nach Alphabet sortieren
 dash#:#dash_studyprogramme#:#Meine Studienprogramme
 dash#:#dash_tile#:#Kacheln
 dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
@@ -12227,9 +12227,8 @@ pdfgen#:#margin_top#:#Margin oben
 pdfgen#:#none#:#Keine
 pdfgen#:#orientation#:#Orientierung
 pdfgen#:#output_options#:#Ausgabeoptionen
-pdfgen#:#overwrite_font#:#Schriftart überschreiben
 pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#overwrite_font#:#Schritart überschreiben
+pdfgen#:#overwrite_font#:#Schriftart überschreiben
 pdfgen#:#page_settings#:#Seiteneinstellungen
 pdfgen#:#page_size#:#Seitengröße
 pdfgen#:#path#:#Pfad zum Programm
@@ -16319,7 +16318,7 @@ trac#:#trac_visits_info#:#Ein Aufruf wird erst nach %s Sekunden als neuer Aufruf
 trac#:#trac_visits#:#Mindestanzahl Aufrufe
 trac#:#user_total#:#Anzahl Benutzer
 trac#:#view_mode#:#Anzeigemodus
-tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen
+tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen.
 tstv#:#tstv_create#:#Testzertifikat erstellen
 ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_default_label_end#:#Ende
@@ -16330,15 +16329,16 @@ ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
+ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten! Prüfen Sie die Konsole für weitere Informationen.
+ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren.
+ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ '%s' sind nicht erlaubt.
+ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
-ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ '%s' sind nicht erlaubt.
-ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
-ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen, entfernen Sie ein paaru m fortzufahren.
-ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten, prüfen Sie die Konsole für mehr Infos.
 ui#:#ui_tag_required#:#Bitte geben sie mindestens ein Tag ein.
+ui#:#ui_transcription#:#Abschrift
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
@@ -16807,4 +16807,3 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-ui#:#ui_transcription#:#Abschrift
