@@ -766,7 +766,7 @@ class ilObjStyleSheet extends ilObject
                         }
                     }
                 }
-                $styles[(int) $sty["id"]] = ilObject::_lookupTitle($sty["id"]);
+                $styles[(int) $sty["id"]] = ilObject::_lookupTitle((int) $sty["id"]);
             }
         }
         
