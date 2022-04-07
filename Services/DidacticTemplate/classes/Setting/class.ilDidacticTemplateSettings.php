@@ -75,7 +75,7 @@ class ilDidacticTemplateSettings
      */
     public function getTemplates() : array
     {
-        return (array) $this->templates;
+        return $this->templates;
     }
 
     /**
