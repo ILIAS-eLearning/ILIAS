@@ -20,15 +20,13 @@ namespace ILIAS\Refinery\In;
 
 use ILIAS\Refinery\Transformation;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Group
 {
-
     /**
      * Takes an array of transformations and performs them one after
      * another on the result of the previous transformation
+     * @param Transformation[] $inTransformations
+     * @return Transformation
      */
     public function series(array $inTransformations) : Transformation
     {
@@ -38,6 +36,8 @@ class Group
     /**
      * Takes an array of transformations and performs each on the
      * input value to form a tuple of the results
+     * @param Transformation[] $inTransformations
+     * @return Transformation
      */
     public function parallel(array $inTransformations) : Transformation
     {

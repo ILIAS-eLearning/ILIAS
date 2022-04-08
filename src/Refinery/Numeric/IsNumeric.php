@@ -18,11 +18,11 @@
 
 namespace ILIAS\Refinery\Numeric;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 use ilLanguage;
 
-class IsNumeric extends CustomConstraint
+class IsNumeric extends Constraint
 {
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
@@ -32,10 +32,10 @@ class IsNumeric extends CustomConstraint
             },
             static function ($txt, $value) : string {
                 if ('' === $value) {
-                    return $txt("not_numeric_empty_string");
+                    return (string) $txt("not_numeric_empty_string");
                 }
 
-                return $txt("not_numeric", $value);
+                return (string) $txt("not_numeric", $value);
             },
             $data_factory,
             $lng

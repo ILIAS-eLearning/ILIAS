@@ -16,10 +16,7 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-function toList()
+function toList() : bool
 {
     class SomeClass
     {
@@ -36,10 +33,10 @@ function toList()
     $refinery = $DIC->refinery();
 
     $transformation = $refinery->to()->toNew(
-        array($instance, 'say')
+        [$instance, 'say']
     );
 
-    $result = $transformation->transform(array('Hello', ' World!'));
+    $result = $transformation->transform(['Hello', ' World!']);
 
     return assert('Hello World!' === $result);
 }

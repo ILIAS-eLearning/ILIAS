@@ -24,18 +24,15 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class StringTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : string
     {
         if (false === $from instanceof URI) {
             throw new ConstraintViolationException(

@@ -19,11 +19,9 @@
 namespace ILIAS\Refinery\Numeric;
 
 use ILIAS\Data\Factory;
+use ILIAS\Refinery\Constraint;
 use ilLanguage;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Group
 {
     private Factory $dataFactory;
@@ -35,7 +33,7 @@ class Group
         $this->language = $language;
     }
 
-    public function isNumeric() : IsNumeric
+    public function isNumeric() : Constraint
     {
         return new IsNumeric($this->dataFactory, $this->language);
     }

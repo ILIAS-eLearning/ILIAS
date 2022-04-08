@@ -23,9 +23,6 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use InvalidArgumentException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class NewMethodTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
@@ -47,15 +44,14 @@ class NewMethodTransformation implements Transformation
     }
 
     /**
-     * @inheritdoc
-     * @return mixed
+     * @inheritDoc
      */
     public function transform($from)
     {
         if (false === is_array($from)) {
-            $from = array($from);
+            $from = [$from];
         }
 
-        return call_user_func_array(array($this->object, $this->method), $from);
+        return call_user_func_array([$this->object, $this->method], $from);
     }
 }

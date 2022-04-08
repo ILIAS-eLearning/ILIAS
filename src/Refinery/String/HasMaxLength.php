@@ -19,22 +19,19 @@
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ilLanguage;
 
-class HasMaxLength extends CustomConstraint
+class HasMaxLength extends Constraint
 {
-    protected int $max_length;
-
     public function __construct(int $max_length, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->max_length = $max_length;
         parent::__construct(
-            function ($value) {
-                return strlen($value) <= $this->max_length;
+            static function ($value) use ($max_length) : bool {
+                return strlen($value) <= $max_length;
             },
-            function ($txt, $value) {
-                return $txt("not_max_length", $this->max_length);
+            static function ($txt, $value) use ($max_length) : string {
+                return $txt("not_max_length", $max_length);
             },
             $data_factory,
             $lng

@@ -19,23 +19,20 @@
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ilLanguage;
 
-class HasMinLength extends CustomConstraint
+class HasMinLength extends Constraint
 {
-    protected int $min_length;
-
     public function __construct(int $min_length, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->min_length = $min_length;
         parent::__construct(
-            function ($value) {
-                return strlen($value) >= $this->min_length;
+            static function ($value) use ($min_length) : bool {
+                return strlen($value) >= $min_length;
             },
-            function ($txt, $value) {
+            static function ($txt, $value) use ($min_length) : string {
                 $len = strlen($value);
-                return $txt("not_min_length", $len, $this->min_length);
+                return $txt("not_min_length", $len, $min_length);
             },
             $data_factory,
             $lng

@@ -24,9 +24,6 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class StringTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
@@ -34,19 +31,25 @@ class StringTransformation implements Constraint
     use ProblemBuilder;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : string
     {
         $this->check($from);
         return (string) $from;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getError() : string
     {
         return 'The value MUST be of type string.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -56,11 +59,17 @@ class StringTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         return is_string($value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

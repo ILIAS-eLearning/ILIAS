@@ -23,18 +23,16 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use Exception;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 trait DeriveApplyToFromTransform
 {
     /**
-     * @param mixed $from
-     * @return mixed
-     * @throws Exception
+     * @inheritDoc
      */
     abstract public function transform($from);
 
+    /**
+     * @inheritDoc
+     */
     public function applyTo(Result $result) : Result
     {
         return $result->then(function ($value) : Result {

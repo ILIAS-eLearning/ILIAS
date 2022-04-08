@@ -22,18 +22,8 @@ use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 use ilLanguage;
 
-/**
- * Class LogicalOr
- * @package ILIAS\Refinery\Validation\Constraints
- * @author  Michael Jansen <mjansen@databay.de>
- */
 class LogicalOr extends Constraint
 {
-    /**
-     * @var Constraint[]
-     */
-    protected array $other = [];
-
     /**
      * LogicalOr constructor.
      * @param Constraint[] $other
@@ -42,11 +32,9 @@ class LogicalOr extends Constraint
      */
     public function __construct(array $other, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->other = $other;
-
         parent::__construct(
-            function ($value) {
-                foreach ($this->other as $constraint) {
+            static function ($value) use ($other) : bool {
+                foreach ($other as $constraint) {
                     if ($constraint->accepts($value)) {
                         return true;
                     }
@@ -54,10 +42,10 @@ class LogicalOr extends Constraint
 
                 return false;
             },
-            function ($value) {
+            static function ($value) use ($other) : string {
                 $problems = [];
 
-                foreach ($this->other as $constraint) {
+                foreach ($other as $constraint) {
                     $problems[] = $constraint->getErrorMessage($value);
                 }
 

@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
 namespace ILIAS\Refinery\Random\Transformation;
 
 use ILIAS\Refinery\Random\Seed\Seed;

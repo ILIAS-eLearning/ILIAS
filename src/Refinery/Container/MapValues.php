@@ -34,18 +34,16 @@ class MapValues implements Transformation
 
     protected string $type;
     private Transformation $trafo;
-    private Factory $factory;
 
-    public function __construct(Transformation $trafo, Factory $factory)
+    public function __construct(Transformation $trafo)
     {
         $this->trafo = $trafo;
-        $this->factory = $factory;
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         if (!is_array($from)) {
             throw new InvalidArgumentException(__METHOD__ . " argument is not an array.");

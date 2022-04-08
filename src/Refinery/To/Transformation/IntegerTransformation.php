@@ -24,9 +24,6 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class IntegerTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
@@ -34,19 +31,25 @@ class IntegerTransformation implements Constraint
     use ProblemBuilder;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : int
     {
         $this->check($from);
         return (int) $from;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getError() : string
     {
         return 'The value MUST be of type integer.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -56,11 +59,17 @@ class IntegerTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         return is_int($value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

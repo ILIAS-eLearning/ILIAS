@@ -25,24 +25,23 @@ use ilLanguage;
 class Sequential extends Constraint
 {
     /**
-     * @var Constraint[]
-     */
-    protected array $constraints;
-
-    /**
      * There's a test to show this state will never be visible
      * SequentialTest::testCorrectErrorMessagesAfterMultiAccept
      *
      * @var Constraint
      */
-    protected Constraint $failed_constraint;
+    private Constraint $failed_constraint;
 
+    /**
+     * @param Constraint[] $constraints
+     * @param Data\Factory $data_factory
+     * @param ilLanguage $lng
+     */
     public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->constraints = $constraints;
         parent::__construct(
-            function ($value) {
-                foreach ($this->constraints as $constraint) {
+            function ($value) use ($constraints) : bool {
+                foreach ($constraints as $constraint) {
                     if (!$constraint->accepts($value)) {
                         $this->failed_constraint = $constraint;
                         return false;
@@ -51,7 +50,7 @@ class Sequential extends Constraint
 
                 return true;
             },
-            function ($txt, $value) {
+            function ($txt, $value) : string {
                 return $this->failed_constraint->getErrorMessage($value);
             },
             $data_factory,

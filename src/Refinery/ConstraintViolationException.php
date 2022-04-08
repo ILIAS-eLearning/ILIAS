@@ -23,7 +23,6 @@ use UnexpectedValueException;
 /***
  * Signals the violation of some constraint on a value in a way that can be subject
  * to i18n.
- * @author  Niels Theen <ntheen@databay.de>
  */
 class ConstraintViolationException extends UnexpectedValueException
 {

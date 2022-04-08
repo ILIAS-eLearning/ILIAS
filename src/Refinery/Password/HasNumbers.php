@@ -18,11 +18,11 @@
 
 namespace ILIAS\Refinery\Password;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 use ilLanguage;
 
-class HasNumbers extends CustomConstraint
+class HasNumbers extends Constraint
 {
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {

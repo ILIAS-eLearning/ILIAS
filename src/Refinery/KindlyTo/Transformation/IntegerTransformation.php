@@ -31,9 +31,9 @@ class IntegerTransformation implements Transformation
     use DeriveInvokeFromTransform;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : int
     {
         if (is_int($from)) {
             return $from;

@@ -20,9 +20,6 @@ namespace ILIAS\Refinery\DateTime;
 
 use ILIAS\Refinery\Transformation;
 
-/**
- * @author  Nils Haagen <nils.haagen@concepts-and-training.de>
- */
 class Group
 {
     public function changeTimezone(string $timezone) : Transformation

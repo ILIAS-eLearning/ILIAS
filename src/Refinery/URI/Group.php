@@ -18,12 +18,11 @@
 
 namespace ILIAS\Refinery\URI;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+use ILIAS\Refinery\Transformation;
+
 class Group
 {
-    public function toString() : StringTransformation
+    public function toString() : Transformation
     {
         return new StringTransformation();
     }

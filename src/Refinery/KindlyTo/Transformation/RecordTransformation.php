@@ -28,10 +28,11 @@ class RecordTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
+    /** @var array<string, Transformation> */
     private array $transformations;
 
     /**
-     *@param Transformation[] $transformations
+     * @param array<string, Transformation> $transformations
      */
     public function __construct(array $transformations)
     {
@@ -59,8 +60,9 @@ class RecordTransformation implements Transformation
 
     /**
      * @inheritDoc
+     * @return array<string, mixed>
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         if (!is_array($from)) {
             throw new ConstraintViolationException(
@@ -81,6 +83,7 @@ class RecordTransformation implements Transformation
             }
             $result[$key] = $transformation->transform($from[$key]);
         }
+
         return $result;
     }
 }

@@ -16,10 +16,7 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-function primitive()
+function primitive() : bool
 {
     global $DIC;
 

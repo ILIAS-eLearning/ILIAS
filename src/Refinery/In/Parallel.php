@@ -24,21 +24,16 @@ use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use InvalidArgumentException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Parallel implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var Transformation[]
-     */
+    /** @var Transformation[] */
     private array $transformationStrategies;
 
     /**
-     * @param array $transformations
+     * @param Transformation[] $transformations
      * @throws InvalidArgumentException
      */
     public function __construct(array $transformations)
@@ -58,11 +53,11 @@ class Parallel implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : array
     {
-        $results = array();
+        $results = [];
         foreach ($this->transformationStrategies as $strategy) {
             $results[] = $strategy->transform($from);
         }

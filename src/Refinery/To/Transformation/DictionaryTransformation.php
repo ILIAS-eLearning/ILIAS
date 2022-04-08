@@ -25,9 +25,6 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class DictionaryTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
@@ -42,13 +39,14 @@ class DictionaryTransformation implements Constraint
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
+     * @return array<string, mixed>
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         $this->check($from);
 
-        $result = array();
+        $result = [];
         foreach ($from as $key => $value) {
             $transformedValue = $this->transformation->transform($value);
             $result[$key] = $transformedValue;
@@ -57,11 +55,17 @@ class DictionaryTransformation implements Constraint
         return $result;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getError() : string
     {
         return 'The value MUST be an array with only string keys.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -71,6 +75,9 @@ class DictionaryTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         if (!is_array($value)) {
@@ -82,6 +89,9 @@ class DictionaryTransformation implements Constraint
         }, ARRAY_FILTER_USE_KEY)) === 0;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

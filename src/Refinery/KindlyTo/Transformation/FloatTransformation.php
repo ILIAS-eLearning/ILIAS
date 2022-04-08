@@ -32,9 +32,9 @@ class FloatTransformation implements Transformation
     use DeriveInvokeFromTransform;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : float
     {
         if ($from !== INF && $from !== -INF && is_float($from) && !is_nan($from)) {
             return $from;

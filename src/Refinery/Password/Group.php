@@ -19,11 +19,9 @@
 namespace ILIAS\Refinery\Password;
 
 use ILIAS\Data\Factory;
+use ILIAS\Refinery\Constraint;
 use ilLanguage;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Group
 {
     protected Factory $data_factory;
@@ -38,7 +36,7 @@ class Group
     /**
      * Get the constraint that a password has a minimum length.
      */
-    public function hasMinLength(int $min_length) : HasMinLength
+    public function hasMinLength(int $min_length) : Constraint
     {
         return new HasMinLength($min_length, $this->data_factory, $this->lng);
     }
@@ -46,7 +44,7 @@ class Group
     /**
      * Get the constraint that a password has upper case chars.
      */
-    public function hasUpperChars() : HasUpperChars
+    public function hasUpperChars() : Constraint
     {
         return new HasUpperChars($this->data_factory, $this->lng);
     }
@@ -54,7 +52,7 @@ class Group
     /**
      * Get the constraint that a password has lower case chars.
      */
-    public function hasLowerChars() : HasLowerChars
+    public function hasLowerChars() : Constraint
     {
         return new HasLowerChars($this->data_factory, $this->lng);
     }
@@ -62,7 +60,7 @@ class Group
     /**
      * Get the constraint that a password has numbers.
      */
-    public function hasNumbers() : HasNumbers
+    public function hasNumbers() : Constraint
     {
         return new HasNumbers($this->data_factory, $this->lng);
     }
@@ -70,7 +68,7 @@ class Group
     /**
      * Get the constraint that a password has special chars.
      */
-    public function hasSpecialChars() : HasSpecialChars
+    public function hasSpecialChars() : Constraint
     {
         return new HasSpecialChars($this->data_factory, $this->lng);
     }

@@ -18,23 +18,20 @@
 
 namespace ILIAS\Refinery\Password;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 use ilLanguage;
 
-class HasMinLength extends CustomConstraint
+class HasMinLength extends Constraint
 {
-    protected int $min_length;
-
     public function __construct(int $min_length, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->min_length = $min_length;
         parent::__construct(
-            function (Data\Password $value) {
-                return strlen($value->toString()) >= $this->min_length;
+            static function (Data\Password $value) use ($min_length) : bool {
+                return strlen($value->toString()) >= $min_length;
             },
-            function ($value) {
-                return "Password has a length less than '$this->min_length'.";
+            static function ($value) use ($min_length) : string {
+                return "Password has a length less than '$min_length'.";
             },
             $data_factory,
             $lng

@@ -18,18 +18,11 @@
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 use ilLanguage;
 
-/**
- * Class IsNull
- *
- * @package ILIAS\Refinery\Validation\Constraints
- *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- */
-class IsNull extends CustomConstraint
+class IsNull extends Constraint
 {
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
