@@ -34,7 +34,7 @@ class ilTermsOfServiceNullCriterion implements ilTermsOfServiceCriterionType
             {
                 $this->lng = $lng;
             }
-            // PHP8-Review: Parameter's name changed during inheritance from 'option' to 'group'
+
             public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
             {
             }

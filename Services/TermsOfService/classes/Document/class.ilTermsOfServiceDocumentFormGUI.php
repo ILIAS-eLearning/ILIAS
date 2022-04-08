@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\FileUpload\DTO\ProcessingStatus; //PHP8-Review: Import 'ILIAS\FileUpload\DTO\ProcessingStatus' is never used
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Location;

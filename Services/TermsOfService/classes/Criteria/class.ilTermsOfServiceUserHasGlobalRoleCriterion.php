@@ -30,15 +30,15 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements ilTermsOfServiceCrit
     {
         $roleId = $config['role_id'] ?? 0;
 
-        if (!is_numeric($roleId) || $roleId < 1 || is_float($roleId)) {
+        if (!is_numeric($roleId) || $roleId < 1 || $roleId > PHP_INT_MAX || is_float($roleId)) {
             return false;
         }
 
-        if (!$this->rbacReview->isGlobalRole($roleId)) { //PHP8-Review: ilRbacReview::isGlobalRole() expects int, int<1, max>|string given
+        if (!$this->rbacReview->isGlobalRole($roleId)) {
             return false;
         }
 
-        return $this->rbacReview->isAssigned($user->getId(), $roleId); //PHP8-Review: ilRbacReview::isAssigned() expects int, int<1, max>|string given
+        return $this->rbacReview->isAssigned($user->getId(), $roleId);
     }
 
     public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI

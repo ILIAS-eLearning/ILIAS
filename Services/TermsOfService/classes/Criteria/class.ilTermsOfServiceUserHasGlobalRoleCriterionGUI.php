@@ -28,7 +28,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
 
         $this->lng->loadLanguageModule('rbac');
     }
-    // PHP8-Review: Parameter's name changed during inheritance from 'option' to 'group'
+
     public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
@@ -48,7 +48,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
         asort($options);
 
         $roleSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
-        $roleSelection->setValue((int) ($config['role_id'] ?? 0)); //PHP8-Review:  Parameter #1 $a_value of method ilSelectInputGUI::setValue() expects array|string, int given
+        $roleSelection->setValue((string) ((int) ($config['role_id'] ?? 0)));
 
         $option->addSubItem($roleSelection);
 
@@ -73,7 +73,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
     {
         $roleId = $config['role_id'] ?? 0;
 
-        if (!is_numeric($roleId) || $roleId < 1 || is_float($roleId)) {
+        if (!is_numeric($roleId) || $roleId < 1 || $roleId > PHP_INT_MAX || is_float($roleId)) {
             return $uiFactory->legacy('');
         }
 
