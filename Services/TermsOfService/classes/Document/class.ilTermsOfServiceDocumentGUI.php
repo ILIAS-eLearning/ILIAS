@@ -81,7 +81,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        if ($cmd === '' || !method_exists($this, $cmd)) {
+        if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
             $cmd = 'showDocuments';
         }
         $this->$cmd();

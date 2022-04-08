@@ -98,7 +98,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                 break;
 
             default:
-                if ($cmd === '' || $cmd === 'view' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || $cmd === 'view' || !method_exists($this, $cmd)) {
                     $cmd = 'settings';
                 }
                 $this->$cmd();
