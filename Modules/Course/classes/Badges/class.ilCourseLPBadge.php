@@ -41,6 +41,9 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
         return false;
     }
 
+    /**
+     * @return string[]
+     */
     public function getValidObjectTypes() : array
     {
         return array("crs");

@@ -261,7 +261,7 @@ class ilCourseContentGUI
     /**
      * Manage personal timings
      */
-    protected function managePersonalTimings($failed = [])
+    protected function managePersonalTimings(array $failed = []) : void
     {
         global $ilErr, $ilAccess;
 
@@ -331,7 +331,7 @@ class ilCourseContentGUI
         }
     }
 
-    public function returnToMembers()
+    public function returnToMembers() : void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -340,7 +340,7 @@ class ilCourseContentGUI
      * @deprecated
      * @todo
      */
-    public function showUserTimings()
+    public function showUserTimings() : void
     {
         $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.crs_user_timings.html', 'Modules/Course');
         $this->tabs->clearSubTabs();
@@ -384,7 +384,7 @@ class ilCourseContentGUI
      * @deprecated
      * @todo
      */
-    public function __renderUserItem(array $item, int $level)
+    public function __renderUserItem(array $item, int $level) : void
     {
         $this->lng->loadLanguageModule('meta');
 
@@ -510,7 +510,7 @@ class ilCourseContentGUI
         }
     }
 
-    public function __setSubTabs()
+    public function __setSubTabs() : void
     {
         if ($this->container_obj->getType() == 'crs') {
             $this->container_gui->setContentSubTabs();

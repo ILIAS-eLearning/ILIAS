@@ -101,6 +101,9 @@ class ilLOTestRun
         return $objectives;
     }
 
+    /**
+     * @return \ilLOTestRun[]
+     */
     public static function getRun(int $a_container_id, int $a_user_id, int $a_test_id) : array
     {
         global $DIC;

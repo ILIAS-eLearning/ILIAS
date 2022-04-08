@@ -59,7 +59,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     private string $latitude = '';
     private string $longitude = '';
     private int $locationzoom = 0;
-    private int $enablemap = 0;
+    private bool $enablemap = false;
 
     private int $session_limit = 0;
     private int $session_prev = -1;
@@ -89,7 +89,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     private ?ilCourseParticipant $member_obj = null;
     private ?ilCourseParticipants $members_obj = null;
 
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
 
@@ -166,7 +166,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return $this->target_group;
     }
 
-    public function setTargetGroup(?string $a_tg)
+    public function setTargetGroup(?string $a_tg) : void
     {
         $this->target_group = $a_tg;
     }
@@ -246,7 +246,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $this->activation_end = $a_value;
     }
 
-    public function setActivationVisibility(bool $a_value)
+    public function setActivationVisibility(bool $a_value) : void
     {
         $this->activation_visibility = $a_value;
     }
@@ -510,7 +510,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return $this->show_members;
     }
 
-    public function setMailToMembersType(int $a_type)
+    public function setMailToMembersType(int $a_type) : void
     {
         $this->mail_members = $a_type;
     }
@@ -683,7 +683,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return $this->crs_start;
     }
 
-    protected function setCourseEnd(?ilDateTime $a_value = null)
+    protected function setCourseEnd(?ilDateTime $a_value = null) : void
     {
         $this->crs_end = $a_value;
     }
@@ -693,7 +693,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return $this->crs_end;
     }
 
-    public function setCancellationEnd(?ilDate $a_value = null)
+    public function setCancellationEnd(?ilDate $a_value = null) : void
     {
         $this->leave_end = $a_value;
     }
@@ -963,7 +963,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
     /**
      */
-    public function updateSettings()
+    public function updateSettings() : void
     {
         $query = "SELECT * FROM crs_settings WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
         $res = $this->db->query($query);
@@ -1102,7 +1102,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $new_obj->update();
     }
 
-    public function __createDefaultSettings()
+    public function __createDefaultSettings() : void
     {
         $this->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
 
@@ -1403,6 +1403,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return $arr_crsDefaultRoles;
     }
 
+    /**
+     * @return int[]
+     */
     public function __getLocalRoles() : array
     {
         return $this->rbac_review->getRolesOfRoleFolder($this->getRefId(), false);
@@ -1576,6 +1579,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
     /**
      * @see interface.ilMembershipRegistrationCodes
+     * @return int[]
      */
     public static function lookupObjectsByCode(string $a_code) : array
     {

@@ -290,7 +290,7 @@ class ilLOEditorGUI
         $settings->update();
     }
 
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
@@ -1096,7 +1096,7 @@ class ilLOEditorGUI
         $this->showObjectiveCreation($form);
     }
 
-    protected function saveSorting()
+    protected function saveSorting() : void
     {
         $post_position = $this->http->wrapper()->post()->retrieve(
             'position',

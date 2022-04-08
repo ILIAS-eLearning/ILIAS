@@ -30,7 +30,8 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
     public function __construct(int $a_container_id = 0)
     {
         global $DIC;
-
+    
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->crs();
         parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $a_container_id);
     }

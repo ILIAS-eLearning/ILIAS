@@ -376,7 +376,7 @@ class ilCourseObjective
         return $this->created;
     }
 
-    public function __read()
+    public function __read() : void
     {
         if ($this->getObjectiveId()) {
             $query = "SELECT * FROM crs_objectives " .

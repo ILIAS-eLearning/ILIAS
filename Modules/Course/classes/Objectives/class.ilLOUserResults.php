@@ -314,6 +314,9 @@ class ilLOUserResults
         return $res;
     }
 
+    /**
+     * @return int[]
+     */
     public static function getObjectiveStatusForLP(int $a_user_id, int $a_obj_id, array $a_objective_ids) : array
     {
         global $DIC;

@@ -425,7 +425,7 @@ class ilLOSettings
     /**
      * Read
      */
-    protected function read()
+    protected function read() : void
     {
         $query = 'SELECT * FROM loc_settings ' .
             'WHERE obj_id = ' . $this->db->quote($this->getObjId(), 'integer');

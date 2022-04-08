@@ -54,7 +54,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
             $white[] = "fold";
         }
         $exp->setTypeWhiteList($white);
-        $subitems->setTitleModifier(function ($a_id) {
+        $subitems->setTitleModifier(function ($a_id) : string {
             $obj_id = ilObject::_lookupObjId($a_id);
             $olp = ilObjectLP::getInstance($obj_id);
             $invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();

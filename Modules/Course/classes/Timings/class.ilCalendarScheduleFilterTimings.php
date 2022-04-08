@@ -47,6 +47,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
      * Filter categories
      * All categories are show no filtering (support for individual folder appointments)
      * @param int[] $a_cats
+     * @return int[]
      */
     public function filterCategories(array $a_cats) : array
     {
@@ -200,7 +201,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
     /**
      * @param int $category_id
      * @param int $item_ref_id
-     * @return ilCalendarEntry
+     * @return \ilCalendarEntry[]
      */
     protected function findCalendarEntriesForItem(int $category_id, int $item_ref_id) : array
     {

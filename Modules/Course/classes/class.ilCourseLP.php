@@ -87,6 +87,9 @@ class ilCourseLP extends ilObjectLP
         return '';
     }
 
+    /**
+     * @return int[]
+     */
     public function getMembers(bool $a_search = true) : array
     {
         $member_obj = ilCourseParticipants::_getInstanceByObjId($this->obj_id);

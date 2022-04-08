@@ -51,6 +51,9 @@ class ilCourseObjectiveQuestion
         $this->__read();
     }
 
+    /**
+     * @return int[]
+     */
     public static function lookupObjectivesOfQuestion(int $a_qid) : array
     {
         global $DIC;

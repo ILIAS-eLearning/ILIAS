@@ -83,6 +83,9 @@ class ilCourseObjectiveMaterials
         }
     }
 
+    /**
+     * @return int[]
+     */
     public static function _getAssignedMaterials(int $a_objective_id) : array
     {
         global $DIC;
@@ -138,6 +141,9 @@ class ilCourseObjectiveMaterials
         return $assignable;
     }
 
+    /**
+     * @return int[]
+     */
     public static function _getAllAssignedMaterials(int $a_container_id) : array
     {
         global $DIC;
@@ -304,7 +310,7 @@ class ilCourseObjectiveMaterials
         return true;
     }
 
-    public function writePosition(int $a_ass_id, int $a_position)
+    public function writePosition(int $a_ass_id, int $a_position) : void
     {
         $query = "UPDATE crs_objective_lm " .
             "SET position = " . $this->db->quote((string) $a_position, 'integer') . " " .

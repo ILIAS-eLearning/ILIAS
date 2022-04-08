@@ -43,6 +43,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
     /**
      * Get operators
+     * @return string[]
      */
     public static function getConditionOperators() : array
     {

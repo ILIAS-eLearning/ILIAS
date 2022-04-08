@@ -53,7 +53,7 @@ class ilCourseParticipantsGroupsGUI
         $this->ref_id = $a_ref_id;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);

@@ -211,7 +211,7 @@ class ilFileDataCourse extends ilFileData
         return true;
     }
 
-    public function __checkImportPath()
+    public function __checkImportPath() : void
     {
         if (!file_exists($this->getCoursePath() . '/import')) {
             ilFileUtils::makeDir($this->getCoursePath() . '/import');

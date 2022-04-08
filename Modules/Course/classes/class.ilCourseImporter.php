@@ -95,7 +95,7 @@ class ilCourseImporter extends ilXmlImporter
         }
     }
 
-    protected function addFinalProcessingInfo($a_course, $a_entity, $a_xml)
+    protected function addFinalProcessingInfo($a_course, $a_entity, $a_xml) : void
     {
         $this->final_processing_info[] = array(
             'course' => $a_course,

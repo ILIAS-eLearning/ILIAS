@@ -265,7 +265,7 @@ class ilCourseFile
         return $files;
     }
 
-    public function __read()
+    public function __read() : void
     {
         if (!$this->file_id) {
             return;

@@ -117,7 +117,7 @@ class ilLOEditorStatus
         return $this->assignments;
     }
 
-    public function setSection(int $a_section)
+    public function setSection(int $a_section) : void
     {
         $this->section = $a_section;
     }

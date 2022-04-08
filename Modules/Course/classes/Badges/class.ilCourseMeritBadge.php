@@ -46,6 +46,9 @@ class ilCourseMeritBadge implements ilBadgeType
         return true;
     }
 
+    /**
+     * @return string[]
+     */
     public function getValidObjectTypes() : array
     {
         return array("crs", "grp");

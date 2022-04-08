@@ -422,7 +422,7 @@ class ilLOTestQuestionAdapter
         );
     }
 
-    protected function storeTestRun()
+    protected function storeTestRun() : void
     {
         foreach ($this->run as $tst_run) {
             $tst_run->update();

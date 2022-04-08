@@ -368,7 +368,7 @@ class ilCourseObjectivesGUI
         $this->ctrl->redirect($this, 'materialAssignment');
     }
 
-    protected function materialAssignment()
+    protected function materialAssignment() : void
     {
         if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
@@ -1072,7 +1072,7 @@ class ilCourseObjectivesGUI
         return $this->form;
     }
 
-    protected function initWizard(int $active_step)
+    protected function initWizard(int $active_step) : void
     {
         $steps = [];
         $step_positions = [];

@@ -1395,7 +1395,7 @@ class ilObjCourseGUI extends ilContainerGUI
         return $form;
     }
 
-    public function sendFileObject()
+    public function sendFileObject() : void
     {
         $file_id = 0;
         if ($this->http->wrapper()->query()->has('file_id')) {
@@ -2682,7 +2682,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    public function resetObject()
+    public function resetObject() : void
     {
         $usr_results = new ilLOUserResults($this->object->getId(), $GLOBALS['DIC']['ilUser']->getId());
         $usr_results->delete();

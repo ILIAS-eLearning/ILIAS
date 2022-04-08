@@ -53,7 +53,7 @@ class ilCourseDefinedFieldDefinition
         }
     }
 
-    public static function _clone(int $a_source_id, int $a_target_id)
+    public static function _clone(int $a_source_id, int $a_target_id) : void
     {
         foreach (ilCourseDefinedFieldDefinition::_getFields($a_source_id) as $field_obj) {
             $cdf = new ilCourseDefinedFieldDefinition($a_target_id);
@@ -104,6 +104,7 @@ class ilCourseDefinedFieldDefinition
 
     /**
      * Get required filed id's
+     * @return int[]
      */
     public static function _getRequiredFieldIds(int $a_obj_id) : array
     {
@@ -137,6 +138,9 @@ class ilCourseDefinedFieldDefinition
         return implode('<br />', $fields);
     }
 
+    /**
+     * @return int[]
+     */
     public static function _getFieldIds(int $a_container_id, string $a_sort = self::IL_CDF_SORT_ID) : array
     {
         global $DIC;
@@ -301,7 +305,7 @@ class ilCourseDefinedFieldDefinition
         $res = $this->db->manipulate($query);
     }
 
-    public function delete()
+    public function delete() : void
     {
         ilCourseUserData::_deleteByField($this->getId());
         $query = "DELETE FROM crs_f_definitions " .
@@ -309,7 +313,7 @@ class ilCourseDefinedFieldDefinition
         $res = $this->db->manipulate($query);
     }
 
-    private function read()
+    private function read() : void
     {
         $query = "SELECT * FROM crs_f_definitions " .
             "WHERE field_id = " . $this->db->quote($this->getId(), 'integer') . " " .

@@ -75,7 +75,7 @@ class ilLOMemberTestResultGUI
     /**
      * View results
      */
-    protected function viewResult()
+    protected function viewResult() : void
     {
         $result_table = new ilLOMemberTestResultTableGUI($this, $this->getParentObject(), 'viewResult');
         $result_table->setUserId($this->getUserId());

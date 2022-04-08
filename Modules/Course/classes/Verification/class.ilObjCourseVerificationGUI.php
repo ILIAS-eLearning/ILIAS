@@ -30,7 +30,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     protected ilTabsGUI $tabs;
 
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         $this->dic = $DIC;

@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCourseMailTemplateTutorContextTest extends TestCase
 {
-    public function testNonExistingPlaceholderWontBeResolved()
+    public function testNonExistingPlaceholderWontBeResolved() : void
     {
         $mailTemplateContext = new ilCourseMailTemplateTutorContext();
 
