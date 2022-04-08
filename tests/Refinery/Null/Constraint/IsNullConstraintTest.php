@@ -18,7 +18,6 @@
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\IsNull;
 use PHPUnit\Framework\TestCase;
 
 class IsNullConstraintTest extends TestCase
@@ -26,9 +25,9 @@ class IsNullConstraintTest extends TestCase
     private DataFactory $df;
     private ilLanguage $lng;
     private Refinery $f;
-    private IsNull $c;
+    private \ILIAS\Refinery\Constraint $c;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->df = new DataFactory();
         $this->lng = $this->createMock(ilLanguage::class);

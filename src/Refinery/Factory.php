@@ -121,7 +121,7 @@ class Factory
     /**
      * Contains constraints for null types
      */
-    public function null() : IsNull
+    public function null() : Constraint
     {
         return new IsNull($this->dataFactory, $this->language);
     }
@@ -164,7 +164,7 @@ class Factory
         return new RandomGroup();
     }
 
-    public function identity() : IdentityTransformation
+    public function identity() : Transformation
     {
         return new IdentityTransformation();
     }

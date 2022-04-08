@@ -19,6 +19,7 @@
 namespace ILIAS\Tests\Refinery\Logical;
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Integer\GreaterThan;
 use ILIAS\Refinery\Integer\LessThan;
 use ILIAS\Refinery\Logical\LogicalOr;
@@ -34,8 +35,8 @@ class GroupTest extends TestCase
     private LogicalGroup $group;
     private DataFactory $dataFactory;
     private ilLanguage $language;
-    private GreaterThan $greaterThanConstraint;
-    private LessThan $lessThanConstaint;
+    private Constraint $greaterThanConstraint;
+    private Constraint $lessThanConstaint;
 
     protected function setUp() : void
     {

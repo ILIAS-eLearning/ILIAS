@@ -19,6 +19,7 @@
 namespace ILIAS\Tests\Refinery\Integer\Constraints;
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Constraint;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
 use ILIAS\Refinery\Integer\LessThanOrEqual;
@@ -28,7 +29,7 @@ class LessThanOrEqualConstraintTest extends TestCase
 {
     private DataFactory $df;
     private ilLanguage $lng;
-    private LessThanOrEqual $c;
+    private Constraint $c;
 
     protected function setUp() : void
     {

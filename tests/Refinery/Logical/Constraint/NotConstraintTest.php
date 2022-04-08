@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Logical\Not;
 use PHPUnit\Framework\TestCase;
 
 class NotTest extends TestCase
@@ -26,8 +26,8 @@ class NotTest extends TestCase
     private DataFactory $df;
     private ilLanguage $lng;
     private Refinery $refinery;
-    private Not $not_true;
-    private Not $not_false;
+    private Constraint $not_true;
+    private Constraint $not_false;
 
     protected function setUp() : void
     {

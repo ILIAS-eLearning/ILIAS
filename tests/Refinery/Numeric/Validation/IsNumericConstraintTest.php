@@ -18,7 +18,6 @@
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Numeric\IsNumeric;
 use PHPUnit\Framework\TestCase;
 
 class IsNumericConstraintTest extends TestCase
@@ -26,7 +25,7 @@ class IsNumericConstraintTest extends TestCase
     private DataFactory $df;
     private ilLanguage $lng;
     private Refinery $f;
-    private IsNumeric $c;
+    private \ILIAS\Refinery\Constraint $c;
 
     protected function setUp() : void
     {
