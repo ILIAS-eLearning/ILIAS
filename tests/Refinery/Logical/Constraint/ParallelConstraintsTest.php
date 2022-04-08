@@ -16,17 +16,16 @@
  *
  *********************************************************************/
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstriant;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use  ILIAS\Refinery\Logical\Parallel;
 use PHPUnit\Framework\TestCase;
 
 class ParallelTest extends TestCase
 {
     private DataFactory $df;
     private ilLanguage $lng;
-    private Parallel $c;
+    private Constraint $c;
     private Refinery $refinery;
 
     protected function setUp() : void

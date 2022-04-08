@@ -19,6 +19,7 @@
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Container\MapValues;
+use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 
 class MapValuesTest extends TestCase
@@ -35,8 +36,8 @@ class MapValuesTest extends TestCase
         "B" => 44,
         "C" => 8020
     ];
-    private ILIAS\Refinery\Factory $f;
-    private MapValues $map_values;
+    private Refinery $f;
+    private Transformation $map_values;
 
     protected function setUp() : void
     {

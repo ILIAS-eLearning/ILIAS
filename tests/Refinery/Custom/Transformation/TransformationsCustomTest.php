@@ -18,13 +18,14 @@
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 
 class TransformationsCustomTest extends TestCase
 {
     private const TEST_STRING = "Test";
 
-    private ?ILIAS\Refinery\Custom\Transformation $custom;
+    private ?Transformation $custom;
     private ?Refinery $f;
 
     protected function setUp() : void

@@ -19,6 +19,7 @@
 namespace ILIAS\Tests\Refinery\Integer\Constraints;
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Integer\GreaterThan;
 use PHPUnit\Framework\TestCase;
 use ilLanguage;
@@ -28,7 +29,7 @@ class GreaterThanConstraintTest extends TestCase
     private DataFactory $df;
     private ilLanguage $lng;
     private int $greater_than;
-    private GreaterThan $c;
+    private Constraint $c;
 
     protected function setUp() : void
     {

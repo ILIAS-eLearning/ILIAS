@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Refinery\String\SplitString;
+use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Factory as DataFactory;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Factory as Refinery;
@@ -28,7 +28,7 @@ class SplitStringTest extends TestCase
     /** @var string[] */
     protected static array $result = ["I am", "a test string", "for split"];
 
-    private ?SplitString $split_string;
+    private ?Transformation $split_string;
     private ?Refinery $f;
 
     protected function setUp() : void

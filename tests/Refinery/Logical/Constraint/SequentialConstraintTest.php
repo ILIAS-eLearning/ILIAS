@@ -16,9 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Logical\Sequential;
 use PHPUnit\Framework\TestCase;
 
 class SequentialTest extends TestCase
@@ -26,7 +26,7 @@ class SequentialTest extends TestCase
     private DataFactory $df;
     private ilLanguage $lng;
     private Refinery $refinery;
-    private Sequential $c;
+    private Constraint $c;
 
     protected function setUp() : void
     {

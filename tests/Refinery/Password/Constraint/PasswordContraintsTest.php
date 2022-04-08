@@ -16,15 +16,11 @@
  *
  *********************************************************************/
 
-require_once("libs/composer/vendor/autoload.php");
-
-use ILIAS\Refinery;
-use ILIAS\Data;
+use ILIAS\Refinery\Constraint;
 use PHPUnit\Framework\TestCase;
 
 class PasswordContraintsTest extends TestCase
 {
-
     /**
      * Test a set of values
      *
@@ -37,41 +33,44 @@ class PasswordContraintsTest extends TestCase
         $refinery = new \ILIAS\Refinery\Factory($d, $lng);
         $v = $refinery->password();
 
-        return array(
-            array(
+        return [
+            [
                 $v->hasMinLength(3),
                 [$d->password('abc'), $d->password('abcd')],
                 [$d->password('a'), $d->password('ab')]
-            ),
-            array(
+            ],
+            [
                 $v->hasLowerChars(),
                 [$d->password('abc'), $d->password('AbC')],
                 [$d->password('AB'), $d->password('21'), $d->password('#*+')]
-            ),
+            ],
 
-            array(
+            [
                 $v->hasUpperChars(),
                 [$d->password('Abc'), $d->password('ABC')],
                 [$d->password('abc'), $d->password('21'), $d->password('#*+')]
-            ),
-            array(
+            ],
+            [
                 $v->hasNumbers(),
                 [$d->password('Ab1'), $d->password('123')],
                 [$d->password('abc'), $d->password('ABC'), $d->password('#*+')]
-            ),
+            ],
 
-            array(
+            [
                 $v->hasSpecialChars(),
                 [$d->password('Ab+'), $d->password('123#')],
                 [$d->password('abc'), $d->password('ABC'), $d->password('123')]
-            )
-        );
+            ]
+        ];
     }
 
     /**
      * @dataProvider constraintsProvider
+     * @param Constraint $constraint
+     * @param ILIAS\Data\Password[] $ok_values
+     * @param ILIAS\Data\Password[] $error_values
      */
-    public function testAccept($constraint, $ok_values, $error_values) : void
+    public function testAccept(Constraint $constraint, array $ok_values, array $error_values) : void
     {
         foreach ($ok_values as $ok_value) {
             $this->assertTrue($constraint->accepts($ok_value));

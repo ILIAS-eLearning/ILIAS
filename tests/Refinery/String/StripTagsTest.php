@@ -17,8 +17,8 @@
  *********************************************************************/
 
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\String\StripTags;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 
 class StripTagsTest extends TestCase
@@ -27,7 +27,7 @@ class StripTagsTest extends TestCase
     private const EXPECTED_RESULT = "I contain tags.";
     
     private Refinery $f;
-    private StripTags $strip_tags;
+    private Transformation $strip_tags;
 
     protected function setUp() : void
     {

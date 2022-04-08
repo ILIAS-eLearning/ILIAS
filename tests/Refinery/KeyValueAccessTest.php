@@ -28,9 +28,6 @@ class KeyValueAccessTest extends PHPUnitTestCase
 {
     private Refinery $refinery;
 
-    /**
-     * @inheritDoc
-     */
     protected function setUp() : void
     {
         $this->refinery = new Refinery(new DataFactory, $this->createMock(ilLanguage::class));

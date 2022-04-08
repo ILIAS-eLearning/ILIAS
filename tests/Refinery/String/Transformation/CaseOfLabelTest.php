@@ -18,7 +18,7 @@
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery ;
-use ILIAS\Refinery\String\CaseOfLabel;
+use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 
 class CaseOfLabelTest extends TestCase
@@ -32,7 +32,7 @@ class CaseOfLabelTest extends TestCase
     private const EXPECTED_RESULT_TEST_STRING_2 = "I Switch the Computer on and Go Online";
     private const EXPECTED_RESULT_TEST_STRING_3 = "Now It Is Working";
 
-    private ?CaseOfLabel $case_of_label_if_possible;
+    private ?Transformation $case_of_label_if_possible;
     private ?Refinery $f;
 
     protected function setUp() : void

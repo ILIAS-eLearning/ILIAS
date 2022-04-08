@@ -16,8 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\Refinery\Container\AddLabels;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data\Factory as DataFactory;
 
@@ -31,7 +31,7 @@ class AddLabelTest extends TestCase
     private static array $result_array = ["A" => 1, "B" => 2, "C" => 3];
 
     private ?Refinery $f;
-    private ?AddLabels $add_label;
+    private ?Transformation $add_label;
 
     protected function setUp() : void
     {
