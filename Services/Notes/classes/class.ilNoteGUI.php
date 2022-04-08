@@ -298,8 +298,8 @@ class ilNoteGUI
         );
 
         // check, whether column is hidden due to processing in other column
-        $hide_comments = ($this->only == "notes");
-        $hide_notes = ($this->only == "comments");
+        $hide_comments = ($this->only === "notes");
+        $hide_notes = ($this->only === "comments");
         switch ($ilCtrl->getCmd()) {
             case "addNoteForm":
             case "editNoteForm":
@@ -316,7 +316,7 @@ class ilNoteGUI
 
 
         // temp workaround: only show comments (if both have been activated)
-        if ($this->private_enabled && $this->public_enabled && $this->only != "notes") {
+        if ($this->private_enabled && $this->public_enabled && $this->only !== "notes") {
             $this->private_enabled = false;
         }
 
@@ -569,7 +569,7 @@ class ilNoteGUI
         }
         
         // show add new note text area
-        if (!$this->edit_note_form && $user_setting_notes_by_type != "n" &&
+        if (!$this->edit_note_form && $user_setting_notes_by_type !== "n" &&
             !$this->delete_note && $ilUser->getId() != ANONYMOUS_USER_ID && !$this->hide_new_form) {
             if ($a_init_form) {
                 $this->initNoteForm("create", $a_type);
@@ -586,7 +586,7 @@ class ilNoteGUI
         }
         
         // list all notes
-        if ($user_setting_notes_by_type != "n" || !$this->enable_hiding) {
+        if ($user_setting_notes_by_type !== "n" || !$this->enable_hiding) {
             $reldates = ilDatePresentation::useRelativeDates();
             ilDatePresentation::setUseRelativeDates(false);
             
@@ -1015,15 +1015,15 @@ class ilNoteGUI
                         $title = ilObject::_lookupTitle($target["rep_obj_id"]);
 
                         $sub_link = $sub_title = "";
-                        if ($type == "sahs") {		// bad hack, needs general procedure
+                        if ($type === "sahs") {		// bad hack, needs general procedure
                             $link = "goto.php?target=sahs_" . $vis_ref_id;
-                            if ($a_obj_type == "sco" || $a_obj_type == "seqc" || $a_obj_type == "chap" || $a_obj_type == "pg") {
+                            if ($a_obj_type === "sco" || $a_obj_type === "seqc" || $a_obj_type === "chap" || $a_obj_type === "pg") {
                                 $sub_link = "goto.php?target=sahs_" . $vis_ref_id . "_" . $a_obj_id;
                                 $sub_title = ilSCORM2004Node::_lookupTitle($a_obj_id);
                             }
-                        } elseif ($type == "poll") {
+                        } elseif ($type === "poll") {
                             $link = ilLink::_getLink($vis_ref_id, "poll");
-                        } elseif ($a_obj_type != "pg") {
+                        } elseif ($a_obj_type !== "pg") {
                             if (!isset($this->item_list_gui[$type])) {
                                 $class = $objDefinition->getClassName($type);
                                 $full_class = "ilObj" . $class . "ListGUI";
@@ -1032,7 +1032,7 @@ class ilNoteGUI
 
                             // for references, get original title
                             // (link will lead to orignal, which basically is wrong though)
-                            if ($a_obj_type == "crsr" || $a_obj_type == "catr" || $a_obj_type == "grpr") {
+                            if ($a_obj_type === "crsr" || $a_obj_type === "catr" || $a_obj_type === "grpr") {
                                 $tgt_obj_id = ilContainerReference::_lookupTargetId($target["rep_obj_id"]);
                                 $title = ilObject::_lookupTitle($tgt_obj_id);
                             }
@@ -1318,7 +1318,7 @@ class ilNoteGUI
     {
         $ilUser = $this->user;
 
-        $suffix = ($this->requested_note_type == ilNote::PRIVATE)
+        $suffix = ($this->requested_note_type === ilNote::PRIVATE)
             ? "private"
             : "public";
         $ilUser->writePref("notes_" . $suffix, "y");
@@ -1330,7 +1330,7 @@ class ilNoteGUI
     {
         $ilUser = $this->user;
 
-        $suffix = ($this->requested_note_type == ilNote::PRIVATE)
+        $suffix = ($this->requested_note_type === ilNote::PRIVATE)
             ? "private"
             : "public";
         $ilUser->writePref("notes_" . $suffix, "n");
@@ -1369,11 +1369,7 @@ class ilNoteGUI
     ) : void {
         global $DIC;
 
-        if ($a_main_tpl != null) {
-            $tpl = $a_main_tpl;
-        } else {
-            $tpl = $DIC["tpl"];
-        }
+        $tpl = $a_main_tpl ?? $DIC["tpl"];
         $lng = $DIC->language();
 
         $lng->loadLanguageModule("notes");

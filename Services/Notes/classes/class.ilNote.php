@@ -244,7 +244,7 @@ class ilNote
 
         $this->sendNotifications();
         
-        $this->creation_date = ilNote::_lookupCreationDate($this->getId());
+        $this->creation_date = self::_lookupCreationDate($this->getId());
     }
 
     public function update() : void
@@ -267,7 +267,7 @@ class ilNote
             "id" => array("integer", $this->getId())
             ));
         
-        $this->update_date = ilNote::_lookupUpdateDate($this->getId());
+        $this->update_date = self::_lookupUpdateDate($this->getId());
 
         $this->sendNotifications(true);
     }
@@ -365,7 +365,7 @@ class ilNote
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
         
-        $author_where = ($a_type == ilNote::PRIVATE || $a_all_public == "n")
+        $author_where = ($a_type == self::PRIVATE || $a_all_public === "n")
             ? " AND author = " . $ilDB->quote($ilUser->getId(), "integer")
             : "";
 
@@ -464,7 +464,7 @@ class ilNote
         
         if ($a_mode == ilPDNotesGUI::PRIVATE_NOTES) {
             $q = "SELECT DISTINCT rep_obj_id FROM note WHERE " .
-                " type = " . $ilDB->quote(ilNote::PRIVATE, "integer") .
+                " type = " . $ilDB->quote(self::PRIVATE, "integer") .
                 " AND author = " . $ilDB->quote($ilUser->getId(), "integer") .
                 " AND (no_repository IS NULL OR no_repository < " . $ilDB->quote(1, "integer") . ")" .
                 " ORDER BY rep_obj_id";
@@ -481,7 +481,7 @@ class ilNote
         } else {
             // all objects where the user wrote at least one comment
             $q = "SELECT DISTINCT rep_obj_id FROM note WHERE " .
-                " type = " . $ilDB->quote(ilNote::PUBLIC, "integer") .
+                " type = " . $ilDB->quote(self::PUBLIC, "integer") .
                 " AND author = " . $ilDB->quote($ilUser->getId(), "integer") .
                 " AND (no_repository IS NULL OR no_repository < " . $ilDB->quote(1, "integer") . ")" .
                 " ORDER BY rep_obj_id";
@@ -491,7 +491,7 @@ class ilNote
             while ($rep_rec = $ilDB->fetchAssoc($set)) {
                 // #9343: deleted objects
                 if ($type = ilObject::_lookupType((int) $rep_rec["rep_obj_id"])) {
-                    if (ilNote::commentsActivated((int) $rep_rec["rep_obj_id"], 0, $type)) {
+                    if (self::commentsActivated((int) $rep_rec["rep_obj_id"], 0, $type)) {
                         $reps[] = array("rep_obj_id" => (int) $rep_rec["rep_obj_id"]);
                     }
                 }
@@ -519,7 +519,7 @@ class ilNote
                     }
                     if ($add) {
                         $type = ilObject::_lookupType($rec["rep_obj_id"]);
-                        if (ilNote::commentsActivated($rec["rep_obj_id"], "", $type)) {
+                        if (self::commentsActivated($rec["rep_obj_id"], "", $type)) {
                             $reps[] = array("rep_obj_id" => $rec["rep_obj_id"]);
                         }
                     }
@@ -527,7 +527,7 @@ class ilNote
             }
         }
                 
-        if (sizeof($reps)) {
+        if (count($reps)) {
             // check if notes/comments belong to objects in trash
             // see ilNoteGUI::showTargets()
             foreach ($reps as $idx => $rep) {
@@ -599,9 +599,9 @@ class ilNote
         $ilUser = $DIC->user();
         
         $q = "SELECT count(id) c, rep_obj_id, type FROM note WHERE " .
-            " ((type = " . $ilDB->quote(ilNote::PRIVATE, "integer") . " AND " .
+            " ((type = " . $ilDB->quote(self::PRIVATE, "integer") . " AND " .
             "author = " . $ilDB->quote($ilUser->getId(), "integer") . ") OR " .
-            " type = " . $ilDB->quote(ilNote::PUBLIC, "integer") . ") AND " .
+            " type = " . $ilDB->quote(self::PUBLIC, "integer") . ") AND " .
             $ilDB->in("rep_obj_id", $a_rep_obj_ids, false, "integer");
         
         if ($a_no_sub_objs) {
@@ -634,9 +634,9 @@ class ilNote
         $ilUser = $DIC->user();
         
         $q = "SELECT count(id) c, rep_obj_id, type FROM note WHERE " .
-            " ((type = " . $ilDB->quote(ilNote::PRIVATE, "integer") . " AND " .
+            " ((type = " . $ilDB->quote(self::PRIVATE, "integer") . " AND " .
             "author = " . $ilDB->quote($ilUser->getId(), "integer") . ") OR " .
-            " type = " . $ilDB->quote(ilNote::PUBLIC, "integer") . ") AND " .
+            " type = " . $ilDB->quote(self::PUBLIC, "integer") . ") AND " .
             " rep_obj_id = " . $ilDB->quote($a_rep_obj_id, "integer");
         
         if ($a_sub_obj_id !== null) {
@@ -690,17 +690,15 @@ class ilNote
                     " AND obj_type = " . $ilDB->quote($a_obj_type, "text")
                 );
             }
-        } else {
-            if ($a_activate) {
-                $q = "INSERT INTO note_settings " .
-                    "(rep_obj_id, obj_id, obj_type, activated) VALUES (" .
-                    $ilDB->quote($a_rep_obj_id, "integer") . "," .
-                    $ilDB->quote($a_obj_id, "integer") . "," .
-                    $ilDB->quote($a_obj_type, "text") . "," .
-                    $ilDB->quote(1, "integer") .
-                    ")";
-                $ilDB->manipulate($q);
-            }
+        } elseif ($a_activate) {
+            $q = "INSERT INTO note_settings " .
+                "(rep_obj_id, obj_id, obj_type, activated) VALUES (" .
+                $ilDB->quote($a_rep_obj_id, "integer") . "," .
+                $ilDB->quote($a_obj_id, "integer") . "," .
+                $ilDB->quote($a_obj_type, "text") . "," .
+                $ilDB->quote(1, "integer") .
+                ")";
+            $ilDB->manipulate($q);
         }
     }
     
@@ -767,7 +765,7 @@ class ilNote
         $type_lv = "";
 
         // no notifications for notes
-        if ($this->getType() == ilNote::PRIVATE) {
+        if ($this->getType() == self::PRIVATE) {
             return;
         }
 
@@ -788,28 +786,27 @@ class ilNote
 
         // repository objects, no blogs
         $ref_ids = array();
-        if (($sub_obj_id == 0 and $type != "blp") ||
-            in_array($type, array("pg", "wpg"))) {
+        if (($sub_obj_id == 0 && $type !== "blp") || in_array($type, array("pg", "wpg"), true)) {
             $obj_title = ilObject::_lookupTitle($rep_obj_id);
             $type_lv = "obj_" . $type;
             $ref_ids = ilObject::_getAllReferences($rep_obj_id);
         }
 
-        if ($type == "wpg") {
+        if ($type === "wpg") {
             $type_lv = "obj_wiki";
         }
-        if ($type == "pg") {
+        if ($type === "pg") {
             $type_lv = "obj_lm";
         }
-        if ($type == "blp") {
+        if ($type === "blp") {
             $obj_title = ilObject::_lookupTitle($rep_obj_id);
             $type_lv = "obj_blog";
         }
-        if ($type == "pfpg") {
+        if ($type === "pfpg") {
             $obj_title = ilObject::_lookupTitle($rep_obj_id);
             $type_lv = "portfolio";
         }
-        if ($type == "dcl") {
+        if ($type === "dcl") {
             $obj_title = ilObject::_lookupTitle($rep_obj_id);
             $type_lv = "obj_dcl";
         }
@@ -820,9 +817,9 @@ class ilNote
                 $link = "";
                 foreach ($ref_ids as $ref_id) {
                     if ($ilAccess->checkAccessOfUser($user_id, "read", "", $ref_id)) {
-                        if ($sub_obj_id == 0 and $type != "blog") {
+                        if ($sub_obj_id == 0 && $type !== "blog") {
                             $link = ilLink::_getLink($ref_id);
-                        } elseif ($type == "wpg") {
+                        } elseif ($type === "wpg") {
                             $title = ilWikiPage::lookupTitle($sub_obj_id);
                             $link = ilLink::_getStaticLink(
                                 $ref_id,
@@ -830,15 +827,15 @@ class ilNote
                                 true,
                                 "_" . ilWikiUtil::makeUrlTitle($title)
                             );
-                        } elseif ($type == "pg") {
+                        } elseif ($type === "pg") {
                             $link = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . "&target=pg_" . $sub_obj_id . "_" . $ref_id;
                         }
                     }
                 }
-                if ($type == "blp") {
+                if ($type === "blp") {
                     // todo
                 }
-                if ($type == "pfpg") {
+                if ($type === "pfpg") {
                     $link = ILIAS_HTTP_PATH . '/goto.php?client_id=' . CLIENT_ID . "&target=prtf_" . $rep_obj_id;
                 }
 
