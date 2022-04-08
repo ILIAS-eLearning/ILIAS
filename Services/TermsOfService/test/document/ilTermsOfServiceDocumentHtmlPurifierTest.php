@@ -17,6 +17,7 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterion
     private function skipIfvfsStreamNotSupported() : void
     {
         if (!$this->isVsfStreamInstalled()) {
+            // PHP8-Review: Link with unencrypted protocol
             $this->markTestSkipped('Skipped test, vfsStream (http://vfs.bovigo.org) required');
         }
     }

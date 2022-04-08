@@ -65,7 +65,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
-
+    
+        // PHP8-Review: 'switch' with single 'case'
         switch (strtolower($nextClass)) {
             default:
                 if ($cmd === '' || !method_exists($this, $cmd)) {
