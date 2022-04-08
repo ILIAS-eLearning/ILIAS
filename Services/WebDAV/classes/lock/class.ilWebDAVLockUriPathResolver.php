@@ -2,7 +2,6 @@
 
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
-use Psr\Http\Message\UriInterface;
 
 /******************************************************************************
  *

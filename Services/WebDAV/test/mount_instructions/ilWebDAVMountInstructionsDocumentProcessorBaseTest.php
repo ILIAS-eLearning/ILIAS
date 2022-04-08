@@ -23,7 +23,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
         return new class extends ilWebDAVMountInstructionsDocumentProcessorBase {
             public function processMountInstructions(string $a_raw_mount_instructions) : array
             {
-                return null;
+                return [];
             }
         };
     }

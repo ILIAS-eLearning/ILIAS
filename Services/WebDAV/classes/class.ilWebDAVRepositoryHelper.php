@@ -30,7 +30,7 @@ class ilWebDAVRepositoryHelper
         $this->locks_repository = $locks_repository;
     }
 
-    public function deleteObject(int $ref_id)
+    public function deleteObject(int $ref_id) : void
     {
         if (!$this->checkAccess('delete', $ref_id)) {
             throw new Forbidden("Permission denied");
@@ -97,7 +97,7 @@ class ilWebDAVRepositoryHelper
 
     public function getObjectTypeFromObjId(int $obj_id) : string
     {
-        $type = ilObject::_lookupType($obj_id, false);
+        $type = ilObject::_lookupType($obj_id);
         return $type === null ? '' : $type;
     }
 

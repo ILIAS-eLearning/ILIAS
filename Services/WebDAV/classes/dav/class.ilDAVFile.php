@@ -139,7 +139,7 @@ class ilDAVFile implements IFile
     public function getSize() : int
     {
         try {
-            return (int) $this->obj->getFileSize();
+            return $this->obj->getFileSize();
         } catch (Error $e) {
             return -1;
         }

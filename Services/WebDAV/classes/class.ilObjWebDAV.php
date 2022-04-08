@@ -101,7 +101,7 @@ class ilObjWebDAV extends ilObject
 
         $status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
         $cmd = 'mount_webfolder';
-        if ($status === ilAuthUtils::LOCAL_PWV_USER && strlen($ilUser->getPasswd() === 0)) {
+        if ($status === ilAuthUtils::LOCAL_PWV_USER && strlen($ilUser->getPasswd()) === 0) {
             $cmd = 'showPasswordInstruction';
         }
         

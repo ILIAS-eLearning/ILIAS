@@ -2,6 +2,7 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Modal\Lightbox;
 
 /******************************************************************************
  *
@@ -19,6 +20,12 @@ use ILIAS\UI\Renderer;
 class ilWebDAVMountInstructionsModalGUI
 {
     private const MOUNT_INSTRUCTIONS_CONTENT_ID = 'webdav_mount_instructions_content';
+
+    protected ilWebDAVMountInstructionsRepositoryImpl $repository;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected ilLanguage $lng;
+    private Lightbox $modal;
 
     private function __construct(ilWebDAVMountInstructionsRepositoryImpl $repository, Factory $ui_factory, Renderer $ui_renderer, ilLanguage $lng)
     {

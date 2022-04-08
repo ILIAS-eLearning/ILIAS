@@ -1,8 +1,6 @@
 <?php declare(strict_types = 1);
 
 use PHPUnit\Framework\TestCase;
-use Sabre\DAV\INode;
-use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\Forbidden;
 
 require_once './Services/WebDAV/test/webdav_overrides.php';

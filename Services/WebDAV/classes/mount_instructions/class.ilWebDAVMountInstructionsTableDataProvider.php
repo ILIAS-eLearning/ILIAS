@@ -15,6 +15,8 @@
  *****************************************************************************/
 class ilWebDAVMountInstructionsTableDataProvider
 {
+    protected ilWebDAVMountInstructionsRepository $mount_instructions_repository;
+
     public function __construct(ilWebDAVMountInstructionsRepository $a_mount_instructions_repository)
     {
         $this->mount_instructions_repository = $a_mount_instructions_repository;

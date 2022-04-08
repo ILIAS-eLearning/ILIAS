@@ -121,7 +121,7 @@ class ilDAVContainerTest extends TestCase
        
         try {
             $dav_container = $this->getDAVContainerWithExpectationForFunctions(
-                (int) $ref_id,
+                $ref_id,
                 7
             );
             $dav_container->getChild($name);
@@ -293,7 +293,7 @@ class ilDAVContainerTest extends TestCase
         $name = 'None existent name';
         
         $dav_container = $this->getDAVContainerWithExpectationForFunctions(
-            (int) $ref_id,
+            $ref_id,
             7
         );
         

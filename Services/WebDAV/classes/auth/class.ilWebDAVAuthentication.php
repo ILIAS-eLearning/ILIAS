@@ -54,7 +54,7 @@ class ilWebDAVAuthentication
     
     protected function getUserAgent() : string
     {
-        $user_agent = isset($_SERVER["HTTP_USER_AGENT"]) ? $_SERVER["HTTP_USER_AGENT"] : "";
+        $user_agent = $_SERVER["HTTP_USER_AGENT"] ?? "";
         $user_agent = is_string($user_agent) ? $user_agent : "";
 
         return $user_agent;

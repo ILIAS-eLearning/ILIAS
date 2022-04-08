@@ -21,7 +21,7 @@ use Sabre\DAV\Browser\Plugin;
  */
 class ilWebDAVSabreBrowserPlugin extends Plugin
 {
-    protected ilCtrl $ilCtrl;
+    protected ilCtrl $ctrl;
     private string $mount_instruction_path;
     
     public function __construct(ilCtrl $ilCtrl, UriInterface $uri)

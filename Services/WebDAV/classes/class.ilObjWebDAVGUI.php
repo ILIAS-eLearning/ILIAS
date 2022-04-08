@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,7 +24,8 @@ class ilObjWebDAVGUI extends ilObjectGUI
 {
     const CMD_EDIT_SETTINGS = 'editSettings';
     const CMD_SAVE_SETTINGS = 'saveSettings';
-    
+
+    protected ilWebDAVDIC $webdav_dic;
     public ilErrorHandling $error_handling;
     
     public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference)

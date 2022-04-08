@@ -1,6 +1,5 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Transformation;
 
@@ -46,7 +45,7 @@ class ilObjWebDAVAccess extends ilObjectAccess
         if (!$this->http->has('ref_id')) {
             return false;
         }
-        return (bool) $this->rbacsystem->checkAccess(
+        return $this->rbacsystem->checkAccess(
             $permission,
             $this->http->retrieve('ref_id', $this->int_trafo)
         );

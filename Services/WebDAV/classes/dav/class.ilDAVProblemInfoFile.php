@@ -147,7 +147,7 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
     
     public function delete() : void
     {
-        throw Forbidden("It is not possible to delete this file since it is just virtual.");
+        throw new Forbidden("It is not possible to delete this file since it is just virtual.");
     }
     
     public function getLastModified()

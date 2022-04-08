@@ -179,7 +179,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery > kindlyTo()->int());
+        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
         $document = $this->mount_instructions_repository->getMountInstructionsDocumentById($document_id);
         $form = $this->getDocumentForm($document);
         $this->tpl->setContent($form->getHTML());
@@ -218,7 +218,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery > kindlyTo()->int());
+        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
         $form = $this->getDocumentForm($this->mount_instructions_repository->getMountInstructionsDocumentById($document_id));
         if ($form->updateObject()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
