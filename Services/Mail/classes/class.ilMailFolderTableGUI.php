@@ -515,7 +515,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 if ($mail['m_subject']) {
                     $mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
                 } else {
-                    $mail['mail_subject'] = htmlspecialchars("No title");
+                    $mail['mail_subject'] = $this->lng->txt('mail_no_subject');
                 }
             }
 
