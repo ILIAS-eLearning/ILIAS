@@ -176,8 +176,8 @@ class ilPCLearningHistory extends ilPageContent
      * @throws ilDateTimeException
      */
     protected function getPresentation(
-        int $from,
-        int $to,
+        string $from,
+        string $to,
         array $classes,
         string $a_mode
     ) : string {
@@ -192,16 +192,16 @@ class ilPCLearningHistory extends ilPageContent
             $hist_gui = new ilLearningHistoryGUI();
             $hist_gui->setUserId($user_id);
             $from_unix = ($from != "")
-                ? (new ilDateTime($from . " 00:00:00", IL_CAL_DATETIME))->get(IL_CAL_UNIX)// TODO PHP8-REVIEW Wrong type $from is an int, but used as a datetime string
+                ? (new ilDateTime($from . " 00:00:00", IL_CAL_DATETIME))->get(IL_CAL_UNIX)
                 : null;
             $to_unix = ($to != "")
-                ? (new ilDateTime($to . " 23:59:59", IL_CAL_DATETIME))->get(IL_CAL_UNIX)// TODO PHP8-REVIEW Wrong type $to is an int, but used as a datetime string
+                ? (new ilDateTime($to . " 23:59:59", IL_CAL_DATETIME))->get(IL_CAL_UNIX)
                 : null;
             $classes = (is_array($classes))
                 ? array_filter($classes, static function ($i) : bool {
                     return ($i != "");
                 })
-                : null;
+                : [];
             if (count($classes) === 0) {
                 $classes = null;
             }

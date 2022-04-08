@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Filesystem\Stream\Streams;
+
 /**
  * Learning history main GUI class
  * @author Alexander Killing <killing@leifos.de>
@@ -22,6 +24,7 @@ class ilLearningHistoryGUI
     public const TAB_ID_LEARNING_HISTORY = 'lhist_learning_history';
     public const TAB_ID_MY_CERTIFICATES = 'certificates';
     public const MAX = 50;
+    protected \ILIAS\HTTP\Services $http;
     protected ?int $to;
     protected ?int $from;
     protected int $user_id;
@@ -63,6 +66,7 @@ class ilLearningHistoryGUI
             : null;
 
         $this->main_tpl->addJavaScript("./Services/LearningHistory/js/LearningHistory.js");
+        $this->http = $DIC->http();
     }
 
     public function setUserId(int $user_id) : void
@@ -109,8 +113,20 @@ class ilLearningHistoryGUI
     {
         $response["timeline"] = $this->renderTimeline($this->from, $this->to);
         $response["more"] = $this->show_more ? $this->renderButton() : "";
-        echo json_encode($response, JSON_THROW_ON_ERROR);// TODO PHP8-REVIEW Instead of echo/exit you could use the HTTP service and HTTP response
-        exit;
+        $this->send(json_encode($response, JSON_THROW_ON_ERROR));
+    }
+
+    /**
+     * @param string $output
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    protected function send(string $output) : void
+    {
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     /**

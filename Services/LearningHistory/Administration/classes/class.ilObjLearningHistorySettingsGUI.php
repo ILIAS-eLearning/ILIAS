@@ -21,6 +21,7 @@
  */
 class ilObjLearningHistorySettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilTabsGUI $tabs;
     protected \ILIAS\DI\UIServices $ui;
     protected ilSetting $setting;
@@ -35,7 +36,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Undeclared property
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->ctrl = $DIC->ctrl();
         $this->request = $DIC->http()->request();
         $this->tabs = $DIC->tabs();

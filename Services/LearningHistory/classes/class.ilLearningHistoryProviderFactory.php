@@ -43,11 +43,11 @@ class ilLearningHistoryProviderFactory
      */
     public function getAllProviders(
         bool $active_only = false,
-        int $user_id = null
+        int $user_id = 0
     ) : array {
         $providers = array();
 
-        if ($user_id === 0 || $user_id === null) {
+        if ($user_id === 0) {
             $user_id = $this->service->user()->getId();
         }
 
