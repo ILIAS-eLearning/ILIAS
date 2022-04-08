@@ -38,6 +38,7 @@ class ilLMObject
     public string $short_title;
     public string $description;
     public bool $active = true;
+    // PHP8-Review: $data_records has no type specified
     protected static $data_records = array();
     protected ilDBInterface $db;
 
@@ -140,7 +141,7 @@ class ilLMObject
     /**
     * update meta data entry
     */
-    public function updateMetaData()
+    public function updateMetaData() : void
     {
         $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
         $md_gen = $md->getGeneral();
@@ -477,6 +478,7 @@ class ilLMObject
             
             foreach ($childs as $page) {
                 if ($page["type"] == "pg" and in_array($page["obj_id"], $a_pages)) {
+                    // PHP8-Review: 'array_push()' with single element
                     array_push($a_pages, $row["obj_id"]);
                     break;
                 }
@@ -856,6 +858,7 @@ class ilLMObject
     /**
     * Paste item (tree) from clipboard to current lm
     */
+    // PHP8-Review: no return type specified
     public static function pasteTree(
         ilObjLearningModule $a_target_lm,
         int $a_item_id,
@@ -1175,7 +1178,7 @@ class ilLMObject
         int $a_obj_id,
         string $a_layout,
         ?ilObjLearningModule $a_lm = null
-    ) {
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();

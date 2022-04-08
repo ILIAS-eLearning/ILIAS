@@ -21,6 +21,7 @@
 class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 {
     protected string $lang;
+    // PHP8-Review: no type specified
     protected $highlight_node;
     protected bool $export_all_languages;
     protected ilPageActivationDBRepository $activation_repo;
@@ -386,12 +387,13 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     // Learning Sequence TOC
     //
 
-    public function renderLSToc(\LSTOCBuilder $toc)
+    public function renderLSToc(\LSTOCBuilder $toc) : void
     {
         $this->renderLSTocNode($toc, null);
     }
 
-    protected function renderLSTocNode(\LSTOCBuilder $toc, $current_node = null)
+    // PHP8-Review: parameter $current_node with no type specified
+    protected function renderLSTocNode(\LSTOCBuilder $toc, $current_node = null) : void
     {
         $root = false;
         if ($current_node == 0) {

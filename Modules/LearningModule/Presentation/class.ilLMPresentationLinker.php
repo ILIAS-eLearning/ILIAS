@@ -20,6 +20,7 @@
 class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 {
     public const TARGET_GUI = "illmpresentationgui";
+    // PHP8-Review: PHPDoc tag @var for property ilLMPresentationLinker::$obj_id with type int|string is not subtype of native type int
     /**
      * @var int|string
      */
@@ -350,6 +351,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 ? ""
                                 : $ltarget;
                             if ($ltarget == "") {
+                                // PHP8-Review: If condition is always true
                                 if ($showViewInFrameset) {
                                     $ltarget = "_parent";
                                 } else {

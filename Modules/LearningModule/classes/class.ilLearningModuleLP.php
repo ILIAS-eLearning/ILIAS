@@ -20,6 +20,7 @@
  */
 class ilLearningModuleLP extends ilObjectLP
 {
+    // PHP8-Review: Parameter's name changed during inheritance
     public static function getDefaultModes(bool $a_lp_active) : array
     {
         if (!$a_lp_active) {

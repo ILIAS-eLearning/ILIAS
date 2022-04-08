@@ -30,6 +30,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
         $a_parent_obj,
         string $a_parent_cmd,
         ilObjContentObject $a_lm,
+        // PHP8-Review: parameter $a_id with no type specified
         $a_id = ""
     ) {
         global $DIC;

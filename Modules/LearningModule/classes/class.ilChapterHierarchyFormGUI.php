@@ -246,7 +246,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     /**
     * Get icon path for an item.
     *
-    * @param	array		itema array
+    * @param	array $a_item	itema array
     * @return	string		icon path
     */
     public function getChildIcon(array $a_item) : string
@@ -287,7 +287,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     /**
     * Get icon alt text
     *
-    * @param	array		itema array
+    * @param	array $a_item	itema array
     * @return	string		icon alt text
     */
     public function getChildIconAlt(array $a_item) : string

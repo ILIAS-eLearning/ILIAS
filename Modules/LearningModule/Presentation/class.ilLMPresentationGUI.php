@@ -455,7 +455,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // But since using relative pathes with domxml under windows don't work,
         // we need another solution:
         $xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
-
+    
+        // PHP8-Review: Negated boolean expression is always false
         if (!$doc = domxml_open_mem($xmlfile)) {
             throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Error reading " .
                 $layout . "/" . $a_xml . ".");
@@ -621,7 +622,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($last_frame_url != "") {
                     $this->tpl->addOnLoadCode("il.LearningModule.setLastFrameUrl('" . $last_frame_url . "', 'center_bottom');");
                 }
-
+    
+                // PHP8-Review: If condition is always true
                 if (true) {
                     $this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('" .
                         $this->ctrl->getLinkTarget($this, "saveFrameUrl", "", false, false) . "');
@@ -752,6 +754,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $showViewInFrameset = true;
 
+        // PHP8-Review: If condition is always true
         if ($showViewInFrameset) {
             $buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
         } else {
@@ -1733,6 +1736,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     }
                 }
             }
+            // PHP8-Review: Else branch is unreachable because previous condition is always true
         } else {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_print_no_page_selected"), true);
             $ilCtrl->redirect($this, "showPrintViewSelection");
@@ -2436,6 +2440,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function getHTML(array $pars) : string
     {
         $this->addResourceFiles();
+        // PHP8-Review: 'switch' with single 'case'
         switch ($pars["cmd"]) {
             case "layout":
                 $tpl = new ilTemplate("tpl.embedded_view.html", true, true, "Modules/LearningModule");

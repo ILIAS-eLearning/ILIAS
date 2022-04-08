@@ -52,7 +52,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $this->obj = $a_st_object;
     }
     
-    public function getType()
+    public function getType() : string
     {
         return "st";
     }
@@ -176,6 +176,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             }
         }
         foreach ($todel as $k) {
+            // PHP8-Review: Undefined variable '$items'
             unset($items[$k]);
         }
         
@@ -213,6 +214,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             }
         }
         foreach ($todel as $k) {
+            // PHP8-Review: Undefined variable '$items'
             unset($items[$k]);
         }
         
@@ -290,6 +292,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
             $this->tpl->parseCurrentBlock();
         }
+        // PHP8-Review: If condition is always true.
         if ($cnt == 0) {
             $this->tpl->setCurrentBlock("notfound");
             $this->tpl->setVariable("NUM_COLS", 3);

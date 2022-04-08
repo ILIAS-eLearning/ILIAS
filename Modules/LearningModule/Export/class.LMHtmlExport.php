@@ -542,6 +542,7 @@ class LMHtmlExport
 
 
         if ($frame == "") {
+            // PHP8-Review: Variable $a_exp_id_map in isset() is never defined, Result of && is always false
             if (is_array($exp_id_map) && isset($a_exp_id_map[$lm_page_id])) {
                 $file = $target_dir . "/lm_pg_" . $exp_id_map[$lm_page_id] . $lang_suffix . ".html";
             } else {

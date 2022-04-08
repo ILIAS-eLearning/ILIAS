@@ -60,6 +60,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected \ILIAS\Style\Content\Service $content_style_service;
 
     public function __construct(
+        // PHP8-Review: parameter $a_data with no type specified, unused parameter $a_prepare_output.
         $a_data,
         int $a_id = 0,
         bool $a_call_by_reference = true,
@@ -223,6 +224,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
                 $pg_gui = new ilLMPageObjectGUI($this->lm);
                 if ($this->requested_obj_id > 0) {
+                    // PHP8-Review: Class ilLMPageObject referenced with incorrect case: ilLmPageObject.
                     /** @var ilLmPageObject $obj */
                     $obj = ilLMObjectFactory::getInstance($this->lm, $this->requested_obj_id);
                     $pg_gui->setLMPageObject($obj);
@@ -386,6 +388,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $new_type = $this->requested_new_type;
 
                 if ($cmd == "create" &&
+                    // PHP8-Review: 'in_array' can be replaced with comparison
                     !in_array($new_type, array("lm"))) {
                     switch ($new_type) {
                         case "pg":
@@ -403,6 +406,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 } else {
                     // creation of new dbk/lm in repository
                     if ($this->getCreationMode() == true &&
+                        // PHP8-Review: 'in_array' can be replaced with comparison
                         in_array($new_type, array("lm"))) {
                         $this->prepareOutput();
                         if ($cmd == "") {			// this may be due to too big upload files
@@ -847,7 +851,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
         $ilCtrl->redirect($this, "chapters");
     }
-
+    
+    // PHP8-Review: Parameter's name changed during inheritance
     protected function afterSave(ilObject $a_new_object) : void
     {
         $a_new_object->setCleanFrames(true);
@@ -864,7 +869,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         ilUtil::redirect("ilias.php?ref_id=" . $a_new_object->getRefId() .
             "&baseClass=ilLMEditorGUI");
     }
-
+    
+    // PHP8-Review: Parameter's name changed during inheritance
     protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
         $form = parent::initImportForm($new_type);
@@ -875,7 +881,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form->addItem($cb);
         return $form;
     }
-
+    
+    // PHP8-Review: Parameter's name changed during inheritance
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
     {
         $tpl = $this->tpl;
@@ -1522,7 +1529,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
      */
     public function addLocations(
         bool $a_omit_obj_id = false
-    ) {
+    ) : void {
         $locator = $this->locator;
 
         $obj_id = 0;
@@ -1804,6 +1811,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
 
         // info
+        // PHP8-Review: Cannot call method isInfoEnabled() on ilObject|null.
         if ($this->object->isInfoEnabled()) {
             $ilTabs->addTab(
                 "info",
@@ -2731,6 +2739,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ids = $this->edit_request->getIds();
         if (count($ids) > 0) {
             foreach ($ids as $id) {
+                // PHP8-Review: Type cast is unnecessary
                 ilHelp::deleteTooltip((int) $id);
             }
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

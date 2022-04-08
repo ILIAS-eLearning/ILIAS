@@ -51,11 +51,12 @@ class ilLMEditShortTitlesGUI
             : $requested_transl;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("listShortTitles");
-
+    
+        // PHP8-Review: 'switch' with single 'case'
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("listShortTitles", "save"))) {

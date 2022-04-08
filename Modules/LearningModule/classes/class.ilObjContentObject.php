@@ -222,12 +222,12 @@ class ilObjContentObject extends ilObject
     /**
      * if implemented, this function should be called from an Out/GUI-Object
      */
-    public function import()
+    public function import() : void
     {
         // nothing to do. just display the dialogue in Out
     }
 
-    public function createLMTree()
+    public function createLMTree() : void
     {
         $this->lm_tree = new ilLMTree($this->getId());
         $this->lm_tree->addTree($this->getId(), 1);
@@ -294,11 +294,13 @@ class ilObjContentObject extends ilObject
      */
     public function setForTranslation(bool $a_val) : void
     {
+        // PHP8-Review: Property ilObjContentObject::$for_translation (int) does not accept bool
         $this->for_translation = $a_val;
     }
     
     public function getForTranslation() : bool
     {
+        // PHP8-Review: should return bool but returns int
         return $this->for_translation;
     }
 
@@ -355,6 +357,7 @@ class ilObjContentObject extends ilObject
         if (is_dir($import_dir)) {
             return $import_dir;
         } else {
+            // PHP8-Review: should return string but returns false
             return false;
         }
     }
@@ -859,6 +862,7 @@ class ilObjContentObject extends ilObject
 
     public function setPublicAccessMode(bool $a_mode) : void
     {
+        // PHP8-Review: Property ilObjContentObject::$public_access_mode (string) does not accept bool
         $this->public_access_mode = $a_mode;
     }
 
@@ -1382,6 +1386,7 @@ class ilObjContentObject extends ilObject
         ilLog $expLog
     ) : void {
         $attrs = array();
+        // PHP8-Review: 'switch' with single 'case'
         switch ($this->getType()) {
             case "lm":
                 $attrs["Type"] = "LearningModule";
@@ -1683,6 +1688,7 @@ class ilObjContentObject extends ilObject
 
         // sort files
         ksort($file);
+        // PHP8-Review: Array internal pointer reset is unnecessary
         reset($file);
         return $file;
     }
@@ -1732,6 +1738,7 @@ class ilObjContentObject extends ilObject
 
         // sort files
         sort($file);
+        // PHP8-Review: Array internal pointer reset is unnecessary
         reset($file);
 
         return $file;
@@ -1825,6 +1832,7 @@ class ilObjContentObject extends ilObject
         }
     }
 
+    // PHP8-Review: no return type specified
     public function executeDragDrop(
         int $source_id,
         int $target_id,
@@ -2014,7 +2022,8 @@ class ilObjContentObject extends ilObject
         
         return $mess;
     }
-
+    
+    // PHP8-Review: Parameter's name changed during inheritance
     public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningModule $new_obj */

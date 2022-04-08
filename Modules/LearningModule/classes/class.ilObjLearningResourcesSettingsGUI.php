@@ -24,6 +24,7 @@
 class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 {
     public function __construct(
+        // PHP8-Review: parameter $a_data with no type specified
         $a_data,
         int $a_id,
         bool $a_call_by_reference = true,
@@ -273,6 +274,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
     
     public function addToExternalSettingsForm(int $a_form_id) : array
     {
+        // PHP8-Review: 'switch' with single 'case'
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
                 
