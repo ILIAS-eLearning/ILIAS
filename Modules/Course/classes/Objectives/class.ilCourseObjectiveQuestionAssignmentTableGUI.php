@@ -152,6 +152,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
                 continue;
             }
 
+            // TODO PHP8 Review: $tmp_data['random'] gets immediately overwritten with false, remove?
             $tmp_data['random'] = ilObjTest::_lookupRandomTest($node['obj_id']);
             $tmp_data['random'] = false;
 
