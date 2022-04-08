@@ -25,12 +25,13 @@ use PHPUnit\Framework\TestSuite;
 
 class ilModulesCourseSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilModulesCourseSuite
     {
         $suite = new ilModulesCourseSuite();
-
+        /** @noRector  */
         include_once './Modules/Course/test/ilCourseTest.php';
         $suite->addTestSuite("ilCourseTest");
+        /** @noRector  */
         include_once './Modules/Course/test/ilCourseMailTemplateTutorContextTest.php';
         $suite->addTestSuite("ilCourseMailTemplateTutorContextTest");
 

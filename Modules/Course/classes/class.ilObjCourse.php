@@ -57,7 +57,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     private bool $abo = true;
     private bool $show_members = true;
     private string $message = '';
-    private $course_start_time_indication = true;
+    private bool $course_start_time_indication = true;
     private ?ilCourseWaitingList $waiting_list_obj = null;
     private string $important = '';
     private string $syllabus = '';
@@ -1346,7 +1346,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      * @access    public
      * @return    array [title|id] of roles...
      */
-    public function getLocalCourseRoles($a_translate = false)
+    public function getLocalCourseRoles($a_translate = false) : array
     {
         if (empty($this->local_roles)) {
             $this->local_roles = array();
@@ -1485,7 +1485,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     /**
      * Prepare calendar appointments
      */
-    protected function prepareAppointments(string $a_mode = 'create')
+    protected function prepareAppointments(string $a_mode = 'create') : array
     {
         switch ($a_mode) {
             case 'create':
@@ -1839,7 +1839,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return true;
     }
 
-    public static function findCoursesWithNotEnoughMembers()
+    public static function findCoursesWithNotEnoughMembers() : array
     {
         $ilDB = $GLOBALS['DIC']->database();
         $tree = $GLOBALS['DIC']->repositoryTree();

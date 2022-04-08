@@ -51,7 +51,7 @@ class ilCourseLP extends ilObjectLP
         return parent::getCurrentMode();
     }
 
-    protected function checkObjectives()
+    protected function checkObjectives() : bool
     {
         if (ilObjCourse::_lookupViewMode($this->obj_id) == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
             return true;

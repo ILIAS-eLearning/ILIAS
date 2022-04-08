@@ -45,7 +45,7 @@ class ilCourseUserData
         }
     }
 
-    public static function _getValuesByObjId($a_obj_id)
+    public static function _getValuesByObjId(int $a_obj_id) : array
     {
         global $DIC;
 

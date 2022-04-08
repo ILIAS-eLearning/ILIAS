@@ -9,9 +9,8 @@
 class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {
     public const ID = 'crs_context_tutor_manual';
-
-    /** @var array */
-    protected static $periodInfoByObjIdCache = [];
+    
+    protected static array $periodInfoByObjIdCache = [];
 
     /**
      * @return string
@@ -126,7 +125,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
      * @param int $objId
      * @return array|null
      */
-    private function getCachedPeriodByObjId(int $objId)
+    private function getCachedPeriodByObjId(int $objId) : ?array
     {
         if (!array_key_exists($objId, self::$periodInfoByObjIdCache)) {
             self::$periodInfoByObjIdCache[$objId] = ilObjCourseAccess::lookupPeriodInfo($objId);

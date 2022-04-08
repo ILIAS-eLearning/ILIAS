@@ -30,9 +30,9 @@ class ilCourseObjectiveQuestion
     public const TYPE_SELF_ASSESSMENT = 0;
     public const TYPE_FINAL_TEST = 1;
 
-    private $objective_id = 0;
-    private $questions = [];
-    private $tests = [];
+    private int $objective_id = 0;
+    private array $questions = [];
+    private array $tests = [];
     private int $tst_status = 0;
     private int $tst_limit = 0;
     private int $tst_ref_id = 0;

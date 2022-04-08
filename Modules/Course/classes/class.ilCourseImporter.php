@@ -11,7 +11,7 @@ class ilCourseImporter extends ilXmlImporter
     public const ENTITY_OBJECTIVE = 'objectives';
 
     private ?ilObjCourse $course = null;
-    private $final_processing_info = array();
+    private array $final_processing_info = [];
 
     protected ilLogger $logger;
 

@@ -203,7 +203,7 @@ class ilFileDataCourse extends ilFileData
         return ilFileUtils::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
     }
 
-    public function __checkPath()
+    public function __checkPath() : bool
     {
         if (!file_exists($this->getCoursePath())) {
             return false;
@@ -228,7 +228,7 @@ class ilFileDataCourse extends ilFileData
         }
     }
 
-    public function __checkReadWrite()
+    public function __checkReadWrite() : bool
     {
         if (is_writable($this->course_path) && is_readable($this->course_path)) {
             return true;

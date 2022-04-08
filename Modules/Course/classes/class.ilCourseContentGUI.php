@@ -218,9 +218,8 @@ class ilCourseContentGUI
 
     /**
      * Manage timings
-     * @param array $failed_items
      */
-    protected function manageTimings($failed_items = []) : void
+    protected function manageTimings(array $failed_items = []) : void
     {
         if (!$this->access->checkAccess('write', '', $this->container_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -280,7 +279,7 @@ class ilCourseContentGUI
     /**
      * Update personal timings
      */
-    protected function updatePersonalTimings()
+    protected function updatePersonalTimings() : bool
     {
         if (!$this->access->checkAccess('read', '', $this->container_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -429,7 +428,7 @@ class ilCourseContentGUI
         }
     }
 
-    protected function updateManagedTimings()
+    protected function updateManagedTimings() : bool
     {
         if (!$this->access->checkAccess('write', '', $this->container_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -504,7 +503,7 @@ class ilCourseContentGUI
         }
     }
 
-    public function __initCourseObject()
+    public function __initCourseObject() : bool
     {
         if ($this->container_obj instanceof ilObjCourse) {
             $this->course_obj = $this->container_obj;

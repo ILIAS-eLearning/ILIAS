@@ -225,7 +225,7 @@ class ilLOXmlParser
                     $new_qpl_id
                 );
                 $rnd->setTestId($mapping_id);
-                $rnd->setLimit($tst->attributes()->limit);
+                $rnd->setLimit((int) $tst->attributes()->limit);
                 $rnd->create();
             } else {
                 $tst_ref_id = (string) $tst->attributes()->refId;
@@ -285,7 +285,7 @@ class ilLOXmlParser
      * Parse xml errors from libxml_get_errors
      * @return string
      */
-    protected function parseXmlErrors()
+    protected function parseXmlErrors() : string
     {
         $errors = '';
         foreach (libxml_get_errors() as $err) {

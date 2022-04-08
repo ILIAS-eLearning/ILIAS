@@ -194,7 +194,7 @@ class ilLOUserResults
         return true;
     }
 
-    protected function findObjectiveIds(int $a_type = 0, int $a_status = 0, ?bool $a_is_final = null)
+    protected function findObjectiveIds(int $a_type = 0, int $a_status = 0, ?bool $a_is_final = null) : array
     {
         $res = array();
         $sql = "SELECT objective_id" .

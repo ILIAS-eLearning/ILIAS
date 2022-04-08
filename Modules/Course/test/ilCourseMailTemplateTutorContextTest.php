@@ -13,6 +13,6 @@ class ilCourseMailTemplateTutorContextTest extends TestCase
 
         $result = $mailTemplateContext->resolveSpecificPlaceholder('TEST_PLACEHOLDER', array());
 
-        $this->assertEquals($result, '');
+        $this->assertEquals('', $result);
     }
 }

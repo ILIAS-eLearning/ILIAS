@@ -118,12 +118,13 @@ class ilTimingsUser
 
     /**
      * Lookup references, users with exceeded timings
+     *
      * @param int[]  $a_user_ids
      * @param array &$a_meta
      * @param bool   $a_only_exceeded
      * @return array
      */
-    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, $a_only_exceeded = true) : array
+    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, bool $a_only_exceeded = true) : array
     {
         global $DIC;
 

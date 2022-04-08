@@ -238,7 +238,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         return ilContainer::VIEW_DEFAULT;
     }
 
-    public static function _isActivated(int $a_obj_id, ?bool &$a_visible_flag = null, bool $a_mind_member_view = true)
+    public static function _isActivated(int $a_obj_id, ?bool &$a_visible_flag = null, bool $a_mind_member_view = true) : bool
     {
         // #7669
         if ($a_mind_member_view) {

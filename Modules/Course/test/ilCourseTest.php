@@ -28,6 +28,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCourseTest
 {
-    protected $backupGlobals = false;
-    protected $preserveGlobalState = false;
+    protected bool $backupGlobals = false;
+    protected bool $preserveGlobalState = false;
 }

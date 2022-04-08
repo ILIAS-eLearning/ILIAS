@@ -2956,15 +2956,15 @@ class ilObjCourseGUI extends ilContainerGUI
 
     /**
      * @return array localroles
-     * @var int[] $a_exclude a list of role ids which will not added to the results (optional)
+     * @param  int[] $a_exclude a list of role ids which will not added to the results (optional)
      * returns all local roles [role_id] => title
      */
-    public function getLocalRoles($a_exclude = array()) : array
+    public function getLocalRoles(array $a_exclude = array()) : array
     {
         $crs_admin = $this->object->getDefaultAdminRole();
         $crs_member = $this->object->getDefaultMemberRole();
         $local_roles = $this->object->getLocalCourseRoles(false);
-        $crs_roles = array();
+        $crs_roles = [];
 
         //put the course member role to the top of the crs_roles array
         if (in_array($crs_member, $local_roles)) {

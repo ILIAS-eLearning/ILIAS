@@ -43,7 +43,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         self::TYPE_NOTIFICATION_UNSUBSCRIBE
     );
 
-    private $force_sending_mail = false;
+    private bool $force_sending_mail = false;
 
     protected ilSetting $setting;
 

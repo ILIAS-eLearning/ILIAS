@@ -319,7 +319,7 @@ class ilCourseObjectiveMaterials
         $this->db->manipulate($query);
     }
 
-    public function __read()
+    public function __read() : bool
     {
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
@@ -358,7 +358,7 @@ class ilCourseObjectiveMaterials
         return true;
     }
 
-    public function toXml(ilXmlWriter $writer)
+    public function toXml(ilXmlWriter $writer) : bool
     {
         foreach ($this->getMaterials() as $material) {
             $writer->xmlElement(

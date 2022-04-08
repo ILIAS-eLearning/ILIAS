@@ -75,7 +75,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
         return true;
     }
 
-    public function getMemberExportFiles()
+    public function getMemberExportFiles() : array
     {
         if (!is_dir($this->getMemberExportDirectory())) {
             return array();
