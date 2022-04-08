@@ -83,8 +83,7 @@ class ilLOUtils
         if (self::lookupRandomTest(ilObject::_lookupObjId($tst_ref_id))) {
             return ilLORandomTestQuestionPools::lookupLimit($a_container_id, $a_objective_id, $a_test_type);
         } else {
-            $limit = ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
-            return $limit;
+            return ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
         }
     }
 
@@ -94,9 +93,6 @@ class ilLOUtils
 
         $ilDB = $DIC->database();
 
-        /**
-         * @var ilLOTestAssignments
-         */
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
         if (!$assignments->isSeparateTest($a_test_ref_id)) {
             // no limit of tries for tests assigned to multiple objectives.

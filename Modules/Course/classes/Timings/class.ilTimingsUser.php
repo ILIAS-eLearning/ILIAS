@@ -115,7 +115,6 @@ class ilTimingsUser
     /**
      * Check if users currently exceeded ANY object
      * @param int[] $a_user_ids
-     * @return array
      */
     public static function lookupTimingsExceededByUser(array $a_user_ids) : array
     {
@@ -134,9 +133,6 @@ class ilTimingsUser
      * Lookup references, users with exceeded timings
      *
      * @param int[]  $a_user_ids
-     * @param array &$a_meta
-     * @param bool   $a_only_exceeded
-     * @return array
      */
     public static function lookupTimings(array $a_user_ids, array &$a_meta = null, bool $a_only_exceeded = true) : array
     {
@@ -314,8 +310,6 @@ class ilTimingsUser
     /**
      * Check object LP modes
      * @param int[]  $a_ref_ids
-     * @param array &$a_obj_map
-     * @return array
      */
     public static function getObjectsWithInactiveLP(array $a_ref_ids, array &$a_obj_map = null) : array
     {

@@ -56,8 +56,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
 
     /**
      * modify event => return false for not presenting event
-     * @param \ilCalendarEntry $a_event
-     * @return ilCalendarEntry|null
      */
     public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
     {
@@ -154,7 +152,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
                 continue;
             }
             $active = ilObjectActivation::getTimingsItems($course_ref_id);
-            foreach ($active as $null => $item) {
+            foreach ($active as $item) {
                 if ($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING) {
                     $this->getLogger()->debug('timings not active for: ' . $item['ref_id']);
                     continue;
@@ -199,8 +197,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
     }
 
     /**
-     * @param int $category_id
-     * @param int $item_ref_id
      * @return \ilCalendarEntry[]
      */
     protected function findCalendarEntriesForItem(int $category_id, int $item_ref_id) : array

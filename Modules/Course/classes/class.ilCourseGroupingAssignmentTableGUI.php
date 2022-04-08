@@ -65,7 +65,6 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 
     protected function getItems(ilObjCourseGrouping $a_group_obj) : void
     {
-        $counter = 0;
         $items = ilUtil::_getObjectsByOperations(
             $this->type,
             'write',

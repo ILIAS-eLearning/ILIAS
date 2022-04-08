@@ -147,8 +147,6 @@ class ilCourseContentGUI
             // Tmp fix for tests
             $obj_frame = $type == 'tst' ? '' : $obj_frame;
 
-            $contentObj = false;
-
             if ($this->access->checkAccess('read', '', $ref_id)) {
                 $this->tpl->setCurrentBlock("start_read");
                 $this->tpl->setVariable("READ_TITLE_START", $this->objectDataCache->lookupTitle($obj_id));
@@ -451,7 +449,6 @@ class ilCourseContentGUI
         $this->tabs->clearSubTabs();
 
         $failed = array();
-        $all_items = array();
         $post_item = (array) ($this->http->request()->getParsedBody()['item']) ?? [];
         foreach ($post_item as $ref_id => $data) {
             $item_obj = new ilObjectActivation();

@@ -105,9 +105,6 @@ class ilTimingAccepted
 
     public function _delete(int $a_crs_id, int $a_usr_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
         $query = "DELETE FROM crs_timings_usr_accept " .
             "WHERE crs_id = " . $this->db->quote($a_crs_id, 'integer') . " " .
             "AND usr_id = " . $this->db->quote($a_usr_id, 'integer') . " ";
@@ -116,9 +113,6 @@ class ilTimingAccepted
 
     public function _deleteByCourse(int $a_crs_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
         $query = "DELETE FROM crs_timings_usr_accept " .
             "WHERE crs_id = " . $this->db->quote($a_crs_id, 'integer') . " ";
         $res = $this->db->manipulate($query);

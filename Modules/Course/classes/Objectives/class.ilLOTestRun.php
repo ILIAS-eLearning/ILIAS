@@ -180,7 +180,7 @@ class ilLOTestRun
     public function getResult() : array
     {
         $sum_points = 0;
-        foreach ($this->questions as $qid => $points) {
+        foreach ($this->questions as $points) {
             $sum_points += $points;
         }
 

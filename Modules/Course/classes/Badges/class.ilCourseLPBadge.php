@@ -46,7 +46,7 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
      */
     public function getValidObjectTypes() : array
     {
-        return array("crs");
+        return ["crs"];
     }
 
     public function getConfigGUIInstance() : ?ilBadgeTypeGUI

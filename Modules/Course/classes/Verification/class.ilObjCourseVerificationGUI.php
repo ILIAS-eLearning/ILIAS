@@ -47,8 +47,6 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     public function create() : void
     {
-        $ilTabs = $this->dic->tabs();
-
         $this->lng->loadLanguageModule("crsv");
 
         $this->tabs->setBackTarget(
@@ -177,7 +175,6 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

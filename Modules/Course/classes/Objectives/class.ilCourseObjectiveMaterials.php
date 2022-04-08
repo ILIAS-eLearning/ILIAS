@@ -228,8 +228,6 @@ class ilCourseObjectiveMaterials
     }
 
     /**
-     * @param int  $a_ref_id
-     * @param bool $a_get_id
      * @return bool|int
      */
     public function isAssigned(int $a_ref_id, bool $a_get_id = false)

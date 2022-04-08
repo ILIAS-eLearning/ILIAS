@@ -76,7 +76,7 @@ class ilCourseStart
 
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
-        foreach ($this->getStartObjects() as $start_id => $data) {
+        foreach ($this->getStartObjects() as $data) {
             $item_ref_id = $data['item_ref_id'];
             if (isset($mappings[$item_ref_id]) and $mappings[$item_ref_id]) {
                 $this->logger->debug('Clone start object nr. ' . $item_ref_id);

@@ -24,7 +24,7 @@ use ILIAS\DI\Container;
  */
 class ilCourseMailTemplateTutorContextTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?\ILIAS\DI\Container $dic_backup = null;
 
     protected function setUp() : void
     {

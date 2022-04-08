@@ -348,7 +348,7 @@ class ilCourseObjectiveResult
         // Check accomplished
         $fullfilled = array();
         $pretest = array();
-        foreach ($objectives['objectives'] as $kind => $data) {
+        foreach ($objectives['objectives'] as $data) {
             // objective does not allow to change status
             if (ilCourseObjectiveResult::__isFullfilled($objectives['all_question_points'], $data)) {
                 // Status 0 means pretest fullfilled, status 1 means final test fullfilled

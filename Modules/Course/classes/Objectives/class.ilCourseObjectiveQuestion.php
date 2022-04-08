@@ -487,7 +487,7 @@ class ilCourseObjectiveQuestion
     public function updateLimits() : void
     {
         $points = 0;
-        foreach ($this->tests as $ref_id => $test_data) {
+        foreach ($this->tests as $test_data) {
             switch ($test_data['status']) {
                 case self::TYPE_SELF_ASSESSMENT:
                     $points = $this->getSelfAssessmentPoints();

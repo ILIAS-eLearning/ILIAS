@@ -71,7 +71,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 
     protected function getLPTypes(int $a_parent_ref_id) : array
     {
-        $res = array();
+        $res = [];
         $root = $this->tree->getNodeData($a_parent_ref_id);
         $sub_items = $this->tree->getSubTree($root);
         array_shift($sub_items); // remove root
@@ -99,7 +99,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 
     public function getConfigFromForm(ilPropertyFormGUI $a_form) : array
     {
-        return array("subitems" => $a_form->getInput("subitems"));
+        return ["subitems" => $a_form->getInput("subitems")];
     }
 
     public static function getInvalidLPModes() : array

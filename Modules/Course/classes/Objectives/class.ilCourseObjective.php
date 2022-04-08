@@ -90,8 +90,6 @@ class ilCourseObjective
     }
 
     /**
-     * @param int  $a_objective_id
-     * @param bool $a_add_description
      * @return array|string
      */
     public static function lookupObjectiveTitle(int $a_objective_id, bool $a_add_description = false)

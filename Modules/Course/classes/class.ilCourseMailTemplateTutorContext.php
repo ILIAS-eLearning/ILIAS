@@ -26,17 +26,11 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
     
     protected static array $periodInfoByObjIdCache = [];
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         global $DIC;
@@ -48,9 +42,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         return $lng->txt('crs_mail_context_tutor_title');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         global $DIC;
@@ -64,7 +55,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 
     /**
      * Return an array of placeholders
-     * @return array
      */
     public function getSpecificPlaceholders() : array
     {
@@ -135,10 +125,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         return $placeholders;
     }
 
-    /**
-     * @param int $objId
-     * @return array|null
-     */
     private function getCachedPeriodByObjId(int $objId) : ?array
     {
         if (!array_key_exists($objId, self::$periodInfoByObjIdCache)) {

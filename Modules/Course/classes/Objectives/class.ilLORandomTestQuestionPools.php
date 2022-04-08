@@ -192,7 +192,7 @@ class ilLORandomTestQuestionPools
 
             $mapped_id = 0;
             $test_ref_id = 0;
-            foreach ((array) ilObject::_getAllReferences($this->getTestId()) as $tmp => $ref_id) {
+            foreach (ilObject::_getAllReferences($this->getTestId()) as $ref_id) {
                 $test_ref_id = $ref_id;
                 $mapped_id = $mappings[$ref_id];
             }

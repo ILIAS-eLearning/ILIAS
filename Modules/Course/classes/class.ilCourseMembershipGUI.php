@@ -26,9 +26,6 @@
  */
 class ilCourseMembershipGUI extends ilMembershipGUI
 {
-    /**
-     * @return ilAbstractMailMemberRoles|null
-     */
     protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberCourseRoles();
@@ -54,7 +51,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function getMailContextOptions() : array
     {
-        $context_options = [
+        return [
             ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
             'ref_id' => $this->getParentObject()->getRefId(),
             'ts' => time(),
@@ -64,8 +61,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 ''
             ),
         ];
-
-        return $context_options;
     }
 
     /**

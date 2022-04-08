@@ -95,9 +95,6 @@ class ilLOXmlParser
         }
     }
 
-    /**
-     * @param SimpleXMLElement $root
-     */
     protected function parseSettings(SimpleXMLElement $root) : void
     {
         $settings = ilLOSettings::getInstanceByObjId($this->getCourse()->getId());
@@ -125,7 +122,6 @@ class ilLOXmlParser
 
     /**
      * Parse objective
-     * @param SimpleXMLElement $root
      */
     protected function parseObjectives(SimpleXMLElement $root) : void
     {
@@ -297,7 +293,6 @@ class ilLOXmlParser
 
     /**
      * Parse xml errors from libxml_get_errors
-     * @return string
      */
     protected function parseXmlErrors() : string
     {

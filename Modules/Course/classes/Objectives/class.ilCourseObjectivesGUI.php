@@ -192,7 +192,6 @@ class ilCourseObjectivesGUI
         if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        $error = false;
 
         $post_self_limit = [];
         if ($this->http->wrapper()->post()->has('self')) {
@@ -559,7 +558,6 @@ class ilCourseObjectivesGUI
                 case self::MODE_UPDATE:
                     $this->selfAssessmentAssignment();
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
-                    return;
             }
         }
     }

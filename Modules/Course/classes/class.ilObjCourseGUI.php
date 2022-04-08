@@ -2551,9 +2551,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $location = [];
         if ($this->http->wrapper()->post()->has('location')) {
             $custom_transformer = $this->refinery->custom()->transformation(
-                function ($array) {
-                    return $array;
-                }
+                fn ($array) => $array
             );
             $location = $this->http->wrapper()->post()->retrieve(
                 'location',

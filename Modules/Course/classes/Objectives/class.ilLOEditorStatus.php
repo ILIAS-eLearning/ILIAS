@@ -186,9 +186,6 @@ class ilLOEditorStatus
                 return 'testOverview';
             }
         }
-        if (!$this->getObjectivesStatus(false)) {
-            return 'listObjectives';
-        }
         return 'listObjectives';
     }
 
@@ -260,8 +257,6 @@ class ilLOEditorStatus
         // Step 5
         // course qtest
         $done = $this->getObjectivesStatus();
-
-        $tt = 0;
         $this->ctrl->setParameter($this->getCmdClass(), 'tt', $this->initTestTypeFromQuery());
 
         $steps[] = $this->workflow->step(
@@ -278,7 +273,6 @@ class ilLOEditorStatus
     }
 
     /**
-     * @param int $a_section
      * @return string[]
      */
     public function getFailureMessages(int $a_section) : array

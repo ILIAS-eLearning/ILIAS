@@ -950,7 +950,7 @@ class ilLOEditorGUI
     {
         foreach (ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId()) as $objective_id) {
             $materials = new ilCourseObjectiveMaterials($objective_id);
-            foreach ($materials->getMaterials() as $key => $material) {
+            foreach ($materials->getMaterials() as $material) {
                 if ($material['ref_id'] == $test->getRefId()) {
                     $materials->delete($material['lm_ass_id']);
                 }
@@ -1080,7 +1080,7 @@ class ilLOEditorGUI
     {
         $form = $this->initSimpleObjectiveForm();
         if ($form->checkInput()) {
-            foreach ((array) $form->getInput('objectives') as $idx => $title) {
+            foreach ((array) $form->getInput('objectives') as $title) {
                 $obj = new ilCourseObjective($this->getParentObject());
                 $obj->setActive(true);
                 $obj->setTitle($title);

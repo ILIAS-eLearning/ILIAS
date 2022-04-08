@@ -322,7 +322,6 @@ class ilCourseParticipants extends ilParticipants
         global $DIC;
 
         $ilDB = $DIC->database();
-        $res = array();
         $sql = "SELECT usr_id,obj_id FROM obj_members" .
             " WHERE " . $ilDB->in("usr_id", $a_usr_ids, false, "integer") .
             " AND " . $ilDB->in("obj_id", $a_obj_ids, false, "integer") .

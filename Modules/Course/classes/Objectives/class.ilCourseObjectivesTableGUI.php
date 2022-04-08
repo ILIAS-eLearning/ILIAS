@@ -101,7 +101,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         }
 
         // materials
-        foreach ($a_set['materials'] as $ref_id => $data) {
+        foreach ($a_set['materials'] as $data) {
             if ($data['items']) {
                 $this->tpl->touchBlock('ul_begin');
                 foreach ($data['items'] as $pg_st) {

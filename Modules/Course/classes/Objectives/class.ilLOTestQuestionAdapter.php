@@ -87,8 +87,6 @@ class ilLOTestQuestionAdapter
 
         // filter passed objectives
         $test_type = $assignments->getTypeByTest($a_tst_ref_id);
-
-        $passed_objectives = array();
         $results = new ilLOUserResults($a_container_id, $a_user_id);
 
         $passed = $results->getCompletedObjectiveIds();
@@ -449,7 +447,7 @@ class ilLOTestQuestionAdapter
         foreach ($this->run as $tst_run) {
             $tst_run->clearQuestions();
             $points = 0;
-            foreach ($seq->getQuestionIds() as $idx => $qst_id) {
+            foreach ($seq->getQuestionIds() as $qst_id) {
                 $tst_run->addQuestion($qst_id);
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst_id);
             }
@@ -510,24 +508,6 @@ class ilLOTestQuestionAdapter
             }
         }
         return false;
-    }
-
-    private static function getQuestionData(int $testObjId, array $questionIds) : array
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $lng = $DIC->language();
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
-        $questionList->setParentObjId($testObjId);
-
-        $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-        $questionList->setIncludeQuestionIdsFilter($questionIds);
-        $questionList->load();
-
-        return $questionList->getQuestionDataArray();
     }
 
     public static function getInstance(ilTestSession $a_test_session) : self
