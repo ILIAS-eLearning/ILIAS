@@ -21,6 +21,11 @@ class StandardGUIRequest
 {
     use BaseGUIRequest;
 
+    /**
+     *
+     * @param string[] $passed_query_params
+     * @param string[] $passed_post_data
+     */
     public function __construct(
         \ILIAS\HTTP\Services $http,
         \ILIAS\Refinery\Factory $refinery,
