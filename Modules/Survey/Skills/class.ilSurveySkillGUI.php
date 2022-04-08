@@ -23,7 +23,7 @@ class ilSurveySkillGUI
     protected ilObjSurvey $survey;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalPageTemplate $tpl;
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
