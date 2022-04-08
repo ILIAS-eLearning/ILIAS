@@ -112,7 +112,7 @@ abstract class ilVerificationObject extends ilObject2
 
                 case self::TYPE_ARRAY:
                     if ($a_data) {
-                        $value = unserialize($a_data);
+                        $value = unserialize($a_data, ['allowed_classes' => false]);
                     }
                     break;
 
@@ -162,7 +162,7 @@ abstract class ilVerificationObject extends ilObject2
         return null;
     }
 
-    protected function doRead()
+    protected function doRead() : bool
     {
         $ilDB = $this->db;
 
@@ -183,12 +183,12 @@ abstract class ilVerificationObject extends ilObject2
         return false;
     }
 
-    public function doCreate()
+    protected function doCreate() : bool
     {
         return $this->saveProperties();
     }
-    
-    public function doUpdate()
+
+    protected function doUpdate() : bool
     {
         return $this->saveProperties();
     }
@@ -222,8 +222,8 @@ abstract class ilVerificationObject extends ilObject2
         }
         return false;
     }
-    
-    public function doDelete()
+
+    protected function doDelete() : bool
     {
         $ilDB = $this->db;
 
@@ -263,7 +263,7 @@ abstract class ilVerificationObject extends ilObject2
     {
         $file = $this->getProperty("file");
         if ($file) {
-            $path = $this->initStorage($this->getId(), "certificate");
+            $path = self::initStorage($this->getId(), "certificate");
             return $path . $file;
         }
         return "";
