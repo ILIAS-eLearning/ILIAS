@@ -9,16 +9,11 @@ use PHPUnit\Framework\TestCase;
  */
 class CertificateVerificationClassMapTest extends TestCase
 {
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
 
-    public function testClassMap()
+    public function testClassMap() : void
     {
         $map = new ilCertificateVerificationClassMap();
         $this->assertEquals(
