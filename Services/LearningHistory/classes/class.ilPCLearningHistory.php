@@ -47,7 +47,7 @@ class ilPCLearningHistory extends ilPageContent
         $this->lhist_node = $this->node->append_child($this->lhist_node);
     }
     
-    public function setFrom(int $a_val)
+    public function setFrom(int $a_val) : void
     {
         $this->lhist_node->set_attribute("From", (string) $a_val);
     }
@@ -71,7 +71,7 @@ class ilPCLearningHistory extends ilPageContent
     {
         // delete properties
         $children = $this->lhist_node->child_nodes();
-        for ($i = 0; $i < count($children); $i++) {
+        for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
             $this->lhist_node->remove_child($children[$i]);
         }
         // set classes
@@ -87,7 +87,7 @@ class ilPCLearningHistory extends ilPageContent
         $classes = [];
         // delete properties
         $children = $this->lhist_node->child_nodes();
-        for ($i = 0; $i < count($children); $i++) {
+        for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
             $classes[] = $children[$i]->get_attribute("Name");
         }
         return $classes;
@@ -147,7 +147,7 @@ class ilPCLearningHistory extends ilPageContent
             $from = $param[1];
             $to = $param[2];
             $classes = explode(";", $param[3]);
-            $classes = array_map(function ($i) {
+            $classes = array_map(static function ($i) {
                 return trim($i);
             }, $classes);
 
@@ -182,8 +182,8 @@ class ilPCLearningHistory extends ilPageContent
         string $a_mode
     ) : string {
         $user_id = 0;
-        if ($a_mode == "preview" || $a_mode == "presentation" || $a_mode == "print") {
-            if ($this->getPage()->getParentType() == "prtf") {
+        if ($a_mode === "preview" || $a_mode === "presentation" || $a_mode === "print") {
+            if ($this->getPage()->getParentType() === "prtf") {
                 $user_id = ilObject::_lookupOwner($this->getPage()->getPortfolioId());
             }
         }
@@ -192,17 +192,17 @@ class ilPCLearningHistory extends ilPageContent
             $hist_gui = new ilLearningHistoryGUI();
             $hist_gui->setUserId($user_id);
             $from_unix = ($from != "")
-                ? (new ilDateTime($from . " 00:00:00", IL_CAL_DATETIME))->get(IL_CAL_UNIX)
+                ? (new ilDateTime($from . " 00:00:00", IL_CAL_DATETIME))->get(IL_CAL_UNIX)// TODO PHP8-REVIEW Wrong type $from is an int, but used as a datetime string
                 : null;
             $to_unix = ($to != "")
-                ? (new ilDateTime($to . " 23:59:59", IL_CAL_DATETIME))->get(IL_CAL_UNIX)
+                ? (new ilDateTime($to . " 23:59:59", IL_CAL_DATETIME))->get(IL_CAL_UNIX)// TODO PHP8-REVIEW Wrong type $to is an int, but used as a datetime string
                 : null;
             $classes = (is_array($classes))
-                ? array_filter($classes, function ($i) {
+                ? array_filter($classes, static function ($i) : bool {
                     return ($i != "");
                 })
                 : null;
-            if (count($classes) == 0) {
+            if (count($classes) === 0) {
                 $classes = null;
             }
             $tpl->setVariable("LHIST", $hist_gui->getEmbeddedHTML($from_unix, $to_unix, $classes, $a_mode));

@@ -28,7 +28,7 @@ class ilFirstLoginLearningHistoryProvider extends ilAbstractLearningHistoryProvi
     {
         $entries = [];
         $ts = ilObjUser::_lookupFirstLogin($this->getUserId());
-        if ($ts != "") {
+        if ($ts !== "") {
             $ts = new ilDateTime($ts, IL_CAL_DATETIME);
             $ts = $ts->get(IL_CAL_UNIX);
 

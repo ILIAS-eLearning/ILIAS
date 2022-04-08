@@ -94,7 +94,7 @@ class ilLearningHistoryGUI
 
         $html = $this->getHistoryHtml($this->from, $this->to);
 
-        if ($html != "") {
+        if ($html !== "") {
             $main_tpl->setContent($html);
         } else {
             $main_tpl->setContent(
@@ -109,7 +109,7 @@ class ilLearningHistoryGUI
     {
         $response["timeline"] = $this->renderTimeline($this->from, $this->to);
         $response["more"] = $this->show_more ? $this->renderButton() : "";
-        echo json_encode($response);
+        echo json_encode($response, JSON_THROW_ON_ERROR);// TODO PHP8-REVIEW Instead of echo/exit you could use the HTTP service and HTTP response
         exit;
     }
 
@@ -148,7 +148,7 @@ class ilLearningHistoryGUI
 
         $tpl->setVariable("TIMELINE", $this->renderTimeline($from, $to, $classes, $mode));
 
-        if ($this->show_more && $mode != "print") {
+        if ($this->show_more && $mode !== "print") {
             $tpl->setCurrentBlock("show_more");
             $tpl->setVariable("SHOW_MORE_BUTTON", $this->renderButton());
             $tpl->parseCurrentBlock();
@@ -182,8 +182,8 @@ class ilLearningHistoryGUI
         $cnt = 0;
 
         reset($entries);
-        /** @var ilLearningHistoryEntry $e */
         while (($e = current($entries)) && $cnt < self::MAX) {
+            /** @var ilLearningHistoryEntry $e */
             $timeline->addItem(new ilLearningHistoryTimelineItem(
                 $e,
                 $this->ui,
@@ -216,13 +216,13 @@ class ilLearningHistoryGUI
 
         $button = $f->button()->standard($this->lng->txt("lhist_show_more"), "")
             ->withLoadingAnimationOnClick(true)
-            ->withOnLoadCode(function ($id) use ($url) {
+            ->withOnLoadCode(static function ($id) use ($url) : string {
                 return "il.LearningHistory.initShowMore('$id', '" . $url . "');";
             });
         if ($ctrl->isAsynch()) {
             return $renderer->renderAsync($button);
-        } else {
-            return $renderer->render($button);
         }
+
+        return $renderer->render($button);
     }
 }

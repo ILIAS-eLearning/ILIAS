@@ -51,7 +51,7 @@ class ilLearningHistoryEntryCollector
 
         $sort_array = [];
         foreach ($this->service->provider()->getAllProviders(true, $user_id) as $provider) {
-            if (is_array($classes) && !in_array(get_class($provider), $classes)) {
+            if (is_array($classes) && !in_array(get_class($provider), $classes, true)) {
                 continue;
             }
 
@@ -65,9 +65,9 @@ class ilLearningHistoryEntryCollector
         // add today entry
         $entries = [];
 
-        if (date("Y-m-d", $to) == date("Y-m-d", time())) {
-            if (count($sort_array) == 0 ||
-                date("Y-m-d", (current($sort_array)["ts"])) != date("Y-m-d", time())) {
+        if (date("Y-m-d", $to) === date("Y-m-d")) {
+            if (count($sort_array) === 0 ||
+                date("Y-m-d", (current($sort_array)["ts"])) !== date("Y-m-d")) {
                 $entries[] = $this->service->factory()->entry(
                     $lng->txt("lhist_no_entries"),
                     $lng->txt("lhist_no_entries"),
