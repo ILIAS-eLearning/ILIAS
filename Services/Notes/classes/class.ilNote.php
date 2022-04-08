@@ -13,11 +13,11 @@
  * https://github.com/ILIAS-eLearning
  */
 
-define("IL_NOTE_UNLABELED", 0);
-define("IL_NOTE_IMPORTANT", 1);
-define("IL_NOTE_QUESTION", 2);
-define("IL_NOTE_PRO", 3);
-define("IL_NOTE_CONTRA", 4);
+const IL_NOTE_UNLABELED = 0;
+const IL_NOTE_IMPORTANT = 1;
+const IL_NOTE_QUESTION = 2;
+const IL_NOTE_PRO = 3;
+const IL_NOTE_CONTRA = 4;
 
 /**
  * Note class. Represents a single note.
@@ -365,7 +365,7 @@ class ilNote
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
         
-        $author_where = ($a_type == self::PRIVATE || $a_all_public === "n")
+        $author_where = ($a_type === self::PRIVATE || $a_all_public === "n")
             ? " AND author = " . $ilDB->quote($ilUser->getId(), "integer")
             : "";
 
@@ -393,8 +393,8 @@ class ilNote
         $set = $ilDB->query($q);
         $notes = array();
         while ($note_rec = $ilDB->fetchAssoc($set)) {
-            if ($a_filter != "") {
-                if (!is_array($a_filter)) {
+            if ($a_filter !== "") {
+                if (!is_array($a_filter)) {// TODO PHP8-REVIEW This makes no  sense, $a_filter is always a string
                     $a_filter = array($a_filter);
                 }
                 if (!in_array($note_rec["id"], $a_filter)) {
@@ -426,7 +426,7 @@ class ilNote
         $sub_where = (!$a_incl_sub)
             ? " AND obj_id = " . $ilDB->quote(0, "integer") : "";
 
-        if ($a_since != "") {
+        if ($a_since !== "") {
             $sub_where .= " AND creation_date > " . $ilDB->quote($a_since, "timestamp");
         }
 
@@ -462,7 +462,7 @@ class ilNote
         $ilUser = $DIC->user();
         $tree = $DIC->repositoryTree();
         
-        if ($a_mode == ilPDNotesGUI::PRIVATE_NOTES) {
+        if ($a_mode === ilPDNotesGUI::PRIVATE_NOTES) {
             $q = "SELECT DISTINCT rep_obj_id FROM note WHERE " .
                 " type = " . $ilDB->quote(self::PRIVATE, "integer") .
                 " AND author = " . $ilDB->quote($ilUser->getId(), "integer") .
@@ -670,7 +670,7 @@ class ilNote
 
         $ilDB = $DIC->database();
         
-        if ($a_obj_type == "") {
+        if ($a_obj_type === "") {
             $a_obj_type = "-";
         }
         $set = $ilDB->query(
@@ -680,8 +680,8 @@ class ilNote
             " AND obj_type = " . $ilDB->quote($a_obj_type, "text")
         );
         if ($rec = $ilDB->fetchAssoc($set)) {
-            if (($rec["activated"] == 0 && $a_activate) ||
-                ($rec["activated"] == 1 && !$a_activate)) {
+            if (((int) $rec["activated"] === 0 && $a_activate) ||
+                ((int) $rec["activated"] === 1 && !$a_activate)) {
                 $ilDB->manipulate(
                     "UPDATE note_settings SET " .
                     " activated = " . $ilDB->quote((int) $a_activate, "integer") .
@@ -719,7 +719,7 @@ class ilNote
             return true;
         }
         
-        if ($a_obj_type == "") {
+        if ($a_obj_type === "") {
             $a_obj_type = "-";
         }
         $set = $ilDB->query(
@@ -765,7 +765,7 @@ class ilNote
         $type_lv = "";
 
         // no notifications for notes
-        if ($this->getType() == self::PRIVATE) {
+        if ($this->getType() === self::PRIVATE) {
             return;
         }
 
@@ -854,7 +854,7 @@ class ilNote
 
                 $message .= $this->getText() . "\n\n";
 
-                if ($link != "") {
+                if ($link !== "") {
                     $message .= $ulng->txt('note_comment_notification_link') . ": " . $link . "\n\n";
                 }
 

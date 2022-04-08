@@ -38,8 +38,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();
-        ;// TODO PHP8-REVIEW Property declared dynamically
+        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Property declared dynamically
         $this->error = $DIC["ilErr"];
         $this->ctrl = $DIC->ctrl();
         $this->request = $DIC->http()->request();
