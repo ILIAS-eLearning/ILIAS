@@ -230,6 +230,13 @@ abstract class ilFileSystemAbstractionStorage
         return !$this->getFileSystemService()->has($path);
     }
     
+    public function deleteFile(string $a_abs_name) : bool
+    {
+        $path = $this->createRelativePathForFileSystem($a_abs_name);
+        $this->getFileSystemService()->delete($path);
+        return !$this->getFileSystemService()->has($path);
+    }
+    
     public static function _copyDirectory(string $a_sdir, string $a_tdir) : bool
     {
         try {
