@@ -10714,7 +10714,7 @@ mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in Message Content)
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
-mail#:#mail_no_subject#:#Kein Betreff vorhanden
+mail#:#mail_no_subject#:#No subject available
 mail#:#mail_notification_membership_section#:#Membership
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an e-mail to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
