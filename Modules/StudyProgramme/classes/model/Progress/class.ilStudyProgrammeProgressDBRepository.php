@@ -649,4 +649,26 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     {
         return (int) $this->db->nextId(self::TABLE);
     }
+
+    public function deleteAllOrphanedProgresses(
+        string $assignment_table,
+        string $assignment_id_field
+    ) : void {
+        $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
+            . 'WHERE ' . self::FIELD_ASSIGNMENT_ID . PHP_EOL
+            . 'NOT IN (' . PHP_EOL
+            . 'SELECT ' . $this->db->quoteIdentifier($assignment_id_field)
+            . ' FROM ' . $this->db->quoteIdentifier($assignment_table) . PHP_EOL
+            . ');' . PHP_EOL;
+        $this->db->manipulate($query);
+    }
+
+    public function deleteProgressesFor(int $prg_obj_id) : void
+    {
+        $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
+            . ' WHERE ' . self::FIELD_PRG_ID . ' = '
+            . $this->db->quote($prg_obj_id, 'integer');
+
+        $this->db->manipulate($query);
+    }
 }
