@@ -33,7 +33,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
     private int $rolf_ref_id;
 
-    protected ilRbacAdmin $rbac_admin;
+    protected ilRbacAdmin $rbacadmin;
 
     private GlobalHttpState $http;
     protected Factory $refinery;
@@ -42,7 +42,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $this->rbac_admin = $DIC->rbac()->admin();
+        $this->rbacadmin = $DIC->rbac()->admin();
 
         $this->type = "rolt";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -131,7 +131,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
     public function createObject(ilPropertyFormGUI $form = null) : void
     {
-        if (!$this->rbac_system->checkAccess("create_rolt", $this->rolf_ref_id)) {
+        if (!$this->rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id)) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
         if ($form === null) {
@@ -147,7 +147,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('settings');
 
-        if (!$this->rbac_system->checkAccess("write", $this->rolf_ref_id)) {
+        if (!$this->rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
             $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
         }
 
@@ -160,7 +160,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     public function updateObject() : void
     {
         // check write access
-        if (!$this->rbac_system->checkAccess("write", $this->rolf_ref_id)) {
+        if (!$this->rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
             $this->error->raiseError($this->lng->txt("msg_no_perm_modify_rolt"), $this->error->WARNING);
         }
 
@@ -168,7 +168,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $this->object->setTitle($form->getInput('title'));
             $this->object->setDescription($form->getInput('desc'));
-            $this->rbac_admin->setProtected(
+            $this->rbacadmin->setProtected(
                 $this->rolf_ref_id,
                 $this->object->getId(),
                 $form->getInput('protected') ? 'y' : 'n'
@@ -184,7 +184,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
     public function saveObject() : void
     {
-        if (!$this->rbac_system->checkAccess("create_rolt", $this->rolf_ref_id)) {
+        if (!$this->rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolt"), $this->ilias->error_obj->WARNING);
         }
         $form = $this->initFormRoleTemplate();
@@ -193,8 +193,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $roltObj->setTitle($form->getInput('title'));
             $roltObj->setDescription($form->getInput('desc'));
             $roltObj->create();
-            $this->rbac_admin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id, 'n');
-            $this->rbac_admin->setProtected(
+            $this->rbacadmin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id, 'n');
+            $this->rbacadmin->setProtected(
                 $this->rolf_ref_id,
                 $roltObj->getId(),
                 $form->getInput('protected') ? 'y' : 'n'
@@ -211,7 +211,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
     protected function permObject() : void
     {
-        if (!$this->rbac_system->checkAccess('edit_permission', $this->ref_id)) {
+        if (!$this->rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->MESSAGE);
             return;
         }
@@ -272,7 +272,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
      */
     protected function permSaveObject() : void
     {
-        if (!$this->rbac_system->checkAccess('write', $this->rolf_ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->MESSAGE);
             return;
         }
@@ -295,11 +295,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
         foreach (array_keys($subs) as $subtype) {
             // Delete per object type
-            $this->rbac_admin->deleteRolePermission($this->object->getId(), $this->ref_id, $subtype);
+            $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id, $subtype);
         }
 
         foreach ($template_permissions as $key => $ops_array) {
-            $this->rbac_admin->setRolePermission($this->object->getId(), $key, $ops_array, $this->rolf_ref_id);
+            $this->rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->rolf_ref_id);
         }
 
         // update object data entry (to update last modification date)
@@ -319,14 +319,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             );
         }
 
-        if (!$this->rbac_system->checkAccess('write', $this->rolf_ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
         } elseif ($this->obj_id == $source) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_perm_adopted_from_itself"), true);
         } else {
-            $this->rbac_admin->deleteRolePermission($this->obj_id, $this->rolf_ref_id);
-            $parentRoles = $this->rbac_review->getParentRoleIds($this->rolf_ref_id, true);
-            $this->rbac_admin->copyRoleTemplatePermissions(
+            $this->rbacadmin->deleteRolePermission($this->obj_id, $this->rolf_ref_id);
+            $parentRoles = $this->rbacreview->getParentRoleIds($this->rolf_ref_id, true);
+            $this->rbacadmin->copyRoleTemplatePermissions(
                 $source,
                 $parentRoles[$source]["parent"],
                 $this->rolf_ref_id,
@@ -354,14 +354,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     {
         $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
 
-        if ($this->rbac_system->checkAccess('write', $this->ref_id)) {
+        if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
             $this->tabs_gui->addTab(
                 'settings',
                 $this->lng->txt('settings'),
                 $this->ctrl->getLinkTarget($this, 'edit')
             );
         }
-        if ($this->rbac_system->checkAccess('edit_permission', $this->ref_id)) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
             $this->tabs_gui->addTab(
                 'perm',
                 $this->lng->txt('default_perm_settings'),

@@ -41,7 +41,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
     public function executeCommand() : void
     {
         //Check Permissions globally for all SubGUIs. We only check write permissions
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
         }
         $next_class = $this->ctrl->getNextClass($this);
@@ -128,7 +128,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTargetByClass('ilObjStudyProgrammeAdminGUI', 'view')
@@ -142,7 +142,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
                 )
             );
         }
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),

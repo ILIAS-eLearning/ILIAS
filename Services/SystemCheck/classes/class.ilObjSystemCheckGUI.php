@@ -111,10 +111,10 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('overview', $this->ctrl->getLinkTarget($this, 'overview'));
         }
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
         }
     }

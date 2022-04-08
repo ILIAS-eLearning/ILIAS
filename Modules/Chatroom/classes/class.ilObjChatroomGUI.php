@@ -301,7 +301,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
         // create permission is already checked in createObject.
         // This check here is done to prevent hacking attempts
-        if (!$this->rbac_system->checkAccess('create', $refId, $new_type)) {
+        if (!$this->rbacsystem->checkAccess('create', $refId, $new_type)) {
             $this->ilias->raiseError(
                 $this->lng->txt('no_create_permission'),
                 $this->ilias->error_obj->MESSAGE
@@ -330,7 +330,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
             'private_rooms_enabled' => 0
         ]);
 
-        $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId());
+        $rbac_log_roles = $this->rbacreview->getParentRoleIds($newObj->getRefId());
         $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 

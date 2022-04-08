@@ -22,12 +22,12 @@
 class ilStudyProgrammeMembershipSourceReaderRole implements ilStudyProgrammeMembershipSourceReader
 {
     protected int $src_id;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacReview $rbacreview;
 
-    public function __construct(ilRbacReview $rbac_review, int $src_id)
+    public function __construct(ilRbacReview $rbacreview, int $src_id)
     {
         $this->src_id = $src_id;
-        $this->rbac_review = $rbac_review;
+        $this->rbacreview = $rbacreview;
     }
 
     /**
@@ -37,7 +37,7 @@ class ilStudyProgrammeMembershipSourceReaderRole implements ilStudyProgrammeMemb
     {
         return array_map(
             'intval',
-            $this->rbac_review->assignedUsers($this->src_id)
+            $this->rbacreview->assignedUsers($this->src_id)
         );
     }
 }

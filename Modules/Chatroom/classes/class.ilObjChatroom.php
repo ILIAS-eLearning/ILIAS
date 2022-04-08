@@ -176,7 +176,7 @@ class ilObjChatroom extends ilObject
 
         $room->saveSettings($original_settings);
 
-        $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId(), false);
+        $rbac_log_roles = $this->rbacreview->getParentRoleIds($newObj->getRefId(), false);
         $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 

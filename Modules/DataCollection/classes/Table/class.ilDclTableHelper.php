@@ -18,7 +18,7 @@ class ilDclTableHelper
     /**
      * @var ilRbacReview
      */
-    protected $rbac_review;
+    protected $rbacreview;
     /**
      * @var ilObjUser
      */
@@ -32,20 +32,20 @@ class ilDclTableHelper
      * ilDclTableHelper constructor.
      * @param int           $obj_id
      * @param int           $ref_id
-     * @param ilRbacReview  $rbac_review
+     * @param ilRbacReview  $rbacreview
      * @param ilObjUser     $user
      * @param ilDBInterface $database
      */
     public function __construct(
         int $obj_id,
         int $ref_id,
-        ilRbacReview $rbac_review,
+        ilRbacReview $rbacreview,
         ilObjUser $user,
         ilDBInterface $database
     ) {
         $this->obj_id = $obj_id;
         $this->ref_id = $ref_id;
-        $this->rbac_review = $rbac_review;
+        $this->rbacreview = $rbacreview;
         $this->user = $user;
         $this->database = $database;
     }
@@ -65,7 +65,7 @@ class ilDclTableHelper
         //check if there are roles with rbac read right on the datacollection but without read right on any table view
         $roles_with_no_read_right_on_any_standard_view = array_diff($roles_with_read_acces_ids, $roles_ids);
 
-        $roles_data = $this->rbac_review->getRolesForIDs($roles_with_no_read_right_on_any_standard_view, true);
+        $roles_data = $this->rbacreview->getRolesForIDs($roles_with_no_read_right_on_any_standard_view, true);
         $role_titles = [];
         if (!empty($roles_data)) {
             foreach ($roles_data as $role_data) {
@@ -81,11 +81,11 @@ class ilDclTableHelper
      */
     protected function getRolesIdsWithReadAccessOnDataCollection()
     {
-        $rbac_roles = $this->rbac_review->getParentRoleIds($this->ref_id);
+        $rbac_roles = $this->rbacreview->getParentRoleIds($this->ref_id);
         $roles_with_read_acces_ids = [];
         //get all roles with read access on data collection
         foreach ($rbac_roles as $role) {
-            $operations = $this->rbac_review->getActiveOperationsOfRole($this->ref_id, $role['rol_id']);
+            $operations = $this->rbacreview->getActiveOperationsOfRole($this->ref_id, $role['rol_id']);
             //3 corresponds to the read rbac right
             if (!empty($operations) && in_array(3, $operations)) {
                 $roles_with_read_acces_ids[] = $role['rol_id'];
@@ -167,7 +167,7 @@ class ilDclTableHelper
 
         $user_ids_with_read_right_on_any_standard_view = [];
         foreach ($roles_ids as $role_id) {
-            $assigned_users = $this->rbac_review->assignedUsers($role_id);
+            $assigned_users = $this->rbacreview->assignedUsers($role_id);
             if (!empty($assigned_users)) {
                 $user_ids_with_read_right_on_any_standard_view[] = array_merge($user_ids_with_read_right_on_any_standard_view,
                     $assigned_users);

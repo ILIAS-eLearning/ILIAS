@@ -61,7 +61,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),

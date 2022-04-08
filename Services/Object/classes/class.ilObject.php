@@ -37,8 +37,8 @@ class ilObject
     protected ?ilErrorHandling $error;
     protected ilTree $tree;
     protected ?ilAppEventHandler $app_event_handler;
-    protected ilRbacAdmin $rbac_admin;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacAdmin $rbacadmin;
+    protected ilRbacReview $rbacreview;
     protected ilObjUser $user;
     protected ilLanguage $lng;
 
@@ -99,11 +99,11 @@ class ilObject
         }
 
         if (isset($DIC["rbacadmin"])) {
-            $this->rbac_admin = $DIC["rbacadmin"];
+            $this->rbacadmin = $DIC["rbacadmin"];
         }
 
         if (isset($DIC["rbacreview"])) {
-            $this->rbac_review = $DIC["rbacreview"];
+            $this->rbacreview = $DIC["rbacreview"];
         }
 
         if ($id == 0) {
@@ -1193,17 +1193,17 @@ class ilObject
      */
     public function setParentRolePermissions(int $parent_ref_id) : bool
     {
-        $parent_roles = $this->rbac_review->getParentRoleIds($parent_ref_id);
+        $parent_roles = $this->rbacreview->getParentRoleIds($parent_ref_id);
         foreach ($parent_roles as $parent_role) {
             if ($parent_role['obj_id'] == SYSTEM_ROLE_ID) {
                 continue;
             }
-            $operations = $this->rbac_review->getOperationsOfRole(
+            $operations = $this->rbacreview->getOperationsOfRole(
                 (int) $parent_role['obj_id'],
                 $this->getType(),
                 (int) $parent_role['parent']
             );
-            $this->rbac_admin->grantPermission(
+            $this->rbacadmin->grantPermission(
                 (int) $parent_role['obj_id'],
                 $operations,
                 $this->getRefId()
@@ -1267,7 +1267,7 @@ class ilObject
     public function delete() : bool
     {
         global $DIC;
-        $rbac_admin = $DIC["rbacadmin"];
+        $rbacadmin = $DIC["rbacadmin"];
 
         $remove = false;
 
@@ -1373,7 +1373,7 @@ class ilObject
             // DONE: method overwritten in ilObjRole & ilObjUser.
             // this call only applies for objects in rbac (not usr,role,rolt)
             // TODO: Do this for role templates too
-            $rbac_admin->revokePermission($this->getRefId(), 0, false);
+            $rbacadmin->revokePermission($this->getRefId(), 0, false);
 
             ilRbacLog::delete($this->getRefId());
 
@@ -1557,7 +1557,7 @@ class ilObject
         global $DIC;
 
         $ilUser = $DIC["ilUser"];
-        $rbac_admin = $DIC["rbacadmin"];
+        $rbacadmin = $DIC["rbacadmin"];
 
         $class_name = ('ilObj' . $this->obj_definition->getClassName($this->getType()));
         
@@ -1592,7 +1592,7 @@ class ilObject
             // when copying from personal workspace we have no current ref id
             if ($this->getRefId()) {
                 // copy local roles
-                $rbac_admin->copyLocalRoles($this->getRefId(), $new_obj->getRefId());
+                $rbacadmin->copyLocalRoles($this->getRefId(), $new_obj->getRefId());
             }
         } else {
             ilLoggerFactory::getLogger('obj')->debug('Tree copy is disabled');

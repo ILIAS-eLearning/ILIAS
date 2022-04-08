@@ -816,7 +816,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         if (!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId()) {
             $this->course_logger->debug('Error cloning auto generated role: il_crs_admin');
         }
-        $this->rbac_admin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
+        $this->rbacadmin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
         $this->course_logger->debug('Finished copying of role crs_admin.');
 
         $tutor = $this->getDefaultTutorRole();
@@ -824,7 +824,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         if (!$tutor || !$new_tutor) {
             $this->course_logger->info('Error cloning auto generated role: il_crs_tutor');
         }
-        $this->rbac_admin->copyRolePermissions($tutor, $this->getRefId(), $new_obj->getRefId(), $new_tutor, true);
+        $this->rbacadmin->copyRolePermissions($tutor, $this->getRefId(), $new_obj->getRefId(), $new_tutor, true);
         $this->course_logger->info('Finished copying of role crs_tutor.');
 
         $member = $this->getDefaultMemberRole();
@@ -832,7 +832,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         if (!$member || !$new_member) {
             $this->course_logger->debug('Error cloning auto generated role: il_crs_member');
         }
-        $this->rbac_admin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
+        $this->rbacadmin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
         $this->course_logger->debug('Finished copying of role crs_member.');
     }
 
@@ -1294,9 +1294,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      */
     public function setParentRolePermissions(int $a_parent_ref) : bool
     {
-        $parent_roles = $this->rbac_review->getParentRoleIds($a_parent_ref);
+        $parent_roles = $this->rbacreview->getParentRoleIds($a_parent_ref);
         foreach ($parent_roles as $parent_role) {
-            $this->rbac_admin->initIntersectionPermissions(
+            $this->rbacadmin->initIntersectionPermissions(
                 $this->getRefId(),
                 $parent_role['obj_id'],
                 $parent_role['parent'],
@@ -1340,10 +1340,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     {
         if (empty($this->local_roles)) {
             $this->local_roles = array();
-            $role_arr = $this->rbac_review->getRolesOfRoleFolder($this->getRefId());
+            $role_arr = $this->rbacreview->getRolesOfRoleFolder($this->getRefId());
 
             foreach ($role_arr as $role_id) {
-                if ($this->rbac_review->isAssignable($role_id, $this->getRefId()) == true) {
+                if ($this->rbacreview->isAssignable($role_id, $this->getRefId()) == true) {
                     $role_Obj = ilObjectFactory::getInstanceByObjId($role_id);
                     if ($a_translate) {
                         $role_name = ilObjRole::_getTranslation($role_Obj->getTitle());
@@ -1373,7 +1373,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $crs_id = $this->getRefId();
         }
 
-        $role_arr = $this->rbac_review->getRolesOfRoleFolder($crs_id);
+        $role_arr = $this->rbacreview->getRolesOfRoleFolder($crs_id);
 
         $arr_crsDefaultRoles = [];
         foreach ($role_arr as $role_id) {
@@ -1404,7 +1404,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      */
     public function __getLocalRoles() : array
     {
-        return $this->rbac_review->getRolesOfRoleFolder($this->getRefId(), false);
+        return $this->rbacreview->getRolesOfRoleFolder($this->getRefId(), false);
     }
 
     public function __deleteSettings() : void

@@ -33,7 +33,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     protected ilObject $obj;
     protected ilObjUserTracking $obj_user_tracking;
     protected ilPrivacySettings $privacy_settings;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacReview $rbacreview;
     protected ilSetting $settings;
     protected ilToolbarGUI $toolbar;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
@@ -45,7 +45,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         ilObject $obj,
         ilObjUserTracking $obj_user_tracking,
         ilPrivacySettings $privacy_settings,
-        ilRbacReview $rbac_review,
+        ilRbacReview $rbacreview,
         ilSetting $settings,
         ilToolbarGUI $toolbar,
         ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
@@ -57,7 +57,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         $this->obj = $obj;
         $this->obj_user_tracking = $obj_user_tracking;
         $this->privacy_settings = $privacy_settings;
-        $this->rbac_review = $rbac_review;
+        $this->rbacreview = $rbacreview;
         $this->settings = $settings;
         $this->toolbar = $toolbar;
         $this->request_wrapper = $request_wrapper;
@@ -214,7 +214,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
             $this->privacy_settings,
             $this->lng,
             $this->access,
-            $this->rbac_review,
+            $this->rbacreview,
             $this->settings
         );
     }

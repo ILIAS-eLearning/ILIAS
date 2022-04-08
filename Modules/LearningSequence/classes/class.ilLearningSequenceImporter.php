@@ -19,7 +19,7 @@
 class ilLearningSequenceImporter extends ilXmlImporter
 {
     protected ilObjUser $user;
-    protected ilRbacAdmin $rbac_admin;
+    protected ilRbacAdmin $rbacadmin;
     protected ilLogger $log;
     protected ilObject $obj;
     protected array $data;
@@ -28,7 +28,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
     {
         global $DIC;
         $this->user = $DIC["ilUser"];
-        $this->rbac_admin = $DIC["rbacadmin"];
+        $this->rbacadmin = $DIC["rbacadmin"];
         $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
     }
 

@@ -39,7 +39,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -62,7 +62,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        $rbacsystem = $this->rbac_system;
+        $rbacsystem = $this->rbacsystem;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

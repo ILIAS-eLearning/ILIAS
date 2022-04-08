@@ -42,7 +42,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $this->data["ctrl"] = [];
         $this->data["cols"] = ["type", "operation", "description", "status"];
 
-        $ops_valid = $this->rbac_review->getOperationsOnType(
+        $ops_valid = $this->rbacreview->getOperationsOnType(
             $this->request_wrapper->retrieve("obj_id", $this->refinery->kindlyTo()->int())
         );
 
@@ -170,11 +170,11 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
         $obj_id = $this->request_wrapper->retrieve("obj_id", $this->refinery->kindlyTo()->int());
 
-        if (!$this->rbac_system->checkAccess('edit_permission', $ref_id)) {
+        if (!$this->rbacsystem->checkAccess('edit_permission', $ref_id)) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->WARNING);
         }
 
-        $ops_valid = $this->rbac_review->getOperationsOnType($obj_id);
+        $ops_valid = $this->rbacreview->getOperationsOnType($obj_id);
 
         $ids = $this->post_wrapper->retrieve(
             "id",
@@ -183,13 +183,13 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         foreach ($ids as $ops_id => $status) {
             if ($status == 'enabled') {
                 if (!in_array($ops_id, $ops_valid)) {
-                    $this->rbac_admin->assignOperationToObject($obj_id, $ops_id);
+                    $this->rbacadmin->assignOperationToObject($obj_id, $ops_id);
                 }
             }
 
             if ($status == 'disabled') {
                 if (in_array($ops_id, $ops_valid)) {
-                    $this->rbac_admin->deassignOperationFromObject($obj_id, $ops_id);
+                    $this->rbacadmin->deassignOperationFromObject($obj_id, $ops_id);
                 }
             }
         }
@@ -208,7 +208,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     public function editObject() : void
     {
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
-        if (!$this->rbac_system->checkAccess("edit_permission", $ref_id)) {
+        if (!$this->rbacsystem->checkAccess("edit_permission", $ref_id)) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
 
@@ -218,7 +218,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $this->data["ctrl"] = [];
         $this->data["cols"] = ["type", "operation", "description", "status"];
 
-        $ops_valid = $this->rbac_review->getOperationsOnType($this->obj_id);
+        $ops_valid = $this->rbacreview->getOperationsOnType($this->obj_id);
 
         if ($ops_arr = ilRbacReview::_getOperationList()) {
             $options = ["e" => "enabled","d" => "disabled"];
@@ -339,7 +339,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
     protected function getTabs() : void
     {
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "view"),

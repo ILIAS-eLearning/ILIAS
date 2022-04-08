@@ -61,7 +61,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
         }
 
@@ -88,7 +88,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         
         $ilTabs->activateTab("settings");
 
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             if (!$form) {
                 $form = $this->initForm();
                 $this->populateWithCurrentSettings($form);

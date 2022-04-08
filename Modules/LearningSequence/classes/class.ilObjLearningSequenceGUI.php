@@ -107,7 +107,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ilNavigationHistory $navigation_history;
     protected ilObjectService $obj_service;
     protected ilObjLearningSequence $ls_object;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacReview $rbacreview;
     protected ilHelpGUI $help;
     protected ILIAS\UI\Factory $ui_factory;
     protected ILIAS\UI\Renderer $ui_renderer;
@@ -205,7 +205,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->help = $DIC['ilHelp'];
         $this->settings = $DIC['ilSetting'];
         $this->access = $DIC['ilAccess'];
-        $this->rbac_review = $DIC['rbacreview'];
+        $this->rbacreview = $DIC['rbacreview'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
 
@@ -543,7 +543,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->getObject(),
             $this->getTrackingObject(),
             ilPrivacySettings::getInstance(),
-            $this->rbac_review,
+            $this->rbacreview,
             $this->settings,
             $this->toolbar,
             $this->request_wrapper,

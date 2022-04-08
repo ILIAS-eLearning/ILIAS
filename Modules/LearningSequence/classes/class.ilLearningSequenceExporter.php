@@ -19,14 +19,14 @@
 class ilLearningSequenceExporter extends ilXmlExporter
 {
     protected ilSetting $settings;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacReview $rbacreview;
 
     public function init() : void
     {
         global $DIC;
 
         $this->settings = $DIC["ilSetting"];
-        $this->rbac_review = $DIC["rbacreview"];
+        $this->rbacreview = $DIC["rbacreview"];
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
@@ -58,7 +58,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
             $ls_object,
             $this->settings,
             $lp_settings,
-            $this->rbac_review
+            $this->rbacreview
         );
     }
 

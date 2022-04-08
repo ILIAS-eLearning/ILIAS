@@ -16,8 +16,6 @@ class ilObjOrgUnit extends ilContainer
     protected static int $root_id = 0;
     private ilDBInterface $ilDb;
     private ilAppEventHandler $ilAppEventHandler;
-    private ilRbacReview $rbacreview;
-    private ilRbacAdmin $rbacadmin;
 
     /**
      * Cache storing OrgUnit objects that have OrgUnit types with custom icons assigned
@@ -49,8 +47,8 @@ class ilObjOrgUnit extends ilContainer
     {
         parent::read();
         /** @var */
-        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' .  $this->ilDb->quote($this->getId(), 'integer');
-        $set =  $this->ilDb->query($sql);
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $this->ilDb->quote($this->getId(), 'integer');
+        $set = $this->ilDb->query($sql);
         if ($this->ilDb->numRows($set)) {
             $rec = $this->ilDb->fetchObject($set);
             $this->setOrgUnitTypeId($rec->orgu_type_id);
@@ -70,8 +68,10 @@ class ilObjOrgUnit extends ilContainer
     public function update() : bool
     {
         parent::update();
-        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $this->ilDb->quote($this->getId(),
-                'integer');
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $this->ilDb->quote(
+            $this->getId(),
+            'integer'
+        );
         $set = $this->ilDb->query($sql);
         if ($this->ilDb->numRows($set)) {
             $this->ilDb->update(self::TABLE_NAME, array(
@@ -87,8 +87,11 @@ class ilObjOrgUnit extends ilContainer
         }
         // Update selection for advanced meta data of the type
         if ($this->getOrgUnitTypeId()) {
-            ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type',
-                $this->getOrgUnitType()->getAssignedAdvancedMDRecordIds());
+            ilAdvancedMDRecord::saveObjRecSelection(
+                $this->getId(),
+                'orgu_type',
+                $this->getOrgUnitType()->getAssignedAdvancedMDRecordIds()
+            );
         } else {
             // If no type is assigned, delete relations by passing an empty array
             ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type', array());
@@ -207,7 +210,6 @@ class ilObjOrgUnit extends ilContainer
      */
     public function assignUsersToEmployeeRole(array $user_ids) : void
     {
-
         $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
         foreach ($user_ids as $user_id) {
@@ -277,7 +279,6 @@ class ilObjOrgUnit extends ilContainer
      */
     public function assignUserToLocalRole(int $role_id, int $user_id) : bool
     {
-
         $arrLocalRoles = $this->rbacreview->getLocalRoles($this->getRefId());
         if (!in_array($role_id, $arrLocalRoles)) {
             return false;
@@ -350,8 +351,10 @@ class ilObjOrgUnit extends ilContainer
      */
     public function getTranslations()
     {
-        $q = "SELECT * FROM object_translation WHERE obj_id = " . $this->ilDb->quote($this->getId(),
-                'integer') . " ORDER BY lang_default DESC";
+        $q = "SELECT * FROM object_translation WHERE obj_id = " . $this->ilDb->quote(
+            $this->getId(),
+            'integer'
+        ) . " ORDER BY lang_default DESC";
         $r = $this->db->query($q);
 
         $data = [];
@@ -435,8 +438,10 @@ class ilObjOrgUnit extends ilContainer
      */
     public function deleteTranslation(string $a_lang) : void
     {
-        $query = "DELETE FROM object_translation WHERE obj_id= " . $this->quote($this->getId(),
-                'integer') . " AND lang_code = "
+        $query = "DELETE FROM object_translation WHERE obj_id= " . $this->quote(
+            $this->getId(),
+            'integer'
+        ) . " AND lang_code = "
             . $this->quote($a_lang, 'text');
         $this->ilDb->manipulate($query);
     }
@@ -451,8 +456,10 @@ class ilObjOrgUnit extends ilContainer
         }
 
         $query = "INSERT INTO object_translation " . "(obj_id,title,description,lang_code,lang_default) " . "VALUES " . "("
-            . $this->ilDb->quote($this->getId(), 'integer') . "," . $this->ilDb->quote($a_title,
-                'text') . "," . $this->ilDb->quote($a_desc, 'text') . ","
+            . $this->ilDb->quote($this->getId(), 'integer') . "," . $this->ilDb->quote(
+                $a_title,
+                'text'
+            ) . "," . $this->ilDb->quote($a_desc, 'text') . ","
             . $this->ilDb->quote($a_lang, 'text') . "," . $this->ilDb->quote($a_lang_default, 'integer') . ")";
         $this->ilDb->manipulate($query);
     }
@@ -476,8 +483,10 @@ class ilObjOrgUnit extends ilContainer
 
         $query .= ", lang_default = " . $this->ilDb->quote($lang_default, 'integer') . " ";
 
-        $query .= " WHERE obj_id = " . $this->ilDb->quote($this->getId(),
-                'integer') . " AND lang_code = " . $this->ilDb->quote($lang, 'text');
+        $query .= " WHERE obj_id = " . $this->ilDb->quote(
+            $this->getId(),
+            'integer'
+        ) . " AND lang_code = " . $this->ilDb->quote($lang, 'text');
         $this->ilDb->manipulate($query);
     }
 

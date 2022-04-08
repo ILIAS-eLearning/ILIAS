@@ -744,7 +744,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         if (!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId()) {
             $this->logger->warning('Error cloning auto generated rol: il_grp_admin');
         }
-        $this->rbac_admin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
+        $this->rbacadmin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
         $this->logger->info('Finished copying of role il_grp_admin.');
 
         $member = $this->getDefaultMemberRole();
@@ -752,7 +752,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         if (!$member || !$new_member) {
             $this->logger->warning('Error cloning auto generated rol: il_grp_member');
         }
-        $this->rbac_admin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
+        $this->rbacadmin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
         $this->logger->info('Finished copying of role il_grp_member.');
     }
 
@@ -797,7 +797,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     {
         $arr_groupRoles = $this->getMemberRoles($a_user_id);
         foreach ($arr_groupRoles as $groupRole) {
-            $this->rbac_admin->deassignUser($groupRole, $a_user_id);
+            $this->rbacadmin->deassignUser($groupRole, $a_user_id);
         }
         return true;
     }
@@ -813,7 +813,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $rol = $this->getLocalGroupRoles();
         $mem_arr = [];
         foreach ($rol as $value) {
-            foreach ($this->rbac_review->assignedUsers($value) as $member_id) {
+            foreach ($this->rbacreview->assignedUsers($value) as $member_id) {
                 array_push($usr_arr, $member_id);
             }
         }
@@ -867,7 +867,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $usr_arr = array();
         $roles = $this->getDefaultGroupRoles();
 
-        foreach ($this->rbac_review->assignedUsers($this->getDefaultAdminRole()) as $member_id) {
+        foreach ($this->rbacreview->assignedUsers($this->getDefaultAdminRole()) as $member_id) {
             array_push($usr_arr, $member_id);
         }
         return $usr_arr;
@@ -880,7 +880,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     protected function getDefaultGroupRoles() : array
     {
         $grp_id = $this->getRefId();
-        $role_arr = $this->rbac_review->getRolesOfRoleFolder($grp_id);
+        $role_arr = $this->rbacreview->getRolesOfRoleFolder($grp_id);
         $arr_grpDefaultRoles = [];
         foreach ($role_arr as $role_id) {
             $role = ilObjectFactory::getInstanceByObjId($role_id, false);
@@ -907,10 +907,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     {
         if (empty($this->local_roles)) {
             $this->local_roles = array();
-            $role_arr = $this->rbac_review->getRolesOfRoleFolder($this->getRefId());
+            $role_arr = $this->rbacreview->getRolesOfRoleFolder($this->getRefId());
 
             foreach ($role_arr as $role_id) {
-                if ($this->rbac_review->isAssignable($role_id, $this->getRefId()) == true) {
+                if ($this->rbacreview->isAssignable($role_id, $this->getRefId()) == true) {
                     $role = ilObjectFactory::getInstanceByObjId($role_id, false);
                     if ($a_translate) {
                         $role_name = ilObjRole::_getTranslation($role->getTitle());
@@ -1021,7 +1021,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     public function getMemberRoles(int $a_user_id) : array
     {
         return array_intersect(
-            $this->rbac_review->assignedRoles($a_user_id),
+            $this->rbacreview->assignedRoles($a_user_id),
             $this->getLocalGroupRoles()
         );
     }
@@ -1029,7 +1029,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     public function isAdmin(int $a_userId) : bool
     {
         $grp_Roles = $this->getDefaultGroupRoles();
-        if (in_array($a_userId, $this->rbac_review->assignedUsers($grp_Roles["grp_admin_role"]))) {
+        if (in_array($a_userId, $this->rbacreview->assignedUsers($grp_Roles["grp_admin_role"]))) {
             return true;
         } else {
             return false;
@@ -1067,18 +1067,18 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      */
     public function setParentRolePermissions(int $a_parent_ref) : bool
     {
-        $parent_roles = $this->rbac_review->getParentRoleIds($a_parent_ref);
+        $parent_roles = $this->rbacreview->getParentRoleIds($a_parent_ref);
         foreach ($parent_roles as $parent_role) {
             if ($parent_role['parent'] == $this->getRefId()) {
                 continue;
             }
-            if ($this->rbac_review->isProtected((int) $parent_role['parent'], (int) $parent_role['rol_id'])) {
-                $operations = $this->rbac_review->getOperationsOfRole(
+            if ($this->rbacreview->isProtected((int) $parent_role['parent'], (int) $parent_role['rol_id'])) {
+                $operations = $this->rbacreview->getOperationsOfRole(
                     (int) $parent_role['obj_id'],
                     $this->getType(),
                     (int) $parent_role['parent']
                 );
-                $this->rbac_admin->grantPermission(
+                $this->rbacadmin->grantPermission(
                     (int) $parent_role['obj_id'],
                     $operations,
                     $this->getRefId()
@@ -1086,7 +1086,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 continue;
             }
 
-            $this->rbac_admin->initIntersectionPermissions(
+            $this->rbacadmin->initIntersectionPermissions(
                 $this->getRefId(),
                 (int) $parent_role['obj_id'],
                 (int) $parent_role['parent'],
@@ -1129,8 +1129,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
     public function _isMember(int $a_user_id, int $a_ref_id, string $a_field = '') : bool
     {
-        $local_roles = $this->rbac_review->getRolesOfRoleFolder($a_ref_id, false);
-        $user_roles = $this->rbac_review->assignedRoles($a_user_id);
+        $local_roles = $this->rbacreview->getRolesOfRoleFolder($a_ref_id, false);
+        $user_roles = $this->rbacreview->assignedRoles($a_user_id);
 
         // Used for membership limitations -> check membership by given field
         if ($a_field) {
@@ -1176,11 +1176,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         $ref_id = current($ref_ids);
 
-        $local_roles = $this->rbac_review->getRolesOfRoleFolder($ref_id, false);
+        $local_roles = $this->rbacreview->getRolesOfRoleFolder($ref_id, false);
 
         $users = array();
         foreach ($local_roles as $role_id) {
-            $users = array_merge($users, $this->rbac_review->assignedUsers($role_id));
+            $users = array_merge($users, $this->rbacreview->assignedUsers($role_id));
         }
         return array_unique($users);
     }

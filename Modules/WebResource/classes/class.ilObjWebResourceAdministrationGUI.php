@@ -50,7 +50,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess(
+        if (!$this->rbacsystem->checkAccess(
             "visible,read",
             $this->object->getRefId()
         )) {
@@ -78,7 +78,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        if ($this->rbac_system->checkAccess(
+        if ($this->rbacsystem->checkAccess(
             "visible,read",
             $this->object->getRefId()
         )) {
@@ -89,7 +89,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess(
+        if ($this->rbacsystem->checkAccess(
             "edit_permission",
             $this->object->getRefId()
         )) {

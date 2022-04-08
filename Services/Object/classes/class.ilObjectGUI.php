@@ -45,9 +45,9 @@ class ilObjectGUI
     protected ilAccessHandler $access;
     protected ilSetting $settings;
     protected ilToolbarGUI $toolbar;
-    protected ilRbacAdmin $rbac_admin;
-    protected ilRbacSystem $rbac_system;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacAdmin $rbacadmin;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
     protected ilObjectService $object_service;
     protected ilObjectDefinition $obj_definition;
     protected ilGlobalTemplateInterface $tpl;
@@ -105,9 +105,9 @@ class ilObjectGUI
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
         $this->toolbar = $DIC->toolbar();
-        $this->rbac_admin = $DIC->rbac()->admin();
-        $this->rbac_system = $DIC->rbac()->system();
-        $this->rbac_review = $DIC->rbac()->review();
+        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacreview = $DIC->rbac()->review();
         $this->object_service = $DIC->object();
         $this->obj_definition = $DIC["objDefinition"];
         $this->tpl = $DIC["tpl"];
@@ -884,7 +884,7 @@ class ilObjectGUI
         // END ChangeEvent: Record save object.
 
         // rbac log
-        $rbac_log_roles = $this->rbac_review->getParentRoleIds($this->ref_id, false);
+        $rbac_log_roles = $this->rbacreview->getParentRoleIds($this->ref_id, false);
         $rbac_log = ilRbacLog::gatherFaPa($this->ref_id, array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
         

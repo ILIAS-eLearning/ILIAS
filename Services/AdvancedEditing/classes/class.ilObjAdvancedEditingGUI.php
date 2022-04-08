@@ -50,7 +50,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     
     public function executeCommand() : void
     {
-        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $mess = str_replace("%s", $this->object->getTitle(), $this->lng->txt("msg_no_perm_read_item"));
             $this->ilias->raiseError($mess, $this->ilias->error_obj->WARNING);
         }
@@ -164,7 +164,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     
     protected function getTabs() : void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "adve_page_editor_settings",
                 $this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
@@ -186,7 +186,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),

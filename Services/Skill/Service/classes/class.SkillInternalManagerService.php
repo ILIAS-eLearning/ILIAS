@@ -35,20 +35,20 @@ class SkillInternalManagerService
     protected int $skmg_ref_id = 0;
     protected \ilTree $repository_tree;
     protected Tree\SkillTreeFactory $skill_tree_factory;
-    protected \ilRbacSystem $rbac_system;
+    protected \ilRbacSystem $rbacsystem;
     protected int $usr_id = 0;
 
     public function __construct(
         int $skmg_ref_id,
         \ilTree $repository_tree,
         Tree\SkillTreeFactory $skill_tree_factory,
-        \ilRbacSystem $rbac_system,
+        \ilRbacSystem $rbacsystem,
         int $usr_id
     ) {
         $this->skmg_ref_id = $skmg_ref_id;
         $this->repository_tree = $repository_tree;
         $this->skill_tree_factory = $skill_tree_factory;
-        $this->rbac_system = $rbac_system;
+        $this->rbacsystem = $rbacsystem;
         $this->usr_id = $usr_id;
     }
 
@@ -84,11 +84,11 @@ class SkillInternalManagerService
 
     public function getTreeAccessManager(int $obj_ref_id) : SkillTreeAccess
     {
-        return new SkillTreeAccess($this->rbac_system, $obj_ref_id, $this->usr_id);
+        return new SkillTreeAccess($this->rbacsystem, $obj_ref_id, $this->usr_id);
     }
 
     public function getManagementAccessManager(int $skmg_ref_id) : SkillManagementAccess
     {
-        return new SkillManagementAccess($this->rbac_system, $skmg_ref_id, $this->usr_id);
+        return new SkillManagementAccess($this->rbacsystem, $skmg_ref_id, $this->usr_id);
     }
 }

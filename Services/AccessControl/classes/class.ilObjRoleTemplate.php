@@ -32,7 +32,7 @@ class ilObjRoleTemplate extends ilObject
     {
         // put here role template specific stuff
         // delete rbac permissions
-        $this->rbac_admin->deleteTemplate($this->getId());
+        $this->rbacadmin->deleteTemplate($this->getId());
 
         // always call parent delete function at the end!!
         return parent::delete();

@@ -53,7 +53,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -75,9 +75,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        $rbac_system = $this->rbac_system;
+        $rbacsystem = $this->rbacsystem;
 
-        if ($rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "cont_edit_lrs_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
@@ -85,7 +85,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),

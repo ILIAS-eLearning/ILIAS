@@ -35,7 +35,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     public const P_ADMIN_MODE = 'admin_mode';
 
     protected ilTabsGUI $tabs;
-    protected ilRbacSystem $rbac_system;
+    protected ilRbacSystem $rbacsystem;
     protected ilDBInterface $db;
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
@@ -53,7 +53,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
         $this->tabs = $DIC->tabs();
         $this->ctrl = $DIC->ctrl();
-        $this->rbac_system = $DIC->rbac()->system();
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->db = $DIC->database();
         $this->type = self::TYPE;
         $this->component_repository = $DIC["component.repository"];
@@ -74,7 +74,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -282,7 +282,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 self::TAB_PLUGINS,
                 $this->lng->txt("cmps_plugins"),
@@ -290,7 +290,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "perm_settings",
                 $this->lng->txt("perm_settings"),

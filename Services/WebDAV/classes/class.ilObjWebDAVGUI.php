@@ -72,7 +72,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
     
     public function getAdminTabs() : void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 'webdav_general_settings',
                 $this->lng->txt("webdav_general_settings"),
@@ -119,7 +119,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('webdav_general_settings');
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error_handling->raiseError(
                 $this->lng->txt("no_permission"),
                 $this->error_handling->WARNING
@@ -133,7 +133,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
     
     public function saveSettings() : void
     {
-        if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
             $this->ctrl->redirect($this, self::SETTING_COMMANDS['edit']);
         }

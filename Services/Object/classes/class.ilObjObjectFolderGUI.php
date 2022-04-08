@@ -40,7 +40,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
     */
     public function viewObject() : void
     {
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
 
@@ -95,7 +95,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
     protected function getTabs() : void
     {
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "view"),

@@ -62,9 +62,9 @@ abstract class ilObject2GUI extends ilObjectGUI
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected RequestWrapper $request_wrapper;
     protected Factory $refinery;
-    protected ilRbacAdmin $rbac_admin;
-    protected ilRbacSystem $rbac_system;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacAdmin $rbacadmin;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
 
     protected int $request_ref_id;
     protected int $id_type;
@@ -101,9 +101,9 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
         $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
-        $this->rbac_admin = $DIC->rbac()->admin();
-        $this->rbac_system = $DIC->rbac()->system();
-        $this->rbac_review = $DIC->rbac()->review();
+        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacreview = $DIC->rbac()->review();
 
         $tree = $DIC["tree"];
 
@@ -678,7 +678,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 $obj->setPermissions($parent_node_id);
 
                 // rbac log
-                $rbac_log_roles = $this->rbac_review->getParentRoleIds($this->node_id, false);
+                $rbac_log_roles = $this->rbacreview->getParentRoleIds($this->node_id, false);
                 $rbac_log = ilRbacLog::gatherFaPa($this->node_id, array_keys($rbac_log_roles), true);
                 ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->node_id, $rbac_log);
 

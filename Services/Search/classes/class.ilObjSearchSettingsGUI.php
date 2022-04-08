@@ -63,7 +63,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     public function settingsObject(?ilPropertyFormGUI $form = null) : bool
     {
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
         $this->tabs_gui->setTabActive('settings');
@@ -82,7 +82,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     protected function getTabs() : void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
@@ -92,14 +92,14 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'lucene_advanced_settings',
                 $this->ctrl->getLinkTarget($this, 'advancedLuceneSettings')
             );
         }
 
-        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'lucene_settings_tab',
                 $this->ctrl->getLinkTarget($this, 'luceneSettings')
@@ -107,7 +107,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         }
 
 
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),

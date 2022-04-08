@@ -1976,9 +1976,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function getDefaultMemberRole() : int
     {
-        $rbac_review = $this->rbacreview;
+        $rbacreview = $this->rbacreview;
 
-        $local_roles = $rbac_review->getRolesOfRoleFolder($this->object->getRefId(), false);
+        $local_roles = $rbacreview->getRolesOfRoleFolder($this->object->getRefId(), false);
         
         foreach ($local_roles as $role_id) {
             $title = ilObject::_lookupTitle($role_id);
@@ -1994,7 +1994,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function getLocalRoles() : array
     {
-        $rbac_review = $this->rbacreview;
+        $rbacreview = $this->rbacreview;
 
         return $this->rbacreview->getRolesOfRoleFolder($this->object->getRefId(), false);
     }

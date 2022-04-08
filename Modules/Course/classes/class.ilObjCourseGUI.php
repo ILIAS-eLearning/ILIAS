@@ -2237,7 +2237,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 if (
                     !($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
                         $this->access->checkAccess('manage_members', "", $this->object->getRefId())) &&
-                    $this->rbac_system->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
+                    $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
                     $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->MESSAGE);
                 }
 
@@ -2345,7 +2345,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     && !$this->access->checkAccess("read", '', $this->object->getRefId())
                     || $cmd == 'join'
                     || $cmd == 'subscribe') {
-                    if ($this->rbac_system->checkAccess('join', $this->object->getRefId()) &&
+                    if ($this->rbacsystem->checkAccess('join', $this->object->getRefId()) &&
                         !ilCourseParticipants::_isParticipant($this->object->getRefId(), $this->user->getId())) {
                         $this->ctrl->redirectByClass("ilCourseRegistrationGUI");
                     } else {
@@ -2717,7 +2717,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $settings = ilMemberViewSettings::getInstance();
             if ($settings->isActive() && $settings->getContainer() != $this->object->getRefId()) {
                 $settings->setContainer($this->object->getRefId());
-                $this->rbac_system->initMemberView();
+                $this->rbacsystem->initMemberView();
             }
         }
         return parent::prepareOutput($show_subobjects);

@@ -33,18 +33,18 @@ class SkillInternalService
      */
     protected int $skmg_ref_id = 0;
     protected \ilTree $repository_tree;
-    protected \ilRbacSystem $rbac_system;
+    protected \ilRbacSystem $rbacsystem;
     protected int $usr_id = 0;
     protected HTTP\Services $http;
     protected Refinery\Factory $refinery;
 
-    public function __construct(int $skmg_ref_id, \ilTree $repository_tree, \ilRbacSystem $rbac_system, int $usr_id)
+    public function __construct(int $skmg_ref_id, \ilTree $repository_tree, \ilRbacSystem $rbacsystem, int $usr_id)
     {
         global $DIC;
 
         $this->skmg_ref_id = $skmg_ref_id;
         $this->repository_tree = $repository_tree;
-        $this->rbac_system = $rbac_system;
+        $this->rbacsystem = $rbacsystem;
         $this->usr_id = $usr_id;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -61,7 +61,7 @@ class SkillInternalService
             $this->skmg_ref_id,
             $this->repository_tree,
             $this->factory()->tree(),
-            $this->rbac_system,
+            $this->rbacsystem,
             $this->usr_id
         );
     }

@@ -117,7 +117,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
      */
     public function getAdminTabs() : void
     {
-        if ($this->rbac_system->checkAccess(
+        if ($this->rbacsystem->checkAccess(
             "visible,read",
             $this->object->getRefId()
         )
@@ -128,7 +128,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
                 [self::CMD_EDIT_SETTINGS, "view"]
             );
         }
-        if ($this->rbac_system->checkAccess(
+        if ($this->rbacsystem->checkAccess(
             'edit_permission',
             $this->object->getRefId()
         )

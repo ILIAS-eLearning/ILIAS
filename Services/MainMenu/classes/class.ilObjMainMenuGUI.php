@@ -9,7 +9,7 @@
 class ilObjMainMenuGUI extends ilObject2GUI
 {
     private ilMMTabHandling $tab_handling;
-    protected ilRbacSystem $rbac_system;
+    protected ilRbacSystem $rbacsystem;
     protected ilTabsGUI $tabs;
     public ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -38,7 +38,7 @@ class ilObjMainMenuGUI extends ilObject2GUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->tpl = $DIC['tpl'];
         $this->tree = $DIC['tree'];
-        $this->rbac_system = $DIC['rbacsystem'];
+        $this->rbacsystem = $DIC['rbacsystem'];
         $this->tab_handling = new ilMMTabHandling($this->ref_id);
         
         $this->assignObject();

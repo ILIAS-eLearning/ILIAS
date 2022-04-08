@@ -45,7 +45,7 @@ class ilObjRoleFolder extends ilObject
             return false;
         }
         // put here rolefolder specific stuff
-        $roles = $this->rbac_review->getRolesOfRoleFolder($this->getRefId());
+        $roles = $this->rbacreview->getRolesOfRoleFolder($this->getRefId());
         foreach ($roles as $role_id) {
             $roleObj = ilObjectFactory::getInstanceByObjId($role_id);
             $roleObj->setParent($this->getRefId());

@@ -23,7 +23,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
     protected ilObjUserTracking $obj_user_tracking;
     protected ilPrivacySettings $privacy_settings;
     protected ilAccess $access;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacReview $rbacreview;
     protected ilSetting $settings;
 
     public function __construct(
@@ -33,7 +33,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         ilPrivacySettings $privacy_settings,
         ilLanguage $lng,
         ilAccess $access,
-        ilRbacReview $rbac_review,
+        ilRbacReview $rbacreview,
         ilSetting $settings
     ) {
         $this->parent_gui = $parent_gui;
@@ -43,7 +43,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->privacy_settings = $privacy_settings;
         $this->lng = $lng;
         $this->access = $access;
-        $this->rbac_review = $rbac_review;
+        $this->rbacreview = $rbacreview;
         $this->settings = $settings;
 
         $this->lng->loadLanguageModule('lso');
@@ -325,7 +325,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             $user_id = $ud['usr_id'];
 
             if ($this->current_filter['roles']) {
-                if (!$this->rbac_review->isAssigned($user_id, $this->current_filter['roles'])) {
+                if (!$this->rbacreview->isAssigned($user_id, $this->current_filter['roles'])) {
                     continue;
                 }
             }
@@ -344,7 +344,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 
             $roles = array();
             foreach ($local_roles as $role_id => $role_name) {
-                if ($this->rbac_review->isAssigned((int) $user_id, $role_id)) {
+                if ($this->rbacreview->isAssigned($user_id, $role_id)) {
                     $roles[] = $role_name;
                 }
             }

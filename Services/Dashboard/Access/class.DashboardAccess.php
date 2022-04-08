@@ -22,7 +22,7 @@ namespace ILIAS\Dashboard\Access;
  */
 class DashboardAccess
 {
-    protected \ilRbacSystem $rbac_system;
+    protected \ilRbacSystem $rbacsystem;
     protected \ilDBInterface $db;
     protected static int $setting_ref_id = 0;
 
@@ -31,7 +31,7 @@ class DashboardAccess
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->rbac_system = $DIC->rbac()->system();
+        $this->rbacsystem = $DIC->rbac()->system();
     }
 
     /**
@@ -57,6 +57,6 @@ class DashboardAccess
 
     public function canChangePresentation(int $user_id) : bool
     {
-        return $this->rbac_system->checkAccessOfUser($user_id, "change_presentation", $this->getSettingsRefId());
+        return $this->rbacsystem->checkAccessOfUser($user_id, "change_presentation", $this->getSettingsRefId());
     }
 }

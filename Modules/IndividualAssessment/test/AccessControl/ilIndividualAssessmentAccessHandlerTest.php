@@ -18,11 +18,11 @@ class ilIndividualAssessmentAccessHandlerTest extends TestCase
     /**
      * @var ilRbacAdmin|mixed|MockObject
      */
-    private $rbac_admin;
+    private $rbacadmin;
     /**
      * @var ilRbacReview|mixed|MockObject
      */
-    private $rbac_review;
+    private $rbacreview;
     /**
      * @var ilObjUser|mixed|MockObject
      */
@@ -32,8 +32,8 @@ class ilIndividualAssessmentAccessHandlerTest extends TestCase
     {
         $this->iass_object = $this->createMock(ilObjIndividualAssessment::class);
         $this->access_handler = $this->createMock(ilAccessHandler::class);
-        $this->rbac_admin = $this->createMock(ilRbacAdmin::class);
-        $this->rbac_review = $this->createMock(ilRbacReview::class);
+        $this->rbacadmin = $this->createMock(ilRbacAdmin::class);
+        $this->rbacreview = $this->createMock(ilRbacReview::class);
         $this->obj_user = $this->createMock(ilObjUser::class);
     }
 
@@ -42,8 +42,8 @@ class ilIndividualAssessmentAccessHandlerTest extends TestCase
         $obj = new ilIndividualAssessmentAccessHandler(
             $this->iass_object,
             $this->access_handler,
-            $this->rbac_admin,
-            $this->rbac_review,
+            $this->rbacadmin,
+            $this->rbacreview,
             $this->obj_user
         );
 

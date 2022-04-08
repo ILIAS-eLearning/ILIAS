@@ -26,6 +26,10 @@ use ILIAS\Notifications\ilNotificationDatabaseHandler;
  */
 class ilObjContactAdministrationGUI extends ilObject2GUI
 {
+    protected \ILIAS\DI\Container $dic;
+    protected ilErrorHandling $error;
+    public ilLanguage $lng;
+
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);

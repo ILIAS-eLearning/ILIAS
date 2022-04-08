@@ -21,19 +21,19 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
     protected ilObjLearningSequence $ls_object;
     protected ilSetting $settings;
     protected ilLPObjSettings $lp_settings;
-    protected ilRbacReview $rbac_review;
+    protected ilRbacReview $rbacreview;
     protected ilLearningSequenceSettings $ls_settings;
 
     public function __construct(
         ilObjLearningSequence $ls_object,
         ilSetting $settings,
         ilLPObjSettings $lp_settings,
-        ilRbacReview $rbac_review
+        ilRbacReview $rbacreview
     ) {
         $this->ls_object = $ls_object;
         $this->settings = $settings;
         $this->lp_settings = $lp_settings;
-        $this->rbac_review = $rbac_review;
+        $this->rbacreview = $rbacreview;
 
         $this->ls_settings = $ls_object->getLSSettings();
     }

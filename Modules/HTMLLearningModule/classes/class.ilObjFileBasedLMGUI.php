@@ -361,7 +361,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     public function editObject() : void
     {
-        if (!$this->rbac_system->checkAccess("visible,write", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("visible,write", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt("permission_denied"));
         }
     }

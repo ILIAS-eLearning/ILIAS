@@ -31,7 +31,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     /**
      * @var ilRbacSystem
      */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
 
     /**
      * @var ilObjectDefinition
@@ -1154,7 +1154,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $data,
             $lng,
             $interface_finder
-            []
         );
 
         $st = new StatusCommand($agent_finder);

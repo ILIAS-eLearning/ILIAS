@@ -106,7 +106,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     */
     public function getTabs() : void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "system_styles",
                 $this->lng->txt("system_styles"),
@@ -126,7 +126,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "perm_settings",
                 $this->lng->txt("perm_settings"),
