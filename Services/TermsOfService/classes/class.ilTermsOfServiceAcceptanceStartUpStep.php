@@ -51,7 +51,7 @@ class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
 
             /** @var ilTermsOfServiceHelper $tosService */
             $tosService = $this->dic['tos.service'];
-            if ($tosService->hasToResignAcceptance($this->dic->user(), $this->dic->logger()->tos())) {  // PHP8-Review: Method 'tos' not found in ILIAS\DI\LoggingServices
+            if ($tosService->hasToResignAcceptance($this->dic->user(), $this->dic->logger()->tos())) {
                 $tosService->resetAcceptance($this->dic->user());
                 return true;
             }

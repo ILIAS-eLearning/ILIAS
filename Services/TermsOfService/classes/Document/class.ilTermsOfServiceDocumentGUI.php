@@ -308,7 +308,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             throw new UnexpectedValueException('Expected exactly one document in list');
         }
 
-        $document = new ilTermsOfServiceDocument(0);  // PHP8-Review: Method ilTermsOfServiceDocumentGUI::getFirstDocumentFromList() should return ilTermsOfServiceDocument but returns ActiveRecord
+        $document = new ilTermsOfServiceDocument(0);
         $document = $document->buildFromArray(current($documents));
 
         return $document;
@@ -326,7 +326,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             return;
         }
 
-        $documents = array_map(static function (array $data) : ilTermsOfServiceDocument {  // PHP8-Review: Anonymous function should return ilTermsOfServiceDocument but returns ActiveRecord
+        $documents = array_map(static function (array $data) : ilTermsOfServiceDocument {
             $document = new ilTermsOfServiceDocument(0);
             $document = $document->buildFromArray($data);
 

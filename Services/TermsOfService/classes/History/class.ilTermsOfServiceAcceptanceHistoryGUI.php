@@ -65,11 +65,10 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
-    
-        // PHP8-Review: 'switch' with single 'case'
+
         switch (strtolower($nextClass)) {
             default:
-                if ($cmd === '' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
                     $cmd = 'showAcceptanceHistory';
                 }
                 $this->$cmd();
@@ -132,7 +131,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
 
         if ($this->http->wrapper()->query()->has('term')) {
             $query = ilUtil::stripSlashes(
-                $this->http->wrapper()->query()->retrieve('term', $this->refinery->kindlyTo()->string())  // PHP8-Review: Parameter #1 $a_str of static method ilUtil::stripSlashes() expects string, mixed given
+                $this->http->wrapper()->query()->retrieve('term', $this->refinery->kindlyTo()->string())
             );
             $this->http->saveResponse(
                 $this->http->response()
