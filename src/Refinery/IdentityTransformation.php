@@ -16,12 +16,7 @@
  *
  *********************************************************************/
 
-/**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
 namespace ILIAS\Refinery;
-
-use InvalidArgumentException;
 
 class IdentityTransformation implements Transformation
 {
@@ -29,7 +24,7 @@ class IdentityTransformation implements Transformation
     use DeriveApplyToFromTransform;
 
     /**
-     * @throws InvalidArgumentException
+     * @inheritDoc
      */
     public function transform($from)
     {

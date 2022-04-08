@@ -24,17 +24,14 @@ use ilLanguage;
 
 class Not extends Constraint
 {
-    protected Constraint $constraint;
-
     public function __construct(Constraint $constraint, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->constraint = $constraint;
         parent::__construct(
-            function ($value) {
-                return !$this->constraint->accepts($value);
+            static function ($value) use ($constraint) {
+                return !$constraint->accepts($value);
             },
-            function ($txt, $value) {
-                return $txt("not_generic", $this->constraint->getErrorMessage($value));
+            static function ($txt, $value) use ($constraint) : string {
+                return (string) $txt("not_generic", $constraint->getErrorMessage($value));
             },
             $data_factory,
             $lng

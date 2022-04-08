@@ -23,9 +23,6 @@ use ILIAS\Refinery\To;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ilLanguage;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Factory
 {
     private \ILIAS\Data\Factory $dataFactory;
@@ -159,7 +156,7 @@ class Factory
      */
     public function byTrying(array $transformations) : ByTrying
     {
-        return new ByTrying($transformations, $this->dataFactory, $this->language);
+        return new ByTrying($transformations, $this->dataFactory);
     }
 
     public function random() : RandomGroup

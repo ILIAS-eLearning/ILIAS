@@ -36,9 +36,6 @@ class ChangeTimezone implements Transformation
 
     private DateTimeZone $timezone;
 
-    /**
-     * @param string $timezone
-     */
     public function __construct(string $timezone)
     {
         if (!in_array($timezone, timezone_identifiers_list(), true)) {
@@ -48,16 +45,16 @@ class ChangeTimezone implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : DateTimeImmutable
     {
         if (!$from instanceof DateTimeImmutable) {
             throw new InvalidArgumentException("$from is not a DateTimeImmutable-object", 1);
         }
         
         $ts = $from->format('Y-m-d H:i:s');
-        $to = new DateTimeImmutable($ts, $this->timezone);
-        return $to;
+
+        return new DateTimeImmutable($ts, $this->timezone);
     }
 }

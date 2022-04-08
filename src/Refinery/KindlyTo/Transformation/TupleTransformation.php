@@ -28,6 +28,7 @@ class TupleTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
+    /** @var Transformation[] */
     private array $transformations;
 
     /**
@@ -52,7 +53,7 @@ class TupleTransformation implements Transformation
     /**
      * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         if (!is_array($from)) {
             $from = [$from];
@@ -72,7 +73,7 @@ class TupleTransformation implements Transformation
         foreach ($from as $key => $value) {
             if (!array_key_exists($key, $this->transformations)) {
                 throw new ConstraintViolationException(
-                    sprintf('Matching value "%s" not found', $value),
+                    sprintf('Matching key "%s" not found', $key),
                     'matching_values_not_found',
                     $value
                 );
@@ -80,6 +81,7 @@ class TupleTransformation implements Transformation
             $transformedValue = $this->transformations[$key]->transform($value);
             $result[] = $transformedValue;
         }
+
         return $result;
     }
 

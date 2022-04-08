@@ -22,20 +22,11 @@ use Closure;
 use ArrayAccess;
 use Countable;
 
-/**
- * Class KeyValueAccess
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
 class KeyValueAccess implements ArrayAccess, Countable
 {
     private array $raw_values;
-    protected Transformation $trafo;
+    private Transformation $trafo;
 
-    /**
-     * KeyValueAccess constructor.
-     * @param array          $raw_values
-     * @param Transformation $trafo
-     */
     public function __construct(array $raw_values, Transformation $trafo)
     {
         $this->trafo = $trafo;

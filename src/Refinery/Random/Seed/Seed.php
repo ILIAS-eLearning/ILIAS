@@ -16,12 +16,13 @@
  *
  *********************************************************************/
 
-/**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
 namespace ILIAS\Refinery\Random\Seed;
 
 interface Seed
 {
+    /**
+     * Seeds a random number generator.
+     * @return void
+     */
     public function seedRandomGenerator() : void;
 }

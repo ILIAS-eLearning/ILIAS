@@ -23,9 +23,6 @@ use ILIAS\Refinery\Transformation;
 use ReflectionClass;
 use ReflectionException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class NewObjectTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
@@ -38,7 +35,7 @@ class NewObjectTransformation implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      * @throws ReflectionException
      */
     public function transform($from)
@@ -50,7 +47,7 @@ class NewObjectTransformation implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      * @throws ReflectionException
      */
     public function __invoke($from)

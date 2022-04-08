@@ -36,9 +36,10 @@ class DictionaryTransformation implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
+     * @return array<string, mixed>
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         if (!is_array($from)) {
             throw new ConstraintViolationException(
@@ -59,6 +60,7 @@ class DictionaryTransformation implements Transformation
             $transformedValue = $this->transformation->transform($value);
             $result[(string) $key] = $transformedValue;
         }
+
         return $result;
     }
 }

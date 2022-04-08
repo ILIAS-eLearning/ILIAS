@@ -18,8 +18,8 @@
 
 namespace ILIAS\Refinery;
 
+use Exception;
 use ILIAS\Data;
-use ilLanguage;
 
 class ByTrying implements Transformation
 {
@@ -27,19 +27,17 @@ class ByTrying implements Transformation
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
+    /** @var Transformation[] */
+    private array $transformations;
+    private Data\Factory $data_factory;
+    /** @var callable */
+    private $error;
+
     /**
-     * @var Transformation[]
+     * @param Transformation[] $transformations
+     * @param Data\Factory $data_factory
      */
-    protected array $transformations;
-
-    protected Data\Factory $data_factory;
-
-    /**
-     * @var callable
-     */
-    protected $error;
-
-    public function __construct(array $transformations, Data\Factory $data_factory, ilLanguage $lng)
+    public function __construct(array $transformations, Data\Factory $data_factory)
     {
         $this->transformations = $transformations;
         $this->data_factory = $data_factory;
@@ -52,7 +50,7 @@ class ByTrying implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function getError() : callable
     {
@@ -60,7 +58,7 @@ class ByTrying implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function transform($from)
     {
@@ -71,6 +69,6 @@ class ByTrying implements Transformation
                 return $result->value();
             }
         }
-        throw new \Exception($this->getErrorMessage($from));
+        throw new Exception($this->getErrorMessage($from));
     }
 }

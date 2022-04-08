@@ -18,24 +18,20 @@
 
 namespace ILIAS\Refinery\Integer;
 
-use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ilLanguage;
 
-class GreaterThanOrEqual extends CustomConstraint implements Constraint
+class GreaterThanOrEqual extends Constraint
 {
-    protected int $min;
-
     public function __construct(int $min, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->min = $min;
         parent::__construct(
-            function ($value) : bool {
-                return $value >= $this->min;
+            static function ($value) use ($min) : bool {
+                return $value >= $min;
             },
-            function ($txt, $value) : string {
-                return (string) $txt("not_greater_than_or_equal", $this->min);
+            static function ($txt, $value) use ($min) : string {
+                return (string) $txt("not_greater_than_or_equal", $min);
             },
             $data_factory,
             $lng

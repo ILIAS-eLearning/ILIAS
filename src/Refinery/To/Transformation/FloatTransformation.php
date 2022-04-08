@@ -24,9 +24,6 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class FloatTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
@@ -34,19 +31,25 @@ class FloatTransformation implements Constraint
     use ProblemBuilder;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : float
     {
         $this->check($from);
         return (float) $from;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getError() : string
     {
         return 'The value MUST be of type string.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -56,11 +59,17 @@ class FloatTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         return is_float($value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

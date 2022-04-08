@@ -21,17 +21,15 @@ namespace ILIAS\Refinery;
 use ILIAS\Data\Result;
 use Exception;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 trait DeriveTransformFromApplyTo
 {
+    /**
+     * @inheritDoc
+     */
     abstract public function applyTo(Result $result) : Result;
 
     /**
-     * @param mixed $from
-     * @return mixed
-     * @throws Exception
+     * @inheritDoc
      */
     public function transform($from)
     {

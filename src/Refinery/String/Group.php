@@ -19,12 +19,10 @@
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
 use ilLanguage;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Group
 {
     private Factory $dataFactory;
@@ -42,9 +40,9 @@ class Group
      *
      * @param int $minimum - minimum length of a string that will be checked
      *                       with the new constraint
-     * @return HasMinLength
+     * @return Constraint
      */
-    public function hasMinLength(int $minimum) : HasMinLength
+    public function hasMinLength(int $minimum) : Constraint
     {
         return new HasMinLength($minimum, $this->dataFactory, $this->language);
     }
@@ -55,9 +53,9 @@ class Group
      *
      * @param int $maximum - maximum length of a strings that will be checked
      *                       with the new constraint
-     * @return HasMaxLength
+     * @return Constraint
      */
-    public function hasMaxLength(int $maximum) : HasMaxLength
+    public function hasMaxLength(int $maximum) : Constraint
     {
         return new HasMaxLength($maximum, $this->dataFactory, $this->language);
     }
@@ -66,7 +64,7 @@ class Group
      * Creates a transformation that can be used to split a given
      * string by given delimiter.
      */
-    public function splitString(string $delimiter) : SplitString
+    public function splitString(string $delimiter) : Transformation
     {
         return new SplitString($delimiter, $this->dataFactory);
     }
@@ -76,7 +74,7 @@ class Group
      *
      * Uses php's strip_tags under the hood.
      */
-    public function stripTags() : StripTags
+    public function stripTags() : Transformation
     {
         return new StripTags();
     }
@@ -86,9 +84,9 @@ class Group
      *
      * Throws a LogicException in the transform method, if a not supported language is passed
      */
-    public function caseOfLabel(string $language_key) : CaseOfLabel
+    public function caseOfLabel(string $language_key) : Transformation
     {
-        return new CaseOfLabel($language_key, $this->dataFactory);
+        return new CaseOfLabel($language_key);
     }
 
     /**
@@ -100,7 +98,7 @@ class Group
      * Any images after the tenth image are counted at three seconds.
      * The reading time returned in minutes as a integer value.
      */
-    public function estimatedReadingTime(bool $withImages = false) : EstimatedReadingTime
+    public function estimatedReadingTime(bool $withImages = false) : Transformation
     {
         return new EstimatedReadingTime($withImages);
     }

@@ -33,17 +33,17 @@ interface Constraint extends Transformation
      *
      * Should not throw if accepts($value).
      *
-     * @throws  UnexpectedValueException if value does not comply with encoded constraint.
-     * @param   mixed  $value
-     * @return  null
+     * @param mixed $value
+     * @return null
+     * @throws UnexpectedValueException if value does not comply with encoded constraint.
      */
     public function check($value);
 
     /**
      * Tells if the provided value complies.
      *
-     * @param   mixed $value
-     * @return  bool
+     * @param mixed $value
+     * @return bool
      */
     public function accepts($value) : bool;
 
@@ -52,8 +52,8 @@ interface Constraint extends Transformation
      *
      * Should return null if accepts($value).
      *
-     * @param   mixed $value
-     * @return  string|null
+     * @param mixed $value
+     * @return string|null
      */
     public function problemWith($value) : ?string;
 
@@ -64,8 +64,8 @@ interface Constraint extends Transformation
      * Must replace the result with an error according to problemWith() if
      * !accepts($result->value()).
      *
-     * @param   Result $result
-     * @return  Result
+     * @param Result $result
+     * @return Result
      */
     public function applyTo(Result $result) : Result;
 
@@ -79,8 +79,8 @@ interface Constraint extends Transformation
      * The builder needs to be callable that takes two parameters:
      *
      *
-     * @param   callable  $builder
-     * @return  Constraint
+     * @param callable $builder
+     * @return self
      */
-    public function withProblemBuilder(callable $builder);
+    public function withProblemBuilder(callable $builder) : self;
 }

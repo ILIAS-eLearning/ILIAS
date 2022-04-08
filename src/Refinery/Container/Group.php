@@ -21,9 +21,6 @@ namespace ILIAS\Refinery\Container;
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Transformation;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Group
 {
     private Factory $dataFactory;
@@ -35,14 +32,20 @@ class Group
 
     /**
      * Adds to any array keys for each value
+     * @param string[]|int[] $labels
+     * @return Transformation
      */
-    public function addLabels(array $labels) : AddLabels
+    public function addLabels(array $labels) : Transformation
     {
         return new AddLabels($labels, $this->dataFactory);
     }
 
-    public function mapValues(Transformation $trafo) : MapValues
+    /**
+     * Returns a transformation which applies the given transformation to
+     * the element of the array passed to the transformation
+     */
+    public function mapValues(Transformation $trafo) : Transformation
     {
-        return new MapValues($trafo, $this->dataFactory);
+        return new MapValues($trafo);
     }
 }

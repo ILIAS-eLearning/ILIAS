@@ -16,10 +16,7 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-function toNewObject()
+function toNewObject() : bool
 {
     class SomeOtherClass
     {
@@ -47,7 +44,7 @@ function toNewObject()
             return $this->firstParameter;
         }
 
-        public function getSecodParameter() : string
+        public function getSecodParameter() : int
         {
             return $this->secondParameter;
         }

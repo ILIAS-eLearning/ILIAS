@@ -16,20 +16,17 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-function series()
+function series() : bool
 {
     global $DIC;
 
     $refinery = $DIC->refinery();
 
     $transformation = $refinery->in()->series(
-        array(
+        [
             new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
             new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
-        )
+        ]
     );
 
     $result = $transformation->transform(5);

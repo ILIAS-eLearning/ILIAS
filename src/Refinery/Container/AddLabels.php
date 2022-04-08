@@ -31,14 +31,13 @@ class AddLabels implements Transformation
 {
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var string[] | int[]
-     */
-    protected array $labels;
+    /** @var string[]|int[] */
+    private array $labels;
     private Factory $factory;
 
     /**
-     * @param string[] | int[] $labels
+     * @param string[]|int[] $labels
+     * @param Factory $factory
      */
     public function __construct(array $labels, Factory $factory)
     {
@@ -47,9 +46,10 @@ class AddLabels implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
+     * @return array<int|string, mixed>
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         if (!is_array($from)) {
             throw new InvalidArgumentException(__METHOD__ . " argument is not an array.");
@@ -63,7 +63,7 @@ class AddLabels implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function applyTo(Result $result) : Result
     {

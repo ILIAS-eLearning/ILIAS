@@ -16,23 +16,20 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-function toTuple()
+function toTuple() : bool
 {
     global $DIC;
 
     $refinery = $DIC->refinery();
 
     $transformation = $refinery->to()->tupleOf(
-        array(
+        [
             new \ILIAS\Refinery\To\Transformation\IntegerTransformation(),
             new \ILIAS\Refinery\To\Transformation\IntegerTransformation()
-        )
+        ]
     );
 
-    $result = $transformation->transform(array(5, 1));
+    $result = $transformation->transform([5, 1]);
 
-    return assert(array(5, 1) === $result);
+    return assert([5, 1] === $result);
 }

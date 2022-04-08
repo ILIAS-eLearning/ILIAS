@@ -23,21 +23,16 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Series implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var Transformation[]
-     */
+    /** @var Transformation[] */
     private array $transformationStrategies;
 
     /**
-     * @param array $transformations
+     * @param Transformation[] $transformations
      */
     public function __construct(array $transformations)
     {
@@ -56,7 +51,7 @@ class Series implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function transform($from)
     {

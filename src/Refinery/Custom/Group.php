@@ -16,13 +16,12 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Data\Factory;
 use ilLanguage;
+use ILIAS\Refinery\Constraint as ConstraintInterface;
+use ILIAS\Refinery\Transformation as TransformationInterface;
 
 class Group
 {
@@ -38,9 +37,9 @@ class Group
     /**
      * @param callable $callable
      * @param string|callable $error
-     * @return Constraint
+     * @return ConstraintInterface
      */
-    public function constraint(callable $callable, $error) : Constraint
+    public function constraint(callable $callable, $error) : ConstraintInterface
     {
         return new Constraint(
             $callable,
@@ -50,8 +49,8 @@ class Group
         );
     }
 
-    public function transformation(callable $transform) : Transformation
+    public function transformation(callable $transform) : TransformationInterface
     {
-        return new Transformation($transform, $this->dataFactory);
+        return new Transformation($transform);
     }
 }

@@ -35,9 +35,9 @@ interface Transformation
      * Perform the transformation.
      * Please use this for transformations. It's more performant than calling invoke.
      *
-     * @throws InvalidArgumentException  if the argument could not be transformed
-     * @param  mixed  $from
+     * @param mixed $from
      * @return mixed
+     * @throws InvalidArgumentException  if the argument could not be transformed
      */
     public function transform($from);
 
@@ -65,9 +65,9 @@ interface Transformation
     /**
      * Transformations should be callable. This MUST do the same as transform.
      *
-     * @throws InvalidArgumentException  if the argument could not be transformed
-     * @param  mixed  $from
+     * @param mixed $from
      * @return mixed
+     * @throws InvalidArgumentException  if the argument could not be transformed
      */
     public function __invoke($from);
 }

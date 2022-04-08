@@ -25,11 +25,6 @@ use ilLanguage;
 class Parallel extends Constraint
 {
     /**
-     * @var Constraint[]
-     */
-    protected array $constraints;
-
-    /**
      * There's a test to show this state will never be visible
      * ParallelTest::testCorrectErrorMessagesAfterMultiAccept
      *
@@ -37,14 +32,18 @@ class Parallel extends Constraint
      */
     protected array $failed_constraints;
 
+    /**
+     * @param Constraint[] $constraints
+     * @param Data\Factory $data_factory
+     * @param ilLanguage $lng
+     */
     public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->constraints = $constraints;
         parent::__construct(
-            function ($value) {
+            function ($value) use ($constraints) : bool {
                 $ret = true;
-                $this->failed_constraints = array();
-                foreach ($this->constraints as $constraint) {
+                $this->failed_constraints = [];
+                foreach ($constraints as $constraint) {
                     if (!$constraint->accepts($value)) {
                         $this->failed_constraints[] = $constraint;
                         $ret = false;
@@ -53,7 +52,7 @@ class Parallel extends Constraint
 
                 return $ret;
             },
-            function ($txt, $value) {
+            function ($txt, $value) : string {
                 $messages = [];
                 foreach ($this->failed_constraints as $constraint) {
                     $messages[] = $constraint->getErrorMessage($value);

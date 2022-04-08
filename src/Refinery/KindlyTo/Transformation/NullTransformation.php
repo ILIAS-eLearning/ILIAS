@@ -29,7 +29,7 @@ class NullTransformation implements Transformation
     use DeriveInvokeFromTransform;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function transform($from)
     {

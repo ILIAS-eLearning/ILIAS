@@ -20,11 +20,9 @@ namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Custom\Constraint;
+use ILIAS\Refinery\Constraint as ConstraintInterface;
 use ilLanguage;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class Group
 {
     private Factory $dataFactory;
@@ -36,22 +34,34 @@ class Group
         $this->language = $language;
     }
 
-    public function logicalOr(array $other) : LogicalOr
+    /**
+     * @param Constraint[] $other
+     * @return ConstraintInterface
+     */
+    public function logicalOr(array $other) : ConstraintInterface
     {
         return new LogicalOr($other, $this->dataFactory, $this->language);
     }
 
-    public function not(Constraint $constraint) : Not
+    public function not(Constraint $constraint) : ConstraintInterface
     {
         return new Not($constraint, $this->dataFactory, $this->language);
     }
 
-    public function parallel(array $constraints) : Parallel
+    /**
+     * @param Constraint[] $constraints
+     * @return ConstraintInterface
+     */
+    public function parallel(array $constraints) : ConstraintInterface
     {
         return new Parallel($constraints, $this->dataFactory, $this->language);
     }
 
-    public function sequential(array $constraints) : Sequential
+    /**
+     * @param Constraint[] $constraints
+     * @return ConstraintInterface
+     */
+    public function sequential(array $constraints) : ConstraintInterface
     {
         return new Sequential($constraints, $this->dataFactory, $this->language);
     }

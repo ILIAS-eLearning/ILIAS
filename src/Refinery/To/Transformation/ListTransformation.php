@@ -25,9 +25,6 @@ use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 use ILIAS\Refinery\Constraint;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ListTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
@@ -42,9 +39,9 @@ class ListTransformation implements Constraint
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         $this->check($from);
 
@@ -57,11 +54,17 @@ class ListTransformation implements Constraint
         return $result;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getError() : string
     {
         return 'The value MUST be of type array.';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -71,11 +74,17 @@ class ListTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         return is_array($value);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

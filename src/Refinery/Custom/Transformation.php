@@ -31,24 +31,16 @@ class Transformation implements TransformationInterface
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var callable
-     */
-    protected $transformation;
-    private Factory $factory;
+    /** @var callable */
+    private $transformation;
 
-    /**
-     * @param callable $transformation
-     * @param Factory $factory
-     */
-    public function __construct(callable $transformation, Factory $factory)
+    public function __construct(callable $transformation)
     {
         $this->transformation = $transformation;
-        $this->factory = $factory;
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function transform($from)
     {

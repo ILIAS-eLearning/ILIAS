@@ -35,9 +35,9 @@ class ListTransformation implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         if (!is_array($from)) {
             $from = [$from];
@@ -48,6 +48,7 @@ class ListTransformation implements Transformation
             $transformedVal = $this->transformation->transform($val);
             $result[] = $transformedVal;
         }
+
         return $result;
     }
 }

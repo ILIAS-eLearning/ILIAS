@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
 namespace ILIAS\Refinery\Random\Seed;
 
 class GivenSeed implements Seed
@@ -30,6 +27,9 @@ class GivenSeed implements Seed
         $this->seed = $seed;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function seedRandomGenerator() : void
     {
         mt_srand($this->seed);

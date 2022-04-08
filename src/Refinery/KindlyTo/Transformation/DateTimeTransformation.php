@@ -38,9 +38,9 @@ class DateTimeTransformation implements Transformation
     use DeriveInvokeFromTransform;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : DateTimeImmutable
     {
         if ($from instanceof DateTimeImmutable) {
             return $from;

@@ -26,24 +26,18 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class RecordTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
-    protected string $error = '';
-
-    /**
-     * @var Transformation[]
-     */
+    private string $error = '';
+    /** @var array<string, Transformation> */
     private array $transformations;
 
     /**
-     * @param Transformation[] $transformations
+     * @param array<string, Transformation> $transformations
      */
     public function __construct(array $transformations)
     {
@@ -58,7 +52,7 @@ class RecordTransformation implements Constraint
                 );
             }
 
-            if (false === is_string($key)) {
+            if (!is_string($key)) {
                 throw new ConstraintViolationException(
                     'The array key MUST be a string',
                     'key_is_not_a_string'
@@ -70,13 +64,14 @@ class RecordTransformation implements Constraint
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
+     * @return array<string, mixed>
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         $this->check($from);
 
-        $result = array();
+        $result = [];
         foreach ($from as $key => $value) {
             $transformation = $this->transformations[$key];
             $transformedValue = $transformation->transform($value);
@@ -88,13 +83,16 @@ class RecordTransformation implements Constraint
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getError() : string
     {
         return $this->error;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -104,6 +102,9 @@ class RecordTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         if (!$this->validateValueLength($value)) {
@@ -125,7 +126,7 @@ class RecordTransformation implements Constraint
         return true;
     }
 
-    private function validateValueLength($values) : bool
+    private function validateValueLength(array $values) : bool
     {
         $countOfValues = count($values);
         $countOfTransformations = count($this->transformations);
@@ -142,6 +143,9 @@ class RecordTransformation implements Constraint
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

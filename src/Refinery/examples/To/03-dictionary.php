@@ -16,10 +16,7 @@
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-function toDictionary()
+function toDictionary() : bool
 {
     global $DIC;
 
@@ -27,7 +24,7 @@ function toDictionary()
 
     $transformation = $refinery->to()->dictOf(new \ILIAS\Refinery\To\Transformation\IntegerTransformation());
 
-    $result = $transformation->transform(array('sum' => 5, 'user_id' => 1, 'size' => 4));
+    $result = $transformation->transform(['sum' => 5, 'user_id' => 1, 'size' => 4]);
 
-    return assert(array('sum' => 5, 'user_id' => 1, 'size' => 4) === $result);
+    return assert(['sum' => 5, 'user_id' => 1, 'size' => 4] === $result);
 }

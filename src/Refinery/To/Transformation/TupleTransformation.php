@@ -26,24 +26,18 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class TupleTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
-    protected string $error = '';
-
-    /**
-     * @var Transformation[]
-     */
+    private string $error = '';
+    /** @var Transformation[] */
     private array $transformations;
 
     /**
-     * @param array $transformations
+     * @param Transformation[] $transformations
      */
     public function __construct(array $transformations)
     {
@@ -63,13 +57,13 @@ class TupleTransformation implements Constraint
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         $this->check($from);
 
-        $result = array();
+        $result = [];
         foreach ($from as $key => $value) {
             $transformedValue = $this->transformations[$key]->transform($value);
             $result[] = $transformedValue;
@@ -79,13 +73,16 @@ class TupleTransformation implements Constraint
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getError() : string
     {
         return $this->error;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -95,6 +92,9 @@ class TupleTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         if (!$this->isLengthOfValueAndTransformationEqual($value)) {
@@ -127,6 +127,9 @@ class TupleTransformation implements Constraint
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

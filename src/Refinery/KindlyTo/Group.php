@@ -215,7 +215,7 @@ class Group
      * This supports all data represented as PHP array.
      * This will accept array with more fields than expected, but drop the extra fields.
      *
-     * @param array<string,Transformation> $transformations
+     * @param array<string, Transformation> $transformations
      */
     public function recordOf(array $transformations) : Transformation
     {

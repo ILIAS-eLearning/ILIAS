@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-function estimatedReadingTime()
+function estimatedReadingTime() : bool
 {
     global $DIC;
 

@@ -34,15 +34,9 @@ class Constraint implements ConstraintInterface
 
     protected Data\Factory $data_factory;
     protected ilLanguage $lng;
-
-    /**
-     * @var callable
-     */
+    /** @var callable */
     protected $is_ok;
-
-    /**
-     * @var callable|string
-     */
+    /** @var callable|string */
     protected $error;
 
     /**
@@ -52,7 +46,10 @@ class Constraint implements ConstraintInterface
      *        values are provide.
      *      - the $value for which the error message should be build.
      *
-     * @param string|callable	$error
+     * @param callable $is_ok
+     * @param string|callable $error
+     * @param Data\Factory $data_factory
+     * @param ilLanguage $lng
      */
     public function __construct(callable $is_ok, $error, Data\Factory $data_factory, ilLanguage $lng)
     {
@@ -63,7 +60,7 @@ class Constraint implements ConstraintInterface
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function getError()
     {
@@ -71,7 +68,7 @@ class Constraint implements ConstraintInterface
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     final public function check($value)
     {
@@ -83,7 +80,7 @@ class Constraint implements ConstraintInterface
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     final public function accepts($value) : bool
     {
@@ -91,7 +88,7 @@ class Constraint implements ConstraintInterface
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     final public function problemWith($value) : ?string
     {
@@ -103,7 +100,7 @@ class Constraint implements ConstraintInterface
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     final public function applyTo(Result $result) : Result
     {

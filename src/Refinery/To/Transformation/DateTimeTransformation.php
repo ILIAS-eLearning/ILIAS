@@ -36,22 +36,28 @@ class DateTimeTransformation implements Constraint
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
-    protected string $error = '';
+    private string $error = '';
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : DateTimeImmutable
     {
         $this->check($from);
         return new DateTimeImmutable($from);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getError() : string
     {
         return $this->error;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -61,6 +67,9 @@ class DateTimeTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         try {
@@ -72,6 +81,9 @@ class DateTimeTransformation implements Constraint
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

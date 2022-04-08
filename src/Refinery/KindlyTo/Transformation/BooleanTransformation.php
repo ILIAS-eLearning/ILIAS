@@ -36,9 +36,9 @@ class BooleanTransformation implements Transformation
     use DeriveInvokeFromTransform;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : bool
     {
         if (is_bool($from)) {
             return $from;

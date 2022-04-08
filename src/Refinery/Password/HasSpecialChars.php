@@ -18,19 +18,19 @@
 
 namespace ILIAS\Refinery\Password;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 use ilLanguage;
 
-class HasSpecialChars extends CustomConstraint
+class HasSpecialChars extends Constraint
 {
-    protected static string $ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/u';
+    private const ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/u';
 
     public function __construct(Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
             static function (Data\Password $value) : bool {
-                return (bool) preg_match(static::$ALLOWED_CHARS, $value->toString());
+                return (bool) preg_match(self::ALLOWED_CHARS, $value->toString());
             },
             static function ($value) : string {
                 return "Password must contain special chars.";

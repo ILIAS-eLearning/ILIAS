@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
 namespace ILIAS\Refinery\Random\Seed;
 
 class RandomSeed extends GivenSeed
@@ -31,7 +28,7 @@ class RandomSeed extends GivenSeed
     public function createSeed() : int
     {
         $array = explode(' ', microtime());
-        $seed = $array[1] + ($array[0] * 100000);
+        $seed = ((int) $array[1]) + (((float) $array[0]) * 100000);
 
         return (int) $seed;
     }

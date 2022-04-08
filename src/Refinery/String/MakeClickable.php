@@ -28,6 +28,9 @@ class MakeClickable implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
+    /**
+     * @inheritDoc
+     */
     public function transform($from) : string
     {
         $this->requireString($from);
@@ -64,6 +67,10 @@ class MakeClickable implements Transformation
         return strlen($string);
     }
 
+    /**
+     * @param mixed $maybeHTML
+     * @return void
+     */
     private function requireString($maybeHTML) : void
     {
         if (!is_string($maybeHTML)) {

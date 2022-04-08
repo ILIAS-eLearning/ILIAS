@@ -34,7 +34,6 @@ class EstimatedReadingTime implements Transformation
     use DeriveInvokeFromTransform;
 
     private int $wordsPerMinute = 275;
-    private int $firstImageReadingTimeInSeconds = 12;
     private bool $withImages;
 
     public function __construct(bool $withImages)
@@ -43,9 +42,9 @@ class EstimatedReadingTime implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : int
     {
         if (!is_string($from)) {
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");

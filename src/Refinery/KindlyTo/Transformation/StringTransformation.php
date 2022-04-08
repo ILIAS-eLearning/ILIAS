@@ -36,9 +36,9 @@ class StringTransformation implements Transformation
     use DeriveInvokeFromTransform;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : string
     {
         if (is_int($from) || is_float($from)) {
             return (string) $from;

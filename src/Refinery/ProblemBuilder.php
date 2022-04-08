@@ -29,9 +29,9 @@ trait ProblemBuilder
     abstract protected function getError();
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    final public function withProblemBuilder(callable $builder)
+    final public function withProblemBuilder(callable $builder) : self
     {
         $clone = clone $this;
         $clone->error = $builder;

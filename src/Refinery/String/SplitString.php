@@ -31,7 +31,7 @@ class SplitString implements Transformation
 {
     use DeriveInvokeFromTransform;
 
-    protected string $delimiter;
+    private string $delimiter;
     private Factory $factory;
 
     public function __construct(string $delimiter, Factory $factory)
@@ -41,9 +41,10 @@ class SplitString implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
+     * @return string[]
      */
-    public function transform($from)
+    public function transform($from) : array
     {
         if (!is_string($from)) {
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
@@ -53,7 +54,7 @@ class SplitString implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function applyTo(Result $result) : Result
     {
