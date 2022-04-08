@@ -184,7 +184,7 @@ class ilSamlSettingsGUI
         switch ($this->ctrl->getNextClass()) {
             default:
                 $cmd = $this->ctrl->getCmd();
-                if ($cmd === '' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
                     $cmd = self::DEFAULT_CMD;
                 }
 
