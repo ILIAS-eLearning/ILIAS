@@ -24,7 +24,7 @@ class ilServicesWorkflowEngineSuite extends TestSuite
     {
         error_reporting(E_ALL ^ E_NOTICE);
 
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../');
 
         $suite = new ilServicesWorkflowEngineSuite();

@@ -31,7 +31,7 @@ class ilStartEventElement extends ilBaseElement
         $hasChildren = (isset($element['children']) && is_array($element['children']) && count($element['children']) > 0);
         if ($hasChildren) {
             foreach ($element['children'] as $child) {
-                if (isset($child['name']) && $child['name'] == 'messageEventDefinition') {
+                if (isset($child['name']) && $child['name'] === 'messageEventDefinition') {
                     $class_object->registerStartEventRef($child['attributes']['messageRef'] ?? '');
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
                         $child['attributes']['messageRef'] ?? '',
@@ -39,7 +39,7 @@ class ilStartEventElement extends ilBaseElement
                         $this->bpmn2_array
                     );
                 }
-                if (isset($child['name']) && $child['name'] == 'signalEventDefinition') {
+                if (isset($child['name']) && $child['name'] === 'signalEventDefinition') {
                     $class_object->registerStartSignalRef($child['attributes']['signalRef'] ?? '');
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
                         $child['attributes']['signalRef'] ?? '',
@@ -47,7 +47,7 @@ class ilStartEventElement extends ilBaseElement
                         $this->bpmn2_array
                     );
                 }
-                if (isset($child['name']) && $child['name'] == 'timerEventDefinition') {
+                if (isset($child['name']) && $child['name'] === 'timerEventDefinition') {
                     $class_object->registerStartTimerRef($child['attributes']['id'] ?? '');
                     $event_definition = ilBPMN2ParserUtils::extractTimeDateEventDefinitionFromElement(
                         $child['attributes']['id'] ?? '',
@@ -76,7 +76,7 @@ class ilStartEventElement extends ilBaseElement
             if (isset($event_definition['listening_start']) || isset($event_definition['listening_end'])) {
                 $code .= $this->element_varname . '_detector->setListeningTimeframe(' . (int) $event_definition['listening_start'] .
                     ', ' . (int) $event_definition['listening_end'] . ');';
-            } elseif (isset($event_definition['listening_relative']) && isset($event_definition['listening_interval'])) {
+            } elseif (isset($event_definition['listening_relative'], $event_definition['listening_interval'])) {
                 $code .= $this->element_varname . '_detector->setTimerRelative(true);';
                 $code .= $this->element_varname . '_detector->setTimerLimit(' . (int) $event_definition['listening_interval'] . ');';
             }

@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Services/WorkflowEngine/classes/parser/elements/class.ilBaseElement.php';
-
 /**
  * Class ilBPMN2ElementLoader
  *
@@ -30,17 +28,16 @@ class ilBPMN2ElementLoader
     {
         preg_match('/[A-Z]/', $element_name, $matches, PREG_OFFSET_CAPTURE);
         $type = strtolower(substr($element_name, (int) ($matches[0][1] ?? 0)));
-        if ($type == 'basedgateway') {
+        if ($type === 'basedgateway') {
             // Fixing a violation of the standards naming convention by the standard here.
             $type = 'gateway';
         }
 
-        if ($type == 'objectreference') {
+        if ($type === 'objectreference') {
             // Fixing a violation of the standards naming convention by the standard here.
             $type = 'object';
         }
 
-        require_once './Services/WorkflowEngine/classes/parser/elements/' . $type . '/class.il' . ucfirst($element_name) . 'Element.php';
         $classname = 'il' . ucfirst($element_name) . 'Element';
         $instance = new $classname;
         $instance->setBPMN2Array($this->bpmn2_array);

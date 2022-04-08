@@ -16,16 +16,11 @@ use PHPUnit\Framework\TestCase;
  */
 class ilBaseWorkflowTest extends TestCase
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        //ilUnitUtil::performInitialisation();
-        
-        // Empty workflow as test fixture for the abstract class.
-        require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $ilSetting;
         if ($ilSetting != null) {

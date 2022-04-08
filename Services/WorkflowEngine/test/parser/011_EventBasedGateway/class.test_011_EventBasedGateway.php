@@ -30,9 +30,9 @@ class test_011_EventBasedGateway extends ilWorkflowEngineBaseTest
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         parent::setUp();

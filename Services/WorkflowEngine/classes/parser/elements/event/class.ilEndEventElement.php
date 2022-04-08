@@ -32,21 +32,21 @@ class ilEndEventElement extends ilBaseElement
 
         if (count($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['name'] == 'messageEventDefinition') {
+                if ($child['name'] === 'messageEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
                         $child['attributes']['messageRef'],
                         'message',
                         $this->bpmn2_array
                     );
                 }
-                if ($child['name'] == 'signalEventDefinition') {
+                if ($child['name'] === 'signalEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
                         $child['attributes']['signalRef'],
                         'signal',
                         $this->bpmn2_array
                     );
                 }
-                if ($child['name'] == 'terminateEventDefinition') {
+                if ($child['name'] === 'terminateEventDefinition') {
                     $terminate = true;
                 }
             }
@@ -59,7 +59,7 @@ class ilEndEventElement extends ilBaseElement
 			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
 
-        if (isset($event_definition['type']) && isset($event_definition['content'])) {
+        if (isset($event_definition['type'], $event_definition['content'])) {
             $class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilEventRaisingActivity.php');
             $code .= '
 				' . $this->element_varname . '_throwEventActivity = new ilEventRaisingActivity(' . $this->element_varname . ');

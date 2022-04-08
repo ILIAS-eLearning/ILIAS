@@ -18,16 +18,14 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
 {
     private ilEmptyWorkflow $workflow;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -37,7 +35,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $node = new ilConditionalNode($this->workflow);
@@ -50,7 +48,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -62,11 +60,12 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->workflow) {
             $this->assertEquals($actual, $this->workflow);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->
+            fail('Context not identical.');
         }
     }
     
-    public function testIsActiveAndActivate()
+    public function testIsActiveAndActivate() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -84,7 +83,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($actual);
     }
     
-    public function testDeactivate()
+    public function testDeactivate() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -104,7 +103,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($was_activated, $was_deactivated);
     }
     
-    public function testCheckTransitionPreconditionsValidThen()
+    public function testCheckTransitionPreconditionsValidThen() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -141,7 +140,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($preconditions);
     }
 
-    public function testCheckTransitionPreconditionsValidElse()
+    public function testCheckTransitionPreconditionsValidElse() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -178,7 +177,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($preconditions);
     }
     
-    public function testCheckTransitionPreconditionsInvalid()
+    public function testCheckTransitionPreconditionsInvalid() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -214,7 +213,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($preconditions);
     }
         
-    public function testExecuteTransitionThen()
+    public function testExecuteTransitionThen() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -231,7 +230,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($state);
     }
 
-    public function testExecuteTransitionElse()
+    public function testExecuteTransitionElse() : void
     { // This is test #100 of the WorkflowEngine, written on 9th of May, 2012
         // @ 14:15
 
@@ -250,7 +249,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($state);
     }
     
-    public function testExecuteActivitiesViaExecuteTransition()
+    public function testExecuteActivitiesViaExecuteTransition() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -271,16 +270,16 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
     
         // Assert
         $expected = ' :: MESSAGE :: TEST';
-        $fp = fopen(vfs\vfsStream::url('example/ilTransitionLog.txt'), 'r');
+        $fp = fopen(vfs\vfsStream::url('example/ilTransitionLog.txt'), 'rb');
         $line = fgets($fp);
-        $actual = substr($line, 25, strlen($line) - 27);
+        $actual = substr($line, 25, -2);
         $this->assertEquals(
             $actual,
             $expected
         );
     }
     
-    public function testExecuteElseActivitiesViaExecuteTransition()
+    public function testExecuteElseActivitiesViaExecuteTransition() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -301,16 +300,16 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
     
         // Assert
         $expected = ' :: MESSAGE :: TEST';
-        $fp = fopen(vfs\vfsStream::url('example/ilTransitionLog.txt'), 'r');
+        $fp = fopen(vfs\vfsStream::url('example/ilTransitionLog.txt'), 'rb');
         $line = fgets($fp);
-        $actual = substr($line, 25, strlen($line) - 27);
+        $actual = substr($line, 25, -2);
         $this->assertEquals(
             $actual,
             $expected
         );
     }
     
-    public function testExecuteEmitterViaExecuteTransition()
+    public function testExecuteEmitterViaExecuteTransition() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -338,7 +337,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($t_node->isActive());
     }
 
-    public function testExecuteElseEmitterViaExecuteTransition()
+    public function testExecuteElseEmitterViaExecuteTransition() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -366,7 +365,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($t_node->isActive());
     }
 
-    public function testExecuteElseEmitterViaAttemptTransition()
+    public function testExecuteElseEmitterViaAttemptTransition() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -394,7 +393,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($t_node->isActive());
     }
 
-    public function testAddDetectorFirst()
+    public function testAddDetectorFirst() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -409,7 +408,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($detector, $detectors[0]);
     }
 
-    public function testAddEmitterFirst()
+    public function testAddEmitterFirst() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -424,7 +423,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($emitter, $emitters[0]);
     }
 
-    public function testAddElseEmitterFirst()
+    public function testAddElseEmitterFirst() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -439,7 +438,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($emitter, $emitters[0]);
     }
 
-    public function testAddActivityFirst()
+    public function testAddActivityFirst() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -454,7 +453,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($activity, $activities[0]);
     }
 
-    public function testAddElseActivityFirst()
+    public function testAddElseActivityFirst() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -469,7 +468,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($activity, $activities[0]);
     }
 
-    public function testNotifyDetectorSatisfaction()
+    public function testNotifyDetectorSatisfaction() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);
@@ -495,7 +494,7 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($node->isActive());
     }
 
-    public function testNotifyDetectorSatisfactionAndTransit()
+    public function testNotifyDetectorSatisfactionAndTransit() : void
     {
         // Arrange
         $node = new ilConditionalNode($this->workflow);

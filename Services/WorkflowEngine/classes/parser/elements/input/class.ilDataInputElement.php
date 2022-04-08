@@ -36,7 +36,7 @@ class ilDataInputElement extends ilBaseElement
             $array_elements[] = '"' . $key . '" => "' . $value . '"';
         }
 
-        $definition = 'array(' . implode(',', (array) $array_elements) . ')';
+        $definition = 'array(' . implode(',', $array_elements) . ')';
 
         $object_definition = ilBPMN2ParserUtils::extractILIASDataObjectDefinitionFromElement($element);
 
@@ -48,9 +48,8 @@ class ilDataInputElement extends ilBaseElement
             $role = 'undefined';
         }
 
-        $code = "";
-        $code .= '
-			$this->defineInstanceVar("' . $element_id . '", "' . $name . '", false, "", "' . $type . '", "' . $role . '" );
+        $code = '
+			$this->defineInstanceVar("' . $element_id . '", "' . $name . '");
 			$this->registerInputVar("' . $element_id . '", ' . $definition . ');
 ';
 

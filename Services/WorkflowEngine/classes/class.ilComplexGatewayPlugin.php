@@ -1,17 +1,11 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Component/classes/class.ilPlugin.php';
-
 /**
-* Abstract parent class for all ComplexGateway plugin classes.
-*
-* @author Maximilian Becker <mbecker@databay.de>
-* @version $Id$
-*
-* @ingroup ServicesWorkflowEngine
-*/
+ * Abstract parent class for all ComplexGateway plugin classes.
+ * @author Maximilian Becker <mbecker@databay.de>
+ * @ingroup ServicesWorkflowEngine
+ */
 abstract class ilComplexGatewayPlugin extends ilPlugin
 {
     /**

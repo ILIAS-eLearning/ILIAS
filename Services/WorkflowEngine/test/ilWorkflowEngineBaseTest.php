@@ -7,14 +7,14 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilWorkflowEngineBaseTest extends TestCase
 {
-    protected function setGlobalVariable(string $name, $value)
+    protected function setGlobalVariable(string $name, $value) : void
     {
         global $DIC;
 
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = function ($c) use ($name) {
+        $DIC[$name] = static function ($c) use ($name) {
             return $GLOBALS[$name];
         };
     }

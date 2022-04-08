@@ -27,7 +27,6 @@ class ilModulesGroupTasks
       </bpmn2:extensionElements>
 
          */
-        require_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -56,7 +55,6 @@ class ilModulesGroupTasks
 
          */
 
-        require_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -84,7 +82,6 @@ class ilModulesGroupTasks
 
          */
 
-        require_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -98,7 +95,7 @@ class ilModulesGroupTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignAdminsToGroup(ilNode $context, array $params)
+    public static function assignAdminsToGroup(ilNode $context, array $params) : void
     {
         /*
          * Modelling:
@@ -111,7 +108,6 @@ class ilModulesGroupTasks
 
          */
 
-        require_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -119,6 +115,5 @@ class ilModulesGroupTasks
         foreach ($input_params['usrIdList'] as $user_id) {
             $participants->add($user_id, ilParticipants::IL_GRP_ADMIN);
         }
-        return;
     }
 }

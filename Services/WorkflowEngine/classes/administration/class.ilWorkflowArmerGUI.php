@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-
 /**
  * Class ilWorkflowArmerGUI
  *
@@ -73,14 +70,14 @@ class ilWorkflowArmerGUI
 
         $options = array();
         foreach ($children as $child) {
-            if (strtolower($config['allowedtype']) != $child['type']) {
+            if (strtolower($config['allowedtype']) !== $child['type']) {
                 continue;
             }
 
             $path = $this->tree->getPathFull($child['child']);
             $option_elements = array();
             foreach ($path as $node) {
-                if ($node['type'] == 'root') {
+                if ($node['type'] === 'root') {
                     continue;
                 }
                 $option_elements[] = $node['title'];
@@ -122,7 +119,7 @@ class ilWorkflowArmerGUI
 
             }
 
-            $item->setRequired($input_var['requirement'] == 'required' ? true : false);
+            $item->setRequired($input_var['requirement'] === 'required');
             $item->setInfo($input_var['description']);
             $form->addItem($item);
         }

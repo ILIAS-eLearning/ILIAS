@@ -46,7 +46,7 @@ class ilWorkflowEngineDefinitionsGUI
      * @return string HTML
      * @noinspection PhpInconsistentReturnPointsInspection
      */
-    public function handle(string $command)
+    public function handle(string $command)// TODO PHP8-REVIEW Return type missing
     {
         switch (strtolower($command)) {
             case 'uploadform':
@@ -99,7 +99,6 @@ class ilWorkflowEngineDefinitionsGUI
         if ($this->dic->rbac()->system()->checkAccess('write', $this->service->internal()->request()->getRefId())) {
             $this->initToolbar();
         }
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
         $table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
         $table_gui->setFilterCommand("definitions.applyfilter");
         $table_gui->setResetCommand("definitions.resetFilter");
@@ -113,7 +112,6 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function applyFilter() : string
     {
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
         $table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
         $table_gui->writeFilterToSession();
         $table_gui->resetOffset();
@@ -126,7 +124,6 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function resetFilter() : string
     {
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php';
         $table_gui = new ilWorkflowEngineDefinitionsTableGUI($this->parent_gui, 'definitions.view');
         $table_gui->resetOffset();
         $table_gui->resetFilter();
@@ -139,7 +136,6 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function showUploadForm() : string
     {
-        require_once './Services/WorkflowEngine/classes/administration/class.ilUploadDefinitionForm.php';
         $form_definition = new ilUploadDefinitionForm();
         $form = $form_definition->getForm(
             $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.upload')
@@ -158,7 +154,6 @@ class ilWorkflowEngineDefinitionsGUI
     {
         $this->processUploadFormCancellation();
 
-        require_once './Services/WorkflowEngine/classes/administration/class.ilUploadDefinitionForm.php';
         $form_definition = new ilUploadDefinitionForm();
         $form = $form_definition->getForm(
             $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.upload')
@@ -218,8 +213,8 @@ class ilWorkflowEngineDefinitionsGUI
             $fileBaseName = basename($file->getPath());
 
             if (
-                substr(strtolower($fileBaseName), 0, strlen($wf_base_name)) == strtolower($wf_base_name) &&
-                substr($fileBaseName, -4) == '.php'
+                substr($fileBaseName, -4) === '.php' &&
+                stripos($fileBaseName, strtolower($wf_base_name)) === 0
             ) {
                 $number = substr($fileBaseName, strlen($wf_base_name), -4);
                 if ($number > $version) {
@@ -231,7 +226,6 @@ class ilWorkflowEngineDefinitionsGUI
 
         $repo_name = $repo_base_name . '_v' . $version . '.php';
 
-        require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
         $parser = new ilBPMN2Parser();
         $bpmn = $fs->read($tmpDirectory . $uploadResult->getName());
         $code = $parser->parseBPMN2XML($bpmn, $repo_name);
@@ -259,7 +253,6 @@ class ilWorkflowEngineDefinitionsGUI
      */
     public function initToolbar() : void
     {
-        require_once './Services/UIComponent/Button/classes/class.ilLinkButton.php';
         $upload_wizard_button = ilLinkButton::getInstance();
         $upload_wizard_button->setCaption($this->parent_gui->lng->txt('upload_process'), false);
         $upload_wizard_button->setUrl(
@@ -312,10 +305,9 @@ class ilWorkflowEngineDefinitionsGUI
         }
 
         // Check for Event definitions
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowArmerGUI.php';
-        $this->parent_gui->ilCtrl->saveParameter($this->parent_gui, 'process_id', $identifier);
+        $this->parent_gui->ilCtrl->saveParameter($this->parent_gui, 'process_id');
         $action = $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.start');
-        $armer = new ilWorkflowArmerGUI($action, $identifier);
+        $armer = new ilWorkflowArmerGUI($action);
 
         $form = $armer->getForm($workflow_instance->getInputVars(), $workflow_instance->getStartEventInfo());
 
@@ -333,7 +325,6 @@ class ilWorkflowEngineDefinitionsGUI
         );
         $process_id = stripslashes($_POST['process_id']);
 
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         $event_id = ilWorkflowDbHelper::writeStartEventData($event_data, $process_id);
 
         foreach ($workflow_instance->getInputVars() as $input_var) {
@@ -352,7 +343,6 @@ class ilWorkflowEngineDefinitionsGUI
     {
         $process_id = ilUtil::stripSlashes(current($this->service->internal()->request()->getProcessId()));
 
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::deleteStartEventData($process_id);
 
         $this->main_tpl->setOnScreenMessage('success', $this->parent_gui->lng->txt('wfe_stopped_listening'), true);
@@ -399,19 +389,17 @@ class ilWorkflowEngineDefinitionsGUI
                 }
             }
 
-            require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowLauncherGUI.php';
-            $this->parent_gui->ilCtrl->saveParameter($this->parent_gui, 'process_id', $identifier);
+            $this->parent_gui->ilCtrl->saveParameter($this->parent_gui, 'process_id');
             $action = $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.start');
-            $launcher = new ilWorkflowLauncherGUI($action, $identifier);
+            $launcher = new ilWorkflowLauncherGUI($action);
             $form = $launcher->getForm($workflow_instance->getInputVars());
 
-            if ($show_launcher_form || $form->checkInput() == false) {
+            if ($show_launcher_form || $form->checkInput() === false) {
                 $form->setValuesByPost();
                 return $form->getHTML();
             }
         }
 
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::writeWorkflow($workflow_instance);
 
         $workflow_instance->startWorkflow();
@@ -493,7 +481,6 @@ class ilWorkflowEngineDefinitionsGUI
 
         $processId = $this->getProcessIdFromRequest();
 
-        require_once 'Services/WorkflowEngine/classes/administration/class.ilWorkflowDefinitionRepository.php';
         $repository = new ilWorkflowDefinitionRepository(
             $this->dic->database(),
             $this->dic->filesystem(),

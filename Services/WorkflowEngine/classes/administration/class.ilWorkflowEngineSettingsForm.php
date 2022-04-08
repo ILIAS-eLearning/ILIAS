@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-
 /**
  * Settings Form
  *
@@ -28,7 +25,7 @@ class ilWorkflowEngineSettingsForm
         global $DIC;
         $this->dic = $DIC;
         $this->lng = $this->dic->language();
-        $this->service = $DIC->workflowEngine();
+        $this->service = $DIC->workflowEngine();// TODO PHP8-REVIEW Property dynamically declared
     }
 
     public function getForm($action) : ilPropertyFormGUI

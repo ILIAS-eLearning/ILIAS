@@ -28,19 +28,16 @@ class ilSendTaskElement extends ilBaseElement
         $event_definition = null;
         if (count($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['name'] == 'messageEventDefinition') {
+                if ($child['name'] === 'messageEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['messageRef'], 'message', $this->bpmn2_array);
                 }
-                if ($child['name'] == 'signalEventDefinition') {
+                if ($child['name'] === 'signalEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['signalRef'], 'signal', $this->bpmn2_array);
                 }
             }
         }
 
-        $message_element = false;
-        if (isset($element['attributes']['ilias:message'])) {
-            $message_element = $element['attributes']['ilias:message'];
-        }
+        $message_element = $element['attributes']['ilias:message'] ?? false;
 
         $class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php');
         $code .= '
@@ -49,7 +46,7 @@ class ilSendTaskElement extends ilBaseElement
 			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
 
-        if (isset($event_definition['type']) && isset($event_definition['content'])) {
+        if (isset($event_definition['type'], $event_definition['content'])) {
             $class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilEventRaisingActivity.php');
             $code .= '
 				' . $this->element_varname . '_sendTaskActivity = new ilEventRaisingActivity(' . $this->element_varname . ');
@@ -64,7 +61,7 @@ class ilSendTaskElement extends ilBaseElement
             $data_inputs = $this->getDataInputAssociationIdentifiers($element);
             $task_parameters = '';
             $message_name = $element['attributes']['message'];
-            if (substr($message_name, 0, 6) == 'ilias:') {
+            if (strpos($message_name, 'ilias:') === 0) {
                 $message_name = substr($message_name, 6);
             }
             if (count($data_inputs)) {

@@ -30,9 +30,9 @@ class test_012_DataInput extends ilWorkflowEngineBaseTest
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         parent::setUp();
@@ -40,7 +40,7 @@ class test_012_DataInput extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithSimpleDataInputShouldOutputAccordingly()
+    public function test_WorkflowWithSimpleDataInputShouldOutputAccordingly() : void
     {
         $test_name = 'DataInput_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -50,7 +50,7 @@ class test_012_DataInput extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
@@ -82,7 +82,7 @@ class test_012_DataInput extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithDataInputPropertiesShouldOutputAccordingly()
+    public function test_WorkflowWithDataInputPropertiesShouldOutputAccordingly() : void
     {
         $test_name = 'DataInput_WithProperties';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -92,7 +92,7 @@ class test_012_DataInput extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
@@ -124,7 +124,7 @@ class test_012_DataInput extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithRepositoryObjectSelectorShouldOutputAccordingly()
+    public function test_WorkflowWithRepositoryObjectSelectorShouldOutputAccordingly() : void
     {
         $test_name = 'DataInput_RepositoryObjectSelector';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -134,7 +134,7 @@ class test_012_DataInput extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');

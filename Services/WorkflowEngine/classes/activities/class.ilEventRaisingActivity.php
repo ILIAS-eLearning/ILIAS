@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-
 /**
  * Class ilEventRaisingActivity
  *
@@ -28,7 +23,7 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
     /** @var  array $fixed_params Fixed params that are always to be sent with the event. Will be overriden by context. */
     protected array $fixed_params = [];
 
-    protected $name;
+    protected $name;// TODO PHP8-REVIEW Property type missing
 
     /**
      * @param string $key

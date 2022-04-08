@@ -17,16 +17,14 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
     /** @var ilBaseWorkflow $workflow */
     public $workflow;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -36,7 +34,7 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $node = new ilPluginNode($this->workflow);
@@ -49,7 +47,7 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $node = new ilPluginNode($this->workflow);
@@ -61,11 +59,11 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->workflow) {
             $this->assertEquals($actual, $this->workflow);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 
-    public function testIsActiveAndActivate()
+    public function testIsActiveAndActivate() : void
     {
         // Arrange
         $node = new ilPluginNode($this->workflow);
@@ -81,7 +79,7 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($actual);
     }
 
-    public function testDeactivate()
+    public function testDeactivate() : void
     {
         // Arrange
         $node = new ilPluginNode($this->workflow);

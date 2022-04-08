@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-
 /**
  * Class ilSettingActivity
  *
@@ -60,7 +55,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      *@see $setting_name
      */
-    public function setSettingName(string $name)
+    public function setSettingName(string $name) : void
     {
         $this->setting_name = $name;
     }
@@ -83,7 +78,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      *@see $setting_value
      */
-    public function setSettingValue(string $value)
+    public function setSettingValue(string $value) : void
     {
         $this->setting_value = $value;
     }
@@ -106,7 +101,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      * @param string $value Value to be set.
      * @return void
      */
-    public function setSetting(string $name, string $value)
+    public function setSetting(string $name, string $value) : void
     {
         $this->setSettingName($name);
         $this->setSettingValue($value);

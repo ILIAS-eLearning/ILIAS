@@ -14,10 +14,8 @@
  */
 class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
-        parent::__construct();
-
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
@@ -32,7 +30,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/detectors/class.ilCounterDetector.php';
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -42,7 +40,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $detector = new ilCounterDetector($this->node);
@@ -55,7 +53,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetGetExpectedTriggerEvents()
+    public function testSetGetExpectedTriggerEvents() : void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -69,7 +67,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
     
-    public function testSetGetActualTriggerEvents()
+    public function testSetGetActualTriggerEvents() : void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -83,7 +81,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
     
-    public function testTriggerUnsatisfy()
+    public function testTriggerUnsatisfy() : void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -95,11 +93,11 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         
         // Assert
         $valid_state = true;
-        if ($detector->getActualTriggerEvents() != 1) {
+        if ($detector->getActualTriggerEvents() !== 1) {
             $valid_state = false;
         }
         
-        if ($detector->getExpectedTriggerEvents() != $expected) {
+        if ($detector->getExpectedTriggerEvents() !== $expected) {
             $valid_state = false;
         }
 
@@ -110,7 +108,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($valid_state, 'Detector state invalid.');
     }
     
-    public function testTriggerSatisfy()
+    public function testTriggerSatisfy() : void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -124,11 +122,11 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         // Assert
         $valid_state = true;
         
-        if ($detector->getActualTriggerEvents() != 2) {
+        if ($detector->getActualTriggerEvents() !== 2) {
             $valid_state = false;
         }
         
-        if ($detector->getExpectedTriggerEvents() != $expected) {
+        if ($detector->getExpectedTriggerEvents() !== $expected) {
             $valid_state = false;
         }
 
@@ -139,7 +137,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($valid_state, 'Detector state invalid.');
     }
 
-    public function testTriggerOversatisfy()
+    public function testTriggerOversatisfy() : void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -152,7 +150,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($detector->trigger(null));
     }
 
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -164,7 +162,7 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 }

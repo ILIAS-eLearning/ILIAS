@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilExternalDetector.php';
-
 /**
  * ilEventDetector is part of the petri net based workflow engine.
  *
@@ -68,7 +63,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @var integer Identifier of the events subject.
      *
      */
-    private $event_subject_identifier = 0;
+    private $event_subject_identifier = 0;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Type of the event context.
@@ -89,7 +84,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @var integer Identifier of the events context.
      */
-    private $event_context_identifier = 0;
+    private $event_context_identifier = 0;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Holds the start of the listening period.
@@ -111,23 +106,14 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     private ?int $db_id = null;
 
     /**
-     * Default constructor, passing the context to the parent constructor.
-     * @param ilNode $context
-     */
-    public function __construct(ilNode $context)
-    {
-        parent::__construct($context);
-    }
-
-    /**
      *Sets the event type and content (/qualifier) for the detector. 'WHAT'
      * @param string $event_type
      * @param string $event_content
      */
     public function setEvent(string $event_type, string $event_content) : void
     {
-        $this->event_type = (string) $event_type;
-        $this->event_content = (string) $event_content;
+        $this->event_type = $event_type;
+        $this->event_content = $event_content;
     }
 
     /**
@@ -145,7 +131,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @param string  $event_subject_type
      * @param integer $event_subject_identifier
      */
-    public function setEventSubject(string $event_subject_type, $event_subject_identifier) : void
+    public function setEventSubject(string $event_subject_type, $event_subject_identifier) : void// TODO PHP8-REVIEW Type hint missing
     {
         $this->event_subject_type = $event_subject_type;
         $this->event_subject_identifier = $event_subject_identifier;
@@ -166,7 +152,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @param string  $event_context_type
      * @param integer $event_context_identifier
      */
-    public function setEventContext(string $event_context_type, $event_context_identifier) : void
+    public function setEventContext(string $event_context_type, $event_context_identifier) : void// TODO PHP8-REVIEW Type hint missing
     {
         $this->event_context_type = $event_context_type;
         $this->event_context_identifier = $event_context_identifier;
@@ -239,7 +225,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
         }
 
         // We're through checks now, let's see if this detector is already satisfied.
-        if ($this->getDetectorState() == false) {
+        if ($this->getDetectorState() === false) {
             // X -> ilNode     -> ilWorkflow -> Method...
             foreach ($params as $key => $value) {
                 $this->getContext()->setRuntimeVar($key, $value);
@@ -261,16 +247,14 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     public function isListening() : bool
     {
         // No listening phase = always listening.
-        if ($this->listening_start == 0 && $this->listening_end == 0) {
+        if ($this->listening_start === 0 && $this->listening_end === 0) {
             return true;
         }
 
         // Listening started?
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
         if ($this->listening_start <= ilWorkflowUtils::time()) {
             // Listening not ended or infinite?
-            if ($this->listening_end >= ilWorkflowUtils::time()
-                || $this->listening_end == 0) {
+            if ($this->listening_end === 0 || $this->listening_end >= ilWorkflowUtils::time()) {
                 return true;
             }
         }
@@ -288,8 +272,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     {
         $this->listening_start = $listening_start;
 
-        if ($this->listening_start > $listening_end && $listening_end != 0) {
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowInvalidArgumentException.php';
+        if ($this->listening_start > $listening_end && $listening_end !== 0) {
             throw new ilWorkflowInvalidArgumentException('Listening timeframe is (start vs. end) is invalid.');
         }
 
@@ -334,10 +317,9 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     {
         if ($this->db_id != null) {
             return $this->db_id;
-        } else {
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowObjectStateException.php';
-            throw new ilWorkflowObjectStateException('No database ID set.');
         }
+
+        throw new ilWorkflowObjectStateException('No database ID set.');
     }
 
     /**
@@ -359,7 +341,6 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      */
     public function writeDetectorToDb() : void
     {
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::writeDetector($this);
     }
 
@@ -369,7 +350,6 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      */
     public function deleteDetectorFromDb() : void
     {
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::deleteDetector($this);
     }
 

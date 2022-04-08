@@ -30,9 +30,9 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         parent::setUp();
@@ -40,7 +40,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithInputTaskWiredDataIOShouldOutputAccordingly()
+    public function test_WorkflowWithInputTaskWiredDataIOShouldOutputAccordingly() : void
     {
         $test_name = 'Data_Wiring_Input_Task';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -50,7 +50,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
@@ -62,7 +62,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         $process->startWorkflow();
         $runtime_vars = [];
         foreach ($process->getNodes() as $node) {
-            if ($node->getName() == '$_v_Task_1') {
+            if ($node->getName() === '$_v_Task_1') {
                 $runtime_vars = $node->getRuntimeVars();
             }
         }
@@ -72,7 +72,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
     }
 
 
-    public function test_WorkflowWithInputObjectOutputWiredDataIOShouldOutputAccordingly()
+    public function test_WorkflowWithInputObjectOutputWiredDataIOShouldOutputAccordingly() : void
     {
         $test_name = 'DataObject_Wiring_Input_Object_Output';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -82,7 +82,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');

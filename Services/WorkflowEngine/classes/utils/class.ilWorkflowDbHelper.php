@@ -16,8 +16,8 @@
  */
 class ilWorkflowDbHelper
 {
-    const DB_MODE_CREATE = 0;
-    const DB_MODE_UPDATE = 1;
+    private const DB_MODE_CREATE = 0;
+    private const DB_MODE_UPDATE = 1;
 
     /**
      * Takes a workflow as an argument and saves it to the database.
@@ -47,7 +47,7 @@ class ilWorkflowDbHelper
         $active = $workflow->isActive();
         $instance = serialize($workflow);
 
-        if ($mode == self::DB_MODE_UPDATE) {
+        if ($mode === self::DB_MODE_UPDATE) {
             $ilDB->update(
                 'wfe_workflows',
                 array(
@@ -68,7 +68,7 @@ class ilWorkflowDbHelper
             );
         }
 
-        if ($mode == self::DB_MODE_CREATE) {
+        if ($mode === self::DB_MODE_CREATE) {
             $ilDB->insert(
                 'wfe_workflows',
                 array(
@@ -202,7 +202,7 @@ class ilWorkflowDbHelper
             $det_subject['identifier'] = $wf_id;
         }
 
-        if ($mode == self::DB_MODE_UPDATE) {
+        if ($mode === self::DB_MODE_UPDATE) {
             $ilDB->update(
                 'wfe_det_listening',
                 array(
@@ -222,7 +222,7 @@ class ilWorkflowDbHelper
             );
         }
         
-        if ($mode == self::DB_MODE_CREATE) {
+        if ($mode === self::DB_MODE_CREATE) {
             $ilDB->insert(
                 'wfe_det_listening',
                 array(
@@ -260,8 +260,6 @@ class ilWorkflowDbHelper
 				WHERE detector_id = ' . $ilDB->quote($detector->getDbId(), 'integer')
             );
             $detector->setDbId(null);
-        } else {
-            return;
         }
     }
 
@@ -282,11 +280,10 @@ class ilWorkflowDbHelper
         int $subject_id,
         string $context_type,
         int $context_id
-    ) {
+    ) : array {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
         $now = ilWorkflowUtils::time();
         $workflows = array();
 
@@ -329,7 +326,6 @@ class ilWorkflowDbHelper
 
         $workflow = $ilDB->fetchAssoc($result);
 
-        require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
         $path = rtrim($workflow['workflow_location'], '/') . '/' . $workflow['workflow_class'];
 
         if ($path !== '/' && is_file($path)) {

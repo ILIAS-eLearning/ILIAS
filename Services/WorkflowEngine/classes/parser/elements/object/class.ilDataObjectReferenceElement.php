@@ -31,9 +31,8 @@ class ilDataObjectReferenceElement extends ilBaseElement
             $name = $ext_name;
         }
 
-        $code = "";
-        $code .= '
-			$this->defineInstanceVar("' . $element_id . '","' . $name . '", true, "' . $element['attributes']['dataObjectRef'] . '" );
+        $code = '
+			$this->defineInstanceVar("' . $element_id . '","' . $name . '");
 		';
 
         return $code;

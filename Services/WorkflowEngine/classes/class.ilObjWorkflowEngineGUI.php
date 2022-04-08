@@ -1,23 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
 
 use ILIAS\DI\Container;
 
-require_once './Services/Object/classes/class.ilObject2GUI.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
-
 /**
  * Class ilObjWorkflowEngineGUI
- *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
- *
  * @ilCtrl_IsCalledBy ilObjWorkflowEngineGUI: ilAdministrationGUI
  * @ilCtrl_Calls ilObjWorkflowEngineGUI: ilPermissionGUI
  */
@@ -32,9 +22,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     public ilToolbarGUI $ilToolbar;
     protected Container $dic;
 
-    /**
-     * ilObjWorkflowEngineGUI constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -48,7 +35,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->ilLocator = $DIC['ilLocator'];
         $this->ilToolbar = $DIC['ilToolbar'];
         $this->dic = $DIC;
-        $this->service = $DIC->workflowEngine();
+        $this->service = $DIC->workflowEngine();// TODO PHP8-REVIEW Property dynamically declared
         parent::__construct($this->service->internal()->request()->getRefId());
         $this->assignObject();
     }
@@ -69,7 +56,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
      * Used to trigger an event for the engine.
      * @param string $params Params from $_GET after wfe_
      */
-    public static function _goto(string $params)
+    public static function _goto(string $params) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -104,7 +91,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     {
         $next_class = $this->ilCtrl->getNextClass();
 
-        if ($next_class == '') {
+        if ($next_class === '' || $next_class === null) {
             $this->prepareAdminOutput();
             $this->tpl->setContent($this->dispatchCommand($this->ilCtrl->getCmd('dashboard.view')));
             return;
@@ -115,7 +102,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
                 $this->prepareAdminOutput();
                 $this->initTabs('permissions');
                 $this->ilTabs->setTabActive('perm_settings');
-                require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -151,7 +137,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     /**
      * @return void
      */
-    public function prepareAdminOutput()
+    public function prepareAdminOutput() : void
     {
         $this->tpl->loadStandardTemplate();
 
@@ -165,7 +151,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     /**
      * @param string $section
      */
-    public function initTabs(string $section)
+    public function initTabs(string $section) : void
     {
         global $DIC;
         /** @var $rbacsystem ilRbacSystem */
@@ -211,12 +197,12 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     /**
      * @return void
      */
-    public function initLocator()
+    public function initLocator() : void
     {
         $path = $this->tree->getPathFull($this->service->internal()->request()->getRefId());
         array_shift($path);
-        foreach ((array) $path as $key => $row) {
-            if ($row["title"] == "Workflow Engine") {
+        foreach ($path as $key => $row) {
+            if ($row["title"] === "Workflow Engine") {
                 $row["title"] = $this->lng->txt("obj_wfe");
             }
 
@@ -241,8 +227,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     public function dispatchToDashboard(string $command) : string
     {
         $this->initTabs('dashboard');
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDashboardGUI.php';
         $target_handler = new ilWorkflowEngineDashboardGUI($this);
         return $target_handler->handle($command);
     }
@@ -254,8 +238,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     public function dispatchToDefinitions(string $command) : string
     {
         $this->initTabs('definitions');
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php';
         $target_handler = new ilWorkflowEngineDefinitionsGUI($this, $this->dic);
         return $target_handler->handle($command);
     }
@@ -267,8 +249,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     public function dispatchToInstances(string $command) : string
     {
         $this->initTabs('instances');
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineInstancesGUI.php';
         $target_handler = new ilWorkflowEngineInstancesGUI($this);
         return $target_handler->handle($command);
     }
@@ -280,8 +260,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
     public function dispatchToSettings(string $command) : string
     {
         $this->initTabs('settings');
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineSettingsGUI.php';
         $target_handler = new ilWorkflowEngineSettingsGUI($this);
         return $target_handler->handle($command);
     }

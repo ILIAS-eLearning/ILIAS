@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
-
 /**
  * Class ilCounterDetector
  *
@@ -34,22 +31,12 @@ class ilCounterDetector extends ilSimpleDetector
     private int $actual_trigger_events = 0;
 
     /**
-     * Default constructor, passing the context to the parent constructor.
-     *
-     * @param ilNode $context
-     */
-    public function __construct(ilNode $context)
-    {
-        parent::__construct($context);
-    }
-
-    /**
      * Set the expected trigger event count before the detector is satisfied.
      * @param integer $count
      */
     public function setExpectedTriggerEvents(int $count) : void
     {
-        $this->expected_trigger_events = (int) $count;
+        $this->expected_trigger_events = $count;
     }
 
     /**
@@ -82,7 +69,7 @@ class ilCounterDetector extends ilSimpleDetector
      */
     public function setActualTriggerEvents(int $count) : void
     {
-        if ($this->expected_trigger_events < (int) $count) {
+        if ($this->expected_trigger_events < $count) {
             $this->actual_trigger_events = $count;
         } else {
             // TODO: throw actual must be smaller than expected.
@@ -103,7 +90,7 @@ class ilCounterDetector extends ilSimpleDetector
     {
         if ($this->actual_trigger_events < $this->expected_trigger_events) {
             $this->actual_trigger_events++;
-            if ($this->actual_trigger_events == $this->expected_trigger_events) {
+            if ($this->actual_trigger_events === $this->expected_trigger_events) {
                 $this->setDetectorState(true);
             }
             return true;

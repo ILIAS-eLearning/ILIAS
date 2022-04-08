@@ -31,7 +31,7 @@ class ilWorkflowUtils
         return time();
     }
 
-    public static function microtime()
+    public static function microtime()// TODO PHP8-REVIEW Return type declaration missing
     {
         if (defined('IL_PHPUNIT_TEST') && IL_PHPUNIT_TEST == true) {
             global $DIC;
@@ -48,10 +48,9 @@ class ilWorkflowUtils
      * Handles the generic time_passed event.
      * @param ilWorkflowEngine|null $workflow_engine
      */
-    public static function handleTimePassedEvent(ilWorkflowEngine $workflow_engine = null)
+    public static function handleTimePassedEvent(ilWorkflowEngine $workflow_engine = null) : void
     {
         if (!$workflow_engine) {
-            require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
             $workflow_engine = new ilWorkflowEngine();
         }
 

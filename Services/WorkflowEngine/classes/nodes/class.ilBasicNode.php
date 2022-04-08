@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
-
 /**
  * Workflow Node of the petri net based workflow engine.
  *
@@ -77,7 +74,7 @@ class ilBasicNode extends ilBaseNode
         // queries the $detectors if their conditions are met.
         $isPreconditionMet = true;
         foreach ($this->detectors as $detector) {
-            if ($isPreconditionMet == true) {
+            if ($isPreconditionMet === true) {
                 $isPreconditionMet = $detector->getDetectorState();
             }
         }
@@ -94,12 +91,12 @@ class ilBasicNode extends ilBaseNode
      */
     public function attemptTransition() : bool
     {
-        if ($this->checkTransitionPreconditions() == true) {
+        if ($this->checkTransitionPreconditions() === true) {
             $this->executeTransition();
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -107,7 +104,7 @@ class ilBasicNode extends ilBaseNode
      */
     private function executeActivities() : void
     {
-        if (count($this->activities) != 0) {
+        if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
                 $activity->execute();
             }
@@ -119,7 +116,7 @@ class ilBasicNode extends ilBaseNode
      */
     private function executeEmitters() : void
     {
-        if (count($this->emitters) != 0) {
+        if (count($this->emitters) !== 0) {
             foreach ($this->emitters as $emitter) {
                 $emitter->emit();
             }
