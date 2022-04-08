@@ -53,7 +53,7 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(10)
             ->withSymbol($icon)
             ->withAvailableCallable(
-                function () use ($settings) {
+                static function () use ($settings) : bool {
                     return (bool) $settings->get("enable_learning_history");
                 }
             );

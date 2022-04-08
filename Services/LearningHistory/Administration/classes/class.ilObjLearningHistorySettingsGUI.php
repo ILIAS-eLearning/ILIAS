@@ -73,7 +73,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "view") {
+                if ($cmd === "view") {
                     $cmd = "editSettings";
                 }
                 if (in_array($cmd, ["editSettings", "saveSettings"])) {
@@ -149,7 +149,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $setting = $this->setting;
 
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if (is_array($data["sec"])) {

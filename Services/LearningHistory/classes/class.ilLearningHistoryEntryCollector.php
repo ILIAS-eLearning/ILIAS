@@ -51,7 +51,7 @@ class ilLearningHistoryEntryCollector
 
         $sort_array = [];
         foreach ($this->service->provider()->getAllProviders(true, $user_id) as $provider) {
-            if (is_array($classes) && !in_array(get_class($provider), $classes)) {
+            if (is_array($classes) && !in_array(get_class($provider), $classes, true)) {
                 continue;
             }
 

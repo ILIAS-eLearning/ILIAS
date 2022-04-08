@@ -182,8 +182,8 @@ class ilPCLearningHistory extends ilPageContent
         string $a_mode
     ) : string {
         $user_id = 0;
-        if ($a_mode == "preview" || $a_mode == "presentation" || $a_mode == "print") {
-            if ($this->getPage()->getParentType() == "prtf") {
+        if ($a_mode === "preview" || $a_mode === "presentation" || $a_mode === "print") {
+            if ($this->getPage()->getParentType() === "prtf") {
                 $user_id = ilObject::_lookupOwner($this->getPage()->getPortfolioId());
             }
         }
@@ -192,10 +192,10 @@ class ilPCLearningHistory extends ilPageContent
             $hist_gui = new ilLearningHistoryGUI();
             $hist_gui->setUserId($user_id);
             $from_unix = ($from != "")
-                ? (new ilDateTime($from . " 00:00:00", IL_CAL_DATETIME))->get(IL_CAL_UNIX)
+                ? (new ilDateTime($from . " 00:00:00", IL_CAL_DATETIME))->get(IL_CAL_UNIX)// TODO PHP8-REVIEW Wrong type $from is an int, but used as a datetime string
                 : null;
             $to_unix = ($to != "")
-                ? (new ilDateTime($to . " 23:59:59", IL_CAL_DATETIME))->get(IL_CAL_UNIX)
+                ? (new ilDateTime($to . " 23:59:59", IL_CAL_DATETIME))->get(IL_CAL_UNIX)// TODO PHP8-REVIEW Wrong type $to is an int, but used as a datetime string
                 : null;
             $classes = (is_array($classes))
                 ? array_filter($classes, static function ($i) : bool {

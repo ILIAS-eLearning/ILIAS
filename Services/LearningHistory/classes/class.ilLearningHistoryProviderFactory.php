@@ -47,7 +47,7 @@ class ilLearningHistoryProviderFactory
     ) : array {
         $providers = array();
 
-        if ($user_id == 0) {
+        if ($user_id === 0 || $user_id === null) {
             $user_id = $this->service->user()->getId();
         }
 
