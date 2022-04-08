@@ -216,16 +216,14 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    protected function deleteAssignments() : void
+    protected function deleteAssignmentsAndProgresses() : void
     {
-        foreach ($this->getAssignments() as $ass) {
-            $progresses = $this->getProgressForAssignment($ass->getId());
-            foreach ($progresses as $progress) {
-                $progress->delete();
-            }
-
-            $this->assignment_repository->delete($ass);
-        }
+        $assignment_repository = $this->getAssignmentRepository();
+        $assignment_repository->deleteAllAssignmentsForProgrammeId($this->getId());
+        $orphan_condition_field = $assignment_repository->getTableAndFieldOfAssignmentIds();
+        $progress_repository = $this->getProgressRepository();
+        $progress_repository->deleteProgressesFor($this->getId());
+        $progress_repository->deleteAllOrphanedProgresses(...$orphan_condition_field);
     }
 
     /**
@@ -273,8 +271,8 @@ class ilObjStudyProgramme extends ilContainer
         }
 
         $this->deleteSettings();
+        $this->deleteAssignmentsAndProgresses();
         try {
-            $this->deleteAssignments();
             $this->auto_categories_repository->deleteFor($this->getId());
         } catch (ilStudyProgrammeTreeException $e) {
             // This would be the case when SP is in trash (#17797)
@@ -2210,7 +2208,6 @@ class ilObjStudyProgramme extends ilContainer
 
         $achieved_points = 0;
         if ($completion_mode === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
-
             $node_ref = self::getRefIdFor($progress->getNodeId());
             $children = $this->tree->getChildsByType($node_ref, "crsr");
             foreach ($children as $child) {
