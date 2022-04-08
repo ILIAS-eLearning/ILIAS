@@ -44,7 +44,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
             ->withPosition(50)
             ->withSymbol($icon)
-            ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+            ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
             ->withAvailableCallable(
                 static function () use ($dic) : bool {
                     return !$dic->settings()->get("disable_comments");

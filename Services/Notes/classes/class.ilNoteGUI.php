@@ -480,7 +480,7 @@ class ilNoteGUI
             : "";
 
         // title
-        if ($ilCtrl->isAsynch() && !$this->only_latest) {
+        if (!$this->only_latest && $ilCtrl->isAsynch()) {
             switch ($this->obj_type) {
                 case "grpr":
                 case "catr":
@@ -819,9 +819,9 @@ class ilNoteGUI
         
         if ($this->delete_note && count($notes) === 0) {
             return "";
-        } else {
-            return $tpl->get();
         }
+
+        return $tpl->get();
     }
     
     /**
@@ -878,9 +878,10 @@ class ilNoteGUI
     ) : bool {
         $ilUser = $this->user;
 
-        if ($a_note->getAuthor() === $ilUser->getId() && $ilUser->getId() !== ANONYMOUS_USER_ID) {
+        if ($ilUser->getId() !== ANONYMOUS_USER_ID && $a_note->getAuthor() === $ilUser->getId()) {
             return true;
         }
+
         return false;
     }
 
