@@ -17,12 +17,31 @@
  *********************************************************************/
  
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
 /**
  * Class ilCourseMailTemplateTutorContextTest
  */
 class ilCourseMailTemplateTutorContextTest extends TestCase
 {
+    private ?\ILIAS\DI\Container $dic_backup;
+
+    protected function setUp() : void
+    {
+        global $DIC;
+        $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
+        
+        $DIC = new Container();
+        $DIC['ilObjDataCache'] = $this->createMock(ilObjectDataCache::class);
+        $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
+    }
+    
+    protected function tearDown() : void
+    {
+        global $DIC;
+        $DIC = $this->dic_backup;
+    }
+    
     public function testNonExistingPlaceholderWontBeResolved() : void
     {
         $mailTemplateContext = new ilCourseMailTemplateTutorContext();
