@@ -28,7 +28,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
 
         $this->lng->loadLanguageModule('rbac');
     }
-
+    // PHP8-Review: Parameter's name changed during inheritance from 'option' to 'group'
     public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
