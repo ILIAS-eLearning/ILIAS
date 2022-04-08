@@ -66,8 +66,10 @@ class ilCourseFile
 
             $target = new ilFSStorageCourse($a_target_id);
             $target->initInfoDirectory();
-            $source->copyFile($file_obj->getAbsolutePath(),
-                $new_file->fss_storage->getInfoDirectory() . '/' . $new_file->getFileId());
+            $source->copyFile(
+                $file_obj->getAbsolutePath(),
+                $new_file->fss_storage->getInfoDirectory() . '/' . $new_file->getFileId()
+            );
         }
     }
 

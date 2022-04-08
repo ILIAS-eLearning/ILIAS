@@ -461,11 +461,16 @@ class ilObjCourseGrouping
         $tree = $DIC->repositoryTree();
         // get all grouping ids the course is assigned to
         $course_ids = [];
-        foreach (ilConditionHandler::_getPersistedConditionsOfTarget($a_course_ref_id, $a_course_id,
-            'crs') as $condition) {
+        foreach (ilConditionHandler::_getPersistedConditionsOfTarget(
+            $a_course_ref_id,
+            $a_course_id,
+            'crs'
+        ) as $condition) {
             if ($condition['trigger_type'] == 'crsg') {
-                foreach (ilConditionHandler::_getPersistedConditionsOfTrigger('crsg',
-                    $condition['trigger_obj_id']) as $target_condition) {
+                foreach (ilConditionHandler::_getPersistedConditionsOfTrigger(
+                    'crsg',
+                    $condition['trigger_obj_id']
+                ) as $target_condition) {
                     if ($tree->isDeleted($target_condition['target_ref_id'])) {
                         continue;
                     }

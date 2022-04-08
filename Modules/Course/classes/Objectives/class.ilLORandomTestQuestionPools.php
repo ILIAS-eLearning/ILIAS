@@ -167,8 +167,11 @@ class ilLORandomTestQuestionPools
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
 
-        foreach (self::lookupSequences($this->getContainerId(), $this->getContainerId(),
-            $this->getTestId()) as $sequence) {
+        foreach (self::lookupSequences(
+            $this->getContainerId(),
+            $this->getContainerId(),
+            $this->getTestId()
+        ) as $sequence) {
             // not nice
             $this->setQplSequence($sequence);
             $this->read();
@@ -189,8 +192,10 @@ class ilLORandomTestQuestionPools
             $new_question_arr = explode('_', $new_question_info);
             if (!isset($new_question_arr[2]) or !$new_question_arr[2]) {
                 //ilLoggerFactory::getLogger('crs')->debug(print_r($mappings,TRUE));
-                ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r($new_question_arr,
-                        true));
+                ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r(
+                    $new_question_arr,
+                    true
+                ));
                 continue;
             }
 

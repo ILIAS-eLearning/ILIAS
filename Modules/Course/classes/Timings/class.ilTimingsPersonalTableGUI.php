@@ -114,10 +114,12 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 
         // active
         $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $a_set['ref_id'] . '][active]');
-        $this->tpl->setVariable('CHECKED_ACTIVE',
-            ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+        $this->tpl->setVariable(
+            'CHECKED_ACTIVE',
+            ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : ''
+        );
 
-        $error_post_item  = (array) ($this->http->request()->getParsedBody()['item'] ?? []);
+        $error_post_item = (array) ($this->http->request()->getParsedBody()['item'] ?? []);
 
         // start
         $dt_input = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_start]');
@@ -149,8 +151,10 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         // changeable
-        $this->tpl->setVariable('TXT_CHANGEABLE',
-            $a_set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no'));
+        $this->tpl->setVariable(
+            'TXT_CHANGEABLE',
+            $a_set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no')
+        );
     }
 
     public function parse(array $a_item_data, array $failed = array()) : void

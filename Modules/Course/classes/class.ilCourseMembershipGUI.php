@@ -62,8 +62,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_ref_delete_confirmation_info'));
 
-        $table = new ilCourseReferenceDeleteConfirmationTableGUI($this, $this->getParentObject(),
-            'confirmDeleteParticipants');
+        $table = new ilCourseReferenceDeleteConfirmationTableGUI(
+            $this,
+            $this->getParentObject(),
+            'confirmDeleteParticipants'
+        );
         $table->init();
         $table->setParticipants($participants);
         $table->parse();
@@ -126,8 +129,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 $part->delete($usr_id);
             }
         }
-        $this->tpl->setOnScreenMessage('success',
-            $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
+        $this->tpl->setOnScreenMessage(
+            'success',
+            $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"),
+            true
+        );
         $this->ctrl->redirect($this, "participants");
     }
 
@@ -398,8 +404,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 if ($privacy->enabledCourseAccessTimes()) {
                     if (isset($progress[$member_id]['ts']) and $progress[$member_id]['ts']) {
                         ilDatePresentation::setUseRelativeDates(false);
-                        $print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime($progress[$member_id]['ts'],
-                            IL_CAL_UNIX));
+                        $print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime(
+                            $progress[$member_id]['ts'],
+                            IL_CAL_UNIX
+                        ));
                         ilDatePresentation::setUseRelativeDates(true);
                     } else {
                         $print_member[$member_id]['access'] = $this->lng->txt('no_date');

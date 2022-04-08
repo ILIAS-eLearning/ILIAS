@@ -32,8 +32,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->show_learning_progress = $a_show_learning_progress;
 
         if (null === $preloader) {
-            $preloader = new ilCertificateUserForObjectPreloader(new ilUserCertificateRepository(),
-                new ilCertificateActiveValidator());
+            $preloader = new ilCertificateUserForObjectPreloader(
+                new ilUserCertificateRepository(),
+                new ilCertificateActiveValidator()
+            );
         }
         $this->preLoader = $preloader;
         $this->show_timings = $a_show_timings;
@@ -148,8 +150,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'],
-                        IL_CAL_DATE)) : $this->lng->txt('no_date');
+                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate(
+                        $a_set['birthday'],
+                        IL_CAL_DATE
+                    )) : $this->lng->txt('no_date');
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', $a_set[$field]);
                     $this->tpl->parseCurrentBlock();
@@ -199,8 +203,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -300,8 +306,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         if ($this->show_timings) {
             $this->ctrl->setParameterByClass('ilcoursecontentgui', 'member_id', $a_set['usr_id']);
             $this->tpl->setCurrentBlock('link');
-            $this->tpl->setVariable('LINK_NAME',
-                $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings'));
+            $this->tpl->setVariable(
+                'LINK_NAME',
+                $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings')
+            );
             $this->tpl->setVariable('LINK_TXT', $this->lng->txt('timings_timings'));
             $this->tpl->parseCurrentBlock();
         }
@@ -491,8 +499,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // consultation hours
         if ($this->isColumnSelected('consultation_hour')) {
-            foreach (ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(),
-                $this->user->getId()) as $buser => $booking) {
+            foreach (ilBookingEntry::lookupManagedBookingsForObject(
+                $this->getRepositoryObject()->getId(),
+                $this->user->getId()
+            ) as $buser => $booking) {
                 if (isset($a_user_data[$buser])) {
                     $a_user_data[$buser]['consultation_hour'] = $booking[0]['dt'];
                     $a_user_data[$buser]['consultation_hour_end'] = $booking[0]['dtend'];

@@ -241,13 +241,19 @@ class ilCourseObjectivesGUI
         }
 
         foreach ($post_self_limit as $objective_id => $limit) {
-            ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT,
-                $limit);
+            ilCourseObjectiveQuestion::_updateTestLimits(
+                $objective_id,
+                ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT,
+                $limit
+            );
         }
 
         foreach ($post_final_limit as $objective_id => $limit) {
-            ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_FINAL_TEST,
-                $limit);
+            ilCourseObjectiveQuestion::_updateTestLimits(
+                $objective_id,
+                ilCourseObjectiveQuestion::TYPE_FINAL_TEST,
+                $limit
+            );
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
@@ -382,8 +388,11 @@ class ilCourseObjectivesGUI
         $this->ctrl->saveParameter($this, 'objective_id');
         $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
 
-        $table = new ilCourseObjectiveMaterialAssignmentTableGUI($this, $this->course_obj,
-            $this->initObjectiveIdFromQuery());
+        $table = new ilCourseObjectiveMaterialAssignmentTableGUI(
+            $this,
+            $this->course_obj,
+            $this->initObjectiveIdFromQuery()
+        );
         $table->setTitle(
             $this->lng->txt('crs_objective_wiz_materials'),
             '',
@@ -548,7 +557,6 @@ class ilCourseObjectivesGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
             $this->selfAssessmentLimits();
         } else {
-
             switch (ilSession::get('objective_mode')) {
                 case self::MODE_CREATE:
                     $this->finalTestAssignment();

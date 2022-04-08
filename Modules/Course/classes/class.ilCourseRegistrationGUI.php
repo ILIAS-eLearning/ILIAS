@@ -166,7 +166,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 // Disable registration
                 $this->enableRegistration(false);
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mem_alert_no_places'));
-                #$alert = $this->lng->txt('mem_alert_no_places');
+            #$alert = $this->lng->txt('mem_alert_no_places');
             } elseif (
                 $this->container->enabledWaitingList() and
                 $this->container->isSubscriptionMembershipLimited() and
@@ -179,7 +179,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 $this->container->enabledWaitingList() and
                 $this->container->isSubscriptionMembershipLimited()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_warn_no_max_set_on_waiting_list'));
-                #$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
+            #$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
             } elseif (
                 $free and
                 $this->container->enabledWaitingList() and
@@ -280,10 +280,14 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
                 if ($this->participants->isSubscriber($this->user->getId())) {
                     $this->form->clearCommandButtons();
-                    $this->form->addCommandButton('updateSubscriptionRequest',
-                        $this->lng->txt('crs_update_subscr_request'));
-                    $this->form->addCommandButton('cancelSubscriptionRequest',
-                        $this->lng->txt('crs_cancel_subscr_request'));
+                    $this->form->addCommandButton(
+                        'updateSubscriptionRequest',
+                        $this->lng->txt('crs_update_subscr_request')
+                    );
+                    $this->form->addCommandButton(
+                        'cancelSubscriptionRequest',
+                        $this->lng->txt('crs_cancel_subscr_request')
+                    );
                 } elseif ($this->isRegistrationPossible()) {
                     $this->form->clearCommandButtons();
                     $this->form->addCommandButton('join', $this->lng->txt('crs_join_request'));
@@ -310,7 +314,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             return false;
         }
         if ($this->container->getSubscriptionType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD) {
-
             $pass = $this->http->wrapper()->post()->retrieve(
                 'grp_passw',
                 $this->refinery->kindlyTo()->string()

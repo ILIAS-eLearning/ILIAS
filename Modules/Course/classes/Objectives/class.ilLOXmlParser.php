@@ -69,8 +69,11 @@ class ilLOXmlParser
         }
 
         foreach ($root->Objective as $obj) {
-            $mapped_objective_id = $this->getMapping()->getMapping('Modules/Course', 'objectives',
-                (string) $obj->attributes()->id);
+            $mapped_objective_id = $this->getMapping()->getMapping(
+                'Modules/Course',
+                'objectives',
+                (string) $obj->attributes()->id
+            );
             if ($mapped_objective_id) {
                 $this->parseMaterials($obj, (int) $mapped_objective_id);
                 $this->parseTests($obj, (int) $mapped_objective_id);
@@ -120,10 +123,18 @@ class ilLOXmlParser
             $new_obj->setPosition((int) (string) $obj->attributes()->position);
             $new_objective_id = $new_obj->add();
 
-            $this->getMapping()->addMapping('Modules/Course', 'objectives', (string) $obj->attributes()->id,
-                (string) $new_objective_id);
-            $this->getMapping()->addMapping('Services/COPage', 'pg', 'lobj:' . $obj->attributes()->id,
-                'lobj:' . $new_objective_id);
+            $this->getMapping()->addMapping(
+                'Modules/Course',
+                'objectives',
+                (string) $obj->attributes()->id,
+                (string) $new_objective_id
+            );
+            $this->getMapping()->addMapping(
+                'Services/COPage',
+                'pg',
+                'lobj:' . $obj->attributes()->id,
+                'lobj:' . $new_objective_id
+            );
         }
     }
 

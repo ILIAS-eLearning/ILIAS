@@ -299,8 +299,10 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             if ($this->getSettings()->worksWithInitialTest()) {
                 if ($this->getSettings()->hasSeparateInitialTests()) {
                     $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
-                    $assignment = $assignments->getAssignmentByObjective($objective_id,
-                        ilLOSettings::TYPE_TEST_INITIAL);
+                    $assignment = $assignments->getAssignmentByObjective(
+                        $objective_id,
+                        ilLOSettings::TYPE_TEST_INITIAL
+                    );
 
                     $objective_data['initial'] = 0;
                     if ($assignment instanceof ilLOTestAssignment) {

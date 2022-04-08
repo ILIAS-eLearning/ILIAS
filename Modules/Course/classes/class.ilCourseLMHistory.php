@@ -29,7 +29,6 @@
  */
 class ilCourseLMHistory
 {
-
     private int $course_id = 0;
     private int $user_id = 0;
 

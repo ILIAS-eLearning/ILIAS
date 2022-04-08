@@ -395,8 +395,10 @@ class ilLOEditorStatus
             }
 
             foreach ($this->getObjectives() as $objective_id) {
-                $tst_ref = $this->getAssignments()->getTestByObjective($objective_id,
-                    ilLOSettings::TYPE_TEST_QUALIFIED);
+                $tst_ref = $this->getAssignments()->getTestByObjective(
+                    $objective_id,
+                    ilLOSettings::TYPE_TEST_QUALIFIED
+                );
                 if (!$this->tree->isInTree($tst_ref)) {
                     if ($a_set_errors) {
                         $this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_no_qt');
@@ -443,8 +445,10 @@ class ilLOEditorStatus
             }
         } else {
             foreach ($this->getObjectives() as $objective_id) {
-                $qsts = ilCourseObjectiveQuestion::lookupQuestionsByObjective(ilObject::_lookupObjId($a_test_ref_id),
-                    $objective_id);
+                $qsts = ilCourseObjectiveQuestion::lookupQuestionsByObjective(
+                    ilObject::_lookupObjId($a_test_ref_id),
+                    $objective_id
+                );
                 if (!count($qsts)) {
                     return false;
                 }

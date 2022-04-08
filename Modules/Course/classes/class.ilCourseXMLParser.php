@@ -58,7 +58,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
         $this->md_obj = new ilMD($this->course_obj->getId(), 0, 'crs');
         $this->setMDObject($this->md_obj);
-
     }
 
     /**
@@ -599,7 +598,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
         }
         $this->cdata = '';
-
     }
 
     // PRIVATE

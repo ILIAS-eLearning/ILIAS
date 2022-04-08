@@ -142,14 +142,18 @@ class ilCourseObjective
             $random_q->copy($a_copy_id, $new_course->getId(), $objective_id);
 
             $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
-            $assignment_it = $assignments->getAssignmentByObjective($row->objective_id,
-                ilLOSettings::TYPE_TEST_INITIAL);
+            $assignment_it = $assignments->getAssignmentByObjective(
+                $row->objective_id,
+                ilLOSettings::TYPE_TEST_INITIAL
+            );
             if ($assignment_it) {
                 $assignment_it->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
             }
 
-            $assignment_qt = $assignments->getAssignmentByObjective($row->objective_id,
-                ilLOSettings::TYPE_TEST_QUALIFIED);
+            $assignment_qt = $assignments->getAssignmentByObjective(
+                $row->objective_id,
+                ilLOSettings::TYPE_TEST_QUALIFIED
+            );
             if ($assignment_qt) {
                 $assignment_qt->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
             }
@@ -336,7 +340,6 @@ class ilCourseObjective
         $res = $this->db->manipulate($query);
 
         $this->__read();
-
     }
 
     public function __setPosition(int $a_position) : void

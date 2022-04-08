@@ -117,17 +117,21 @@ class ilTimingsManageTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $error_post_item  = (array) ($this->http->request()->getParsedBody()['item'] ?? []);
+        $error_post_item = (array) ($this->http->request()->getParsedBody()['item'] ?? []);
 
         // active
         $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $a_set['ref_id'] . '][active]');
         if ($this->getFailureStatus()) {
             $active = (bool) ($error_post_item[$a_set['ref_id']]['active'] ?? false);
-            $this->tpl->setVariable('CHECKED_ACTIVE',
-                $active ? 'checked="checked"' : '');
+            $this->tpl->setVariable(
+                'CHECKED_ACTIVE',
+                $active ? 'checked="checked"' : ''
+            );
         } else {
-            $this->tpl->setVariable('CHECKED_ACTIVE',
-                ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+            $this->tpl->setVariable(
+                'CHECKED_ACTIVE',
+                ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : ''
+            );
         }
 
         // start

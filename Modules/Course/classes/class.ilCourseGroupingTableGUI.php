@@ -9,7 +9,6 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 {
     public function __construct(object $a_parent_obj, string $a_parent_cmd, ilObject $a_content_obj)
     {
-
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $type = ilObject::_lookupType($a_content_obj->getId());
         $this->lng->loadLanguageModule($type);

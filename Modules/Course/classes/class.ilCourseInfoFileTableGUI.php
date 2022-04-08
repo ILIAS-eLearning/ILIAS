@@ -30,7 +30,6 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
 {
     public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
-
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('filename'), 'filename', "60%");

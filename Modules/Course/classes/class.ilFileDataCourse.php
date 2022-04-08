@@ -74,8 +74,11 @@ class ilFileDataCourse extends ilFileData
                 continue;
             }
 
-            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file,
-                    $matches) and $matches[3] == $this->course_id) {
+            if (preg_match(
+                "/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/",
+                $file,
+                $matches
+            ) and $matches[3] == $this->course_id) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
                 $file_info['timest'] = $matches[1];

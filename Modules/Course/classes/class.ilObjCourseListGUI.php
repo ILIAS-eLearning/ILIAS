@@ -168,8 +168,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         int $ref_id,
         string $type,
         ?int $obj_id = null
-    ) : bool
-    {
+    ) : bool {
         // Only check cmd access for cmd 'register' and 'unregister'
         if ($cmd != 'view' and $cmd != 'leave' and $cmd != 'join') {
             $cmd = '';

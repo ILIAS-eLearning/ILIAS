@@ -88,8 +88,12 @@ class ilTimingsUser
 
     public function handleUnsubscribe(int $a_usr_id) : void
     {
-        $query = 'DELETE FROM crs_timings_user WHERE ' . $this->db->in('ref_id', $this->item_ids, false,
-                'integer') . ' ' .
+        $query = 'DELETE FROM crs_timings_user WHERE ' . $this->db->in(
+            'ref_id',
+            $this->item_ids,
+            false,
+            'integer'
+        ) . ' ' .
             'AND usr_id = ' . $this->db->quote($a_usr_id, 'integer');
         $this->db->manipulate($query);
     }

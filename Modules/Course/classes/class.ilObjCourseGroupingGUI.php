@@ -69,7 +69,6 @@ class ilObjCourseGroupingGUI
     }
 
     public function listGroupings() : void
-
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);

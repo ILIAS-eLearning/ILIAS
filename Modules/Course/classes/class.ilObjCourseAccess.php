@@ -70,8 +70,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         switch ($cmd) {
             case "view":
                 if ($participants->isBlocked($user_id) and $participants->isAssigned($user_id)) {
-                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS,
-                        $this->lng->txt("crs_status_blocked"));
+                    $this->access->addInfoItem(
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
+                        $this->lng->txt("crs_status_blocked")
+                    );
                     return false;
                 }
                 break;
@@ -84,8 +86,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     if (!ilObjCourse::mayLeave($obj_id, $user_id, $limit)) {
                         $this->access->addInfoItem(
                             ilAccessInfo::IL_STATUS_INFO,
-                            sprintf($this->lng->txt("crs_cancellation_end_rbac_info"),
-                                ilDatePresentation::formatDate($limit))
+                            sprintf(
+                                $this->lng->txt("crs_cancellation_end_rbac_info"),
+                                ilDatePresentation::formatDate($limit)
+                            )
                         );
                         return false;
                     }
@@ -135,8 +139,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     return false;
                 }
                 if ($participants->isBlocked($user_id) and $participants->isAssigned($user_id)) {
-                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS,
-                        $this->lng->txt("crs_status_blocked"));
+                    $this->access->addInfoItem(
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
+                        $this->lng->txt("crs_status_blocked")
+                    );
                     return false;
                 }
                 break;

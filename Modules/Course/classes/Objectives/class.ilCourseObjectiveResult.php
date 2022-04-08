@@ -134,9 +134,9 @@ class ilCourseObjectiveResult
     {
         $assignments = ilLOTestAssignments::getInstance($a_course_id);
         foreach (array_merge(
-                     $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
-                     $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_QUALIFIED)
-                 )
+            $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
+            $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_QUALIFIED)
+        )
                  as $assignment) {
             $tst = ilObjectFactory::getInstanceByRefId($assignment->getTestRefId(), false);
             if ($tst instanceof ilObjTest) {

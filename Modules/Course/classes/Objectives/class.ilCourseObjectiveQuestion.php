@@ -108,8 +108,10 @@ class ilCourseObjectiveQuestion
                 $new_question_info = $mappings[$question_ref_id . '_question_' . $question_qst_id];
                 $new_question_arr = explode('_', $new_question_info);
                 if (!isset($new_question_arr[2]) or !$new_question_arr[2]) {
-                    $this->logger->debug('found invalid format of question id mapping: ' . print_r($new_question_arr,
-                            true));
+                    $this->logger->debug('found invalid format of question id mapping: ' . print_r(
+                        $new_question_arr,
+                        true
+                    ));
                     continue;
                 }
                 $new_question_id = $new_question_arr[2];
@@ -642,8 +644,10 @@ class ilCourseObjectiveQuestion
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (!$this->tree->isInTree((int) $row->ref_id) or !$this->tree->isGrandChild($container_ref_id,
-                    (int) $row->ref_id)) {
+            if (!$this->tree->isInTree((int) $row->ref_id) or !$this->tree->isGrandChild(
+                $container_ref_id,
+                (int) $row->ref_id
+            )) {
                 $this->__deleteTest((int) $row->ref_id);
                 continue;
             }

@@ -80,8 +80,11 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
             $this->participants = $this->groups = $this->groups_rights = array();
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
-                if ($group_data["parent"] != $this->ref_id && $this->tree->checkForParentType($group_data["ref_id"],
-                        "grp", true)) {
+                if ($group_data["parent"] != $this->ref_id && $this->tree->checkForParentType(
+                    $group_data["ref_id"],
+                    "grp",
+                    true
+                )) {
                     unset($groups[$idx]);
                 } else {
                     $this->groups[$group_data["ref_id"]] = $group_data["title"];
@@ -201,8 +204,10 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
                         $this->ctrl->setParameter($this->parent_obj, "usr_id", $a_set["usr_id"]);
                         $this->ctrl->setParameter($this->parent_obj, "grp_id", $grp_id);
-                        $this->tpl->setVariable("URL_REMOVE",
-                            $this->ctrl->getLinkTarget($this->parent_obj, "confirmremove"));
+                        $this->tpl->setVariable(
+                            "URL_REMOVE",
+                            $this->ctrl->getLinkTarget($this->parent_obj, "confirmremove")
+                        );
                         $this->ctrl->setParameter($this->parent_obj, "grp_id", "");
                         $this->ctrl->setParameter($this->parent_obj, "usr_id", "");
 

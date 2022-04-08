@@ -28,8 +28,12 @@ class ilLOUtils
                 return ($reached / $max_points * 100) >= $limit_perc;
             }
         } else {
-            $required_perc = self::lookupObjectiveRequiredPercentage($a_cont_oid, $a_objective_id, $a_test_rid,
-                $max_points);
+            $required_perc = self::lookupObjectiveRequiredPercentage(
+                $a_cont_oid,
+                $a_objective_id,
+                $a_test_rid,
+                $max_points
+            );
 
             if (!$max_points) {
                 return true;

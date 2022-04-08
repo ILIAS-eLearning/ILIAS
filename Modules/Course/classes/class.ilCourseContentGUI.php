@@ -139,8 +139,10 @@ class ilCourseContentGUI
                 $this->tpl->setCurrentBlock("start_read");
                 $this->tpl->setVariable("READ_TITLE_START", $this->objectDataCache->lookupTitle($obj_id));
                 $this->tpl->setVariable("READ_TARGET_START", $obj_frame);
-                $this->tpl->setVariable("READ_LINK_START",
-                    $obj_link . '&crs_show_result=' . $this->course_obj->getRefId());
+                $this->tpl->setVariable(
+                    "READ_LINK_START",
+                    $obj_link . '&crs_show_result=' . $this->course_obj->getRefId()
+                );
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock("start_visible");
@@ -236,8 +238,10 @@ class ilCourseContentGUI
             $table->setFailureStatus(true);
         }
         $table->init();
-        $table->parse(ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()),
-            $failed_items);
+        $table->parse(
+            ilObjectActivation::getTimingsAdministrationItems($this->getContainerObject()->getRefId()),
+            $failed_items
+        );
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -392,8 +396,11 @@ class ilCourseContentGUI
         if (!$item['title'] &&
             $item['type'] == 'sess') {
             $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"]));
-            $item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],
-                $app_info['fullday']);
+            $item['title'] = ilSessionAppointment::_appointmentToString(
+                $app_info['start'],
+                $app_info['end'],
+                $app_info['fullday']
+            );
         }
 
         $this->tpl->setCurrentBlock("title_plain");
@@ -510,5 +517,4 @@ class ilCourseContentGUI
         }
         return true;
     }
-
 } // END class.ilCourseContentGUI

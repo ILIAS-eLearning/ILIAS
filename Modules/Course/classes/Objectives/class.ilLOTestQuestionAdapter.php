@@ -246,7 +246,6 @@ class ilLOTestQuestionAdapter
         }
 
         foreach ($this->run as $run) {
-
             $old_result = ilLOUserResults::lookupResult(
                 $this->container_id,
                 $this->user_id,
@@ -335,8 +334,10 @@ class ilLOTestQuestionAdapter
     {
         foreach ($this->run as $run) {
             if ($run->questionExists($qst->getId())) {
-                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': reached points are ' . $qst->getReachedPoints($session->getActiveId(),
-                        $session->getPass()));
+                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': reached points are ' . $qst->getReachedPoints(
+                    $session->getActiveId(),
+                    $session->getPass()
+                ));
                 $run->setQuestionResult(
                     $qst->getId(),
                     $qst->getReachedPoints($session->getActiveId(), $session->getPass())
@@ -461,7 +462,6 @@ class ilLOTestQuestionAdapter
 
     protected function updateRandomQuestions(ilTestSession $session, ilTestSequenceRandomQuestionSet $seq) : void
     {
-
         foreach ($this->run as $tst_run) {
             // Clear questions of previous run
             $tst_run->clearQuestions();
@@ -471,7 +471,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->getObjectiveId(),
                 ilObject::_lookupObjId($session->getRefId()),
                 (
-                ($this->getSettings()->getQualifiedTest() == $session->getRefId()) ?
+                    ($this->getSettings()->getQualifiedTest() == $session->getRefId()) ?
                     ilLOSettings::TYPE_TEST_QUALIFIED :
                     ilLOSettings::TYPE_TEST_INITIAL
                 )
