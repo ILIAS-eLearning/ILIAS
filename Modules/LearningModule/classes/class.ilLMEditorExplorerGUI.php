@@ -20,8 +20,6 @@
  */
 class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 {
-    protected ilObjLearningModule $lm;
-
     /**
      * ilLMEditorExplorerGUI constructor.
      * @param object|string $a_parent_obj
@@ -30,8 +28,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
         $a_parent_obj,
         string $a_parent_cmd,
         ilObjContentObject $a_lm,
-        // PHP8-Review: parameter $a_id with no type specified
-        $a_id = ""
+        string $a_id = ""
     ) {
         global $DIC;
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_lm, $a_id);

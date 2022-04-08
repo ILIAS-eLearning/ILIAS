@@ -35,7 +35,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
     public static array $lo_access;
     
-    // PHP8-Review: Parameter's name changed during inheritance
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         $ilUser = $this->user;
@@ -114,7 +113,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
         return 0;
     }
     
-    // PHP8-Review: Parameter's name changed during inheritance
     public static function _checkGoto(string $target) : bool
     {
         global $DIC;
@@ -153,7 +151,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
         return false;
     }
     
-    // PHP8-Review: Parameter's name changed during inheritance
     public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
         global $DIC;
@@ -173,10 +170,9 @@ class ilObjContentObjectAccess extends ilObjectAccess
         }
     }
 
-    // PHP8-Review: should return bool but returns string
     public static function isInfoEnabled(int $obj_id) : bool
     {
-        return ilContainer::_lookupContainerSetting(
+        return (bool) ilContainer::_lookupContainerSetting(
             $obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
             true

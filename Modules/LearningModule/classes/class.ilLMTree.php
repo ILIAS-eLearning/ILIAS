@@ -19,7 +19,7 @@
 class ilLMTree extends ilTree
 {
     public static array $instances = [];
-    protected array $complete_tree = [];
+    protected ?array $complete_tree = null;
 
     public function __construct(
         int $a_tree_id
@@ -72,7 +72,6 @@ class ilLMTree extends ilTree
      */
     public function getCompleteTree() : array
     {
-        // PHP8-Review: Call to function is_null() with array will always evaluate to false.
         if (is_null($this->complete_tree)) {
             $this->complete_tree = $this->getSubTree($this->getNodeData($this->readRootId()));
         }

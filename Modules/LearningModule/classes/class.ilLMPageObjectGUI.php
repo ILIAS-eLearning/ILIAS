@@ -64,9 +64,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         switch ($next_class) {
             case "illmpagegui":
 
-                // Determine whether the view of a learning resource should
-                // be shown in the frameset of ilias, or in a separate window.
-                $showViewInFrameset = true;
                 $lm_set = new ilSetting("lm");
 
                 $this->ctrl->setReturn($this, "edit");
@@ -97,17 +94,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     );
                 }
 
-                // set page view link
-                // PHP8-Review: If condition is always true
-                if ($showViewInFrameset) {
-                    $view_frame = ilFrameTargetInfo::_getFrame("MainContent");
-                } else {
-                    $view_frame = "ilContObj" . $this->content_object->getId();
-                }
                 $page_gui->setViewPageLink(
                     ILIAS_HTTP_PATH . "/goto.php?target=pg_" . $this->obj->getId() .
-                    "_" . $this->requested_ref_id,
-                    $view_frame
+                    "_" . $this->requested_ref_id
                 );
 
                 $page_gui->setStyleId($this->content_style_domain

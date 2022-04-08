@@ -201,8 +201,7 @@ class EditingGUIRequest
         return $this->intArray("pages");
     }
 
-    // PHP8-Review: parameter $par with no type specified
-    public function getHFormPar($par) : string
+    public function getHFormPar(string $par) : string
     {
         return $this->str("il_hform_" . $par);
     }

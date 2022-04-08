@@ -46,13 +46,7 @@ class ilEditClipboard
     {
         global $DIC;
         $user = $DIC->user();
-        $lm_action = $user->getPref("lm_clipboard_action");
-        if ($lm_action != "") {
-            return $lm_action;
-        } else {
-            // PHP8-Review: should return string but returns false
-            return false;
-        }
+        return (string) $user->getPref("lm_clipboard_action");
     }
 
     public static function getContentObjectId() : int

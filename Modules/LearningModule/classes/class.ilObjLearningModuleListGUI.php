@@ -58,7 +58,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $this->child_id;
     }
     
-    // PHP8-Review: Parameter's name changed during inheritance
     public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
@@ -111,7 +110,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $cmd_link;
     }
     
-    // PHP8-Review: Parameter's name changed during inheritance
     public function getCommandFrame(string $cmd) : string
     {
         switch ($cmd) {
@@ -147,16 +145,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $props;
     }
     
-    // PHP8-Review: Parameter's name changed during inheritance
-    public function getCommandImage(string $cmd) : string
-    {
-        // PHP8-Review: 'switch' with single 'case'
-        switch ($cmd) {
-            default:
-                return "";
-        }
-    }
-
     public function getInfoScreenStatus() : bool
     {
         return ilObjContentObjectAccess::isInfoEnabled($this->obj_id);

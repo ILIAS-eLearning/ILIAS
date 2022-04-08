@@ -163,20 +163,19 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ids = $this->request->getIds();
-        if (count($ids) == 0) {
+        $items = $this->request->getIds();
+        if (count($items) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
         $todel = array();			// delete IDs < 0 (needed for non-js editing)
-        foreach ($ids as $k => $item) {
+        foreach ($items as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
             }
         }
         foreach ($todel as $k) {
-            // PHP8-Review: Undefined variable '$items'
             unset($items[$k]);
         }
         
@@ -201,20 +200,19 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ids = $this->request->getIds();
-        if (count($ids) == 0) {
+        $items = $this->request->getIds();
+        if (count($items) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
         $todel = array();				// delete IDs < 0 (needed for non-js editing)
-        foreach ($ids as $k => $item) {
+        foreach ($items as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
             }
         }
         foreach ($todel as $k) {
-            // PHP8-Review: Undefined variable '$items'
             unset($items[$k]);
         }
         
@@ -291,8 +289,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             );
 
             $this->tpl->parseCurrentBlock();
+            $cnt++;
         }
-        // PHP8-Review: If condition is always true.
+
         if ($cnt == 0) {
             $this->tpl->setCurrentBlock("notfound");
             $this->tpl->setVariable("NUM_COLS", 3);

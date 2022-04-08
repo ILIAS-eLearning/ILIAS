@@ -28,8 +28,7 @@ class ilLMObjectGUI
     public ilLMObject $obj;
     public ilCtrl $ctrl;
     public ilObjLearningModule $content_object;
-    // PHP8-Review: $actions has no type specified
-    public $actions;
+    public array $actions;
 
     protected \ILIAS\DI\UIServices $ui;
     protected int $requested_obj_id;

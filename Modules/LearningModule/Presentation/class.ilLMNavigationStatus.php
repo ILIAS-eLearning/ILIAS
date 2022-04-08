@@ -41,8 +41,7 @@ class ilLMNavigationStatus
         ilLMTree $lm_tree,
         ilObjLearningModule $lm,
         ilSetting $lm_set,
-        // PHP8-Review: no type specified
-        $requested_back_page,
+        string $requested_back_page,
         string $cmd,
         int $focus_id
     ) {

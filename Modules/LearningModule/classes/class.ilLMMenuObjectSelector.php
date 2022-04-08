@@ -77,13 +77,17 @@ class ilLMMenuObjectSelector extends ilExplorer
         return "";
     }
 
-    // PHP8-Review: parameter $a_ref_id with no type specified
+    /**
+     * @param int $a_ref_id
+     */
     public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         return in_array($a_type, $this->selectable_types) and $a_ref_id != $this->ref_id;
     }
     
-    // PHP8-Review: parameter $a_parent_id with no type specified
+    /**
+     * @param int $a_parent_id
+     */
     public function showChilds($a_parent_id) : bool
     {
         $rbacsystem = $this->rbacsystem;
@@ -97,19 +101,5 @@ class ilLMMenuObjectSelector extends ilExplorer
         } else {
             return false;
         }
-    }
-
-    // PHP8-Review: parameter $a_obj_id with no type specified
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
-    {
-        $lng = $this->lng;
-
-        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
-
-        $tpl->setCurrentBlock("text");
-        $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
-        $tpl->parseCurrentBlock();
-        // PHP8-Review: Empty index operator not supported for strings
-        $this->output[] = $tpl->get();
     }
 }

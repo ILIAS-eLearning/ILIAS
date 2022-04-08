@@ -50,7 +50,7 @@ class ilObjContentObject extends ilObject
     public int $style_id = 0;
     public string $pg_header = '';
     public bool $online = false;
-    public int $for_translation = 0;
+    public bool $for_translation = false;
     protected bool $rating = false;
     protected bool $rating_pages = false;
     public array $auto_glossaries = array();
@@ -294,13 +294,11 @@ class ilObjContentObject extends ilObject
      */
     public function setForTranslation(bool $a_val) : void
     {
-        // PHP8-Review: Property ilObjContentObject::$for_translation (int) does not accept bool
         $this->for_translation = $a_val;
     }
     
     public function getForTranslation() : bool
     {
-        // PHP8-Review: should return bool but returns int
         return $this->for_translation;
     }
 
@@ -356,10 +354,8 @@ class ilObjContentObject extends ilObject
             "/lm_" . $this->getId() . "/import";
         if (is_dir($import_dir)) {
             return $import_dir;
-        } else {
-            // PHP8-Review: should return string but returns false
-            return false;
         }
+        return "";
     }
     
     public function setImportDirectory(string $a_import_dir) : void
@@ -860,9 +856,8 @@ class ilObjContentObject extends ilObject
         $this->user_comments = $a_comm;
     }
 
-    public function setPublicAccessMode(bool $a_mode) : void
+    public function setPublicAccessMode(string $a_mode) : void
     {
-        // PHP8-Review: Property ilObjContentObject::$public_access_mode (string) does not accept bool
         $this->public_access_mode = $a_mode;
     }
 
@@ -1386,7 +1381,6 @@ class ilObjContentObject extends ilObject
         ilLog $expLog
     ) : void {
         $attrs = array();
-        // PHP8-Review: 'switch' with single 'case'
         switch ($this->getType()) {
             case "lm":
                 $attrs["Type"] = "LearningModule";
@@ -1688,8 +1682,6 @@ class ilObjContentObject extends ilObject
 
         // sort files
         ksort($file);
-        // PHP8-Review: Array internal pointer reset is unnecessary
-        reset($file);
         return $file;
     }
     
@@ -1738,9 +1730,6 @@ class ilObjContentObject extends ilObject
 
         // sort files
         sort($file);
-        // PHP8-Review: Array internal pointer reset is unnecessary
-        reset($file);
-
         return $file;
     }
     
@@ -1832,14 +1821,13 @@ class ilObjContentObject extends ilObject
         }
     }
 
-    // PHP8-Review: no return type specified
     public function executeDragDrop(
         int $source_id,
         int $target_id,
         bool $first_child,
         bool $as_subitem = false,
         string $movecopy = "move"
-    ) {
+    ) : void {
         $lmtree = new ilTree($this->getId());
         $lmtree->setTableNames('lm_tree', 'lm_data');
         $lmtree->setTreeTablePK("lm_id");
@@ -2023,16 +2011,15 @@ class ilObjContentObject extends ilObject
         return $mess;
     }
     
-    // PHP8-Review: Parameter's name changed during inheritance
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningModule $new_obj */
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneMetaData($new_obj);
         //$new_obj->createProperties();
 
         //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOfflineStatus($this->getOfflineStatus());
@@ -2074,7 +2061,7 @@ class ilObjContentObject extends ilObject
         $new_obj->update();
         
         // copy content
-        $copied_nodes = $this->copyAllPagesAndChapters($new_obj, $a_copy_id);
+        $copied_nodes = $this->copyAllPagesAndChapters($new_obj, $copy_id);
 
         // page header and footer
         if ($this->getHeaderPage() > 0 && ($new_page_header = $copied_nodes[$this->getHeaderPage()]) > 0) {

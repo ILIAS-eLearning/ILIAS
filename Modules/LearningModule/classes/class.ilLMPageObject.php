@@ -323,9 +323,7 @@ class ilLMPageObject extends ilLMObject
      * chapter title + page title or chapter title only, depending on settings
      * @param	string	$a_mode		ilLMOBject::CHAPTER_TITLE | ilLMOBject::PAGE_TITLE | ilLMOBject::NO_HEADER
      */
-    // PHP8-Review: Declaration of overridden method should be compatible with parent class
     public static function _getPresentationTitle(
-        // PHP8-Review: Parameter's name changed during inheritance
         int $a_pg_id,
         string $a_mode = self::CHAPTER_TITLE,
         bool $a_include_numbers = false,

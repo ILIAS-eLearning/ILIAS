@@ -38,7 +38,6 @@ class ilLMObject
     public string $short_title;
     public string $description;
     public bool $active = true;
-    // PHP8-Review: $data_records has no type specified
     protected static $data_records = array();
     protected ilDBInterface $db;
 
@@ -477,9 +476,8 @@ class ilLMObject
             $childs = $lm_tree->getChilds($row["obj_id"]);
             
             foreach ($childs as $page) {
-                if ($page["type"] == "pg" and in_array($page["obj_id"], $a_pages)) {
-                    // PHP8-Review: 'array_push()' with single element
-                    array_push($a_pages, $row["obj_id"]);
+                if ($page["type"] === "pg" and in_array($page["obj_id"], $a_pages)) {
+                    $a_pages[] = $row["obj_id"];
                     break;
                 }
             }
@@ -856,9 +854,8 @@ class ilLMObject
     }
     
     /**
-    * Paste item (tree) from clipboard to current lm
-    */
-    // PHP8-Review: no return type specified
+     * Paste item (tree) from clipboard to current lm
+     */
     public static function pasteTree(
         ilObjLearningModule $a_target_lm,
         int $a_item_id,
@@ -868,7 +865,7 @@ class ilLMObject
         array &$a_copied_nodes,
         bool $a_as_copy = false,
         ?ilObjLearningModule $a_source_lm = null
-    ) {
+    ) : int {
         global $DIC;
 
         $item = null;

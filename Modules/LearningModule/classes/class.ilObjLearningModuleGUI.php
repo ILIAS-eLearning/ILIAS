@@ -24,8 +24,10 @@ class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 {
     protected ilLMTree $lm_tree;
 
+    /**
+     * @param mixed $a_data
+     */
     public function __construct(
-        // PHP8-Review: parameter $a_data with no type specified
         $a_data,
         int $a_id = 0,
         bool $a_call_by_reference = true,

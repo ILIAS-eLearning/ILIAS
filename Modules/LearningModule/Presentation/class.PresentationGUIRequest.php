@@ -127,8 +127,7 @@ class PresentationGUIRequest
 
     public function getRating() : int
     {
-        // PHP8-Review: should return int but returns string
-        return $this->str("rating");
+        return $this->int("rating");
     }
 
     public function getItems() : array

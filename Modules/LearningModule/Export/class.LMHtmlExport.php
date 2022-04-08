@@ -533,16 +533,14 @@ class LMHtmlExport
         $target_dir = $this->target_dir;
 
         $lang_suffix = "";
-        if (!in_array($lang, ["-", ""]) && $this->lang == "all") {
+        if (!in_array($lang, ["-", ""]) && $this->lang === "all") {
             $lang_suffix = "_" . $lang;
         }
 
         // Init template, lm_gui
         $this->initScreen($lm_page_id, $frame);
 
-
         if ($frame == "") {
-            // PHP8-Review: Variable $a_exp_id_map in isset() is never defined, Result of && is always false
             if (is_array($exp_id_map) && isset($a_exp_id_map[$lm_page_id])) {
                 $file = $target_dir . "/lm_pg_" . $exp_id_map[$lm_page_id] . $lang_suffix . ".html";
             } else {

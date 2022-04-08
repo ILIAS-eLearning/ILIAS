@@ -122,7 +122,9 @@ class ilContObjParser extends ilMDSaxParser
         }
     }
 
-    // PHP8-Review: parameter $a_xml_parser with no type specified.
+    /**
+     * @param resource $a_xml_parser
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -222,8 +224,7 @@ class ilContObjParser extends ilMDSaxParser
             $page_obj->buildDom();
             $page_obj->resolveIntLinks();
             $page_obj->resolveIIMMediaAliases($this->mob_mapping);
-            // PHP8-Review: 'in_array' can be replaced with comparison
-            if (in_array($this->coType, array("lm"))) {
+            if ($this->coType == "lm") {
                 $page_obj->resolveQuestionReferences($this->qst_mapping);
             }
             $page_obj->update(false);
@@ -273,7 +274,6 @@ class ilContObjParser extends ilMDSaxParser
 
                 // eventually correct links in questions to learning modules
                 if ($type_arr[0] == "qst") {
-                    // PHP8-Review: Static call to instance method assQuestion::_resolveIntLinks()
                     assQuestion::_resolveIntLinks($source["id"]);
                 }
                 // eventually correct links in survey questions to learning modules
@@ -370,12 +370,10 @@ class ilContObjParser extends ilMDSaxParser
 
     public function getOpenCount(string $a_name) : int
     {
-        // PHP8-Review: 'isset' can be replaced with coalesce
         if (isset($this->cnt[$a_name])) {
             return $this->cnt[$a_name];
-        } else {
-            return 0;
         }
+        return 0;
     }
 
     public function buildTag(
@@ -745,7 +743,6 @@ class ilContObjParser extends ilMDSaxParser
 
                 // please note: Meta-Metadata and MetaData are different tags!
                 if (!$this->in_meta_meta_data) {
-                    // PHP8-Review: Negated boolean expression is always true.
                     if ($this->in_meta_data && !$this->in_glossary_definition) {
                         if (!$this->in_media_object) {
                             $this->current_object->setImportId($a_attribs["Entry"]);
@@ -831,7 +828,6 @@ class ilContObjParser extends ilMDSaxParser
         $this->beginElement($a_name);
 
         // append content to page xml content
-        // PHP8-Review: Right side of || is always false.
         if (($this->in_page_object || $this->in_glossary_definition)
             && !$this->in_meta_data && !$this->in_media_object) {
             if ($a_name == "Definition") {
@@ -885,7 +881,6 @@ class ilContObjParser extends ilMDSaxParser
         // which comes right after the "Glossary" tag
         if ($this->content_object->getType() == "glo" &&
             $this->in_glossary && !$this->in_media_object
-            // PHP8-Review: Negated boolean expression is always true
             && !$this->in_glossary_definition) {
             return false;
         }
@@ -910,7 +905,6 @@ class ilContObjParser extends ilMDSaxParser
         }
 
         // append content to page xml content
-        // PHP8-Review: Right side of || is always false.
         if (($this->in_page_object || $this->in_glossary_definition)
             && !$this->in_meta_data && !$this->in_media_object) {
             $app_name = ($a_name == "Definition")
@@ -1057,7 +1051,6 @@ class ilContObjParser extends ilMDSaxParser
                 }
 
                 // append media alias to page, if we are in a page
-                // PHP8-Review: Right side of || is always false.
                 if ($this->in_page_object || $this->in_glossary_definition) {
                     if ($a_name != "InteractiveImage") {
                         $this->page_object->appendXMLContent($this->media_object->getXML(IL_MODE_ALIAS));
@@ -1181,7 +1174,6 @@ class ilContObjParser extends ilMDSaxParser
                     $this->media_object->MDUpdateListener('General');
                 }
 
-                // PHP8-Review: If condition is always false.
                 if ($this->in_glossary_definition) {
                     $this->glossary_definition->MDUpdateListener('General');
                 }
@@ -1349,7 +1341,6 @@ class ilContObjParser extends ilMDSaxParser
         if (!empty($a_data) || $a_data === "0") {
             // append all data to page, if we are within PageObject,
             // but not within MetaData or MediaObject
-            // PHP8-Review: Right side of || is always false
             if (($this->in_page_object || $this->in_glossary_definition)
                 && !$this->in_meta_data && !$this->in_media_object) {
                 $this->page_object->appendXMLContent($a_data);
@@ -1368,7 +1359,9 @@ class ilContObjParser extends ilMDSaxParser
         }
     }
 
-    // PHP8-Review: parameter $a_xml_parser with no type specified
+    /**
+     * @param resource $a_xml_parser
+     */
     public function emptyMediaMetaCache($a_xml_parser) : void
     {
         foreach ($this->media_meta_cache as $cache_entry) {
