@@ -125,8 +125,8 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
         }
         return '';
     }
-
-    public function deleteMemberExportFile(string $a_export_name)
+    
+    public function deleteMemberExportFile(string $a_export_name) : bool
     {
         return $this->deleteFile($this->getMemberExportDirectory() . '/' . $a_export_name);
     }
