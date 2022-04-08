@@ -172,8 +172,9 @@ class ilObjectPermissionStatusGUI
 
         $ops = [];
         foreach ($this->valid_roles as $role) {
-            if (in_array($role['obj_id'], $this->user_roles)) {
-                if ($role["obj_id"] == SYSTEM_ROLE_ID) {
+            $role_id = (int) $role["obj_id"];
+            if (in_array($role_id, $this->user_roles)) {
+                if ($role_id === SYSTEM_ROLE_ID) {
                     // get all possible operation of current object
                     $ops_list = ilRbacReview::_getOperationList($this->object->getType());
 
@@ -184,7 +185,7 @@ class ilObjectPermissionStatusGUI
                     $role['ops'] = $ops;
                 } else {
                     $role['ops'] = $this->rbacreview->getRoleOperationsOnObject(
-                        $role["obj_id"],
+                        $role_id,
                         $this->object->getRefId()
                     );
                 }
@@ -424,8 +425,9 @@ class ilObjectPermissionStatusGUI
 
         $result_set = [];
         foreach ($this->valid_roles as $role) {
+            $role_id = (int) $role["obj_id"];
             $result_set[$counter]["img"] = in_array(
-                $role['obj_id'],
+                $role_id,
                 $this->user_roles
             ) ? self::IMG_OK : self::IMG_NOT_OK;
 
@@ -439,11 +441,12 @@ class ilObjectPermissionStatusGUI
             }
 
             $result_set[$counter]["role"] = str_replace(" ", "&nbsp;", ilObjRole::_getTranslation($role["title"]));
-
+    
+            
             if ($role['role_type'] != "linked") {
                 $result_set[$counter]["effective_from"] = "";
             } else {
-                $rolfs = $this->rbacreview->getFoldersAssignedToRole($role["obj_id"]);
+                $rolfs = $this->rbacreview->getFoldersAssignedToRole($role_id);
 
                 // ok, try to match the next rolf in path
                 foreach ($path as $node) {
@@ -464,7 +467,7 @@ class ilObjectPermissionStatusGUI
                 $result_set[$counter]["original_position"] = $this->lng->txt("global");
                 $result_set[$counter]["original_position_ref_id"] = false;
             } else {
-                $rolf = $this->rbacreview->getFoldersAssignedToRole($role["obj_id"], true);
+                $rolf = $this->rbacreview->getFoldersAssignedToRole($role_id, true);
                 $parent_node = $tree->getNodeData($rolf[0]);
                 $result_set[$counter]["original_position"] = $parent_node["title"];
                 $result_set[$counter]["original_position_ref_id"] = $parent_node["ref_id"];
