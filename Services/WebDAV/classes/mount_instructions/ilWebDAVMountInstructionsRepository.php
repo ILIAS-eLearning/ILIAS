@@ -29,9 +29,9 @@ interface ilWebDAVMountInstructionsRepository
     
     public function doMountInstructionsExistByLanguage(string $language) : int;
     
-    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document);
+    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document) : void;
     
-    public function updateSortingValueById(int $id, int $a_new_sorting_value);
+    public function updateSortingValueById(int $id, int $a_new_sorting_value) : void;
     
-    public function deleteMountInstructionsById(int $id);
+    public function deleteMountInstructionsById(int $id) : void;
 }

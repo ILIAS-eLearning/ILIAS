@@ -18,12 +18,16 @@ use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
  *****************************************************************************/
 class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
 {
-    private function createDocumentProcessorBaseObject()
+    private function createDocumentProcessorBaseObject() : ilWebDAVMountInstructionsDocumentProcessorBase
     {
         return new class extends ilWebDAVMountInstructionsDocumentProcessorBase {
+            /**
+             * {@inheritDoc}
+             * @see ilWebDAVMountInstructionsDocumentProcessor::processMountInstructions()
+             */
             public function processMountInstructions(string $a_raw_mount_instructions) : array
             {
-                return null;
+                return [];
             }
         };
     }
@@ -32,7 +36,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_noOpenNoCloseTags_returnArrayOnlyWithInputString()
+    public function parseInstructionsToAssocArray_noOpenNoCloseTags_returnArrayOnlyWithInputString() : void
     {
         // Arrange
         $instructions = 'hello world';
@@ -49,7 +53,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_onlyOpenNoCloseTag_returnArrayOnlyWithInputString()
+    public function parseInstructionsToAssocArray_onlyOpenNoCloseTag_returnArrayOnlyWithInputString() : void
     {
         // Arrange
         $instructions = 'This is a start [tag] with no end tag';
@@ -66,7 +70,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_noOpenOnlyCloseTag_returnArrayOnlyWithInputString()
+    public function parseInstructionsToAssocArray_noOpenOnlyCloseTag_returnArrayOnlyWithInputString() : void
     {
         // Arrange
         $instructions = 'There is no start tag but an end [/tag] in the string';
@@ -83,7 +87,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_openTagAtStartCloseTagAtEnd_returnArrayOnlyWithInputString()
+    public function parseInstructionsToAssocArray_openTagAtStartCloseTagAtEnd_returnArrayOnlyWithInputString() : void
     {
         // Arrange
         $instrunction_text = 'This are the mount Instructions';
@@ -104,7 +108,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_tagsContainSpaces_returnArrayOnlyWithInputString()
+    public function parseInstructionsToAssocArray_tagsContainSpaces_returnArrayOnlyWithInputString() : void
     {
         // Arrange
         $instruction_text = 'This are the mount Instructions';
@@ -125,7 +129,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_tagsContainSpecialChars_returnArrayOnlyWithInputString()
+    public function parseInstructionsToAssocArray_tagsContainSpecialChars_returnArrayOnlyWithInputString() : void
     {
         // Arrange
         $instruction_text = 'This are the mount Instructions';
@@ -146,7 +150,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_beforeStartTagAndAfterEndTagIsText_returnArrayOnlyWithStringBetweenTags()
+    public function parseInstructionsToAssocArray_beforeStartTagAndAfterEndTagIsText_returnArrayOnlyWithStringBetweenTags() : void
     {
         // Arrange
         $instruction_text = 'This are the mount Instructions';
@@ -167,7 +171,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_placeholderBeforeStartTag_returnArrayOnlyWithStringBetweenTags()
+    public function parseInstructionsToAssocArray_placeholderBeforeStartTag_returnArrayOnlyWithStringBetweenTags() : void
     {
         // Arrange
         $instruction_text = 'This are the mount Instructions';
@@ -188,7 +192,7 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_withTwoOpenAndCloseTags_returnArrayWithBothInstructions()
+    public function parseInstructionsToAssocArray_withTwoOpenAndCloseTags_returnArrayWithBothInstructions() : void
     {
         // Arrange
         $instruction_text1 = 'This are the first instructions';

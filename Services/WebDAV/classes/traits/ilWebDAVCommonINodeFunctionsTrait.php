@@ -13,17 +13,15 @@
  * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-class ilWebDAVNotDavableException extends ilException
+trait ilWebDAVCommonINodeFunctionsTrait
 {
-    public const OBJECT_TYPE_NOT_DAVABLE = 'This object type is not davable!';
-    public const FILE_EXTENSION_NOT_ALLOWED = 'This object has a forbidden file extension!';
-    public const OBJECT_TITLE_NOT_DAVABLE = 'This object title is invalid or hidden!';
-
-    /**
-     * @param mixed $message
-     */
-    public function __construct($message)
+    protected function retrieveLastModifiedAsIntFromObjectLastUpdateString(string $last_update) : ?int
     {
-        parent::__construct($message);
+        $last_update_int = strtotime($this->obj->getLastUpdateDate());
+        if ($last_update_int !== false) {
+            return $last_update_int;
+        }
+        
+        return null;
     }
 }

@@ -46,7 +46,7 @@ class ilObjWebDAVAccess extends ilObjectAccess
         if (!$this->http->has('ref_id')) {
             return false;
         }
-        return (bool) $this->rbacsystem->checkAccess(
+        return $this->rbacsystem->checkAccess(
             $permission,
             $this->http->retrieve('ref_id', $this->int_trafo)
         );

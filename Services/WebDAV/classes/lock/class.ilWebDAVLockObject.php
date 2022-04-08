@@ -96,7 +96,7 @@ class ilWebDAVLockObject
         $timestamp = time();
         
         $sabre_lock = new LockInfo();
-        $sabre_lock->created;
+        $sabre_lock->created = $timestamp;
         $sabre_lock->depth = $this->depth;
         $sabre_lock->owner = $this->dav_owner;
         $sabre_lock->scope = $this->scope;

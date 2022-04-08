@@ -27,7 +27,7 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilDAVFile implements IFile
 {
-    use ilObjFileNews, ilWebDAVCheckValidTitleTrait;
+    use ilObjFileNews, ilWebDAVCheckValidTitleTrait, ilWebDAVCommonINodeFunctionsTrait;
     
     protected ilObjFile $obj;
     protected ilWebDAVRepositoryHelper $repo_helper;
@@ -139,13 +139,13 @@ class ilDAVFile implements IFile
     public function getSize() : int
     {
         try {
-            return (int) $this->obj->getFileSize();
+            return $this->obj->getFileSize();
         } catch (Error $e) {
             return -1;
         }
     }
 
-    public function setName($name)
+    public function setName($name) : void
     {
         if (!$this->repo_helper->checkAccess("write", $this->obj->getRefId())) {
             throw new Forbidden('Permission denied');
@@ -159,13 +159,13 @@ class ilDAVFile implements IFile
         }
     }
     
-    public function delete()
+    public function delete() : void
     {
         $this->repo_helper->deleteObject($this->obj->getRefId());
     }
     
     public function getLastModified() : ?int
     {
-        return ($this->obj === null) ? null : strtotime($this->obj->getLastUpdateDate());
+        return $this->retrieveLastModifiedAsIntFromObjectLastUpdateString($this->obj->getLastUpdateDate());
     }
 }

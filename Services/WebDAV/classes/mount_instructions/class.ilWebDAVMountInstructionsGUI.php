@@ -22,6 +22,7 @@ use ILIAS\HTTP\Services;
  */
 class ilWebDAVMountInstructionsGUI
 {
+    protected ilWebDAVUriBuilder $uri_builder;
     protected ilWebDAVBaseMountInstructions $mount_instruction;
     protected ilLanguage$lang;
     protected UIServices $ui;
@@ -36,7 +37,10 @@ class ilWebDAVMountInstructionsGUI
         $this->http = $http;
     }
 
-    public function buildGUIFromGivenMountInstructions($mount_instructions, $render_async = false) : string
+    /**
+     * @param mixed[] $mount_instructions
+     */
+    public function buildGUIFromGivenMountInstructions(array $mount_instructions, bool $render_async = false) : string
     {
         $os = $this->determineOSfromUserAgent();
         
@@ -91,7 +95,7 @@ class ilWebDAVMountInstructionsGUI
         $view_control = $f->viewControl()->mode($view_control_actions, "mount-instruction-buttons")->withActive($selected);
 
         // Add view control and legacy add the beginning of the array (so they will be rendered first)
-        $header_components = [ 
+        $header_components = [
             $f->legacy("<div class='webdav-view-control'>"),
             $view_control,
             $f->legacy("</div>"),

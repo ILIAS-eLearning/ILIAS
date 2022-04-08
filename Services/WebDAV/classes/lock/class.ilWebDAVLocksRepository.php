@@ -30,7 +30,7 @@ class ilWebDAVLocksRepository
     
     public function checkIfLockExistsInDB(string $token) : bool
     {
-        $select_query = "SELECT SELECT EXISTS(SELECT 1 FROM $this->locks_table WHERE token = " .
+        $select_query = "SELECT SELECT EXISTS(SELECT 1 FROM $this->lock_table WHERE token = " .
             $this->db->quote($token, 'text') . ") AS count";
         $select_result = $this->db->query($select_query);
         $select_result->numRows();
