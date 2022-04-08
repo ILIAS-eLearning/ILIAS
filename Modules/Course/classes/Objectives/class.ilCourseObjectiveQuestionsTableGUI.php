@@ -61,7 +61,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
         static $row_counter = 1;
 
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
-        if (strlen($a_set['description'])) {
+        if (strlen($a_set['description']) !== 0) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
 
@@ -69,7 +69,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             foreach ($tst['questions'] as $qst) {
                 $this->tpl->setCurrentBlock('self_qst');
                 $this->tpl->setVariable('SELF_QST_TITLE', $qst['title']);
-                if (strlen($qst['description'])) {
+                if (strlen($qst['description']) !== 0) {
                     $this->tpl->setVariable('SELF_QST_DESCRIPTION', $qst['description']);
                 }
                 $this->tpl->setVariable('SELF_QST_POINTS', $qst['points']);
@@ -78,14 +78,14 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             }
             $this->tpl->setCurrentBlock('self_tst');
             $this->tpl->setVariable('SELF_TST_TITLE', $tst['title']);
-            if (strlen($tst['description'])) {
+            if (strlen($tst['description']) !== 0) {
                 $this->tpl->setVariable('SELF_TST_DESC', $tst['description']);
             }
             $this->tpl->setVariable('SELF_TYPE_IMG', ilUtil::getImagePath('icon_tst.svg'));
             $this->tpl->setVariable('SELF_TYPE_ALT', $this->lng->txt('obj_tst'));
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['self_tests'])) {
+        if (count($a_set['self_tests']) > 0) {
             $this->tpl->setVariable('SELF_TXT_ALL_POINTS', $this->lng->txt('crs_objective_all_points'));
             $this->tpl->setVariable('SELF_TXT_POINTS', $this->lng->txt('crs_objective_points'));
             $this->tpl->setVariable('SELF_TXT_REQ_POINTS', $this->lng->txt('crs_obj_required_points'));
@@ -98,7 +98,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             foreach ($tst['questions'] as $qst) {
                 $this->tpl->setCurrentBlock('final_qst');
                 $this->tpl->setVariable('FINAL_QST_TITLE', $qst['title']);
-                if (strlen($qst['description'])) {
+                if (strlen($qst['description']) !== 0) {
                     $this->tpl->setVariable('FINAL_QST_DESCRIPTION', $qst['description']);
                 }
                 $this->tpl->setVariable('FINAL_QST_POINTS', $qst['points']);
@@ -107,14 +107,14 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             }
             $this->tpl->setCurrentBlock('final_tst');
             $this->tpl->setVariable('FINAL_TST_TITLE', $tst['title']);
-            if (strlen($tst['description'])) {
+            if (strlen($tst['description']) !== 0) {
                 $this->tpl->setVariable('FINAL_TST_DESC', $tst['description']);
             }
             $this->tpl->setVariable('FINAL_TYPE_IMG', ilUtil::getImagePath('icon_tst.svg'));
             $this->tpl->setVariable('FINAL_TYPE_ALT', $this->lng->txt('obj_tst'));
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['final_tests'])) {
+        if (count($a_set['final_tests']) > 0) {
             $this->tpl->setVariable('FINAL_TXT_ALL_POINTS', $this->lng->txt('crs_objective_all_points'));
             $this->tpl->setVariable('FINAL_TXT_POINTS', $this->lng->txt('crs_objective_points'));
             $this->tpl->setVariable('FINAL_TXT_REQ_POINTS', $this->lng->txt('crs_obj_required_points'));

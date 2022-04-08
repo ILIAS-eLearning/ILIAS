@@ -48,7 +48,7 @@ class ilECSCourseSettings extends ilECSObjectSettings
             $this->content_obj->getId(),
             $this->content_obj->getType()
         );
-        if (strlen($lang)) {
+        if (strlen($lang) !== 0) {
             $json->lang = $lang . '_' . strtoupper($lang);
         }
         $json->status = $this->content_obj->isActivated() ? 'online' : 'offline';

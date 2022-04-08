@@ -89,8 +89,7 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
     {
         $hasEditPermissionAccess =
             (
-                $this->access->checkAccess('edit_permission', '', $this->rep_object->getRefId()) or
-                $this->participants->isAdmin($this->user->getId())
+                $this->access->checkAccess('edit_permission', '', $this->rep_object->getRefId()) || $this->participants->isAdmin($this->user->getId())
             );
 
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);

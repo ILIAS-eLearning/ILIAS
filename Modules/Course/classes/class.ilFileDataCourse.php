@@ -72,7 +72,7 @@ class ilFileDataCourse extends ilFileData
                 "/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/",
                 $file,
                 $matches
-            ) and $matches[3] == $this->course_id) {
+            ) && $matches[3] == $this->course_id) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
                 $file_info['timest'] = $matches[1];
@@ -217,7 +217,7 @@ class ilFileDataCourse extends ilFileData
             ilFileUtils::makeDir($this->getCoursePath() . '/import');
         }
 
-        if (!is_writable($this->getCoursePath() . '/import') or !is_readable($this->getCoursePath() . '/import')) {
+        if (!is_writable($this->getCoursePath() . '/import') || !is_readable($this->getCoursePath() . '/import')) {
             $this->error->raiseError("Course import path is not readable/writable by webserver", $this->error->FATAL);
         }
     }

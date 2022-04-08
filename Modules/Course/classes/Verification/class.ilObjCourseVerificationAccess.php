@@ -42,11 +42,6 @@ class ilObjCourseVerificationAccess extends ilObjectAccess
         if (isset($t_arr[2]) && $t_arr[2] === 'wsp') {
             return ilSharedResourceGUI::hasAccess((int) $t_arr[1]);
         }
-
-        if ($ilAccess->checkAccess('read', '', (int) $t_arr[1])) {
-            return true;
-        }
-
-        return false;
+        return (bool) $ilAccess->checkAccess('read', '', (int) $t_arr[1]);
     }
 }

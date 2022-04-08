@@ -36,7 +36,7 @@ class ilLOUtils
         $settings = ilLOSettings::getInstanceByObjId($a_cont_oid);
 
         if (self::lookupRandomTest(ilObject::_lookupObjId($a_test_rid))) {
-            if (!$max_points) {
+            if ($max_points === 0) {
                 return true;
             } else {
                 return ($reached / $max_points * 100) >= $limit_perc;
@@ -49,7 +49,7 @@ class ilLOUtils
                 $max_points
             );
 
-            if (!$max_points) {
+            if ($max_points === 0) {
                 return true;
             } else {
                 return ($reached / $max_points * 100) >= $required_perc;

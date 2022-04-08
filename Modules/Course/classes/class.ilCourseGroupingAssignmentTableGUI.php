@@ -82,7 +82,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 
         $assigned_ids = array();
         $assigned = $a_group_obj->getAssignedItems();
-        if ($assigned) {
+        if ($assigned !== []) {
             foreach ($assigned as $item) {
                 $assigned_ids[] = $item['target_ref_id'];
             }

@@ -296,7 +296,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                          'usr_id' => $id
             );
         }
-        if (($fields[1] == $this->setting->get('inst_id', '0')) and strlen(ilObjUser::_lookupLogin($fields[3]))) {
+        if ($fields[1] == $this->setting->get('inst_id', '0') && strlen(ilObjUser::_lookupLogin($fields[3]))) {
             return array('imported' => false,
                          'local' => true,
                          'usr_id' => $fields[3]

@@ -88,7 +88,7 @@ class ilCourseObjectiveQuestion
         $mappings = $cwo->getMappings();
         foreach ($this->getQuestions() as $question) {
             $mapping_key = $question['ref_id'] . '_question_' . $question['question_id'];
-            if (!isset($mappings[$mapping_key]) or !$mappings[$mapping_key]) {
+            if (!isset($mappings[$mapping_key]) || !$mappings[$mapping_key]) {
                 continue;
             }
             $question_ref_id = $question['ref_id'];
@@ -104,7 +104,7 @@ class ilCourseObjectiveQuestion
             } else {
                 $new_question_info = $mappings[$question_ref_id . '_question_' . $question_qst_id];
                 $new_question_arr = explode('_', $new_question_info);
-                if (!isset($new_question_arr[2]) or !$new_question_arr[2]) {
+                if (!isset($new_question_arr[2]) || !$new_question_arr[2]) {
                     $this->logger->debug('found invalid format of question id mapping: ' . print_r(
                         $new_question_arr,
                         true
@@ -497,7 +497,7 @@ class ilCourseObjectiveQuestion
                     $points = $this->getFinalTestPoints();
                     break;
             }
-            if ($test_data['limit'] == -1 or $test_data['limit'] > $points) {
+            if ($test_data['limit'] == -1 || $test_data['limit'] > $points) {
                 switch ($test_data['status']) {
                     case self::TYPE_SELF_ASSESSMENT:
                         $points = $this->getSelfAssessmentPoints();
@@ -564,7 +564,7 @@ class ilCourseObjectiveQuestion
             "AND objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
 
         $res = $this->db->query($query);
-        if (!$res->numRows()) {
+        if ($res->numRows() === 0) {
             $this->__deleteTest($test_rid);
         }
     }
@@ -641,14 +641,14 @@ class ilCourseObjectiveQuestion
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (!$this->tree->isInTree((int) $row->ref_id) or !$this->tree->isGrandChild(
+            if (!$this->tree->isInTree((int) $row->ref_id) || !$this->tree->isGrandChild(
                 $container_ref_id,
                 (int) $row->ref_id
             )) {
                 $this->__deleteTest((int) $row->ref_id);
                 continue;
             }
-            if (!$question = ilObjTest::_instanciateQuestion((int) $row->question_id)) {
+            if (($question = ilObjTest::_instanciateQuestion((int) $row->question_id)) === null) {
                 $this->delete((int) $row->question_id);
                 continue;
             }

@@ -309,7 +309,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->showActionLinks($a_set);
 
         $isPreloaded = $this->preLoader->isPreloaded($this->getRepositoryObject()->getId(), $a_set['usr_id']);
-        if (true === $isPreloaded) {
+        if ($isPreloaded) {
             $this->tpl->setCurrentBlock('link');
             $this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'deliverCertificate'));
             $this->tpl->setVariable('LINK_TXT', $this->lng->txt('download_certificate'));
@@ -352,7 +352,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $part
         );
 
-        if (!$part) {
+        if ($part === []) {
             $this->setData(array());
             return;
         }
@@ -461,7 +461,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
 
         // Custom user data fields
-        if ($udf_ids) {
+        if ($udf_ids !== []) {
             $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
                 if (!$this->checkAcceptance((int) $usr_id)) {
@@ -474,7 +474,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             }
         }
         // Object specific user data fields
-        if ($odf_ids) {
+        if ($odf_ids !== []) {
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
                 $usr_id = (int) $usr_id;

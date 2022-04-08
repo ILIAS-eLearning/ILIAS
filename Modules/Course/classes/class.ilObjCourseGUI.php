@@ -227,7 +227,7 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
         // files
-        if (count($files)) {
+        if ($files !== []) {
             $tpl = new ilTemplate('tpl.event_info_file.html', true, true, 'Modules/Course');
 
             foreach ($files as $file) {
@@ -313,7 +313,7 @@ class ilObjCourseGUI extends ilContainerGUI
         // support contacts
         $parts = ilParticipants::getInstanceByObjId($this->object->getId());
         $conts = $parts->getContacts();
-        if (count($conts) > 0) {
+        if ($conts !== []) {
             $info->addSection($this->lng->txt("crs_mem_contacts"));
             foreach ($conts as $c) {
                 $pgui = new ilPublicUserProfileGUI($c);
@@ -414,7 +414,7 @@ class ilObjCourseGUI extends ilContainerGUI
         // Confirmation
         $privacy = ilPrivacySettings::getInstance();
 
-        if ($privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledCourseExport()) {
+        if ($privacy->courseConfirmationRequired() || ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) || $privacy->enabledCourseExport()) {
             $field_info = ilExportFieldsInfo::_getInstanceByType($this->object->getType());
 
             $this->lng->loadLanguageModule('ps');
@@ -497,7 +497,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 )
             );
         }
-        if (!count($file_ids)) {
+        if (count($file_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editInfoObject();
             return;
@@ -535,7 +535,7 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
 
-        if (!count($file_ids)) {
+        if (count($file_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->editInfoObject();
             return;
@@ -1610,7 +1610,7 @@ class ilObjCourseGUI extends ilContainerGUI
             }
 
             if ($privacy->enabledCourseAccessTimes()) {
-                if (isset($progress[$usr_id]['ts']) and $progress[$usr_id]['ts']) {
+                if (isset($progress[$usr_id]['ts']) && $progress[$usr_id]['ts']) {
                     $tmp_data['access_ut'] = $progress[$usr_id]['ts'];
                     $tmp_data['access_time'] = ilDatePresentation::formatDate(new ilDateTime(
                         $progress[$usr_id]['ts'],
@@ -1643,7 +1643,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $marks = new ilLPMarks($this->object->getId(), $a_member_id);
 
                 // only if status has changed
-                if ($marks->getCompleted() != $a_has_passed) {
+                if ($marks->getCompleted() !== $a_has_passed) {
                     $marks->setCompleted($a_has_passed);
                     $marks->update();
 
@@ -1759,8 +1759,7 @@ class ilObjCourseGUI extends ilContainerGUI
             }
         }
 
-        if ($this->object->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING and
-            $this->access->checkAccess('write', '', $this->ref_id)
+        if ($this->object->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING && $this->access->checkAccess('write', '', $this->ref_id)
         ) {
             $this->tabs->addTab(
                 'timings_timings',
@@ -1768,9 +1767,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'manageTimings')
             );
         } elseif (
-            $this->object->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING and
-            $this->object->getMemberObject()->isParticipant() and
-            $this->access->checkAccess('read', '', $this->ref_id)) {
+            $this->object->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING && $this->object->getMemberObject()->isParticipant() && $this->access->checkAccess('read', '', $this->ref_id)) {
             $this->tabs->addTab(
                 'timings_timings',
                 $this->lng->txt('timings_timings'),
@@ -1906,8 +1903,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
 
         // Join/Leave
-        if ($this->access->checkAccess('join', '', $this->ref_id)
-            and !$this->object->getMemberObject()->isAssigned()) {
+        if ($this->access->checkAccess('join', '', $this->ref_id) && !$this->object->getMemberObject()->isAssigned()) {
             if (ilCourseWaitingList::_isOnList($this->user->getId(), $this->object->getId())) {
                 $this->tabs_gui->addTab(
                     'leave',
@@ -1923,8 +1919,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 );
             }
         }
-        if ($this->access->checkAccess('leave', '', $this->object->getRefId())
-            and $this->object->getMemberObject()->isMember()) {
+        if ($this->access->checkAccess('leave', '', $this->object->getRefId()) && $this->object->getMemberObject()->isMember()) {
             $this->tabs_gui->addTarget(
                 "crs_unsubscribe",
                 $this->ctrl->getLinkTarget($this, "unsubscribe"),
@@ -2607,8 +2602,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
 
         // Special handling for tests in courses with learning objectives
-        if ($a_item_data['type'] == 'tst' and
-            ilObjCourse::_lookupViewMode($a_course_obj_id) == ilContainer::VIEW_OBJECTIVE) {
+        if ($a_item_data['type'] == 'tst' && ilObjCourse::_lookupViewMode($a_course_obj_id) == ilContainer::VIEW_OBJECTIVE) {
             $a_item_list_gui->addCommandLinkParameter(array('crs_show_result' => $a_course_ref_id));
         }
 
@@ -2720,7 +2714,7 @@ class ilObjCourseGUI extends ilContainerGUI
     {
         if (!$this->getCreationMode()) {
             $settings = ilMemberViewSettings::getInstance();
-            if ($settings->isActive() and $settings->getContainer() != $this->object->getRefId()) {
+            if ($settings->isActive() && $settings->getContainer() != $this->object->getRefId()) {
                 $settings->setContainer($this->object->getRefId());
                 $this->rbac_system->initMemberView();
             }
@@ -2749,7 +2743,7 @@ class ilObjCourseGUI extends ilContainerGUI
             // certificate
 
             $validator = new ilCertificateDownloadValidator();
-            if (true === $validator->isCertificateDownloadable($this->user->getId(), $this->object->getId())) {
+            if ($validator->isCertificateDownloadable($this->user->getId(), $this->object->getId())) {
                 $cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
 
                 $this->lng->loadLanguageModule("certificate");
@@ -2929,7 +2923,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $objective_ids = ilCourseObjective::_getObjectiveIds($this->object->getId(), true);
 
             // do not disable objective question if all are passed
-            if (count($objective_ids) == count($passed)) {
+            if (count($objective_ids) === count($passed)) {
                 $has_completed = true;
                 $passed = array();
             }
@@ -2992,7 +2986,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $crs_roles[$role_id] = ilObjRole::_getTranslation($title);
         }
 
-        if (count($a_exclude) > 0) {
+        if ($a_exclude !== []) {
             foreach ($a_exclude as $excluded_role) {
                 if (isset($crs_roles[$excluded_role])) {
                     unset($crs_roles[$excluded_role]);

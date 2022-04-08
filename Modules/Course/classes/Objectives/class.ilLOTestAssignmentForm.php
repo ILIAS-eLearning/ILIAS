@@ -156,7 +156,7 @@ class ilLOTestAssignmentForm
                 break;
         }
 
-        if (!$assignable) {
+        if ($assignable === []) {
             $existing->setDisabled(true);
         }
         $cr_mode->addOption($existing);

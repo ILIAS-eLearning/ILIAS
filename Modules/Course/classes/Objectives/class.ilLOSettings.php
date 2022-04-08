@@ -188,12 +188,12 @@ class ilLOSettings
         $new_settings->resetResults($settings->isResetResultsEnabled());
         $new_settings->setPassedObjectiveMode($settings->getPassedObjectiveMode());
 
-        if ($settings->getInitialTest() and array_key_exists($settings->getInitialTest(), $mappings)) {
+        if ($settings->getInitialTest() && array_key_exists($settings->getInitialTest(), $mappings)) {
             $new_settings->setInitialTest($mappings[$settings->getInitialTest()]);
             $new_settings->setInitialTestAsStart($new_settings->isInitialTestStart());
         }
 
-        if ($settings->getQualifiedTest() and array_key_exists($settings->getQualifiedTest(), $mappings)) {
+        if ($settings->getQualifiedTest() && array_key_exists($settings->getQualifiedTest(), $mappings)) {
             $new_settings->setQualifiedTest($mappings[$settings->getQualifiedTest()]);
             $new_settings->setQualifyingTestAsStart($settings->isQualifyingTestStart());
         }

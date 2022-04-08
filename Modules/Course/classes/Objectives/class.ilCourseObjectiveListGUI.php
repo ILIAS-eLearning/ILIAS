@@ -86,8 +86,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
             ilCourseObjectiveResultCache::getStatus(
                 $this->user->getId(),
                 $this->getContainerObject()->object->getId()
-            ) != ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE and
-            ilCourseObjectiveResultCache::isSuggested(
+            ) != ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE && ilCourseObjectiveResultCache::isSuggested(
                 $this->user->getId(),
                 $this->getContainerObject()->object->getId(),
                 $this->obj_id

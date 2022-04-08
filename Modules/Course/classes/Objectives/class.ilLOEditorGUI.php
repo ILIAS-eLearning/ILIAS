@@ -667,7 +667,7 @@ class ilLOEditorGUI
                 )
             );
         }
-        if (!count($tests)) {
+        if (count($tests) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'testOverview');
         }
@@ -867,7 +867,7 @@ class ilLOEditorGUI
 
         $template = new ilSettingsTemplate($tpl_id, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
         $template_settings = $template->getSettings();
-        if ($template_settings) {
+        if ($template_settings !== []) {
             $tst_gui = new ilObjTestGUI();
             $tst_gui->applyTemplate($template_settings, $tst);
         }
@@ -1033,7 +1033,7 @@ class ilLOEditorGUI
             false
         );
 
-        if (!count($objectives)) {
+        if ($objectives === []) {
             $this->showObjectiveCreation();
             return;
         }

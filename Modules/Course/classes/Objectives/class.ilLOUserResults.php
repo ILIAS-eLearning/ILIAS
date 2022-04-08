@@ -144,7 +144,7 @@ class ilLOUserResults
 
         $ilDB = $DIC->database();
         if (!$a_course_id ||
-            !sizeof($a_user_ids)) {
+            $a_user_ids === []) {
             return false;
         }
 
@@ -254,7 +254,7 @@ class ilLOUserResults
     {
         $settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
 
-        if (!$settings->isInitialTestQualifying() or !$settings->worksWithInitialTest()) {
+        if (!$settings->isInitialTestQualifying() || !$settings->worksWithInitialTest()) {
             return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);
         }
 
@@ -432,7 +432,7 @@ class ilLOUserResults
             }
         }
 
-        $all_nr = sizeof($a_objective_ids);
+        $all_nr = count($a_objective_ids);
         foreach ($tmp_completed as $user_id => $counter) {
             // if used as precondition object should be completed ASAP, status can be lost on subsequent tries
             if ($counter == $all_nr) {

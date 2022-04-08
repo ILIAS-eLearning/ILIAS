@@ -96,7 +96,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         // blocked
         $members = ilCourseParticipant::_getInstanceByObjId($this->obj_id, $this->user->getId());
-        if ($members->isBlocked() and $members->isAssigned()) {
+        if ($members->isBlocked() && $members->isAssigned()) {
             $props[] = array("alert" => true,
                              "property" => $this->lng->txt("member_status"),
                              "value" => $this->lng->txt("crs_status_blocked")
@@ -152,7 +152,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         // check for certificates
         $hasCertificate = $this->getCertificatePreloader()->isPreloaded($this->user->getId(), $this->obj_id);
-        if (true === $hasCertificate) {
+        if ($hasCertificate) {
             $this->lng->loadLanguageModule('certificate');
             $cmd_link = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->ref_id . "&cmd=deliverCertificate";
             $props[] = [
@@ -184,7 +184,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         ?int $obj_id = null
     ) : bool {
         // Only check cmd access for cmd 'register' and 'unregister'
-        if ($cmd != 'view' and $cmd != 'leave' and $cmd != 'join') {
+        if ($cmd != 'view' && $cmd != 'leave' && $cmd != 'join') {
             $cmd = '';
         }
 

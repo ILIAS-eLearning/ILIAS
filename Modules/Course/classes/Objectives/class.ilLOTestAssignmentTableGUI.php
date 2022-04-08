@@ -159,7 +159,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_TTYPE', $type);
         $this->tpl->setVariable('VAL_QST_QPL', $a_set['qst_info']);
 
-        if (isset($a_set['qpls']) && is_array($a_set['qpls']) && count($a_set['qpls']) > 0) {
+        if (isset($a_set['qpls']) && is_array($a_set['qpls']) && $a_set['qpls'] !== []) {
             foreach ($a_set['qpls'] as $title) {
                 $this->tpl->setCurrentBlock('qpl');
                 $this->tpl->setVariable('MAT_TITLE', $title);
@@ -182,7 +182,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
                 $assignment->delete();
                 continue;
             }
-            if ($tmp) {
+            if ($tmp !== []) {
                 // add assignment id
                 $tmp['assignment_id'] = $assignment->getAssignmentId();
                 $data[] = $tmp;
@@ -255,7 +255,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
                     $tst_data['qpls'][] = $title;
                     ++$num;
                 }
-                if (!$num) {
+                if ($num === 0) {
                     $tst_data['qst_info'] .= (' ' . 0);
                 }
                 break;

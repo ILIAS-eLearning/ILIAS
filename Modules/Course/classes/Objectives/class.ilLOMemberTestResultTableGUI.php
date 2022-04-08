@@ -58,9 +58,9 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
     {
         $name = ilObjUser::_lookupName($this->getUserId());
 
-        if (strlen($name['firstname']) and strlen($name['lastname'])) {
+        if (strlen($name['firstname']) && strlen($name['lastname'])) {
             $name_string = $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']';
-        } elseif (strlen($name['lastname'])) {
+        } elseif (strlen($name['lastname']) !== 0) {
             $name_string = $name['lastname'] . ' [' . $name['login'] . ']';
         } else {
             $name_string = $name['login'];
@@ -144,7 +144,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         $assignments = ilLOTestAssignments::getInstance($this->getParentContainer()->getId());
 
         $test_ref_id = $assignments->getTestByObjective($a_objective_id, $a_type);
-        if (!$test_ref_id) {
+        if ($test_ref_id === 0) {
             return '';
         }
         return ilLOUtils::getTestResultLinkForUser($test_ref_id, $this->getUserId());

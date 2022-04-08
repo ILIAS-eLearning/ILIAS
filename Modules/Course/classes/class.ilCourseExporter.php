@@ -79,7 +79,7 @@ class ilCourseExporter extends ilXmlExporter
                 }
             }
 
-            if ($page_ids) {
+            if ($page_ids !== []) {
                 $dependencies[] = array(
                     'component' => 'Services/COPage',
                     'entity' => 'pg',

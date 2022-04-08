@@ -81,7 +81,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
                 $class = ilObjectLP::getTypeClass($node["type"]);
                 /** @noinspection PhpUndefinedMethodInspection */
                 $modes = $class::getDefaultModes(ilObjUserTracking::_enabledLearningProgress());
-                if (sizeof($modes) > 1) {
+                if (count($modes) > 1) {
                     $res[] = $node["type"];
                 }
             }
@@ -153,7 +153,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
                 $invalid[] = ilObject::_lookupTitle($obj_id);
             }
         }
-        if (sizeof($invalid)) {
+        if ($invalid !== []) {
             $mess = sprintf($this->lng->txt("badge_course_lp_invalid"), implode(", ", $invalid));
             $a_form->getItemByPostVar("subitems")->setAlert($mess);
             return false;

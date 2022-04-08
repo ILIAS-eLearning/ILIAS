@@ -454,7 +454,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
             $body .= $this->getLanguageText('crs_member') . "\n";
         }
 
-        if ($part->isAdmin($a_usr_id) or $part->isTutor($a_usr_id)) {
+        if ($part->isAdmin($a_usr_id) || $part->isTutor($a_usr_id)) {
             $body .= $this->getLanguageText('crs_status') . ': ';
 
             if ($part->isNotificationEnabled($a_usr_id)) {

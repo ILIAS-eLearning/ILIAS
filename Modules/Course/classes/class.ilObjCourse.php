@@ -878,7 +878,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
             foreach ($emails as $email) {
                 $email = trim($email);
-                if (!(ilUtil::is_email($email) or ilObjUser::getUserIdByLogin($email))) {
+                if (!ilUtil::is_email($email) && !ilObjUser::getUserIdByLogin($email)) {
                     $this->error->appendMessage($this->lng->txt('contact_email_not_valid') . " '" . $email . "'");
                     $error = true;
                 }
@@ -889,11 +889,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
     public function hasContactData() : bool
     {
-        return strlen($this->getContactName()) or
-            strlen($this->getContactResponsibility()) or
-            strlen($this->getContactEmail()) or
-            strlen($this->getContactPhone()) or
-            strlen($this->getContactConsultation());
+        return strlen($this->getContactName()) || strlen($this->getContactResponsibility()) || strlen($this->getContactEmail()) || strlen($this->getContactPhone()) || strlen($this->getContactConsultation());
     }
 
     /**
@@ -1488,7 +1484,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             case 'create':
             case 'update':
                 $apps = [];
-                if (!$this->getActivationUnlimitedStatus() and !$this->getOfflineStatus()) {
+                if (!$this->getActivationUnlimitedStatus() && !$this->getOfflineStatus()) {
                     $app = new ilCalendarAppointmentTemplate(self::CAL_ACTIVATION_START);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('crs_cal_activation_start');
@@ -1653,7 +1649,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             if ($this->isSubscriptionMembershipLimited()) {
                 $free = max(0, $this->getSubscriptionMaxMembers() - $this->getMembersObject()->getCountMembers());
                 $waiting_list = new ilCourseWaitingList($this->getId());
-                if ($this->enabledWaitingList() and (!$free or $waiting_list->getCountUsers())) {
+                if ($this->enabledWaitingList() && (!$free || $waiting_list->getCountUsers())) {
                     $waiting_list->addToList($a_user_id);
                     $this->lng->loadLanguageModule("crs");
                     $info = sprintf(
@@ -1769,8 +1765,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     public function handleAutoFill() : void
     {
         if (
-            !$this->enabledWaitingList() or
-            !$this->hasWaitingListAutoFill()
+            !$this->enabledWaitingList() || !$this->hasWaitingListAutoFill()
         ) {
             $this->course_logger->debug('Waiting list or auto fill disabled.');
             return;
@@ -1868,7 +1863,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
             $part = new ilCourseParticipants((int) $row["obj_id"]);
             $reci = $part->getNotificationRecipients();
-            if (sizeof($reci)) {
+            if ($reci !== []) {
                 $missing = (int) $row["min_members"] - $part->getCountMembers();
                 if ($missing > 0) {
                     $res[(int) $row["obj_id"]] = array($missing, $reci);

@@ -71,7 +71,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
             $this->tpl->setVariable('CHAP_TYPE_ALT', $this->lng->txt('obj_' . $sub_data['type']));
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['sub'])) {
+        if (count($a_set['sub']) > 0) {
             $this->tpl->setVariable('TXT_CHAPTER', $this->lng->txt('objs_st'));
         }
 
@@ -85,7 +85,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ROW_TYPE_ALT', $this->lng->txt('obj_' . $a_set['type']));
 
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
-        if (strlen($a_set['description'])) {
+        if (strlen($a_set['description']) !== 0) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
     }
@@ -130,7 +130,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $tree->setTreeTablePK("lm_id");
         $chapter = [];
         foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId())) as $node) {
-            if ($node['type'] == 'st' or $node['type'] == 'pg') {
+            if ($node['type'] == 'st' || $node['type'] == 'pg') {
                 $depth = $node['depth'] - 1;
                 $child = $node['child'];
                 $chapter[$child]['depth'] = $depth;

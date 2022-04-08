@@ -83,7 +83,7 @@ class ilLOEditorStatus
 
     public static function getInstance(ilObject $a_parent) : self
     {
-        if (self::$instance) {
+        if (self::$instance !== null) {
             return self::$instance;
         }
         return self::$instance = new self($a_parent);
@@ -290,7 +290,7 @@ class ilLOEditorStatus
             return Step::SUCCESSFULLY;
         } elseif ($this->hasSectionErrors($section)) {
             return Step::UNSUCCESSFULLY;
-        } elseif ($this->section == $section) {
+        } elseif ($this->section === $section) {
             return Step::IN_PROGRESS;
         } else {
             return Step::NOT_STARTED;
@@ -447,7 +447,7 @@ class ilLOEditorStatus
                     $objective_id,
                     ilObject::_lookupObjId($a_test_ref_id)
                 );
-                if (!$seq) {
+                if ($seq === []) {
                     return false;
                 }
             }
@@ -457,7 +457,7 @@ class ilLOEditorStatus
                     ilObject::_lookupObjId($a_test_ref_id),
                     $objective_id
                 );
-                if (!count($qsts)) {
+                if ($qsts === []) {
                     return false;
                 }
             }
@@ -472,7 +472,7 @@ class ilLOEditorStatus
         }
 
         $num_active = ilCourseObjective::_getCountObjectives($this->getParentObject()->getId(), true);
-        if (!$num_active) {
+        if ($num_active === 0) {
             if ($a_set_errors) {
                 $this->appendFailure(self::SECTION_OBJECTIVES, 'crs_loc_err_no_active_lo');
             }
@@ -480,7 +480,7 @@ class ilLOEditorStatus
         }
         foreach (ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(), true) as $objective_id) {
             $obj = new ilCourseObjectiveMaterials($objective_id);
-            if (!count($obj->getMaterials())) {
+            if ($obj->getMaterials() === []) {
                 if ($a_set_errors) {
                     $this->appendFailure(self::SECTION_OBJECTIVES, 'crs_loc_err_no_active_mat');
                 }
@@ -498,7 +498,7 @@ class ilLOEditorStatus
             }
         }
         // check for assigned questions
-        if (!$this->getSettings()->hasSeparateQualifiedTests() and !$this->lookupQuestionsAssigned($this->getSettings()->getQualifiedTest())) {
+        if (!$this->getSettings()->hasSeparateQualifiedTests() && !$this->lookupQuestionsAssigned($this->getSettings()->getQualifiedTest())) {
             if ($a_set_errors) {
                 $this->appendFailure(self::SECTION_OBJECTIVES, 'crs_loc_err_no_active_qst');
             }

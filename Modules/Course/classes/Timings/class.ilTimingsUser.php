@@ -218,7 +218,7 @@ class ilTimingsUser
             }
         }
 
-        if (count($user_relevant)) {
+        if ($user_relevant !== []) {
             // get user-specific data
             $query = 'SELECT * FROM crs_timings_user' .
                 ' WHERE ' . $ilDB->in('usr_id', $a_user_ids, false, 'integer') .
@@ -254,7 +254,7 @@ class ilTimingsUser
 
         // clean-up/minimize the result
         foreach (array_keys($res) as $ref_id) {
-            if (!sizeof($res[$ref_id])) {
+            if (count($res[$ref_id]) === 0) {
                 if (isset($res['ref_id']) && !count($res['ref_id'])) {
                     unset($res[$ref_id]);
                 } else {
@@ -274,7 +274,7 @@ class ilTimingsUser
                 } // LP completed?
                 else {
                     $user_ids = $res[$ref_id];
-                    if (count($user_ids)) {
+                    if ($user_ids !== []) {
                         $res[$ref_id] = array_diff(
                             $user_ids,
                             ilLPStatus::_lookupCompletedForObject($obj_map[$ref_id], $user_ids)
@@ -283,7 +283,7 @@ class ilTimingsUser
                 }
 
                 // delete reference array, if no users are given anymore
-                if (!sizeof($res[$ref_id])) {
+                if ($res[$ref_id] === []) {
                     unset($res[$ref_id]);
                 }
             }
@@ -292,7 +292,7 @@ class ilTimingsUser
         // #2176 - add course entries (1 exceeded sub-item is enough)
         foreach ($res as $ref_id => $user_ids) {
             // making sure one last time
-            if (!count($user_ids) && isset($res['ref_id'])) {
+            if ($user_ids === [] && isset($res['ref_id'])) {
                 unset($res[$ref_id]);
             } else {
                 $crs_obj_id = $course_parent_map[$ref_id];

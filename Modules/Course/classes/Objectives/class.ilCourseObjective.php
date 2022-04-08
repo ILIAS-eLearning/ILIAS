@@ -116,7 +116,7 @@ class ilCourseObjective
             "WHERE crs_id  = " . $this->db->quote($this->course_obj->getId(), 'integer') . ' ' .
             "ORDER BY position ";
         $res = $this->db->query($query);
-        if (!$res->numRows()) {
+        if ($res->numRows() === 0) {
             $this->logger->debug('.. no objectives found');
             return;
         }
@@ -466,7 +466,7 @@ class ilCourseObjective
         // begin-patch lok
         $ids = ilCourseObjective::_getObjectiveIds($course_id, false);
         // end-patch lok
-        if (!count($ids)) {
+        if ($ids === []) {
             return;
         }
 

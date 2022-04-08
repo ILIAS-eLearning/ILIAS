@@ -227,7 +227,7 @@ class ilCourseXMLWriter extends ilXmlWriter
                 $this->course_obj->getRefId(),
                 [$data['usr_id']]
             );
-            if (!count($is_accessible)) {
+            if (count($is_accessible) === 0) {
                 continue;
             }
 

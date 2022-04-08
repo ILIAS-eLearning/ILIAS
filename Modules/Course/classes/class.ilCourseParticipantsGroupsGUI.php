@@ -172,7 +172,7 @@ class ilCourseParticipantsGroupsGUI
             );
         }
 
-        if (count($usr_ids)) {
+        if (count($usr_ids) > 0) {
             if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $grp_id)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                 $this->show();

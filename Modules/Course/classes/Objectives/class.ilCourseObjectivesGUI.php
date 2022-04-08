@@ -216,7 +216,7 @@ class ilCourseObjectivesGUI
             $qst = new ilCourseObjectiveQuestion($objective_id);
             $max_points = $qst->getSelfAssessmentPoints();
 
-            if ($limit < 0 or $limit > $max_points) {
+            if ($limit < 0 || $limit > $max_points) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_limit_err'));
                 $this->questionOverview();
                 return;
@@ -226,7 +226,7 @@ class ilCourseObjectivesGUI
             $qst = new ilCourseObjectiveQuestion($objective_id);
             $max_points = $qst->getFinalTestPoints();
 
-            if ($limit < 0 or $limit > $max_points) {
+            if ($limit < 0 || $limit > $max_points) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_limit_err'));
                 $this->questionOverview();
                 return;
@@ -663,12 +663,12 @@ class ilCourseObjectivesGUI
 
     protected function isRandomTestType(int $a_tst_type = 0) : bool
     {
-        if (!$a_tst_type) {
+        if ($a_tst_type === 0) {
             $a_tst_type = $this->test_type;
         }
 
         $tst_ref_id = $this->getSettings()->getTestByType($a_tst_type);
-        if (!$tst_ref_id) {
+        if ($tst_ref_id === 0) {
             return false;
         }
         return ilObjTest::_lookupRandomTest(ilObject::_lookupObjId($tst_ref_id));

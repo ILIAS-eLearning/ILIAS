@@ -45,7 +45,7 @@ class ilCourseUserData
 
         $ilDB = $DIC->database();
         $field_ids = ilCourseDefinedFieldDefinition::_getFieldIds($a_obj_id);
-        if (!count($field_ids)) {
+        if ($field_ids === []) {
             return array();
         }
         $where = "WHERE " . $ilDB->in('field_id', $field_ids, false, 'integer');
@@ -66,7 +66,7 @@ class ilCourseUserData
 
         $ilDB = $DIC->database();
         $required = ilCourseDefinedFieldDefinition::_getRequiredFieldIds($a_obj_id);
-        if (!count($required)) {
+        if ($required === []) {
             return true;
         }
 

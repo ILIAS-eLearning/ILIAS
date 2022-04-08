@@ -99,7 +99,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
                 "/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/",
                 $file,
                 $matches
-            ) and $matches[3] == $this->getContainerId()) {
+            ) && $matches[3] == $this->getContainerId()) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
                 $file_info['timest'] = $matches[1];

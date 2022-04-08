@@ -213,7 +213,7 @@ class ilObjCourseGroupingGUI
             foreach ($grouping->getAssignedItems() as $cond_data) {
                 $items[] = ilObject::_lookupTitle($cond_data['target_obj_id']);
             }
-            if (count($items)) {
+            if ($items !== []) {
                 $ass->setHtml(implode("<br />", $items));
             } else {
                 $ass->setHtml($this->lng->txt('crs_grp_no_courses_assigned'));

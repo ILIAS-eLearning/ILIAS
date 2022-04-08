@@ -204,7 +204,7 @@ class ilLORandomTestQuestionPools
             // Mapping for sequence
             $new_question_info = $mappings[$test_ref_id . '_rndSelDef_' . $this->getQplSequence()];
             $new_question_arr = explode('_', $new_question_info);
-            if (!isset($new_question_arr[2]) or !$new_question_arr[2]) {
+            if (!isset($new_question_arr[2]) || !$new_question_arr[2]) {
                 //ilLoggerFactory::getLogger('crs')->debug(print_r($mappings,TRUE));
                 ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r(
                     $new_question_arr,

@@ -37,7 +37,7 @@ class ilCourseParticipants extends ilParticipants
 
     public static function _getInstanceByObjId(int $a_obj_id) : ilCourseParticipants
     {
-        if (isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id]) {
+        if (isset(self::$instances[$a_obj_id]) && self::$instances[$a_obj_id]) {
             return self::$instances[$a_obj_id];
         }
         return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
@@ -124,7 +124,7 @@ class ilCourseParticipants extends ilParticipants
         if ($res->numRows()) {
             // #9284 - only needs updating when status has changed
             $old = $ilDB->fetchAssoc($res);
-            if ((int) $old["passed"] != (int) $a_passed) {
+            if ((int) $old["passed"] !== (int) $a_passed) {
                 $update_query = "UPDATE obj_members SET " .
                     "passed = " . $ilDB->quote($a_passed, 'integer') . ", " .
                     "origin = " . $ilDB->quote($origin, 'integer') . ", " .

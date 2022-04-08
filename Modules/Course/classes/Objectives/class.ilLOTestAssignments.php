@@ -197,8 +197,8 @@ class ilLOTestAssignments
     {
         foreach ($this->assignments as $assignment) {
             if (
-                ($assignment->getObjectiveId() == $a_objective_id) &&
-                ($assignment->getAssignmentType() == $a_type)
+                ($assignment->getObjectiveId() === $a_objective_id) &&
+                ($assignment->getAssignmentType() === $a_type)
             ) {
                 return $assignment;
             }

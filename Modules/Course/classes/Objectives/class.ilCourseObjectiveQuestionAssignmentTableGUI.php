@@ -116,7 +116,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
             }
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['sub']) and !$a_set['random']) {
+        if (count($a_set['sub']) && !$a_set['random']) {
             $this->tpl->setVariable('TXT_QUESTIONS', $this->lng->txt('objs_qst'));
         }
         if ($a_set['random']) {

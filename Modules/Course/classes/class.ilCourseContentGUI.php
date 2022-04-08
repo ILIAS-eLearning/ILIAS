@@ -245,7 +245,7 @@ class ilCourseContentGUI
             $this->getContainerObject(),
             $this->course_obj
         );
-        if (count($failed_items)) {
+        if ($failed_items !== []) {
             $table->setFailureStatus(true);
         }
         $table->init();
@@ -304,7 +304,7 @@ class ilCourseContentGUI
             $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
             $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
 
-            if (($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate)) {
+            if ($sug_start_dt instanceof ilDate && $sug_end_dt instanceof ilDate) {
                 if (ilDateTime::_after($sug_start_dt, $sug_end_dt)) {
                     $failed[$ref_id] = 'crs_timing_err_start_end';
                     continue;
@@ -318,7 +318,7 @@ class ilCourseContentGUI
                 $failed['ref_id'] = 'crs_timing_err_valid_dates';
             }
         }
-        if (!$failed) {
+        if ($failed === []) {
             $this->main_tpl->setOnScreenMessage('success', $GLOBALS['lng']->txt('settings_saved'));
             $this->managePersonalTimings();
             return true;
@@ -461,7 +461,7 @@ class ilCourseContentGUI
                 $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
                 $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
 
-                if (($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate)) {
+                if ($sug_start_dt instanceof ilDate && $sug_end_dt instanceof ilDate) {
                     if (ilDateTime::_after($sug_start_dt, $sug_end_dt)) {
                         $failed[$ref_id] = 'crs_timing_err_start_end';
                         continue;
@@ -474,8 +474,7 @@ class ilCourseContentGUI
                 }
             } else {
                 if (
-                    ((int) $data['sug_start_rel'] < 0) or
-                    ((int) $data['duration_a'] < 0)
+                    (int) $data['sug_start_rel'] < 0 || (int) $data['duration_a'] < 0
                 ) {
                     $failed[$ref_id] = 'crs_timing_err_start_dur_rel';
                     continue;
@@ -494,7 +493,7 @@ class ilCourseContentGUI
 
             $item_obj->update($ref_id);
         }
-        if (!$failed) {
+        if ($failed === []) {
             // update course => create calendar entries
             $this->course_obj->update();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));

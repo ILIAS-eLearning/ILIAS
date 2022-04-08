@@ -87,7 +87,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         $participants = $this->initParticipantsFromPost();
 
-        if (!is_array($participants) or !count($participants)) {
+        if (!is_array($participants) || $participants === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
@@ -154,7 +154,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         if (!$this->checkRbacOrPositionAccessBool('manage_members', 'manage_members')) {
             $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->FATAL);
         }
-        if (!count($a_usr_ids)) {
+        if ($a_usr_ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_users_selected"), true);
             return false;
         }
@@ -238,7 +238,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 $this->updateLPFromStatus($member_id, in_array($member_id, $passed));
             }
 
-            if ($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id)) {
+            if ($this->getMembersObject()->isAdmin($member_id) || $this->getMembersObject()->isTutor($member_id)) {
                 // remove blocked
                 $this->getMembersObject()->updateBlocked($member_id, false);
                 $this->getMembersObject()->updateNotification($member_id, in_array($member_id, $notification));
@@ -345,7 +345,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         }
 
         $show_tracking =
-            (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
+            (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData());
         if ($show_tracking) {
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
@@ -391,7 +391,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 } elseif ($this->getMembersObject()->isMember($member_id)) {
                     $print_member[$member_id]['role'] = $this->lng->txt("il_crs_member");
                 }
-                if ($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id)) {
+                if ($this->getMembersObject()->isAdmin($member_id) || $this->getMembersObject()->isTutor($member_id)) {
                     if ($this->getMembersObject()->isNotificationEnabled($member_id)) {
                         $print_member[$member_id]['status'] = $this->lng->txt("crs_notify");
                     } else {
@@ -411,7 +411,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                         $this->lng->txt('crs_member_not_passed');
                 }
                 if ($privacy->enabledCourseAccessTimes()) {
-                    if (isset($progress[$member_id]['ts']) and $progress[$member_id]['ts']) {
+                    if (isset($progress[$member_id]['ts']) && $progress[$member_id]['ts']) {
                         ilDatePresentation::setUseRelativeDates(false);
                         $print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime(
                             $progress[$member_id]['ts'],

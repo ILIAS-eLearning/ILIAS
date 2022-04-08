@@ -59,22 +59,22 @@ class ilLOTestQuestionAdapter
 
         $relevant_objective_ids = array();
         if (!$this->getSettings()->hasSeparateInitialTests()) {
-            if ($a_tst_ref_id == $this->getSettings()->getInitialTest()) {
+            if ($a_tst_ref_id === $this->getSettings()->getInitialTest()) {
                 $relevant_objective_ids = $objective_ids;
             }
         } elseif (!$this->getSettings()->hasSeparateQualifiedTests()) {
-            if ($a_tst_ref_id == $this->getSettings()->getQualifiedTest()) {
+            if ($a_tst_ref_id === $this->getSettings()->getQualifiedTest()) {
                 $relevant_objective_ids = $objective_ids;
             }
         }
 
         foreach ($objective_ids as $objective_id) {
             $assigned_itest = $assignments->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL);
-            if ($assigned_itest == $a_tst_ref_id) {
+            if ($assigned_itest === $a_tst_ref_id) {
                 $relevant_objective_ids[] = $objective_id;
             }
             $assigned_qtest = $assignments->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
-            if ($assigned_qtest == $a_tst_ref_id) {
+            if ($assigned_qtest === $a_tst_ref_id) {
                 $relevant_objective_ids[] = $objective_id;
             }
         }
@@ -202,7 +202,7 @@ class ilLOTestQuestionAdapter
                 $objectiveIds = $this->lookupObjectiveIdByFixedQuestionId($questionId);
             }
 
-            if (count($objectiveIds)) {
+            if ($objectiveIds !== []) {
                 $a_objectives_list->addQuestionRelatedObjectives($questionId, $objectiveIds);
             }
         }
@@ -221,7 +221,7 @@ class ilLOTestQuestionAdapter
     protected function getRelatedObjectivesForSeparatedTest(int $testRefId) : ?int
     {
         foreach ($this->getAssignments()->getAssignments() as $assignment) {
-            if ($assignment->getTestRefId() == $testRefId) {
+            if ($assignment->getTestRefId() === $testRefId) {
                 return $assignment->getObjectiveId();
             }
         }
@@ -314,7 +314,7 @@ class ilLOTestQuestionAdapter
             return false;
         }
 
-        if ($session->getRefId() != $this->getSettings()->getQualifiedTest()) {
+        if ($session->getRefId() !== $this->getSettings()->getQualifiedTest()) {
             $this->logger->debug('No qualified test run');
             return false;
         }
@@ -483,7 +483,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->getObjectiveId(),
                 ilObject::_lookupObjId($session->getRefId()),
                 (
-                    ($this->getSettings()->getQualifiedTest() == $session->getRefId()) ?
+                    ($this->getSettings()->getQualifiedTest() === $session->getRefId()) ?
                     ilLOSettings::TYPE_TEST_QUALIFIED :
                     ilLOSettings::TYPE_TEST_INITIAL
                 )

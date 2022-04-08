@@ -158,7 +158,7 @@ class ilObjCourseGrouping
 
     public function delete() : void
     {
-        if ($this->getId() and $this->getType() === 'crsg') {
+        if ($this->getId() && $this->getType() === 'crsg') {
             $query = "DELETE FROM object_data WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
             $res = $this->db->manipulate($query);
 
@@ -204,7 +204,7 @@ class ilObjCourseGrouping
 
     public function update() : void
     {
-        if ($this->getId() and $this->getType() === 'crsg') {
+        if ($this->getId() && $this->getType() === 'crsg') {
             // UPDATe object_data
             $query = "UPDATE object_data " .
                 "SET title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
@@ -307,12 +307,12 @@ class ilObjCourseGrouping
                 continue;
             }
             // Check if container is current container
-            if ($tmp_grouping_obj->getContainerObjId() == $a_obj_id) {
+            if ($tmp_grouping_obj->getContainerObjId() === $a_obj_id) {
                 $visible_groupings[] = $grouping_id;
                 continue;
             }
             // check if items are assigned
-            if (count($items = $tmp_grouping_obj->getAssignedItems())) {
+            if (($items = $tmp_grouping_obj->getAssignedItems()) !== []) {
                 foreach ($items as $condition_data) {
                     if ($ilAccess->checkAccess('write', '', $condition_data['target_ref_id'])) {
                         $visible_groupings[] = $grouping_id;
@@ -502,7 +502,7 @@ class ilObjCourseGrouping
                 break;
             }
         }
-        if (!count($trigger_ids)) {
+        if (count($trigger_ids) === 0) {
             return true;
         }
         $matriculation_message = $assigned_message = '';
@@ -579,7 +579,7 @@ class ilObjCourseGrouping
                 $trigger_ids[] = $condition['trigger_obj_id'];
             }
         }
-        if (!count($trigger_ids)) {
+        if ($trigger_ids === []) {
             return [];
         }
         $hash_table = array();

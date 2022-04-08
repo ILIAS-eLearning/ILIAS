@@ -260,11 +260,7 @@ class ilCourseDefinedFieldDefinition
     public function prepareValues(array $a_values) : array
     {
         $tmp_values = [];
-        foreach ($a_values as $idx => $value) {
-            if (strlen($value)) {
-                $tmp_values[$idx] = $value;
-            }
-        }
+        $tmp_values = array_filter($a_values, 'strlen');
         return $tmp_values;
     }
 

@@ -70,7 +70,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                     $selectable_groups[$ref_id] = $this->groups[$ref_id];
                 }
             }
-            if (count($selectable_groups)) {
+            if ($selectable_groups !== []) {
                 $this->addMultiItemSelectionButton(
                     "grp_id",
                     $selectable_groups,
@@ -90,7 +90,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
     {
         $parent_node = $this->tree->getNodeData($this->ref_id);
         $groups = $this->tree->getSubTree($parent_node, true, ['grp']);
-        if (is_array($groups) && sizeof($groups)) {
+        if (is_array($groups) && count($groups)) {
             $this->participants = $this->groups = $this->groups_rights = array();
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
@@ -162,7 +162,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                 $part->getMembers()
             );
 
-            if (count($members)) {
+            if ($members !== []) {
                 $usr_data = array();
                 foreach ($members as $usr_id) {
                     $name = ilObjUser::_lookupName($usr_id);
@@ -191,7 +191,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                 }
 
                 $usr_data = array_slice($usr_data, $this->getOffset(), $this->getLimit());
-                $this->setMaxCount(sizeof($members));
+                $this->setMaxCount(count($members));
                 $this->setData($usr_data);
             }
         }
@@ -205,7 +205,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_LOGIN", $a_set["login"]);
         $this->tpl->setVariable("VAL_GROUP_NUMBER", $a_set["groups_number"]);
 
-        if (sizeof($a_set["groups"])) {
+        if (count($a_set["groups"]) !== 0) {
             foreach ($a_set["groups"] as $type => $groups) {
                 foreach ($groups as $grp_id => $title) {
                     if (

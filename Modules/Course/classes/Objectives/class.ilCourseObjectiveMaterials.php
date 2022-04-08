@@ -49,7 +49,7 @@ class ilCourseObjectiveMaterials
         $mappings = $cwo->getMappings();
         foreach ($this->getMaterials() as $material) {
             // Copy action omit ?
-            if (!isset($mappings[$material['ref_id']]) or !$mappings[$material['ref_id']]) {
+            if (!isset($mappings[$material['ref_id']]) || !$mappings[$material['ref_id']]) {
                 continue;
             }
             $material_ref_id = (int) $material['ref_id'];
@@ -58,14 +58,14 @@ class ilCourseObjectiveMaterials
             $new_ref_id = (int) $mappings[$material_ref_id];
             $new_rbac_obj_id = $this->objectDataCache->lookupObjId($new_ref_id);
 
-            if ($new_rbac_obj_id == $material_rbac_obj_id) {
+            if ($new_rbac_obj_id === $material_rbac_obj_id) {
                 $this->logger->debug('Material has been linked. Keeping object id.');
                 $new_obj_id = $material_obj_id;
-            } elseif ($material['type'] == 'st' or $material['type'] == 'pg') {
+            } elseif ($material['type'] == 'st' || $material['type'] == 'pg') {
                 // Chapter assignment
                 $new_material_info = $mappings[$material_ref_id . '_' . $material_obj_id] ?? '';
                 $new_material_arr = explode('_', $new_material_info);
-                if (!isset($new_material_arr[1]) or !$new_material_arr[1]) {
+                if (!isset($new_material_arr[1]) || !$new_material_arr[1]) {
                     $this->logger->debug(': No mapping found for chapter: ' . $material_obj_id);
                     continue;
                 }

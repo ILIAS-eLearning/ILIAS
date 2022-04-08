@@ -78,7 +78,7 @@ class ilCourseStart
         $mappings = $cwo->getMappings();
         foreach ($this->getStartObjects() as $data) {
             $item_ref_id = $data['item_ref_id'];
-            if (isset($mappings[$item_ref_id]) and $mappings[$item_ref_id]) {
+            if (isset($mappings[$item_ref_id]) && $mappings[$item_ref_id]) {
                 $this->logger->debug('Clone start object nr. ' . $item_ref_id);
                 $start->add($mappings[$item_ref_id]);
             } else {
