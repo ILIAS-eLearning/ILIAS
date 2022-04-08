@@ -35,7 +35,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Undeclared property
         $this->ctrl = $DIC->ctrl();
         $this->request = $DIC->http()->request();
         $this->tabs = $DIC->tabs();

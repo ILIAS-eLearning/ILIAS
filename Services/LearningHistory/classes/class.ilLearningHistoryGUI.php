@@ -216,13 +216,13 @@ class ilLearningHistoryGUI
 
         $button = $f->button()->standard($this->lng->txt("lhist_show_more"), "")
             ->withLoadingAnimationOnClick(true)
-            ->withOnLoadCode(function ($id) use ($url) {
+            ->withOnLoadCode(static function ($id) use ($url) : string {
                 return "il.LearningHistory.initShowMore('$id', '" . $url . "');";
             });
         if ($ctrl->isAsynch()) {
             return $renderer->renderAsync($button);
-        } else {
-            return $renderer->render($button);
         }
+
+        return $renderer->render($button);
     }
 }

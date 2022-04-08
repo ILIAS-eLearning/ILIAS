@@ -47,7 +47,7 @@ class ilPCLearningHistory extends ilPageContent
         $this->lhist_node = $this->node->append_child($this->lhist_node);
     }
     
-    public function setFrom(int $a_val)
+    public function setFrom(int $a_val) : void
     {
         $this->lhist_node->set_attribute("From", (string) $a_val);
     }
@@ -71,7 +71,7 @@ class ilPCLearningHistory extends ilPageContent
     {
         // delete properties
         $children = $this->lhist_node->child_nodes();
-        for ($i = 0; $i < count($children); $i++) {
+        for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
             $this->lhist_node->remove_child($children[$i]);
         }
         // set classes
@@ -87,7 +87,7 @@ class ilPCLearningHistory extends ilPageContent
         $classes = [];
         // delete properties
         $children = $this->lhist_node->child_nodes();
-        for ($i = 0; $i < count($children); $i++) {
+        for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
             $classes[] = $children[$i]->get_attribute("Name");
         }
         return $classes;
@@ -147,7 +147,7 @@ class ilPCLearningHistory extends ilPageContent
             $from = $param[1];
             $to = $param[2];
             $classes = explode(";", $param[3]);
-            $classes = array_map(function ($i) {
+            $classes = array_map(static function ($i) {
                 return trim($i);
             }, $classes);
 
@@ -198,11 +198,11 @@ class ilPCLearningHistory extends ilPageContent
                 ? (new ilDateTime($to . " 23:59:59", IL_CAL_DATETIME))->get(IL_CAL_UNIX)
                 : null;
             $classes = (is_array($classes))
-                ? array_filter($classes, function ($i) {
+                ? array_filter($classes, static function ($i) : bool {
                     return ($i != "");
                 })
                 : null;
-            if (count($classes) == 0) {
+            if (count($classes) === 0) {
                 $classes = null;
             }
             $tpl->setVariable("LHIST", $hist_gui->getEmbeddedHTML($from_unix, $to_unix, $classes, $a_mode));
