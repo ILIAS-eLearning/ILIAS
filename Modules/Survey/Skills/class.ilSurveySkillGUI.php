@@ -96,7 +96,6 @@ class ilSurveySkillGUI
         $ilCtrl->saveParameter($this, "q_id");
 
         $sel = new ilSkillSelectorGUI(
-            0,                              // @todo tfamula check
             $this,
             "assignSkillToQuestion",
             $this,

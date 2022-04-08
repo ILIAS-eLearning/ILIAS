@@ -346,7 +346,7 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("competences");
 
-        $sel = new ilSkillSelectorGUI(0, $this, "selectSkill", $this, "saveSelectedSkill");
+        $sel = new ilSkillSelectorGUI($this, "selectSkill", $this, "saveSelectedSkill");
         if (!$sel->handleCommand()) {
             $tpl->setContent($sel->getHTML());
         }

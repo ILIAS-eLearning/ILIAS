@@ -52,6 +52,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
         $root_id = 0;
         $root_node = $this->tree->getNodeData($root_id);
 
+        $root_node["id"] = 0;
         $root_node["parent"] = 0;
         $root_node["depth"] = 0;
         $root_node["obj_id"] = 0;
@@ -61,7 +62,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
 
     public function getChildsOfNode(string $a_parent_id) : array
     {
-        if (is_null($a_parent_id)) {
+        if ($a_parent_id === "0") {
             $childs = [];
             $trees = $this->skill_tree_manager->getTrees();
             foreach ($trees as $obj_tree) {

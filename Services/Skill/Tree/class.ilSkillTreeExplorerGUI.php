@@ -36,7 +36,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
      * @param string            $a_parent_cmd
      * @param int               $tree_id
      */
-    public function __construct($a_parent_obj, string $a_parent_cmd, int $tree_id)
+    public function __construct($a_parent_obj, string $a_parent_cmd, int $tree_id = 0)
     {
         global $DIC;
 
