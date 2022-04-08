@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class ilCourseMailTemplateTutorContextTest
  */
-class ilCourseMailTemplateTutorContextTest //extends TestCase
+class ilCourseMailTemplateTutorContextTest extends TestCase
 {
     public function testNonExistingPlaceholderWontBeResolved()
     {

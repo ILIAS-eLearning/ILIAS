@@ -91,7 +91,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     private int $activation_start = 0;
     private int $activation_end = 0;
     private bool $activation_visibility = false;
-    private bool $subscription_notify = false;
 
     private ?ilCourseParticipant $member_obj = null;
     private ?ilCourseParticipants $members_obj = null;
@@ -431,11 +430,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     public function getSubscriptionNotify() : bool
     {
         return true;
-    }
-
-    public function setSubscriptionNotify(bool $a_value) : void
-    {
-        $this->subscription_notify = $a_value;
     }
 
     public function setViewMode(int $a_mode) : void
@@ -1078,7 +1072,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $new_obj->setSubscriptionPassword($this->getSubscriptionPassword());
         $new_obj->enableSubscriptionMembershipLimitation($this->isSubscriptionMembershipLimited());
         $new_obj->setSubscriptionMaxMembers($this->getSubscriptionMaxMembers());
-        $new_obj->setSubscriptionNotify($this->getSubscriptionNotify());
         $new_obj->setViewMode($this->getViewMode());
         $new_obj->setTimingMode($this->getTimingMode());
         $new_obj->setOrderType($this->getOrderType());
@@ -1190,7 +1183,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->setSubscriptionPassword((string) $row->sub_password);
             $this->enableSubscriptionMembershipLimitation((bool) $row->sub_mem_limit);
             $this->setSubscriptionMaxMembers((int) $row->sub_max_members);
-            $this->setSubscriptionNotify((bool) $row->sub_notify);
             $this->setViewMode((int) $row->view_mode);
             $this->setTimingMode((int) $row->timing_mode);
             $this->setAboStatus((bool) $row->abo);
