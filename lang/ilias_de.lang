@@ -6944,6 +6944,7 @@ ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutz
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
+mail#:#mail_no_subject#:#Kein Betreff vorhanden
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:

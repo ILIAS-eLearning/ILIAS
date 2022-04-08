@@ -198,7 +198,7 @@ class ilMailFormGUI
     public function saveDraft()
     {
         if (!$_POST['m_subject']) {
-            $_POST['m_subject'] = 'No title';
+            $_POST['m_subject'] = $this->lng->txt('mail_no_subject');
         }
 
         $draftFolderId = $this->mbox->getDraftsFolder();

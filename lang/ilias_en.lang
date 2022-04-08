@@ -6037,6 +6037,7 @@ mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
 mail#:#mail_nacc_client_name#:#Client Name
 mail#:#mail_nacc_client_desc#:#Client Description
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
+mail#:#mail_no_subject#:#No Subject available
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
