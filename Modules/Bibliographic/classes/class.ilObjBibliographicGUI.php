@@ -146,7 +146,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             case strtolower(ilObjFileGUI::class):
                 $this->prepareOutput();
                 $this->dic()->tabs()->setTabActive(self::TAB_ID_RECORDS);
-                $this->ctrl->forwardCommand(new ilObjFile($this));
+                $this->ctrl->forwardCommand(new ilObjFile($this)); //ToDo PHP8 Review: This can't work as $this != int.
                 break;
             case strtolower(ilExportGUI::class):
                 $this->prepareOutput();
@@ -629,7 +629,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $DIC->ctrl()->redirect($this, "");
     }
 
-    public function addNews($obj_id, string $change = 'created') : void
+    public function addNews(int $obj_id, string $change = 'created') : void
     {
         global $DIC;
 

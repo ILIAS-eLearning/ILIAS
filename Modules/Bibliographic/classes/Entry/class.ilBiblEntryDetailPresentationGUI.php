@@ -106,7 +106,7 @@ class ilBiblEntryDetailPresentationGUI
     /**
      * This feature has to be discussed by JF first
      *
-     * @param $string
+     * string @param $string
      */
     public static function prepareLatex($string) : string
     {

@@ -37,14 +37,12 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
      */
     protected ?int $id = null;
     /**
-     * @var
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
      */
     protected ?int $data_id = null;
     /**
-     * @var
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     50

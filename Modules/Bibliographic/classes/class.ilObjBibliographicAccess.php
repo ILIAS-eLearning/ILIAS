@@ -75,7 +75,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
         if ($DIC->http()->wrapper()->query()->has(ilObjBibliographicGUI::P_ENTRY_ID)) {
             $entry_id = $DIC->http()->wrapper()->query()->retrieve(
                 ilObjBibliographicGUI::P_ENTRY_ID,
-                $DIC->refinery()->to()->int()
+                $DIC->refinery()->kindlyTo()->int()
             );
             if (!self::checkEntryIdMatch($obj_id, $entry_id)) {
                 return false;
@@ -118,14 +118,10 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    /**
-     * @param $ref_id
-     * @param $obj_id
-     */
-    private static function checkEntryIdMatch($obj_id, $entry_id) : bool
+    private static function checkEntryIdMatch(int $obj_id, int $entry_id) : bool
     {
         /**
-         * @var $ilBiblEntry ilBiblEntry
+         * @var ilBiblEntry $ilBiblEntry
          */
         $ilBiblEntry = ilBiblEntry::find($entry_id);
         if (is_null($ilBiblEntry)) {
@@ -141,7 +137,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *
      * @param int $a_id bibl id
      */
-    public static function _lookupOnline(int $a_id)
+    public static function _lookupOnline(int $a_id) //ToDo PHP8 Review: Missing Return Type Declaration
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

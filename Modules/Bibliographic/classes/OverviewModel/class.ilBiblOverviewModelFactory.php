@@ -20,7 +20,7 @@ class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface
             return self::$models;
         }
         /**
-         * @var $overviewModels ilBiblOverviewModel[]
+         * @var ilBiblOverviewModel[] $overviewModels
          */
         $overviewModels = ilBiblOverviewModel::get();
         $overviewModelsArray = array();

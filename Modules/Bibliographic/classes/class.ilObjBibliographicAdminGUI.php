@@ -27,14 +27,11 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     /**
      * ilObjBibliographicAdminGUI constructor.
      *
-     * @param      $a_data
-     * @param      $a_id
-     * @param bool $a_call_by_reference
-     * @param bool $a_prepare_output
+     * @param mixed $a_data
      *
      * @throws \ilObjectException
      */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->type = 'bibs';
@@ -45,7 +42,6 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
 
 
     /**
-     * @return bool|void$
      * @throws ilCtrlException
      */
     public function executeCommand() : void

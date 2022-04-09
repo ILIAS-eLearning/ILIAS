@@ -5,8 +5,6 @@
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Martin Studer <ms@studer-raimann.ch>
- *
- * @extends ilObjectListGUI
  */
 class ilObjBibliographicListGUI extends ilObjectListGUI
 {

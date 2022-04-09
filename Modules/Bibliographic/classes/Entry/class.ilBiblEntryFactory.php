@@ -134,10 +134,10 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
                 if (!$value) {
                     continue;
                 }
-                if ($filter->getOperator() === "IN" && is_array($filter->getFieldValue())) {
+                if ($filter->getOperator() === "IN" && is_array($filter->getFieldValue())) { //ToDo PHP8 Review: This will always evaluate to false as getFieldValue returns a string.
                     $types[] = "text";
                     $values[] = $filter->getFieldName();
-                    $q .= " AND e.id IN (SELECT a.entry_id FROM il_bibl_attribute AS a WHERE a.name = %s AND " . $this->db->in("a.value", $value, false, "text") . ")";
+                    $q .= " AND e.id IN (SELECT a.entry_id FROM il_bibl_attribute AS a WHERE a.name = %s AND " . $this->db->in("a.value", $value, false, "text") . ")"; //ToDo PHP8 Review: ...and if it would ever get here it would fail here as $value is string.
                 } else {
                     $types[] = "text";
                     $values[] = $filter->getFieldName();
@@ -175,7 +175,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     /**
      * @return \ilBiblAttribute[]
      */
-    public function getAllAttributesByEntryId($id) : array
+    public function getAllAttributesByEntryId(int $id) : array
     {
         return ilBiblAttribute::where(array('entry_id' => $id))->get();
     }
@@ -191,7 +191,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     }
     
     /**
-     * @param $attributes ilBiblFieldInterface[]
+     * @param ilBiblFieldInterface[] $attributes
      */
     public function setAttributes(array $attributes) : void
     {

@@ -56,21 +56,15 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return true;
     }
 
-    /**
-     * @param $string
-     */
-    protected function convertStringToUTF8($string) : string
+    protected function convertStringToUTF8(string $string) : string
     {
         if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
             || !function_exists("mb_convert_encoding")
         ) {
             return $string;
         }
-        try {
-            ob_end_clean();
-        } catch (Throwable $t) {
-            //
-        }
+
+        ob_end_clean();
 
         $mb_detect_encoding = mb_detect_encoding($string);
         mb_detect_order(array(self::ENCODING_UTF_8, self::ENCODING_ISO_8859_1));
@@ -93,7 +87,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $this->file_content;
     }
 
-    public function setFileContent(string $file_content)
+    public function setFileContent(string $file_content) : void
     {
         $this->file_content = $file_content;
     }
@@ -101,7 +95,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritDoc
      */
-    public function parseContentToEntries(ilObjBibliographic $bib) : array
+    public function parseContentToEntries(ilObjBibliographic $bib) : array //ToDo PHP8 Review: This seems not to work with Bib files as the type is NOT set in key "entrytype", but as node-type with @-notation. Thus $type will stay null and this will fail on line 141.
     {
         $entries_from_file = $this->parseContent();
         $entry_instances = [];
@@ -133,7 +127,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
                 $x++;
             }
             /**
-             * @var $entry_model ilBiblEntry
+             * @var ilBiblEntry $entry_model
              */
             //create the entry and fill data into database by executing doCreate()
             $entry_factory = $this->getEntryFactory();

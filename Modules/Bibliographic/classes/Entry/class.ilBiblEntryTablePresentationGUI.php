@@ -23,7 +23,6 @@ class ilBiblEntryTablePresentationGUI
     }
     
     /**
-     * @return mixed|string
      * @deprecated Has to be refactored. Active records verwenden statt array
      */
     protected function render() : void

@@ -169,7 +169,7 @@ class ilBiblLibraryGUI
     private function getInstanceFromRequest() : \ilBiblLibraryInterface
     {
         $ilBibliographicSetting = $this->facade->libraryFactory()
-            ->findById($_REQUEST[self::F_LIB_ID]);
+            ->findById($_REQUEST[self::F_LIB_ID]); //Todo PHP8 Review: Direct Access to $_REQUEST
 
         return $ilBibliographicSetting;
     }

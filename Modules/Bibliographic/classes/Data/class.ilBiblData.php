@@ -42,8 +42,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?int $id = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
@@ -51,8 +49,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?string $filename = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -60,8 +56,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?int $is_online = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1

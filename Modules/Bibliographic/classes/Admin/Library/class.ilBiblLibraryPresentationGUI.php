@@ -20,7 +20,7 @@ class ilBiblLibraryPresentationGUI
     }
     
     /**
-     * @param              $type
+     * @param string $type
      * @deprecated REFACTOR Mit Attribute Objekten arbeiten statt mit Array. Evtl. URL Erstellung vereinfachen
      */
     public function generateLibraryLink(ilBiblEntry $entry, $type) : string

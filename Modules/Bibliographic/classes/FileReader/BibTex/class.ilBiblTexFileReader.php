@@ -158,11 +158,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         $this->setFileContent(str_replace(array_values($bibtex_special_chars), array_keys($bibtex_special_chars), $this->getFileContent()));
     }
     
-    /**
-     * @param $s
-     * @return string|mixed|void
-     */
-    protected function removeBomUtf8($s)
+    protected function removeBomUtf8(string $s) : string
     {
         if (substr($s, 0, 3) == chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) {
             return substr($s, 3);

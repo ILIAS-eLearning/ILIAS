@@ -238,22 +238,12 @@ class ilRis implements ilBiblTypeInterface
         );
 
 
-    /**
-     * @param $field_name
-     *
-     * @return bool
-     */
     public function isStandardField(string $field_name) : bool
     {
         return in_array(strtoupper($field_name), self::$standard_fields);
     }
 
 
-    /**
-     * @param $entry_ype
-     *
-     * @return bool
-     */
     public function isEntryType(string $entry_ype) : bool
     {
         return in_array(strtoupper($entry_ype), self::$entry_types);

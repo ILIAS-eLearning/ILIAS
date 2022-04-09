@@ -26,7 +26,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
         $this->parent_obj = $a_parent_obj;
 
         $f = $this->dic()->ui()->factory();
-        $this->modal = $f->modal()->roundtrip('---', $f->legacy(''))->withAsyncRenderUrl($this->ctrl()->getLinkTarget($this->parent_obj, ilBiblFieldFilterGUI::CMD_EDIT));
+        $this->modal = $f->modal()->roundtrip('---', [$f->legacy('')])->withAsyncRenderUrl($this->ctrl()->getLinkTarget($this->parent_obj, ilBiblFieldFilterGUI::CMD_EDIT));
 
         $this->setId(self::TBL_ID);
         $this->setPrefix(self::TBL_ID);
@@ -64,12 +64,9 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    /**
-     * @param $field
-     */
-    protected function addAndReadFilterItem(ilFormPropertyGUI $field) : void
+    protected function addAndReadFilterItem(ilTableFilterItem $field) : void
     {
-        $this->addFilterItem($field);
+        $this->addFilterItem($field); //
         $field->readFromSession();
         if ($field instanceof ilCheckboxInputGUI) {
             $this->filter[$field->getPostVar()] = $field->getChecked();

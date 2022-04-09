@@ -36,7 +36,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
     public function findById(int $id) : ilBiblFieldInterface
     {
         /**
-         * @var $inst ilBiblField
+         * @var ilBiblField $inst
          */
         $inst = ilBiblField::findOrFail($id);
         if ($this->type->isStandardField($inst->getIdentifier()) != $inst->isStandardField()) {

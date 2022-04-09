@@ -51,9 +51,6 @@ WHERE a.name = %s AND d.id = %s";
      */
     public function sortAttributes(array $attributes) : array
     {
-        /**
-         * @var $attribute \ilBiblAttributeInterface
-         */
         $sorted = [];
         $type_id = $this->field_factory->getType()->getId();
         $max = 0;

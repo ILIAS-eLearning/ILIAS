@@ -66,9 +66,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->addAndReadFilterItem($field);
     }
 
-    /**
-     * @param $field
-     */
     protected function addAndReadFilterItem(ilTableFilterItem $field) : void
     {
         $this->addFilterItem($field);

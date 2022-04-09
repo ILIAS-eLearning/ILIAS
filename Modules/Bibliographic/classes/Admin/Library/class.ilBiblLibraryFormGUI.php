@@ -54,7 +54,7 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
         $this->addItem($img);
         $show_in_list = new ilCheckboxInputGUI($this->lng()
             ->txt("bibl_library_show_in_list"), 'show_in_list');
-        $show_in_list->setValue(1);
+        $show_in_list->setValue('1');
         $this->addItem($show_in_list);
         if ($this->object->getId()) {
             $this->addCommandButton('update', $this->lng()->txt('save'));

@@ -10,7 +10,7 @@ class ilBiblRisFileReaderWrapper
 {
 
     /**
-     * @param $content
+     * @param string $content
      * @return mixed[]
      */
     public function parseContent($content) : array

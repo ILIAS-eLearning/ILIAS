@@ -131,9 +131,6 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    /**
-     * @return bool|string
-     */
     public function saveObject() : bool
     {
         if (!$this->fillObject()) {
