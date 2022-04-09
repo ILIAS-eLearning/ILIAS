@@ -6,7 +6,6 @@
 
 interface ilBiblAttributeFactoryInterface
 {
-
     public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, int $object_id) : array;
 
     /**

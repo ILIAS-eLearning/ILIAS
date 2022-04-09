@@ -6,7 +6,6 @@
  */
 class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
-    
     protected static array $ignored_keywords = array('Preamble');
     
     /**
@@ -20,7 +19,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         // get entries
         $subject = $this->getFileContent();
         $objects = preg_split("/\\@([\\w]*)/uix", $subject, null, PREG_SPLIT_DELIM_CAPTURE
-            |PREG_SPLIT_NO_EMPTY);
+            | PREG_SPLIT_NO_EMPTY);
         
         if (in_array($objects[0], self::$ignored_keywords)) {
             $objects = array_splice($objects, 2);

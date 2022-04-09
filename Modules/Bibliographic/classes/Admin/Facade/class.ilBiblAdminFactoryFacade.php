@@ -7,7 +7,6 @@
  */
 class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
 {
-
     protected \ilBiblTranslationFactory $translation_factory;
     protected \ilBiblFieldFactory $field_factory;
     protected \ilBiblTypeInterface $type;

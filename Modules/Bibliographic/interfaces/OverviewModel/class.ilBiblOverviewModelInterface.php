@@ -6,7 +6,6 @@
 
 interface ilBiblOverviewModelInterface
 {
-    
     public function getOvmId() : ?int;
     
     public function setOvmId(int $ovm_id) : void;

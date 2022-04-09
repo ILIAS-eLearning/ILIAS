@@ -7,7 +7,6 @@
  */
 class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
 {
-
     protected int $object_id;
     protected int $ref_id;
 

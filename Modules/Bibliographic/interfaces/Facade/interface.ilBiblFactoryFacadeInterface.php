@@ -6,7 +6,6 @@
  */
 interface ilBiblFactoryFacadeInterface
 {
-
     public function typeFactory() : \ilBiblTypeFactoryInterface;
 
     public function overviewModelFactory() : \ilBiblOverviewModelFactoryInterface;

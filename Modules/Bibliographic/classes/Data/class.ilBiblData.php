@@ -115,7 +115,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     
     public function isOnline() : bool
     {
-        return (bool)$this->is_online;
+        return (bool) $this->is_online;
     }
 
 

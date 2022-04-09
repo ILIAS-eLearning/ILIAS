@@ -6,7 +6,6 @@
 
 class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface
 {
-
     protected \ilBiblFieldFactoryInterface $field_factory;
     protected ilDBInterface $db;
 

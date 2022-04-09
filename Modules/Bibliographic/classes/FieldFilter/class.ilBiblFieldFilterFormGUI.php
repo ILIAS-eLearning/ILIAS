@@ -41,7 +41,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function initForm(): void
+    public function initForm() : void
     {
         $this->setTarget('_top');
 
@@ -105,14 +105,14 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function fillForm(): void
+    public function fillForm() : void
     {
         $array = array(self::F_FIELD_ID => $this->filter->getFieldId(), self::F_FILTER_TYPE => $this->filter->getFilterType(),);
         $this->setValuesByArray($array);
     }
 
 
-    protected function fillObject(): bool
+    protected function fillObject() : bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -134,7 +134,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     /**
      * @return bool|string
      */
-    public function saveObject(): bool
+    public function saveObject() : bool
     {
         if (!$this->fillObject()) {
             return false;
@@ -144,7 +144,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    protected function initButtons(): void
+    protected function initButtons() : void
     {
         if ($this->filter->getId()) {
             $this->addCommandButton(ilBiblFieldFilterGUI::CMD_UPDATE, $this->lng()->txt('save'));

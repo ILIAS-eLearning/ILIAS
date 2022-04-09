@@ -8,7 +8,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 interface ilBiblFileReaderInterface
 {
-    
     public function readContent(ResourceIdentification $identification) : bool;
     
     /**

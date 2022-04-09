@@ -43,7 +43,7 @@ class ilBiblTranslationTableGUI extends ilTable2GUI
     }
 
 
-    protected function initColumns(): void
+    protected function initColumns() : void
     {
         $this->addColumn($this->lng()->txt('bibl_translation_select'), '', '15px', true);
         $this->addColumn($this->lng()->txt('bibl_translation_lang'));
@@ -52,7 +52,7 @@ class ilBiblTranslationTableGUI extends ilTable2GUI
     }
 
 
-    protected function parseData(): void
+    protected function parseData() : void
     {
         $data = $this->translation_facory->getAllTranslationsForFieldAsArray($this->field);
         $this->setData($data);

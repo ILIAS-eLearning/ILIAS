@@ -7,7 +7,6 @@
  */
 class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
 {
-
     protected string $field_name = '';
     protected string $field_value = '';
     protected string $operator = '=';

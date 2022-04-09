@@ -6,7 +6,6 @@
  */
 interface ilBiblLibraryFactoryInterface
 {
-
     public function getAll() : array;
 
     public function findById(int $id) : \ilBiblLibraryInterface;

@@ -59,7 +59,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @param $string
      */
-    protected function convertStringToUTF8($string): string
+    protected function convertStringToUTF8($string) : string
     {
         if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
             || !function_exists("mb_convert_encoding")
@@ -88,7 +88,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $string;
     }
 
-    public function getFileContent(): string
+    public function getFileContent() : string
     {
         return $this->file_content;
     }
@@ -101,7 +101,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritDoc
      */
-    public function parseContentToEntries(ilObjBibliographic $bib): array
+    public function parseContentToEntries(ilObjBibliographic $bib) : array
     {
         $entries_from_file = $this->parseContent();
         $entry_instances = [];

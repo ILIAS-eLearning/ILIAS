@@ -70,7 +70,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     /**
      * @param $field
      */
-    protected function addAndReadFilterItem(ilTableFilterItem $field): void
+    protected function addAndReadFilterItem(ilTableFilterItem $field) : void
     {
         $this->addFilterItem($field);
         $field->readFromSession();
@@ -110,7 +110,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    protected function initData(): void
+    protected function initData() : void
     {
         $query = new ilBiblTableQueryInfo();
         /**

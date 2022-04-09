@@ -6,7 +6,6 @@
  */
 interface ilBiblAdminLibraryFacadeInterface
 {
-
     public function iliasObjId() : int;
 
     public function iliasRefId() : int;

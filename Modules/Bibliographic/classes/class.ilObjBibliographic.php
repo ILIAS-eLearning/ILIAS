@@ -17,7 +17,6 @@ use ILIAS\DI\Container;
  */
 class ilObjBibliographic extends ilObject2
 {
-
     protected \ilBiblFileReaderFactory $bib_filereader_factory;
     protected \ilBiblTypeFactory $bib_type_factory;
     protected \ilBiblEntryFactory $bib_entry_factory;

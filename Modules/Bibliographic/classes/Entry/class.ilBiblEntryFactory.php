@@ -7,7 +7,6 @@
  */
 class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
 {
-    
     protected int $bibliographic_obj_id;
     protected int $entry_id;
     protected string $type;
@@ -25,9 +24,9 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     public function __construct(ilBiblFieldFactoryInterface $field_factory, \ilBiblTypeInterface $file_type, ilBiblOverviewModelFactoryInterface $overview_factory)
     {
         global $DIC;
-        $this->db               = $DIC->database();
-        $this->file_type        = $file_type;
-        $this->field_factory    = $field_factory;
+        $this->db = $DIC->database();
+        $this->file_type = $file_type;
+        $this->field_factory = $field_factory;
         $this->overview_factory = $overview_factory;
     }
     
@@ -37,7 +36,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     public function loadParsedAttributesByEntryId(int $entry_id) : array
     {
         $ilBiblEntry = ilBiblEntry::where(array('id' => $entry_id))->first();
-        $attributes  = $this->getAllAttributesByEntryId($entry_id);
+        $attributes = $this->getAllAttributesByEntryId($entry_id);
         
         if ($this->file_type->getId() == ilBiblTypeFactoryInterface::DATA_TYPE_RIS) {
             //for RIS-Files also add the type;
@@ -110,7 +109,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     
     public function filterEntriesForTable(int $object_id, ilBiblTableQueryInfo $info = null) : array
     {
-        $entries       = $this->filterEntryIdsForTableAsArray($object_id, $info);
+        $entries = $this->filterEntryIdsForTableAsArray($object_id, $info);
         $entry_objects = [];
         foreach ($entries as $entry_id => $entry) {
             $entry_objects[$entry_id] = $this->findByIdAndTypeString($entry['type'], $entry['id']);
@@ -124,7 +123,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
      */
     public function filterEntryIdsForTableAsArray(int $object_id, ?ilBiblTableQueryInfo $info = null) : array
     {
-        $types  = ["integer"];
+        $types = ["integer"];
         $values = [$object_id];
         
         $filters = $info->getFilters();
@@ -136,15 +135,15 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
                     continue;
                 }
                 if ($filter->getOperator() === "IN" && is_array($filter->getFieldValue())) {
-                    $types[]  = "text";
+                    $types[] = "text";
                     $values[] = $filter->getFieldName();
-                    $q        .= " AND e.id IN (SELECT a.entry_id FROM il_bibl_attribute AS a WHERE a.name = %s AND " . $this->db->in("a.value", $value, false, "text") . ")";
+                    $q .= " AND e.id IN (SELECT a.entry_id FROM il_bibl_attribute AS a WHERE a.name = %s AND " . $this->db->in("a.value", $value, false, "text") . ")";
                 } else {
-                    $types[]  = "text";
+                    $types[] = "text";
                     $values[] = $filter->getFieldName();
-                    $types[]  = "text";
+                    $types[] = "text";
                     $values[] = "{$value}";
-                    $q        .= " AND e.id IN (SELECT a.entry_id FROM il_bibl_attribute AS a WHERE a.name = %s AND a.value {$filter->getOperator()} %s )";
+                    $q .= " AND e.id IN (SELECT a.entry_id FROM il_bibl_attribute AS a WHERE a.name = %s AND a.value {$filter->getOperator()} %s )";
                 }
             }
         } else {
@@ -153,11 +152,11 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
                         WHERE data_id = %s";
         }
         $entries = [];
-        $set     = $this->db->queryF($q, $types, $values);
+        $set = $this->db->queryF($q, $types, $values);
         
         $i = 0;
         while ($rec = $this->db->fetchAssoc($set)) {
-            $entries[$i]['entry_id']   = $rec['id'];
+            $entries[$i]['entry_id'] = $rec['id'];
             $entries[$i]['entry_type'] = $rec['type'];
             $i++;
         }

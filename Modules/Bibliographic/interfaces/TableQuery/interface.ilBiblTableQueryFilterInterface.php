@@ -12,7 +12,6 @@
  */
 interface ilBiblTableQueryFilterInterface
 {
-    
     public function getFieldName() : string;
     
     public function setFieldName(string $field_name) : void;

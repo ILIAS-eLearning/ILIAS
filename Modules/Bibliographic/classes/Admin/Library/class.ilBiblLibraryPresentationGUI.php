@@ -6,7 +6,6 @@
  */
 class ilBiblLibraryPresentationGUI
 {
-    
     protected \ilBiblLibraryInterface $library;
     protected \ilBiblFactoryFacade $facade;
     
@@ -17,7 +16,7 @@ class ilBiblLibraryPresentationGUI
     public function __construct(\ilBiblLibraryInterface $library, \ilBiblFactoryFacade $facade)
     {
         $this->library = $library;
-        $this->facade  = $facade;
+        $this->facade = $facade;
     }
     
     /**
@@ -27,9 +26,9 @@ class ilBiblLibraryPresentationGUI
     public function generateLibraryLink(ilBiblEntry $entry, $type) : string
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($entry->getId());
-        $type       = $this->facade->typeFactory()->getInstanceForString($type);
-        $attr       = [];
-        $prefix     = '';
+        $type = $this->facade->typeFactory()->getInstanceForString($type);
+        $attr = [];
+        $prefix = '';
         switch ($type->getId()) {
             case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
                 $prefix = "bib_default_";

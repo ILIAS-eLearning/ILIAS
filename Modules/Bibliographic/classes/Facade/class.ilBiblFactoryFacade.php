@@ -7,7 +7,6 @@
  */
 class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
 {
-
     protected \ilBiblLibraryFactory $library_factory;
     protected \ilBiblAttributeFactoryInterface $attribute_factory;
     protected int $object_id;

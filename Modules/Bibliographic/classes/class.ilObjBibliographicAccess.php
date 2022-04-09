@@ -23,7 +23,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *    );
      * @return array<int, array<string, string>>|array<int, array<string, string|bool>>
      */
-    public static function _getCommands(): array
+    public static function _getCommands() : array
     {
         $commands = array(
             array(
@@ -40,7 +40,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    public static function _checkGoto(string $target): bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -122,7 +122,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      * @param $ref_id
      * @param $obj_id
      */
-    private static function checkEntryIdMatch($obj_id, $entry_id): bool
+    private static function checkEntryIdMatch($obj_id, $entry_id) : bool
     {
         /**
          * @var $ilBiblEntry ilBiblEntry

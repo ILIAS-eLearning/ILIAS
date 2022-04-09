@@ -103,5 +103,4 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
     {
         return $this->overview;
     }
-    
 }

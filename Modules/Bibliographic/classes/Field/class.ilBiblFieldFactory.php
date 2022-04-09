@@ -7,7 +7,6 @@
  */
 class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
 {
-
     protected \ilBiblTypeInterface $type;
 
 
@@ -197,13 +196,13 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
     }
 
 
-    private function getARInstance(int $type, string $identifier): ?\ilBiblField
+    private function getARInstance(int $type, string $identifier) : ?\ilBiblField
     {
         return ilBiblField::where(["identifier" => $identifier, "data_type" => $type])->first();
     }
 
 
-    private function getCollectionForFilter(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): \ActiveRecordList
+    private function getCollectionForFilter(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) : \ActiveRecordList
     {
         $collection = ilBiblField::getCollection();
 

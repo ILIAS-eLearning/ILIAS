@@ -6,7 +6,6 @@
  */
 interface ilBiblTypeInterface
 {
-    
     public function isStandardField(string $identifier) : bool;
     
     public function isEntryType(string $identifier) : bool;
