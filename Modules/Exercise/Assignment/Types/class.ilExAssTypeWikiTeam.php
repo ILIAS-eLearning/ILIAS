@@ -99,7 +99,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
             $submission->deleteAllFiles();
 
             $meta = array(
-                "name" => $a_wiki_ref_id,
+                "name" => $a_wiki_ref_id . ".zip",
                 "tmp_name" => $file,
                 "size" => $size
             );
@@ -110,7 +110,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
             $size = filesize($file);
             if ($size) {
                 $meta = array(
-                    "name" => $a_wiki_ref_id . "print",
+                    "name" => $a_wiki_ref_id . "print.zip",
                     "tmp_name" => $file,
                     "size" => $size
                 );

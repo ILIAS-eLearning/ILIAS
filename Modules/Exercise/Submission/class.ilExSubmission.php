@@ -544,7 +544,14 @@ class ilExSubmission
             ilExAssignment::TYPE_WIKI_TEAM
         ])) {
             $delivered_files = array_filter($delivered_files, function ($i) use ($print_versions) {
-                return ((substr($i["filetitle"], strlen($i["filetitle"]) - 5) == "print") == $print_versions);
+                $is_print_version = false;
+                if (substr($i["filetitle"], strlen($i["filetitle"]) - 5) == "print") {
+                    $is_print_version = true;
+                }
+                if (substr($i["filetitle"], strlen($i["filetitle"]) - 9) == "print.zip") {
+                    $is_print_version = true;
+                }
+                return ($is_print_version == $print_versions);
             });
         }
 
