@@ -84,10 +84,11 @@ class ilLDAPRoleAssignmentRule
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         return $row->num > 0;
     }
-    
+
+    //TODO PHP8-REVIEW: type of '$a_user_data' should be an array like in $this->isGroupMember
     /**
      * Check if a rule matches
-     * @param object $a_user_data
+     * @param array $a_user_data
      */
     public function matches($a_user_data) : bool
     {
@@ -121,6 +122,7 @@ class ilLDAPRoleAssignmentRule
                 return $this->isGroupMember($a_user_data);
                 
         }
+        return false;
     }
     
     protected function wildcardCompare(string $a_str1, string $a_str2) : bool
@@ -381,6 +383,7 @@ class ilLDAPRoleAssignmentRule
             case self::TYPE_ATTRIBUTE:
                 return $this->getAttributeName() . '=' . $this->getAttributeValue();
         }
+        return '';
     }
     
     

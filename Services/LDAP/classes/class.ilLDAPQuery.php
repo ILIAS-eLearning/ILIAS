@@ -57,6 +57,7 @@ class ilLDAPQuery
     public function __construct(ilLDAPServer $a_server, string $a_url = '')
     {
         global $DIC;
+        //TODO PHP8-REVIEW: WARNING Method 'auth' is undefined
         $this->logger = $DIC->logger()->auth();
 
         $this->settings = $a_server;
@@ -231,6 +232,7 @@ class ilLDAPQuery
         $estimated_results = 0;
         do {
             try {
+                //TODO PHP8-REVIEW:  'ldap_control_paged_result' was removed in 8.0 PHP version
                 $res = ldap_control_paged_result($this->lh, self::PAGINATION_SIZE, true, $cookie);
                 if ($res === false) {
                     throw new ilLDAPPagingException('Result pagination failed.');
@@ -249,6 +251,7 @@ class ilLDAPQuery
             $tmp_result->setResult($res);
             $tmp_result->run();
             try {
+                //TODO PHP8-REVIEW:  'ldap_control_paged_result_response' was removed in 8.0 PHP version
                 ldap_control_paged_result_response($this->lh, $res, $cookie, $estimated_results);
                 $this->logger->debug('Estimated number of results: ' . $estimated_results);
             } catch (Exception $e) {
@@ -258,6 +261,7 @@ class ilLDAPQuery
         } while ($cookie !== null && $cookie != '');
 
         // finally reset cookie
+        //TODO PHP8-REVIEW:  'ldap_control_paged_result' was removed in 8.0 PHP version
         ldap_control_paged_result($this->lh, 10000, false, $cookie);
         return $tmp_result;
     }
@@ -317,7 +321,7 @@ class ilLDAPQuery
         $group_names = $this->getServer()->getGroupNames();
         
         if (!count($group_names)) {
-            $this->logger()->debug('No LDAP group restrictions found');
+            $this->logger->debug('No LDAP group restrictions found');
             return true;
         }
         
@@ -520,7 +524,8 @@ class ilLDAPQuery
     {
         return $this->settings->getAuthenticationMappingKey();
     }
-    
+
+    //TODO PHP8-REVIEW: Variable '$res' is probably undefined
     /**
      * Query by scope
      * IL_SCOPE_SUB => ldap_search
@@ -664,7 +669,7 @@ class ilLDAPQuery
      * @param
      *
      */
-    private function fetchUserProfileFields() : array
+    private function fetchUserProfileFields() : void
     {
         $this->user_fields = array_merge(
             array($this->settings->getUserAttribute()),

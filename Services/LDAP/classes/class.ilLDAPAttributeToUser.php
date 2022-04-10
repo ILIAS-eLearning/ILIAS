@@ -122,7 +122,8 @@ class ilLDAPAttributeToUser
         $importParser->setRoleAssignment(ilLDAPRoleAssignmentRules::getAllPossibleRoles($this->getServer()->getServerId()));
         $importParser->setFolderId(7);
         $importParser->startParsing();
-        $importParser->getProtocol();
+        //TODO PHP8-REVIEW: Expression result unused
+        #$importParser->getProtocol();
         
         return true;
     }
@@ -343,7 +344,7 @@ class ilLDAPAttributeToUser
                             continue 2;
                         }
                         $this->initUserDefinedFields();
-                        $definition = $this->udf->getDefinition($id_data[1]);
+                        $definition = $this->udf->getDefinition((int) $id_data[1]);
                         $this->writer->xmlElement(
                             'UserDefinedField',
                             array('Id' => $definition['il_id'],

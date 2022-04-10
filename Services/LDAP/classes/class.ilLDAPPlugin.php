@@ -20,12 +20,13 @@
 */
 abstract class ilLDAPPlugin extends ilPlugin
 {
+    //TODO PHP8-REVIEW: 'strcasecmp' expects params string $string1, string $string2
     /**
      * Check if user data matches a keyword value combination
      * @return
      * @param object $a_user_data
-     * @param object $a_keyword
-     * @param object $a_value
+     * @param string $a_keyword
+     * @param string $a_value
      */
     protected function checkValue($a_user_data, $a_keyword, $a_value)
     {

@@ -126,12 +126,12 @@ class ilLDAPRoleAssignmentRules
         return $roles;
     }
     
-    
+    //TODO PHP8-REVIEW: $a_usr_data should be an array, $a_usr_name's type is not defined
     /**
      *
      * @return array role data
      * @param object $a_usr_id
-     * @param object $a_usr_data
+     * @param array $a_usr_data
      */
     public static function getAssignmentsForCreation(int $a_server_id, $a_usr_name, $a_usr_data) : array
     {
