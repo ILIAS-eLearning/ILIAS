@@ -19,18 +19,16 @@
  */
 class ilECSNodeMappingSettings
 {
-    private static array $instances = array();
+    private static array $instances = [];
 
-    private ?\ilSetting $storage = null;
-    private ilLogger $logger;
-    private ilSetting $settings;
+    private ilSetting $storage;
 
     
-    private int $server_id = 0;
+    private int $server_id;
     /**
      * MID of sender
      */
-    private int $mid = 0;
+    private int $mid;
     
     private bool $directory_active = false;
     private bool $create_empty_containers = false;
@@ -52,9 +50,7 @@ class ilECSNodeMappingSettings
     protected function __construct(int $a_server_id, int $a_mid)
     {
         global $DIC;
-        
-        $this->logger = $DIC->logger()->wsrv();
-        $this->settings = $DIC->settings();
+
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
         
@@ -67,10 +63,8 @@ class ilECSNodeMappingSettings
      */
     public static function getInstanceByServerMid(int $a_server_id, int $a_mid) : ilECSNodeMappingSettings
     {
-        if (isset(self::$instances) && isset(self::$instances[$a_server_id . '_' . $a_mid])) {
-            return self::$instances[$a_server_id . '_' . $a_mid];
-        }
-        return self::$instances[$a_server_id . '_' . $a_mid] = new self($a_server_id, $a_mid);
+        $id = $a_server_id . '_' . $a_mid;
+        return self::$instances[$id] ?? (self::$instances[$id] = new self($a_server_id, $a_mid));
     }
     
     /**
@@ -200,7 +194,7 @@ class ilECSNodeMappingSettings
     /**
      * Save settings to db
      */
-    public function update()
+    public function update() : bool
     {
         $this->getStorage()->set('directory_active', (string) $this->isDirectoryMappingEnabled());
         $this->getStorage()->set('create_empty', (string) $this->isEmptyContainerCreationEnabled());
@@ -216,9 +210,8 @@ class ilECSNodeMappingSettings
 
     /**
      * Get storage
-     * @return ilSetting
      */
-    protected function getStorage()
+    protected function getStorage() : ilSetting
     {
         return $this->storage;
     }
@@ -226,7 +219,7 @@ class ilECSNodeMappingSettings
     /**
      * Init storage
      */
-    protected function initStorage()
+    protected function initStorage() : void
     {
         $this->storage = new ilSetting('ecs_node_mapping_' . $this->getServerId() . '_' . $this->getMid());
     }
@@ -236,31 +229,31 @@ class ilECSNodeMappingSettings
      * @todo convert to own database table
      * Read settings from db
      */
-    protected function read()
+    protected function read() : void
     {
         if ($this->getStorage()->get('directory_active')) {
-            $this->enableDirectoryMapping(boolval($this->getStorage()->get('directory_active')));
+            $this->enableDirectoryMapping((bool) $this->getStorage()->get('directory_active'));
         }
         if ($this->getStorage()->get('create_empty')) {
-            $this->enableEmptyContainerCreation(boolval($this->getStorage()->get('create_empty')));
+            $this->enableEmptyContainerCreation((bool) $this->getStorage()->get('create_empty'));
         }
         if ($this->getStorage()->get('course_active')) {
-            $this->enableCourseAllocation(boolval($this->getStorage()->get('course_active')));
+            $this->enableCourseAllocation((bool) $this->getStorage()->get('course_active'));
         }
         if ($this->getStorage()->get('default_category')) {
-            $this->setDefaultCourseCategory(intval($this->getStorage()->get('default_category')));
+            $this->setDefaultCourseCategory((int) $this->getStorage()->get('default_category'));
         }
         if ($this->getStorage()->get('allinone')) {
-            $this->enableAllInOne(boolval($this->getStorage()->get('allinone')));
+            $this->enableAllInOne((bool) $this->getStorage()->get('allinone'));
         }
         if ($this->getStorage()->get('allinone_cat')) {
-            $this->setAllInOneCategory(intval($this->getStorage()->get('allinone_cat')));
+            $this->setAllInOneCategory((int) $this->getStorage()->get('allinone_cat'));
         }
         if ($this->getStorage()->get('attributes')) {
-            $this->enableAttributeMapping(boolval($this->getStorage()->get('attributes')));
+            $this->enableAttributeMapping((bool) $this->getStorage()->get('attributes'));
         }
         if ($this->getStorage()->get('role_mappings')) {
-            $this->setRoleMappings(unserialize($this->getStorage()->get('role_mappings')));
+            $this->setRoleMappings(unserialize($this->getStorage()->get('role_mappings'), ['allowed_classes' => true]));
         }
         if ($this->getStorage()->get('auth_mode')) {
             $this->setAuthMode($this->getStorage()->get('auth_mode'));

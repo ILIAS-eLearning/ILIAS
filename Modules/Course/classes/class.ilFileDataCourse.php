@@ -55,10 +55,10 @@ class ilFileDataCourse extends ilFileData
 
     public function getArchiveFile($a_rel_name) : string
     {
-        if (@file_exists($this->course_path . '/' . $a_rel_name . '.zip')) {
+        if (file_exists($this->course_path . '/' . $a_rel_name . '.zip')) {
             return $this->course_path . '/' . $a_rel_name . '.zip';
         }
-        if (@file_exists($this->course_path . '/' . $a_rel_name . '.pdf')) {
+        if (file_exists($this->course_path . '/' . $a_rel_name . '.pdf')) {
             return $this->course_path . '/' . $a_rel_name . '.pdf';
         }
         return '';
@@ -93,15 +93,15 @@ class ilFileDataCourse extends ilFileData
     public function deleteMemberExportFile(string $a_name) : void
     {
         $file_name = $this->course_path . '/' . $a_name;
-        if (@file_exists($file_name)) {
-            @unlink($file_name);
+        if (file_exists($file_name)) {
+            unlink($file_name);
         }
     }
 
     public function getMemberExportFile(string $a_name) : string
     {
         $file_name = $this->course_path . '/' . $a_name;
-        if (@file_exists($file_name)) {
+        if (file_exists($file_name)) {
             return file_get_contents($file_name);
         }
         return '';
@@ -117,8 +117,8 @@ class ilFileDataCourse extends ilFileData
 
     public function deleteZipFile(string $a_abs_name) : bool
     {
-        if (@file_exists($a_abs_name)) {
-            @unlink($a_abs_name);
+        if (file_exists($a_abs_name)) {
+            unlink($a_abs_name);
             return true;
         }
         return false;
@@ -136,8 +136,8 @@ class ilFileDataCourse extends ilFileData
 
     public function deletePdf(string $a_abs_name) : bool
     {
-        if (@file_exists($a_abs_name)) {
-            @unlink($a_abs_name);
+        if (file_exists($a_abs_name)) {
+            unlink($a_abs_name);
 
             return true;
         }
@@ -146,8 +146,8 @@ class ilFileDataCourse extends ilFileData
 
     public function copy(string $a_from, string $a_to) : bool
     {
-        if (@file_exists($a_from)) {
-            @copy($a_from, $this->getCoursePath() . '/' . $a_to);
+        if (file_exists($a_from)) {
+            copy($a_from, $this->getCoursePath() . '/' . $a_to);
 
             return true;
         }
@@ -168,10 +168,10 @@ class ilFileDataCourse extends ilFileData
 
     public function writeToFile(string $a_data, string $a_rel_name) : bool
     {
-        if (!$fp = @fopen($this->getCoursePath() . '/' . $a_rel_name, 'w+')) {
+        if (!$fp = fopen($this->getCoursePath() . '/' . $a_rel_name, 'w+')) {
             die("Cannot open file: " . $this->getCoursePath() . '/' . $a_rel_name);
         }
-        @fwrite($fp, $a_data);
+        fwrite($fp, $a_data);
         return true;
     }
 
@@ -202,10 +202,10 @@ class ilFileDataCourse extends ilFileData
 
     public function __checkPath()
     {
-        if (!@file_exists($this->getCoursePath())) {
+        if (!file_exists($this->getCoursePath())) {
             return false;
         }
-        if (!@file_exists(CLIENT_WEB_DIR . '/courses')) {
+        if (!file_exists(CLIENT_WEB_DIR . '/courses')) {
             ilFileUtils::makeDir(CLIENT_WEB_DIR . '/courses');
         }
 
@@ -216,7 +216,7 @@ class ilFileDataCourse extends ilFileData
 
     public function __checkImportPath()
     {
-        if (!@file_exists($this->getCoursePath() . '/import')) {
+        if (!file_exists($this->getCoursePath() . '/import')) {
             ilFileUtils::makeDir($this->getCoursePath() . '/import');
         }
 

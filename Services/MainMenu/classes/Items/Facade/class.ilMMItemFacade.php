@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /******************************************************************************
  *
@@ -27,7 +28,7 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
     /**
      * @inheritDoc
      */
-    public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collector)
+    public function __construct(IdentificationInterface $identification, Main $collector)
     {
         parent::__construct($identification, $collector);
     }
@@ -86,6 +87,5 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
     public function setAction(string $action) : void
     {
         // Setting action not possible for non custom items
-        return;
     }
 }

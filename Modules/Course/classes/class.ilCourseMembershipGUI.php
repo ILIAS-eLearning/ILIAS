@@ -102,7 +102,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 $mail_type = 0;
                 switch ($this->getParentObject()->getType()) {
                     case 'crs':
-                        $mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
+                        $mail_type = ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER;
                         break;
                 }
                 $this->getMembersObject()->sendNotification($mail_type, $usr_id);
@@ -174,7 +174,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                     }
                     break;
             }
-            $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER, $user_id);
+            $this->getMembersObject()->sendNotification(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER, $user_id);
 
             $this->getParentObject()->checkLPStatusSync($user_id);
 
@@ -231,13 +231,17 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             } else {
                 // send notifications => unblocked
                 if ($this->getMembersObject()->isBlocked($member_id) && !in_array($member_id, $blocked)) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_UNBLOCK_MEMBER,
-                        $member_id);
+                    $this->getMembersObject()->sendNotification(
+                        ilCourseMembershipMailNotification::TYPE_UNBLOCKED_MEMBER,
+                        $member_id
+                    );
                 }
                 // => blocked
                 if (!$this->getMembersObject()->isBlocked($member_id) && in_array($member_id, $blocked)) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_BLOCK_MEMBER,
-                        $member_id);
+                    $this->getMembersObject()->sendNotification(
+                        ilCourseMembershipMailNotification::TYPE_BLOCKED_MEMBER,
+                        $member_id
+                    );
                 }
 
                 // normal member => remove notification, contact
@@ -418,10 +422,10 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         return ilArrayUtil::sortArray($print_member, 'name', $print_order, false, true);
     }
 
-    public function getAttendanceListUserData(int $a_user_id) : array
+    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
     {
-        if (is_array($this->member_data) && array_key_exists($a_user_id, $this->member_data)) {
-            return $this->member_data[$a_user_id];
+        if (is_array($this->member_data) && array_key_exists($user_id, $this->member_data)) {
+            return $this->member_data[$user_id];
         }
         return [];
     }

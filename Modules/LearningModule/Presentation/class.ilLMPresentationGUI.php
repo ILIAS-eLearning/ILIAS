@@ -455,11 +455,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // But since using relative pathes with domxml under windows don't work,
         // we need another solution:
         $xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
-
-        if (!$doc = domxml_open_mem($xmlfile)) {
-            throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Error reading " .
-                $layout . "/" . $a_xml . ".");
-        }
+    
+        $doc = domxml_open_mem($xmlfile);
         $this->layout_doc = $doc;
         //echo ":".htmlentities($xmlfile).":$layout:$a_xml:";
 
@@ -621,13 +618,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($last_frame_url != "") {
                     $this->tpl->addOnLoadCode("il.LearningModule.setLastFrameUrl('" . $last_frame_url . "', 'center_bottom');");
                 }
+    
+                $this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('" .
+                    $this->ctrl->getLinkTarget($this, "saveFrameUrl", "", false, false) . "');
+                        il.LearningModule.openInitFrames();
+                        ");
 
-                if (true) {
-                    $this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('" .
-                        $this->ctrl->getLinkTarget($this, "saveFrameUrl", "", false, false) . "');
-                            il.LearningModule.openInitFrames();
-                            ");
-                }
                 $this->tpl->addOnLoadCode("il.LearningModule.setTocRefreshUrl('" .
                     $this->ctrl->getLinkTarget($this, "refreshToc", "", false, false) . "');
                         ");
@@ -750,13 +746,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             return;
         }
 
-        $showViewInFrameset = true;
-
-        if ($showViewInFrameset) {
-            $buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
-        } else {
-            $buttonTarget = "_top";
-        }
+        $buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
 
         $tpl_menu = new ilTemplate("tpl.lm_sub_menu.html", true, true, "Modules/LearningModule");
 
@@ -1475,8 +1465,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $this->lang
                         );
 
-                    if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
+                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";
@@ -1505,8 +1495,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             0,
                             $this->lang
                         );
-                    if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
+                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";
@@ -1549,8 +1539,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $this->lang
                 );
 
-            if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                $this->lm_gui->object->getPublicAccessMode() == "selected") {
+            if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
                 if (!ilLMObject::_isPagePublic($this->requested_obj_id)) {
                     $disabled = true;
                     $text .= " (" . $this->lng->txt("cont_no_access") . ")";
@@ -1725,7 +1715,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         // add free selected pages
-        if (is_array($sel_obj_ids)) {
+        if (count($sel_obj_ids) > 0) {
             foreach ($sel_obj_ids as $k) {
                 if ($k > 0 && !$this->lm_tree->isInTree($k)) {
                     if (ilLMObject::_lookupType($k) == "pg") {
@@ -1778,8 +1768,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 // output chapter title
                 if ($node["type"] == "st") {
-                    if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
+                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             continue;
                         }
@@ -1816,9 +1806,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 }
 
                 // output page
-                if ($node["type"] == "pg") {
-                    if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
+                if ($node["type"] === "pg") {
+                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                        $this->lm_gui->getObject()->getPublicAccessMode() === "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             continue;
                         }

@@ -29,25 +29,41 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
         global $DIC;
 
         $title = $this->dic->language()->txt("mm_learning_progress");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("trac", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(
+            "trac", $title
+        )->withIsOutlined(true);
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_lp'))
                            ->withTitle($title)
-                           ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI",
-                                                                     "ilAchievementsGUI",
-                                                                     "ilLearningProgressGUI",
-                                                                     "ilLPListOfProgressGUI"
-                           ]))
-                           ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
+                           ->withAction(
+                               $ctrl->getLinkTargetByClass(
+                                   ["ilDashboardGUI",
+                                    "ilAchievementsGUI",
+                                    "ilLearningProgressGUI",
+                                    "ilLPListOfProgressGUI"
+                                   ]
+                               )
+                           )
+                           ->withParent(
+                               StandardTopItemsProvider::getInstance(
+                               )->getAchievementsIdentification()
+                           )
                            ->withPosition(30)
                            ->withSymbol($icon)
-                           ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+                           ->withNonAvailableReason(
+                               $this->dic->ui()->factory()->legacy(
+                                   "{$this->dic->language()->txt('component_not_active')}"
+                               )
+                           )
                            ->withAvailableCallable(
                                function () {
-                                   return ilObjUserTracking::_enabledLearningProgress()
-                                       && (ilObjUserTracking::_hasLearningProgressOtherUsers()
-                                           || ilObjUserTracking::_hasLearningProgressLearner());
+                                   return ilObjUserTracking::_enabledLearningProgress(
+                                       )
+                                       && (ilObjUserTracking::_hasLearningProgressOtherUsers(
+                                           )
+                                           || ilObjUserTracking::_hasLearningProgressLearner(
+                                           ));
                                }
                            ),
         ];

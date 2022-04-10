@@ -15,7 +15,7 @@
 interface ilActivity
 {
     /**
-     * @return mixed
+     * @return void
      */
-    public function execute();
+    public function execute() : void;
 }

@@ -112,7 +112,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
         
         return 0;
     }
-
+    
     public static function _checkGoto(string $target) : bool
     {
         global $DIC;
@@ -172,7 +172,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 
     public static function isInfoEnabled(int $obj_id) : bool
     {
-        return ilContainer::_lookupContainerSetting(
+        return (bool) ilContainer::_lookupContainerSetting(
             $obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
             true

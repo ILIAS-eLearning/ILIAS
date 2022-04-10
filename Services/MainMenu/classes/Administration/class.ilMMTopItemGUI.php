@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\DI\Container;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**
  * Class ilMMTopItemGUI
@@ -30,7 +32,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_MOVE = 'move';
     const CMD_FLUSH = 'flush';
 
-    private function dispatchCommand($cmd) : string
+    private function dispatchCommand(string $cmd) : string
     {
         global $DIC;
         switch ($cmd) {
@@ -38,7 +40,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 $this->access->checkAccessAndThrowException("visible,read");
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, $cmd);
 
-                return $this->index($DIC);
+                return $this->index();
             case self::CMD_ADD:
                 $this->access->checkAccessAndThrowException('write');
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
@@ -189,7 +191,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function add(\ILIAS\DI\Container $DIC) : string
+    private function add(Container $DIC) : string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
 
@@ -197,11 +199,11 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     }
 
     /**
-     * @param \ILIAS\DI\Container $DIC
+     * @param Container $DIC
      * @return string
      * @throws Throwable
      */
-    private function create(\ILIAS\DI\Container $DIC) : string
+    private function create(Container $DIC) : string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
         if ($f->save()) {
@@ -216,7 +218,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function edit(\ILIAS\DI\Container $DIC) : string
+    private function edit(Container $DIC) : string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->getMMItemFromRequest(), $this->repository);
 
@@ -224,11 +226,11 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     }
 
     /**
-     * @param \ILIAS\DI\Container $DIC
+     * @param Container $DIC
      * @return string
      * @throws Throwable
      */
-    private function update(\ILIAS\DI\Container $DIC) : string
+    private function update(Container $DIC) : string
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isEditable()) {
@@ -329,9 +331,9 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     }
 
     /**
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+     * @return Standard
      */
-    private function getMoveForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    private function getMoveForm() : Standard
     {
         $this->ctrl->saveParameter($this, self::IDENTIFIER);
         $f = $this->ui->factory();

@@ -110,6 +110,9 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
         return $this->criterion_id;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function equals($other) : bool
     {
         if (!($other instanceof static)) {

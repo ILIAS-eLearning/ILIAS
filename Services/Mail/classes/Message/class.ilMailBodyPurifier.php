@@ -13,8 +13,7 @@ class ilMailBodyPurifier
         if ($sanitizedContent !== $content) {
             $sanitizedContent = ilUtil::stripSlashes(str_replace('<', '< ', $content));
         }
-        $sanitizedContent = str_replace(chr(13), '', $sanitizedContent);
 
-        return $sanitizedContent;
+        return str_replace(chr(13), '', $sanitizedContent);
     }
 }

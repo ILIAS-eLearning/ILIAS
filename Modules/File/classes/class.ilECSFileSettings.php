@@ -23,7 +23,7 @@
  */
 class ilECSFileSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType()
+    protected function getECSObjectType() : string
     {
         return '/campusconnect/files';
     }

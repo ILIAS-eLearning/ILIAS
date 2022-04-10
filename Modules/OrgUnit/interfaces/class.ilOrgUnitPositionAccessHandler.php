@@ -29,11 +29,7 @@ interface ilOrgUnitPositionAccessHandler
      *                                   ilOrgUnitPositionAccessHandler
      * @see getAvailablePositionRelatedPermissions for available permissions
      */
-    public function filterUserIdsForUsersPositionsAndPermission(
-        array $user_ids,
-        int $for_user_id,
-        string $permission
-    ) : array;
+    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission) : array;
 
     /**
      * @param string $permission

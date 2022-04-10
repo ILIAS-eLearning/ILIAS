@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Membership notification settings
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -7,21 +23,19 @@
  */
 class ilMembershipNotifications
 {
+    protected const VALUE_OFF = 0;
+    protected const VALUE_ON = 1;
+    protected const VALUE_BLOCKED = 2;
+    protected const MODE_SELF = 1;
+    protected const MODE_ALL = 2;
+    protected const MODE_ALL_BLOCKED = 3;
+    protected const MODE_CUSTOM = 4;
+    
     protected int $ref_id;
     protected int $mode;
     /** @var array<int, int>  */
     protected array $custom;
     protected ?ilParticipants $participants = null;
-
-    protected const VALUE_OFF = 0;
-    protected const VALUE_ON = 1;
-    protected const VALUE_BLOCKED = 2;
-
-    protected const MODE_SELF = 1;
-    protected const MODE_ALL = 2;
-    protected const MODE_ALL_BLOCKED = 3;
-    protected const MODE_CUSTOM = 4;
-
     protected ilSetting $setting;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -32,7 +46,6 @@ class ilMembershipNotifications
         global $DIC;
 
         $this->db = $DIC->database();
-
         $this->ref_id = $a_ref_id;
         $this->custom = [];
         $this->setting = $DIC->settings();
@@ -40,7 +53,7 @@ class ilMembershipNotifications
         $this->user = $DIC->user();
 
         $this->setMode(self::MODE_SELF);
-        if ($this->ref_id) {
+        if ($this->ref_id !== 0) {
             $this->read();
         }
     }
@@ -156,7 +169,7 @@ class ilMembershipNotifications
         $this->setMode($a_new_mode);
     }
 
-    protected function getParticipants() : ilParticipants
+    protected function getParticipants() : \ilParticipants
     {
         if ($this->participants === null) {
             $grp_ref_id = $this->tree->checkForParentType($this->ref_id, "grp");
@@ -220,7 +233,7 @@ class ilMembershipNotifications
             case self::MODE_CUSTOM:
                 foreach ($this->custom as $user_id => $status) {
                     if ($status !== self::VALUE_OFF) {
-                        $users[] = (int) $user_id;
+                        $users[] = $user_id;
                     }
                 }
                 break;
@@ -269,7 +282,7 @@ class ilMembershipNotifications
             case self::MODE_SELF:
                 // current user!
                 $user = $this->getUser();
-                if ($user) {
+                if ($user instanceof ilObjUser) {
                     // blocked value not supported in user pref!
                     if ($a_status === true) {
                         $string_value = '1';
@@ -285,7 +298,7 @@ class ilMembershipNotifications
 
             case self::MODE_CUSTOM:
                 $user = $this->getUser($a_user_id);
-                if ($user) {
+                if ($user instanceof ilObjUser) {
                     $user_id = $user->getId();
 
                     // did status change at all?
@@ -351,9 +364,9 @@ class ilMembershipNotifications
         $tree = $DIC->repositoryTree();
         $log = $DIC->logger()->mmbr();
 
-        $res = array();
+        $res = [];
         if (self::isActive()) {
-            $objects = array();
+            $objects = [];
 
             // user-preference data (MODE_SELF)
             $log->debug("read usr_pref");
@@ -392,9 +405,6 @@ class ilMembershipNotifications
 
     /**
      * Add notification settings to form
-     * @param int                    $a_ref_id
-     * @param ilPropertyFormGUI|null $a_form
-     * @param ilFormPropertyGUI|null $a_input
      */
     public static function addToSettingsForm(
         int $a_ref_id,

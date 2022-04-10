@@ -88,7 +88,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 
             case '':
             case 'ilobjsystemcheckgui':
-                if ($cmd == '' || $cmd == 'view') {
+                if ($cmd === null || $cmd === '' || $cmd === 'view') {
                     $cmd = 'overview';
                 }
                 $this->$cmd();
@@ -196,7 +196,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         $options = array();
         $options[0] = '';
         foreach ($sub_objects as $obj_type) {
-            if (!$this->obj_definition->isRBACObject($obj_type) or !$this->obj_definition->isAllowedInRepository($obj_type)) {
+            if (!$this->obj_definition->isRBACObject($obj_type) || !$this->obj_definition->isAllowedInRepository($obj_type)) {
                 continue;
             }
             $options[$obj_type] = $this->lng->txt('obj_' . $obj_type);

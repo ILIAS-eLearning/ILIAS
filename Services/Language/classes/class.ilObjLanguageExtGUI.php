@@ -24,7 +24,7 @@ require_once("Services/Language/classes/class.ilObjLanguageAccess.php");
 */
 class ilObjLanguageExtGUI extends ilObjectGUI
 {
-    const ILIAS_LANGUAGE_MODULE = "Services/Language";
+    private const ILIAS_LANGUAGE_MODULE = "Services/Language";
     /**
     * Constructor
     *
@@ -63,11 +63,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         if (!is_array($_SESSION["lang_ext_maintenance"])) {
             $_SESSION["lang_ext_maintenance"] = array();
         }
-        $this->session = &$_SESSION["lang_ext_maintenance"];
+        $this->session = &$_SESSION["lang_ext_maintenance"];// Todo-PHP8-Review This property is not defined, here and in other methods in this class
 
 
         // read the lang mode
-        $this->langmode = $ilClientIniFile->readVariable("system", "LANGMODE");
+        $this->langmode = $ilClientIniFile->readVariable("system", "LANGMODE");// Todo-PHP8-Review This property is not defined
     }
 
     /**
@@ -76,7 +76,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     * Overwritten from ilObjectGUI to use the extended language object.
     * (Will be deleted when ilObjLanguageExt is merged with ilObjLanguage)
     */
-    public function assignObject() : void
+    protected function assignObject() : void
     {
         require_once("Services/Language/classes/class.ilObjLanguageExt.php");
         $this->object = new ilObjLanguageExt($this->id);
@@ -147,6 +147,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // get the remarks in database
         $comments = $this->object->getAllRemarks();
 
+        $compare_comments = [];
+        $missing_entries = [];
+
         // set the language to compare with
         // get the default values if the compare language is the same
         $compare = $table_gui->getFilterItemByPostVar("compare")->getValue();
@@ -196,7 +199,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $filter_mode = $table_gui->getFilterItemByPostVar("mode")->getValue();
             $filter_pattern = $table_gui->getFilterItemByPostVar("pattern")->getValue();
             $filter_module = $table_gui->getFilterItemByPostVar("module")->getValue();
-            $filter_module = $filter_module == "all" ? "" : $filter_module;
+            $filter_module = $filter_module === "all" ? "" : $filter_module;
             $filter_modules = $filter_module ? array($filter_module) : array();
             $filter_identifier = $table_gui->getFilterItemByPostVar("identifier")->getValue();
             $filter_topics = $filter_identifier ? array($filter_identifier) : array();
@@ -337,8 +340,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         // render and show the table
         $table_gui->setData($data);
-        $tpl->setContent($table_gui->getHTML() .
-            $this->buildMissingEntries($missing_entries));
+        $tpl->setContent($table_gui->getHTML() . $this->buildMissingEntries($missing_entries));
     }
 
     /**
@@ -376,14 +378,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         foreach ($_POST as $key => $value) {
             // mantis #25237
             // @see https://php.net/manual/en/language.variables.external.php
-            $key = str_replace("_POSTDOT_", ".", $key);
-            $key = str_replace("_POSTSPACE_", " ", $key);
+            $key = str_replace(["_POSTDOT_", "_POSTSPACE_"], [".", " "], $key);
 
             // example key of variable: 'common#:#access'
             // example key of comment: 'common#:#access#:#comment'
             $keys = explode($this->lng->separator, ilUtil::stripSlashes($key, false));
 
-            if (count($keys) == 2) {
+            if (count($keys) === 2) {
                 // avoid line breaks
                 $value = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />", $value);
                 $value = ilUtil::stripSlashes($value, false);
@@ -431,7 +432,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ro = new ilRadioOption($this->lng->txt("language_mode_existing_delete"), "delete");
         $ro->setInfo($this->lng->txt("language_mode_existing_delete_info"));
         $rg->addOption($ro);
-        $rg->setValue($this->session["import"]["mode_existing"] ? $this->session["import"]["mode_existing"] : "keepall");
+        $rg->setValue($this->session["import"]["mode_existing"] ?: "keepall");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -512,7 +513,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $rg->addOption($ro);
         }
 
-        $rg->setValue($this->session["export"]["scope"] ? $this->session["export"]["scope"] : "global");
+        $rg->setValue($this->session["export"]["scope"] ?: "global");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -534,32 +535,32 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $global_file_obj = $this->object->getGlobalLanguageFile();
         $local_file_obj = new ilLanguageFile($filename, $this->object->key, $_POST["scope"]);
 
-        if ($_POST["scope"] == "global") {
+        if ($_POST["scope"] === "global") {
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getAllValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getAllRemarks());
             }
-        } elseif ($_POST["scope"] == "local") {
+        } elseif ($_POST["scope"] === "local") {
             $local_file_obj->setParam("based_on", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getChangedValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getAllRemarks());
             }
-        } elseif ($_POST["scope"] == "added") { // langmode only
+        } elseif ($_POST["scope"] === "added") { // langmode only
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getAddedValues());
             $local_file_obj->setAllComments($this->object->getAllRemarks());
-        } elseif ($_POST["scope"] == "unchanged") {
+        } elseif ($_POST["scope"] === "unchanged") {
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getUnchangedValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getAllRemarks());
             }
-        } elseif ($_POST["scope"] == "merged") { // langmode only
+        } elseif ($_POST["scope"] === "merged") { // langmode only
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getMergedValues());
@@ -711,7 +712,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $ilSetting->set($translate_key, $_POST["translation"]);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
-        $translate = $ilSetting->get($translate_key, false);
+        $translate = (bool) $ilSetting->get($translate_key, '0');
 
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -721,7 +722,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $form->addCommandButton('settings', $this->lng->txt("language_change_settings"));
 
         $ci = new ilCheckboxInputGUI($this->lng->txt("language_translation_enabled"), "translation");
-        $ci->setChecked((bool) $translate);
+        $ci->setChecked($translate);
         $ci->setInfo($this->lng->txt("language_note_translation"));
         $form->addItem($ci);
 
@@ -735,10 +736,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     {
         $modules = ilObjLanguageExt::_getModules($this->object->key);
 
-        $data = array();
-        $total = array("module" => "","all" => 0,"changed" => 0, "unchanged" => 0);
+        $data = [];
+        $total = [];
         foreach ($modules as $module) {
-            $row = array();
+            $row = [];
             $row["module"] = $module;
             $row["all"] = count($this->object->getAllValues(array($module)));
             $row["changed"] = count($this->object->getChangedValues(array($module)));
@@ -843,7 +844,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      * Set the locator for admin mode
      *(Overwritten from ilObjectGUI, called by prepareOutput)
      */
-    public function addAdminLocatorItems($a_do_not_add_object = false) : void
+    protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
     {
         global $DIC;
         $ilLocator = $DIC["ilLocator"];
@@ -867,7 +868,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      * Set the Title and the description
      * (Overwritten from ilObjectGUI, called by prepareOutput)
      */
-    public function setTitleAndDescription() : void
+    protected function setTitleAndDescription() : void
     {
         if (ilObjLanguageAccess::_isPageTranslation()) {
             $this->tpl->setHeaderPageTitle($this->lng->txt("translation"));
@@ -883,14 +884,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     // new entries
     //
 
-    protected function buildMissingEntries(array $a_missing = null)
+    protected function buildMissingEntries(array $a_missing = null) : string
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
 
-        if (!is_array($a_missing) ||
-            !sizeof($a_missing)) {
-            return;
+        if (!count($a_missing)) {
+            return '';
         }
 
         $res = array("<h3>" . $this->lng->txt("adm_missing_entries") . "</h3>", "<ul>");
@@ -922,7 +922,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    protected function initAddNewEntryForm(string $a_id = null)
+    protected function initAddNewEntryForm(string $a_id = null) : ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -999,7 +999,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                         " WHERE lang_key = " . $ilDB->quote($lang_key, "text") .
                         " AND module = " . $ilDB->quote($mod, "text"));
                     $row = $ilDB->fetchAssoc($set);
-                    $entries = unserialize($row["lang_array"]);
+                    $entries = unserialize($row["lang_array"], ["allowed_classes" => false]);
                     if (is_array($entries)) {
                         $entries[$id] = $trans;
                         ilObjLanguage::replaceLangModule($lang_key, $mod, $entries);

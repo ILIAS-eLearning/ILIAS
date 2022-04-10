@@ -26,7 +26,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
     /**
      * Test clear
      */
-    public function testClear()
+    public function testClear() : void
     {
         $repo = $this->repo;
 
@@ -48,7 +48,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testTargetScript()
+    public function testTargetScript() : void
     {
         $repo = $this->repo;
         $repo->setTargetScript("ilias.php?a=1");
@@ -58,7 +58,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testLinkType()
+    public function testLinkType() : void
     {
         $repo = $this->repo;
         $repo->setLinkType("ext");
@@ -68,7 +68,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testAreaNr()
+    public function testAreaNr() : void
     {
         $repo = $this->repo;
         $repo->setAreaNr(4);
@@ -78,7 +78,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testCoords()
+    public function testCoords() : void
     {
         $repo = $this->repo;
         $repo->setCoords("7,8,9,2");
@@ -88,7 +88,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testAreaType()
+    public function testAreaType() : void
     {
         $repo = $this->repo;
         $repo->setAreaType("Rect");
@@ -98,7 +98,7 @@ class ImageMapEditSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testExternalLink()
+    public function testExternalLink() : void
     {
         $repo = $this->repo;
         $repo->setExternalLink("https://www.ilias.de");

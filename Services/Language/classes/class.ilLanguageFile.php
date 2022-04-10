@@ -74,7 +74,7 @@ class ilLanguageFile
         $this->params["module"] = "language file";
         $this->params["modulegroup"] = "language";
         
-        if ($this->scope == "local") {
+        if ($this->scope === "local") {
             $this->params["based_on"] = "";
         } else {
             $this->params["author"] = "";
@@ -111,9 +111,8 @@ class ilLanguageFile
                 $this->header .= $line . "\n";
 
                 // check header end
-                if (trim($line) == $this->file_start) {
+                if (trim($line) === $this->file_start) {
                     $in_header = false;
-                    continue;
                 } else {
                     // get header params
                     $pos_par = strpos($line, "* @");
@@ -144,7 +143,7 @@ class ilLanguageFile
                 $separated = explode($this->separator, trim($line));
                 
                 // not a valid line with module, identifier and value?
-                if (count($separated) != 3) {
+                if (count($separated) !== 3) {
                     $this->error_message =
                             $lng->txt("file_not_valid") . " "
                             . $lng->txt("err_in_line") . " " . $line_num . ". "
@@ -170,9 +169,9 @@ class ilLanguageFile
         if ($in_header) {
             $this->error_message = $lng->txt("file_not_valid") . " " . $lng->txt("err_wrong_header");
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
     
     /**
@@ -182,7 +181,7 @@ class ilLanguageFile
     */
     public function write(string $a_header = "") : void
     {
-        $fp = fopen($this->lang_file, "w");
+        $fp = fopen($this->lang_file, 'wb');
         fwrite($fp, $this->build($a_header));
         fclose($fp);
     }

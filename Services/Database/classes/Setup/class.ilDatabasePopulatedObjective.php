@@ -111,7 +111,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         return
             $number_of_tables > self::MIN_NUMBER_OF_ILIAS_TABLES
-            && count(array_intersect($tables, $probe_tables)) == $number_of_probe_tables;
+            && count(array_intersect($tables, $probe_tables)) === $number_of_probe_tables;
     }
 
     /**
@@ -142,7 +142,6 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
             case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
             case ilDBConstants::TYPE_INNODB:
             case ilDBConstants::TYPE_GALERA:
-            case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
             case ilDBConstants::TYPE_MYSQL:
                 $db->manipulate('SET default_storage_engine=InnoDB;');
                 break;

@@ -8,12 +8,12 @@
  */
 class ilLanguageDetectorFactory
 {
-    const DEFAULT_DETECTOR = 1;
-    const HTTP_REQUEST_DETECTOR = 2;
+    private const DEFAULT_DETECTOR = 1;
+    private const HTTP_REQUEST_DETECTOR = 2;
 
     protected ilIniFile $client_ini;
     protected array $request_information = array();
-    protected $settings;
+    protected ilSetting $settings;
 
     public function __construct()
     {
@@ -27,7 +27,7 @@ class ilLanguageDetectorFactory
     /**
      * @throws ilLanguageException
      */
-    public function getValidInstances()
+    public function getValidInstances() : array
     {
         $detectors = array(
             $this->createDetectorByType(self::DEFAULT_DETECTOR)

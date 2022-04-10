@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Filesystem\Stream\Streams;
+
 /**
  * Learning history main GUI class
  * @author Alexander Killing <killing@leifos.de>
@@ -22,6 +24,7 @@ class ilLearningHistoryGUI
     public const TAB_ID_LEARNING_HISTORY = 'lhist_learning_history';
     public const TAB_ID_MY_CERTIFICATES = 'certificates';
     public const MAX = 50;
+    protected \ILIAS\HTTP\Services $http;
     protected ?int $to;
     protected ?int $from;
     protected int $user_id;
@@ -63,6 +66,7 @@ class ilLearningHistoryGUI
             : null;
 
         $this->main_tpl->addJavaScript("./Services/LearningHistory/js/LearningHistory.js");
+        $this->http = $DIC->http();
     }
 
     public function setUserId(int $user_id) : void
@@ -94,7 +98,7 @@ class ilLearningHistoryGUI
 
         $html = $this->getHistoryHtml($this->from, $this->to);
 
-        if ($html != "") {
+        if ($html !== "") {
             $main_tpl->setContent($html);
         } else {
             $main_tpl->setContent(
@@ -109,8 +113,20 @@ class ilLearningHistoryGUI
     {
         $response["timeline"] = $this->renderTimeline($this->from, $this->to);
         $response["more"] = $this->show_more ? $this->renderButton() : "";
-        echo json_encode($response);
-        exit;
+        $this->send(json_encode($response, JSON_THROW_ON_ERROR));
+    }
+
+    /**
+     * @param string $output
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    protected function send(string $output) : void
+    {
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     /**
@@ -148,7 +164,7 @@ class ilLearningHistoryGUI
 
         $tpl->setVariable("TIMELINE", $this->renderTimeline($from, $to, $classes, $mode));
 
-        if ($this->show_more && $mode != "print") {
+        if ($this->show_more && $mode !== "print") {
             $tpl->setCurrentBlock("show_more");
             $tpl->setVariable("SHOW_MORE_BUTTON", $this->renderButton());
             $tpl->parseCurrentBlock();
@@ -182,8 +198,8 @@ class ilLearningHistoryGUI
         $cnt = 0;
 
         reset($entries);
-        /** @var ilLearningHistoryEntry $e */
         while (($e = current($entries)) && $cnt < self::MAX) {
+            /** @var ilLearningHistoryEntry $e */
             $timeline->addItem(new ilLearningHistoryTimelineItem(
                 $e,
                 $this->ui,
@@ -216,13 +232,13 @@ class ilLearningHistoryGUI
 
         $button = $f->button()->standard($this->lng->txt("lhist_show_more"), "")
             ->withLoadingAnimationOnClick(true)
-            ->withOnLoadCode(function ($id) use ($url) {
+            ->withOnLoadCode(static function ($id) use ($url) : string {
                 return "il.LearningHistory.initShowMore('$id', '" . $url . "');";
             });
         if ($ctrl->isAsynch()) {
             return $renderer->renderAsync($button);
-        } else {
-            return $renderer->render($button);
         }
+
+        return $renderer->render($button);
     }
 }

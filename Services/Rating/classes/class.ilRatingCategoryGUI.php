@@ -55,8 +55,8 @@ class ilRatingCategoryGUI
         $this->toolbar = $DIC->toolbar();
         $this->request = $DIC->http()->request();
         $lng = $DIC->language();
-        
-        $this->parent_id = (int) $a_parent_id;
+
+        $this->parent_id = $a_parent_id;
         $this->export_callback = $a_export_callback;
         $this->export_subobj_title = $a_export_subobj_title;
         
@@ -83,7 +83,7 @@ class ilRatingCategoryGUI
         
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("listCategories");
-        
+
         switch ($next_class) {
             default:
                 $this->$cmd();

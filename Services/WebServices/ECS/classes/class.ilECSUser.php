@@ -123,7 +123,7 @@ class ilECSUser
      * @access public
      *
      */
-    public function loadFromObject()
+    public function loadFromObject() : void
     {
         $this->login = $this->source->getLogin();
         $this->firstname = $this->source->getFirstname();
@@ -131,7 +131,7 @@ class ilECSUser
         $this->email = $this->source->getEmail();
         $this->institution = $this->source->getInstitution();
         
-        $this->uid_hash = 'il_' . $this->setting->get('inst_id', 0) . '_usr_' . $this->source->getId();
+        $this->uid_hash = 'il_' . $this->setting->get('inst_id', "0") . '_usr_' . $this->source->getId();
     }
     
     /**
@@ -140,9 +140,9 @@ class ilECSUser
      * @access public
      *
      */
-    public function loadFromJSON()
+    public function loadFromJSON() : void
     {
-        $this->source = json_decode(urldecode($this->source));
+        $this->source = json_decode(urldecode($this->source), false, 512, JSON_THROW_ON_ERROR);
         
         $this->login = $this->source->login();
         $this->firstname = $this->source->firstname();
@@ -159,7 +159,7 @@ class ilECSUser
      * @access public
      *
      */
-    public function loadFromGET()
+    public function loadFromGET() : void
     {
         $this->login = ilUtil::stripSlashes(urldecode($_GET['ecs_login']));
         $this->firstname = ilUtil::stripSlashes(urldecode($_GET['ecs_firstname']));
@@ -173,17 +173,10 @@ class ilECSUser
             $this->uid_hash = ilUtil::stripSlashes(urldecode($_GET['ecs_uid']));
         }
     }
-    
-    /**
-     *
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function toJSON()
+
+    public function toJSON() : string
     {
-        return urlencode(json_encode($this));
+        return urlencode(json_encode($this, JSON_THROW_ON_ERROR));
     }
     
     /**
@@ -192,7 +185,7 @@ class ilECSUser
      * @access public
      *
      */
-    public function toGET()
+    public function toGET() : string
     {
         return '&ecs_login=' . urlencode((string) $this->login) .
             '&ecs_firstname=' . urlencode((string) $this->firstname) .
@@ -200,21 +193,20 @@ class ilECSUser
             '&ecs_email=' . urlencode((string) $this->email) .
             '&ecs_institution=' . urlencode((string) $this->institution) .
             '&ecs_uid_hash=' . urlencode((string) $this->uid_hash);
-        '&ecs_uid=' . urlencode((string) $this->uid_hash);
     }
     
     /**
      * Concatenate all attributes to one string
      * @return string
      */
-    public function toREALM()
+    public function toREALM() : string
     {
         return
-            (string) $this->login . '' .
-            (string) $this->firstname . '' .
-            (string) $this->lastname . '' .
-            (string) $this->email . '' .
-            (string) $this->institution . '' .
-            (string) $this->uid_hash;
+            $this->login . '' .
+            $this->firstname .
+            $this->lastname .
+            $this->email .
+            $this->institution .
+            $this->uid_hash;
     }
 }

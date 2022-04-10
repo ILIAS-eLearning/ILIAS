@@ -284,7 +284,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     /**
      * @return array<string, mixed>
      */
-    public function getAttendanceListUserData(int $user_id) : array
+    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
     {
         $data = array();
 

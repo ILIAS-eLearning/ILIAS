@@ -56,7 +56,7 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
         $ext = ilObjFileAccess::_getFileExtension($filename);
 
         // contains that extension?
-        return in_array($ext, $this->getSupportedFileFormats());
+        return in_array($ext, $this->getSupportedFileFormats(), true);
     }
 
     /**

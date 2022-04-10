@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilObjMainMenuGUI
@@ -8,12 +8,8 @@
  */
 class ilObjMainMenuGUI extends ilObject2GUI
 {
-    
     private ilMMTabHandling $tab_handling;
-    /**
-     * @var ilRbacSystem (not yet typed in ilObject2GUI)
-     */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbac_system;
     protected ilTabsGUI $tabs;
     public ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -37,12 +33,12 @@ class ilObjMainMenuGUI extends ilObject2GUI
         parent::__construct($this->ref_id);
         
         $this->tabs = $DIC['ilTabs'];
-        $this->lng  = $DIC->language();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('mme');
-        $this->ctrl         = $DIC['ilCtrl'];
-        $this->tpl          = $DIC['tpl'];
-        $this->tree         = $DIC['tree'];
-        $this->rbacsystem   = $DIC['rbacsystem'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tpl = $DIC['tpl'];
+        $this->tree = $DIC['tree'];
+        $this->rbac_system = $DIC['rbacsystem'];
         $this->tab_handling = new ilMMTabHandling($this->ref_id);
         
         $this->assignObject();
@@ -91,6 +87,6 @@ class ilObjMainMenuGUI extends ilObject2GUI
      */
     public function getType() : string
     {
-        return null;
+        return "";
     }
 }

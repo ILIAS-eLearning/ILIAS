@@ -82,9 +82,9 @@ class SkillInternalManagerService
         );
     }
 
-    public function getTreeAccessManager(int $obj_skill_tree_ref_id) : SkillTreeAccess
+    public function getTreeAccessManager(int $obj_ref_id) : SkillTreeAccess
     {
-        return new SkillTreeAccess($this->rbac_system, $obj_skill_tree_ref_id, $this->usr_id);
+        return new SkillTreeAccess($this->rbac_system, $obj_ref_id, $this->usr_id);
     }
 
     public function getManagementAccessManager(int $skmg_ref_id) : SkillManagementAccess

@@ -1,45 +1,45 @@
-<?php
-
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-include_once('./Modules/WebResource/classes/class.ilObjLinkResourceAccess.php');
+<?php declare(strict_types=1);
 
 /**
-* Class ilObjLinkResourceListGUI
-*
-* @author 		Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @ingroup ModulesWebResource
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * Class ilObjLinkResourceListGUI
+ * @author        Alex Killing <alex.killing@gmx.de>
+ * @ingroup       ModulesWebResource
+ */
 class ilObjLinkResourceListGUI extends ilObjectListGUI
 {
-    public $link_data = array();
+    public array $link_data = [];
 
     /**
-    * overwritten from base class
-    */
+     * @inheritDoc
+     */
     public function getTitle() : string
     {
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $this->__readLink();
-
             return $this->link_data['title'];
         }
         return parent::getTitle();
     }
+
     /**
-    * overwritten from base class
-    */
+     * @inheritDoc
+     */
     public function getDescription() : string
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $this->__readLink();
@@ -47,10 +47,12 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             $desc = $this->link_data['description'];
 
             // #10682
-            if ($ilSetting->get("rep_shorten_description")) {
+            if ($this->settings->get("rep_shorten_description")) {
                 $desc = ilStr::shortenTextExtended(
                     $desc,
-                    $ilSetting->get("rep_shorten_description_length"),
+                    (int) $this->settings->get(
+                        "rep_shorten_description_length"
+                    ),
                     true
                 );
             }
@@ -60,9 +62,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         return parent::getDescription();
     }
 
-    /**
-    * initialisation
-    */
     public function init() : void
     {
         $this->delete_enabled = true;
@@ -78,9 +77,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         $this->commands = ilObjLinkResourceAccess::_getCommands();
     }
 
-    /**
-    * Get command target frame
-    */
     public function getCommandFrame(string $cmd) : string
     {
         // #16820 / #18419 / #18622
@@ -90,8 +86,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             $link = ilObjLinkResourceAccess::_getFirstLink($this->obj_id);
 
             // we could use the "internal" flag, but it would not work for "old" links
-            include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
-            include_once "Services/Form/classes/class.ilLinkInputGUI.php";
             if (!ilLinkInputGUI::isInternalLink($link["target"])) {
                 return '_blank';
             }
@@ -100,42 +94,53 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     }
 
     /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
+     * @inheritDoc
+     */
     public function getProperties() : array
     {
         $props = array();
         return $props;
     }
 
-
     /**
-    * Get command link url.
-    */
+     * @inheritDoc
+     */
     public function getCommandLink(string $cmd) : string
     {
+        $cmd_class = '';
+        if ($this->request_wrapper->has('cmd_class')) {
+            $cmd_class = $this->request_wrapper->retrieve(
+                'cmdClass',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         if (
-            (isset($_REQUEST["wsp_id"]) && $_REQUEST["wsp_id"]) ||
-            (isset($_REQUEST["cmdClass"]) && $_REQUEST["cmdClass"] === "ilpersonalworkspacegui")
+            $this->request_wrapper->has('wsp_id') ||
+            strcasecmp($cmd_class, ilPersonalWorkspaceGUI::class) === 0
         ) {
-            if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
+            if (
+                ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
                 !ilLinkResourceList::checkListStatus($this->obj_id) &&
-                $cmd == '') {
+                $cmd == ''
+            ) {
                 $cmd = "calldirectlink";
             }
-            $this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
-            $this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
-            return $this->ctrl->getLinkTargetByClass(array("ilpersonalworkspacegui", $this->gui_class_name), $cmd);
+            $this->ctrl->setParameterByClass(
+                $this->gui_class_name, "ref_id", ""
+            );
+            $this->ctrl->setParameterByClass(
+                $this->gui_class_name, "wsp_id", $this->ref_id
+            );
+            return $this->ctrl->getLinkTargetByClass(
+                array("ilpersonalworkspacegui", $this->gui_class_name), $cmd
+            );
         } else {
             // separate method for this line
             switch ($cmd) {
                 case '':
-                    if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
+                    if (ilObjLinkResourceAccess::_checkDirectLink(
+                            $this->obj_id
+                        ) &&
                         !ilLinkResourceList::checkListStatus($this->obj_id)) {
                         $this->__readLink();
                         // $cmd_link = $this->link_data['target'];
@@ -153,18 +158,17 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     }
 
     /**
-    * Get data of first active link resource
-    *
-    * @return array link data array
-    */
-    public function __readLink()
+     * @return array link data array
+     */
+    public function __readLink() : array
     {
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-        include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-
         if (ilParameterAppender::_isEnabled()) {
-            return $this->link_data = ilParameterAppender::_append(ilLinkResourceItems::_getFirstLink($this->obj_id));
+            return $this->link_data = ilParameterAppender::_append(
+                ilLinkResourceItems::_getFirstLink($this->obj_id)
+            );
         }
-        return $this->link_data = ilLinkResourceItems::_getFirstLink($this->obj_id);
+        return $this->link_data = ilLinkResourceItems::_getFirstLink(
+            $this->obj_id
+        );
     }
-} // END class.ilObjTestListGUI
+}

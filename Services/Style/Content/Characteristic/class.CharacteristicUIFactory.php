@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
 namespace ILIAS\Style\Content;
 
 use ILIAS\Style\Content\Access\StyleAccessManager;
+use ilObjStyleSheet;
+use ilStyleCharacteristicGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -35,13 +37,13 @@ class CharacteristicUIFactory
 
     // characteristics editing
     public function ilStyleCharacteristicGUI(
-        \ilObjStyleSheet $style_sheet_obj,
+        ilObjStyleSheet $style_sheet_obj,
         string $super_type,
         StyleAccessManager $access_manager,
         CharacteristicManager $characteristic_manager,
         ImageManager $image_manager
-    ) : \ilStyleCharacteristicGUI {
-        return new \ilStyleCharacteristicGUI(
+    ) : ilStyleCharacteristicGUI {
+        return new ilStyleCharacteristicGUI(
             $this->domain_service,
             $this->gui_service,
             $style_sheet_obj,
@@ -57,7 +59,7 @@ class CharacteristicUIFactory
         object $a_parent_obj,
         string $a_parent_cmd,
         string $a_super_type,
-        \ilObjStyleSheet $a_style,
+        ilObjStyleSheet $a_style,
         CharacteristicManager $manager,
         Access\StyleAccessManager $access_manager
     ) : CharacteristicTableGUI {

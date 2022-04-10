@@ -655,8 +655,8 @@ class ilCourseObjectiveQuestion
             $qst['obj_id'] = (int) $row->obj_id;
             $qst['question_id'] = (int) $row->question_id;
             $qst['qst_ass_id'] = (int) $row->qst_ass_id;
-            $qst['title'] = (string) $question->getTitle();
-            $qst['description'] = (string) $question->getComment();
+            $qst['title'] = $question->getTitle();
+            $qst['description'] = $question->getComment();
             $qst['test_type'] = (int) $this->tests[(int) $row->ref_id]['status'];
             $qst['points'] = (int) $question->getPoints();
 

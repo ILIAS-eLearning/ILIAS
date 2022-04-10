@@ -31,6 +31,7 @@ class ilLOEditorStatus
     protected array $error_by_section = [];
 
     protected array $objectives = [];
+    protected int $forced_test_type = 0;
 
     protected ilLOSettings $settings;
     protected ilLOTestAssignments $assignments;
@@ -76,6 +77,10 @@ class ilLOEditorStatus
 
     protected function initTestTypeFromQuery() : int
     {
+        if ($this->forced_test_type > 0) {
+            return $this->forced_test_type;
+        }
+
         if ($this->http->wrapper()->query()->has('tt')) {
             return $this->http->wrapper()->query()->retrieve(
                 'tt',
@@ -151,7 +156,7 @@ class ilLOEditorStatus
         }
         if ($this->getSettings()->worksWithInitialTest()) {
             if (!$this->getInitialTestStatus(false)) {
-                $_REQUEST['tt'] = ilLOSettings::TYPE_TEST_INITIAL;
+                $this->forced_test_type = ilLOSettings::TYPE_TEST_INITIAL;
                 if ($this->getSettings()->hasSeparateInitialTests()) {
                     return 'testsOverview';
                 } else {
@@ -160,7 +165,7 @@ class ilLOEditorStatus
             }
         }
         if (!$this->getQualifiedTestStatus(false)) {
-            $_REQUEST['tt'] = ilLOSettings::TYPE_TEST_QUALIFIED;
+            $this->forced_test_type = ilLOSettings::TYPE_TEST_QUALIFIED;
             if ($this->getSettings()->hasSeparateQualifiedTests()) {
                 return 'testsOverview';
             } else {
@@ -243,7 +248,6 @@ class ilLOEditorStatus
         $done = $this->getObjectivesStatus();
 
         $tt = 0;
-
         $this->ctrl->setParameter($this->getCmdClass(), 'tt', $this->initTestTypeFromQuery());
 
         $steps[] = $this->workflow->step(
@@ -255,8 +259,7 @@ class ilLOEditorStatus
         $list = $this->workflow->linear(
             $this->lng->txt('crs_objective_status_configure'),
             $steps
-        )
-                               ->withActive($this->determineActiveSection());
+        )->withActive($this->determineActiveSection());
         return $this->ui_renderer->render($list);
     }
 

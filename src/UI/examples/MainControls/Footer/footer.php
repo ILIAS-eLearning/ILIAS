@@ -55,6 +55,7 @@ if ($request_wrapper->has('new_footer_ui') && $request_wrapper->retrieve('new_fo
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
+    $responsive_logo = $f->image()->responsive("templates/default/images/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pageFooterDemoCrumbs($f);
     $metabar = pageFooterDemoMetabar($f);
     $mainbar = pageFooterDemoMainbar($f, $renderer);
@@ -70,6 +71,8 @@ if ($request_wrapper->has('new_footer_ui') && $request_wrapper->retrieve('new_fo
         $mainbar,
         $breadcrumbs,
         $logo,
+        $responsive_logo,
+        null,
         $footer,
         'UI PAGE FOOTER DEMO', //page title
         'ILIAS', //short title

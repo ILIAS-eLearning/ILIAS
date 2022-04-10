@@ -21,6 +21,7 @@
  */
 class ilObjCommentsSettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     /**
      * @var ilTabsGUI
      */
@@ -80,7 +81,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "view") {
+                if ($cmd === "view") {
                     $cmd = "editSettings";
                 }
                 if (in_array($cmd, ["editSettings", "saveSettings"])) {
@@ -181,7 +182,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $setting = $this->setting;
 
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if (is_array($data["sec"])) {

@@ -58,7 +58,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
                 );
 
                 foreach ($iter as $file) {
-                    /** @var $file SplFileInfo */
+                    /** @var SplFileInfo $file */
 
                     $path_name = $file->getPathname();
                     if ($file->isDir()) {

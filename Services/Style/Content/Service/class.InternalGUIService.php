@@ -17,6 +17,7 @@ namespace ILIAS\Style\Content;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ilObjectContentStyleSettingsGUI;
 
 /**
  * Content style internal ui factory
@@ -75,7 +76,7 @@ class InternalGUIService
     // get class name of object settings gui class
     public function objectSettingsClass(bool $lower = true) : string
     {
-        $class = \ilObjectContentStyleSettingsGUI::class;
+        $class = ilObjectContentStyleSettingsGUI::class;
         if ($lower) {
             $class = strtolower($class);
         }
@@ -87,8 +88,8 @@ class InternalGUIService
         ?int $selected_style_id,
         int $ref_id,
         int $obj_id = 0
-    ) : \ilObjectContentStyleSettingsGUI {
-        return new \ilObjectContentStyleSettingsGUI(
+    ) : ilObjectContentStyleSettingsGUI {
+        return new ilObjectContentStyleSettingsGUI(
             $this->domain_service,
             $this,
             $selected_style_id,

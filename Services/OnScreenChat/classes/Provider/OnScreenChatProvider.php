@@ -71,18 +71,20 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
 
         return [
             $this->mainmenu->complex($this->if->identifier('mm_chat'))
-                ->withAvailableCallable(function () {
-                    $isUser = 0 !== (int) $this->dic->user()->getId() && !$this->dic->user()->isAnonymous();
+                ->withAvailableCallable(function () : bool {
+                    $isUser = 0 !== $this->dic->user()->getId() && !$this->dic->user()->isAnonymous();
                     $chatSettings = new ilSetting('chatroom');
                     $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
                     return $isUser && $isEnabled;
                 })
                 ->withTitle($this->dic->language()->txt('mm_private_chats'))
                 ->withSymbol($icon)
-                ->withContent($this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
-                    function ($id) {
-                        return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
-                    })
+                ->withContent(
+                    $this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
+                        static function ($id) : string {
+                            return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
+                        }
+                    )
                 )
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(40)
@@ -143,13 +145,15 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                                   IL_CAL_UNIX
                               )
                           )
-                      ])
+                      ]
+                  )
                   ->withLeadIcon($icon->withIsOutlined(true))
                   ->withClose($this->dic->ui()->factory()->button()->close())
                   ->withAdditionalOnLoadCode(
-                    function ($id) use ($cid){
-                        return "il.OnScreenChat.menuCollector.querySelector('#$id').dataset.id = '$cid';";
-                    })
+                      function ($id) use ($cid) {
+                          return "il.OnScreenChat.menuCollector.querySelector('#$id').dataset.id = '$cid';";
+                      }
+                  )
             ;
         }
 

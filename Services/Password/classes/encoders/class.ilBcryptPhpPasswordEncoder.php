@@ -8,9 +8,6 @@
  */
 class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 {
-    /**
-     * @var string
-     */
     protected string $costs = '08';
 
     /**
@@ -69,11 +66,11 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
     public function setCosts(string $costs) : void
     {
         if ($costs !== '') {
-            $costs = (int) $costs;
-            if ($costs < 4 || $costs > 31) {
+            $numeric_costs = (int) $costs;
+            if ($numeric_costs < 4 || $numeric_costs > 31) {
                 throw new ilPasswordException('The costs parameter of bcrypt must be in range 04-31');
             }
-            $this->costs = sprintf('%1$02d', $costs);
+            $this->costs = sprintf('%1$02d', $numeric_costs);
         }
     }
 

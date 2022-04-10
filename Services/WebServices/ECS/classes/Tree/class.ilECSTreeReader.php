@@ -29,10 +29,8 @@ class ilECSTreeReader
 
     /**
      * Constructor
-     * @param <type> $server_id
-     * @param <type> $mid
      */
-    public function __construct($server_id, $mid)
+    public function __construct(int $server_id, int $mid)
     {
         global $DIC;
         
@@ -49,7 +47,7 @@ class ilECSTreeReader
      *
      * @throws ilECSConnectorException
      */
-    public function read()
+    public function read() : void
     {
         $this->logger->debug('Begin read');
         $dir_reader = new ilECSDirectoryTreeConnector(
@@ -58,7 +56,7 @@ class ilECSTreeReader
         $trees = $dir_reader->getDirectoryTrees();
         $this->logger->debug(print_r($trees, true));
         if ($trees instanceof ilECSUriList) {
-            foreach ((array) $trees->getLinkIds() as $tree_id) {
+            foreach ($trees->getLinkIds() as $tree_id) {
                 if (!ilECSCmsData::treeExists($this->server_id, $this->mid, $tree_id)) {
                     $result = $dir_reader->getDirectoryTree($tree_id);
                     $this->storeTree($tree_id, $result->getResult());
@@ -67,7 +65,7 @@ class ilECSTreeReader
         }
     }
 
-    protected function storeTree($tree_id, $a_nodes)
+    protected function storeTree($tree_id, $a_nodes) : void
     {
         $tree = new ilECSCmsTree($tree_id);
         
@@ -79,8 +77,8 @@ class ilECSTreeReader
         $data->setMid($this->mid);
         $data->setCmsId($cms_tree->rootID);
         $data->setTreeId($tree_id);
-        $data->setTitle($node->directoryTitle);
-        $data->setTerm($node->term);
+        $data->setTitle($cms_tree->directoryTitle);
+        $data->setTerm($cms_tree->term);
         $data->save();
 
         $tree->insertRootNode($tree_id, $data->getObjId());
@@ -104,7 +102,7 @@ class ilECSTreeReader
                     $this->server_id,
                     $this->mid,
                     $tree_id,
-                    (int) $node->parent->id
+                    $node->parent->id
                 );
                 $tree->insertNode($data->getObjId(), $parent_id);
             }

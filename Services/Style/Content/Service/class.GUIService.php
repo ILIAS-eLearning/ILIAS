@@ -15,18 +15,16 @@
 
 namespace ILIAS\Style\Content;
 
-use ILIAS\DI\Container;
+use ilObjectContentStyleSettingsGUI;
+use ilGlobalTemplateInterface;
+use ilObjStyleSheet;
 
 /**
  * Facade for consumer gui interface
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class GUIService
 {
-    /**
-     * @var InternalService
-     */
     private InternalService $internal;
 
     public function __construct(
@@ -37,17 +35,13 @@ class GUIService
 
     public function objectSettingsClass(bool $lower = true) : string
     {
-        $class = \ilObjectContentStyleSettingsGUI::class;
-        if ($lower) {
-            $class = strtolower($class);
-        }
         return $this->internal->gui()->objectSettingsClass($lower);
     }
 
     public function objectSettingsGUIForRefId(
         ?int $selected_style_id,
         int $ref_id
-    ) : \ilObjectContentStyleSettingsGUI {
+    ) : ilObjectContentStyleSettingsGUI {
         return $this->internal->gui()->objectSettingsGUI(
             $selected_style_id,
             $ref_id
@@ -57,7 +51,7 @@ class GUIService
     public function objectSettingsGUIForObjId(
         int $selected_style_id,
         int $obj_id
-    ) : \ilObjectContentStyleSettingsGUI {
+    ) : ilObjectContentStyleSettingsGUI {
         return $this->internal->gui()->objectSettingsGUI(
             $selected_style_id,
             0,
@@ -75,9 +69,9 @@ class GUIService
     }
 
     // add effective style sheet path to global template
-    public function addCss(\ilGlobalTemplateInterface $tpl, int $ref_id, int $obj_id = 0) : void
+    public function addCss(ilGlobalTemplateInterface $tpl, int $ref_id, int $obj_id = 0) : void
     {
         $eff_style_id = $this->internal->domain()->object($ref_id, $obj_id)->getEffectiveStyleId();
-        $tpl->addCss(\ilObjStyleSheet::getContentStylePath($eff_style_id));
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath($eff_style_id));
     }
 }

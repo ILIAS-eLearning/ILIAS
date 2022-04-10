@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,8 +15,13 @@
 
 namespace ILIAS\Style\Content\Object;
 
-use \ILIAS\Style\Content\InternalRepoService;
-use \ILIAS\Style\Content\InternalDomainService;
+use ILIAS\Style\Content\InternalRepoService;
+use ILIAS\Style\Content\InternalDomainService;
+use ILIAS\Style\Content\Container\ContainerDBRepository;
+use ilSetting;
+use ilObject;
+use ilObjStyleSheet;
+use ilObjectFactory;
 
 /**
  * Manages repository object related content style behaviour
@@ -24,40 +29,13 @@ use \ILIAS\Style\Content\InternalDomainService;
  */
 class ObjectManager
 {
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ObjectDBRepository
-     */
-    protected $object_repo;
-
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
-    /**
-     * @var \ILIAS\Style\Content\Container\ContainerDBRepository
-     */
-    protected $container_repo;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var InternalRepoService
-     */
-    protected $repo_service;
-
-    /**
-     * @var InternalRepoService
-     */
-    protected $domain_service;
+    protected ilSetting $settings;
+    protected ObjectDBRepository $object_repo;
+    protected int $obj_id;
+    protected ContainerDBRepository $container_repo;
+    protected int $ref_id;
+    protected InternalRepoService $repo_service;
+    protected InternalDomainService $domain_service;
 
     public function __construct(
         InternalRepoService $repo_service,
@@ -69,7 +47,7 @@ class ObjectManager
         $this->ref_id = $ref_id;
         $this->obj_id = ($obj_id > 0)
             ? $obj_id
-            : \ilObject::_lookupObjId($ref_id);
+            : ilObject::_lookupObjId($ref_id);
         $this->repo_service = $repo_service;
         $this->domain_service = $domain_service;
         $this->container_repo = $repo_service->repositoryContainer();
@@ -88,11 +66,10 @@ class ObjectManager
         $container_repo = $this->container_repo;
 
         $fixed_style = $settings->get("fixed_content_style_id");
-        $st_styles = [];
         if ($fixed_style > 0) {
             return [];
         } else {
-            $st_styles = \ilObjStyleSheet::_getStandardStyles(
+            $st_styles = ilObjStyleSheet::_getStandardStyles(
                 true,
                 false,
                 $this->ref_id
@@ -102,12 +79,12 @@ class ObjectManager
                 $path = $tree->getPathId($this->ref_id);
                 $reuse_ref_ids = $container_repo->filterByReuse($path);
                 $container_obj_ids = array_map(function ($ref_id) {
-                    return \ilObject::_lookupObjId($ref_id);
+                    return ilObject::_lookupObjId($ref_id);
                 }, $reuse_ref_ids);
                 foreach ($this->object_repo->getOwnedStyles($container_obj_ids) as $obj_id => $style_id) {
                     $st_styles[$style_id] =
-                        \ilObject::_lookupTitle($style_id) .
-                        " (" . \ilObject::_lookupTitle($obj_id) . ")";
+                        ilObject::_lookupTitle($style_id) .
+                        " (" . ilObject::_lookupTitle($obj_id) . ")";
                 }
             }
         }
@@ -124,19 +101,19 @@ class ObjectManager
         return false;
     }
 
-    public function updateStyleId(int $style_id)
+    public function updateStyleId(int $style_id) : void
     {
-        \ilObjStyleSheet::writeStyleUsage($this->obj_id, $style_id);
+        ilObjStyleSheet::writeStyleUsage($this->obj_id, $style_id);
     }
 
-    public function setOwnerOfStyle(int $style_id)
+    public function setOwnerOfStyle(int $style_id) : void
     {
-        \ilObjStyleSheet::writeOwner($this->obj_id, $style_id);
+        ilObjStyleSheet::writeOwner($this->obj_id, $style_id);
     }
 
     public function getStyleId() : int
     {
-        return \ilObjStyleSheet::lookupObjectStyle($this->obj_id);
+        return ilObjStyleSheet::lookupObjectStyle($this->obj_id);
     }
 
     /**
@@ -145,13 +122,13 @@ class ObjectManager
     public function cloneTo(int $obj_id) : void
     {
         $style_id = $this->getStyleId();
-        if ($style_id > 0 && !\ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = \ilObjectFactory::getInstanceByObjId($style_id);
+        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
+            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
             $new_id = $style_obj->ilClone();
-            \ilObjStyleSheet::writeStyleUsage($obj_id, $new_id);
-            \ilObjStyleSheet::writeOwner($obj_id, $new_id);
+            ilObjStyleSheet::writeStyleUsage($obj_id, $new_id);
+            ilObjStyleSheet::writeOwner($obj_id, $new_id);
         } else {
-            \ilObjStyleSheet::writeStyleUsage($obj_id, $style_id);
+            ilObjStyleSheet::writeStyleUsage($obj_id, $style_id);
         }
     }
 
@@ -163,12 +140,12 @@ class ObjectManager
         if ($this->ref_id > 0) {
             $tree = $this->domain_service->repositoryTree();
             $parent_ref_id = $tree->getParentId($this->ref_id);
-            $parent_id = \ilObject::_lookupObjId((int) $parent_ref_id);
-            $obj_id = \ilObject::_lookupObjId($this->ref_id);
-            $style_id = \ilObjStyleSheet::lookupObjectStyle($parent_id);
+            $parent_id = ilObject::_lookupObjId((int) $parent_ref_id);
+            $obj_id = ilObject::_lookupObjId($this->ref_id);
+            $style_id = ilObjStyleSheet::lookupObjectStyle($parent_id);
             if ($style_id > 0) {
-                if (\ilObjStyleSheet::_lookupStandard($style_id)) {
-                    \ilObjStyleSheet::writeStyleUsage($obj_id, $style_id);
+                if (ilObjStyleSheet::_lookupStandard($style_id)) {
+                    ilObjStyleSheet::writeStyleUsage($obj_id, $style_id);
                 }
             }
         }
@@ -197,7 +174,7 @@ class ObjectManager
             $style_id = $settings->get("default_content_style_id");
         }
 
-        if ($style_id > 0 && \ilObject::_lookupType($style_id) == "sty") {
+        if ($style_id > 0 && ilObject::_lookupType($style_id) == "sty") {
             return $style_id;
         }
         return 0;

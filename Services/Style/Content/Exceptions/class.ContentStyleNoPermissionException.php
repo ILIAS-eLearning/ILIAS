@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,11 +15,12 @@
 
 namespace ILIAS\Style\Content;
 
+use ilException;
+
 /**
  * No permission for style exception
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ContentStyleNoPermissionException extends \ilException
+class ContentStyleNoPermissionException extends ilException
 {
 }

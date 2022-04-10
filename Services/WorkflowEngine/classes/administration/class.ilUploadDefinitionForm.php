@@ -16,7 +16,7 @@ require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 class ilUploadDefinitionForm
 {
     /** @var ilPropertyFormGUI $form */
-    protected $form;
+    protected ilPropertyFormGUI $form;
 
     /** @var \ilLanguage $lng */
     protected $lng;
@@ -28,7 +28,7 @@ class ilUploadDefinitionForm
         $this->lng = $DIC['lng'];
     }
 
-    public function getForm($action)
+    public function getForm(string $action) : ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($action);

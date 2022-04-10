@@ -19,20 +19,17 @@
 */
 class ilECSCommunityTableGUI extends ilTable2GUI
 {
-    private ilLanguage $language;
     private ilAccessHandler $access;
     
 
     private ilECSSetting $server;
-    private int $cid;
-    
+
     public function __construct(ilECSSetting $set, ?object $a_parent_obj, string $a_parent_cmd, int $cid)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
         
-        $this->language = $DIC->language();
         $this->access = $DIC->access();
 
         // TODO: set id
@@ -53,7 +50,6 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('participants');
         $this->setDefaultOrderDirection("desc");
 
-        $this->cid = $cid;
         $this->server = $set;
     }
 
@@ -70,7 +66,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
      *
      * @param array row data
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('S_ID', $this->getServer()->getServerId());
         $this->tpl->setVariable('M_ID', $a_set['mid']);
@@ -199,6 +195,6 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             $def[] = $tmp_arr;
         }
         
-        $this->setData($def ? $def : array());
+        $this->setData($def ?? []);
     }
 }

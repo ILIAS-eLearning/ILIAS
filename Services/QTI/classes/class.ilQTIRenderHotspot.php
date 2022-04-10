@@ -34,32 +34,24 @@ const SHOWDRAW_YES = "2";
 */
 class ilQTIRenderHotspot
 {
-    /** @var string */
-    public $showdraw;
-
-    /** @var string|null */
-    public $minnumber;
-
-    /** @var string|null */
-    public $maxnumber;
-
+    public string $showdraw;
+    public ?string $minnumber;
+    public ?string $maxnumber;
     /** @var ilQTIResponseLabel[] */
-    public $response_labels;
-
+    public array $response_labels;
     /** @var ilQTIMaterial[] */
-    public $material;
+    public array $material;
 
     public function __construct()
     {
         $this->showdraw = SHOWDRAW_NO;
-        $this->response_labels = array();
-        $this->material = array();
+        $this->minnumber = null;
+        $this->maxnumber = null;
+        $this->response_labels = [];
+        $this->material = [];
     }
 
-    /**
-     * @param string $a_showdraw
-     */
-    public function setShowdraw($a_showdraw) : void
+    public function setShowdraw(string $a_showdraw) : void
     {
         switch (strtolower($a_showdraw)) {
             case "1":
@@ -73,52 +65,37 @@ class ilQTIRenderHotspot
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getShowdraw()
+    public function getShowdraw() : string
     {
         return $this->showdraw;
     }
 
-    /**
-     * @param string $a_minnumber
-     */
-    public function setMinnumber($a_minnumber) : void
+    public function setMinnumber(string $a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMinnumber()
+    public function getMinnumber() : ?string
     {
         return $this->minnumber;
     }
 
-    /**
-     * @param string $a_maxnumber
-     */
-    public function setMaxnumber($a_maxnumber) : void
+    public function setMaxnumber(string $a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMaxnumber()
+    public function getMaxnumber() : ?string
     {
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label) : void
+    public function addResponseLabel(ilQTIResponseLabel $a_response_label) : void
     {
         $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material) : void
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
         $this->material[] = $a_material;
     }

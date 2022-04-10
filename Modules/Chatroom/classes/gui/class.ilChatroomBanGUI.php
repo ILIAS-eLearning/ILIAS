@@ -9,13 +9,13 @@
  */
 class ilChatroomBanGUI extends ilChatroomGUIHandler
 {
-    private ilCtrl $controller;
+    private ilCtrlInterface $controller;
     private ilLanguage $language;
     private ilObjUser $user;
 
     public function __construct(
         ilChatroomObjectGUI $gui,
-        ilCtrl $controller = null,
+        ilCtrlInterface $controller = null,
         ilLanguage $language = null,
         ilObjUser $user = null
     ) {

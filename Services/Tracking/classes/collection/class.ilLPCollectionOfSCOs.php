@@ -14,25 +14,30 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     public function getPossibleItems() : array
     {
         if (!isset(self::$possible_items[$this->obj_id])) {
-
             $items = array();
 
             switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
                 case 'hacp':
                 case 'aicc':
-                    foreach (ilObjAICCLearningModule::_getTrackingItems($this->obj_id) as $item) {
+                    foreach (ilObjAICCLearningModule::_getTrackingItems(
+                        $this->obj_id
+                    ) as $item) {
                         $items[$item['obj_id']]['title'] = $item['title'];
                     }
                     break;
 
                 case 'scorm':
-                    foreach (ilObjSCORMLearningModule::_getTrackingItems($this->obj_id) as $item) {
+                    foreach (ilObjSCORMLearningModule::_getTrackingItems(
+                        $this->obj_id
+                    ) as $item) {
                         $items[$item->getId()]['title'] = $item->getTitle();
                     }
                     break;
 
                 case 'scorm2004':
-                    foreach (ilObjSCORM2004LearningModule::_getTrackingItems($this->obj_id) as $item) {
+                    foreach (ilObjSCORM2004LearningModule::_getTrackingItems(
+                        $this->obj_id
+                    ) as $item) {
                         $items[$item['id']]['title'] = $item['title'];
                     }
                     break;
@@ -68,18 +73,26 @@ class ilLPCollectionOfSCOs extends ilLPCollection
     //
 
     // see ilSCORMCertificateAdapter
-    public function getScoresForUserAndCP_Node_Id(int $item_id, int $user_id) : array
-    {
+    public function getScoresForUserAndCP_Node_Id(
+        int $item_id,
+        int $user_id
+    ) : array {
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
             case 'hacp':
             case 'aicc':
-                return ilObjAICCLearningModule::_getScoresForUser($item_id, $user_id);
+                return ilObjAICCLearningModule::_getScoresForUser(
+                    $item_id, $user_id
+                );
 
             case 'scorm':
-                return ilObjSCORMLearningModule::_getScoresForUser($item_id, $user_id);
+                return ilObjSCORMLearningModule::_getScoresForUser(
+                    $item_id, $user_id
+                );
 
             case 'scorm2004':
-                return ilObjSCORM2004LearningModule::_getScores2004ForUser($item_id, $user_id);
+                return ilObjSCORM2004LearningModule::_getScores2004ForUser(
+                    $item_id, $user_id
+                );
         }
 
         return array("raw" => null, "max" => null, "scaled" => null);
@@ -110,10 +123,20 @@ class ilLPCollectionOfSCOs extends ilLPCollection
         global $DIC;
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
             case 'scorm':
-                $res_a = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote($item_a_id,
-                        'integer'))->fetchAssoc();
-                $res_b = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote($item_b_id,
-                        'integer'))->fetchAssoc();
+                $res_a = $DIC->database()->query(
+                    'SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database(
+                    )->quote(
+                        $item_a_id,
+                        'integer'
+                    )
+                )->fetchAssoc();
+                $res_b = $DIC->database()->query(
+                    'SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database(
+                    )->quote(
+                        $item_b_id,
+                        'integer'
+                    )
+                )->fetchAssoc();
                 return (
                     $res_a
                     && $res_b
@@ -121,10 +144,20 @@ class ilLPCollectionOfSCOs extends ilLPCollection
                     && ($res_a['identifierref'] == $res_b['identifierref'])
                 );
             case 'scorm2004':
-                $res_a = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote($item_a_id,
-                        'integer'))->fetchAssoc();
-                $res_b = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote($item_b_id,
-                        'integer'))->fetchAssoc();
+                $res_a = $DIC->database()->query(
+                    'SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database(
+                    )->quote(
+                        $item_a_id,
+                        'integer'
+                    )
+                )->fetchAssoc();
+                $res_b = $DIC->database()->query(
+                    'SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database(
+                    )->quote(
+                        $item_b_id,
+                        'integer'
+                    )
+                )->fetchAssoc();
                 return (
                     $res_a
                     && $res_b

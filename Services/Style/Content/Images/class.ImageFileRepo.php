@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,6 +18,9 @@ namespace ILIAS\Style\Content;
 use ILIAS\Filesystem;
 use ILIAS\Data\DataSize;
 use ILIAS\FileUpload\FileUpload;
+use Generator;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\FileUpload\Location;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,18 +46,18 @@ class ImageFileRepo
     // get image directory
     protected function dir(int $style_id) : string
     {
-        return str_replace("%id%", $style_id, self::DIR_PATH);
+        return str_replace("%id%", (string) $style_id, self::DIR_PATH);
     }
 
     /**
      * Get images of style
      * @param int $style_id
-     * @return \Generator
+     * @return Generator
      * @throws Filesystem\Exception\DirectoryNotFoundException
      */
     public function getImages(
         int $style_id
-    ) : \Generator {
+    ) : Generator {
         $dir = $this->dir($style_id);
         if ($this->web_files->hasDir($dir)) {
             foreach ($this->web_files->listContents($dir) as $meta) {
@@ -111,8 +114,8 @@ class ImageFileRepo
         if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
             $upload->process();
             $result = array_values($upload->getResults())[0];
-            if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
-                $upload->moveFilesTo($dir, \ILIAS\FileUpload\Location::WEB);
+            if ($result->getStatus() == ProcessingStatus::OK) {
+                $upload->moveFilesTo($dir, Location::WEB);
             }
         }
     }

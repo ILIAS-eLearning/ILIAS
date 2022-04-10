@@ -1183,7 +1183,8 @@ class ilObjectListGUI
 
         // see bug #16519
         $d = $this->getDescription();
-        $d = strip_tags($d, "<b>");
+        // even b tag produced bugs, see #32304
+        $d = strip_tags($d);
         $this->tpl->setCurrentBlock("item_description");
         $this->tpl->setVariable("TXT_DESC", $d);
         $this->tpl->parseCurrentBlock();
@@ -3083,6 +3084,9 @@ class ilObjectListGUI
     ) : ?Item {
         $ui = $this->ui;
 
+        // even b tag produced bugs, see #32304
+        $description = strip_tags($description);
+
         $this->initItem(
             $ref_id,
             $obj_id,
@@ -3188,6 +3192,9 @@ class ilObjectListGUI
         string $description
     ) : ?RepositoryObject {
         $ui = $this->ui;
+
+        // even b tag produced bugs, see #32304
+        $description = strip_tags($description);
 
         $this->initItem(
             $ref_id,

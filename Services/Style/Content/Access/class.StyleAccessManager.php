@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,6 +15,8 @@
 
 namespace ILIAS\Style\Content\Access;
 
+use ilRbacSystem;
+
 /**
  * Manages access to content style editing
  * @author Alexander Killing <killing@leifos.de>
@@ -24,9 +26,9 @@ class StyleAccessManager
     protected bool $enable_write = false;
     protected int $ref_id = 0;
     protected int $user_id = 0;
-    protected \ilRbacSystem $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
 
-    public function __construct(\ilRbacSystem $rbacsystem = null, int $ref_id = 0, int $user_id = 0)
+    public function __construct(ilRbacSystem $rbacsystem = null, int $ref_id = 0, int $user_id = 0)
     {
         global $DIC;
 

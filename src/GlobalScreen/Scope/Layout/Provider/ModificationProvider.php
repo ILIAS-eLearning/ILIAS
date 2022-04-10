@@ -32,7 +32,9 @@ interface ModificationProvider extends Provider, ScreenContextAwareProvider
      * @return LogoModification|null
      */
     public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification;
-    
+
+    public function getResponsiveLogoModification(CalledContexts $screen_context_stack) : ?LogoModification;
+
     /**
      * @param CalledContexts $screen_context_stack
      * @return MainBarModification|null

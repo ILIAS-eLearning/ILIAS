@@ -57,7 +57,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
     {
         return $this->child_id;
     }
-
+    
     public function getCommandLink(string $cmd) : string
     {
         $ilCtrl = $this->ctrl;
@@ -109,7 +109,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 
         return $cmd_link;
     }
-
+    
     public function getCommandFrame(string $cmd) : string
     {
         switch ($cmd) {
@@ -144,15 +144,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 
         return $props;
     }
-
-    public function getCommandImage(string $cmd) : string
-    {
-        switch ($cmd) {
-            default:
-                return "";
-        }
-    }
-
+    
     public function getInfoScreenStatus() : bool
     {
         return ilObjContentObjectAccess::isInfoEnabled($this->obj_id);

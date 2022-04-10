@@ -11,7 +11,7 @@
             <parent id="adm">adm</parent>
 		</object>
 		<object id="role" class_name="Role" dir="classes"
-			checkbox="1" inherit="0" translate="0" rbac="0">
+			checkbox="1" inherit="0" translate="0" rbac="0" administration="1">
 		</object>
 		<object id="rolt" class_name="RoleTemplate" dir="classes"
 			checkbox="1" inherit="0" translate="0" rbac="0">

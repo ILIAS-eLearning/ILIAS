@@ -140,7 +140,7 @@ class ilLMObject
     /**
     * update meta data entry
     */
-    public function updateMetaData()
+    public function updateMetaData() : void
     {
         $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
         $md_gen = $md->getGeneral();
@@ -476,8 +476,8 @@ class ilLMObject
             $childs = $lm_tree->getChilds($row["obj_id"]);
             
             foreach ($childs as $page) {
-                if ($page["type"] == "pg" and in_array($page["obj_id"], $a_pages)) {
-                    array_push($a_pages, $row["obj_id"]);
+                if ($page["type"] === "pg" and in_array($page["obj_id"], $a_pages)) {
+                    $a_pages[] = $row["obj_id"];
                     break;
                 }
             }
@@ -854,8 +854,8 @@ class ilLMObject
     }
     
     /**
-    * Paste item (tree) from clipboard to current lm
-    */
+     * Paste item (tree) from clipboard to current lm
+     */
     public static function pasteTree(
         ilObjLearningModule $a_target_lm,
         int $a_item_id,
@@ -865,7 +865,7 @@ class ilLMObject
         array &$a_copied_nodes,
         bool $a_as_copy = false,
         ?ilObjLearningModule $a_source_lm = null
-    ) {
+    ) : int {
         global $DIC;
 
         $item = null;
@@ -1175,7 +1175,7 @@ class ilLMObject
         int $a_obj_id,
         string $a_layout,
         ?ilObjLearningModule $a_lm = null
-    ) {
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();

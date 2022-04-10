@@ -9,17 +9,17 @@ use ILIAS\Setup\ArrayEnvironment;
 
 class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
-    public $called = [];
+    public array $called = [];
 
     protected ?ilDBInterface $db = null;
 
-    public function prepare(ilDBInterface $db)
+    public function prepare(ilDBInterface $db) : void
     {
         $this->db = $db;
     }
 
 
-    public function step_1()
+    public function step_1() : void
     {
         $this->called[] = 1;
         // Call some function on the interface to check if this step
@@ -28,7 +28,7 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     }
 
     // 4 comes before 2 to check if the class gets the sorting right
-    public function step_4()
+    public function step_4() : void
     {
         $this->called[] = 4;
         // Call some function on the interface to check if this step
@@ -36,7 +36,7 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         $this->db->connect();
     }
 
-    public function step_2()
+    public function step_2() : void
     {
         $this->called[] = 2;
         // Call some function on the interface to check if this step
@@ -56,7 +56,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
         $this->objective = new ilDatabaseUpdateStepsExecutedObjective($this->steps);
     }
 
-    public function testCorrectExecutionOrder()
+    public function testCorrectExecutionOrder() : void
     {
         $execution_log = new class() implements ilDatabaseUpdateStepExecutionLog {
             public function started(string $class, int $step) : void
@@ -91,12 +91,12 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
         $this->assertEquals([1,2,4], $this->steps->called);
     }
 
-    public function testUsesExecutionLock()
+    public function testUsesExecutionLock() : void
     {
         $execution_log = new class($this) implements ilDatabaseUpdateStepExecutionLog {
-            protected $test;
+            protected ilDatabaseUpdateStepsExecutedObjectiveTest $test;
 
-            public function __construct($test)
+            public function __construct(ilDatabaseUpdateStepsExecutedObjectiveTest $test)
             {
                 $this->test = $test;
             }
@@ -143,7 +143,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
         $this->assertEquals($expected, $this->steps->called);
     }
 
-    public function testOnlyExecuteNonExecutedSteps()
+    public function testOnlyExecuteNonExecutedSteps() : void
     {
         $execution_log = new class() implements ilDatabaseUpdateStepExecutionLog {
             public function started(string $class, int $step) : void
@@ -178,7 +178,7 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
         $this->assertEquals([2,4], $this->steps->called);
     }
 
-    public function testExceptionOnNonMatchingStartAndFinished()
+    public function testExceptionOnNonMatchingStartAndFinished() : void
     {
         $this->expectException(RuntimeException::class);
 

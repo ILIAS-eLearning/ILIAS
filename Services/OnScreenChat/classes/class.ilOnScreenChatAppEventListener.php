@@ -31,7 +31,7 @@ class ilOnScreenChatAppEventListener implements ilAppEventListener
 
                         $message = [
                             $a_parameter['user']->getId() => [
-                                'acceptsMessages' => ilUtil::yn2tf($a_parameter['user']->getPref('chat_osc_accept_msg')),
+                                'acceptsMessages' => ilUtil::yn2tf((string) $a_parameter['user']->getPref('chat_osc_accept_msg')),
                             ]
                         ];
 

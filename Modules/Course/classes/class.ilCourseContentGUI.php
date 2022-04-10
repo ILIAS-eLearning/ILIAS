@@ -13,6 +13,7 @@ use ILIAS\Refinery\Factory;
  */
 class ilCourseContentGUI
 {
+    protected ilGlobalTemplateInterface $main_tpl;
     protected ilContainerGUI $container_gui;
     protected ilContainer $container_obj;
     protected ilObjCourse $course_obj;
@@ -33,8 +34,8 @@ class ilCourseContentGUI
     public function __construct(ilContainerGUI $container_gui_obj)
     {
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
 
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -282,7 +283,9 @@ class ilCourseContentGUI
         }
         $this->tabs->clearSubTabs();
         $failed = array();
-        foreach ((array) $_POST['item'] as $ref_id => $data) {
+
+        $post_item = (array) ($this->http->request()->getParsedBody()['item']) ?? [];
+        foreach ($post_item as $ref_id => $data) {
             $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
             $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
 
@@ -298,7 +301,6 @@ class ilCourseContentGUI
                 $tu->update();
             } else {
                 $failed['ref_id'] = 'crs_timing_err_valid_dates';
-                continue;
             }
         }
         if (!$failed) {
@@ -430,7 +432,8 @@ class ilCourseContentGUI
 
         $failed = array();
         $all_items = array();
-        foreach ((array) $_POST['item'] as $ref_id => $data) {
+        $post_item = (array) ($this->http->request()->getParsedBody()['item']) ?? [];
+        foreach ($post_item as $ref_id => $data) {
             $item_obj = new ilObjectActivation();
             $item_obj->read($ref_id);
 

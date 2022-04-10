@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilStartingPoint
  * @author       Jesús López <lopez@leifos.com>
@@ -17,15 +31,15 @@ class ilStartingPoint
     public const FALLBACK_RULE = 1;
     public const ROLE_BASED = 2;
     public const USER_SELECTION_RULE = 3;
-
-    protected $starting_point;
-    protected $starting_object;
-    protected $starting_position;
-    protected $rule_type;
-    protected $rule_options; // array serialized in db
+    
+    protected ?int $starting_point = null;
+    protected ?int $starting_object = null;
+    protected ?int $starting_position = null;
+    protected ?int $rule_type = null;
+    protected ?string $rule_options = null; // array serialized in db
     protected int $id;
-    protected $calendar_view;
-    protected $calendar_period;
+    protected ?int $calendar_view = null;
+    protected ?int $calendar_period = null;
 
     protected ilDBInterface $db;
 
@@ -104,7 +118,6 @@ class ilStartingPoint
 
     /**
      * Gets calendar view
-     * @return int
      */
     public function getCalendarView() : int
     {
@@ -113,7 +126,6 @@ class ilStartingPoint
 
     /**
      * Sets calendar view
-     * @param int $calendar_view
      */
     public function setCalendarView(int $calendar_view) : void
     {
@@ -130,14 +142,13 @@ class ilStartingPoint
         $this->calendar_period = $calendar_period;
     }
 
-    public function getRuleOptions() : int
+    public function getRuleOptions() : ?string
     {
         return $this->rule_options;
     }
 
     /**
      * Get all the starting points in database
-     * @return array
      */
     public static function getStartingPoints() : array
     {
@@ -167,7 +178,7 @@ class ilStartingPoint
     public static function onRoleDeleted(ilObjRole $role) : void
     {
         foreach (self::getRolesWithStartingPoint() as $roleId => $data) {
-            if ((int) $roleId === (int) $role->getId()) {
+            if ((int) $roleId === $role->getId()) {
                 $sp = new self((int) $data['id']);
                 $sp->delete();
             } elseif (
@@ -183,19 +194,19 @@ class ilStartingPoint
     /**
      * get array with all roles which have starting point defined.
      */
-    public static function getRolesWithStartingPoint()
+    public static function getRolesWithStartingPoint() : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $query = "SELECT * FROM usr_starting_point WHERE rule_options LIKE %s";
-        $res = $ilDB->queryF($query, array('text'), array("%role_id%"));
+        $res = $ilDB->queryF($query, ['text'], ["%role_id%"]);
 
-        $roles = array();
+        $roles = [];
         while ($sp = $ilDB->fetchAssoc($res)) {
             $options = unserialize($sp['rule_options']);
 
-            $roles[$options['role_id']] = array(
+            $roles[$options['role_id']] = [
                 "id" => (int) $sp['id'],
                 "starting_point" => (int) $sp['starting_point'],
                 "starting_object" => (int) $sp['starting_object'],
@@ -204,14 +215,13 @@ class ilStartingPoint
                 "position" => (int) $sp['position'],
                 "role_id" => (int) $options['role_id'],
 
-            );
+            ];
         }
         return $roles;
     }
 
     /**
      * Get id and title of the roles without starting points
-     * @return array
      */
     public static function getGlobalRolesWithoutStartingPoint() : array
     {
@@ -223,7 +233,7 @@ class ilStartingPoint
 
         $ids_roles_with_sp = array();
         foreach ($roles_with_starting_point as $role) {
-            array_push($ids_roles_with_sp, $role['role_id']);
+            $ids_roles_with_sp[] = $role['role_id'];
         }
 
         $ids_roles_without_sp = array_diff($global_roles, $ids_roles_with_sp);
@@ -337,10 +347,10 @@ class ilStartingPoint
     {
         $ord_const = 0;
         $rearranged = [];
-        foreach ($a_items as $k => $v) {
+        foreach ($a_items as $v) {
             $v['starting_position'] = $ord_const;
             $rearranged[$ord_const] = $v;
-            $ord_const = $ord_const + 10;
+            $ord_const += 10;
         }
         return $rearranged;
     }

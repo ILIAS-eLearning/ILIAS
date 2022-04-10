@@ -12,7 +12,9 @@ class ilLPStatusVisitedPages extends ilLPStatus
     public static function _getInProgress(int $a_obj_id) : array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-        $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+        $users = array_diff(
+            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+        );
         return $users;
     }
 
@@ -21,7 +23,9 @@ class ilLPStatusVisitedPages extends ilLPStatus
         $users = array();
 
         $all_page_ids = self::getLMPages($a_obj_id);
-        foreach (self::getVisitedPages($a_obj_id) as $user_id => $user_page_ids) {
+        foreach (self::getVisitedPages(
+            $a_obj_id
+        ) as $user_id => $user_page_ids) {
             if (!(bool) sizeof(array_diff($all_page_ids, $user_page_ids))) {
                 $users[] = $user_id;
             }
@@ -30,8 +34,11 @@ class ilLPStatusVisitedPages extends ilLPStatus
         return $users;
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch (ilObject::_lookupType($a_obj_id)) {
             case 'lm':
@@ -48,8 +55,11 @@ class ilLPStatusVisitedPages extends ilLPStatus
         return $status;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
-    {
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ) : int {
         $all_page_ids = sizeof(self::getLMPages($a_obj_id));
         if (!$all_page_ids) {
             return 0;
@@ -58,8 +68,10 @@ class ilLPStatusVisitedPages extends ilLPStatus
         return (int) floor($user_page_ids / $all_page_ids * 100);
     }
 
-    protected static function hasVisitedAllPages(int $a_obj_id, int $a_user_id) : bool
-    {
+    protected static function hasVisitedAllPages(
+        int $a_obj_id,
+        int $a_user_id
+    ) : bool {
         $all_page_ids = self::getLMPages($a_obj_id);
         if (!sizeof($all_page_ids)) {
             return false;
@@ -76,11 +88,13 @@ class ilLPStatusVisitedPages extends ilLPStatus
 
         $res = array();
 
-        $set = $ilDB->query("SELECT lm_data.obj_id" .
+        $set = $ilDB->query(
+            "SELECT lm_data.obj_id" .
             " FROM lm_data" .
             " JOIN lm_tree ON (lm_tree.child = lm_data.obj_id)" .
             " WHERE lm_tree.lm_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND lm_data.type = " . $ilDB->quote("pg", "text"));
+            " AND lm_data.type = " . $ilDB->quote("pg", "text")
+        );
         while ($row = $ilDB->fetchAssoc($set)) {
             // only active pages (time-based activation not supported)
             if (ilPageObject::_lookupActive($row["obj_id"], "lm")) {
@@ -90,8 +104,10 @@ class ilLPStatusVisitedPages extends ilLPStatus
         return $res;
     }
 
-    protected static function getVisitedPages(int $a_obj_id, ?int $a_user_id = null) : array
-    {
+    protected static function getVisitedPages(
+        int $a_obj_id,
+        ?int $a_user_id = null
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

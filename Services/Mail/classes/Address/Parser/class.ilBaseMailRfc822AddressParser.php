@@ -8,7 +8,7 @@
 abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
 {
     /**
-     * @param string A comma separated list of email addresses
+     * @var string A comma separated list of email addresses
      */
     protected string $addresses = '';
     protected string $installationHost = '';

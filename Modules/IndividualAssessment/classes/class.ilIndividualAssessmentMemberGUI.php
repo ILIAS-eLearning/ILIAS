@@ -386,7 +386,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    protected function getInfoResult(string $identifier) : FileInfoResult
+    public function getInfoResult(string $identifier) : FileInfoResult
     {
         $filename = $this->getFileName();
         if ($filename != $identifier) {

@@ -31,33 +31,27 @@ class ilMailCronOrphanedMailsDeletionCollector
         $now = time();
 
         if ($mail_notify_orphaned > 0) {
-            if ($last_cron_start_ts !== null) {
-                if ($mail_only_inbox_trash) {
-                    // überprüfen ob die mail in einen anderen Ordner verschoben wurde
-                    // selektiere die, die tatsächlich gelöscht werden sollen
-                    $res = $this->db->queryF(
-                        "
-						SELECT * FROM mail_cron_orphaned 
-						INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
-						WHERE ts_do_delete <= %s
-						AND (mdata.m_type = %s OR mdata.m_type = %s)",
-                        ['integer', 'text', 'text'],
-                        [$now, 'inbox', 'trash']
-                    );
-                } else {
-                    // selektiere alle zu löschenden mails unabhängig vom ordner..
-                    $res = $this->db->queryF(
-                        "
-					SELECT * FROM mail_cron_orphaned 
-					WHERE ts_do_delete <= %s",
-                        ['integer'],
-                        [$now]
-                    );
-                }
-                
-                while ($row = $this->db->fetchAssoc($res)) {
-                    $this->addMailIdToDelete((int) $row['mail_id']);
-                }
+            if ($mail_only_inbox_trash) {
+                // überprüfen ob die mail in einen anderen Ordner verschoben wurde
+                // selektiere die, die tatsächlich gelöscht werden sollen
+                $res = $this->db->queryF(
+                    "
+                    SELECT * FROM mail_cron_orphaned 
+                    INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
+                    WHERE ts_do_delete <= %s
+                    AND (mdata.m_type = %s OR mdata.m_type = %s)",
+                    ['integer', 'text', 'text'],
+                    [$now, 'inbox', 'trash']
+                );
+            } else {
+                // selektiere alle zu löschenden mails unabhängig vom ordner..
+                $res = $this->db->queryF(
+                    "
+                SELECT * FROM mail_cron_orphaned 
+                WHERE ts_do_delete <= %s",
+                    ['integer'],
+                    [$now]
+                );
             }
         } else {
             // mails sollen direkt ohne vorheriger notification gelöscht werden.
@@ -81,9 +75,10 @@ class ilMailCronOrphanedMailsDeletionCollector
             }
 
             $res = $this->db->queryF($mails_query, $types, $data);
-            while ($row = $this->db->fetchAssoc($res)) {
-                $this->addMailIdToDelete((int) $row['mail_id']);
-            }
+        }
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $this->addMailIdToDelete((int) $row['mail_id']);
         }
     }
 

@@ -23,6 +23,10 @@
  */
 class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 {
+    /**
+     * @param mixed $a_data
+     * @throws ilCtrlException
+     */
     public function __construct(
         $a_data,
         int $a_id,

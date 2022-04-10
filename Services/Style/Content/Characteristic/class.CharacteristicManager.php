@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
 namespace ILIAS\Style\Content;
 
 use ILIAS\Style\Content\Access;
+use ilObjUser;
+use ilObjStyleSheet;
 
 /**
  * Main business logic for characteristics
@@ -25,7 +27,7 @@ class CharacteristicManager
 {
     protected CharacteristicDBRepo $repo;
     protected ColorDBRepo $color_repo;
-    protected \ilObjUser $user;
+    protected ilObjUser $user;
     protected Access\StyleAccessManager $access_manager;
     protected CharacteristicCopyPasteSessionRepo $session;
     protected int $style_id;
@@ -36,7 +38,7 @@ class CharacteristicManager
         CharacteristicDBRepo $char_repo,
         CharacteristicCopyPasteSessionRepo $char_copy_paste_repo,
         ColorDBRepo $color_repo,
-        \ilObjUser $user
+        ilObjUser $user
     ) {
         $this->user = $user;
         $this->repo = $char_repo;
@@ -58,7 +60,7 @@ class CharacteristicManager
             $hidden
         );
 
-        \ilObjStyleSheet::_writeUpToDate($this->style_id, false);
+        ilObjStyleSheet::_writeUpToDate($this->style_id, false);
     }
 
     /**
@@ -131,7 +133,6 @@ class CharacteristicManager
 
     /**
      * Get characteristic by key
-     * @return Characteristic|null
      */
     public function getPresentationTitle(
         string $type,
@@ -144,7 +145,7 @@ class CharacteristicManager
             $characteristic
         );
 
-        $titles = $char->getTitles();
+        $titles = $char ? $char->getTitles() : [];
 
         $lang = $this->user->getLanguage();
 
@@ -247,14 +248,14 @@ class CharacteristicManager
     public function deleteCharacteristic(
         string $type,
         string $class
-    ) {
+    ) : void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }
-        $tag = \ilObjStyleSheet::_determineTag($type);
+        $tag = ilObjStyleSheet::_determineTag($type);
 
         // check, if characteristic is not a core style
-        $core_styles = \ilObjStyleSheet::_getCoreStyles();
+        $core_styles = ilObjStyleSheet::_getCoreStyles();
         if (empty($core_styles[$type . "." . $tag . "." . $class])) {
             $this->repo->deleteCharacteristic(
                 $this->style_id,
@@ -264,13 +265,13 @@ class CharacteristicManager
             );
         }
 
-        \ilObjStyleSheet::_writeUpToDate($this->style_id, false);
+        ilObjStyleSheet::_writeUpToDate($this->style_id, false);
     }
 
     public function setCopyCharacteristics(
         string $style_type,
         array $characteristics
-    ) {
+    ) : void {
         $this->session->set($this->style_id, $style_type, $characteristics);
     }
 
@@ -331,7 +332,7 @@ class CharacteristicManager
         $this->addCharacteristic($source_style_type, $new_char);
         $this->saveTitles($source_style_type, $new_char, $new_titles);
 
-        $from_style = new \ilObjStyleSheet($source_style_id);
+        $from_style = new ilObjStyleSheet($source_style_id);
 
         // todo fix using mq_id
         $pars = $from_style->getParametersOfClass($source_style_type, $source_char);
@@ -342,7 +343,7 @@ class CharacteristicManager
                 $colors[] = substr($v, 1);
             }
             $this->replaceParameter(
-                \ilObjStyleSheet::_determineTag($source_style_type),
+                ilObjStyleSheet::_determineTag($source_style_type),
                 $new_char,
                 $p,
                 $v,

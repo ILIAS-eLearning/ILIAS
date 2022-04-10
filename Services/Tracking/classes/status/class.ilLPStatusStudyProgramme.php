@@ -35,8 +35,11 @@ class ilLPStatusStudyProgramme extends ilLPStatus
         return $prg->getIdsOfUsersWithFailedProgress();
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         $progresses = $prg->getProgressesOf($a_usr_id);
 

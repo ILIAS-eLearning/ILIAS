@@ -41,7 +41,7 @@ class ilLMNavigationStatus
         ilLMTree $lm_tree,
         ilObjLearningModule $lm,
         ilSetting $lm_set,
-        $requested_back_page,
+        string $requested_back_page,
         string $cmd,
         int $focus_id
     ) {

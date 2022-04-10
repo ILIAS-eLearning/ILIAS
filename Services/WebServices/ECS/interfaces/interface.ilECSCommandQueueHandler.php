@@ -23,22 +23,16 @@ interface ilECSCommandQueueHandler
 {
     /**
      * Handle create event
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleCreate(ilECSSetting $server, $a_content_id);
+    public function handleCreate(ilECSSetting $server, int $a_content_id) : bool;
     
     /**
      * Handle update
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleUpdate(ilECSSetting $server, $a_content_id);
+    public function handleUpdate(ilECSSetting $server, int $a_content_id) : bool;
     
     /**
      * Handle delete action
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleDelete(ilECSSetting $server, $a_content_id);
+    public function handleDelete(ilECSSetting $server, int $a_content_id) : bool;
 }

@@ -7,13 +7,7 @@
  */
 interface ilQTIPresentationMaterialAware
 {
-    /**
-     * @param ilQTIPresentationMaterial $flow_mat
-     */
-    public function setPresentationMaterial(ilQTIPresentationMaterial $presentation_material);
+    public function setPresentationMaterial(ilQTIPresentationMaterial $presentation_material) : void;
 
-    /**
-     * @return ilQTIPresentationMaterial|null
-     */
-    public function getPresentationMaterial();
+    public function getPresentationMaterial() : ?ilQTIPresentationMaterial;
 }

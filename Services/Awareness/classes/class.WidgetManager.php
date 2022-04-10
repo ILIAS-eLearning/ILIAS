@@ -128,8 +128,8 @@ class WidgetManager
         }
         return true;
     }
-
-    public function processMetaBar()
+    
+    public function processMetaBar() : Counter
     {
         $cache_period = (int) $this->settings->get("caching_period");
         $last_update = $this->session_repo->getLastUpdate();

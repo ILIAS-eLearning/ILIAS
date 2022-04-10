@@ -9,7 +9,13 @@
  */
 class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
 {
+    /**
+     * @var string[]
+     */
     protected array $locked_table_full_names = [];
+    /**
+     * @var string[]
+     */
     protected array $locked_table_names = [];
 
 

@@ -27,6 +27,7 @@ use ILIAS\Awareness\InternalDomainService;
 class Collector
 {
     protected static ?array $online_users = null;
+    /** @var int[] */
     protected static array $online_user_ids = array();
     protected \ilRbacReview $rbacreview;
     protected Awareness\AdminManager $admin_manager;
@@ -37,6 +38,7 @@ class Collector
     protected int $user_id;
     protected int $ref_id;
     protected \ilSetting $settings;
+    protected InternalRepoService $repo_service;
 
     public function __construct(
         int $user_id,
@@ -53,8 +55,9 @@ class Collector
         $this->admin_manager = $domain_service
             ->admin($ref_id);
         $this->rbacreview = $domain_service->rbac()->review();
+        $this->repo_service = $repo_service;
     }
-
+    
     public static function getOnlineUsers() : array
     {
         if (self::$online_users === null) {
@@ -139,7 +142,7 @@ class Collector
 
         $remove_users = array();
 
-        if ($this->settings->get("hide_own_online_status") == "n") {
+        if ($this->settings->get("hide_own_online_status") === "n") {
             // remove all users with hide_own_online_status "y"
             foreach (\ilObjUser::getUserSubsetByPreferenceValue($all_users, "hide_own_online_status", "y") as $u) {
                 $remove_users[] = $u;
@@ -166,7 +169,7 @@ class Collector
 
         return $this->collections;
     }
-
+    
     public function collectUsersFromProvider(Provider $prov, ?array $online_users) : Collection
     {
         $coll = $this->data_service->userCollection();

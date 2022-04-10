@@ -1070,10 +1070,15 @@ class ilLOEditorGUI
 
     protected function saveSorting()
     {
-        asort($_POST['position'], SORT_NUMERIC);
-
+        $post_position = $this->http->wrapper()->post()->retrieve(
+            'position',
+            $this->refinery->kindlyTo()->dictOf(
+                $this->refinery->kindlyTo()->int()
+            )
+        );
+        asort($post_position, SORT_NUMERIC);
         $counter = 1;
-        foreach ($_POST['position'] as $objective_id => $position) {
+        foreach ($post_position as $objective_id => $position) {
             $objective = new ilCourseObjective($this->getParentObject(), $objective_id);
             $objective->writePosition($counter++);
         }
@@ -1091,7 +1096,16 @@ class ilLOEditorGUI
         $confirm->setConfirm($this->lng->txt('delete'), 'deleteObjectives');
         $confirm->setCancel($this->lng->txt('cancel'), 'listObjectives');
 
-        foreach ($_POST['objective'] as $objective_id) {
+        $objective_ids = [];
+        if ($this->http->wrapper()->post()->has('objective')) {
+            $objective_ids = $this->http->wrapper()->post()->retrieve(
+                'objective',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        foreach ($objective_ids as $objective_id) {
             $obj = new ilCourseObjective($this->getParentObject(), $objective_id);
             $name = $obj->getTitle();
 
@@ -1139,7 +1153,16 @@ class ilLOEditorGUI
 
     protected function deleteObjectives() : void
     {
-        foreach ($_POST['objective_ids'] as $objective_id) {
+        $objective_ids = [];
+        if ($this->http->wrapper()->post()->has('objective_ids')) {
+            $objective_ids = $this->http->wrapper()->post()->retrieve(
+                'objective_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        foreach ($objective_ids as $objective_id) {
             $objective_obj = new ilCourseObjective($this->getParentObject(), $objective_id);
             $objective_obj->delete();
         }

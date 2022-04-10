@@ -7,7 +7,6 @@
  */
 class ilLPStatusManual extends ilLPStatus
 {
-
     public static function _getInProgress(int $a_obj_id) : array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
@@ -38,8 +37,11 @@ class ilLPStatusManual extends ilLPStatus
     /**
      * Determine status
      */
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -54,10 +56,16 @@ class ilLPStatusManual extends ilLPStatus
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
                     // completed?
-                    $set = $this->db->query($q = "SELECT usr_id FROM ut_lp_marks " .
-                        "WHERE obj_id = " . $this->db->quote($a_obj_id, 'integer') . " " .
-                        "AND usr_id = " . $this->db->quote($a_usr_id, 'integer') . " " .
-                        "AND completed = '1' ");
+                    $set = $this->db->query(
+                        $q = "SELECT usr_id FROM ut_lp_marks " .
+                            "WHERE obj_id = " . $this->db->quote(
+                                $a_obj_id, 'integer'
+                            ) . " " .
+                            "AND usr_id = " . $this->db->quote(
+                                $a_usr_id, 'integer'
+                            ) . " " .
+                            "AND completed = '1' "
+                    );
                     if ($rec = $this->db->fetchAssoc($set)) {
                         $status = self::LP_STATUS_COMPLETED_NUM;
                     }
@@ -69,12 +77,14 @@ class ilLPStatusManual extends ilLPStatus
 
     /**
      * Get failed users for object
-     * @param int        $a_obj_id
+     * @param int $a_obj_id
      * @param array|null $a_user_ids
      * @return array
      */
-    public static function _lookupFailedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
-    {
+    public static function _lookupFailedForObject(
+        int $a_obj_id,
+        ?array $a_user_ids = null
+    ) : array {
         return array();
     }
 }

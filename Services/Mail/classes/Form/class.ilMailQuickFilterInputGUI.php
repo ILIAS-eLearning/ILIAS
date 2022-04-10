@@ -133,7 +133,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             $tpl->setVariable('STYLE_PAR');
         }
 
-        if (is_array($this->sub_items) && $this->sub_items) {
+        if ($this->sub_items !== []) {
             $tpl->setVariable('FIELD_ID', $this->getFieldId());
             $tpl->setVariable('TXT_PLACEHOLDER', $this->lng->txt('mail_filter_field_placeholder'));
             $tpl->setVariable('TXT_FILTER_MESSAGES_BY', $this->lng->txt('mail_filter_txt'));

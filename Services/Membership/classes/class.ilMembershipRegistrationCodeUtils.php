@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Stores registration keys for key based registration on courses and groups
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -17,7 +33,6 @@ class ilMembershipRegistrationCodeUtils
 
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
-        $ilUser = $DIC->user();
 
         $lng->loadLanguageModule($a_type);
         try {
@@ -57,9 +72,7 @@ class ilMembershipRegistrationCodeUtils
     /**
      * Use a registration code and assign the logged in user
      * to the (parent) course/group that offer the code.
-     * @param string $a_code
      * @param int    $a_endnode Reference id of node in tree
-     * @return void
      * @throws ilDatabaseException
      * @throws ilMembershipRegistrationException
      * @throws ilObjectNotFoundException
@@ -112,7 +125,6 @@ class ilMembershipRegistrationCodeUtils
 
     /**
      * Get all objects with enabled access codes
-     * @param string $a_code
      * @return int[]
      */
     protected static function lookupObjectsByCode(string $a_code) : array

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Survey\Tasks\DerivedTaskProviderFactory;
+
 /**
  * Derived task providers factory
  *
@@ -9,15 +11,15 @@
  */
 class ilDerivedTaskProviderMasterFactory
 {
-    protected \ilTaskService $service;
+    protected ilTaskService $service;
 
     /**
      * @var ilDerivedTaskProviderFactory[]
      */
     protected array $default_provider_factories = array(
         ilExerciseDerivedTaskProviderFactory::class,
-        \ilForumDerivedTaskProviderFactory::class,
-        \ILIAS\Survey\Tasks\DerivedTaskProviderFactory::class,
+        ilForumDerivedTaskProviderFactory::class,
+        DerivedTaskProviderFactory::class,
         ilBlogDerivedTaskProviderFactory::class
     );
 
@@ -32,7 +34,7 @@ class ilDerivedTaskProviderMasterFactory
     public function __construct(ilTaskService $service, $provider_factories = null)
     {
         if (is_null($provider_factories)) {
-            $this->provider_factories = array_map(fn ($class) : \ilDerivedTaskProviderFactory => new $class($service), $this->default_provider_factories);
+            $this->provider_factories = array_map(fn ($class) : ilDerivedTaskProviderFactory => new $class($service), $this->default_provider_factories);
         } else {
             $this->provider_factories = $provider_factories;
         }

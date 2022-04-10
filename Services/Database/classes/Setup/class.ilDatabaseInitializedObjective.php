@@ -22,7 +22,7 @@ class ilDatabaseInitializedObjective implements Setup\Objective
     }
 
     /**
-     * @return \ilIniFilesLoadedObjective[]|\ilDatabaseConfigStoredObjective[]|\ilDatabasePopulatedObjective[]
+     * @return array<\ilIniFilesLoadedObjective>|array<\ilDatabaseConfigStoredObjective|\ilDatabasePopulatedObjective>
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {

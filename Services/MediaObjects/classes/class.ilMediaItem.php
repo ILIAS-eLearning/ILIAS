@@ -105,14 +105,12 @@ class ilMediaItem
     }
     
     /**
-    * returns the best supported image type by this PHP build
-    *
-    * @param	string	$desired_type	desired image type ("jpg" | "gif" | "png")
-    *
-    * @return    string                    supported image type ("jpg" | "gif" | "png" | "")
-    * @static
-    *
-    */
+     * returns the best supported image type by this PHP build
+     *
+     * @param string $a_desired_type
+     * @return string supported image type ("jpg" | "gif" | "png" | "")
+     * @static
+     */
     private static function getGDSupportedImageType(string $a_desired_type) : string
     {
         $a_desired_type = strtolower($a_desired_type);
@@ -144,20 +142,9 @@ class ilMediaItem
                     return "png";
                 }
                 break;
-            
-            case "png":
-                if ($im_types & IMG_PNG) {
-                    return "png";
-                }
-                if ($im_types & IMG_JPG) {
-                    return "jpg";
-                }
-                if ($im_types & IMG_GIF) {
-                    return "gif";
-                }
-                break;
-            
+
             case "svg":
+            case "png":
                 if ($im_types & IMG_PNG) {
                     return "png";
                 }
@@ -251,7 +238,7 @@ class ilMediaItem
         }
     }
 
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
 
@@ -589,7 +576,7 @@ class ilMediaItem
     {
         return $this->mapareas[$nr - 1] ?? null;
     }
-
+    
     public function getMapAreas() : array
     {
         return $this->mapareas;
@@ -614,7 +601,7 @@ class ilMediaItem
     {
         $this->height = $a_height;
     }
-
+    
     public function getOriginalSize() : ?array
     {
         $mob_dir = ilObjMediaObject::_getDirectory($this->getMobId());
@@ -702,13 +689,13 @@ class ilMediaItem
             return false;
         }
         // do not allow to change the src attribute
-        if (in_array(strtolower(trim($a_par)), array("src"))) {
+        if (strtolower(trim($a_par)) == "src") {
             return false;
         }
 
         return true;
     }
-
+    
     public function getParameters() : array
     {
         return $this->parameters;

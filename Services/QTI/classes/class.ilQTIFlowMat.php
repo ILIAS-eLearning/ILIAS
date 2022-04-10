@@ -33,67 +33,41 @@ require_once 'Services/QTI/interfaces/interface.ilQTIMaterialAware.php';
 */
 class ilQTIFlowMat implements ilQTIMaterialAware
 {
-    /** @var string|null */
-    public $comment;
-
+    public ?string $comment;
     /** @var ilQTIFlowMat[] */
-    public $flow_mat;
-
+    public array $flow_mat;
     /** @var ilQTIMaterial[] */
-    public $material;
-
-    /** @var arrary */
-    public $material_ref;
+    public array $material;
     
     public function __construct()
     {
-        $this->flow_mat = array();
-        $this->material = array();
-        $this->material_ref = array();
+        $this->comment = null;
+        $this->flow_mat = [];
+        $this->material = [];
     }
 
-    /**
-     * @param string $a_comment
-     */
-    public function setComment($a_comment) : void
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComment()
+    public function getComment() : ?string
     {
         return $this->comment;
     }
 
-    /**
-     * @param ilQTIFlowMat $a_flow_mat
-     */
-    public function addFlow_mat($a_flow_mat) : void
+    public function addFlow_mat(ilQTIFlowMat $a_flow_mat) : void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addMaterial(ilQTIMaterial $a_material)
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
         $this->material[] = $a_material;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMaterial($index)
+    public function getMaterial(int $index) : ?ilQTIMaterial
     {
         return $this->material[$index] ?? null;
-    }
-
-    public function addMaterial_ref($a_material_ref) : void
-    {
-        $this->material_ref[] = $a_material_ref;
     }
 }

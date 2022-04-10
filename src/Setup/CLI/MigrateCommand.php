@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\AgentFinder;
@@ -40,7 +54,7 @@ class MigrateCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription("Starts and manages migrations needed after an update of ILIAS");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");
@@ -104,7 +118,7 @@ class MigrateCommand extends Command
         ]);
 
         $preconditions = $migration->getPreconditions($env);
-        if (count($preconditions) > 0) {
+        if ($preconditions !== []) {
             $objective = new Objective\ObjectiveWithPreconditions(
                 $objective,
                 ...$preconditions
@@ -149,7 +163,7 @@ class MigrateCommand extends Command
         Migration $migration
     ) : Environment {
         $preconditions = $migration->getPreconditions($environment);
-        if (count($preconditions) > 0) {
+        if ($preconditions !== []) {
             $objective = new Objective\ObjectiveWithPreconditions(
                 new Objective\NullObjective(),
                 ...$preconditions

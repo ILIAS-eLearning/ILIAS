@@ -25,13 +25,6 @@ use PHPUnit\Framework\TestCase;
  */
 class RatingCategoryTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }

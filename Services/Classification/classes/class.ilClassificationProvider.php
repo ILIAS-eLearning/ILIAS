@@ -83,7 +83,6 @@ abstract class ilClassificationProvider
     /**
      * Import post data
      * @param array|null $a_saved
-     * @return array
      */
     abstract public function importPostData(?array $a_saved = null) : array;
 
@@ -99,8 +98,6 @@ abstract class ilClassificationProvider
     
     /**
      * Init list gui properties
-     *
-     * @param ilObjectListGUI $a_list_gui
      */
     public function initListGUI(ilObjectListGUI $a_list_gui) : void
     {

@@ -19,21 +19,21 @@ class ilXMLResultSetWriter extends ilXmlWriter
 
     public function start() : bool
     {
-        $this->__buildHeader();
-        $this->__buildColSpecs();
-        $this->__buildRows();
-        $this->__buildFooter();
+        $this->buildHeader();
+        $this->buildColSpecs();
+        $this->buildRows();
+        $this->buildFooter();
         return true;
     }
 
-    protected function __buildHeader() : void
+    private function buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE result PUBLIC \"-//ILIAS//DTD XMLResultSet//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_xml_resultset_3_7.dtd\">");
         $this->xmlHeader();
         $this->xmlStartTag("result");
     }
 
-    protected function __buildColSpecs() : void
+    private function buildColSpecs() : void
     {
         $this->xmlStartTag("colspecs");
         foreach ($this->xmlResultSet->getColSpecs() as $colSpec) {
@@ -44,16 +44,16 @@ class ilXMLResultSetWriter extends ilXmlWriter
         $this->xmlEndTag("colspecs");
     }
 
-    protected function __buildRows() : void
+    private function buildRows() : void
     {
         $this->xmlStartTag("rows");
         foreach ($this->xmlResultSet->getRows() as $row) {
-            $this->__appendRow($row);
+            $this->appendRow($row);
         }
         $this->xmlEndTag("rows");
     }
 
-    protected function __appendRow(ilXMLResultSetRow $xmlResultSetRow) : void
+    private function appendRow(ilXMLResultSetRow $xmlResultSetRow) : void
     {
         $this->xmlStartTag('row', null);
         foreach ($xmlResultSetRow->getColumns() as $value) {
@@ -62,7 +62,7 @@ class ilXMLResultSetWriter extends ilXmlWriter
         $this->xmlEndTag('row');
     }
 
-    public function __buildFooter()
+    private function buildFooter() : void
     {
         $this->xmlEndTag('result');
     }

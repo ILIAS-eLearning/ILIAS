@@ -138,7 +138,7 @@ class ilRatingGUI
     
     public function enableCategories(bool $a_value) : void
     {
-        $this->enable_categories = (bool) $a_value;
+        $this->enable_categories = $a_value;
     }
     
     public function setCtrlPath(array $a_value) : void
@@ -182,7 +182,7 @@ class ilRatingGUI
                     "avg" => 0,
                     "cnt" => 0
                 ];
-                if ((bool) $a_average) {
+                if ($a_average) {
                     $overall_rating = ilRating::getOverallRatingForObject(
                         $this->obj_id,
                         $this->obj_type,
@@ -193,7 +193,7 @@ class ilRatingGUI
 
                 // user rating links
                 for ($i = 1; $i <= 5; $i++) {
-                    if ((bool) $a_average &&
+                    if ($a_average &&
                         $i == $rating) {
                         $ttpl->setCurrentBlock("rating_mark_simple");
                         $ttpl->setVariable(
@@ -220,8 +220,8 @@ class ilRatingGUI
                         $onclick = str_replace("%rating%", $i, $a_onclick);
                         $ttpl->setVariable("ONCLICK_RATING", ' onclick="' . $onclick . '"');
                     }
-                    
-                    if ((bool) $a_average) {
+
+                    if ($a_average) {
                         $ref_rating = $overall_rating["avg"];
                     } else {
                         $ref_rating = $rating;
@@ -275,9 +275,8 @@ class ilRatingGUI
                     $ttpl->setVariable("TXT_RATING_SIMPLE", $rate_text);
                     $ttpl->parseCurrentBlock();
                 }
-                
 
-                if ((bool) $a_average &&
+                if ($a_average &&
                     $overall_rating["cnt"]) {
                     $ttpl->setCurrentBlock("number_votes_simple");
                     $ttpl->setVariable("NUMBER_VOTES_SIMPLE", $overall_rating["cnt"]);
@@ -289,9 +288,9 @@ class ilRatingGUI
                     $ttpl->setVariable("TTID", $unique_id);
                     $this->addTooltip(
                         $unique_id,
-                        (int) $overall_rating["cnt"] ?? 0,
-                        (float) $overall_rating["avg"] ?? 0,
-                        (int) $rating ?? 0
+                        (int) ($overall_rating["cnt"] ?? 0),
+                        (float) ($overall_rating["avg"] ?? 0),
+                        (int) ($rating ?? 0)
                     );
                 }
 
@@ -382,9 +381,9 @@ class ilRatingGUI
                         $ttpl->setVariable("CAT_TTID", $unique_id);
                         $this->addTooltip(
                             $unique_id,
-                            (int) $overall_rating["cnt"] ?? 0,
-                            (float) $overall_rating["avg"] ?? 0,
-                            (int) $user_rating ?? 0
+                            (int) ($overall_rating["cnt"] ?? 0),
+                            (float) ($overall_rating["avg"] ?? 0),
+                            (int) ($user_rating ?? 0)
                         );
                     }
                     $ttpl->parseCurrentBlock();
@@ -533,9 +532,9 @@ class ilRatingGUI
 
         $this->addTooltip(
             $unique_id . "_tt",
-            (int) $rating["cnt"] ?? 0,
-            (float) $rating["avg"] ?? 0,
-            (int) $user_rating ?? 0
+            (int) ($rating["cnt"] ?? 0),
+            (float) ($rating["avg"] ?? 0),
+            (int) ($user_rating ?? 0)
         );
 
         // add overlay (trigger)

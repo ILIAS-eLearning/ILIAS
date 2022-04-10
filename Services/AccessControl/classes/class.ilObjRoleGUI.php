@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -24,23 +38,19 @@ class ilObjRoleGUI extends ilObjectGUI
     protected int $obj_obj_id = 0;
     protected string $obj_obj_type = '';
     protected string $container_type = '';
-
-    protected $role_id = 0;
-
+    protected int $role_id = 0;
     protected ilRbacAdmin $rbacadmin;
     protected ilHelpGUI $help;
-
     private ilLogger $logger;
-
     private GlobalHttpState $http;
     protected Factory $refinery;
-
-    /**
-     * Constructor
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = false, $a_prepare_output = true)
-    {
+    
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = false,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->rbacadmin = $DIC->rbac()->admin();
@@ -202,7 +212,7 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function showDefaultPermissionSettings() : bool
     {
-        return $this->objDefinition->isContainer($this->getContainerType());
+        return $this->obj_definition->isContainer($this->getContainerType());
     }
 
     protected function initFormRoleProperties(int $a_mode) : ilPropertyFormGUI
@@ -280,7 +290,6 @@ class ilObjRoleGUI extends ilObjectGUI
     /**
      * Store form input in role object
      * @param object $role
-     * @return void
      */
     protected function loadRoleProperties(ilObjRole $role, ilPropertyFormGUI $form) : void
     {
@@ -507,12 +516,12 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->permSaveObject(true);
     }
 
-    protected function adoptPermObject()
+    protected function adoptPermObject() : void
     {
         $output = array();
         $parent_role_ids = $this->rbac_review->getParentRoleIds($this->obj_ref_id, true);
         $ids = array();
-        foreach ($parent_role_ids as $id => $tmp) {
+        foreach (array_keys($parent_role_ids) as $id) {
             $ids[] = $id;
         }
         // Sort ids
@@ -582,7 +591,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->WARNING);
         }
 
-        $this->object->setParent((int) $this->obj_ref_id);
+        $this->object->setParent($this->obj_ref_id);
         $this->object->delete();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_deleted_role'), true);
 
@@ -619,7 +628,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $subs = ilObjRole::getSubObjects($this->getParentType(), $a_show_admin_permissions);
         }
 
-        foreach ($subs as $subtype => $def) {
+        foreach (array_keys($subs) as $subtype) {
             // Delete per object type
             $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->obj_ref_id, $subtype);
         }
@@ -649,8 +658,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         if (
             $this->obj_ref_id == ROLE_FOLDER_ID ||
-            $this->rbac_review->isAssignable($this->object->getId(), $this->obj_ref_id))
-        {
+            $this->rbac_review->isAssignable($this->object->getId(), $this->obj_ref_id)) {
             $this->rbacadmin->setProtected($this->obj_ref_id, $this->object->getId(), ilUtil::tf2yn($protected));
         }
         $recursive = false;
@@ -770,7 +778,6 @@ class ilObjRoleGUI extends ilObjectGUI
 
     /**
      * @param int[]
-     * @return void
      */
     public function addUserObject(array $a_user_ids) : void
     {
@@ -783,7 +790,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_role_not_assignable'), true);
             return;
         }
-        if (!$a_user_ids) {
+        if ($a_user_ids === []) {
             $GLOBALS['DIC']['lng']->loadLanguageModule('search');
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);
             return;
@@ -838,7 +845,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 )
             );
         }
-        if (!count($selected_users)) {
+        if (count($selected_users) === 0) {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -856,10 +863,10 @@ class ilObjRoleGUI extends ilObjectGUI
             $assigned_roles = $this->rbac_review->assignedRoles($user);
             $assigned_global_roles = array_intersect($assigned_roles, $global_roles);
 
-            if (count($assigned_roles) == 1 or (count($assigned_global_roles) == 1 and in_array(
+            if (count($assigned_roles) == 1 || count($assigned_global_roles) == 1 && in_array(
                 $this->object->getId(),
                 $assigned_global_roles
-            ))) {
+            )) {
                 $userObj = $this->ilias->obj_factory->getInstanceByObjId($user);
                 $last_role[$user] = $userObj->getFullName();
                 unset($userObj);
@@ -877,7 +884,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->object->update();
 
         // raise error if last role was taken from a user...
-        if (count($last_role)) {
+        if ($last_role !== []) {
             $user_list = implode(", ", $last_role);
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_is_last_role') . ': ' . $user_list . '<br />' . $this->lng->txt('msg_min_one_role'), true);
         } else {
@@ -1095,7 +1102,6 @@ class ilObjRoleGUI extends ilObjectGUI
 
     /**
      * Check if a confirmation about further settings is required or not
-     * @return bool
      */
     protected function isChangeExistingObjectsConfirmationRequired() : bool
     {
@@ -1113,9 +1119,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
     /**
      * Show confirmation screen
-     * @param bool     $recursive
      * @param string[] $recursive_list
-     * @return void
      */
     protected function showChangeExistingObjectsConfirmation(bool $recursive, array $recursive_list) : void
     {
@@ -1232,7 +1236,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 )
             );
         }
-        if (!count($users)) {
+        if (count($users) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'userassignment');
         }
@@ -1269,11 +1273,11 @@ class ilObjRoleGUI extends ilObjectGUI
         }
     }
 
-    /*
+    /**
      * Ensure access to role for ref_id
      * @throws ilObjectException
      */
-    protected function ensureRoleAccessForContext()
+    protected function ensureRoleAccessForContext() : bool
     {
         // creation of roles
         if (
@@ -1301,4 +1305,4 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         return true;
     }
-} // END class.ilObjRoleGUI
+}

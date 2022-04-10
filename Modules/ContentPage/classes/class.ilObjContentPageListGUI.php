@@ -42,7 +42,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
     public function getInfoScreenStatus() : bool
     {
         if (ilContainer::_lookupContainerSetting(
-            (int) $this->obj_id,
+            $this->obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
             "1"
         )) {
@@ -79,7 +79,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
             $language = $ot->getEffectiveContentLang($this->user->getCurrentLanguage(), $this->type);
 
             $pageMetrics = $this->pageMetricsService->get(
-                new GetPageMetricsCommand((int) $this->obj_id, $language)
+                new GetPageMetricsCommand($this->obj_id, $language)
             );
 
             $readingTimePropertyValue = sprintf(

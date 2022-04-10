@@ -17,6 +17,7 @@ class ilCourseAppEventListener
 
     /**
      * Constructor
+     * @noinspection PhpUndefinedMethodInspection
      */
     public function __construct()
     {

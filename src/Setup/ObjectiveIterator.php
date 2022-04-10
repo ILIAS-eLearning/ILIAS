@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Setup;
 
 /**
@@ -20,7 +34,7 @@ class ObjectiveIterator implements \Iterator
      */
     protected array $stack;
 
-    protected ?Objective $current;
+    protected ?Objective $current = null;
 
     /**
      * @var array<string, bool>
@@ -50,7 +64,7 @@ class ObjectiveIterator implements \Iterator
         $this->environment = $environment;
     }
 
-    public function markAsFailed(Objective $objective)
+    public function markAsFailed(Objective $objective) : void
     {
         if (!isset($this->returned[$objective->getHash()])) {
             throw new \LogicException(
@@ -61,7 +75,7 @@ class ObjectiveIterator implements \Iterator
         $this->failed[$objective->getHash()] = true;
     }
 
-    public function rewind()
+    public function rewind() : void
     {
         $this->stack = [$this->objective];
         $this->current = null;
@@ -71,7 +85,7 @@ class ObjectiveIterator implements \Iterator
         $this->next();
     }
 
-    public function current()
+    public function current() : \ILIAS\Setup\Objective
     {
         if ($this->current === null) {
             throw new \LogicException(
@@ -86,9 +100,9 @@ class ObjectiveIterator implements \Iterator
         return $this->current()->getHash();
     }
 
-    public function next()
+    public function next() : void
     {
-        if (count($this->stack) === 0) {
+        if ($this->stack === []) {
             $this->current = null;
             return;
         }
@@ -116,12 +130,12 @@ class ObjectiveIterator implements \Iterator
 
         // We only have preconditions left that we know to have failed.
         if (
-            count($preconditions) !== 0 &&
+            $preconditions !== [] &&
             count($preconditions) === count($failed_preconditions)
         ) {
             $this->returned[$hash] = true;
             $this->markAsFailed($cur);
-            if (count($this->stack) === 0) {
+            if ($this->stack === []) {
                 throw new UnachievableException(
                     "Objective had failed preconditions."
                 );
@@ -131,7 +145,7 @@ class ObjectiveIterator implements \Iterator
         }
 
         // No preconditions open, we can proceed with the objective.
-        if (count($preconditions) === 0) {
+        if ($preconditions === []) {
             $this->returned[$hash] = true;
             $this->current = $cur;
             return;
@@ -146,12 +160,12 @@ class ObjectiveIterator implements \Iterator
         $this->next();
     }
 
-    public function valid()
+    public function valid() : bool
     {
         return $this->current !== null;
     }
 
-    protected function detectDependencyCycles(string $cur, string $next)
+    protected function detectDependencyCycles(string $cur, string $next) : void
     {
         if (!isset($this->reverse_dependencies[$next])) {
             return;
@@ -166,7 +180,7 @@ class ObjectiveIterator implements \Iterator
         }
     }
 
-    protected function setReverseDependency(string $other, string $cur)
+    protected function setReverseDependency(string $other, string $cur) : void
     {
         if (!isset($this->reverse_dependencies[$other])) {
             $this->reverse_dependencies[$other] = [];

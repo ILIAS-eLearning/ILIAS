@@ -540,7 +540,7 @@ class ilObjMailGUI extends ilObjectGUI
     protected function populateExternalSettingsForm(ilPropertyFormGUI $form) : void
     {
         $subjectPrefix = $this->settings->get('mail_subject_prefix');
-        if (false === $subjectPrefix) {
+        if (null === $subjectPrefix) {
             $subjectPrefix = ilMimeMail::MAIL_SUBJECT_PREFIX;
         }
 

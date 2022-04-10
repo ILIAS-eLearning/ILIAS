@@ -21,6 +21,7 @@ namespace ILIAS\Awareness\User;
  */
 class Collection implements \Countable
 {
+    /** @var int[] */
     protected array $users = array();
 
     /**

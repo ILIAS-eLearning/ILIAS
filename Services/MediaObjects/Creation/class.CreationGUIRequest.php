@@ -45,7 +45,10 @@ class CreationGUIRequest
     {
         return $this->int("pool_view");
     }
-
+    
+    /**
+     * @return int[]
+     */
     public function getIds() : array
     {
         return $this->intArray("id");

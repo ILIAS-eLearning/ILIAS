@@ -43,8 +43,6 @@ class ilGroupXMLWriter extends ilXmlWriter
     private ilSetting $settings;
     private ilAccessHandler $access;
 
-    private string $xml;
-
     private ilObjGroup $group_obj;
     private ilGroupParticipants $participants;
     private bool $attach_users = true;
@@ -113,7 +111,7 @@ class ilGroupXMLWriter extends ilXmlWriter
     public function __buildHeader() : bool
     {
         $this->xmlSetDtdDef("<!DOCTYPE group PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_group_3_10.dtd\">");
-        $this->xmlSetGenCmt("Export of ILIAS group " . $this->group_obj->getId() . " of installation " . $this->ilias->getSetting('inst_id') . ".");
+        $this->xmlSetGenCmt("Export of ILIAS group " . $this->group_obj->getId() . " of installation " . $this->settings->get('inst_id') . ".");
         $this->xmlHeader();
         return true;
     }
@@ -124,11 +122,11 @@ class ilGroupXMLWriter extends ilXmlWriter
         $attrs["id"] = "il_" . $this->settings->get('inst_id') . '_grp_' . $this->group_obj->getId();
         
         switch ($this->group_obj->readGroupStatus()) {
-            case GRP_TYPE_OPEN:
+            case ilGroupConstants::GRP_TYPE_OPEN:
                 $attrs['type'] = 'open';
                 break;
                 
-            case GRP_TYPE_CLOSED:
+            case ilGroupConstants::GRP_TYPE_CLOSED:
             default:
                 $attrs['type'] = 'closed';
                 break;
@@ -202,18 +200,18 @@ class ilGroupXMLWriter extends ilXmlWriter
         
         // registration type
         switch ($this->group_obj->getRegistrationType()) {
-            case GRP_REGISTRATION_DIRECT:
+            case ilGroupConstants::GRP_REGISTRATION_DIRECT:
                 $attrs['type'] = 'direct';
                 break;
-            case GRP_REGISTRATION_REQUEST:
+            case ilGroupConstants::GRP_REGISTRATION_REQUEST:
                 $attrs['type'] = 'confirmation';
                 break;
-            case GRP_REGISTRATION_PASSWORD:
+            case ilGroupConstants::GRP_REGISTRATION_PASSWORD:
                 $attrs['type'] = 'password';
                 break;
                 
             default:
-            case GRP_REGISTRATION_DEACTIVATED:
+            case ilGroupConstants::GRP_REGISTRATION_DEACTIVATED:
                 $attrs['type'] = 'disabled';
                 break;
         }
@@ -238,7 +236,7 @@ class ilGroupXMLWriter extends ilXmlWriter
         $attrs = array();
         $attrs['enabled'] = $this->group_obj->isMembershipLimited() ? 'Yes' : 'No';
         $this->xmlElement('maxMembers', $attrs, $this->group_obj->getMaxMembers());
-        $this->xmlElement('minMembers', null, (int) $this->group_obj->getMinMembers());
+        $this->xmlElement('minMembers', null, $this->group_obj->getMinMembers());
         $this->xmlElement('WaitingListAutoFill', null, (int) $this->group_obj->hasWaitingListAutoFill());
         $this->xmlElement('CancellationEnd', null, ($this->group_obj->getCancellationEnd() && !$this->group_obj->getCancellationEnd()->isNull()) ? $this->group_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);
         
@@ -309,6 +307,6 @@ class ilGroupXMLWriter extends ilXmlWriter
 
     public function setAttachUsers(bool $value)
     {
-        $this->attach_users = (bool) $value;
+        $this->attach_users = $value;
     }
 }

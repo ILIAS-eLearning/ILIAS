@@ -20,9 +20,6 @@
 class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 {
     public const TARGET_GUI = "illmpresentationgui";
-    /**
-     * @var int|string
-     */
     protected int $obj_id;
     protected string $frame;
     protected int $requested_ref_id;
@@ -350,11 +347,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 ? ""
                                 : $ltarget;
                             if ($ltarget == "") {
-                                if ($showViewInFrameset) {
-                                    $ltarget = "_parent";
-                                } else {
-                                    $ltarget = "_top";
-                                }
+                                $ltarget = "_parent";
                             }
                             // scorm always in 1window view and link target
                             // is always same frame

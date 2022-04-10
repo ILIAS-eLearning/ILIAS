@@ -533,13 +533,12 @@ class LMHtmlExport
         $target_dir = $this->target_dir;
 
         $lang_suffix = "";
-        if (!in_array($lang, ["-", ""]) && $this->lang == "all") {
+        if (!in_array($lang, ["-", ""]) && $this->lang === "all") {
             $lang_suffix = "_" . $lang;
         }
 
         // Init template, lm_gui
         $this->initScreen($lm_page_id, $frame);
-
 
         if ($frame == "") {
             if (is_array($exp_id_map) && isset($a_exp_id_map[$lm_page_id])) {

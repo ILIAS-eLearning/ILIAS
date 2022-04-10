@@ -21,7 +21,7 @@
  */
 class ilECSCourseUrl
 {
-    const COURSE_URL_PREFIX = 'campusconnect/course/';
+    public const COURSE_URL_PREFIX = 'campusconnect/course/';
 
     private ilLogger $logger;
     
@@ -40,7 +40,7 @@ class ilECSCourseUrl
     /**
      * Set lecture id
      */
-    public function setCmsLectureId(string $a_id)
+    public function setCmsLectureId(string $a_id) : void
     {
         $this->cms_lecture_id = $a_id;
     }
@@ -48,7 +48,7 @@ class ilECSCourseUrl
     /**
      * Set ecs course id
      */
-    public function setECSId(int $a_id)
+    public function setECSId(int $a_id) : void
     {
         $this->ecs_course_url = self::COURSE_URL_PREFIX . $a_id;
     }
@@ -56,7 +56,7 @@ class ilECSCourseUrl
     /**
      * Add lms url
      */
-    public function addLmsCourseUrls(ilECSCourseLmsUrl $lms_url = null)
+    public function addLmsCourseUrls(ilECSCourseLmsUrl $lms_url = null) : void
     {
         $this->lms_course_urls[] = $lms_url;
     }
@@ -64,13 +64,13 @@ class ilECSCourseUrl
     /**
      * Send urls to ecs
      */
-    public function send(ilECSSetting $setting, $ecs_receiver_mid)
+    public function send(ilECSSetting $setting, $ecs_receiver_mid) : void
     {
         try {
             $con = new ilECSCourseUrlConnector($setting);
-            $url_id = $con->addUrl($this, $ecs_receiver_mid);
+            $con->addUrl($this, $ecs_receiver_mid);
             
-            $this->logger->info('Received new url id ' . $url_id);
+            //$this->logger->info('Received new url id ' . $url_id);
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
         }

@@ -93,7 +93,7 @@ class ConversationRepositoryTest extends ilOnScreenChatBaseTest
             ->with($this->stringContains('FROM osc_messages'))
             ->willReturn($resultMock);
 
-        $db->expects($this->exactly((count($conversations_fixture) * 2) -1 + 1))->method('fetchAssoc')->with($resultMock)->willReturnOnConsecutiveCalls(
+        $db->expects($this->exactly((count($conversations_fixture) * 2) - 1 + 1))->method('fetchAssoc')->with($resultMock)->willReturnOnConsecutiveCalls(
             $conversations_fixture[0]['conversation'],
             $conversations_fixture[0]['messages'][0],
             $conversations_fixture[1]['conversation'],

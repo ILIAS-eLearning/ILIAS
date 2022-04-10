@@ -16,7 +16,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
     protected ilObjTermsOfService $tos;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilRbacSystem $rbacsystem;
     protected ilErrorHandling $error;
@@ -30,7 +30,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         ilObjTermsOfService $tos,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         ilGlobalTemplateInterface $tpl,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,
         ilErrorHandling $error,
@@ -68,7 +68,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
 
         switch (strtolower($nextClass)) {
             default:
-                if ($cmd === '' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
                     $cmd = 'showAcceptanceHistory';
                 }
                 $this->$cmd();

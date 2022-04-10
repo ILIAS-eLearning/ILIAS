@@ -397,20 +397,20 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             );
 
             if ($this->settings->get('custom_icons', '0')) {
-                $this->tabs_gui_gui->addSubTab(
+                $this->tabs_gui->addSubTab(
                     self::UI_TAB_ID_ICON,
                     $this->lng->txt('icon_settings'),
                     $this->ctrl->getLinkTargetByClass(ilObjectCustomIconConfigurationGUI::class)
                 );
             }
 
-            $this->tabs_gui_gui->addSubTab(
+            $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_STYLE,
                 $this->lng->txt('cont_style'),
                 $this->ctrl->getLinkTargetByClass("ilobjectcontentstylesettingsgui", "")
             );
 
-            $this->tabs_gui_gui->addSubTab(
+            $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_I18N,
                 $this->lng->txt('obj_multilinguality'),
                 $this->ctrl->getLinkTargetByClass(ilObjectTranslationGUI::class)

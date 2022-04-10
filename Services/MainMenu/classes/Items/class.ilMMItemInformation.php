@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\Filesystem\Exception\FileNotFoundException;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
@@ -31,9 +30,9 @@ class ilMMItemInformation implements ItemInformation
     public function __construct()
     {
         global $DIC;
-        $this->items        = ilMMItemStorage::getArray('identification');
+        $this->items = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
-        $this->storage      = $DIC['resource_storage'];
+        $this->storage = $DIC['resource_storage'];
     }
 
     /**
@@ -55,7 +54,8 @@ class ilMMItemInformation implements ItemInformation
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
         }
         if ($item instanceof RepositoryLink && empty($item->getTitle())) {
-            $item = $item->withTitle(($item->getRefId() > 0) ?
+            $item = $item->withTitle(
+                ($item->getRefId() > 0) ?
                 \ilObject2::_lookupTitle(\ilObject2::_lookupObjectId($item->getRefId())) :
                 ""
             );

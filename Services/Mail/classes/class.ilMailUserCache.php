@@ -7,7 +7,7 @@
  */
 class ilMailUserCache
 {
-    /** @var ilObjUser[] */
+    /** @var array<int, ilObjUser|null> */
     protected static array $user_instances = [];
     /** @var int[] */
     protected static array $requested_usr_ids = [];
@@ -55,17 +55,17 @@ class ilMailUserCache
                 $user->setPref('public_upload', $row['public_upload']);
                 $user->setPref('public_gender', $row['public_gender']);
 
-                self::$user_instances[$row['usr_id']] = $user;
+                self::$user_instances[(int) $row['usr_id']] = $user;
             }
         }
     }
 
     public static function getUserObjectById(int $usr_id) : ?ilObjUser
     {
-        if (!$usr_id) {
+        if ($usr_id < 1) {
             return null;
         }
-        
+
         if (!array_key_exists($usr_id, self::$requested_usr_ids_key_map)) {
             self::preloadUserObjects([$usr_id]);
         }

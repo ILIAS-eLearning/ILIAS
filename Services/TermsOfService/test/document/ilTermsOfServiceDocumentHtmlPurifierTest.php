@@ -17,7 +17,7 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterion
     private function skipIfvfsStreamNotSupported() : void
     {
         if (!$this->isVsfStreamInstalled()) {
-            $this->markTestSkipped('Skipped test, vfsStream (http://vfs.bovigo.org) required');
+            $this->markTestSkipped('Skipped test, vfsStream (https://github.com/bovigo/vfsStream) required');
         }
     }
 

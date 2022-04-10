@@ -34,162 +34,106 @@ const SPACE_DEFAULT = "2";
 */
 class ilQTIMattext
 {
-    /** @var string|null */
-    public $texttype;
-
-    /** @var string|null */
-    public $label;
-
-    /** @var string|null */
-    public $charset;
-
-    /** @var string|null */
-    public $uri;
-
-    /** @var string|null */
-    public $xmlspace;
-
-    /** @var string|null */
-    public $xmllang;
-
-    /** @var string|null */
-    public $entityref;
-
-    /** @var string|null */
-    public $width;
-
-    /** @var string|null */
-    public $height;
-
-    /** @var string|null */
-    public $x0;
-
-    /** @var string|null */
-    public $y0;
-
-    /** @var string|null */
-    public $content;
+    public ?string $texttype;
+    public ?string $label;
+    public ?string $charset;
+    public ?string $uri;
+    public ?string $xmlspace;
+    public ?string $xmllang;
+    public ?string $entityref;
+    public ?string $width;
+    public ?string $height;
+    public ?string $x0;
+    public ?string $y0;
+    public ?string $content;
     
     public function __construct()
     {
+        $this->texttype = null;
+        $this->label = null;
+        $this->charset = null;
+        $this->uri = null;
+        $this->xmlspace = null;
+        $this->xmllang = null;
+        $this->entityref = null;
+        $this->width = null;
+        $this->height = null;
+        $this->x0 = null;
+        $this->y0 = null;
+        $this->content = null;
     }
 
-    /**
-     * @param string $a_texttype
-     */
-    public function setTexttype($a_texttype) : void
+    public function setTexttype(string $a_texttype) : void
     {
         $this->texttype = $a_texttype;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTexttype()
+    public function getTexttype() : ?string
     {
         return $this->texttype;
     }
 
-    /**
-     * @param string $a_label
-     */
-    public function setLabel($a_label) : void
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getLabel()
+    public function getLabel() : ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param string $a_height
-     */
-    public function setHeight($a_height) : void
+    public function setHeight(string $a_height) : void
     {
         $this->height = $a_height;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getHeight()
+    public function getHeight() : ?string
     {
         return $this->height;
     }
 
-    /**
-     * @param string $a_width
-     */
-    public function setWidth($a_width) : void
+    public function setWidth(string $a_width) : void
     {
         $this->width = $a_width;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getWidth()
+    public function getWidth() : ?string
     {
         return $this->width;
     }
 
-    /**
-     * @param string $a_charset
-     */
-    public function setCharset($a_charset) : void
+    public function setCharset(string $a_charset) : void
     {
         $this->charset = $a_charset;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCharset()
+    public function getCharset() : ?string
     {
         return $this->charset;
     }
 
-    /**
-     * @param string $a_uri
-     */
-    public function setUri($a_uri) : void
+    public function setUri(string $a_uri) : void
     {
         $this->uri = $a_uri;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getUri()
+    public function getUri() : ?string
     {
         return $this->uri;
     }
 
-    /**
-     * @param string $a_xmllang
-     */
-    public function setXmllang($a_xmllang) : void
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getXmllang()
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
 
-    /**
-     * @param string $a_xmlspace
-     */
-    public function setXmlspace($a_xmlspace) : void
+    public function setXmlspace(string $a_xmlspace) : void
     {
         switch (strtolower($a_xmlspace)) {
             case "preserve":
@@ -203,62 +147,47 @@ class ilQTIMattext
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getXmlspace()
+    public function getXmlspace() : ?string
     {
         return $this->xmlspace;
     }
     
-    public function setX0($a_x0) : void
+    public function setX0(string $a_x0) : void
     {
         $this->x0 = $a_x0;
     }
     
-    public function getX0()
+    public function getX0() : ?string
     {
         return $this->x0;
     }
     
-    public function setY0($a_y0) : void
+    public function setY0(string $a_y0) : void
     {
         $this->y0 = $a_y0;
     }
     
-    public function getY0()
+    public function getY0() : ?string
     {
         return $this->y0;
     }
 
-    /**
-     * @param string $a_entityref
-     */
-    public function setEntityref($a_entityref) : void
+    public function setEntityref(string $a_entityref) : void
     {
         $this->entityref = $a_entityref;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getEntityref()
+    public function getEntityref() : ?string
     {
         return $this->entityref;
     }
 
-    /**
-     * @param string $a_content
-     */
-    public function setContent($a_content) : void
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getContent()
+    public function getContent() : ?string
     {
         return $this->content;
     }

@@ -1101,9 +1101,6 @@ class ilObjUser extends ilObject
         // DELETE FORUM ENTRIES (not complete in the moment)
         ilObjForum::_deleteUser($this->getId());
 
-        // Delete link check notify entries
-        ilLinkCheckNotify::_deleteUser($this->getId());
-
         // Delete crs entries
         ilObjCourse::_deleteUser($this->getId());
 

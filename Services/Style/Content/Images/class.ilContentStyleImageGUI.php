@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,13 +13,11 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use ILIAS\UI\Component\Input\Container\Form;
-use Psr\Http\Message;
 use ILIAS\Style\Content;
 use ILIAS\Style\Content\Access;
 
 /**
- * Conent style images UI
+ * Content style images UI
  *
  * @author Alexander Killing <killing@leifos.de>
  */

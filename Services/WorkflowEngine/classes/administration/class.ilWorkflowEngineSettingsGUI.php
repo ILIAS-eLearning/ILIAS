@@ -12,14 +12,11 @@
  */
 class ilWorkflowEngineSettingsGUI
 {
-    /** @var  ilObjWorkflowEngineGUI */
-    protected $parent_gui;
+    protected ilObjWorkflowEngineGUI $parent_gui;
     private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilWorkflowEngineSettingsGUI constructor.
-     *
-     * @param \ilObjWorkflowEngineGUI $parent_gui
      */
     public function __construct(ilObjWorkflowEngineGUI $parent_gui)
     {
@@ -30,10 +27,8 @@ class ilWorkflowEngineSettingsGUI
 
     /**
      * @param string $command
-     *
-     * @return string
      */
-    public function handle($command)
+    public function handle(string $command)
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -65,5 +60,6 @@ class ilWorkflowEngineSettingsGUI
                 );
             }
         }
+        return '';
     }
 }

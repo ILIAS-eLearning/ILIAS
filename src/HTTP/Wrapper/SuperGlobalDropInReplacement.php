@@ -4,6 +4,8 @@ namespace ILIAS\HTTP\Wrapper;
 
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\KeyValueAccess;
+use LogicException;
+use OutOfBoundsException;
 
 /******************************************************************************
  *
@@ -39,7 +41,7 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
     public function offsetSet($offset, $value) : void
     {
         if ($this->throwOnValueAssignment) {
-            throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
+            throw new OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
         }
 
         parent::offsetSet($offset, $value);
@@ -50,6 +52,6 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
      */
     public function offsetUnset($offset) : void
     {
-        throw new \LogicException("Modifying global Request-Array such as \$_GET is not allowed!");
+        throw new LogicException("Modifying global Request-Array such as \$_GET is not allowed!");
     }
 }

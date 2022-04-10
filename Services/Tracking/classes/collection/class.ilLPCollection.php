@@ -30,14 +30,18 @@ abstract class ilLPCollection
         }
     }
 
-    public static function getInstanceByMode(int $a_obj_id, int $a_mode) : ?ilLPCollection
-    {
+    public static function getInstanceByMode(
+        int $a_obj_id,
+        int $a_mode
+    ) : ?ilLPCollection {
         $path = "Services/Tracking/classes/collection/";
 
         switch ($a_mode) {
             case ilLPObjSettings::LP_MODE_COLLECTION:
             case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
-                return new ilLPCollectionOfRepositoryObjects($a_obj_id, $a_mode);
+                return new ilLPCollectionOfRepositoryObjects(
+                    $a_obj_id, $a_mode
+                );
 
             case ilLPObjSettings::LP_MODE_OBJECTIVES:
                 return new ilLPCollectionOfObjectives($a_obj_id, $a_mode);
@@ -103,8 +107,10 @@ abstract class ilLPCollection
     protected function read(int $a_obj_id) : void
     {
         $items = array();
-        $res = $this->db->query("SELECT * FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($a_obj_id, "integer"));
+        $res = $this->db->query(
+            "SELECT * FROM ut_lp_collections" .
+            " WHERE obj_id = " . $this->db->quote($a_obj_id, "integer")
+        );
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($this->validateEntry((int) $row->item_id)) {
                 $items[] = $row->item_id;

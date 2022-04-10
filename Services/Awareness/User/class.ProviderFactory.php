@@ -23,6 +23,9 @@ use ILIAS\DI\Container;
  */
 class ProviderFactory
 {
+    /**
+     * @var \string[][]
+     */
     protected static array $providers = array(
         array(
             "component" => "Services/Contact/BuddySystem",
@@ -71,7 +74,7 @@ class ProviderFactory
         foreach (self::$providers as $p) {
             $providers[] = new $p["class"]($this->dic);
         }
-
+    
         return $providers;
     }
 }

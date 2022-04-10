@@ -37,39 +37,28 @@ const ACTION_DIVIDE = "5";
 */
 class ilQTISetvar
 {
-    /** @var string|null */
-    public $varname;
+    public ?string $varname;
+    public ?string $action;
+    public ?string $content;
 
-    /** @var string|null */
-    public $action;
-
-    /** @var string|null */
-    public $content;
-    
     public function __construct()
     {
+        $this->varname = null;
+        $this->action = null;
+        $this->content = null;
     }
 
-    /**
-     * @param string $a_varname
-     */
-    public function setVarname($a_varname) : void
+    public function setVarname(string $a_varname) : void
     {
         $this->varname = $a_varname;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getVarname()
+    public function getVarname() : ?string
     {
         return $this->varname;
     }
 
-    /**
-     * @param string $a_action
-     */
-    public function setAction($a_action) : void
+    public function setAction(string $a_action) : void
     {
         switch (strtolower($a_action)) {
             case "set":
@@ -95,26 +84,17 @@ class ilQTISetvar
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getAction()
+    public function getAction() : ?string
     {
         return $this->action;
     }
 
-    /**
-     * @param string $a_content
-     */
-    public function setContent($a_content) : void
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getContent()
+    public function getContent() : ?string
     {
         return $this->content;
     }

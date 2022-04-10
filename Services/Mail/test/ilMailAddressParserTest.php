@@ -79,7 +79,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
                     new ilMailAddress('#il_crs_admin_2581', self::DEFAULT_HOST),
                 ],
             ],
-            'sepp@some.where;done@web.de ' => [
+            'sepp@some.where;done@web.de' => [
                 // https://mantis.ilias.de/view.php?id=30306
                 'sepp@some.where;done@web.de',
                 [

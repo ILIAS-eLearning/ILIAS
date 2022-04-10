@@ -32,8 +32,8 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
         
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         
         $tm = new AsyncTaskManager($this->persistence);

@@ -34,9 +34,9 @@ use ILIAS\Refinery\Factory;
  */
 class ilCourseObjectivesGUI
 {
-    protected const MODE_UNDEFINED = 0;
-    protected const MODE_CREATE = 1;
-    protected const MODE_UPDATE = 2;
+    public const MODE_UNDEFINED = 0;
+    public const MODE_CREATE = 1;
+    public const MODE_UPDATE = 2;
 
     protected const STEP_SETTINGS = 1;
     protected const STEP_MATERIAL_ASSIGNMENT = 2;
@@ -175,132 +175,6 @@ class ilCourseObjectivesGUI
         $this->tpl->setVariable('OBJECTIVES_TABLE', $table->getHTML());
     }
 
-    protected function saveSorting() : void
-    {
-        if (!$this->access->checkAccess("write", '', $this->course_obj->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
-        }
-
-        asort($_POST['position'], SORT_NUMERIC);
-
-        $counter = 1;
-        foreach ($_POST['position'] as $objective_id => $position) {
-            $objective = new ilCourseObjective($this->course_obj, $objective_id);
-            $objective->writePosition($counter++);
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objective_saved_sorting'));
-        $this->listObjectives();
-    }
-
-    public function askDeleteObjective() : void
-    {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
-        // MINIMUM ACCESS LEVEL = 'write'
-        if (!$this->rbacsystem->checkAccess("write", $this->course_obj->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
-        }
-        $objective_ids = $this->initObjectiveIdsFromPost();
-        if (!count($objective_ids)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'));
-            $this->listObjectives();
-            return;
-        }
-
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives.html", 'Modules/Course');
-
-        $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_delete_objectve_sure'));
-
-        $tpl = new ilTemplate("tpl.table.html", true, true);
-        $tpl->addBlockFile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html", 'Modules/Course');
-
-        $counter = 0;
-        foreach ($objective_ids as $objective_id) {
-            $objective_obj = $this->__initObjectivesObject($objective_id);
-
-            $tpl->setCurrentBlock("tbl_content");
-            $tpl->setVariable("ROWCOL", ilUtil::switchColor(++$counter, "tblrow2", "tblrow1"));
-            $tpl->setVariable("TITLE", $objective_obj->getTitle());
-            $tpl->setVariable("DESCRIPTION", $objective_obj->getDescription());
-            $tpl->parseCurrentBlock();
-        }
-
-        $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-        // Show action row
-        $tpl->setCurrentBlock("tbl_action_btn");
-        $tpl->setVariable("BTN_NAME", 'deleteObjectives');
-        $tpl->setVariable("BTN_VALUE", $this->lng->txt('delete'));
-        $tpl->parseCurrentBlock();
-
-        $tpl->setCurrentBlock("tbl_action_btn");
-        $tpl->setVariable("BTN_NAME", 'listObjectives');
-        $tpl->setVariable("BTN_VALUE", $this->lng->txt('cancel'));
-        $tpl->parseCurrentBlock();
-
-        $tpl->setCurrentBlock("tbl_action_row");
-        $tpl->setVariable("COLUMN_COUNTS", 1);
-        $tpl->setVariable("IMG_ARROW", ilUtil::getImagePath('arrow_downright.svg'));
-        $tpl->parseCurrentBlock();
-
-        // create table
-        $tbl = new ilTableGUI();
-        $tbl->setStyle('table', 'std');
-
-        // title & header columns
-        $tbl->setTitle($this->lng->txt("crs_objectives"), "", $this->lng->txt("crs_objectives"));
-
-        $tbl->setHeaderNames(array($this->lng->txt("title")));
-        $tbl->setHeaderVars(
-            array("title"),
-            array("ref_id" => $this->course_obj->getRefId(),
-                  "cmdClass" => "ilcourseobjectivesgui",
-                  "cmdNode" => $_GET["cmdNode"]
-            )
-        );
-        $tbl->setColumnWidth(array("50%"));
-
-        $tbl->setLimit($_GET["limit"]);
-        $tbl->setOffset($_GET["offset"]);
-        $tbl->setMaxCount(count($this->initObjectiveIdsFromPost()));
-
-        // footer
-        $tbl->disable("footer");
-        $tbl->disable('sort');
-
-        // render table
-        $tbl->setTemplate($tpl);
-        $tbl->render();
-
-        $this->tpl->setVariable("OBJECTIVES_TABLE", $tpl->get());
-
-        // Save marked objectives
-        ilSession::set('crs_delete_objectives', $this->initObjectiveIdsFromPost());
-    }
-
-    public function deleteObjectives() : void
-    {
-        // MINIMUM ACCESS LEVEL = 'write'
-        if (!$this->rbacsystem->checkAccess("write", $this->course_obj->getRefId())) {
-            $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
-        }
-        $objective_ids = (array) ilSession::get('crs_delete_objectives');
-        if (!count($objective_ids)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'));
-            $this->listObjectives();
-            return;
-        }
-
-        foreach ($objective_ids as $objective_id) {
-            $objective_obj = $this->__initObjectivesObject($objective_id);
-            $objective_obj->delete();
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_deleted'));
-        $this->listObjectives();
-    }
-
     protected function questionOverview() : void
     {
         $this->tabs->setSubTabActive('crs_objective_overview_question_assignment');
@@ -326,10 +200,26 @@ class ilCourseObjectivesGUI
         }
         $error = false;
 
-        $_POST['self'] = $_POST['self'] ?: array();
-        $_POST['final'] = $_POST['final'] ?: array();
+        $post_self_limit = [];
+        if ($this->http->wrapper()->post()->has('self')) {
+            $post_self_limit = $this->http->wrapper()->post()->retrieve(
+                'self',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->float()
+                )
+            );
+        }
+        $post_final_limit = [];
+        if ($this->http->wrapper()->post()->has('final')) {
+            $post_final_limit = $this->http->wrapper()->post()->retrieve(
+                'final',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->float()
+                )
+            );
+        }
 
-        foreach ($_POST['self'] as $objective_id => $limit) {
+        foreach ($post_self_limit as $objective_id => $limit) {
             $qst = new ilCourseObjectiveQuestion($objective_id);
             $max_points = $qst->getSelfAssessmentPoints();
 
@@ -339,7 +229,7 @@ class ilCourseObjectivesGUI
                 return;
             }
         }
-        foreach ($_POST['final'] as $objective_id => $limit) {
+        foreach ($post_final_limit as $objective_id => $limit) {
             $qst = new ilCourseObjectiveQuestion($objective_id);
             $max_points = $qst->getFinalTestPoints();
 
@@ -350,12 +240,12 @@ class ilCourseObjectivesGUI
             }
         }
 
-        foreach ($_POST['self'] as $objective_id => $limit) {
+        foreach ($post_self_limit as $objective_id => $limit) {
             ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT,
                 $limit);
         }
 
-        foreach ($_POST['final'] as $objective_id => $limit) {
+        foreach ($post_final_limit as $objective_id => $limit) {
             ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_FINAL_TEST,
                 $limit);
         }
@@ -400,7 +290,7 @@ class ilCourseObjectivesGUI
         }
     }
 
-    public function create(?ilPropertyFormGUI $form) : void
+    public function create(?ilPropertyFormGUI $form = null) : void
     {
         $this->setSubTabs("create_obj");
         ilSession::set('objective_mode', self::MODE_CREATE);
@@ -418,7 +308,7 @@ class ilCourseObjectivesGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function edit(?ilPropertyFormGUI $form) : void
+    protected function edit(?ilPropertyFormGUI $form = null) : void
     {
         ilSession::set('objective_mode', self::MODE_UPDATE);
         $this->setSubTabs("edit_obj");
@@ -538,7 +428,7 @@ class ilCourseObjectivesGUI
         }
         $chapters = [];
         if ($this->http->wrapper()->post()->has('chapters')) {
-            $materials = $this->http->wrapper()->post()->retrieve(
+            $chapters = $this->http->wrapper()->post()->retrieve(
                 'chapters',
                 $this->refinery->kindlyTo()->listOf(
                     $this->refinery->kindlyTo()->string()
@@ -610,7 +500,15 @@ class ilCourseObjectivesGUI
 
     protected function updateSelfAssessmentAssignment() : void
     {
-        $checked_questions = $_POST['questions'] ?: array();
+        $checked_questions = [];
+        if ($this->http->wrapper()->post()->has('questions')) {
+            $checked_questions = $this->http->wrapper()->post()->retrieve(
+                'questions',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
 
         if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
@@ -698,7 +596,14 @@ class ilCourseObjectivesGUI
 
         $this->__initQuestionObject($this->initObjectiveIdFromQuery());
 
-        if ((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > 100) {
+        $limit = 0;
+        if ($this->http->wrapper()->post()->has('limit')) {
+            $limit = $this->http->wrapper()->post()->retrieve(
+                'limit',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($limit < 1 || $limit > 100) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_err_limit'));
             $this->selfAssessmentLimits();
             return;
@@ -706,7 +611,7 @@ class ilCourseObjectivesGUI
 
         foreach ($this->objectives_qst_obj->getSelfAssessmentTests() as $test) {
             $this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT);
-            $this->objectives_qst_obj->setTestSuggestedLimit((int) $_POST['limit']);
+            $this->objectives_qst_obj->setTestSuggestedLimit($limit);
             $this->objectives_qst_obj->updateTest($test['test_objective_id']);
         }
 
@@ -929,7 +834,16 @@ class ilCourseObjectivesGUI
 
     protected function updateFinalTestAssignment() : void
     {
-        $checked_questions = $_POST['questions'] ?: array();
+        $checked_questions = [];
+        if ($this->http->wrapper()->post()->has('questions')) {
+            $checked_questions = $this->http->wrapper()->post()->retrieve(
+                'questions',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+
         if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
@@ -1005,7 +919,15 @@ class ilCourseObjectivesGUI
         }
         $this->__initQuestionObject($this->initObjectiveIdFromQuery());
 
-        if ((int) $_POST['limit'] < 1 or (int) $_POST['limit'] > 100) {
+        $limit = 0;
+        if ($this->http->wrapper()->post()->has('limit')) {
+            $limit = $this->http->wrapper()->post()->retrieve(
+                'limit',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        if ($limit < 1 || $limit > 100) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_err_limit'));
             $this->finalTestLimits();
             return;
@@ -1013,7 +935,7 @@ class ilCourseObjectivesGUI
 
         foreach ($this->objectives_qst_obj->getFinalTests() as $test) {
             $this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_FINAL_TEST);
-            $this->objectives_qst_obj->setTestSuggestedLimit((int) $_POST['limit']);
+            $this->objectives_qst_obj->setTestSuggestedLimit($limit);
             $this->objectives_qst_obj->updateTest($test['test_objective_id']);
         }
 

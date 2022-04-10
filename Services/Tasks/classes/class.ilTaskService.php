@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\DI\UIServices;
+
 /**
  * Task service
  *
@@ -9,7 +11,7 @@
  */
 class ilTaskService
 {
-    protected \ilTaskServiceDependencies $_deps;
+    protected ilTaskServiceDependencies $_deps;
 
     /**
      * This constructor contains all evil dependencies, that should e.g. be replaced for testing.
@@ -21,8 +23,8 @@ class ilTaskService
     public function __construct(
         ilObjUser $user,
         ilLanguage $lng,
-        \ILIAS\DI\UIServices $ui,
-        \ilAccessHandler $access,
+        UIServices $ui,
+        ilAccessHandler $access,
         array $derived_task_provider_factories = null
     ) {
         $derived_task_provider_master_factory = new ilDerivedTaskProviderMasterFactory($this, $derived_task_provider_factories);
@@ -46,7 +48,7 @@ class ilTaskService
      *
      * @return ilDerivedTaskService
      */
-    public function derived() : \ilDerivedTaskService
+    public function derived() : ilDerivedTaskService
     {
         return new ilDerivedTaskService($this);
     }

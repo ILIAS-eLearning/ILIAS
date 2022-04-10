@@ -1,10 +1,25 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Luka Stocker <luka.stocker@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\Integer\Constraints;
 
-use ILIAS\Data;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Constraint;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
 use ILIAS\Refinery\Integer\GreaterThanOrEqual;
@@ -12,12 +27,13 @@ use ilLanguage;
 
 class GreaterThanOrEqualConstraintTest extends TestCase
 {
-    private Data\Factory $df;
+    private DataFactory $df;
     private ilLanguage $lng;
+    private Constraint $c;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->df = new Data\Factory();
+        $this->df = new DataFactory();
         $this->lng = $this->getMockBuilder(ilLanguage::class)
                           ->disableOriginalConstructor()
                           ->getMock();
@@ -95,7 +111,7 @@ class GreaterThanOrEqualConstraintTest extends TestCase
 
     public function testWithProblemBuilder() : void
     {
-        $new_c = $this->c->withProblemBuilder(function () {
+        $new_c = $this->c->withProblemBuilder(static function () : string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith(9));

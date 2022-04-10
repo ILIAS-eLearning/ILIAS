@@ -11,11 +11,6 @@ class PWspStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -37,7 +32,7 @@ class PWspStandardGUIRequestTest extends TestCase
     /**
      * Test ref id
      */
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -55,7 +50,7 @@ class PWspStandardGUIRequestTest extends TestCase
     /**
      * Test no ref id
      */
-    public function testNoRefId()
+    public function testNoRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -72,7 +67,7 @@ class PWspStandardGUIRequestTest extends TestCase
     /**
      * Test share id
      */
-    public function testShareId()
+    public function testShareId() : void
     {
         $request = $this->getRequest(
             [
@@ -90,7 +85,7 @@ class PWspStandardGUIRequestTest extends TestCase
     /**
      * Test node
      */
-    public function testNode()
+    public function testNode() : void
     {
         $request = $this->getRequest(
             [

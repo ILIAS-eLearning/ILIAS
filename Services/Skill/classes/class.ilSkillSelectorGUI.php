@@ -36,12 +36,12 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     protected array $requested_selected_ids = [];
 
     public function __construct(
-        int $a_skill_tree_id,
         $a_parent_obj,
         string $a_parent_cmd,
         $a_select_gui,
         string $a_select_cmd,
-        string $a_select_par = "selected_skill"
+        string $a_select_par = "selected_skill",
+        int $a_skill_tree_id = 0
     ) {
         global $DIC;
 

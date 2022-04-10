@@ -114,11 +114,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    /**
-     * Block role
-     * @param int      $a_role_id
-     * @param ilObject $source
-     */
     protected function blockRole(int $a_role_id, ilObject $source) : bool
     {
         // Set assign to 'y' only if it is a local role
@@ -153,11 +148,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    /**
-     * Delete local policy
-     * @param int      $a_role_id
-     * @param ilObject $source
-     */
     protected function deleteLocalPolicy(int $a_role_id, ilObject $source) : bool
     {
         // Create role folder if it does not exist
@@ -247,7 +237,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
     {
         parent::read();
         $query = 'SELECT * FROM didactic_tpl_abr ' .
-            'WHERE action_id = ' . $this->db->quote($this->getActionId());
+            'WHERE action_id = ' . $this->db->quote($this->getActionId(), ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setFilterType($row->filter_type);

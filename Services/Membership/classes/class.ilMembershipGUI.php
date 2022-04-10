@@ -1,7 +1,23 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -13,10 +29,8 @@ class ilMembershipGUI
 {
     private ilObject $repository_object;
     private ?ilObjectGUI $repository_gui;
-
     protected GlobalHttpState $http;
     protected Factory $refinery;
-
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
     protected ilLogger $logger;
@@ -30,7 +44,6 @@ class ilMembershipGUI
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
     protected ilTree $tree;
-
     protected array $member_data = [];
 
     public function __construct(ilObjectGUI $repository_gui, ilObject $repository_obj)
@@ -54,7 +67,6 @@ class ilMembershipGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->rbacreview = $DIC->rbac()->review();
         $this->tree = $DIC->repositoryTree();
-
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
     }
@@ -156,7 +168,7 @@ class ilMembershipGUI
         string $a_type = '',
         int $a_ref_id = 0
     ) : bool {
-        if (!$a_ref_id) {
+        if ($a_ref_id === 0) {
             $a_ref_id = $this->getParentObject()->getRefId();
         }
         return $this->access->checkAccess($a_permission, $a_cmd, $a_ref_id);
@@ -167,7 +179,7 @@ class ilMembershipGUI
         string $a_pos_perm,
         int $a_ref_id = 0
     ) : bool {
-        if (!$a_ref_id) {
+        if ($a_ref_id === 0) {
             $a_ref_id = $this->getParentObject()->getRefId();
         }
         return $this->access->checkRbacOrPositionPermissionAccess($a_rbac_perm, $a_pos_perm, $a_ref_id);
@@ -403,7 +415,12 @@ class ilMembershipGUI
 
         $this->tpl->setVariable('MEMBERS', $table->getHTML());
     }
-
+    
+    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
+    {
+        return [];
+    }
+    
     /**
      * Apply filter for participant table
      */
@@ -575,7 +592,8 @@ class ilMembershipGUI
         }
 
         if (!$has_admin && is_array($post_roles)) {
-            foreach ($_POST['roles'] as $usrId => $roleIdsToBeAssigned) {
+            // TODO PHP8 Review: Check change of SuperGlobals
+            foreach ($post_roles as $roleIdsToBeAssigned) {
                 if (in_array($adminRoleId, $roleIdsToBeAssigned)) {
                     $has_admin = true;
                     break;
@@ -611,7 +629,7 @@ class ilMembershipGUI
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->updatePassed($usr_id, in_array($usr_id, $passed), true);
                 $this->getMembersObject()->sendNotification(
-                    $this->getMembersObject()->NOTIFY_STATUS_CHANGED,
+                    ilCourseMembershipMailNotification::TYPE_STATUS_CHANGED,
                     $usr_id
                 );
             }
@@ -730,7 +748,7 @@ class ilMembershipGUI
                 // @todo more generic
                 switch ($this->getParentObject()->getType()) {
                     case 'crs':
-                        $mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
+                        $mail_type = ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER;
                         break;
                     case 'grp':
                         $mail_type = ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER;
@@ -908,7 +926,7 @@ class ilMembershipGUI
                 $toolbar->addSeparator();
             }
 
-            if ($a_back_cmd) {
+            if ($a_back_cmd !== null) {
                 $this->ctrl->setParameter($this, "back_cmd", $a_back_cmd);
             }
 
@@ -1099,9 +1117,6 @@ class ilMembershipGUI
         return $subscriber;
     }
 
-    /**
-     * @return ilSubscriberTableGUI
-     */
     protected function initSubscriberTable() : ilSubscriberTableGUI
     {
         $subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(), true, true);
@@ -1188,7 +1203,7 @@ class ilMembershipGUI
             foreach ($subscribers as $usr_id) {
                 if ($this instanceof ilCourseMembershipGUI) {
                     $this->getMembersObject()->sendNotification(
-                        $this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
+                        ilCourseMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
                         $usr_id
                     );
                 }
@@ -1236,7 +1251,7 @@ class ilMembershipGUI
             foreach ($subscribers as $usr_id) {
                 if ($this instanceof ilCourseMembershipGUI) {
                     $this->getMembersObject()->sendNotification(
-                        $this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER,
+                        ilCourseMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
                         $usr_id
                     );
                     $this->getParentObject()->checkLPStatusSync($usr_id);
@@ -1339,7 +1354,7 @@ class ilMembershipGUI
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
                 $this->getMembersObject()->sendNotification(
-                    $this->getMembersObject()->NOTIFY_ACCEPT_USER,
+                    ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                     (int) $user_id,
                     true
                 );
@@ -1424,7 +1439,7 @@ class ilMembershipGUI
 
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->sendNotification(
-                    $this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
+                    ilCourseMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
                     (int) $user_id,
                     true
                 );
@@ -1481,7 +1496,7 @@ class ilMembershipGUI
         return null;
     }
 
-    protected function activateSubTab($a_sub_tab) : void
+    protected function activateSubTab(string $a_sub_tab) : void
     {
         $this->tabs->activateSubTab($a_sub_tab);
     }
@@ -1518,7 +1533,7 @@ class ilMembershipGUI
 
         $list = $this->initAttendanceList();
         $list->initFromForm();
-        $list->setCallback(array($this, 'getAttendanceListUserData'));
+        $list->setCallback([$this, 'getAttendanceListUserData']);
         $this->member_data = $this->getPrintMemberData(
             $this->filterUserIdsByRbacOrPositionOfCurrentUser(
                 $this->getMembersObject()->getParticipants()
@@ -1543,9 +1558,9 @@ class ilMembershipGUI
         $list = $this->initAttendanceList();
         $list->setTitle($this->lng->txt('obj_' . $this->getParentObject()->getType()) . ': ' . $this->getParentObject()->getTitle());
         $list->setId('0');
-        $form = $list->initForm('printForMembersOutput');
+        $list->initForm('printForMembersOutput');
         $list->initFromForm();
-        $list->setCallback(array($this, 'getAttendanceListUserData'));
+        $list->setCallback([$this, 'getAttendanceListUserData']);
         $this->member_data = $this->getPrintMemberData($this->getMembersObject()->getParticipants());
         $list->getNonMemberUserData($this->member_data);
         $list->getFullscreenHTML();
@@ -1560,9 +1575,6 @@ class ilMembershipGUI
     {
         global $DIC;
 
-        /**
-         * @var ilWaitingList
-         */
         $waiting_list = $this->initWaitingList();
 
         if ($this instanceof ilSessionMembershipGUI) {
@@ -1613,9 +1625,6 @@ class ilMembershipGUI
             $list->addPreset('progress', $this->lng->txt('learning_progress'), true);
         }
 
-        /**
-         * @var ilPrivacySettings
-         */
         $privacy = ilPrivacySettings::getInstance();
         if ($privacy->enabledAccessTimesByType($this->getParentObject()->getType())) {
             $list->addPreset('access', $this->lng->txt('last_access'), true);

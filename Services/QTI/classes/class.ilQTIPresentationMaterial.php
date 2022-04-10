@@ -12,18 +12,14 @@ class ilQTIPresentationMaterial implements ilQTIFlowMatAware
     /**
      * @var ilQTIFlowMat[]
      */
-    protected $flow_mat = array();
+    protected array $flow_mat = [];
     
-    public function addFlowMat(ilQTIFlowMat $flow_mat)
+    public function addFlowMat(ilQTIFlowMat $flow_mat) : void
     {
         $this->flow_mat[] = $flow_mat;
     }
 
-    /**
-     * @param int $index
-     * @return ilQTIFlowMat|null
-     */
-    public function getFlowMat($index)
+    public function getFlowMat(int $index) : ?ilQTIFlowMat
     {
         return $this->flow_mat[$index] ?? null;
     }

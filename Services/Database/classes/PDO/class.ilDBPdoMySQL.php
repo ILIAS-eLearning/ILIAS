@@ -7,7 +7,10 @@
  */
 abstract class ilDBPdoMySQL extends ilDBPdo
 {
-    protected $modes = [
+    /**
+     * @var string[]
+     */
+    protected array $modes = [
         'STRICT_TRANS_TABLES',
         'STRICT_ALL_TABLES',
         'IGNORE_SPACE',
@@ -22,7 +25,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         return false;
     }
 
-    public function initHelpers()
+    public function initHelpers() : void
     {
         $this->manager = new ilDBPdoManager($this->pdo, $this);
         $this->reverse = new ilDBPdoReverse($this->pdo, $this);
@@ -40,7 +43,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
     }
 
     /**
-     * @return int[]|bool[]
+     * @return array<int, int|bool>
      */
     protected function getAdditionalAttributes() : array
     {
@@ -49,7 +52,20 @@ abstract class ilDBPdoMySQL extends ilDBPdo
             PDO::ATTR_TIMEOUT => 300 * 60,
         );
     }
-
+    
+    public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB) : bool
+    {
+        try {
+            $this->pdo->exec("ALTER TABLE {$table_name} ENGINE={$engine}");
+            if ($this->sequenceExists($table_name)) {
+                $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE={$engine}");
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * @return array<int|string, string>
      */
@@ -61,32 +77,45 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         }
         $errors = [];
         $tables = $this->listTables();
-        array_walk($tables, function (string $table_name) use (&$errors, $engine) {
+        array_walk($tables, function (string $table_name) use (&$errors, $engine) : void {
             try {
-                $this->pdo->exec("ALTER TABLE {$table_name} ENGINE={$engine}");
+                $this->pdo->exec("ALTER TABLE $table_name ENGINE=$engine");
                 if ($this->sequenceExists($table_name)) {
-                    $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE={$engine}");
+                    $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE=$engine");
                 }
             } catch (Exception $e) {
                 $errors[$table_name] = $e->getMessage();
             }
         });
-
+    
         return $errors;
     }
-
+    
+    public function migrateTableCollation(
+        string $table_name,
+        string $collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4
+    ) : bool {
+        $collation_split = explode("_", $collation);
+        $character = $collation_split[0] ?? 'utf8mb4';
+        $collate = $collation;
+        $q = "ALTER TABLE {$this->quoteIdentifier($table_name)} CONVERT TO CHARACTER SET {$character} COLLATE {$collate};";
+        try {
+            $this->pdo->exec($q);
+        } catch (PDOException $e) {
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * @inheritDoc
      */
     public function migrateAllTablesToCollation(string $collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4) : array
     {
-        $ilDBPdoManager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
-        $errors = array();
-        foreach ($ilDBPdoManager->listTables() as $table_name) {
-            $q = "ALTER TABLE {$this->quoteIdentifier($table_name)} CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-            try {
-                $this->pdo->exec($q);
-            } catch (PDOException $e) {
+        $manager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
+        $errors = [];
+        foreach ($manager->listTables() as $table_name) {
+            if (!$this->migrateTableCollation($table_name, $collation)) {
                 $errors[] = $table_name;
             }
         }

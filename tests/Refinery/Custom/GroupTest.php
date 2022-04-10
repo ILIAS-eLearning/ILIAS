@@ -1,53 +1,57 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\Custom;
 
-use ILIAS\Data\Factory;
-use ILIAS\Refinery\Custom\Group;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Custom\Group as CustomGroup;
+use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Tests\Refinery\TestCase;
-
-require_once('./libs/composer/vendor/autoload.php');
-require_once('./tests/Refinery/TestCase.php');
+use ilLanguage;
 
 class GroupTest extends TestCase
 {
-    /**
-     * @var Group
-     */
-    private $group;
+    private CustomGroup $group;
+    private DataFactory $dataFactory;
+    private ilLanguage $language;
 
-    /**
-     * @var Factory
-     */
-    private $dataFactory;
-
-    /**
-     * @var \ilLanguage
-     */
-    private $language;
-
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->dataFactory = new Factory();
-        $this->language = $this->getMockBuilder('\ilLanguage')
+        $this->dataFactory = new DataFactory();
+        $this->language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->group = new Group($this->dataFactory, $this->language);
+        $this->group = new CustomGroup($this->dataFactory, $this->language);
     }
 
-    public function testCustomConstraint()
+    public function testCustomConstraint() : void
     {
-        $instance = $this->group->constraint(function () {
+        $instance = $this->group->constraint(static function () : void {
         }, 'some error');
-        $this->assertInstanceOf(\ILIAS\Refinery\Custom\Constraint::class, $instance);
+        $this->assertInstanceOf(CustomConstraint::class, $instance);
     }
 
-    public function testCustomTransformation()
+    public function testCustomTransformation() : void
     {
-        $instance = $this->group->transformation(function () {
+        $instance = $this->group->transformation(static function () : void {
         });
-        $this->assertInstanceOf(\ILIAS\Refinery\Custom\Transformation::class, $instance);
+        $this->assertInstanceOf(CustomTransformation::class, $instance);
     }
 }

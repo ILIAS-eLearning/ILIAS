@@ -9,16 +9,13 @@ class ilTermsOfServiceHistorizedDocument implements ilTermsOfServiceSignableDocu
 {
     private ilTermsOfServiceAcceptanceEntity $entity;
     private ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria;
-    private ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
         ilTermsOfServiceAcceptanceEntity $entity,
-        ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
+        ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria
     ) {
         $this->entity = $entity;
         $this->criteria = $criteria;
-        $this->criterionTypeFactory = $criterionTypeFactory;
     }
 
     public function content() : string

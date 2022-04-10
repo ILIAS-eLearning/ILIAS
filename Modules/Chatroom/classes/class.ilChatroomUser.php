@@ -21,7 +21,7 @@ class ilChatroomUser
     
     public function enabledBroadcastTyping() : bool
     {
-        return ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'));
+        return ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'));
     }
 
     /**

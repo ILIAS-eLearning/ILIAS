@@ -62,10 +62,12 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('HEADER_BREADCRUMBS', $default_renderer->render($dropdown));
         }
         if ($component->hasLogo()) {
-            $logo = $component->getLogo();
-            if ($logo) {
-                $tpl->setVariable("LOGO", $default_renderer->render($logo));
-            }
+            $tpl->setVariable('LOGO', $default_renderer->render($component->getLogo()));
+        }
+        if ($component->hasResponsiveLogo()) {
+            $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getResponsiveLogo()));
+        } elseif ($component->hasLogo()) {
+            $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getLogo()));
         }
 
         // There is a roadmap entry for this.

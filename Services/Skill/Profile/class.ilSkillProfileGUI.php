@@ -566,12 +566,12 @@ class ilSkillProfileGUI
 
 
         $exp = new ilSkillSelectorGUI(
-            $this->skill_tree_id,
             $this,
             "assignLevel",
             $this,
             "assignLevelSelectSkill",
-            "cskill_id"
+            "cskill_id",
+            $this->skill_tree_id
         );
         if (!$exp->handleCommand()) {
             $tpl->setContent($exp->getHTML());

@@ -25,12 +25,12 @@
 class ilPreview
 {
     // status values
-    const RENDER_STATUS_NONE = "none";
-    const RENDER_STATUS_PENDING = "pending";
-    const RENDER_STATUS_CREATED = "created";
-    const RENDER_STATUS_FAILED = "failed";
+    public const RENDER_STATUS_NONE = "none";
+    public const RENDER_STATUS_PENDING = "pending";
+    public const RENDER_STATUS_CREATED = "created";
+    public const RENDER_STATUS_FAILED = "failed";
 
-    const FILENAME_FORMAT = "preview_%02d.jpg";
+    private const FILENAME_FORMAT = "preview_%02d.jpg";
 
     /**
      * The object id.
@@ -61,18 +61,19 @@ class ilPreview
      * The status of the rendering process.
      */
     private string $render_status = self::RENDER_STATUS_NONE;
-
+    protected ilRendererFactory $factory;
+    
     /**
      * Creates a new ilPreview.
      *
      * @param int $a_obj_id The object id.
-     * @param int $a_type The type of the object.
+     * @param string $a_type The type of the object.
      */
-    public function __construct($a_obj_id, $a_type = "")
+    public function __construct(int $a_obj_id, string $a_type = "")
     {
         $this->obj_id = $a_obj_id;
         $this->obj_type = $a_type;
-
+        $this->factory = new ilRendererFactory();
         $this->init();
     }
 
@@ -117,7 +118,7 @@ class ilPreview
         $status = $src->getRenderStatus();
 
         // created? copy the previews
-        if ($status == self::RENDER_STATUS_CREATED) {
+        if ($status === self::RENDER_STATUS_CREATED) {
             // create destination preview and set it's properties
             $dest = new ilPreview($a_dest_id);
             $dest->setRenderDate($src->getRenderDate());
@@ -131,11 +132,6 @@ class ilPreview
 
             // save copy
             $dest->doCreate();
-        } else {
-            // all other status need no action
-            // self::RENDER_STATUS_FAILED
-            // self::RENDER_STATUS_NONE
-            // self::RENDER_STATUS_PENDING
         }
     }
 
@@ -156,8 +152,9 @@ class ilPreview
         if ($preview->exists()) {
             return true;
         }
-        $renderer = ilRendererFactory::getRenderer($preview);
-        return $renderer != null;
+        $factory = new ilRendererFactory();
+        $renderer = $factory->getRenderer($preview);
+        return $renderer !== null;
     }
 
     /**
@@ -194,22 +191,23 @@ class ilPreview
         if (!ilPreviewSettings::isPreviewEnabled()) {
             return false;
         }
-        $renderer = ilRendererFactory::getRenderer($this);
+        $factory = new ilRendererFactory();
+        $renderer = $factory->getRenderer($this);
 
         // no renderer available?
-        if ($renderer == null) {
+        if ($renderer === null) {
             // bugfix mantis 23293
             $this->delete();
             return false;
         }
 
         // exists, but still pending?
-        if ($this->getRenderStatus() == self::RENDER_STATUS_PENDING) {
+        if ($this->getRenderStatus() === self::RENDER_STATUS_PENDING) {
             return false;
         }
 
         // not forced? check if update really needed
-        if ($this->getRenderStatus() == self::RENDER_STATUS_CREATED && !$a_force) {
+        if (!$a_force && $this->getRenderStatus() === self::RENDER_STATUS_CREATED) {
             // check last modified against last render date
             if ($a_obj->getLastUpdateDate() <= $this->getRenderDate()) {
                 return false;
@@ -258,34 +256,32 @@ class ilPreview
 
         // status must be created
         $path = $this->getStoragePath();
-        if ($this->getRenderStatus() == self::RENDER_STATUS_CREATED) {
+        if ($this->getRenderStatus() === self::RENDER_STATUS_CREATED && ($handle = @opendir($path))) {
             // load files
-            if ($handle = @opendir($path)) {
-                while (false !== ($file = readdir($handle))) {
-                    $filepath = $path . "/" . $file;
-                    if (!is_file($filepath)) {
-                        continue;
-                    }
-
-                    if ($file != '.' && $file != '..' && strpos($file, "preview_") === 0) {
-                        $image = array();
-                        $image["url"] = ilUtil::getHtmlPath($filepath);
-
-                        // get image size
-                        $size = @getimagesize($filepath);
-                        if ($size !== false) {
-                            $image["width"] = $size[0];
-                            $image["height"] = $size[1];
-                        }
-
-                        $images[$file] = $image;
-                    }
+            while (false !== ($file = readdir($handle))) {
+                $filepath = $path . "/" . $file;
+                if (!is_file($filepath)) {
+                    continue;
                 }
-                closedir($handle);
 
-                // sort by key
-                ksort($images);
+                if ($file !== '.' && $file !== '..' && strpos($file, "preview_") === 0) {
+                    $image = array();
+                    $image["url"] = ilUtil::getHtmlPath($filepath);
+
+                    // get image size
+                    $size = @getimagesize($filepath);
+                    if ($size !== false) {
+                        $image["width"] = $size[0];
+                        $image["height"] = $size[1];
+                    }
+
+                    $images[$file] = $image;
+                }
             }
+            closedir($handle);
+
+            // sort by key
+            ksort($images);
         }
 
         return $images;
@@ -470,7 +466,7 @@ class ilPreview
      */
     public function getStorage() : \ilFSStoragePreview
     {
-        if ($this->storage == null) {
+        if ($this->storage === null) {
             $this->storage = new ilFSStoragePreview($this->obj_id);
         }
 

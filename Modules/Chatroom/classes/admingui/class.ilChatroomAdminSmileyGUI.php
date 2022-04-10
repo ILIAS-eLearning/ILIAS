@@ -232,7 +232,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
     }
 
     /**
-     * @param $smileyId
+     * @param int $smileyId
      * @return array{chatroom_smiley_id: int, chatroom_smiley_keywords: string, chatroom_current_smiley_image_path: string}
      */
     protected function getSmileyFormDataById(int $smileyId) : array

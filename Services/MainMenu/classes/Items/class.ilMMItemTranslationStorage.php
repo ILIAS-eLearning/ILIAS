@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
@@ -21,7 +21,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
             return new self();
         }
         $language_identification = "{$identification->serialize()}|$language_key";
-        $mt                      = ilMMItemTranslationStorage::find($language_identification);
+        $mt = ilMMItemTranslationStorage::find($language_identification);
         if (!$mt instanceof ilMMItemTranslationStorage) {
             $mt = new ilMMItemTranslationStorage();
             $mt->setId($language_identification);
@@ -56,7 +56,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
             return "";
         }
         $lng = self::getDefaultLanguage();
-        $key = "{$identification->serialize()}|{$lng}";
+        $key = "{$identification->serialize()}|$lng";
         /**
          * @var $item self
          */
@@ -74,7 +74,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     public static function hasDefaultTranslation(IdentificationInterface $identification) : bool
     {
         $lng = self::getDefaultLanguage();
-        $key = "{$identification->serialize()}|{$lng}";
+        $key = "{$identification->serialize()}|$lng";
         
         return self::find($key) instanceof self;
     }

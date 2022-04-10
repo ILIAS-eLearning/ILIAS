@@ -19,7 +19,7 @@ class ilQTIResponseVarTest extends TestCase
     /**
      * @dataProvider cases
      */
-    public function testSetGetCase($input, $expected) : void
+    public function testSetGetCase(string $input, ?string $expected) : void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setCase($input);
@@ -43,7 +43,7 @@ class ilQTIResponseVarTest extends TestCase
     /**
      * @dataProvider setMatches
      */
-    public function testSetGetSetmatch($input, $expected) : void
+    public function testSetGetSetmatch(string $input, ?string $expected) : void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setSetmatch($input);
@@ -53,7 +53,7 @@ class ilQTIResponseVarTest extends TestCase
     /**
      * @dataProvider areaTypes
      */
-    public function testSetGetAreatype($input, $expected) : void
+    public function testSetGetAreatype(string $input, ?string $expected) : void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setAreatype($input);

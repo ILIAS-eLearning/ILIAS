@@ -87,7 +87,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             ++$counter;
         }
 
-        $this->setData((array) $data);
+        $this->setData($data);
     }
 
     /**

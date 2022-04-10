@@ -77,11 +77,17 @@ class ilLMMenuObjectSelector extends ilExplorer
         return "";
     }
 
+    /**
+     * @param int $a_ref_id
+     */
     public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         return in_array($a_type, $this->selectable_types) and $a_ref_id != $this->ref_id;
     }
-
+    
+    /**
+     * @param int $a_parent_id
+     */
     public function showChilds($a_parent_id) : bool
     {
         $rbacsystem = $this->rbacsystem;
@@ -95,17 +101,5 @@ class ilLMMenuObjectSelector extends ilExplorer
         } else {
             return false;
         }
-    }
-
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
-    {
-        $lng = $this->lng;
-
-        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
-
-        $tpl->setCurrentBlock("text");
-        $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
-        $tpl->parseCurrentBlock();
-        $this->output[] = $tpl->get();
     }
 }

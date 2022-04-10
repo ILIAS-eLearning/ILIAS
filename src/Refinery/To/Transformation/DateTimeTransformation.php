@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery\To\Transformation;
 
@@ -9,6 +23,8 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
+use DateTimeImmutable;
+use Exception;
 
 /**
  * Transform a string representing a datetime-value to php's DateTimeImmutable
@@ -20,22 +36,28 @@ class DateTimeTransformation implements Constraint
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
-    protected string $error = '';
+    private string $error = '';
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : DateTimeImmutable
     {
         $this->check($from);
-        return new \DateTimeImmutable($from);
+        return new DateTimeImmutable($from);
     }
 
-    public function getError()
+    /**
+     * @inheritDoc
+     */
+    public function getError() : string
     {
         return $this->error;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -45,17 +67,23 @@ class DateTimeTransformation implements Constraint
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function accepts($value) : bool
     {
         try {
-            new \DateTimeImmutable($value);
-        } catch (\Exception $e) {
+            new DateTimeImmutable($value);
+        } catch (Exception $e) {
             $this->error = $e->getMessage();
             return false;
         }
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {

@@ -19,7 +19,7 @@ class ilQTIResponseTest extends TestCase
     /**
      * @dataProvider rtimings
      */
-    public function testSetGetRtiming($input, $expected) : void
+    public function testSetGetRtiming(string $input, ?string $expected) : void
     {
         $instance = new ilQTIResponse();
         $instance->setRtiming($input);
@@ -29,7 +29,7 @@ class ilQTIResponseTest extends TestCase
     /**
      * @dataProvider numtypes
      */
-    public function testSetGetNumtype($input, $expected) : void
+    public function testSetGetNumtype(string $input, ?string $expected) : void
     {
         $instance = new ilQTIResponse();
         $instance->setNumtype($input);

@@ -3,16 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * Claiming permission helper base class
  *
@@ -131,8 +134,6 @@ abstract class ilClaimingPermissionHelper
      * Get context ids for context type (uses cache)
      *
      * @see self::readContextIds()
-     * @param int $a_context_type
-     * @return array
      */
     protected function getValidContextIds(int $a_context_type) : array
     {
@@ -221,7 +222,7 @@ abstract class ilClaimingPermissionHelper
         $valid = true;
         
         if (!is_array($this->plugins)) {
-            $this->plugins = (array) $this->getActivePlugins();
+            $this->plugins = $this->getActivePlugins();
         }
         
         foreach ($this->plugins as $plugin) {
@@ -245,7 +246,7 @@ abstract class ilClaimingPermissionHelper
         $adv_md_types = $obj_def->getAdvancedMetaDataTypes();
 
         $valid_accepted_types = array();
-        foreach ($adv_md_types as $idx => $value) {
+        foreach ($adv_md_types as $value) {
             if (in_array($value['obj_type'], $accepted_types) || in_array($value['sub_type'], $accepted_types)) {
                 array_push($valid_accepted_types, $value['obj_type']);
             }

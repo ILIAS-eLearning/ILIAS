@@ -52,7 +52,6 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
 
 
     /**
-     * @param int $ref_id
      *
      * @return string
      */

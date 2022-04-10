@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,16 +15,18 @@
 
 namespace ILIAS\Style\Content;
 
+use ilDBInterface;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ColorDBRepo
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     protected InternalDataService $factory;
 
     public function __construct(
-        \ilDBInterface $db,
+        ilDBInterface $db,
         InternalDataService $factory
     ) {
         $this->db = $db;
@@ -57,7 +59,7 @@ class ColorDBRepo
         $set = $db->query("SELECT * FROM style_color WHERE " .
             "style_id = " . $db->quote($style_id, "integer") . " AND " .
             "color_name = " . $db->quote($a_color_name, "text"));
-        if ($rec = $db->fetchAssoc($set)) {
+        if ($db->fetchAssoc($set)) {
             return true;
         }
         return false;

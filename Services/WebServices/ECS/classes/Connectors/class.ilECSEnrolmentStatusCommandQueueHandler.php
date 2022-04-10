@@ -19,7 +19,7 @@
  */
 class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandler
 {
-    private ?\ilECSSetting $server = null;
+    private ilECSSetting $server;
     private int $mid = 0;
 
     protected \ilRecommendedContentManager $recommended_content_manager;
@@ -40,38 +40,24 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
     
     /**
      * Get server
-     * @return ilECSServerSetting
      */
-    public function getServer()
+    public function getServer() : \ilECSSetting
     {
         return $this->server;
     }
     
     /**
      * Get mid
-     * @return type
      */
-    public function getMid()
+    public function getMid() : int
     {
         return $this->mid;
     }
-    
-    /**
-     * Check if course allocation is activated for one recipient of the
-     * @param ilECSSetting $server
-     * @param type $a_content_id
-     */
-    public function checkAllocationActivation(ilECSSetting $server, $a_content_id)
-    {
-    }
-
 
     /**
      * Handle create
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleCreate(ilECSSetting $server, $a_content_id)
+    public function handleCreate(ilECSSetting $server, $a_content_id) : bool
     {
         try {
             $enrolment_con = new ilECSEnrolmentStatusConnector($server);
@@ -79,18 +65,13 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
             $this->logger->debug(print_r($status, true));
             $this->logger->debug($status->getPersonIdType());
             $this->logger->debug($status->getPersonId());
-            switch ($status->getPersonIdType()) {
-                case ilECSEnrolmentStatus::ID_UID:
-                    $id_arr = ilUtil::parseImportId($status->getPersonId());
-                    $this->logger->debug('Handling status change to ' . $status->getStatus() . ' for user ' . $id_arr['id']);
-                    $this->doUpdate($id_arr['id'], $status);
-                    break;
-                    
-                    
-                    
-                default:
-                    $this->logger->debug('Not implemented yes: person id type: ' . $status->getPersonIdType());
-                    break;
+            $i = $status->getPersonIdType();
+            if ($i === ilECSEnrolmentStatus::ID_UID) {
+                $id_arr = ilUtil::parseImportId($status->getPersonId());
+                $this->logger->debug('Handling status change to ' . $status->getStatus() . ' for user ' . $id_arr['id']);
+                $this->doUpdate($id_arr['id'], $status);
+            } else {
+                $this->logger->debug('Not implemented yes: person id type: ' . $status->getPersonIdType());
             }
         } catch (ilECSConnectorException $e) {
             $this->logger->error('Enrollment status change failed with message: ' . $e->getMessage());
@@ -100,10 +81,8 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 
     /**
      * Handle delete
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleDelete(ilECSSetting $server, $a_content_id)
+    public function handleDelete(ilECSSetting $server, $a_content_id) : bool
     {
         // nothing todo
         return true;
@@ -111,10 +90,9 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 
     /**
      * Handle update
-     * @param ilECSSetting $server
-     * @param type $a_content_id
+
      */
-    public function handleUpdate(ilECSSetting $server, $a_content_id)
+    public function handleUpdate(ilECSSetting $server, $a_content_id) : bool
     {
         // Shouldn't happen
         return true;
@@ -123,10 +101,8 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
     
     /**
      * Perform update
-     * @param type $a_content_id
-     * @param type $course
      */
-    protected function doUpdate($a_usr_id, ilECSEnrolmentStatus $status)
+    protected function doUpdate($a_usr_id, ilECSEnrolmentStatus $status) : bool
     {
         $obj_ids = ilECSImportManager::getInstance()->lookupObjIdsByContentId($status->getId());
         $obj_id = end($obj_ids);

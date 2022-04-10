@@ -56,7 +56,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     private function skipIfvfsStreamNotSupported() : void
     {
         if (!$this->isVsfStreamInstalled()) {
-            $this->markTestSkipped('Skipped test, vfsStream (https://github.com/bovigo/vfsStream/) required');
+            $this->markTestSkipped('Skipped test, vfsStream (https://github.com/bovigo/vfsStream) required');
         } else {
             vfs\vfsStream::setup();
             $this->setTestDirectory(vfs\vfsStream::newDirectory('tests')->at(vfs\vfsStreamWrapper::getRoot()));

@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUndefinedVariableInspection */
+<?php
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,7 +9,7 @@ class ilDBStepExecutionDBTest extends TestCase
     public const CLASS_NAME_200 = "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
     public const CLASS_NAME_201 = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->db = $this->createMock(\ilDBInterface::class);
         $this->execution_db = new \ilDBStepExecutionDB($this->db, fn () => new \DateTime());
@@ -42,7 +42,8 @@ class ilDBStepExecutionDBTest extends TestCase
     public function testStartedThrowsOnStartStepNotLargerThenLastFinishedStep() : void
     {
         $STEP = 1;
-
+        $NOW = "2021-08-12 13:37:23.111111";
+        
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
@@ -60,6 +61,8 @@ class ilDBStepExecutionDBTest extends TestCase
 
     public function testStartedThrowsWhenLastStepNotFinished() : void
     {
+        $NOW = "2021-08-12 13:37:23.111111";
+        
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
@@ -84,6 +87,7 @@ class ilDBStepExecutionDBTest extends TestCase
     public function testFinishedThrowsWhenOtherStepThenLastIsFinished() : void
     {
         $STEP = 1;
+        $NOW = "2021-08-12 13:37:23.111111";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])

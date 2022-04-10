@@ -11,7 +11,7 @@ class ilBibliograficDB80 implements ilDatabaseUpdateSteps
     /**
      * @inheritDoc
      */
-    public function prepare(ilDBInterface $db)
+    public function prepare(ilDBInterface $db) : void
     {
         $this->database = $db;
     }

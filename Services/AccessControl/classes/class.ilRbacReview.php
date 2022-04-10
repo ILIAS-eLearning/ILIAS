@@ -1,5 +1,19 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * class ilRbacReview
@@ -156,10 +170,10 @@ class ilRbacReview
 
         if (strlen($title_filter)) {
             $query .= (' AND ' . $this->db->like(
-                    'title',
-                    'text',
-                    $title_filter . '%'
-                ));
+                'title',
+                'text',
+                $title_filter . '%'
+            ));
         }
         $res = $this->db->query($query);
 
@@ -167,8 +181,8 @@ class ilRbacReview
             $row["description"] = (string) $row["description"];
             $row["desc"] = $row["description"];
             $row["user_id"] = (int) $row["owner"];
-            $row['obj_id']  = (int) $row['obj_id'];
-            $row['parent']  = (int) $row['parent'];
+            $row['obj_id'] = (int) $row['obj_id'];
+            $row['parent'] = (int) $row['parent'];
             $role_list[] = $row;
         }
         return $this->__setRoleType($role_list);
@@ -229,7 +243,7 @@ class ilRbacReview
      */
     protected function __setTemplateFilter(bool $a_templates) : string
     {
-        if ($a_templates === true) {
+        if ($a_templates) {
             $where = "WHERE " . $this->db->in('object_data.type', array('role', 'rolt'), false, 'text') . " ";
         } else {
             $where = "WHERE " . $this->db->in('object_data.type', array('role'), false, 'text') . " ";
@@ -274,7 +288,6 @@ class ilRbacReview
     /**
      * Get the number of assigned users to roles (not properly deleted user accounts are not counted)
      * @param int[] $a_roles
-     * @return int
      */
     public function getNumberOfAssignedUsers(array $a_roles) : int
     {
@@ -307,7 +320,7 @@ class ilRbacReview
         $query = "SELECT usr_id FROM rbac_ua WHERE rol_id= " . $this->db->quote($a_rol_id, 'integer');
         $res = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($res)) {
-            array_push($result_arr, (int) $row["usr_id"]);
+            $result_arr[] = (int) $row["usr_id"];
         }
         self::$assigned_users_cache[$a_rol_id] = $result_arr;
         return $result_arr;
@@ -339,7 +352,6 @@ class ilRbacReview
      * of a course or a group.
      * @param int        usr_id
      * @param int[]        role_ids
-     * @return    bool
      */
     public function isAssignedToAtLeastOneGivenRole(int $a_usr_id, array $a_role_ids) : bool
     {
@@ -389,7 +401,7 @@ class ilRbacReview
         while ($row = $this->db->fetchObject($res)) {
             $role_arr[] = $row->rol_id;
         }
-        return $role_arr ? $role_arr : array();
+        return $role_arr !== [] ? $role_arr : array();
     }
 
     /**
@@ -554,7 +566,6 @@ class ilRbacReview
      */
     public function getGlobalAssignableRoles() : array
     {
-
         $ga = [];
         foreach ($this->getGlobalRoles() as $role_id) {
             if (ilObjRole::_getAssignUsersStatus($role_id)) {
@@ -753,7 +764,7 @@ class ilRbacReview
             'WHERE assign = ' . $this->db->quote('n', 'text') . ' ' .
             'AND rol_id = ' . $this->db->quote($a_rol_id, 'integer') . ' ';
 
-        if ($a_filter) {
+        if ($a_filter !== []) {
             $query .= ('AND ' . $this->db->in('parent', (array) $a_filter, false, 'integer'));
         }
 
@@ -771,7 +782,6 @@ class ilRbacReview
      */
     public function isDeleted(int $a_node_id) : bool
     {
-
         $q = "SELECT tree FROM tree WHERE child =" . $this->db->quote($a_node_id, ilDBConstants::T_INTEGER) . " ";
         $r = $this->db->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -803,7 +813,6 @@ class ilRbacReview
             // all (assignable) roles
             case self::FILTER_ALL:
                 return $this->getAssignableRoles(true, true, $title_filter);
-                break;
 
             // all (assignable) global roles
             case self::FILTER_ALL_GLOBAL:
@@ -830,8 +839,12 @@ class ilRbacReview
                     return array();
                 }
 
-                $where = 'WHERE ' . $this->db->in('rbac_fa.rol_id', $this->assignedRoles($a_user_id), false,
-                        'integer') . ' ';
+                $where = 'WHERE ' . $this->db->in(
+                    'rbac_fa.rol_id',
+                    $this->assignedRoles($a_user_id),
+                    false,
+                    'integer'
+                ) . ' ';
                 break;
         }
 
@@ -844,10 +857,10 @@ class ilRbacReview
 
         if (strlen($title_filter)) {
             $query .= (' AND ' . $this->db->like(
-                    'title',
-                    'text',
-                    '%' . $title_filter . '%'
-                ));
+                'title',
+                'text',
+                '%' . $title_filter . '%'
+            ));
         }
 
         $res = $this->db->query($query);
@@ -855,12 +868,12 @@ class ilRbacReview
             $prefix = substr($row["title"], 0, 3) == "il_";
 
             // all (assignable) internal local roles only
-            if ($a_filter == 4 and !$prefix) {
+            if ($a_filter == 4 && !$prefix) {
                 continue;
             }
 
             // all (assignable) non internal local roles only
-            if ($a_filter == 5 and $prefix) {
+            if ($a_filter == 5 && $prefix) {
                 continue;
             }
 
@@ -896,7 +909,7 @@ class ilRbacReview
         global $DIC;
 
         $ilDB = $DIC->database();
-        if (!count($operations)) {
+        if ($operations === []) {
             return array();
         }
 
@@ -954,7 +967,7 @@ class ilRbacReview
             $operations[] = ('create_' . $type);
         }
 
-        if (!count($operations)) {
+        if ($operations === []) {
             return array();
         }
 
@@ -1046,8 +1059,10 @@ class ilRbacReview
             }
 
             if ($a_parent_roles[$role_id]['protected'] == true) {
-                $arr_lvl_roles_user = array_intersect($this->assignedRoles($ilUser->getId()),
-                    array_keys($a_role_hierarchy, $rolf_id));
+                $arr_lvl_roles_user = array_intersect(
+                    $this->assignedRoles($ilUser->getId()),
+                    array_keys($a_role_hierarchy, $rolf_id)
+                );
 
                 foreach ($arr_lvl_roles_user as $lvl_role_id) {
                     // check if role grants 'edit_permission' to parent
@@ -1117,7 +1132,7 @@ class ilRbacReview
         // internal cache
         static $obj_cache = array();
 
-        if (isset($obj_cache[$a_role_id]) and $obj_cache[$a_role_id]) {
+        if (isset($obj_cache[$a_role_id]) && $obj_cache[$a_role_id]) {
             return $obj_cache[$a_role_id];
         }
 
@@ -1155,7 +1170,7 @@ class ilRbacReview
     {
         $rolf_list = $this->getFoldersAssignedToRole($a_role_id, false);
         $deleted = true;
-        if (count($rolf_list)) {
+        if ($rolf_list !== []) {
             foreach ($rolf_list as $rolf) {
                 // only list roles that are not set to status "deleted"
                 if (!$this->isDeleted($rolf)) {

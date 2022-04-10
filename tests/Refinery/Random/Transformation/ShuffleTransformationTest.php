@@ -1,8 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Tests\Refinery\Random\Transformation;
 
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
@@ -22,7 +35,7 @@ class ShuffleTransformationTest extends TestCase
         $expected = $this->shuffleWithSeed($value, $seed);
         $seedMock = $this->getMockBuilder(Seed::class)->getMock();
         $seedMock->expects(self::once())->method('seedRandomGenerator')->willReturnCallback(static function () use ($seed) : void {
-            \mt_srand($seed);
+            mt_srand($seed);
         });
 
         $result = (new ShuffleTransformation($seedMock))->transform($value);
@@ -40,8 +53,8 @@ class ShuffleTransformationTest extends TestCase
 
     private function shuffleWithSeed(array $array, int $seed) : array
     {
-        \mt_srand($seed);
-        \shuffle($array);
+        mt_srand($seed);
+        shuffle($array);
 
         return $array;
     }

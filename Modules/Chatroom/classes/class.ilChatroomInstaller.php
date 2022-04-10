@@ -494,7 +494,8 @@ class ilChatroomInstaller
     public static function ensureCorrectPublicChatroomTreeLocation(int $ref_id) : void
     {
         global $DIC;
-        /** @var $tree ilTree */
+
+        /** @var ilTree $tree */
         $tree = $DIC->repositoryTree();
         /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();

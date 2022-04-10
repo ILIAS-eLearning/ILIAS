@@ -113,6 +113,9 @@ class NoUIFactory implements Factory
     public function toast() : C\Toast\Factory
     {
     }
+    public function player() : C\Player\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry
@@ -145,7 +148,7 @@ class ilLanguageMock extends ilLanguage
 
     public string $lang_module = 'common';
 
-    public function loadLanguageModule(string $lang_module)
+    public function loadLanguageModule(string $a_module) : void
     {
     }
 

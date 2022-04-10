@@ -170,7 +170,7 @@ class ilLikeData
 
     /**
      * Load data (for objects)
-     * @param int[] load data for objects
+     * @param int[] $a_obj_ids load data for objects
      */
     protected function loadDataForObjects(
         array $a_obj_ids = array()

@@ -19,8 +19,8 @@
 */
 class ilECSParticipantSettingsGUI
 {
-    private int $server_id = 0;
-    private int $mid = 0;
+    private int $server_id ;
+    private int $mid;
     
     private ilECSParticipantSetting $participant;
     
@@ -75,13 +75,8 @@ class ilECSParticipantSettingsGUI
         $cmd = $this->ctrl->getCmd('settings');
 
         $this->setTabs();
-        //TODO check if this is needed
-        switch ($next_class) {
-            default:
-                $this->$cmd();
-                break;
-        }
-        
+        $this->$cmd();
+
         return true;
     }
     
@@ -112,11 +107,11 @@ class ilECSParticipantSettingsGUI
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
-            $this->getParticipant()->enableToken(boolval($form->getInput('token')));
-            $this->getParticipant()->enableDeprecatedToken(boolval($form->getInput('dtoken')));
-            $this->getParticipant()->enableExport(boolval($form->getInput('export')));
+            $this->getParticipant()->enableToken((bool) $form->getInput('token'));
+            $this->getParticipant()->enableDeprecatedToken((bool) $form->getInput('dtoken'));
+            $this->getParticipant()->enableExport((bool) $form->getInput('export'));
             $this->getParticipant()->setExportTypes($form->getInput('export_types'));
-            $this->getParticipant()->enableImport(boolval($form->getInput('import')));
+            $this->getParticipant()->enableImport((bool) $form->getInput('import'));
             $this->getParticipant()->setImportTypes($form->getInput('import_types'));
             $this->getParticipant()->update();
             

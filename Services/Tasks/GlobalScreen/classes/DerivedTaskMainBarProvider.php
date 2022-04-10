@@ -5,6 +5,7 @@
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ilDerivedTasksGUI;
 
 /**
  * Main menu entry for derived tasks
@@ -38,7 +39,7 @@ class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withPosition(40)
             ->withSymbol($icon)
-            ->withAction($dic->ctrl()->getLinkTargetByClass([\ilDerivedTasksGUI::class], ""))
+            ->withAction($dic->ctrl()->getLinkTargetByClass([ilDerivedTasksGUI::class], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withVisibilityCallable(
                 fn () : bool => true

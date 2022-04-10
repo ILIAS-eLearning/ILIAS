@@ -8,11 +8,6 @@
  */
 class ilDidacticTemplateFilterPatternFactory
 {
-    /**
-     * Get patterns by template id
-     * @param int $a_tpl_id
-     * @param ilDidacticTemplateFilterPattern[]
-     */
     public static function lookupPatternsByParentId(int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
@@ -20,7 +15,7 @@ class ilDidacticTemplateFilterPatternFactory
         $ilDB = $DIC->database();
 
         $query = 'SELECT pattern_id,pattern_type FROM didactic_tpl_fp ' .
-            'WHERE parent_id = ' . $ilDB->quote($a_parent_id) . ' ' .
+            'WHERE parent_id = ' . $ilDB->quote($a_parent_id, ilDBConstants::T_INTEGER) . ' ' .
             'AND parent_type = ' . $ilDB->quote($a_parent_type, 'text');
         $res = $ilDB->query($query);
 

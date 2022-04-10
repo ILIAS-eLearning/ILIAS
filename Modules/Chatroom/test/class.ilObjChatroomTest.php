@@ -17,7 +17,7 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
 
         $userInfo = $this->object->getPersonalInformation($this->ilChatroomUserMock);
 
-        $this->assertInstanceOf('stdClass', $userInfo);
+        $this->assertInstanceOf(stdClass::class, $userInfo);
         $this->assertEquals('username', $userInfo->username);
         $this->assertEquals(6, $userInfo->id);
     }

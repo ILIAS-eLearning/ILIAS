@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkItemRenderer;
 use ILIAS\UI\Component\Component;
@@ -16,5 +16,4 @@ class ilMMLinkItemRenderer extends LinkItemRenderer
     {
         return parent::getComponentWithContent($this->addDisengageDecorator($item));
     }
-
 }

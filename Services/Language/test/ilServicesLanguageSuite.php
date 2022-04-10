@@ -7,7 +7,6 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
-//this doesn't seem to be doing anything
 require_once __DIR__ . '/bootstrap.php';
 
 /**
@@ -21,27 +20,27 @@ class ilServicesLanguageSuite extends TestSuite
      * @return self
      * @throws ReflectionException
      */
-    public static function suite(): self
+    public static function suite() : self
     {
         $suite = new self();
 
         foreach (new RegExIterator(
-                new RecursiveIteratorIterator(
-                        new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                        RecursiveIteratorIterator::LEAVES_ONLY
-                ),
-                '/BaseTest\.php$/'
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
+            ),
+            '/BaseTest\.php$/'
         ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
         }
 
         foreach (new RegExIterator(
-                new RecursiveIteratorIterator(
-                        new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                        RecursiveIteratorIterator::LEAVES_ONLY
-                ),
-                '/(?<!Base)Test\.php$/'
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
+            ),
+            '/(?<!Base)Test\.php$/'
         ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();

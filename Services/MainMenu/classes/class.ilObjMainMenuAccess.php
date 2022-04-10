@@ -1,12 +1,10 @@
-<?php
-
-use ILIAS\HTTP\Services;
+<?php declare(strict_types=1);
 
 /**
  * Class ilObjMainMenuAccess
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilObjMainMenuAccess extends ilObjectAccess
+class ilObjMainMenuAccess extends ilObjectAccess implements ilMainMenuAccess
 {
     private ilObjUser $user;
     private ilRbacSystem $rbacsystem;
@@ -21,8 +19,8 @@ class ilObjMainMenuAccess extends ilObjectAccess
         global $DIC;
         $this->rbacreview = $DIC->rbac()->review();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->user       = $DIC->user();
-        $this->ref_id     = $DIC->http()->wrapper()->query()->has('ref_id')
+        $this->user = $DIC->user();
+        $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
             ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
             : null;
     }
@@ -56,7 +54,8 @@ class ilObjMainMenuAccess extends ilObjectAccess
     public function getGlobalRoles() : array
     {
         $global_roles = $this->rbacreview->getRolesForIDs(
-            $this->rbacreview->getGlobalRoles(), false
+            $this->rbacreview->getGlobalRoles(),
+            false
         );
         
         $roles = [];

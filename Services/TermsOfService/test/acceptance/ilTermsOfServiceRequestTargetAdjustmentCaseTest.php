@@ -34,7 +34,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->expects($this->once())
             ->method('redirectToURL');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
             return $ctrl;
         };
 
@@ -104,11 +104,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
     {
         $dic = new Container();
 
-        $ctrl = $this
-            ->getMockBuilder(ilCtrl::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getCmdClass', 'getCmd'])
-            ->getMock();
+        $ctrl = $this->createMock(ilCtrlInterface::class);
 
         $ctrl
             ->expects($this->atLeast(1))
@@ -119,7 +115,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->atLeast(1))
             ->method('getCmd')
             ->willReturn('getacceptance');
-        $dic['ilCtrl'] = static function () use ($ctrl) : iLCtrl {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
             return $ctrl;
         };
 
@@ -282,11 +278,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             }
         };
 
-        $ctrl = $this
-            ->getMockBuilder(ilCtrl::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getCmdClass', 'getCmd'])
-            ->getMock();
+        $ctrl = $this->createMock(ilCtrlInterface::class);
 
         $ctrl
             ->method('getCmdClass')
@@ -295,7 +287,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
             return $ctrl;
         };
 
@@ -388,11 +380,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             }
         };
 
-        $ctrl = $this
-            ->getMockBuilder(ilCtrl::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getCmdClass', 'getCmd'])
-            ->getMock();
+        $ctrl = $this->createMock(ilCtrlInterface::class);
 
         $ctrl
             ->method('getCmdClass')
@@ -401,7 +389,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
             return $ctrl;
         };
 

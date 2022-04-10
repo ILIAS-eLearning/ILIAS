@@ -55,8 +55,8 @@ class ilSetupLanguage extends ilLanguage
 
     public function __construct(string $a_lang_key)
     {
-        $this->lang_key = ($a_lang_key) ? $a_lang_key : $this->lang_default;
-        $il_absolute_path = realpath(dirname(__FILE__) . "/../../../../");
+        $this->lang_key = $a_lang_key ?: $this->lang_default;
+        $il_absolute_path = realpath(__DIR__ . "/../../../../");
         $this->lang_path = $il_absolute_path . "/lang";
         $this->cust_lang_path = $il_absolute_path . "/Customizing/global/lang";
     }
@@ -76,7 +76,7 @@ class ilSetupLanguage extends ilLanguage
             return "";
         }
 
-        $translation = $this->text[$a_topic];
+        $translation = $this->text[$a_topic] ?? '';
         
         //get position of the comment_separator
         $pos = strpos($translation, $this->comment_separator);
@@ -86,12 +86,12 @@ class ilSetupLanguage extends ilLanguage
             $translation = substr($translation, 0, $pos);
         }
 
-        if ($translation == "") {
+        if ($translation === "") {
             $log->writeLanguageLog($a_topic, $this->lang_key);
             return "-" . $a_topic . "-";
-        } else {
-            return $translation;
         }
+
+        return $translation;
     }
 
     /**
@@ -122,7 +122,7 @@ class ilSetupLanguage extends ilLanguage
                 $this->flushLanguage($lang_key, "keep_local");
                 $this->insertLanguage($lang_key);
                 
-                if (in_array($lang_key, $a_local_keys) && is_dir($this->cust_lang_path)) {
+                if (in_array($lang_key, $a_local_keys, true) && is_dir($this->cust_lang_path)) {
                     if ($this->checkLanguage($lang_key, "local")) {
                         $this->insertLanguage($lang_key, "local");
                     } else {
@@ -132,7 +132,7 @@ class ilSetupLanguage extends ilLanguage
                 
                 // register language first time install
                 if (!array_key_exists($lang_key, $db_langs)) {
-                    if (in_array($lang_key, $a_local_keys)) {
+                    if (in_array($lang_key, $a_local_keys, true)) {
                         $itype = "installed_local";
                     } else {
                         $itype = "installed";
@@ -158,9 +158,9 @@ class ilSetupLanguage extends ilLanguage
         }
         
         foreach ($db_langs as $key => $val) {
-            if (!in_array($key, $err_lang)) {
-                if (in_array($key, $a_lang_keys)) {
-                    if (in_array($key, $a_local_keys)) {
+            if (!in_array($key, $err_lang, true)) {
+                if (in_array($key, $a_lang_keys, true)) {
+                    if (in_array($key, $a_local_keys, true)) {
                         $ld = "installed_local";
                     } else {
                         $ld = "installed";
@@ -185,7 +185,7 @@ class ilSetupLanguage extends ilLanguage
                 }
             }
         }
-
+return true;
         return ($err_lang) ? $err_lang : true;
     }
 
@@ -269,7 +269,7 @@ class ilSetupLanguage extends ilLanguage
     {
         $scopeExtension = "";
         if (!empty($scope)) {
-            if ($scope == "global") {
+            if ($scope === "global") {
                 $scope = "";
             } else {
                 $scopeExtension = "." . $scope;
@@ -277,7 +277,7 @@ class ilSetupLanguage extends ilLanguage
         }
         
         $path = $this->lang_path;
-        if ($scope == "local") {
+        if ($scope === "local") {
             $path = $this->cust_lang_path;
         }
 
@@ -304,7 +304,7 @@ class ilSetupLanguage extends ilLanguage
             $separated = explode($this->separator, trim($val));
             $num = count($separated);
 
-            if ($num != 3) {
+            if ($num !== 3) {
                 chdir($tmpPath);
                 return false;
             }
@@ -329,7 +329,7 @@ class ilSetupLanguage extends ilLanguage
     protected function cut_header(array $content)
     {
         foreach ($content as $key => $val) {
-            if (trim($val) == "<!-- language file start -->") {
+            if (trim($val) === "<!-- language file start -->") {
                 return array_slice($content, $key + 1);
             }
         }
@@ -345,9 +345,9 @@ class ilSetupLanguage extends ilLanguage
     {
         global $ilDB;
         
-        ilSetupLanguage::_deleteLangData($a_lang_key, ($a_mode == "keep_local"));
+        self::_deleteLangData($a_lang_key, ($a_mode === "keep_local"));
 
-        if ($a_mode == "all") {
+        if ($a_mode === "all") {
             $ilDB->manipulate("DELETE FROM lng_modules WHERE lang_key = " .
                 $ilDB->quote($a_lang_key, "text"));
         }
@@ -383,10 +383,10 @@ class ilSetupLanguage extends ilLanguage
     {
         global $ilDB;
         
-        if ($a_min_date == "") {
+        if ($a_min_date === "") {
             $a_min_date = "1980-01-01 00:00:00";
         }
-        if ($a_max_date == "") {
+        if ($a_max_date === "") {
             $a_max_date = "2200-01-01 00:00:00";
         }
         
@@ -422,7 +422,7 @@ class ilSetupLanguage extends ilLanguage
         
         $scopeExtension = "";
         if (!empty($scope)) {
-            if ($scope == "global") {
+            if ($scope === "global") {
                 $scope = "";
             } else {
                 $scopeExtension = "." . $scope;
@@ -430,7 +430,7 @@ class ilSetupLanguage extends ilLanguage
         }
 
         $path = $this->lang_path;
-        if ($scope == "local") {
+        if ($scope === "local") {
             $path = $this->cust_lang_path;
         }
         
@@ -438,6 +438,7 @@ class ilSetupLanguage extends ilLanguage
         chdir($path);
 
         $lang_file = "ilias_" . $lang_key . ".lang" . $scopeExtension;
+        $change_date = null;
 
         if (is_file($lang_file)) {
             // initialize the array for updating lng_modules below
@@ -449,7 +450,7 @@ class ilSetupLanguage extends ilLanguage
                 // get the local changes from the database
                 if (empty($scope)) {
                     $local_changes = $this->getLocalChanges($lang_key);
-                } elseif ($scope == "local") {
+                } elseif ($scope === "local") {
                     // set the change date to import time for a local file
                     // get the modification date of the local file
                     // get the newer local changes for a local file
@@ -482,13 +483,13 @@ class ilSetupLanguage extends ilLanguage
                     }
 
                     if (empty($scope)) {
-                        if ($local_value != "" and $local_value != $separated[2]) {
+                        if ($local_value !== "" && $local_value != $separated[2]) {
                             // keep the locally changed value
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
                         } else {
                             // insert a new value if no local value exists
                             // reset local_change if the values are equal
-                            ilSetupLanguage::replaceLangEntry(
+                            self::replaceLangEntry(
                                 $separated[0],
                                 $separated[1],
                                 $lang_key,
@@ -497,13 +498,13 @@ class ilSetupLanguage extends ilLanguage
 
                             $lang_array[$separated[0]][$separated[1]] = $separated[2];
                         }
-                    } elseif ($scope == "local") {
-                        if ($local_value != "") {
+                    } elseif ($scope === "local") {
+                        if ($local_value !== "") {
                             // keep a locally changed value that is newer than the local file
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
                         } else {
                             // UPDATE because the global values have already been INSERTed
-                            ilSetupLanguage::updateLangEntry(
+                            self::updateLangEntry(
                                 $separated[0],
                                 $separated[1],
                                 $lang_key,
@@ -517,18 +518,18 @@ class ilSetupLanguage extends ilLanguage
             }
 
             foreach ($lang_array as $module => $lang_arr) {
-                if ($scope == "local") {
+                if ($scope === "local") {
                     $q = "SELECT * FROM lng_modules WHERE " .
                         " lang_key = " . $ilDB->quote($lang_key, "text") .
                         " AND module = " . $ilDB->quote($module, "text");
                     $set = $ilDB->query($q);
                     $row = $ilDB->fetchAssoc($set);
-                    $arr2 = unserialize($row["lang_array"]);
+                    $arr2 = unserialize($row["lang_array"], ["allowed_classes" => false]);
                     if (is_array($arr2)) {
                         $lang_arr = array_merge($arr2, $lang_arr);
                     }
                 }
-                ilSetupLanguage::replaceLangModule($lang_key, $module, $lang_arr);
+                self::replaceLangModule($lang_key, $module, $lang_arr);
             }
         }
 
@@ -668,14 +669,14 @@ class ilSetupLanguage extends ilLanguage
      */
     public function setDbHandler($a_db_handler) : bool
     {
-        if (empty($a_db_handler) or !is_object($a_db_handler)) {
+        if (empty($a_db_handler) || !is_object($a_db_handler)) {
             return false;
         }
-        $this->db = &$a_db_handler;
+        $this->db = &$a_db_handler;// Todo-PHP8-Review This property is not defined
         return true;
     }
     
-    public function loadLanguageModule(string $a_module)
+    public function loadLanguageModule(string $a_module) : void
     {
     }
 }

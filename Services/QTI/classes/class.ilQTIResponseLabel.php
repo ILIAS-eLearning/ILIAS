@@ -41,46 +41,34 @@ const RRANGE_RANGE = "2";
 */
 class ilQTIResponseLabel
 {
-    /** @var string|null */
-    public $rshuffle;
-
-    /** @var string|null */
-    public $rarea;
-
-    /** @var string|null */
-    public $rrange;
-
-    /** @var string|null */
-    public $labelrefid;
-
-    /** @var string|null */
-    public $ident;
-
-    /** @var string|null */
-    public $match_group;
-
-    /** @var string|null */
-    public $match_max;
-
-    /** @var array */
-    public $material;
-
-    /** @var array */
-    public $flow_mat;
-
-    /** @var string|null */
-    public $content;
+    public ?string $rshuffle;
+    public ?string $rarea;
+    public ?string $rrange;
+    public ?string $labelrefid;
+    public ?string $ident;
+    public ?string $match_group;
+    public ?string $match_max;
+    /** @var ilQTIMaterial[] */
+    public array $material;
+    /** @var ilQTIFlowMat[] */
+    public array $flow_mat;
+    public ?string $content;
 
     public function __construct()
     {
-        $this->material = array();
-        $this->flow_mat = array();
+        $this->rshuffle = null;
+        $this->rarea = null;
+        $this->rrange = null;
+        $this->labelrefid = null;
+        $this->ident = null;
+        $this->match_group = null;
+        $this->match_max = null;
+        $this->material = [];
+        $this->flow_mat = [];
+        $this->content = null;
     }
 
-    /**
-     * @param string $a_rshuffle
-     */
-    public function setRshuffle($a_rshuffle) : void
+    public function setRshuffle(string $a_rshuffle) : void
     {
         switch (strtolower($a_rshuffle)) {
             case "1":
@@ -94,18 +82,12 @@ class ilQTIResponseLabel
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRshuffle()
+    public function getRshuffle() : ?string
     {
         return $this->rshuffle;
     }
 
-    /**
-     * @param string
-     */
-    public function setRarea($a_rarea) : void
+    public function setRarea(string $a_rarea) : void
     {
         switch (strtolower($a_rarea)) {
             case "1":
@@ -123,18 +105,12 @@ class ilQTIResponseLabel
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRarea()
+    public function getRarea() : ?string
     {
         return $this->rarea;
     }
 
-    /**
-     * @param string $a_rrange
-     */
-    public function setRrange($a_rrange) : void
+    public function setRrange(string $a_rrange) : void
     {
         switch (strtolower($a_rrange)) {
             case "1":
@@ -148,88 +124,67 @@ class ilQTIResponseLabel
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRrange()
+    public function getRrange() : ?string
     {
         return $this->rrange;
     }
 
-    /**
-     * @param string $a_labelrefid
-     */
-    public function setLabelrefid($a_labelrefid) : void
+    public function setLabelrefid(string $a_labelrefid) : void
     {
         $this->labelrefid = $a_labelrefid;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getLabelrefid()
+    public function getLabelrefid() : ?string
     {
         return $this->labelrefid;
     }
 
-    /**
-     * @param string $a_ident
-     */
-    public function setIdent($a_ident) : void
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIdent()
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
     
-    public function setMatchGroup($a_match_group) : void
+    public function setMatchGroup(string $a_match_group) : void
     {
         $this->match_group = $a_match_group;
     }
     
-    public function getMatchGroup()
+    public function getMatchGroup() : ?string
     {
         return $this->match_group;
     }
     
-    public function setMatchMax($a_match_max) : void
+    public function setMatchMax(string $a_match_max) : void
     {
         $this->match_max = $a_match_max;
     }
     
-    public function getMatchMax()
+    public function getMatchMax() : ?string
     {
         return $this->match_max;
     }
     
-    public function addMaterial($a_material) : void
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
         $this->material[] = $a_material;
     }
     
-    public function addFlow_mat($a_flow_mat) : void
+    public function addFlow_mat(ilQTIFlowMat $a_flow_mat) : void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
 
-    /**
-     * @param string $a_content
-     */
-    public function setContent($a_content) : void
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getContent()
+    public function getContent() : ?string
     {
         return $this->content;
     }

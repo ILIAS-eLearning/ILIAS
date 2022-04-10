@@ -310,7 +310,12 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             return false;
         }
         if ($this->container->getSubscriptionType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD) {
-            if (!strlen($pass = ilUtil::stripSlashes($_POST['grp_passw']))) {
+
+            $pass = $this->http->wrapper()->post()->retrieve(
+                'grp_passw',
+                $this->refinery->kindlyTo()->string()
+            );
+            if (!strlen($pass)) {
                 $this->join_error = $this->lng->txt('crs_password_required');
                 return false;
             }
@@ -346,9 +351,14 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             );
             $this->tpl->setOnScreenMessage('success', $info, true);
 
-            $this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,
-                $this->user->getId());
-            $this->participants->sendNotification($this->participants->NOTIFY_WAITING_LIST, $this->user->getId());
+            $this->participants->sendNotification(
+                ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS_REGISTRATION_REQUEST,
+                $this->user->getId()
+            );
+            $this->participants->sendNotification(
+                ilCourseMembershipMailNotification::TYPE_WAITING_LIST_MEMBER,
+                $this->user->getId()
+            );
             $this->ctrl->setParameterByClass(
                 "ilrepositorygui",
                 "ref_id",
@@ -361,9 +371,16 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
                 $this->participants->addSubscriber($this->user->getId());
                 $this->participants->updateSubscriptionTime($this->user->getId(), time());
-                $this->participants->updateSubject($this->user->getId(), ilUtil::stripSlashes($_POST['subject']));
-                $this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,
-                    $this->user->getId());
+
+                $subject = $this->http->wrapper()->post()->retrieve(
+                    'subject',
+                    $this->refinery->kindlyTo()->string()
+                );
+                $this->participants->updateSubject($this->user->getId(), $subject);
+                $this->participants->sendNotification(
+                    ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS_REGISTRATION_REQUEST,
+                    $this->user->getId()
+                );
 
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("application_completed"), true);
                 $this->ctrl->setParameterByClass(
@@ -391,8 +408,8 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 }
 
                 $this->participants->add($this->user->getId(), ilParticipants::IL_CRS_MEMBER);
-                $this->participants->sendNotification($this->participants->NOTIFY_ADMINS, $this->user->getId());
-                $this->participants->sendNotification($this->participants->NOTIFY_REGISTERED, $this->user->getId());
+                $this->participants->sendNotification(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS, $this->user->getId());
+                $this->participants->sendNotification(ilCourseMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER, $this->user->getId());
 
                 ilForumNotification::checkForumsExistsInsert($this->container->getRefId(), $this->user->getId());
 

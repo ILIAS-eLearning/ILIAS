@@ -25,8 +25,6 @@ class ilECSAuth
     private string $realm = '';
     private string $url = '';
     private ?int $pid = null;
-    private $sov;
-    private $eov;
 
     public function __construct()
     {
@@ -63,37 +61,5 @@ class ilECSAuth
     public function getRealm() : string
     {
         return $this->realm;
-    }
-    
-    /**
-     * get hash
-     */
-    public function getHash() : string
-    {
-        return $this->hash;
-    }
-    
-    /**
-     * set SOV
-     *
-     * @param int start of verification
-     *
-     */
-    public function setSOV(int $a_sov) : void
-    {
-        $dt = new ilDateTime($a_sov, IL_CAL_UNIX);
-        $this->sov = $dt->get(IL_CAL_ISO_8601);
-    }
-
-    /**
-     * set EOV
-     *
-     * @param int end of verification
-     *
-     */
-    public function setEOV(int $a_eov) : void
-    {
-        $dt = new ilDateTime($a_eov, IL_CAL_UNIX);
-        $this->eov = $dt->get(IL_CAL_ISO_8601);
     }
 }

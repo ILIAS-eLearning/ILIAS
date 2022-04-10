@@ -70,54 +70,58 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
         }
 
         $column = array_change_key_case($column, CASE_LOWER);
-        [$types, $length, $unsigned, $fixed] = $db->getFieldDefinition()->mapNativeDatatype($column);
-        $notnull = false;
-        if (!empty($column['attnotnull']) && $column['attnotnull'] == 't') {
-            $notnull = true;
-        }
-        $default = null;
-        if ($column['atthasdef'] === 't'
-            && !preg_match("/nextval\('([^']+)'/", $column['default'])
-        ) {
-            $default = $column['default'];#substr($column['adsrc'], 1, -1);
-            if ($notnull && is_null($default)) {
-                $default = '';
+        $fd = $db->getFieldDefinition();
+        if ($fd !== null) {
+            [$types, $length, $unsigned, $fixed] = $fd->mapNativeDatatype($column);
+            $notnull = false;
+            if (!empty($column['attnotnull']) && $column['attnotnull'] === 't') {
+                $notnull = true;
             }
-        }
-        $autoincrement = false;
-        if (preg_match("/nextval\('([^']+)'/", $column['default'], $nextvals)) {
-            $autoincrement = true;
-        }
-        $definition[0] = array('notnull' => $notnull, 'nativetype' => $column['type']);
-        if (!is_null($length)) {
-            $definition[0]['length'] = $length;
-        }
-        if (!is_null($unsigned)) {
-            $definition[0]['unsigned'] = $unsigned;
-        }
-        if (!is_null($fixed)) {
-            $definition[0]['fixed'] = $fixed;
-        }
-        if ($default !== false) {
-            $definition[0]['default'] = $default;
-        }
-        if ($autoincrement) {
-            $definition[0]['autoincrement'] = $autoincrement;
-        }
-        foreach ($types as $key => $type) {
-            $definition[$key] = $definition[0];
-            if ($type == 'clob' || $type == 'blob') {
-                unset($definition[$key]['default']);
+            $default = null;
+            if ($column['atthasdef'] === 't'
+                && !preg_match("/nextval\('([^']+)'/", $column['default'])
+            ) {
+                $default = $column['default'];#substr($column['adsrc'], 1, -1);
+                if ($notnull && is_null($default)) {
+                    $default = '';
+                }
             }
-            $definition[$key]['type'] = $type;
-            $definition[$key]['mdb2type'] = $type;
-        }
+            $autoincrement = false;
+            if (preg_match("/nextval\('([^']+)'/", $column['default'], $nextvals)) {
+                $autoincrement = true;
+            }
+            $definition[0] = array('notnull' => $notnull, 'nativetype' => $column['type']);
+            if (!is_null($length)) {
+                $definition[0]['length'] = $length;
+            }
+            if (!is_null($unsigned)) {
+                $definition[0]['unsigned'] = $unsigned;
+            }
+            if (!is_null($fixed)) {
+                $definition[0]['fixed'] = $fixed;
+            }
+            if ($default !== false) {
+                $definition[0]['default'] = $default;
+            }
+            if ($autoincrement) {
+                $definition[0]['autoincrement'] = $autoincrement;
+            }
+            foreach ($types as $key => $type) {
+                $definition[$key] = $definition[0];
+                if ($type === 'clob' || $type === 'blob') {
+                    unset($definition[$key]['default']);
+                }
+                $definition[$key]['type'] = $type;
+                $definition[$key]['mdb2type'] = $type;
+            }
 
-        return $definition;
+            return $definition;
+        }
+        return [];
     }
 
     /**
-     * @return array<string, array<string, array<string, string|int>>&mixed[]>
+     * @return array<string, array<string, array<string, string|int>>&array>
      * @throws \ilDatabaseException
      */
     public function getTableIndexDefinition(string $table, string $constraint_name) : array
@@ -135,14 +139,20 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
         $index_name_mdb2 = $db->getIndexName($constraint_name);
         $failed = false;
         try {
-            $row = $db->queryRow(sprintf($query, $db->quote($index_name_mdb2, 'text')), null,
-                ilDBConstants::FETCHMODE_DEFAULT);
+            $row = $db->queryRow(
+                sprintf($query, $db->quote($index_name_mdb2, 'text')),
+                null,
+                ilDBConstants::FETCHMODE_DEFAULT
+            );
         } catch (Exception $e) {
             $failed = true;
         }
         if ($failed || empty($row)) {
-            $row = $db->queryRow(sprintf($query, $db->quote($constraint_name, 'text')), null,
-                ilDBConstants::FETCHMODE_DEFAULT);
+            $row = $db->queryRow(
+                sprintf($query, $db->quote($constraint_name, 'text')),
+                null,
+                ilDBConstants::FETCHMODE_DEFAULT
+            );
         }
 
         if (empty($row)) {
@@ -174,7 +184,7 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
      * Get the structure of a constraint into an array
      * @param string $table      name of table that should be used in method
      * @param string $index_name name of constraint that should be used in method
-     * @return array<string, bool>|array<string, array<int|string, array<string, string|int>>&mixed[]> data array on success, a MDB2 error on failure
+     * @return array<string, bool>|array<string, array<int|string, array<string, string|int>>&array> data array on success, a MDB2 error on failure
      * @access public
      */
     public function getTableConstraintDefinition(string $table, string $index_name) : array
@@ -187,15 +197,21 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
         $query .= ' AND pg_class.relname = %s';
         $constraint_name_mdb2 = $db->getIndexName($index_name);
         try {
-            $row = $db->queryRow(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null,
-                ilDBConstants::FETCHMODE_ASSOC);
+            $row = $db->queryRow(
+                sprintf($query, $db->quote($constraint_name_mdb2, 'text')),
+                null,
+                ilDBConstants::FETCHMODE_ASSOC
+            );
         } catch (Exception $e) {
         }
 
         if ((isset($e) && $e instanceof PDOException) || empty($row)) {
             // fallback to the given $index_name, without transformation
-            $row = $db->queryRow(sprintf($query, $db->quote($index_name, 'text')), null,
-                ilDBConstants::FETCHMODE_ASSOC);
+            $row = $db->queryRow(
+                sprintf($query, $db->quote($index_name, 'text')),
+                null,
+                ilDBConstants::FETCHMODE_ASSOC
+            );
         }
 
         if (empty($row)) {
@@ -206,9 +222,9 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
         $columns = $db->loadModule(ilDBConstants::MODULE_MANAGER)->listTableFields($table);
 
         $definition = array();
-        if ($row['indisprimary'] == 't') {
+        if ($row['indisprimary'] === 't') {
             $definition['primary'] = true;
-        } elseif ($row['indisunique'] == 't') {
+        } elseif ($row['indisunique'] === 't') {
             $definition['unique'] = true;
         }
 

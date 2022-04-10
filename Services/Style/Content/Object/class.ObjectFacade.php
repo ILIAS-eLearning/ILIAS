@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,8 +15,9 @@
 
 namespace ILIAS\Style\Content\Object;
 
-use \ILIAS\Style\Content\InternalDataService;
-use \ILIAS\Style\Content\InternalDomainService;
+use ILIAS\Style\Content\InternalDataService;
+use ILIAS\Style\Content\InternalDomainService;
+use ilObject;
 
 /**
  * External facade for object content styles
@@ -24,30 +25,11 @@ use \ILIAS\Style\Content\InternalDomainService;
  */
 class ObjectFacade
 {
-    /**
-     * @var ObjectManager
-     */
-    protected $object_manager;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
-    /**
-     * @var InternalDataService
-     */
-    protected $data_service;
-
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
+    protected ObjectManager $object_manager;
+    protected int $ref_id;
+    protected int $obj_id;
+    protected InternalDataService $data_service;
+    protected InternalDomainService $domain_service;
 
     public function __construct(
         InternalDataService $data_service,
@@ -56,9 +38,9 @@ class ObjectFacade
         int $obj_id = 0
     ) {
         $this->ref_id = $ref_id;
-        $this->ref_id = ($obj_id > 0)
+        $this->obj_id = ($obj_id > 0)
             ? $obj_id
-            : \ilObject::_lookupObjId($ref_id);
+            : ilObject::_lookupObjId($ref_id);
         $this->domain_service = $domain_service;
         $this->object_manager = $domain_service->object($this->ref_id, $obj_id);
     }
@@ -105,7 +87,7 @@ class ObjectFacade
     /**
      * Inherits a non local style from the parent container
      */
-    public function inheritFromParent()
+    public function inheritFromParent() : void
     {
         $this->object_manager->inheritFromParent();
     }

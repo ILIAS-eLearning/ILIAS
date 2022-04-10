@@ -28,7 +28,9 @@ class InternalDomainService
     protected Container $dic;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
+    /** @var array<int,WidgetManager> */
     protected static array $managers = array();
+    /** @var array<int,User\Collector>  */
     protected static array $collectors = array();
 
     public function __construct(
@@ -72,7 +74,6 @@ class InternalDomainService
         return new AdminManager(
             $ref_id,
             $this->data_service,
-            $this->repo_service,
             $this
         );
     }

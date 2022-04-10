@@ -29,7 +29,7 @@ class ilMediaCreationGUI
     public const POOL_VIEW_FOLDER = "fold";
     public const POOL_VIEW_ALL = "all";
     protected CreationGUIRequest $request;
-
+    
     protected array $accept_types = [1,2,3,4];
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -38,7 +38,13 @@ class ilMediaCreationGUI
     protected Closure $after_url_saving;
     protected Closure $after_pool_insert;
     protected ilAccessHandler $access;
+    /**
+     * @var string[]
+     */
     protected array $all_suffixes = [];
+    /**
+     * @var string[]
+     */
     protected array $all_mime_types = [];
     protected \ILIAS\DI\UIServices $ui;
     protected int $requested_mep;
@@ -87,7 +93,7 @@ class ilMediaCreationGUI
     ) : void {
         $this->all_suffixes = $a_val;
     }
-
+    
     public function getAllSuffixes() : array
     {
         return $this->all_suffixes;
@@ -99,11 +105,17 @@ class ilMediaCreationGUI
         $this->all_mime_types = $a_val;
     }
 
+    /**
+     * @return string[]
+     */
     public function getAllMimeTypes() : array
     {
         return $this->all_mime_types;
     }
 
+    /**
+     * @return string[]
+     */
     protected function getSuffixes() : array
     {
         $suffixes = [];
@@ -116,6 +128,9 @@ class ilMediaCreationGUI
         return $suffixes;
     }
 
+    /**
+     * @return string[]
+     */
     protected function getMimeTypes() : array
     {
         $mimes = [];

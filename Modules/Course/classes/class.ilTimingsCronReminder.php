@@ -160,7 +160,7 @@ class ilTimingsCronReminder extends ilCronJob
                     foreach ($objects as $ref_id => $v) {
                         $obj_data[$ref_id] = $this->getInformationForRefId($ref_id);
 
-                        if (is_array($objects[$ref_id])) {
+                        if (is_array($v)) {
                             if ((isset($v['end']) && isset($v['start'])) && $v['end'] > $this->now) {
                                 if ($v['start'] < $this->now) {
                                     $users_with_new_started_object[$user_id][$ref_id] = $obj_data[$ref_id];

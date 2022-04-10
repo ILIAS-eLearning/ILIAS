@@ -221,7 +221,8 @@ class ilDidacticTemplateImport
             foreach ($ele->roleFilter as $rfi) {
 
                 $this->logger->dump($rfi->attributes(), \ilLogLevel::DEBUG);
-                $this->logger->debug('Current filter source: ' . (string) $rfi->attributes()->source);
+                $this->logger->debug('Current filter source: ' . $rfi->attributes()->source
+                );
 
                 switch ((string) $rfi->attributes()->source) {
                     case 'title':

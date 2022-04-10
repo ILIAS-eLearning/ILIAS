@@ -36,6 +36,7 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract YouTube Parameter
+     * @return array<string,string>
      */
     public static function extractYouTubeParameters(
         string $a_location
@@ -69,6 +70,7 @@ class ilExternalMediaAnalyzer
 
     /**
      * Extract Flickr Parameter
+     * @return array<string,string>
      */
     public static function extractFlickrParameters(
         string $a_location
@@ -120,6 +122,7 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract GoogleVideo Parameter
+     * @return array<string,string>
      */
     public static function extractGoogleVideoParameters(
         string $a_location
@@ -151,6 +154,7 @@ class ilExternalMediaAnalyzer
 
     /**
      * Extract Vimeo Parameter
+     * @return array<string,string>
      */
     public static function extractVimeoParameters(
         string $a_location
@@ -182,6 +186,7 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract GoogleDocument Parameter
+     * @return array<string,string>
      */
     public static function extractGoogleDocumentParameters(
         string $a_location
@@ -215,15 +220,12 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract URL information to parameter array
+     * @return array<string,string>
      */
     public static function extractUrlParameters(
         string $a_location,
         array $a_parameter
     ) : array {
-        if (!is_array($a_parameter)) {
-            $a_parameter = array();
-        }
-        
         $ext_par = array();
         
         // YouTube

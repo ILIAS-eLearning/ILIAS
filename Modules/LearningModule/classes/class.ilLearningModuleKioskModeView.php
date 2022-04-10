@@ -34,7 +34,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
 
     protected ilObjLearningModule $lm;
     protected ilLMPresentationService $lm_pres_service;
-    protected ilLMPresentationGUI $lm_pres;
+    protected ?ilLMPresentationGUI $lm_pres = null;
     protected ilObjUser $user;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
@@ -229,6 +229,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     ) : Component {
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
+        // @todo Check non-existence of third parameter (existed in ILIAS 7)
         $content .= $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);
         $content .= $this->uiRenderer->render($this->additional_content);
         return $factory->legacy($content);

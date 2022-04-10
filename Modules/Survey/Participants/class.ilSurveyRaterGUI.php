@@ -147,7 +147,7 @@ class ilSurveyRaterGUI
         $op3 = new ilRadioOption($lng->txt("svy_external_rater"), "external", $lng->txt("svy_external_rater_info"));
         $radg->addOption($op3);
 
-        $email = new ilEmailInputGUI($this->lng->txt("email"), "email");
+        $email = new ilEMailInputGUI($this->lng->txt("email"), "email");
         $email->setRequired(true);
         $op3->addSubItem($email);
 

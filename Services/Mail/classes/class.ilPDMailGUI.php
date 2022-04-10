@@ -70,7 +70,7 @@ class ilPDMailGUI
 
         $tpl->setVariable('TXT_FROM', $this->lng->txt('from'));
 
-        /** @var $sender ilObjUser */
+        /** @var ilObjUser $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mail_data['sender_id'], false);
         if ($sender && $sender->getId() !== ANONYMOUS_USER_ID) {
             $tpl->setCurrentBlock('pers_image');

@@ -34,20 +34,29 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->addColumn($this->lng->txt("trac_title"), "title");
         $this->addColumn($this->lng->txt("object_id"), "obj_id");
         for ($loop = 0; $loop < 24; $loop += 2) {
-            $this->addColumn(str_pad($loop, 2, "0", STR_PAD_LEFT) . ":00-<br />" .
-                str_pad((string) $loop, 2, "0", STR_PAD_LEFT) . ":00 ", "hour" . $loop);
+            $this->addColumn(
+                str_pad($loop, 2, "0", STR_PAD_LEFT) . ":00-<br />" .
+                str_pad((string) $loop, 2, "0", STR_PAD_LEFT) . ":00 ",
+                "hour" . $loop
+            );
         }
         $this->addColumn($this->lng->txt("total"), "sum");
 
         $this->setTitle($this->lng->txt("trac_object_stat_daily"));
 
         // $this->setSelectAllCheckbox("item_id");
-        $this->addMultiCommand("showDailyGraph", $this->lng->txt("trac_show_graph"));
+        $this->addMultiCommand(
+            "showDailyGraph", $this->lng->txt("trac_show_graph")
+        );
         $this->setResetCommand("resetDailyFilter");
         $this->setFilterCommand("applyDailyFilter");
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate("tpl.lp_object_statistics_daily_row.html", "Services/Tracking");
+        $this->setFormAction(
+            $this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd)
+        );
+        $this->setRowTemplate(
+            "tpl.lp_object_statistics_daily_row.html", "Services/Tracking"
+        );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
         $this->setEnableTitle(true);
@@ -87,7 +96,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->filter["type"] = $si->getValue();
 
         // title/description
-        $ti = new ilTextInputGUI($this->lng->txt("trac_title_description"), "query");
+        $ti = new ilTextInputGUI(
+            $this->lng->txt("trac_title_description"), "query"
+        );
         $ti->setMaxLength(64);
         $ti->setSize(20);
         $this->addFilterItem($ti);
@@ -96,9 +107,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
         // read_count/spent_seconds
         $si = new ilSelectInputGUI($this->lng->txt("trac_figure"), "figure");
-        $si->setOptions(array("read_count" => $this->lng->txt("trac_read_count"),
-                              "spent_seconds" => $this->lng->txt("trac_spent_seconds")
-        ));
+        $si->setOptions(
+            array("read_count" => $this->lng->txt("trac_read_count"),
+                  "spent_seconds" => $this->lng->txt("trac_spent_seconds")
+            )
+        );
         $this->addFilterItem($si);
         $si->readFromSession();
         if (!$si->getValue()) {
@@ -107,7 +120,10 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->filter["measure"] = $si->getValue();
 
         // year/month
-        $si = new ilSelectInputGUI($this->lng->txt("year") . " / " . $this->lng->txt("month"), "yearmonth");
+        $si = new ilSelectInputGUI(
+            $this->lng->txt("year") . " / " . $this->lng->txt("month"),
+            "yearmonth"
+        );
         $si->setOptions($this->getMonthsFilter());
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -124,28 +140,38 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $objects = [];
         if ($this->filter["type"] != "prtf") {
             // JF, 2016-06-06
-            $objects = $this->searchObjects($this->getCurrentFilter(true), "", null, false);
+            $objects = $this->searchObjects(
+                $this->getCurrentFilter(true), "", null, false
+            );
 
             if ($this->filter["type"] == "blog") {
-                foreach (ilTrQuery::getWorkspaceBlogs($this->filter["query"]) as $obj_id) {
+                foreach (ilTrQuery::getWorkspaceBlogs(
+                    $this->filter["query"]
+                ) as $obj_id) {
                     $objects[$obj_id] = array($obj_id);
                 }
             }
         } else {
             // portfolios are not part of repository
-            foreach (ilTrQuery::getPortfolios($this->filter["query"]) as $obj_id) {
+            foreach (ilTrQuery::getPortfolios(
+                $this->filter["query"]
+            ) as $obj_id) {
                 $objects[$obj_id] = array($obj_id);
             }
         }
 
         if ($objects) {
-
             $yearmonth = explode("-", $this->filter["yearmonth"]);
             if (sizeof($yearmonth) == 1) {
-                $stat_objects = ilTrQuery::getObjectDailyStatistics($objects, $yearmonth[0]);
+                $stat_objects = ilTrQuery::getObjectDailyStatistics(
+                    $objects, $yearmonth[0]
+                );
             } else {
-                $stat_objects = ilTrQuery::getObjectDailyStatistics($objects, (string) $yearmonth[0],
-                    (string) $yearmonth[1]);
+                $stat_objects = ilTrQuery::getObjectDailyStatistics(
+                    $objects,
+                    (string) $yearmonth[0],
+                    (string) $yearmonth[1]
+                );
             }
 
             foreach ($stat_objects as $obj_id => $hours) {
@@ -154,7 +180,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
                 foreach ($hours as $hour => $values) {
                     // table data
-                    $data[$obj_id]["hour" . floor($hour / 2) * 2] += (int) $values[$this->filter["measure"]];
+                    $data[$obj_id]["hour" . floor(
+                        $hour / 2
+                    ) * 2] += (int) $values[$this->filter["measure"]];
                     $data[$obj_id]["sum"] += (int) $values[$this->filter["measure"]];
 
                     // graph data
@@ -181,11 +209,15 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     {
         $type = ilObject::_lookupType($a_set["obj_id"]);
         $this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
-        $this->tpl->setVariable("ICON_SRC", ilObject::_getIcon(0, "tiny", $type));
+        $this->tpl->setVariable(
+            "ICON_SRC", ilObject::_getIcon(0, "tiny", $type)
+        );
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($type));
         $this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 
-        if ($this->preselected && in_array($a_set["obj_id"], $this->preselected)) {
+        if ($this->preselected && in_array(
+                $a_set["obj_id"], $this->preselected
+            )) {
             $this->tpl->setVariable("CHECKBOX_STATE", " checked=\"checked\"");
         }
 
@@ -259,8 +291,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     {
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
-    {
+    protected function fillRowExcel(
+        ilExcel $a_excel,
+        int &$a_row,
+        array $a_set
+    ) : void {
         $a_excel->setCell($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
         $a_excel->setCell($a_row, 1, $a_set["obj_id"]);
 

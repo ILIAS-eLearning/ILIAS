@@ -52,6 +52,9 @@ class ilMediaObjectDataSet extends ilDataSet
         return $this->use_previous_import_ids;
     }
 
+    /**
+     * @return string[]
+     */
     public function getSupportedVersions() : array
     {
         return array("5.1.0", "4.3.0", "4.1.0");
@@ -280,7 +283,7 @@ class ilMediaObjectDataSet extends ilDataSet
         }
         return [];
     }
-
+    
     public function getXmlRecord(
         string $a_entity,
         string $a_version,

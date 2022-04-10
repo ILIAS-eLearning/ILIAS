@@ -46,15 +46,15 @@ class ilObjMediaObject extends ilObject
     }
 
     public static function _exists(
-        int $a_id,
-        bool $a_reference = false,
-        ?string $a_type = null
+        int $id,
+        bool $reference = false,
+        ?string $type = null
     ) : bool {
-        if (is_int(strpos($a_id, "_"))) {
-            $a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
+        if (is_int(strpos($id, "_"))) {
+            $a_id = ilInternalLink::_extractObjIdOfTarget($id);
         }
         
-        if (parent::_exists($a_id) && ilObject::_lookupType($a_id) == "mob") {
+        if (parent::_exists($id) && ilObject::_lookupType($id) === "mob") {
             return true;
         }
         return false;
@@ -220,7 +220,7 @@ class ilObjMediaObject extends ilObject
         $this->media_items = $media_items;
     }
     
-    public function removeAllMediaItems()
+    public function removeAllMediaItems() : void
     {
         $this->media_items = array();
     }
@@ -274,8 +274,8 @@ class ilObjMediaObject extends ilObject
     {
         return $this->origin_id;
     }
-
-    public function create($a_create_meta_data = false, $a_save_media_items = true) : int
+    
+    public function create(bool $a_create_meta_data = false, bool $a_save_media_items = true) : int
     {
         $id = parent::create();
 
@@ -306,8 +306,8 @@ class ilObjMediaObject extends ilObject
 
         return $id;
     }
-
-    public function update($a_upload = false) : bool
+    
+    public function update(bool $a_upload = false) : bool
     {
         parent::update();
         
@@ -832,6 +832,9 @@ class ilObjMediaObject extends ilObject
         }
     }
 
+    /**
+     * @return int[]
+     */
     public static function _getMobsOfObject(
         string $a_type,
         int $a_id,
@@ -1233,7 +1236,7 @@ class ilObjMediaObject extends ilObject
         string $a_file,
         int $a_width,
         int $a_height,
-        $a_constrain_prop = false
+        bool $a_constrain_prop = false
     ) : string {
         $file_path = pathinfo($a_file);
         $location = substr($file_path["basename"], 0, strlen($file_path["basename"]) -

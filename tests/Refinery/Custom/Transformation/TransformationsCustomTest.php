@@ -1,33 +1,37 @@
-<?php
-
-/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-use ILIAS\Refinery\Factory;
-use PHPUnit\Framework\TestCase;
+<?php declare(strict_types=1);
 
 /**
- * TestCase for Custom transformations
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Transformation;
+use PHPUnit\Framework\TestCase;
+
 class TransformationsCustomTest extends TestCase
 {
-    const TEST_STRING = "Test";
+    private const TEST_STRING = "Test";
 
-    /**
-     * @var Transformation\Transformations\Custom
-     */
-    private $custom;
-
-    /**
-     * @var Factory
-     */
-    private $f;
+    private ?Transformation $custom;
+    private ?Refinery $f;
 
     protected function setUp() : void
     {
-        $language = $this->createMock(\ilLanguage::class);
-        $this->f = new Factory(new ILIAS\Data\Factory(), $language);
+        $language = $this->createMock(ilLanguage::class);
+        $this->f = new Refinery(new DataFactory(), $language);
 
         $this->custom = $this->f->custom()->transformation(
             function ($value) {
@@ -45,17 +49,17 @@ class TransformationsCustomTest extends TestCase
         $this->custom = null;
     }
 
-    public function testTransform()
+    public function testTransform() : void
     {
         $result = $this->custom->transform(self::TEST_STRING);
         $this->assertEquals(self::TEST_STRING, $result);
     }
 
-    public function testTransformFails()
+    public function testTransformFails() : void
     {
         $raised = false;
         try {
-            $lower_string = $this->custom->transform(array());
+            $lower_string = $this->custom->transform([]);
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("'array' is not a string.", $e->getMessage());
             $raised = true;
@@ -82,7 +86,7 @@ class TransformationsCustomTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testInvoke()
+    public function testInvoke() : void
     {
         $custom = $this->f->custom()->transformation(
             function ($value) {
@@ -97,7 +101,7 @@ class TransformationsCustomTest extends TestCase
         $this->assertEquals(self::TEST_STRING, $result);
     }
 
-    public function testInvokeFails()
+    public function testInvokeFails() : void
     {
         $custom = $this->f->custom()->transformation(
             function ($value) {
@@ -110,7 +114,7 @@ class TransformationsCustomTest extends TestCase
 
         $raised = false;
         try {
-            $lower_string = $custom(array());
+            $lower_string = $custom([]);
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("'array' is not a string.", $e->getMessage());
             $raised = true;
@@ -137,9 +141,9 @@ class TransformationsCustomTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testApplyToWithValidValueReturnsAnOkResult()
+    public function testApplyToWithValidValueReturnsAnOkResult() : void
     {
-        $factory = new \ILIAS\Data\Factory();
+        $factory = new DataFactory();
         $valueObject = $factory->ok(self::TEST_STRING);
 
         $resultObject = $this->custom->applyTo($valueObject);

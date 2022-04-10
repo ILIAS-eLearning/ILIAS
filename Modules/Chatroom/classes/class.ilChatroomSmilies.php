@@ -16,7 +16,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $values = [
@@ -61,7 +61,7 @@ class ilChatroomSmilies
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
 
-        /** @var $lng ilLanguage */
+        /** @var ilLanguage $lng */
         $lng = $DIC->language();
 
         $path = self::_getSmileyDir();
@@ -118,7 +118,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $res = $ilDB->query("SELECT smiley_id, smiley_keywords, smiley_path FROM chatroom_smilies");
@@ -143,7 +143,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $smilies = self::_getSmiliesById($ids);
@@ -170,7 +170,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         if ($ids === []) {
@@ -181,7 +181,7 @@ class ilChatroomSmilies
 
         $sql_parts = [];
         foreach ($ids as $id) {
-            $sql_parts[] .= "smiley_id = " . $ilDB->quote($id, "integer");
+            $sql_parts[] = "smiley_id = " . $ilDB->quote($id, "integer");
         }
 
         $sql .= implode(" OR ", $sql_parts);
@@ -203,13 +203,13 @@ class ilChatroomSmilies
     /**
      * Updates smiley in DB by keyword and id from given array
      * ($data["smiley_keywords"], $data["smiley_id"])
-     * @param array{smiley_id: int, smiley_keywords: string, smiley_path: string, smiley_fullpath: string}
+     * @param array{smiley_id: int, smiley_keywords: string, smiley_path: string, smiley_fullpath: string} $data
      */
     public static function _updateSmiley(array $data) : void
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $ilDB->manipulateF(
@@ -237,7 +237,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
@@ -267,7 +267,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         try {
@@ -296,7 +296,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $stmt = $ilDB->prepareManip(

@@ -14,14 +14,17 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
     private array $options = [];
     private int $source_id = 0;
     private int $target_id = 0;
-    private int $default_action = 0;
 
-    public function __construct($xml)
+    public function __construct(string $xml)
     {
         parent::__construct('', true);
         $this->setXMLContent($xml);
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @return void
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -29,6 +32,12 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array $a_attribs
+     * @return void
+     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         global $DIC;
@@ -48,8 +57,6 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
                 if (ilObject::_isInTrash($this->target_id)) {
                     throw new ilSaxParserException("target id" . $this->target_id . " is in trash");
                 }
-
-                $this->default_action = ilCopyWizardSettingsXMLParser::getActionForString($a_attribs["default_action"]);
                 break;
             case 'Option':
                 $id = (int) $a_attribs["id"];
@@ -60,7 +67,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
                     throw new ilSaxParserException("Id $id does not exist");
                 }
 
-                $action = ilCopyWizardSettingsXMLParser::getActionForString($a_attribs["action"]);
+                $action = self::getActionForString($a_attribs["action"]);
                 $type = ilObjectFactory::getTypeByRefId($id);
 
                 switch ($action) {
@@ -94,7 +101,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
 
     public function getOptions() : array
     {
-        return is_array($this->options) ? $this->options : array();
+        return $this->options;
     }
 
     public function getSourceId() : ?int
@@ -109,19 +116,31 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
 
     private static function getActionForString($s) : int
     {
-        if ($s == "COPY") {
+        if ($s === "COPY") {
             return ilCopyWizardOptions::COPY_WIZARD_COPY;
         }
-        if ($s == "LINK") {
+
+        if ($s === "LINK") {
             return ilCopyWizardOptions::COPY_WIZARD_LINK;
         }
+
         return ilCopyWizardOptions::COPY_WIZARD_OMIT;
     }
 
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_data
+     * @return void
+     */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
     }

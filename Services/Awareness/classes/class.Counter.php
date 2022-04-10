@@ -32,12 +32,12 @@ class Counter
         $this->highlight_cnt = $highlight_cnt;
     }
 
-    public function getCount()
+    public function getCount() : int
     {
         return $this->cnt;
     }
 
-    public function getHighlightCount()
+    public function getHighlightCount() : int
     {
         return $this->highlight_cnt;
     }

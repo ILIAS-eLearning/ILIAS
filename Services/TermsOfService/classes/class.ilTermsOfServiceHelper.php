@@ -44,7 +44,7 @@ class ilTermsOfServiceHelper
 
     public static function isEnabled() : bool
     {
-        return (new static())->tos->getStatus();
+        return (new self())->tos->getStatus();
     }
 
     public function isGloballyEnabled() : bool
@@ -177,8 +177,7 @@ class ilTermsOfServiceHelper
 
         $historizedDocument = new ilTermsOfServiceHistorizedDocument(
             $entity,
-            new ilTermsOfServiceAcceptanceHistoryCriteriaBag($entity->getSerializedCriteria()),
-            $this->criterionTypeFactory
+            new ilTermsOfServiceAcceptanceHistoryCriteriaBag($entity->getSerializedCriteria())
         );
 
         if ($evaluator->evaluateDocument($historizedDocument)) {

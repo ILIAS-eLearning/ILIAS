@@ -19,7 +19,6 @@ class ilDBConstants
     const TYPE_MYSQLI = 'mysqli';
     // Development identifiers (will be removed in 5.3), are mapped with Main and Experimental types
     const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
-    const TYPE_PDO_MYSQL_MYISAM = 'pdo-mysql-myisam';
     const TYPE_PDO_MYSQL_GALERA = 'pdo-mysql-galera';
     const TYPE_PDO_POSTGRE = 'pdo-postgre';
     // Locks
@@ -44,7 +43,6 @@ class ilDBConstants
     const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
     // Engines
     const MYSQL_ENGINE_INNODB = 'InnoDB';
-    const MYSQL_ENGINE_MYISAM = 'MyISAM';
     // Characters
     const MYSQL_CHARACTER_UTF8 = 'utf8';
     const MYSQL_CHARACTER_UTF8MB4 = 'utf8mb4';
@@ -76,6 +74,9 @@ class ilDBConstants
     const PREPARE_MANIP = false;
     // Other
     const MB4_REPLACEMENT = "?";
+    /**
+     * @var string[]
+     */
     protected static array $descriptions = array(
         // Main
         ilDBConstants::TYPE_MYSQL => "MySQL 5.5.x or higher (MyISAM engine)",
@@ -85,8 +86,7 @@ class ilDBConstants
         ilDBConstants::TYPE_POSTGRES => "Postgres (experimental)",
         ilDBConstants::TYPE_GALERA => "Galera-Cluster (experimental)",
         // Development identifiers (will be removed in 5.3)
-        ilDBConstants::TYPE_PDO_MYSQL_MYISAM => "MySQL 5.5.x or higher (MyISAM engine) [developers-identifier]",
-        ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine) [developers-identifier]",
+        ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.7.x or higher (InnoDB engine) [developers-identifier]",
         ilDBConstants::TYPE_PDO_POSTGRE => "Postgres (experimental) [developers-identifier]",
         ilDBConstants::TYPE_PDO_MYSQL_GALERA => "Galera-Cluster (experimental) [developers-identifier]",
     );
@@ -95,7 +95,7 @@ class ilDBConstants
     /**
      * @return string[]
      */
-    public static function getInstallableTypes(): array
+    public static function getInstallableTypes() : array
     {
         return array(
             // Main
@@ -107,11 +107,7 @@ class ilDBConstants
         );
     }
 
-
-    /**
-     * @return mixed[]
-     */
-    public static function getAvailableTypes(bool $with_descriptions = true): array
+    public static function getAvailableTypes(bool $with_descriptions = true) : array
     {
         $types = self::getSupportedTypes();
         if ($with_descriptions) {
@@ -126,7 +122,7 @@ class ilDBConstants
     }
 
 
-    public static function getSupportedTypes(): array
+    public static function getSupportedTypes() : array
     {
         return array(
             ilDBConstants::TYPE_MYSQL,
@@ -139,7 +135,7 @@ class ilDBConstants
     /**
      * @return string[]
      */
-    public static function getAvailableCollations(): array
+    public static function getAvailableCollations() : array
     {
         return [
             ilDBConstants::MYSQL_COLLATION_UTF8,
@@ -163,11 +159,7 @@ class ilDBConstants
         ];
     }
 
-
-    /**
-     * @param $type
-     */
-    public static function describe($type): string
+    public static function describe(string $type) : string
     {
         return self::$descriptions[$type];
     }

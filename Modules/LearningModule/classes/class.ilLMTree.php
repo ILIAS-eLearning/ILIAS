@@ -19,7 +19,7 @@
 class ilLMTree extends ilTree
 {
     public static array $instances = [];
-    protected array $complete_tree = [];
+    protected ?array $complete_tree = null;
 
     public function __construct(
         int $a_tree_id

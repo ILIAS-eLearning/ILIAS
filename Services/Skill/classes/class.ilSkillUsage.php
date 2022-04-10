@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillInternalFactoryService;
+
 /**
  * Skill usage
  *
@@ -51,12 +53,14 @@ class ilSkillUsage implements ilSkillUsageInfo
                           ilSkillResources::class, ilSkillUsage::class];
 
     protected ilBasicSkillTreeRepository $tree_repo;
+    protected SkillInternalFactoryService $tree_factory;
 
     public function __construct()
     {
         global $DIC;
 
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_factory = $DIC->skills()->internal()->factory();
     }
 
     public static function setUsage(int $a_obj_id, int $a_skill_id, int $a_tref_id, bool $a_use = true) : void
@@ -179,7 +183,7 @@ class ilSkillUsage implements ilSkillUsageInfo
 
         $allnodes = [];
         foreach ($a_tree_ids as $t) {
-            $vtree = new ilGlobalVirtualSkillTree();
+            $vtree = $this->tree_factory->tree()->getGlobalVirtualTree();
             $nodes = $vtree->getSubTreeForTreeId($t);
             foreach ($nodes as $n) {
                 $allnodes[] = $n;
@@ -192,7 +196,7 @@ class ilSkillUsage implements ilSkillUsageInfo
     public function getAllUsagesInfoOfSubtree(int $a_skill_id, int $a_tref_id = 0) : array
     {
         // get nodes
-        $vtree = new ilVirtualSkillTree($this->tree_repo->getTreeIdForNodeId($a_skill_id));
+        $vtree = $this->tree_repo->getVirtualTreeForNodeId($a_skill_id);
         $nodes = $vtree->getSubTreeForCSkillId($a_skill_id . ":" . $a_tref_id);
 
         return $this->getAllUsagesInfo($nodes);
@@ -207,7 +211,7 @@ class ilSkillUsage implements ilSkillUsageInfo
         // get nodes
         $allnodes = [];
         foreach ($a_cskill_ids as $s) {
-            $vtree = new ilVirtualSkillTree($this->tree_repo->getTreeIdForNodeId($s["skill_id"]));
+            $vtree = $this->tree_repo->getVirtualTreeForNodeId($s["skill_id"]);
             $nodes = $vtree->getSubTreeForCSkillId($s["skill_id"] . ":" . $s["tref_id"]);
             foreach ($nodes as $n) {
                 $allnodes[] = $n;

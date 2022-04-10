@@ -170,7 +170,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         } else {
             $options = array("prtf" => $lng->txt("obj_prtf"));
         }
-        if (sizeof($options)) {
+        if (count($options) > 0) {
             asort($options);
             $item = $this->addFilterItemByMetaType("obj_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_object_type"));
             $item->setOptions($options);
@@ -203,8 +203,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             }
         }
         
-        if (sizeof($options)) {
-            // asort($options);
+        if (count($options) > 0) {
             $item = $this->addFilterItemByMetaType("acl_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_type"));
             $item->setOptions(array("" => $lng->txt("search_any")) + $options);
             $this->filter["acl_type"] = $item->getValue();
@@ -263,7 +262,10 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         
         $this->setData($data);
     }
-    
+
+    /**
+     * @param string[] $a_set
+     */
     protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;

@@ -26,8 +26,6 @@ class ilMailOptionsGUI
         ilLanguage $lng = null,
         ilObjUser $user = null,
         GlobalHttpState $http = null,
-        ilFormatMail $mail = null,
-        ilMailbox $malBox = null,
         Refinery $refinery = null
     ) {
         global $DIC;

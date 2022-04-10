@@ -60,7 +60,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
     /**
      * This method can be used to process the array of all fetched data
-     * @param array $row
+     * @param array $data
      */
     protected function preProcessData(array &$data) : void
     {
