@@ -129,11 +129,13 @@ class ilCASSettings
         return $this->allow_local;
     }
 
-    public function setDefaultRole($a_role) : void
+    //TODO PHP8-REVIEW: Property declared dynamically
+    public function setDefaultRole(int $a_role) : void
     {
         $this->default_role = $a_role;
     }
 
+    //TODO PHP8-REVIEW: Property 'default_role' declared dynamically and probably undefined
     public function getDefaultRole() : int
     {
         return $this->default_role;

@@ -195,7 +195,7 @@ class ilCASSettingsGUI
         }
 
         if (ilLDAPServer::isDataSourceActive(ilAuthUtils::AUTH_CAS)) {
-            $sync->setValue(ilCASSettings::SYNC_LDAP);
+            $sync->setValue((string) ilCASSettings::SYNC_LDAP);
         } else {
             $sync->setValue(
                 $this->getSettings()->isUserCreationEnabled() ?
@@ -266,7 +266,7 @@ class ilCASSettingsGUI
                         return;
                     }
 
-                    ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], ilAuthUtils::AUTH_CAS, true);
+                    ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], ilAuthUtils::AUTH_CAS, 1);
                     break;
             }
 

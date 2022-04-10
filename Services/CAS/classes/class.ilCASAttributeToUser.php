@@ -29,6 +29,7 @@ class ilCASAttributeToUser
     private ilCASSettings $settings;
 
 
+    //TODO PHP8-REVIEW: Method 'auth' is undefined.
     /**
      * Constructor
      *
