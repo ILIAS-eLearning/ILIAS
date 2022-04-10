@@ -104,6 +104,7 @@ class ilAuthProviderFactory
 
             case ilAuthUtils::AUTH_SAML:
                 $this->logger->debug('Using apache authentication.');
+                //TODO PHP8-REVIEW: expected type 'ilAuthFrontendCredentials', provided 'ilAuthCredentials'
                 return new ilAuthProviderSaml($credentials, ilSamlIdp::getIdpIdByAuthMode($a_authmode));
 
             case ilAuthUtils::AUTH_OPENID_CONNECT:

@@ -274,6 +274,7 @@ class ilAuthFrontend
             $this->getStatus()->setTranslatedReason(
                 sprintf(
                     $this->lng->txt('wrong_ip_detected'),
+                    //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['REMOTE_ADDR']
                     $_SERVER['REMOTE_ADDR']
                 )
             );
@@ -338,6 +339,7 @@ class ilAuthFrontend
         
         
         // --- anonymous/registered user
+        //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['...']
         $this->logger->info(
             'logged in as ' . $user->getLogin() .
             ', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .
@@ -404,9 +406,11 @@ class ilAuthFrontend
             $clientip = preg_replace("/[^0-9.?*,:]+/", "", $clientip);
             $clientip = str_replace(".", "\\.", $clientip);
             $clientip = str_replace(array("?","*",","), array("[0-9]","[0-9]*","|"), $clientip);
-            
+
+            //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['REMOTE_ADDR']
             ilLoggerFactory::getLogger('auth')->debug('Check ip ' . $clientip . ' against ' . $_SERVER['REMOTE_ADDR']);
 
+            //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['REMOTE_ADDR']
             if (!preg_match("/^" . $clientip . "$/", $_SERVER["REMOTE_ADDR"])) {
                 return false;
             }

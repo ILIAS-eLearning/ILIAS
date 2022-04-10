@@ -286,7 +286,8 @@ class ilSessionControl
                         $auth->logout();
 
                         // Trigger reachedSessionPoolLimit Event
-                        global $DIC;
+                        //TODO PHP8-REVIEW: $DIC has already imported
+                        #global $DIC;
 
                         $ilAppEventHandler = $DIC['ilAppEventHandler'];
                         $ilAppEventHandler->raise(

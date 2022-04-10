@@ -27,6 +27,7 @@ class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials implements
      */
     public function initFromRequest()
     {
+        //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['...']
         $this->setUsername($_SERVER['PHP_AUTH_USER']);
         $this->setPassword($_SERVER['PHP_AUTH_PW']);
     }

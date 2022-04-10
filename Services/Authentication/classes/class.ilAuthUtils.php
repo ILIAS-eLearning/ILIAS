@@ -671,16 +671,20 @@ class ilAuthUtils
             case ilAuthUtils::AUTH_CAS:
                 return $ilSetting->get("cas_allow_local");
         }
+        //TODO PHP8-REVIEW: missing 'return' statement
+        #return false;
     }
-    
+
+    //TODO PHP8-REVIEW: fix type compatibility of $a_authmode
     /**
      * Check if local password validation is supported
-     * @param object $a_authmode
+     * @param int|string $a_authmode
      * @return
      */
     public static function supportsLocalPasswordValidation($a_authmode)
     {
         //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
+        [$a_authmode] = explode('_', $a_authmode);
         switch ((int) $a_authmode) {
             case ilAuthUtils::AUTH_LDAP:
             case ilAuthUtils::AUTH_LOCAL:
@@ -730,7 +734,7 @@ class ilAuthUtils
                 
             case ilAuthUtils::AUTH_PROVIDER_LTI:
                 $sid = ilAuthProviderLTI::getServerIdByAuthMode($a_auth_key);
-                return ilAuthProviderLTI::lookupConsumer($sid);
+                return ilAuthProviderLTI::lookupConsumer((int) $sid);
                 
 
             case ilAuthUtils::AUTH_SAML:

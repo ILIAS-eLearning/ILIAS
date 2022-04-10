@@ -114,7 +114,8 @@ class ilAuthLoginPageEditorGUI
     protected function forwardToPageObject() : void
     {
         $key = (int) $_REQUEST['key'];
-        $this->ctrl->saveParameter($this, 'key');
+        //asdfasdf check $key
+        $this->ctrl->saveParameter($this, 'key', $key);
 
         $this->lng->loadLanguageModule("content");
 
