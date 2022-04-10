@@ -818,7 +818,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids) : arraynk
+    public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, $user_ids);
     }
