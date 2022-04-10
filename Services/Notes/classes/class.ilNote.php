@@ -393,13 +393,8 @@ class ilNote
         $set = $ilDB->query($q);
         $notes = array();
         while ($note_rec = $ilDB->fetchAssoc($set)) {
-            if ($a_filter !== "") {
-                if (!is_array($a_filter)) {// TODO PHP8-REVIEW This makes no  sense, $a_filter is always a string
-                    $a_filter = array($a_filter);
-                }
-                if (!in_array($note_rec["id"], $a_filter)) {
-                    continue;
-                }
+            if (($a_filter !== "") && $note_rec["id"] !== $a_filter) {
+                continue;
             }
             $cnt = count($notes);
             $notes[$cnt] = new ilNote();

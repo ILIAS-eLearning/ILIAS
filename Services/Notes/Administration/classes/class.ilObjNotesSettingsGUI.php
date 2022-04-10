@@ -23,6 +23,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
  */
 class ilObjNotesSettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;
     protected \ILIAS\DI\UIServices $ui;
@@ -38,7 +39,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Property declared dynamically
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->error = $DIC["ilErr"];
         $this->ctrl = $DIC->ctrl();
         $this->request = $DIC->http()->request();

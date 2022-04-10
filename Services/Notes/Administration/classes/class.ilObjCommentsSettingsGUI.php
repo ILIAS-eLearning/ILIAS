@@ -21,6 +21,7 @@
  */
 class ilObjCommentsSettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     /**
      * @var ilTabsGUI
      */
@@ -38,7 +39,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Property declared dynamically
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->ctrl = $DIC->ctrl();
         $this->request = $DIC->http()->request();
         $this->tabs = $DIC->tabs();

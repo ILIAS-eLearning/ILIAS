@@ -1014,13 +1014,7 @@ class ilNoteGUI
                         $title = ilObject::_lookupTitle($target["rep_obj_id"]);
 
                         $sub_link = $sub_title = "";
-                        if ($type === "sahs") {		// bad hack, needs general procedure
-                            $link = "goto.php?target=sahs_" . $vis_ref_id;
-                            if ($a_obj_type === "sco" || $a_obj_type === "seqc" || $a_obj_type === "chap" || $a_obj_type === "pg") {
-                                $sub_link = "goto.php?target=sahs_" . $vis_ref_id . "_" . $a_obj_id;
-                                $sub_title = ilSCORM2004Node::_lookupTitle($a_obj_id);// TODO PHP8-REVIEW This class is undefined
-                            }
-                        } elseif ($type === "poll") {
+                        if ($type === "poll") {
                             $link = ilLink::_getLink($vis_ref_id, "poll");
                         } elseif ($a_obj_type !== "pg") {
                             if (!isset($this->item_list_gui[$type])) {
