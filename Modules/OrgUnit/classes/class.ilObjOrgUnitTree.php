@@ -24,17 +24,16 @@ class ilObjOrgUnitTree
     private array $parent;
     private ilDBInterface $db;
     private ilObjUser $ilUser;
+    private \ilTree $tree;
 
     private function __construct()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $tree = $DIC['tree'];
-        $this->db = $ilDB;
-        $this->tree = $tree;
+        $this->db = $DIC->database();
+        $this->tree = $DIC->repositoryTree();
         $this->roles = array();
         $this->staff = array();
-        $this->ilUser = $DIC['ilUser'];
+        $this->ilUser = $DIC->user();
     }
 
     public static function _getInstance() : \ilObjOrgUnitTree

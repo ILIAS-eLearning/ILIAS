@@ -27,6 +27,7 @@ abstract class BaseCommands
     private \ilTabsGUI $tabsGUI;
     private \ilAccess $access;
     private \ILIAS\HTTP\Services $http;
+    private \ilGlobalTemplateInterface $tpl;
 
     protected ?BaseCommands $parent_gui = null;
 
@@ -39,6 +40,7 @@ abstract class BaseCommands
         $this->tabsGUI = $DIC->tabs();
         $this->access = $DIC->access();
         $this->http = $DIC->http();
+        $this->tpl = $DIC->ui()->mainTemplate();
     }
 
     public function getParentGui() : ?BaseCommands
@@ -68,12 +70,12 @@ abstract class BaseCommands
      */
     protected function cancel() : void
     {
-        $this->ctrl()->redirect($this, self::CMD_INDEX);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
     protected function setContent(string $html)
     {
-        $this->tpl()->setContent($html);
+        $this->tpl->setContent($html);
     }
 
     /**
@@ -89,7 +91,7 @@ abstract class BaseCommands
                     $instance = new $class();
                     if ($instance instanceof BaseCommands) {
                         $instance->setParentGui($this);
-                        $this->ctrl()->forwardCommand($instance);
+                        $this->ctrl->forwardCommand($instance);
                     }
 
                     return;
@@ -112,7 +114,7 @@ abstract class BaseCommands
 
     protected function pushSubTab(string $subtab_id, string $url)
     {
-        $this->tabsGUI->addSubTab($subtab_id, $this->txt($subtab_id), $url);
+        $this->tabsGUI->addSubTab($subtab_id, $this->lng->txt($subtab_id), $url);
     }
 
     protected function activeSubTab(string $subtab_id)

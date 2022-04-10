@@ -14,17 +14,15 @@ class ilOrgUnitTypeTranslation
     protected array $changes = [];
     protected array $members_new = [];
     protected ilDBInterface $db;
-    protected ilLogger $log;
+    protected \ILIAS\DI\LoggingServices $log;
     /** @var self[] */
     protected static array $instances = [];
 
     public function __construct(int $a_org_type_id = 0, string $a_lang_code = '')
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-        $this->db = $ilDB;
-        $this->log = $ilLog;
+        $this->db = $DIC->database();
+        $this->log = $DIC->logger();
         if ($a_org_type_id && $a_lang_code) {
             $this->orgu_type_id = (int) $a_org_type_id;
             $this->lang = $a_lang_code;
@@ -68,13 +66,14 @@ class ilOrgUnitTypeTranslation
     public static function getAllTranslations(int $a_orgu_type_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        /** @var ilDB $ilDB */
-        $sql = 'SELECT DISTINCT lang FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $ilDB->quote($a_orgu_type_id,
+        /** @var ilDBInterface $db **/;
+        $db = $DIC->database();
+
+        $sql = 'SELECT DISTINCT lang FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $db->quote($a_orgu_type_id,
                 'integer');
-        $set = $ilDB->query($sql);
+        $set = $db->query($sql);
         $objects = array();
-        while ($rec = $ilDB->fetchObject($set)) {
+        while ($rec = $db->fetchObject($set)) {
             $trans_obj = new ilOrgUnitTypeTranslation($a_orgu_type_id, $rec->lang);
             $cache_id = $a_orgu_type_id . $rec->lang;
             self::$instances[$cache_id] = $trans_obj;
@@ -96,16 +95,17 @@ class ilOrgUnitTypeTranslation
     public static function exists(int $a_orgu_type_id, string $a_member, string $a_lang, string $a_value) : bool
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        /** @var ilDB $ilDB */
-        $sql = 'SELECT * FROM ' . self::TABLE_NAME . '
-                WHERE orgu_type_id != ' . $ilDB->quote($a_orgu_type_id, 'integer') . '
-                AND member = ' . $ilDB->quote($a_member, 'text') . '
-                AND lang = ' . $ilDB->quote($a_lang, 'text') . '
-                AND value = ' . $ilDB->quote($a_value, 'text');
-        $set = $ilDB->query($sql);
+        /** @var ilDBInterface $db **/;
+        $db = $DIC->database();
 
-        return ($ilDB->numRows($set)) ? true : false;
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME . '
+                WHERE orgu_type_id != ' . $db->quote($a_orgu_type_id, 'integer') . '
+                AND member = ' . $db->quote($a_member, 'text') . '
+                AND lang = ' . $db->quote($a_lang, 'text') . '
+                AND value = ' . $db->quote($a_value, 'text');
+        $set = $db->query($sql);
+
+        return ($db->numRows($set)) ? true : false;
     }
 
     /**

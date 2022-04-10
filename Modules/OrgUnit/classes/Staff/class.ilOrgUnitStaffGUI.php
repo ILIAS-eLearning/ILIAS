@@ -14,9 +14,9 @@ class ilOrgUnitStaffGUI
     protected ilTabsGUI $tabs_gui;
     protected ilToolbarGUI $toolbar;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
-    protected ilObjOrgUnitGUI $parent_gui;
-    protected ilObjOrgUnit $parent_obj;
+    protected ilGlobalTemplateInterface $tpl;
+    protected object $parent_gui;
+    protected object $parent_object;
     protected ilLanguage $lng;
     protected ilAccessHandler $ilAccess;
     protected ilRbacReview $rbacreview;
@@ -27,24 +27,16 @@ class ilOrgUnitStaffGUI
     public function __construct(ilObjOrgUnitGUI $parent_gui)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $rbacreview = $DIC['rbacreview'];
-
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl =  $DIC->ctrl();
         $this->parent_gui = $parent_gui;
         $this->parent_object = $parent_gui->object;
         $this->tabs_gui = $this->parent_gui->tabs_gui;
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->ilAccess = $ilAccess;
-        $this->toolbar = $ilToolbar;
-        $this->rbacreview = $rbacreview;
+        $this->toolbar = $DIC->toolbar();
+        $this->lng = $DIC->language();
+        $this->ilAccess = $DIC->access();
+        $this->toolbar = $DIC->toolbar();
+        $this->rbacreview = $DIC->rbac()->review();
 
         $this->tabs_gui->setTabActive("orgu_staff");
         $this->setTabs();

@@ -8,9 +8,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
 {
     public function getParentTypes() : array
     {
-        $par_types = array("orgu");
-
-        return $par_types;
+        return ['orgu'];
     }
 
     public static function _getIcon(string $a_type) : string

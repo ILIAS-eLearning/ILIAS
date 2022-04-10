@@ -12,12 +12,12 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     private ilAccess $access;
     private ilObjUser $user;
 
-    public function __construct()
+    public function __construct(ilAccess $access)
     {
         global $DIC;
         $this->set = ilOrgUnitGlobalSettings::getInstance();
         $this->ua = ilOrgUnitUserAssignmentQueries::getInstance();
-        $this->access = $DIC->access();
+        $this->access = $access;
         $this->user = $DIC->user();
     }
 

@@ -10,8 +10,6 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
 {
     public function simpleImport(string $file_path)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
         $this->stats = array("created" => 0, "updated" => 0, "deleted" => 0);
         $a = file_get_contents($file_path, "r");
         $xml = new SimpleXMLElement($a);
@@ -30,8 +28,6 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
     public function simpleImportElement(SimpleXMLElement $o)
     {
         global $DIC;
-        $tree = $DIC['tree'];
-        $tpl = $DIC['tpl'];
         $ilUser = $DIC['ilUser'];
         $title = (string) $o->title;
         $description = (string) $o->description;

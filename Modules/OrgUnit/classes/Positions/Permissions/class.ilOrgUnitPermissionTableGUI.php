@@ -8,7 +8,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 {
     private int $ref_id = 0;
 
-    public function __construct(ilObjectGUI $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
     {
         global $ilCtrl, $tpl;
 
