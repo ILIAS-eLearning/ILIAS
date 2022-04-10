@@ -8,6 +8,9 @@
  */
 class ilOrgUnitStaffTableGUI extends ilTable2GUI
 {
+    protected \ilTabsGUI $tabs;
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\Refinery\Factory $refinery;
     private bool $recursive = false;
     /** @var string "employee" | "superior" */
     private string $staff = "employee";
@@ -20,12 +23,11 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         string $template_context = ""
     ) {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $this->ctrl = $ilCtrl;
-        $this->tabs = $ilTabs;
-        $this->lng = $lng;
+        $this->ctrl =  $DIC->ctrl();
+        $this->tabs = $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->setPrefix("il_orgu_" . $staff);
         $this->setFormName('il_orgu_' . $staff);
@@ -61,9 +63,9 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
     public function parseData() : void
     {
         if ($this->staff === "employee") {
-            $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getEmployees($_GET["ref_id"], $this->recursive));
+            $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getEmployees($this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->to()->int()), $this->recursive));
         } elseif ($this->staff === "superior") {
-            $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getSuperiors($_GET["ref_id"], $this->recursive));
+            $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getSuperiors($this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->to()->int()), $this->recursive));
         } else {
             throw new \RuntimeException("The ilOrgUnitStaffTableGUI's staff variable has to be either 'employee' or 'superior'");
         }

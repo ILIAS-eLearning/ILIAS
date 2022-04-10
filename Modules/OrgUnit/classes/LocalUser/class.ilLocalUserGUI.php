@@ -22,7 +22,7 @@ class ilLocalUserGUI
     private ilRbacReview $rbacReview;
     private ilRbacAdmin $rbacAdmin;
     private ilObjUser $user;
-    private ilLogger $logger;
+    private \ILIAS\DI\LoggingServices $logger;
 
     public function __construct(ilObjectGUI $parentGui)
     {

@@ -8,6 +8,11 @@
  */
 class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
 {
+    protected ilTabsGUI $tabs;
+    protected ilAccessHandler $ilAccess;
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\Refinery\Factory $refinery;
+
     public function __construct(
         ilObjectGUI $parent_obj,
         string $parent_cmd,
@@ -17,16 +22,12 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         parent::__construct($parent_obj, $parent_cmd, $template_context);
 
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        /**
-         * @var $ilCtrl ilCtrl
-         * @var $ilTabs ilTabsGUI
-         */
-        $this->ctrl = $ilCtrl;
-        $this->tabs = $ilTabs;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->tabs = $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->ilAccess = $DIC->access();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->setPrefix("sr_other_role_" . $role_id);
         $this->setFormName('sr_other_role_' . $role_id);
@@ -105,20 +106,15 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set) : void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
         $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
         $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
 
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive) {
+        if ($this->ilAccess->checkAccess("write", "",  $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->to()->int()))) {
             $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $a_set["user_id"]);
             $this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "role_id", $this->role_id);
 
             $selection = new ilAdvancedSelectionListGUI();
-            $selection->setListTitle($lng->txt("Actions"));
+            $selection->setListTitle($this->lng->txt("Actions"));
             $selection->setId("selection_list_user_other_roles_" . $a_set["user_id"]);
             $selection->addItem($this->lng->txt("remove"), "delete_from_role",
                 $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromRole"));

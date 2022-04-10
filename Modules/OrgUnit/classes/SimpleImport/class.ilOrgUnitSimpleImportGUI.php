@@ -8,62 +8,31 @@
  */
 class ilOrgUnitSimpleImportGUI
 {
+    protected ilTabsGUI $tabs_gui;
+    protected ilToolbarGUI $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjectGUI $parent_gui;
+    protected object $parent_object;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $ilAccess;
+    protected \ILIAS\DI\LoggingServices $ilLog;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilObjOrgUnit|ilObjCategory
-     */
-    protected $parent_object;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-
-    /**
-     * @param $parent_gui
-     */
-    public function __construct($parent_gui)
+    public function __construct(ilObjectGUI $parent_gui)
     {
         global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilLog = $DIC['ilLog'];
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
         $this->parent_gui = $parent_gui;
-        $this->parent_object = $parent_gui->object;
-        $this->tabs_gui = $this->parent_gui->tabs_gui;
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->ilAccess = $ilAccess;
+        $this->parent_object = $parent_gui->getObject();
+        $this->tabs_gui = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
+        $this->lng = $DIC->language();
+        $this->ilAccess = $DIC->access();
         $this->lng->loadLanguageModule('user');
-        $this->ilLog = $ilLog;
-        if (!$this->ilAccess->checkaccess("write", "", $this->parent_gui->object->getRefId())) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+        $this->ilLog = $DIC->logger();
+        if (!$this->ilAccess->checkaccess("write", "", $this->parent_gui->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
         }
     }
 

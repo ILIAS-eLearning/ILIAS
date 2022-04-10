@@ -19,49 +19,30 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
         $this->timings_enabled = false;
     }
 
-    /**
-     * @param string $a_type
-     * @param int    $a_ref_id
-     * @param int    $a_obj_id
-     * @param bool   $a_header_actions
-     * @param bool   $a_check_write_access
-     * @return bool
-     */
     protected function isCommentsActivated(
-        string $a_type,
-        int $a_ref_id,
-        int $a_obj_id,
-        bool $a_header_actions,
-        bool $a_check_write_access = true
+        string $type,
+        int $ref_id,
+        int $obj_id,
+        bool $header_actions,
+        bool $check_write_access = true
     ): bool {
         return $this->comments_enabled;
     }
 
     /**
      * Comments cannot be enabled.
-     * @param bool $a_value
-     * @param bool $a_enable_comments_settings
-     * @return bool
      */
-    public function enableComments(bool $a_value, bool $a_enable_comments_settings = true): void
+    public function enableComments(bool $value, bool $enable_comments_settings = true): void
     {
 
     }
 
-    /**
-     * @param bool $a_value
-     * @return bool
-     */
-    public function enableNotes(bool $a_value): void
+    public function enableNotes(bool $value): void
     {
 
     }
 
-    /**
-     * @param bool $a_value
-     * @return bool
-     */
-    public function enableTags(bool $a_value): void
+    public function enableTags(bool $value): void
     {
 
     }

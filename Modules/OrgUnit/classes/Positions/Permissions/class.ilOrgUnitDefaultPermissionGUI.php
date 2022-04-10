@@ -10,11 +10,19 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 class ilOrgUnitDefaultPermissionGUI extends BaseCommands
 {
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ilObjectDefinition $objectDefintion;
+    private \ILIAS\HTTP\Services $http;
+    private  \ilCtrlInterface $ctrl;
+    private  \ilLanguage $lng;
 
     public function __construct()
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->objectDefintion = $DIC["objDefinition"];
+        $this->http = $DIC->http();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
     }
 
     protected function index() : void
@@ -25,7 +33,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI(
             $this,
             $ilOrgUnitPermissions,
-            $this->dic()["objDefinition"]
+            $this->objectDefintion
         );
         $ilOrgUnitDefaultPermissionFormGUI->fillForm();
 
@@ -39,10 +47,10 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI(
             $this,
             $ilOrgUnitPermissions,
-            $this->dic()["objDefinition"]
+            $this->objectDefintion
         );
         if ($ilOrgUnitDefaultPermissionFormGUI->saveObject()) {
-            $this->main_tpl->setOnScreenMessage('success', $this->txt('msg_success_permission_saved'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_permission_saved'), true);
             $this->cancel();
         }
 
@@ -53,7 +61,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
     {
         static $id;
         if (!$id) {
-            $id = $this->dic()->http()->request()->getQueryParams()['arid'];
+            $id =  $this->http->request()->getQueryParams()['arid'];
         }
 
         return (int) $id;
@@ -61,6 +69,6 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
 
     protected function cancel(): void
     {
-        $this->ctrl()->redirectByClass(ilOrgUnitPositionGUI::class);
+        $this->ctrl->redirectByClass(ilOrgUnitPositionGUI::class);
     }
 }
