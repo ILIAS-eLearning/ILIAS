@@ -246,13 +246,13 @@
                 }
             }
         }
-
-        private function isSubStatementCheck($obj) {
-            if (
-                isset($obj->context) &&
-                isset($obj->context->contextActivities) &&
-                is_array($obj->context->contextActivities->parent)
-            ) {
+	
+	private function isSubStatementCheck($obj) {
+            $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId()); // get ActivityId in Constructor for better performance, is also used in handleEvaluationStatement
+            $objActivityId = $object->getActivityId();
+            $statementActivityId = $obj->object->id;
+            if ($statementActivityId != $objActivityId) {
+                $this->log()->debug($this->msg("statement object id " . $statementActivityId . " != activityId " . $objActivityId));
                 $this->log()->debug($this->msg("is Substatement"));
                 return true;
             }
