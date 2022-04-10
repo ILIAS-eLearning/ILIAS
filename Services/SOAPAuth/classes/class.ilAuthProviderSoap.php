@@ -57,10 +57,10 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
         $this->server_port = (string) $this->settings->get('soap_auth_port', '');
         $this->server_uri = (string) $this->settings->get('soap_auth_uri', '');
         $this->server_nms = (string) $this->settings->get('soap_auth_namespace', '');
-        $this->server_https = (bool) $this->settings->get('soap_auth_use_https', false);
-        $this->use_dot_net = (bool) $this->settings->get('use_dotnet', false);
+        $this->server_https = $this->settings->get('soap_auth_use_https', '');
+        $this->use_dot_net = (bool) $this->settings->get('use_dotnet', '');
 
-        $this->uri = $this->server_https ? 'https://' : 'http://';
+        $this->uri = (bool) $this->server_https ? 'https://' : 'http://';
         $this->uri .= $this->server_host;
 
         if ($this->server_port > 0) {
@@ -123,7 +123,7 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
 
         $soapAction = '';
         $nspref = '';
-        if ($this->use_dot_net) {
+        if ((bool) $this->use_dot_net) {
             $soapAction = $this->server_nms . '/isValidSession';
             $nspref = 'ns1:';
         }
@@ -186,22 +186,22 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
         $userObj->setLanguage($this->language->getDefaultLanguage());
 
         $userObj->setTimeLimitOwner(USER_FOLDER_ID);
-        $userObj->setTimeLimitUnlimited(1);
+        $userObj->setTimeLimitUnlimited(true);
         $userObj->setTimeLimitFrom(time());
         $userObj->setTimeLimitUntil(time());
         $userObj->setOwner(0);
         $userObj->create();
-        $userObj->setActive(1);
+        $userObj->setActive(true);
         $userObj->updateOwner();
         $userObj->saveAsNew(false);
         $userObj->writePrefs();
 
         $this->rbacAdmin->assignUser(
-            $this->settings->get('soap_auth_user_default_role', 4),
+            (int) $this->settings->get('soap_auth_user_default_role', '4'),
             $userObj->getId()
         );
 
-        if ($this->settings->get('soap_auth_account_mail', false)) {
+        if ((bool) $this->settings->get('soap_auth_account_mail', '')) {
             $registrationSettings = new ilRegistrationSettings();
             $registrationSettings->setPasswordGenerationStatus(true);
 

@@ -42,6 +42,7 @@ echo '<form>' .
 
 echo "<br /><br />----------------------------------------------<br /><br /> Calling Server...";
 
+//TODO PHP8-REVIEW: Undefined class 'soap_client'
 // initialize soap client
 $client = new soap_client($server);
 if ($err = $client->getError()) {
