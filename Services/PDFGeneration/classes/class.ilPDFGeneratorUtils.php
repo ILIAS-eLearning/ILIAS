@@ -144,11 +144,11 @@ class ilPDFGeneratorUtils
         );
     }
 
-    public static function getRendererConfig(string $service, string $purpose, string $renderer): array
+    public static function getRendererConfig(string $service, string $purpose, string $renderer) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
-
+        
         $query = 'SELECT config FROM pdfgen_conf WHERE renderer = ' . $ilDB->quote($renderer, 'text') .
             ' AND service = ' . $ilDB->quote($service, 'text') . ' AND purpose = ' . $ilDB->quote($purpose, 'text');
 
@@ -189,8 +189,10 @@ class ilPDFGeneratorUtils
     public static function getRendererInstance(string $renderer) : object
     {
         global $DIC;
-        /** @var ilDB $ilDB */
-        $ilDB = $DIC['ilDB'];
+        //TODO PHP8-REVIEW: Undefined class 'ilDB'. Use $DIC->database instead.
+        #/** @var ilDB $ilDB */
+        #$ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $result = $ilDB->query('SELECT path FROM pdfgen_renderer WHERE renderer = ' . $ilDB->quote($renderer, 'text'));
 
@@ -236,7 +238,8 @@ class ilPDFGeneratorUtils
         );
     }
 
-    public static function getRendererMapForPurpose(string $service, string $purpose)
+    //TODO PHP8-REVIEW: Missing function's return type declaration. Expects ?array
+    public static function getRendererMapForPurpose(string $service, string $purpose) : ?array
     {
         global $DIC;
         $ilDB = $DIC->database();

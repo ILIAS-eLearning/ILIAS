@@ -1,15 +1,15 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once __DIR__ .'/../classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfConfig.php';
+require_once __DIR__ . '/../classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfConfig.php';
 use PHPUnit\Framework\TestCase;
+
 /**
  * Class ilWebkitHtmlToPdfTransformerTest
  * @package ilPdfGenerator
  */
-class ilWkhtmlToPdfConfigTest  extends TestCase
+class ilWkhtmlToPdfConfigTest extends TestCase
 {
-
     const COOKIE_STRING = '--cookie "PHPSESSID" "" --cookie "ilClientId" "1" ';
     /**
      * @var ilWkhtmlToPdfConfig
@@ -39,7 +39,6 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
         $this->assertSame('2cm', $this->config->getMarginRight());
         $this->assertSame('0.5cm', $this->config->getMarginBottom());
         $this->assertSame('2cm', $this->config->getMarginTop());
-
     }
 
     public function testDefaultConfigCommandline()
@@ -77,7 +76,7 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
     public function testGetCommandLineConfigWithGrayscale()
     {
         $this->config->setGreyscale(true);
-        $exp = $this->default_start . '--grayscale ' .  $this->default_end;
+        $exp = $this->default_start . '--grayscale ' . $this->default_end;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
@@ -109,7 +108,7 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
         $this->config->setHeaderTextLeft('Left');
         $this->config->setHeaderTextCenter('Center');
         $this->config->setHeaderTextRight('Right');
-        $exp = $this->default_start .'--orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --header-html "<div><b>Test</b></div>" --header-spacing 1 --quiet ' . self::COOKIE_STRING;
+        $exp = $this->default_start . '--orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --header-html "<div><b>Test</b></div>" --header-spacing 1 --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
@@ -129,7 +128,7 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
         $this->config->setFooterType(ilPDFGenerationConstants::FOOTER_HTML);
         $this->config->setFooterHtml('<div><b>Test</b></div>');
         $this->config->setFooterHtmlSpacing(2);
-        $exp = $this->default_start .'--orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --footer-html "<div><b>Test</b></div>" --footer-spacing 2 --quiet ' . self::COOKIE_STRING;
+        $exp = $this->default_start . '--orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --footer-html "<div><b>Test</b></div>" --footer-spacing 2 --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
@@ -146,21 +145,21 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
     public function testGetCommandLineConfigWithEnabledForms()
     {
         $this->config->setEnabledForms(true);
-        $exp = ' --zoom 1 --enable-external-links --enable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --enable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithEnabledExternalLinks()
     {
         $this->config->setExternalLinks(true);
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithEnabledLowQuality()
     {
         $this->config->setLowQuality(true);
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --lowquality --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --lowquality --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
@@ -169,56 +168,56 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
     public function testGetCommandLineConfigWithEnabledPrintMediaType()
     {
         $this->config->setPrintMediaType(true);
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --print-media-type --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --print-media-type --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithEnabledCustomStyleSheet()
     {
         $this->config->setUserStylesheet('my_super_css_class.css');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --user-style-sheet "my_super_css_class.css" --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --user-style-sheet "my_super_css_class.css" --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithCheckbox()
     {
         $this->config->setCheckboxSvg('checkbox.svg');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --checkbox-svg "checkbox.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --checkbox-svg "checkbox.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithCheckedCheckbox()
     {
         $this->config->setCheckboxCheckedSvg('checkbox_checked.svg');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --checkbox-checked-svg "checkbox_checked.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --checkbox-checked-svg "checkbox_checked.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithRadiobutton()
     {
         $this->config->setRadioButtonSvg('radiobutton.svg');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --radiobutton-svg "radiobutton.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --radiobutton-svg "radiobutton.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithCheckedRadiobutton()
     {
         $this->config->setRadioButtonCheckedSvg('radiobutton_checked.svg');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --radiobutton-checked-svg "radiobutton_checked.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --radiobutton-checked-svg "radiobutton_checked.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithDisabledExternalLinks()
     {
         $this->config->setExternalLinks(false);
-        $exp = ' --zoom 1 --disable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --disable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
     public function testGetCommandLineConfigWithLandscape()
     {
         $this->config->setOrientation('Landscape');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Landscape --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet '. self::COOKIE_STRING;
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Landscape --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 

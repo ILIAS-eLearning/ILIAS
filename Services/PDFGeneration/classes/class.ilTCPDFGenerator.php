@@ -14,6 +14,18 @@
  *****************************************************************************/
 class ilTCPDFGenerator
 {
+    //TODO PHP8-REVIEW: undefined methods called
+    //Method 'getCreator' is undefined
+    //Method 'getAuthor' is undefined
+    //Method 'getTitle' is undefined
+    //Method 'getSubject' is undefined
+    //Method 'getKeywords' is undefined
+    //Method 'getMarginLeft' is undefined
+    //Method 'getMarginTop' is undefined
+    //Method 'getMarginRight' is undefined
+    //Method 'getAutoPageBreak' is undefined
+    //Method 'getMarginBottom' is undefined
+    //Method 'getImageScale' is undefined
     public static function generatePDF(ilPDFGenerationJob $job) : void
     {
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);

@@ -222,15 +222,15 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $renderer_obj->addConfigElementsToForm($form, $service, $purpose);
 
         $form->setValuesByPost();
+        //TODO PHP8-REVIEW: 'if' statement with common parts
         if ($renderer_obj->validateConfigInForm($form, $service, $purpose)) {
             $config = $renderer_obj->getConfigFromForm($form, $service, $purpose);
             ilPDFGeneratorUtils::saveRendererPurposeConfig($service, $purpose, $renderer, $config);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('config_saved'), true);
-            $this->ctrl->redirect($this, "view");
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('config_not_saved'), true); // TODO: Needs better handling.
-            $this->ctrl->redirect($this, "view");
         }
+        $this->ctrl->redirect($this, "view");
     }
 
     protected function doCleanUp() : void

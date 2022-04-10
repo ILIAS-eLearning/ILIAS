@@ -38,10 +38,11 @@ class ilHtmlToPdfTransformerFactory
         return $output;
     }
 
+    //TODO PHP8-REVIEW: missing return type
     /**
      * @throws Exception
      */
-    public function deliverPDFFromHTMLString(array $src, string $output, string $delivery_type, string $service, string $purpose)
+    public function deliverPDFFromHTMLString(array $src, string $output, string $delivery_type, string $service, string $purpose) : bool|string
     {
         $map = ilPDFGeneratorUtils::getRendererMapForPurpose($service, $purpose);
         $renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
@@ -61,7 +62,8 @@ class ilHtmlToPdfTransformerFactory
         return $this->deliverPDF($output, $delivery_type);
     }
 
-    protected function deliverPDF(string $file, string $delivery_type)
+    //TODO PHP8-REVIEW: missing return type
+    protected function deliverPDF(string $file, string $delivery_type) : bool|string
     {
         if (file_exists($file)) {
             if (strtoupper($delivery_type) === self::PDF_OUTPUT_DOWNLOAD) {
@@ -75,6 +77,8 @@ class ilHtmlToPdfTransformerFactory
         }
         return false;
     }
+
+
     protected function createOneFileFromArray(array $src) : string
     {
         $tmp_file = dirname(reset($src)) . '/complete_pages_overview.html';

@@ -42,11 +42,13 @@ class ilPDFGenerationSetupAgent implements Setup\Agent
         ));
     }
 
+    //TODO PHP8-REVIEW: Parameter '$config' type is not compatible with declaration. Expects ilPDFGenerationSetupConfig
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
         return new ilPDFGenerationConfigStoredObjective($config);
     }
 
+    //TODO PHP8-REVIEW: Parameter '$config' type is not compatible with declaration. Expects ilPDFGenerationSetupConfig
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         if ($config !== null) {
