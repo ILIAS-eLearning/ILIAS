@@ -54,6 +54,7 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials i
 
     protected function parseRedirectionTarget() : void
     {
+        //TODO PHP8-REVIEW: $DIC->http()->wrapper()->query()->retrieve('target', $DIC->refinery()->kindlyTo()->string()
         if (!empty($_GET['target'])) {
             $this->target = $_GET['target'];
             \ilSession::set(self::SESSION_TARGET, $this->target);

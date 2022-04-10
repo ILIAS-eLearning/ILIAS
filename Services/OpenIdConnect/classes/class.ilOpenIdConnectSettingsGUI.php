@@ -360,6 +360,7 @@ class ilOpenIdConnectSettingsGUI
             }
         }
 
+        //TODO PHP8-REVIEW: Variable '$scopes' is probably undefined
         $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
         if (!empty($invalid_scopes)) {
             $this->mainTemplate->setOnScreenMessage('failure', sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes)));
@@ -512,6 +513,8 @@ class ilOpenIdConnectSettingsGUI
         $this->settings->save();
         $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::STAB_PROFILE);
+
+        return true;
     }
 
     protected function roles(\ilPropertyFormGUI $form = null) : void

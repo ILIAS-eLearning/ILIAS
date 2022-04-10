@@ -106,6 +106,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             $this->getLogger()->dump($claims, \ilLogLevel::DEBUG);
             $status = $this->handleUpdate($status, $claims);
 
+            //TODO PHP8-REVIEW: usage of $_GET
             // @todo : provide a general solution for all authentication methods
             $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();
 
@@ -166,6 +167,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             $status->setAuthenticatedUserId($user_id);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 
+            //TODO PHP8-REVIEW: usage of $_GET
             // @todo : provide a general solution for all authentication methods
             $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();
         } catch (ilOpenIdConnectSyncForbiddenException $e) {

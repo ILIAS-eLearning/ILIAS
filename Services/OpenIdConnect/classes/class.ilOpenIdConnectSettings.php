@@ -443,6 +443,7 @@ class ilOpenIdConnectSettings
             $curl->close();
         }
 
+        //TODO PHP8-REVIEW: Variable '$result' is probably undefined
         return $result;
     }
 
@@ -451,25 +452,25 @@ class ilOpenIdConnectSettings
      */
     public function save() : void
     {
-        $this->storage->set('active', (int) $this->getActive());
+        $this->storage->set('active', $this->getActive() ? '1' : '0');
         $this->storage->set('provider', $this->getProvider());
         $this->storage->set('client_id', $this->getClientId());
         $this->storage->set('secret', $this->getSecret());
         $this->storage->set('scopes', (string) serialize($this->getAdditionalScopes()));
         $this->storage->set('le_img', $this->getLoginElementImage());
         $this->storage->set('le_text', $this->getLoginElemenText());
-        $this->storage->set('le_type', $this->getLoginElementType());
-        $this->storage->set('prompt_type', $this->getLoginPromptType());
-        $this->storage->set('logout_scope', $this->getLogoutScope());
-        $this->storage->set('custom_session', (int) $this->isCustomSession());
-        $this->storage->set('session_duration', (int) $this->getSessionDuration());
-        $this->storage->set('allow_sync', (int) $this->isSyncAllowed());
-        $this->storage->set('role', (int) $this->getRole());
+        $this->storage->set('le_type', (string) $this->getLoginElementType());
+        $this->storage->set('prompt_type', (string) $this->getLoginPromptType());
+        $this->storage->set('logout_scope', (string) $this->getLogoutScope());
+        $this->storage->set('custom_session', (string) $this->isCustomSession());
+        $this->storage->set('session_duration', (string) $this->getSessionDuration());
+        $this->storage->set('allow_sync', (string) $this->isSyncAllowed());
+        $this->storage->set('role', (string) $this->getRole());
         $this->storage->set('uid', (string) $this->getUidField());
 
         foreach ($this->getProfileMappingFields() as $field => $lang_key) {
             $this->storage->set('pmap_' . $field, $this->getProfileMappingFieldValue($field));
-            $this->storage->set('pumap_' . $field, $this->getProfileMappingFieldUpdate($field));
+            $this->storage->set('pumap_' . $field, $this->getProfileMappingFieldUpdate($field) ? '1' : '0');
         }
         $this->storage->set('role_mappings', (string) serialize($this->getRoleMappings()));
     }

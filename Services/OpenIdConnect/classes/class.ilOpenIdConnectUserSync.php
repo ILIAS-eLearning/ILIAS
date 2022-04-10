@@ -265,6 +265,7 @@ class ilOpenIdConnectUserSync
         if (!$connect_name) {
             return '';
         }
+        //TODO PHP8-REVIEW: expected type object|string, array provided
         if (!property_exists($this->user_info, $connect_name)) {
             $this->logger->debug('Cannot find property ' . $connect_name . ' in user info ');
             return '';
