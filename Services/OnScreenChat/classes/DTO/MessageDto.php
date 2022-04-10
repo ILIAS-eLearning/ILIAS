@@ -24,7 +24,7 @@ namespace ILIAS\OnScreenChat\DTO;
  */
 class MessageDto
 {
-    private string $id;
+    private string $id; //TODO PHP8-REVIEW: missing property type. getId() returns string
     private ConversationDto $conversation;
     private int $createdTimestamp;
     private int $authorUsrId = 0;
