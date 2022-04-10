@@ -42,33 +42,24 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     protected ilLocatorGUI $ilLocator;
     public ilTree $tree;
     public ?ilObject $object;
-    protected ilLogger $ilLog;
+    protected \ILIAS\DI\LoggingServices $ilLog;
     public Ilias $ilias;
 
     public function __construct()
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilLocator = $DIC['ilLocator'];
-        $tree = $DIC['tree'];
-        $lng = $DIC['lng'];
-        $ilLog = $DIC['ilLog'];
-        $ilias = $DIC['ilias'];
         parent::__construct(array(), $_GET["ref_id"], true, false);
 
-        //$this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->ilAccess = $ilAccess;
-        $this->ilLocator = $ilLocator;
-        $this->tree = $tree;
-        $this->toolbar = $ilToolbar;
-        $this->ilLog = $ilLog;
-        $this->ilias = $ilias;
+        $this->ctrl = $DIC->ctrl();
+        $this->ilAccess = $DIC->access();
+        $this->ilLocator = $DIC['ilLocator'];
+        $this->tree = $DIC->repositoryTree();
+        $this->toolbar = $DIC->toolbar();
+        $this->ilLog = $DIC->logger();
+        $this->ilias = $DIC['ilias'];
         $this->type = 'orgu';
 
+        $lng = $DIC->language();
         $lng->loadLanguageModule("orgu");
         $this->tpl->addCss('./Modules/OrgUnit/templates/default/orgu.css');
 

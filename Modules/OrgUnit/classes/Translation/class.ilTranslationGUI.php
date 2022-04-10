@@ -10,30 +10,27 @@
 class ilTranslationGUI
 {
     protected ilCtrl $ctrl;
-    public ilTemplate $tpl;
+    public ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $ilAccess;
     protected ilLanguage $lng;
-    protected ilObjOrgUnitGui $ilObjOrgUnitGui;
-    protected ilObject $ilObjectOrgUnit;
+    protected object $parent_gui;
+    protected object $object;
 
-    public function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
+    public function __construct(object $ilObjOrgUnitGUI)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
+
         $ilAccess = $DIC['ilAccess'];
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->ilObjOrgUnitGui = $ilObjOrgUnitGUI;
-        $this->ilObjectOrgUnit = $ilObjOrgUnitGUI->getObject();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->parent_gui = $ilObjOrgUnitGUI;
+        $this->object = $ilObjOrgUnitGUI->getObject();
         $this->ilAccess = $ilAccess;
 
-        if (!$ilAccess->checkAccess('write', '', $this->ilObjectOrgUnit->getRefId())) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
     }
@@ -46,7 +43,7 @@ class ilTranslationGUI
 
     public function editTranslations(bool $a_get_post_values = false, bool $a_add = false): void
     {
-        $this->lng->loadLanguageModule($this->ilObjectOrgUnit->getType());
+        $this->lng->loadLanguageModule($this->object->getType());
 
         $table = new ilObjectTranslationTableGUI(
             $this,
@@ -66,7 +63,7 @@ class ilTranslationGUI
             }
             $table->setData($vals);
         } else {
-            $data = $this->ilObjectOrgUnit->getTranslations();
+            $data = $this->object->getTranslations();
             if ($a_add) {
                 $data[]["title"] = "";
             }
@@ -100,19 +97,19 @@ class ilTranslationGUI
         }
 
         // save the stuff
-        $this->ilObjectOrgUnit->removeTranslations();
+        $this->object->removeTranslations();
         foreach ($_POST["title"] as $k => $v) {
-            $translations = $this->ilObjectOrgUnit->getTranslations();
+            $translations = $this->object->getTranslations();
 
             if (array_key_exists($_POST["lang"][$k], $translations)) {
-                $this->ilObjectOrgUnit->updateTranslation(
+                $this->object->updateTranslation(
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
                     ($_POST["default"] == $k) ? 1 : 0
                 );
             } else {
-                $this->ilObjectOrgUnit->addTranslation(
+                $this->object->addTranslation(
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),

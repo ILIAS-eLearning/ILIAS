@@ -10,100 +10,66 @@ use ILIAS\HTTP\RawHTTPServices;
  */
 trait DIC
 {
-
     /**
      * @return \ILIAS\DI\Container
      */
     public function dic()
     {
-        return $GLOBALS['DIC'];
+        global $DIC;
+        return $DIC;
     }
 
-    /**
-     * @return \ilCtrl
-     */
-    protected function ctrl()
+    protected function ctrl():  \ilCtrl
     {
         return $this->dic()->ctrl();
     }
 
-    /**
-     * @param $variable
-     * @return string
-     */
-    public function txt($variable)
+    public function txt(string $variable): string
     {
         return $this->lng()->txt($variable);
     }
 
-    /**
-     * @return \ilTemplate
-     */
-    protected function tpl()
+    protected function tpl(): \ilGlobalTemplateInterface
     {
         return $this->dic()->ui()->mainTemplate();
     }
 
-    /**
-     * @return \ilLanguage
-     */
-    protected function lng()
+    protected function lng(): \ilLanguage
     {
         return $this->dic()->language();
     }
 
-    /**
-     * @return \ilTabsGUI
-     */
-    protected function tabs()
+    protected function tabs(): \ilTabsGUI
     {
         return $this->dic()->tabs();
     }
 
-    /**
-     * @return \ILIAS\DI\UIServices
-     */
-    protected function ui()
+    protected function ui(): \ILIAS\DI\UIServices
     {
         return $this->dic()->ui();
     }
 
-    /**
-     * @return \ilObjUser
-     */
-    protected function user()
+    protected function user(): \ilObjUser
     {
         return $this->dic()->user();
     }
 
-    /**
-     * @return \ILIAS\HTTP\Services
-     */
-    protected function http()
+    protected function http(): \ILIAS\HTTP\Services
     {
         return $this->dic()->http();
     }
 
-    /**
-     * @return \ilAccessHandler
-     */
-    protected function access()
+    protected function access(): \ilAccessHandler
     {
         return $this->dic()->access();
     }
 
-    /**
-     * @return \ilToolbarGUI
-     */
-    protected function toolbar()
+    protected function toolbar(): \ilToolbarGUI
     {
         return $this->dic()->toolbar();
     }
 
-    /**
-     * @return \ilDB
-     */
-    protected function database()
+    protected function database(): \ilDBInterface
     {
         return $this->dic()->database();
     }

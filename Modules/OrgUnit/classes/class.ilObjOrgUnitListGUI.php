@@ -15,10 +15,9 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     public function __construct()
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
         parent::__construct();
-        $this->lng =$DIC['lng'];
-        $this->settings =  $DIC['ilias'];
+        $this->lng = $DIC->language();
+        $this->settings = $DIC->settings();
     }
 
     /**

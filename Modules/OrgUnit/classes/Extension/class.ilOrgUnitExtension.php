@@ -16,11 +16,15 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
     public function __construct(int $a_ref_id = 0)
     {
         global $DIC;
-        $tree = $DIC['tree'];
+        $tree = $DIC->repositoryTree();
+
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
+        $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->to()->int());
 
         parent::__construct($a_ref_id);
         $this->ilObjOrgUnitTree = ilObjOrgUnitTree::_getInstance();
-        $this->parent_ref_id = $tree->getParentId($a_ref_id ? $a_ref_id : $_GET['ref_id']);
+        $this->parent_ref_id = $tree->getParentId($a_ref_id ? $a_ref_id : $ref_id);
         $this->tree = $tree;
     }
 

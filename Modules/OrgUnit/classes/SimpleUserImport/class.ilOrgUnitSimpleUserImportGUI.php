@@ -12,33 +12,29 @@ class ilOrgUnitSimpleUserImportGUI
     protected ilTabsGUI $tabs_gui;
     protected ilToolbarGUI $toolbar;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
-    protected ilObjCategory $parent_object;
+    protected ilGlobalTemplateInterface $tpl;
+    protected object $parent_object;
+    protected object $parent_gui;
     protected ilLanguage $lng;
     protected ilAccessHandler $ilAccess;
+    protected \ILIAS\DI\LoggingServices $ilLog;
 
-    public function __construct(ilObjectGUI $parent_gui)
+
+    public function __construct(object $parent_gui)
     {
         global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $log = $DIC['log'];
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
         $this->parent_gui = $parent_gui;
         $this->parent_object = $parent_gui->getObject();
         $this->tabs_gui = $DIC->tabs();
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->ilLog = $log;
-        $this->ilAccess = $ilAccess;
+        $this->toolbar = $DIC->toolbar();
+        $this->lng = $DIC->language();
+        $this->ilLog = $DIC->logger();
+        $this->ilAccess = $DIC->access();
         $this->lng->loadLanguageModule('user');
         if (!$this->ilAccess->checkaccess('write', '', $this->parent_gui->getObject()->getRefId())) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
         }
     }
 

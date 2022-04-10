@@ -11,7 +11,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
             'icon',
         );
 
-    public function __construct(ilObjectGUI $parent_obj, string $parent_cmd)
+    public function __construct(ilOrgUnitTypeGUI $parent_obj, string $parent_cmd)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

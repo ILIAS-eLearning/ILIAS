@@ -11,29 +11,27 @@ class ilExtIdGUI
     protected ilTabsGUI $tabs_gui;
     protected ilPropertyFormGUI $form;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilObjCategory $object;
     protected ilLanguage $lng;
     protected ilAccessHandler $ilAccess;
+    protected ilObjectGUI $parent_gui;
+    protected ilObject $parent_object;
+    protected ilToolbarGUI $toolbar;
 
     public function __construct(ilObjectGUI $parent_gui)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
         $this->parent_gui = $parent_gui;
         $this->parent_object = $parent_gui->getObject();
         $this->tabs_gui = $DIC->tabs();
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->ilAccess = $ilAccess;
+        $this->toolbar = $DIC->toolbar();
+        $this->lng = $DIC->language();
+        $this->ilAccess =  $DIC->access();
         $this->lng->loadLanguageModule('user');
         if (!$this->ilAccess->checkaccess("write", "", $this->parent_gui->getObject()->getRefId())) {
             $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);

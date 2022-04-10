@@ -18,7 +18,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
     {
         global $DIC;
 
-        $this->lng = $DIC['lng'];
+        $this->lng = $DIC->language();
 
     }
 

@@ -36,11 +36,11 @@ class ilObjOrgUnit extends ilContainer
     {
         global $DIC;
 
-        $this->ilDb = $DIC['ilDB'];
+        $this->ilDb = $DIC->database();
         $this->type = "orgu";
-        $this->ilAppEventHandler = $DIC['ilAppEventHandler'];
-        $this->rbacreview = $DIC['rbacreview'];
-        $this->rbacadmin = $DIC['rbacadmin'];
+        $this->ilAppEventHandler = $DIC->event();
+        $this->rbacreview = $DIC->rbac()->review();
+        $this->rbacadmin = $DIC->rbac()->admin();
 
         parent::__construct($a_id, $a_call_by_reference);
     }
@@ -49,9 +49,9 @@ class ilObjOrgUnit extends ilContainer
     {
         parent::read();
         /** @var */
-        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $ilDB->quote($this->getId(), 'integer');
-        $set = $ilDB->query($sql);
-        if ($ilDB->numRows($set)) {
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' .  $this->ilDb->quote($this->getId(), 'integer');
+        $set =  $this->ilDb->query($sql);
+        if ($this->ilDb->numRows($set)) {
             $rec = $this->ilDb->fetchObject($set);
             $this->setOrgUnitTypeId($rec->orgu_type_id);
         }

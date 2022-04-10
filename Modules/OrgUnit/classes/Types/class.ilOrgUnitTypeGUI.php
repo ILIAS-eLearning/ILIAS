@@ -8,11 +8,11 @@
 class ilOrgUnitTypeGUI
 {
     private ilCtrl $ctrl;
-    private ilTemplate $tpl;
+    private ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
     private ilAccessHandler $access;
     private ilToolbarGUI $toolbar;
-    private ILIAS $ilias;
+    private \ilSetting $settings;
     private ilLanguage $lng;
     private ilObjOrgUnitGUI $parent_gui;
 
@@ -22,23 +22,14 @@ class ilOrgUnitTypeGUI
     public function __construct(ilObjOrgUnitGUI $parent_gui)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilLocator = $DIC['ilLocator'];
-        $tree = $DIC['tree'];
-        $lng = $DIC['lng'];
-        $ilLog = $DIC['ilLog'];
-        $ilias = $DIC['ilias'];
-        $ilTabs = $DIC['ilTabs'];
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->access = $ilAccess;
-        $this->toolbar = $ilToolbar;
-        $this->tabs = $ilTabs;
-        $this->lng = $lng;
-        $this->ilias = $ilias;
+
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->access =$DIC->access();
+        $this->toolbar = $DIC->toolbar();
+        $this->tabs =  $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->settings = $DIC->settings();
         $this->parent_gui = $parent_gui;
         $this->lng->loadLanguageModule('orgu');
         $this->ctrl->saveParameter($this, 'type_id');
@@ -106,7 +97,7 @@ class ilOrgUnitTypeGUI
     private function setSubTabsEdit(string $active_tab_id) : void
     {
         $this->tabs->addSubTab('general', $this->lng->txt('meta_general'), $this->ctrl->getLinkTarget($this, 'edit'));
-        if ($this->ilias->getSetting('custom_icons')) {
+        if ($this->settings->get('custom_icons')) {
             $this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'),
                 $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
         }

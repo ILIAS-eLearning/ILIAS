@@ -24,7 +24,7 @@ class ilOrgUnitType
     protected array $orgus;
     protected array $orgus_ids;
     protected ilDBInterface $db;
-    protected ilLogger $log;
+    protected \ILIAS\DI\LoggingServices  $log;
     protected ilObjUser $user;
     protected array $active_plugins;
     protected ilLanguage $lng;
@@ -32,21 +32,18 @@ class ilOrgUnitType
     protected static array $instances = array();
     protected ilComponentFactory $component_factory;
 
+
     /**
      * @throws ilOrgUnitTypeException
      */
     public function __construct(int $a_id = 0)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-        $ilUser = $DIC['ilUser'];
-        $component_factory = $DIC['component.factory'];
-        $lng = $DIC['lng'];
-        $this->db = $ilDB;
-        $this->log = $ilLog;
-        $this->user = $ilUser;
-        $this->lng = $lng;
+        $this->component_factory = $DIC['component.factory'];
+        $this->db = $DIC->database();
+        $this->log = $DIC->logger();
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
         if ($a_id) {
             $this->id = (int) $a_id;
             $this->read();

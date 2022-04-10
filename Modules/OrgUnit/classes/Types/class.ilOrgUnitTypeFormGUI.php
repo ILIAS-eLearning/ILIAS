@@ -11,15 +11,11 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
 
     public function __construct(ilObjectGUI $parent_gui, ilOrgUnitType $type)
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
         $this->parent_gui = $parent_gui;
         $this->type = $type;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
+        $this->tpl =  $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
     }
