@@ -148,7 +148,25 @@ class ilExSubmission
     {
         return (bool) count($this->getFiles(null, true));
     }
-    
+
+    public function hasSubmittedPrintVersion() : bool
+    {
+        $submitted = $this->getFiles(
+            null,
+            false,
+            null,
+            true
+        );
+
+        if (count($submitted) > 0) {
+            $submitted = array_pop($submitted);
+
+            return is_file($submitted['filename']);
+        }
+
+        return false;
+    }
+
     public function getSelectedObject() : ?array
     {
         $files = $this->getFiles();
