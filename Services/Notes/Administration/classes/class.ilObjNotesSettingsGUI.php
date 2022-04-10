@@ -38,7 +38,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Property declared dynamically
         $this->error = $DIC["ilErr"];
         $this->ctrl = $DIC->ctrl();
         $this->request = $DIC->http()->request();
@@ -81,7 +81,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "view") {
+                if ($cmd === "view") {
                     $cmd = "editSettings";
                 }
                 if (in_array($cmd, ["editSettings", "saveSettings"])) {
@@ -153,7 +153,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $setting = $this->setting;
 
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if (is_array($data["sec"])) {
