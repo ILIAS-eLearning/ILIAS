@@ -30,9 +30,6 @@ class ilBiblFieldFilterPresentationGUI
 
     /**
      * ilBiblFieldFilterPresentationGUI constructor.
-     *
-     * @param \ilBiblFieldFilterInterface   $filter
-     * @param \ilBiblFactoryFacadeInterface $facade
      */
     public function __construct(\ilBiblFieldFilterInterface $filter, ilBiblFactoryFacadeInterface $facade)
     {
@@ -69,7 +66,6 @@ class ilBiblFieldFilterPresentationGUI
                 break;
             default:
                 throw new LogicException('no filter type used');
-                break;
         }
 
         return $filter;

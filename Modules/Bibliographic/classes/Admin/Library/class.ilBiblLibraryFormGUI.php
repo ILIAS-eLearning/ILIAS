@@ -31,8 +31,6 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
 
     /**
      * ilBiblLibraryFormGUI constructor.
-     *
-     * @param \ilBiblLibraryInterface $library
      */
     public function __construct(ilBiblLibraryInterface $library)
     {

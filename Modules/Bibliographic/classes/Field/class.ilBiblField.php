@@ -23,17 +23,11 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
 {
     const TABLE_NAME = 'il_bibl_field';
     
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
     
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;

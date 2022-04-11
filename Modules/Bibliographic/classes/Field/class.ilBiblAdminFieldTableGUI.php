@@ -31,7 +31,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
     /**
      * ilBiblAdminFieldTableGUI constructor.
      * @param object                             $a_parent_obj
-     * @param \ilBiblAdminFactoryFacadeInterface $facade
      */
     public function __construct(?object $a_parent_obj, ilBiblAdminFactoryFacadeInterface $facade)
     {
@@ -94,7 +93,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
 
     /**
      * Fills table rows with content from $a_set.
-     * @param array $a_set
      */
     public function fillRow(array $a_set) : void
     {
@@ -128,9 +126,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->position_index++;
     }
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     */
     protected function addActionMenu(ilBiblFieldInterface $field) : void
     {
         $selectionList = new ilAdvancedSelectionListGUI();

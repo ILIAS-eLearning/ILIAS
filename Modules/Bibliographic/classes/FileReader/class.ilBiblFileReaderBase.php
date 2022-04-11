@@ -45,7 +45,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 
     /**
      * ilBiblFileReaderBase constructor.
-     * @param ilBiblEntryFactoryInterface $entry_factory
      */
     public function __construct(
         ilBiblEntryFactoryInterface $entry_factory,
@@ -60,10 +59,6 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         $this->storage = $DIC["resource_storage"];
     }
 
-    /**
-     * @param ResourceIdentification $identification
-     * @return bool
-     */
     public function readContent(ResourceIdentification $identification) : bool
     {
         $stream = $this->storage->consume()->stream($identification)->getStream();

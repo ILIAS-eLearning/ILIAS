@@ -27,9 +27,7 @@ interface ilBiblFieldFactoryInterface
     /**
      * @param int    $type     MUST be ilBiblTypeFactoryInterface::DATA_TYPE_RIS or
      *                         ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX
-     * @param string $identifier
      *
-     * @return \ilBiblFieldInterface
      * @throws \ilException if a wrong $type is passed or field is not found
      *
      */
@@ -39,9 +37,7 @@ interface ilBiblFieldFactoryInterface
     /**
      * @param int    $type     MUST be ilBiblTypeFactoryInterface::DATA_TYPE_RIS or
      *                         ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX
-     * @param string $identifier
      *
-     * @return \ilBiblFieldInterface
      * @throws \ilException if a wrong $type is passed
      *
      */
@@ -49,16 +45,12 @@ interface ilBiblFieldFactoryInterface
 
 
     /**
-     * @param int $obj_id
-     *
      * @return ilBiblFieldInterface[] instances of all known standard-fields for the given type
      */
     public function getAvailableFieldsForObjId(int $obj_id) : array;
 
 
     /**
-     * @param \ilBiblTypeInterface           $type
-     * @param \ilBiblTableQueryInfoInterface $queryInfo
      *
      * @return \ilBiblField[]
      */
@@ -66,39 +58,22 @@ interface ilBiblFieldFactoryInterface
 
 
     /**
-     * @param \ilBiblTypeInterface                $type
      * @param \ilBiblTableQueryInfoInterface|null $queryInfo
      *
-     * @return array
      */
     public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) : array;
 
 
-    /**
-     * @return \ilBiblTypeInterface
-     */
     public function getType() : ilBiblTypeInterface;
 
 
-    /**
-     * @param int $id
-     *
-     * @return \ilBiblFieldInterface
-     */
     public function findById(int $id) : ilBiblFieldInterface;
 
 
-    /**
-     * @param \ilBiblAttributeInterface $attribute
-     *
-     * @return \ilBiblFieldInterface
-     */
     public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $attribute) : ilBiblFieldInterface;
 
 
     /**
-     * @param ilBiblFieldInterface $field
-     *
      * @return int new position
      */
     public function forcePosition(ilBiblFieldInterface $field) : int;

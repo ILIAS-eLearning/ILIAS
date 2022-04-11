@@ -36,9 +36,6 @@ class ilBiblEntryTableGUI extends ilTable2GUI
 
     /**
      * ilBiblEntryTableGUI constructor.
-     *
-     * @param \ilObjBibliographicGUI $a_parent_obj
-     * @param \ilBiblFactoryFacade   $facade
      */
     public function __construct(ilObjBibliographicGUI $a_parent_obj, ilBiblFactoryFacade $facade)
     {
@@ -97,9 +94,6 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         $ilBiblEntry = $this->facade->entryFactory()->findByIdAndTypeString($a_set['entry_id'], $a_set['entry_type']);

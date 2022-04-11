@@ -28,8 +28,6 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
 
     /**
      * ilBiblFieldFactory constructor.
-     *
-     * @param \ilBiblTypeInterface $type
      */
     public function __construct(\ilBiblTypeInterface $type)
     {
@@ -89,12 +87,12 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
             $inst = new ilBiblField();
             $inst->setIdentifier($identifier);
             $inst->setDataType($type);
-            $inst->setIsStandardField((bool) $this->getType()->isStandardField($identifier));
+            $inst->setIsStandardField($this->getType()->isStandardField($identifier));
             $inst->create();
         }
         $inst->setDataType($type);
         $inst->setIdentifier($identifier);
-        $inst->setIsStandardField((bool) $this->getType()->isStandardField($identifier));
+        $inst->setIsStandardField($this->getType()->isStandardField($identifier));
         $inst->update();
 
         return $inst;

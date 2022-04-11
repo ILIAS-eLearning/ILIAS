@@ -43,10 +43,6 @@ class ilBibliographicExporter extends ilXmlExporter
     }
 
 
-    /**
-     * @param string $a_entity
-     * @return array
-     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(

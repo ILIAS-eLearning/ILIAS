@@ -31,9 +31,6 @@ class ilBiblEntryDetailPresentationGUI
 
     /**
      * ilBiblEntryPresentationGUI constructor.
-     *
-     * @param \ilBiblEntry         $entry
-     * @param \ilBiblFactoryFacade $facade
      */
     public function __construct(\ilBiblEntry $entry, ilBiblFactoryFacade $facade)
     {
@@ -85,9 +82,6 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    /**
-     * @param \ilPropertyFormGUI $form
-     */
     protected function renderAttributes(ilPropertyFormGUI $form) : void
     {
         $attributes = $this->facade->attributeFactory()->getAttributesForEntry($this->entry);
@@ -102,9 +96,6 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    /**
-     * @param \ilPropertyFormGUI $form
-     */
     protected function renderLibraries(ilPropertyFormGUI $form) : void
     {
         // generate/render links to libraries

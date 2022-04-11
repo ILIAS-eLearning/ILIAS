@@ -33,10 +33,6 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 
     /**
      * ilBiblFieldFilterFormGUI constructor.
-     *
-     * @param \ilBiblFieldFilterGUI       $parent_gui
-     * @param \ilBiblFieldFilterInterface $field_filter
-     * @param \ilBiblFactoryFacade        $facade
      */
     public function __construct(ilBiblFieldFilterGUI $parent_gui, ilBiblFieldFilterInterface $field_filter, ilBiblFactoryFacade $facade)
     {

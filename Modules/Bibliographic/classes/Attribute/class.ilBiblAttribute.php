@@ -22,19 +22,12 @@
  */
 class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
 {
-
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return 'il_bibl_attribute';
     }
 
 
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return 'il_bibl_attribute';
@@ -71,9 +64,6 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     protected ?int $id = null;
 
 
-    /**
-     * @return int
-     */
     public function getEntryId() : int
     {
         return $this->entry_id;
@@ -89,9 +79,6 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     }
 
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return $this->name;
@@ -107,9 +94,6 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     }
 
 
-    /**
-     * @return string
-     */
     public function getValue() : string
     {
         return $this->value;
@@ -125,9 +109,6 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     }
 
 
-    /**
-     * @return int|null
-     */
     public function getId() : ?int
     {
         return $this->id;

@@ -68,11 +68,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     protected \ilObjBibliographicStakeholder $stakeholder;
     protected ?string $cmd = self::CMD_SHOW_CONTENT;
 
-    /**
-     * @param int $a_id
-     * @param int $a_id_type
-     * @param int $a_parent_node_id
-     */
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
@@ -308,9 +303,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
     }
 
-    /**
-     * @param \ilObject $a_new_object
-     */
     protected function afterSave(ilObject $a_new_object) : void
     {
         $this->addNews($a_new_object->getId(), 'created');
@@ -456,9 +448,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         return $form;
     }
 
-    /**
-     * @param ilPropertyFormGUI $a_form
-     */
     protected function initEditCustomForm(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
@@ -669,9 +658,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->removeFromDeskObject();
     }
 
-    /**
-     * @param \ilObject $a_new_object
-     */
     protected function afterImport(ilObject $a_new_object) : void
     {
         /**

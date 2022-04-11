@@ -55,7 +55,6 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
 
         $props = array();
         $obj = new ilObjBibliographic($this->obj_id);

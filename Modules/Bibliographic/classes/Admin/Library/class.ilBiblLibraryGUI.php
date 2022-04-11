@@ -36,8 +36,6 @@ class ilBiblLibraryGUI
     
     /**
      * ilBiblLibraryGUI constructor.
-     *
-     * @param \ilBiblAdminLibraryFacadeInterface $facade
      */
     public function __construct(ilBiblAdminLibraryFacadeInterface $facade)
     {

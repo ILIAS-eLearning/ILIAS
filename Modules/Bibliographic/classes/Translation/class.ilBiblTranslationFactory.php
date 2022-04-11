@@ -27,7 +27,6 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
 
     /**
      * ilBiblTranslationFactory constructor.
-     * @param \ilBiblFieldFactoryInterface $field_factory
      */
     public function __construct(ilBiblFieldFactoryInterface $field_factory)
     {

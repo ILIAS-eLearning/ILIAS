@@ -33,8 +33,6 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
 
     /**
      * ilBiblAdminFactoryFacade constructor.
-     *
-     * @param \ilObjBibliographicAdmin $ilObjBibliographicAdmin
      */
     public function __construct(ilObjBibliographicAdmin $ilObjBibliographicAdmin, int $type_id)
     {

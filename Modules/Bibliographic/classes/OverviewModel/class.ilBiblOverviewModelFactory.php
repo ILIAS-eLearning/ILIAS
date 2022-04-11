@@ -41,9 +41,9 @@ class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface
         $overviewModelsArray = array();
         foreach ($overviewModels as $model) {
             if ($model->getLiteratureType()) {
-                $overviewModelsArray[(int) $model->getFileTypeId()][$model->getLiteratureType()] = $model->getPattern();
+                $overviewModelsArray[$model->getFileTypeId()][$model->getLiteratureType()] = $model->getPattern();
             } else {
-                $overviewModelsArray[(int) $model->getFileTypeId()] = $model->getPattern();
+                $overviewModelsArray[$model->getFileTypeId()] = $model->getPattern();
             }
         }
         self::$models = $overviewModelsArray;

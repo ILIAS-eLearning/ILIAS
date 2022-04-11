@@ -32,9 +32,6 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
 
     /**
      * ilBiblFieldFilterTableGUI constructor.
-     *
-     * @param \ilBiblFieldFilterGUI $a_parent_obj
-     * @param \ilBiblFactoryFacade  $facade
      */
     public function __construct(\ilBiblFieldFilterGUI $a_parent_obj, ilBiblFactoryFacade $facade)
     {
@@ -94,7 +91,6 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
 
     /**
      * Fills table rows with content from $a_set.
-     * @param array $a_set
      */
     public function fillRow(array $a_set) : void
     {
@@ -120,9 +116,6 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    /**
-     * @param \ilBiblFieldFilter $ilBiblFieldFilter
-     */
     protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter) : void
     {
         $this->ctrl()->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());

@@ -41,7 +41,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             array(
                 "permission" => "read",
                 "cmd" => "render",
@@ -51,8 +51,6 @@ class ilObjBibliographicAccess extends ilObjectAccess
             array("permission" => "write", "cmd" => "view", "lang_var" => "edit_content"),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
         );
-
-        return $commands;
     }
 
 
@@ -60,7 +58,6 @@ class ilObjBibliographicAccess extends ilObjectAccess
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
         $t_arr = explode('_', $target);
         if ($t_arr[0] != 'bibl' || ((int) $t_arr[1]) <= 0) {
             return false;

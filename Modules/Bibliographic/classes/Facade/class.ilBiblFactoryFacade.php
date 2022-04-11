@@ -40,8 +40,6 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
 
     /**
      * ilBiblFactoryFacade constructor.
-     *
-     * @param \ilObjBibliographic $ilObjBibliographic
      */
     public function __construct(ilObjBibliographic $ilObjBibliographic)
     {
@@ -160,9 +158,6 @@ class ilBiblFactoryFacade implements ilBiblFactoryFacadeInterface
     }
 
 
-    /**
-     * @return ilBiblDataFactoryInterface
-     */
     public function dataFactory() : \ilBiblDataFactoryInterface
     {
         return $this->data_factory;

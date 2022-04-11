@@ -43,8 +43,6 @@ class ilBiblFieldFilterGUI
 
     /**
      * ilBiblFieldFilterGUI constructor.
-     *
-     * @param \ilBiblFactoryFacade $facade
      */
     public function __construct(ilBiblFactoryFacade $facade)
     {
@@ -192,15 +190,11 @@ class ilBiblFieldFilterGUI
     private function getFieldFilterFromRequest() : \ilBiblFieldFilterInterface
     {
         $field = $this->http()->request()->getQueryParams()[self::FILTER_ID];
-        $il_bibl_field = $this->facade->filterFactory()->findById($field);
 
-        return $il_bibl_field;
+        return $this->facade->filterFactory()->findById($field);
     }
 
 
-    /**
-     * @return ilBiblFieldFilterFormGUI
-     */
     protected function initEditForm() : ilBiblFieldFilterFormGUI
     {
         $this->tabs()->clearTargets();

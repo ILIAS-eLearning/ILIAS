@@ -33,14 +33,6 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     public const COMPONENT_DIR = 'bibl';
 
     /**
-     * ilBibliographicSetupAgent constructor
-     * @param Refinery\Factory $refinery
-     */
-    public function __construct(Refinery\Factory $refinery)
-    {
-    }
-
-    /**
      * @inheritdoc
      */
     public function hasConfig() : bool

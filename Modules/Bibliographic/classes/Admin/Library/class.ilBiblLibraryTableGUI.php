@@ -29,8 +29,6 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
 
     /**
      * ilObjBibliographicAdminTableGUI constructor.
-     *
-     * @param \ilBiblLibraryGUI $parent_gui
      */
     public function __construct(ilBiblLibraryGUI $parent_gui)
     {
@@ -44,9 +42,6 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
     }
 
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);

@@ -43,39 +43,16 @@ interface ilBiblTranslationFactoryInterface
 
     public function getFieldFactory() : \ilBiblFieldFactoryInterface;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return bool
-     */
     public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field) : bool;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return bool
-     */
     public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : bool;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return bool
-     */
     public function translationExistsForField(ilBiblFieldInterface $field) : bool;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return \ilBiblTranslationInterface|null
-     */
     public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return \ilBiblTranslationInterface|null
-     */
     public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface;
 
-    /**
-     * @return \ilBiblTranslationInterface
-     */
     public function findArCreateInstanceForFieldAndlanguage(
         ilBiblFieldInterface $field,
         string $language_key
@@ -87,7 +64,6 @@ interface ilBiblTranslationFactoryInterface
     public function getAllTranslationsForField(ilBiblFieldInterface $field) : array;
 
     /**
-     * @param \ilBiblFieldInterface $field
      * @return string[]
      */
     public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field) : array;

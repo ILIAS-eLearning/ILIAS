@@ -29,8 +29,6 @@ class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
 
     /**
      * ilBiblAdminLibraryFacade constructor.
-     *
-     * @param \ilObjBibliographicAdmin $ilias_object
      */
     public function __construct(ilObjBibliographicAdmin $ilias_object)
     {

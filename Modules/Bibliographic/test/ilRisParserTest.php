@@ -119,9 +119,6 @@ class ilRisParserTest extends TestCase
         $this->assertEquals('JOURNAL', $second_item->getType());
     }
     
-    /**
-     * @return string
-     */
     protected function getRisContent() : string
     {
         return 'TY  - BOOK

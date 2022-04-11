@@ -27,7 +27,6 @@ class ilBiblLibraryPresentationGUI
     
     /**
      * ilBiblLibraryPresentationGUI constructor.
-     * @param \ilBiblLibraryInterface $library
      */
     public function __construct(\ilBiblLibraryInterface $library, \ilBiblFactoryFacade $facade)
     {
@@ -99,8 +98,6 @@ class ilBiblLibraryPresentationGUI
     }
     
     /**
-     * @param \ilBiblFactoryFacadeInterface $bibl_factory_facade
-     * @param \ilBiblEntry                  $entry
      * @return string|void
      */
     public function getButton(ilBiblFactoryFacadeInterface $bibl_factory_facade, ilBiblEntry $entry)

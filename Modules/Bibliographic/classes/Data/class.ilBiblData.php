@@ -29,18 +29,12 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     const TABLE_NAME = 'il_bibl_data';
 
 
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
 
 
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
@@ -88,36 +82,24 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?string $rid = null;
 
-    /**
-     * @return int|null
-     */
     public function getId() : ?int
     {
         return $this->id;
     }
 
 
-    /**
-     * @param integer $id
-     */
     public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
 
-    /**
-     * @return string|null
-     */
     public function getFilename() : ?string
     {
         return $this->filename;
     }
 
 
-    /**
-     * @param string $filename
-     */
     public function setFilename(string $filename) : void
     {
         $this->filename = $filename;
@@ -129,27 +111,18 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     }
 
 
-    /**
-     * @param integer $is_online
-     */
     public function setIsOnline(int $is_online) : void
     {
         $this->is_online = $is_online;
     }
 
 
-    /**
-     * @return int
-     */
     public function getFileType() : int
     {
         return $this->file_type;
     }
 
 
-    /**
-     * @param integer $file_type
-     */
     public function setFileType(int $file_type) : void
     {
         $this->file_type = $file_type;

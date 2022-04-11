@@ -42,7 +42,6 @@ abstract class ilBiblAdminFieldGUI
     
     /**
      * ilBiblAdminFieldGUI constructor.
-     * @param \ilBiblAdminFactoryFacadeInterface $facade
      */
     public function __construct(ilBiblAdminFactoryFacadeInterface $facade)
     {

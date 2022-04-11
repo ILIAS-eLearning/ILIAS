@@ -34,9 +34,6 @@ class ilBiblRisFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         $this->wrapper = new ilBiblRisFileReaderWrapper();
     }
     
-    /**
-     * @return array
-     */
     public function parseContent() : array
     {
         $content = $this->wrapper->parseContent($this->file_content);

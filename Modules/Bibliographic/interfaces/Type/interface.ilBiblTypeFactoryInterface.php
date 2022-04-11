@@ -42,9 +42,7 @@ interface ilBiblTypeFactoryInterface
 
 
     /**
-     * @param string $string
      *
-     * @return \ilBiblTypeInterface
      * @deprecated Legacy REFACTOR use type factory
      *
      */
@@ -52,19 +50,12 @@ interface ilBiblTypeFactoryInterface
 
 
     /**
-     * @param string $file_ending
      *
-     * @return int
      * @throws ilException when no data type for file_ending was found
      *
      */
     public function convertFileEndingToDataType(string $file_ending) : int;
 
 
-    /**
-     * @param ilBiblTypeInterface $type_inst
-     *
-     * @return int
-     */
     public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst) : int;
 }

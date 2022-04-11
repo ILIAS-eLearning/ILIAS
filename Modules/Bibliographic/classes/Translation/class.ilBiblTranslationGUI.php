@@ -41,9 +41,6 @@ class ilBiblTranslationGUI
 
     /**
      * ilBiblTranslationGUI constructor.
-     *
-     * @param \ilBiblAdminFactoryFacadeInterface $facade
-     * @param \ilBiblFieldInterface              $field
      */
     public function __construct(ilBiblAdminFactoryFacadeInterface $facade, \ilBiblFieldInterface $field)
     {

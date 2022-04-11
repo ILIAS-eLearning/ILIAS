@@ -23,17 +23,11 @@ class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterfa
 {
     const TABLE_NAME = 'il_bibl_filter';
     
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
     
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;

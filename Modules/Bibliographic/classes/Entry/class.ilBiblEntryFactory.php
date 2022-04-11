@@ -32,8 +32,6 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     
     /**
      * ilBiblEntryFactory constructor.
-     * @param ilBiblFieldFactoryInterface $field_factory
-     * @param ilBiblTypeInterface         $file_type
      */
     public function __construct(ilBiblFieldFactoryInterface $field_factory, \ilBiblTypeInterface $file_type, ilBiblOverviewModelFactoryInterface $overview_factory)
     {

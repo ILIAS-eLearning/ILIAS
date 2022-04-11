@@ -29,7 +29,6 @@ class ilBiblEntryTablePresentationGUI
     
     /**
      * ilBiblEntryTablePresentationGUI constructor.
-     * @param \ilBiblEntry $entry
      */
     public function __construct(ilBiblEntry $entry, ilBiblFactoryFacadeInterface $facade)
     {

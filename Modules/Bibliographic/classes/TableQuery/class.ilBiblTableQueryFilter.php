@@ -27,22 +27,16 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
     /**
      * @var string|array|null
      */
-    protected $field_value = null;
+    protected $field_value;
     protected string $operator = '=';
 
 
-    /**
-     * @return string
-     */
     public function getFieldName() : string
     {
         return $this->field_name;
     }
 
 
-    /**
-     * @param string $field_name
-     */
     public function setFieldName(string $field_name) : void
     {
         $this->field_name = $field_name;
@@ -60,18 +54,12 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
         $this->field_value = $field_value;
     }
 
-    /**
-     * @return string
-     */
     public function getOperator() : string
     {
         return $this->operator;
     }
 
 
-    /**
-     * @param string $operator
-     */
     public function setOperator(string $operator) : void
     {
         $this->operator = $operator;

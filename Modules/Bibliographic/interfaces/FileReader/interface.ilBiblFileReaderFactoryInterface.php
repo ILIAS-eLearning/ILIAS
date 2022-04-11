@@ -22,14 +22,6 @@
  */
 interface ilBiblFileReaderFactoryInterface
 {
-    
-    /**
-     * @param int                             $type
-     * @param ilBiblEntryFactoryInterface     $entry_factory
-     * @param ilBiblFieldFactoryInterface     $field_factory
-     * @param ilBiblAttributeFactoryInterface $attribute_factory
-     * @return ilBiblFileReaderInterface
-     */
     public function getByType(
         int $type,
         ilBiblEntryFactoryInterface $entry_factory,

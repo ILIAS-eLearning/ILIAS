@@ -389,9 +389,6 @@ class ilObjBibliographic extends ilObject2
         return $this->is_online;
     }
 
-    /**
-     * @param ResourceIdentification $identification
-     */
     public function setResourceId(ResourceIdentification $identification) : void
     {
         $this->resource_id = $identification;
@@ -413,17 +410,11 @@ class ilObjBibliographic extends ilObject2
         return $this->storage->manage()->getResource($this->getResourceId())->getStorageID();
     }
 
-    /**
-     * @return bool
-     */
     public function isMigrated() : bool
     {
         return $this->is_migrated;
     }
 
-    /**
-     * @param bool $migrated
-     */
     public function setMigrated(bool $migrated) : void
     {
         $this->is_migrated = $migrated;

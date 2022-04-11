@@ -122,9 +122,6 @@ class ilBibtechParserTest extends TestCase
         $this->assertEquals('journal', $second_item->getType());
     }
     
-    /**
-     * @return string
-     */
     protected function getBibtechContent() : string
     {
         return '@book {
