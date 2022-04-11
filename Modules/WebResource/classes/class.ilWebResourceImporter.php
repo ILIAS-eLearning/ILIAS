@@ -46,6 +46,7 @@ class ilWebResourceImporter extends ilXmlImporter
             'objs',
             $a_id
         )) {
+            // TODO PHP8 Review: Check/Resolve Type-Mismatch
             $this->link = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
             $this->link = new ilObjLinkResource();

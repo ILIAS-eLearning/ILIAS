@@ -20,6 +20,7 @@
  */
 class ilObjLinkResource extends ilObject
 {
+    // TODO PHP8 Review: Check, property is only written but never read
     private ?ilLinkResourceItems $items_obj = null;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)

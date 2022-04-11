@@ -23,7 +23,9 @@ class ilLinkResourceItems
     protected ilDBInterface $db;
 
     private int $id = 0;
+    // TODO PHP8 Review: Missing Type-Declarations
     private $title = '';
+    // TODO PHP8 Review: Missing Type-Declarations
     private $description = '';
     private string $target = '';
     private bool $status = false;
@@ -546,6 +548,7 @@ class ilLinkResourceItems
         return $link_ids;
     }
 
+    // TODO PHP8 Review: Missing Return type Declaration
     public function getAllItems()
     {
         $query = "SELECT * FROM webr_items " .
