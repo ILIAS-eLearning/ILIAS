@@ -35,7 +35,6 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
      */
     protected ?int $id = null;
     /**
-     * @var
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     50

@@ -15,8 +15,9 @@ class ilBiblLibraryGUI
     const CMD_ADD = 'add';
     protected \ilBiblAdminLibraryFacadeInterface $facade;
     private \ilGlobalTemplateInterface $main_tpl;
-
-
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    
     /**
      * ilBiblLibraryGUI constructor.
      *
@@ -27,6 +28,8 @@ class ilBiblLibraryGUI
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
     }
 
 
@@ -164,13 +167,29 @@ class ilBiblLibraryGUI
         $form = new ilBiblLibraryFormGUI($ilBibliographicSetting);
         $this->tpl()->setContent($form->getHTML());
     }
-
-
+    
     private function getInstanceFromRequest() : \ilBiblLibraryInterface
     {
-        $ilBibliographicSetting = $this->facade->libraryFactory()
-            ->findById($_REQUEST[self::F_LIB_ID]);
-
-        return $ilBibliographicSetting;
+        // check Query
+        if ($this->wrapper->query()->has(self::F_LIB_ID)) {
+            return $this->facade->libraryFactory()
+                                ->findById(
+                                    $this->wrapper->query()->retrieve(
+                                        self::F_LIB_ID,
+                                        $this->refinery->to()->int()
+                                    )
+                                );
+        }
+        // check post
+        if ($this->wrapper->post()->has(self::F_LIB_ID)) {
+            return $this->facade->libraryFactory()
+                                ->findById(
+                                    $this->wrapper->post()->retrieve(
+                                        self::F_LIB_ID,
+                                        $this->refinery->to()->int()
+                                    )
+                                );
+        }
+        throw new ilException('library not found');
     }
 }

@@ -40,8 +40,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     const SUBTAB_SETTINGS = "settings";
     const CMD_EDIT_OBJECT = 'editObject';
     const CMD_UPDATE_OBJECT = 'updateObject';
-
-    public ?ilObject $object;
+    
+    public ?ilObject $object = null;
     protected ?\ilBiblFactoryFacade $facade = null;
     protected \ilBiblTranslationFactory $translation_factory;
     protected \ilBiblFieldFactory $field_factory;
@@ -142,11 +142,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 $cp->setType('bibl');
                 $this->dic()['tpl']->loadStandardTemplate();
                 $this->ctrl->forwardCommand($cp);
-                break;
-            case strtolower(ilObjFileGUI::class):
-                $this->prepareOutput();
-                $this->dic()->tabs()->setTabActive(self::TAB_ID_RECORDS);
-                $this->ctrl->forwardCommand(new ilObjFile($this));
                 break;
             case strtolower(ilExportGUI::class):
                 $this->prepareOutput();
@@ -629,7 +624,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $DIC->ctrl()->redirect($this, "");
     }
 
-    public function addNews($obj_id, string $change = 'created') : void
+    public function addNews(int $obj_id, string $change = 'created') : void
     {
         global $DIC;
 

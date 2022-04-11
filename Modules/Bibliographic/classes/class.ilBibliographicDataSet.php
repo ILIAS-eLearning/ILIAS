@@ -168,7 +168,7 @@ class ilBibliographicDataSet extends ilDataSet
     /**
      * Build data array, data is read from cache except bibl object itself
      */
-    protected function _readData(string $a_entity, array $a_ids): void
+    protected function _readData(string $a_entity, array $a_ids) : void
     {
         switch ($a_entity) {
             case 'bibl':
@@ -191,7 +191,7 @@ class ilBibliographicDataSet extends ilDataSet
     }
 
 
-    public function exportLibraryFile(int $a_id): void
+    public function exportLibraryFile(int $a_id) : void
     {
         $obj = new ilObjBibliographic($a_id);
         $fileAbsolutePath = $obj->getLegacyAbsolutePath();

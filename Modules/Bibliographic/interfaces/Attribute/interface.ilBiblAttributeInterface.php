@@ -6,7 +6,6 @@
 
 interface ilBiblAttributeInterface
 {
-    
     public function getEntryId() : int;
     
     public function setEntryId(int $entry_id) : void;

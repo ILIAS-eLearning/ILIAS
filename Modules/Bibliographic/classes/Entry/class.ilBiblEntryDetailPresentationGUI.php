@@ -26,7 +26,7 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    private function initHelp(): void
+    private function initHelp() : void
     {
         global $DIC;
 
@@ -38,7 +38,7 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    private function initTabs(): void
+    private function initTabs() : void
     {
         $this->tabs()->clearTargets();
         $this->tabs()->setBackTarget(
@@ -48,7 +48,7 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    public function getHTML(): string
+    public function getHTML() : string
     {
         $this->initHelp();
         $this->initTabs();
@@ -72,7 +72,7 @@ class ilBiblEntryDetailPresentationGUI
     /**
      * @param \ilPropertyFormGUI $form
      */
-    protected function renderAttributes(ilPropertyFormGUI $form): void
+    protected function renderAttributes(ilPropertyFormGUI $form) : void
     {
         $attributes = $this->facade->attributeFactory()->getAttributesForEntry($this->entry);
         $sorted = $this->facade->attributeFactory()->sortAttributes($attributes);
@@ -89,7 +89,7 @@ class ilBiblEntryDetailPresentationGUI
     /**
      * @param \ilPropertyFormGUI $form
      */
-    protected function renderLibraries(ilPropertyFormGUI $form): void
+    protected function renderLibraries(ilPropertyFormGUI $form) : void
     {
         // generate/render links to libraries
         // TODO REFACTOR
@@ -106,9 +106,9 @@ class ilBiblEntryDetailPresentationGUI
     /**
      * This feature has to be discussed by JF first
      *
-     * @param $string
+     * string @param $string
      */
-    public static function prepareLatex($string): string
+    public static function prepareLatex($string) : string
     {
         return $string;
         static $init;

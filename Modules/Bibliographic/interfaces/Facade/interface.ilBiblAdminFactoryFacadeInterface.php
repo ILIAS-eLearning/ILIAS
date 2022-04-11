@@ -6,7 +6,6 @@
  */
 interface ilBiblAdminFactoryFacadeInterface
 {
-
     public function typeFactory() : \ilBiblTypeFactoryInterface;
 
     public function type() : \ilBiblTypeInterface;

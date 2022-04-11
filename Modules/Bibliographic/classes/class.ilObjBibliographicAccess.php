@@ -23,7 +23,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *    );
      * @return array<int, array<string, string>>|array<int, array<string, string|bool>>
      */
-    public static function _getCommands(): array
+    public static function _getCommands() : array
     {
         $commands = array(
             array(
@@ -40,7 +40,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    public static function _checkGoto(string $target): bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -75,7 +75,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
         if ($DIC->http()->wrapper()->query()->has(ilObjBibliographicGUI::P_ENTRY_ID)) {
             $entry_id = $DIC->http()->wrapper()->query()->retrieve(
                 ilObjBibliographicGUI::P_ENTRY_ID,
-                $DIC->refinery()->to()->int()
+                $DIC->refinery()->kindlyTo()->int()
             );
             if (!self::checkEntryIdMatch($obj_id, $entry_id)) {
                 return false;
@@ -118,14 +118,10 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    /**
-     * @param $ref_id
-     * @param $obj_id
-     */
-    private static function checkEntryIdMatch($obj_id, $entry_id): bool
+    private static function checkEntryIdMatch(int $obj_id, int $entry_id) : bool
     {
         /**
-         * @var $ilBiblEntry ilBiblEntry
+         * @var ilBiblEntry $ilBiblEntry
          */
         $ilBiblEntry = ilBiblEntry::find($entry_id);
         if (is_null($ilBiblEntry)) {
@@ -138,17 +134,15 @@ class ilObjBibliographicAccess extends ilObjectAccess
 
     /**
      * Check wether bibliographic is online or not
-     *
-     * @param int $a_id bibl id
      */
-    public static function _lookupOnline(int $a_id)
+    public static function _lookupOnline(int $a_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $q = "SELECT is_online FROM il_bibl_data WHERE id = " . $ilDB->quote($a_id, "integer");
         $bibl_set = $ilDB->query($q);
         $bibl_rec = $ilDB->fetchAssoc($bibl_set);
-
-        return $bibl_rec["is_online"];
+    
+        return (bool) $bibl_rec["is_online"] ?? false;
     }
 }

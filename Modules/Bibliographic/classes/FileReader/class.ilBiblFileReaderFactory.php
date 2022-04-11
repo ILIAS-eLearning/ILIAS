@@ -6,7 +6,6 @@
  */
 class ilBiblFileReaderFactory implements ilBiblFileReaderFactoryInterface
 {
-    
     public function getByType(
         int $type,
         ilBiblEntryFactoryInterface $entry_factory,

@@ -6,7 +6,6 @@
  */
 interface ilBiblEntryInterface
 {
-    
     public function setId(int $id) : void;
     
     public function getId() : ?int;
@@ -19,5 +18,5 @@ interface ilBiblEntryInterface
     
     public function setType(string $type) : void;
     
-    public function getOverview():string;
+    public function getOverview() : string;
 }

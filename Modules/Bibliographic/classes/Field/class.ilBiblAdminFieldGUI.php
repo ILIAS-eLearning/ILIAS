@@ -35,7 +35,7 @@ abstract class ilBiblAdminFieldGUI
         $this->facade = $facade;
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $nextClass = $this->ctrl()->getNextClass();
         $this->tabs()->activateTab(ilObjBibliographicAdminGUI::TAB_FIELDS);

@@ -7,7 +7,6 @@
  */
 class ilBiblEntryTablePresentationGUI
 {
-    
     protected \ilBiblEntry $entry;
     protected string $html = '';
     protected \ilBiblFactoryFacadeInterface $facade;
@@ -24,10 +23,9 @@ class ilBiblEntryTablePresentationGUI
     }
     
     /**
-     * @return mixed|string
      * @deprecated Has to be refactored. Active records verwenden statt array
      */
-    protected function render(): void
+    protected function render() : void
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($this->getEntry()->getId());
         //Get the model which declares which attributes to show in the overview table and how to show them
@@ -93,22 +91,22 @@ class ilBiblEntryTablePresentationGUI
         $this->setHtml($single_entry);
     }
     
-    public function getHtml(): string
+    public function getHtml() : string
     {
         return $this->html;
     }
     
-    public function setHtml(string $html): void
+    public function setHtml(string $html) : void
     {
         $this->html = $html;
     }
     
-    public function getEntry(): \ilBiblEntry
+    public function getEntry() : \ilBiblEntry
     {
         return $this->entry;
     }
     
-    public function setEntry(\ilBiblEntry $entry): void
+    public function setEntry(\ilBiblEntry $entry) : void
     {
         $this->entry = $entry;
     }

@@ -13,11 +13,9 @@ use ILIAS\DI\Container;
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  * @version $Id: class.ilObjBibliographic.php 2012-01-11 10:37:11Z otruffer $
- * @extends ilObject2
  */
 class ilObjBibliographic extends ilObject2
 {
-
     protected \ilBiblFileReaderFactory $bib_filereader_factory;
     protected \ilBiblTypeFactory $bib_type_factory;
     protected \ilBiblEntryFactory $bib_entry_factory;
@@ -41,14 +39,11 @@ class ilObjBibliographic extends ilObject2
 
     /**
      * If bibliographic object exists, read it's data from database, otherwise create it
-     * @param $existant_bibl_id int is not set when object is getting created
+     * @param int $existant_bibl_id is not set when object is getting created
      */
     public function __construct(int $existant_bibl_id = 0)
     {
         global $DIC;
-        /**
-         * @var $DIC Container
-         */
 
         $this->storage = $DIC->resourceStorage();
         $this->stakeholder = new ilObjBibliographicStakeholder();
@@ -248,10 +243,16 @@ class ilObjBibliographic extends ilObject2
     {
         $this->filename = $filename;
     }
-
+    
     public function getFilename() : ?string
     {
-        return $this->filename;
+        if ($this->getResourceId()) {
+            return $this->storage->manage()
+                                 ->getCurrentRevision($this->getResourceId())
+                                 ->getInformation()
+                                 ->getTitle();
+        }
+        return null;
     }
 
     /**
@@ -296,8 +297,9 @@ class ilObjBibliographic extends ilObject2
     /**
      * Clone BIBL
      * @param ilObjBibliographic $new_obj
-     * @param                    $a_target_id
+     * @param int                $a_target_id
      * @param int                $a_copy_id copy id
+     * @param bool               $a_copy_id copy id
      */
     public function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false) : \ilObjBibliographic
     {
@@ -414,7 +416,7 @@ class ilObjBibliographic extends ilObject2
     }
 
     /**
-     * @param $filename
+     * @param string $filename
      */
     public function determineFileTypeByFileName($filename) : int
     {

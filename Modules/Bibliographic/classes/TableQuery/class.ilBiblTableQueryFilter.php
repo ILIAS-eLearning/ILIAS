@@ -7,9 +7,11 @@
  */
 class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
 {
-
     protected string $field_name = '';
-    protected string $field_value = '';
+    /**
+     * @var string|array|null
+     */
+    protected $field_value = null;
     protected string $operator = '=';
 
 
@@ -30,24 +32,17 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
         $this->field_name = $field_name;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getFieldValue() : string
+    
+    public function getFieldValue()
     {
         return $this->field_value;
     }
-
-
-    /**
-     * @param string $field_value
-     */
-    public function setFieldValue(string $field_value) : void
+    
+    public function setFieldValue($field_value) : void
     {
+        assert(is_array($field_value) || is_string($field_value));
         $this->field_value = $field_value;
     }
-
 
     /**
      * @return string

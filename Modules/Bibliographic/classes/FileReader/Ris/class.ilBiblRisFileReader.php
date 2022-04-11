@@ -2,16 +2,51 @@
 
 /**
  * Class ilBiblRisFileReader
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblRisFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
-
+    protected ilBiblRisFileReaderWrapper $wrapper;
+    
+    public function __construct(
+        ilBiblEntryFactoryInterface $entry_factory,
+        ilBiblFieldFactoryInterface $field_factory,
+        ilBiblAttributeFactoryInterface $attribute_factory
+    ) {
+        parent::__construct($entry_factory, $field_factory, $attribute_factory);
+        $this->wrapper = new ilBiblRisFileReaderWrapper();
+    }
+    
     /**
      * @return array
      */
     public function parseContent() : array
     {
-        return (new ilBiblRisFileReaderWrapper())->parseContent($this->file_content);
+        $content = $this->wrapper->parseContent($this->file_content);
+        
+        return $this->flattenContent($content);
+    }
+    
+    private function flattenContent(array $content) : array
+    {
+        $flattener = function ($i) {
+            if (is_array($i)) {
+                return implode(", ", $i);
+            }
+            return $i;
+        };
+        
+        $walker = function ($item) use ($flattener) {
+            if (is_array($item)) {
+                foreach ($item as $k => $i) {
+                    $item[$k] = $flattener($i);
+                }
+                return $item;
+            }
+            return $item;
+        };
+        
+        return array_map($walker, $content);
     }
 }

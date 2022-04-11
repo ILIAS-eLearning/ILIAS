@@ -12,14 +12,19 @@
  */
 interface ilBiblTableQueryFilterInterface
 {
-    
     public function getFieldName() : string;
     
     public function setFieldName(string $field_name) : void;
     
-    public function getFieldValue() : string;
+    /**
+     * @return string|array
+     */
+    public function getFieldValue();
     
-    public function setFieldValue(string $field_value) : void;
+    /**
+     * @param string|array $field_value
+     */
+    public function setFieldValue($field_value) : void;
     
     public function getOperator() : string;
     

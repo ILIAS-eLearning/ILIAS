@@ -10,13 +10,14 @@ class ilBiblRisFileReaderWrapper
 {
 
     /**
-     * @param $content
+     * @param string $content
      * @return mixed[]
      */
-    public function parseContent($content): array
+    public function parseContent($content) : array
     {
         $RISReader = new RISReader();
-
+        $re = '/\n|\r/m';
+        $content = preg_replace($re, RISReader::RIS_EOL, $content);
         $RISReader->parseString($content);
 
         return $RISReader->getRecords();

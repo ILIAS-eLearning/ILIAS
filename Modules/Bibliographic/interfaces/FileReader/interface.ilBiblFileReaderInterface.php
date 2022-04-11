@@ -8,13 +8,9 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 interface ilBiblFileReaderInterface
 {
-    
     public function readContent(ResourceIdentification $identification) : bool;
     
-    /**
-     * @deprecated REFACTOR Implementierungen mit Objekten statt mit Arrays
-     */
-    public function parseContent() : array;
+    public function parseContentToEntries(ilObjBibliographic $bib) : array;
     
     public function getEntryFactory() : ilBiblEntryFactoryInterface;
     

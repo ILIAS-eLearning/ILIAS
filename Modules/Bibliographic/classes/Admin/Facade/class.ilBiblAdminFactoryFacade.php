@@ -7,7 +7,6 @@
  */
 class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
 {
-
     protected \ilBiblTranslationFactory $translation_factory;
     protected \ilBiblFieldFactory $field_factory;
     protected \ilBiblTypeInterface $type;
@@ -21,7 +20,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
      *
      * @param \ilObjBibliographicAdmin $ilObjBibliographicAdmin
      */
-    public function __construct(ilObjBibliographicAdmin $ilObjBibliographicAdmin, $type_id)
+    public function __construct(ilObjBibliographicAdmin $ilObjBibliographicAdmin, int $type_id)
     {
         $this->object_id = $ilObjBibliographicAdmin->getId();
         $this->ref_id = $ilObjBibliographicAdmin->getRefId();

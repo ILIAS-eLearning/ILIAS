@@ -9,7 +9,6 @@
  */
 class ilBibliographicImporter extends ilXmlImporter
 {
-
     protected ?\ilBibliographicDataSet $ds = null;
 
 

@@ -26,7 +26,7 @@ class ilBiblFieldFilterPresentationGUI
     }
 
 
-    public function getFilterItem(): \ilTableFilterItem
+    public function getFilterItem() : \ilTableFilterItem
     {
         $field = $this->facade->fieldFactory()->findById($this->getFilter()->getFieldId());
         $translated = $this->facade->translationFactory()->translate($field);
@@ -60,13 +60,13 @@ class ilBiblFieldFilterPresentationGUI
     }
 
 
-    public function getFilter(): \ilBiblFieldFilterInterface
+    public function getFilter() : \ilBiblFieldFilterInterface
     {
         return $this->filter;
     }
 
 
-    public function setFilter(\ilBiblFieldFilterInterface $filter): void
+    public function setFilter(\ilBiblFieldFilterInterface $filter) : void
     {
         $this->filter = $filter;
     }

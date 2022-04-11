@@ -5,8 +5,6 @@
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Martin Studer <ms@studer-raimann.ch>
- *
- * @extends ilObjectListGUI
  */
 class ilObjBibliographicListGUI extends ilObjectListGUI
 {
@@ -14,7 +12,7 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init(): void
+    public function init() : void
     {
         $this->lng->loadLanguageModule('bibl');
         $this->copy_enabled = true;
@@ -37,7 +35,7 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
      *                    "property" (string) => property name
      *                    "value" (string) => property value
      */
-    public function getProperties(): array
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];

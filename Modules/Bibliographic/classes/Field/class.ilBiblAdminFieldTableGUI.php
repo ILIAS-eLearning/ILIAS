@@ -66,9 +66,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->addAndReadFilterItem($field);
     }
 
-    /**
-     * @param $field
-     */
     protected function addAndReadFilterItem(ilTableFilterItem $field) : void
     {
         $this->addFilterItem($field);
@@ -128,13 +125,18 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->ctrl()
              ->setParameter($this->parent_obj, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
         $this->ctrl()
-             ->setParameterByClass(ilBiblTranslationGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER,
-                 $field->getId());
+             ->setParameterByClass(
+                 ilBiblTranslationGUI::class,
+                 ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER,
+                 $field->getId()
+             );
 
         $txt = $this->lng()->txt('translate');
         $selectionList->addItem($txt, '', $this->ctrl()
-                                               ->getLinkTargetByClass(ilBiblTranslationGUI::class,
-                                                   ilBiblTranslationGUI::CMD_DEFAULT));
+                                               ->getLinkTargetByClass(
+                                                   ilBiblTranslationGUI::class,
+                                                   ilBiblTranslationGUI::CMD_DEFAULT
+                                               ));
 
         $this->tpl->setVariable('VAL_ACTIONS', $selectionList->getHTML());
     }

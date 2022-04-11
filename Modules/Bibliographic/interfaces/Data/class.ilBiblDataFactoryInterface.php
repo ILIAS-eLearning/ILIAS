@@ -6,6 +6,5 @@
 
 interface ilBiblDataFactoryInterface
 {
-    
     public function getIlBiblDataById(int $id) : ?ilBiblData;
 }

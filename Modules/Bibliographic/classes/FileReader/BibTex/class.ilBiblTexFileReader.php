@@ -6,7 +6,6 @@
  */
 class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
-    
     protected static array $ignored_keywords = array('Preamble');
     
     /**
@@ -20,7 +19,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         // get entries
         $subject = $this->getFileContent();
         $objects = preg_split("/\\@([\\w]*)/uix", $subject, null, PREG_SPLIT_DELIM_CAPTURE
-            |PREG_SPLIT_NO_EMPTY);
+            | PREG_SPLIT_NO_EMPTY);
         
         if (in_array($objects[0], self::$ignored_keywords)) {
             $objects = array_splice($objects, 2);
@@ -30,10 +29,10 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
             $objects = array_splice($objects, 1);
         }
         
-        $entries = array();
+        $entries = [];
         foreach ($objects as $key => $object) {
-            $entry = [];
             if ((int) $key % 2 == 0 || (int) $key == 0) {
+                $entry = [];
                 $entry['entryType'] = strtolower($object);
             } else {
                 // Citation
@@ -53,8 +52,8 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
                     
                     $entry[strtolower($match['attr'])] = $clean;
                 }
-                
-                $entries[] = $entry;
+                // this looks strange, since $entry is only declared every second loop. this is because BibTex first delivers a line for type, in the next line the content (see lines 34.36)
+                $entries[] = $entry ?? [];
             }
         }
         
@@ -159,11 +158,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         $this->setFileContent(str_replace(array_values($bibtex_special_chars), array_keys($bibtex_special_chars), $this->getFileContent()));
     }
     
-    /**
-     * @param $s
-     * @return string|mixed|void
-     */
-    protected function removeBomUtf8($s)
+    protected function removeBomUtf8(string $s) : string
     {
         if (substr($s, 0, 3) == chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) {
             return substr($s, 3);
