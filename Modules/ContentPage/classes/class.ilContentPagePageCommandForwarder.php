@@ -35,6 +35,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     protected GlobalHttpState $http;
     protected Refinery $refinery;
     protected ObjectFacade $content_style_domain;
+    protected bool $isMediaRequest = false;
 
     public function __construct(
         GlobalHttpState $http,
@@ -68,6 +69,11 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         if ($this->backUrl !== '') {
             $this->ctrl->setParameterByClass(ilContentPagePageGUI::class, 'backurl', rawurlencode($this->backUrl));
         }
+    }
+
+    public function setIsMediaRequest(bool $isMediaRequest) : void
+    {
+        $this->isMediaRequest = $isMediaRequest;
     }
 
     /**
@@ -193,7 +199,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:
 
-                $pageObjectGui = $this->buildEditingPageObjectGUI($language);
+                $pageObjectGui = $this->buildEditingPageObjectGUI($this->isMediaRequest ? $language : '');
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:
