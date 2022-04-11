@@ -109,7 +109,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    public function updateFromPost()
+    public function updateFromPost(): void
     {
         $request_link_info = (array) ($this->http->request()->getParsedBody(
             )['links'] ?? []);

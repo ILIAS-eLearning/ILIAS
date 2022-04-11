@@ -98,7 +98,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         return $this->link_sort_enabled;
     }
 
-    public function parse()
+    public function parse(): void
     {
         $rows = [];
 
@@ -189,7 +189,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
      * Get Web resource items object
      * @return object    ilLinkResourceItems
      */
-    protected function getWebResourceItems()
+    protected function getWebResourceItems(): \ilLinkResourceItems
     {
         return $this->webresource_items;
     }
@@ -199,12 +199,12 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
      * @return
      */
     // TODO PHP8 Review: Missing Return type Declaration
-    protected function isEditable()
+    protected function isEditable(): bool
     {
         return $this->editable;
     }
 
-    protected function initSorting()
+    protected function initSorting(): void
     {
         $this->link_sort_mode = ilContainerSortingSettings::_lookupSortMode(
             $this->getParentObject()->getObject()->getId()
