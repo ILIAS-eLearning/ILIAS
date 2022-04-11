@@ -8,6 +8,8 @@ require_once(__DIR__ . "/../Base.php");
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\DefaultRenderer;
 use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;
+use \ILIAS\UI\Renderer;
+use \ILIAS\UI\Implementation\Render\ComponentRenderer;
 
 class DefaultRendererTest extends ILIAS_UI_TestBase
 {
@@ -141,5 +143,99 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         );
         $html = $renderer->renderAsync([$c1,$c1]);
         $this->assertEquals('foofoo', $html);
+    }
+
+    /**
+     * @dataProvider render_type
+     */
+    public function test_passes_self_as_root_if_no_root_exist($render_type)
+    {
+        $this->component_renderer = $this->createMock(ComponentRenderer::class);
+        $component = $this->createMock(C\Component::class);
+
+        $renderer = new class($this) extends DefaultRenderer {
+            public function __construct($self)
+            {
+                $this->self = $self;
+            }
+
+            protected function getRendererFor(C\Component $component)
+            {
+                return $this->self->component_renderer;
+            }
+
+            protected function getJSCodeForAsyncRenderingFor(C\Component $component)
+            {
+                return "";
+            }
+        };
+
+        $this->component_renderer->expects($this->once())
+            ->method("render")
+            ->with($component, $renderer);
+
+        $renderer->$render_type($component);
+    }
+
+    /**
+     * @dataProvider render_type
+     */
+    public function test_passes_other_on_as_root($render_type)
+    {
+        $this->component_renderer = $this->createMock(ComponentRenderer::class);
+        $component = $this->createMock(C\Component::class);
+        $root = $this->createMock(Renderer::class);
+
+        $renderer = new class($this) extends DefaultRenderer {
+            public function __construct($self)
+            {
+                $this->self = $self;
+            }
+
+            protected function getRendererFor(C\Component $component)
+            {
+                return $this->self->component_renderer;
+            }
+
+            protected function getJSCodeForAsyncRenderingFor(C\Component $component)
+            {
+                return "";
+            }
+        };
+
+        $this->component_renderer->expects($this->once())
+            ->method("render")
+            ->with($component, $root);
+
+        $renderer->$render_type($component, $root);
+    }
+
+    public function render_type()
+    {
+        return [
+            ["render"],
+            ["renderAsync"]
+        ];
+    }
+
+    public function test_component_list_uses_root_to_render()
+    {
+        $component = $this->createMock(C\Component::class);
+        $root = $this->createMock(Renderer::class);
+
+        $renderer = new class($this) extends DefaultRenderer {
+            public function __construct($self)
+            {
+                $this->self = $self;
+            }
+        };
+
+        $root->expects($this->exactly(2))
+            ->method("render")
+            ->with($component)
+            ->willReturn(".");
+
+        $res = $renderer->render([$component, $component], $root);
+        $this->assertEquals("..", $res);
     }
 }

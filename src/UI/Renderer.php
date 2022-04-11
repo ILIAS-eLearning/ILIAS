@@ -19,10 +19,11 @@ interface Renderer
      * each rendered component, in the same order as given in the array
      *
      * @param Component|Component[] $component
+     * @param ?Renderer $root of renderers in the chain to be used for rendering sub components.
      *
      * @return string
      */
-    public function render($component);
+    public function render($component, ?Renderer $root = null);
 
     /**
      * Same as render, except that this version also returns any javascript code bound to the on load event,
@@ -30,9 +31,11 @@ interface Renderer
      * so it will not be rendered twice if render async is called multiple times.
      *
      * @param Component|Component[] $component
+     * @param ?Renderer $root of renderers in the chain to be used for rendering sub components.
+     *
      * @return string
      */
-    public function renderAsync($component);
+    public function renderAsync($component, ?Renderer $root = null);
 
     /**
      * Get a new renderer with an additional context.

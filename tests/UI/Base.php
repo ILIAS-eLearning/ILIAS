@@ -21,6 +21,7 @@ use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Factory;
 use PHPUnit\Framework\TestCase;
+use ILIAS\UI\Renderer;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -207,7 +208,7 @@ class TestDummyRenderer extends DefaultRenderer
     public function __construct()
     {
     }
-    public function render($component)
+    public function render($component, ?Renderer $root = null)
     {
         return $component->getCanonicalName();
     }
