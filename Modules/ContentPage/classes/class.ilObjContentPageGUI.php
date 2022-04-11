@@ -206,12 +206,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             case strtolower(ilContentPagePageGUI::class):
-                if (in_array(strtolower($cmd), array_map('strtolower', [
+                $isMediaRequest = in_array(strtolower($cmd), array_map('strtolower', [
                     self::UI_CMD_COPAGE_DOWNLOAD_FILE,
                     self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN,
                     self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH,
-                ]), true)
-                ) {
+                ]), true);
+                if ($isMediaRequest) {
                     if (!$this->checkPermissionBool('read')) {
                         $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                     }
@@ -238,6 +238,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->refinery,
                     $this->content_style_domain
                 );
+                $forwarder->setIsMediaRequest($isMediaRequest);
 
                 $forwarder->addUpdateListener(function (PageUpdatedEvent $event) : void {
                     $this->pageMetricsService->store(

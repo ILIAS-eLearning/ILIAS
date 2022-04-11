@@ -21,6 +21,8 @@ use ILIAS\UI\Factory;
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Component;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -218,6 +220,7 @@ class TestDummyRenderer implements Render\ComponentRenderer
     public function __construct()
     {
     }
+
     public function render(ILIAS\UI\Component\Component $component, ILIAS\UI\Renderer $default_renderer) : string
     {
         return $component->getCanonicalName();

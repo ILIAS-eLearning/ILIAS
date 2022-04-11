@@ -680,7 +680,7 @@ class ilColumnGUI
                         $nr = -16;
                     }
                     $side = ilBlockSetting::_lookupSide($type, $user_id);
-                    if ($side === false) {
+                    if ($side === false) { //Todo Review PHP8: This should always be false as $side is string|null
                         $side = $def_side;
                     }
                     if ($side == IL_COL_LEFT) {
@@ -713,7 +713,7 @@ class ilColumnGUI
                         $nr = $def_nr++;
                     }
                     $side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
-                    if ($side === false) {
+                    if ($side === false) { //Todo Review PHP8: This should always be false as $side is string|null
                         $side = IL_COL_RIGHT;
                     }
     
