@@ -3,16 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjLinkResourceListGUI
  * @author        Alex Killing <alex.killing@gmx.de>
@@ -98,8 +101,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
      */
     public function getProperties() : array
     {
-        $props = array();
-        return $props;
+        return array();
     }
 
     /**
@@ -126,21 +128,26 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
                 $cmd = "calldirectlink";
             }
             $this->ctrl->setParameterByClass(
-                $this->gui_class_name, "ref_id", ""
+                $this->gui_class_name,
+                "ref_id",
+                ""
             );
             $this->ctrl->setParameterByClass(
-                $this->gui_class_name, "wsp_id", $this->ref_id
+                $this->gui_class_name,
+                "wsp_id",
+                $this->ref_id
             );
             return $this->ctrl->getLinkTargetByClass(
-                array("ilpersonalworkspacegui", $this->gui_class_name), $cmd
+                array("ilpersonalworkspacegui", $this->gui_class_name),
+                $cmd
             );
         } else {
             // separate method for this line
             switch ($cmd) {
                 case '':
                     if (ilObjLinkResourceAccess::_checkDirectLink(
-                            $this->obj_id
-                        ) &&
+                        $this->obj_id
+                    ) &&
                         !ilLinkResourceList::checkListStatus($this->obj_id)) {
                         $this->__readLink();
                         // $cmd_link = $this->link_data['target'];
