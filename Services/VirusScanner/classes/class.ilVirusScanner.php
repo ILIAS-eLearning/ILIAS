@@ -49,7 +49,7 @@ class ilVirusScanner
         global $DIC;
         $ilias = $DIC['ilias'];
         $lng = $DIC->language();
-        $log = $DIC->logger();
+        $log = $DIC->logger()->root();
 
         $this->ilias = $ilias;
         $this->lng = $lng;
