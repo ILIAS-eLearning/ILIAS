@@ -74,8 +74,8 @@ class ilVirusScanner
         $lng = $DIC->language();
         
         if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER !== 'None') || (defined(
-                    'IL_ICAP_HOST'
-                ) && IL_ICAP_HOST !== '')) {
+            'IL_ICAP_HOST'
+        ) && IL_ICAP_HOST !== '')) {
             $vs = ilVirusScannerFactory::_getInstance();
             if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) !== '') {
                 if ($a_clean && defined('IL_VIRUS_CLEAN_COMMAND') && IL_VIRUS_CLEAN_COMMAND !== '') {
