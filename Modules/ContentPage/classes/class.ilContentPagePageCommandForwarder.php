@@ -40,6 +40,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     protected $actor;
     /** @var callable[] */
     protected $updateListeners = [];
+    protected $isMediaRequest = false;
 
     /**
      * ilContentPagePageCommandForwarder constructor.
@@ -71,6 +72,11 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         if (strlen($this->backUrl) > 0) {
             $this->ctrl->setParameterByClass('ilcontentpagepagegui', 'backurl', rawurlencode($this->backUrl));
         }
+    }
+
+    public function setIsMediaRequest(bool $isMediaRequest) : void
+    {
+        $this->isMediaRequest = $isMediaRequest;
     }
 
     /**
@@ -243,7 +249,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:
 
-                $pageObjectGui = $this->buildEditingPageObjectGUI($language);
+                $pageObjectGui = $this->buildEditingPageObjectGUI($this->isMediaRequest ? $language : '');
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:
