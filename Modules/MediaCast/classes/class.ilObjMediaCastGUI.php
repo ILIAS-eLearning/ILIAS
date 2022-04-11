@@ -36,6 +36,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
     private array $purposeSuffixes = array();
     private array $mimeTypes = array();
         
+    /**
+     * @param mixed $a_data
+     */
     public function __construct(
         $a_data,
         int $a_id,
@@ -683,7 +686,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         if (isset($file)) {
             // get mime type, if not already set!
-            if (!isset($format)) {
+            if (!isset($format)) { //ToDo PHP8 Review: $format is always set.
                 $format = ilObjMediaObject::getMimeType($file, ($locationType == "Reference"));
             }
 
