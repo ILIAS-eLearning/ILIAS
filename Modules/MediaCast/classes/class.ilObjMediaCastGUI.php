@@ -681,13 +681,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
         
         // check if not automatic mimetype detection
-        $format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType == "Reference"));
+        $format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType === "Reference"));
         $mediaItem->setFormat($format);
 
         if (isset($file)) {
             // get mime type, if not already set!
-            if (!isset($format)) { //ToDo PHP8 Review: $format is always set.
-                $format = ilObjMediaObject::getMimeType($file, ($locationType == "Reference"));
+            if ($format === "") {
+                $format = ilObjMediaObject::getMimeType($file, ($locationType === "Reference"));
             }
 
             // set real meta and object data
@@ -698,7 +698,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $mediaItem->setHeight(self::isAudio($format)?0:180);
         }
                     
-        if ($purpose == "Standard") {
+        if ($purpose === "Standard") {
             if (isset($title)) {
                 $mob->setTitle($title);
             }
