@@ -14,7 +14,7 @@
  *****************************************************************************/
 class ilVirusScannerClamAV extends ilVirusScanner
 {
-    const ADD_SCAN_PARAMS = '--no-summary -i';
+    private const ADD_SCAN_PARAMS = '--no-summary -i';
 
     public function __construct(string $scan_command, string $clean_command)
     {

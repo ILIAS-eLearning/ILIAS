@@ -17,11 +17,11 @@ use ILIAS\Setup;
  *****************************************************************************/
 class ilVirusScannerSetupConfig implements Setup\Config
 {
-    const VIRUS_SCANNER_NONE = "none";
-    const VIRUS_SCANNER_SOPHOS = "sophos";
-    const VIRUS_SCANNER_ANTIVIR = "antivir";
-    const VIRUS_SCANNER_CLAMAV = "clamav";
-    const VIRUS_SCANNER_ICAP = "icap";
+    public const VIRUS_SCANNER_NONE = "none";
+    private const VIRUS_SCANNER_SOPHOS = "sophos";
+    private const VIRUS_SCANNER_ANTIVIR = "antivir";
+    private const VIRUS_SCANNER_CLAMAV = "clamav";
+    private const VIRUS_SCANNER_ICAP = "icap";
 
     protected string $virus_scanner;
 
