@@ -27,7 +27,7 @@ use ILIAS\DI\Container;
  */
 class BaseDependencyMap extends EmptyDependencyMap
 {
-    protected $map;
+    protected array $map = [];
     
     public function __construct()
     {

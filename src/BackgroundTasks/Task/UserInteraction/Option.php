@@ -23,18 +23,11 @@ namespace ILIAS\BackgroundTasks\Task\UserInteraction;
  */
 interface Option
 {
-    
-    /**
-     * @return string
-     */
-    public function getLangVar();
+    public function getLangVar() : string;
     
     public function setLangVar(string $lang_var);
     
-    /**
-     * @return string
-     */
-    public function getValue();
+    public function getValue() : string;
     
     public function setValue(string $value);
 }

@@ -28,15 +28,8 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilCopyFilesToTempDirectoryJob extends AbstractJob
 {
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-    /**
-     * @var string
-     */
-    protected $target_directory;
+    private ?ilLogger $logger;
+    protected string $target_directory = '';
 
 
     /**
@@ -44,7 +37,8 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
      */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+        $this->logger = $DIC->logger()->cal();
     }
 
 

@@ -38,11 +38,11 @@ abstract class AbstractTask implements Task
     /**
      * @var Value[]
      */
-    protected $input = [];
+    protected array $input = [];
     protected \ILIAS\BackgroundTasks\Value $output;
     
     /**
-     * @param $values (Value|Task)[]
+     * @param Value[]|Task[] $values
      */
     public function setInput(array $values) : void
     {
@@ -55,7 +55,6 @@ abstract class AbstractTask implements Task
         $expectedTypes = $this->getInputTypes();
         
         foreach ($expectedTypes as $i => $expectedType) {
-            $expectedType = $expectedType;
             $givenType = $this->extractType($values[$i]);
             if (!$givenType->isExtensionOf($expectedType)) {
                 throw new InvalidArgumentException("Types did not match when setting input for "

@@ -218,7 +218,7 @@ class ilBTPopOverGUI
     }
 
 
-    private function getCloseButtonAction(UserInteraction\Option $option, $redirect_uri, Bucket $observer) : string
+    private function getCloseButtonAction(UserInteraction\Option $option, string $redirect_uri, Bucket $observer) : string
     {
         $ctrl = $this->dic->ctrl();
         $persistence = $this->dic->backgroundTasks()->persistence();

@@ -35,11 +35,7 @@ use ILIAS\BackgroundTasks\Task\UserInteraction;
  */
 class SyncTaskManager extends BasicTaskManager
 {
-    
-    /**
-     * @var Persistence
-     */
-    protected $persistence;
+    protected Persistence $persistence;
     
     public function __construct(Persistence $persistence)
     {

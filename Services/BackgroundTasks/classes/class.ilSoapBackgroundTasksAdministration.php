@@ -16,7 +16,7 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
 {
     public Persistence $persistence;
     
-    public function __construct($use_nusoap = true)
+    public function __construct(bool $use_nusoap = true)
     {
         global $DIC;
         parent::__construct($use_nusoap);
@@ -24,7 +24,6 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
     }
     
     /**
-     * @param string $sid
      * @return bool|soap_fault|SoapFault|void
      */
     public function runAsync(string $sid)

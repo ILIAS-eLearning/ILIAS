@@ -26,12 +26,8 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilCheckSumOfFileSizesJob extends AbstractJob
 {
-
-    /**
-     * @var |null
-     */
-    private $logger;
-    protected \ilSetting $settings; // [ilSetting]
+    private ?ilLogger $logger;
+    protected \ilSetting $settings;
 
 
     /**
@@ -39,7 +35,8 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+        $this->logger = $DIC->logger()->cal();
         $this->settings = new ilSetting("fold");
     }
 
@@ -109,11 +106,9 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
 
     /**
      * Calculates the number and size of the files being downloaded recursively.
-     *
-     * @param int & $a_file_count
-     * @param int & $a_file_size
+
      */
-    protected function calculateRecursive(array $a_ref_ids, &$a_file_size) : void
+    protected function calculateRecursive(array $a_ref_ids, int &$a_file_size) : void
     {
         global $DIC;
         $tree = $DIC['tree'];

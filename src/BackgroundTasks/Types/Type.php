@@ -21,7 +21,7 @@ interface Type
     /**
      * @return string A string representation of the Type.
      */
-    public function __toString();
+    public function __toString() : string;
     
     /**
      * Is this type a subtype of $type. Not strict! x->isExtensionOf(x) == true.

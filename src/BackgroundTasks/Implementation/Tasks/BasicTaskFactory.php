@@ -43,9 +43,6 @@ class BasicTaskFactory implements TaskFactory
         }
         /** @var Task $task */
         $task = $this->injector->createInstance($class_name);
-        if (!$task instanceof Task) {
-            throw new InvalidArgumentException("The given classname $class_name is not a task.");
-        }
         if ($input) {
             $wrappedInput = array_map(function ($i) : \ILIAS\BackgroundTasks\Value {
                 if ($i instanceof Task) {

@@ -36,13 +36,10 @@ class ListValue extends AbstractValue
     /**
      * @var array The values of the list are saved in an array.
      */
-    protected $list = array();
-    /**
-     * @var Type
-     */
-    protected $type;
+    protected array $list = [];
+    protected Type $type;
     
-    protected function deriveType($list) : ListType
+    protected function deriveType(array $list) : ListType
     {
         $type = $this->calculateLowestCommonType($this->getTypes($list));
         
@@ -59,7 +56,7 @@ class ListValue extends AbstractValue
     protected function calculateLowestCommonType(array $types)
     {
         // If the list is empty the type should be [] (empty list).
-        if (count($types) === 0) {
+        if ($types === []) {
             return null;
         }
         
@@ -88,11 +85,7 @@ class ListValue extends AbstractValue
         return $lct;
     }
     
-    /**
-     * @param $ancestorsList Type[][]
-     * @param $i
-     */
-    protected function sameClassOnLevel($ancestorsList, $i) : bool
+    protected function sameClassOnLevel(array $ancestorsList, int $i) : bool
     {
         $class = $ancestorsList[0][$i];
         foreach ($ancestorsList as $class_hierarchy) {
@@ -110,7 +103,7 @@ class ListValue extends AbstractValue
     /**
      * @return \ILIAS\BackgroundTasks\Types\Type[]
      */
-    protected function getTypes($list) : array
+    protected function getTypes(array $list) : array
     {
         $types = [];
         foreach ($list as $value) {

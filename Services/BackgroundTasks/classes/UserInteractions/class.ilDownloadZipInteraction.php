@@ -33,15 +33,13 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
 {
     const OPTION_DOWNLOAD = 'download';
     const OPTION_CANCEL = 'cancel';
-    /**
-     * @var \Monolog\Logger
-     */
-    private $logger;
+    private ?ilLogger $logger;
 
 
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+        $this->logger = $DIC->logger()->cal();
     }
 
 

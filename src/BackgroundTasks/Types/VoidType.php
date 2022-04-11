@@ -45,7 +45,7 @@ class VoidType implements Type
     /**
      * @return string A string representation of the Type.
      */
-    public function __toString()
+    public function __toString() : string
     {
         return "Void";
     }

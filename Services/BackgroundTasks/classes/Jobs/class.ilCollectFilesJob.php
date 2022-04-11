@@ -26,10 +26,7 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilCollectFilesJob extends AbstractJob
 {
-    /**
-     * @var null
-     */
-    private $logger;
+    private ?ilLogger $logger;
 
 
     /**
@@ -37,7 +34,8 @@ class ilCollectFilesJob extends AbstractJob
      */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+        $this->logger = $DIC->logger()->cal();
     }
 
 

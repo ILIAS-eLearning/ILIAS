@@ -21,13 +21,13 @@ class TupleType implements Type
     /**
      * @var Type[]
      */
-    protected $types = [];
+    protected array $types = [];
     
     /**
      * SingleType constructor.
-     * @param $fullyQualifiedClassNames (string|Type)[] Give a Value Type or a Type that will be wrapped in a single type.
+     * @param string[]|Type[] $fullyQualifiedClassNames  Give a Value Type or a Type that will be wrapped in a single type.
      */
-    public function __construct($fullyQualifiedClassNames)
+    public function __construct(array $fullyQualifiedClassNames)
     {
         foreach ($fullyQualifiedClassNames as $fullyQualifiedClassName) {
             if (!is_a($fullyQualifiedClassName, Type::class)) {
@@ -40,7 +40,7 @@ class TupleType implements Type
     /**
      * @inheritdoc
      */
-    public function __toString()
+    public function __toString() : string
     {
         return "(" . implode(", ", $this->types) . ")";
     }

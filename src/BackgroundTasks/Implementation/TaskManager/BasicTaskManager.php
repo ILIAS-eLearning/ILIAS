@@ -41,11 +41,7 @@ use ILIAS\BackgroundTasks\Value;
  */
 abstract class BasicTaskManager implements TaskManager
 {
-    
-    /**
-     * @var Persistence
-     */
-    protected $persistence;
+    protected Persistence $persistence;
     
     public function __construct(Persistence $persistence)
     {
@@ -53,10 +49,9 @@ abstract class BasicTaskManager implements TaskManager
     }
     
     /**
-     * @return Value
      * @throws UserInteractionSkippedException|UserInteractionRequiredException|Exception
      */
-    public function executeTask(Task $task, Observer $observer)
+    public function executeTask(Task $task, Observer $observer) : Value
     {
         $observer->notifyState(State::RUNNING);
         /** @var Value[] $values */
