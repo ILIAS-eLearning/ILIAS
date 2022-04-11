@@ -38,7 +38,7 @@ class ilVirusScanner
 
     public string $cleanResult;
 
-    public $ilias;
+    public ilErrorHandling $error;
 
     public ilLanguage $lng;
 
@@ -47,11 +47,11 @@ class ilVirusScanner
     public function __construct(string $scan_command, string $clean_command)
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
+        $error = $DIC['ilErr'];
         $lng = $DIC->language();
         $log = $DIC->logger();
 
-        $this->ilias = $ilias;
+        $this->error = $error;
         $this->lng = $lng;
         $this->log = $log;
         $this->scanCommand = $scan_command;

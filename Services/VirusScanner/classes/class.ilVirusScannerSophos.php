@@ -70,11 +70,11 @@ class ilVirusScannerSophos extends ilVirusScanner
             $this->logScanResult();
             return $this->scanResult;
         } else {
-            $this->ilias->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt("virus_scan_error") . " "
                 . $this->lng->txt("virus_scan_message") . " "
                 . $this->scanResult,
-                $this->ilias->error_obj->WARNING
+                $this->error->WARNING
             );
         }
     }
