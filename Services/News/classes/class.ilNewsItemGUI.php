@@ -589,7 +589,7 @@ class ilNewsItemGUI
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
-            $ilCtrl->getParentReturn($this)
+            (string) $ilCtrl->getParentReturn($this)
         );
     }
 

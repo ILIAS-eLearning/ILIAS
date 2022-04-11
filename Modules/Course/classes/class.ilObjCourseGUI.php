@@ -2024,6 +2024,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 break;
 
             case "ilcolumngui":
+                $this->ctrl->setReturn($this, "");
                 $this->tabs_gui->setTabActive('none');
                 $this->checkPermission("read");
                 //$this->prepareOutput();

@@ -1,17 +1,20 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a block method of a block.
@@ -45,7 +48,7 @@ abstract class ilBlockGUI
     protected bool $allow_moving = true;
     protected array $move = array("left" => false, "right" => false, "up" => false, "down" => false);
     protected array $block_commands = array();
-    protected bool $max_count = false; //Todo Review PHP8: Are you sure you want a bool here? All assignments seem to be autocast from int.
+    protected int $max_count = 0;
     protected bool $close_command = false;
     protected bool $image = false;
     protected array $property = [];
@@ -92,7 +95,7 @@ abstract class ilBlockGUI
         ilYuiUtil::initConnection();
         $this->main_tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
 
-        $this->setLimit($this->user->getPref("hits_per_page"));
+        $this->setLimit((int) $this->user->getPref("hits_per_page"));
 
         $this->requested_ref_id = $this->request->getRefId();
     }
@@ -528,7 +531,7 @@ abstract class ilBlockGUI
 
         $nav = explode(":", $this->nav_value);
         if (isset($nav[2])) {
-            $this->setOffset($nav[2]);
+            $this->setOffset((int) $nav[2]);
         } else {
             $this->setOffset(0);
         }
@@ -686,7 +689,7 @@ abstract class ilBlockGUI
 
         $nav = explode(":", $this->nav_value);
         if (isset($nav[2])) {
-            $this->setOffset($nav[2]);
+            $this->setOffset((int) $nav[2]);
         } else {
             $this->setOffset(0);
         }

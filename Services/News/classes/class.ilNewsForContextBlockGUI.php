@@ -1102,7 +1102,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $block_id = $DIC->ctrl()->getContextObjId();
         foreach ($a_values as $key => $value) {
-            ilBlockSetting::_write(self::$block_type, $key, $value, 0, $block_id);
+            ilBlockSetting::_write(self::$block_type, (string) $key, (string) $value, 0, $block_id);
         }
     }
 

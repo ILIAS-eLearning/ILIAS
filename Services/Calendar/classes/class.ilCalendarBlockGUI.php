@@ -71,7 +71,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $seed_str = $this->initSeedFromQuery();
         if (!strlen($seed_str) && ilSession::has("il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed")) {
             $seed_str = ilSession::get("il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed");
-        } elseif (strlen($seed_str)){
+        } elseif (strlen($seed_str)) {
             ilSession::set("il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed", $seed_str);
         } else {
             $seed_str = date('Y-m-d', time());
@@ -190,7 +190,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $ilCtrl = $DIC->ctrl();
         $cmd_class = $ilCtrl->getCmdClass();
 
-        $cmd  = $ilCtrl->getCmd();
+        $cmd = $ilCtrl->getCmd();
 
         if ($cmd_class == "ilcalendarappointmentgui" ||
             $cmd_class == "ilconsultationhoursgui" ||
@@ -433,8 +433,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $this->ctrl->clearParameterByClass("ilcalendarblockgui", 'seed');
         $month_link = $this->ctrl->getLinkTarget($this, "setSeed", "", true, false);
         $seed_parts = explode("-", $this->seed->get(IL_CAL_DATE));
-        $b2 = $ui->factory()->button()->month($seed_parts[1] . "-" . $seed_parts[0])->withOnLoadCode(function ($id) use
-        (
+        $b2 = $ui->factory()->button()->month($seed_parts[1] . "-" . $seed_parts[0])->withOnLoadCode(function ($id) use (
             $month_link,
             $blockgui
         ) {
@@ -471,7 +470,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
                 $users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
                 //$users = $participants->getParticipants();
-                $users = ilBookingEntry::lookupBookableUsersForObject($obj_id, $users);
+                $users = ilBookingEntry::lookupBookableUsersForObject([$obj_id], $users);
                 foreach ($users as $user_id) {
                     $now = new ilDateTime(time(), IL_CAL_UNIX);
 
@@ -502,10 +501,15 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
                     if (!$this->getForceMonthView()) {
                         $this->cal_footer[] = array(
-                            'link' => $this->ctrl->getLinkTargetByClass($this->getTargetGUIClassPath(),
-                                'selectCHCalendarOfUser'),
-                            'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id),
-                                $this->lng->txt("cal_consultation_hours_for_user"))
+                            'link' => $this->ctrl->getLinkTargetByClass(
+                                $this->getTargetGUIClassPath(),
+                                'selectCHCalendarOfUser'
+                            ),
+                            'txt' => str_replace(
+                                "%1",
+                                ilObjUser::_lookupFullname($user_id),
+                                $this->lng->txt("cal_consultation_hours_for_user")
+                            )
                         );
                     }
                     $path = $this->getTargetGUIClassPath();
@@ -701,8 +705,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
                 $dates = $this->getDatesForItem($item);
 
-                $comps = [$f->button()->shy($item["event"]->getPresentationTitle(),
-                    "")->withOnClick($modal->getShowSignal()),
+                $comps = [$f->button()->shy(
+                    $item["event"]->getPresentationTitle(),
+                    ""
+                )->withOnClick($modal->getShowSignal()),
                           $modal
                 ];
                 $renderer = $ui->renderer();
@@ -771,8 +777,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
                 $content = $this->ctrl->getHTML($next_gui);
 
-                $modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
-                    $f->legacy($content));
+                $modal = $f->modal()->roundtrip(
+                    ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
+                    $f->legacy($content)
+                );
                 echo $r->renderAsync($modal);
             }
         }

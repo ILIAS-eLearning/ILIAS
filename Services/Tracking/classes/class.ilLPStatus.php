@@ -213,7 +213,12 @@ class ilLPStatus
         $percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
         $old_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         $changed = self::writeStatus(
-            $a_obj_id, $a_usr_id, $status, $percentage, false, $old_status
+            $a_obj_id,
+            $a_usr_id,
+            $status,
+            $percentage,
+            false,
+            $old_status
         );
 
         // ak: I don't think that this is a good way to fix 15529, we should not
@@ -221,7 +226,11 @@ class ilLPStatus
         // for now the changes in the next line just prevent the event being raised twice
         if (!$changed && $a_force_raise) { // #15529
             self::raiseEvent(
-                $a_obj_id, $a_usr_id, $status, $old_status, $percentage
+                $a_obj_id,
+                $a_usr_id,
+                $status,
+                $old_status,
+                $percentage
             );
         }
     }
@@ -312,7 +321,9 @@ class ilLPStatus
         );
 
         $ilAppEventHandler->raise(
-            "Services/Tracking", "updateStatus", array(
+            "Services/Tracking",
+            "updateStatus",
+            array(
             "obj_id" => $a_obj_id,
             "usr_id" => $a_usr_id,
             "status" => $a_status,
@@ -331,8 +342,11 @@ class ilLPStatus
         foreach ($not_attempted as $user_id) {
             $percentage = $this->determinePercentage($a_obj_id, $user_id);
             if (self::writeStatus(
-                $a_obj_id, $user_id, self::LP_STATUS_NOT_ATTEMPTED_NUM,
-                $percentage, true
+                $a_obj_id,
+                $user_id,
+                self::LP_STATUS_NOT_ATTEMPTED_NUM,
+                $percentage,
+                true
             )) {
                 //self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, $percentage);
             }
@@ -341,8 +355,11 @@ class ilLPStatus
         foreach ($in_progress as $user_id) {
             $percentage = $this->determinePercentage($a_obj_id, $user_id);
             if (self::writeStatus(
-                $a_obj_id, $user_id, self::LP_STATUS_IN_PROGRESS_NUM,
-                $percentage, true
+                $a_obj_id,
+                $user_id,
+                self::LP_STATUS_IN_PROGRESS_NUM,
+                $percentage,
+                true
             )) {
                 //self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_IN_PROGRESS_NUM, $percentage);
             }
@@ -351,7 +368,10 @@ class ilLPStatus
         foreach ($completed as $user_id) {
             $percentage = $this->determinePercentage($a_obj_id, $user_id);
             if (self::writeStatus(
-                $a_obj_id, $user_id, self::LP_STATUS_COMPLETED_NUM, $percentage,
+                $a_obj_id,
+                $user_id,
+                self::LP_STATUS_COMPLETED_NUM,
+                $percentage,
                 true
             )) {
                 //self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_COMPLETED_NUM, $percentage);
@@ -361,7 +381,10 @@ class ilLPStatus
         foreach ($failed as $user_id) {
             $percentage = $this->determinePercentage($a_obj_id, $user_id);
             if (self::writeStatus(
-                $a_obj_id, $user_id, self::LP_STATUS_FAILED_NUM, $percentage,
+                $a_obj_id,
+                $user_id,
+                self::LP_STATUS_FAILED_NUM,
+                $percentage,
                 true
             )) {
                 //self::raiseEvent($a_obj_id, $user_id, self::LP_STATUS_FAILED_NUM, $percentage);
@@ -369,7 +392,8 @@ class ilLPStatus
         }
         if ($a_users) {
             $missing_users = array_diff(
-                $a_users, $not_attempted + $in_progress + $completed + $failed
+                $a_users,
+                $not_attempted + $in_progress + $completed + $failed
             );
             if ($missing_users) {
                 foreach ($missing_users as $user_id) {
@@ -483,7 +507,8 @@ class ilLPStatus
                 "SELECT ut_lp_collections.obj_id obj_id FROM " .
                 "object_reference JOIN ut_lp_collections ON " .
                 "(object_reference.obj_id = " . $ilDB->quote(
-                    $a_obj_id, "integer"
+                    $a_obj_id,
+                    "integer"
                 ) .
                 " AND object_reference.ref_id = ut_lp_collections.item_id)"
             );
@@ -497,10 +522,12 @@ class ilLPStatus
                     );
                     // just to make sure - remove existing cache entry
                     ilLPStatusWrapper::_removeStatusCache(
-                        (int) $rec["obj_id"], $a_user_id
+                        (int) $rec["obj_id"],
+                        $a_user_id
                     );
                     ilLPStatusWrapper::_updateStatus(
-                        (int) $rec["obj_id"], $a_user_id
+                        (int) $rec["obj_id"],
+                        $a_user_id
                     );
                 }
             }
@@ -511,7 +538,8 @@ class ilLPStatus
 
                 $query = 'select obj_id from container_reference ' .
                     'where target_obj_id = ' . $ilDB->quote(
-                        $a_obj_id, ilDBConstants::T_INTEGER
+                        $a_obj_id,
+                        ilDBConstants::T_INTEGER
                     );
                 $res = $ilDB->query($query);
                 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -519,16 +547,22 @@ class ilLPStatus
                         'Calling update status for reference obj_id: ' . $row->obj_id
                     );
                     \ilLPStatusWrapper::_removeStatusCache(
-                        (int) $row->obj_id, $a_user_id
+                        (int) $row->obj_id,
+                        $a_user_id
                     );
                     \ilLPStatusWrapper::_updateStatus(
-                        (int) $row->obj_id, $a_user_id
+                        (int) $row->obj_id,
+                        $a_user_id
                     );
                 }
             }
 
             self::raiseEvent(
-                $a_obj_id, $a_user_id, $a_status, $a_old_status, $a_percentage
+                $a_obj_id,
+                $a_user_id,
+                $a_status,
+                $a_old_status,
+                $a_percentage
             );
         }
 
@@ -669,8 +703,9 @@ class ilLPStatus
         int $a_user_id
     ) : bool {
         return self::_lookupStatus(
-                $a_obj_id, $a_user_id
-            ) == self::LP_STATUS_COMPLETED_NUM;
+            $a_obj_id,
+            $a_user_id
+        ) == self::LP_STATUS_COMPLETED_NUM;
     }
 
     /**
@@ -732,8 +767,9 @@ class ilLPStatus
             if ($res["status_dirty"]) {
                 // update status and check again
                 if (self::_lookupStatus(
-                        $a_obj_id, $rec["usr_id"]
-                    ) != $a_status) {
+                    $a_obj_id,
+                    $rec["usr_id"]
+                ) != $a_status) {
                     continue;
                 }
             }
@@ -751,7 +787,9 @@ class ilLPStatus
         ?array $a_user_ids = null
     ) : array {
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_COMPLETED_NUM,
+            $a_user_ids
         );
     }
 
@@ -763,7 +801,9 @@ class ilLPStatus
         ?array $a_user_ids = null
     ) : array {
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_FAILED_NUM,
+            $a_user_ids
         );
     }
 
@@ -775,7 +815,9 @@ class ilLPStatus
         ?array $a_user_ids = null
     ) : array {
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_IN_PROGRESS_NUM,
+            $a_user_ids
         );
     }
 
@@ -790,7 +832,9 @@ class ilLPStatus
         $lp_invalid = array();
 
         $memberships = ilObjectLP::getLPMemberships(
-            $a_user_id, $a_obj_ids, $a_parent_ref_id
+            $a_user_id,
+            $a_obj_ids,
+            $a_parent_ref_id
         );
         foreach ($memberships as $obj_id => $status) {
             if (!$status) {
@@ -869,7 +913,8 @@ class ilLPStatus
                 $res[$row["obj_id"]] = $row["status"];
             } else {
                 $res[$row["obj_id"]] = self::_lookupStatus(
-                    $row["obj_id"], $a_user_id
+                    $row["obj_id"],
+                    $a_user_id
                 );
             }
         }
@@ -917,7 +962,8 @@ class ilLPStatus
             // we are not handling the collections differently yet
             $coll_obj_ids = array();
             $a_obj_ids = self::checkLPModesForObjects(
-                $a_obj_ids, $coll_obj_ids
+                $a_obj_ids,
+                $coll_obj_ids
             );
 
             // -- gather
@@ -945,10 +991,13 @@ class ilLPStatus
         self::$list_gui_cache = $res;
     }
 
+    /**
+     * @return string|array
+     */
     public static function getListGUIStatus(
         int $a_obj_id,
         bool $a_image_only = true
-    ) : string {
+    ) {
         if ($a_image_only) {
             $image = '';
             if (isset(self::$list_gui_cache[$a_obj_id]["image"])) {
