@@ -101,6 +101,7 @@ class ilObjLinkResource extends ilObject
 
     public function initLinkResourceItemsObject() : bool
     {
+        // TODO PHP8 Review: Check, property is only written but never read
         $this->items_obj = new ilLinkResourceItems($this->getId());
         return true;
     }

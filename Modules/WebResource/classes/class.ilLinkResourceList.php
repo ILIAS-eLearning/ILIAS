@@ -129,10 +129,6 @@ class ilLinkResourceList
         return true;
     }
 
-    /**
-     * @param bool $a_update_history
-     * @return bool
-     */
     public function update(bool $a_update_history = true) : bool
     {
         if (!$this->getListResourceId()) {

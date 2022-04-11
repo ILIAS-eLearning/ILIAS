@@ -249,7 +249,7 @@ class ilLinkResourceItems
             // Add parameters
             foreach (ilParameterAppender::_getParams(
                 $item['link_id']
-            ) as $param_id => $data) {
+            ) as $data) {
                 $appender->setName($data['name']);
                 $appender->setValue($data['value']);
                 $appender->add($new_item->getLinkId());
@@ -532,7 +532,6 @@ class ilLinkResourceItems
     }
 
     /**
-     * @param int $a_webr_id
      * @return int[]
      */
     public static function getAllItemIds(int $a_webr_id) : array
@@ -588,14 +587,13 @@ class ilLinkResourceItems
         );
 
         if ($mode == ilContainer::SORT_TITLE) {
-            $a_items = ilArrayUtil::sortArray(
+            return ilArrayUtil::sortArray(
                 $a_items,
                 'title',
                 'asc',
                 false,
                 true
             );
-            return $a_items;
         }
 
         $sorted = $unsorted = [];
@@ -625,8 +623,7 @@ class ilLinkResourceItems
                 false,
                 true
             );
-            $a_items = $sorted + $unsorted;
-            return $a_items;
+            return $sorted + $unsorted;
         }
         return $a_items;
     }

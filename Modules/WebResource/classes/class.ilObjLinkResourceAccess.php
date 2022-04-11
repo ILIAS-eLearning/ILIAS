@@ -31,7 +31,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             array("permission" => "read",
                   "cmd" => "",
                   "lang_var" => "show",
@@ -50,8 +50,6 @@ class ilObjLinkResourceAccess extends ilObjectAccess
                   "lang_var" => "settings"
             )
         );
-
-        return $commands;
     }
 
     /**
@@ -150,7 +148,6 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
 
         $res = $ilDB->query(
             "SELECT * FROM webr_items WHERE " .

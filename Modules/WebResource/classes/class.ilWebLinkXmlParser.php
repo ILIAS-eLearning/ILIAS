@@ -111,8 +111,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     ) : void {
         global $DIC;
 
-        $ilErr = $DIC['ilErr'];
-
         if ($this->in_metadata) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
             return;
@@ -247,7 +245,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                         throw new ilWebLinkXmlParserException(
                             'Invalid attribute "type" given for element "Dynamic parameter". Aborting'
                         );
-                        break;
                 }
                 $this->current_parameters[] = $param;
                 break;

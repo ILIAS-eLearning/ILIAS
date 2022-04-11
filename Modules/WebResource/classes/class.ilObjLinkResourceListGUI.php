@@ -101,8 +101,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
      */
     public function getProperties() : array
     {
-        $props = array();
-        return $props;
+        return array();
     }
 
     /**

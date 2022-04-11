@@ -203,7 +203,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         if ($this->form->getInput('tar_mode_type') === 'single') {
             // Save link
             $this->link->setLinkResourceId($new_object->getId());
-            $link_id = $this->link->add();
+            $this->link->add();
             $this->link->updateValid(true);
             $this->tpl->setOnScreenMessage(
                 'success',
