@@ -163,7 +163,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
                 $this->self = $self;
             }
 
-            protected function getRendererFor(C\Component $component)
+            protected function getRendererFor(ILIAS\UI\Component\Component $component) : ComponentRenderer
             {
                 return $this->self->component_renderer;
             }
@@ -196,7 +196,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
                 $this->self = $self;
             }
 
-            protected function getRendererFor(C\Component $component)
+            protected function getRendererFor(ILIAS\UI\Component\Component $component) : ComponentRenderer
             {
                 return $this->self->component_renderer;
             }
