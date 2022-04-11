@@ -17,7 +17,9 @@
  *********************************************************************/
 
 use ILIAS\DI\Container;
+use ILIAS\HTTP\Agent\AgentDetermination;
 use PHPUnit\Framework\TestCase;
+use ILIAS\HTTP\Services as HttpServiceImpl;
 
 /**
  * Class ilRTEBaseTest
@@ -51,25 +53,39 @@ abstract class ilRTEBaseTest extends TestCase
 
     protected function setMocks() : void
     {
-        $tpl_mock = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->getMock();
+        $tpl_mock = $this->createMock(ilGlobalTemplateInterface::class);
         $this->setGlobalVariable('tpl', $tpl_mock);
+
         $lng = $this
             ->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
             ->getMock();
         $this->setGlobalVariable('lng', $lng);
+
         $this->setGlobalVariable(
             'ilCtrl',
-            $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(ilCtrlInterface::class)->disableOriginalConstructor()->getMock()
         );
+
         $this->setGlobalVariable(
             'ilClientIniFile',
             $this->getMockBuilder(ilIniFile::class)->disableOriginalConstructor()->getMock()
         );
+
         $this->setGlobalVariable(
             'ilUser',
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );
+
+        $http = $this
+            ->getMockBuilder(HttpServiceImpl::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['agent'])
+            ->getMock();
+        $http
+            ->method('agent')
+            ->willReturn(new AgentDetermination());
+        $this->setGlobalVariable('http', $http);
     }
 }

@@ -29,7 +29,7 @@ class ilRTE
     public const ILIAS_IMG_MANAGER_PLUGIN = 'ilias_image_manager_plugin';
 
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected AgentDetermination $browser;

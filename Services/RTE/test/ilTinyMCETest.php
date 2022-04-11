@@ -24,8 +24,6 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilTinyMCETest extends ilRTEBaseTest
 {
-    protected $backupGlobals = false;
-
     public function testAddPlugin() : void
     {
         $tinymce = new ilTinyMCE();
