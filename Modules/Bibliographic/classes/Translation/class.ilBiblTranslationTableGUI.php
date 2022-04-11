@@ -31,7 +31,7 @@ class ilBiblTranslationTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function __construct($a_parent_obj, ilBiblFieldInterface $bibl_field, ilBiblTranslationFactoryInterface $translation_factory)
+    public function __construct(?object $a_parent_obj, ilBiblFieldInterface $bibl_field, ilBiblTranslationFactoryInterface $translation_factory)
     {
         $this->translation_facory = $translation_factory;
         $this->field = $bibl_field;

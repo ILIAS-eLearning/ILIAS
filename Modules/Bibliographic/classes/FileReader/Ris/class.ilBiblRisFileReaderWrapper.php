@@ -26,10 +26,9 @@ class ilBiblRisFileReaderWrapper
 {
 
     /**
-     * @param string $content
      * @return mixed[]
      */
-    public function parseContent($content) : array
+    public function parseContent(string $content) : array
     {
         $RISReader = new RISReader();
         $re = '/\n|\r/m';

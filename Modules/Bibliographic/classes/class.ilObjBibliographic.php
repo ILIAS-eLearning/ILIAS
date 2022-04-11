@@ -429,10 +429,7 @@ class ilObjBibliographic extends ilObject2
         $this->is_migrated = $migrated;
     }
 
-    /**
-     * @param string $filename
-     */
-    public function determineFileTypeByFileName($filename) : int
+    public function determineFileTypeByFileName(string $filename) : int
     {
         return $this->bib_type_factory->getInstanceForFileName($filename)->getId();
     }

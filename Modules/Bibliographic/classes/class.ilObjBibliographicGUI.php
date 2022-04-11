@@ -73,7 +73,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
      * @param int $a_id_type
      * @param int $a_parent_node_id
      */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
 
@@ -276,10 +276,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     }
 
     /**
-     * @param string $a_new_type
      * @return mixed[]
      */
-    protected function initCreationForms($a_new_type) : array
+    protected function initCreationForms(string $a_new_type) : array
     {
         global $DIC;
 

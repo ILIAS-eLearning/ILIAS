@@ -36,10 +36,9 @@ class ilBiblLibraryPresentationGUI
     }
     
     /**
-     * @param string $type
      * @deprecated REFACTOR Mit Attribute Objekten arbeiten statt mit Array. Evtl. URL Erstellung vereinfachen
      */
-    public function generateLibraryLink(ilBiblEntry $entry, $type) : string
+    public function generateLibraryLink(ilBiblEntry $entry, string $type) : string
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($entry->getId());
         $type = $this->facade->typeFactory()->getInstanceForString($type);

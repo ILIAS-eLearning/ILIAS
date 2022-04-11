@@ -34,7 +34,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     const CMD_DEFAULT = 'view';
 
     protected string $type = 'bibs';
-    public ?ilObject $object;
+    public ?ilObject $object = null;
     protected \ilBiblAdminFactoryFacadeInterface $facade;
 
 

@@ -121,6 +121,9 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
         return ilBiblEntry::where(["ïd" => $id])->first();
     }
     
+    /**
+     * @return \ilBiblEntryInterface[]
+     */
     public function filterEntriesForTable(int $object_id, ilBiblTableQueryInfo $info = null) : array
     {
         $entries = $this->filterEntryIdsForTableAsArray($object_id, $info);

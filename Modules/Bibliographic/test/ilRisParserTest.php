@@ -22,7 +22,7 @@ use ILIAS\ResourceStorage\Services;
 
 class ilRisParserTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?\ILIAS\DI\Container $dic_backup = null;
     
     protected function setUp() : void
     {
