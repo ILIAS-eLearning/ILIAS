@@ -215,7 +215,7 @@ class ilFileXMLParser extends ilSaxParser
                 $this->result = true;
                 break;
             case 'Filename':
-                if (strlen($this->cdata) === 0) {
+                if ($this->cdata === '') {
                     throw new ilFileException("Filename ist missing!");
                 }
                 

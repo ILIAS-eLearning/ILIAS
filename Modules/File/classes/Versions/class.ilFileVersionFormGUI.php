@@ -139,7 +139,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
             return false;
         }
         $input_title = ilUtil::stripSlashes($this->getInput(self::F_TITLE));
-        if (strlen(trim($input_title)) === 0) {
+        if (trim($input_title) === '') {
             $input_title = ilUtil::stripSlashes($result->getName());
         }
 

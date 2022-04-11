@@ -125,14 +125,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         if ($t_arr[0] != "file" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        
-        if ($ilAccess->checkAccess("visible", "", $t_arr[1])
-            || $ilAccess->checkAccess("read", "", $t_arr[1])
-        ) {
-            return true;
-        }
-        
-        return false;
+        return $ilAccess->checkAccess("visible", "", $t_arr[1])
+            || $ilAccess->checkAccess("read", "", $t_arr[1]);
     }
     
     /**
@@ -207,11 +201,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             $file = $fss->getAbsolutePath() . '/' . $version_subdir . '/' . $row->file_name;
         }
         
-        if (is_file($file)) {
-            $size = filesize($file);
-        } else {
-            $size = 0;
-        }
+        $size = is_file($file) ? filesize($file) : 0;
         
         return $size;
     }

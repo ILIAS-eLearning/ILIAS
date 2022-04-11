@@ -216,7 +216,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             $ilErr->raiseError($DIC->language()->txt("no_permission"), $ilErr->WARNING);
         }
 
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initSettingsForm();
         }
 
@@ -292,7 +292,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 
         $table = new ilRendererTableGUI($this, self::CMD_SHOW_PREVIEW_RENDERERS);
-        $table->setMaxCount(sizeof($renderers));
+        $table->setMaxCount(count($renderers));
         $table->setData($array_wrapper);
 
         // set content

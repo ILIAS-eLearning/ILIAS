@@ -245,7 +245,7 @@ class ilFileVersionsGUI
     {
         // delete versions after confirmation
         $versions_to_delete = $this->getVersionIdsFromRequest();
-        if (is_array($versions_to_delete) && count($versions_to_delete) > 0) {
+        if (is_array($versions_to_delete) && $versions_to_delete !== []) {
             $this->file->deleteVersions($versions_to_delete);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_versions_deleted"), true);
         }

@@ -172,10 +172,7 @@ class ilObjFileListGUI extends ilObjectListGUI
      */
     public function getCommandImage($a_cmd) : string
     {
-        switch ($a_cmd) {
-            default:
-                return "";
-        }
+        return "";
     }
 
     /**

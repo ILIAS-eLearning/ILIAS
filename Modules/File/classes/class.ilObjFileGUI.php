@@ -287,7 +287,7 @@ class ilObjFileGUI extends ilObject2GUI
             );
 
             $suffixes = array_unique($delegate->getUploadedSuffixes());
-            if (count(array_diff($suffixes, $this->file_service_settings->getWhiteListedSuffixes())) > 0) {
+            if (array_diff($suffixes, $this->file_service_settings->getWhiteListedSuffixes()) !== []) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('file_upload_info_file_with_critical_extension'), true);
             }
             $response->send();

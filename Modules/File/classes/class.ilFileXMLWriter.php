@@ -147,7 +147,7 @@ class ilFileXMLWriter extends ilXmlWriter
 
         $versions = $this->file->getVersions();
 
-        if (count($versions)) {
+        if ($versions !== []) {
             $this->xmlStartTag("Versions");
 
             foreach ($versions as $version) {
@@ -163,7 +163,7 @@ class ilFileXMLWriter extends ilXmlWriter
 
                 $content = "";
 
-                if ($this->attachFileContents) {
+                if ($this->attachFileContents !== 0) {
                     $filename = $this->file->getFile($version["version"]);
 
                     if (@is_file($filename)) {

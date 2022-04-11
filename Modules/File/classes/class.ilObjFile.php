@@ -432,11 +432,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         // check, if file is used somewhere
         $usages = $this->getUsages();
-        if (count($usages) == 0) {
-            return true;
-        }
-        
-        return false;
+        return count($usages) == 0;
     }
     
     protected function doDelete() : void
@@ -496,7 +492,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     
     private function prepareUpload() : void
     {
-        if (true !== $this->upload->hasBeenProcessed()) {
+        if (!$this->upload->hasBeenProcessed()) {
             if (defined('PATH_TO_GHOSTSCRIPT') && PATH_TO_GHOSTSCRIPT !== "") {
                 $this->upload->register(new ilCountPDFPagesPreProcessors());
             }

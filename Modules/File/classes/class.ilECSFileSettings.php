@@ -37,7 +37,7 @@ class ilECSFileSettings extends ilECSObjectSettings
             $this->content_obj->getId(),
             $this->content_obj->getType()
         );
-        if (count($entries)) {
+        if ($entries !== []) {
             $entry = array_shift($entries);
             $entry = new ilDateTime($entry["date"], IL_CAL_DATETIME);
 
