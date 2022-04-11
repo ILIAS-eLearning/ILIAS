@@ -201,7 +201,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     /**
      * @return array<string, array<string, string>>|array<string, string>
      */
-    public function respMod($service, array $body = [], array $headers = []) : array
+    public function respMod(string $service, array $body = [], array $headers = []) : array
     {
         $request = $this->getRequest('RESPMOD', $service, $body, $headers);
         $response = $this->send($request);
