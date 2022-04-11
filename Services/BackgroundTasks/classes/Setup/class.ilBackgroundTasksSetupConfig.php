@@ -43,7 +43,7 @@ class ilBackgroundTasksSetupConfig implements Setup\Config
                 "There must be at least 1 concurrent background task."
             );
         }
-        $this->type                 = $type;
+        $this->type = $type;
         $this->max_concurrent_tasks = $max_concurrent_tasks;
     }
     

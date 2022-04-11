@@ -105,5 +105,4 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
     {
         return false;
     }
-    
 }

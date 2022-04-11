@@ -79,7 +79,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
      * run the job
      * @param Value    $input
      */
-    public function run(array $input, Observer $observer):Value
+    public function run(array $input, Observer $observer) : Value
     {
         $definition = $input[0];
 
@@ -112,7 +112,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
      * @todo refactor to new file system access
      *       Create unique temp directory
      */
-    protected function createUniqueTempDirectory(): string
+    protected function createUniqueTempDirectory() : string
     {
         $tmpdir = ilFileUtils::ilTempnam();
         ilFileUtils::makeDirParents($tmpdir);
@@ -122,7 +122,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     }
 
 
-    protected function createTargetDirectory($a_tmpdir): string
+    protected function createTargetDirectory($a_tmpdir) : string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
         ilFileUtils::makeDirParents($final_dir);
@@ -135,10 +135,10 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * Copy files
      */
-    protected function copyFiles(string $tmpdir, ilCopyDefinition $definition): void
+    protected function copyFiles(string $tmpdir, ilCopyDefinition $definition) : void
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
-            if($copy_task[ilCopyDefinition::COPY_SOURCE_DIR] === '') { // see https://mantis.ilias.de/view.php?id=31328
+            if ($copy_task[ilCopyDefinition::COPY_SOURCE_DIR] === '') { // see https://mantis.ilias.de/view.php?id=31328
                 continue;
             }
             $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR]));

@@ -169,11 +169,11 @@ class ilCopyDefinition extends AbstractValue
     {
         return serialize(
             [
-                "copy_definition"  => $this->getCopyDefinitions(),
-                "temp_dir"         => $this->getTempDir(),
-                "object_ref_ids"   => implode(",", $this->getObjectRefIds()),
-                "num_files"        => $this->getNumFiles(),
-                "sum_file_sizes"   => $this->getSumFileSizes(),
+                "copy_definition" => $this->getCopyDefinitions(),
+                "temp_dir" => $this->getTempDir(),
+                "object_ref_ids" => implode(",", $this->getObjectRefIds()),
+                "num_files" => $this->getNumFiles(),
+                "sum_file_sizes" => $this->getSumFileSizes(),
                 "adheres_to_limit" => $this->getAdheresToLimit(),
             ]
         );

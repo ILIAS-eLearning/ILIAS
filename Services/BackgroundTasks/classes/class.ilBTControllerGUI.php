@@ -71,7 +71,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     }
 
 
-    protected function abortBucket(): void
+    protected function abortBucket() : void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $from_url = $this->getFromURL();
@@ -90,7 +90,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
      * Loads one single aggregate notification item representing a button async
      * to replace an existing one.
      */
-    protected function getAsyncReplacementItem(): void
+    protected function getAsyncReplacementItem() : void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
@@ -103,7 +103,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     }
 
 
-    protected function getFromURL(): string
+    protected function getFromURL() : string
     {
         return self::unhash($this->http()->request()->getQueryParams()[self::FROM_URL]);
     }
@@ -112,7 +112,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     /**
      * @param $url
      */
-    public static function hash($url): string
+    public static function hash($url) : string
     {
         return base64_encode($url);
     }
@@ -121,7 +121,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     /**
      * @param $url
      */
-    public static function unhash($url): string
+    public static function unhash($url) : string
     {
         return base64_decode($url);
     }

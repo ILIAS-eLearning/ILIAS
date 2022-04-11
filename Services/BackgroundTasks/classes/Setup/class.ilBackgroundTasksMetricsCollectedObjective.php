@@ -41,7 +41,7 @@ class ilBackgroundTasksMetricsCollectedObjective extends Setup\Metrics\Collected
         );
         $storage->storeConfigGauge(
             "max_number_of_concurrent_tasks",
-            (int)$ini->readVariable("background_tasks", "number_of_concurrent_tasks"),
+            (int) $ini->readVariable("background_tasks", "number_of_concurrent_tasks"),
             "The maximum amount of concurrent tasks used to run background tasks."
         );
     }

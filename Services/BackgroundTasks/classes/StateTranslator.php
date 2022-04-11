@@ -11,7 +11,6 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\State;
  */
 trait StateTranslator
 {
-    
     public function translateState(int $state, \ilLanguage $lng) : string
     {
         switch ($state) {

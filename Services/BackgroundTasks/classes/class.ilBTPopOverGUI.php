@@ -120,7 +120,7 @@ class ilBTPopOverGUI
         if ($state === State::RUNNING) {
             $url = $this->getRefreshUrl($observer);
             //Running Items probably need to refresh themselves, right?
-            $item = $item->withAdditionalOnLoadCode(fn($id) => "var notification_item = il.UI.item.notification.getNotificationItemObject($('#$id'));
+            $item = $item->withAdditionalOnLoadCode(fn ($id) => "var notification_item = il.UI.item.notification.getNotificationItemObject($('#$id'));
                     il.BGTask.refreshItem(notification_item,'$url');");
 
             $expected = $current_task->getExpectedTimeOfTaskInSeconds();
@@ -161,7 +161,7 @@ class ilBTPopOverGUI
         $options = $userInteraction->getOptions($userInteraction->getInput());
 
         return array_map(
-            function (UserInteraction\Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language): \ILIAS\UI\Component\Button\Shy {
+            function (UserInteraction\Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language) : \ILIAS\UI\Component\Button\Shy {
                 $ctrl->setParameterByClass(
                     ilBTControllerGUI::class,
                     ilBTControllerGUI::FROM_URL,

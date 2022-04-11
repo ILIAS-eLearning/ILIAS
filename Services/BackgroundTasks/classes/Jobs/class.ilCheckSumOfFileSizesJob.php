@@ -113,7 +113,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      * @param int & $a_file_count
      * @param int & $a_file_size
      */
-    protected function calculateRecursive(array $a_ref_ids, &$a_file_size): void
+    protected function calculateRecursive(array $a_ref_ids, &$a_file_size) : void
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -151,7 +151,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      *
      *
      */
-    protected function validateAccess(int $ref_id): bool
+    protected function validateAccess(int $ref_id) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];

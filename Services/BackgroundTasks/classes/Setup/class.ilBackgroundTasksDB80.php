@@ -27,7 +27,7 @@ class ilBackgroundTasksDB80 implements ilDatabaseUpdateSteps
     
     public function step_1() : void
     {
-        if(!$this->db->indexExistsByFields('il_bt_bucket', ['user_id'])) {
+        if (!$this->db->indexExistsByFields('il_bt_bucket', ['user_id'])) {
             $this->db->addIndex('il_bt_bucket', ['user_id'], 'i1');
         }
     }

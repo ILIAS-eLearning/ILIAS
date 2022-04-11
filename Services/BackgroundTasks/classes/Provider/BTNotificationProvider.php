@@ -39,7 +39,7 @@ class BTNotificationProvider extends AbstractNotificationProvider implements Not
         $this->dic->ui()->mainTemplate()->addJavaScript("./Services/BackgroundTasks/js/background_task_refresh.js");
         $this->dic->language()->loadLanguageModule('background_tasks');
 
-        $id = fn(string $id): IdentificationInterface => $this->if->identifier($id);
+        $id = fn (string $id) : IdentificationInterface => $this->if->identifier($id);
 
         $factory = $this->globalScreen()->notifications()->factory();
 

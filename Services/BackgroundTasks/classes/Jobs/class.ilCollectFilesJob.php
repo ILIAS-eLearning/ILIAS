@@ -154,7 +154,7 @@ class ilCollectFilesJob extends AbstractJob
      *
      * @return mixed[]
      */
-    private static function recurseFolder($a_ref_id, $a_folder_name, $a_temp_dir, $a_num_recursions, $a_initiated_by_folder_action): array
+    private static function recurseFolder($a_ref_id, $a_folder_name, $a_temp_dir, $a_num_recursions, $a_initiated_by_folder_action) : array
     {
         global $DIC;
 
