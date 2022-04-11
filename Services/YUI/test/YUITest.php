@@ -16,7 +16,7 @@ class YUITest extends TestCase
     /**
      * Test sort
      */
-    public function testPath()
+    public function testPath() : void
     {
         $path = ilYuiUtil::getLocalPath("test.js");
         $this->assertEquals(

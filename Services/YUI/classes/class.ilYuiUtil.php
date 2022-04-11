@@ -20,20 +20,21 @@
 class ilYuiUtil
 {
     protected const YUI_BASE = "./libs/bower/bower_components/yui2/build";
-
+    
+    private static function ensureGlobalTemplate(
+        ?ilGlobalTemplateInterface $main_tpl = null
+    ) : ilGlobalTemplateInterface {
+        global $DIC;
+        return $main_tpl == null ? $DIC->ui()->mainTemplate() : $main_tpl;
+    }
+    
     /**
      * Init YUI Connection module
      */
     public static function initConnection(
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ) : void {
-        global $DIC;
-
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
+        $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
     }
@@ -45,14 +46,7 @@ class ilYuiUtil
     public static function initEvent(
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ) : void {
-        global $DIC;
-
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
-
+        $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
     }
 
@@ -63,14 +57,7 @@ class ilYuiUtil
     public static function initDom(
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ) : void {
-        global $DIC;
-
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
-
+        $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
     }
 
@@ -83,14 +70,7 @@ class ilYuiUtil
     public static function initDragDrop(
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ) : void {
-        global $DIC;
-
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
-
+        $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
         $tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
@@ -105,14 +85,7 @@ class ilYuiUtil
     public static function initDomEvent(
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ) : void {
-        global $DIC;
-
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
-
+        $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
     }
 
@@ -125,14 +98,7 @@ class ilYuiUtil
         bool $a_resize = false,
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ) : void {
-        global $DIC;
-
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
-
+        $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
         self::addContainerCss($tpl);
@@ -153,10 +119,7 @@ class ilYuiUtil
      */
     public static function initConnectionWithAnimation() : void
     {
-        global $DIC;
-
-        $tpl = $DIC["tpl"];
-
+        $tpl = self::ensureGlobalTemplate();
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/animation/animation-min.js");
         $tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
@@ -172,14 +135,7 @@ class ilYuiUtil
     public static function initOverlay(
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ) : void {
-        global $DIC;
-
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
-
+        $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/container/container_core-min.js");
         self::addContainerCss($tpl);
@@ -192,10 +148,7 @@ class ilYuiUtil
      */
     public static function initButtonControl() : void
     {
-        global $DIC;
-
-        $tpl = $DIC["tpl"];
-
+        $tpl = self::ensureGlobalTemplate();
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/element/element-min.js");
 
@@ -214,12 +167,7 @@ class ilYuiUtil
      */
     public static function initCookie() : void
     {
-        /**
-         * @var $tpl ilTemplate
-         */
-        global $DIC;
-
-        $tpl = $DIC["tpl"];
+        $tpl = self::ensureGlobalTemplate();
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo/yahoo-min.js", 1);
         $tpl->addJavaScript(self::YUI_BASE . "/cookie/cookie.js", 1);
     }
@@ -240,14 +188,7 @@ class ilYuiUtil
     protected static function addContainerCss(
         ?ilGlobalTemplateInterface $a_main_tpl = null
     ) : void {
-        global $DIC;
-
-        if ($a_main_tpl == null) {
-            $tpl = $DIC["tpl"];
-        } else {
-            $tpl = $a_main_tpl;
-        }
-
+        $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addCss(self::getLocalPath("container/assets/skins/sam/container.css"));
     }
 }
