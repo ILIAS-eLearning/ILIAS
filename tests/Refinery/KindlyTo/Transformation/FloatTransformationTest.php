@@ -62,8 +62,6 @@ class FloatTransformationTest extends TestCase
             'neg_INF' => [-INF],
             'written_INF' => ['INF'],
             'written_neg_INF' => ['-INF'],
-            'weird_notation1' => ["01"],
-            'weird_notation2' => ["-01"],
             'mill_delim' => ["1'000"]
         ];
     }
@@ -86,7 +84,17 @@ class FloatTransformationTest extends TestCase
             'neg_string_e_notation_trimming' => [' -7E10 ', -70000000000],
             'int_val' => [23, 23.0],
             'neg_int_val' => [-2, -2.0],
-            'zero_int' => [0, 0.0]
+            'zero_int' => [0, 0.0],
+            'float_st_one' => [0.1, 0.1],
+            'float_st_one_nozero' => [.1, 0.1],
+            'floatstr_st_one' => ['0,1', 0.1],
+            'floatstr_st_one_dot' => ['0.1', 0.1],
+            'floatstr_st_one_nozero' => [',1', 0.1],
+            'floatstr_st_one_nozero_dot' => ['.1', 0.1],
+            'floatstr_weird' => ['0001', 1],
+            'floatstr_weird_decimal' => ['0001,02', 1.02],
+            'floatstr_weird_negative' => ['-0001', -1],
+            'floatstr_weird_decimal_negative' => ['-0001,02', -1.02]
         ];
     }
 }
