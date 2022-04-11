@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Exercise XML Parser which completes/updates a given file by an xml string.
  *
  * @author  Roland Küstermann <roland@kuestermann.com>
@@ -10,23 +26,9 @@
  *
  * @extends ilSaxParser
  */
-
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\MimeType;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 class ilFileXMLParser extends ilSaxParser
 {
     public static int $CONTENT_NOT_COMPRESSED = 0;
