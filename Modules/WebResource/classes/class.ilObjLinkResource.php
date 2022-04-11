@@ -107,11 +107,11 @@ class ilObjLinkResource extends ilObject
     }
 
     public function cloneObject(
-        int $a_target_id,
-        int $a_copy_id = 0,
-        bool $a_omit_tree = false
+        int $target_id,
+        int $copy_id = 0,
+        bool $omit_tree = false
     ) : ?ilObject {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneMetaData($new_obj);
 
         // object created now copy other settings
@@ -165,6 +165,4 @@ class ilObjLinkResource extends ilObject
         $links->toXML($writer);
         $writer->xmlEndTag('WebLinks');
     }
-
-    // PRIVATE
-} // END class.ilObjLinkResource
+}

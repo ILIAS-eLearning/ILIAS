@@ -98,7 +98,7 @@ class ilLinkResourceList
             );
 
         $res = $this->db->query($query);
-        if ($this->db->numRows($res)) {
+        if ($this->db->numRows($res) !== 0) {
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setTitle($row->title);
                 $this->setDescription($row->description);
@@ -242,9 +242,6 @@ class ilLinkResourceList
             "WHERE webr_id = " . $ilDB->quote($a_webr_id, 'integer');
 
         $res = $ilDB->query($query);
-        if ($ilDB->numRows($res)) {
-            return true;
-        }
-        return false;
+        return (bool) $ilDB->numRows($res);
     }
 }

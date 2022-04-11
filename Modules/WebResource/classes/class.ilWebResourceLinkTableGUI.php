@@ -98,7 +98,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         return $this->link_sort_enabled;
     }
 
-    public function parse(): void
+    public function parse() : void
     {
         $rows = [];
 
@@ -128,7 +128,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         );
 
         $this->tpl->setVariable('TITLE', $a_set['title']);
-        if (strlen($a_set['description'])) {
+        if (strlen($a_set['description']) !== 0) {
             $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         }
         // $this->tpl->setVariable('TARGET',$a_set['target']);
@@ -189,7 +189,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
      * Get Web resource items object
      * @return object    ilLinkResourceItems
      */
-    protected function getWebResourceItems(): \ilLinkResourceItems
+    protected function getWebResourceItems() : \ilLinkResourceItems
     {
         return $this->webresource_items;
     }
@@ -199,12 +199,12 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
      * @return
      */
     // TODO PHP8 Review: Missing Return type Declaration
-    protected function isEditable(): bool
+    protected function isEditable() : bool
     {
         return $this->editable;
     }
 
-    protected function initSorting(): void
+    protected function initSorting() : void
     {
         $this->link_sort_mode = ilContainerSortingSettings::_lookupSortMode(
             $this->getParentObject()->getObject()->getId()

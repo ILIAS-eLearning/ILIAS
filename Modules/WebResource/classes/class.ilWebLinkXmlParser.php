@@ -135,13 +135,13 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 $this->current_parameters = [];
 
                 if ($this->getMode(
-                    ) == self::MODE_CREATE or (isset($a_attribs['action']) and $a_attribs['action'] == 'Create')) {
+                    ) == self::MODE_CREATE || isset($a_attribs['action']) && $a_attribs['action'] == 'Create') {
                     // New weblink
                     $this->current_link = new ilLinkResourceItems(
                         $this->getWebLink()->getId()
                     );
                 } elseif ($this->getMode(
-                    ) == self::MODE_UPDATE and $a_attribs['action'] == 'Delete') {
+                    ) == self::MODE_UPDATE && $a_attribs['action'] == 'Delete') {
                     $this->current_link_delete = true;
                     $this->current_link = new ilLinkResourceItems(
                         $this->getWebLink()->getId()
@@ -149,7 +149,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                     $this->current_link->delete($a_attribs['id']);
                     break;
                 } elseif ($this->getMode(
-                    ) == self::MODE_UPDATE and ($a_attribs['action'] == 'Update' or !isset($a_attribs['action']))) {
+                    ) == self::MODE_UPDATE && ($a_attribs['action'] == 'Update' || !isset($a_attribs['action']))) {
                     $this->current_link = new ilLinkResourceItems(
                         $this->getWebLink()->getId()
                     );

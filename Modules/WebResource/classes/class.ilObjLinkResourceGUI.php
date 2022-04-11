@@ -243,8 +243,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
     protected function saveSettings() : void
     {
-        global $DIC;
-
         $obj_service = $this->object_service;
 
         $this->checkPermission('write');
@@ -691,16 +689,16 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $invalid[] = $link_id;
                 continue;
             }
-            if ($data['nam'] and !$data['val']) {
+            if ($data['nam'] && !$data['val']) {
                 $invalid[] = $link_id;
                 continue;
             }
-            if (!$data['nam'] and $data['val']) {
+            if (!$data['nam'] && $data['val']) {
                 $invalid[] = $link_id;
             }
         }
 
-        if (count($invalid)) {
+        if ($invalid !== []) {
             $this->tpl->setOnScreenMessage(
                 'failure',
                 $this->lng->txt('err_check_input')
@@ -1031,12 +1029,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 );
                 $dyn->setInfo($this->lng->txt('links_dynamic_info'));
 
-                if (count(
-                    $links = ilParameterAppender::_getParams(
-                        // TODO PHP8 Review: Remove/Replace SuperGlobals
-                        (int) $_GET['link_id']
-                    )
-                )) {
+                if (($links = ilParameterAppender::_getParams(
+                    // TODO PHP8 Review: Remove/Replace SuperGlobals
+                    (int) $_GET['link_id']
+                )) !== []) {
                     $ex = new ilCustomInputGUI(
                         $this->lng->txt('links_existing_params'),
                         'ex'
@@ -1367,7 +1363,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $link_id = 0;
         if ($this->http->wrapper()->query()->has('link_id')) {
-            $link_ids = (array) $this->http->wrapper()->query()->retrieve(
+            $link_id = (array) $this->http->wrapper()->query()->retrieve(
                 'link_id',
                 $this->refinery->kindlyTo()->int()
             );
@@ -1573,7 +1569,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         parent::setTabs();
     }
 
-    public function __prepareOutput() : void
+    private function __prepareOutput() : void
     {
         $this->tpl->setLocator();
     }
@@ -1775,8 +1771,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                             $lng->txt("msg_no_perm_read_item"),
                             ilObject::_lookupTitle(
                                 ilObject::_lookupObjId(
-                                (int) $a_target
-                            )
+                                    (int) $a_target
+                                )
                             )
                         ),
                         true

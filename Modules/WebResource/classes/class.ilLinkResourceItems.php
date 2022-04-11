@@ -26,10 +26,8 @@ class ilLinkResourceItems
     protected ilDBInterface $db;
 
     private int $id = 0;
-    // TODO PHP8 Review: Missing Type-Declarations
-    private $title = '';
-    // TODO PHP8 Review: Missing Type-Declarations
-    private $description = '';
+    private string $title = '';
+    private string $description = '';
     private string $target = '';
     private bool $status = false;
     private bool $check = false;
@@ -46,7 +44,7 @@ class ilLinkResourceItems
      * Constructor
      * @access public
      */
-    public function __construct($webr_id)
+    public function __construct(int $webr_id)
     {
         global $DIC;
 
@@ -176,7 +174,7 @@ class ilLinkResourceItems
     }
 
     // PRIVATE
-    public function __setCreateDate(int $a_date) : void
+    private function setCreateDate(int $a_date) : void
     {
         $this->c_date = $a_date;
     }
@@ -187,7 +185,7 @@ class ilLinkResourceItems
     }
 
     // PRIVATE
-    public function __setLastUpdateDate(int $a_date) : void
+    private function setLastUpdateDate(int $a_date) : void
     {
         $this->m_date = $a_date;
     }
@@ -285,7 +283,7 @@ class ilLinkResourceItems
         if (!$this->getLinkId()) {
             return false;
         }
-        $this->__setLastUpdateDate(time());
+        $this->setLastUpdateDate(time());
         $query = "UPDATE webr_items " .
             "SET title = " . $this->db->quote(
                 $this->getTitle(),
@@ -386,7 +384,7 @@ class ilLinkResourceItems
 
     public function updateLastCheck(int $a_offset = 0) : bool
     {
-        if ($a_offset) {
+        if ($a_offset !== 0) {
             $period = $a_offset ?: 0;
             $time = time() - $period;
 
@@ -401,7 +399,6 @@ class ilLinkResourceItems
                 ) . " " .
                 "AND disable_check = '0' " .
                 "AND last_check < " . $this->db->quote($time, 'integer');
-            $res = $this->db->manipulate($query);
         } else {
             $query = "UPDATE webr_items " .
                 "SET last_check = " . $this->db->quote(
@@ -413,14 +410,14 @@ class ilLinkResourceItems
                     'integer'
                 ) . " " .
                 "AND disable_check = '0' ";
-            $res = $this->db->manipulate($query);
         }
+        $res = $this->db->manipulate($query);
         return true;
     }
 
     public function updateValidByCheck(int $a_offset = 0) : bool
     {
-        if ($a_offset) {
+        if ($a_offset !== 0) {
             $period = $a_offset ?: 0;
             $time = time() - $period;
 
@@ -432,7 +429,6 @@ class ilLinkResourceItems
                     'integer'
                 ) . " " .
                 "AND last_check < " . $this->db->quote($time, 'integer');
-            $res = $this->db->manipulate($query);
         } else {
             $query = "UPDATE webr_items " .
                 "SET valid = '1' " .
@@ -441,15 +437,15 @@ class ilLinkResourceItems
                     $this->getLinkResourceId(),
                     'integer'
                 );
-            $res = $this->db->manipulate($query);
         }
+        $res = $this->db->manipulate($query);
         return true;
     }
 
     public function add(bool $a_update_history = true) : int
     {
-        $this->__setLastUpdateDate(time());
-        $this->__setCreateDate(time());
+        $this->setLastUpdateDate(time());
+        $this->setCreateDate(time());
 
         $next_id = $this->db->nextId('webr_items');
         $query = "INSERT INTO webr_items (link_id,title,description,target,active,disable_check," .
@@ -494,8 +490,8 @@ class ilLinkResourceItems
             $this->setTarget((string) $row->target);
             $this->setActiveStatus((bool) $row->active);
             $this->setDisableCheckStatus((bool) $row->disable_check);
-            $this->__setCreateDate((int) $row->create_date);
-            $this->__setLastUpdateDate((int) $row->last_update);
+            $this->setCreateDate((int) $row->create_date);
+            $this->setLastUpdateDate((int) $row->last_update);
             $this->setLastCheckDate((int) $row->last_check);
             $this->setValidStatus((bool) $row->valid);
             $this->setLinkId((int) $row->link_id);
@@ -549,9 +545,8 @@ class ilLinkResourceItems
         }
         return $link_ids;
     }
-
-    // TODO PHP8 Review: Missing Return type Declaration
-    public function getAllItems()
+    
+    public function getAllItems() : array
     {
         $query = "SELECT * FROM webr_items " .
             "WHERE webr_id = " . $this->db->quote(
@@ -646,10 +641,8 @@ class ilLinkResourceItems
 
         $check_items = [];
         foreach ($this->getAllItems() as $id => $item_data) {
-            if (!$item_data['disable_check']) {
-                if (!$item_data['last_check'] or $item_data['last_check'] < $time) {
-                    $check_items[$id] = $item_data;
-                }
+            if (!$item_data['disable_check'] && (!$item_data['last_check'] || $item_data['last_check'] < $time)) {
+                $check_items[$id] = $item_data;
             }
         }
         return $check_items;
@@ -723,7 +716,7 @@ class ilLinkResourceItems
         $items = $this->sortItems($this->getAllItems());
 
         $position = 0;
-        foreach ($items as $item_id => $item) {
+        foreach (array_keys($items) as $item_id) {
             ++$position;
             $link = self::lookupItem($this->getLinkResourceId(), $item_id);
 

@@ -26,7 +26,7 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
     {
         $this->lng->loadLanguageModule('webr');
         foreach ($this->getSubItemIds(true) as $sub_item) {
-            if (is_object($this->getHighlighter()) and strlen(
+            if (is_object($this->getHighlighter()) && strlen(
                 $this->getHighlighter()->getContent(
                     $this->getObjId(),
                     $sub_item
