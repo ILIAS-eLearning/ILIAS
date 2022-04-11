@@ -51,8 +51,7 @@ class ilLog
         string $a_tag = "",
         bool $a_enabled = true,
         ?int $a_log_level = null
-    )
-    {
+    ) {
         // init vars
 
         $this->FATAL = ilLogLevel::CRITICAL;
