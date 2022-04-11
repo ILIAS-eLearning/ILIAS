@@ -31,7 +31,7 @@ abstract class ilFileSystemAbstractionStorage
     private int $container_id;
     private int $storage_type;
     private bool $path_conversion = false;
-    protected ?string $path;
+    protected ?string $path = null;
     protected \ILIAS\Filesystem\Filesystems $file_system_service;
 
     /**

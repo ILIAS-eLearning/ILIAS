@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
 /**
  * Exporter class for files
  *
@@ -87,7 +90,6 @@ class ilFileExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     * @return array
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {

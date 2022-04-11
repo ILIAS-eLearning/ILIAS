@@ -1,17 +1,23 @@
 <?php
 
-use ILIAS\HTTP\Services;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use ILIAS\HTTP\Services;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
 
 /**
  * Class ilFileVersionsGUI
@@ -47,7 +53,6 @@ class ilFileVersionsGUI
     
     /**
      * ilFileVersionsGUI constructor.
-     * @param ilObjFile $file
      */
     public function __construct(ilObjFile $file)
     {
@@ -160,7 +165,7 @@ class ilFileVersionsGUI
         }
     }
     
-    private function deleteVersions()
+    private function deleteVersions() : void
     {
         $version_ids = $this->getVersionIdsFromRequest();
         $existing_versions = $this->file->getVersions();
@@ -246,7 +251,7 @@ class ilFileVersionsGUI
     {
         // delete versions after confirmation
         $versions_to_delete = $this->getVersionIdsFromRequest();
-        if (is_array($versions_to_delete) && count($versions_to_delete) > 0) {
+        if (is_array($versions_to_delete) && $versions_to_delete !== []) {
             $this->file->deleteVersions($versions_to_delete);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_versions_deleted"), true);
         }
@@ -269,17 +274,11 @@ class ilFileVersionsGUI
         $this->ctrl->redirectByClass(ilRepositoryGUI::class);
     }
     
-    /**
-     * @return ilObjFile
-     */
     public function getFile() : ilObjFile
     {
         return $this->file;
     }
     
-    /**
-     * @return array
-     */
     private function getVersionIdsFromRequest() : array
     {
         // get ids either from GET (if single item was clicked) or

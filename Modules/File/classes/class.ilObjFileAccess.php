@@ -1,17 +1,23 @@
 <?php
 
-use ILIAS\DI\Container;
-use function ILIAS\UI\examples\Breadcrumbs\breadcrumbs;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use ILIAS\DI\Container;
+use function ILIAS\UI\examples\Breadcrumbs\breadcrumbs;
 
 /**
  * Access class for file objects.
@@ -125,14 +131,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         if ($t_arr[0] != "file" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        
-        if ($ilAccess->checkAccess("visible", "", $t_arr[1])
-            || $ilAccess->checkAccess("read", "", $t_arr[1])
-        ) {
-            return true;
-        }
-        
-        return false;
+        return $ilAccess->checkAccess("visible", "", $t_arr[1])
+            || $ilAccess->checkAccess("read", "", $t_arr[1]);
     }
     
     /**
@@ -146,9 +146,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         
         $q = "SELECT * FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
         $r = $ilDB->query($q);
-        $row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
         
-        return $row;
+        return $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
     }
     
     /**
@@ -182,9 +181,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
-        $size = $row->file_size;
-        
-        return $size;
+        return $row->file_size;
     }
     
     /**
@@ -210,11 +207,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             $file = $fss->getAbsolutePath() . '/' . $version_subdir . '/' . $row->file_name;
         }
         
-        if (is_file($file)) {
-            $size = filesize($file);
-        } else {
-            $size = 0;
-        }
+        $size = is_file($file) ? filesize($file) : 0;
         
         return $size;
     }
@@ -254,7 +247,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
      * Returns true, if the specified file shall be displayed inline in the browser.
      */
-    public static function _isFileInline($a_file_name) : bool
+    public static function _isFileInline(string $a_file_name) : bool
     {
         if (self::$_inlineFileExtensionsArray
             === null
@@ -456,7 +449,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     
     /**
      * @param $a_obj_id
-     * @return array
      */
     public static function getListGUIData($a_obj_id) : array
     {

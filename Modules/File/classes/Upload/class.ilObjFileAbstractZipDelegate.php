@@ -1,21 +1,24 @@
 <?php
 
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\Filesystem\Stream\Streams;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Filesystem\Stream\Streams;
+
 /**
  * Class ilObjFileAbstractZipDelegate
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -35,7 +38,6 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
     /**
      * ilObjFileAbstractZipDelegate constructor.
      * @param ilAccess|ilWorkspaceAccessHandler $access_checker
-     * @param int                               $node_type
      * @param ilTree                            $tree
      */
     public function __construct(object $access_checker, int $node_type, ilTree $tree)
@@ -50,9 +52,6 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
         $this->zip->close();
     }
 
-    /**
-     * @param UploadResult $result
-     */
     protected function initZip(UploadResult $result) : void
     {
         $this->zip = new ZipArchive();
@@ -64,11 +63,6 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
         return $this->node_type === ilObject2GUI::WORKSPACE_NODE_ID;
     }
 
-    /**
-     * @param string $original_path
-     * @param int    $parent_id
-     * @return ilObjFile
-     */
     protected function createFile(string $original_path, int $parent_id) : ilObjFile
     {
         $obj = new ilObjFile();

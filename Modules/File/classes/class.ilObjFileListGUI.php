@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
 /**
  * Class ilObjFileListGUI
  * @author        Alex Killing <alex.killing@gmx.de>
@@ -46,13 +49,11 @@ class ilObjFileListGUI extends ilObjectListGUI
 
     /**
      * Get command target frame
-     * @param string $a_cmd command
-     * @return    string        command target frame
      */
-    public function getCommandFrame($a_cmd) : string
+    public function getCommandFrame(string $cmd) : string
     {
         $frame = "";
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'sendfile':
                 if (ilObjFileAccess::_isFileInline($this->title)) {
                     $frame = '_blank';
@@ -174,10 +175,7 @@ class ilObjFileListGUI extends ilObjectListGUI
      */
     public function getCommandImage($a_cmd) : string
     {
-        switch ($a_cmd) {
-            default:
-                return "";
-        }
+        return "";
     }
 
     /**
@@ -185,16 +183,16 @@ class ilObjFileListGUI extends ilObjectListGUI
      * @param string $a_cmd The command to get the link for.
      * @return string The command link.
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
         // overwritten to always return the permanent download link
 
         // only create permalink for repository
-        if ($a_cmd == "sendfile" && $this->context == self::CONTEXT_REPOSITORY) {
+        if ($cmd == "sendfile" && $this->context == self::CONTEXT_REPOSITORY) {
             // return the perma link for downloads
             return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
         }
 
-        return parent::getCommandLink($a_cmd);
+        return parent::getCommandLink($cmd);
     }
 }

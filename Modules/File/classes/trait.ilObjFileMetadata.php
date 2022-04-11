@@ -37,7 +37,7 @@ trait ilObjFileMetadata
 
     public function setNoMetaDataCreation(bool $a_status)
     {
-        $this->no_meta_data_creation = (bool) $a_status;
+        $this->no_meta_data_creation = $a_status;
     }
 
     protected function beforeCreateMetaData() : bool
