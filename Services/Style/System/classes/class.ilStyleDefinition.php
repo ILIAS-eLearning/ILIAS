@@ -152,7 +152,7 @@ class ilStyleDefinition
         if (!$style_id) {
             throw new ilSystemStyleException(ilSystemStyleException::NO_STYLE_ID, $style_id);
         }
-        if (!$this->getSkin()->getStyle($style_id)) {
+        if (!$this->getSkin()->getStyle($style_id)) { //ToDo PHP8 Review: This always going to be false.
             throw new ilSystemStyleException(ilSystemStyleException::NOT_EXISTING_STYLE, $style_id);
         }
         return $this->getSkin()->getStyle($style_id)->getImageDirectory();
@@ -181,7 +181,7 @@ class ilStyleDefinition
             $skin_factory = new ilSkinFactory($DIC->language(), $system_style_config);
 
             /**
-             * @var $skins ilSkin[]
+             * @var ilSkin[] $skins
              */
             $skins = [];
             $skins[$system_style_config->getDefaultSkinId()] = $skin_factory->skinFromXML($system_style_config->getDefaultTemplatePath());
@@ -410,7 +410,7 @@ class ilStyleDefinition
         return $DIC->systemStyle()->getSkin()->hasStyle($style_id);
     }
 
-    public static function setCurrentStyle(string $a_style)
+    public static function setCurrentStyle(string $a_style) : void
     {
         self::$current_style = $a_style;
     }
@@ -427,7 +427,7 @@ class ilStyleDefinition
     /**
      * @param ilSkin[] $skins
      */
-    public static function setSkins(array $skins)
+    public static function setSkins(array $skins) : void
     {
         self::$skins = $skins;
     }
@@ -437,7 +437,7 @@ class ilStyleDefinition
         return $this->skin;
     }
 
-    public function setSkin(ilSkin $skin)
+    public function setSkin(ilSkin $skin) : void
     {
         $this->skin = $skin;
     }
@@ -450,7 +450,7 @@ class ilStyleDefinition
         return self::$cached_all_styles_information;
     }
 
-    protected static function setCachedAllStylesInformation(array $cached_all_styles_information)
+    protected static function setCachedAllStylesInformation(array $cached_all_styles_information) : void
     {
         self::$cached_all_styles_information = $cached_all_styles_information;
     }

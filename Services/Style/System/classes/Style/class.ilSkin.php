@@ -99,7 +99,7 @@ class ilSkin implements Iterator, Countable
         $xml_style->addAttribute('font_directory', $style->getFontDirectory());
     }
 
-    public function writeToXMLFile(string $path)
+    public function writeToXMLFile(string $path) : void
     {
         file_put_contents($path, $this->asXML());
     }
@@ -112,7 +112,7 @@ class ilSkin implements Iterator, Countable
     /**
      * @throws ilSystemStyleException
      */
-    public function removeStyle(string $id)
+    public function removeStyle(string $id) : void
     {
         foreach ($this->getStyles() as $index => $style) {
             if ($style->getId() == $id) {
@@ -230,7 +230,7 @@ class ilSkin implements Iterator, Countable
 
     public function setVersion(string $version) : void
     {
-        if ($version != null && $version != '' && $this->isVersionChangeable()) {
+        if ($version != '' && $this->isVersionChangeable()) {
             $this->version = $version;
         }
     }
@@ -239,7 +239,7 @@ class ilSkin implements Iterator, Countable
     {
         if ($this->isVersionChangeable()) {
             $v = explode('.', ($version == '' ? '0.1' : $version));
-            $v[count($v) - 1] = ($v[count($v) - 1] + 1);
+            $v[count($v) - 1] = ($v[count($v) - 1] + 1); //ToDo PHP8 Review: You are adding an int to a string in strict_types.
             $this->version = implode('.', $v);
         }
         return $this->version;
@@ -250,7 +250,7 @@ class ilSkin implements Iterator, Countable
         return ($this->version != '$Id$');
     }
 
-    public function updateParentStyleOfSubstyles(string $old_parent_style_id, string $new_parent_style_id)
+    public function updateParentStyleOfSubstyles(string $old_parent_style_id, string $new_parent_style_id) : void
     {
         if ($this->hasStyleSubstyles($old_parent_style_id)) {
             foreach ($this->getSubstylesOfStyle($old_parent_style_id) as $substyle) {
@@ -266,7 +266,7 @@ class ilSkin implements Iterator, Countable
     {
         $substyles = [];
 
-        if ($this->getStyle($style_id)) {
+        if ($this->getStyle($style_id)) { //ToDo PHP8 Review: Will always be true.
             foreach ($this->getStyles() as $style) {
                 if ($style->getId() != $style_id && $style->isSubstyle()) {
                     if ($style->getSubstyleOf() == $style_id) {

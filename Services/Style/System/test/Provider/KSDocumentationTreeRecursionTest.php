@@ -48,12 +48,12 @@ class KSDocumentationTreeRecursionTest extends TestCase
         $this->tree_recursion = new KSDocumentationTreeRecursion($this->entries, $this->test_uri, '');
     }
 
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $this->assertInstanceOf('KSDocumentationTreeRecursion', $this->tree_recursion);
     }
 
-    public function testGetChildren()
+    public function testGetChildren() : void
     {
         $this->assertEquals(
             [$this->entries->getEntryById('Entry2')],
@@ -62,14 +62,14 @@ class KSDocumentationTreeRecursionTest extends TestCase
         $this->assertEquals([], $this->tree_recursion->getChildren($this->entries->getEntryById('Entry2')));
     }
 
-    public function testBuild()
+    public function testBuild() : void
     {
         $tree_factory = $this->ui_helper->factory()->tree()->node();
         $built_node = $this->tree_recursion->build($tree_factory, $this->entries->getEntryById('Entry1'));
         $this->assertInstanceOf('ILIAS\UI\Implementation\Component\Tree\Node\Simple', $built_node);
     }
 
-    public function testIsNodeExpandedByDefault()
+    public function testIsNodeExpandedByDefault() : void
     {
         $tree_factory = $this->ui_helper->factory()->tree()->node();
         $built_root_node = $this->tree_recursion->build($tree_factory, $this->entries->getEntryById('Entry1'));
@@ -79,7 +79,7 @@ class KSDocumentationTreeRecursionTest extends TestCase
         $this->assertEquals(false, $built_child_node->isExpanded());
     }
 
-    public function testIsNodeHighlightedByDefault()
+    public function testIsNodeHighlightedByDefault() : void
     {
         $this->tree_recursion = new KSDocumentationTreeRecursion($this->entries, $this->test_uri, 'Entry2');
 
@@ -91,7 +91,7 @@ class KSDocumentationTreeRecursionTest extends TestCase
         $this->assertEquals(true, $built_child_node->isHighlighted());
     }
 
-    public function testIsNodeExpandedAfterActivatingEntry2()
+    public function testIsNodeExpandedAfterActivatingEntry2() : void
     {
         $this->tree_recursion = new KSDocumentationTreeRecursion($this->entries, $this->test_uri, 'Entry2');
 
@@ -103,7 +103,7 @@ class KSDocumentationTreeRecursionTest extends TestCase
         $this->assertEquals(false, $built_child_node->isExpanded());
     }
 
-    public function testIsNodeHighlightedAfterActivatingEntry()
+    public function testIsNodeHighlightedAfterActivatingEntry() : void
     {
         $this->tree_recursion = new KSDocumentationTreeRecursion($this->entries, $this->test_uri, 'Entry2');
 

@@ -68,7 +68,7 @@ class ilSystemStyleLessGUI
         $this->style_container = $factory->skinStyleContainerFromId($skin_id, $this->message_stack);
         $this->less_file = new ilSystemStyleLessFile($this->style_container->getLessVariablesFilePath($style_id));
 
-        try {
+        try { //ToDo PHP8 Review: This doesn't look right.
         } catch (ilSystemStyleException $e) {
             $this->message_stack->addMessage(
                 new ilSystemStyleMessage(
@@ -110,7 +110,7 @@ class ilSystemStyleLessGUI
         $this->tpl->setContent($this->renderer->render($components));
     }
 
-    protected function addResetToolbar()
+    protected function addResetToolbar() : void
     {
         $this->toolbar->addComponent($this->ui_factory->button()->standard(
             $this->lng->txt('reset_variables'),

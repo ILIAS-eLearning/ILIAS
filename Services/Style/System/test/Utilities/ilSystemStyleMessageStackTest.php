@@ -139,7 +139,7 @@ class ilSystemStyleMessageStackTest extends TestCase
             '</br>' . 'Another ERROR message' . '</br>' . 'YET another ERROR message' . '</br>');
     }
 
-    public function testGetUIComponentsMessages()
+    public function testGetUIComponentsMessages() : void
     {
         $this->createTestEnvironment();
 
