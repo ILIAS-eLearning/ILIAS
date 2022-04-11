@@ -13383,6 +13383,11 @@ input:invalid {
 div[id$="color-picker-menu"] {
   z-index: 3;
 }
+/* This is a memento that we should get rid of the legacy UI */
+.wzdrow input[type=file]:focus-visible {
+  outline: 3px solid #0078D7;
+  outline-offset: 0;
+}
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
