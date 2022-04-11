@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\Services as HTTPService;
 use ILIAS\UI\Component\Component;
@@ -1676,7 +1679,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         string $a_url
     ) : void {
         if ($a_url) {
-            require_once('Services/Tracking/classes/class.ilChangeEvent.php');
             ilChangeEvent::_recordReadEvent(
                 "webr",
                 $a_ref_id,
@@ -1772,10 +1774,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                         sprintf(
                             $lng->txt("msg_no_perm_read_item"),
                             ilObject::_lookupTitle(
-                            ilObject::_lookupObjId(
+                                ilObject::_lookupObjId(
                                 (int) $a_target
                             )
-                        )
+                            )
                         ),
                         true
                     );
