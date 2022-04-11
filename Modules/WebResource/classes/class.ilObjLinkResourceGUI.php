@@ -909,6 +909,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $this->ctrl->setParameter(
                     $this,
                     'link_id',
+                    // TODO PHP8 Review: Remove/Replace SuperGlobals
                     (int) $_REQUEST['link_id']
                 );
                 $this->form->setTitle($this->lng->txt('webr_edit'));
@@ -1029,6 +1030,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
                 if (count(
                     $links = ilParameterAppender::_getParams(
+                        // TODO PHP8 Review: Remove/Replace SuperGlobals
                         (int) $_GET['link_id']
                     )
                 )) {
