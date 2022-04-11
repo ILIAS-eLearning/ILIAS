@@ -2102,6 +2102,7 @@ class ilObjCmiXapi extends ilObject2
             $activityId['$or'] = [];
             $activityId['$or'][] = ['statement.object.id' => $activityQuery];
             $activityId['$or'][] = ['statement.context.contextActivities.parent.id' => $activityQuery];
+            $activityId['$or'][] = ['statement.context.contextActivities.grouping.id' => $activityQuery];
         }
 
         $sessionId = array();
