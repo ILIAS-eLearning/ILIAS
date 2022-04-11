@@ -145,7 +145,7 @@ class ilBlockSetting
     ) : int {
         $detail = ilBlockSetting::_lookup($a_type, "detail", $a_user, $a_block_id);
 
-        if ($detail === false) {		// return a level of 2 (standard value)
+        if ($detail === false) {		// return a level of 2 (standard value); //Todo Review PHP8: This should always be false as $detail is string|null
             // if record does not exist
             return 2;
         } else {

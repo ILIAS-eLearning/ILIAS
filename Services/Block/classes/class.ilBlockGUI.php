@@ -45,7 +45,7 @@ abstract class ilBlockGUI
     protected bool $allow_moving = true;
     protected array $move = array("left" => false, "right" => false, "up" => false, "down" => false);
     protected array $block_commands = array();
-    protected bool $max_count = false;
+    protected bool $max_count = false; //Todo Review PHP8: Are you sure you want a bool here? All assignments seem to be autocast from int.
     protected bool $close_command = false;
     protected bool $image = false;
     protected array $property = [];
