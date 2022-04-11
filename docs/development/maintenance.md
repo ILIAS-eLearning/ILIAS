@@ -1040,6 +1040,16 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 
 [//]: # (END UserService)
 
+[//]: # (BEGIN UICore)
+
+* **UICore**
+	* 1st Maintainer: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
+	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+
+[//]: # (END UICore)
+
 [//]: # (BEGIN VirusScanner)
 
 * **Virus Scanner**
