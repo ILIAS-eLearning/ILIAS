@@ -15,9 +15,9 @@
 
 class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
 {
-    const HEADER = 'headers';
-    const HEADER_VIOLATION_FOUND = 'X-Violations-Found';
-    const HEADER_INFECTION_FOUND = 'X-Infection-Found';
+    private const HEADER = 'headers';
+    private const HEADER_VIOLATION_FOUND = 'X-Violations-Found';
+    private const HEADER_INFECTION_FOUND = 'X-Infection-Found';
 
     public function __construct(string $scan_command, string $clean_command)
     {
