@@ -23,9 +23,6 @@
  */
 class ilObjLinkResource extends ilObject
 {
-    // TODO PHP8 Review: Check, property is only written but never read
-    private ?ilLinkResourceItems $items_obj = null;
-
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "webr";
@@ -96,13 +93,6 @@ class ilObjLinkResource extends ilObject
         // delete meta data
         $this->deleteMetaData();
 
-        return true;
-    }
-
-    public function initLinkResourceItemsObject() : bool
-    {
-        // TODO PHP8 Review: Check, property is only written but never read
-        $this->items_obj = new ilLinkResourceItems($this->getId());
         return true;
     }
 
