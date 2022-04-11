@@ -16,12 +16,15 @@
  *
  *********************************************************************/
 
+require_once __DIR__ . '/bootstrap.php';
+
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class VirusScannerFactoryTest extends VirusScannerBaseTest
 {
-    public static ilLogger $fakeLogger;
+    public static ilLogger $logger;
 
     protected function setUp() : void
     {
@@ -36,8 +39,8 @@ class VirusScannerFactoryTest extends VirusScannerBaseTest
         }
 
         $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
-        self::$fakeLogger = $logger;
-        
+        self::$logger = $logger;
+
         $logger_factory = new class extends ilLoggerFactory {
             public function __construct()
             {
@@ -45,12 +48,12 @@ class VirusScannerFactoryTest extends VirusScannerBaseTest
 
             public static function getRootLogger() : ilLogger
             {
-                return VirusScannerFactoryTest::$fakeLogger;
+                return VirusScannerFactoryTest::$logger;
             }
 
             public function getComponentLogger(string $a_component_id) : ilLogger
             {
-                return VirusScannerFactoryTest::$fakeLogger;
+                return VirusScannerFactoryTest::$logger;
             }
         };
 
@@ -60,8 +63,6 @@ class VirusScannerFactoryTest extends VirusScannerBaseTest
             $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()
         );
 
-        
-        
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
     }
 
