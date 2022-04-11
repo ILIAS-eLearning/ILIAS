@@ -198,7 +198,6 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
      * Check if links are editable
      * @return
      */
-    // TODO PHP8 Review: Missing Return type Declaration
     protected function isEditable() : bool
     {
         return $this->editable;

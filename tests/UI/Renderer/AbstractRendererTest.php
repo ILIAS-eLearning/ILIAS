@@ -130,12 +130,11 @@ namespace {
 
     class NullDefaultRenderer implements Renderer
     {
-        public function render($component) : string
+        public function render($component, ?Renderer $root = null)
         {
             return "";
         }
-
-        public function renderAsync($component) : string
+        public function renderAsync($component, ?Renderer $root = null)
         {
             return '';
         }

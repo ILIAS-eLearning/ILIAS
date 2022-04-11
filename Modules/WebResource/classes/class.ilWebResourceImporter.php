@@ -3,19 +3,16 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
- *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
- *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
  *********************************************************************/
- 
+
 /**
  * Webresource xml importer
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -49,8 +46,12 @@ class ilWebResourceImporter extends ilXmlImporter
             'objs',
             $a_id
         )) {
-            // TODO PHP8 Review: Check/Resolve Type-Mismatch
             $this->link = ilObjectFactory::getInstanceByObjId($new_id, false);
+            if (!$this->link instanceof ilObjLinkResource) {
+                throw new ilObjectNotFoundException(
+                    'Invalid id given ' . $a_id
+                );
+            }
         } else {
             $this->link = new ilObjLinkResource();
             $this->link->setType('webr');
