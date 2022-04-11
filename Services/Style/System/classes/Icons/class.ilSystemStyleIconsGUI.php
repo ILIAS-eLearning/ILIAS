@@ -169,7 +169,7 @@ class ilSystemStyleIconsGUI
 
         $color_set = [];
 
-        if ($this->getIconFolder()) {
+        if ($this->getIconFolder()) { //ToDo PHP8 Review: This will always be true
             try {
                 $color_set = $this->getIconFolder()->getColorSet()->getColorsSortedAsArray();
             } catch (ilSystemStyleExceptionBase $e) {
@@ -221,7 +221,7 @@ class ilSystemStyleIconsGUI
             }
         }
 
-        $has_icons = $this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0;
+        $has_icons = $this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0; //ToDo PHP8 Review: $this->getIconFolder() will always be true
 
         if ($has_icons) {
             $form->addCommandButton('update', $this->lng->txt('update_colors'));
@@ -240,11 +240,11 @@ class ilSystemStyleIconsGUI
     {
         $values = [];
 
-        if ($this->getIconFolder()) {
+        if ($this->getIconFolder()) { //ToDo PHP8 Review: This will always be true
             $colors = $this->getIconFolder()->getColorSet()->getColors();
             foreach ($colors as $color) {
                 $id = $color->getId();
-                if ($colors[$color->getId()]) {
+                if ($colors[$color->getId()]) { //ToDo PHP8 Review: This will either be true or throw an "Access to undefined Array Item"-Error, right?
                     $values[$id] = $colors[$color->getId()]->getColor();
                 } else {
                     $values[$id] = $color->getColor();
@@ -333,7 +333,7 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    protected function addSelectIconToolbar(?string $icon_name = '')
+    protected function addSelectIconToolbar(?string $icon_name = '') : void
     {
         $si = new ilSelectInputGUI($this->lng->txt('select_icon'), 'selected_icon');
 
@@ -387,7 +387,7 @@ class ilSystemStyleIconsGUI
         $hidden_path->setValue($icon->getPath());
         $form->addItem($hidden_path);
 
-        if ($this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0) {
+        if ($this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0) { //ToDo PHP8 Review: $this->getIconFolder() will always be true
             $form->addCommandButton('updateIcon', $this->lng->txt('update_icon'));
             $form->addCommandButton('cancelIcon', $this->lng->txt('cancel'));
         }
@@ -515,7 +515,7 @@ class ilSystemStyleIconsGUI
         return $this->style_container;
     }
 
-    protected function setStyleContainer(ilSkinStyleContainer $style_container)
+    protected function setStyleContainer(ilSkinStyleContainer $style_container) : void
     {
         $this->style_container = $style_container;
     }
@@ -525,7 +525,7 @@ class ilSystemStyleIconsGUI
         return $this->icon_folder;
     }
 
-    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder)
+    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder) : void
     {
         $this->icon_folder = $icon_folder;
     }

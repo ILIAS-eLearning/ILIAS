@@ -231,7 +231,7 @@ class ilSystemStyleMainGUI
         }
     }
 
-    protected function executeDefaultCommand(ilSkinFactory $skin_factory, string $skin_id, string $style_id)
+    protected function executeDefaultCommand(ilSkinFactory $skin_factory, string $skin_id, string $style_id) : void
     {
         $this->help->setSubScreenId('overview');
         $this->checkPermission('visible,read');
@@ -298,12 +298,9 @@ class ilSystemStyleMainGUI
 
     /**
      * Sets the tab correctly if one system style is open (navigational underworld opened)
-     * @param string $sking_id
-     * @param string $active
-     * @param bool   $read_only
      * @throws ilCtrlException
      */
-    protected function setUnderworldTabs(string $sking_id, string $active = '', bool $read_only = false)
+    protected function setUnderworldTabs(string $sking_id, string $active = '', bool $read_only = false) : void
     {
         $this->tabs->clearTargets();
 
@@ -351,7 +348,7 @@ class ilSystemStyleMainGUI
      * Sets title correctly if one system style is opened
      * @throws ilSystemStyleException
      */
-    protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false)
+    protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false) : void
     {
         $skin = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack)->getSkin();
         $style = $skin->getStyle($style_id);

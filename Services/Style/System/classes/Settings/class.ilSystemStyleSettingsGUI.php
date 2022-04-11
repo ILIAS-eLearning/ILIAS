@@ -128,7 +128,7 @@ class ilSystemStyleSettingsGUI
         }
     }
 
-    protected function setSubStyleSubTabs(string $active = '')
+    protected function setSubStyleSubTabs(string $active = '') : void
     {
         $this->tabs->addSubTab(
             'edit',
@@ -144,13 +144,13 @@ class ilSystemStyleSettingsGUI
         $this->tabs->activateSubTab($active);
     }
 
-    protected function edit()
+    protected function edit() : void
     {
         $form = $this->editSystemStyleForm();
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function save()
+    protected function save() : void
     {
         $new_skin = $this->style_container->getSkin();
         $new_style = $new_skin->getStyle($this->style_id);
