@@ -19,7 +19,7 @@ use ILIAS\DI\Container;
 
 class ilServicesActiveRecordFieldTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?\ILIAS\DI\Container $dic_backup = null;
     /**
      * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -52,7 +52,7 @@ class ilServicesActiveRecordFieldTest extends TestCase
              * @con_fieldtype  integer
              * @con_length     8
              */
-            protected $id = 0;
+            protected int $id = 0;
             
             /**
              * @var string
@@ -62,7 +62,7 @@ class ilServicesActiveRecordFieldTest extends TestCase
              * @con_index      true
              * @con_length     256
              */
-            protected $string_data;
+            protected string $string_data;
             
             public function getConnectorContainerName() : string
             {

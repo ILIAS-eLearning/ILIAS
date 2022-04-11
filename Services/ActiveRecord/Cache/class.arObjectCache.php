@@ -45,9 +45,6 @@ class arObjectCache
         return array_key_exists($id, self::$cache[$class]);
     }
 
-    /**
-     * @param ActiveRecord $object
-     */
     public static function store(ActiveRecord $object) : void
     {
         if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
@@ -90,9 +87,6 @@ class arObjectCache
         return self::$cache[$class][$id];
     }
 
-    /**
-     * @param ActiveRecord $object
-     */
     public static function purge(ActiveRecord $object) : void
     {
         if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {

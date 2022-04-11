@@ -15,7 +15,7 @@
  *****************************************************************************/
 
 use PHPUnit\Framework\TestSuite;
-
+/** @noRector */
 require_once 'libs/composer/vendor/autoload.php';
 
 class ilServicesActiveRecordSuite extends TestSuite
@@ -23,9 +23,10 @@ class ilServicesActiveRecordSuite extends TestSuite
     public static function suite() : self
     {
         $suite = new self();
-        
+        /** @noRector */
         require_once("./Services/ActiveRecord/test/ilServicesActiveRecordConnectorTest.php");
         $suite->addTestSuite("ilServicesActiveRecordConnectorTest");
+        /** @noRector */
         require_once("./Services/ActiveRecord/test/ilServicesActiveRecordFieldTest.php");
         $suite->addTestSuite("ilServicesActiveRecordFieldTest");
         

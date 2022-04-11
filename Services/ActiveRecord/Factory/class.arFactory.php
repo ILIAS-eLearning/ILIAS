@@ -22,16 +22,14 @@ class arFactory
 {
 
     /**
-     * @param       $primary_key
+     * @param   mixed    $primary_key
      * @throws arException
      */
-    public static function getInstance(string $class_name, $primary_key = 0, array $additional_arguments = array()) : object
+    public static function getInstance(string $class_name, $primary_key = 0, array $additional_arguments = array()) : \ActiveRecord
     {
-        /**
-         * @var $obj ActiveRecord
-         */
         $ref = new ReflectionClass($class_name);
         if ($ref->isInstantiable()) {
+            /** @var ActiveRecord $obj */
             $obj = $ref->newInstanceArgs(array_merge(array($primary_key), $additional_arguments));
             if (empty($primary_key)) {
                 $obj = clone($obj);

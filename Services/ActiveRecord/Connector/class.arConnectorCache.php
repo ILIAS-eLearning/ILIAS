@@ -41,17 +41,11 @@ class arConnectorCache extends arConnector
         return $this->arConnectorDB->nextID($ar);
     }
 
-    /**
-     * @return bool
-     */
     public function checkConnection(ActiveRecord $ar) : bool
     {
         return $this->arConnectorDB->checkConnection($ar);
     }
 
-    /**
-     * @param array $fields
-     */
     public function installDatabase(ActiveRecord $ar, array $fields) : bool
     {
         return $this->arConnectorDB->installDatabase($ar, $fields);
@@ -151,7 +145,6 @@ class arConnectorCache extends arConnector
 
     /**
      * @param        $value
-     * @param string $type
      */
     public function quote($value, string $type) : string
     {

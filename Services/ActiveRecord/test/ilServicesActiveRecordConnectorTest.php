@@ -19,7 +19,7 @@ use ILIAS\DI\Container;
 
 class ilServicesActiveRecordConnectorTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?\ILIAS\DI\Container $dic_backup = null;
     /**
      * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
      */
