@@ -90,7 +90,7 @@ class PermanentLinkGUITest extends TestCase
     {
     }
 
-    public function testProperties()
+    public function testProperties() : void
     {
         $pm = new ilPermanentLinkGUI(
             "wiki",
