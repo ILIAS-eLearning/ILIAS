@@ -62,11 +62,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
         if ($t_arr[0] != 'bibl' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        if ($ilAccess->checkAccess('read', '', $t_arr[1])) {
-            return true;
-        }
-
-        return false;
+        return (bool) $ilAccess->checkAccess('read', '', $t_arr[1]);
     }
 
 
@@ -141,7 +137,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
             return false;
         }
 
-        return ($ilBiblEntry->getDataId() == $obj_id);
+        return ($ilBiblEntry->getDataId() === $obj_id);
     }
 
 

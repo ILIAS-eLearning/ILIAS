@@ -84,11 +84,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
     {
         $this->addFilterItem($field);
         $field->readFromSession();
-        if ($field instanceof ilCheckboxInputGUI) {
-            $this->filter[$field->getPostVar()] = $field->getChecked();
-        } else {
-            $this->filter[$field->getPostVar()] = $field->getValue();
-        }
+        $this->filter[$field->getPostVar()] = $field instanceof ilCheckboxInputGUI ? $field->getChecked() : $field->getValue();
     }
 
     /**

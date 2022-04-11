@@ -112,7 +112,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
                 $arr_library_link[] = $presentation->getButton($this->facade, $ilBiblEntry);
             }
         }
-        if (count($arr_library_link)) {
+        if ($arr_library_link !== []) {
             $this->tpl->setVariable('LIBRARY_LINK', implode('<br/>', $arr_library_link));
         }
     }

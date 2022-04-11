@@ -73,7 +73,7 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
     protected function initColumns() : void
     {
         $this->addColumn($this->lng()->txt('bibl_library_name'), '', '30%');
-        $this->addColumn($this->lng()->txt('bibl_library_url'), '' . '30%');
+        $this->addColumn($this->lng()->txt('bibl_library_url'), '30%');
         $this->addColumn($this->lng()->txt('bibl_library_img'), '', '30%');
         $this->addColumn($this->lng()->txt('actions'), '', '8%');
     }

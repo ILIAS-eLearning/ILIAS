@@ -146,7 +146,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
                      ->where(["language_key" => $language_key,])
                      ->get();
 
-        if (!$inst) {
+        if ($inst === []) {
             $inst = new ilBiblTranslation();
             $inst->setFieldId($field->getId());
             $inst->setLanguageKey($language_key);

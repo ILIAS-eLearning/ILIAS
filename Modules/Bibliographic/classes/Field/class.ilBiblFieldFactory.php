@@ -53,7 +53,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
          * @var ilBiblField $inst
          */
         $inst = ilBiblField::findOrFail($id);
-        if ($this->type->isStandardField($inst->getIdentifier()) != $inst->isStandardField()) {
+        if ($this->type->isStandardField($inst->getIdentifier()) !== $inst->isStandardField()) {
             $inst->setIsStandardField($this->type->isStandardField($inst->getIdentifier()));
             $inst->update();
         }
@@ -83,7 +83,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
     public function findOrCreateFieldByTypeAndIdentifier(int $type, string $identifier) : ilBiblFieldInterface
     {
         $inst = $this->getARInstance($type, $identifier);
-        if (!$inst) {
+        if ($inst === null) {
             $inst = new ilBiblField();
             $inst->setIdentifier($identifier);
             $inst->setDataType($type);

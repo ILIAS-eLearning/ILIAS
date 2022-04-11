@@ -24,6 +24,7 @@
  */
 class ilBiblFieldFilterTableGUI extends ilTable2GUI
 {
+    public \ILIAS\UI\Component\Modal\RoundTrip $modal;
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const TBL_ID = 'tbl_bibl_filters';
     protected \ilBiblFactoryFacade $facade;

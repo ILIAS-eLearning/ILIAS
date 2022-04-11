@@ -176,7 +176,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
     
     protected function removeBomUtf8(string $s) : string
     {
-        if (substr($s, 0, 3) == chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) {
+        if (substr($s, 0, 3) === chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) {
             return substr($s, 3);
         } else {
             return $s;

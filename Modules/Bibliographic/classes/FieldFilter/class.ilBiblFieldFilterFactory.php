@@ -75,7 +75,7 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
             'object_id' => $object_id,
             'field_id' => $field->getId(),
         ])->first();
-        if (!$list) {
+        if ($list === null) {
             throw new LogicException("filter not found");
         }
     

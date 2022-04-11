@@ -407,7 +407,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
         $form = $this->initEditForm();
         $values = $this->getEditFormValues();
-        if ($values) {
+        if ($values !== []) {
             $form->setValuesByArray($values, true);
         }
 

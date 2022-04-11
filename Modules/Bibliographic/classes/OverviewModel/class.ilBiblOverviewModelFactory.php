@@ -31,7 +31,7 @@ class ilBiblOverviewModelFactory implements ilBiblOverviewModelFactoryInterface
      */
     private function getAllOverviewModels() : array
     {
-        if (count(self::$models) > 0) {
+        if (self::$models !== []) {
             return self::$models;
         }
         /**
