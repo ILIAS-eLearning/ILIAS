@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\BackgroundTasks\Dependencies;
 
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\DependencyMap;
@@ -7,19 +23,6 @@ use ILIAS\BackgroundTasks\Dependencies\Exceptions\InvalidClassException;
 use ILIAS\DI\Container;
 use ReflectionParameter;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class Factory
  * @package ILIAS\BackgroundTasks\Dependencies
@@ -42,12 +45,15 @@ class Injector
     }
     
     /**
-     * @param       $fullyQualifiedClassName string The given class must type hint all its
-     *                                       constructor arguments. Furthermore the types must
-     *                                       exist in the DI-Container.
+     * @param string $fullyQualifiedClassName The given class must type hint all its
+     *                                        constructor arguments. Furthermore the types must
+     *                                        exist in the DI-Container.
      */
-    public function createInstance($fullyQualifiedClassName, bool $requireFile = false, callable $with = null) : object
-    {
+    public function createInstance(
+        string $fullyQualifiedClassName,
+        bool $requireFile = false,
+        callable $with = null
+    ) : object {
         // The reflection classes needed.
         $reflectionClass = new \ReflectionClass($fullyQualifiedClassName);
         $constructor = $reflectionClass->getConstructor();
@@ -65,12 +71,13 @@ class Injector
     }
     
     /**
-     * @param       $fullyQualifiedClassName string
-     * @param       $parameters              ReflectionParameter[]
-     * @return mixed[]
+     * @param ReflectionParameter[] $parameters
      */
-    protected function createConstructorArguments($fullyQualifiedClassName, $parameters, $with) : array
-    {
+    protected function createConstructorArguments(
+        string $fullyQualifiedClassName,
+        array $parameters,
+        callable $with
+    ) : array {
         $constructorArguments = [];
         
         foreach ($parameters as $parameter) {
@@ -82,13 +89,13 @@ class Injector
     }
     
     /**
-     * @param          $fullyQualifiedClassName  string
-     * @param          $parameter                ReflectionParameter
-     * @return mixed|void
      * @throws InvalidClassException
      */
-    protected function getDependency($fullyQualifiedClassName, $parameter, callable $with = null)
-    {
+    protected function getDependency(
+        string $fullyQualifiedClassName,
+        ReflectionParameter $parameter,
+        callable $with = null
+    ) {
         // These Lines are currently commented while we cant use $parameter->getType() which will be part of PHP7
         //		if (!$parameter->getType()) {
         //			throw new InvalidClassException("The constructor of $fullyQualifiedClassName is not fully type hinted, or the type hints cannot be resolved.");
