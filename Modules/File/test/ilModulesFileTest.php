@@ -27,7 +27,7 @@ use ILIAS\ResourceStorage\Resource\StorableFileResource;
 
 class ilModulesFileTest extends TestCase
 {
-    private ?\ILIAS\DI\Container $dic_backup;
+    private ?\ILIAS\DI\Container $dic_backup = null;
     /**
      * @var Services|\PHPUnit\Framework\MockObject\MockObject
      */

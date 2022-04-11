@@ -146,9 +146,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         
         $q = "SELECT * FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
         $r = $ilDB->query($q);
-        $row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
         
-        return $row;
+        return $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
     }
     
     /**
@@ -182,9 +181,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
-        $size = $row->file_size;
-        
-        return $size;
+        return $row->file_size;
     }
     
     /**
@@ -254,7 +251,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
      * Returns true, if the specified file shall be displayed inline in the browser.
      */
-    public static function _isFileInline($a_file_name) : bool
+    public static function _isFileInline(string $a_file_name) : bool
     {
         if (self::$_inlineFileExtensionsArray
             === null
@@ -456,7 +453,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     
     /**
      * @param $a_obj_id
-     * @return array
      */
     public static function getListGUIData($a_obj_id) : array
     {

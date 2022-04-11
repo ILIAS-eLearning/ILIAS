@@ -39,11 +39,8 @@ class ilObjFileGUI extends ilObject2GUI
     
     /**
      * Constructor
-     * @param int $a_id
-     * @param int $a_id_type
-     * @param int $a_parent_node_id
      */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         $this->http = $DIC->http()->wrapper();
@@ -170,7 +167,7 @@ class ilObjFileGUI extends ilObject2GUI
                 break;
             default:
                 // in personal workspace use object2gui
-                if ((int) $this->id_type === self::WORKSPACE_NODE_ID) {
+                if ($this->id_type === self::WORKSPACE_NODE_ID) {
                     $this->addHeaderAction();
 
                     // coming from goto we need default command
@@ -202,16 +199,13 @@ class ilObjFileGUI extends ilObject2GUI
         $this->infoScreen();
     }
 
-    /**
-     * @return array
-     */
     protected function initCreationForms($a_new_type) : array
     {
         $forms = [];
         $forms[] = $this->initMultiUploadForm();
 
         // repository only
-        if ((int) $this->id_type !== self::WORKSPACE_NODE_ID) {
+        if ($this->id_type !== self::WORKSPACE_NODE_ID) {
             $forms[self::CFORM_IMPORT] = $this->initImportForm(ilObjFile::OBJECT_TYPE);
             $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, ilObjFile::OBJECT_TYPE);
         }
@@ -259,8 +253,8 @@ class ilObjFileGUI extends ilObject2GUI
             $upload->process();
         }
 
-        $extract = isset($post['extract']) ? (bool) $post['extract'] : false;
-        $keep_structure = isset($post['keep_structure']) ? (bool) $post['keep_structure'] : false;
+        $extract = isset($post['extract']) && (bool) $post['extract'];
+        $keep_structure = isset($post['keep_structure']) && (bool) $post['keep_structure'];
 
         foreach ($upload->getResults() as $result) {
             if (!$result->isOK()) {
@@ -272,13 +266,13 @@ class ilObjFileGUI extends ilObject2GUI
                 if ($keep_structure) {
                     $delegate = new ilObjFileUnzipRecursiveDelegate(
                         $this->access_handler,
-                        (int) $this->id_type,
+                        $this->id_type,
                         $this->tree
                     );
                 } else {
                     $delegate = new ilObjFileUnzipFlatDelegate(
                         $this->access_handler,
-                        (int) $this->id_type,
+                        $this->id_type,
                         $this->tree
                     );
                 }
@@ -286,7 +280,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $delegate = new ilObjFileSingleFileDelegate();
             }
             $response = $delegate->handle(
-                (int) $this->parent_id,
+                $this->parent_id,
                 $post,
                 $result,
                 $this
@@ -680,8 +674,6 @@ class ilObjFileGUI extends ilObject2GUI
         $ilAccess = $DIC['ilAccess'];
 
         if ($a_additional && substr($a_additional, -3) == "wsp") {
-//            $_GET["baseClass"] = "ilsharedresourceGUI";
-//            $_GET["wsp_id"] = $a_target;
             /** @noRector  */
             include("ilias.php");
             exit;
@@ -752,7 +744,7 @@ class ilObjFileGUI extends ilObject2GUI
         return $dnd_form_gui;
     }
 
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ?\ilObjectListGUI
+    protected function initHeaderAction(?string $a_sub_type = null, ?int $a_sub_id = null) : ?\ilObjectListGUI
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
         if ($lg instanceof ilObjectListGUI && $this->object->hasRating()) {

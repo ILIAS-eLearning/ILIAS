@@ -16,15 +16,8 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
  */
 class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
 {
-    /**
-     * @var \ILIAS\ResourceStorage\Services
-     */
-    private $storage;
-
-    /**
-     * @var ilObjFileStakeholder
-     */
-    private $stakeholder;
+    private \ILIAS\ResourceStorage\Services $storage;
+    private ilObjFileStakeholder $stakeholder;
 
     /**
      * ilObjFileUploadHandler constructor
@@ -33,8 +26,8 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     {
         global $DIC;
 
-        $this->storage      = $DIC->resourceStorage();
-        $this->stakeholder  = new ilObjFileStakeholder($DIC->user()->getId());
+        $this->storage = $DIC->resourceStorage();
+        $this->stakeholder = new ilObjFileStakeholder($DIC->user()->getId());
 
         parent::__construct();
     }
@@ -65,7 +58,6 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     }
 
     /**
-     * @return HandlerResult
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
     protected function getUploadResult() : HandlerResult
@@ -89,10 +81,6 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
-    /**
-     * @param string $identifier
-     * @return HandlerResult
-     */
     protected function getRemoveResult(string $identifier) : HandlerResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {
@@ -108,7 +96,6 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     }
 
     /**
-     * @param string $identifier
      * @return FileInfoResult
      */
     public function getInfoResult(string $identifier) : ?FileInfoResult
@@ -127,8 +114,7 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     }
 
     /**
-     * @param array $file_ids
-     * @return FileInfoResult[]
+     * @return \ILIAS\FileUpload\Handler\FileInfoResult[]|null[]
      */
     public function getInfoForExistingFiles(array $file_ids) : array
     {

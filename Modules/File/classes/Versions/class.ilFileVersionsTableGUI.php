@@ -28,8 +28,6 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
     /**
      * ilFileVersionsTableGUI constructor.
-     * @param ilFileVersionsGUI $calling_gui_class
-     * @param string            $a_parent_cmd
      */
     public function __construct(ilFileVersionsGUI $calling_gui_class, string $a_parent_cmd = ilFileVersionsGUI::CMD_DEFAULT)
     {

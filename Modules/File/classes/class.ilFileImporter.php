@@ -26,7 +26,6 @@ class ilFileImporter extends ilXmlImporter
     /**
      * Import XML
      * @param
-     * @return void
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {

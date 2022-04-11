@@ -38,9 +38,6 @@ class ilFileLP extends ilObjectLP
     }
 
 
-    /**
-     * @return array
-     */
     public function getValidModes() : array
     {
         return array(

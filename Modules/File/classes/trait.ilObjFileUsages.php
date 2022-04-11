@@ -46,7 +46,7 @@ trait ilObjFileUsages
             . $ilDB->quote($a_type, "text") . " AND usage_id = "
             . $ilDB->quote((int) $a_id, "integer") . " AND usage_lang= "
             . $ilDB->quote($a_usage_lang, "text") . " AND usage_hist_nr = "
-            . $ilDB->quote((int) $a_usage_hist_nr, "integer"));
+            . $ilDB->quote($a_usage_hist_nr, "integer"));
     }
 
     /**
@@ -69,7 +69,7 @@ trait ilObjFileUsages
             "id" => array("integer", (int) $a_file_id),
             "usage_type" => array("text", (string) $a_type),
             "usage_id" => array("integer", (int) $a_id),
-            "usage_hist_nr" => array("integer", (int) $a_usage_hist_nr),
+            "usage_hist_nr" => array("integer", $a_usage_hist_nr),
             "usage_lang" => array("text", $a_usage_lang),
         ), array());
     }
@@ -78,7 +78,7 @@ trait ilObjFileUsages
      * get all usages of file object
      * @return array<int, array<string, mixed>>
      */
-    public function getUsages()
+    public function getUsages() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -100,25 +100,22 @@ trait ilObjFileUsages
     }
 
     /**
-     * @param        $a_type
-     * @param        $a_id
-     * @return array
      * @deprecated
      */
-    public static function _getFilesOfObject($a_type, $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-")
+    public static function _getFilesOfObject(string $a_type, int $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-") : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
         $lstr = "";
         if ($a_usage_lang != "") {
-            $lstr = "usage_lang = " . $ilDB->quote((string) $a_usage_lang, "text") . " AND ";
+            $lstr = "usage_lang = " . $ilDB->quote($a_usage_lang, "text") . " AND ";
         }
 
         // get usages in learning modules
-        $q = "SELECT * FROM file_usage WHERE " . "usage_id = " . $ilDB->quote((int) $a_id, "integer")
-            . " AND " . "usage_type = " . $ilDB->quote((string) $a_type, "text") . " AND " . $lstr
-            . "usage_hist_nr = " . $ilDB->quote((int) $a_usage_hist_nr, "integer");
+        $q = "SELECT * FROM file_usage WHERE " . "usage_id = " . $ilDB->quote($a_id, "integer")
+            . " AND " . "usage_type = " . $ilDB->quote($a_type, "text") . " AND " . $lstr
+            . "usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         $file_set = $ilDB->query($q);
         $ret = array();
         while ($file_rec = $ilDB->fetchAssoc($file_set)) {

@@ -35,7 +35,6 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
     /**
      * ilObjFileAbstractZipDelegate constructor.
      * @param ilAccess|ilWorkspaceAccessHandler $access_checker
-     * @param int                               $node_type
      * @param ilTree                            $tree
      */
     public function __construct(object $access_checker, int $node_type, ilTree $tree)
@@ -50,9 +49,6 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
         $this->zip->close();
     }
 
-    /**
-     * @param UploadResult $result
-     */
     protected function initZip(UploadResult $result) : void
     {
         $this->zip = new ZipArchive();
@@ -64,11 +60,6 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
         return $this->node_type === ilObject2GUI::WORKSPACE_NODE_ID;
     }
 
-    /**
-     * @param string $original_path
-     * @param int    $parent_id
-     * @return ilObjFile
-     */
     protected function createFile(string $original_path, int $parent_id) : ilObjFile
     {
         $obj = new ilObjFile();

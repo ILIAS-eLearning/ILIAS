@@ -100,9 +100,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         // bugfix mantis 0026160 && 0030391
         $uploaded_suffix = pathinfo($filename, PATHINFO_EXTENSION);
-        $input_title = pathinfo($title, PATHINFO_FILENAME) . '.' . $uploaded_suffix;
         
-        return $input_title;
+        return pathinfo($title, PATHINFO_FILENAME) . '.' . $uploaded_suffix;
     }
     
     /**
@@ -181,7 +180,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
     
     /**
-     * @param int|null $a_hist_entry_id
      * @deprecated
      */
     public function getFile(?int $a_hist_entry_id = null) : string
@@ -216,7 +214,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     
     public function setRating(bool $a_value) : void
     {
-        $this->rating = (bool) $a_value;
+        $this->rating = $a_value;
     }
     
     public function setResourceId(?string $resource_id) : self
@@ -253,9 +251,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $this->implementation->getFileSize();
     }
     
-    /**
-     * @param int $a_size
-     */
     public function setFileSize(int $a_size) : void
     {
         throw new LogicException('cannot change filesize');
@@ -266,10 +261,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $this->implementation->getFileType();
     }
     
-    /**
-     * @param string $a_type
-     */
-    public function setFileType($a_type) : void
+    public function setFileType(string $a_type) : void
     {
         throw new LogicException('cannot change filetype');
     }
@@ -372,8 +364,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
                 (int) $new_object->getId(),
                 $this->getFileName(),
                 $this->getFileType(),
-                (int) $this->getFileSize(),
-                (int) $this->getVersion(),
+                $this->getFileSize(),
+                $this->getVersion(),
                 (int) $this->hasRating(),
                 (int) $this->getMode()
             ]
@@ -412,7 +404,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         ]);
         
         // update metadata with the current file version
-        $meta_version_column = ['meta_version' => ['integer', (int) $this->getVersion()]];
+        $meta_version_column = ['meta_version' => ['integer', $this->getVersion()]];
         $DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
             'obj_id' => [
                 'integer',
@@ -475,9 +467,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
     }
     
-    /**
-     * @return array
-     */
     private function getArrayForDatabase() : array
     {
         return [
@@ -559,10 +548,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->implementation->deleteVersions($a_hist_entry_ids);
     }
     
-    /**
-     * @param int|null $a_hist_entry_id
-     * @return void
-     */
     public function sendFile(?int $a_hist_entry_id = null) : void
     {
         $this->implementation->sendFile($a_hist_entry_id);
@@ -577,39 +562,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
     
     /**
-     * @param $a_target_dir
      * @deprecated
      */
-    public function export($a_target_dir) : void
+    public function export(string $a_target_dir) : void
     {
         $this->implementation->export($a_target_dir);
     }
     
-    /**
-     * storeUnzipedFile
-     * Stores Files unzipped from uploaded archive in filesystem
-     * @param string $a_upload_file
-     * @param string $a_filename
-     * @deprecated
-     */
-    
-    public function storeUnzipedFile($a_upload_file, $a_filename) : void
-    {
-        $this->setVersion($this->getVersion() + 1);
-        
-        if (@!is_dir($this->getDirectory($this->getVersion()))) {
-            ilFileUtils::makeDir($this->getDirectory($this->getVersion()));
-        }
-        
-        $file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
-        
-        $file = ilFileUtils::getValidFilename($file);
-        
-        ilFileUtils::rename($a_upload_file, $file);
-        
-        // create preview
-        $this->createPreview();
-    }
     
     /**
      * @param null $version_ids
@@ -636,11 +595,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
     
     /**
-     * @param $new_filename
-     * @param $new_title
      * @deprecated
      */
-    public function checkFileExtension($new_filename, $new_title) : string
+    public function checkFileExtension(string $new_filename, string $new_title) : string
     {
         $fileExtension = ilObjFileAccess::_getFileExtension($new_filename);
         $titleExtension = ilObjFileAccess::_getFileExtension($new_title);

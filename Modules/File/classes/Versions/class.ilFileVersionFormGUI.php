@@ -42,8 +42,6 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
 
     /**
      * ilFileVersionFormGUI constructor.
-     *
-     * @param ilFileVersionsGUI $file_version_gui
      */
     public function __construct(ilFileVersionsGUI $file_version_gui, $mode = self::MODE_ADD)
     {
@@ -140,7 +138,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
         if ($result->getStatus() === ProcessingStatus::REJECTED) {
             return false;
         }
-        $input_title = (string) ilUtil::stripSlashes($this->getInput(self::F_TITLE));
+        $input_title = ilUtil::stripSlashes($this->getInput(self::F_TITLE));
         if (strlen(trim($input_title)) === 0) {
             $input_title = ilUtil::stripSlashes($result->getName());
         }
@@ -154,7 +152,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
                 break;
         }
 
-        $this->file->setDescription($this->getInput((string) self::F_DESCRIPTION));
+        $this->file->setDescription($this->getInput(self::F_DESCRIPTION));
         $this->file->update();
 
         return true;

@@ -44,11 +44,6 @@ class ilObjFileUnzipRecursiveDelegate extends ilObjFileAbstractZipDelegate
         }
     }
 
-    /**
-     * @param string $original_path
-     * @param int    $parent_id
-     * @return ilObject
-     */
     protected function createContainer(string $original_path, int $parent_id) : ilObject
     {
         // Create folder or cat or WorkspaceFolder

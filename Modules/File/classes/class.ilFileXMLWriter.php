@@ -37,12 +37,8 @@ class ilFileXMLWriter extends ilXmlWriter
     // begin-patch fm
     public static int $CONTENT_ATTACH_REST = 5;
     // end-patch fm
-    /**
-     * if true, file contents will be attached as base64
-     *
-     * @var int
-     */
-    public $attachFileContents;
+
+    public int $attachFileContents;
     /**
      * Exercise Object
      */
@@ -104,7 +100,7 @@ class ilFileXMLWriter extends ilXmlWriter
      * @param string    relative file target directory
      * @param string    absolute file target directory
      */
-    public function setFileTargetDirectories($a_rel, $a_abs) : void
+    public function setFileTargetDirectories(?string $a_rel, ?string $a_abs) : void
     {
         $this->target_dir_relative = $a_rel;
         $this->target_dir_absolute = $a_abs;

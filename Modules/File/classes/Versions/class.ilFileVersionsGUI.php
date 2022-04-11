@@ -47,7 +47,6 @@ class ilFileVersionsGUI
     
     /**
      * ilFileVersionsGUI constructor.
-     * @param ilObjFile $file
      */
     public function __construct(ilObjFile $file)
     {
@@ -160,7 +159,7 @@ class ilFileVersionsGUI
         }
     }
     
-    private function deleteVersions()
+    private function deleteVersions() : void
     {
         $version_ids = $this->getVersionIdsFromRequest();
         $existing_versions = $this->file->getVersions();
@@ -269,17 +268,11 @@ class ilFileVersionsGUI
         $this->ctrl->redirectByClass(ilRepositoryGUI::class);
     }
     
-    /**
-     * @return ilObjFile
-     */
     public function getFile() : ilObjFile
     {
         return $this->file;
     }
     
-    /**
-     * @return array
-     */
     private function getVersionIdsFromRequest() : array
     {
         // get ids either from GET (if single item was clicked) or

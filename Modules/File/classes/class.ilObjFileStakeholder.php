@@ -22,14 +22,10 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
     protected int $owner = 6;
-    /**
-     * @var ilDBInterface
-     */
-    protected $database;
+    protected ilDBInterface $database;
 
     /**
      * ilObjFileStakeholder constructor.
-     * @param int $owner
      */
     public function __construct(int $owner = 6)
     {

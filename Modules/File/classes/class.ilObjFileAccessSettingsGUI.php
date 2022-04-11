@@ -39,7 +39,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      *
      * @access public
      */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
         $this->type = "facs";

@@ -46,13 +46,11 @@ class ilObjFileListGUI extends ilObjectListGUI
 
     /**
      * Get command target frame
-     * @param string $a_cmd command
-     * @return    string        command target frame
      */
-    public function getCommandFrame($a_cmd) : string
+    public function getCommandFrame(string $cmd) : string
     {
         $frame = "";
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'sendfile':
                 if (ilObjFileAccess::_isFileInline($this->title)) {
                     $frame = '_blank';
@@ -185,16 +183,16 @@ class ilObjFileListGUI extends ilObjectListGUI
      * @param string $a_cmd The command to get the link for.
      * @return string The command link.
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
         // overwritten to always return the permanent download link
 
         // only create permalink for repository
-        if ($a_cmd == "sendfile" && $this->context == self::CONTEXT_REPOSITORY) {
+        if ($cmd == "sendfile" && $this->context == self::CONTEXT_REPOSITORY) {
             // return the perma link for downloads
             return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
         }
 
-        return parent::getCommandLink($a_cmd);
+        return parent::getCommandLink($cmd);
     }
 }

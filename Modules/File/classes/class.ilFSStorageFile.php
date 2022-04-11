@@ -22,10 +22,8 @@ class ilFSStorageFile extends ilFileSystemAbstractionStorage
 
     /**
      * ilFSStorageFile constructor.
-     *
-     * @param int $a_container_id
      */
-    public function __construct($a_container_id = 0)
+    public function __construct(int $a_container_id = 0)
     {
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
     }
@@ -37,9 +35,6 @@ class ilFSStorageFile extends ilFileSystemAbstractionStorage
     }
 
 
-    /**
-     * @return string
-     */
     protected function getPathPrefix() : string
     {
         return 'ilFile';

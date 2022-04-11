@@ -22,10 +22,6 @@
  */
 class ilFileNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-
-    /**
-     * @param ilAdvancedSelectionListGUI $list
-     */
     public function addTimelineActions(ilAdvancedSelectionListGUI $list) : void
     {
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->news_ref_id);
