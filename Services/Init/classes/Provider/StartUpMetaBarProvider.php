@@ -70,9 +70,6 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 
         $base = $this->getBaseURL($request->getUri());
 
-        /**
-         * @var $language_selection TopParentItem
-         */
         foreach ($languages as $lang_key) {
             $link = $this->appendUrlParameterString($base, "lang=" . $lang_key);
             $language_name = $this->dic->language()->_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key);

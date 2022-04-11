@@ -23,9 +23,6 @@ class StartUpSequenceDispatcher
     /** @var SplQueue|\ILIAS\Init\StartupSequence\StartUpSequenceStep[] */
     private $sequence = [];
 
-    /**
-     * @param Container $dic
-     */
     public function __construct(Container $dic)
     {
         $this->dic = $dic;

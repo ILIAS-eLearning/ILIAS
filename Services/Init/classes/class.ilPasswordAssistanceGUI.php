@@ -89,7 +89,7 @@ class ilPasswordAssistanceGUI
             default:
                 if ($cmd != '' && method_exists($this, $cmd)) {
                     return $this->$cmd();
-                } elseif (!empty($key)) {
+                } elseif (!empty($key)) { //ToDo PHP8: This will never happen.
                     $this->showAssignPasswordForm();
                 } else {
                     $this->showAssistanceForm();
@@ -268,7 +268,6 @@ class ilPasswordAssistanceGUI
      * and contains the following URL parameters:
      * client_id
      * key
-     * @param $userObj ilObjUser
      */
     public function sendPasswordAssistanceMail(ilObjUser $userObj) : void
     {
@@ -282,7 +281,7 @@ class ilPasswordAssistanceGUI
             !is_array($pwassist_session) ||
             count($pwassist_session) == 0 ||
             $pwassist_session['expires'] < time() ||
-            true // comment by mjansen: wtf? :-)
+            true // comment by mjansen: wtf? :-) //ToDo PHP8: I agree with mjansen, please fix.
         ) {
             // Create a new session id
             // #9700 - this didn't do anything before?!
@@ -668,6 +667,6 @@ class ilPasswordAssistanceGUI
 
     protected function fillPermanentLink(string $context) : void
     {
-        $this->tpl->setPermanentLink('usr', null, $context);
+        $this->tpl->setPermanentLink('usr', null, $context); //ToDo PHP8 Review: This does not work (anymore) as the second parameter can NOT be null.
     }
 }

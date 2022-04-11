@@ -292,7 +292,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     }
 
     /**
-     * @param ilTemplate|ilGlobalTemplateInterface
+     * @param ilTemplate|ilGlobalTemplateInterface $tpl
      */
     public static function printToGlobalTemplate($tpl) : void
     {
@@ -302,7 +302,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $gtpl->printToStdout("DEFAULT", false, true);
     }
 
-    protected function showCodeForm($a_username = null, $a_form = null)
+    protected function showCodeForm($a_username = null, $a_form = null) : void
     {
         global $tpl;
 
@@ -745,7 +745,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show login information
      */
-    protected function showLoginInformation(string $page_editor_html, $tpl) : string
+    protected function showLoginInformation(string $page_editor_html, $tpl) : string //ToDo PHP8: Type for $tpl missing.
     {
         if (strlen($page_editor_html)) {
             // page editor active return
@@ -921,7 +921,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        $page_gui->setStyleId(0, 'auth');
+        $page_gui->setStyleId(0);
 
         $page_gui->setPresentationTitle("");
         $page_gui->setTemplateOutput(false);
@@ -1118,7 +1118,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * Migrate Account
      * @return bool
      */
-    protected function migrateAccount() : bool
+    protected function migrateAccount() : bool //Todo PHP8: All returns are conditional, but return is mandatory.
     {
         if (!isset($this->httpRequest->getParsedBody()['account_migration'])) {
             $this->showAccountMigration(
@@ -1533,7 +1533,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage();
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target)  //Todo PHP8: Return Type missing.
     {
         global $DIC;
         global $objDefinition, $ilUser;
@@ -1776,7 +1776,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * @param bool  $a_show_back
      * @param bool  $a_show_logout
      */
-    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false)
+    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false) //ToDo PHP8 Review: Return type missing
     {
         /**
          * @var $tpl       ilTemplate

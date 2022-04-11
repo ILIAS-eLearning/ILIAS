@@ -54,7 +54,7 @@ class ilErrorHandling extends PEAR
     protected static bool $whoops_handlers_registered = false;
 
     /**
-     * PEAR error obj
+     * @var ?error PEAR error obj
      */
     protected $error_obj = null;
 
@@ -126,7 +126,7 @@ class ilErrorHandling extends PEAR
 
     /**
      * defines what has to happen in case of error
-     * @param object    Error
+     * @param error $a_error_obj PEAR Error object
      */
     public function errorHandler($a_error_obj) : void
     {

@@ -81,8 +81,7 @@ class InitUIFramework
         };
         $c["ui.factory.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\ViewControl\Factory(
-                $c["ui.signal_generator"],
-                $c["ui.factory.input"]
+                $c["ui.signal_generator"]
             );
         };
         $c["ui.factory.chart"] = function ($c) {
@@ -242,7 +241,7 @@ class InitUIFramework
         };
 
         $c["ui.factory.tree"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\Tree\Factory();
         };
 
         $c["ui.factory.legacy"] = function ($c) {

@@ -53,7 +53,7 @@ class ILIAS
      * setup ILIAS global object
      * @access    public
      */
-    public function __construct($a_client_id = 0)
+    public function __construct($a_client_id = 0) //ToDo PHP8: What do we need $a_client_id for if it is never used?
     {
         global $DIC, $ilClientIniFile, $ilIliasIniFile, $ilDB;
 
@@ -122,7 +122,7 @@ class ILIAS
      * wrapper for downward compability
      * @deprecated
      */
-    public function raiseError(string $a_msg, int $a_err_obj)
+    public function raiseError(string $a_msg, int $a_err_obj) : void
     {
         $this->error_obj->raiseError($a_msg, $a_err_obj);
     }
