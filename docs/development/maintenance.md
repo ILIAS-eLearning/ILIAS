@@ -1145,8 +1145,7 @@ the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs
 [//]: # (BEGIN DataCollection)
 
 * **Data Collection**
-	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-	* 2nd Maintainer: N.A.
+	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* Testcases: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
 	* Tester: [mona.schliebs](https://docu.ilias.de/goto_docu_usr_60222.html)
 
@@ -1155,8 +1154,7 @@ the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs
 [//]: # (BEGIN InitialisationService)
 
 * **Initialisation Service**
-	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-	* 2nd Maintainer: N.A.
+	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
@@ -1165,8 +1163,7 @@ the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs
 [//]: # (BEGIN LoginAuthAndRegistration)
 
 * **Login, Auth & Registration**
-	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-	* 2nd Maintainer: N.A.
+	* Coordinators: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html)
 	  , [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID)
