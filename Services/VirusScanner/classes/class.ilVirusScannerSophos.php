@@ -63,7 +63,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         // 2  If some error preventing further execution is discovered.
         // 3  If viruses or virus fragments are discovered.
         if ($ret == 0) {
-            $this->scanFileIsCleaned = false;
+            $this->cleanFileIsCleaned = false;
             return "";
         } elseif ($ret == 3) {
             $this->scanFileIsInfected = true;
