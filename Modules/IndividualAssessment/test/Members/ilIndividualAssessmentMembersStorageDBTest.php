@@ -14,6 +14,8 @@ class ilIndividualAssessmentMembersStorageDBWrapper extends ilIndividualAssessme
         return $this->createAssessmentMember($obj, $usr, $record);
     }
 
+    // The access modifier is changed to public here to allow the actual test
+    // to access this.
     public function getActualDateTime() : string
     {
         return "2021-12-02 12:55:33";

@@ -12,17 +12,17 @@ class ilIndividualAssessmentDataSet extends ilDataSet
         return ['5.2.0', '5.3.0'];
     }
 
-    public function getXmlNamespace(string $entity, string $schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return 'http://www.ilias.de/xml/Modules/IndividualAssessment/' . $entity;
+        return 'http://www.ilias.de/xml/Modules/IndividualAssessment/' . $a_entity;
     }
 
     /**
      * Map XML attributes of entities to data types (text, integer...)
      */
-    protected function getTypes(string $entity, string $version) : array
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
-        switch ($entity) {
+        switch ($a_entity) {
             case 'iass':
                 return array(
                     "id" => "integer",
@@ -47,10 +47,10 @@ class ilIndividualAssessmentDataSet extends ilDataSet
      * Return dependencies form entities to other entities (in our case these are all the DB relations)
      */
     protected function getDependencies(
-        string $entity,
-        string $version,
-        ?array $rec = null,
-        ?array $ids = null
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
     ) : array {
         return [];
     }
@@ -58,13 +58,13 @@ class ilIndividualAssessmentDataSet extends ilDataSet
     /**
      * Read data from Cache for a given entity and ID(s)
      */
-    public function readData(string $entity, string $version, array $ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $this->data = array();
         if (!is_array($ids)) {
             $ids = array($ids);
         }
-        $this->_readData($entity, $ids);
+        $this->_readData($a_entity, $a_ids);
     }
 
     /**
@@ -105,47 +105,47 @@ class ilIndividualAssessmentDataSet extends ilDataSet
      * Import record
      */
     public function importRecord(
-        string $entity,
-        array $types,
-        array $rec,
-        ilImportMapping $mapping,
-        string $schema_version
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
     ) : void {
-        if ($entity == "iass") {
-            if ($new_id = $mapping->getMapping('Services/Container', 'objs', $rec['id'])) {
+        if ($a_entity == "iass") {
+            if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
                 $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             } else {
                 $newObj = new ilObjIndividualAssessment();
                 $newObj->create();
             }
 
-            $newObj->setTitle($rec["title"]);
-            $newObj->setDescription($rec["description"]);
+            $newObj->setTitle($a_rec["title"]);
+            $newObj->setDescription($a_rec["description"]);
 
             $settings = new ilIndividualAssessmentSettings(
                 $newObj->getId(),
                 $newObj->getTitle(),
                 $newObj->getDescription(),
-                $rec["content"],
-                $rec["recordTemplate"],
-                $rec['eventTimePlaceRequired'],
-                $rec['file_required']
+                $a_rec["content"],
+                $a_rec["recordTemplate"],
+                $a_rec['eventTimePlaceRequired'],
+                $a_rec['file_required']
             );
 
             $info = new ilIndividualAssessmentInfoSettings(
                 $newObj->getId(),
-                $rec['contact'],
-                $rec['responsibility'],
-                $rec['phone'],
-                $rec['mails'],
-                $rec['consultation_hours']
+                $a_rec['contact'],
+                $a_rec['responsibility'],
+                $a_rec['phone'],
+                $a_rec['mails'],
+                $a_rec['consultation_hours']
             );
 
             $newObj->setSettings($settings);
             $newObj->setInfoSettings($info);
             $newObj->update();
             $newObj->updateInfo();
-            $mapping->addMapping("Modules/IndividualAssessment", "iass", $rec["id"], (string) $newObj->getId());
+            $mapping->addMapping("Modules/IndividualAssessment", "iass", $a_rec["id"], (string) $newObj->getId());
         }
     }
 }

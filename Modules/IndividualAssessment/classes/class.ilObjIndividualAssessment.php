@@ -193,13 +193,13 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $settings = $this->getSettings();
         $info_settings = $this->getInfoSettings();
         $new_settings = new ilIndividualAssessmentSettings(
-            (int) $new_obj->getId(),
+            $new_obj->getId(),
             $new_obj->getTitle(),
             $new_obj->getDescription(),
             $settings->getContent(),
@@ -210,7 +210,7 @@ class ilObjIndividualAssessment extends ilObject
         $new_obj->settings = $new_settings;
 
         $new_info_settings = new ilIndividualAssessmentInfoSettings(
-            (int) $new_obj->getId(),
+            $new_obj->getId(),
             $info_settings->getContact(),
             $info_settings->getResponsibility(),
             $info_settings->getPhone(),
