@@ -39,6 +39,9 @@ class ilLogComponentLevels
         return self::$instance;
     }
     
+    /**
+     * @param string $a_component_id
+     */
     public static function updateFromXML($a_component_id) : bool
     {
         global $DIC;
@@ -70,7 +73,7 @@ class ilLogComponentLevels
         return $this->components;
     }
     
-    public function read()
+    public function read() : void
     {
         $query = 'SELECT * FROM log_components ';
         $res = $this->db->query($query);

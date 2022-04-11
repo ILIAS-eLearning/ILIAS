@@ -26,8 +26,12 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
     protected Refinery $refinery;
     protected Services $http;
 
-
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+    /**
+     *
+     * @param mixed $a_data
+     * @param boolean $a_prepare_output
+     */
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference, bool $a_prepare_output = true)
     {
         global $DIC;
         
@@ -91,7 +95,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         }
     }
     
-    public function setSubTabs($a_section)
+    public function setSubTabs(string $a_section) : void
     {
         $this->tabs_gui->addSubTab(
             static::SUB_SECTION_MAIN,
@@ -232,7 +236,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
     /**
      * Save form
      */
-    protected function saveComponentLevels()
+    protected function saveComponentLevels() : void
     {
         $this->checkPermission('write');
 
@@ -253,7 +257,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, 'components');
     }
     
-    protected function resetComponentLevels()
+    protected function resetComponentLevels() : void
     {
         $this->checkPermission('write');
         foreach (ilLogComponentLevels::getInstance()->getLogComponents() as $component) {

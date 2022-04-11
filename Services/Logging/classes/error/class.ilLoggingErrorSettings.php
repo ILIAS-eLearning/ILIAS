@@ -56,7 +56,7 @@ class ilLoggingErrorSettings
     /**
      * reads the values from ilias.ini.php
      */
-    protected function read()
+    protected function read() : void
     {
         if ($this->ilias_ini instanceof ilIniFile) {
             $this->setFolder((string) $this->ilias_ini->readVariable("log", "error_path"));
@@ -69,7 +69,7 @@ class ilLoggingErrorSettings
     /**
      * writes mail recipient into client.ini.php
      */
-    public function update()
+    public function update() : void
     {
         if ($this->gClientIniFile instanceof \ilIniFile) {
             $this->gClientIniFile->addGroup("log");
