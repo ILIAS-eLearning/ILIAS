@@ -15,17 +15,15 @@
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'libs/composer/vendor/autoload.php';
-
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilServicesImprintSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new self();
-
+        /** @noRector */
         require_once("./Services/Imprint/test/ImprintStandardGUIRequestTest.php");
         $suite->addTestSuite("ImprintStandardGUIRequestTest");
 
