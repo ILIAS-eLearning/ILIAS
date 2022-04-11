@@ -47,9 +47,8 @@ class ilPlainTextHandler extends Handler
 
     /**
      * Get a short info about the exception.
-     * @return string
      */
-    protected function exceptionContent()
+    protected function exceptionContent() : string
     {
         return Formatter::formatExceptionPlain($this->getInspector());
     }
@@ -70,7 +69,7 @@ class ilPlainTextHandler extends Handler
                     // indent all but first line, then implode again.
                     $first = true;
                     $indentation = str_pad("", self::KEY_SPACE);
-                    $value = implode("\n", array_map(function ($line) use (&$first, $indentation) {
+                    $value = implode("\n", array_map(function ($line) use (&$first, $indentation) : string {
                         if ($first) {
                             $first = false;
                             return $line;
