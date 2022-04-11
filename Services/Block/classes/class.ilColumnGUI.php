@@ -51,11 +51,14 @@ class ilColumnGUI
     protected string $type;
     protected bool $enableedit = false;
     protected bool $repositorymode = false;
+    /** @var array[] */
     protected array $repositoryitems = array();
+    /** @var array<string,array[]> */
     protected array $blocks = [];
-    
     // all blocks that are repository objects
+    /** @var string[] */
     protected array $rep_block_types = array("feed","poll");
+    /** @var array<string,array<string,string>> */
     protected array $block_property = array();
     protected bool $admincommands = false;
     protected bool $movementmode = false;

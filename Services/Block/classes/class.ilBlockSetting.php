@@ -23,6 +23,9 @@
  */
 class ilBlockSetting
 {
+    /**
+     * @var array<string,?string>
+     */
     public static array $setting = array();
     public static bool $pd_preloaded = false;
 
