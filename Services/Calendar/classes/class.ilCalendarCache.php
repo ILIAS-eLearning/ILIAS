@@ -23,7 +23,6 @@ class ilCalendarCache extends ilCache
      */
     public static function getInstance()
     {
-
         if (!self::$instance instanceof self) {
             self::$instance = new self();
         }

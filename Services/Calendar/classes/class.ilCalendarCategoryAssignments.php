@@ -139,7 +139,7 @@ class ilCalendarCategoryAssignments
         $res = $ilDB->query($query);
         $apps = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $apps[] = (int ) $row->cal_id;
+            $apps[] = (int) $row->cal_id;
         }
         return $apps;
     }

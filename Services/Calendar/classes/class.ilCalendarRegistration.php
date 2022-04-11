@@ -120,8 +120,10 @@ class ilCalendarRegistration
             return;
         }
 
-        $query = "SELECT * FROM cal_registrations WHERE cal_id = " . $this->db->quote($this->getAppointmentId(),
-                'integer');
+        $query = "SELECT * FROM cal_registrations WHERE cal_id = " . $this->db->quote(
+            $this->getAppointmentId(),
+            'integer'
+        );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->registered[] = array(

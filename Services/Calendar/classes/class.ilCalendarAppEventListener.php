@@ -135,7 +135,6 @@ class ilCalendarAppEventListener implements ilAppEventListener
         if ($a_check_existing &&
             ilCalendarCategory::_getInstanceByObjId($a_obj->getId())) {
             return self::updateCategory($a_obj);
-
         }
         $cat = new ilCalendarCategory();
         $cat->setTitle($a_obj->getTitle() ? $a_obj->getTitle() : $lng->txt('obj_' . $a_obj->getType()));

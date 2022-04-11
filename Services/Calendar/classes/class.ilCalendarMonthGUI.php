@@ -147,7 +147,8 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
                     $this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
                     $this->tpl->setVariable(
                         'DD_TRIGGER',
-                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add()));
+                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add())
+                    );
                     $this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);
                     $this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));
                     $this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);
@@ -157,7 +158,8 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
                     $this->tpl->setCurrentBlock("new_app");
                     $this->tpl->setVariable(
                         'NEW_GLYPH',
-                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url)));
+                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url))
+                    );
                     $this->tpl->parseCurrentBlock();
                 }
             }
@@ -251,8 +253,10 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             $event_tpl->setCurrentBlock('il_event');
 
             //Start configuring the default template
-            $event_tpl->setVariable('EVENT_EDIT_LINK',
-                $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit'));
+            $event_tpl->setVariable(
+                'EVENT_EDIT_LINK',
+                $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit')
+            );
             $event_tpl->setVariable('EVENT_NUM', $item['event']->getEntryId());
             $event_tpl->setVariable('EVENT_CONTENT', $event_html);
             $color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
@@ -262,8 +266,12 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
             //plugins can override the previous template variables. The plugin slot parses the current block because
             //it needs to call the template get method to use the resulting HTML in the replaceContent method.
-            if ($event_html_by_plugin = $this->getContentByPlugins($item['event'], $item['dstart'], $event_html,
-                $event_tpl)) {
+            if ($event_html_by_plugin = $this->getContentByPlugins(
+                $item['event'],
+                $item['dstart'],
+                $event_html,
+                $event_tpl
+            )) {
                 $event_body_html = $event_html_by_plugin;
             } else {
                 $event_tpl->parseCurrentBlock();

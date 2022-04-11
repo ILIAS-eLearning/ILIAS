@@ -45,7 +45,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $this->type = 'cals';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->initCalendarSettings();
-	$this->dic = $DIC;
+        $this->dic = $DIC;
 
         $this->lng->loadLanguageModule('dateplaner');
         $this->lng->loadLanguageModule('jscalendar');

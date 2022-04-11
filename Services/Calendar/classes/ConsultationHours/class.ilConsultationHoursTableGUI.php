@@ -86,8 +86,10 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
                 if ($user_profile_prefs["public_profile"] == "y") {
                     $this->tpl->setCurrentBlock('booking_with_link');
                     $this->ctrl->setParameter($this->getParentObject(), 'user', $user_id);
-                    $this->tpl->setVariable('URL_BOOKING',
-                        $this->ctrl->getLinkTarget($this->getParentObject(), 'showprofile'));
+                    $this->tpl->setVariable(
+                        'URL_BOOKING',
+                        $this->ctrl->getLinkTarget($this->getParentObject(), 'showprofile')
+                    );
                 } else {
                     $this->tpl->setCurrentBlock('booking_without_link');
                 }

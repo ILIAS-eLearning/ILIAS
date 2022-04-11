@@ -75,16 +75,22 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         $this->setTitle($this->lng->txt('cal_table_categories'));
 
         $sel_type = ilCalendarUserSettings::_getInstance()->getCalendarSelectionType();
-        $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'calendar_mode',
-            ilCalendarUserSettings::CAL_SELECTION_ITEMS);
+        $this->ctrl->setParameterByClass(
+            "ilcalendarcategorygui",
+            'calendar_mode',
+            ilCalendarUserSettings::CAL_SELECTION_ITEMS
+        );
         $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'seed', $this->seed->get(IL_CAL_DATE));
         // @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_ITEMS)
         $this->addBlockCommand(
             $this->ctrl->getLinkTargetByClass("ilcalendarcategorygui", 'switchCalendarMode'),
             $this->lng->txt('dash_favourites')
         );
-        $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'calendar_mode',
-            ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
+        $this->ctrl->setParameterByClass(
+            "ilcalendarcategorygui",
+            'calendar_mode',
+            ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP
+        );
         $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'seed', $this->seed->get(IL_CAL_DATE));
 
         // @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
