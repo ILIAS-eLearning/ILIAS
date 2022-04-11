@@ -1,20 +1,23 @@
 <?php
 
-namespace ILIAS\BackgroundTasks\Task\UserInteraction;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
+namespace ILIAS\BackgroundTasks\Task\UserInteraction;
+
 /**
  * Interface Option
  * @package ILIAS\BackgroundTasks\Task
@@ -23,18 +26,11 @@ namespace ILIAS\BackgroundTasks\Task\UserInteraction;
  */
 interface Option
 {
-    
-    /**
-     * @return string
-     */
-    public function getLangVar();
+    public function getLangVar() : string;
     
     public function setLangVar(string $lang_var);
     
-    /**
-     * @return string
-     */
-    public function getValue();
+    public function getValue() : string;
     
     public function setValue(string $value);
 }

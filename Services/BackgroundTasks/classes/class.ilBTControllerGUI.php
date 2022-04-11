@@ -1,21 +1,24 @@
 <?php
 
-use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
-use ILIAS\Modules\OrgUnit\ARHelper\DIC;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
+use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
+use ILIAS\Modules\OrgUnit\ARHelper\DIC;
+
 /**
  * Class ilBTControllerGUI
  *
@@ -71,7 +74,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     }
 
 
-    protected function abortBucket(): void
+    protected function abortBucket() : void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $from_url = $this->getFromURL();
@@ -90,7 +93,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
      * Loads one single aggregate notification item representing a button async
      * to replace an existing one.
      */
-    protected function getAsyncReplacementItem(): void
+    protected function getAsyncReplacementItem() : void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
@@ -103,7 +106,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     }
 
 
-    protected function getFromURL(): string
+    protected function getFromURL() : string
     {
         return self::unhash($this->http()->request()->getQueryParams()[self::FROM_URL]);
     }
@@ -112,7 +115,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     /**
      * @param $url
      */
-    public static function hash($url): string
+    public static function hash($url) : string
     {
         return base64_encode($url);
     }
@@ -121,7 +124,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface
     /**
      * @param $url
      */
-    public static function unhash($url): string
+    public static function unhash($url) : string
     {
         return base64_decode($url);
     }
