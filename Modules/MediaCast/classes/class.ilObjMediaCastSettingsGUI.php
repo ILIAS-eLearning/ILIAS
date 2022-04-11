@@ -26,6 +26,9 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
     protected StandardGUIRequest $mc_request;
     protected ilMediaCastSettings $mc_settings;
 
+    /**
+     * @param mixed $a_data
+     */
     public function __construct(
         $a_data,
         int $a_id,

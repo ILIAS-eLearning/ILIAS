@@ -381,7 +381,7 @@ class ilObjMediaCast extends ilObject
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
-            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId(), $this->mob_mapping);
+            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
         }
 
         return $new_obj;

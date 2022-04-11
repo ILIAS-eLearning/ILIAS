@@ -101,6 +101,9 @@ class StandardGUIRequest
         return $this->int("sec");
     }
 
+    /**
+     * @param string $purpose
+     */
     public function getSettingsPurpose($purpose) : string
     {
         return $this->str($purpose);
