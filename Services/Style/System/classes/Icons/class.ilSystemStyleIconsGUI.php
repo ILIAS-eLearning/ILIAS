@@ -241,7 +241,7 @@ class ilSystemStyleIconsGUI
         $colors = $this->getIconFolder()->getColorSet()->getColors();
         foreach ($colors as $color) {
             $id = $color->getId();
-            if ($colors[$color->getId()]) { //ToDo PHP8 Review: This will either be true or throw an "Access to undefined Array Item"-Error, right?
+            if (array_key_exists($color->getId(), $colors)) {
                 $values[$id] = $colors[$color->getId()]->getColor();
             } else {
                 $values[$id] = $color->getColor();
