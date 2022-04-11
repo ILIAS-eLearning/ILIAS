@@ -25,11 +25,19 @@
  */
 class ilJsonUtil
 {
+    /**
+     * @param mixed $mixed
+     * @return string
+     */
     public static function encode($mixed) : string
     {
         return json_encode($mixed, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @param string $json_notated_string
+     * @return mixed
+     */
     public static function decode(string $json_notated_string)
     {
         return json_decode($json_notated_string, false, 512, JSON_THROW_ON_ERROR);
