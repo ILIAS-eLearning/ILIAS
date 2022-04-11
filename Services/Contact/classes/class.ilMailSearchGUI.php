@@ -357,7 +357,6 @@ class ilMailSearchGUI
             $tbl_contacts->setData($result);
 
             $tbl_contacts->setDefaultOrderField('login');
-            $tbl_contacts->setPrefix('addr_');
             $tbl_contacts->enable('select_all');
             $tbl_contacts->setSelectAllCheckbox('search_name_to_addr');
             $tbl_contacts->setFormName('recipients');
@@ -461,7 +460,6 @@ class ilMailSearchGUI
             $tbl_users->setData($result);
 
             $tbl_users->setDefaultOrderField('login');
-            $tbl_users->setPrefix('usr_');
             $tbl_users->enable('select_all');
             $tbl_users->setSelectAllCheckbox('search_name_to_usr');
             $tbl_users->setFormName('recipients');
@@ -550,7 +548,6 @@ class ilMailSearchGUI
                 $tbl_grp->addColumn($this->lng->txt('description'), 'description', '15%');
 
                 $tbl_grp->setDefaultOrderField('title');
-                $tbl_grp->setPrefix('grp_');
                 $tbl_grp->enable('select_all');
                 $tbl_grp->setSelectAllCheckbox('search_name_to_grp');
                 $tbl_grp->setFormName('recipients');
