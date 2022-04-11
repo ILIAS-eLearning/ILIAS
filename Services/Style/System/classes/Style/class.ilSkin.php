@@ -239,7 +239,8 @@ class ilSkin implements Iterator, Countable
     {
         if ($this->isVersionChangeable()) {
             $v = explode('.', ($version == '' ? '0.1' : $version));
-            $v[count($v) - 1] = ($v[count($v) - 1] + 1); //ToDo PHP8 Review: You are adding an int to a string in strict_types.
+            $count = count($v) ;
+            $v[$count - 1] = ((int) $v[$count - 1] + 1); //ToDo PHP8 Review: You are adding an int to a string in strict_types.
             $this->version = implode('.', $v);
         }
         return $this->version;
@@ -266,15 +267,14 @@ class ilSkin implements Iterator, Countable
     {
         $substyles = [];
 
-        if ($this->getStyle($style_id)) { //ToDo PHP8 Review: Will always be true.
-            foreach ($this->getStyles() as $style) {
-                if ($style->getId() != $style_id && $style->isSubstyle()) {
-                    if ($style->getSubstyleOf() == $style_id) {
-                        $substyles[$style->getId()] = $style;
-                    }
+        foreach ($this->getStyles() as $style) {
+            if ($style->getId() != $style_id && $style->isSubstyle()) {
+                if ($style->getSubstyleOf() == $style_id) {
+                    $substyles[$style->getId()] = $style;
                 }
             }
         }
+
         return $substyles;
     }
 

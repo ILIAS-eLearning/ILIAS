@@ -152,10 +152,11 @@ class ilStyleDefinition
         if (!$style_id) {
             throw new ilSystemStyleException(ilSystemStyleException::NO_STYLE_ID, $style_id);
         }
-        if (!$this->getSkin()->getStyle($style_id)) { //ToDo PHP8 Review: This always going to be false.
+        try {
+            return $this->getSkin()->getStyle($style_id)->getImageDirectory();
+        } catch (ilSystemStyleException $e) {
             throw new ilSystemStyleException(ilSystemStyleException::NOT_EXISTING_STYLE, $style_id);
         }
-        return $this->getSkin()->getStyle($style_id)->getImageDirectory();
     }
 
     /**

@@ -67,16 +67,6 @@ class ilSystemStyleLessGUI
 
         $this->style_container = $factory->skinStyleContainerFromId($skin_id, $this->message_stack);
         $this->less_file = new ilSystemStyleLessFile($this->style_container->getLessVariablesFilePath($style_id));
-
-        try { //ToDo PHP8 Review: This doesn't look right.
-        } catch (ilSystemStyleException $e) {
-            $this->message_stack->addMessage(
-                new ilSystemStyleMessage(
-                    $e->getMessage(),
-                    ilSystemStyleMessage::TYPE_ERROR
-                )
-            );
-        }
     }
 
     /**

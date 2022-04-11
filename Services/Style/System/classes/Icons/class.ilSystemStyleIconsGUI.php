@@ -169,15 +169,13 @@ class ilSystemStyleIconsGUI
 
         $color_set = [];
 
-        if ($this->getIconFolder()) { //ToDo PHP8 Review: This will always be true
-            try {
-                $color_set = $this->getIconFolder()->getColorSet()->getColorsSortedAsArray();
-            } catch (ilSystemStyleExceptionBase $e) {
-                $this->message_stack->addMessage(new ilSystemStyleMessage(
-                    $e->getMessage(),
-                    ilSystemStyleMessage::TYPE_ERROR
-                ));
-            }
+        try {
+            $color_set = $this->getIconFolder()->getColorSet()->getColorsSortedAsArray();
+        } catch (ilSystemStyleExceptionBase $e) {
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $e->getMessage(),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
         }
 
         foreach ($color_set as $type => $colors) {
@@ -221,7 +219,7 @@ class ilSystemStyleIconsGUI
             }
         }
 
-        $has_icons = $this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0; //ToDo PHP8 Review: $this->getIconFolder() will always be true
+        $has_icons = count($this->getIconFolder()->getIcons()) > 0;
 
         if ($has_icons) {
             $form->addCommandButton('update', $this->lng->txt('update_colors'));
@@ -240,15 +238,13 @@ class ilSystemStyleIconsGUI
     {
         $values = [];
 
-        if ($this->getIconFolder()) { //ToDo PHP8 Review: This will always be true
-            $colors = $this->getIconFolder()->getColorSet()->getColors();
-            foreach ($colors as $color) {
-                $id = $color->getId();
-                if ($colors[$color->getId()]) { //ToDo PHP8 Review: This will either be true or throw an "Access to undefined Array Item"-Error, right?
-                    $values[$id] = $colors[$color->getId()]->getColor();
-                } else {
-                    $values[$id] = $color->getColor();
-                }
+        $colors = $this->getIconFolder()->getColorSet()->getColors();
+        foreach ($colors as $color) {
+            $id = $color->getId();
+            if ($colors[$color->getId()]) { //ToDo PHP8 Review: This will either be true or throw an "Access to undefined Array Item"-Error, right?
+                $values[$id] = $colors[$color->getId()]->getColor();
+            } else {
+                $values[$id] = $color->getColor();
             }
         }
 
@@ -387,7 +383,7 @@ class ilSystemStyleIconsGUI
         $hidden_path->setValue($icon->getPath());
         $form->addItem($hidden_path);
 
-        if ($this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0) { //ToDo PHP8 Review: $this->getIconFolder() will always be true
+        if (count($this->getIconFolder()->getIcons()) > 0) {
             $form->addCommandButton('updateIcon', $this->lng->txt('update_icon'));
             $form->addCommandButton('cancelIcon', $this->lng->txt('cancel'));
         }
