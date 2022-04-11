@@ -32,17 +32,18 @@ class DefaultRenderer implements Renderer
     /**
      * @inheritdoc
      */
-    public function render($component)
+    public function render($component, ?Renderer $root = null)
     {
+        $root = $root ?? $this;
+
         $out = '';
         if (is_array($component)) {
             foreach ($component as $_component) {
-                $renderer = $this->getRendererFor($_component);
-                $out .= $renderer->render($_component, $this);
+                $out .= $root->render($_component);
             }
         } else {
             $renderer = $this->getRendererFor($component);
-            $out = $renderer->render($component, $this);
+            $out = $renderer->render($component, $root);
         }
 
         return $out;
@@ -51,24 +52,18 @@ class DefaultRenderer implements Renderer
     /**
      * @inheritdoc
      */
-    public function renderAsync($component)
+    public function renderAsync($component, ?Renderer $root = null)
     {
-        $out = '';
+        $root = $root ?? $this;
 
+        $out = '';
         if (is_array($component)) {
             foreach ($component as $_component) {
-                $out .= $this->render($_component) .
-                $this->component_renderer_loader
-                        ->getRendererFactoryFor($_component)
-                        ->getJSBinding()
-                        ->getOnLoadCodeAsync();
+                $out .= $root->renderAsync($_component);
             }
         } else {
-            $out = $this->render($component) .
-            $this->component_renderer_loader
-                    ->getRendererFactoryFor($component)
-                    ->getJSBinding()
-                    ->getOnLoadCodeAsync();
+            $out = $this->render($component, $root) .
+            $this->getJSCodeForAsyncRenderingFor($component);
         }
         return $out;
     }
@@ -86,6 +81,20 @@ class DefaultRenderer implements Renderer
     protected function getRendererFor(Component $component)
     {
         return $this->component_renderer_loader->getRendererFor($component, $this->getContexts());
+    }
+
+    /**
+     * Get JS-Code for asynchronous rendering of component.
+     *
+     * @param Component $component
+     * @return string
+     */
+    protected function getJSCodeForAsyncRenderingFor(Component $component)
+    {
+        return $this->component_renderer_loader
+            ->getRendererFactoryFor($component)
+            ->getJSBinding()
+            ->getOnLoadCodeAsync();
     }
 
     /**

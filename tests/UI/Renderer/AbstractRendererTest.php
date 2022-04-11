@@ -108,11 +108,11 @@ namespace {
 
     class NullDefaultRenderer implements \ILIAS\UI\Renderer
     {
-        public function render($component)
+        public function render($component, ?\ILIAS\UI\Renderer $root = null)
         {
             return "";
         }
-        public function renderAsync($component)
+        public function renderAsync($component, ?\ILIAS\UI\Renderer $root = null)
         {
             return '';
         }
