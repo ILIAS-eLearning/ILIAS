@@ -62,7 +62,11 @@ class FloatTransformationTest extends TestCase
             'neg_INF' => [-INF],
             'written_INF' => ['INF'],
             'written_neg_INF' => ['-INF'],
-            'mill_delim' => ["1'000"]
+            'octal_notation1' => ["01"],
+            'octal_notation2' => ["-01"],
+            'mill_delim' => ["1'000"],
+            'leading_dot' => [".5"],
+            'leading_comma' => [",661"]
         ];
     }
 
@@ -85,16 +89,12 @@ class FloatTransformationTest extends TestCase
             'int_val' => [23, 23.0],
             'neg_int_val' => [-2, -2.0],
             'zero_int' => [0, 0.0],
+            'zero_string' => ["0", 0.0],
             'float_st_one' => [0.1, 0.1],
-            'float_st_one_nozero' => [.1, 0.1],
-            'floatstr_st_one' => ['0,1', 0.1],
-            'floatstr_st_one_dot' => ['0.1', 0.1],
-            'floatstr_st_one_nozero' => [',1', 0.1],
-            'floatstr_st_one_nozero_dot' => ['.1', 0.1],
-            'floatstr_weird' => ['0001', 1],
-            'floatstr_weird_decimal' => ['0001,02', 1.02],
-            'floatstr_weird_negative' => ['-0001', -1],
-            'floatstr_weird_decimal_negative' => ['-0001,02', -1.02]
+            'floatstr_st_one' => ['0.1', 0.1],
+            'floatstr_st_one_negative' => ['-0.1', -0.1],
+            'floatstr_st_one_comma' => ['0,1', 0.1],
+            'floatstr_st_one_comma_negative' => ['-0,1', -0.1]
         ];
     }
 }
