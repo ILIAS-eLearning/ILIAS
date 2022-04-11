@@ -27,7 +27,7 @@ class ImprintStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testBaseClass()
+    public function testBaseClass() : void
     {
         $request = $this->getRequest(
             [
