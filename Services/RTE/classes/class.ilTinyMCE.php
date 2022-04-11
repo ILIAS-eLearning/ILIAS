@@ -38,9 +38,9 @@ class ilTinyMCE extends ilRTE
      */
     protected array $contextMenuItems;
 
-    public function __construct(string $a_version = '')
+    public function __construct()
     {
-        parent::__construct($a_version);
+        parent::__construct();
 
         $this->plugins = [
             'link',

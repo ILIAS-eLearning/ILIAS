@@ -54,7 +54,7 @@ class ilRTE
      */
     protected array $disabled_buttons = [];
 
-    public function __construct(string $a_version = '')
+    public function __construct()
     {
         global $DIC;
 
