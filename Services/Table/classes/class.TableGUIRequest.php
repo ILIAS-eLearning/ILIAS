@@ -35,16 +35,25 @@ class TableGUIRequest
         );
     }
 
+    /**
+     * @param string $prefix
+     */
     public function getExportMode($prefix) : bool
     {
         return (bool) $this->int($prefix . "_xpt");
     }
 
+    /**
+     * @param string $prefix
+     */
     public function getTemplate($prefix) : string
     {
         return $this->str($prefix . "_tpl");
     }
 
+    /**
+     * @param string $prefix
+     */
     public function getRows($prefix) : ?int
     {
         $rows = $this->str($prefix . "_trows");
@@ -59,6 +68,9 @@ class TableGUIRequest
         return $this->str("postvar");
     }
 
+    /**
+     * @param int $nr
+     */
     public function getNavPar(string $np, $nr = 0) : string
     {
         if ($nr > 0) {
@@ -67,21 +79,33 @@ class TableGUIRequest
         return $this->str($np);
     }
 
+    /**
+     * @param string $id
+     */
     public function getFF($id) : array
     {
         return $this->strArray("tblff" . $id);
     }
 
+    /**
+     * @param string $id
+     */
     public function getFS($id) : array
     {
         return $this->strArray("tblfs" . $id);
     }
 
+    /**
+     * @param string $id
+     */
     public function getFSH($id) : bool
     {
         return (bool) $this->int("tblfsh" . $id);
     }
 
+    /**
+     * @param string $id
+     */
     public function getFSF($id) : bool
     {
         return (bool) $this->int("tblfsf" . $id);

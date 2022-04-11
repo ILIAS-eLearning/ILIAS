@@ -115,7 +115,7 @@ class ilTable2GUI extends ilTableGUI
     protected \ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(
-        ?object $a_parent_obj,
+        ?object $a_parent_obj, //ToDo PHP8 Review: I would suggest to be more specific on the object-Type expected here, or at least give a hint in a PHPdoc-Comment, what requirements need to be met by the object?
         string $a_parent_cmd = "",
         string $a_template_context = ""
     ) {
@@ -172,11 +172,6 @@ class ilTable2GUI extends ilTableGUI
         }
     }
 
-    /**
-     *
-     * @param
-     * @return
-     */
     protected function getRequestedValues() : void
     {
         if (is_null($this->table_request)) {
@@ -530,7 +525,7 @@ class ilTable2GUI extends ilTableGUI
             if (array_key_exists($a_input_item->getFieldId(), $this->restore_filter_values)) {
                 $this->setFilterValue($a_input_item, $this->restore_filter_values[$a_input_item->getFieldId()]);
             } else {
-                $this->setFilterValue($a_input_item, null); // #14949
+                $this->setFilterValue($a_input_item, null); // #14949 //Todo PHP8 Review: Second parameter can not be Null.
             }
         }
     }
@@ -2044,7 +2039,7 @@ class ilTable2GUI extends ilTableGUI
             $sep = "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 
             // previous link
-            if ($LinkBar != "") {
+            if ($LinkBar != "") { //ToDo PHP8 Review: $LinkBar will always be '' and thus the condition will always be false.
                 $LinkBar .= $sep;
             }
             if ($this->custom_prev_next && $this->custom_prev != "") {
@@ -2065,7 +2060,7 @@ class ilTable2GUI extends ilTableGUI
             $sep = "<span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>";
 
             // show next link (if not last page)
-            if ($LinkBar != "") {
+            if ($LinkBar != "") { //ToDo PHP8 Review: $LinkBar will never be '' and thus the condition will always be true.
                 $LinkBar .= $sep;
             }
             if ($this->custom_prev_next && $this->custom_next != "") {
@@ -2081,7 +2076,7 @@ class ilTable2GUI extends ilTableGUI
             $sep = "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 
             if (count($offset_arr) && !$this->getDisplayAsBlock() && !$this->custom_prev_next) {
-                if ($LinkBar != "") {
+                if ($LinkBar != "") { //ToDo PHP8 Review: $LinkBar will never be '' and thus the condition will always be true.
                     $LinkBar .= $sep;
                 }
                 $LinkBar .=

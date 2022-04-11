@@ -163,6 +163,7 @@ class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
 
     /**
      * Check if given property id is valid
+     * @var string|int $a_property
      */
     public function isValidProperty($a_property) : bool
     {

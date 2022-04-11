@@ -47,7 +47,8 @@ trait ilTableCommandHelper
 
         if ($post_parameters->has('table_top_cmd')) {
             // this var contains the pressed table-top or -bottom command.
-            $multi_cmd = $post_parameters->retrieve('table_top_cmd',
+            $multi_cmd = $post_parameters->retrieve(
+                'table_top_cmd',
                 $refinery->custom()->transformation(
                     static function ($post_array) : ?string {
                         return is_array($post_array) ? key($post_array) : null;
