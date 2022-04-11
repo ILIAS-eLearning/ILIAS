@@ -71,7 +71,8 @@ class ilWebLinkXmlWriter extends ilXmlWriter
             throw new UnexpectedValueException('No obj_id given: ');
         }
         if (!$this->weblink = ilObjectFactory::getInstanceByObjId(
-            $this->obj_id, false
+            $this->obj_id,
+            false
         )) {
             throw new UnexpectedValueException(
                 'Invalid obj_id given: ' . $this->obj_id

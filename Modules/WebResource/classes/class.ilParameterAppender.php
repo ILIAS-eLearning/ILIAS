@@ -151,7 +151,8 @@ class ilParameterAppender
     {
         $query = "DELETE FROM webr_params " .
             "WHERE param_id = " . $this->db->quote(
-                $a_param_id, 'integer'
+                $a_param_id,
+                'integer'
             ) . " " .
             "AND webr_id = " . $this->db->quote($this->getObjId(), 'integer');
         $res = $this->db->manipulate($query);

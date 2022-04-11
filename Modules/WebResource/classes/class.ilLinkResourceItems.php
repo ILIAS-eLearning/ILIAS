@@ -259,7 +259,8 @@ class ilLinkResourceItems
         $item = $this->getItem($a_item_id);
         $query = "DELETE FROM webr_items " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getLinkResourceId(), 'integer'
+                $this->getLinkResourceId(),
+                'integer'
             ) . " " .
             "AND link_id = " . $this->db->quote($a_item_id, 'integer');
         $res = $this->db->manipulate($query);
@@ -282,35 +283,45 @@ class ilLinkResourceItems
         $this->__setLastUpdateDate(time());
         $query = "UPDATE webr_items " .
             "SET title = " . $this->db->quote(
-                $this->getTitle(), 'text'
+                $this->getTitle(),
+                'text'
             ) . ", " .
             "description = " . $this->db->quote(
-                $this->getDescription(), 'text'
+                $this->getDescription(),
+                'text'
             ) . ", " .
             "target = " . $this->db->quote($this->getTarget(), 'text') . ", " .
             "active = " . $this->db->quote(
-                $this->getActiveStatus(), 'integer'
+                $this->getActiveStatus(),
+                'integer'
             ) . ", " .
             "valid = " . $this->db->quote(
-                $this->getValidStatus(), 'integer'
+                $this->getValidStatus(),
+                'integer'
             ) . ", " .
             "disable_check = " . $this->db->quote(
-                $this->getDisableCheckStatus(), 'integer'
+                $this->getDisableCheckStatus(),
+                'integer'
             ) . ", " .
             "internal = " . $this->db->quote(
-                $this->getInternal(), 'integer'
+                $this->getInternal(),
+                'integer'
             ) . ", " .
             "last_update = " . $this->db->quote(
-                $this->getLastUpdateDate(), 'integer'
+                $this->getLastUpdateDate(),
+                'integer'
             ) . ", " .
             "last_check = " . $this->db->quote(
-                $this->getLastCheckDate(), 'integer'
+                $this->getLastCheckDate(),
+                'integer'
             ) . " " .
             "WHERE link_id = " . $this->db->quote(
-                $this->getLinkId(), 'integer'
+                $this->getLinkId(),
+                'integer'
             ) . " " .
             "AND webr_id = " . $this->db->quote(
-                $this->getLinkResourceId(), 'integer'
+                $this->getLinkResourceId(),
+                'integer'
             );
         $res = $this->db->manipulate($query);
 
@@ -330,7 +341,8 @@ class ilLinkResourceItems
         $query = "UPDATE webr_items " .
             "SET valid = " . $this->db->quote($a_status, 'integer') . " " .
             "WHERE link_id = " . $this->db->quote(
-                $this->getLinkId(), 'integer'
+                $this->getLinkId(),
+                'integer'
             );
         $res = $this->db->manipulate($query);
 
@@ -342,7 +354,8 @@ class ilLinkResourceItems
         $query = "UPDATE webr_items " .
             "SET active = " . $this->db->quote($a_status, 'integer') . " " .
             "WHERE link_id = " . $this->db->quote(
-                $this->getLinkId(), 'integer'
+                $this->getLinkId(),
+                'integer'
             );
 
         $this->db->query($query);
@@ -354,10 +367,12 @@ class ilLinkResourceItems
     {
         $query = "UPDATE webr_items " .
             "SET disable_check = " . $this->db->quote(
-                $a_status, 'integer'
+                $a_status,
+                'integer'
             ) . " " .
             "WHERE link_id = " . $this->db->quote(
-                $this->getLinkId(), 'integer'
+                $this->getLinkId(),
+                'integer'
             );
         $res = $this->db->manipulate($query);
 
@@ -372,10 +387,12 @@ class ilLinkResourceItems
 
             $query = "UPDATE webr_items " .
                 "SET last_check = " . $this->db->quote(
-                    time(), 'integer'
+                    time(),
+                    'integer'
                 ) . " " .
                 "WHERE webr_id = " . $this->db->quote(
-                    $this->getLinkResourceId(), 'integer'
+                    $this->getLinkResourceId(),
+                    'integer'
                 ) . " " .
                 "AND disable_check = '0' " .
                 "AND last_check < " . $this->db->quote($time, 'integer');
@@ -383,10 +400,12 @@ class ilLinkResourceItems
         } else {
             $query = "UPDATE webr_items " .
                 "SET last_check = " . $this->db->quote(
-                    time(), 'integer'
+                    time(),
+                    'integer'
                 ) . " " .
                 "WHERE webr_id = " . $this->db->quote(
-                    $this->getLinkResourceId(), 'integer'
+                    $this->getLinkResourceId(),
+                    'integer'
                 ) . " " .
                 "AND disable_check = '0' ";
             $res = $this->db->manipulate($query);
@@ -404,7 +423,8 @@ class ilLinkResourceItems
                 "SET valid = '1' " .
                 "WHERE disable_check = '0' " .
                 "AND webr_id = " . $this->db->quote(
-                    $this->getLinkResourceId(), 'integer'
+                    $this->getLinkResourceId(),
+                    'integer'
                 ) . " " .
                 "AND last_check < " . $this->db->quote($time, 'integer');
             $res = $this->db->manipulate($query);
@@ -413,7 +433,8 @@ class ilLinkResourceItems
                 "SET valid = '1' " .
                 "WHERE disable_check = '0' " .
                 "AND webr_id = " . $this->db->quote(
-                    $this->getLinkResourceId(), 'integer'
+                    $this->getLinkResourceId(),
+                    'integer'
                 );
             $res = $this->db->manipulate($query);
         }
@@ -482,7 +503,8 @@ class ilLinkResourceItems
     {
         $query = "SELECT * FROM webr_items " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getLinkResourceId(), 'integer'
+                $this->getLinkResourceId(),
+                'integer'
             ) . " " .
             "AND link_id = " . $this->db->quote($a_link_id, 'integer');
 
@@ -528,7 +550,8 @@ class ilLinkResourceItems
     {
         $query = "SELECT * FROM webr_items " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getLinkResourceId(), 'integer'
+                $this->getLinkResourceId(),
+                'integer'
             );
 
         $res = $this->db->query($query);
@@ -560,7 +583,11 @@ class ilLinkResourceItems
 
         if ($mode == ilContainer::SORT_TITLE) {
             $a_items = ilArrayUtil::sortArray(
-                $a_items, 'title', 'asc', false, true
+                $a_items,
+                'title',
+                'asc',
+                false,
+                true
             );
             return $a_items;
         }
@@ -579,10 +606,18 @@ class ilLinkResourceItems
                 }
             }
             $sorted = ilArrayUtil::sortArray(
-                $sorted, 'position', 'asc', true, true
+                $sorted,
+                'position',
+                'asc',
+                true,
+                true
             );
             $unsorted = ilArrayUtil::sortArray(
-                $unsorted, 'title', 'asc', false, true
+                $unsorted,
+                'title',
+                'asc',
+                false,
+                true
             );
             $a_items = $sorted + $unsorted;
             return $a_items;
@@ -624,7 +659,8 @@ class ilLinkResourceItems
         $ilDB = $DIC->database();
         $ilDB->manipulate(
             "DELETE FROM webr_items WHERE webr_id = " . $ilDB->quote(
-                $webr_id, 'integer'
+                $webr_id,
+                'integer'
             )
         );
         return true;

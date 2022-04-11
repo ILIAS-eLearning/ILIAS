@@ -24,15 +24,18 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
         $this->lng->loadLanguageModule('webr');
         foreach ($this->getSubItemIds(true) as $sub_item) {
             if (is_object($this->getHighlighter()) and strlen(
-                    $this->getHighlighter()->getContent(
-                        $this->getObjId(), $sub_item
+                $this->getHighlighter()->getContent(
+                        $this->getObjId(),
+                        $sub_item
                     )
-                )) {
+            )) {
                 $this->tpl->setCurrentBlock('sea_fragment');
                 $this->tpl->setVariable(
-                    'TXT_FRAGMENT', $this->getHighlighter()->getContent(
-                    $this->getObjId(), $sub_item
-                )
+                    'TXT_FRAGMENT',
+                    $this->getHighlighter()->getContent(
+                        $this->getObjId(),
+                        $sub_item
+                    )
                 );
                 $this->tpl->parseCurrentBlock();
             }
@@ -41,7 +44,8 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
             $this->tpl->setVariable('SEPERATOR', ':');
 
             $link_data = ilLinkResourceItems::lookupItem(
-                $this->getObjId(), $sub_item
+                $this->getObjId(),
+                $sub_item
             );
             $link_data = ilParameterAppender::_append($link_data);
 
@@ -55,7 +59,8 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
                     $parts[0] = "git";
                 }
                 $link_data["target"] = ilLink::_getStaticLink(
-                    $parts[1], $parts[0]
+                    $parts[1],
+                    $parts[0]
                 );
             }
 

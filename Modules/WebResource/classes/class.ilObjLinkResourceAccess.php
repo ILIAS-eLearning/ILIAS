@@ -90,15 +90,21 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         // Set offline if no valid link exists
         if ($permission == 'read') {
             if (!self::_getFirstLink(
-                    $obj_id
-                ) && !$rbacsystem->checkAccessOfUser(
-                    $user_id, 'write', $ref_id
+                $obj_id
+            ) && !$rbacsystem->checkAccessOfUser(
+                    $user_id,
+                    'write',
+                    $ref_id
                 )) {
                 return false;
             }
         }
         return parent::_checkAccess(
-            $cmd, $permission, $ref_id, $obj_id, $user_id
+            $cmd,
+            $permission,
+            $ref_id,
+            $obj_id,
+            $user_id
         );
     }
 

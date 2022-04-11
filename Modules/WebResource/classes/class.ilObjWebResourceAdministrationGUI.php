@@ -33,7 +33,10 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
     ) {
         $this->type = "wbrs";
         parent::__construct(
-            $a_data, $a_id, $a_call_by_reference, $a_prepare_output
+            $a_data,
+            $a_id,
+            $a_call_by_reference,
+            $a_prepare_output
         );
         $this->lng->loadLanguageModule("webr");
     }
@@ -45,10 +48,12 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         $this->prepareOutput();
 
         if (!$this->rbac_system->checkAccess(
-            "visible,read", $this->object->getRefId()
+            "visible,read",
+            $this->object->getRefId()
         )) {
             $this->error->raiseError(
-                $this->lng->txt("no_permission"), $this->error->WARNING
+                $this->lng->txt("no_permission"),
+                $this->error->WARNING
             );
         }
 
@@ -71,7 +76,8 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
     public function getAdminTabs() : void
     {
         if ($this->rbac_system->checkAccess(
-            "visible,read", $this->object->getRefId()
+            "visible,read",
+            $this->object->getRefId()
         )) {
             $this->tabs_gui->addTarget(
                 "settings",
@@ -81,7 +87,8 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         }
 
         if ($this->rbac_system->checkAccess(
-            "edit_permission", $this->object->getRefId()
+            "edit_permission",
+            $this->object->getRefId()
         )) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
@@ -108,10 +115,13 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             $this->settings->set(
-                "links_dynamic", $form->getInput("links_dynamic")
+                "links_dynamic",
+                $form->getInput("links_dynamic")
             );
             $this->tpl->setOnScreenMessage(
-                'success', $this->lng->txt("settings_saved"), true
+                'success',
+                $this->lng->txt("settings_saved"),
+                true
             );
             $this->ctrl->redirect($this, "editSettings");
         }
@@ -127,14 +137,17 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
         // dynamic web links
         $cb = new ilCheckboxInputGUI(
-            $this->lng->txt("links_dynamic"), "links_dynamic"
+            $this->lng->txt("links_dynamic"),
+            "links_dynamic"
         );
         $cb->setInfo($this->lng->txt("links_dynamic_info"));
         $cb->setChecked((bool) $this->settings->get("links_dynamic"));
         $form->addItem($cb);
 
         if ($this->access->checkAccess(
-            "write", '', $this->object->getRefId()
+            "write",
+            '',
+            $this->object->getRefId()
         )) {
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
             $form->addCommandButton("view", $this->lng->txt("cancel"));

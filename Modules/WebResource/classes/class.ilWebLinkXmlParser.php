@@ -48,7 +48,8 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
         $this->setMDObject(
             new ilMD(
-                $this->getWebLink()->getId(), $this->getWebLink()->getId(),
+                $this->getWebLink()->getId(),
+                $this->getWebLink()->getId(),
                 'webr'
             )
         );
@@ -90,7 +91,9 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler(
-            $a_xml_parser, 'handlerBeginTag', 'handlerEndTag'
+            $a_xml_parser,
+            'handlerBeginTag',
+            'handlerEndTag'
         );
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
@@ -152,7 +155,8 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                     $this->current_link->readItem($a_attribs['id']);
                     $this->current_link_update = true;
                     foreach (ilParameterAppender::getParameterIds(
-                        $this->getWebLink()->getId(), $a_attribs['id']
+                        $this->getWebLink()->getId(),
+                        $a_attribs['id']
                     ) as $param_id) {
                         $param = new ilParameterAppender(
                             $this->getWebLink()->getId()

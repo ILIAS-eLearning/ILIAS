@@ -41,7 +41,9 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 
         // Initialize
         if ($this->access->checkAccess(
-            'write', '', $this->getParentObject()->getObject()->getRefId()
+            'write',
+            '',
+            $this->getParentObject()->getObject()->getRefId()
         )) {
             $this->editable = true;
         }
@@ -61,7 +63,8 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
                 $this->addColumn('', '', '10%');
 
                 $this->addMultiCommand(
-                    'saveSorting', $this->lng->txt('sorting_save')
+                    'saveSorting',
+                    $this->lng->txt('sorting_save')
                 );
             } else {
                 $this->addColumn($this->lng->txt('title'), '', '90%');
@@ -116,7 +119,9 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         $this->ctrl->setParameterByClass(
-            get_class($this->getParentObject()), 'link_id', $a_set['link_id']
+            get_class($this->getParentObject()),
+            'link_id',
+            $a_set['link_id']
         );
 
         $this->tpl->setVariable('TITLE', $a_set['title']);
@@ -154,21 +159,24 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
             $this->lng->txt('edit'),
             '',
             $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()), 'editLink'
+                get_class($this->getParentObject()),
+                'editLink'
             )
         );
         $actions->addItem(
             $this->lng->txt('webr_deactivate'),
             '',
             $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()), 'deactivateLink'
+                get_class($this->getParentObject()),
+                'deactivateLink'
             )
         );
         $actions->addItem(
             $this->lng->txt('delete'),
             '',
             $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()), 'confirmDeleteLink'
+                get_class($this->getParentObject()),
+                'confirmDeleteLink'
             )
         );
         $this->tpl->setVariable('ACTION_HTML', $actions->getHTML());

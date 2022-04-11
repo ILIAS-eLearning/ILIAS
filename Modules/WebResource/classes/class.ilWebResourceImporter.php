@@ -42,7 +42,9 @@ class ilWebResourceImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ) : void {
         if ($new_id = $a_mapping->getMapping(
-            'Services/Container', 'objs', $a_id
+            'Services/Container',
+            'objs',
+            $a_id
         )) {
             $this->link = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
@@ -56,7 +58,9 @@ class ilWebResourceImporter extends ilXmlImporter
             $parser->setMode(ilWebLinkXmlParser::MODE_CREATE);
             $parser->start();
             $a_mapping->addMapping(
-                'Modules/WebResource', 'webr', $a_id,
+                'Modules/WebResource',
+                'webr',
+                $a_id,
                 (string) $this->link->getId()
             );
         } catch (ilSaxParserException $e) {

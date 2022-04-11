@@ -90,7 +90,8 @@ class ilLinkResourceList
     {
         $query = "SELECT * FROM webr_lists " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getListResourceId(), 'integer'
+                $this->getListResourceId(),
+                'integer'
             );
 
         $res = $this->db->query($query);
@@ -110,7 +111,8 @@ class ilLinkResourceList
     {
         $query = "DELETE FROM webr_lists " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getListResourceId(), 'integer'
+                $this->getListResourceId(),
+                'integer'
             );
         $res = $this->db->manipulate($query);
 
@@ -136,16 +138,20 @@ class ilLinkResourceList
         $this->setLastUpdateDate(time());
         $query = "UPDATE webr_lists " .
             "SET title = " . $this->db->quote(
-                $this->getTitle(), 'text'
+                $this->getTitle(),
+                'text'
             ) . ", " .
             "description = " . $this->db->quote(
-                $this->getDescription(), 'text'
+                $this->getDescription(),
+                'text'
             ) . ", " .
             "last_update = " . $this->db->quote(
-                $this->getLastUpdateDate(), 'integer'
+                $this->getLastUpdateDate(),
+                'integer'
             ) . " " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getListResourceId(), 'integer'
+                $this->getListResourceId(),
+                'integer'
             );
         $res = $this->db->manipulate($query);
 

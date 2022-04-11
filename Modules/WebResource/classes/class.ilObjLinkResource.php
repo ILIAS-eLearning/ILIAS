@@ -62,8 +62,8 @@ class ilObjLinkResource extends ilObject
         switch ($a_element) {
             case 'General':
                 if (ilLinkResourceItems::lookupNumberOfLinks(
-                        $this->getId()
-                    ) == 1) {
+                    $this->getId()
+                ) == 1) {
                     $link_arr = ilLinkResourceItems::_getFirstLink(
                         $this->getId()
                     );
@@ -117,7 +117,8 @@ class ilObjLinkResource extends ilObject
         if (ilLinkResourceItems::_isSingular($new_obj->getId())) {
             $first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
             ilLinkResourceItems::updateTitle(
-                $first['link_id'], $new_obj->getTitle()
+                $first['link_id'],
+                $new_obj->getTitle()
             );
         }
         return $new_obj;

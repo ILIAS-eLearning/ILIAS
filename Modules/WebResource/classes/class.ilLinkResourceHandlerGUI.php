@@ -72,7 +72,8 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
         switch ($next_class) {
             case 'ilobjlinkresourcegui':
                 $link_gui = new ilObjLinkResourceGUI(
-                    $ref_id, ilObjLinkResourceGUI::REPOSITORY_NODE_ID
+                    $ref_id,
+                    ilObjLinkResourceGUI::REPOSITORY_NODE_ID
                 );
                 $this->ctrl->forwardCommand($link_gui);
                 break;
