@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilLOXmlWriter
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -69,8 +83,11 @@ class ilLOXmlParser
         }
 
         foreach ($root->Objective as $obj) {
-            $mapped_objective_id = $this->getMapping()->getMapping('Modules/Course', 'objectives',
-                (string) $obj->attributes()->id);
+            $mapped_objective_id = $this->getMapping()->getMapping(
+                'Modules/Course',
+                'objectives',
+                (string) $obj->attributes()->id
+            );
             if ($mapped_objective_id) {
                 $this->parseMaterials($obj, (int) $mapped_objective_id);
                 $this->parseTests($obj, (int) $mapped_objective_id);
@@ -78,9 +95,6 @@ class ilLOXmlParser
         }
     }
 
-    /**
-     * @param SimpleXMLElement $root
-     */
     protected function parseSettings(SimpleXMLElement $root) : void
     {
         $settings = ilLOSettings::getInstanceByObjId($this->getCourse()->getId());
@@ -108,7 +122,6 @@ class ilLOXmlParser
 
     /**
      * Parse objective
-     * @param SimpleXMLElement $root
      */
     protected function parseObjectives(SimpleXMLElement $root) : void
     {
@@ -120,10 +133,18 @@ class ilLOXmlParser
             $new_obj->setPosition((int) (string) $obj->attributes()->position);
             $new_objective_id = $new_obj->add();
 
-            $this->getMapping()->addMapping('Modules/Course', 'objectives', (string) $obj->attributes()->id,
-                (string) $new_objective_id);
-            $this->getMapping()->addMapping('Services/COPage', 'pg', 'lobj:' . $obj->attributes()->id,
-                'lobj:' . $new_objective_id);
+            $this->getMapping()->addMapping(
+                'Modules/Course',
+                'objectives',
+                (string) $obj->attributes()->id,
+                (string) $new_objective_id
+            );
+            $this->getMapping()->addMapping(
+                'Services/COPage',
+                'pg',
+                'lobj:' . $obj->attributes()->id,
+                'lobj:' . $new_objective_id
+            );
         }
     }
 
@@ -214,7 +235,7 @@ class ilLOXmlParser
                     $new_qpl_id
                 );
                 $rnd->setTestId($mapping_id);
-                $rnd->setLimit($tst->attributes()->limit);
+                $rnd->setLimit((int) $tst->attributes()->limit);
                 $rnd->create();
             } else {
                 $tst_ref_id = (string) $tst->attributes()->refId;
@@ -272,9 +293,8 @@ class ilLOXmlParser
 
     /**
      * Parse xml errors from libxml_get_errors
-     * @return string
      */
-    protected function parseXmlErrors()
+    protected function parseXmlErrors() : string
     {
         $errors = '';
         foreach (libxml_get_errors() as $err) {

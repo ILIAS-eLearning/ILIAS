@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * TableGUI for material assignments of course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -77,7 +71,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
             $this->tpl->setVariable('CHAP_TYPE_ALT', $this->lng->txt('obj_' . $sub_data['type']));
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['sub'])) {
+        if (count($a_set['sub']) > 0) {
             $this->tpl->setVariable('TXT_CHAPTER', $this->lng->txt('objs_st'));
         }
 
@@ -91,7 +85,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ROW_TYPE_ALT', $this->lng->txt('obj_' . $a_set['type']));
 
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
-        if (strlen($a_set['description'])) {
+        if (strlen($a_set['description']) !== 0) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
     }
@@ -136,7 +130,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         $tree->setTreeTablePK("lm_id");
         $chapter = [];
         foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId())) as $node) {
-            if ($node['type'] == 'st' or $node['type'] == 'pg') {
+            if ($node['type'] == 'st' || $node['type'] == 'pg') {
                 $depth = $node['depth'] - 1;
                 $child = $node['child'];
                 $chapter[$child]['depth'] = $depth;

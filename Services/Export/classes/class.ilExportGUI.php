@@ -384,7 +384,7 @@ class ilExportGUI
         $exp_limit = new ilExportLimitation();
         try {
             $exp_limit->checkLimitation(
-                $this->getParentGUI()->object->getRefId(),
+                $this->getParentGUI()->getObject()->getRefId(),
                 $cp_options
             );
         } catch (Exception $e) {
@@ -394,15 +394,15 @@ class ilExportGUI
         }
 
         $items_selected = false;
-        foreach ($this->tree->getSubTree($root = $this->tree->getNodeData($this->getParentGUI()->object->getRefId())) as $node) {
+        foreach ($this->tree->getSubTree($root = $this->tree->getNodeData($this->getParentGUI()->getObject()->getRefId())) as $node) {
             if ($node['type'] == 'rolf') {
                 continue;
             }
-            if ($node['ref_id'] == $this->getParentGUI()->object->getRefId()) {
+            if ($node['ref_id'] == $this->getParentGUI()->getObject()->getRefId()) {
                 $eo->addOption(
                     ilExportOptions::KEY_ITEM_MODE,
-                    $node['ref_id'],
-                    $node['obj_id'],
+                    (int) $node['ref_id'],
+                    (int) $node['obj_id'],
                     ilExportOptions::EXPORT_BUILD
                 );
                 continue;

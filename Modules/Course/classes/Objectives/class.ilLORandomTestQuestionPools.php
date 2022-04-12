@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilLOEditorGUI
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -167,15 +181,18 @@ class ilLORandomTestQuestionPools
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
 
-        foreach (self::lookupSequences($this->getContainerId(), $this->getContainerId(),
-            $this->getTestId()) as $sequence) {
+        foreach (self::lookupSequences(
+            $this->getContainerId(),
+            $this->getContainerId(),
+            $this->getTestId()
+        ) as $sequence) {
             // not nice
             $this->setQplSequence($sequence);
             $this->read();
 
             $mapped_id = 0;
             $test_ref_id = 0;
-            foreach ((array) ilObject::_getAllReferences($this->getTestId()) as $tmp => $ref_id) {
+            foreach (ilObject::_getAllReferences($this->getTestId()) as $ref_id) {
                 $test_ref_id = $ref_id;
                 $mapped_id = $mappings[$ref_id];
             }
@@ -187,10 +204,12 @@ class ilLORandomTestQuestionPools
             // Mapping for sequence
             $new_question_info = $mappings[$test_ref_id . '_rndSelDef_' . $this->getQplSequence()];
             $new_question_arr = explode('_', $new_question_info);
-            if (!isset($new_question_arr[2]) or !$new_question_arr[2]) {
+            if (!isset($new_question_arr[2]) || !$new_question_arr[2]) {
                 //ilLoggerFactory::getLogger('crs')->debug(print_r($mappings,TRUE));
-                ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r($new_question_arr,
-                        true));
+                ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r(
+                    $new_question_arr,
+                    true
+                ));
                 continue;
             }
 

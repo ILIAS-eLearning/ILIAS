@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\UI\Implementation\Component\Listing\Workflow\Step;
 use ILIAS\UI\Renderer as UiRenderer;
 use ILIAS\UI\Component\Listing\Workflow\Factory as UiWorkflow;
@@ -69,7 +83,7 @@ class ilLOEditorStatus
 
     public static function getInstance(ilObject $a_parent) : self
     {
-        if (self::$instance) {
+        if (self::$instance !== null) {
             return self::$instance;
         }
         return self::$instance = new self($a_parent);
@@ -103,7 +117,7 @@ class ilLOEditorStatus
         return $this->assignments;
     }
 
-    public function setSection(int $a_section)
+    public function setSection(int $a_section) : void
     {
         $this->section = $a_section;
     }
@@ -171,9 +185,6 @@ class ilLOEditorStatus
             } else {
                 return 'testOverview';
             }
-        }
-        if (!$this->getObjectivesStatus(false)) {
-            return 'listObjectives';
         }
         return 'listObjectives';
     }
@@ -246,8 +257,6 @@ class ilLOEditorStatus
         // Step 5
         // course qtest
         $done = $this->getObjectivesStatus();
-
-        $tt = 0;
         $this->ctrl->setParameter($this->getCmdClass(), 'tt', $this->initTestTypeFromQuery());
 
         $steps[] = $this->workflow->step(
@@ -264,7 +273,6 @@ class ilLOEditorStatus
     }
 
     /**
-     * @param int $a_section
      * @return string[]
      */
     public function getFailureMessages(int $a_section) : array
@@ -282,7 +290,7 @@ class ilLOEditorStatus
             return Step::SUCCESSFULLY;
         } elseif ($this->hasSectionErrors($section)) {
             return Step::UNSUCCESSFULLY;
-        } elseif ($this->section == $section) {
+        } elseif ($this->section === $section) {
             return Step::IN_PROGRESS;
         } else {
             return Step::NOT_STARTED;
@@ -395,8 +403,10 @@ class ilLOEditorStatus
             }
 
             foreach ($this->getObjectives() as $objective_id) {
-                $tst_ref = $this->getAssignments()->getTestByObjective($objective_id,
-                    ilLOSettings::TYPE_TEST_QUALIFIED);
+                $tst_ref = $this->getAssignments()->getTestByObjective(
+                    $objective_id,
+                    ilLOSettings::TYPE_TEST_QUALIFIED
+                );
                 if (!$this->tree->isInTree($tst_ref)) {
                     if ($a_set_errors) {
                         $this->appendFailure(self::SECTION_QTEST, 'crs_loc_err_stat_no_qt');
@@ -437,15 +447,17 @@ class ilLOEditorStatus
                     $objective_id,
                     ilObject::_lookupObjId($a_test_ref_id)
                 );
-                if (!$seq) {
+                if ($seq === []) {
                     return false;
                 }
             }
         } else {
             foreach ($this->getObjectives() as $objective_id) {
-                $qsts = ilCourseObjectiveQuestion::lookupQuestionsByObjective(ilObject::_lookupObjId($a_test_ref_id),
-                    $objective_id);
-                if (!count($qsts)) {
+                $qsts = ilCourseObjectiveQuestion::lookupQuestionsByObjective(
+                    ilObject::_lookupObjId($a_test_ref_id),
+                    $objective_id
+                );
+                if ($qsts === []) {
                     return false;
                 }
             }
@@ -460,7 +472,7 @@ class ilLOEditorStatus
         }
 
         $num_active = ilCourseObjective::_getCountObjectives($this->getParentObject()->getId(), true);
-        if (!$num_active) {
+        if ($num_active === 0) {
             if ($a_set_errors) {
                 $this->appendFailure(self::SECTION_OBJECTIVES, 'crs_loc_err_no_active_lo');
             }
@@ -468,7 +480,7 @@ class ilLOEditorStatus
         }
         foreach (ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(), true) as $objective_id) {
             $obj = new ilCourseObjectiveMaterials($objective_id);
-            if (!count($obj->getMaterials())) {
+            if ($obj->getMaterials() === []) {
                 if ($a_set_errors) {
                     $this->appendFailure(self::SECTION_OBJECTIVES, 'crs_loc_err_no_active_mat');
                 }
@@ -486,7 +498,7 @@ class ilLOEditorStatus
             }
         }
         // check for assigned questions
-        if (!$this->getSettings()->hasSeparateQualifiedTests() and !$this->lookupQuestionsAssigned($this->getSettings()->getQualifiedTest())) {
+        if (!$this->getSettings()->hasSeparateQualifiedTests() && !$this->lookupQuestionsAssigned($this->getSettings()->getQualifiedTest())) {
             if ($a_set_errors) {
                 $this->appendFailure(self::SECTION_OBJECTIVES, 'crs_loc_err_no_active_qst');
             }

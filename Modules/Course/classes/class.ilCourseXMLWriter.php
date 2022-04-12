@@ -1,27 +1,21 @@
 <?php declare(strict_types=0);
 
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * XML writer class
  * Class to simplify manual writing of xml documents.
@@ -233,7 +227,7 @@ class ilCourseXMLWriter extends ilXmlWriter
                 $this->course_obj->getRefId(),
                 [$data['usr_id']]
             );
-            if (!count($is_accessible)) {
+            if (count($is_accessible) === 0) {
                 continue;
             }
 
@@ -328,8 +322,11 @@ class ilCourseXMLWriter extends ilXmlWriter
         );
         $this->xmlEndTag('Period');
         $this->xmlElement('WaitingListAutoFill', null, (int) $this->course_obj->hasWaitingListAutoFill());
-        $this->xmlElement('CancellationEnd', null,
-            ($this->course_obj->getCancellationEnd() && !$this->course_obj->getCancellationEnd()->isNull()) ? $this->course_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);
+        $this->xmlElement(
+            'CancellationEnd',
+            null,
+            ($this->course_obj->getCancellationEnd() && !$this->course_obj->getCancellationEnd()->isNull()) ? $this->course_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null
+        );
         $this->xmlElement('MinMembers', null, $this->course_obj->getSubscriptionMinMembers());
 
         $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());

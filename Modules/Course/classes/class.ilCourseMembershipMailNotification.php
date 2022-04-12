@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
@@ -43,7 +57,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         self::TYPE_NOTIFICATION_UNSUBSCRIBE
     );
 
-    private $force_sending_mail = false;
+    private bool $force_sending_mail = false;
 
     protected ilSetting $setting;
 
@@ -440,7 +454,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
             $body .= $this->getLanguageText('crs_member') . "\n";
         }
 
-        if ($part->isAdmin($a_usr_id) or $part->isTutor($a_usr_id)) {
+        if ($part->isAdmin($a_usr_id) || $part->isTutor($a_usr_id)) {
             $body .= $this->getLanguageText('crs_status') . ': ';
 
             if ($part->isNotificationEnabled($a_usr_id)) {

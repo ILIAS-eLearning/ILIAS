@@ -1,14 +1,20 @@
 <?php declare(strict_types=0);
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
+ *
+ *********************************************************************/
+ 
 /**
  * Course XML Parser
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -58,7 +64,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
         $this->md_obj = new ilMD($this->course_obj->getId(), 0, 'crs');
         $this->setMDObject($this->md_obj);
-
     }
 
     /**
@@ -219,7 +224,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
                 $this->course_obj->setSubscriptionMaxMembers((int) $a_attribs['maxMembers']);
                 $this->course_obj->enableSubscriptionMembershipLimitation($this->course_obj->getSubscriptionMaxMembers() > 0);
-                $this->course_obj->setSubscriptionNotify($a_attribs['notification'] == 'Yes' ? true : false);
                 $this->course_obj->enableWaitingList($a_attribs['waitingList'] == 'Yes' ? true : false);
                 break;
 
@@ -292,7 +296,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                          'usr_id' => $id
             );
         }
-        if (($fields[1] == $this->setting->get('inst_id', '0')) and strlen(ilObjUser::_lookupLogin($fields[3]))) {
+        if ($fields[1] == $this->setting->get('inst_id', '0') && strlen(ilObjUser::_lookupLogin($fields[3]))) {
             return array('imported' => false,
                          'local' => true,
                          'usr_id' => $fields[3]
@@ -599,7 +603,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
         }
         $this->cdata = '';
-
     }
 
     // PRIVATE
