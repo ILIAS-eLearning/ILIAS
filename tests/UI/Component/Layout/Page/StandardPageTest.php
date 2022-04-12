@@ -277,7 +277,10 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <div class="il-layout-page">
          <header>
             <div class="header-inner">
-               <div class="il-logo">Logo Stub<div class="il-pagetitle">pagetitle</div></div>MetaBar Stub</div>
+               <div class="il-logo"><span class="hidden-xs">Logo Stub</span><span class="visible-xs">Responsive Logo Stub</span>
+               <div class="il-pagetitle">pagetitle</div>
+               </div>MetaBar Stub
+            </div>
          </header>
          <div class="breadcrumbs"></div>
          <div class="il-system-infos"></div>
