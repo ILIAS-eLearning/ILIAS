@@ -16,6 +16,7 @@ use ilUtil;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\DI\UIServices;
 use ilLanguage;
+use ILIAS\GlobalScreen\Client\CallbackHandler;
 
 /******************************************************************************
  *
@@ -132,9 +133,10 @@ class StandardPagePartProvider implements PagePartProvider
                 $close_button = null;
                 if ($tool->hasCloseCallback()) {
                     $close_button = $this->ui->factory()->button()->close()->withOnLoadCode(static function (string $id) use ($identifier) {
+                        $key_item = CallbackHandler::KEY_ITEM;
                         return "$('#$id').on('click', function(){
                             $.ajax({
-                                url: 'src/GlobalScreen/Client/callback_handler.php?item=$identifier'
+                                url: 'src/GlobalScreen/Client/callback_handler.php?$key_item=$identifier'
                             }).done(function() {
                                 console.log('done closing');
                             });
