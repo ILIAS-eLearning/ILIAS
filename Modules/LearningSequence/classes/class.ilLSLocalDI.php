@@ -15,9 +15,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use Pimple\Container;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+
+/**
+ * @author   Nils Haagen <nils.haagen@concepts-and-training.de>
+ */
 
 class ilLSLocalDI extends Container
 {
@@ -27,14 +32,24 @@ class ilLSLocalDI extends Container
         DataFactory $data_factory,
         ilObjLearningSequence $object
     ) : void {
-        $ref_id = $object->getRefId();
-        $obj_id = $object->getId();
+        $obj_id = (int) $object->getId();
+//        $obj_title = $object->getTitle();
 
         $current_user = $dic['ilUser'];
         $current_user_id = (int) $current_user->getId();
 
-        $this["obj.ref_id"] = $ref_id;
+        $this["obj.ref_id"] = function ($c) use ($object) : int {
+            $ref = $object->getRefId();
+            if (!$ref) {
+                $refs = ilObject::_getAllReferences($object->getId());
+                $ref = array_shift($refs);
+            }
+            return (int) $ref;
+        };
+
         $this["obj.obj_id"] = $obj_id;
+//        $this["obj.title"] = (string) $obj_title;
+
         $this["usr.id"] = $current_user_id;
 
         $this["obj.sorting"] = function ($c) : ilContainerSorting {
@@ -69,19 +84,16 @@ class ilLSLocalDI extends Container
         };
 
 
-        $this["get.params"] = function ($c) use ($dic) : RequestWrapper {
+        $this["get.params"] = function ($c) use ($dic) : ArrayBasedRequestWrapper {
             return $dic["http"]->wrapper()->query();
         };
 
 
         $this["gui.learner"] = function ($c) use ($dic, $lsdic, $object) : ilObjLearningSequenceLearnerGUI {
-            $has_items = count($c["learneritems"]->getItems()) > 0;
-            $first_access = $c["learneritems"]->getFirstAccess();
+            $intro = $object->getContentPageHTML($object::CP_INTRO);
+            $extro = $object->getContentPageHTML($object::CP_EXTRO);
 
             return new ilObjLearningSequenceLearnerGUI(
-                $c["obj.ref_id"],
-                $has_items,
-                $first_access,
                 $c["usr.id"],
                 $dic["ilAccess"],
                 $dic["ilCtrl"],
@@ -93,7 +105,10 @@ class ilLSLocalDI extends Container
                 $c["roles"],
                 $lsdic["db.settings"]->getSettingsFor($c["obj.obj_id"]),
                 $c["player.curriculumbuilder"],
+                $c["player.launchlinksbuilder"],
                 $c["player"],
+                $intro,
+                $extro,
                 $c["get.params"]
             );
         };
@@ -122,7 +137,8 @@ class ilLSLocalDI extends Container
 
         $this["gui.toc"] = function ($c) use ($dic) : ilLSTOCGUI {
             return new ilLSTOCGUI(
-                $c["player.urlbuilder"]
+                $c["player.urlbuilder"],
+                $dic["ilCtrl"]
             );
         };
 
@@ -196,6 +212,21 @@ class ilLSLocalDI extends Container
             );
         };
 
+        $this["player.launchlinksbuilder"] = function ($c) use ($dic) : ilLSLaunchlinksBuilder {
+            $first_access = $c["learneritems"]->getFirstAccess();
+            
+            return new ilLSLaunchlinksBuilder(
+                $dic["lng"],
+                $dic["ilAccess"],
+                $dic["ilCtrl"],
+                $dic["ui.factory"],
+                $c["obj.ref_id"],
+                $c["usr.id"],
+                $first_access,
+                $c["roles"]
+            );
+        };
+
         $this["player"] = function ($c) use ($dic, $lsdic) : ilLSPlayer {
             return new ilLSPlayer(
                 $c["learneritems"],
@@ -205,7 +236,8 @@ class ilLSLocalDI extends Container
                 $c["player.viewfactory"],
                 $c["player.kioskrenderer"],
                 $dic["ui.factory"],
-                $lsdic["gs.current_context"]
+                $lsdic["gs.current_context"],
+                $dic["refinery"]
             );
         };
 
@@ -230,6 +262,10 @@ class ilLSLocalDI extends Container
                 $current_user,
                 $dic['lng']
             );
+        };
+
+        $this["ui.renderer"] = function ($c) use ($dic) : ILIAS\UI\Renderer {
+            return $dic['ui.renderer'];
         };
     }
 }
