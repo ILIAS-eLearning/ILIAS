@@ -3,6 +3,8 @@
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
 
 /**
  * Learning module editing GS tool provider
@@ -12,7 +14,7 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
 {
     const SHOW_TREE = 'show_tree';
-
+    use Hasher;
 
     /**
      * @inheritDoc
@@ -40,7 +42,23 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) {
                 return $this->dic->ui()->factory()->legacy($content);
             };
-            $tools[] = $this->factory->tool($iff("tree"))
+            $identification = $iff("tree");
+            $hashed = $this->hash($identification->serialize());
+            $tools[] = $this->factory->tool($identification)
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                    if ($c instanceof LegacySlate) {
+                        $signal_id = $c->getToggleSignal()->getId();
+                        return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
+                            return "
+                                 console.log('trigger added');
+                                 $('body').on('il-lm-editor-tree', function(){
+                                    il.UI.maincontrols.mainbar.engageTool('$hashed');
+                                    console.log('trigger tree');
+                                 });";
+                        });
+                    }
+                    return $c;
+                })
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l) {

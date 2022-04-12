@@ -98,4 +98,23 @@ class ilLMPageGUI extends ilPageObjectGUI
             }
         }
     }
+
+    public function finishEditing() : void
+    {
+        $lm_tree = new ilLMTree($this->getPageObject()->getParentId());
+        if ($lm_tree->isInTree($this->getPageObject()->getId())) {
+            $parent_id = $lm_tree->getParentId($this->getPageObject()->getId());
+            $this->ctrl->setParameterByClass(
+                ilStructureObjectGUI::class,
+                "obj_id", $parent_id);
+            $this->ctrl->redirectByClass([
+                ilObjLearningModuleGUI::class,
+                ilStructureObjectGUI::class
+            ], "view");
+        }
+        $this->ctrl->redirectByClass(
+            ilObjLearningModuleGUI::class,
+            "pages"
+        );
+    }
 }
