@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * class ilcourseobjective
  * @author Stefan Meyer <meyer@leifos.com>
@@ -134,9 +148,9 @@ class ilCourseObjectiveResult
     {
         $assignments = ilLOTestAssignments::getInstance($a_course_id);
         foreach (array_merge(
-                     $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
-                     $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_QUALIFIED)
-                 )
+            $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
+            $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_QUALIFIED)
+        )
                  as $assignment) {
             $tst = ilObjectFactory::getInstanceByRefId($assignment->getTestRefId(), false);
             if ($tst instanceof ilObjTest) {
@@ -165,7 +179,7 @@ class ilCourseObjectiveResult
 
         $objectives = ilCourseObjective::_getObjectiveIds($a_course_id, false);
 
-        if (count($objectives)) {
+        if ($objectives !== []) {
             $query = "DELETE FROM crs_objective_status " .
                 "WHERE " . $this->db->in('objective_id', $objectives, false, 'integer') . ' ' .
                 "AND user_id = " . $this->db->quote($this->getUserId(), 'integer') . " ";
@@ -191,7 +205,7 @@ class ilCourseObjectiveResult
         $accomplished = $this->getAccomplished($a_course_id);
         $suggested = $this->getSuggested($a_course_id);
 
-        if (!count($objective_ids)) {
+        if ($objective_ids === []) {
             return self::IL_OBJECTIVE_STATUS_EMPTY;
         }
 
@@ -213,8 +227,7 @@ class ilCourseObjectiveResult
         if ($all_final_answered) {
             return self::IL_OBJECTIVE_STATUS_FINAL;
         }
-        if ($all_pretest_answered and
-            !count($suggested)) {
+        if ($all_pretest_answered && $suggested === []) {
             return self::IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST;
         } elseif ($all_pretest_answered) {
             return self::IL_OBJECTIVE_STATUS_PRETEST;
@@ -271,7 +284,7 @@ class ilCourseObjectiveResult
             $objectives['all_objectives'][(int) $row->ob] = (int) $row->ob;
             $objectives['all_questions'][(int) $row->qid] = (int) $row->qid;
         }
-        if (!count($objectives)) {
+        if (count($objectives) === 0) {
             return [];
         }
         $objectives['objectives'] = self::_readAssignedObjectives($objectives['all_objectives']);
@@ -334,7 +347,7 @@ class ilCourseObjectiveResult
         // Check accomplished
         $fullfilled = array();
         $pretest = array();
-        foreach ($objectives['objectives'] as $kind => $data) {
+        foreach ($objectives['objectives'] as $data) {
             // objective does not allow to change status
             if (ilCourseObjectiveResult::__isFullfilled($objectives['all_question_points'], $data)) {
                 // Status 0 means pretest fullfilled, status 1 means final test fullfilled
@@ -345,7 +358,7 @@ class ilCourseObjectiveResult
                 }
             }
         }
-        if (count($fullfilled)) {
+        if ($fullfilled !== []) {
             foreach ($fullfilled as $fullfilled_arr) {
                 $ilDB->replace(
                     'crs_objective_status',
@@ -360,7 +373,7 @@ class ilCourseObjectiveResult
             }
             ilCourseObjectiveResult::__updatePassed($a_user_id, $objectives['all_objectives']);
         }
-        if (count($pretest)) {
+        if ($pretest !== []) {
             foreach ($pretest as $pretest_arr) {
                 $ilDB->replace(
                     'crs_objective_status_p',
@@ -420,7 +433,7 @@ class ilCourseObjectiveResult
             }
             $crs_ids[(int) $row->crs_id] = (int) $row->crs_id;
         }
-        if (count($passed)) {
+        if ($passed !== []) {
             foreach ($passed as $crs_id) {
                 $members = ilCourseParticipants::_getInstanceByObjId($crs_id);
                 $members->updatePassed($a_user_id, true);

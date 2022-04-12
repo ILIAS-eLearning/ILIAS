@@ -1,29 +1,22 @@
 <?php declare(strict_types=0);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 // begin-patch lok
 // end-patch lok
-
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
@@ -108,7 +101,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         }
 
         // materials
-        foreach ($a_set['materials'] as $ref_id => $data) {
+        foreach ($a_set['materials'] as $data) {
             if ($data['items']) {
                 $this->tpl->touchBlock('ul_begin');
                 foreach ($data['items'] as $pg_st) {
@@ -127,7 +120,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('LM_IMG', ilObject::_getIcon($data['obj_id'], "tiny", $data['type']));
             $this->tpl->setVariable('LM_ALT', $this->lng->txt('obj_' . $data['type']));
 
-            if ($data['type'] == 'catr' or $data['type'] == 'crsr' or $data['type'] == 'grpr') {
+            if ($data['type'] == 'catr' || $data['type'] == 'crsr' || $data['type'] == 'grpr') {
                 $this->tpl->setVariable(
                     'LM_TITLE',
                     ilContainerReference::_lookupTargetTitle($data['obj_id'])
@@ -172,7 +165,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     // end-patch lok
                 }
                 // begin-patch lok
-                if (!count($a_set['self'])) {
+                if (count($a_set['self']) === 0) {
                     $this->tpl->touchBlock('self_qst_row');
                 }
             }
@@ -299,8 +292,10 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             if ($this->getSettings()->worksWithInitialTest()) {
                 if ($this->getSettings()->hasSeparateInitialTests()) {
                     $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
-                    $assignment = $assignments->getAssignmentByObjective($objective_id,
-                        ilLOSettings::TYPE_TEST_INITIAL);
+                    $assignment = $assignments->getAssignmentByObjective(
+                        $objective_id,
+                        ilLOSettings::TYPE_TEST_INITIAL
+                    );
 
                     $objective_data['initial'] = 0;
                     if ($assignment instanceof ilLOTestAssignment) {

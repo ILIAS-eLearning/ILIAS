@@ -4,12 +4,14 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use InvalidArgumentException;
+use ReflectionFunction;
+use ReflectionException;
+use Generator;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -59,19 +61,19 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     }
     
     /**
-     * @param array|callable|\Generator $links
+     * @param array|callable|Generator $links
      */
     public function withLinks($links) : self
     {
         if (is_callable($links)) {
             try {
-                $r = new \ReflectionFunction($links);
+                $r = new ReflectionFunction($links);
                 if ($r->isGenerator()) {
                     $links = iterator_to_array($links());
                 } else {
                     $links = $links();
                 }
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
                 $links = false;
             }
             

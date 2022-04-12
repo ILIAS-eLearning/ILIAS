@@ -1,7 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Tool\Provider;
 
 use ILIAS\DI\Container;
-use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Identification\ToolIdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;

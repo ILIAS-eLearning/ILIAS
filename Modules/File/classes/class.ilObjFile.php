@@ -349,41 +349,20 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($identification === null) {
             throw new RuntimeException('Cannot clone file since no corresponding resource identification was found');
         }
-        /**
-         * @var $new_object ilObjFile
-         */
+        /** @var ilObjFile $new_object */
         $this->cloneMetaData($new_object);
-        
         // object created now copy other settings
-        $this->db->manipulateF(
-            "INSERT INTO file_data (file_id, file_name, file_type, file_size, version, rating, f_mode) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            [
-                'integer', // file_id
-                'text', // file_name
-                'text', // file_type
-                'integer', // file_size
-                'integer', // version
-                'integer', // rating
-                'integer' // f_mode
-            ],
-            [
-                (int) $new_object->getId(),
-                $this->getFileName(),
-                $this->getFileType(),
-                $this->getFileSize(),
-                $this->getVersion(),
-                (int) $this->hasRating(),
-                (int) $this->getMode()
-            ]
-        );
-        
+        $new_object->updateFileData();
+    
         // Copy Resource
+        $cloned_title = $new_object->getTitle();
         $new_resource_identification = $this->manager->clone($identification);
         $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
         $new_object->setResourceId($new_resource_identification->serialize());
         $new_object->initImplementation();
         $new_object->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
-        $new_object->setTitle($this->getTitle()); // see https://mantis.ilias.de/view.php?id=31375
+        $new_object->setTitle($cloned_title); // see https://mantis.ilias.de/view.php?id=31375
+        $new_object->setPageCount($this->getPageCount());
         $new_object->update();
         
         // copy all previews

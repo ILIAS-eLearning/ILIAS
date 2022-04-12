@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class DummyProviderTest extends BaseNotificationSetUp
 {
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $this->assertInstanceOf(AbstractNotificationProvider::class, $povider);

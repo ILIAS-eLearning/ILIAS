@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
@@ -32,8 +46,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->show_learning_progress = $a_show_learning_progress;
 
         if (null === $preloader) {
-            $preloader = new ilCertificateUserForObjectPreloader(new ilUserCertificateRepository(),
-                new ilCertificateActiveValidator());
+            $preloader = new ilCertificateUserForObjectPreloader(
+                new ilUserCertificateRepository(),
+                new ilCertificateActiveValidator()
+            );
         }
         $this->preLoader = $preloader;
         $this->show_timings = $a_show_timings;
@@ -148,8 +164,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'],
-                        IL_CAL_DATE)) : $this->lng->txt('no_date');
+                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate(
+                        $a_set['birthday'],
+                        IL_CAL_DATE
+                    )) : $this->lng->txt('no_date');
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', $a_set[$field]);
                     $this->tpl->parseCurrentBlock();
@@ -199,8 +217,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -289,7 +309,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->showActionLinks($a_set);
 
         $isPreloaded = $this->preLoader->isPreloaded($this->getRepositoryObject()->getId(), $a_set['usr_id']);
-        if (true === $isPreloaded) {
+        if ($isPreloaded) {
             $this->tpl->setCurrentBlock('link');
             $this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'deliverCertificate'));
             $this->tpl->setVariable('LINK_TXT', $this->lng->txt('download_certificate'));
@@ -300,8 +320,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         if ($this->show_timings) {
             $this->ctrl->setParameterByClass('ilcoursecontentgui', 'member_id', $a_set['usr_id']);
             $this->tpl->setCurrentBlock('link');
-            $this->tpl->setVariable('LINK_NAME',
-                $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings'));
+            $this->tpl->setVariable(
+                'LINK_NAME',
+                $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings')
+            );
             $this->tpl->setVariable('LINK_TXT', $this->lng->txt('timings_timings'));
             $this->tpl->parseCurrentBlock();
         }
@@ -330,7 +352,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $part
         );
 
-        if (!$part) {
+        if ($part === []) {
             $this->setData(array());
             return;
         }
@@ -439,7 +461,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
 
         // Custom user data fields
-        if ($udf_ids) {
+        if ($udf_ids !== []) {
             $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
                 if (!$this->checkAcceptance((int) $usr_id)) {
@@ -452,7 +474,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             }
         }
         // Object specific user data fields
-        if ($odf_ids) {
+        if ($odf_ids !== []) {
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
                 $usr_id = (int) $usr_id;
@@ -491,8 +513,10 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // consultation hours
         if ($this->isColumnSelected('consultation_hour')) {
-            foreach (ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(),
-                $this->user->getId()) as $buser => $booking) {
+            foreach (ilBookingEntry::lookupManagedBookingsForObject(
+                $this->getRepositoryObject()->getId(),
+                $this->user->getId()
+            ) as $buser => $booking) {
                 if (isset($a_user_data[$buser])) {
                     $a_user_data[$buser]['consultation_hour'] = $booking[0]['dt'];
                     $a_user_data[$buser]['consultation_hour_end'] = $booking[0]['dtend'];

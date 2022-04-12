@@ -651,9 +651,9 @@ class ilObjectActivation
 
         $ref_ids = array();
         foreach ($tree->getChilds($parent_id) as $item) {
-            if ($item['type'] != 'rolf') {
+            if ($item['type'] !== 'rolf') {
                 $items[] = $item;
-                $ref_ids[] = $item['ref_id'];
+                $ref_ids[] = (int) $item['ref_id'];
             }
         }
 
@@ -662,7 +662,7 @@ class ilObjectActivation
 
             foreach ($items as $idx => $item) {
                 if (!$with_list_data) {
-                    $items[$idx] = array_merge($item, self::getItem($item['ref_id']));
+                    $items[$idx] = array_merge($item, self::getItem((int) $item['ref_id']));
                 } else {
                     self::addAdditionalSubItemInformation($item);
                     $items[$idx] = $item;

@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use Throwable;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -141,7 +142,7 @@ class BaseTypeRenderer implements TypeRenderer
             $v = self::getURIConverter()($v);
             try {
                 new URI($v);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 return false;
             }
             return true;

@@ -7112,17 +7112,39 @@ button.list-group-item-danger.active:focus {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
   /* see bug #24947 */
 }
-.il-card img {
+.il-card .il-card-image-container {
   width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+.il-card .il-card-image-container a:focus-visible {
+  position: static;
+}
+.il-card img.img-responsive,
+.il-card img.img-standard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  max-height: 100%;
+  margin: auto;
+  z-index: 100;
 }
 .il-card a {
   overflow: hidden;
 }
+.il-card .card-title .btn,
+.il-card .card-title a {
+  font-size: 14px;
+}
 .il-card.thumbnail {
   margin-bottom: 0px;
+  font-size: 12px;
 }
 .il-card.thumbnail:focus-within .il-card-repository-head {
-  z-index: 1;
+  z-index: 400;
 }
 .il-card.thumbnail a:focus-visible {
   overflow: visible;
@@ -7134,7 +7156,7 @@ button.list-group-item-danger.active:focus {
 }
 .il-card .card-no-highlight {
   background-color: transparent;
-  height: 3px;
+  height: 6px;
   width: 100%;
 }
 .il-card .caption {
@@ -7158,6 +7180,7 @@ button.list-group-item-danger.active:focus {
   right: 0;
   height: 47px;
   padding: 0 6px;
+  z-index: 300;
 }
 .il-card .il-card-repository-head .icon.outlined {
   filter: invert(1);
@@ -7204,7 +7227,7 @@ button.list-group-item-danger.active:focus {
     display: flex;
     flex-direction: column;
   }
-  .row-eq-height .il-card :last-child {
+  .row-eq-height .il-card .card-title {
     flex-grow: 2;
   }
 }
@@ -13033,9 +13056,6 @@ img.ilSmallIcon {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-span.ilIcalIcon {
-  text-align: initial;
-}
 /* Component Imports */
 /* Services/Accordion */
 .il_VAccordionHead,
@@ -14608,6 +14628,8 @@ th.calstd {
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
+  line-break: auto;
+  vertical-align: top;
 }
 td.calheadertime {
   width: 6em;
@@ -14843,6 +14865,10 @@ span.calminiinactive {
 .calnewapplink {
   float: right;
   visibility: hidden;
+}
+span.ilIcalIcon .btn {
+  text-align: initial;
+  margin-top: 6px;
 }
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
@@ -18084,19 +18110,6 @@ span.ilProfileBadge .modal .img-responsive {
   margin: auto;
   width: 50%;
   height: auto;
-}
-.ilBadgeDeck .il-card img {
-  object-fit: contain;
-  width: 75%;
-  height: 200px;
-}
-.ilBadgeDeck .icon img {
-  width: 100%;
-  height: auto;
-}
-.ilBadgeDeck .il-card img.medium {
-  width: 35px;
-  height: 35px;
 }
 .ilBadgeDeck .modal .img-responsive {
   margin: auto;

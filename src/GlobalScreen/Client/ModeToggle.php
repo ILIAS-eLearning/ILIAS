@@ -2,6 +2,10 @@
 
 namespace ILIAS\GlobalScreen\Client;
 
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\Cookies\CookieFactoryImpl;
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -26,9 +30,28 @@ class ModeToggle
     const MODE1 = "all";
     const MODE2 = "none";
     
+    protected WrapperFactory $wrapper;
+    protected Factory $refinery;
+    protected \ilCtrlInterface $ctrl;
+    protected \ILIAS\GlobalScreen\Services $global_screen;
+    protected \ILIAS\HTTP\Services $http;
+    
+    public function __construct()
+    {
+        \ilInitialisation::initILIAS();
+        global $DIC;
+        $this->ctrl = $DIC->ctrl();
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->global_screen = $DIC->globalScreen();
+    }
+    
     public function getMode() : string
     {
-        return $_COOKIE[self::GS_MODE] ?? self::MODE1;
+        return $this->wrapper->cookie()->has(self::GS_MODE)
+            ? $this->wrapper->cookie()->retrieve(self::GS_MODE, $this->refinery->to()->string())
+            : self::MODE1;
     }
     
     public function saveStateOfAll() : bool
@@ -40,8 +63,10 @@ class ModeToggle
     {
         $current_mode = $this->getMode();
         $new_mode = $current_mode == self::MODE1 ? self::MODE2 : self::MODE1;
-        setcookie(self::GS_MODE, $new_mode, 0, "/");
-        $_COOKIE[ItemState::COOKIE_NS_GS] = "";
+        $cookie_factory = new CookieFactoryImpl();
+        $cookie = $cookie_factory->create(self::GS_MODE, $new_mode)
+                                 ->withExpires(time() + 3600);
+        $this->http->cookieJar()->with($cookie);
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 }

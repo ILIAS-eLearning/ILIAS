@@ -220,8 +220,9 @@ EOT;
 
         $p = $fp->sub("Title", array())->withActions($actions);
         $card = new I\Component\Card\Card("Card Title");
+
         $p = $p->withFurtherInformation($card);
-        $html = $r->render($p);
+        $html = $this->brutallyTrimHTML($r->render($p));
 
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
@@ -239,18 +240,16 @@ EOT;
 			<div class="col-sm-8"></div>
 			<div class="col-sm-4">
 				<div class="il-card thumbnail">
-					<div class="card-no-highlight"></div>
-					<div class="caption">
-						<div class="card-title">Card Title</div>
-					</div>
-				</div>
+				    <div class="card-no-highlight"></div>
+                    <div class="caption card-title">Card Title</div>
+                </div>
 			</div>
 		</div>
 	</div>
 </div>
 EOT;
 
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 
     public function test_render_sub_with_secondary_panel() : void
@@ -300,7 +299,7 @@ EOT;
         $sub = $sub->withFurtherInformation($card);
         $report = $fp->report("Title", $sub);
 
-        $html = $r->render($report);
+        $html = $this->brutallyTrimHTML($r->render($report));
 
         $expected_html = <<<EOT
 <div class="panel panel-primary il-panel-report panel-flex">
@@ -317,9 +316,7 @@ EOT;
                     <div class="col-sm-4">
                         <div class="il-card thumbnail">
                             <div class="card-no-highlight"></div>
-                            <div class="caption">
-                                <div class="card-title">Card Title</div>
-                            </div>
+                            <div class="caption card-title">Card Title</div>
                         </div>
                     </div>
                 </div>
@@ -329,7 +326,7 @@ EOT;
 </div>
 EOT;
 
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 
     public function test_with_view_controls() : void

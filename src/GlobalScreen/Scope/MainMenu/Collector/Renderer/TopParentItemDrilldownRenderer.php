@@ -2,12 +2,13 @@
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
-use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
+use ILIAS\Data\Factory;
+use Exception;
 
 /******************************************************************************
  *
@@ -46,7 +47,7 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
         return $slate;
     }
     
-    protected function buildEntry(AbstractChildItem $item) : \ILIAS\UI\Component\Component
+    protected function buildEntry(AbstractChildItem $item) : Component
     {
         $title = $item->getTitle();
         $symbol = $this->getStandardSymbol($item);
@@ -72,15 +73,15 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
                 break;
             
             default:
-                throw new \Exception("Invalid type: " . $type, 1);
+                throw new Exception("Invalid type: " . $type, 1);
         }
         
         return $entry;
     }
     
-    protected function getDataFactory() : \ILIAS\Data\Factory
+    protected function getDataFactory() : Factory
     {
-        return new \ILIAS\Data\Factory();
+        return new Factory();
     }
     
     private function getBaseURL() : string

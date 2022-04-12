@@ -16,8 +16,8 @@
  */
 class Js extends AbstractMediaWithPath
 {
-    private bool $add_version_number = true;
-    private int $batch = 2;
+    private bool $add_version_number;
+    private int $batch;
     
     /**
      * Js constructor.

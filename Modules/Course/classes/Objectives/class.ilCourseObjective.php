@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * class ilcourseobjective
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -76,8 +90,6 @@ class ilCourseObjective
     }
 
     /**
-     * @param int  $a_objective_id
-     * @param bool $a_add_description
      * @return array|string
      */
     public static function lookupObjectiveTitle(int $a_objective_id, bool $a_add_description = false)
@@ -104,7 +116,7 @@ class ilCourseObjective
             "WHERE crs_id  = " . $this->db->quote($this->course_obj->getId(), 'integer') . ' ' .
             "ORDER BY position ";
         $res = $this->db->query($query);
-        if (!$res->numRows()) {
+        if ($res->numRows() === 0) {
             $this->logger->debug('.. no objectives found');
             return;
         }
@@ -142,14 +154,18 @@ class ilCourseObjective
             $random_q->copy($a_copy_id, $new_course->getId(), $objective_id);
 
             $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
-            $assignment_it = $assignments->getAssignmentByObjective($row->objective_id,
-                ilLOSettings::TYPE_TEST_INITIAL);
+            $assignment_it = $assignments->getAssignmentByObjective(
+                $row->objective_id,
+                ilLOSettings::TYPE_TEST_INITIAL
+            );
             if ($assignment_it) {
                 $assignment_it->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
             }
 
-            $assignment_qt = $assignments->getAssignmentByObjective($row->objective_id,
-                ilLOSettings::TYPE_TEST_QUALIFIED);
+            $assignment_qt = $assignments->getAssignmentByObjective(
+                $row->objective_id,
+                ilLOSettings::TYPE_TEST_QUALIFIED
+            );
             if ($assignment_qt) {
                 $assignment_qt->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
             }
@@ -336,7 +352,6 @@ class ilCourseObjective
         $res = $this->db->manipulate($query);
 
         $this->__read();
-
     }
 
     public function __setPosition(int $a_position) : void
@@ -359,7 +374,7 @@ class ilCourseObjective
         return $this->created;
     }
 
-    public function __read()
+    public function __read() : void
     {
         if ($this->getObjectiveId()) {
             $query = "SELECT * FROM crs_objectives " .
@@ -451,7 +466,7 @@ class ilCourseObjective
         // begin-patch lok
         $ids = ilCourseObjective::_getObjectiveIds($course_id, false);
         // end-patch lok
-        if (!count($ids)) {
+        if ($ids === []) {
             return;
         }
 

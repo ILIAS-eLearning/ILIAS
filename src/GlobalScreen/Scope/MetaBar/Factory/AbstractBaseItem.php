@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\BaseMetaBarItemRenderer;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
+use Closure;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -25,9 +26,9 @@ abstract class AbstractBaseItem implements isItem
     
     protected MetaBarItemRenderer $renderer;
     protected int $position = 0;
-    protected ?\Closure $available_callable = null;
+    protected ?Closure $available_callable = null;
     protected IdentificationInterface $provider_identification;
-    protected ?\Closure $visiblility_callable = null;
+    protected ?Closure $visiblility_callable = null;
     
     /**
      * AbstractBaseItem constructor.
@@ -78,7 +79,7 @@ abstract class AbstractBaseItem implements isItem
             $callable = $this->visiblility_callable;
             
             $value = $callable();
-            
+
             return $value;
         }
         
@@ -103,9 +104,9 @@ abstract class AbstractBaseItem implements isItem
     {
         if (is_callable($this->available_callable)) {
             $callable = $this->available_callable;
-            
+
             $value = $callable();
-            
+
             return $value;
         }
         

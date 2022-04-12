@@ -45,6 +45,7 @@ class ilAdvancedMDFieldDefinitionDate extends ilAdvancedMDFieldDefinition
     public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id) : bool
     {
         $value = '';
+        // PHP8-Review: 'switch' with single 'case'
         switch ($a_ecs_type) {
             case ilECSUtils::TYPE_TIMEPLACE:
                 if ($a_value instanceof ilECSTimePlace) {

@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -11,7 +25,7 @@ class ilCourseImporter extends ilXmlImporter
     public const ENTITY_OBJECTIVE = 'objectives';
 
     private ?ilObjCourse $course = null;
-    private $final_processing_info = array();
+    private array $final_processing_info = [];
 
     protected ilLogger $logger;
 
@@ -81,7 +95,7 @@ class ilCourseImporter extends ilXmlImporter
         }
     }
 
-    protected function addFinalProcessingInfo($a_course, $a_entity, $a_xml)
+    protected function addFinalProcessingInfo($a_course, $a_entity, $a_xml) : void
     {
         $this->final_processing_info[] = array(
             'course' => $a_course,

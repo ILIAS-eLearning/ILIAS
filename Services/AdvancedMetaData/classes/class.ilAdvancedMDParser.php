@@ -56,6 +56,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 
     public function setHandlers($a_xml_parser) : void
     {
+        // PHP8-Review: Incompatible types: Expected property of type 'array', '\ilSaxController' provided
         $this->sax_controller = new ilSaxController();
         $this->sax_controller->setHandlers($a_xml_parser);
         $this->sax_controller->setDefaultElementHandler($this);
@@ -144,7 +145,8 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         }
         $this->cdata = '';
     }
-
+    
+    // PHP8-Review: Parameter's name changed during inheritance
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {

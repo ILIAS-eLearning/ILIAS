@@ -38,7 +38,7 @@ class Collection
     public function add(string $key, $value) : void
     {
         if ($this->exists($key)) {
-            throw new LogicException("Key {$key} already exists.");
+            throw new LogicException("Key $key already exists.");
         }
         $this->values[$key] = $value;
     }
@@ -78,7 +78,7 @@ class Collection
     public function replace(string $key, $value) : void
     {
         if (!$this->exists($key)) {
-            throw new LogicException("Key {$key} does not exists.");
+            throw new LogicException("Key $key does not exists.");
         }
         $this->values[$key] = $value;
     }

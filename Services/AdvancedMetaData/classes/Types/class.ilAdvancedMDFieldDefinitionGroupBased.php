@@ -162,6 +162,7 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
     /**
      * @inheritdoc
      */
+    // PHP8-Review: Parameter's name changed during inheritance
     public function getComplexOptionsOverview(object $a_parent_gui, string $a_parent_cmd) : ?string
     {
         $tbl = new ilAdvancedMDFieldDefinitionGroupTableGUI($a_parent_gui, $a_parent_cmd, $this);

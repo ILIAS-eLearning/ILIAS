@@ -87,5 +87,6 @@ class ilAdvancedMDSearch extends ilAbstractSearch
             }
             return $this->search_result;
         }
+        // PHP8-Review: Inconsistent return points
     }
 }

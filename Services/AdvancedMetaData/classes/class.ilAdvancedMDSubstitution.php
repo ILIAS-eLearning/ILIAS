@@ -281,6 +281,7 @@ class ilAdvancedMDSubstitution
 
     private function initECSMappings() : void
     {
+        // PHP8-Review: 'return' is unnecessary as the last statement in a method
         return;
     }
 }
