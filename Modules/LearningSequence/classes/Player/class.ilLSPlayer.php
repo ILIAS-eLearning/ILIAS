@@ -96,9 +96,15 @@ class ilLSPlayer
 
         $current_item_ref_id = $current_item->getRefId();
         //now, digest parameter:
-        $command = $get->retrieve(self::PARAM_LSO_COMMAND, $this->refinery->kindlyTo()->string());
-        $param = $get->retrieve(self::PARAM_LSO_PARAMETER, $this->refinery->kindlyTo()->int());
-
+        $command = null;
+        if ($get->has(self::PARAM_LSO_COMMAND)) {
+            $command = $get->retrieve(self::PARAM_LSO_COMMAND, $this->refinery->kindlyTo()->string());
+        }
+        $param = null;
+        if ($get->has(self::PARAM_LSO_PARAMETER)) {
+            $param = $get->retrieve(self::PARAM_LSO_PARAMETER, $this->refinery->kindlyTo()->int());
+        }
+        
         switch ($command) {
             case self::LSO_CMD_SUSPEND:
             case self::LSO_CMD_FINISH:
@@ -210,9 +216,9 @@ class ilLSPlayer
         ILIAS\KioskMode\View $view,
         RequestWrapper $get
     ) : ILIAS\KioskMode\State {
-        $command = $get->retrieve(self::PARAM_LSO_COMMAND, $this->refinery->kindlyTo()->string());
-        $param = $get->retrieve(self::PARAM_LSO_PARAMETER, $this->refinery->kindlyTo()->int());
-        if (!is_null($command)) {
+        if ($get->has(self::PARAM_LSO_COMMAND) && $get->has(self::PARAM_LSO_PARAMETER)) {
+            $command = $get->retrieve(self::PARAM_LSO_COMMAND, $this->refinery->kindlyTo()->string());
+            $param = $get->retrieve(self::PARAM_LSO_PARAMETER, $this->refinery->kindlyTo()->int());
             $state = $view->updateGet($state, $command, $param);
         }
         return $state;

@@ -115,7 +115,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
 
         if (
-            !$this->access->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
+            !$this->access->checkAccessOfUser((int) $a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
             is_array($info = $this->access->getInfo())
         ) {
             $this->tpl->setCurrentBlock('access_warning');
@@ -123,7 +123,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (!ilObjUser::_lookupActive($a_set['usr_id'])) {
+        if (!ilObjUser::_lookupActive((int) $a_set['usr_id'])) {
             $this->tpl->setCurrentBlock('access_warning');
             $this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
             $this->tpl->parseCurrentBlock();
@@ -174,8 +174,8 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->tpl->setVariable('COMPLETED_STEPS', $this->getCompletedSteps((int) $a_set['usr_id']));
         $this->tpl->setVariable('LAST_VISITED_STEP', $this->getLastVisitedStep((int) $a_set['usr_id']));
 
-        if ($this->getParticipants()->isAdmin($a_set['usr_id'])) {
-            $this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
+        if ($this->getParticipants()->isAdmin((int) $a_set['usr_id'])) {
+            $this->tpl->setVariable('VAL_NOTIFICATION_ID', (int) $a_set['usr_id']);
             $this->tpl->setVariable(
                 'VAL_NOTIFICATION_CHECKED',
                 $a_set['notification'] ? 'checked="checked"' : ''
@@ -330,7 +330,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                 }
             }
 
-            if ($this->current_filter['org_units']) {
+            if (array_key_exists('org_units', $this->current_filter)) {
                 $org_unit = $this->current_filter['org_units'];
                 $title = ilObjectFactory::getInstanceByRefId($org_unit)->getTitle();
                 $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
@@ -344,14 +344,14 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 
             $roles = array();
             foreach ($local_roles as $role_id => $role_name) {
-                if ($this->rbac_review->isAssigned($user_id, $role_id)) {
+                if ($this->rbac_review->isAssigned((int) $user_id, $role_id)) {
                     $roles[] = $role_name;
                 }
             }
 
             $user_data[$user_id]['name'] = $user_data[$user_id]['lastname'] . ', ' . $user_data[$user_id]['firstname'];
             $user_data[$user_id]['roles_label'] = implode('<br />', $roles);
-            $user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition($user_id);
+            $user_data[$user_id]['roles'] = $this->participants->setRoleOrderPosition((int) $user_id);
         }
 
         // Custom user data fields

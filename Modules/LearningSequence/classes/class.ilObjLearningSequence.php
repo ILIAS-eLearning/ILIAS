@@ -393,7 +393,7 @@ class ilObjLearningSequence extends ilContainer
     }
 
     /**
-     * @return LSLearnerItem[]|[]
+     * @return LSLearnerItem[]
      */
     public function getLSLearnerItems(int $usr_id) : array
     {
@@ -501,6 +501,21 @@ class ilObjLearningSequence extends ilContainer
         $act_db->setEffectiveOnlineStatus($this->getRefId(), $status);
     }
 
+    public function getCurrentUserCurriculum() : string
+    {
+        $dic = $this->getLocalDI();
+        $curriculum = $dic["player.curriculumbuilder"]->getLearnerCurriculum(false);
+        return $dic['ui.renderer']->render($curriculum);
+    }
+
+    public function getCurrentUserLaunchButtons() : string
+    {
+        $dic = $this->getLocalDI();
+        $buttons = $dic["player.launchlinksbuilder"]->getLaunchbuttonsComponent();
+        return $dic['ui.renderer']->render($buttons);
+    }
+
+
     /***************************************************************************
     * Role Stuff
     ***************************************************************************/
@@ -563,5 +578,53 @@ class ilObjLearningSequence extends ilContainer
         return [
             ilLPStatus::LP_STATUS_COMPLETED_NUM
         ];
+    }
+
+    const CP_INTRO = -1;
+    const CP_EXTRO = -2;
+    const CP_TYPE = 'cont';
+    
+    public function getContentPageId(int $factor) : int
+    {
+        if (!in_array($factor, [self::CP_INTRO, self::CP_EXTRO])) {
+            throw new \InvalidArgumentException("not a valid modifier for page id: '$factor'");
+        }
+        return $this->getId() * $factor;
+    }
+
+    public function hasContentPage(int $factor) : bool
+    {
+        $page_id = $this->getContentPageId($factor);
+        return ilContainerPage::_exists(self::CP_TYPE, $page_id);
+    }
+
+    public function createContentPage(int $factor) : void
+    {
+        if ($this->hasContentPage($factor)) {
+            throw new \LogicException('will not create content page - it already exists.');
+        }
+        $page_id = $this->getContentPageId($factor);
+        $new_page_object = new \ilContainerPage();
+        $new_page_object->setId($page_id);
+        $new_page_object->setParentId($this->getId());
+        $new_page_object->createFromXML();
+    }
+
+    public function getContentPageHTML(int $factor) : string
+    {
+        if (!$this->hasContentPage($factor)) {
+            return '';
+        }
+        $page_id = $this->getContentPageId($factor);
+        $gui = new ilObjLearningSequenceEditIntroGUI(
+            self::CP_TYPE,
+            $page_id
+        );
+
+        $gui->setPresentationTitle("");
+        $gui->setTemplateOutput(false);
+        $gui->setHeader("");
+        $ret = $gui->showPage();
+        return $ret;
     }
 }
