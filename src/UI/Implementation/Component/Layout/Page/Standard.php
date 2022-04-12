@@ -72,6 +72,10 @@ class Standard implements Page\Standard
      * @var    bool
      */
     private $ui_demo = false;
+    /**
+     * @var array
+     */
+    protected $meta_data = [];
 
     /**
      * Standard constructor.
@@ -294,5 +298,17 @@ class Standard implements Page\Standard
         $clone = clone $this;
         $clone->footer = null;
         return $clone;
+    }
+    
+    public function withAdditionalMetaDatum(string $key, string $value) : \ILIAS\UI\Component\Layout\Page\Standard
+    {
+        $clone = clone $this;
+        $clone->meta_data[$key] = $value;
+        return $clone;
+    }
+    
+    public function getMetaData() : array
+    {
+        return $this->meta_data;
     }
 }

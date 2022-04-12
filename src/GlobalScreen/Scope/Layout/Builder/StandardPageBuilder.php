@@ -15,6 +15,10 @@ class StandardPageBuilder implements PageBuilder
      * @var \ILIAS\DI\UIServices
      */
     protected $ui;
+    /**
+     * @var \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent
+     */
+    protected $meta;
 
 
     /**
@@ -24,6 +28,7 @@ class StandardPageBuilder implements PageBuilder
     {
         global $DIC;
         $this->ui = $DIC->ui();
+        $this->meta = $DIC->globalScreen()->layout()->meta();
     }
 
 
@@ -55,7 +60,11 @@ class StandardPageBuilder implements PageBuilder
             $short_title,
             $view_title
         );
-
+        
+        foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
+            $page = $page->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
+        }
+        
         if (null !== $responsive_header_image) {
             $page = $page->withResponsiveLogo($responsive_header_image);
         }
