@@ -2792,7 +2792,6 @@ chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 chatroom_adm#:#smiley#:#Smilies
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
-chatroom#:#preferred_chatname#:#Preferred Name
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
 chatroom#:#autogen_usernames#:#Auto Generated User Names
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.
@@ -2955,6 +2954,7 @@ chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#period#:#Period
 chatroom#:#permissions#:#Permissions
+chatroom#:#preferred_chatname#:#Preferred Name
 chatroom#:#private_room_closed#:#The chat room <b>#title#</b> has been closed.
 chatroom#:#private_room_entered_user#:#The user <b>#username#</b> has entered the private room <b>#title#</b>.
 chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
