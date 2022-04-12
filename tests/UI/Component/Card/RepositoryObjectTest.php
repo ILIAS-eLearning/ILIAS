@@ -125,11 +125,10 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $c = $this->getBaseCard();
         $c = $c->withObjectIcon($icon);
 
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
-        $expected_html = <<<EOT
+        $expected_html = $this->brutallyTrimHTML(<<<EOT
 <div class="il-card thumbnail">
-	
 	<div class="il-card-repository-head">
 		<div>
 			<img class="icon crs medium" src="./templates/default/images/icon_crs.svg" alt="Course" />
@@ -141,14 +140,11 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 			
 		</div>
 	</div>
-<img src="src" class="img-standard" alt="alt" />
+    <div class="il-card-image-container"><img src="src" class="img-standard" alt="alt" /></div>
 	<div class="card-no-highlight"></div>
-	<div class="caption">
-		<div class="card-title">Card Title</div>
-	</div>
-	
+    <div class="caption card-title">Card Title</div>
 </div>
-EOT;
+EOT);
 
         $this->assertHTMLEquals($expected_html, $html);
     }
@@ -161,9 +157,9 @@ EOT;
         //TODO get skin fail?
         $c = $c->withCertificateIcon(true);
 
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
-        $expected_html = <<<EOT
+        $expected_html = $this->brutallyTrimHTML(<<<EOT
 <div class="il-card thumbnail">
 	
 	<div class="il-card-repository-head">
@@ -177,14 +173,11 @@ EOT;
 			
 		</div>
 	</div>
-<img src="src" class="img-standard" alt="alt" />
+    <div class="il-card-image-container"><img src="src" class="img-standard" alt="alt" /></div>
 	<div class="card-no-highlight"></div>
-	<div class="caption">
-		<div class="card-title">Card Title</div>
-	</div>
-	
+    <div class="caption card-title">Card Title</div>
 </div>
-EOT;
+EOT);
 
         $this->assertHTMLEquals($expected_html, $html);
     }
@@ -196,41 +189,29 @@ EOT;
         $prg = new I\Component\Chart\ProgressMeter\Mini(100, 80);
         $c = $c->withProgress($prg);
 
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
-        $expected_html = <<<EOT
-<div class="il-card thumbnail">
-	
-	<div class="il-card-repository-head">
-		<div>
-			
-		</div>
-		<div>
-			<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
-    <div class="il-chart-progressmeter-container">
-        <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
-            <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" 
-                  d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
-            <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100" 
-                  d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
-            <path class="il-chart-progressmeter-needle no-needle" stroke-dasharray="100, 100" d="M25,10 l0,15" 
-                  style="transform: rotate(deg)"></path>
-        </svg>
-    </div>
-</div>
-		</div>
-		<div class="il-card-repository-dropdown">
-			
-		</div>
-	</div>
-<img src="src" class="img-standard" alt="alt" />
-	<div class="card-no-highlight"></div>
-	<div class="caption">
-		<div class="card-title">Card Title</div>
-	</div>
-	
-</div>
-EOT;
+        $expected_html = $this->brutallyTrimHTML('
+                <div class="il-card thumbnail">
+                   <div class="il-card-repository-head">
+                      <div></div>
+                      <div>
+                         <div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
+                            <div class="il-chart-progressmeter-container">
+                               <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
+                                  <path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
+                                  <path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100" d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
+                                  <path class="il-chart-progressmeter-needle no-needle" stroke-dasharray="100, 100" d="M25,10 l0,15" style="transform: rotate(deg)"></path>
+                               </svg>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="il-card-repository-dropdown"></div>
+                   </div>
+                   <div class="il-card-image-container"><img src="src" class="img-standard" alt="alt"/></div>
+                   <div class="card-no-highlight"></div>
+                   <div class="caption card-title">Card Title</div>
+                </div>');
 
         $this->assertHTMLEquals($expected_html, $html);
     }
@@ -260,11 +241,9 @@ EOT;
                         </div>
                     </div>
                 </div>
-                <img src="src" class="img-standard" alt="alt" />
+                <div class="il-card-image-container"><img src="src" class="img-standard" alt="alt" /></div>
                 <div class="card-no-highlight"></div>
-                <div class="caption">
-                    <div class="card-title">Card Title</div>
-                </div>
+                <div class="caption card-title">Card Title</div>
             </div>
         ');
 
