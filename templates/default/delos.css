@@ -7820,6 +7820,9 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item .row .row > .col-md-6 {
   margin-bottom: 6px;
 }
+.il-item .il-item-audio {
+  padding: 6px 0;
+}
 .il-item-marker {
   border-left: 5px solid;
 }
@@ -14233,6 +14236,9 @@ a.nostyle:hover {
 #error_panel_c {
   z-index: 2000 !important;
 }
+#ilPageEditLegend {
+  margin: 10px 0;
+}
 #ilPageEditLegend > div {
   margin: 5px 0;
 }
@@ -14247,7 +14253,7 @@ a.nostyle:hover {
   height: 21px;
 }
 #ilPageEditLegend tr > td {
-  padding: 9px;
+  padding: 3px 15px;
 }
 #ilPageEditLegend tr > td:first-child {
   white-space: nowrap;
@@ -14364,7 +14370,7 @@ div.ilCOPGMediaPrint {
   min-width: 100px;
 }
 #copg-editor-slate-content {
-  padding: 15px;
+  padding: 9px 0px;
 }
 #copg-editor-slate-content p {
   padding: 0;
@@ -14382,19 +14388,38 @@ div.ilCOPGMediaPrint {
 #copg-editor-slate-content div.alert {
   margin: 10px 0;
 }
-#copg-editor-slate-content form .ilFormHeader {
-  padding: 10px;
+#copg-editor-slate-content form.form-horizontal {
+  margin-bottom: 9px;
 }
-#copg-editor-slate-content form .ilFormHeader h3.ilHeader {
+#copg-editor-slate-content form.form-horizontal .ilFormHeader {
+  padding: 9px 15px;
+}
+#copg-editor-slate-content form.form-horizontal .ilFormHeader h3.ilHeader {
   font-size: 14px;
 }
-#copg-editor-slate-content form .col-sm-3,
-#copg-editor-slate-content form .col-sm-9 {
+#copg-editor-slate-content form.form-horizontal .col-sm-3,
+#copg-editor-slate-content form.form-horizontal .col-sm-9 {
   width: 100%;
 }
-#copg-editor-slate-content form .control-label {
+#copg-editor-slate-content form.form-horizontal .control-label {
   text-align: left;
   font-weight: bold;
+  min-height: auto;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+#copg-editor-slate-content form.form-horizontal .ilFormFooter {
+  padding: 3px 15px;
+  background-color: white;
+}
+#copg-editor-slate-content > .btn-link {
+  padding: 0px 15px;
+}
+#copg-top-actions {
+  padding: 0 15px;
+}
+.copg-edit-button-group {
+  padding: 3px 15px;
 }
 p#copg-auto-save {
   padding: 0;
