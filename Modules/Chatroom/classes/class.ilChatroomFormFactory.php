@@ -185,7 +185,7 @@ class ilChatroomFormFactory
         $custom_opt = new ilRadioOption($this->lng->txt('custom_username'), 'custom_username');
         $radio->addOption($custom_opt);
 
-        $txt = new ilTextInputGUI($this->lng->txt('custom_username'), 'custom_username_text');
+        $txt = new ilTextInputGUI($this->lng->txt('preferred_chatname'), 'custom_username_text');
         $custom_opt->addSubItem($txt);
         $form->addItem($radio);
 
