@@ -167,6 +167,5 @@ class ToolProxy
         if (!$ok) {
             $this->enabled = false;//$autoEnable;
         }
-
     }
 }
