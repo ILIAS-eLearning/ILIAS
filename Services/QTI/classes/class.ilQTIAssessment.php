@@ -1,27 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-require_once 'Services/QTI/interfaces/interface.ilQTIPresentationMaterialAware.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * QTI assessment class
@@ -33,31 +27,19 @@ require_once 'Services/QTI/interfaces/interface.ilQTIPresentationMaterialAware.p
 */
 class ilQTIAssessment implements ilQTIPresentationMaterialAware
 {
-    public ?string $ident;
-    public ?string $title;
-    public ?string $xmllang;
-    public ?string $comment;
+    public ?string $ident = null;
+    public ?string $title = null;
+    public ?string $xmllang = null;
+    public ?string $comment = null;
     /** @var null|array{h: string, m: string, s: string} */
-    public ?array $duration;
+    public ?array $duration = null;
     /** @var array{label: string, entry: string}[] */
-    public array $qtimetadata;
+    public array $qtimetadata = [];
     /** @var ilQTIObjectives[] */
-    public array $objectives;
+    public array $objectives = [];
     /** @var ilQTIAssessmentcontrol[] */
-    public array $assessmentcontrol;
-    protected ilQTIPresentationMaterial $presentation_material;
-
-    public function __construct()
-    {
-        $this->ident = null;
-        $this->title = null;
-        $this->xmllang = null;
-        $this->comment = null;
-        $this->duration = null;
-        $this->qtimetadata = [];
-        $this->objectives = [];
-        $this->assessmentcontrol = [];
-    }
+    public array $assessmentcontrol = [];
+    protected ?ilQTIPresentationMaterial $presentation_material = null;
 
     public function setIdent(string $a_ident) : void
     {
@@ -89,7 +71,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         return $this->comment;
     }
 
-    public function setDuration(string $a_duration) : void
+    public function setDuration(string $a_duration) : void // TODO PHP8-REVIEW Check if this function is really used
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -126,19 +108,19 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         $this->qtimetadata[] = $a_metadata;
     }
 
-    public function addObjectives(?ilQTIObjectives $a_objectives) : void
+    public function addObjectives(?ilQTIObjectives $a_objectives) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
     {
         $this->objectives[] = $a_objectives;
     }
 
-    public function addAssessmentcontrol(ilQTIAssessmentcontrol $a_assessmentcontrol) : void
+    public function addAssessmentcontrol(?ilQTIAssessmentcontrol $a_assessmentcontrol) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
     {
         $this->assessmentcontrol[] = $a_assessmentcontrol;
     }
 
-    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material) : void
+    public function setPresentationMaterial(ilQTIPresentationMaterial $presentation_material) : void
     {
-        $this->presentation_material = $a_material;
+        $this->presentation_material = $presentation_material;
     }
 
     public function getPresentationMaterial() : ?ilQTIPresentationMaterial

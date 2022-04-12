@@ -1,5 +1,22 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 use PHPUnit\Framework\TestCase;
 
 class ilQTIRenderFibTest extends TestCase
@@ -75,14 +92,14 @@ class ilQTIRenderFibTest extends TestCase
     {
         class_exists(ilQTIRenderFib::class); // Force autoload to define the constants.
         return [
-            ['1', PROMPT_BOX],
-            ['box', PROMPT_BOX],
-            ['2', PROMPT_DASHLINE],
-            ['dashline', PROMPT_DASHLINE],
-            ['3', PROMPT_ASTERISK],
-            ['asterisk', PROMPT_ASTERISK],
-            ['4', PROMPT_UNDERLINE],
-            ['underline', PROMPT_UNDERLINE],
+            ['1', ilQTIRenderFib::PROMPT_BOX],
+            ['box', ilQTIRenderFib::PROMPT_BOX],
+            ['2', ilQTIRenderFib::PROMPT_DASHLINE],
+            ['dashline', ilQTIRenderFib::PROMPT_DASHLINE],
+            ['3', ilQTIRenderFib::PROMPT_ASTERISK],
+            ['asterisk', ilQTIRenderFib::PROMPT_ASTERISK],
+            ['4', ilQTIRenderFib::PROMPT_UNDERLINE],
+            ['underline', ilQTIRenderFib::PROMPT_UNDERLINE],
         ];
     }
 
@@ -90,14 +107,14 @@ class ilQTIRenderFibTest extends TestCase
     {
         class_exists(ilQTIRenderFib::class); // Force autoload to define the constants.
         return [
-            ['1', FIBTYPE_STRING],
-            ['string', FIBTYPE_STRING],
-            ['2', FIBTYPE_INTEGER],
-            ['integer', FIBTYPE_INTEGER],
-            ['3', FIBTYPE_DECIMAL],
-            ['decimal', FIBTYPE_DECIMAL],
-            ['4', FIBTYPE_SCIENTIFIC],
-            ['scientific', FIBTYPE_SCIENTIFIC],
+            ['1', ilQTIRenderFib::FIBTYPE_STRING],
+            ['string', ilQTIRenderFib::FIBTYPE_STRING],
+            ['2', ilQTIRenderFib::FIBTYPE_INTEGER],
+            ['integer', ilQTIRenderFib::FIBTYPE_INTEGER],
+            ['3', ilQTIRenderFib::FIBTYPE_DECIMAL],
+            ['decimal', ilQTIRenderFib::FIBTYPE_DECIMAL],
+            ['4', ilQTIRenderFib::FIBTYPE_SCIENTIFIC],
+            ['scientific', ilQTIRenderFib::FIBTYPE_SCIENTIFIC],
         ];
     }
 }

@@ -46,7 +46,7 @@ class assTextSubsetImport extends assQuestionImport
             switch ($entry["type"]) {
                 case "response":
                     $response = $presentation->response[$entry["index"]];
-                    if ($response->getResponseType() == RT_RESPONSE_STR) {
+                    if ($response->getResponseType() == ilQTIResponse::RT_RESPONSE_STR) {
                         array_push($idents, $response->getIdent());
                     }
                     break;
@@ -75,7 +75,7 @@ class assTextSubsetImport extends assQuestionImport
                     }
                 }
                 foreach ($respcondition->setvar as $setvar) {
-                    if ((strcmp($setvar->getVarname(), "matches") == 0) && ($setvar->getAction() == ACTION_ADD)) {
+                    if ((strcmp($setvar->getVarname(), "matches") == 0) && ($setvar->getAction() == ilQTISetvar::ACTION_ADD)) {
                         foreach ($responses[$respident] as $idx => $solutionarray) {
                             if (strlen($solutionarray["points"] == 0)) {
                                 $responses[$respident][$idx]["points"] = $setvar->getContent();
