@@ -9238,17 +9238,15 @@ footer {
 @media only screen and (max-width: 768px) {
   .il-layout-page {
     background: #f0f0f0;
-    display: grid;
-    grid-gap: 0px;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 45px 1fr auto;
-    height: 100%;
-    overflow: hidden;
+    display: block;
+    overflow: initial;
     width: 100%;
   }
   .il-layout-page .nav.il-maincontrols {
-    grid-row: 4;
-    grid-column: 1;
+    position: fixed;
+    bottom: 0;
+    z-index: 997;
+    width: 100%;
   }
   .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar {
     display: grid;
@@ -9283,7 +9281,7 @@ footer {
     -ms-grid-row: 3;
     grid-column: 1;
     grid-row: 3;
-    height: 100%;
+    height: calc(100% - 45px);
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
     -ms-grid-columns: 1fr;
@@ -9314,13 +9312,13 @@ footer {
     display: none;
   }
   header {
-    -ms-grid-column: 1;
-    -ms-grid-row: 1;
-    grid-column: 1;
-    grid-row: 2;
-    z-index: 999;
+    position: -webkit-sticky;
+    position: sticky;
+    width: 100%;
+    top: 0;
   }
   .header-inner {
+    position: relative;
     height: 45px;
     padding: 0;
     width: 100%;
@@ -9430,15 +9428,13 @@ footer {
     display: block;
   }
   .il-layout-page-content {
-    -ms-grid-column: 1;
-    -ms-grid-row: 3;
-    grid-column: 1;
-    grid-row: 3;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 45px);
+    padding-bottom: 50px;
   }
-  div.il-system-infos {
-    grid-column: 1;
-    -ms-grid-column: 1;
+  .il-layout-page-content > div {
+    flex-grow: 1;
   }
 }
 /*
@@ -11973,6 +11969,14 @@ body {
     -webkit-text-size-adjust: none;
   }
 }
+@media only screen and (max-width: 768px) {
+  html,
+  body {
+    overflow: initial;
+    height: auto;
+    min-height: 100vh;
+  }
+}
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
 body {
   -ms-overflow-style: scrollbar;
@@ -14048,7 +14052,7 @@ div.il-copg-button-group-wide {
   margin: 0;
 }
 #iltinymenu {
-  padding: 0 15px;
+  padding: 0 12px;
 }
 #iltinymenu .bd div.last {
   float: left;
@@ -14256,7 +14260,7 @@ a.nostyle:hover {
   height: 21px;
 }
 #ilPageEditLegend tr > td {
-  padding: 3px 15px;
+  padding: 3px 12px;
 }
 #ilPageEditLegend tr > td:first-child {
   white-space: nowrap;
@@ -14373,7 +14377,7 @@ div.ilCOPGMediaPrint {
   min-width: 100px;
 }
 #copg-editor-slate-content {
-  padding: 9px 0px;
+  padding: 6px 0px;
 }
 #copg-editor-slate-content p {
   padding: 0;
@@ -14392,10 +14396,10 @@ div.ilCOPGMediaPrint {
   margin: 10px 0;
 }
 #copg-editor-slate-content form.form-horizontal {
-  margin-bottom: 9px;
+  margin-bottom: 6px;
 }
 #copg-editor-slate-content form.form-horizontal .ilFormHeader {
-  padding: 9px 15px;
+  padding: 6px 12px;
 }
 #copg-editor-slate-content form.form-horizontal .ilFormHeader h3.ilHeader {
   font-size: 14px;
@@ -14412,17 +14416,17 @@ div.ilCOPGMediaPrint {
   margin-bottom: 0;
 }
 #copg-editor-slate-content form.form-horizontal .ilFormFooter {
-  padding: 3px 15px;
+  padding: 3px 12px;
   background-color: white;
 }
 #copg-editor-slate-content > .btn-link {
-  padding: 0px 15px;
+  padding: 0px 12px;
 }
 #copg-top-actions {
-  padding: 0 15px;
+  padding: 0 12px;
 }
 .copg-edit-button-group {
-  padding: 3px 15px;
+  padding: 3px 12px;
 }
 p#copg-auto-save {
   padding: 0;
