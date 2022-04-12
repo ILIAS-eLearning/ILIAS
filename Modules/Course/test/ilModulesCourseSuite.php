@@ -19,15 +19,16 @@ use PHPUnit\Framework\TestSuite;
 
 class ilModulesCourseSuite extends TestSuite
 {
-    public static function suite() : ilModulesCourseSuite
+    public static function suite() : self
     {
-        $suite = new ilModulesCourseSuite();
-        /** @noRector  */
-        include_once './Modules/Course/test/ilCourseTest.php';
-        $suite->addTestSuite("ilCourseTest");
+        $suite = new self();
+
         /** @noRector  */
         include_once './Modules/Course/test/ilCourseMailTemplateTutorContextTest.php';
         $suite->addTestSuite("ilCourseMailTemplateTutorContextTest");
+
+        include_once './Modules/Course/test/Timings/ilTimingAcceptedTest.php';
+        $suite->addTestSuite(ilTimingAcceptedTest::class);
 
         return $suite;
     }

@@ -130,9 +130,12 @@ class ilTimingAccepted
 
     public function __read() : void
     {
+        if ($this->obj_id <= 0 || $this->user_id <= 0) {
+            return;
+        }
         $query = "SELECT * FROM crs_timings_usr_accept " .
             "WHERE crs_id = " . $this->db->quote($this->getCourseId(), 'integer') . " " .
-            "AND usr_id = " . $this->db->quote($this->getUserId(), 'integer') . "";
+            "AND usr_id = " . $this->db->quote($this->getUserId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setVisible((bool) $row->visible);
