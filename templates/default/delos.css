@@ -13056,9 +13056,6 @@ img.ilSmallIcon {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-span.ilIcalIcon {
-  text-align: initial;
-}
 /* Component Imports */
 /* Services/Accordion */
 .il_VAccordionHead,
@@ -14866,6 +14863,10 @@ span.calminiinactive {
 .calnewapplink {
   float: right;
   visibility: hidden;
+}
+span.ilIcalIcon .btn {
+  text-align: initial;
+  margin-top: 6px;
 }
 /* Modules/Wiki */
 a.ilWikiPageMissing:link,
