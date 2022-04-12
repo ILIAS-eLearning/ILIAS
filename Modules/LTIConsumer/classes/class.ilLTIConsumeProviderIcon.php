@@ -216,14 +216,16 @@ class ilLTIConsumeProviderIcon
      */
     public function handleUploadInputSubission(ilImageFileInputGUI $fileInput) : void
     {
+        global $DIC;
+
         if ($fileInput->getDeletionFlag()) {
             $this->delete();
         }
         
         // ilImageFileInputGUI does NOT come with a set value that could be fetched with
         // $fileInput->getValue(). Instead ilImageFileInputGUI provides upload info in $_POST.
-        $fileData = $_POST[$fileInput->getPostVar()];
-        
+        $fileData = $DIC->http()->wrapper()->post()->retrieve($fileInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
+
         if ($fileData['tmp_name']) {
             $this->save($fileData['tmp_name']);
         }

@@ -260,7 +260,7 @@ class ilLTIConsumerResultService
      * @param string    file name
      * @return string   file content
      */
-    protected function loadResponse($a_name)
+    protected function loadResponse($a_name) : string
     {
         return file_get_contents('./Modules/LTIConsumer/responses/' . $a_name);
     }

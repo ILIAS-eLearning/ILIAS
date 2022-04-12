@@ -123,7 +123,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         $this->tpl->touchBlock("d_" . $cnt);	// indent main div
     }
     
-    protected function getIconHref()
+    protected function getIconHref() : string
     {
         /* @var ilObjLTIConsumer $object */
         $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
@@ -132,7 +132,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
             return $object->getProvider()->getProviderIcon()->getAbsoluteFilePath();
         }
         
-        return ilObject::_getIcon((int) $this->obj_id, "small", $this->getIconImageType());
+        return ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType());
     }
 
     /**
@@ -156,7 +156,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         );
 
         $validator = new ilCertificateDownloadValidator();
-        if ($validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->obj_id)) {
+        if ($validator->isCertificateDownloadable($DIC->user()->getId(), $this->obj_id)) {
             $DIC->ctrl()->setParameterByClass(ilLTIConsumerSettingsGUI::class, 'ref_id', $this->ref_id);
             
             $certLink = $DIC->ui()->factory()->link()->standard(

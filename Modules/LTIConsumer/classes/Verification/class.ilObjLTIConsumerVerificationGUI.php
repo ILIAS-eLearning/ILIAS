@@ -52,8 +52,9 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $objId = $_REQUEST["lti_id"];
+
+        $objId = $this->getRequestValue("lti_id");
+
         if ($objId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
                 $DIC->language(),
@@ -65,7 +66,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
             $userCertificateRepository = new ilUserCertificateRepository();
 
             $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
-                (int) $DIC->user()->getId(),
+                $DIC->user()->getId(),
                 (int) $objId
             );
 
@@ -111,6 +112,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     public function render(bool $a_return = false, bool $a_url = false) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $message = '';
 
         if (!$a_return) {
             $this->deliver();
@@ -156,10 +158,32 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     
     public static function _goto($a_target) : void
     {
+        global $DIC;
+        $ctrl = $DIC->ctrl();
         $id = explode("_", $a_target);
-        
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        exit;
+
+        $ctrl->setParameterByClass(
+            "ilsharedresourceGUI",
+            "wsp_id",
+            $id[0]
+        );
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $default
+     * @return mixed|null
+     */
+    protected function getRequestValue(string $key, $default = null)
+    {
+        if (isset($this->request->getQueryParams()[$key])) {
+            return $this->request->getQueryParams()[$key];
+        }
+
+        if (isset($this->request->getParsedBody()[$key])) {
+            return $this->request->getParsedBody()[$key];
+        }
+
+        return $default ?? null;
     }
 }

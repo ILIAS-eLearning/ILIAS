@@ -202,7 +202,7 @@ class ilLTIConsumerSettingsGUI
 
         $validator = new ilCertificateDownloadValidator();
 
-        if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
+        if (!$validator->isCertificateDownloadable($DIC->user()->getId(), $this->object->getId())) {
             $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class, ilObjLTIConsumerGUI::DEFAULT_CMD);
         }
@@ -219,6 +219,6 @@ class ilLTIConsumerSettingsGUI
             $DIC->language()->txt('error_creating_certificate_pdf')
         );
 
-        $pdfAction->downloadPdf((int) $DIC->user()->getId(), (int) $this->object->getId());
+        $pdfAction->downloadPdf($DIC->user()->getId(), $this->object->getId());
     }
 }

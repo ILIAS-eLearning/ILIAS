@@ -35,10 +35,11 @@ class ilLTIConsumeProviderSettingsGUI
      * @var ilLTIConsumerAccess
      */
     protected ilLTIConsumerAccess $access;
-    
+
     /**
      * ilLTIConsumerAccess constructor.
-     * @param ilObjLTIConsumer $object
+     * @param ilObjLTIConsumer    $object
+     * @param ilLTIConsumerAccess $access
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {

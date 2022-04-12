@@ -87,6 +87,8 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
      * @var bool
      */
     protected bool $detailedUsagesEnabled = false;
+
+    protected array $filter;
     
     public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {

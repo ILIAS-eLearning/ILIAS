@@ -146,7 +146,7 @@ class ilLTIConsumerScoringGUI
     private function getTableDataRange(?bool $scopeUserRank = false) : array
     {
         if (false === $scopeUserRank) {
-            return array_slice($this->tableData, 0, (int) $this->object->getHighscoreTopNum());
+            return array_slice($this->tableData, 0, $this->object->getHighscoreTopNum());
         } else {
             $offset = $this->userRank - 2 < 0 ? 0 : $this->userRank - 2;
             $length = 5;

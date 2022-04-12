@@ -57,9 +57,8 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
     
     public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
-        switch ($a_operator) {
-            case ilConditionHandler::OPERATOR_PASSED:
-                return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
+        if ($a_operator == ilConditionHandler::OPERATOR_PASSED) {
+            return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
         }
         
         return false;

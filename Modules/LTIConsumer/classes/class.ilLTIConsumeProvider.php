@@ -398,6 +398,7 @@ class ilLTIConsumeProvider
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $categories = [];
+        $translation = '';
         
         foreach (self::getValidCategories() as $category) {
             switch ($category) {

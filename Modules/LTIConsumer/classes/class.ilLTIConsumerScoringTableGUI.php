@@ -63,7 +63,10 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
 
         if ($tableId === 'highscore') {
             $this->setTitle(
-                sprintf($DIC->language()->txt('toplist_top_n_results'), (int) $this->_parent->getObject()->getHighscoreTopNum())
+                sprintf(
+                    $DIC->language()->txt('toplist_top_n_results'),
+                    $this->_parent->getObject()->getHighscoreTopNum()
+                )
             );
         } else {
             $this->setTitle($DIC->language()->txt('toplist_your_result'));
@@ -101,7 +104,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         }
 
         $this->setEnableNumInfo(false);
-        $this->setLimit((int) $this->_parent->getObject()->getHighscoreTopNum());
+        $this->setLimit($this->_parent->getObject()->getHighscoreTopNum());
     }
 
     protected function fillRow(array $a_set) : void

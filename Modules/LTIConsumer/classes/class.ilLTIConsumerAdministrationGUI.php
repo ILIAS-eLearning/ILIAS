@@ -210,9 +210,9 @@ class ilLTIConsumerAdministrationGUI
         $DIC->tabs()->activateSubTab('global_provider');
         
         if ($form === null) {
-            if (isset($_GET['provider_id'])) {
+            if ($DIC->http()->wrapper()->query()->has('provider_id')) {
                 $DIC->ctrl()->saveParameter($this, 'provider_id');
-                $provider = new ilLTIConsumeProvider((int) $_GET['provider_id']);
+                $provider = new ilLTIConsumeProvider((int) $DIC->http()->wrapper()->query()->retrieve('provider_id', $DIC->refinery()->kindlyTo()->int()));
             } else {
                 $provider = new ilLTIConsumeProvider();
             }
@@ -285,7 +285,7 @@ class ilLTIConsumerAdministrationGUI
             return;
         }
         
-        $fileData = $_POST['provider_xml'];
+        $fileData = (array) $DIC->http()->wrapper()->post()->retrieve('provider_xml', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->string()));
         
         if (!$fileData['tmp_name']) {
             $this->showGlobalProviderImportCmd($form);
@@ -496,9 +496,9 @@ class ilLTIConsumerAdministrationGUI
         $DIC->tabs()->activateSubTab('user_provider');
         
         if ($form === null) {
-            if (isset($_GET['provider_id'])) {
+            if ($DIC->http()->wrapper()->query()->has('provider_id')) {
                 $DIC->ctrl()->saveParameter($this, 'provider_id');
-                $provider = new ilLTIConsumeProvider((int) $_GET['provider_id']);
+                $provider = new ilLTIConsumeProvider((int) $DIC->http()->wrapper()->query()->retrieve('provider_id', $DIC->refinery()->kindlyTo()->int()));
             } else {
                 $provider = new ilLTIConsumeProvider();
             }
@@ -830,7 +830,7 @@ class ilLTIConsumerAdministrationGUI
             $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('lti_success_delete_provider'), true);
         }
         
-        $DIC->ctrl()->redirect($this, $_GET[self::REDIRECTION_CMD_PARAMETER]);
+        $DIC->ctrl()->redirect($this, $DIC->http()->wrapper()->query()->retrieve(self::REDIRECTION_CMD_PARAMETER, $DIC->refinery()->kindlyTo()->string()));
     }
 
     /**
@@ -898,8 +898,12 @@ class ilLTIConsumerAdministrationGUI
      */
     protected function fetchProvider() : \ilLTIConsumeProvider
     {
-        if (isset($_GET['provider_id'])) {
-            $provider = new ilLTIConsumeProvider((int) $_GET['provider_id']);
+        global $DIC;
+
+        if ($DIC->http()->wrapper()->query()->has('provider_id')) {
+            $provider = new ilLTIConsumeProvider(
+                (int) $DIC->http()->wrapper()->query()->retrieve('provider_id', $DIC->refinery()->kindlyTo()->int())
+            );
         } else {
             $provider = new ilLTIConsumeProvider();
         }
@@ -912,13 +916,17 @@ class ilLTIConsumerAdministrationGUI
      */
     protected function fetchProviderMulti() : array
     {
+        global $DIC;
         $providers = [];
-        
-        if (!isset($_POST['provider_ids']) || !is_array($_POST['provider_ids'])) {
+
+        if (!$DIC->http()->wrapper()->post()->has('provider_ids') ||
+            !$DIC->http()->wrapper()->post()->retrieve('provider_ids', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int()))
+        ) {
             return $providers;
         }
-        
-        foreach ($_POST['provider_ids'] as $providerId) {
+        $provider_ids = $DIC->http()->wrapper()->post()->retrieve('provider_ids', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int()));
+
+        foreach ($provider_ids as $providerId) {
             $providers[(int) $providerId] = new ilLTIConsumeProvider((int) $providerId);
         }
         
