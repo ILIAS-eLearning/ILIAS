@@ -51,6 +51,7 @@ class ilAdvancedMDRecordImportFiles
     public function getImportFileByCreationDate(int $a_unix_time) : string
     {
         $unix_time = (int) $a_unix_time;
+        // PHP8-Review: Redundant cast to string
         return $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . (string) $unix_time . '.xml';
     }
 
@@ -61,6 +62,7 @@ class ilAdvancedMDRecordImportFiles
     public function deleteFileByCreationDate(int $a_unix_time) : bool
     {
         $unix_time = (int) $a_unix_time;
+        // PHP8-Review: Usage of a silence operator, Redundant cast to string
         return @unlink($this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . (string) $unix_time . '.xml');
     }
 
@@ -86,6 +88,7 @@ class ilAdvancedMDRecordImportFiles
      */
     private function init() : void
     {
+        // PHP8-Review: Usage of a silence operator
         if (!@is_dir($this->import_dir)) {
             ilFileUtils::makeDirParents($this->import_dir);
         }

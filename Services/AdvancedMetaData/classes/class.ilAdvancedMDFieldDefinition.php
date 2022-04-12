@@ -169,6 +169,7 @@ abstract class ilAdvancedMDFieldDefinition
             " JOIN adv_md_record amr ON aro.record_id = amr.record_id" .
             " JOIN adv_mdf_definition amf ON aro.record_id = amf.record_id" .
             " WHERE obj_type = " . $ilDB->quote($a_obj_type, 'text');
+        // PHP8-Review: Redundant cast to boolean
         if ((bool) $a_active_only) {
             $query .= " AND active = " . $ilDB->quote(1, "integer");
         }
@@ -952,6 +953,7 @@ abstract class ilAdvancedMDFieldDefinition
     public function setSearchValueSerialized(ilADTSearchBridge $a_adt_search, $a_value) : void
     {
         $a_adt_search->setSerializedValue($a_value);
+        // PHP8-Review: 'return' is unnecessary as the last statement in a method
         return;
     }
 
@@ -990,8 +992,12 @@ abstract class ilAdvancedMDFieldDefinition
 
         $condition = $a_adt_search->getSQLCondition($element_id);
         if ($condition) {
-            $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(),
-                $condition);
+            $objects = ilADTActiveRecordByType::find(
+                "adv_md_values",
+                $this->getADT()->getType(),
+                $this->getFieldId(),
+                $condition
+            );
             if (sizeof($objects)) {
                 $res = array();
                 foreach ($objects as $item) {
@@ -1020,8 +1026,13 @@ abstract class ilAdvancedMDFieldDefinition
         // search type only supported/needed for text
         $condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);
         if ($condition) {
-            $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(),
-                $condition, $a_locate);
+            $objects = ilADTActiveRecordByType::find(
+                "adv_md_values",
+                $this->getADT()->getType(),
+                $this->getFieldId(),
+                $condition,
+                $a_locate
+            );
             if (sizeof($objects)) {
                 return $this->parseSearchObjects($objects, $a_object_types);
             }

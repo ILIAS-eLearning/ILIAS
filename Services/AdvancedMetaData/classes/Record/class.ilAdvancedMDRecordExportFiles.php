@@ -76,6 +76,7 @@ class ilAdvancedMDRecordExportFiles
      */
     public function getFiles() : array
     {
+        // PHP8-Review: Usage of a silence operator
         if (!@is_dir($this->export_dir)) {
             return array();
         }
@@ -94,12 +95,14 @@ class ilAdvancedMDRecordExportFiles
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-
+    
+        // PHP8-Review: Usage of a silence operator
         if (!$fp = @fopen($this->export_dir . '/' . time() . '.xml', 'w+')) {
             $ilLog->write(__METHOD__ . ': Cannot open file ' . $this->export_dir . '/' . time() . '.xml');
             throw new ilException('Cannot write export file.');
         }
-
+    
+        // PHP8-Review: Usage of a silence operator
         @fwrite($fp, $a_xml);
         @fclose($fp);
     }
@@ -124,6 +127,7 @@ class ilAdvancedMDRecordExportFiles
         $ilLog = $DIC['ilLog'];
 
         $a_file_basename = (string) $a_file_basename;
+        // PHP8-Review: Usage of a silence operator
         if (!@file_exists($this->export_dir . '/' . $a_file_basename . '.xml')) {
             $ilLog->write(__METHOD__ . ': Cannot find file ' . $this->export_dir . '/' . $a_file_basename . '.xml');
             return '';
@@ -137,6 +141,7 @@ class ilAdvancedMDRecordExportFiles
      */
     private function init() : void
     {
+        // PHP8-Review: Usage of a silence operator
         if (!@is_dir($this->export_dir)) {
             ilFileUtils::makeDirParents($this->export_dir);
         }

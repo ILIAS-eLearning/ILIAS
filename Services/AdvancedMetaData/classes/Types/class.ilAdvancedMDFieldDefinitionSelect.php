@@ -161,6 +161,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             if ($first) {
                 $title = $this->lng->txt("meta_advmd_select_options");
             }
+            // PHP8-Review: Redundant cast to string
             $text = new ilTextInputGUI($title, 'opts__' . $language . '__' . (string) $index);
             if (isset($translation[$index])) {
                 $text->setValue($translation[$index]);
@@ -301,6 +302,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     {
         $translated_options = [];
         foreach ($this->getOptions() as $idx => $value) {
+            // PHP8-Review: Redundant cast to string
             $value = $form->getInput('opts__' . $language . '__' . (string) $idx);
             $translated_options[] = trim($value);
         }
@@ -313,7 +315,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     {
         return is_array($this->confirm_objects) && count($this->confirm_objects) > 0;
     }
-
+    //PHP8 Code Review: POST usage needs to be reduced/avoided all along the file
     public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;

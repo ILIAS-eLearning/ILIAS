@@ -26,6 +26,7 @@ class ilAdvancedMDValues
     {
         $this->record_id = (int) $a_record_id;
         $this->obj_id = (int) $a_obj_id;
+        // PHP8-Review: Ternary expression can be replaced with short version
         $this->sub_type = $a_sub_type ? $a_sub_type : "-";
         $this->sub_id = (int) $a_sub_id;
     }
@@ -63,6 +64,7 @@ class ilAdvancedMDValues
     public function setActiveRecordPrimary(int $a_obj_id, string $a_sub_type = "-", int $a_sub_id = 0) : void
     {
         $this->obj_id = (int) $a_obj_id;
+        // PHP8-Review: Ternary expression can be replaced with short version
         $this->sub_type = $a_sub_type ? $a_sub_type : "-";
         $this->sub_id = (int) $a_sub_id;
 

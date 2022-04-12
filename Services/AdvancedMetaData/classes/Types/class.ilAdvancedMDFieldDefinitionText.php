@@ -146,6 +146,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
      * @param bool              $a_disabled
      * @param string            $language
      */
+    // PHP8-Review: Method visibility shouldn't be overridden
     public function addCustomFieldToDefinitionForm(
         ilPropertyFormGUI $a_form,
         bool $a_disabled = false,
