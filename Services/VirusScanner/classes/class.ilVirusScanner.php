@@ -1,17 +1,21 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilVirusScanner
 {
     public string $type;
@@ -111,9 +115,9 @@ class ilVirusScanner
     protected function scanFileFromBuffer(string $buffer) : bool
     {
         $bufferFile = $this->createBufferFile($buffer);
-        $isInfected = $this->scanFile($bufferFile);
+        $infection = $this->scanFile($bufferFile);
         $this->removeBufferFile($bufferFile);
-        return $isInfected;
+        return $infection !== '';
     }
 
     protected function createBufferFile(string $buffer) : string
@@ -128,17 +132,17 @@ class ilVirusScanner
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;
 
-        if ($org_name == "infected.txt" or $org_name == "cleanable.txt") {
+        if ($org_name === "infected.txt" || $org_name === "cleanable.txt") {
             $this->scanFileIsInfected = true;
             $this->scanResult =
                 "FILE INFECTED: [" . $file_path . "] (VIRUS: simulated)";
             $this->logScanResult();
             return $this->scanResult;
-        } else {
-            $this->scanFileIsInfected = false;
-            $this->scanResult = "";
-            return "";
         }
+
+        $this->scanFileIsInfected = false;
+        $this->scanResult = "";
+        return "";
     }
 
     public function logScanResult() : void
@@ -162,19 +166,19 @@ class ilVirusScanner
         $this->cleanFilePath = $file_path;
         $this->cleanFileOrigName = $org_name;
 
-        if ($org_name == "cleanable.txt") {
+        if ($org_name === "cleanable.txt") {
             $this->cleanFileIsCleaned = true;
             $this->cleanResult =
                 "FILE CLEANED: [" . $file_path . "] (VIRUS: simulated)";
             $this->logCleanResult();
             return $this->cleanResult;
-        } else {
-            $this->cleanFileIsCleaned = false;
-            $this->cleanResult =
-                "FILE NOT CLEANED: [" . $file_path . "] (VIRUS: simulated)";
-            $this->logCleanResult();
-            return "";
         }
+
+        $this->cleanFileIsCleaned = false;
+        $this->cleanResult =
+            "FILE NOT CLEANED: [" . $file_path . "] (VIRUS: simulated)";
+        $this->logCleanResult();
+        return "";
     }
 
     public function logCleanResult() : void
