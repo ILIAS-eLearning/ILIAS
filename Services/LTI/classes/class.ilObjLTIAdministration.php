@@ -56,6 +56,7 @@ class ilObjLTIAdministration extends ilObject
     }
 
     /**
+     * @param int   $a_consumer_id
      * @param array $a_obj_types
      */
     public function saveConsumerObjectTypes(int $a_consumer_id, array $a_obj_types) : void

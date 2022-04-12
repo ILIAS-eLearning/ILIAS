@@ -41,11 +41,10 @@ class ConsumerNonce
 
     /**
      * Class constructor.
-     *
-     * @param ToolConsumer      $consumer Consumer object
-     * @param string            $value    Nonce value (optional, default is null)
+     * @param ToolConsumer $consumer Consumer object
+     * @param string|null  $value    Nonce value (optional, default is null)
      */
-    public function __construct($consumer, $value = null)
+    public function __construct(ToolConsumer $consumer, ?string $value = null)
     {
         $this->consumer = $consumer;
         $this->value = $value;

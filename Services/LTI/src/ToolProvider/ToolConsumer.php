@@ -467,7 +467,7 @@ class ToolConsumer
     /**
      * Add the OAuth signature to an array of message parameters or to a header string.
      *
-     * @return mixed Array of signed message parameters or header string
+     * @return array|string|null Array of signed message parameters or header string
      */
     public static function addSignature(string $endpoint, $consumerKey, $consumerSecret, $data, string $method = 'POST', $type = null)
     {

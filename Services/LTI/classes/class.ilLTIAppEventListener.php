@@ -115,10 +115,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
         }
     }
 
-    /**
-     * @param $a_usr_id
-     */
-    protected function isLTIAuthMode($auth_mode) : bool
+    protected function isLTIAuthMode(string $auth_mode) : bool
     {
         return strpos($auth_mode, 'lti_') === 0;
     }

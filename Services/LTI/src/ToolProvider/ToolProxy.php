@@ -23,32 +23,31 @@ class ToolProxy
  *
  * @var string $id
  */
-    public $id = null;
+    public ?string $id = null;
 
     /**
      * Tool Consumer for this tool proxy.
      *
      * @var ToolConsumer $consumer
      */
-    private $consumer = null;
+    private ?ToolConsumer $consumer = null;
+
     /**
      * Tool Consumer ID for this tool proxy.
-     *
-     * @var int $consumerId
      */
-    private $consumerId = null;
+    private ?int $consumerId = null;
+
     /**
      * Consumer ID value.
-     *
-     * @var int $id
      */
-    private $recordId = null;
+    private ?string $recordId = null;
+
     /**
      * Data connector object.
      *
      * @var DataConnector $dataConnector
      */
-    private $dataConnector = null;
+    private ?DataConnector $dataConnector = null;
     ///**
     // * Tool Proxy document.
     // *
@@ -100,7 +99,7 @@ class ToolProxy
      *
      * @return int Tool Proxy record ID value
      */
-    public function getRecordId()
+    public function getRecordId() : ?int
     {
         return $this->recordId;
     }
@@ -120,7 +119,7 @@ class ToolProxy
      *
      * @return ToolConsumer Tool consumer object for this context.
      */
-    public function getConsumer()
+    public function getConsumer() : ToolConsumer
     {
         if (is_null($this->consumer)) {
             $this->consumer = ToolConsumer::fromRecordId($this->consumerId, $this->getDataConnector());
@@ -145,7 +144,7 @@ class ToolProxy
      *
      * @return DataConnector  Data connector object
      */
-    public function getDataConnector()
+    public function getDataConnector() : DataConnector
     {
         return $this->dataConnector;
     }
@@ -157,12 +156,10 @@ class ToolProxy
 
     /**
      * Load the tool proxy from the database.
-     *
-     * @param string  $id        The tool proxy id value
-     *
-     * @return boolean True if the tool proxy was successfully loaded
+     * @param string $id The tool proxy id value
+     * @return void True if the tool proxy was successfully loaded
      */
-    private function load($id)
+    private function load(string $id) : void
     {
         $this->initialize();
         $this->id = $id;
@@ -171,6 +168,5 @@ class ToolProxy
             $this->enabled = false;//$autoEnable;
         }
 
-        return $ok;
     }
 }

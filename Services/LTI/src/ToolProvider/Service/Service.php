@@ -60,14 +60,12 @@ class Service
 
     /**
      * Send a service request.
-     *
-     * @param string  $method      The action type constant (optional, default is GET)
-     * @param array   $parameters  Query parameters to add to endpoint (optional, default is none)
-     * @param string  $body        Body of request (optional, default is null)
-     *
+     * @param string      $method     The action type constant (optional, default is GET)
+     * @param array       $parameters Query parameters to add to endpoint (optional, default is none)
+     * @param string|null $body       Body of request (optional, default is null)
      * @return HTTPMessage HTTP object containing request and response details
      */
-    public function send($method, $parameters = array(), $body = null)
+    public function send(string $method, array $parameters = array(), ?string $body = null) : HTTPMessage
     {
         $url = $this->endpoint;
         if (!empty($parameters)) {

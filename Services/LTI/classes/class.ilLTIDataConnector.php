@@ -31,7 +31,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         global $DIC;
 
         $this->logger = $DIC->logger()->lti();
-        $this->db = "";
+        $this->db = null;
         $this->dbTableNamePrefix = "";
     }
 
@@ -127,6 +127,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     /**
      * Load tool consumer settings
      * @param ilLTIToolConsumer $consumer
+     * @return bool
      */
     public function loadObjectToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
     {
@@ -152,6 +153,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     /**
      * Load global tool consumer settings in consumer
      * @param ilLTIToolConsumer $consumer
+     * @return bool
      */
     public function loadGlobalToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
     {
@@ -428,7 +430,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     /**
      * Save lti_ext_consumer
      */
-    public function saveGlobalToolConsumerSettings(ilLTIToolConsumer $consumer)
+    public function saveGlobalToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -446,7 +448,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $consumer->getLanguage(),
                 $consumer->getRole(),
                 $new_id,
-                (bool) $consumer->getActive()
+                $consumer->getActive()
             ];
             $ilDB->manipulateF($query, $types, $values);
             $consumer->setExtConsumerId($new_id);
@@ -1424,7 +1426,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @return boolean True if the resource link share key object was successfully loaded
      */
 //    public function loadResourceLinkShareKey(\ILIAS\LTI\ToolProvider\ResourceLinkShareKey $shareKey) : bool
-    public function loadResourceLinkShareKey($shareKey) : bool
+    public function loadResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1465,7 +1467,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @return boolean True if the resource link share key object was successfully saved
      */
 //    public function saveResourceLinkShareKey(\ILIAS\LTI\ToolProvider\ResourceLinkShareKey $shareKey) : bool
-    public function saveResourceLinkShareKey($shareKey) : bool
+    public function saveResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1491,7 +1493,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLinkShareKey $shareKey Resource link share key object
      * @return boolean True if the resource link share key object was successfully deleted
      */
-    public function deleteResourceLinkShareKey($shareKey) : bool
+    public function deleteResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         global $DIC;
         $ilDB = $DIC->database();

@@ -208,11 +208,11 @@ class ilLTIToolConsumer extends ToolConsumer
 
         return $toolConsumer;
     }
-    
+
     /**
-     *
-     * @param int $id
+     * @param int                $id
      * @param ilLTIDataConnector $dataConnector
+     * @return ilLTIToolConsumer
      */
     public static function fromExternalConsumerId(int $id, ilLTIDataConnector $dataConnector) : \ilLTIToolConsumer
     {
@@ -224,14 +224,13 @@ class ilLTIToolConsumer extends ToolConsumer
         }
         return $toolConsumer;
     }
-    
-    
+
     /**
      * Load consumer from global settings and ref_id
-     * @param int $a_ext_consumer_id
-     * @param int $a_ref_id
+     * @param int                $a_ext_consumer_id
+     * @param int                $a_ref_id
      * @param ilLTIDataConnector $a_data_connector
-     * @retrun ilLTIToolConsumer
+     * @return ilLTIToolConsumer|object
      */
     public static function fromGlobalSettingsAndRefId(int $a_ext_consumer_id, int $a_ref_id, ilLTIDataConnector $a_data_connector)
     {

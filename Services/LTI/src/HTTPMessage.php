@@ -19,20 +19,20 @@ class HTTPMessage
  *
  * @var boolean $ok
  */
-    public $ok = false;
+    public bool $ok = false;
 
-//    /**
-//     * Request body.
-//     *
-//     * @var request $request
-//     */
+    /**
+     * Request body.
+     *
+     * @var mixed|null|string $request
+     */
     public $request = null;
 
-//    /**
-//     * Request headers.
-//     *
-//     * @var request_headers $requestHeaders
-//     */
+    /**
+     * Request headers.
+     *
+     * @var false|string|string[] $requestHeaders
+     */
     public $requestHeaders = '';
 
 //    /**
@@ -42,26 +42,20 @@ class HTTPMessage
 //     */
     public $response = null;
 
-//    /**
-//     * Response headers.
-//     *
-//     * @var response_headers $responseHeaders
-//     */
-    public $responseHeaders = '';
+    /**
+     * Response headers.
+     */
+    public string $responseHeaders = '';
 
-//    /**
-//     * Status of response (0 if undetermined).
-//     *
-//     * @var status $status
-//     */
-    public $status = 0;
+    /**
+     * Status of response (0 if undetermined).
+     */
+    public int $status = 0;
 
-//    /**
-//     * Error message
-//     *
-//     * @var error $error
-//     */
-    public $error = '';
+    /**
+     * Error message
+     */
+    public string $error = '';
 
     /**
                      * Request URL.
@@ -75,13 +69,12 @@ class HTTPMessage
 
     /**
      * Class constructor.
-     *
-     * @param string $url     URL to send request to
-     * @param string $method  Request method to use (optional, default is GET)
-     * @param mixed  $params  Associative array of parameter values to be passed or message body (optional, default is none)
-     * @param string $header  Values to include in the request header (optional, default is none)
+     * @param string      $url    URL to send request to
+     * @param string      $method Request method to use (optional, default is GET)
+     * @param mixed       $params Associative array of parameter values to be passed or message body (optional, default is none)
+     * @param string|null $header Values to include in the request header (optional, default is none)
      */
-    public function __construct($url, $method = 'GET', $params = null, $header = null)
+    public function __construct(string $url, string $method = 'GET', ?array $params = null, string $header = null)
     {
         $this->url = $url;
         $this->method = strtoupper($method);

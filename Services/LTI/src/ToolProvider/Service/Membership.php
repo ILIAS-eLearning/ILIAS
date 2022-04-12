@@ -38,13 +38,11 @@ class Membership extends Service
 
     /**
      * Get the memberships.
-     *
-     * @param string    $role   Role for which memberships are to be requested (optional, default is all roles)
-     * @param int       $limit  Limit on the number of memberships to be returned (optional, default is all)
-     *
+     * @param string|null $role  Role for which memberships are to be requested (optional, default is all roles)
+     * @param int         $limit Limit on the number of memberships to be returned (optional, default is all)
      * @return mixed The array of User objects if successful, otherwise false
      */
-    public function get($role = null, $limit = 0)
+    public function get(string $role = null, int $limit = 0)
     {
         $isLink = is_a($this->source, 'ILIAS\LTI\ToolProvider\ResourceLink');
         $parameters = array();

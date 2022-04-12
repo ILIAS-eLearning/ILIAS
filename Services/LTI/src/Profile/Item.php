@@ -21,21 +21,21 @@ class Item
 /**
  * ID of item.
  *
- * @var string $id
+ * @var string|null $id
  */
-    public $id = null;
+    public ?string $id = null;
     /**
      * Name of item.
      *
-     * @var string $name
+     * @var string|null $name
      */
-    public $name = null;
+    public ?string $name = null;
     /**
      * Description of item.
      *
-     * @var string $description
+     * @var string|null $description
      */
-    public $description = null;
+    public ?string $description = null;
     /**
      * URL of item.
      *
@@ -47,26 +47,25 @@ class Item
      *
      * @var string $version
      */
-    public $version = null;
+    public ?string $version = null;
     /**
      * Timestamp of item.
      *
      * @var int $timestamp
      */
-    public $timestamp = null;
+    public ?int $timestamp = null;
 
     /**
      * Class constructor.
-     *
-     * @param string $id           ID of item (optional)
-     * @param string $name         Name of item (optional)
-     * @param string $description  Description of item (optional)
-     * @param string $url          URL of item (optional)
-     * @param string $version      Version of item (optional)
-     * @param int    $timestamp    Timestamp of item (optional)
+     * @param string|null $id          ID of item (optional)
+     * @param string|null $name        Name of item (optional)
+     * @param string|null $description Description of item (optional)
+     * @param string|null $url         URL of item (optional)
+     * @param string|null $version     Version of item (optional)
+     * @param int|null    $timestamp   Timestamp of item (optional)
      */
 
-    public function __construct($id = null, $name = null, $description = null, $url = null, $version = null, $timestamp = null)
+    public function __construct(?string $id = null, ?string $name = null, ?string $description = null, ?string $url = null, ?string $version = null, int $timestamp = null)
     {
         $this->id = $id;
         $this->name = $name;

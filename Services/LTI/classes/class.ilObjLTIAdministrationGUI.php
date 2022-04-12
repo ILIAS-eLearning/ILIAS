@@ -332,7 +332,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $a_form->getItemByPostVar("description")->setValue($consumer->getDescription());
             $a_form->getItemByPostVar("prefix")->setValue($consumer->getPrefix());
             $a_form->getItemByPostVar("language")->setValue($consumer->getLanguage());
-            $a_form->getItemByPostVar("active")->setChecked((bool) $consumer->getActive());
+            $a_form->getItemByPostVar("active")->setChecked($consumer->getActive());
             $a_form->getItemByPostVar("role")->setValue($consumer->getRole());
             $a_form->getItemByPostVar("types")->setValue($this->object->getActiveObjectTypes($this->consumer_id));
         }

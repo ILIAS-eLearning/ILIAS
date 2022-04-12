@@ -26,31 +26,31 @@ class Context
  *
  * @var string $ltiContextId
  */
-    public $ltiContextId = null;
+    public ?string $ltiContextId = null;
     /**
      * Context title.
      *
      * @var string $title
      */
-    public $title = null;
+    public ?string $title = null;
     /**
      * Setting values (LTI parameters, custom parameters and local parameters).
      *
      * @var array $settings
      */
-    public $settings = null;
+    public ?array $settings = null;
     /**
      * Date/time when the object was created.
      *
      * @var int $created
      */
-    public $created = null;
+    public ?int $created = null;
     /**
      * Date/time when the object was last updated.
      *
      * @var int $updated
      */
-    public $updated = null;
+    public ?int $updated = null;
 
     /**
          * Tool Consumer for this context.
@@ -224,11 +224,10 @@ class Context
 
     /**
      * Set a setting value.
-     *
-     * @param string $name  Name of setting
-     * @param string $value Value to set, use an empty value to delete a setting (optional, default is null)
+     * @param string      $name  Name of setting
+     * @param string|null $value Value to set, use an empty value to delete a setting (optional, default is null)
      */
-    public function setSetting(string $name, $value = null) : void
+    public function setSetting(string $name, ?string $value = null) : void
     {
         $old_value = $this->getSetting($name);
         if ($value !== $old_value) {
@@ -291,13 +290,11 @@ class Context
 
     /**
      * Get Tool Settings.
-     *
-     * @param int      $mode       Mode for request (optional, default is current level only)
-     * @param boolean  $simple     True if all the simple media type is to be used (optional, default is true)
-     *
+     * @param int     $mode   Mode for request (optional, default is current level only)
+     * @param boolean $simple True if all the simple media type is to be used (optional, default is true)
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function getToolSettings($mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true)
+    public function getToolSettings(int $mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true)
     {
         $url = $this->getSetting('custom_context_setting_url');
         $service = new Service\ToolSettings($this, $url, $simple);
@@ -390,12 +387,10 @@ class Context
 
     /**
      * Load the context from the database.
-     *
-     * @param int $id     Record ID of context (optional, default is null)
-     *
+     * @param int|null $id Record ID of context (optional, default is null)
      * @return boolean True if context was successfully loaded
      */
-    private function load($id = null) : bool
+    private function load(?int $id = null) : bool
     {
         $this->initialize();
         $this->id = $id;

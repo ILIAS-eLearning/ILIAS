@@ -43,7 +43,7 @@ class ilLTIViewGUI
     /**
      * public variables
      */
-    public $lng = null;
+    public ?ilLanguage $lng = null;
 
     /**
      *
