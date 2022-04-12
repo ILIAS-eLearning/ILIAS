@@ -14628,6 +14628,8 @@ th.calstd {
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
+  line-break: auto;
+  vertical-align: top;
 }
 td.calheadertime {
   width: 6em;
