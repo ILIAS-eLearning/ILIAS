@@ -1,17 +1,20 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
 {
@@ -53,25 +56,24 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
         $virus_found = false;
         if (array_key_exists(self::HEADER, $header)) {
             $header = $header[self::HEADER];
-            if (array_key_exists(self::HEADER_VIOLATION_FOUND, $header)) {
-                if ($header[self::HEADER_VIOLATION_FOUND] > 0) {
-                    $virus_found = true;
-                }
+            if (array_key_exists(self::HEADER_VIOLATION_FOUND, $header) && $header[self::HEADER_VIOLATION_FOUND] > 0) {
+                $virus_found = true;
             }
-            if (array_key_exists(self::HEADER_INFECTION_FOUND, $header)) {
-                if (strlen($header[self::HEADER_INFECTION_FOUND]) > 0) {
-                    $infection_split = preg_split('/;/', $header[self::HEADER_INFECTION_FOUND]);
-                    foreach ($infection_split as $infection) {
-                        $parts = preg_split('/=/', $infection);
-                        if ($parts !== false &&
-                            is_array($parts) &&
-                            count($parts) > 0 &&
-                            strlen($parts[0]) > 0) {
-                            $this->log->warning(trim($parts[0]) . ': ' . trim($parts[1]));
-                        }
+            if (array_key_exists(
+                self::HEADER_INFECTION_FOUND,
+                $header
+            ) && $header[self::HEADER_INFECTION_FOUND] !== '') {
+                $infection_split = explode(";", $header[self::HEADER_INFECTION_FOUND]);
+                foreach ($infection_split as $infection) {
+                    $parts = explode("=", $infection);
+                    if ($parts !== false &&
+                        is_array($parts) &&
+                        count($parts) > 0 &&
+                        $parts[0] !== '') {
+                        $this->log->warning(trim($parts[0]) . ': ' . trim($parts[1]));
                     }
-                    $virus_found = true;
                 }
+                $virus_found = true;
             }
         }
         return $virus_found;
