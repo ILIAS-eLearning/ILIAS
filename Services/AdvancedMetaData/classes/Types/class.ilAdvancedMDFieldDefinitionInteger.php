@@ -58,7 +58,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     public function setMin(?int $a_value) : void
     {
         if ($a_value !== null) {
-            $a_value = (int) $a_value;
+            $a_value = $a_value;
         }
         $this->min = $a_value;
     }
@@ -71,7 +71,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     public function setMax(?int $a_value) : void
     {
         if ($a_value !== null) {
-            $a_value = (int) $a_value;
+            $a_value = $a_value;
         }
         $this->max = $a_value;
     }
@@ -99,8 +99,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         $this->setMin($a_def["min"]);
         $this->setMax($a_def["max"]);
         $this->setSuffix($a_def["suffix"]);
-        // PHP8-Review: 'isset' can be replaced with coalesce
-        $this->setSuffixTranslations(isset($a_def['suffix_translations']) ? $a_def['suffix_translations'] : []);
+        $this->setSuffixTranslations($a_def['suffix_translations'] ?? []);
     }
 
     protected function getFieldDefinition() : array
@@ -153,7 +152,9 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         if ($this->useDefaultLanguageMode($language)) {
             $suffix->setValue($this->getSuffix());
         } else {
-            $default_language = ilAdvancedMDRecord::_getInstanceByRecordId((int) $this->record_id)->getDefaultLanguage();
+            $default_language = ilAdvancedMDRecord::_getInstanceByRecordId(
+                $this->record_id
+            )->getDefaultLanguage();
             $suffix->setInfo($default_language . ': ' . $this->getSuffix());
             $suffix->setValue($this->getSuffixTranslations()[$language] ?? '');
         }

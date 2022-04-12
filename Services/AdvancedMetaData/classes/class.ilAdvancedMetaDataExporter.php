@@ -134,7 +134,6 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
     {
         return array(
             "4.4.0" => array(
-                // PHP8-Review: Link with unencrypted protocol
                 "namespace" => "http://www.ilias.de/Services/AdvancedMetaData/advmd/4_4",
                 "xsd_file" => "ilias_advmd_4_4.xsd",
                 "uses_dataset" => true,

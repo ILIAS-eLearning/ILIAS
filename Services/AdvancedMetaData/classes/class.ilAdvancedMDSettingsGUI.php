@@ -192,7 +192,6 @@ class ilAdvancedMDSettingsGUI
         ?string $obj_type,
         ?string $sub_type
     ) : void {
-        // PHP8-Review: 'if' statement with common parts
         if ($context === self::CONTEXT_ADMINISTRATION) {
             $this->ref_id = $ref_id;
             $this->obj_id = null;
@@ -335,7 +334,7 @@ class ilAdvancedMDSettingsGUI
             if (in_array($obj_type, $this->permissions->getAllowedObjectTypes())) {
                 $perm = $this->getPermissions()->hasPermissions(
                     ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
-                    $obj_type,
+                    0,
                     array(
                         ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_DESCRIPTION
                         ,
@@ -478,7 +477,6 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-    //PHP8 Code Review: POST usage needs to be reduced/avoided all along the file
     /**
      * Download XML file
      * @access public
@@ -591,8 +589,7 @@ class ilAdvancedMDSettingsGUI
         // add items to delete
         foreach ($record_ids as $record_id) {
             $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
-            // PHP8-Review: Ternary expression can be replaced with short version
-            $c_gui->addItem("record_id[]", $record_id, $record->getTitle() ? $record->getTitle() : 'No Title');
+            $c_gui->addItem("record_id[]", $record_id, $record->getTitle() ?: 'No Title');
         }
         $this->tpl->setContent($c_gui->getHTML());
     }
@@ -753,8 +750,7 @@ class ilAdvancedMDSettingsGUI
         // add items to delete
         foreach ($field_ids as $field_id) {
             $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
-            // PHP8-Review: Ternary expression can be replaced with short version
-            $c_gui->addItem("field_id[]", $field_id, $field->getTitle() ? $field->getTitle() : 'No Title');
+            $c_gui->addItem("field_id[]", $field_id, $field->getTitle() ?: 'No Title');
         }
         $this->tpl->setContent($c_gui->getHTML());
     }
@@ -843,7 +839,7 @@ class ilAdvancedMDSettingsGUI
             $types = new ilSelectInputGUI("", "ftype");
             $options = array();
             foreach (ilAdvancedMDFieldDefinition::getValidTypes() as $type) {
-                $field = ilAdvancedMDFieldDefinition::getInstance(null, (int) $type);
+                $field = ilAdvancedMDFieldDefinition::getInstance(null, $type);
                 $options[$type] = $this->lng->txt($field->getTypeTitle());
 
                 if (!$field->isFilterSupported()) {
@@ -1175,7 +1171,7 @@ class ilAdvancedMDSettingsGUI
         $this->initRecordObject();
         $this->setRecordSubTabs(2);
 
-        $field_definition = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
+        $field_definition = ilAdvancedMDFieldDefinition::getInstance($field_id);
 
         if (!$a_form instanceof ilPropertyFormGUI) {
             $this->initLanguage($this->record->getRecordId());
@@ -1210,7 +1206,7 @@ class ilAdvancedMDSettingsGUI
         $this->showLanguageSwitch($record_id, 'editField');
 
         $confirm = false;
-        $field_definition = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
+        $field_definition = ilAdvancedMDFieldDefinition::getInstance($field_id);
         $form = $this->initFieldForm($field_definition);
         if ($form->checkInput()) {
             $field_definition->importDefinitionFormPostValues($form, $this->getPermissions(), $this->active_language);
@@ -1276,7 +1272,9 @@ class ilAdvancedMDSettingsGUI
         $this->initLanguage($record_id);
         $this->ctrl->saveParameter($this, 'ftype');
 
-        $field_definition = ilAdvancedMDFieldDefinition::getInstance(null, (int) $ftype);
+        $field_definition = ilAdvancedMDFieldDefinition::getInstance(null,
+                                                                     $ftype
+        );
         $field_definition->setRecordId($record_id);
         $form = $this->initFieldForm($field_definition);
 

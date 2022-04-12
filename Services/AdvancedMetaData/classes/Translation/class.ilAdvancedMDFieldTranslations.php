@@ -148,7 +148,9 @@ class ilAdvancedMDFieldTranslations
             );
             if ((string) $row->lang_code == $this->default_language && $row->tfield == null) {
                 $this->translations[(int) $row->ofield][(string) $row->lang_code]->setTitle($this->definitions[(int) $row->ofield]->getTitle());
-                $this->translations[(int) $row->ofield][(string) $row->lang_code]->setDescription((string) $this->definitions[(int) $row->ofield]->getDescription());
+                $this->translations[(int) $row->ofield][(string) $row->lang_code]->setDescription(
+                    $this->definitions[(int) $row->ofield]->getDescription()
+                );
             }
         }
     }

@@ -498,7 +498,6 @@ class ilAdvancedMDRecordGUI
      */
     private function handleECSDefinitions($a_definition) : bool
     {
-        // PHP8-Review: 'if' statement with common parts
         if (ilECSServerSettings::getInstance()->activeServerExists() or
             ($this->obj_type != 'crs' and $this->obj_type != 'rcrs')
         ) {
@@ -540,7 +539,6 @@ class ilAdvancedMDRecordGUI
         }
     }
 
-    //PHP8 Code Review: POST usage needs to be reduced/avoided
     /**
      * Save selection per object
      */
@@ -652,7 +650,7 @@ class ilAdvancedMDRecordGUI
         $res = [];
         foreach ($this->adt_search as $def_id => $element) {
             if (!$element->isNull() ||
-                !(bool) $a_only_non_empty) {
+                !$a_only_non_empty) {
                 $res[$def_id] = $element;
             }
         }

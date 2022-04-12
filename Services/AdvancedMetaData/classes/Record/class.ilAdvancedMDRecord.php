@@ -474,7 +474,7 @@ class ilAdvancedMDRecord
             $this->db->quote($this->getTitle(), 'text') . ", " .
             $this->db->quote($this->getDescription(), 'text') . ", " .
             $this->db->quote($this->getParentObject(), 'integer') . ", " .
-            $this->db->quote((string) $this->getDefaultLanguage(), ilDBConstants::T_TEXT) .
+            $this->db->quote($this->getDefaultLanguage(), ilDBConstants::T_TEXT) .
             ")";
         $res = $ilDB->manipulate($query);
         $this->record_id = $next_id;
@@ -575,7 +575,7 @@ class ilAdvancedMDRecord
 
     public function isActive() : bool
     {
-        return (bool) $this->active;
+        return $this->active;
     }
 
     public function setTitle(string $a_title) : void
@@ -622,7 +622,7 @@ class ilAdvancedMDRecord
         $this->obj_types[] = array(
             "obj_type" => $a_obj_type,
             "sub_type" => $a_sub_type,
-            "optional" => (bool) $a_optional
+            "optional" => $a_optional
         );
     }
 
@@ -769,8 +769,7 @@ class ilAdvancedMDRecord
             $a_sub_type = "-";
         }
     
-        // PHP8-Review: Redundant cast to boolean
-        if ((bool) $a_delete_before) {
+        if ($a_delete_before) {
             $ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE " .
                 " obj_id = " . $ilDB->quote($a_obj_id, "integer") .
                 " AND sub_type = " . $ilDB->quote($a_sub_type, "text"));
@@ -824,10 +823,8 @@ class ilAdvancedMDRecord
         $new_obj->setActive($this->isActive());
         $new_obj->setTitle($this->getTitle());
         $new_obj->setDescription($this->getDescription());
-        // PHP8-Review: Ternary expression can be replaced with short version
         $new_obj->setParentObject($a_parent_obj_id
-            ? $a_parent_obj_id
-            : $this->getParentObject());
+            ?: $this->getParentObject());
         $new_obj->setAssignedObjectTypes($this->getAssignedObjectTypes());
         $new_obj->setDefaultLanguage($this->getDefaultLanguage());
         $new_obj->save();

@@ -98,11 +98,9 @@ class ilAdvancedMDRecordObjectOrderings
     public function compareLocalRecords(ilAdvancedMDRecord $a, ilAdvancedMDRecord $b) : int
     {
         $local_pos_a = $this->record_position_map[$a->getRecordId()] ??
-            // PHP8-Review: Ternary expression can be replaced with short version
-            ($a->getGlobalPosition() ? $a->getGlobalPosition() : 999);
+            ($a->getGlobalPosition() ?: 999);
         $local_pos_b = $this->record_position_map[$b->getRecordId()] ??
-            // PHP8-Review: Ternary expression can be replaced with short version
-            ($b->getGlobalPosition() ? $b->getGlobalPosition() : 999);
+            ($b->getGlobalPosition() ?: 999);
         if ($local_pos_a < $local_pos_b) {
             return -1;
         }

@@ -10,7 +10,6 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 {
     protected const XML_SEPARATOR = "~|~";
     
-    // PHP8-Review: Parameter's name changed during inheritance
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
         return $a_adt_search->getADT()->getSelections()[0] ?? "";
@@ -86,7 +85,6 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
         $this->getADT()->setSelections(explode(self::XML_SEPARATOR, $a_cdata));
     }
     
-    // PHP8-Review: Parameter's name changed during inheritance
     public function prepareElementForEditor(ilADTFormBridge $a_bridge) : void
     {
         assert($a_bridge instanceof ilADTMultiEnumFormBridge);

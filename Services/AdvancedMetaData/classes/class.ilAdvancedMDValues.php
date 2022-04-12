@@ -26,8 +26,7 @@ class ilAdvancedMDValues
     {
         $this->record_id = (int) $a_record_id;
         $this->obj_id = (int) $a_obj_id;
-        // PHP8-Review: Ternary expression can be replaced with short version
-        $this->sub_type = $a_sub_type ? $a_sub_type : "-";
+        $this->sub_type = $a_sub_type ?: "-";
         $this->sub_id = (int) $a_sub_id;
     }
 
@@ -63,10 +62,9 @@ class ilAdvancedMDValues
 
     public function setActiveRecordPrimary(int $a_obj_id, string $a_sub_type = "-", int $a_sub_id = 0) : void
     {
-        $this->obj_id = (int) $a_obj_id;
-        // PHP8-Review: Ternary expression can be replaced with short version
-        $this->sub_type = $a_sub_type ? $a_sub_type : "-";
-        $this->sub_id = (int) $a_sub_id;
+        $this->obj_id = $a_obj_id;
+        $this->sub_type = $a_sub_type ?: "-";
+        $this->sub_id = $a_sub_id;
 
         // make sure they get used
         $this->active_record = null;
@@ -299,7 +297,9 @@ class ilAdvancedMDValues
         }
         if ($copy_id > 0) {
             $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
-            $cp_options->appendMapping($a_target_id . '_adv_rec', (array) $record_mapping);
+            $cp_options->appendMapping($a_target_id . '_adv_rec',
+                                       $record_mapping
+            );
             $cp_options->read();        // otherwise mapping will not be available for getMappings
         }
         
@@ -496,7 +496,7 @@ class ilAdvancedMDValues
                     foreach ($a_amet_filter as $field_id => $element) {
                         if ($adt_group->hasElement($field_id)) {
                             if (!$element->isInCondition($adt_group->getElement($field_id))) {
-                                continue(3);
+                                continue;
                             }
                         }
                     }

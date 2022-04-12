@@ -46,7 +46,6 @@ abstract class ilAdvancedMDTranslationGUI
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
-        // PHP8-Review: 'switch' with single 'case'
         switch ($next_class) {
             default:
                 $this->$cmd();

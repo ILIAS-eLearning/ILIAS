@@ -85,7 +85,6 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                 continue;
             }
     
-            // PHP8-Review: 'if' statement with common parts
             if ($do_select) {
                 $this->tpl->setCurrentBlock('ass_obj_types');
                 $this->tpl->setVariable('VAL_OBJ_TYPE', $obj_type["text"]);
@@ -127,7 +126,6 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         }
 
         $record = ilAdvancedMDRecord::_getInstanceByRecordId((int) $a_set['id']);
-        // PHP8-Review: 'if' statement with common parts
         if (!$a_set['local'] && count($record->getScopeRefIds())) {
             $this->tpl->setCurrentBlock('scope_txt');
             $this->tpl->setVariable('LOCAL_OR_GLOBAL', $this->lng->txt('md_adv_scope_list_header'));

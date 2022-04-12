@@ -53,7 +53,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->getRecordId());
 
         $definition = ilADTFactory::getInstance()->getDefinitionInstanceByType(ilADTFactory::TYPE_LOCALIZED_TEXT);
-        $definition->setMaxLength((int) $this->getMaxLength());
+        $definition->setMaxLength($this->getMaxLength());
         $definition->setActiveLanguages($field_translations->getActivatedLanguages($this->getFieldId(), true));
         $definition->setDefaultLanguage($field_translations->getDefaultLanguage());
         return $definition;
@@ -146,8 +146,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
      * @param bool              $a_disabled
      * @param string            $language
      */
-    // PHP8-Review: Method visibility shouldn't be overridden
-    public function addCustomFieldToDefinitionForm(
+    protected function addCustomFieldToDefinitionForm(
         ilPropertyFormGUI $a_form,
         bool $a_disabled = false,
         string $language = ''
@@ -238,7 +237,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
             if ($parts === false) {
                 continue;
             }
-            $this->getADT()->setTranslation((string) $parts[0], (string) $parts[1]);
+            $this->getADT()->setTranslation($parts[0], $parts[1]);
         }
     }
 

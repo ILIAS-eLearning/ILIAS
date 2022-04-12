@@ -45,7 +45,7 @@ abstract class ilAdvancedMDFieldDefinition
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->language = (string) $DIC->language()->getLangKey();
+        $this->language = $DIC->language()->getLangKey();
 
         if ($language) {
             $this->language = $language;
@@ -169,8 +169,7 @@ abstract class ilAdvancedMDFieldDefinition
             " JOIN adv_md_record amr ON aro.record_id = amr.record_id" .
             " JOIN adv_mdf_definition amf ON aro.record_id = amf.record_id" .
             " WHERE obj_type = " . $ilDB->quote($a_obj_type, 'text');
-        // PHP8-Review: Redundant cast to boolean
-        if ((bool) $a_active_only) {
+        if ($a_active_only) {
             $query .= " AND active = " . $ilDB->quote(1, "integer");
         }
         $query .= " ORDER BY aro.record_id,position";
@@ -274,7 +273,7 @@ abstract class ilAdvancedMDFieldDefinition
 
     public static function isValidType(int $a_type) : bool
     {
-        return in_array((int) $a_type, self::getValidTypes());
+        return in_array($a_type, self::getValidTypes());
     }
 
     /**
@@ -367,7 +366,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     protected function setFieldId(int $a_id) : void
     {
-        $this->field_id = (int) $a_id;
+        $this->field_id = $a_id;
     }
 
     /**
@@ -383,7 +382,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     public function setRecordId(int $a_id) : void
     {
-        $this->record_id = (int) $a_id;
+        $this->record_id = $a_id;
     }
 
     /**
@@ -418,7 +417,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     public function setPosition(int $a_pos) : void
     {
-        $this->position = (int) $a_pos;
+        $this->position = $a_pos;
     }
 
     /**
@@ -508,7 +507,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     public function setRequired(bool $a_status) : void
     {
-        $this->required = (bool) $a_status;
+        $this->required = $a_status;
     }
 
     /**
@@ -877,8 +876,12 @@ abstract class ilAdvancedMDFieldDefinition
         $a_writer->xmlStartTag('FieldTranslations');
         foreach ($translations->getTranslations($this->getFieldId()) as $translation) {
             $a_writer->xmlStartTag('FieldTranslation', ['language' => $translation->getLangKey()]);
-            $a_writer->xmlElement('FieldTranslationTitle', [], (string) $translation->getTitle());
-            $a_writer->xmlElement('FieldTranslationDescription', [], (string) $translation->getDescription());
+            $a_writer->xmlElement('FieldTranslationTitle', [],
+                                  $translation->getTitle()
+            );
+            $a_writer->xmlElement('FieldTranslationDescription', [],
+                                  $translation->getDescription()
+            );
             $a_writer->xmlEndTag('FieldTranslation');
         }
         $a_writer->xmlEndTag('FieldTranslations');
@@ -953,8 +956,6 @@ abstract class ilAdvancedMDFieldDefinition
     public function setSearchValueSerialized(ilADTSearchBridge $a_adt_search, $a_value) : void
     {
         $a_adt_search->setSerializedValue($a_value);
-        // PHP8-Review: 'return' is unnecessary as the last statement in a method
-        return;
     }
 
     /**
@@ -1071,7 +1072,7 @@ abstract class ilAdvancedMDFieldDefinition
         $obj->setRequired($this->isRequired());
         $obj->setPosition($this->getPosition());
         $obj->setSearchable($this->isSearchable());
-        $obj->importFieldDefinition((array) $this->getFieldDefinition());
+        $obj->importFieldDefinition($this->getFieldDefinition());
         $obj->save(true);
 
         return $obj;
