@@ -48,7 +48,7 @@ class ilDataSetImportParser extends ilSaxParser
         $this->mapping = $a_mapping;
         $this->top_entity = $a_top_entity;
         $this->schema_version = $a_schema_version;
-        $this->dspref = ($this->ds->getDSPrefix() != "")
+        $this->dspref = ($this->ds->getDSPrefix() !== "")
             ? $this->ds->getDSPrefix() . ":"
             : "";
 
@@ -138,7 +138,7 @@ class ilDataSetImportParser extends ilSaxParser
                 break;
 
             default:
-                if ($this->in_record && $this->current_field != "") {
+                if ($this->in_record && $this->current_field !== "") {
                     $this->current_field_values[$this->current_field] =
                         $this->chr_data;
                 }
