@@ -7837,7 +7837,7 @@ ul.dropdown-menu > li > .btn:focus {
   margin-right: 0px;
 }
 .il-notification-item .dropdown {
-  margin-top: -6.875rem;
+  margin-top: -1.25rem;
 }
 .il-item-shy {
   display: flex;
@@ -7978,8 +7978,8 @@ ul.dropdown-menu > li > .btn:focus {
   margin: 0;
   font-weight: 600;
   font-size: 0.75rem;
-  padding: 4px;
-  padding-left: 100px;
+  padding: 8px;
+  padding-left: 20px;
 }
 .breadcrumb_wrapper .breadcrumb span.crumb a {
   color: #4c6586;
@@ -13220,7 +13220,6 @@ select.form-control {
 .form-horizontal .checkbox-inline {
   padding-top: 0;
   line-height: normal;
-  min-height: 1rem;
 }
 .form-horizontal div.radio label.radio-inline {
   line-height: 1.56rem;
