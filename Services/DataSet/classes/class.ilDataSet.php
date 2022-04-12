@@ -184,29 +184,6 @@ abstract class ilDataSet
         return $a_str;
     }
 
-            
-    /**
-     * Get json representation
-     * //TODO-PHP8-REVIEW It would be helpful an example like below for the xml representation would be added here.
-     */
-    final public function getJsonRepresentation() : string
-    {
-        if ($this->version === "") {
-            return "";
-        }
-        
-        $arr["entity"] = $this->getJsonEntityName("", "");
-        $arr["version"] = $this->version;
-        $arr["install_id"] = IL_INST_ID;
-        $arr["install_url"] = ILIAS_HTTP_PATH;
-        $arr["types"] = $this->getJsonTypes("", "");
-        $arr["set"] = array();
-        foreach ($this->data as $d) {
-            $arr["set"][] = $this->getJsonRecord($d);
-        }
-        
-        return json_encode($arr, JSON_THROW_ON_ERROR);
-    }
 
     /**
      * Get xml representation
@@ -239,11 +216,7 @@ abstract class ilDataSet
     ) : string {
         $this->dircnt = 1;
         
-        // step 1: check target release and supported versions
-        //TODO-PHP8-REVIEW either fix numbering or add the checks at this point.
-        
-        
-        // step 2: init writer
+        // init writer
         $writer = new ilXmlWriter();
         if (!$a_omit_header) {
             $writer->xmlHeader();
@@ -276,12 +249,8 @@ abstract class ilDataSet
         $this->ds_log->debug("...write records");
         $this->addRecordsXml($writer, $prefixes, $a_entity, $a_schema_version, $a_ids, $a_field);
         
-        
         $writer->xmlEndTag($this->getDSPrefixString() . "DataSet");
-        //if ($a_entity == "mep")
-        //{
-        //	echo "<pre>".htmlentities($writer->xmlDumpMem(true))."</pre>"; exit;
-        //}
+
         return $writer->xmlDumpMem(false);
     }
     
@@ -406,27 +375,12 @@ abstract class ilDataSet
     {
         return $a_set;
     }
-    
-    // Get json record for version
-    public function getJsonRecord(array $a_set) : array
-    {
-        return $a_set;
-    }
-    
+
     /**
      * Get xml types
      * @return	array	types array for xml/version set in constructor
      */
     public function getXmlTypes(string $a_entity, string $a_version) : array
-    {
-        return $this->getTypes($a_entity, $a_version);
-    }
-    
-    /**
-     * Get json types
-     * @return	array	types array for json/version set in constructor
-     */
-    public function getJsonTypes(string $a_entity, string $a_version) : array
     {
         return $this->getTypes($a_entity, $a_version);
     }
@@ -446,15 +400,6 @@ abstract class ilDataSet
     public function getXMLEntityTag(string $a_entity, string $a_schema_version) : string
     {
         return $this->convertToLeadingUpper($a_entity);
-    }
-    
-    /**
-     * Get entity name for json
-     * (may be overwritten)
-     */
-    public function getJsonEntityName(string $a_entity, string $a_version) : string
-    {
-        return $a_entity;
     }
     
     public function setImport(ilSurveyImporter $a_val) : void
@@ -494,8 +439,11 @@ abstract class ilDataSet
         // ilias export id?
         if (strpos($a_id, "il_") === 0) {
             $parts = explode("_", $a_id);
+            if (count($parts) !== 4) {
+                throw new ilException("Invalid import ID '" . $a_id . "'.");
+            }
             $inst_id = $parts[1];
-            $type = $parts[2]; //TODO-PHP8-REVIEW this will fail if format is wrong. Do we need error checking at this place
+            $type = $parts[2];
             $id = $parts[3];
             
             // missing installation ids?
@@ -537,7 +485,9 @@ abstract class ilDataSet
         }
     }
 
-    //TODO-PHP8-REVIEW does this method always need to be overwritten to be useful? Please mark as abstract or add a comment explaining the usage
+    /**
+     * Needs to be overwritten for import use case.
+     */
     public function importRecord(
         string $a_entity,
         array $a_types,

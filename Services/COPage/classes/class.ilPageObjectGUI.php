@@ -788,6 +788,7 @@ class ilPageObjectGUI
                 break;
             
             case "ileditclipboardgui":
+                $this->setBackToEditTabs();
                 $clip_gui = new ilEditClipboardGUI();
                 $clip_gui->setPageBackTitle($this->page_back_title);
                 $ret = $this->ctrl->forwardCommand($clip_gui);
@@ -2460,6 +2461,15 @@ class ilPageObjectGUI
         }
     }
 
+    protected function setBackToEditTabs() : void
+    {
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "edit")
+        );
+    }
+
     /**
     * Get history table as HTML.
     */
@@ -2468,7 +2478,9 @@ class ilPageObjectGUI
         if (!$this->getEnableEditing()) {
             return "";
         }
-        
+
+        $this->setBackToEditTabs();
+
         $this->tpl->addJavaScript("./Services/COPage/js/page_history.js");
         
         $table_gui = new ilPageHistoryTableGUI($this, "history");
@@ -2575,17 +2587,19 @@ class ilPageObjectGUI
         }
 
         $lm_set = new ilSetting("lm");
-        
+
+        /*
         if ($this->getEnableEditing() && $lm_set->get("page_history", 1)) {
             $this->tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
             if ($this->requested_history_mode == 1 || $this->ctrl->getCmd() == "compareVersion") {
                 $this->tabs_gui->activateTab("history");
             }
-        }
+        }*/
 
+        /*
         if ($this->getEnableEditing() && $this->user->getId() != ANONYMOUS_USER_ID) {
             $this->tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilEditClipboardGUI"), "view"), "view", "ilEditClipboardGUI");
-        }
+        }*/
 
         if ($this->getPageConfig()->getEnableScheduledActivation()) {
             $this->tabs_gui->addTarget(
