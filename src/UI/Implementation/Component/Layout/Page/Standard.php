@@ -82,6 +82,10 @@ class Standard implements Page\Standard
      * @var string
      */
     protected $text_direction = "ltr";
+    /**
+     * @var array
+     */
+    protected $meta_data = [];
 
     /**
      * Standard constructor.
@@ -338,4 +342,17 @@ class Standard implements Page\Standard
     {
         return $this->text_direction;
     }
+    
+    public function withAdditionalMetaDatum(string $key, string $value) : \ILIAS\UI\Component\Layout\Page\Standard
+    {
+        $clone = clone $this;
+        $clone->meta_data[$key] = $value;
+        return $clone;
+    }
+    
+    public function getMetaData() : array
+    {
+        return $this->meta_data;
+    }
+    
 }

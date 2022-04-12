@@ -8,7 +8,9 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\JsCollection;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCodeCollection;
-use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
+use ILIAS\UI\Component\Layout\Page\Standard;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData\MetaDataCollection;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData\MetaDatum;
 
 /**
  * Class MetaContent
@@ -18,6 +20,7 @@ use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
 class MetaContent
 {
     const MEDIA_SCREEN = "screen";
+    
     /**
      * @var InlineCssCollection
      */
@@ -46,7 +49,10 @@ class MetaContent
      * @var string
      */
     protected $resource_version;
-
+    /**
+     * @var MetaDataCollection
+     */
+    protected $meta_data;
     /**
      * MetaContent constructor.
      */
@@ -57,8 +63,9 @@ class MetaContent
         $this->js = new JsCollection($resource_version);
         $this->on_load_code = new OnLoadCodeCollection($resource_version);
         $this->inline_css = new InlineCssCollection($resource_version);
+        $this->meta_data = new MetaDataCollection();
     }
-
+    
     /**
      * Reset
      */
@@ -68,6 +75,7 @@ class MetaContent
         $this->js = new JsCollection($this->resource_version);
         $this->on_load_code = new OnLoadCodeCollection($this->resource_version);
         $this->inline_css = new InlineCssCollection($this->resource_version);
+        $this->meta_data = new MetaDataCollection();
     }
 
     /**
@@ -171,15 +179,22 @@ class MetaContent
     {
         return $this->text_direction;
     }
-
-    /**
-     * @param string $text_direction
-     */
+    
     public function setTextDirection(string $text_direction) : void
     {
         if (!in_array($text_direction, [Standard::LTR, Standard::RTL], true)) {
             throw new \InvalidArgumentException('$text_direction MUST be Standard::LTR, or Standard::RTL');
         }
         $this->text_direction = $text_direction;
+    }
+    
+    public function addMetaDatum(string $key, string $value) : void
+    {
+        $this->meta_data->add(new MetaDatum($key, $value));
+    }
+    
+    public function getMetaData() : MetaDataCollection
+    {
+        return $this->meta_data;
     }
 }
