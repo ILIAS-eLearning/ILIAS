@@ -81,10 +81,6 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         foreach ($a_set['sub'] as $sub_data) {
-            if ($a_set['random']) {
-                break;
-            }
-
             if ($sub_data['description']) {
                 $this->tpl->setVariable('QST_DESCRIPTION', $sub_data['description']);
             }
@@ -116,13 +112,9 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
             }
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['sub']) && !$a_set['random']) {
+        if (count($a_set['sub'])) {
             $this->tpl->setVariable('TXT_QUESTIONS', $this->lng->txt('objs_qst'));
         }
-        if ($a_set['random']) {
-            $this->tpl->setVariable('VAL_WARN', $this->lng->txt('crs_objective_random_warn'));
-        }
-
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
 
         $this->tpl->setVariable('ROW_TYPE_IMG', ilObject::_getIcon($a_set['obj_id'], "tiny", $a_set['type']));
@@ -145,10 +137,6 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
             if (!$tmp_tst = ilObjectFactory::getInstanceByRefId((int) $node['ref_id'], false)) {
                 continue;
             }
-
-            // TODO PHP8 Review: $tmp_data['random'] gets immediately overwritten with false, remove?
-            $tmp_data['random'] = ilObjTest::_lookupRandomTest($node['obj_id']);
-            $tmp_data['random'] = false;
 
             foreach ($qst = $this->sortQuestions($tmp_tst->getAllQuestions()) as $question_data) {
                 $tmp_question = ilObjTest::_instanciateQuestion($question_data['question_id']);
