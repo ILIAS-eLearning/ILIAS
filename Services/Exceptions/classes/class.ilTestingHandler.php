@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * A Whoops error handler for testing.
  * This yields the same output as the plain text handler, but prints a nice message to the tester on top of

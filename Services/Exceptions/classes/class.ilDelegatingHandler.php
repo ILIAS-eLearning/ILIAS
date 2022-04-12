@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * A Whoops error handler that delegates calls on it self to another handler that is created only in the
  * case an error is thrown. This is necessary to make it possible to use another handler when the DEVMODE
@@ -27,6 +27,7 @@
  * in ilErrorHandling, so this class acts rather dump and asks ilErrorHandling for a handler.
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
+
 use Whoops\Handler\Handler;
 
 final class ilDelegatingHandler extends Handler

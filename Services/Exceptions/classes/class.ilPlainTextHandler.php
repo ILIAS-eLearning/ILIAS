@@ -15,12 +15,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * A Whoops error handler that prints the same content as the PrettyPageHandler but as plain text.
  * This is used for better coexistence with xdebug, see #16627.
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
+
 use Whoops\Handler\Handler;
 use Whoops\Exception\Formatter;
 
@@ -82,13 +83,17 @@ class ilPlainTextHandler extends Handler
                     // indent all but first line, then implode again.
                     $first = true;
                     $indentation = str_pad("", self::KEY_SPACE);
-                    $value = implode("\n", array_map(function ($line) use (&$first, $indentation) : string {
-                        if ($first) {
-                            $first = false;
-                            return $line;
-                        }
-                        return $indentation . $line;
-                    }, explode("\n", print_r($value, true))));
+                    $value = implode(
+                        "\n", array_map(
+                        function ($line) use (&$first, $indentation) : string {
+                            if ($first) {
+                                $first = false;
+                                return $line;
+                            }
+                            return $indentation . $line;
+                        }, explode("\n", print_r($value, true))
+                    )
+                    );
 
                     $ret .= "$key: $value\n";
                 }
@@ -153,7 +158,9 @@ class ilPlainTextHandler extends Handler
         foreach ($cookie_content as $key => $content) {
             $content_array = explode("=", $content);
             if (trim($content_array[0]) == session_name()) {
-                $content_array[1] = substr($content_array[1], 0, 5) . " (SHORTENED FOR SECURITY)";
+                $content_array[1] = substr(
+                        $content_array[1], 0, 5
+                    ) . " (SHORTENED FOR SECURITY)";
                 $cookie_content[$key] = implode("=", $content_array);
             }
         }

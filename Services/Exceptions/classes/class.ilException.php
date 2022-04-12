@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Base class for ILIAS Exception handling. Any Exception class should inherit from it
  * @author Stefan Meyer <meyer@leifos.com>
