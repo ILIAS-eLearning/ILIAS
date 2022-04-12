@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
@@ -33,7 +33,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
 
     public function getStaticSubItems() : array
     {
-        $access_helper = BasicAccessCheckClosures::getInstance();
+        $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
 
         if (!$access_helper->isUserLoggedIn()() || !$access_helper->hasAdministrationAccess()()) {
@@ -48,7 +48,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             $this->dic->refinery()
         );
 
-        list($groups, $titems) = $this->getGroups();
+        [$groups, $titems] = $this->getGroups();
         $position = 1;
         foreach ($groups as $group => $group_items) {
             // Is Group

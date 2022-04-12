@@ -15,7 +15,7 @@
 
 namespace ILIAS\Repository\Provider;
 
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -63,7 +63,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $f = $this->dic->ui()->factory();
 
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
-        $access_helper = BasicAccessCheckClosures::getInstance();
+        $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
 
         $title = $this->getHomeItem()->getTitle();
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::ROOT, $title)->withIsOutlined(true);

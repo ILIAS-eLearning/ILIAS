@@ -2,7 +2,7 @@
 
 namespace ILIAS\Notifiactions\Provider;
 
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilObjNotificationAdmin;
@@ -41,7 +41,7 @@ class NotificationMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $items = [];
-        $access_helper = BasicAccessCheckClosures::getInstance();
+        $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
 
         $title = $this->dic->language()->txt("notifications");

@@ -18,7 +18,7 @@ namespace ILIAS\User\Provider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ilUtil;
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 
 /**
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -30,7 +30,7 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
      */
     public function getMetaBarItems() : array
     {
-        $access_checks = BasicAccessCheckClosures::getInstance();
+        $access_checks = BasicAccessCheckClosuresSingleton::getInstance();
         $f = $this->dic->ui()->factory();
         $txt = function (string $id) : string {
             return $this->dic->language()->txt($id);

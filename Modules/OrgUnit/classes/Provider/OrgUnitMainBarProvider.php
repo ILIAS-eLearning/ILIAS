@@ -1,6 +1,6 @@
 <?php namespace ILIAS\OrgUnit\Provider;
 
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilObjOrgUnit;
@@ -27,7 +27,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $this->dic->language()->loadLanguageModule('mst');
         $items = [];
-        $access_helper = BasicAccessCheckClosures::getInstance();
+        $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
 
         $title = $this->dic->language()->txt("objs_orgu");

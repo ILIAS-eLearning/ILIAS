@@ -5,7 +5,7 @@
 namespace ILIAS\AdministrativeNotification\GlobalScreen;
 
 use ilADNNotification;
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
@@ -36,7 +36,7 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
-        $this->access = BasicAccessCheckClosures::getInstance();
+        $this->access = BasicAccessCheckClosuresSingleton::getInstance();
     }
 
     /**
