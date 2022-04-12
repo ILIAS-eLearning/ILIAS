@@ -14047,6 +14047,9 @@ div.il-copg-button-group-wide {
   border-right: 0;
   margin: 0;
 }
+#iltinymenu {
+  padding: 0 15px;
+}
 #iltinymenu .bd div.last {
   float: left;
   white-space: nowrap;
