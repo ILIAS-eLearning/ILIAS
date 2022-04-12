@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -67,7 +61,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
         static $row_counter = 1;
 
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
-        if (strlen($a_set['description'])) {
+        if (strlen($a_set['description']) !== 0) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
 
@@ -75,7 +69,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             foreach ($tst['questions'] as $qst) {
                 $this->tpl->setCurrentBlock('self_qst');
                 $this->tpl->setVariable('SELF_QST_TITLE', $qst['title']);
-                if (strlen($qst['description'])) {
+                if (strlen($qst['description']) !== 0) {
                     $this->tpl->setVariable('SELF_QST_DESCRIPTION', $qst['description']);
                 }
                 $this->tpl->setVariable('SELF_QST_POINTS', $qst['points']);
@@ -84,14 +78,14 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             }
             $this->tpl->setCurrentBlock('self_tst');
             $this->tpl->setVariable('SELF_TST_TITLE', $tst['title']);
-            if (strlen($tst['description'])) {
+            if (strlen($tst['description']) !== 0) {
                 $this->tpl->setVariable('SELF_TST_DESC', $tst['description']);
             }
             $this->tpl->setVariable('SELF_TYPE_IMG', ilUtil::getImagePath('icon_tst.svg'));
             $this->tpl->setVariable('SELF_TYPE_ALT', $this->lng->txt('obj_tst'));
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['self_tests'])) {
+        if (count($a_set['self_tests']) > 0) {
             $this->tpl->setVariable('SELF_TXT_ALL_POINTS', $this->lng->txt('crs_objective_all_points'));
             $this->tpl->setVariable('SELF_TXT_POINTS', $this->lng->txt('crs_objective_points'));
             $this->tpl->setVariable('SELF_TXT_REQ_POINTS', $this->lng->txt('crs_obj_required_points'));
@@ -104,7 +98,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             foreach ($tst['questions'] as $qst) {
                 $this->tpl->setCurrentBlock('final_qst');
                 $this->tpl->setVariable('FINAL_QST_TITLE', $qst['title']);
-                if (strlen($qst['description'])) {
+                if (strlen($qst['description']) !== 0) {
                     $this->tpl->setVariable('FINAL_QST_DESCRIPTION', $qst['description']);
                 }
                 $this->tpl->setVariable('FINAL_QST_POINTS', $qst['points']);
@@ -113,14 +107,14 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             }
             $this->tpl->setCurrentBlock('final_tst');
             $this->tpl->setVariable('FINAL_TST_TITLE', $tst['title']);
-            if (strlen($tst['description'])) {
+            if (strlen($tst['description']) !== 0) {
                 $this->tpl->setVariable('FINAL_TST_DESC', $tst['description']);
             }
             $this->tpl->setVariable('FINAL_TYPE_IMG', ilUtil::getImagePath('icon_tst.svg'));
             $this->tpl->setVariable('FINAL_TYPE_ALT', $this->lng->txt('obj_tst'));
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['final_tests'])) {
+        if (count($a_set['final_tests']) > 0) {
             $this->tpl->setVariable('FINAL_TXT_ALL_POINTS', $this->lng->txt('crs_objective_all_points'));
             $this->tpl->setVariable('FINAL_TXT_POINTS', $this->lng->txt('crs_objective_points'));
             $this->tpl->setVariable('FINAL_TXT_REQ_POINTS', $this->lng->txt('crs_obj_required_points'));

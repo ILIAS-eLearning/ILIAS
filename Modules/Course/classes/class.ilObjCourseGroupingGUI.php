@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -69,7 +83,6 @@ class ilObjCourseGroupingGUI
     }
 
     public function listGroupings() : void
-
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -200,7 +213,7 @@ class ilObjCourseGroupingGUI
             foreach ($grouping->getAssignedItems() as $cond_data) {
                 $items[] = ilObject::_lookupTitle($cond_data['target_obj_id']);
             }
-            if (count($items)) {
+            if ($items !== []) {
                 $ass->setHtml(implode("<br />", $items));
             } else {
                 $ass->setHtml($this->lng->txt('crs_grp_no_courses_assigned'));

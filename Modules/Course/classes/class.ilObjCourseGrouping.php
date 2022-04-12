@@ -1,25 +1,19 @@
 <?php declare(strict_types=0);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObj<module_name>
@@ -164,7 +158,7 @@ class ilObjCourseGrouping
 
     public function delete() : void
     {
-        if ($this->getId() and $this->getType() === 'crsg') {
+        if ($this->getId() && $this->getType() === 'crsg') {
             $query = "DELETE FROM object_data WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
             $res = $this->db->manipulate($query);
 
@@ -210,7 +204,7 @@ class ilObjCourseGrouping
 
     public function update() : void
     {
-        if ($this->getId() and $this->getType() === 'crsg') {
+        if ($this->getId() && $this->getType() === 'crsg') {
             // UPDATe object_data
             $query = "UPDATE object_data " .
                 "SET title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
@@ -313,12 +307,12 @@ class ilObjCourseGrouping
                 continue;
             }
             // Check if container is current container
-            if ($tmp_grouping_obj->getContainerObjId() == $a_obj_id) {
+            if ($tmp_grouping_obj->getContainerObjId() === $a_obj_id) {
                 $visible_groupings[] = $grouping_id;
                 continue;
             }
             // check if items are assigned
-            if (count($items = $tmp_grouping_obj->getAssignedItems())) {
+            if (($items = $tmp_grouping_obj->getAssignedItems()) !== []) {
                 foreach ($items as $condition_data) {
                     if ($ilAccess->checkAccess('write', '', $condition_data['target_ref_id'])) {
                         $visible_groupings[] = $grouping_id;
@@ -461,11 +455,16 @@ class ilObjCourseGrouping
         $tree = $DIC->repositoryTree();
         // get all grouping ids the course is assigned to
         $course_ids = [];
-        foreach (ilConditionHandler::_getPersistedConditionsOfTarget($a_course_ref_id, $a_course_id,
-            'crs') as $condition) {
+        foreach (ilConditionHandler::_getPersistedConditionsOfTarget(
+            $a_course_ref_id,
+            $a_course_id,
+            'crs'
+        ) as $condition) {
             if ($condition['trigger_type'] == 'crsg') {
-                foreach (ilConditionHandler::_getPersistedConditionsOfTrigger('crsg',
-                    $condition['trigger_obj_id']) as $target_condition) {
+                foreach (ilConditionHandler::_getPersistedConditionsOfTrigger(
+                    'crsg',
+                    $condition['trigger_obj_id']
+                ) as $target_condition) {
                     if ($tree->isDeleted($target_condition['target_ref_id'])) {
                         continue;
                     }
@@ -503,7 +502,7 @@ class ilObjCourseGrouping
                 break;
             }
         }
-        if (!count($trigger_ids)) {
+        if (count($trigger_ids) === 0) {
             return true;
         }
         $matriculation_message = $assigned_message = '';
@@ -580,7 +579,7 @@ class ilObjCourseGrouping
                 $trigger_ids[] = $condition['trigger_obj_id'];
             }
         }
-        if (!count($trigger_ids)) {
+        if ($trigger_ids === []) {
             return [];
         }
         $hash_table = array();

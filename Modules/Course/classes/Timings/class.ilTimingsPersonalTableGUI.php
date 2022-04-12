@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
 
@@ -114,10 +128,12 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 
         // active
         $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $a_set['ref_id'] . '][active]');
-        $this->tpl->setVariable('CHECKED_ACTIVE',
-            ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+        $this->tpl->setVariable(
+            'CHECKED_ACTIVE',
+            ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : ''
+        );
 
-        $error_post_item  = (array) ($this->http->request()->getParsedBody()['item'] ?? []);
+        $error_post_item = (array) ($this->http->request()->getParsedBody()['item'] ?? []);
 
         // start
         $dt_input = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_start]');
@@ -149,8 +165,10 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         // changeable
-        $this->tpl->setVariable('TXT_CHANGEABLE',
-            $a_set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no'));
+        $this->tpl->setVariable(
+            'TXT_CHANGEABLE',
+            $a_set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no')
+        );
     }
 
     public function parse(array $a_item_data, array $failed = array()) : void

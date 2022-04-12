@@ -88,7 +88,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         foreach ($_POST["id"] as $obj_id) {
-            $langObj = new ilObjLanguage($obj_id);
+            $langObj = new ilObjLanguage((int)$obj_id);
             $key = $langObj->install();
 
             if ($key !== "") {

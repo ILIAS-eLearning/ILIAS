@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * LO courses user results
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -130,7 +144,7 @@ class ilLOUserResults
 
         $ilDB = $DIC->database();
         if (!$a_course_id ||
-            !sizeof($a_user_ids)) {
+            $a_user_ids === []) {
             return false;
         }
 
@@ -194,7 +208,7 @@ class ilLOUserResults
         return true;
     }
 
-    protected function findObjectiveIds(int $a_type = 0, int $a_status = 0, ?bool $a_is_final = null)
+    protected function findObjectiveIds(int $a_type = 0, int $a_status = 0, ?bool $a_is_final = null) : array
     {
         $res = array();
         $sql = "SELECT objective_id" .
@@ -240,7 +254,7 @@ class ilLOUserResults
     {
         $settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
 
-        if (!$settings->isInitialTestQualifying() or !$settings->worksWithInitialTest()) {
+        if (!$settings->isInitialTestQualifying() || !$settings->worksWithInitialTest()) {
             return $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED);
         }
 
@@ -300,6 +314,9 @@ class ilLOUserResults
         return $res;
     }
 
+    /**
+     * @return int[]
+     */
     public static function getObjectiveStatusForLP(int $a_user_id, int $a_obj_id, array $a_objective_ids) : array
     {
         global $DIC;
@@ -415,7 +432,7 @@ class ilLOUserResults
             }
         }
 
-        $all_nr = sizeof($a_objective_ids);
+        $all_nr = count($a_objective_ids);
         foreach ($tmp_completed as $user_id => $counter) {
             // if used as precondition object should be completed ASAP, status can be lost on subsequent tries
             if ($counter == $all_nr) {

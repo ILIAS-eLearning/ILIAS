@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Course LP badge gui
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -40,7 +54,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
             $white[] = "fold";
         }
         $exp->setTypeWhiteList($white);
-        $subitems->setTitleModifier(function ($a_id) {
+        $subitems->setTitleModifier(function ($a_id) : string {
             $obj_id = ilObject::_lookupObjId($a_id);
             $olp = ilObjectLP::getInstance($obj_id);
             $invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
@@ -57,7 +71,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 
     protected function getLPTypes(int $a_parent_ref_id) : array
     {
-        $res = array();
+        $res = [];
         $root = $this->tree->getNodeData($a_parent_ref_id);
         $sub_items = $this->tree->getSubTree($root);
         array_shift($sub_items); // remove root
@@ -67,7 +81,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
                 $class = ilObjectLP::getTypeClass($node["type"]);
                 /** @noinspection PhpUndefinedMethodInspection */
                 $modes = $class::getDefaultModes(ilObjUserTracking::_enabledLearningProgress());
-                if (sizeof($modes) > 1) {
+                if (count($modes) > 1) {
                     $res[] = $node["type"];
                 }
             }
@@ -85,7 +99,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 
     public function getConfigFromForm(ilPropertyFormGUI $a_form) : array
     {
-        return array("subitems" => $a_form->getInput("subitems"));
+        return ["subitems" => $a_form->getInput("subitems")];
     }
 
     public static function getInvalidLPModes() : array
@@ -139,7 +153,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
                 $invalid[] = ilObject::_lookupTitle($obj_id);
             }
         }
-        if (sizeof($invalid)) {
+        if ($invalid !== []) {
             $mess = sprintf($this->lng->txt("badge_course_lp_invalid"), implode(", ", $invalid));
             $a_form->getItemByPostVar("subitems")->setAlert($mess);
             return false;
