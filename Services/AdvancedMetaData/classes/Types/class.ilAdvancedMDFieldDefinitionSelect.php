@@ -321,6 +321,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $lng = $DIC['lng'];
         $objDefinition = $DIC['objDefinition'];
 
+        $post_conf_det = (array) ($this->http->request()->getParsedBody()['conf_det'] ?? []);
+        $post_conf = (array) ($this->http->request()->getParsedBody()['conf'] ?? []);
+
         $a_form->getItemByPostVar("opts")->setDisabled(true);
         if (is_array($this->confirm_objects) && count($this->confirm_objects) > 0) {
             $new_options = $a_form->getInput("opts");
@@ -340,8 +343,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 $a_form->addItem($details);
 
                 // automatic reload does not work
-                if (isset($_POST["conf_det"][$this->getFieldId()][$old_option])) {
-                    $details->setValue($_POST["conf_det"][$this->getFieldId()][$old_option]);
+                if (isset($post_conf_det[$this->getFieldId()][$old_option])) {
+                    $details->setValue($post_conf_det[$this->getFieldId()][$old_option]);
                 }
 
                 $sum = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_all"), "sum");
@@ -363,10 +366,10 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 $sum->addSubItem($sel);
 
                 // automatic reload does not work
-                if (isset($_POST["conf_det_act"][$this->getFieldId()][$old_option])) {
-                    if ($_POST["conf_det_act"][$this->getFieldId()][$old_option]) {
-                        $sel->setValue($_POST["conf_det_act"][$this->getFieldId()][$old_option]);
-                    } elseif ($_POST["conf_det"][$this->getFieldId()][$old_option] == "sum") {
+                if (isset($post_conf_det[$this->getFieldId()][$old_option])) {
+                    if ($post_conf_det[$this->getFieldId()][$old_option]) {
+                        $sel->setValue($post_conf_det[$this->getFieldId()][$old_option]);
+                    } elseif ($post_conf_det[$this->getFieldId()][$old_option] == "sum") {
                         $sel->setAlert($lng->txt("msg_input_is_required"));
                         $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                     }
@@ -412,10 +415,10 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     $sel->setOptions($options);
 
                     // automatic reload does not work
-                    if (isset($_POST["conf"][$this->getFieldId()][$old_option][$item_id])) {
-                        if ($_POST["conf"][$this->getFieldId()][$old_option][$item_id]) {
-                            $sel->setValue($_POST["conf"][$this->getFieldId()][$old_option][$item_id]);
-                        } elseif ($_POST["conf_det"][$this->getFieldId()][$old_option] == "sgl") {
+                    if (isset($post_conf[$this->getFieldId()][$old_option][$item_id])) {
+                        if ($post_conf[$this->getFieldId()][$old_option][$item_id]) {
+                            $sel->setValue($post_conf[$this->getFieldId()][$old_option][$item_id]);
+                        } elseif ($post_conf_det[$this->getFieldId()][$old_option] == "sgl") {
                             $sel->setAlert($lng->txt("msg_input_is_required"));
                             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                         }

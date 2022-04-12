@@ -1,5 +1,8 @@
 <?php declare(strict_types=1);
 
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\GlobalHttpState;
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -56,6 +59,9 @@ class ilAdvancedMDRecordGUI
 
     protected ilObjUser $user;
     protected ilLanguage $lng;
+    protected GlobalHttpState $http;
+    protected RefineryFactory $refinery;
+
 
     /**
      * @var ?int[] id filter for adv records
@@ -89,6 +95,9 @@ class ilAdvancedMDRecordGUI
             $this->ref_id = end($refs);
         }
         $this->in_repository = $in_repository;
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
+
     }
 
     /**
@@ -544,8 +553,16 @@ class ilAdvancedMDRecordGUI
      */
     public function saveSelection() : void
     {
-        $sel = ilArrayUtil::stripSlashesArray($_POST["amet_use_rec"]);
-        ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $sel);
+        $post_amet_use_rec = [];
+        if ($this->http->wrapper()->post()->has('amet_use_rec')) {
+            $post_amet_use_rec = $this->http->wrapper()->post()->retrieve(
+                'amet_use_rec',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $post_amet_use_rec);
     }
 
     /**

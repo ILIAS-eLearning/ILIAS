@@ -140,6 +140,21 @@ class ilAdvancedMDSettingsGUI
         return new SplFixedArray(0);
     }
 
+    protected function getFileIdsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('file_id')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'file_id',
+                    $this->refinery->kindlyTo()->dictOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+    }
+
     protected function getFieldTypeFromQuery() : ?int
     {
         if ($this->http->wrapper()->query()->has('ftype')) {
@@ -484,7 +499,8 @@ class ilAdvancedMDSettingsGUI
      */
     public function downloadFile() : void
     {
-        if (!isset($_POST['file_id']) or count($_POST['file_id']) != 1) {
+        $file_ids = $this->getFileIdsFromPost();
+        if (count($file_ids) !== 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('md_adv_select_one_file'));
             $this->showFiles();
             return;
@@ -492,8 +508,7 @@ class ilAdvancedMDSettingsGUI
         $files = new ilAdvancedMDRecordExportFiles(
             $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
         );
-        $abs_path = $files->getAbsolutePathByFileId((int) $_POST['file_id'][0]);
-
+        $abs_path = $files->getAbsolutePathByFileId($file_ids[0]);
         ilFileDelivery::deliverFileLegacy($abs_path, 'ilias_meta_data_record.xml', 'application/xml');
     }
 
@@ -503,7 +518,8 @@ class ilAdvancedMDSettingsGUI
      */
     public function confirmDeleteFiles() : void
     {
-        if (!isset($_POST['file_id'])) {
+        $file_ids = $this->getFileIdsFromPost();
+        if (count($file_ids) !== 1) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showFiles();
             return;
@@ -523,7 +539,7 @@ class ilAdvancedMDSettingsGUI
         $file_data = $files->readFilesInfo();
 
         // add items to delete
-        foreach ($_POST["file_id"] as $file_id) {
+        foreach ($file_ids as $file_id) {
             $info = $file_data[$file_id];
             $c_gui->addItem(
                 "file_id[]",
@@ -541,7 +557,8 @@ class ilAdvancedMDSettingsGUI
      */
     public function deleteFiles() : void
     {
-        if (!isset($_POST['file_id'])) {
+        $file_ids = $this->getFileIdsFromPost();
+        if (count($file_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showFiles();
             return;
@@ -555,7 +572,7 @@ class ilAdvancedMDSettingsGUI
         $files = new ilAdvancedMDRecordExportFiles(
             $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
         );
-        foreach ($_POST['file_id'] as $file_id) {
+        foreach ($file_ids as $file_id) {
             $files->deleteByFileId((int) $file_id);
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('md_adv_deleted_files'));
@@ -657,6 +674,8 @@ class ilAdvancedMDSettingsGUI
             $sorted_positions[(int) $record_id] = $i++;
         }
         $selected_global = array();
+
+        $post_active = (array) ($this->http->request()->getParsedBody()['active'] ?? []);
         foreach ($this->getParsedRecordObjects() as $item) {
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
@@ -675,8 +694,10 @@ class ilAdvancedMDSettingsGUI
 
                 if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES]) {
                     $obj_types = array();
-                    if (is_array($_POST['obj_types'][$record_obj->getRecordId()])) {
-                        foreach ($_POST['obj_types'][$record_obj->getRecordId()] as $type => $status) {
+
+                    $post_object_types = (array) ($this->http->request()->getParsedBody()['obj_type'] ?? []);
+                    if (is_array($post_object_types[$record_obj->getRecordId()])) {
+                        foreach ($post_object_types[$record_obj->getRecordId()] as $type => $status) {
                             if ($status) {
                                 $type = explode(":", $type);
                                 $obj_types[] = array(
@@ -691,7 +712,7 @@ class ilAdvancedMDSettingsGUI
                 }
 
                 if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION]) {
-                    $record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
+                    $record_obj->setActive(isset($post_active[$record_obj->getRecordId()]));
                 }
 
                 $record_obj->setGlobalPosition((int) $sorted_positions[$record_obj->getRecordId()]);
@@ -700,11 +721,11 @@ class ilAdvancedMDSettingsGUI
                 // global, optional record
                 if ($item['readonly'] &&
                     $item['optional'] &&
-                    $_POST['active'][$item['id']]) {
+                    $post_active[$item['id']] ?? false) {
                     $selected_global[] = $item['id'];
                 } elseif ($item['local']) {
                     $record_obj = ilAdvancedMDRecord::_getInstanceByRecordId($item['id']);
-                    $record_obj->setActive(isset($_POST['active'][$item['id']]));
+                    $record_obj->setActive((bool) ($post_active[$item['id']] ?? false));
                     $record_obj->update();
                 }
             }
@@ -929,7 +950,8 @@ class ilAdvancedMDSettingsGUI
                 ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                 ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE
             )) {
-                $field->setSearchable(isset($_POST['searchable'][$field->getFieldId()]) ? true : false);
+                $post_searchable = (array) ($this->http->request()->getParsedBody()['searchable'] ?? []);
+                $field->setSearchable((bool) ($post_searchable[$field->getFieldId()] ?? false));
                 $field->update();
             }
         }

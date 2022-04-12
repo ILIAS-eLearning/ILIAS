@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/ADT/classes/class.ilADTFactory.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * AMD field abstract base class
@@ -39,6 +52,8 @@ abstract class ilAdvancedMDFieldDefinition
     protected ilDBInterface $db;
     protected ilLanguage $lng;
     protected ilLogger $logger;
+    protected GlobalHttpState $http;
+    protected RefineryFactory $refinery;
 
     public function __construct(?int $a_field_id = null, string $language = '')
     {
@@ -46,6 +61,9 @@ abstract class ilAdvancedMDFieldDefinition
 
         $this->lng = $DIC->language();
         $this->language = $DIC->language()->getLangKey();
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
+
 
         if ($language) {
             $this->language = $language;
