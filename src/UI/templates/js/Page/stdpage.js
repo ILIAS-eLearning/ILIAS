@@ -70,10 +70,12 @@ il.UI = il.UI || {};
 
 	})($);
 })($, il.UI);
-il.Util.addOnLoad(function() {
+il.Util.addOnLoad(function () {
 	window.setTimeout(
-		function(){
-			$("main").attr("tabindex", -1).focus();
+		function () {
+			if (il.UI.page.isSmallScreen() === false) {
+				$("main").attr("tabindex", -1).focus();
+			}
 		}, 10
 	);
 });
