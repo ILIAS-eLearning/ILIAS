@@ -153,4 +153,15 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withViewTitle($title)->getViewTitle()
         );
     }
+    
+    public function testWithMetaDatum()
+    {
+        $meta_datum_key = 'meta_datum_key';
+        $meta_datum_value = 'meta_datum_value';
+        $meta_data = [$meta_datum_key => $meta_datum_value];
+        $this->assertEquals(
+            $meta_data,
+            $this->stdpage->withAdditionalMetaDatum($meta_datum_key, $meta_datum_value)->getMetaData()
+        );
+    }
 }
