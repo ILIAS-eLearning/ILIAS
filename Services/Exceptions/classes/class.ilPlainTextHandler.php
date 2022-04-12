@@ -1,13 +1,26 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * A Whoops error handler that prints the same content as the PrettyPageHandler but as plain text.
  * This is used for better coexistence with xdebug, see #16627.
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-
 use Whoops\Handler\Handler;
 use Whoops\Exception\Formatter;
 
@@ -47,9 +60,8 @@ class ilPlainTextHandler extends Handler
 
     /**
      * Get a short info about the exception.
-     * @return string
      */
-    protected function exceptionContent()
+    protected function exceptionContent() : string
     {
         return Formatter::formatExceptionPlain($this->getInspector());
     }
@@ -70,7 +82,7 @@ class ilPlainTextHandler extends Handler
                     // indent all but first line, then implode again.
                     $first = true;
                     $indentation = str_pad("", self::KEY_SPACE);
-                    $value = implode("\n", array_map(function ($line) use (&$first, $indentation) {
+                    $value = implode("\n", array_map(function ($line) use (&$first, $indentation) : string {
                         if ($first) {
                             $first = false;
                             return $line;
