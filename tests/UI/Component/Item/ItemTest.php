@@ -128,6 +128,16 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $c->getLead());
     }
 
+    public function test_with_audio_player() : void
+    {
+        $f = $this->getFactory();
+
+        $audio = new I\Component\Player\Audio("src", "transcript");
+        $c = $f->standard("title")->withAudioPlayer($audio);
+
+        $this->assertEquals($c->getAudioPlayer(), $audio);
+    }
+
     public function test_render_base() : void
     {
         $f = $this->getFactory();
@@ -488,5 +498,28 @@ EOT;
 EOT;
 
         $this->assertHTMLEquals($expected, $html);
+    }
+
+    public function test_render_audio_player() : void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $audio = new I\Component\Player\Audio("src", "");
+        $c = $f->standard("title")->withAudioPlayer($audio);
+
+        $html = $r->render($c);
+        $expected = <<<EOT
+<div class="il-item il-std-item ">
+    <div class="il-item-title">title</div>
+    <div class="il-item-audio"><div class="il-audio-container">
+    <audio class="il-audio-player" id="id_1" src="src" preload="meta"></audio>
+</div></div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
     }
 }
