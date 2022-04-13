@@ -42,6 +42,6 @@ class PageReadingTimeTest extends TestCase
     public function testRawReadingTimeCanBeRetrievedFromValueObject() : void
     {
         $readingTime = new PageReadingTime(5);
-        $this->assertEquals(5, $readingTime->minutes());
+        $this->assertSame(5, $readingTime->minutes());
     }
 }

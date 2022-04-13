@@ -66,10 +66,10 @@ class PageMetricsTest extends TestCase
         $repo = new PageMetricsRepositoryImp($database);
         $pageMetrics = $repo->findBy($contentPageId, $pageId, $language);
 
-        $this->assertEquals($readingTimeInMinutes, $pageMetrics->readingTime()->minutes());
-        $this->assertEquals($language, $pageMetrics->language());
-        $this->assertEquals($contentPageId, $pageMetrics->contentPageId());
-        $this->assertEquals($pageId, $pageMetrics->pageId());
+        $this->assertSame($readingTimeInMinutes, $pageMetrics->readingTime()->minutes());
+        $this->assertSame($language, $pageMetrics->language());
+        $this->assertSame($contentPageId, $pageMetrics->contentPageId());
+        $this->assertSame($pageId, $pageMetrics->pageId());
     }
 
     public function testPropertiesAreAccessedWhenStoringPageMetrics() : void
@@ -102,12 +102,12 @@ class PageMetricsTest extends TestCase
     public function testCommandsWorkAsExpected() : void
     {
         $getPageMetrics = new GetPageMetricsCommand(1337, 'de');
-        $this->assertEquals('de', $getPageMetrics->getLanguage());
-        $this->assertEquals(1337, $getPageMetrics->getContentPageId());
+        $this->assertSame('de', $getPageMetrics->getLanguage());
+        $this->assertSame(1337, $getPageMetrics->getContentPageId());
 
         $storePageMetrics = new StorePageMetricsCommand(1337, 'de');
-        $this->assertEquals('de', $storePageMetrics->getLanguage());
-        $this->assertEquals(1337, $storePageMetrics->getContentPageId());
+        $this->assertSame('de', $storePageMetrics->getLanguage());
+        $this->assertSame(1337, $storePageMetrics->getContentPageId());
     }
 
     public function testEventsWorkAsExpected() : void
@@ -115,7 +115,7 @@ class PageMetricsTest extends TestCase
         $page = $this->getMockBuilder(ilContentPagePage::class)->disableOriginalConstructor()->getMock();
 
         $pageUpdated = new PageUpdatedEvent($page);
-        $this->assertEquals($page, $pageUpdated->page());
+        $this->assertSame($page, $pageUpdated->page());
     }
     
     public function testPageMetricsCanBeRetrievedFromService() : void
@@ -145,6 +145,6 @@ class PageMetricsTest extends TestCase
         );
 
         $receivedPageMetrics = $service->get(new GetPageMetricsCommand($contentPageId, $language));
-        $this->assertEquals($pageMetrics, $receivedPageMetrics);
+        $this->assertSame($pageMetrics, $receivedPageMetrics);
     }
 }
