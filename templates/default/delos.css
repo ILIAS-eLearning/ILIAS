@@ -14052,7 +14052,7 @@ div.il-copg-button-group-wide {
   margin: 0;
 }
 #iltinymenu {
-  padding: 0 12px;
+  padding: 0 15px;
 }
 #iltinymenu .bd div.last {
   float: left;
@@ -14260,7 +14260,7 @@ a.nostyle:hover {
   height: 21px;
 }
 #ilPageEditLegend tr > td {
-  padding: 3px 12px;
+  padding: 3px 15px;
 }
 #ilPageEditLegend tr > td:first-child {
   white-space: nowrap;
@@ -14377,7 +14377,7 @@ div.ilCOPGMediaPrint {
   min-width: 100px;
 }
 #copg-editor-slate-content {
-  padding: 6px 0px;
+  padding: 9px 0px;
 }
 #copg-editor-slate-content p {
   padding: 0;
@@ -14396,10 +14396,10 @@ div.ilCOPGMediaPrint {
   margin: 10px 0;
 }
 #copg-editor-slate-content form.form-horizontal {
-  margin-bottom: 6px;
+  margin-bottom: 9px;
 }
 #copg-editor-slate-content form.form-horizontal .ilFormHeader {
-  padding: 6px 12px;
+  padding: 9px 15px;
 }
 #copg-editor-slate-content form.form-horizontal .ilFormHeader h3.ilHeader {
   font-size: 14px;
@@ -14416,17 +14416,17 @@ div.ilCOPGMediaPrint {
   margin-bottom: 0;
 }
 #copg-editor-slate-content form.form-horizontal .ilFormFooter {
-  padding: 3px 12px;
+  padding: 3px 15px;
   background-color: white;
 }
 #copg-editor-slate-content > .btn-link {
-  padding: 0px 12px;
+  padding: 0px 15px;
 }
 #copg-top-actions {
-  padding: 0 12px;
+  padding: 0 15px;
 }
 .copg-edit-button-group {
-  padding: 3px 12px;
+  padding: 3px 15px;
 }
 p#copg-auto-save {
   padding: 0;
