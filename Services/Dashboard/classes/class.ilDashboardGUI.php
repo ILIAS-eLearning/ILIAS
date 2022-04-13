@@ -135,35 +135,6 @@ class ilDashboardGUI
     {
         global $DIC;
 
-        $form = $DIC->ui()->factory()->input()->container()->form()->standard(
-            $DIC->ctrl()->getFormActionByClass(self::class, 'submit'),
-            [
-                'grp' => $DIC->ui()->factory()->input()->field()->switchableGroup([
-                    'o1' => $DIC->ui()->factory()->input()->field()->group([
-                        't1' => $DIC->ui()->factory()->input()->field()->text('text input 1'),
-                    ]),
-
-                    'o2' => $DIC->ui()->factory()->input()->field()->group([
-                        't2' => $DIC->ui()->factory()->input()->field()->text('text input 2'),
-                    ]),
-                ], 'choose one'),
-            ]
-        );
-
-        if ($DIC->ctrl()->getCmd() === 'submit') {
-            $form = $form->withRequest($DIC->http()->request());
-            $data = $form->getData();
-            $x = 1;
-        }
-
-        $DIC->ui()->mainTemplate()->setContent(
-            $DIC->ui()->renderer()->render($form)
-        );
-
-        $DIC->ui()->mainTemplate()->printToStdout();
-
-        die;
-
         $context = $DIC->globalScreen()->tool()->context();
         $context->stack()->desktop();
 
