@@ -28,7 +28,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
     protected bool $edit_order;
     
     public function __construct(
-        object $a_parent_obj,
+        ilObjMediaCastGUI $a_parent_obj,
         string $a_parent_cmd = "",
         bool $a_edit_order = false,
         bool $a_presentation_mode = false
@@ -52,7 +52,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         // Check whether download-buttons will be displayed
-        $mediacast = new ilObjMediaCast($a_parent_obj->id);
+        $mediacast = new ilObjMediaCast($a_parent_obj->getObject()->getRefId());
         $this->downloadable = $mediacast->getDownloadable();
 
         if (!$this->presentation_mode) {

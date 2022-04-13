@@ -45,7 +45,7 @@ class ilMediaPlayerGUI
     ) {
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
         $this->id = $a_id;
         $this->event_callback_url = $a_event_callback_url;
@@ -309,9 +309,17 @@ class ilMediaPlayerGUI
 
             // sources
             $mp_tpl->setVariable("FILE", $this->getFile());
-            $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
+            $player_nr = $this->id . "_" . $this->current_nr;
+            $mp_tpl->setVariable("PLAYER_NR", $player_nr);
             $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
-            $mp_tpl->setVariable("EVENT_URL", $this->event_callback_url);
+
+            $onload_code = "il.MediaObjects.setPlayerConfig('player_" . $player_nr .
+                "', {event_url: '".$this->event_callback_url."'});";
+
+            $this->tpl->addOnLoadCode(
+                $onload_code
+            );
+
             $height = $this->getDisplayHeight();
             $width = $this->getDisplayWidth();
             if (is_int(strpos($mimeType, "audio/mpeg"))) {

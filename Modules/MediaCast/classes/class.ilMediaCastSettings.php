@@ -102,7 +102,7 @@ class ilMediaCastSettings
                 $this->purposeSuffixes[$purpose] = $sf;
             }
         }
-        $this->setDefaultAccess($this->storage->get("defaultaccess"));
+        $this->setDefaultAccess((string) $this->storage->get("defaultaccess"));
         if ($this->storage->get("mimetypes")) {
             $mt = explode(",", $this->storage->get("mimetypes"));
             $mt = array_filter($mt, function ($c) {

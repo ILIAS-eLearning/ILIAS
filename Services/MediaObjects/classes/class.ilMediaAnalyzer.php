@@ -52,7 +52,7 @@ class ilMediaAnalyzer
 
     public function getPlaytimeSeconds() : int
     {
-        return $this->file_info["playtime_seconds"];
+        return $this->file_info["playtime_seconds"] ?? 0;
     }
 
     /**
