@@ -124,6 +124,7 @@ class ilDBUpdateNewObjectType
      * @param string $a_type_id
      * @param string $a_type_title
      * @return int insert id
+     * @deprecated use Services/Object/classes/Setup/class.ilObjectNewTypeAddedObjective.php instead
      */
     public static function addNewType($a_type_id, $a_type_title)
     {
@@ -156,6 +157,7 @@ class ilDBUpdateNewObjectType
      *
      * @param int $a_type_id
      * @param array $a_operations
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationsAddedObjective.php instead
      */
     public static function addRBACOperations($a_type_id, array $a_operations)
     {
@@ -176,6 +178,7 @@ class ilDBUpdateNewObjectType
      * @param int $a_type_id
      * @param int $a_ops_id
      * @return bool
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationsAddedObjective.php instead
      */
     public static function addRBACOperation($a_type_id, $a_ops_id)
     {
@@ -203,6 +206,7 @@ class ilDBUpdateNewObjectType
      * @param int $a_type_id type id
      * @param int $a_ops_id operation id
      * @return bool
+     * @deprecated use ilRbacReview::_isRBACOperation instead
      */
     public static function isRBACOperation($a_type_id, $a_ops_id)
     {
@@ -223,6 +227,7 @@ class ilDBUpdateNewObjectType
      *
      * @param int $a_type
      * @param int $a_ops_id
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationDeletedObjective.php instead
      */
     public static function deleteRBACOperation($a_type, $a_ops_id)
     {
@@ -251,6 +256,7 @@ class ilDBUpdateNewObjectType
      *
      * @param string $a_type
      * @param int $a_ops_id
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationDeletedObjective.php instead
      */
     public static function deleteRBACTemplateOperation($a_type, $a_ops_id)
     {
@@ -272,6 +278,7 @@ class ilDBUpdateNewObjectType
      *
      * @param int $a_ops_id
      * @return bool
+     * @deprecated
      */
     protected static function isValidRBACOperation($a_ops_id)
     {
@@ -294,6 +301,7 @@ class ilDBUpdateNewObjectType
      *
      * @param string $a_operation
      * @return int
+     * @deprecated use ilRbacReview::_getCustomRBACOperationId instead
      */
     public static function getCustomRBACOperationId($a_operation)
     {
@@ -315,6 +323,7 @@ class ilDBUpdateNewObjectType
      * @param string $a_class
      * @param string $a_pos
      * @return int ops_id
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessCustomRBACOperationAddedObjective.php instead
      */
     public static function addCustomRBACOperation($a_id, $a_title, $a_class, $a_pos)
     {
@@ -352,6 +361,7 @@ class ilDBUpdateNewObjectType
      *
      * @param string $a_type
      * @return int
+     * @deprecated use ilObject::_getObjectTypeIdByTitle() instead
      */
     public static function getObjectTypeId($a_type)
     {
@@ -371,6 +381,8 @@ class ilDBUpdateNewObjectType
      * @param string  $a_id
      * @param string $a_title
      * @param array $a_parent_types
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessCustomRBACOperationAddedObjective.php instead
+     *             use 'create' for class param
      */
     public static function addRBACCreate($a_id, $a_title, array $a_parent_types)
     {
@@ -389,6 +401,7 @@ class ilDBUpdateNewObjectType
      *
      * @param string $a_operation
      * @param int $a_pos
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationOrderUpdatedObjective.php instead
      */
     public static function updateOperationOrder($a_operation, $a_pos)
     {
@@ -406,6 +419,7 @@ class ilDBUpdateNewObjectType
      *
      * @param string $a_id
      * @param string $a_title
+     * @deprecated use Services/Tree/classes/Setup/class.ilTreeAdminNodeAddedObjective.php instead
      */
     public static function addAdminNode($a_obj_type, $a_title)
     {
@@ -456,6 +470,7 @@ class ilDBUpdateNewObjectType
      * @param string $a_obj_type
      * @param int $a_source_op_id
      * @param int $a_target_op_id
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationClonedObjective.php instead
      */
     public static function cloneOperation($a_obj_type, $a_source_op_id, $a_target_op_id)
     {
@@ -511,94 +526,15 @@ class ilDBUpdateNewObjectType
             }
         }
     }
-    
+
     /**
-     * Migrate varchar column to text/clob
-     *
-     * @param string $a_table_name
-     * @param string $a_column_name
-     * @return bool
+     * @param int    $a_rol_id
+     * @param string $a_type
+     * @param array  $a_ops
+     * @param int    $a_ref_id
+     * @return void
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRolePermissionSetObjective.php instead
      */
-    public static function varchar2text($a_table_name, $a_column_name)
-    {
-        global $ilDB;
-        
-        $tmp_column_name = $a_column_name . "_tmp_clob";
-        
-        if (!$ilDB->tableColumnExists($a_table_name, $a_column_name) ||
-            $ilDB->tableColumnExists($a_table_name, $tmp_column_name)) {
-            return false;
-        }
-        
-        // oracle does not support ALTER TABLE varchar2 to CLOB
-
-        $ilAtomQuery = $ilDB->buildAtomQuery();
-        $ilAtomQuery->addTableLock($a_table_name);
-
-        $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $ilDB) use ($a_table_name, $a_column_name, $tmp_column_name) {
-                $def = array(
-                    'type' => 'clob',
-                    'notnull' => false
-                );
-                $ilDB->addTableColumn($a_table_name, $tmp_column_name, $def);
-
-                $ilDB->manipulate('UPDATE ' . $a_table_name . ' SET ' . $tmp_column_name . ' = ' . $a_column_name);
-
-                $ilDB->dropTableColumn($a_table_name, $a_column_name);
-
-                $ilDB->renameTableColumn($a_table_name, $tmp_column_name, $a_column_name);
-            }
-        );
-
-        $ilAtomQuery->run();
-        
-        return true;
-    }
-    
-    /**
-     * Add new RBAC template
-     *
-     * @param string $a_obj_type
-     * @param string $a_id
-     * @param string $a_description
-     * @param int|array $a_op_ids
-     */
-    public static function addRBACTemplate($a_obj_type, $a_id, $a_description, $a_op_ids)
-    {
-        global $ilDB;
-        
-        $new_tpl_id = $ilDB->nextId('object_data');
-
-        $ilDB->manipulateF(
-            "INSERT INTO object_data (obj_id, type, title, description," .
-            " owner, create_date, last_update) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
-            array($new_tpl_id, "rolt", $a_id, $a_description, -1, ilUtil::now(), ilUtil::now())
-        );
-                
-        $ilDB->manipulateF(
-            "INSERT INTO rbac_fa (rol_id, parent, assign, protected)" .
-            " VALUES (%s, %s, %s, %s)",
-            array("integer", "integer", "text", "text"),
-            array($new_tpl_id, 8, "n", "n")
-        );
-        
-        if ($a_op_ids) {
-            if (!is_array($a_op_ids)) {
-                $a_op_ids = array($a_op_ids);
-            }
-            foreach ($a_op_ids as $op_id) {
-                $ilDB->manipulateF(
-                    "INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
-                " VALUES (%s, %s, %s, %s)",
-                    array("integer", "text", "integer", "integer"),
-                    array($new_tpl_id, $a_obj_type, $op_id, 8)
-                );
-            }
-        }
-    }
-
     public static function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id)
     {
         global $DIC;
@@ -631,6 +567,7 @@ class ilDBUpdateNewObjectType
      * @param bool $hasLearningProgress A boolean flag whether or not the object type supports learning progress
      * @param bool $usedForAuthoring A boolean flag to tell whether or not the object type is mainly used for authoring
      * @see https://www.ilias.de/docu/goto_docu_wiki_wpage_2273_1357.html
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessInitialPermissionGuidelineAppliedObjective.php instead
      */
     public static function applyInitialPermissionGuideline(string $objectType, bool $hasLearningProgress = false, bool $usedForAuthoring = false)
     {
