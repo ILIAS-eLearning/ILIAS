@@ -56,11 +56,11 @@ class ilHtmlPurifierCompositeTest extends TestCase
         $purifier->addPurifier($p2);
         $purifier->addPurifier($p3);
 
-        $this->assertEquals('phpunit...', $purifier->purify('phpunit'));
+        $this->assertSame('phpunit...', $purifier->purify('phpunit'));
 
         $purifier->removePurifier($p2);
 
-        $this->assertEquals('phpunit..', $purifier->purify('phpunit'));
+        $this->assertSame('phpunit..', $purifier->purify('phpunit'));
     }
 
     public function testPurifierNodesAreCalledIfArrayOfStringGetssPurified() : void
@@ -82,13 +82,13 @@ class ilHtmlPurifierCompositeTest extends TestCase
             'phpunit3',
         ];
 
-        $this->assertEquals(array_map(static function (string $html) : string {
+        $this->assertSame(array_map(static function (string $html) : string {
             return $html . '...';
         }, $toPurify), $purifier->purifyArray($toPurify));
 
         $purifier->removePurifier($p2);
 
-        $this->assertEquals(array_map(static function (string $html) : string {
+        $this->assertSame(array_map(static function (string $html) : string {
             return $html . '..';
         }, $toPurify), $purifier->purifyArray($toPurify));
     }
