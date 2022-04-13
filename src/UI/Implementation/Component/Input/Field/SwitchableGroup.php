@@ -109,15 +109,20 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
             throw new \LogicException("Can only collect if input has a name.");
         }
 
+        $key = null;
         if (!$this->isDisabled()) {
-            $key = $post_input->get($this->getName());
-            $clone = $this->withValue($key);
-            $clone->inputs[$key] = $clone->inputs[$key]->withInput($post_input);
+            $key = $post_input->getOr($this->getName(), $key);
+            if (null !== $key) {
+                $clone = $this->withValue($key);
+                $clone->inputs[$key] = $clone->inputs[$key]->withInput($post_input);
+            } else {
+                $clone = $this;
+            }
         } else {
             $clone = $this;
         }
 
-        if ($clone->inputs[$key]->getContent()->isError()) {
+        if ($key === null || $clone->inputs[$key]->getContent()->isError()) {
             $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
         } else {
             $clone->content = $this->applyOperationsTo($clone->getValue());
