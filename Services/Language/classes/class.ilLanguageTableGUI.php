@@ -88,7 +88,7 @@ class ilLanguageTableGUI extends ilTable2GUI
         $status = "";
 
         // set status info (in use or systemlanguage)
-        if ($a_set["status"]) {
+        if ($a_set["status"] ?? false) {
             $status = "<span class=\"small\"> (" . $this->lng->txt($a_set["status"]) . ")</span>";
         }
 
