@@ -83,7 +83,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             'someInstallationId'
         );
 
-        $this->assertEquals(true, $result);
+        $this->assertSame(true, $result);
     }
 
     public function testCertificateCanBeImportedWithoutBackgroundImage() : void
@@ -155,7 +155,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             'someInstallationId'
         );
 
-        $this->assertEquals(true, $result);
+        $this->assertSame(true, $result);
     }
 
     public function testNoXmlFileInUplodadZipFolder() : void
@@ -219,7 +219,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             'someInstallationId'
         );
 
-        $this->assertEquals(false, $result);
+        $this->assertSame(false, $result);
     }
 
     public function testZipfileCouldNoBeMoved() : void
@@ -276,6 +276,6 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             'someInstallationId'
         );
 
-        $this->assertEquals(false, $result);
+        $this->assertSame(false, $result);
     }
 }

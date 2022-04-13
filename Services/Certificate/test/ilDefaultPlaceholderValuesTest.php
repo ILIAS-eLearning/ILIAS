@@ -221,7 +221,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             10
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'USER_LOGIN' => 'Something',
                 'USER_FULLNAME' => 'Something',

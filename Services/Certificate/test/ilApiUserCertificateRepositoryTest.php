@@ -87,17 +87,17 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         /** @var \Certificate\API\Data\UserCertificateDto $object */
         $object = $userData[5];
-        $this->assertEquals('test', $object->getObjectTitle());
-        $this->assertEquals(5, $object->getCertificateId());
-        $this->assertEquals(100, $object->getObjectId());
-        $this->assertEquals(array(5000, 6000), $object->getObjectRefIds());
-        $this->assertEquals(1234567890, $object->getIssuedOnTimestamp());
-        $this->assertEquals(2000, $object->getUserId());
-        $this->assertEquals('ilyas', $object->getUserFirstName());
-        $this->assertEquals('homer', $object->getUserLastName());
-        $this->assertEquals('breakdanceMcFunkyPants', $object->getUserLogin());
-        $this->assertEquals('ilyas@ilias.de', $object->getUserEmail());
-        $this->assertEquals('breakdance@funky.de', $object->getUserSecondEmail());
-        $this->assertEquals('somewhere.php?goto=4', $object->getDownloadLink());
+        $this->assertSame('test', $object->getObjectTitle());
+        $this->assertSame(5, $object->getCertificateId());
+        $this->assertSame(100, $object->getObjectId());
+        $this->assertSame(array(5000, 6000), $object->getObjectRefIds());
+        $this->assertSame(1234567890, $object->getIssuedOnTimestamp());
+        $this->assertSame(2000, $object->getUserId());
+        $this->assertSame('ilyas', $object->getUserFirstName());
+        $this->assertSame('homer', $object->getUserLastName());
+        $this->assertSame('breakdanceMcFunkyPants', $object->getUserLogin());
+        $this->assertSame('ilyas@ilias.de', $object->getUserEmail());
+        $this->assertSame('breakdance@funky.de', $object->getUserSecondEmail());
+        $this->assertSame('somewhere.php?goto=4', $object->getDownloadLink());
     }
 }

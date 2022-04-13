@@ -153,7 +153,7 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $placeholderValues = $valuesObject->getPlaceholderValuesForPreview(100, 10);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'SOME_PLACEHOLDER' => 'ANYTHING',
                 'SOME_OTHER_PLACEHOLDER' => '2018-09-10',

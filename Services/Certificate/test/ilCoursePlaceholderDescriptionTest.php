@@ -46,7 +46,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
-        $this->assertEquals('', $html);
+        $this->assertSame('', $html);
     }
 
     public function testPlaceholderDescriptions() : void

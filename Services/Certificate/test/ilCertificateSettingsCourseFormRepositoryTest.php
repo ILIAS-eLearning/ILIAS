@@ -193,7 +193,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
 
         $result = $repository->fetchFormFieldData('Some Content');
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'subitems' => array(1, 2, 3),
                 'something_else' => 'something'

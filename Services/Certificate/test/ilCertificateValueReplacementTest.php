@@ -24,7 +24,7 @@ Hurray [NAME] you have received [PRIZE]
 Hurray Peter you have received a fantastic prize
 </xml>';
 
-        $this->assertEquals($expected, $replacedContent);
+        $this->assertSame($expected, $replacedContent);
     }
 
     public function testReplaceClientWebDir() : void
@@ -47,6 +47,6 @@ Hurray [NAME] you have received [PRIZE]
 Hurray Peter you have received a fantastic prize
 </xml>';
 
-        $this->assertEquals($expected, $replacedContent);
+        $this->assertSame($expected, $replacedContent);
     }
 }

@@ -102,7 +102,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $completedCourses = $evaluation->evaluate(10, 200);
 
-        $this->assertEquals(5, $completedCourses[0]->getObjId());
+        $this->assertSame(5, $completedCourses[0]->getObjId());
     }
 
     public function testAllCoursesAreCompletedOnLPChange() : void
@@ -201,8 +201,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $completedCourses = $evaluation->evaluate(10, 200);
 
-        $this->assertEquals(5, $completedCourses[0]->getObjId());
-        $this->assertEquals(6, $completedCourses[1]->getObjId());
+        $this->assertSame(5, $completedCourses[0]->getObjId());
+        $this->assertSame(6, $completedCourses[1]->getObjId());
     }
 
     public function testNoSubitemDefinedForEvaluation() : void
@@ -278,7 +278,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $completedCourses = $evaluation->evaluate(10, 200);
 
-        $this->assertEquals(array(), $completedCourses);
+        $this->assertSame(array(), $completedCourses);
     }
     
     public function globalLearningProgressStateProvder() : array

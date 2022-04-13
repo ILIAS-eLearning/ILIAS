@@ -96,7 +96,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $output = $xlsFoParser->parse($formData);
 
-        $this->assertEquals('Something Processed', $output);
+        $this->assertSame('Something Processed', $output);
     }
 
     public function testParseButXmlCheckerFindsAnError() : void
@@ -266,7 +266,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $output = $xlsFoParser->parse($formData);
 
-        $this->assertEquals('Something Processed', $output);
+        $this->assertSame('Something Processed', $output);
     }
 
     public function testCommasWillBeConvertedToPointInDecimalSepartor() : void
@@ -361,6 +361,6 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $output = $xlsFoParser->parse($formData);
 
-        $this->assertEquals('Something Processed', $output);
+        $this->assertSame('Something Processed', $output);
     }
 }

@@ -129,7 +129,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
 
         $result = $repository->fetchFormFieldData('Some Content');
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'certificate_enabled_scorm' => 'something',
                 'short_name' => 'somethingelse'

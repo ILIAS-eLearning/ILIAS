@@ -16,7 +16,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $parser = new ilFormFieldParser($xlstProcess);
         $formFields = $parser->fetchDefaultFormFields($content);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'pageformat' => 'a4',
                 'pagewidth' => '21cm',
@@ -45,7 +45,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $parser = new ilFormFieldParser($xlstProcess);
         $formFields = $parser->fetchDefaultFormFields($content);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'pageformat' => 'custom',
                 'pagewidth' => '210mm',
@@ -74,7 +74,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $parser = new ilFormFieldParser($xlstProcess);
         $formFields = $parser->fetchDefaultFormFields($content);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'pageformat' => 'a5',
                 'pagewidth' => '14.8cm',
@@ -103,7 +103,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $parser = new ilFormFieldParser($xlstProcess);
         $formFields = $parser->fetchDefaultFormFields($content);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'pageformat' => 'a5landscape',
                 'pagewidth' => '21cm',
@@ -132,7 +132,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $parser = new ilFormFieldParser($xlstProcess);
         $formFields = $parser->fetchDefaultFormFields($content);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'pageformat' => 'a4landscape',
                 'pagewidth' => '29.7cm',
@@ -161,7 +161,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $parser = new ilFormFieldParser($xlstProcess);
         $formFields = $parser->fetchDefaultFormFields($content);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'pageformat' => 'letterlandscape',
                 'pagewidth' => '11in',
@@ -190,7 +190,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $parser = new ilFormFieldParser($xlstProcess);
         $formFields = $parser->fetchDefaultFormFields($content);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'pageformat' => 'letter',
                 'pagewidth' => '8.5in',

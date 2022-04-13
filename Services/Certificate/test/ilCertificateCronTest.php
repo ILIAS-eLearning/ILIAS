@@ -64,7 +64,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $title = $cron->getTitle();
 
-        $this->assertEquals('SomeTitle', $title);
+        $this->assertSame('SomeTitle', $title);
     }
 
     public function testGetDescription() : void
@@ -125,7 +125,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $title = $cron->getDescription();
 
-        $this->assertEquals('SomeDescription', $title);
+        $this->assertSame('SomeDescription', $title);
     }
 
     public function testGetId() : void
@@ -207,7 +207,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $id = $cron->getId();
 
-        $this->assertEquals('certificate', $id);
+        $this->assertSame('certificate', $id);
     }
 
     public function testActivation() : void
@@ -453,7 +453,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $flexibleSchedule = $cron->getDefaultScheduleType();
 
-        $this->assertEquals(2, $flexibleSchedule);
+        $this->assertSame(2, $flexibleSchedule);
     }
 
     public function testGetDefaultScheduleValue() : void
@@ -535,6 +535,6 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $scheduleValue = $cron->getDefaultScheduleValue();
 
-        $this->assertEquals(1, $scheduleValue);
+        $this->assertSame(1, $scheduleValue);
     }
 }

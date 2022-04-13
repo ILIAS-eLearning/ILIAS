@@ -83,7 +83,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $result = $placeHolderObject->getPlaceholderValues(100, 200);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'RESULT_MARK' => 'Some Formatted Output',
                 'EXERCISE_TITLE' => 'Some Formatted Output',

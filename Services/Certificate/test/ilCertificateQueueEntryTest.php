@@ -20,12 +20,12 @@ class ilCertificateQueueEntryTest extends ilCertificateBaseTestCase
             20
         );
 
-        $this->assertEquals(20, $queueEntry->getId());
-        $this->assertEquals(10, $queueEntry->getObjId());
-        $this->assertEquals(500, $queueEntry->getUserId());
-        $this->assertEquals(1000, $queueEntry->getTemplateId());
-        $this->assertEquals('SomeClass', $queueEntry->getAdapterClass());
-        $this->assertEquals('SomeState', $queueEntry->getState());
-        $this->assertEquals($timestamp, $queueEntry->getStartedTimestamp());
+        $this->assertSame(20, $queueEntry->getId());
+        $this->assertSame(10, $queueEntry->getObjId());
+        $this->assertSame(500, $queueEntry->getUserId());
+        $this->assertSame(1000, $queueEntry->getTemplateId());
+        $this->assertSame('SomeClass', $queueEntry->getAdapterClass());
+        $this->assertSame('SomeState', $queueEntry->getState());
+        $this->assertSame($timestamp, $queueEntry->getStartedTimestamp());
     }
 }

@@ -298,6 +298,6 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             $uiRenderer
         );
 
-        $this->assertEquals('Certificates', $provider->getName());
+        $this->assertSame('Certificates', $provider->getName());
     }
 }

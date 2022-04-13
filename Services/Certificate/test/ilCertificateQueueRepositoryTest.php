@@ -127,7 +127,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
 
         $entries = $repository->getAllEntriesFromQueue();
 
-        $this->assertEquals(10, $entries[0]->getId());
-        $this->assertEquals(20, $entries[1]->getId());
+        $this->assertSame(10, $entries[0]->getId());
+        $this->assertSame(20, $entries[1]->getId());
     }
 }

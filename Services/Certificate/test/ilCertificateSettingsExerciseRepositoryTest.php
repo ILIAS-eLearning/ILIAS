@@ -63,7 +63,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
 
         $result = $repository->createForm($guiMock);
 
-        $this->assertEquals($formMock, $result);
+        $this->assertSame($formMock, $result);
     }
 
     /**
@@ -171,6 +171,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
 
         $result = $repository->fetchFormFieldData('SomeContent');
 
-        $this->assertEquals(array('something' => 'value'), $result);
+        $this->assertSame(array('something' => 'value'), $result);
     }
 }

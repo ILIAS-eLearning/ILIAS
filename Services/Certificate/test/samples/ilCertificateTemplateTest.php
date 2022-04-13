@@ -25,15 +25,15 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
             555
         );
 
-        $this->assertEquals(100, $template->getObjId());
-        $this->assertEquals('crs', $template->getObjType());
-        $this->assertEquals('<xml>crs</xml>', $template->getCertificateContent());
-        $this->assertEquals(md5('<xml>crs</xml>'), $template->getCertificateHash());
-        $this->assertEquals('1', $template->getVersion());
-        $this->assertEquals('v5.4.0', $template->getIliasVersion());
-        $this->assertEquals($time, $template->getCreatedTimestamp());
-        $this->assertEquals(true, $template->isCurrentlyActive());
-        $this->assertEquals('/some/where/background.jpg', $template->getBackgroundImagePath());
-        $this->assertEquals(555, $template->getId());
+        $this->assertSame(100, $template->getObjId());
+        $this->assertSame('crs', $template->getObjType());
+        $this->assertSame('<xml>crs</xml>', $template->getCertificateContent());
+        $this->assertSame(md5('<xml>crs</xml>'), $template->getCertificateHash());
+        $this->assertSame(1, $template->getVersion());
+        $this->assertSame('v5.4.0', $template->getIliasVersion());
+        $this->assertSame($time, $template->getCreatedTimestamp());
+        $this->assertTrue($template->isCurrentlyActive());
+        $this->assertSame('/some/where/background.jpg', $template->getBackgroundImagePath());
+        $this->assertSame(555, $template->getId());
     }
 }

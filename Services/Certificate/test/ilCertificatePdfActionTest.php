@@ -37,7 +37,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
         $result = $pdfAction->createPDF(10, 200);
 
-        $this->assertEquals('Something', $result);
+        $this->assertSame('Something', $result);
     }
 
     public function testPdfDownloadAction() : void
@@ -80,7 +80,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         );
         $result = $pdfAction->downloadPdf(10, 200);
 
-        $this->assertEquals('Something', $result);
+        $this->assertSame('Something', $result);
     }
 
     public function testDownloadResultsInExceptionBecauseTheServerIsNotActive() : void
@@ -125,6 +125,6 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
         $result = $pdfAction->downloadPdf(10, 200);
 
-        $this->assertEquals('', $result);
+        $this->assertSame('', $result);
     }
 }

@@ -59,7 +59,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
-        $this->assertEquals('', $html);
+        $this->assertSame('', $html);
     }
 
     public function testPlaceholderDescriptions() : void
@@ -103,7 +103,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'USER_LOGIN' => 'Something translated',
                 'USER_FULLNAME' => 'Something translated',

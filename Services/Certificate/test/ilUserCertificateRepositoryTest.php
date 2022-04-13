@@ -130,8 +130,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $results = $repository->fetchActiveCertificates(400);
 
-        $this->assertEquals(141, $results[0]->getUserCertificate()->getId());
-        $this->assertEquals(142, $results[1]->getUserCertificate()->getId());
+        $this->assertSame(141, $results[0]->getUserCertificate()->getId());
+        $this->assertSame(142, $results[1]->getUserCertificate()->getId());
     }
 
     public function testFetchActiveCertificateForUserObjectCombination() : void
@@ -194,7 +194,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $result = $repository->fetchActiveCertificate(400, 20);
 
-        $this->assertEquals(141, $result->getId());
+        $this->assertSame(141, $result->getId());
     }
 
     /**
@@ -286,8 +286,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $results = $repository->fetchActiveCertificatesByTypeForPresentation(400, 'crs');
 
-        $this->assertEquals(141, $results[0]->getUserCertificate()->getId());
-        $this->assertEquals(142, $results[1]->getUserCertificate()->getId());
+        $this->assertSame(141, $results[0]->getUserCertificate()->getId());
+        $this->assertSame(142, $results[1]->getUserCertificate()->getId());
     }
 
     public function testFetchCertificate() : void
@@ -331,7 +331,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $result = $repository->fetchCertificate(141);
 
-        $this->assertEquals(141, $result->getId());
+        $this->assertSame(141, $result->getId());
     }
 
     public function testNoCertificateInFetchtCertificateLeadsToException() : void
@@ -400,7 +400,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $results = $repository->fetchObjectIdsWithCertificateForUser($userId, $objectIds);
 
-        $this->assertEquals(array(100, 300), $results);
+        $this->assertSame(array(100, 300), $results);
     }
 
     public function testFetchUserIdsWithCertificateForObject() : void
@@ -437,6 +437,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $results = $repository->fetchUserIdsWithCertificateForObject($objectId);
 
-        $this->assertEquals(array(100, 300), $results);
+        $this->assertSame(array(100, 300), $results);
     }
 }

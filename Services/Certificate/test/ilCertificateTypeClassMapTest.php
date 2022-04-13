@@ -19,28 +19,28 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('crs');
 
-        $this->assertEquals(ilCoursePlaceholderValues::class, $class);
+        $this->assertSame(ilCoursePlaceholderValues::class, $class);
     }
 
     public function testFetchTestPlaceHolderClass() : void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('tst');
 
-        $this->assertEquals(ilTestPlaceholderValues::class, $class);
+        $this->assertSame(ilTestPlaceholderValues::class, $class);
     }
 
     public function testFetchExercisePlaceHolderClass() : void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('exc');
 
-        $this->assertEquals(ilExercisePlaceholderValues::class, $class);
+        $this->assertSame(ilExercisePlaceholderValues::class, $class);
     }
 
     public function testFetchScormPlaceHolderClass() : void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('sahs');
 
-        $this->assertEquals(ilScormPlaceholderValues::class, $class);
+        $this->assertSame(ilScormPlaceholderValues::class, $class);
     }
 
     public function testFetchUnknownClassWillResultInException() : void

@@ -60,7 +60,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
 
         $expected['cnt'] = 1;
 
-        $this->assertEquals($expected, $dataSet);
+        $this->assertSame($expected, $dataSet);
     }
 
     public function testFetchingDataSetForTableWithLimitParamterAndWithoutFilters() : void
@@ -119,7 +119,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
 
         $expected['cnt'] = 5;
 
-        $this->assertEquals($expected, $dataSet);
+        $this->assertSame($expected, $dataSet);
     }
 
     public function testFetchingDataSetForTableWithOrderFieldDate() : void
@@ -182,7 +182,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
 
         $expected['cnt'] = 5;
 
-        $this->assertEquals($expected, $dataSet);
+        $this->assertSame($expected, $dataSet);
     }
 
     public function testFetchingDataWithInvalidOrderFieldWillResultInException() : void

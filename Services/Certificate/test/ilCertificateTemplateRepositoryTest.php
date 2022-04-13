@@ -115,8 +115,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
         $templates = $repository->fetchCertificateTemplatesByObjId(10);
 
-        $this->assertEquals(1, $templates[0]->getId());
-        $this->assertEquals(30, $templates[1]->getId());
+        $this->assertSame(1, $templates[0]->getId());
+        $this->assertSame(30, $templates[1]->getId());
     }
 
     public function testFetchCurrentlyActiveCertificate() : void
@@ -169,7 +169,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
         $template = $repository->fetchCurrentlyActiveCertificate(10);
 
-        $this->assertEquals(1, $template->getId());
+        $this->assertSame(1, $template->getId());
     }
 
     public function testFetchPreviousCertificate() : void
@@ -224,7 +224,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
         $template = $repository->fetchPreviousCertificate(10);
 
-        $this->assertEquals(30, $template->getId());
+        $this->assertSame(30, $template->getId());
     }
 
     /**
@@ -320,7 +320,7 @@ WHERE id = 30')
 
         $template = $repository->activatePreviousCertificate(10);
 
-        $this->assertEquals(30, $template->getId());
+        $this->assertSame(30, $template->getId());
     }
 
     public function testFetchAllObjectIdsByType() : void
@@ -370,8 +370,8 @@ WHERE id = 30')
 
         $templates = $repository->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(true);
 
-        $this->assertEquals(10, $templates[0]->getObjId());
-        $this->assertEquals(30, $templates[1]->getObjId());
+        $this->assertSame(10, $templates[0]->getObjId());
+        $this->assertSame(30, $templates[1]->getObjId());
     }
 
     /**
@@ -447,6 +447,6 @@ WHERE id = 30')
 
         $firstTemplate = $repository->fetchFirstCreatedTemplate(10);
 
-        $this->assertEquals(1, $firstTemplate->getId());
+        $this->assertSame(1, $firstTemplate->getId());
     }
 }

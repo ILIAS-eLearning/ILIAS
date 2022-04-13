@@ -112,7 +112,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $result = $placeholdervalues->getPlaceholderValues(10, 200);
 
-        $this->assertEquals(array(
+        $this->assertSame(array(
             'RESULT_PASSED' => 'Formatted Output',
             'RESULT_POINTS' => 'Formatted Output',
             'RESULT_PERCENT' => '71.43%',
@@ -193,7 +193,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $result = $placeholdervalues->getPlaceholderValuesForPreview(100, 10);
 
-        $this->assertEquals(
+        $this->assertSame(
             array(
                 'SOME_PLACEHOLDER' => 'something',
                 'SOME_OTHER_PLACEHOLDER' => 'something else',
