@@ -188,7 +188,6 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
             $renderer = ilPDFGeneratorUtils::getRendererInstance($posted_renderer);
             $config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $posted_renderer);
     
-            /** @var ilRendererConfig $renderer */
             $renderer->addConfigElementsToForm($form, $service, $purpose);
             $renderer->populateConfigElementsInForm($form, $service, $purpose, $config);
     
@@ -221,7 +220,6 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $service = $this->pdfRequest->securedString('service');
         $purpose = $this->pdfRequest->securedString('purpose');
 
-        /** @var ilRendererConfig $renderer_obj */
         $renderer_obj = ilPDFGeneratorUtils::getRendererInstance($renderer);
         $renderer_obj->addConfigElementsToForm($form, $service, $purpose);
 
