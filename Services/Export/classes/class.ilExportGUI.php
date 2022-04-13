@@ -311,10 +311,10 @@ class ilExportGUI
 
             $exp_file = $export_dir . "/" . str_replace("..", "", $file[1]);
             $exp_dir = $export_dir . "/" . substr($file[1], 0, strlen($file[1]) - 4);
-            if (@is_file($exp_file)) {
+            if (is_file($exp_file)) {
                 unlink($exp_file);
             }
-            if (@is_dir($exp_dir)) {
+            if (is_dir($exp_dir)) {
                 ilFileUtils::delDir($exp_dir);
             }
 

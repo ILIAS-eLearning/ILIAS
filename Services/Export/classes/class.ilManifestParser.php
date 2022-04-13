@@ -84,17 +84,11 @@ class ilManifestParser extends ilSaxParser
         return $this->target_release;
     }
 
-    /**
-     * @return mixed[]
-     */
     public function getExportFiles() : array
     {
         return $this->expfiles;
     }
 
-    /**
-     * @return mixed[]
-     */
     public function getExportSets() : array
     {
         return $this->expsets;

@@ -173,10 +173,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $next_class = $this->ctrl->getNextClass($this);
         $this->ctrl->setReturn($this, "infoScreen");
 
-        if (method_exists($this->object, "getTestStyleLocation")) {
-            $this->tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
-        }
-
         // add entry to navigation history
         if (!$this->getCreationMode() &&
             $ilAccess->checkAccess("read", "", $this->testrequest->getRefId())
