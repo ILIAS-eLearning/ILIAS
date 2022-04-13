@@ -171,7 +171,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $this->assertCount(1, $usrIds);
         $this->assertArrayHasKey(0, $usrIds);
-        $this->assertEquals(4711, $usrIds[0]);
+        $this->assertSame(4711, $usrIds[0]);
     }
 
     public function testNoUserIdCanBeResolvedFromUnknownLoginAddress() : void
@@ -247,7 +247,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $this->assertFalse($type->validate(666));
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('user_cant_receive_mail', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('user_cant_receive_mail', $type->getErrors()[0]->getLanguageVariable());
 
         $type = new ilMailLoginOrEmailAddressAddressType(
             $addressTypeHelper,
@@ -404,7 +404,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $this->assertFalse($type->validate(666));
         $this->assertCount(1, $type->getErrors());
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('mail_no_valid_mailing_list', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('mail_no_valid_mailing_list', $type->getErrors()[0]->getLanguageVariable());
     }
 
     public function testUserIdsCanBeResolvedFromRoleAddress() : void
@@ -544,17 +544,17 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $this->assertFalse($type->validate(4711));
         $this->assertCount(1, $type->getErrors());
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('mail_to_global_roles_not_allowed', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('mail_to_global_roles_not_allowed', $type->getErrors()[0]->getLanguageVariable());
 
         $this->assertFalse($type->validate(4711));
         $this->assertCount(1, $type->getErrors());
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('mail_recipient_not_found', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('mail_recipient_not_found', $type->getErrors()[0]->getLanguageVariable());
 
         $this->assertFalse($type->validate(4711));
         $this->assertCount(1, $type->getErrors());
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('mail_multiple_role_recipients_found', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('mail_multiple_role_recipients_found', $type->getErrors()[0]->getLanguageVariable());
 
         $this->assertTrue($type->validate(4711));
         $this->assertCount(0, $type->getErrors());

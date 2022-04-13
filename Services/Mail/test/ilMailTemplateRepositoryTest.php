@@ -32,7 +32,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
 
         $repository->store($template);
 
-        $this->assertEquals($templateId, $template->getTplId());
+        $this->assertSame($templateId, $template->getTplId());
 
         return $template;
     }
@@ -89,7 +89,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
         $repository = new ilMailTemplateRepository($db);
         $template = $repository->findById(4711);
 
-        $this->assertEquals($templateId, $template->getTplId());
+        $this->assertSame($templateId, $template->getTplId());
     }
 
     /**

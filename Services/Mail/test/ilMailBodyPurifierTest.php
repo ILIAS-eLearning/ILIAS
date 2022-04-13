@@ -39,7 +39,7 @@ class ilMailBodyPurifierTest extends ilMailBaseTest
     {
         $purifier = new ilMailBodyPurifier();
 
-        $this->assertEquals($expectedBody, $purifier->purify($body));
+        $this->assertSame($expectedBody, $purifier->purify($body));
     }
 
     public function testCarriageReturnCharactersAreRemoved() : void

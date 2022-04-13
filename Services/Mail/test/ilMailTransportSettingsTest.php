@@ -24,8 +24,8 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
         $setting = new ilMailTransportSettings($mailOptions);
         $setting->adjust('test@ilias-test.de', 'someone@php-test.net');
 
-        $this->assertEquals(0, $mailOptions->getIncomingType());
-        $this->assertEquals(3, $mailOptions->getEmailAddressMode());
+        $this->assertSame(0, $mailOptions->getIncomingType());
+        $this->assertSame(3, $mailOptions->getEmailAddressMode());
     }
 
     /**
@@ -45,7 +45,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
         $setting = new ilMailTransportSettings($mailOptions);
         $setting->adjust('test@ilias-test.de', '');
 
-        $this->assertEquals(3, $mailOptions->getEmailAddressMode());
+        $this->assertSame(3, $mailOptions->getEmailAddressMode());
     }
 
     /**
@@ -65,7 +65,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
         $setting = new ilMailTransportSettings($mailOptions);
         $setting->adjust('', 'test@ilias-test.de');
 
-        $this->assertEquals(4, $mailOptions->getEmailAddressMode());
+        $this->assertSame(4, $mailOptions->getEmailAddressMode());
     }
 
     /**
@@ -85,7 +85,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
         $setting = new ilMailTransportSettings($mailOptions);
         $setting->adjust('', '');
 
-        $this->assertEquals(0, $mailOptions->getIncomingType());
+        $this->assertSame(0, $mailOptions->getIncomingType());
     }
 
     /**
@@ -105,7 +105,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
         $setting = new ilMailTransportSettings($mailOptions);
         $setting->adjust('test@ilias-test.de', 'someone@php-test.net');
 
-        $this->assertEquals(2, $mailOptions->getIncomingType());
-        $this->assertEquals(5, $mailOptions->getEmailAddressMode());
+        $this->assertSame(2, $mailOptions->getIncomingType());
+        $this->assertSame(5, $mailOptions->getEmailAddressMode());
     }
 }

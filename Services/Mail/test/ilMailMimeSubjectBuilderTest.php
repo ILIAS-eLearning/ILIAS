@@ -46,8 +46,8 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
         $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
         $subject = 'phpunit';
-        $this->assertEquals($subject, $subjectBuilder->subject($subject));
-        $this->assertEquals($subject, $subjectBuilder->subject($subject, false, 'Course'));
+        $this->assertSame($subject, $subjectBuilder->subject($subject));
+        $this->assertSame($subject, $subjectBuilder->subject($subject, false, 'Course'));
     }
 
     /**
@@ -64,7 +64,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
 
         $subject = 'phpunit';
         $expectedSubject = sprintf($expectedSubject, $subject);
-        $this->assertEquals($expectedSubject, $subjectBuilder->subject($subject, true));
+        $this->assertSame($expectedSubject, $subjectBuilder->subject($subject, true));
     }
 
     public function testDefaultPrefixMustBePrependedWhenNoGlobalPrefixIsDefinedAndPrefixShouldBeAppended() : void
@@ -78,7 +78,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
 
         $subject = 'phpunit';
         $expectedSubject = self::DEFAULT_PREFIX . ' ' . $subject;
-        $this->assertEquals($expectedSubject, $subjectBuilder->subject($subject, true));
+        $this->assertSame($expectedSubject, $subjectBuilder->subject($subject, true));
     }
 
     /**
@@ -96,6 +96,6 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
 
         $subject = 'phpunit';
         $expectedSubject = sprintf($expectedSubject, $subject);
-        $this->assertEquals($expectedSubject, $subjectBuilder->subject($subject, true, $contextPrefix));
+        $this->assertSame($expectedSubject, $subjectBuilder->subject($subject, true, $contextPrefix));
     }
 }

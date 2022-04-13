@@ -75,6 +75,6 @@ class ilMailErrorFormatterTest extends ilMailBaseTest
      */
     public function testErrorFormatter(array $errors, string $expectedHtml) : void
     {
-        $this->assertEquals($expectedHtml, $this->brutallyTrimHTML($this->errorFormatter->format($errors)));
+        $this->assertSame($expectedHtml, $this->brutallyTrimHTML($this->errorFormatter->format($errors)));
     }
 }
