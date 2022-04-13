@@ -90,6 +90,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
      */
     public function testNameShouldBeMd5(ilMd5PasswordEncoder $encoder) : void
     {
-        $this->assertEquals('md5', $encoder->getName());
+        $this->assertSame('md5', $encoder->getName());
     }
 }
