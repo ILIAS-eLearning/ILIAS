@@ -299,7 +299,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     private function addScoringSettingsFormSection(ilPropertyFormGUI $form)
     {
         $fields = array(
-            'count_system', 'mc_scoring', 'score_cutting', 'pass_scoring', 'pass_deletion_allowed'
+            'count_system', 'score_cutting', 'pass_scoring', 'pass_deletion_allowed'
         );
 
         if ($this->isSectionHeaderRequired($fields)) {
@@ -317,18 +317,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $opt->setInfo($this->lng->txt('tst_count_correct_solutions_desc'));
         $count_system->setValue($this->testOBJ->getCountSystem());
         $form->addItem($count_system);
-
-        // mc questions
-        $mc_scoring = new ilRadioGroupInputGUI($this->lng->txt('tst_score_mcmr_questions'), 'mc_scoring');
-        $mc_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_mcmr_zero_points_when_unanswered'), 0, ''));
-        $opt->setInfo($this->lng->txt('tst_score_mcmr_zero_points_when_unanswered_desc'));
-        $mc_scoring->addOption($opt = new ilRadioOption($this->lng->txt('tst_score_mcmr_use_scoring_system'), 1, ''));
-        $opt->setInfo($this->lng->txt('tst_score_mcmr_use_scoring_system_desc'));
-        $mc_scoring->setValue($this->testOBJ->getMCScoring());
-        // fau: testNav - set the deprecated mc scoring option to disabled
-        $mc_scoring->setDisabled(true);
-        // fau.
-        $form->addItem($mc_scoring);
 
         // score cutting
         $score_cutting = new ilRadioGroupInputGUI($this->lng->txt('tst_score_cutting'), 'score_cutting');
@@ -357,7 +345,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         // disable scoring settings
         if (!$this->areScoringSettingsWritable()) {
             $count_system->setDisabled(true);
-            $mc_scoring->setDisabled(true);
             $score_cutting->setDisabled(true);
             $pass_scoring->setDisabled(true);
         }
@@ -371,10 +358,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         if ($this->areScoringSettingsWritable()) {
             if ($this->formPropertyExists($form, 'count_system')) {
                 $this->testOBJ->setCountSystem($form->getItemByPostVar('count_system')->getValue());
-            }
-
-            if ($this->formPropertyExists($form, 'mc_scoring')) {
-                $this->testOBJ->setMCScoring($form->getItemByPostVar('mc_scoring')->getValue());
             }
 
             if ($this->formPropertyExists($form, 'score_cutting')) {
@@ -806,11 +789,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     {
         $countSystem = $form->getItemByPostVar('count_system');
         if (is_object($countSystem) && $countSystem->getValue() != $this->testOBJ->getCountSystem()) {
-            return true;
-        }
-
-        $mcScoring = $form->getItemByPostVar('mc_scoring');
-        if (is_object($mcScoring) && $mcScoring->getValue() != $this->testOBJ->getMCScoring()) {
             return true;
         }
 

@@ -1286,9 +1286,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             }
         }
         if ($active_id) {
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
-            $mc_scoring = ilObjTest::_getMCScoring($active_id);
-            if (($mc_scoring == 0) && (count($found_values) == 0)) {
+            if (count($found_values) == 0) {
                 $points = 0;
             }
         }

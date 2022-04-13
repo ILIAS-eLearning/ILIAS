@@ -1262,7 +1262,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($questionGui instanceof assMultipleChoiceGUI) {
             $qstConfig->setWorkedThrough($isQuestionWorkedThrough);
-            $qstConfig->setIsUnchangedAnswerPossible($this->object->getMCScoring());
         }
 
         if ($qstConfig->isPreviousPassSolutionReuseAllowed()) {

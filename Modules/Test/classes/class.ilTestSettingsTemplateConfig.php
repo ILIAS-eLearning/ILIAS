@@ -381,18 +381,6 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
         );
 
         $this->addSetting(
-            "mc_scoring",
-            ilSettingsTemplateConfig::SELECT,
-            $this->lng->txt("tst_score_mcmr_questions"),
-            true,
-            0,
-            array(
-                '0' => $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"),
-                '1' => $this->lng->txt("tst_score_mcmr_use_scoring_system")
-            )
-        );
-
-        $this->addSetting(
             "score_cutting",
             ilSettingsTemplateConfig::SELECT,
             $this->lng->txt("tst_score_cutting"),
