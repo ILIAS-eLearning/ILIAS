@@ -23,7 +23,7 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
 
     public function testGetProviderId() : void
     {
-        $this->assertEquals('contact_approved', $this->create()->getProviderId());
+        $this->assertSame('contact_approved', $this->create()->getProviderId());
     }
 
     public function testGetTitle() : void
@@ -47,7 +47,7 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
 
     public function testIsHighlighted() : void
     {
-        $this->assertEquals(true, $this->create()->isHighlighted());
+        $this->assertTrue($this->create()->isHighlighted());
     }
 
     private function expectTranslation(string $method, string $languageKey) : void
@@ -59,7 +59,7 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
         $this->language->expects(self::once())->method('loadLanguageModule')->with('contact');
         $this->language->expects(self::once())->method('txt')->with($languageKey)->willReturn($expected);
 
-        $this->assertEquals($expected, $instance->$method());
+        $this->assertSame($expected, $instance->$method());
     }
 
     private function create() : Contacts

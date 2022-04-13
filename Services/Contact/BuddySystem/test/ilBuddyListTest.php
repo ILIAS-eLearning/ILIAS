@@ -383,7 +383,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddyList->reset();
         $buddyList->setOwnerId(self::BUDDY_LIST_BUDDY_ID);
-        $this->assertEquals(self::BUDDY_LIST_BUDDY_ID, $buddyList->getOwnerId());
+        $this->assertSame(self::BUDDY_LIST_BUDDY_ID, $buddyList->getOwnerId());
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
         $repo->expects($this->never())->method('getAll')->willReturn([]);

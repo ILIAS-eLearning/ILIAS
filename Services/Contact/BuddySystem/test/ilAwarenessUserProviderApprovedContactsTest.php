@@ -25,7 +25,7 @@ class ilAwarenessUserProviderApprovedContactsTest extends ilBuddySystemBaseTest
      */
     public function testGetProviderId(ApprovedContacts $instance) : void
     {
-        $this->assertEquals('contact_requests', $instance->getProviderId());
+        $this->assertSame('contact_requests', $instance->getProviderId());
     }
 
     public function testGetTitle() : void
@@ -74,6 +74,6 @@ class ilAwarenessUserProviderApprovedContactsTest extends ilBuddySystemBaseTest
         $container->expects(self::once())->method('language')->willReturn($language);
 
         $instance = new ApprovedContacts($container);
-        $this->assertEquals($expected, $instance->$method());
+        $this->assertSame($expected, $instance->$method());
     }
 }

@@ -73,7 +73,7 @@ class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
             array_diff($allStateClasses, $statesWithoutInitialOptions),
             'Option array is missing at least one state when retrieved without initial state'
         );
-        $this->assertEquals(
+        $this->assertSame(
             get_class($initalState),
             implode('', array_diff($allStateClasses, $statesWithoutInitialOptions)),
             'Only the initial sate is expected to be missing in the options array when retrieved without initial state'
