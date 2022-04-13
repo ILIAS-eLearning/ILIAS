@@ -32,23 +32,23 @@ class ilForumNotificationTest extends TestCase
     {
         $instance = new \ilForumNotification(940);
         $instance->setNotificationId(1);
-        $this->assertEquals(1, $instance->getNotificationId());
+        $this->assertSame(1, $instance->getNotificationId());
         $instance->setUserId(2);
-        $this->assertEquals(2, $instance->getUserId());
+        $this->assertSame(2, $instance->getUserId());
         $instance->setForumId(3);
-        $this->assertEquals(3, $instance->getForumId());
+        $this->assertSame(3, $instance->getForumId());
         $instance->setThreadId(4);
-        $this->assertEquals(4, $instance->getThreadId());
+        $this->assertSame(4, $instance->getThreadId());
         $instance->setInterestedEvents(5);
-        $this->assertEquals(5, $instance->getInterestedEvents());
+        $this->assertSame(5, $instance->getInterestedEvents());
         $instance->setAdminForce(true);
-        $this->assertEquals(true, $instance->getAdminForce());
+        $this->assertSame(true, $instance->getAdminForce());
         $instance->setUserToggle(true);
-        $this->assertEquals(true, $instance->getUserToggle());
+        $this->assertSame(true, $instance->getUserToggle());
         $instance->setForumRefId(6);
-        $this->assertEquals(6, $instance->getForumRefId());
+        $this->assertSame(6, $instance->getForumRefId());
         $instance->setUserIdNoti(7);
-        $this->assertEquals(7, $instance->getUserIdNoti());
+        $this->assertSame(7, $instance->getUserIdNoti());
     }
 
     public function testIsAdminForceNotification() : void
@@ -339,7 +339,7 @@ class ilForumNotificationTest extends TestCase
         $instance = new \ilForumNotification(84849);
         $instance->setForumId($forumId);
 
-        $this->assertEquals([
+        $this->assertSame([
             $row['user_id'] => $row,
         ], $instance->read());
     }

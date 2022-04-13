@@ -24,7 +24,7 @@ class ForumNotificationCacheTest extends TestCase
         $cache->store('item', 'ilias');
 
         $this->assertTrue($cache->exists('item'));
-        $this->assertEquals('ilias', $cache->fetch('item'));
+        $this->assertSame('ilias', $cache->fetch('item'));
     }
 
     public function nonScalarValuesProvider() : array
@@ -69,6 +69,6 @@ class ForumNotificationCacheTest extends TestCase
         $key = $cache->createKeyByValues([$scalarValue, $scalarValue]);
 
         $this->assertNotEmpty($key);
-        $this->assertEquals(32, strlen($key));
+        $this->assertSame(32, strlen($key));
     }
 }

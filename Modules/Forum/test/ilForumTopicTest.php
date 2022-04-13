@@ -85,25 +85,25 @@ class ilForumTopicTest extends TestCase
         $instance = new \ilForumTopic();
         $instance->assignData($data);
 
-        $this->assertEquals(0, $instance->getId());
-        $this->assertEquals(0, $instance->getForumId());
-        $this->assertEquals('', $instance->getSubject());
-        $this->assertEquals(0, $instance->getDisplayUserId());
-        $this->assertEquals('', $instance->getUserAlias());
-        $this->assertEquals('', $instance->getLastPostString());
-        $this->assertEquals('', $instance->getCreateDate());
-        $this->assertEquals('', $instance->getChangeDate());
-        $this->assertEquals(0, $instance->getVisits());
-        $this->assertEquals('', $instance->getImportName());
-        $this->assertEquals(false, $instance->isSticky());
-        $this->assertEquals(false, $instance->isClosed());
-        $this->assertEquals(0, $instance->getAverageRating());
-        $this->assertEquals(0, $instance->getThrAuthorId());
+        $this->assertSame(0, $instance->getId());
+        $this->assertSame(0, $instance->getForumId());
+        $this->assertSame('', $instance->getSubject());
+        $this->assertSame(0, $instance->getDisplayUserId());
+        $this->assertSame('', $instance->getUserAlias());
+        $this->assertSame('', $instance->getLastPostString());
+        $this->assertSame('', $instance->getCreateDate());
+        $this->assertSame('', $instance->getChangeDate());
+        $this->assertSame(0, $instance->getVisits());
+        $this->assertSame('', $instance->getImportName());
+        $this->assertFalse($instance->isSticky());
+        $this->assertFalse($instance->isClosed());
+        $this->assertSame(0.0, $instance->getAverageRating());
+        $this->assertSame(0, $instance->getThrAuthorId());
 
-        $this->assertEquals(0, $instance->getNumPosts());
-        $this->assertEquals(0, $instance->getNumUnreadPosts());
-        $this->assertEquals(0, $instance->getNumNewPosts());
-        $this->assertEquals(false, $instance->isUserNotificationEnabled());
+        $this->assertSame(0, $instance->getNumPosts());
+        $this->assertSame(0, $instance->getNumUnreadPosts());
+        $this->assertSame(0, $instance->getNumNewPosts());
+        $this->assertFalse($instance->isUserNotificationEnabled());
     }
 
     public function testInsert() : void
@@ -217,7 +217,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new \ilForumTopic();
         $instance->setId($id);
-        $this->assertEquals($stdObject->pos_fk, $instance->getFirstPostId());
+        $this->assertSame($stdObject->pos_fk, $instance->getFirstPostId());
     }
 
     public function testGetFirstPostIdFailed() : void
@@ -233,7 +233,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new \ilForumTopic();
         $instance->setId($id);
-        $this->assertEquals(0, $instance->getFirstPostId());
+        $this->assertSame(0, $instance->getFirstPostId());
     }
 
     public function testCountPosts() : void
@@ -249,7 +249,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new \ilForumTopic();
         $instance->setId($id);
-        $this->assertEquals(678, $instance->countPosts(true));
+        $this->assertSame(678, $instance->countPosts(true));
     }
 
     public function testCountPostsFailed() : void
@@ -265,7 +265,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new \ilForumTopic();
         $instance->setId($id);
-        $this->assertEquals(0, $instance->countPosts(true));
+        $this->assertSame(0, $instance->countPosts(true));
     }
 
     public function testCountActivePosts() : void
@@ -283,7 +283,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new \ilForumTopic();
         $instance->setId($id);
-        $this->assertEquals(79, $instance->countActivePosts(true));
+        $this->assertSame(79, $instance->countActivePosts(true));
     }
 
     public function testCountActivePostsFailed() : void
@@ -301,7 +301,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new \ilForumTopic();
         $instance->setId($id);
-        $this->assertEquals(0, $instance->countActivePosts(true));
+        $this->assertSame(0, $instance->countActivePosts(true));
     }
 
     public function testGetAllPostIds() : void
@@ -322,7 +322,7 @@ class ilForumTopicTest extends TestCase
 
         $instance = new \ilForumTopic();
         $instance->setId($id);
-        $this->assertEquals([$firstRow->pos_pk => $firstRow->pos_pk], $instance->getAllPostIds());
+        $this->assertSame([$firstRow->pos_pk => $firstRow->pos_pk], $instance->getAllPostIds());
     }
 
     public function testIsNotificationEnabled() : void
@@ -514,7 +514,7 @@ class ilForumTopicTest extends TestCase
     private function withIgnoredQuery(InvocationMocker $mock, ...$expected) : InvocationMocker
     {
         return $mock->willReturnCallback(function ($ignored, ...$actual) use ($expected) {
-            $this->assertEquals($expected, $actual);
+            $this->assertSame($expected, $actual);
         });
     }
 }
