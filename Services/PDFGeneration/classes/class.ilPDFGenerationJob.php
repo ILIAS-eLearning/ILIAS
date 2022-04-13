@@ -18,9 +18,10 @@
 
 class ilPDFGenerationJob
 {
-    private array $pages;
-    private string $filename;
-    private string $output_mode;
+    /** @var string[] */
+    private array $pages = [];
+    private ?string $filename;
+    private ?string $output_mode;
 
     public function setFilename(string $filename) : self
     {
@@ -33,18 +34,25 @@ class ilPDFGenerationJob
         return $this->filename;
     }
 
+    /**
+     * @param string[] $pages
+     * @return $this
+     */
     public function setPages(array $pages) : self
     {
         $this->pages = $pages;
         return $this;
     }
 
+    /**
+     * @return string[]
+     */
     public function getPages() : array
     {
         return $this->pages;
     }
 
-    public function addPage(array $page) : self
+    public function addPage(string $page) : self
     {
         $this->pages[] = $page;
         return $this;
