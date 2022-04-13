@@ -221,7 +221,7 @@ class ilLDAPUserSynchronisation
             $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
             $user = $query->fetchUser($this->getExternalAccount());
             $this->logger->dump($user, ilLogLevel::DEBUG);
-            $this->user_data = (array) $user[$this->getExternalAccount()];
+            $this->user_data = (array) $user[strtolower($this->getExternalAccount())];
         } catch (ilLDAPQueryException $e) {
             $this->logger->error('LDAP bind failed with message: ' . $e->getMessage());
             throw new ilLDAPSynchronisationFailedException($e->getMessage());
