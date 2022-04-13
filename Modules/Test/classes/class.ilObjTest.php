@@ -2134,56 +2134,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         return (strlen($this->_customStyle)) ? $this->_customStyle : null;
     }
-    
-    /**
-    * Return the available custom styles
-    *
-    * @return array An array of strings containing the available custom styles
-    * @access public
-    * @see $_customStyle
-    */
-    public function getCustomStyles() : array
-    {
-        $css_path = ilUtil::getStyleSheetLocation("filesystem", "ta.css", "Modules/Test");
-        $css_path = str_replace("ta.css", "customstyles", $css_path) . "/";
-        $customstyles = array();
-        if (is_dir($css_path)) {
-            $results = array();
-            ilFileUtils::recursive_dirscan($css_path, $results);
-            if (is_array($results["file"])) {
-                foreach ($results["file"] as $filename) {
-                    if (strpos($filename, ".css")) {
-                        array_push($customstyles, $filename);
-                    }
-                }
-            }
-        }
-        return $customstyles;
-    }
-    
-    /**
-    * get full style sheet file name (path inclusive) of current user
-    *
-    * @param $mode string Output mode of the style sheet ("output" or "filesystem"). !"filesystem" generates the ILIAS
-    * version number as attribute to force the reload of the style sheet in a different ILIAS version
-    * @access	public
-    */
-    public function getTestStyleLocation($mode = "output")
-    {
-        if (strlen($this->getCustomStyle())) {
-            $default = ilUtil::getStyleSheetLocation("filesystem", "ta.css", "Modules/Test");
-            $custom = str_replace("ta.css", "customstyles/" . $this->getCustomStyle(), $default);
-            if (file_exists($custom)) {
-                $custom = ilUtil::getStyleSheetLocation($mode, "ta.css", "Modules/Test");
-                $custom = str_replace("ta.css", "customstyles/" . $this->getCustomStyle(), $custom);
-                return $custom;
-            } else {
-                return ilUtil::getStyleSheetLocation($mode, "ta.css", "Modules/Test");
-            }
-        } else {
-            return ilUtil::getStyleSheetLocation($mode, "ta.css", "Modules/Test");
-        }
-    }
 
     /**
     * Sets whether the final statement should be shown or not
@@ -9952,9 +9902,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $printbody = new ilTemplate("tpl.il_as_tst_print_body.html", true, true, "Modules/Test");
         $printbody->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
         $printbody->setVariable("ADM_CONTENT", $content);
-        $printbody->setCurrentBlock("css_file");
-        $printbody->setVariable("CSS_FILE", $this->getTestStyleLocation("filesystem"));
-        $printbody->parseCurrentBlock();
         $printbody->setCurrentBlock("css_file");
         $printbody->setVariable("CSS_FILE", ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
         $printbody->parseCurrentBlock();
