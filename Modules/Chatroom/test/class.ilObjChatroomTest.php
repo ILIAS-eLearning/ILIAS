@@ -18,15 +18,15 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
         $userInfo = $this->object->getPersonalInformation($this->ilChatroomUserMock);
 
         $this->assertInstanceOf(stdClass::class, $userInfo);
-        $this->assertEquals('username', $userInfo->username);
-        $this->assertEquals(6, $userInfo->id);
+        $this->assertSame('username', $userInfo->username);
+        $this->assertSame(6, $userInfo->id);
     }
 
     public function testPublicRoomRefIdCanBeRetrieved() : void
     {
         $this->createGlobalIlDBMock();
 
-        $this->assertEquals(0, $this->object::_getPublicRefId());
+        $this->assertSame(0, $this->object::_getPublicRefId());
     }
 
     public function testPublicRoomObjIdCanBeRetrieved() : void
@@ -35,7 +35,7 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
 
         $db->expects($this->once())->method('fetchAssoc')->willReturn(['object_id' => '6']);
 
-        $this->assertEquals(6, $this->object::_getPublicObjId());
+        $this->assertSame(6, $this->object::_getPublicObjId());
     }
 
     public function testPublicRoomObjIdDefaultValueCanBeRetrieved() : void
@@ -44,7 +44,7 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
 
         $db->expects($this->once())->method('fetchAssoc')->willReturn(null);
 
-        $this->assertEquals(0, $this->object::_getPublicObjId());
+        $this->assertSame(0, $this->object::_getPublicObjId());
     }
 
     protected function setUp() : void

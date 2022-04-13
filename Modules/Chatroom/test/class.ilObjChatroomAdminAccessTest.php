@@ -23,7 +23,7 @@ class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
         $commands = $this->adminAccess::_getCommands();
 
         $this->assertIsArray($commands);
-        $this->assertEquals($expected, $commands);
+        $this->assertSame($expected, $commands);
     }
 
     public function testGotoCheckFails() : void

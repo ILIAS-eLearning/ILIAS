@@ -19,7 +19,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         $this->ilUserMock->expects($this->once())->method('getId')->willReturn($userId);
         $this->ilUserMock->expects($this->once())->method('isAnonymous')->willReturn(false);
 
-        $this->assertEquals($userId, $this->user->getUserId());
+        $this->assertSame($userId, $this->user->getUserId());
     }
 
     public function testGetUserIdFromSessionIfAnonymous() : void
@@ -39,7 +39,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         ];
         ilSession::set('chat', $session);
 
-        $this->assertEquals($userId, $this->user->getUserId());
+        $this->assertSame($userId, $this->user->getUserId());
     }
 
     public function testGetUserIdRandomGeneratedIfAnonymous() : void
@@ -60,7 +60,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
     public function testSetUsername(string $username, string $expected) : void
     {
         $this->user->setUsername($username);
-        $this->assertEquals($expected, $this->user->getUsername());
+        $this->assertSame($expected, $this->user->getUsername());
     }
 
     public function testGetUsernameFromSession() : void
@@ -76,7 +76,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
 
         $this->ilChatroomMock->method('getRoomId')->willReturn(99);
 
-        $this->assertEquals($username, $this->user->getUsername());
+        $this->assertSame($username, $this->user->getUsername());
     }
 
     /**
@@ -96,7 +96,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         $this->ilUserMock->expects($this->once())->method('getLogin')->willReturn($username);
         $this->ilChatroomMock->method('getRoomId')->willReturn($roomId);
 
-        $this->assertEquals($username, $this->user->getUsername());
+        $this->assertSame($username, $this->user->getUsername());
     }
 
     public function testBuildAnonymousName() : void
@@ -114,7 +114,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         $username = 'username';
         $this->ilUserMock->expects($this->once())->method('getLogin')->willReturn($username);
 
-        $this->assertEquals($username, $this->user->buildLogin());
+        $this->assertSame($username, $this->user->buildLogin());
     }
 
     public function testBuildFullname() : void
@@ -122,7 +122,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         $fullname = 'John Doe';
         $this->ilUserMock->expects($this->once())->method('getPublicName')->willReturn($fullname);
 
-        $this->assertEquals($fullname, $this->user->buildFullname());
+        $this->assertSame($fullname, $this->user->buildFullname());
     }
 
     public function testBuildShortname() : void
@@ -132,7 +132,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         $this->ilUserMock->expects($this->once())->method('getFirstname')->willReturn($firstname);
         $this->ilUserMock->expects($this->once())->method('getLastname')->willReturn($lastname);
 
-        $this->assertEquals('J. Doe', $this->user->buildShortname());
+        $this->assertSame('J. Doe', $this->user->buildShortname());
     }
 
     public function testGetChatNameSuggestionsIfAnonymous() : void
@@ -157,9 +157,9 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
 
         $suggestions = $this->user->getChatNameSuggestions();
 
-        $this->assertEquals('John Doe', $suggestions['fullname']);
-        $this->assertEquals('J. Doe', $suggestions['shortname']);
-        $this->assertEquals('jdoe', $suggestions['login']);
+        $this->assertSame('John Doe', $suggestions['fullname']);
+        $this->assertSame('J. Doe', $suggestions['shortname']);
+        $this->assertSame('jdoe', $suggestions['login']);
     }
 
     /**
