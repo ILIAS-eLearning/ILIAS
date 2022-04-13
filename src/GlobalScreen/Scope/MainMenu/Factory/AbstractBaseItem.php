@@ -194,11 +194,8 @@ abstract class AbstractBaseItem implements isItem
     
     public function isTop() : bool
     {
-        if ($this instanceof isChild) {
-            return $this->getParent() instanceof NullIdentification || (int) $this->getParent()->serialize() === false;
-        }
-        if ($this instanceof isTopItem && $this instanceof isInterchangeableItem) {
-            return $this->getParent() === null || $this->getParent() instanceof NullIdentification;
+        if ($this instanceof isInterchangeableItem) {
+            return $this->hasChanged();
         }
         return $this instanceof isTopItem;
     }
