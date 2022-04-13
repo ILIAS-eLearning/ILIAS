@@ -49,7 +49,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $userData = [$attributeKey => $attributeValue];
 
         $parser = new ilSamlMappedUserAttributeValueParser($this->getMappingRuleMock($attributeKey), $userData);
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
     public function testValueGivenAsArrayCanBeRetrievedForExternalAttribute() : void
@@ -62,7 +62,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $userData = [$attributeKey => $attributeValue];
 
         $parser = new ilSamlMappedUserAttributeValueParser($this->getMappingRuleMock($attributeKey), $userData);
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
     public function testValueGivenAsArrayCanBeRetrievedForExternalAttributeWithSpecificIndex() : void
@@ -79,7 +79,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
             $this->getMappingRuleMock($attributeKey . '|' . $expectedValueIndex),
             $userData
         );
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
     public function testExceptionIsRaisedIfAnExpectedAttributeIsMissing() : void
