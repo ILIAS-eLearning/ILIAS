@@ -1,21 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilWkhtmlToPdfConfig
 {
-    const ENABLE_QUIET = true;
+    private const ENABLE_QUIET = true;
 
     protected bool $phpunit = false;
 
@@ -97,16 +100,17 @@ class ilWkhtmlToPdfConfig
 
     protected string $overwrite_default_font = '';
 
+    /**
+     * @param array|null|self $config
+     */
     public function __construct($config = null)
     {
-        if ($config != null && !$config instanceof ilWkhtmlToPdfConfig) {
+        if (is_array($config)) {
             $this->readConfigFromArray($config);
+        } elseif ($config instanceof self) {
+            $this->readConfigFromObject($config);
         } else {
-            if ($config instanceof ilWkhtmlToPdfConfig) {
-                $this->readConfigFromObject($config);
-            } else {
-                $this->useDefaultConfig();
-            }
+            $this->useDefaultConfig();
         }
     }
 
@@ -160,7 +164,17 @@ class ilWkhtmlToPdfConfig
     protected function setKeyIfExists(string $function, string $key, $config) : void
     {
         if (array_key_exists($key, $config)) {
-            $this->{$function}($config[$key]);
+            $value = $config[$key];
+
+            if (is_scalar($value)) {
+                $reflMethod = new ReflectionMethod($this, $function);
+                $type = $reflMethod->getParameters()[0]->getType();
+                if ($type instanceof ReflectionNamedType && $type->isBuiltin()) {
+                    settype($value, $type->getName());
+                }
+            }
+
+            $this->{$function}($value);
         }
     }
 
@@ -539,14 +553,14 @@ class ilWkhtmlToPdfConfig
     public function getOverwriteDefaultFont(bool $renderStyle = false) : string
     {
         if ($renderStyle) {
-            if (strlen($this->overwrite_default_font) > 0) {
+            if ($this->overwrite_default_font !== '') {
                 return '<style>body{font-family: ' . $this->overwrite_default_font . ';}</style>';
             }
-        } else {
-            return $this->overwrite_default_font;
+            
+            return '';
         }
 
-        return '';
+        return $this->overwrite_default_font;
     }
 
     public function setOverwriteDefaultFont(string $overwrite_default_font) : void
@@ -770,16 +784,14 @@ class ilWkhtmlToPdfConfig
             if ($this->isHeaderTextLine()) {
                 $this->config[] = 'header-line';
             }
-        } else {
-            if ($header_value == ilPDFGenerationConstants::HEADER_HTML) {
-                $this->config[] = 'header-html "' . $this->getHeaderHtml() . '"';
+        } elseif ($header_value == ilPDFGenerationConstants::HEADER_HTML) {
+            $this->config[] = 'header-html "' . $this->getHeaderHtml() . '"';
 
-                if ($this->getHeaderHtmlSpacing() != '') {
-                    $this->config[] = 'header-spacing ' . $this->getHeaderHtmlSpacing();
-                }
-                if ($this->isHeaderHtmlLine()) {
-                    $this->config[] = 'header-line';
-                }
+            if ($this->getHeaderHtmlSpacing() != '') {
+                $this->config[] = 'header-spacing ' . $this->getHeaderHtmlSpacing();
+            }
+            if ($this->isHeaderHtmlLine()) {
+                $this->config[] = 'header-line';
             }
         }
     }
@@ -828,16 +840,14 @@ class ilWkhtmlToPdfConfig
             if ($this->isFooterTextLine()) {
                 $this->config[] = 'footer-line';
             }
-        } else {
-            if ($footer_value == ilPDFGenerationConstants::FOOTER_HTML) {
-                $this->config[] = 'footer-html "' . $this->getFooterHtml() . '"';
+        } elseif ($footer_value == ilPDFGenerationConstants::FOOTER_HTML) {
+            $this->config[] = 'footer-html "' . $this->getFooterHtml() . '"';
 
-                if ($this->getFooterHtmlSpacing() != '') {
-                    $this->config[] = 'footer-spacing ' . $this->getFooterHtmlSpacing();
-                }
-                if ($this->isFooterHtmlLine()) {
-                    $this->config[] = 'footer-line';
-                }
+            if ($this->getFooterHtmlSpacing() != '') {
+                $this->config[] = 'footer-spacing ' . $this->getFooterHtmlSpacing();
+            }
+            if ($this->isFooterHtmlLine()) {
+                $this->config[] = 'footer-line';
             }
         }
     }

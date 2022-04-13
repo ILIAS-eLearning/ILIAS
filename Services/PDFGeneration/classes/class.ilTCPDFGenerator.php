@@ -1,17 +1,21 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilTCPDFGenerator
 {
     public static function generatePDF(ilPDFGenerationJob $job) : void
@@ -24,8 +28,8 @@ class ilTCPDFGenerator
         $pdf->SetSubject($job->getSubject());
         $pdf->SetKeywords($job->getKeywords());
 
-        $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+        $pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
+        $pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
         $pdf->SetMargins($job->getMarginLeft(), $job->getMarginTop(), $job->getMarginRight());
         $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
@@ -43,7 +47,7 @@ class ilTCPDFGenerator
         }
         $pdf->Output($job->getFilename(), $job->getOutputMode()); // (I - Inline, D - Download, F - File)
 
-        if (in_array($job->getOutputMode(), array('I', 'D'))) {
+        if (in_array($job->getOutputMode(), ['I', 'D'])) {
             exit();
         }
     }

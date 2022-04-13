@@ -23,7 +23,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         $this->lng = $DIC->language();
     }
 
-    public function addConfigElementsToForm(\ilPropertyFormGUI $form, string $service, string $purpose) : void
+    public function addConfigElementsToForm(ilPropertyFormGUI $form, string $service, string $purpose) : void
     {
         $margin_left = new ilTextInputGUI($this->lng->txt('margin_left'), 'margin_left');
         $form->addItem($margin_left);
@@ -41,7 +41,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         $form->addItem($image_scale);
     }
 
-    public function populateConfigElementsInForm(\ilPropertyFormGUI $form, string $service, string $purpose, array $config) : void
+    public function populateConfigElementsInForm(ilPropertyFormGUI $form, string $service, string $purpose, array $config) : void
     {
         $form->getItemByPostVar('margin_left')->setValue($config['margin_left']);
         $form->getItemByPostVar('margin_right')->setValue($config['margin_right']);
@@ -50,22 +50,20 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         $form->getItemByPostVar('image_scale')->setValue($config['image_scale']);
     }
 
-    public function validateConfigInForm(\ilPropertyFormGUI $form, string $service, string $purpose) : bool
+    public function validateConfigInForm(ilPropertyFormGUI $form, string $service, string $purpose) : bool
     {
-        if (true) {
-            return true;
-        }
+        return true;
     }
 
-    public function getConfigFromForm(\ilPropertyFormGUI $form, string $service, string $purpose) : array
+    public function getConfigFromForm(ilPropertyFormGUI $form, string $service, string $purpose) : array
     {
-        $retval = array(
+        $retval = [
             'margin_left' => $form->getItemByPostVar('margin_left')->getValue(),
             'margin_right' => $form->getItemByPostVar('margin_right')->getValue(),
             'margin_top' => $form->getItemByPostVar('margin_top')->getValue(),
             'margin_bottom' => $form->getItemByPostVar('margin_bottom')->getValue(),
             'image_scale' => $form->getItemByPostVar('image_scale')->getValue(),
-        );
+        ];
 
         return $retval;
     }
@@ -73,13 +71,13 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 
     public function getDefaultConfig(string $service, string $purpose) : array
     {
-        $retval = array(
+        $retval = [
             'margin_left' => '10',
             'margin_top' => '10',
             'margin_right' => '10',
             'margin_bottom' => '10',
             'image_scale' => '1',
-        );
+        ];
 
         return $retval;
     }
@@ -117,7 +115,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
         }
         $result = $pdf->Output(basename($job->getFilename()), $job->getOutputMode()); // (I - Inline, D - Download, F - File)
 
-        if (in_array($job->getOutputMode(), array('I', 'D'))) {
+        if (in_array($job->getOutputMode(), ['I', 'D'])) {
             exit();
         }
     }

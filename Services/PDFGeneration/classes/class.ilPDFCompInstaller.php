@@ -13,13 +13,14 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 class ilPDFCompInstaller
 {
-    const PURPOSE_CONF_TABLE = "pdfgen_conf";
-    const PURPOSE_MAP_TABLE = "pdfgen_map";
-    const PURPOSE_PURPOSES_TABLE = "pdfgen_purposes";
-    const RENDERER_TABLE = "pdfgen_renderer";
-    const RENDERER_AVAIL_TABLE = "pdfgen_renderer_avail";
+    private const PURPOSE_CONF_TABLE = "pdfgen_conf";
+    private const PURPOSE_MAP_TABLE = "pdfgen_map";
+    private const PURPOSE_PURPOSES_TABLE = "pdfgen_purposes";
+    private const RENDERER_TABLE = "pdfgen_renderer";
+    private const RENDERER_AVAIL_TABLE = "pdfgen_renderer_avail";
 
     public static function registerPurpose(string $service, string $purpose, string $preferred) : void
     {
@@ -34,11 +35,11 @@ class ilPDFCompInstaller
 
         $ilDB->insert(
             self::PURPOSE_PURPOSES_TABLE,
-            array(
-                'purpose_id' => array('int',	$ilDB->nextId(self::PURPOSE_PURPOSES_TABLE)),
-                'service' => array('text', 	$service),
-                'purpose' => array('text', 	$purpose),
-            )
+            [
+                'purpose_id' => ['int', $ilDB->nextId(self::PURPOSE_PURPOSES_TABLE)],
+                'service' => ['text', $service],
+                'purpose' => ['text', $purpose],
+            ]
         );
     }
 
@@ -48,13 +49,13 @@ class ilPDFCompInstaller
         $ilDB = $DIC->database();
         $ilDB->insert(
             self::PURPOSE_MAP_TABLE,
-            array(
-                'map_id' => array('int', $ilDB->nextId(self::PURPOSE_MAP_TABLE)),
-                'service' => array('text', $service),
-                'purpose' => array('text', $purpose),
-                'preferred' => array('text', $preferred),
-                'selected' => array('text', $preferred)
-            )
+            [
+                'map_id' => ['int', $ilDB->nextId(self::PURPOSE_MAP_TABLE)],
+                'service' => ['text', $service],
+                'purpose' => ['text', $purpose],
+                'preferred' => ['text', $preferred],
+                'selected' => ['text', $preferred]
+            ]
         );
     }
 
@@ -64,7 +65,7 @@ class ilPDFCompInstaller
         $ilDB = $DIC->database();
 
         $ilDB->manipulate("DELETE FROM " . self::PURPOSE_PURPOSES_TABLE .
-            " WHERE service = " . $ilDB->quote($service, "txt") . " AND purpose = " . $ilDB->quote($purpose, "txt"));
+            " WHERE service = " . $ilDB->quote($service, "text") . " AND purpose = " . $ilDB->quote($purpose, "text"));
     }
 
     public static function unregisterPreferred(string $service, string $purpose, string $preferred) : void
@@ -73,8 +74,8 @@ class ilPDFCompInstaller
         $ilDB = $DIC->database();
 
         $ilDB->manipulate("DELETE FROM " . self::PURPOSE_MAP_TABLE .
-            " WHERE service = " . $ilDB->quote($service, "txt") . " AND purpose = " . $ilDB->quote($purpose, "txt") .
-            " AND preferred = " . $ilDB->quote($preferred, "txt"));
+            " WHERE service = " . $ilDB->quote($service, "text") . " AND purpose = " . $ilDB->quote($purpose, "text") .
+            " AND preferred = " . $ilDB->quote($preferred, "text"));
     }
 
     public static function flushPurposes(string $service) : void
@@ -82,7 +83,10 @@ class ilPDFCompInstaller
         global $DIC;
         $ilDB = $DIC->database();
 
-        $ilDB->manipulate("DELETE FROM " . self::PURPOSE_PURPOSES_TABLE . " WHERE service = " . $ilDB->quote($service, "txt"));
+        $ilDB->manipulate("DELETE FROM " . self::PURPOSE_PURPOSES_TABLE . " WHERE service = " . $ilDB->quote(
+            $service,
+            "text"
+        ));
     }
 
     public static function isPurposeRegistered(string $service, string $purpose) : bool
@@ -94,10 +98,8 @@ class ilPDFCompInstaller
             . $ilDB->quote($service, 'text') . ' AND purpose = ' . $ilDB->quote($purpose, 'text');
         $result = $ilDB->query($query);
         $row = $ilDB->fetchAssoc($result);
-        if ($row['num'] != 0) {
-            return true;
-        }
-        return false;
+
+        return is_array($row) && (int) $row['num'] !== 0;
     }
 
     public static function getPurposesByService(string $service) : array
@@ -105,9 +107,12 @@ class ilPDFCompInstaller
         global $DIC;
         $ilDB = $DIC->database();
 
-        $query = 'SELECT purpose FROM ' . self::PURPOSE_PURPOSES_TABLE . ' WHERE service = ' . $ilDB->quote($service, 'text');
+        $query = 'SELECT purpose FROM ' . self::PURPOSE_PURPOSES_TABLE . ' WHERE service = ' . $ilDB->quote(
+            $service,
+            'text'
+        );
         $result = $ilDB->query($query);
-        $purposes = array();
+        $purposes = [];
         while ($row = $ilDB->fetchAssoc($result)) {
             $purposes[] = $row['purpose'];
         }
@@ -121,7 +126,7 @@ class ilPDFCompInstaller
 
         $query = 'SELECT service FROM ' . self::PURPOSE_PURPOSES_TABLE . ' GROUP BY service';
         $result = $ilDB->query($query);
-        $services = array();
+        $services = [];
         while ($row = $ilDB->fetchAssoc($result)) {
             $services[] = $row['service'];
         }
@@ -135,10 +140,8 @@ class ilPDFCompInstaller
         $query = 'SELECT service, purpose FROM ' . self::PURPOSE_PURPOSES_TABLE . ' GROUP BY service, purpose having count(*) > 1';
         $result = $ilDB->query($query);
         $row = $ilDB->fetchAssoc($result);
-        if (is_array($row) && count($row) > 0) {
-            return true;
-        }
-        return false;
+
+        return is_array($row) && !empty($row);
     }
 
     public static function doCleanUp() : void
@@ -178,11 +181,11 @@ class ilPDFCompInstaller
 
         $ilDB->insert(
             self::RENDERER_TABLE,
-            array(
-                      'renderer_id' => array('int',	$ilDB->nextId(self::RENDERER_TABLE)),
-                      'renderer' => array('text', 	$renderer),
-                      'path' => array('text', 	$path)
-                  )
+            [
+                'renderer_id' => ['int', $ilDB->nextId(self::RENDERER_TABLE)],
+                'renderer' => ['text', $renderer],
+                'path' => ['text', $path]
+            ]
         );
     }
 
@@ -193,12 +196,12 @@ class ilPDFCompInstaller
 
         $ilDB->insert(
             self::RENDERER_AVAIL_TABLE,
-            array(
-                      'availability_id' => array('int',	$ilDB->nextId(self::RENDERER_AVAIL_TABLE)),
-                      'service' => array('text', 	$service),
-                      'purpose' => array('text', 	$purpose),
-                      'renderer' => array('text', 	$renderer)
-                  )
+            [
+                'availability_id' => ['int', $ilDB->nextId(self::RENDERER_AVAIL_TABLE)],
+                'service' => ['text', $service],
+                'purpose' => ['text', $purpose],
+                'renderer' => ['text', $renderer]
+            ]
         );
     }
 }
