@@ -1811,11 +1811,6 @@ assessment#:#tst_score_cut_question_desc#:#Participants may score negative resul
 assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to ‘0 Points’
 assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.
 assessment#:#tst_score_cutting#:#Negative Points
-assessment#:#tst_score_mcmr_questions#:#Multiple Choice Questions with Empty Answer###fau: testNav
-assessment#:#tst_score_mcmr_use_scoring_system#:#Save and Score Empty Answers (Deprecated)###fau: testNav
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#An additional option "None of the above" allows saving of empty answers. The unchecked options will be scored as defined in the question. This setting is only kept for existing tests and will be abandoned in a following ILIAS version.###fau: testNav
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Don’t Save Empty Answers###fau: testNav
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Answers without any checked option are not saved. Participants get 0 points on these questions.###fau: testNav
 assessment#:#tst_score_reporting#:#Score Reporting
 assessment#:#tst_score_reporting_date#:#Score Reporting Date
 assessment#:#tst_search_users#:#Search Participants

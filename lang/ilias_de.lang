@@ -1826,11 +1826,6 @@ assessment#:#tst_score_cut_question_desc#:#Bei der Vergabe negativer Punkte für
 assessment#:#tst_score_cut_test#:#Frage kann auch negatives Punkteergebnis haben
 assessment#:#tst_score_cut_test_desc#:#Es können pro Frage Minuspunkte erzielt werden. Die Punktestände aller Fragen werden aufsummiert und erst wenn diese Summe noch negativ ist, wird das Gesamtergebnis des Tests auf 0 Punkte gesetzt. Ganz oder teilweise falsch beantwortete Fragen fallen damit sehr stark ins Gewicht.
 assessment#:#tst_score_cutting#:#Negative Punkte
-assessment#:#tst_score_mcmr_questions#:#Multiple-Choice-Fragen mit leerer Antwort
-assessment#:#tst_score_mcmr_use_scoring_system#:#Leere Antworten speichern und bewerten (veraltet)
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Eine zusätzliche Option "Keine der obigen" erlaubt es, leere Antworten zu speichern. Die nicht ausgewählten Optionen werden so bewertet, wie in der Frage definiert ist. Diese Einstellung ist nur noch für bestehende Tests verfügbar und wird in einer folgenden ILIAS-Version nicht mehr unterstützt.
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Leere Antworten nicht speichern
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Antworten ohne ausgewählte Option werden nicht gespeichert. Die Teilnehmer erhalten 0 Punkte auf diese Fragen.
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_search_users#:#Teilnehmer suchen
