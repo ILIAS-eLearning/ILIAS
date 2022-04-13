@@ -64,6 +64,8 @@ class VirusScannerFactoryTest extends VirusScannerBaseTest
         );
 
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
+
+        $this->setGlobalVariable('ilErr', $this->getMockBuilder(ilErrorHandling::class)->disableOriginalConstructor()->getMock());
     }
 
     public function testSophosScanStrategyCanBeRetrievedAccordingToGlobalSetting() : void
