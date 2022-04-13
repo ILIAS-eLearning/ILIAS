@@ -18,12 +18,8 @@
 
 class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
 {
-    protected static ?ilWkhtmlToPdfRenderer $instance = null;
-
     protected ilWkhtmlToPdfConfig $config;
-
     protected ilLanguage $lng;
-
     protected ilLogger $log;
 
     public function __construct(bool $phpunit = false)

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -102,6 +102,10 @@ class ilPDFCompInstaller
         return is_array($row) && (int) $row['num'] !== 0;
     }
 
+    /**
+     * @param string $service
+     * @return string[]
+     */
     public static function getPurposesByService(string $service) : array
     {
         global $DIC;
@@ -119,6 +123,9 @@ class ilPDFCompInstaller
         return $purposes;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getServices() : array
     {
         global $DIC;

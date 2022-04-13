@@ -27,7 +27,7 @@ class ilPDFGenerationConstants
     public const FOOTER_HTML = 2;
 
     /**
-     * @return string[]
+     * @return array<string, string>
      */
     public static function getPageSizesNames() : array
     {

@@ -188,8 +188,9 @@ class ilPDFGeneratorUtils
 
     /**
      * @throws Exception
+     * @return ilRendererConfig&ilPDFRenderer
      */
-    public static function getRendererInstance(string $renderer) : object
+    public static function getRendererInstance(string $renderer)
     {
         global $DIC;
 
@@ -207,7 +208,7 @@ class ilPDFGeneratorUtils
             $classname = 'il' . $renderer . 'RendererPlugin';
         }
 
-        return new $classname;
+        return new $classname();
     }
 
     protected static function isRendererPlugin(string $path) : bool

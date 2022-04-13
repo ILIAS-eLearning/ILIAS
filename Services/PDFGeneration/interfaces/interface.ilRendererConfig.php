@@ -30,7 +30,7 @@ interface ilRendererConfig
      * @param ilPropertyFormGUI $form The config form for the administration
      * @param string $service Service Title
      * @param string $purpose Purpose Title
-     * @param array $config KV-array with config
+     * @param array<string, mixed> $config KV-array with config
      * @return void
      */
     public function populateConfigElementsInForm(
