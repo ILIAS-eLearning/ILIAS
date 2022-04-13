@@ -215,8 +215,8 @@ class ilExport
             $dir = ilExport::_getExportDirectory($a_obj_id, $type, $a_obj_type);
 
             // quit if import dir not available
-            if (!@is_dir($dir) or
-                !is_writeable($dir)) {
+            if (@is_dir($dir) or
+                is_writeable($dir)) {
                 continue;
             }
 
