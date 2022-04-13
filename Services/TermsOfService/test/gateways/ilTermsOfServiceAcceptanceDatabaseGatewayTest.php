@@ -157,14 +157,14 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
         $entity = $gateway->loadCurrentAcceptanceOfUser($entity);
 
-        $this->assertEquals($expected['id'], $entity->getId());
-        $this->assertEquals($expected['usr_id'], $entity->getUserId());
-        $this->assertEquals($expected['doc_id'], $entity->getDocumentId());
-        $this->assertEquals($expected['title'], $entity->getTitle());
-        $this->assertEquals($expected['criteria'], $entity->getSerializedCriteria());
-        $this->assertEquals($expected['text'], $entity->getText());
-        $this->assertEquals($expected['accepted_ts'], $entity->getTimestamp());
-        $this->assertEquals($expected['hash'], $entity->getHash());
+        $this->assertSame($expected['id'], $entity->getId());
+        $this->assertSame($expected['usr_id'], $entity->getUserId());
+        $this->assertSame($expected['doc_id'], $entity->getDocumentId());
+        $this->assertSame($expected['title'], $entity->getTitle());
+        $this->assertSame($expected['criteria'], $entity->getSerializedCriteria());
+        $this->assertSame($expected['text'], $entity->getText());
+        $this->assertSame($expected['accepted_ts'], $entity->getTimestamp());
+        $this->assertSame($expected['hash'], $entity->getHash());
     }
 
     public function testAcceptanceHistoryOfAUserCanBeDeleted() : void
@@ -211,11 +211,11 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
         $entity = $gateway->loadById($entity);
 
-        $this->assertEquals($expected['id'], $entity->getId());
-        $this->assertEquals($expected['doc_id'], $entity->getDocumentId());
-        $this->assertEquals($expected['title'], $entity->getTitle());
-        $this->assertEquals($expected['criteria'], $entity->getSerializedCriteria());
-        $this->assertEquals($expected['text'], $entity->getText());
-        $this->assertEquals($expected['hash'], $entity->getHash());
+        $this->assertSame($expected['id'], $entity->getId());
+        $this->assertSame($expected['doc_id'], $entity->getDocumentId());
+        $this->assertSame($expected['title'], $entity->getTitle());
+        $this->assertSame($expected['criteria'], $entity->getSerializedCriteria());
+        $this->assertSame($expected['text'], $entity->getText());
+        $this->assertSame($expected['hash'], $entity->getHash());
     }
 }

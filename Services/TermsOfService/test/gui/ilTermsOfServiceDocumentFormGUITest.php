@@ -71,12 +71,12 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             $form->getCommandButtons(),
             'Failed asserting save and cancel buttons are given if form is editable'
         );
-        $this->assertEquals(
+        $this->assertSame(
             'save',
             $form->getCommandButtons()[0]['cmd'],
             'Failed asserting save and cancel buttons are given if form is editable'
         );
-        $this->assertEquals(
+        $this->assertSame(
             'cancel',
             $form->getCommandButtons()[1]['cmd'],
             'Failed asserting save and cancel buttons are given if form is editable'
@@ -104,7 +104,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             $form->getCommandButtons(),
             'Failed asserting only cancel button is given if form is not editable'
         );
-        $this->assertEquals(
+        $this->assertSame(
             'cancel',
             $form->getCommandButtons()[0]['cmd'],
             'Failed asserting only cancel button is given if form is not editable'
@@ -276,7 +276,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertTrue($form->saveObject());
         $this->assertFalse($form->hasTranslatedError());
         $this->assertEmpty($form->getTranslatedError());
-        $this->assertEquals(
+        $this->assertSame(
             $expectedSortingValueExistingDocuments,
             $document->getSorting(),
             'Failed asserting that the sorting of the new document equals the maximum incremented by one when other documents exist'
@@ -318,7 +318,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertTrue($form->saveObject());
         $this->assertFalse($form->hasTranslatedError());
         $this->assertEmpty($form->getTranslatedError());
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $document->getSorting(),
             'Failed asserting that the sorting of the new document equals 1 when no other document exists'
@@ -457,7 +457,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertTrue($form->saveObject());
         $this->assertFalse($form->hasTranslatedError());
         $this->assertEmpty($form->getTranslatedError());
-        $this->assertEquals(
+        $this->assertSame(
             $expectedSorting,
             $document->getSorting(),
             'Failed asserting that the sorting of the existing document has not been changed'

@@ -59,7 +59,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $this->assertArrayHasKey('value', $bag[0]);
         $this->assertArrayHasKey('id', $bag[1]);
         $this->assertArrayHasKey('value', $bag[1]);
-        $this->assertEquals(
+        $this->assertSame(
             '[{"id":"crit1","value":{"usr_language":"de"}},{"id":"crit2","value":{"usr_global_role":4}}]',
             $bag->toJson()
         );
@@ -73,7 +73,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
     public function testCriteriaCanBePassedAsString(ilTermsOfServiceAcceptanceHistoryCriteriaBag $bag) : void
     {
         $newBag = new ilTermsOfServiceAcceptanceHistoryCriteriaBag($bag->toJson());
-        $this->assertEquals($bag->toJson(), $newBag->toJson());
+        $this->assertSame($bag->toJson(), $newBag->toJson());
     }
 
     public function testExceptionIsRaisedWhenAtLeastOneNonCriterionIsPassedInArrayOnCreation() : void
@@ -177,7 +177,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $this->assertArrayHasKey('value', $bag[0]);
         $this->assertArrayHasKey('id', $bag[1]);
         $this->assertArrayHasKey('value', $bag[1]);
-        $this->assertEquals(
+        $this->assertSame(
             '[{"id":"crit1","value":{"usr_language":"de"}},{"id":"crit2","value":{"usr_global_role":4}}]',
             $bag->toJson()
         );

@@ -41,8 +41,8 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
     {
         $criterion = $this->getInstance();
 
-        $this->assertEquals('usr_country', $criterion->getTypeIdent());
-        $this->assertEquals(true, $criterion->hasUniqueNature());
+        $this->assertSame('usr_country', $criterion->getTypeIdent());
+        $this->assertSame(true, $criterion->hasUniqueNature());
 
         return $criterion;
     }
@@ -90,7 +90,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
 
         $countrySelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
         $this->assertInstanceOf(ilSelectInputGUI::class, $countrySelection);
-        $this->assertEquals($countrySelection->getValue(), $this->expectedInitialValue);
+        $this->assertSame($countrySelection->getValue(), $this->expectedInitialValue);
 
         return $criterion;
     }
@@ -120,7 +120,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
         $value = $gui->getConfigByForm($form);
 
         $this->assertInstanceOf(ilTermsOfServiceCriterionConfig::class, $value);
-        $this->assertEquals($this->expectedAfterFormSubmitValue, $value['country']);
+        $this->assertSame($this->expectedAfterFormSubmitValue, $value['country']);
         $this->assertEquals($this->getCriterionConfig(['country' => $this->expectedAfterFormSubmitValue]), $value);
     }
 
@@ -176,7 +176,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
 
         $this->assertInstanceOf(Component::class, $actual);
         $this->assertInstanceOf(Legacy::class, $actual);
-        $this->assertEquals($translation, $actual->getContent());
+        $this->assertSame($translation, $actual->getContent());
     }
 
     public function failingConfigProvider() : array

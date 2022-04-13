@@ -61,6 +61,6 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
         $this->assertArrayHasKey('items', $data);
         $this->assertArrayHasKey('cnt', $data);
         $this->assertCount(3, $data['items']);
-        $this->assertEquals(3, $data['cnt']);
+        $this->assertSame(3, $data['cnt']);
     }
 }

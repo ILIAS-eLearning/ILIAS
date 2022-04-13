@@ -48,6 +48,6 @@ class ilTermsOfServiceDataGatewayFactoryTest extends ilTermsOfServiceBaseTest
         $factory = new ilTermsOfServiceDataGatewayFactory();
         $factory->setDatabaseAdapter($expected);
 
-        $this->assertEquals($expected, $factory->getDatabaseAdapter());
+        $this->assertSame($expected, $factory->getDatabaseAdapter());
     }
 }

@@ -53,8 +53,8 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     {
         $criterion = $this->getInstance();
 
-        $this->assertEquals('usr_global_role', $criterion->getTypeIdent());
-        $this->assertEquals(false, $criterion->hasUniqueNature());
+        $this->assertSame('usr_global_role', $criterion->getTypeIdent());
+        $this->assertSame(false, $criterion->hasUniqueNature());
 
         return $criterion;
     }
@@ -105,7 +105,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
         $roleSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
         $this->assertInstanceOf(ilSelectInputGUI::class, $roleSelection);
-        $this->assertEquals($roleSelection->getValue(), $this->expectedInitialValue);
+        $this->assertEquals($roleSelection->getValue(), (string) $this->expectedInitialValue);
 
         return $criterion;
     }
@@ -135,7 +135,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $value = $gui->getConfigByForm($form);
 
         $this->assertInstanceOf(ilTermsOfServiceCriterionConfig::class, $value);
-        $this->assertEquals($this->expectedAfterFormSubmitValue, $value['role_id']);
+        $this->assertSame($this->expectedAfterFormSubmitValue, $value['role_id']);
         $this->assertEquals($this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]), $value);
     }
 
@@ -189,7 +189,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
         $this->assertInstanceOf(Component::class, $actual);
         $this->assertInstanceOf(Legacy::class, $actual);
-        $this->assertEquals($roleTitle, $actual->getContent());
+        $this->assertSame($roleTitle, $actual->getContent());
     }
 
     public function failingConfigProvider() : array

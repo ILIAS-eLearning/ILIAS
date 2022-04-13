@@ -42,7 +42,7 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
 
         $purifier = new ilTermsOfServiceTrimmedDocumentPurifier($aggregated);
 
-        $this->assertEquals($expectedResult, $purifier->purify($text));
+        $this->assertSame($expectedResult, $purifier->purify($text));
     }
 
     /**
@@ -64,6 +64,6 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
 
         $purifier = new ilTermsOfServiceTrimmedDocumentPurifier($aggregated);
 
-        $this->assertEquals($expectedResult, $purifier->purifyArray($texts));
+        $this->assertSame($expectedResult, $purifier->purifyArray($texts));
     }
 }

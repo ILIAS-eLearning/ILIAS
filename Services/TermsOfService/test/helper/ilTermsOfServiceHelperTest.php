@@ -164,7 +164,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->willReturn('phpunit');
 
         $this->assertInstanceOf(ilTermsOfServiceAcceptanceEntity::class, $helper->getCurrentAcceptanceForUser($user));
-        $this->assertEquals($entity, $helper->getCurrentAcceptanceForUser($user));
+        $this->assertSame($entity, $helper->getCurrentAcceptanceForUser($user));
     }
 
     public function testAcceptanceHistoryEntityCanBeLoadedById() : void
@@ -208,6 +208,6 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->willReturn('phpunit');
 
         $this->assertInstanceOf(ilTermsOfServiceAcceptanceEntity::class, $helper->getById($entity->getId()));
-        $this->assertEquals($entity, $helper->getById($entity->getId()));
+        $this->assertSame($entity, $helper->getById($entity->getId()));
     }
 }

@@ -90,6 +90,6 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterion
             ],
             vfs\vfsStream::url('root/HTMLPurifier')
         );
-        $this->assertEquals($expected, $purifier->purify($text));
+        $this->assertSame($expected, $purifier->purify($text));
     }
 }

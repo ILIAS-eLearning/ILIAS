@@ -72,7 +72,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $this->assertArrayHasKey('items', $data);
         $this->assertArrayHasKey('cnt', $data);
         $this->assertCount(2, $data['items']);
-        $this->assertEquals(2, $data['cnt']);
+        $this->assertSame(2, $data['cnt']);
     }
 
     /**

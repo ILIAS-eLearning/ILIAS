@@ -49,7 +49,7 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
     ) : void {
         $criteria = $criterionTypeFactory->getTypesByIdentMap();
 
-        $this->assertEquals(
+        $this->assertSame(
             array_keys($criteria),
             array_values(array_map(static function (ilTermsOfServiceCriterionType $criterion) : string {
                 return $criterion->getTypeIdent();
@@ -65,7 +65,7 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
     ) : void {
         foreach ($criterionTypeFactory->getTypesByIdentMap() as $criterion) {
-            $this->assertEquals($criterion, $criterionTypeFactory->findByTypeIdent($criterion->getTypeIdent()));
+            $this->assertSame($criterion, $criterionTypeFactory->findByTypeIdent($criterion->getTypeIdent()));
         }
     }
 

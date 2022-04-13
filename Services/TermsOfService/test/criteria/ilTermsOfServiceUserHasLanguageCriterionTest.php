@@ -41,8 +41,8 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     {
         $criterion = $this->getInstance();
 
-        $this->assertEquals('usr_language', $criterion->getTypeIdent());
-        $this->assertEquals(true, $criterion->hasUniqueNature());
+        $this->assertSame('usr_language', $criterion->getTypeIdent());
+        $this->assertSame(true, $criterion->hasUniqueNature());
 
         return $criterion;
     }
@@ -90,7 +90,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
 
         $languageSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
         $this->assertInstanceOf(ilSelectInputGUI::class, $languageSelection);
-        $this->assertEquals($languageSelection->getValue(), $this->expectedInitialValue);
+        $this->assertSame($languageSelection->getValue(), $this->expectedInitialValue);
 
         return $criterion;
     }
@@ -120,7 +120,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         $value = $gui->getConfigByForm($form);
 
         $this->assertInstanceOf(ilTermsOfServiceCriterionConfig::class, $value);
-        $this->assertEquals($this->expectedAfterFormSubmitValue, $value['lng']);
+        $this->assertSame($this->expectedAfterFormSubmitValue, $value['lng']);
         $this->assertEquals($this->getCriterionConfig(['lng' => $this->expectedAfterFormSubmitValue]), $value);
     }
 
@@ -173,7 +173,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
 
         $this->assertInstanceOf(Component::class, $actual);
         $this->assertInstanceOf(Legacy::class, $actual);
-        $this->assertEquals($translation, $actual->getContent());
+        $this->assertSame($translation, $actual->getContent());
     }
 
     public function failingConfigProvider() : array

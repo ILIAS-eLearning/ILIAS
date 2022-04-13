@@ -26,6 +26,6 @@ class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends ilTermsOfServic
     public function testHtmlCanBeDetected(string $text, bool $result) : void
     {
         $validator = new ilTermsOfServiceDocumentsContainsHtmlValidator($text);
-        $this->assertEquals($result, $validator->isValid());
+        $this->assertSame($result, $validator->isValid());
     }
 }

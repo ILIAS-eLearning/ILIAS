@@ -39,7 +39,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $factory->setDatabaseAdapter($db);
 
-        $this->assertEquals($db, $factory->getDatabaseAdapter());
+        $this->assertSame($db, $factory->getDatabaseAdapter());
     }
 
     /**

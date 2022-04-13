@@ -65,7 +65,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
         );
 
         $this->assertTrue($evaluation->hasDocument());
-        $this->assertEquals($doc, $evaluation->document());
+        $this->assertSame($doc, $evaluation->document());
     }
 
     public function testDocumentOnArbitraryPositionIsReturnedMatchingFirstDocumentWithASucceededEvaluation() : void
@@ -108,7 +108,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
         );
 
         $this->assertTrue($evaluation->hasDocument());
-        $this->assertEquals($doc2, $evaluation->document());
+        $this->assertSame($doc2, $evaluation->document());
     }
 
     public function testFirstMatchingDocumentIsReturnedIfEvaluationOfMultipleDocumentsSucceeded() : void
@@ -151,6 +151,6 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
         );
 
         $this->assertTrue($evaluation->hasDocument());
-        $this->assertEquals($doc2, $evaluation->document());
+        $this->assertSame($doc2, $evaluation->document());
     }
 }

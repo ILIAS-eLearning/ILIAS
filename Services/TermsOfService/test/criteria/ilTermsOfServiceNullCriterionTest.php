@@ -34,8 +34,8 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
     {
         $criterion = $this->getInstance();
 
-        $this->assertEquals('null', $criterion->getTypeIdent());
-        $this->assertEquals(false, $criterion->hasUniqueNature());
+        $this->assertSame('null', $criterion->getTypeIdent());
+        $this->assertSame(false, $criterion->hasUniqueNature());
 
         return $criterion;
     }
@@ -128,7 +128,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
 
         $this->assertInstanceOf(Component::class, $actual);
         $this->assertInstanceOf(Legacy::class, $actual);
-        $this->assertEquals('-', $actual->getContent());
+        $this->assertSame('-', $actual->getContent());
     }
 
     public function testEvaluationAlwaysSucceeds() : void

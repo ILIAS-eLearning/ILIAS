@@ -80,7 +80,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             'cancel'
         );
 
-        $this->assertEquals($criterionType1->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
+        $this->assertSame($criterionType1->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
     }
 
     public function testFormIsProperlyBuiltForExistingCriterionAssignment() : void
@@ -160,7 +160,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             'cancel'
         );
 
-        $this->assertEquals($criterionType2->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
+        $this->assertSame($criterionType2->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
     }
 
     public function testFormForNewCriterionAssignmentCanBeSavedForValidInput() : void

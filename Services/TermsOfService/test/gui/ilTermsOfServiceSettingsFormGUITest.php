@@ -36,7 +36,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             $form->getCommandButtons(),
             'Failed asserting save button ist given if form is editable'
         );
-        $this->assertEquals(
+        $this->assertSame(
             'save',
             $form->getCommandButtons()[0]['cmd'],
             'Failed asserting save button ist given if form is editable'

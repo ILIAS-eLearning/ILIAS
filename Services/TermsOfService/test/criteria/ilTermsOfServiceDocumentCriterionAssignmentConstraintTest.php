@@ -228,7 +228,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             $constraint->check($criterionAssignment3);
             $raised = false;
         } catch (UnexpectedValueException $e) {
-            $this->assertEquals('The passed assignment must be unique for the document!', $e->getMessage());
+            $this->assertSame('The passed assignment must be unique for the document!', $e->getMessage());
             $raised = true;
         }
 
@@ -350,7 +350,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $newConstraint = $constraint->withProblemBuilder(function () {
             return 'phpunit';
         });
-        $this->assertEquals('phpunit', $newConstraint->problemWith($criterionAssignment3));
+        $this->assertSame('phpunit', $newConstraint->problemWith($criterionAssignment3));
     }
 
     /**
@@ -391,11 +391,11 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $constraint->accepts($criterionAssignment4);
         $constraint->accepts($criterionAssignment5);
 
-        $this->assertEquals(
+        $this->assertSame(
             'The passed assignment must be unique for the document!',
             $constraint->problemWith($criterionAssignment3)
         );
-        $this->assertEquals(
+        $this->assertSame(
             'The passed assignment must be unique for the document!',
             $constraint->problemWith($criterionAssignment5)
         );

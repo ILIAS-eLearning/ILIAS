@@ -18,9 +18,9 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
 
         $expected = json_encode($data, JSON_THROW_ON_ERROR);
 
-        $this->assertEquals($expected, $config->toJson());
+        $this->assertSame($expected, $config->toJson());
         $this->assertArrayHasKey($actualKey, $config);
-        $this->assertEquals($actualValue, $config[$actualKey]);
+        $this->assertSame($actualValue, $config[$actualKey]);
     }
 
     public function testConfigCanBePassedAsJson() : void
@@ -32,9 +32,9 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
 
         $config = new ilTermsOfServiceCriterionConfig($data);
 
-        $this->assertEquals($data, $config->toJson());
+        $this->assertSame($data, $config->toJson());
         $this->assertArrayHasKey($actualKey, $config);
-        $this->assertEquals($actualValue, $config[$actualKey]);
+        $this->assertSame($actualValue, $config[$actualKey]);
     }
 
     public function testConfigCanBeImportedAsJson() : void
@@ -47,8 +47,8 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
         $config = new ilTermsOfServiceCriterionConfig();
         $config->fromJson($data);
 
-        $this->assertEquals($data, $config->toJson());
+        $this->assertSame($data, $config->toJson());
         $this->assertArrayHasKey($actualKey, $config);
-        $this->assertEquals($actualValue, $config[$actualKey]);
+        $this->assertSame($actualValue, $config[$actualKey]);
     }
 }
