@@ -102,8 +102,8 @@ class CronJobEntityTest extends TestCase
         $job_instance->method('hasFlexibleSchedule')->willReturn(true);
 
         $entity = $this->getEntity($job_instance);
-        $this->assertEquals(ilCronJob::SCHEDULE_TYPE_IN_MINUTES, $entity->getEffectiveScheduleType());
-        $this->assertEquals(5, $entity->getEffectiveScheduleValue());
+        $this->assertSame(ilCronJob::SCHEDULE_TYPE_IN_MINUTES, $entity->getEffectiveScheduleType());
+        $this->assertSame(5, $entity->getEffectiveScheduleValue());
 
         $another_job_instance = $this->createMock(ilCronJob::class);
         $another_job_instance->method('hasFlexibleSchedule')->willReturn(false);
@@ -111,8 +111,8 @@ class CronJobEntityTest extends TestCase
         $another_job_instance->method('getDefaultScheduleValue')->willReturn(5);
 
         $another_entity = $this->getEntity($another_job_instance, ilCronJob::SCHEDULE_TYPE_DAILY);
-        $this->assertEquals(ilCronJob::SCHEDULE_TYPE_IN_HOURS, $another_entity->getEffectiveScheduleType());
-        $this->assertEquals(5, $another_entity->getEffectiveScheduleValue());
+        $this->assertSame(ilCronJob::SCHEDULE_TYPE_IN_HOURS, $another_entity->getEffectiveScheduleType());
+        $this->assertSame(5, $another_entity->getEffectiveScheduleValue());
 
         $yet_another_job_instance = $this->createMock(ilCronJob::class);
         $yet_another_job_instance->method('hasFlexibleSchedule')->willReturn(true);
@@ -120,7 +120,7 @@ class CronJobEntityTest extends TestCase
         $yet_another_job_instance->method('getDefaultScheduleValue')->willReturn(5);
 
         $yet_another_entity = $this->getEntity($yet_another_job_instance, 0);
-        $this->assertEquals(ilCronJob::SCHEDULE_TYPE_IN_HOURS, $yet_another_entity->getEffectiveScheduleType());
-        $this->assertEquals(5, $yet_another_entity->getEffectiveScheduleValue());
+        $this->assertSame(ilCronJob::SCHEDULE_TYPE_IN_HOURS, $yet_another_entity->getEffectiveScheduleType());
+        $this->assertSame(5, $yet_another_entity->getEffectiveScheduleValue());
     }
 }
