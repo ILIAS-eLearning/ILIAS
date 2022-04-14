@@ -23,16 +23,16 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 {
     public function testParseWithNonCustomPageFormatting() : void
     {
-        $formData = array(
+        $formData = [
             'certificate_text' => '<xml> Some Context </xml>',
-            'margin_body' => array(
+            'margin_body' => [
                 'top' => '1cm',
                 'right' => '2cm',
                 'bottom' => '3cm',
                 'left' => '4cm'
-            ),
+            ],
             'pageformat' => 'a4'
-        );
+        ];
 
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
@@ -46,14 +46,14 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $pageFormats->method('fetchPageFormats')
-            ->willReturn(array(
-                'a4' => array(
+            ->willReturn([
+                'a4' => [
                     'name' => 'A4',
                     'value' => 'a4',
                     'width' => '210mm',
                     'height' => '297mm'
-                ),
-            ));
+                ],
+            ]);
 
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
@@ -75,16 +75,16 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $xlstProcess->method('process')
             ->with(
-                array(
+                [
                     '/_xml' => '<html><body><xml> Some Context </xml></body></html>',
                     '/_xsl' => '<xml>Some XLS Content</xml>'
-                ),
-                array(
+                ],
+                [
                     'pageheight' => '297mm',
                     'pagewidth' => '210mm',
                     'backgroundimage' => '[BACKGROUND_IMAGE]',
                     'marginbody' => '1cm 2cm 3cm 4cm'
-                )
+                ]
             )
             ->willReturn('Something Processed');
 
@@ -115,18 +115,18 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
     public function testParseButXmlCheckerFindsAnError() : void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
-        $formData = array(
+        $formData = [
             'certificate_text' => '<xml> Some Context <xml>',
-            'margin_body' => array(
+            'margin_body' => [
                 'top' => '1cm',
                 'right' => '2cm',
                 'bottom' => '3cm',
                 'left' => '4cm'
-            ),
+            ],
             'pageformat' => 'custom'
-        );
+        ];
 
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
@@ -140,14 +140,14 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $pageFormats->method('fetchPageFormats')
-            ->willReturn(array(
-                'a4' => array(
+            ->willReturn([
+                'a4' => [
                     'name' => 'A4',
                     'value' => 'a4',
                     'width' => '210mm',
                     'height' => '297mm'
-                ),
-            ));
+                ],
+            ]);
 
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
@@ -186,18 +186,18 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
     public function testParseWithCustomPageFormatting() : void
     {
-        $formData = array(
+        $formData = [
             'certificate_text' => '<xml> Some Context </xml>',
-            'margin_body' => array(
+            'margin_body' => [
                 'top' => '1cm',
                 'right' => '2cm',
                 'bottom' => '3cm',
                 'left' => '4cm'
-            ),
+            ],
             'pageformat' => 'custom',
             'pagewidth' => '210mm',
             'pageheight' => '297mm'
-        );
+        ];
 
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
@@ -211,14 +211,14 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $pageFormats->method('fetchPageFormats')
-            ->willReturn(array(
-                'a4' => array(
+            ->willReturn([
+                'a4' => [
                     'name' => 'A4',
                     'value' => 'a4',
                     'width' => '210mm',
                     'height' => '297mm'
-                ),
-            ));
+                ],
+            ]);
 
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
@@ -240,16 +240,16 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $xlstProcess->method('process')
             ->with(
-                array(
+                [
                     '/_xml' => '<html><body><xml> Some Context </xml></body></html>',
                     '/_xsl' => '<xml>Some XLS Content</xml>'
-                ),
-                array(
+                ],
+                [
                     'pageheight' => '297mm',
                     'pagewidth' => '210mm',
                     'backgroundimage' => '[BACKGROUND_IMAGE]',
                     'marginbody' => '1cm 2cm 3cm 4cm'
-                )
+                ]
             )
             ->willReturn('Something Processed');
 
@@ -280,18 +280,18 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
     public function testCommasWillBeConvertedToPointInDecimalSepartor() : void
     {
-        $formData = array(
+        $formData = [
             'certificate_text' => '<xml> Some Context </xml>',
-            'margin_body' => array(
+            'margin_body' => [
                 'top' => '1cm',
                 'right' => '2cm',
                 'bottom' => '3cm',
                 'left' => '4cm'
-            ),
+            ],
             'pageformat' => 'custom',
             'pagewidth' => '210mm',
             'pageheight' => '297mm'
-        );
+        ];
 
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
@@ -305,14 +305,14 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $pageFormats->method('fetchPageFormats')
-            ->willReturn(array(
-                'a4' => array(
+            ->willReturn([
+                'a4' => [
                     'name' => 'A4',
                     'value' => 'a4',
                     'width' => '21,0mm',
                     'height' => '29,7mm'
-                ),
-            ));
+                ],
+            ]);
 
         $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
@@ -334,16 +334,16 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $xlstProcess->method('process')
             ->with(
-                array(
+                [
                     '/_xml' => '<html><body><xml> Some Context </xml></body></html>',
                     '/_xsl' => '<xml>Some XLS Content</xml>'
-                ),
-                array(
+                ],
+                [
                     'pageheight' => '29.7mm',
                     'pagewidth' => '21.0mm',
                     'backgroundimage' => '[BACKGROUND_IMAGE]',
                     'marginbody' => '1cm 2cm 3cm 4cm'
-                )
+                ]
             )
             ->willReturn('Something Processed');
 

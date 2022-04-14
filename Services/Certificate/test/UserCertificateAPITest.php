@@ -40,16 +40,16 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
             'breakdanceMcFunkyPants',
             'iliyas@ilias.de',
             'breakdance@funky.de',
-            array(3000)
+            [3000]
         );
 
         $repository->method('getUserData')
-                   ->willReturn(array(5 => $userData));
+                   ->willReturn([5 => $userData]);
 
         $api = new \Certificate\API\UserCertificateAPI($repository);
 
-        $result = $api->getUserCertificateData(new \Certificate\API\Filter\UserDataFilter(), array());
+        $result = $api->getUserCertificateData(new \Certificate\API\Filter\UserDataFilter(), []);
 
-        $this->assertSame(array('5' => $userData), $result);
+        $this->assertSame(['5' => $userData], $result);
     }
 }

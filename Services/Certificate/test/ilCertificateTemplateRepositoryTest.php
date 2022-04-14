@@ -41,21 +41,21 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $database->method('insert')
             ->with(
                 'il_cert_template',
-                array(
-                    'id' => array('integer', 10),
-                    'obj_id' => array('integer', 100),
-                    'obj_type' => array('text', 'crs'),
-                    'certificate_content' => array('clob', '<xml>Some Content</xml>'),
-                    'certificate_hash' => array('text', md5('<xml>Some Content</xml>')),
-                    'template_values' => array('clob', '[]'),
-                    'version' => array('integer', 1),
-                    'ilias_version' => array('text', 'v5.4.0'),
-                    'created_timestamp' => array('integer', 123456789),
-                    'currently_active' => array('integer', true),
-                    'background_image_path' => array('text', '/some/where/background.jpg'),
-                    'deleted' => array('integer', 0),
-                    'thumbnail_image_path' => array('text', 'some/path/test.svg')
-                )
+                [
+                    'id' => ['integer', 10],
+                    'obj_id' => ['integer', 100],
+                    'obj_type' => ['text', 'crs'],
+                    'certificate_content' => ['clob', '<xml>Some Content</xml>'],
+                    'certificate_hash' => ['text', md5('<xml>Some Content</xml>')],
+                    'template_values' => ['clob', '[]'],
+                    'version' => ['integer', 1],
+                    'ilias_version' => ['text', 'v5.4.0'],
+                    'created_timestamp' => ['integer', 123456789],
+                    'currently_active' => ['integer', true],
+                    'background_image_path' => ['text', '/some/where/background.jpg'],
+                    'deleted' => ['integer', 0],
+                    'thumbnail_image_path' => ['text', 'some/path/test.svg']
+                ]
             );
 
         $logger->expects($this->atLeastOnce())
@@ -90,7 +90,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
         $database->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
-                array(
+                [
                     'id' => 1,
                     'obj_id' => 10,
                     'obj_type' => 'crs',
@@ -103,8 +103,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
-                ),
-                array(
+                ],
+                [
                     'id' => 30,
                     'obj_id' => 10,
                     'obj_type' => 'tst',
@@ -117,7 +117,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
-                )
+                ]
             );
 
         $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
@@ -144,7 +144,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
         $database->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
-                array(
+                [
                     'id' => 1,
                     'obj_id' => 10,
                     'obj_type' => 'crs',
@@ -157,8 +157,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
-                ),
-                array(
+                ],
+                [
                     'id' => 30,
                     'obj_id' => 10,
                     'obj_type' => 'tst',
@@ -171,7 +171,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
-                )
+                ]
             );
 
         $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
@@ -199,7 +199,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
         $database->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
-                array(
+                [
                     'id' => 1,
                     'obj_id' => 10,
                     'obj_type' => 'crs',
@@ -212,8 +212,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
-                ),
-                array(
+                ],
+                [
                     'id' => 30,
                     'obj_id' => 10,
                     'obj_type' => 'tst',
@@ -226,7 +226,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
-                )
+                ]
             );
 
         $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
@@ -254,7 +254,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $database->method('quote')
-            ->withConsecutive(array(10, 'integer'), array(200, 'integer'))
+            ->withConsecutive([10, 'integer'], [200, 'integer'])
             ->willReturnOnConsecutiveCalls('10', '200');
 
         $database->method('query')
@@ -283,11 +283,11 @@ AND obj_id = 200');
             ->getMock();
 
         $database->method('quote')
-            ->withConsecutive(array(10, 'integer'), array(30, 'integer'))
+            ->withConsecutive([10, 'integer'], [30, 'integer'])
             ->willReturnOnConsecutiveCalls('10', '30');
 
         $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-            array(
+            [
                 'id' => 1,
                 'obj_id' => 10,
                 'obj_type' => 'crs',
@@ -300,8 +300,8 @@ AND obj_id = 200');
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => 'some/path/test.svg'
-            ),
-            array(
+            ],
+            [
                 'id' => 30,
                 'obj_id' => 10,
                 'obj_type' => 'tst',
@@ -314,15 +314,17 @@ AND obj_id = 200');
                 'currently_active' => false,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => 'some/path/test.svg'
-            )
+            ]
         );
 
         $database->method('query')
             ->withConsecutive(
-                array($this->anything()),
-                array('UPDATE il_cert_template
+                [$this->anything()],
+                [
+                    'UPDATE il_cert_template
 SET currently_active = 1
-WHERE id = 30')
+WHERE id = 30'
+                ]
             );
 
         $objectDataCache = $this->getMockBuilder(ilObjectDataCache::class)
@@ -351,7 +353,7 @@ WHERE id = 30')
             ->getMock();
 
         $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-            array(
+            [
                 'id' => 1,
                 'obj_id' => 10,
                 'obj_type' => 'crs',
@@ -364,8 +366,8 @@ WHERE id = 30')
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg'
-            ),
-            array(
+            ],
+            [
                 'id' => 30,
                 'obj_id' => 30,
                 'obj_type' => 'crs',
@@ -378,7 +380,7 @@ WHERE id = 30')
                 'currently_active' => false,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg'
-            )
+            ]
         );
 
         $repository = new ilCertificateTemplateDatabaseRepository($database, $logger, $objectDataCache);
@@ -394,7 +396,7 @@ WHERE id = 30')
      */
     public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved() : void
     {
-        $this->expectException(\ilException::class);
+        $this->expectException(ilException::class);
 
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -411,10 +413,10 @@ WHERE id = 30')
             ->getMock();
 
         $database->method('fetchAssoc')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $database->method('fetchAssoc')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $repository = new ilCertificateTemplateDatabaseRepository($database, $logger, $objectDataCache);
 
@@ -440,10 +442,10 @@ WHERE id = 30')
             ->getMock();
 
         $database->method('fetchAssoc')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $database->method('fetchAssoc')->willReturn(
-            array(
+            [
                 'id' => 1,
                 'obj_id' => 10,
                 'obj_type' => 'crs',
@@ -455,7 +457,7 @@ WHERE id = 30')
                 'created_timestamp' => 123456789,
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg'
-            )
+            ]
         );
 
         $repository = new ilCertificateTemplateDatabaseRepository($database, $logger, $objectDataCache);

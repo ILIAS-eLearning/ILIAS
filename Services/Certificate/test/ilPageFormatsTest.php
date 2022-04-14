@@ -30,13 +30,13 @@ class ilPageFormatsTest extends ilCertificateBaseTestCase
 
         $languageMock->method('txt')
             ->withConsecutive(
-                array('certificate_a4'),
-                array('certificate_a4_landscape'),
-                array('certificate_a5'),
-                array('certificate_a5_landscape'),
-                array('certificate_letter'),
-                array('certificate_letter_landscape'),
-                array('certificate_custom')
+                ['certificate_a4'],
+                ['certificate_a4_landscape'],
+                ['certificate_a5'],
+                ['certificate_a5_landscape'],
+                ['certificate_letter'],
+                ['certificate_letter_landscape'],
+                ['certificate_custom']
             )
             ->willReturn('Some Translation');
 

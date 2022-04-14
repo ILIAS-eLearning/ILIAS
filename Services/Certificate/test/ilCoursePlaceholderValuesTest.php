@@ -28,14 +28,14 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $customUserFieldsPlaceholderValues->method('getPlaceholderValues')
-                                 ->willReturn(array());
+                                 ->willReturn([]);
 
         $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
              ->disableOriginalConstructor()
              ->getMock();
 
         $defaultPlaceholderValues->method('getPlaceholderValues')
-             ->willReturn(array());
+             ->willReturn([]);
 
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -91,11 +91,11 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
         $placeholderValues = $valuesObject->getPlaceholderValues(100, 200);
 
         $this->assertEquals(
-            array(
+            [
                 'COURSE_TITLE' => 'Some Title',
                 'DATE_COMPLETED' => '2018-09-10',
                 'DATETIME_COMPLETED' => '2018-09-10 10:32:00'
-            ),
+            ],
             $placeholderValues
         );
     }
@@ -108,10 +108,10 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $customUserFieldsPlaceholderValues->method('getPlaceholderValuesForPreview')
              ->willReturn(
-                 array(
+                 [
                      'SOME_PLACEHOLDER' => 'ANYTHING',
                      'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
-                 )
+                 ]
              );
 
         $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
@@ -120,10 +120,10 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $defaultPlaceholderValues->method('getPlaceholderValuesForPreview')
             ->willReturn(
-                array(
+                [
                     'SOME_PLACEHOLDER' => 'ANYTHING',
                     'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
-                )
+                ]
             );
 
         $language = $this->getMockBuilder(ilLanguage::class)
@@ -169,11 +169,11 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
         $placeholderValues = $valuesObject->getPlaceholderValuesForPreview(100, 10);
 
         $this->assertSame(
-            array(
+            [
                 'SOME_PLACEHOLDER' => 'ANYTHING',
                 'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
                 'COURSE_TITLE' => 'SomeTitle'
-            ),
+            ],
             $placeholderValues
         );
     }

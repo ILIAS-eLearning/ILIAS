@@ -32,7 +32,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $formFields = $parser->fetchDefaultFormFields($content);
 
         $this->assertSame(
-            array(
+            [
                 'pageformat' => 'a4',
                 'pagewidth' => '21cm',
                 'pageheight' => '29.7cm',
@@ -41,7 +41,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
                 'margin_body_bottom' => '0cm',
                 'margin_body_left' => '2cm',
                 'certificate_text' => ''
-            ),
+            ],
             $formFields
         );
     }
@@ -61,7 +61,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $formFields = $parser->fetchDefaultFormFields($content);
 
         $this->assertSame(
-            array(
+            [
                 'pageformat' => 'custom',
                 'pagewidth' => '210mm',
                 'pageheight' => '310mm',
@@ -70,7 +70,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
                 'margin_body_bottom' => '3cm',
                 'margin_body_left' => '4cm',
                 'certificate_text' => ''
-            ),
+            ],
             $formFields
         );
     }
@@ -90,7 +90,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $formFields = $parser->fetchDefaultFormFields($content);
 
         $this->assertSame(
-            array(
+            [
                 'pageformat' => 'a5',
                 'pagewidth' => '14.8cm',
                 'pageheight' => '21cm',
@@ -99,7 +99,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
                 'margin_body_bottom' => '3cm',
                 'margin_body_left' => '4cm',
                 'certificate_text' => ''
-            ),
+            ],
             $formFields
         );
     }
@@ -119,7 +119,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $formFields = $parser->fetchDefaultFormFields($content);
 
         $this->assertSame(
-            array(
+            [
                 'pageformat' => 'a5landscape',
                 'pagewidth' => '21cm',
                 'pageheight' => '14.8cm',
@@ -128,7 +128,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
                 'margin_body_bottom' => '3cm',
                 'margin_body_left' => '4cm',
                 'certificate_text' => ''
-            ),
+            ],
             $formFields
         );
     }
@@ -148,7 +148,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $formFields = $parser->fetchDefaultFormFields($content);
 
         $this->assertSame(
-            array(
+            [
                 'pageformat' => 'a4landscape',
                 'pagewidth' => '29.7cm',
                 'pageheight' => '21cm',
@@ -157,7 +157,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
                 'margin_body_bottom' => '3cm',
                 'margin_body_left' => '4cm',
                 'certificate_text' => ''
-            ),
+            ],
             $formFields
         );
     }
@@ -177,7 +177,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $formFields = $parser->fetchDefaultFormFields($content);
 
         $this->assertSame(
-            array(
+            [
                 'pageformat' => 'letterlandscape',
                 'pagewidth' => '11in',
                 'pageheight' => '8.5in',
@@ -186,7 +186,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
                 'margin_body_bottom' => '3cm',
                 'margin_body_left' => '4cm',
                 'certificate_text' => ''
-            ),
+            ],
             $formFields
         );
     }
@@ -206,7 +206,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         $formFields = $parser->fetchDefaultFormFields($content);
 
         $this->assertSame(
-            array(
+            [
                 'pageformat' => 'letter',
                 'pagewidth' => '8.5in',
                 'pageheight' => '11in',
@@ -215,7 +215,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
                 'margin_body_bottom' => '3cm',
                 'margin_body_left' => '4cm',
                 'certificate_text' => ''
-            ),
+            ],
             $formFields
         );
     }

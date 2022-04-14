@@ -19,7 +19,6 @@
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;

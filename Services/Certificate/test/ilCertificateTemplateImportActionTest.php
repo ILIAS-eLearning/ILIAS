@@ -58,16 +58,16 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $utilHelper
             ->method('getDir')
-            ->willReturn(array(
-                array(
+            ->willReturn([
+                [
                     'type' => 'file',
                     'entry' => 'background.jpg'
-                ),
-                array(
+                ],
+                [
                     'type' => 'file',
                     'entry' => 'certificate.xml'
-                )
-            ));
+                ]
+            ]);
 
         $utilHelper
             ->expects($this->once())
@@ -138,12 +138,12 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $utilHelper
             ->method('getDir')
-            ->willReturn(array(
-                array(
+            ->willReturn([
+                [
                     'type' => 'file',
                     'entry' => 'certificate.xml'
-                )
-            ));
+                ]
+            ]);
 
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -207,7 +207,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $utilHelper
             ->method('getDir')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()

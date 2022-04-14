@@ -31,23 +31,23 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $database->method('insert')->with(
             'il_cert_user_cert',
-            array(
-                'id' => array('integer', 141),
-                'pattern_certificate_id' => array('integer', 1),
-                'obj_id' => array('integer', 20),
-                'obj_type' => array('text',  'crs'),
-                'user_id' => array('integer', 400),
-                'user_name' => array('text', 'Niels Theen'),
-                'acquired_timestamp' => array('integer', 123456789),
-                'certificate_content' => array('clob', '<xml>Some Content</xml>'),
-                'template_values' => array('clob', '[]'),
-                'valid_until' => array('integer', null),
-                'version' => array('integer', 1),
-                'ilias_version' => array('text', 'v5.4.0'),
-                'currently_active' => array('integer', true),
-                'background_image_path' => array('text', '/some/where/background.jpg'),
-                'thumbnail_image_path' => array('text', '/some/where/thumbnail.svg'),
-            )
+            [
+                'id' => ['integer', 141],
+                'pattern_certificate_id' => ['integer', 1],
+                'obj_id' => ['integer', 20],
+                'obj_type' => ['text',  'crs'],
+                'user_id' => ['integer', 400],
+                'user_name' => ['text', 'Niels Theen'],
+                'acquired_timestamp' => ['integer', 123456789],
+                'certificate_content' => ['clob', '<xml>Some Content</xml>'],
+                'template_values' => ['clob', '[]'],
+                'valid_until' => ['integer', null],
+                'version' => ['integer', 1],
+                'ilias_version' => ['text', 'v5.4.0'],
+                'currently_active' => ['integer', true],
+                'background_image_path' => ['text', '/some/where/background.jpg'],
+                'thumbnail_image_path' => ['text', '/some/where/thumbnail.svg'],
+            ]
         );
 
         $logger = $this->getMockBuilder(ilLogger::class)
@@ -92,7 +92,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->willReturn(141);
 
         $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-            array(
+            [
                 'id' => 141,
                 'pattern_certificate_id' => 1,
                 'obj_id' => 20,
@@ -109,8 +109,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
                 'title' => 'Some Title'
-            ),
-            array(
+            ],
+            [
                 'id' => 142,
                 'pattern_certificate_id' => 5,
                 'obj_id' => 3123,
@@ -127,7 +127,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
                 'title' => 'Someother Title'
-            )
+            ]
         );
 
         $logger = $this->getMockBuilder(ilLogger::class)
@@ -158,7 +158,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->willReturn(141);
 
         $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-            array(
+            [
                 'id' => 141,
                 'pattern_certificate_id' => 1,
                 'obj_id' => 20,
@@ -174,8 +174,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
-            ),
-            array(
+            ],
+            [
                 'id' => 142,
                 'pattern_certificate_id' => 5,
                 'obj_id' => 20,
@@ -191,7 +191,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'currently_active' => true,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
-            )
+            ]
         );
 
         $logger = $this->getMockBuilder(ilLogger::class)
@@ -217,7 +217,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
      */
     public function testFetchNoActiveCertificateLeadsToException() : void
     {
-        $this->expectException(\ilException::class);
+        $this->expectException(ilException::class);
 
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
@@ -225,7 +225,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $database->method('nextId')
             ->willReturn(141);
 
-        $database->method('fetchAssoc')->willReturn(array());
+        $database->method('fetchAssoc')->willReturn([]);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -250,7 +250,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->willReturn(141);
 
         $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-            array(
+            [
                 'id' => 141,
                 'pattern_certificate_id' => 1,
                 'obj_id' => 20,
@@ -268,8 +268,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
                 'someDescription' => 'SomeDescription'
-            ),
-            array(
+            ],
+            [
                 'id' => 142,
                 'pattern_certificate_id' => 5,
                 'obj_id' => 20,
@@ -287,7 +287,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
                 'someDescription' => 'SomeDescription'
-            )
+            ]
         );
 
         $logger = $this->getMockBuilder(ilLogger::class)
@@ -314,7 +314,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->willReturn(141);
 
         $database->method('fetchAssoc')->willReturn(
-            array(
+            [
                 'id' => 141,
                 'pattern_certificate_id' => 1,
                 'obj_id' => 20,
@@ -332,7 +332,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'thumbnail_image_path' => '/some/where/else/thumbnail.svg',
                 'title' => 'SomeTitle',
                 'someDescription' => 'SomeDescription'
-            )
+            ]
         );
 
         $logger = $this->getMockBuilder(ilLogger::class)
@@ -351,7 +351,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testNoCertificateInFetchtCertificateLeadsToException() : void
     {
-        $this->expectException(\ilException::class);
+        $this->expectException(ilException::class);
 
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
@@ -360,7 +360,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->willReturn(141);
 
         $database->method('fetchAssoc')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -393,13 +393,13 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->expects($this->exactly(3))
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
-                array('obj_id' => 100),
-                array('obj_id' => 300),
-                array()
+                ['obj_id' => 100],
+                ['obj_id' => 300],
+                []
             );
 
         $database->method('fetchAssoc')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -411,11 +411,11 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $repository = new ilUserCertificateRepository($database, $logger, 'someTitle');
 
         $userId = 10;
-        $objectIds = array(200, 300, 400);
+        $objectIds = [200, 300, 400];
 
         $results = $repository->fetchObjectIdsWithCertificateForUser($userId, $objectIds);
 
-        $this->assertSame(array(100, 300), $results);
+        $this->assertSame([100, 300], $results);
     }
 
     public function testFetchUserIdsWithCertificateForObject() : void
@@ -431,13 +431,13 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             ->expects($this->exactly(3))
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
-                array('user_id' => 100),
-                array('user_id' => 300),
-                array()
+                ['user_id' => 100],
+                ['user_id' => 300],
+                []
             );
 
         $database->method('fetchAssoc')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -452,6 +452,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $results = $repository->fetchUserIdsWithCertificateForObject($objectId);
 
-        $this->assertSame(array(100, 300), $results);
+        $this->assertSame([100, 300], $results);
     }
 }

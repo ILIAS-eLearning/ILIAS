@@ -73,10 +73,10 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
         );
 
         $repository->save(
-            array(
+            [
                 'certificate_enabled_scorm' => true,
                 'short_name' => 'something'
-            )
+            ]
         );
     }
 
@@ -114,10 +114,10 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
             ->expects($this->once())
             ->method('fetchFormFieldData')
             ->willReturn(
-                array(
+                [
                     'certificate_enabled_scorm' => '',
                     'short_name' => ''
-                )
+                ]
             );
 
         $setting = $this->getMockBuilder(ilSetting::class)
@@ -145,10 +145,10 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
         $result = $repository->fetchFormFieldData('Some Content');
 
         $this->assertSame(
-            array(
+            [
                 'certificate_enabled_scorm' => 'something',
                 'short_name' => 'somethingelse'
-            ),
+            ],
             $result
         );
     }

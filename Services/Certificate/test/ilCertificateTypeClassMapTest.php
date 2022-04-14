@@ -58,7 +58,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
 
     public function testFetchUnknownClassWillResultInException() : void
     {
-        $this->expectException(\ilException::class);
+        $this->expectException(ilException::class);
 
         $class = $this->classMap->getPlaceHolderClassNameByType('something');
 

@@ -30,7 +30,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 {
     private int $objectId;
     private ilLanguage $language;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilAccess $access;
     private ilToolbarGUI $toolbar;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
@@ -48,7 +48,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,

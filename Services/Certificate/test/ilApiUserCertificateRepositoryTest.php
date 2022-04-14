@@ -60,7 +60,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->database
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
-                array(
+                [
                     'id' => 5,
                     'title' => 'test',
                     'obj_id' => 100,
@@ -72,8 +72,8 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                     'login' => 'breakdanceMcFunkyPants',
                     'email' => 'ilyas@ilias.de',
                     'second_email' => 'breakdance@funky.de'
-                ),
-                array(
+                ],
+                [
                     'id' => 5,
                     'title' => 'test',
                     'obj_id' => 100,
@@ -85,7 +85,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                     'login' => 'breakdanceMcFunkyPants',
                     'email' => 'ilyas@ilias.de',
                     'second_email' => 'breakdance@funky.de'
-                )
+                ]
             );
 
         $this->controller->method('getLinkTargetByClass')->willReturn('somewhere.php?goto=4');
@@ -98,14 +98,14 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         );
 
         /** @var array<int, \Certificate\API\Data\UserCertificateDto> $userData */
-        $userData = $repository->getUserData($filter, array('something'));
+        $userData = $repository->getUserData($filter, ['something']);
 
         /** @var \Certificate\API\Data\UserCertificateDto $object */
         $object = $userData[5];
         $this->assertSame('test', $object->getObjectTitle());
         $this->assertSame(5, $object->getCertificateId());
         $this->assertSame(100, $object->getObjectId());
-        $this->assertSame(array(5000, 6000), $object->getObjectRefIds());
+        $this->assertSame([5000, 6000], $object->getObjectRefIds());
         $this->assertSame(1234567890, $object->getIssuedOnTimestamp());
         $this->assertSame(2000, $object->getUserId());
         $this->assertSame('ilyas', $object->getUserFirstName());

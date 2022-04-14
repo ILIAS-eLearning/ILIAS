@@ -140,10 +140,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userDefinePlaceholderMock->method('getPlaceholderValues')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeHolderObject = new ilDefaultPlaceholderValues(
             $objectHelper,
@@ -158,7 +158,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $result = $placeHolderObject->getPlaceholderValues(100, 200);
 
         $this->assertEquals(
-            array(
+            [
                 'USER_LOGIN' => 'a_login',
                 'USER_FULLNAME' => 'Niels Theen',
                 'USER_FIRSTNAME' => 'Niels',
@@ -177,7 +177,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'DATETIME_COMPLETED' => '',
                 'DATE' => '2018-09-10',
                 'DATETIME' => '2018-09-10 12:01:33'
-            ),
+            ],
             $result
         );
     }
@@ -216,10 +216,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userDefinePlaceholderMock->method('getPlaceholderValues')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeHolderObject = new ilDefaultPlaceholderValues(
             $objectHelper,
@@ -237,7 +237,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         );
 
         $this->assertSame(
-            array(
+            [
                 'USER_LOGIN' => 'Something',
                 'USER_FULLNAME' => 'Something',
                 'USER_FIRSTNAME' => 'Something',
@@ -256,7 +256,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'DATETIME' => '2018-09-09 14:00:30',
                 'DATE_COMPLETED' => '2018-09-09',
                 'DATETIME_COMPLETED' => '2018-09-09 14:00:30'
-            ),
+            ],
             $result
         );
     }

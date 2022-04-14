@@ -28,11 +28,11 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
-            ->willReturn(array(1, 2, 3));
+            ->willReturn([1, 2, 3]);
 
         $preloader = new ilCertificateObjectsForUserPreloader($userCertificateRepository);
 
-        $preloader->preLoad(100, array(500, 200));
+        $preloader->preLoad(100, [500, 200]);
 
         $result = $preloader->isPreloaded(100, 1);
 
@@ -46,11 +46,11 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
-            ->willReturn(array(1, 2, 3));
+            ->willReturn([1, 2, 3]);
 
         $preloader = new ilCertificateObjectsForUserPreloader($userCertificateRepository);
 
-        $preloader->preLoad(100, array(500, 200));
+        $preloader->preLoad(100, [500, 200]);
 
         $result = $preloader->isPreloaded(100, 5);
 
@@ -64,11 +64,11 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userCertificateRepository->method('fetchObjectIdsWithCertificateForUser')
-            ->willReturn(array(1, 2, 3));
+            ->willReturn([1, 2, 3]);
 
         $preloader = new ilCertificateObjectsForUserPreloader($userCertificateRepository);
 
-        $preloader->preLoad(100, array(500, 200));
+        $preloader->preLoad(100, [500, 200]);
 
         $result = $preloader->isPreloaded(200, 1);
 

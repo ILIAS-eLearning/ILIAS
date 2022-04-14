@@ -26,7 +26,7 @@ use ILIAS\DI\Container;
 class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
     private ilUserCertificateRepository $userCertificateRepository;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilSetting $certificateSettings;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
@@ -39,7 +39,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         ?ilTemplate $template = null,
         ?Container $dic = null,
         ?ilUserCertificateRepository $userCertificateRepository = null,
-        ?ilCtrl $ctrl = null,
+        ?ilCtrlInterface $ctrl = null,
         ?ilSetting $certificateSettings = null,
         ?Factory $uiFactory = null,
         ?Renderer $uiRenderer = null,

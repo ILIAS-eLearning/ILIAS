@@ -110,7 +110,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 
         $userCertificateRepository->method('fetchActiveCertificatesInIntervalForPresentation')
             ->willReturn(
-                array(
+                [
                     new ilUserCertificatePresentation(
                         200,
                         'crs',
@@ -157,7 +157,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                         'Test Title',
                         'Test Description'
                     )
-                )
+                ]
             );
 
         $controller = $this->getMockBuilder(ilCtrl::class)
@@ -198,8 +198,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 
         $link->method('standard')
             ->withConsecutive(
-                array('Course Title', '<a href> </a>'),
-                array('Test Title', '<a href> </a>')
+                ['Course Title', '<a href> </a>'],
+                ['Test Title', '<a href> </a>']
             )
             ->willReturn($std_link);
 
@@ -235,7 +235,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             $utilHelper
         );
 
-        $expectedEntries = array(
+        $expectedEntries = [
             new ilLearningHistoryEntry(
                 'Certificate for link achieved.',
                 'Certificate for link achieved.',
@@ -249,7 +249,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                 '/some/acutal/image/path/background.png',
                 987654321,
                 500
-            ),);
+            ),
+        ];
 
         $actualEntries = $provider->getEntries(123456789, 987654321);
         $this->assertEquals($expectedEntries, $actualEntries);

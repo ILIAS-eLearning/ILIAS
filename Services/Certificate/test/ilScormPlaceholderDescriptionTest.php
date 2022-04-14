@@ -50,7 +50,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $collectionInstance->method('getPossibleItems')
-            ->willReturn(array(0 => array('title' => 'Some SCORM Title')));
+            ->willReturn([0 => ['title' => 'Some SCORM Title']]);
 
         $learningProgressMock->method('getCollectionInstance')
             ->willReturn($collectionInstance);
@@ -63,7 +63,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->willReturn('');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeholderDescriptionObject = new ilScormPlaceholderDescription(
             $objectMock,
@@ -107,7 +107,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->willReturn('');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeholderDescriptionObject = new ilScormPlaceholderDescription(
             $objectMock,
@@ -120,7 +120,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
         $this->assertSame(
-            array(
+            [
                 'USER_LOGIN' => 'Something translated',
                 'USER_FULLNAME' => 'Something translated',
                 'USER_FIRSTNAME' => 'Something translated',
@@ -142,7 +142,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
                 'SCORM_POINTS_MAX' => 'Something translated',
                 'DATE_COMPLETED' => 'Something translated',
                 'DATETIME_COMPLETED' => 'Something translated'
-            ),
+            ],
             $placeHolders
         );
     }

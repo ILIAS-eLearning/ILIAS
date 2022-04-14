@@ -99,12 +99,12 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
         $result = $placeHolderObject->getPlaceholderValues(100, 200);
 
         $this->assertSame(
-            array(
+            [
                 'RESULT_MARK' => 'Some Formatted Output',
                 'EXERCISE_TITLE' => 'Some Formatted Output',
                 'DATE_COMPLETED' => '2018-09-10',
                 'DATETIME_COMPLETED' => '2018-09-10 12:01:33'
-            ),
+            ],
             $result
         );
     }
@@ -158,7 +158,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
         $defaultPlaceholders
             ->expects($this->atLeastOnce())
             ->method('getPlaceholderValuesForPreview')
-            ->willReturn(array('SOME_PLACEHOLDER' => 'something'));
+            ->willReturn(['SOME_PLACEHOLDER' => 'something']);
 
         $placeHolderObject = new ilExercisePlaceholderValues(
             $defaultPlaceholders,
@@ -174,12 +174,12 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
         $result = $placeHolderObject->getPlaceholderValuesForPreview(100, 10);
 
         $this->assertEquals(
-            array(
+            [
                 'SOME_PLACEHOLDER' => 'something',
                 'RESULT_PASSED' => 'Something',
                 'EXERCISE_TITLE' => 'SomeTitle',
                 'RESULT_MARK' => 'Something'
-            ),
+            ],
             $result
         );
     }

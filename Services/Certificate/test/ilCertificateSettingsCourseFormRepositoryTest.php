@@ -111,7 +111,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             $setting
         );
 
-        $repository->save(array('subitems' => array(1, 2, 3)));
+        $repository->save(['subitems' => [1, 2, 3]]);
     }
 
     public function testFetchFormFieldData() : void
@@ -157,10 +157,10 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->expects($this->atLeastOnce())
             ->method('fetchFormFieldData')
             ->willReturn(
-                array(
-                    'subitems' => array(),
+                [
+                    'subitems' => [],
                     'something_else' => 'something'
-                )
+                ]
             );
 
         $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
@@ -209,10 +209,10 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
         $result = $repository->fetchFormFieldData('Some Content');
 
         $this->assertSame(
-            array(
-                'subitems' => array(1, 2, 3),
+            [
+                'subitems' => [1, 2, 3],
                 'something_else' => 'something'
-            ),
+            ],
             $result
         );
     }

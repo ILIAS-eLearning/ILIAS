@@ -44,7 +44,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 
         $templateRepository->method('fetchCertificateTemplatesByObjId')
             ->willReturn(
-                array(
+                [
                     new ilCertificateTemplate(
                         10,
                         'crs',
@@ -87,7 +87,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '/some/where/card_thumb.jpg',
                         null
                     )
-                )
+                ]
             );
 
         $templateRepository

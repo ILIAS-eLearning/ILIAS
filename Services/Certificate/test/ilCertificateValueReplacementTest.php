@@ -25,7 +25,7 @@ class ilCertificateValueReplacementTest extends ilCertificateBaseTestCase
     {
         $replacement = new ilCertificateValueReplacement();
 
-        $placeholderValues = array('NAME' => 'Peter', 'PRIZE' => 'a fantastic prize');
+        $placeholderValues = ['NAME' => 'Peter', 'PRIZE' => 'a fantastic prize'];
 
         $certificateContent = '<xml> 
 [BACKGROUND_IMAGE]
@@ -46,7 +46,7 @@ Hurray Peter you have received a fantastic prize
     {
         $replacement = new ilCertificateValueReplacement();
 
-        $placeholderValues = array('NAME' => 'Peter', 'PRIZE' => 'a fantastic prize');
+        $placeholderValues = ['NAME' => 'Peter', 'PRIZE' => 'a fantastic prize'];
 
         $certificateContent = '<xml> 
 [BACKGROUND_IMAGE]

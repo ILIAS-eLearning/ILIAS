@@ -27,7 +27,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
-                array(
+                [
                     new ilCertificateTemplate(
                         5,
                         'crs',
@@ -56,7 +56,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '/some/where/thumbnail.svg',
                         5
                     ),
-                )
+                ]
             );
 
         $setting = $this->getMockBuilder(ilSetting::class)
@@ -66,8 +66,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $setting
             ->method('get')
             ->withConsecutive(
-                array('cert_subitems_5'),
-                array('cert_subitems_6')
+                ['cert_subitems_5'],
+                ['cert_subitems_6']
             )
             ->willReturnOnConsecutiveCalls(
                 '[10,20]',
@@ -79,10 +79,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $objectHelper->method('lookupObjId')
             ->withConsecutive(
-                array(10),
-                array(20),
-                array(10),
-                array(50)
+                [10],
+                [20],
+                [10],
+                [50]
             )
             ->willReturnOnConsecutiveCalls(100, 200, 100, 500);
 
@@ -91,10 +91,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $statusHelper->method('lookUpStatus')
             ->withConsecutive(
-                array(100),
-                array(200),
-                array(100),
-                array(500)
+                [100],
+                [200],
+                [100],
+                [500]
             )
             ->willReturnOnConsecutiveCalls(
                 ilLPStatus::LP_STATUS_COMPLETED_NUM,
@@ -126,7 +126,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
-                array(
+                [
                     new ilCertificateTemplate(
                         5,
                         'crs',
@@ -155,7 +155,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '/some/where/thumbnail.svg',
                         5
                     ),
-                )
+                ]
             );
 
         $setting = $this->getMockBuilder(ilSetting::class)
@@ -165,8 +165,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $setting
             ->method('get')
             ->withConsecutive(
-                array('cert_subitems_5'),
-                array('cert_subitems_6')
+                ['cert_subitems_5'],
+                ['cert_subitems_6']
             )
             ->willReturnOnConsecutiveCalls(
                 '[10,20]',
@@ -178,10 +178,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $objectHelper->method('lookupObjId')
             ->withConsecutive(
-                array(10),
-                array(20),
-                array(10),
-                array(500)
+                [10],
+                [20],
+                [10],
+                [500]
             )
             ->willReturnOnConsecutiveCalls(100, 200, 100, 500);
 
@@ -190,10 +190,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $statusHelper->method('lookUpStatus')
             ->withConsecutive(
-                array(100),
-                array(200),
-                array(100),
-                array(500)
+                [100],
+                [200],
+                [100],
+                [500]
             )
             ->willReturnOnConsecutiveCalls(
                 ilLPStatus::LP_STATUS_COMPLETED_NUM,
@@ -226,7 +226,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
-                array(
+                [
                     new ilCertificateTemplate(
                         5,
                         'crs',
@@ -255,7 +255,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '/some/where/thumbnail.svg',
                         5
                     ),
-                )
+                ]
             );
 
         $setting = $this->getMockBuilder(ilSetting::class)
@@ -265,8 +265,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $setting
             ->method('get')
             ->withConsecutive(
-                array('cert_subitems_5'),
-                array('cert_subitems_6')
+                ['cert_subitems_5'],
+                ['cert_subitems_6']
             )
             ->willReturnOnConsecutiveCalls(
                 null,
@@ -293,7 +293,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $completedCourses = $evaluation->evaluate(10, 200);
 
-        $this->assertSame(array(), $completedCourses);
+        $this->assertSame([], $completedCourses);
     }
     
     public function globalLearningProgressStateProvder() : array

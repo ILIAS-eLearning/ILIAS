@@ -130,7 +130,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             $settingsFormFactory
         );
 
-        $repository->save(array(1, 2, 3));
+        $repository->save([1, 2, 3]);
     }
 
     public function testFormFieldData() : void
@@ -170,7 +170,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $settingsFormFactory
             ->expects($this->once())
             ->method('fetchFormFieldData')
-            ->willReturn(array('something' => 'value'));
+            ->willReturn(['something' => 'value']);
 
         $repository = new ilCertificateSettingsExerciseRepository(
             $object,
@@ -186,6 +186,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
 
         $result = $repository->fetchFormFieldData('SomeContent');
 
-        $this->assertSame(array('something' => 'value'), $result);
+        $this->assertSame(['something' => 'value'], $result);
     }
 }

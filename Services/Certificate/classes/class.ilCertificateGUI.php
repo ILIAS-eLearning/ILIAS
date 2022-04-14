@@ -25,7 +25,6 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
 
 /**
  * GUI class to create PDF certificates
@@ -40,7 +39,7 @@ class ilCertificateGUI
     private Filesystem $fileSystem;
     private WrapperFactory $httpWrapper;
     private Factory $refinery;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilTree $tree;
     protected ILIAS $ilias;
     protected ilGlobalPageTemplate $tpl;

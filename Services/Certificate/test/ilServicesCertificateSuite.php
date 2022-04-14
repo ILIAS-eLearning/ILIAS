@@ -33,21 +33,21 @@ class ilServicesCertificateSuite extends TestSuite
     {
         $suite = new self();
 
-        $recursiveIteratorIterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::LEAVES_ONLY
+        $recursiveIteratorIterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::LEAVES_ONLY
         );
 
-        $regexIterator = new \RegExIterator($recursiveIteratorIterator, '/(?<!Base)Test\.php$/');
+        $regexIterator = new RegExIterator($recursiveIteratorIterator, '/(?<!Base)Test\.php$/');
 
         foreach ($regexIterator as $file) {
-            /** @var \SplFileInfo $file */
+            /** @var SplFileInfo $file */
             require_once $file->getPathname();
 
             $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
 
             if (class_exists($className)) {
-                $reflection = new \ReflectionClass($className);
+                $reflection = new ReflectionClass($className);
                 if (
                     !$reflection->isAbstract() &&
                     !$reflection->isInterface() &&

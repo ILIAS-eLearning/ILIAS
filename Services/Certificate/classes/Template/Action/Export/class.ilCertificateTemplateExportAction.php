@@ -20,7 +20,6 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
-use ILIAS\Filesystem\Visibility;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

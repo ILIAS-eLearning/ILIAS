@@ -40,7 +40,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,

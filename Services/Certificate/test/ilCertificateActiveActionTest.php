@@ -31,7 +31,7 @@ class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
 
         $databaseMock->expects($this->atLeastOnce())
             ->method('fetchAssoc')
-            ->willReturn(array(1, 2, 3));
+            ->willReturn([1, 2, 3]);
 
         $activateAction = new ilCertificateActiveAction($databaseMock);
         $result = $activateAction->isObjectActive(10);
@@ -50,7 +50,7 @@ class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
 
         $databaseMock->expects($this->atLeastOnce())
             ->method('fetchAssoc')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $activateAction = new ilCertificateActiveAction($databaseMock);
         $result = $activateAction->isObjectActive(10);

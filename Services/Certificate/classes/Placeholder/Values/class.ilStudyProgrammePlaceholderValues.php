@@ -98,7 +98,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         );
 
         if (!$latest_progress) {
-            throw new \ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
+            throw new ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
         }
 
         $type = $object->getSubType();
@@ -107,12 +107,12 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
         $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
         $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress->getCompletionDate() instanceof \DateTimeImmutable ? $latest_progress->getCompletionDate(
+            $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
             )->format('d.m.Y') : ''
         );
         $placeholders['PRG_EXPIRES_AT'] = ilLegacyFormElementsUtil::prepareFormOutput(
             $latest_progress->getValidityOfQualification(
-            ) instanceof \DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
+            ) instanceof DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
         );
         return $placeholders;
     }

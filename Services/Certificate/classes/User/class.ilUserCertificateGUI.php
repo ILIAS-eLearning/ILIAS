@@ -19,9 +19,7 @@
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\Filesystem\Filesystem;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use GuzzleHttp\Psr7\Request;
 
 /**
  * @ingroup           ServicesCertificate
@@ -31,7 +29,7 @@ use GuzzleHttp\Psr7\Request;
 class ilUserCertificateGUI
 {
     private ilGlobalTemplateInterface $template;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $language;
     private ilUserCertificateRepository $userCertificateRepository;
     private ilObjUser $user;
@@ -53,7 +51,7 @@ class ilUserCertificateGUI
 
     public function __construct(
         ?ilGlobalTemplateInterface $template = null,
-        ?ilCtrl $ctrl = null,
+        ?ilCtrlInterface $ctrl = null,
         ?ilLanguage $language = null,
         ?ilObjUser $user = null,
         ?ilUserCertificateRepository $userCertificateRepository = null,

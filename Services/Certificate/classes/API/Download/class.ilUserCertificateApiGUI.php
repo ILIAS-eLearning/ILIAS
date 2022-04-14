@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\RequestInterface;
 
 /**
  * @ingroup ServicesCertificate
@@ -29,13 +28,13 @@ class ilUserCertificateApiGUI
     private ilLogger $certificateLogger;
     private ServerRequestInterface $request;
     private ilLanguage $language;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
 
     public function __construct(
         ?ilLanguage $language = null,
         ?ServerRequestInterface $request = null,
         ?ilLogger $certificateLogger = null,
-        ?ilCtrl $ctrl = null
+        ?ilCtrlInterface $ctrl = null
     ) {
         global $DIC;
 

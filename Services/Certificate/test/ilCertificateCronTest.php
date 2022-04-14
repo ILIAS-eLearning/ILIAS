@@ -57,7 +57,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('language')
             ->willReturn($languageMock);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -181,7 +181,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -263,7 +263,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -345,7 +345,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -427,7 +427,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')
@@ -509,7 +509,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
         $dic->method('database')
             ->willReturn($database);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic
             ->method('offsetGet')

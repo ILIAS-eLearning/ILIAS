@@ -30,11 +30,11 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $placeholderValuesObject->method('getPlaceholderValuesForPreview')
-            ->willReturn(array(
+            ->willReturn([
                 'USER_LOGIN' => 'SomeLogin',
                 'USER_FULLNAME' => 'SomeFullName',
                 'USER_FIRSTNAME' => 'SomeFirstName'
-            ));
+            ]);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -77,13 +77,13 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 
         $definitionsMock->method('getDefinitions')
             ->willReturn(
-                array(
-                    'f_1' => array(
+                [
+                    'f_1' => [
                         'certificate' => true,
                         'field_id' => 100,
                         'field_name' => 'Some Field Name',
-                    )
-                )
+                    ]
+                ]
             );
 
         $userDefinedFieldsHelper->method('createInstance')

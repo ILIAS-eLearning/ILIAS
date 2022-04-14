@@ -46,17 +46,17 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $testObject->method('getTestResult')
             ->willReturn(
-                array(
-                    'test' => array(
+                [
+                    'test' => [
                         'passed' => true,
                         'total_max_points' => 70,
                         'total_reached_points' => 50
-                    )
-                )
+                    ]
+                ]
             );
 
         $testObject->method('getTestResult')
-            ->willReturn(array());
+            ->willReturn([]);
 
 
         $testObject->method('getTitle')
@@ -91,7 +91,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userObjectHelper->method('lookupFields')
-            ->willReturn(array('usr_id' => 10));
+            ->willReturn(['usr_id' => 10]);
 
         $lpStatusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
             ->getMock();
@@ -127,7 +127,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $result = $placeholdervalues->getPlaceholderValues(10, 200);
 
-        $this->assertSame(array(
+        $this->assertSame([
             'RESULT_PASSED' => 'Formatted Output',
             'RESULT_POINTS' => 'Formatted Output',
             'RESULT_PERCENT' => '71.43%',
@@ -138,7 +138,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
             'DATE_COMPLETED' => '2018-01-12',
             'DATETIME_COMPLETED' => '2018-01-12 10:32:01'
 
-        ), $result);
+        ], $result);
     }
 
     public function testGetPlaceholderValuesForPreview() : void
@@ -149,10 +149,10 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $defaultPlaceholderValues->method('getPlaceholderValuesForPreview')
             ->willReturn(
-                array(
+                [
                     'SOME_PLACEHOLDER' => 'something',
                     'SOME_OTHER_PLACEHOLDER' => 'something else',
-                )
+                ]
             );
 
         $language = $this->getMockBuilder(ilLanguage::class)
@@ -209,7 +209,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
         $result = $placeholdervalues->getPlaceholderValuesForPreview(100, 10);
 
         $this->assertSame(
-            array(
+            [
                 'SOME_PLACEHOLDER' => 'something',
                 'SOME_OTHER_PLACEHOLDER' => 'something else',
                 'RESULT_PASSED' => 'Something',
@@ -219,7 +219,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'RESULT_MARK_SHORT' => 'Something',
                 'RESULT_MARK_LONG' => 'Something',
                 'TEST_TITLE' => 'SomeTitle'
-            ),
+            ],
             $result
         );
     }

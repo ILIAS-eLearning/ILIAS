@@ -50,10 +50,10 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
                                             ->getMock();
 
         $customUserPlaceholderObject->method("getPlaceholderDescriptions")
-                                    ->willReturn(array(
+                                    ->willReturn([
                                         '+SOMETHING' => 'SOMEWHAT',
                                         '+SOMETHING_ELSE' => 'ANYTHING'
-                                    ));
+                                    ]);
 
         $customUserPlaceholderObject->method('createPlaceholderHtmlDescription')
                                   ->willReturn('');
@@ -82,10 +82,10 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $defaultPlaceholder->method('getPlaceholderDescriptions')
             ->willReturn(
-                array(
+                [
                     'SOMETHING' => 'SOMEWHAT',
                     'SOMETHING_ELSE' => 'ANYTHING'
-                )
+                ]
             );
 
         $customUserPlaceholderObject = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderDescription::class)
@@ -94,10 +94,10 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $customUserPlaceholderObject->method('getPlaceholderDescriptions')
             ->willReturn(
-                array(
+                [
                     '+SOMETHING' => 'SOMEWHAT',
                     '+SOMETHING_ELSE' => 'ANYTHING'
-                )
+                ]
             );
 
         $placeholderDescriptionObject = new ilCoursePlaceholderDescription(200, $defaultPlaceholder, $languageMock, null, $customUserPlaceholderObject);
@@ -105,7 +105,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
         $this->assertEquals(
-            array(
+            [
                 'COURSE_TITLE' => 'Something translated',
                 'SOMETHING' => 'SOMEWHAT',
                 'SOMETHING_ELSE' => 'ANYTHING',
@@ -113,7 +113,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
                 '+SOMETHING_ELSE' => 'ANYTHING',
                 'DATE_COMPLETED' => 'Something translated',
                 'DATETIME_COMPLETED' => 'Something translated'
-            ),
+            ],
             $placeHolders
         );
     }

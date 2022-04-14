@@ -40,7 +40,7 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->willReturn('');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $templateMock->method('get')
             ->willReturn('');
@@ -71,14 +71,14 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->willReturn('');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeholderDescriptionObject = new ilExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
         $this->assertSame(
-            array(
+            [
                 'USER_LOGIN' => 'Something translated',
                 'USER_FULLNAME' => 'Something translated',
                 'USER_FIRSTNAME' => 'Something translated',
@@ -100,7 +100,7 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
                 'EXERCISE_TITLE' => 'Something translated',
                 'DATE_COMPLETED' => 'Something translated',
                 'DATETIME_COMPLETED' => 'Something translated'
-            ),
+            ],
             $placeHolders
         );
     }

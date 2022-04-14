@@ -28,7 +28,7 @@ class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userCertificateRepository->method('fetchUserIdsWithCertificateForObject')
-            ->willReturn(array(1, 2, 3));
+            ->willReturn([1, 2, 3]);
 
         $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
@@ -53,7 +53,7 @@ class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userCertificateRepository->method('fetchUserIdsWithCertificateForObject')
-            ->willReturn(array(1, 2, 3));
+            ->willReturn([1, 2, 3]);
 
         $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
@@ -78,7 +78,7 @@ class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userCertificateRepository->method('fetchUserIdsWithCertificateForObject')
-            ->willReturn(array(1, 2, 3));
+            ->willReturn([1, 2, 3]);
 
         $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()

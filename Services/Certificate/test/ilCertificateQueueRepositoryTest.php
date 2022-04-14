@@ -46,15 +46,15 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
             ->method('insert')
             ->with(
                 'il_cert_cron_queue',
-                array(
-                    'id' => array('integer', 20),
-                    'obj_id' => array('integer', 10),
-                    'usr_id' => array('integer', 500),
-                    'adapter_class' => array('text', 'SomeClass'),
-                    'state' => array('text', 'SomeState'),
-                    'started_timestamp' => array('integer', $timestamp),
-                    'template_id' => array('integer', 10000)
-                )
+                [
+                    'id' => ['integer', 20],
+                    'obj_id' => ['integer', 10],
+                    'usr_id' => ['integer', 500],
+                    'adapter_class' => ['text', 'SomeClass'],
+                    'state' => ['text', 'SomeState'],
+                    'started_timestamp' => ['integer', $timestamp],
+                    'template_id' => ['integer', 10000]
+                ]
             );
 
         $repository = new ilCertificateQueueRepository($databaseMock, $loggerMock);
@@ -118,7 +118,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $databaseMock->expects($this->exactly(3))
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
-                array(
+                [
                     'id' => 10,
                     'obj_id' => 100,
                     'usr_id' => 5000,
@@ -126,8 +126,8 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'state' => 'SomeState',
                     'template_id' => 1000,
                     'started_timestamp' => 123456789
-                ),
-                array(
+                ],
+                [
                     'id' => 20,
                     'obj_id' => 100,
                     'usr_id' => 5000,
@@ -135,7 +135,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'state' => 'SomeState',
                     'template_id' => 1000,
                     'started_timestamp' => 123456789
-                )
+                ]
             );
 
         $repository = new ilCertificateQueueRepository($databaseMock, $loggerMock);
