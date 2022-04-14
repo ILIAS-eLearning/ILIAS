@@ -30,7 +30,7 @@ class ilNotifcationOSDTest extends ilNotificationsBaseTest
     private array $database;
     private array $result;
 
-    private function createDBFunctionCalls(int $insert = 0, int $queryF = 0, int $fetchAssoc = 0, int $manipulateF = 0)
+    private function createDBFunctionCalls(int $insert = 0, int $queryF = 0, int $fetchAssoc = 0, int $manipulateF = 0) : void
     {
         $this->database = [];
         $this->db->expects(self::exactly($insert))->method('nextId')->willReturnCallback(function (string $table) : int {
@@ -76,7 +76,7 @@ class ilNotifcationOSDTest extends ilNotificationsBaseTest
         });
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->db = $this->createMock(ilDBPdo::class);
         $this->handler = new \ILIAS\Notifications\ilNotificationOSDHandler(

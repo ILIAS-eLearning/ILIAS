@@ -97,7 +97,7 @@ class ilNotificationOSDRepository
         while ($row = $this->database->fetchAssoc($rset)) {
             $row['data'] = unserialize($row['serialized'], ['allowed_classes' => [ilNotificationObject::class, ilNotificationLink::class]]);
             unset($row['serialized']);
-            if (isset($row['data']->handlerParams['']) && isset($row['data']->handlerParams['osd'])) {
+            if (isset($row['data']->handlerParams[''], $row['data']->handlerParams['osd'])) {
                 $row['data']->handlerParams = ['general' => $row['data']->handlerParams[''], 'osd' => $row['data']->handlerParams['osd']];
             }
             $row['notification_osd_id'] = (int) $row['notification_osd_id'];
