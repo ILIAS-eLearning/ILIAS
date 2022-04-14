@@ -27,7 +27,7 @@ class ilXlsFoParser
         $this->pageFormats = $pageFormats;
 
         if (null === $xmlChecker) {
-            $xmlChecker = new ilXMLChecker();
+            $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
         }
         $this->xmlChecker = $xmlChecker;
 
@@ -66,10 +66,8 @@ class ilXlsFoParser
         $content = str_replace(["<p></p>", "&nbsp;"], ["<p class=\"emptyrow\"></p>", "&#160;"], $content);
         $content = preg_replace("//", "", $content);
 
-        $this->xmlChecker->setXMLContent($content);
-        $this->xmlChecker->startParsing();
-
-        if ($this->xmlChecker->hasError()) {
+        $this->xmlChecker->parse($content);
+        if ($this->xmlChecker->result()->isError()) {
             throw new Exception($this->language->txt("certificate_not_well_formed"));
         }
 
@@ -88,8 +86,8 @@ class ilXlsFoParser
         ];
 
         if (strcmp($formData['pageformat'], 'custom') === 0) {
-            $pageheight = $formData['pageheight'];
-            $pagewidth = $formData['pagewidth'];
+            $pageheight = $formData['pageheight'] ?? '';
+            $pagewidth = $formData['pagewidth'] ?? '';
         } else {
             $pageformats = $this->pageFormats->fetchPageFormats();
             $pageheight = $pageformats[$formData['pageformat']]['height'];
