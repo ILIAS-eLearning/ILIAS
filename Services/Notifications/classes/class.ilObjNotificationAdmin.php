@@ -60,7 +60,7 @@ class ilObjNotificationAdmin extends ilObject
     }
 
     /**
-     * @throws Exception
+     * @throws PDOException
      */
     private function loadRootRefIdAndId() : void
     {
@@ -73,7 +73,7 @@ class ilObjNotificationAdmin extends ilObject
                 $this->root_id = (int) $res["obj_id"];
                 $this->root_ref_id = (int) $res["ref_id"];
             } else {
-                throw new Exception('Node "nota" not found.');
+                throw new PDOException('Node "nota" not found.');
             }
         }
     }
