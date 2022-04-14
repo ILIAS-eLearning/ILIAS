@@ -15207,6 +15207,12 @@ td > img[src$="icon_custom.svg"] {
 .ilTableNav .ilFloatRight .ilOverlay {
   display: none;
 }
+.ilTableCommandRowTop .ilFloatLeft img,
+.ilTableCommandRow .ilFloatLeft img,
+.ilTableCommandRowTop .ilFloatLeft select,
+.ilTableCommandRow .ilFloatLeft select {
+  display: inline-block;
+}
 @media only screen and (max-width: 768px) {
   .table-responsive {
     overflow-x: auto;
