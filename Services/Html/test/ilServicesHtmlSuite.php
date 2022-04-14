@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use PHPUnit\Framework\TestSuite;
-use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/bootstrap.php';
 
