@@ -30,7 +30,7 @@ use ILIAS\UI\Renderer;
 class ilCronManagerGUI
 {
     private ilLanguage $lng;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilSetting $settings;
     private ilGlobalTemplateInterface $tpl;
     private Factory $uiFactory;
