@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-use ilObjectAccess;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -18,6 +16,8 @@ use ilObjectAccess;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use ilObjectAccess;
 
 /**
  * @author Ingmar Szmais <iszmais@databay.de>

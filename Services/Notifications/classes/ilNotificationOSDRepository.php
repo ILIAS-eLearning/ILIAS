@@ -1,14 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\Notifications;
-
-use ilDBInterface;
-use ILIAS\DI\Container;
-use ILIAS\Notifications\Model\ilNotificationConfig;
-use ILIAS\Notifications\Model\ilNotificationLink;
-use ILIAS\Notifications\Model\ilNotificationObject;
-use ilLanguage;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -25,6 +16,15 @@ use ilLanguage;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+namespace ILIAS\Notifications;
+
+use ilDBInterface;
+use ILIAS\DI\Container;
+use ILIAS\Notifications\Model\ilNotificationConfig;
+use ILIAS\Notifications\Model\ilNotificationLink;
+use ILIAS\Notifications\Model\ilNotificationObject;
+use ilLanguage;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>

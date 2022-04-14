@@ -1,11 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\Notifications\Model;
-
-use ILIAS\Notifications\ilNotificationSystem;
-use ilNotification;
-use ilObjUser;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -22,6 +16,12 @@ use ilObjUser;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+namespace ILIAS\Notifications\Model;
+
+use ILIAS\Notifications\ilNotificationSystem;
+use ilNotification;
+use ilObjUser;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>

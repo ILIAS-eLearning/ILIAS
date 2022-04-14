@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\Notifiactions\Provider;
-
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
-use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
-use ilObjNotificationAdmin;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -23,6 +16,13 @@ use ilObjNotificationAdmin;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+namespace ILIAS\Notifiactions\Provider;
+
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ilObjNotificationAdmin;
 
 /**
  * @author Ingmar Szmais <iszmais@databay.de>

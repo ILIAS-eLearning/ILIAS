@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -18,6 +16,8 @@ use PHPUnit\Framework\TestCase;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author  Ingmar Szmais <iszmais@databay.de>

@@ -1,16 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\Notifications;
-
-use ilGlobalTemplateInterface;
-use ILIAS\DI\UIServices;
-use iljQueryUtil;
-use ilLanguage;
-use ilObjUser;
-use ilPlayerUtil;
-use ilSetting;
-use ilTemplate;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -27,6 +16,17 @@ use ilTemplate;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+namespace ILIAS\Notifications;
+
+use ilGlobalTemplateInterface;
+use ILIAS\DI\UIServices;
+use iljQueryUtil;
+use ilLanguage;
+use ilObjUser;
+use ilPlayerUtil;
+use ilSetting;
+use ilTemplate;
 
 /**
  * @author Michael Jansen <mjansen@databay.de>

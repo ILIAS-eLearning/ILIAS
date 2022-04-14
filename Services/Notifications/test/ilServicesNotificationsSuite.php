@@ -1,10 +1,5 @@
 <?php declare(strict_types=1);
 
-use PHPUnit\Framework\TestSuite;
-use PHPUnit\Framework\TestCase;
-
-require_once __DIR__ . '/bootstrap.php';
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -21,6 +16,11 @@ require_once __DIR__ . '/bootstrap.php';
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__ . '/bootstrap.php';
 
 /**
  * @author  Ingmar Szmais <iszmais@databay.de>
