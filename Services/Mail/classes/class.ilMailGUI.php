@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailGUI implements ilCtrlBaseClassInterface
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private string $forwardClass = '';
     private GlobalHttpState $http;

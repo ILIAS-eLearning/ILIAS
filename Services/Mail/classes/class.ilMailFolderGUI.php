@@ -32,7 +32,7 @@ class ilMailFolderGUI
     private bool $errorDelete = false;
     /** @var ilGlobalTemplateInterface */
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilToolbarGUI $toolbar;
     private ilTabsGUI $tabs;

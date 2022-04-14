@@ -39,7 +39,7 @@ class ilMailFormGUI
     public const MAIL_FORM_TYPE_DRAFT = 'draft';
 
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilObjUser $user;
     private ilTabsGUI $tabs;

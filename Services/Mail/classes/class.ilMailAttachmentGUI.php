@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailAttachmentGUI
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilObjUser $user;
     private ilToolbarGUI $toolbar;

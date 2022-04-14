@@ -32,7 +32,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
      */
     protected function getMailOptionsGUI(
         GlobalHttpState $httpState,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilSetting $settings
     ) : ilMailOptionsGUI {
         $tpl = $this->getMockBuilder(ilGlobalTemplateInterface::class)->disableOriginalConstructor()->getMock();

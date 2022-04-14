@@ -31,7 +31,7 @@ class ilMailTemplateGUI
 {
     protected ilPropertyFormGUI $form;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
     protected ilRbacSystem $rbacsystem;
@@ -46,7 +46,7 @@ class ilMailTemplateGUI
     public function __construct(
         ilObject $parentObject,
         ilGlobalTemplateInterface $tpl = null,
-        ilCtrl $ctrl = null,
+        ilCtrlInterface $ctrl = null,
         ilLanguage $lng = null,
         ilToolbarGUI $toolbar = null,
         ilRbacSystem $rbacsystem = null,

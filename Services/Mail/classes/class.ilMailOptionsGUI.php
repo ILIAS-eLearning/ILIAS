@@ -26,7 +26,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailOptionsGUI
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilSetting $settings;
     private ilObjUser $user;
@@ -36,7 +36,7 @@ class ilMailOptionsGUI
 
     public function __construct(
         ilGlobalTemplateInterface $tpl = null,
-        ilCtrl $ctrl = null,
+        ilCtrlInterface $ctrl = null,
         ilSetting $setting = null,
         ilLanguage $lng = null,
         ilObjUser $user = null,

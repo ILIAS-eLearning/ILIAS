@@ -34,7 +34,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
     {
         if (!method_exists($parentGui, 'executeCommand')) {
             throw new InvalidArgumentException(sprintf(
-                'Parameter $parentGui must be ilCtrl enabled by implementing executeCommand(), %s given.',
+                'Parameter $parentGui must be ilCtrlInterface enabled by implementing executeCommand(), %s given.',
                 get_class($parentGui)
             ));
         }
