@@ -26,14 +26,14 @@ class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
     protected ilAccessHandler $accessHandler;
     protected ilLanguage $lng;
     protected ilSetting $settings;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
 
     public function __construct(
         ilTaskService $taskService,
         ilAccessHandler $accessHandler,
         ilLanguage $lng,
         ilSetting $settings,
-        ilCtrl $ctrl
+        ilCtrlInterface $ctrl
     ) {
         $this->taskService = $taskService;
         $this->accessHandler = $accessHandler;

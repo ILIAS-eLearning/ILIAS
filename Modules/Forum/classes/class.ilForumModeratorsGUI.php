@@ -24,7 +24,7 @@
  */
 class ilForumModeratorsGUI
 {
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilTabsGUI $tabs;

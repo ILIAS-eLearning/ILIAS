@@ -29,7 +29,7 @@ class ilForumExportGUI
     private const MODE_EXPORT_WEB = 1;
     private const MODE_EXPORT_CLIENT = 2;
 
-    public ilCtrl $ctrl;
+    public ilCtrlInterface $ctrl;
     public ilLanguage $lng;
     public ilAccessHandler $access;
     public ilErrorHandling $error;

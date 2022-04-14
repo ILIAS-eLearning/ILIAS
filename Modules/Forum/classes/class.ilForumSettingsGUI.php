@@ -23,7 +23,7 @@
  */
 class ilForumSettingsGUI implements ilForumObjectConstants
 {
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilSetting $settings;

@@ -26,14 +26,14 @@ class ilForumDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
     protected ilAccessHandler $accessHandler;
     protected ilSetting $settings;
     protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
 
     public function __construct(
         ilTaskService $taskService,
         ilAccessHandler $accessHandler = null,
         ilSetting $settings = null,
         ilLanguage $lng = null,
-        ilCtrl $ctrl = null
+        ilCtrlInterface $ctrl = null
     ) {
         global $DIC;
 
