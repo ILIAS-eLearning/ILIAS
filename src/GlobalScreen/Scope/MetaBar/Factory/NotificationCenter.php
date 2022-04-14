@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\NotificationCenterRenderer;
+use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem as notaIsItem;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /******************************************************************************
@@ -21,7 +22,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
  * Class NotificationCenter
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
+class NotificationCenter extends AbstractBaseItem implements hasSymbol
 {
     
     /**
@@ -40,7 +41,7 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
     
     /**
      * Set of notifications in the center.
-     * @var isItem[]
+     * @var notaIsItem[]
      */
     private array $notifications = [];
     
@@ -54,7 +55,7 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
     }
     
     /**
-     * @param isItem[] $notifications
+     * @param notaIsItem[] $notifications
      */
     public function withNotifications(array $notifications) : self
     {
@@ -65,7 +66,7 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
     }
     
     /**
-     * @return isItem[]
+     * @return notaIsItem[]
      */
     public function getNotifications() : array
     {

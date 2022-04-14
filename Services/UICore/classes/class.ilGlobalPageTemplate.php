@@ -5,6 +5,7 @@
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\Notifications\ilNotificationOSDGUI;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\UICore\PageContentProvider;

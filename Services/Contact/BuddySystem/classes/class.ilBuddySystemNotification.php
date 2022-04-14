@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\Notifications\Model\ilNotificationConfig;
+use ILIAS\Notifications\Model\ilNotificationLink;
+use ILIAS\Notifications\Model\ilNotificationParameter;
+
 /**
  * Class ilBuddyList
  * @author Michael Jansen <mjansen@databay.de>

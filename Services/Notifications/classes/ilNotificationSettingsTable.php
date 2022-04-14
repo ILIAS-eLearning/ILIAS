@@ -1,25 +1,47 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+namespace ILIAS\Notifications;
 
+use ilLanguage;
+use ilTable2GUI;
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
+/**
+ * @author Jan Posselt <jposselt@databay.de>
+ */
 class ilNotificationSettingsTable extends ilTable2GUI
 {
-    private $channels;
-    private $userdata = array();
+    private array $channels;
+    private array $userdata;
 
-    private $adminMode = false;
-    private $editable = true;
+    private bool $adminMode;
+    private bool $editable = true;
 
-    /** @var ilLanguage */
-    private $language;
+    private ilLanguage $language;
 
     public function __construct(
-        $a_ref,
-        $title,
-        $channels,
-        $userdata,
-        $adminMode = false,
-        \ilLanguage $language = null
+        ?object $a_ref,
+        string $title,
+        array $channels,
+        array $userdata,
+        bool $adminMode = false,
+        ilLanguage $language = null
     ) {
         if ($language === null) {
             global $DIC;
@@ -48,7 +70,7 @@ class ilNotificationSettingsTable extends ilTable2GUI
                 '',
                 '20%',
                 false,
-                ($channel['config_type'] == 'set_by_user' && false ? 'optionSetByUser' : '')
+                ''
             );
         }
 
@@ -56,22 +78,26 @@ class ilNotificationSettingsTable extends ilTable2GUI
         $this->setSelectAllCheckbox('');
     }
 
-    public function setEditable($editable)
+    public function setEditable(bool $editable) : void
     {
         $this->editable = $editable;
     }
 
-    public function isEditable()
+    public function isEditable() : bool
     {
-        return (bool) $this->editable;
+        return $this->editable;
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('NOTIFICATION_TARGET', $this->language->txt('nott_' . $a_set['title']));
 
         foreach ($this->channels as $channeltype => $channel) {
-            if (array_key_exists($a_set['name'], $this->userdata) && in_array($channeltype, $this->userdata[$a_set['name']])) {
+            if (array_key_exists($a_set['name'], $this->userdata) && in_array(
+                $channeltype,
+                $this->userdata[$a_set['name']],
+                true
+            )) {
                 $this->tpl->touchBlock('notification_cell_checked');
             }
 
@@ -81,7 +107,7 @@ class ilNotificationSettingsTable extends ilTable2GUI
 
             $this->tpl->setCurrentBlock('notification_cell');
 
-            if ($this->adminMode && $channel['config_type'] == 'set_by_user' && $a_set['config_type'] == 'set_by_user') {
+            if ($this->adminMode && $channel['config_type'] === 'set_by_user' && $a_set['config_type'] === 'set_by_user') {
                 $this->tpl->setVariable('NOTIFICATION_SET_BY_USER_CELL', 'optionSetByUser');
             }
 

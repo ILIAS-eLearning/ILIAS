@@ -1,21 +1,38 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+namespace ILIAS\Notifications;
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Helper class for initial database setup and registration of notification
+ * @author Jan Posselt <jposselt@databay.de>
  */
 class ilNotificationSetupHelper
 {
-    public static $tbl_userconfig = 'notification_usercfg';
-    public static $tbl_userlistener = 'notification_listener';
-    public static $tbl_notification_data = 'notification_data';
-    public static $tbl_notification_queue = 'notification_queue';
-    public static $tbl_notification_osd_handler = 'notification_osd';
-    public static $tbl_notification_channels = 'notification_channels';
-    public static $tbl_notification_types = 'notification_types';
+    public static string $tbl_userconfig = 'notification_usercfg';
+    public static string $tbl_userlistener = 'notification_listener';
+    public static string $tbl_notification_data = 'notification_data';
+    public static string $tbl_notification_queue = 'notification_queue';
+    public static string $tbl_notification_osd_handler = 'notification_osd';
+    public static string $tbl_notification_channels = 'notification_channels';
+    public static string $tbl_notification_types = 'notification_types';
     
-    public static function setupTables()
+    public static function setupTables() : void
     {
         global $DIC;
 
@@ -57,11 +74,9 @@ class ilNotificationSetupHelper
             $fields = array(
                 'notification_id' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
                 'usr_id' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
-                #'notification_channel' => array('type' => 'text'     , 'notnull' => true, 'length' => 100),
                 'valid_until' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
             );
             $ilDB->createTable(self::$tbl_notification_queue, $fields);
-            #$ilDB->addPrimaryKey(self::$tbl_notification_queue, array('notification_id', 'usr_id', 'notification_channel'));
             $ilDB->addPrimaryKey(self::$tbl_notification_queue, array('notification_id', 'usr_id'));
         }
             
@@ -77,10 +92,6 @@ class ilNotificationSetupHelper
             $ilDB->createTable(self::$tbl_notification_osd_handler, $fields);
 
             $ilDB->addPrimaryKey(self::$tbl_notification_osd_handler, array('notification_osd_id'));
-            /**
-             * @todo hier wird ein fehler geworfen...
-             */
-            #$ilDB->addIndex(self::$tbl_notification_osd_handler, array('usr_id', 'valid_until', 'time_added'));
 
             $ilDB->createSequence(self::$tbl_notification_osd_handler);
         }
@@ -98,8 +109,8 @@ class ilNotificationSetupHelper
 
             $ilDB->addPrimaryKey(self::$tbl_notification_channels, array('channel_name'));
 
-            ilNotificationSetupHelper::registerChannel('mail', 'mail', 'mail_desc', 'ilNotificationMailHandler', 'Services/Notifications/classes/class.ilNotificationMailHandler.php');
-            ilNotificationSetupHelper::registerChannel('osd', 'osd', 'osd_desc', 'ilNotificationOSDHandler', 'Services/Notifications/classes/class.ilNotificationOSDHandler.php');
+            self::registerChannel('mail', 'mail', 'mail_desc', 'ilNotificationMailHandler', 'Services/Notifications/classes/class.ilNotificationMailHandler.php');
+            self::registerChannel('osd', 'osd', 'osd_desc', 'ilNotificationOSDHandler', 'Services/Notifications/classes/class.ilNotificationOSDHandler.php');
         }
 
         if (!$ilDB->tableExists(self::$tbl_notification_types)) {
@@ -113,19 +124,17 @@ class ilNotificationSetupHelper
             $ilDB->createTable(self::$tbl_notification_types, $fields);
             $ilDB->addPrimaryKey(self::$tbl_notification_types, array('type_name'));
 
-            ilNotificationSetupHelper::registerType('chat_invitation', 'chat_invitation', 'chat_invitation_description', 'chat');
-            //ilNotificationSetupHelper::registerType('adobe_connect_invitation', 'adobe_connect_invitation', 'adobe_connect_invitation_description', 'adobe_connect');
-            ilNotificationSetupHelper::registerType('osd_maint', 'osd_maint', 'osd_maint_description', 'osd_notification');
+            self::registerType('chat_invitation', 'chat_invitation', 'chat_invitation_description', 'chat');
+            self::registerType('osd_maint', 'osd_maint', 'osd_maint_description', 'osd_notification');
         }
     }
 
-
-    public static function registerChannel($name, $title, $description, $class, $classfile, $config_type = 'set_by_user')
+    public static function registerChannel(string $name, string $title, string $description, string $class, string $classfile, string $config_type = 'set_by_user') : void
     {
         ilNotificationDatabaseHandler::registerChannel($name, $title, $description, $class, $classfile, $config_type);
     }
 
-    public static function registerType($name, $title, $description, $notification_group, $config_type = 'set_by_user')
+    public static function registerType(string $name, string $title, string $description, string $notification_group, string $config_type = 'set_by_user') : void
     {
         ilNotificationDatabaseHandler::registerType($name, $title, $description, $notification_group, $config_type);
     }

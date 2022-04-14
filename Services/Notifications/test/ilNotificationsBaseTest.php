@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use ilObjectAccess;
+use PHPUnit\Framework\TestCase;
 
 /******************************************************************************
  *
@@ -20,8 +20,8 @@ use ilObjectAccess;
  *****************************************************************************/
 
 /**
- * @author Ingmar Szmais <iszmais@databay.de>
+ * @author  Ingmar Szmais <iszmais@databay.de>
  */
-class ilObjNotificationAdminAccess extends ilObjectAccess
+abstract class ilNotificationsBaseTest extends TestCase
 {
 }

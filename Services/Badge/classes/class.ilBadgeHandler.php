@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Notifications\Model\ilNotificationConfig;
+
 /**
  * Class ilBadgeHandler
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
