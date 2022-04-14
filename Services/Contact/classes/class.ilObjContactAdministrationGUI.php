@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjContactAdministrationGUI
@@ -9,22 +24,8 @@
  */
 class ilObjContactAdministrationGUI extends ilObject2GUI
 {
-    protected \ILIAS\DI\Container $dic;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    protected ilErrorHandling $error;
-    public ilLanguage $lng;
-
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
-        global $DIC, $ilErr;
-
-        $this->dic = $DIC;
-        $this->rbacsystem = $this->dic->rbac()->system();
-        $this->lng = $this->dic->language();
-        $this->error = $ilErr;
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->lng->loadLanguageModule('buddysystem');
     }
@@ -106,7 +107,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     
     protected function showConfigurationForm(ilPropertyFormGUI $form = null) : void
     {
-        if (!$this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 

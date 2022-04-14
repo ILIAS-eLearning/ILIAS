@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -11,20 +26,16 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilMailMemberSearchGUI
 {
     private ServerRequestInterface $httpRequest;
-    protected $mail_roles;
-    /**
-     * @var ilObjGroupGUI|ilObjCourseGUI
-     */
-    protected $gui;
-    protected ilAbstractMailMemberRoles $objMailMemberRoles;
-    /**
-     * @var null object ilCourseParticipants || ilGroupParticipants
-     */
-    protected $objParticipants;
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilAccessHandler $access;
+    /** @var array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[] */
+    private array $mail_roles;
+    /** @var ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI */
+    private $gui;
+    private ilAbstractMailMemberRoles $objMailMemberRoles;
+    private ?ilParticipants $objParticipants;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilAccessHandler $access;
     public int $ref_id;
 
     /**
@@ -283,9 +294,9 @@ class ilMailMemberSearchGUI
     }
 
     /**
-     * @return
+     * @return array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[]
      */
-    private function getMailRoles()
+    private function getMailRoles() : array
     {
         return $this->mail_roles;
     }
