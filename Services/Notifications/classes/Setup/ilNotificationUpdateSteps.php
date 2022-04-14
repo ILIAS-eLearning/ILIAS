@@ -1,7 +1,6 @@
 <?php declare(strict_types = 1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,29 +11,23 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
-use ILIAS\Notifications\ilNotificationSetupHelper;
-
-/**
- * @author Ingmar Szmais <iszmais@databay.de>
- */
 class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
 
     public function prepare(ilDBInterface $db) : void
     {
         $this->db = $db;
     }
-    
+
     public function step_1() : void
     {
-        include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
-        ilDBUpdateNewObjectType::addAdminNode('nota', 'Notification Service Administration Object');
+        // Creation of administration node forced by \ilTreeAdminNodeAddedObjective
     }
 
     public function step_2() : void
