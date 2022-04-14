@@ -138,11 +138,6 @@ abstract class assQuestion
     public bool $selfassessmenteditingmode = false;
 
     public int $defaultnroftries = 0;
-    
-    /**
-     * @var array[ilQuestionChangeListener]
-     */
-    protected array $questionChangeListeners = array();
 
     protected \ilAssQuestionProcessLocker $processLocker;
 
@@ -1648,8 +1643,6 @@ abstract class assQuestion
             $this->ilLog->root()->error("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
             return;
         }
-        
-        $this->notifyQuestionDeleted($this);
     }
     
     private function deleteTaxonomyAssignments() : void
@@ -2017,8 +2010,6 @@ abstract class assQuestion
             }
         }
         
-        $this->notifyQuestionCreated();
-        
         return $this->getId();
     }
 
@@ -2096,8 +2087,6 @@ abstract class assQuestion
         // update question count of question pool
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         ilObjQuestionPool::_updateQuestionCount($this->obj_id);
-        
-        $this->notifyQuestionEdited();
     }
     
     /**
@@ -3598,40 +3587,6 @@ abstract class assQuestion
             self::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT,
             self::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
         );
-    }
-    
-    public function addQuestionChangeListener(ilQuestionChangeListener $listener) : void
-    {
-        $this->questionChangeListeners[] = $listener;
-    }
-    
-    /**
-     * @return array[ilQuestionChangeListener]
-     */
-    public function getQuestionChangeListeners() : array
-    {
-        return $this->questionChangeListeners;
-    }
-    
-    private function notifyQuestionCreated() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionCreated($this);
-        }
-    }
-    
-    private function notifyQuestionEdited() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionEdited($this);
-        }
-    }
-    
-    private function notifyQuestionDeleted() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionDeleted($this);
-        }
     }
 
     /**
