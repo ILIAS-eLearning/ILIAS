@@ -14,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 class ilMailBodyPurifierTest extends ilMailBaseTest
 {
     public function bodyProvider() : array
