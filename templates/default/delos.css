@@ -16303,6 +16303,10 @@ div.il_ContainerListItem {
   margin: 0;
   color: #161616;
 }
+.ilContainerBlockHeader .form-control {
+  width: auto;
+  display: inline-block;
+}
 .ilContainerBlockHeaderExpanded,
 .ilContainerBlockHeaderCollapsed {
   background-repeat: no-repeat;
