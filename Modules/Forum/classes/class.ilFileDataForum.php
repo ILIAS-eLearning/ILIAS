@@ -29,7 +29,7 @@ class ilFileDataForum extends ilFileData
     private int $pos_id;
     private string $forum_path;
     private ilErrorHandling $error;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_obj_id = 0, int $a_pos_id = 0)
     {

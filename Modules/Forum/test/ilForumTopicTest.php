@@ -24,12 +24,12 @@ use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 class ilForumTopicTest extends TestCase
 {
     /**
-     * @var MockObject|\ilDBInterface
+     * @var MockObject|ilDBInterface
      */
     private $mockDatabase;
 
     /**
-     * @var MockObject|\ilObjUser
+     * @var MockObject|ilObjUser
      */
     private $mockUser;
 
@@ -37,7 +37,7 @@ class ilForumTopicTest extends TestCase
     {
         $id = 78;
 
-        $valueAsObject = new \stdClass();
+        $valueAsObject = new stdClass();
 
         $valueAsObject->thr_top_fk = 8;
         $valueAsObject->thr_display_user_id = 8;
@@ -55,7 +55,7 @@ class ilForumTopicTest extends TestCase
         $valueAsObject->avg_rating = 9;
         $valueAsObject->thr_author_id = 8;
 
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $mockStatement->expects(self::once())
                       ->method('fetchRow')
                       ->with(ilDBConstants::FETCHMODE_OBJECT)
@@ -67,9 +67,9 @@ class ilForumTopicTest extends TestCase
             [$id]
         )->willReturn($mockStatement);
 
-        $instance = new \ilForumTopic($id);
+        $instance = new ilForumTopic($id);
 
-        $this->assertInstanceOf(\ilForumTopic::class, $instance);
+        $this->assertInstanceOf(ilForumTopic::class, $instance);
     }
 
     public function testAssignData() : void
@@ -96,7 +96,7 @@ class ilForumTopicTest extends TestCase
             'usr_notification_is_enabled' => '',
         ];
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->assignData($data);
 
         $this->assertSame(0, $instance->getId());
@@ -122,7 +122,7 @@ class ilForumTopicTest extends TestCase
 
     public function testInsert() : void
     {
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $nextId = 8;
         $instance->setId(9);
         $instance->setForumId(10);
@@ -165,7 +165,7 @@ class ilForumTopicTest extends TestCase
 
     public function testInsertFalse() : void
     {
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $this->mockDatabase->expects(self::never())->method('nextId');
         $this->mockDatabase->expects(self::never())->method('insert');
         $instance->setForumId(0);
@@ -174,7 +174,7 @@ class ilForumTopicTest extends TestCase
 
     public function testUpdate() : void
     {
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId(8);
         $instance->setForumId(789);
         $instance->setSubject('abc');
@@ -200,7 +200,7 @@ class ilForumTopicTest extends TestCase
 
     public function testUpdateFalse() : void
     {
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $this->mockDatabase->expects(self::never())->method('manipulateF');
         $instance->setForumId(0);
         $this->assertFalse($instance->update());
@@ -208,10 +208,10 @@ class ilForumTopicTest extends TestCase
 
     public function testReload() : void
     {
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $mockStatement->expects(self::once())->method('fetchRow')->willReturn(null);
         $this->mockDatabase->expects(self::once())->method('queryF')->willReturn($mockStatement);
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId(89);
         $instance->reload();
     }
@@ -219,9 +219,9 @@ class ilForumTopicTest extends TestCase
     public function testGetFirstPostId() : void
     {
         $id = 909;
-        $stdObject = new \stdClass();
+        $stdObject = new stdClass();
         $stdObject->pos_fk = 5678;
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
             'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s',
             ['integer', 'integer'],
@@ -229,7 +229,7 @@ class ilForumTopicTest extends TestCase
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchObject')->with($mockStatement)->willReturn($stdObject);
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertSame($stdObject->pos_fk, $instance->getFirstPostId());
     }
@@ -237,7 +237,7 @@ class ilForumTopicTest extends TestCase
     public function testGetFirstPostIdFailed() : void
     {
         $id = 909;
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
             'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s',
             ['integer', 'integer'],
@@ -245,7 +245,7 @@ class ilForumTopicTest extends TestCase
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchObject')->with($mockStatement)->willReturn(null);
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertSame(0, $instance->getFirstPostId());
     }
@@ -253,7 +253,7 @@ class ilForumTopicTest extends TestCase
     public function testCountPosts() : void
     {
         $id = 789;
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->withIgnoredQuery(
             $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer'],
@@ -261,7 +261,7 @@ class ilForumTopicTest extends TestCase
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['cnt' => 678]);
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertSame(678, $instance->countPosts(true));
     }
@@ -269,7 +269,7 @@ class ilForumTopicTest extends TestCase
     public function testCountPostsFailed() : void
     {
         $id = 789;
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->withIgnoredQuery(
             $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer'],
@@ -277,7 +277,7 @@ class ilForumTopicTest extends TestCase
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(null);
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertSame(0, $instance->countPosts(true));
     }
@@ -287,7 +287,7 @@ class ilForumTopicTest extends TestCase
         $id = 789;
         $userId = 354;
         $this->mockUser->expects(self::once())->method('getId')->willReturn($userId);
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->withIgnoredQuery(
             $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer', 'integer', 'integer', 'integer'],
@@ -295,7 +295,7 @@ class ilForumTopicTest extends TestCase
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['cnt' => 79]);
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertSame(79, $instance->countActivePosts(true));
     }
@@ -305,7 +305,7 @@ class ilForumTopicTest extends TestCase
         $id = 789;
         $userId = 354;
         $this->mockUser->expects(self::once())->method('getId')->willReturn($userId);
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->withIgnoredQuery(
             $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer', 'integer', 'integer', 'integer'],
@@ -313,7 +313,7 @@ class ilForumTopicTest extends TestCase
         )->willReturn($mockStatement);
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(null);
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertSame(0, $instance->countActivePosts(true));
     }
@@ -323,10 +323,10 @@ class ilForumTopicTest extends TestCase
         $firstRow = new stdClass();
         $firstRow->pos_pk = 89;
         $id = 284;
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $mockStatement->expects(self::exactly(2))
                       ->method('fetchRow')
-                      ->with(\ilDBConstants::FETCHMODE_OBJECT)
+                      ->with(ilDBConstants::FETCHMODE_OBJECT)
                       ->willReturnOnConsecutiveCalls($firstRow, null);
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
             'SELECT pos_pk FROM frm_posts WHERE pos_thr_fk = %s',
@@ -334,7 +334,7 @@ class ilForumTopicTest extends TestCase
             [$id]
         )->willReturn($mockStatement);
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertSame([$firstRow->pos_pk => $firstRow->pos_pk], $instance->getAllPostIds());
     }
@@ -344,10 +344,10 @@ class ilForumTopicTest extends TestCase
         $id = 723;
         $userId = 639;
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
 
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
             'SELECT COUNT(notification_id) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s',
             ['integer', 'integer'],
@@ -363,10 +363,10 @@ class ilForumTopicTest extends TestCase
         $id = 723;
         $userId = 639;
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
 
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('queryF')->with(
             'SELECT COUNT(notification_id) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s',
             ['integer', 'integer'],
@@ -382,7 +382,7 @@ class ilForumTopicTest extends TestCase
         $id = 723;
         $userId = 0;
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
 
         $this->mockDatabase->expects(self::never())->method('queryF');
@@ -397,7 +397,7 @@ class ilForumTopicTest extends TestCase
         $id = 3739;
         $userId = 8283;
 
-        $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('nextId')->with('frm_notification')->willReturn($nextId);
         $this->mockDatabase->expects(self::once())->method('queryF')->willReturn($mockStatement);
         $this->withIgnoredQuery(
@@ -407,7 +407,7 @@ class ilForumTopicTest extends TestCase
         )->willReturn(0);
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['cnt' => 0]);
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $instance->enableNotification($userId);
     }
@@ -423,7 +423,7 @@ class ilForumTopicTest extends TestCase
             [$userId, $id]
         );
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $instance->disableNotification($userId);
     }
@@ -438,7 +438,7 @@ class ilForumTopicTest extends TestCase
             [1, $id]
         );
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertTrue($instance->makeSticky());
     }
@@ -449,7 +449,7 @@ class ilForumTopicTest extends TestCase
 
         $this->mockDatabase->expects(self::never())->method('manipulateF');
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $this->assertFalse($instance->makeSticky());
     }
 
@@ -463,7 +463,7 @@ class ilForumTopicTest extends TestCase
             [0, $id]
         );
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $instance->setSticky(true);
         $this->assertTrue($instance->unmakeSticky());
@@ -475,7 +475,7 @@ class ilForumTopicTest extends TestCase
 
         $this->mockDatabase->expects(self::never())->method('manipulateF');
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $this->assertFalse($instance->unmakeSticky());
     }
@@ -490,7 +490,7 @@ class ilForumTopicTest extends TestCase
             [1, $id]
         );
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $instance->setClosed(false);
         $instance->close();
@@ -506,7 +506,7 @@ class ilForumTopicTest extends TestCase
             [0, $id]
         );
 
-        $instance = new \ilForumTopic();
+        $instance = new ilForumTopic();
         $instance->setId($id);
         $instance->setClosed(true);
         $instance->reopen();
@@ -518,8 +518,8 @@ class ilForumTopicTest extends TestCase
 
         $DIC = new Container();
 
-        $this->mockDatabase = $this->getMockBuilder(\ilDBInterface::class)->getMock();
-        $this->mockUser = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->getMock();
+        $this->mockDatabase = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $this->mockUser = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
 
         $DIC['ilDB'] = $this->mockDatabase;
         $DIC['ilUser'] = $this->mockUser;

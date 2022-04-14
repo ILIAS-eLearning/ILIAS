@@ -38,7 +38,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     protected bool $is_anonymized = false;
     private ilForumNotificationCache $notificationCache;
 
-    public function __construct(ilForumPost $objPost, int $ref_id, \ilForumNotificationCache $notificationCache)
+    public function __construct(ilForumPost $objPost, int $ref_id, ilForumNotificationCache $notificationCache)
     {
         global $DIC;
         $this->db = $DIC->database();
@@ -153,7 +153,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->objPost->getUpdateUserId();
     }
 
-    public function getPostUserName(\ilLanguage $user_lang) : string
+    public function getPostUserName(ilLanguage $user_lang) : string
     {
         if ($this->post_user_name === null) {
             $authorinfo = new ilForumAuthorInformation(
@@ -170,7 +170,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return (string) $this->post_user_name;
     }
 
-    public function getPostUpdateUserName(\ilLanguage $user_lang) : string
+    public function getPostUpdateUserName(ilLanguage $user_lang) : string
     {
         if ($this->update_user_name === null) {
             $authorinfo = new ilForumAuthorInformation(
@@ -421,7 +421,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->notificationCache->fetch($cacheKey);
     }
 
-    private function createRecipientArray(\ilPDOStatement $statement) : array
+    private function createRecipientArray(ilPDOStatement $statement) : array
     {
         $refIds = $this->getRefIdsByObjId($this->getObjId());
 

@@ -28,7 +28,7 @@ class ilFileDataForumDrafts extends ilFileData
     private string $drafts_path;
     private ilLanguage $lng;
     private ilErrorHandling $error;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $obj_id, int $draft_id)
     {

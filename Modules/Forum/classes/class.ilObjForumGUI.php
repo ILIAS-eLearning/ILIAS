@@ -3659,7 +3659,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $errorMessages = $this->object->Forum->moveThreads(
                 (array) (ilSession::get('threads2move') ?? []),
                 $this->object,
-                (int) $this->ilObjDataCache->lookupObjId((int) $frm_ref_id)
+                $this->ilObjDataCache->lookupObjId((int) $frm_ref_id)
             );
 
             if ([] !== $errorMessages) {

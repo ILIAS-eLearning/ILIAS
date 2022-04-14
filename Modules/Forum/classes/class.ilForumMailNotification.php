@@ -36,7 +36,7 @@ class ilForumMailNotification extends ilMailNotification
     private ilForumNotificationMailData $provider;
     private ilLogger $logger;
 
-    public function __construct(ilForumNotificationMailData $provider, \ilLogger $logger)
+    public function __construct(ilForumNotificationMailData $provider, ilLogger $logger)
     {
         parent::__construct(false);
         $this->provider = $provider;

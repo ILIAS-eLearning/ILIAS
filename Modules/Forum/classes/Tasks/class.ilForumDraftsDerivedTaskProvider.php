@@ -20,7 +20,7 @@
  * Class ilForumDraftsDerivedTaskProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
+class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
 {
     protected ilTaskService $taskService;
     protected ilAccessHandler $accessHandler;

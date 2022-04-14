@@ -23,7 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilObjForumAdministrationTest extends TestCase
 {
     /**
-     * @var MockObject|\ilLanguage
+     * @var MockObject|ilLanguage
      */
     private $mockLanguage;
 
@@ -34,7 +34,7 @@ class ilObjForumAdministrationTest extends TestCase
         }
 
         $this->mockLanguage->expects(self::once())->method('loadLanguageModule')->with('forum');
-        $instance = new \ilObjForumAdministration();
+        $instance = new ilObjForumAdministration();
     }
 
     protected function setUp() : void
@@ -44,12 +44,12 @@ class ilObjForumAdministrationTest extends TestCase
         $DIC = new Container();
 
         $DIC['ilias'] = null; // not used just added received
-        $DIC['ilDB'] = $this->getMockBuilder(\ilDBInterface::class)->getMock();
+        $DIC['ilDB'] = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $DIC['ilErr'] = null;
-        $DIC['tree'] = $this->getMockBuilder(\ilTree::class)->disableOriginalConstructor()->getMock();
+        $DIC['tree'] = $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock();
         $DIC['ilLog'] = null;
         $DIC['ilAppEventHandler'] = null;
         $DIC['objDefinition'] = null;
-        $DIC['lng'] = ($this->mockLanguage = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock());
+        $DIC['lng'] = ($this->mockLanguage = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock());
     }
 }
