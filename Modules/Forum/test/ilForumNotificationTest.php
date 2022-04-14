@@ -42,9 +42,9 @@ class ilForumNotificationTest extends TestCase
         $instance->setInterestedEvents(5);
         $this->assertSame(5, $instance->getInterestedEvents());
         $instance->setAdminForce(true);
-        $this->assertSame(true, $instance->getAdminForce());
+        $this->assertTrue($instance->getAdminForce());
         $instance->setUserToggle(true);
-        $this->assertSame(true, $instance->getUserToggle());
+        $this->assertTrue($instance->getUserToggle());
         $instance->setForumRefId(6);
         $this->assertSame(6, $instance->getForumRefId());
         $instance->setUserIdNoti(7);
