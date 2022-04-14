@@ -18,7 +18,6 @@
 
 namespace ILIAS\ContentPage;
 
-use Basho\Riak\Command\Bucket\Store;
 use ilContentPagePage;
 use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;

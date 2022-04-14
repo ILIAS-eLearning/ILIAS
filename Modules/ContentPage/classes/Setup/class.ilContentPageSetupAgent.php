@@ -18,7 +18,6 @@
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\UI;
 
 /**
  * Class ilContentPageSetupAgent

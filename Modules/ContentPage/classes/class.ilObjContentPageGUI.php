@@ -22,7 +22,6 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilObjContentPageGUI
