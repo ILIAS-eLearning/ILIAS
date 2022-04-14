@@ -35,7 +35,7 @@ class ilNotificationOSDHandler extends ilNotificationHandler
 
     public function __construct(?ilNotificationOSDRepository $repo = null)
     {
-        if($repo === null) {
+        if ($repo === null) {
             $repo = ilNotificationOSDRepository::getInstance();
         }
         $this->repo = $repo;
@@ -43,7 +43,7 @@ class ilNotificationOSDHandler extends ilNotificationHandler
 
     public function notify(ilNotificationObject $notification) : void
     {
-       $this->repo->addNotification($notification);
+        $this->repo->addNotification($notification);
     }
 
     public function getNotificationsForUser(int $user_id, bool $append_osd_id_to_link = true, int $max_age_seconds = 0, string $type = '') : array
