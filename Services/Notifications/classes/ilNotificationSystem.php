@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\Notifications;
-
-use ILIAS\Notifications\Model\ilNotificationConfig;
-use ilObjectFactory;
-use ilObjUser;
-use ilRbacReview;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -23,6 +16,13 @@ use ilRbacReview;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+namespace ILIAS\Notifications;
+
+use ILIAS\Notifications\Model\ilNotificationConfig;
+use ilObjectFactory;
+use ilObjUser;
+use ilRbacReview;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>

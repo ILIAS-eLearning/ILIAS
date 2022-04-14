@@ -1,10 +1,5 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\Notifications\Provider;
-
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -21,6 +16,11 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+namespace ILIAS\Notifications\Provider;
+
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 
 /**
  * @author Fabian Schmid <fs@studer-raimann.ch>

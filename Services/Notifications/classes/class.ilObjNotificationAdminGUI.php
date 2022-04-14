@@ -1,12 +1,5 @@
 <?php declare(strict_types=1);
 
-use ilCtrlException;
-use ILIAS\DI\Container;
-use ILIAS\UI\Component\Input\Container\Form\Form;
-use ilObjectGUI;
-use ilPermissionGUI;
-use ilSetting;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -23,6 +16,13 @@ use ilSetting;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use ilCtrlException;
+use ILIAS\DI\Container;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use ilObjectGUI;
+use ilPermissionGUI;
+use ilSetting;
 
 /**
  * @author Ingmar Szmais <iszmais@databay.de>

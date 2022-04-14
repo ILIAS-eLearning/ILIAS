@@ -1,8 +1,5 @@
 <?php declare(strict_types=1);
 
-use Exception;
-use ilObject;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -19,6 +16,9 @@ use ilObject;
  *     https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use Exception;
+use ilObject;
 
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
