@@ -3,6 +3,8 @@
 
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Location;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as Refinery;
 
 require_once("./Services/Object/classes/class.ilObjectGUI.php");
 require_once("Services/Language/classes/class.ilObjLanguageAccess.php");
@@ -25,6 +27,8 @@ require_once("Services/Language/classes/class.ilObjLanguageAccess.php");
 class ilObjLanguageExtGUI extends ilObjectGUI
 {
     private const ILIAS_LANGUAGE_MODULE = "Services/Language";
+    protected HTTPServices $http;
+    protected Refinery $refinery;
     /**
     * Constructor
     *
@@ -42,6 +46,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ilClientIniFile = $DIC->clientIni();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         // language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
@@ -52,7 +58,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         // type and id of get the bound object
         $this->type = "lng";
-        if (!$this->id = $_GET["obj_id"]) {
+        if (!$this->id = (int) $_GET["obj_id"]) {
             $this->id = ilObjLanguageAccess::_lookupId($lng->getUserLanguage());
         }
 
@@ -375,7 +381,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // prepare the values to be saved
         $save_array = array();
         $remarks_array = array();
-        foreach ($_POST as $key => $value) {
+        $post = (array) ($this->http->request()->getParsedBody() ?? []);
+        foreach ($post as $key => $value) {
             // mantis #25237
             // @see https://php.net/manual/en/language.variables.external.php
             $key = str_replace(["_POSTDOT_", "_POSTSPACE_"], [".", " "], $key);
@@ -391,7 +398,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 $save_array[$key] = $value;
 
                 // the comment has the key of the language with the suffix
-                $remarks_array[$key] = $_POST[$key . $this->lng->separator . "comment"];
+                $remarks_array[$key] = $post[$key . $this->lng->separator . "comment"];
             }
         }
 
@@ -446,8 +453,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     {
         global $DIC;
 
+        $post_mode_existing = $this->http->request()->getParsedBody()['mode_existing'] ?? "";
         // save form inputs for next display
-        $this->session["import"]["mode_existing"] = ilUtil::stripSlashes($_POST["mode_existing"]);
+        $this->session["import"]["mode_existing"] = ilUtil::stripSlashes($post_mode_existing);
 
         try {
             $upload = $DIC->upload();
@@ -466,7 +474,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
             $tempfile = ilFileUtils::ilTempnam() . ".sec";
             $upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
-            $this->object->importLanguageFile($tempfile, $_POST["mode_existing"]);
+            $this->object->importLanguageFile($tempfile, $post_mode_existing);
 
             $tempfs = $DIC->filesystem()->temp();
             $tempfs->delete(basename($tempfile));
@@ -524,8 +532,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function downloadObject() : void
     {
+        $post_scope = $this->http->request()->getParsedBody()['scope'] ?? "";
         // save the selected scope
-        $this->session["export"]["scope"] = ilUtil::stripSlashes($_POST["scope"]);
+        $this->session["export"]["scope"] = ilUtil::stripSlashes($post_scope);
 
         $filename = "ilias_" . $this->object->key . '_'
         . str_replace(".", "_", substr(ILIAS_VERSION, 0, strpos(ILIAS_VERSION, " ")))
@@ -533,34 +542,34 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         . ".lang." . $this->session["export"]["scope"];
 
         $global_file_obj = $this->object->getGlobalLanguageFile();
-        $local_file_obj = new ilLanguageFile($filename, $this->object->key, $_POST["scope"]);
+        $local_file_obj = new ilLanguageFile($filename, $this->object->key, $post_scope);
 
-        if ($_POST["scope"] === "global") {
+        if ($post_scope === "global") {
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getAllValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getAllRemarks());
             }
-        } elseif ($_POST["scope"] === "local") {
+        } elseif ($post_scope === "local") {
             $local_file_obj->setParam("based_on", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getChangedValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getAllRemarks());
             }
-        } elseif ($_POST["scope"] === "added") { // langmode only
+        } elseif ($post_scope === "added") { // langmode only
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getAddedValues());
             $local_file_obj->setAllComments($this->object->getAllRemarks());
-        } elseif ($_POST["scope"] === "unchanged") {
+        } elseif ($post_scope === "unchanged") {
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getUnchangedValues());
             if ($this->langmode) {
                 $local_file_obj->setAllComments($this->object->getAllRemarks());
             }
-        } elseif ($_POST["scope"] === "merged") { // langmode only
+        } elseif ($post_scope === "merged") { // langmode only
             $local_file_obj->setParam("author", $global_file_obj->getParam("author"));
             $local_file_obj->setParam("version", $global_file_obj->getParam("version"));
             $local_file_obj->setAllValues($this->object->getMergedValues());
@@ -604,7 +613,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ro = new ilRadioOption($this->lng->txt("language_save_dist"), "save_dist");
         $ro->setInfo(sprintf($this->lng->txt("language_save_dist_info"), $this->object->key));
         $rg->addOption($ro);
-        $rg->setValue($this->session["maintain"]);
+        $rg->setValue($this->session["maintain"] ?? "");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -612,11 +621,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
     public function maintainExecuteObject() : void
     {
-        if (isset($_POST["maintain"])) {
-            $this->session["maintain"] = ilUtil::stripSlashes($_POST["maintain"]);
+        $post_maintain = $this->http->request()->getParsedBody()['maintain'] ?? "";
+        if (isset($post_maintain)) {
+            $this->session["maintain"] = ilUtil::stripSlashes($post_maintain);
         }
 
-        switch ($_POST["maintain"]) {
+        switch ($post_maintain) {
             // save the global language file for merge after
             case "save_dist":
                 // save a copy of the distributed language file
@@ -707,9 +717,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $translate_key = "lang_translate_" . $this->object->key;
 
+        $post_translation = $this->http->request()->getParsedBody()['translation'] ?? "";
         // save and get the page translation setting
-        if (!empty($_POST)) {
-            $ilSetting->set($translate_key, $_POST["translation"]);
+        if (!empty($post_translation)) {
+            $ilSetting->set($translate_key, $post_translation);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
         $translate = (bool) $ilSetting->get($translate_key, '0');
@@ -928,7 +939,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ilCtrl = $DIC->ctrl();
 
         if (!$a_id) {
-            $a_id = $_POST["id"];
+            $a_id = $this->http->request()->getParsedBody()['id'] ?? "";
         }
 
         if (!$a_id ||

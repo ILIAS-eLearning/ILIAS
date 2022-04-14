@@ -397,8 +397,19 @@ class ilLanguage
             $_GET["lang"] = $language;
         }
 
-        if (isset($_POST["change_lang_to"]) && $_POST["change_lang_to"] != "") {
-            $_GET["lang"] = ilUtil::stripSlashes($_POST["change_lang_to"]);
+        $post_change_lang_to = [];
+        $post = $_POST["change_lang_to"];
+        if ($DIC->http()->wrapper()->post()->has('change_lang_to')) {
+            $post_change_lang_to = $DIC->http()->wrapper()->post()->retrieve(
+                'change_lang_to',
+                $DIC->refinery()->kindlyTo()->dictOf(
+                    $DIC->refinery()->kindlyTo()->float()
+                )
+            );
+        }
+        
+        if (!empty($post_change_lang_to) && $post_change_lang_to != "") {
+            $_GET["lang"] = ilUtil::stripSlashes($post_change_lang_to[0]);
         }
 
         // prefer personal setting when coming from login screen
