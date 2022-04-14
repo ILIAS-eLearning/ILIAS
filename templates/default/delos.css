@@ -15204,6 +15204,9 @@ tr.tblheader {
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
 }
+.ilTableNav .ilFloatRight .ilOverlay {
+  display: none;
+}
 @media only screen and (max-width: 768px) {
   .table-responsive {
     overflow-x: auto;
