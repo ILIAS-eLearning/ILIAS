@@ -56,7 +56,7 @@ class ilCronDefinitionProcessor implements ilComponentDefinitionProcessor
                 {
                 }
 
-                public function debug(string $a_message, array $a_context = array()) : void
+                public function debug(string $a_message, array $a_context = []) : void
                 {
                 }
 
