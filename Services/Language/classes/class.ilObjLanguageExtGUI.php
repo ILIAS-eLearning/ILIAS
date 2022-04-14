@@ -27,7 +27,6 @@ require_once("Services/Language/classes/class.ilObjLanguageAccess.php");
 class ilObjLanguageExtGUI extends ilObjectGUI
 {
     private const ILIAS_LANGUAGE_MODULE = "Services/Language";
-    private string $langmode;
     protected HTTPServices $http;
     protected Refinery $refinery;
     /**
@@ -173,17 +172,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             // get the selection of modules and topics from request or session
             $modules = ilObjLanguageAccess::_getSavedModules();
             $topics = ilObjLanguageAccess::_getSavedTopics();
-    
-            $reset_offset_get = false;
-            if ($DIC->http()->wrapper()->query()->has("reset_offset")) {
-                $reset_offset_get = $DIC->http()->wrapper()->query()->retrieve(
-                    "reset_offset",
-                    $DIC->refinery()->kindlyTo()->bool()
-                );
-            }
-    
+
             // first call for translation
-            if ($reset_offset_get) {
+            if ($_GET["reset_offset"]) {
                 $table_gui->resetOffset();
             }
 
@@ -449,7 +440,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ro = new ilRadioOption($this->lng->txt("language_mode_existing_delete"), "delete");
         $ro->setInfo($this->lng->txt("language_mode_existing_delete_info"));
         $rg->addOption($ro);
-        $rg->setValue($this->getSession()["import"]["mode_existing"] ?: "keepall");
+        $rg->setValue($this->session["import"]["mode_existing"] ?: "keepall");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
