@@ -39,7 +39,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected ilObjContentPage $parentObject;
@@ -54,7 +54,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 
     public function __construct(
         GlobalHttpState $http,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilTabsGUI $tabs,
         ilLanguage $lng,
         ilObjContentPage $parentObject,
