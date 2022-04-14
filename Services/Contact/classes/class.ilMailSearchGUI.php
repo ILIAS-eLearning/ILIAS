@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailSearchGUI
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     protected ilRbacReview $rbacreview;
     protected ilObjectDataCache $object_data_cache;
     private ilLanguage $lng;

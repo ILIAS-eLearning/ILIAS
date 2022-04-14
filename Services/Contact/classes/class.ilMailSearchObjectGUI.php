@@ -25,7 +25,7 @@ abstract class ilMailSearchObjectGUI
     protected Refinery $refinery;
     protected ?string $view = null;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilErrorHandling $error;

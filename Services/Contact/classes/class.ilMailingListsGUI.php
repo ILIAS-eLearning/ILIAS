@@ -26,7 +26,7 @@ class ilMailingListsGUI
 {
     private ServerRequestInterface $httpRequest;
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilObjUser $user;
     private ilErrorHandling $error;

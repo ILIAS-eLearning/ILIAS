@@ -33,7 +33,7 @@ class ilContactGUI
     private ?array $postUsrId = null;
 
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs_gui;
     protected ilHelpGUI $help;

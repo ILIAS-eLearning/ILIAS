@@ -32,7 +32,7 @@ class ilMailMemberSearchGUI
     private $gui;
     private ilAbstractMailMemberRoles $objMailMemberRoles;
     private ?ilParticipants $objParticipants;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilAccessHandler $access;
