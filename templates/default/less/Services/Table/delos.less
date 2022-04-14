@@ -16,6 +16,14 @@ div.ilTableNav {
 	table {
 		width: 100%;
 	}
+	select {
+		//See Issue #32398
+		display: inline-block;
+	}
+	.ilFloatRight .ilOverlay{
+		//See Issue #32363
+		display: none;
+	}
 }
 
 td.tblfooter {
@@ -246,11 +254,6 @@ div.ilTableCommandRowTop {
 
 td > img[src$="icon_custom.svg"] {
     max-width: 32px;
-}
-
-.ilTableNav .ilFloatRight .ilOverlay{
-	//See Issue #32363
-	display: none;
 }
 
 .ilTableCommandRowTop, .ilTableCommandRow {
