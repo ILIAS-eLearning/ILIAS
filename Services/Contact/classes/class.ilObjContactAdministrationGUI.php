@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Notifications\ilNotificationDatabaseHandler;
+
 /**
  * Class ilObjContactAdministrationGUI
  * @author Michael Jansen <mjansen@databay.de>

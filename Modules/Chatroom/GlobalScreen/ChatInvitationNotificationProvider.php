@@ -21,8 +21,9 @@ namespace ILIAS\Chatroom\GlobalScreen;
 use ilDatePresentation;
 use ilDateTime;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
+use ILIAS\Notifications\ilNotificationOSDRepository;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
-use ilNotificationOSDHandler;
+use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ChatInvitationNotificationProvider extends AbstractNotificationProvider
 {
@@ -38,7 +39,7 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
 
         $invitations = [];
         $latest_time = 0;
-        foreach (ilNotificationOSDHandler::getNotificationsForUser(
+        foreach ((new ilNotificationOSDHandler(ilNotificationOSDRepository::getInstance()))->getNotificationsForUser(
             $this->dic->user()->getId(),
             true,
             0,

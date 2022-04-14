@@ -32,14 +32,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 {
     public function __construct($data = null, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
-        // TODO: PHP 8 This will be removed with another ILIAS 8 feature, please ignore this on review
-        if (isset($_REQUEST['cmd']) && in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications'))) {
-            require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
-            $notifications = new ilNotificationGUI();
-            $notifications->{$_REQUEST['cmd'] . 'Object'}();
-            exit;
-        }
-
         $this->type = 'chtr';
         parent::__construct($data, $id, $call_by_reference, false);
         $this->lng->loadLanguageModule('chatroom');

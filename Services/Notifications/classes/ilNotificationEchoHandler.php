@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-use ilObjectAccess;
+namespace ILIAS\Notifications;
+
+use ILIAS\Notifications\Model\ilNotificationObject;
 
 /******************************************************************************
  *
@@ -20,8 +22,12 @@ use ilObjectAccess;
  *****************************************************************************/
 
 /**
- * @author Ingmar Szmais <iszmais@databay.de>
+ * @author Jan Posselt <jposselt@databay,de>
  */
-class ilObjNotificationAdminAccess extends ilObjectAccess
+class ilNotificationEchoHandler extends ilNotificationHandler
 {
+    public function notify(ilNotificationObject $notification) : void
+    {
+        echo "Notification for Recipient {$notification->user->getId()}: $notification->title <br />";
+    }
 }
