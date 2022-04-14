@@ -40,8 +40,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
                 ),
             ));
 
-        $xmlChecker = $this->getMockBuilder(ilXMLChecker::class)
-            ->getMock();
+        $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
@@ -104,7 +103,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $this->expectException(\Exception::class);
 
         $formData = array(
-            'certificate_text' => '<xml> Some Context </xml>',
+            'certificate_text' => '<xml> Some Context <xml>',
             'margin_body' => array(
                 'top' => '1cm',
                 'right' => '2cm',
@@ -135,11 +134,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
                 ),
             ));
 
-        $xmlChecker = $this->getMockBuilder(ilXMLChecker::class)
-            ->getMock();
-
-        $xmlChecker->method('hasError')
-            ->willReturn(true);
+        $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
@@ -210,8 +205,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
                 ),
             ));
 
-        $xmlChecker = $this->getMockBuilder(ilXMLChecker::class)
-            ->getMock();
+        $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
@@ -305,8 +299,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
                 ),
             ));
 
-        $xmlChecker = $this->getMockBuilder(ilXMLChecker::class)
-            ->getMock();
+        $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
