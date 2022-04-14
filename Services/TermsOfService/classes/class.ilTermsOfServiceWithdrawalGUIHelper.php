@@ -34,7 +34,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilTermsOfServiceHelper $tosHelper;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(ilObjUser $subjectUser)
     {
