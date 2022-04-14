@@ -90,13 +90,9 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
             );
     }
 
-    protected function createGlobalIlCtrlMock() : ilCtrl
+    protected function createGlobalIlCtrlMock() : ilCtrlInterface
     {
-        $ctrl = $this->getMockBuilder('ilCtrl')->disableOriginalConstructor()->onlyMethods(
-            ['setParameterByClass', 'redirectByClass', 'forwardCommand']
-        )->getMock();
-        $ctrl->method('setParameterByClass');
-        $ctrl->method('redirectByClass');
+        $ctrl = $this->createMock(ilCtrlInterface::class);
 
         $this->setGlobalVariable('ilCtrl', $ctrl);
 
