@@ -71,7 +71,7 @@ class ilMailTemplateRepository
      */
     public function findByContextId(string $contextId) : array
     {
-        return array_filter($this->getAll(), static function (\ilMailTemplate $template) use ($contextId) : bool {
+        return array_filter($this->getAll(), static function (ilMailTemplate $template) use ($contextId) : bool {
             return $contextId === $template->getContext();
         });
     }

@@ -157,7 +157,7 @@ class ilMassMailTaskProcessor
     ) : ILIAS\BackgroundTasks\Task {
         $jsonString = $this->objectJsonService->convertToJson($remainingObjects);
 
-        $task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
+        $task = $this->taskFactory->createTask(ilMassMailDeliveryJob::class, [
             $userId,
             $jsonString,
             $contextId,

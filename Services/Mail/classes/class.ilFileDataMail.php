@@ -621,7 +621,7 @@ class ilFileDataMail extends ilFileData
 
         ilFileDelivery::deliverFileAttached(
             $processingDirectory . '/' . $downloadFilename . '.zip',
-            \ilFileUtils::getValidFilename($downloadFilename . '.zip')
+            ilFileUtils::getValidFilename($downloadFilename . '.zip')
         );
     }
 }
