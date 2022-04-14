@@ -68,7 +68,7 @@ class ilChatroomSetupAgent implements Setup\Agent
      */
     public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
     {
-        throw new \LogicException("Not yet implemented.");
+        throw new LogicException("Not yet implemented.");
     }
 
     /**

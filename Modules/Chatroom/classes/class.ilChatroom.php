@@ -166,8 +166,8 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE object_id = %s';
-        $types = array('integer');
-        $values = array($object_id);
+        $types = ['integer'];
+        $values = [$object_id];
         $rset = $DIC->database()->queryF($query, $types, $values);
 
         if ($row = $DIC->database()->fetchAssoc($rset)) {
@@ -575,7 +575,7 @@ class ilChatroom
         $query .= ' ORDER BY timestamp ASC';
 
         $rset = $DIC->database()->query($query);
-        $result = array();
+        $result = [];
 
         while ($row = $DIC->database()->fetchAssoc($rset)) {
             $message = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);

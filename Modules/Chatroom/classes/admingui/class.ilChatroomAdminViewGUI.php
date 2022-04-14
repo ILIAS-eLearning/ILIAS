@@ -124,7 +124,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
         $convIdleStateTime = max(1, (int) $form->getInput('conversation_idle_state_in_minutes'));
 
-        $settings = array(
+        $settings = [
             'name' => (string) $form->getInput('client_name'),
             'enable_osc' => (bool) $form->getInput('enable_osc'),
             'enable_browser_notifications' => (bool) $form->getInput('enable_browser_notifications'),
@@ -132,7 +132,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             'chat_enabled' => (bool) $form->getInput('chat_enabled'),
             'enable_smilies' => (bool) $form->getInput('enable_smilies'),
             'auth' => $form->getInput('auth')
-        );
+        ];
 
         if (!$settings['chat_enabled']) {
             $settings['enable_osc'] = false;

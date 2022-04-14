@@ -150,7 +150,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if ($settings->getSmiliesEnabled()) {
             $smileys_array = ilChatroomSmilies::_getSmilies();
             foreach ($smileys_array as $smiley_array) {
-                $new_keys = array();
+                $new_keys = [];
                 $new_val = '';
                 foreach ($smiley_array as $key => $value) {
                     if ($key === 'smiley_keywords') {
@@ -186,10 +186,10 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if ($sub !== null) {
             if ($known_private_room[$sub]) {
                 if (!$room->isAllowedToEnterPrivateRoom($chat_user->getUserId(), $sub)) {
-                    $initial->messages[] = array(
+                    $initial->messages[] = [
                         'type' => 'error',
                         'message' => $this->ilLng->txt('not_allowed_to_enter'),
-                    );
+                    ];
                 } else {
                     $scope = $room->getRoomId();
                     $params = [];

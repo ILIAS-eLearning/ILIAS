@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author jposselt@databay.de

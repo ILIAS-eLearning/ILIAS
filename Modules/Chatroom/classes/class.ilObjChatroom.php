@@ -94,7 +94,7 @@ class ilObjChatroom extends ilObject
             $activation->setSuggestionEndRelative(0);
             $activation->setEarliestStart(0);
             $activation->setEarliestStartRelative(0);
-            $activation->toggleChangeable(0);
+            $activation->toggleChangeable(true);
             $activation->update($this->ref_id);
         }
 
@@ -120,7 +120,7 @@ class ilObjChatroom extends ilObject
     {
         $settings = new ilSetting('chatroom');
 
-        return (int) $settings->get('public_room_ref', 0);
+        return (int) $settings->get('public_room_ref', '0');
     }
 
     public static function _getPublicObjId() : int
