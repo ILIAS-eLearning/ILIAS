@@ -42,7 +42,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
         $criterion = $this->getInstance();
 
         $this->assertSame('usr_country', $criterion->getTypeIdent());
-        $this->assertSame(true, $criterion->hasUniqueNature());
+        $this->assertTrue($criterion->hasUniqueNature());
 
         return $criterion;
     }

@@ -54,7 +54,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $criterion = $this->getInstance();
 
         $this->assertSame('usr_global_role', $criterion->getTypeIdent());
-        $this->assertSame(false, $criterion->hasUniqueNature());
+        $this->assertFalse($criterion->hasUniqueNature());
 
         return $criterion;
     }
