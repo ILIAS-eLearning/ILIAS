@@ -57,7 +57,9 @@ class ilAccessibilityDocumentCriterionAssignmentConstraint extends Constraint
         return array_filter(
             $otherValues,
             function (ilAccessibilityDocumentCriterionAssignment $otherValue) use ($value) {
+                //TODO PHP8-REVIEW: check undefined method 'getId()'
                 $idCurrent = $otherValue->getId();
+                //TODO PHP8-REVIEW: check undefined method 'getId()'
                 $idNew = $value->getId();
 
                 $uniqueIdEquals = $idCurrent === $idNew;

@@ -22,6 +22,10 @@ use ILIAS\UI\Renderer;
 /**
  * Class ilAccessibilityDocumentGUI
  */
+//TODO PHP8-REVIEW: check undefined methods
+//Method 'getId' is undefined
+//Method 'getTitle' is undefined
+//Method 'setSorting' is undefined
 class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 {
     protected ilAccessibilityTableDataProviderFactory $tableDataProviderFactory;

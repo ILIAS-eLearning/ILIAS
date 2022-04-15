@@ -135,6 +135,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
 
     public function create() : void
     {
+        //TODO PHP8-REVIEW: check undefined method 'setCreationTs'
         $this->setCreationTs(time());
 
         parent::create();
