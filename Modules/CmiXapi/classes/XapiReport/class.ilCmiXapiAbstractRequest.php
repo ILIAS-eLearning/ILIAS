@@ -43,7 +43,7 @@ abstract class ilCmiXapiAbstractRequest
     /**
      * @return string
      */
-    protected function sendRequest(string $url)
+    protected function sendRequest(string $url) : string
     {
         $client = new GuzzleHttp\Client();
         $req_opts = array(
@@ -70,7 +70,7 @@ abstract class ilCmiXapiAbstractRequest
     }
 
     //todo body?
-    public static function checkResponse(array $response, &$body, array $allowedStatus = [200, 204])
+    public static function checkResponse(array $response, &$body, array $allowedStatus = [200, 204]) : bool
     {
         if ($response['state'] == 'fulfilled') {
             $status = $response['value']->getStatusCode();
