@@ -107,7 +107,7 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
      * @param string|null                   $verifier Verification code
      * @return string Null value
      */
-    public function new_access_token($token, $consumer, string $verifier = null) : ?string
+    public function new_access_token($token, LTIOAuth\OAuthConsumer $consumer, string $verifier = null) : ?string
     {
         return null;
     }

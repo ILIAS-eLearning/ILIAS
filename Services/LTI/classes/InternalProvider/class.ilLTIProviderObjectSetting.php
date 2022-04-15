@@ -38,7 +38,7 @@ class ilLTIProviderObjectSetting
     {
         global $DIC;
         
-        $this->log = ilLoggerFactory::getLogger('lti');
+        $this->log = ilLoggerFactory::getLogger('ltis');
         $this->db = $DIC->database();
         
         $this->ref_id = $a_ref_id;

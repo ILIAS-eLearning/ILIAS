@@ -36,54 +36,53 @@ class ResourceLinkShareKey
     /**
      * ID for resource link being shared.
      *
-     * @var string $resourceLinkId
+     * @var string|null $resourceLinkId
      */
-    public $resourceLinkId = null;
+    public ?string $resourceLinkId = null;
     /**
      * Length of share key.
      *
-     * @var int $length
+     * @var int|null $length
      */
-    public $length = null;
+    public ?int $length = null;
     /**
      * Life of share key.
      *
-     * @var int $life
+     * @var int|null $life
      */
-    public $life = null;  // in hours
+    public ?int $life = null;  // in hours
     /**
      * Whether the sharing arrangement should be automatically approved when first used.
      *
      * @var boolean $autoApprove
      */
-    public $autoApprove = false;
+    public bool $autoApprove = false;
     /**
      * Date/time when the share key expires.
      *
-     * @var int $expires
+     * @var int|null $expires
      */
-    public $expires = null;
+    public ?int $expires = null;
 
     /**
      * Share key value.
      *
-     * @var string $id
+     * @var string|null $id
      */
-    private $id = null;
+    private ?string $id = null;
     /**
      * Data connector.
      *
-     * @var DataConnector $dataConnector
+     * @var DataConnector|null $dataConnector
      */
-    private $dataConnector = null;
+    private ?\ILIAS\LTI\ToolProvider\DataConnector\DataConnector $dataConnector = null;
 
     /**
      * Class constructor.
-     *
-     * @param ResourceLink $resourceLink  Resource_Link object
-     * @param string       $id      Value of share key (optional, default is null)
+     * @param ResourceLink $resourceLink Resource_Link object
+     * @param string|null  $id           Value of share key (optional, default is null)
      */
-    public function __construct($resourceLink, $id = null)
+    public function __construct(ResourceLink $resourceLink, ?string $id = null)
     {
         $this->initialize();
         $this->dataConnector = $resourceLink->getDataConnector();

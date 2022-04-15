@@ -33,7 +33,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     {
         global $DIC;
 
-        $this->logger = ilLoggerFactory::getLogger('lti');
+        $this->logger = ilLoggerFactory::getLogger('ltis');
         $this->connector = new ilLTIDataConnector();
     }
 
@@ -103,11 +103,11 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
                 // lookup lp status
                 $status = ilLPStatus::_lookupStatus(
-                    ilObject::_lookupObjId($resource_ref_id),
+                    ilObject::_lookupObjId((int) $resource_ref_id),
                     $usr_id
                 );
                 $percentage = ilLPStatus::_lookupPercentage(
-                    ilObject::_lookupObjId($resource_ref_id),
+                    ilObject::_lookupObjId((int) $resource_ref_id),
                     $usr_id
                 );
                 $this->tryOutcomeService($resource_id, $ext_account, $status, $percentage);
@@ -149,7 +149,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
         $this->logger->debug('Sending score: ' . (string) $score);
 
-        $outcome = new \ILIAS\LTI\ToolProvider\Outcome($score);
+        $outcome = new \ILIAS\LTI\ToolProvider\Outcome((string) $score);
 
         $resource_link->doOutcomesService(
             \ILIAS\LTI\ToolProvider\ResourceLink::EXT_WRITE,
@@ -164,22 +164,19 @@ class ilLTIAppEventListener implements \ilAppEventListener
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
-        global $DIC;
+        $logger = ilLoggerFactory::getLogger('ltis');
+        $logger->debug('Handling event: ' . $a_event . ' from ' . $a_component);
 
-        $logger = $DIC->logger()->lti()->debug('Handling event: ' . $a_event . ' from ' . $a_component);
-
-        switch ($a_component) {
-            case 'Services/Tracking':
-                if ($a_event == 'updateStatus') {
-                    $listener = self::getInstance();
-                    $listener->handleUpdateStatus(
-                        $a_parameter['obj_id'],
-                        $a_parameter['usr_id'],
-                        $a_parameter['status'],
-                        $a_parameter['percentage']
-                    );
-                }
-                break;
+        if ($a_component == 'Services/Tracking') {
+            if ($a_event == 'updateStatus') {
+                $listener = self::getInstance();
+                $listener->handleUpdateStatus(
+                    $a_parameter['obj_id'],
+                    $a_parameter['usr_id'],
+                    $a_parameter['status'],
+                    $a_parameter['percentage']
+                );
+            }
         }
     }
 
@@ -200,7 +197,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     {
         global $DIC;
         $score = 0;
-        $logger = ilLoggerFactory::getLogger('lti');
+        $logger = ilLoggerFactory::getLogger('ltis');
 
         $auth_mode = ilObjUser::_lookupAuthMode($a_usr_id);
         if (strpos($auth_mode, 'lti_') === false) {
@@ -239,7 +236,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
                 if ($resource_link->hasOutcomesService()) {
                     $user = \ILIAS\LTI\ToolProvider\User::fromResourceLink($resource_link, $ext_account);
                     $logger->debug('Sending score: ' . (string) $score);
-                    $outcome = new \ILIAS\LTI\ToolProvider\Outcome($score);
+                    $outcome = new \ILIAS\LTI\ToolProvider\Outcome((string) $score);
 
                     $resource_link->doOutcomesService(
                         \ILIAS\LTI\ToolProvider\ResourceLink::EXT_WRITE,

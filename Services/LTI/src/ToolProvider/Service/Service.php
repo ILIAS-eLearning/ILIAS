@@ -23,35 +23,34 @@ class Service
  *
  * @var boolean $unsigned
  */
-    public $unsigned = false;
+    public bool $unsigned = false;
 
     /**
      * Service endpoint.
      *
      * @var string $endpoint
      */
-    protected $endpoint;
+    protected string $endpoint;
     /**
      * Tool Consumer for this service request.
      *
      * @var ToolConsumer $consumer
      */
-    private $consumer;
+    private ToolConsumer $consumer;
     /**
      * Media type of message body.
      *
      * @var string $mediaType
      */
-    private $mediaType;
+    private string $mediaType;
 
     /**
      * Class constructor.
-     *
-     * @param ToolConsumer $consumer   Tool consumer object for this service request
-     * @param string       $endpoint   Service endpoint
-     * @param string       $mediaType  Media type of message body
+     * @param ToolConsumer $consumer  Tool consumer object for this service request
+     * @param string       $endpoint  Service endpoint
+     * @param string       $mediaType Media type of message body
      */
-    public function __construct($consumer, $endpoint, $mediaType)
+    public function __construct(ToolConsumer $consumer, string $endpoint, string $mediaType)
     {
         $this->consumer = $consumer;
         $this->endpoint = $endpoint;

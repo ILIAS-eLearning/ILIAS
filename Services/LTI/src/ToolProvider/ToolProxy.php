@@ -57,11 +57,10 @@ class ToolProxy
 
     /**
      * Class constructor.
-     *
-     * @param DataConnector   $dataConnector   Data connector
-     * @param string                        $id              Tool Proxy ID (optional, default is null)
+     * @param DataConnector $dataConnector Data connector
+     * @param string|null   $id            Tool Proxy ID (optional, default is null)
      */
-    public function __construct($dataConnector, $id = null)
+    public function __construct(DataConnector $dataConnector, ?string $id = null)
     {
         $this->initialize();
         $this->dataConnector = $dataConnector;
@@ -106,10 +105,9 @@ class ToolProxy
 
     /**
      * Sets the tool proxy record ID.
-     *
-     * @param int $recordId  Tool Proxy record ID value
+     * @param int $recordId Tool Proxy record ID value
      */
-    public function setRecordId($recordId)
+    public function setRecordId(int $recordId)
     {
         $this->recordId = $recordId;
     }
@@ -130,10 +128,9 @@ class ToolProxy
 
     /**
      * Set tool consumer ID.
-     *
-     * @param int $consumerId  Tool Consumer ID for this resource link.
+     * @param int $consumerId Tool Consumer ID for this resource link.
      */
-    public function setConsumerId($consumerId)
+    public function setConsumerId(int $consumerId)
     {
         $this->consumer = null;
         $this->consumerId = $consumerId;

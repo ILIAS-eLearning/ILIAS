@@ -32,31 +32,30 @@ class ToolSettings extends Service
      *
      * @var array $LEVEL_NAMES
      */
-    private static $LEVEL_NAMES = array('ToolProxy' => 'system',
-                                        'ToolProxyBinding' => 'context',
-                                        'LtiLink' => 'link');
+    private static array $LEVEL_NAMES = array('ToolProxy' => 'system',
+                                              'ToolProxyBinding' => 'context',
+                                              'LtiLink' => 'link');
 
     /**
      * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
      *
      * @var object  $source
      */
-    private $source;
+    private object $source;
     /**
      * Whether to use the simple JSON format.
      *
      * @var boolean  $simple
      */
-    private $simple;
+    private bool $simple;
 
     /**
      * Class constructor.
-     *
-     * @param object       $source     The object to which the settings apply (ResourceLink, Context or ToolConsumer)
-     * @param string       $endpoint   Service endpoint
-     * @param boolean      $simple     True if the simple media type is to be used (optional, default is true)
+     * @param object  $source   The object to which the settings apply (ResourceLink, Context or ToolConsumer)
+     * @param string  $endpoint Service endpoint
+     * @param boolean $simple   True if the simple media type is to be used (optional, default is true)
      */
-    public function __construct($source, $endpoint, $simple = true)
+    public function __construct($source, string $endpoint, bool $simple = true)
     {
         if (is_a($source, 'IMSGlobal\LTI\ToolProvider\ToolConsumer')) {
             $consumer = $source;
@@ -75,12 +74,10 @@ class ToolSettings extends Service
 
     /**
      * Get the tool settings.
-     *
-     * @param int          $mode       Mode for request (optional, default is current level only)
-     *
+     * @param int $mode Mode for request (optional, default is current level only)
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function get($mode = self::MODE_CURRENT_LEVEL)
+    public function get(int $mode = self::MODE_CURRENT_LEVEL) : mixed
     {
         $parameter = array();
         if ($mode === self::MODE_ALL_LEVELS) {
@@ -107,12 +104,10 @@ class ToolSettings extends Service
 
     /**
      * Set the tool settings.
-     *
-     * @param array  $settings  An associative array of settings (optional, default is null)
-     *
+     * @param array $settings An associative array of settings (optional, default is null)
      * @return \ILIAS\LTI\HTTPMessage HTTP object containing request and response details
      */
-    public function set($settings)
+    public function set(array $settings) : \ILIAS\LTI\HTTPMessage
     {
         if (!$this->simple) {
             if (is_a($this->source, 'ToolConsumer')) {

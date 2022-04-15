@@ -25,61 +25,61 @@ class User
  *
  * @var string $firstname
  */
-    public $firstname = '';
+    public string $firstname = '';
     /**
      * User's last name (surname or family name).
      *
      * @var string $lastname
      */
-    public $lastname = '';
+    public string $lastname = '';
     /**
      * User's fullname.
      *
      * @var string $fullname
      */
-    public $fullname = '';
+    public string $fullname = '';
     /**
      * User's email address.
      *
      * @var string $email
      */
-    public $email = '';
+    public string $email = '';
     /**
      * User's image URI.
      *
      * @var string $image
      */
-    public $image = '';
+    public string $image = '';
     /**
      * Roles for user.
      *
      * @var array $roles
      */
-    public $roles = array();
+    public array $roles = array();
     /**
      * Groups for user.
      *
      * @var array $groups
      */
-    public $groups = array();
+    public array $groups = array();
     /**
      * User's result sourcedid.
      *
      * @var string $ltiResultSourcedId
      */
-    public $ltiResultSourcedId = null;
+    public ?string $ltiResultSourcedId = null;
     /**
      * Date/time the record was created.
      *
-     * @var object $created
+     * @var int|null $created
      */
-    public $created = null;
+    public ?int $created = null;
     /**
      * Date/time the record was last updated.
      *
-     * @var object $updated
+     * @var int|null $updated
      */
-    public $updated = null;
+    public ?int $updated = null;
 
     /**
          * Resource link object.
@@ -98,13 +98,13 @@ class User
      *
      * @var string $ltiUserId
      */
-    public $ltiUserId = null;
+    public ?string $ltiUserId = null;
     /**
      * Data connector object or string.
      *
      * @var mixed $dataConnector
      */
-    private $dataConnector = null;
+    private mixed $dataConnector = null;
 
     /**
      * Class constructor.
@@ -218,19 +218,17 @@ class User
      *
      * @return mixed Data connector object or string
      */
-    public function getDataConnector()
+    public function getDataConnector() : mixed
     {
         return $this->dataConnector;
     }
 
     /**
      * Get the user ID (which may be a compound of the tool consumer and resource link IDs).
-     *
-     * @param int $idScope Scope to use for user ID (optional, default is null for consumer default setting)
-     *
+     * @param int|null $idScope Scope to use for user ID (optional, default is null for consumer default setting)
      * @return string User ID value
      */
-    public function getId($idScope = null) : string
+    public function getId(int $idScope = null) : string
     {
         if (empty($idScope)) {
             if (!is_null($this->resourceLink)) {
@@ -302,11 +300,10 @@ class User
 
     /**
      * Set the user's email address.
-     *
-     * @param string $email        Email address value
-     * @param string $defaultEmail Value to use if no email is provided (optional, default is none)
+     * @param string      $email        Email address value
+     * @param string|null $defaultEmail Value to use if no email is provided (optional, default is none)
      */
-    public function setEmail(string $email, $defaultEmail = null) : void
+    public function setEmail(string $email, ?string $defaultEmail = null) : void
     {
         if (!empty($email)) {
             $this->email = $email;
@@ -370,11 +367,10 @@ class User
 
     /**
          * Class constructor from resource link.
-         *
-         * @param ResourceLink|object $resourceLink Resource_Link object
-         * @param string $ltiUserId User ID value
+         * @param ResourceLink $resourceLink Resource_Link object
+         * @param string              $ltiUserId    User ID value
          */
-    public static function fromResourceLink($resourceLink, string $ltiUserId) : \ILIAS\LTI\ToolProvider\User
+    public static function fromResourceLink(ResourceLink $resourceLink, string $ltiUserId) : \ILIAS\LTI\ToolProvider\User
     {
         $user = new User();
         $user->resourceLink = $resourceLink;
@@ -412,12 +408,10 @@ class User
 
     /**
      * Load the user from the database.
-     *
-     * @param int $id     Record ID of user (optional, default is null)
-     *
+     * @param int|null $id Record ID of user (optional, default is null)
      * @return boolean True if the user object was successfully loaded
      */
-    private function load($id = null)
+    private function load(?int $id = null) : bool
     {
         $this->initialize();
         $this->id = $id;

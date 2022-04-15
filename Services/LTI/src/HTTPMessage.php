@@ -13,8 +13,9 @@ namespace ILIAS\LTI;
  *****************************************************************************/
 class HTTPMessage
 {
+    public mixed $responseJson;
 
-/**
+    /**
  * True if message was sent successfully.
  *
  * @var boolean $ok
@@ -26,21 +27,21 @@ class HTTPMessage
      *
      * @var mixed|null|string $request
      */
-    public $request = null;
+    public mixed $request = null;
 
     /**
      * Request headers.
      *
-     * @var false|string|string[] $requestHeaders
+     * @var bool|string|string[] $requestHeaders
      */
-    public $requestHeaders = '';
+    public string|array|bool $requestHeaders = '';
 
-//    /**
-//     * Response body.
-//     *
-//     * @var response $response
-//     */
-    public $response = null;
+    /**
+     * Response body.
+     *
+     * @var string|null $response
+     */
+    public ?string $response = null;
 
     /**
      * Response headers.
@@ -124,8 +125,8 @@ class HTTPMessage
             //end patch ILIAS
             #curl_setopt($ch, CURLOPT_SSLVERSION,3);
             $chResp = curl_exec($ch);
-            \ilLoggerFactory::getLogger('lti')->dump(curl_getinfo($ch), \ilLogLevel::DEBUG);
-            \ilLoggerFactory::getLogger('lti')->dump(curl_error($ch), \ilLogLevel::DEBUG);
+            \ilLoggerFactory::getLogger('ltis')->dump(curl_getinfo($ch), \ilLogLevel::DEBUG);
+            \ilLoggerFactory::getLogger('ltis')->dump(curl_error($ch), \ilLogLevel::DEBUG);
             $this->ok = $chResp !== false;
             if ($this->ok) {
                 $chResp = str_replace("\r\n", "\n", $chResp);

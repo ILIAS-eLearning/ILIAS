@@ -6,30 +6,27 @@ use ILIAS\LTI\ToolProvider;
 
 /**
  * Class to implement the Membership service
- *
- * @author  Stephen P Vickers <svickers@imsglobal.org>
+ * @author     Stephen P Vickers <svickers@imsglobal.org>
  * @copyright  IMS Global Learning Consortium Inc
- * @date  2016
- * @version 3.0.0
- * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @date       2016
+ * @version    3.0.0
+ * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
 class Membership extends Service
 {
 
-/**
- * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
- *
- * @var object  $source
- */
-    private $source;
+    /**
+     * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
+     * @var ToolProvider\Context|ToolProvider\ResourceLink $source
+     */
+    private ToolProvider\Context|ToolProvider\ResourceLink $source;
 
     /**
      * Class constructor.
-     *
-     * @param \ILIAS\LTI\ToolProvider\Context      $source     The object to which the memberships apply (ResourceLink or Context)
-     * @param string       $endpoint   Service endpoint
+     * @param \ILIAS\LTI\ToolProvider\ResourceLink|\ILIAS\LTI\ToolProvider\Context $source   The object to which the memberships apply (ResourceLink or Context)
+     * @param string                                                               $endpoint Service endpoint
      */
-    public function __construct($source, $endpoint)
+    public function __construct($source, string $endpoint)
     {
         $consumer = $source->getConsumer();
         parent::__construct($consumer, $endpoint, 'application/vnd.ims.lis.v2.membershipcontainer+json');
@@ -42,7 +39,7 @@ class Membership extends Service
      * @param int         $limit Limit on the number of memberships to be returned (optional, default is all)
      * @return mixed The array of User objects if successful, otherwise false
      */
-    public function get(string $role = null, int $limit = 0)
+    public function get(string $role = null, int $limit = 0) : mixed
     {
         $isLink = is_a($this->source, 'ILIAS\LTI\ToolProvider\ResourceLink');
         $parameters = array();

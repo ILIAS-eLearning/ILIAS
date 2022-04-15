@@ -73,7 +73,7 @@ class Context
      *
      * @var mixed $dataConnector
      */
-    private $dataConnector = null;
+    private mixed $dataConnector = null;
 
     /**
      * Class constructor.
@@ -294,7 +294,7 @@ class Context
      * @param boolean $simple True if all the simple media type is to be used (optional, default is true)
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function getToolSettings(int $mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true)
+    public function getToolSettings(int $mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true) : mixed
     {
         $url = $this->getSetting('custom_context_setting_url');
         $service = new Service\ToolSettings($this, $url, $simple);
@@ -336,7 +336,7 @@ class Context
      *
      * @return mixed The array of User objects if successful, otherwise false
      */
-    public function getMembership()
+    public function getMembership() : mixed
     {
         $url = $this->getSetting('custom_context_memberships_url');
         $service = new Service\Membership($this, $url);

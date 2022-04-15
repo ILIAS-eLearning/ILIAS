@@ -30,7 +30,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->lti();
+        $this->logger = ilLoggerFactory::getLogger('ltis');
         $this->db = null;
         $this->dbTableNamePrefix = "";
     }
@@ -1096,7 +1096,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 }
                 $resourceLink->setSettings($settings);
                 if (!is_null($row->primary_resource_link_pk)) {
-                    $resourceLink->primaryResourceLinkId = intval($row->primary_resource_link_pk);
+                    $resourceLink->primaryResourceLinkId = (string) intval($row->primary_resource_link_pk);
                 } else {
                     $resourceLink->primaryResourceLinkId = null;
                 }
@@ -1711,7 +1711,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         global $DIC;
 
         $db = $DIC->database();
-        $logger = $DIC->logger()->lti();
+        $logger = ilLoggerFactory::getLogger('ltis');
 
         $query = 'select rl.resource_link_pk ' .
             'from lti2_user_result ur join lti2_resource_link rl on rl.resource_link_pk = ur.resource_link_pk ' .
@@ -1743,7 +1743,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         global $DIC;
 
         $db = $DIC->database();
-        $logger = $DIC->logger()->lti();
+        $logger = ilLoggerFactory::getLogger('ltis');
 
         $query = 'select lti_user_id, rl.resource_link_pk, ec.id, ref_id ' .
             'from lti2_resource_link rl join lti2_user_result ur on rl.resource_link_pk = ur.resource_link_pk ' .

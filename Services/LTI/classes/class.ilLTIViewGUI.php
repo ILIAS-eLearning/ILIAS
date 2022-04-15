@@ -52,7 +52,7 @@ class ilLTIViewGUI
     {
         global $DIC;
         $this->dic = $DIC;
-        $this->log = ilLoggerFactory::getLogger('lti');
+        $this->log = ilLoggerFactory::getLogger('ltis');
         $this->lng = $this->dic->language();
         $this->lng->loadLanguageModule('lti');
     }
@@ -74,7 +74,7 @@ class ilLTIViewGUI
      * for compatiblity with ilLTIRouterGUI
      * @return mixed
      */
-    public static function getInstance()
+    public static function getInstance() : mixed
     {
         global $DIC;
         return $DIC["lti"];
@@ -119,13 +119,12 @@ class ilLTIViewGUI
      */
     public function initGUI() : void
     {
+        global $DIC;
         $this->log->debug("initGUI");
-        $baseclass = strtolower((string) $_GET['baseClass']);
-        $cmdclass = strtolower((string) $_GET['cmdClass']);
-        switch ($baseclass) {
-            case 'illtiroutergui':
-                return;
-                break;
+        $baseclass = strtolower($DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string()));
+        $cmdclass = strtolower($DIC->http()->wrapper()->query()->retrieve('cmdClass', $DIC->refinery()->kindlyTo()->string()));
+        if ($baseclass == 'illtiroutergui') {
+            return;
         }
     }
 
@@ -134,12 +133,14 @@ class ilLTIViewGUI
     */
     protected function getContextId() : ?int
     {
-        global $ilLocator;
+        global $ilLocator, $DIC;
 
         // forced lti_context_id for example request command in exitLTI
-        if (isset($_GET['lti_context_id']) && $_GET['lti_context_id'] !== '') {
-            $this->log->debug("find context_id by GET param: " . $_GET['lti_context_id']);
-            return (int) $_GET['lti_context_id'];
+        if ($DIC->http()->wrapper()->query()->has('lti_context_id') &&
+            $DIC->http()->wrapper()->query()->retrieve('lti_context_id', $DIC->refinery()->kindlyTo()->string()) !== '') {
+            $contextId = (int) $DIC->http()->wrapper()->query()->retrieve('lti_context_id', $DIC->refinery()->kindlyTo()->int());
+            $this->log->debug("find context_id by GET param: " . (string) $contextId);
+            return $contextId;
         }
         
         $this->findEffectiveRefId();
@@ -147,7 +148,7 @@ class ilLTIViewGUI
 
         $this->log->debug("Effective ref_id: " . $ref_id);
         // context_id = ref_id in request
-        if (isset($_SESSION['lti_' . $ref_id . '_post_data'])) {
+        if (ilSession::has('lti_' . $ref_id . '_post_data')) {
             $this->log->debug("lti context session exists for " . $ref_id);
 //            return $ref_id;
         }
@@ -156,7 +157,7 @@ class ilLTIViewGUI
         $locator_items = $ilLocator->getItems();
         if (is_array($locator_items) && count($locator_items) > 0) {
             for ($i = count($locator_items) - 1;$i >= 0;$i--) {
-                if (isset($_SESSION['lti_' . $locator_items[$i]['ref_id'] . '_post_data'])) {
+                if (ilSession::has('lti_' . $locator_items[$i]['ref_id'] . '_post_data')) {
                     $this->log->debug("found valid ref_id in locator: " . $locator_items[$i]['ref_id']);
                     return $locator_items[$i]['ref_id'];
                 }
@@ -182,7 +183,7 @@ class ilLTIViewGUI
             $referrer = $this->effectiveRefId;
 
             if ($referer > 0) {
-                if (isset($_SESSION['lti_' . $referer . '_post_data'])) {
+                if (ilSession::has('lti_' . $referer . '_post_data')) {
                     $ref_id = $referer;
                     $context_id = $referer;
                     $obj_type = ilObject::_lookupType($ref_id, true);
@@ -192,7 +193,7 @@ class ilLTIViewGUI
                     if ($this->dic->repositoryTree()->isInTree($referer)) {
                         $path = $this->dic->repositoryTree()->getPathId($referer);
                         for ($i = count($path) - 1;$i >= 0;$i--) {
-                            if (isset($_SESSION['lti_' . $path[$i] . '_post_data'])) {
+                            if (ilSession::has('lti_' . $path[$i] . '_post_data')) {
                                 // redirect to referer, because it is valid
                                 $ref_id = $referer;
                                 $context_id = $path[$i];
@@ -204,8 +205,17 @@ class ilLTIViewGUI
                 }
             }
             if ($ref_id > 0 && $obj_type != '') {
-                if ((isset($_GET['baseClass']) && $_GET['baseClass'] === 'ilDashboardGUI')
-                    && (isset($_GET['cmdClass']) && $_GET['cmdClass'] === 'ilpersonalprofilegui')) {
+                if (
+                    (
+                        $DIC->http()->wrapper()->query()->has('baseClass') &&
+                        $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string()) === 'ilDashboardGUI'
+                    )
+                    &&
+                    (
+                        $DIC->http()->wrapper()->query()->has('cmdClass') &&
+                        $DIC->http()->wrapper()->query()->retrieve('cmdClass', $DIC->refinery()->kindlyTo()->string()) === 'ilpersonalprofilegui'
+                    )
+                ) {
                     return $context_id;
                 }
 //                $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -214,7 +224,7 @@ class ilLTIViewGUI
                 ilUtil::redirect($redirect);
             }
         }
-        $lti_context_ids = $_SESSION['lti_context_ids'];
+        $lti_context_ids = ilSession::get('lti_context_ids');
         if (is_array($lti_context_ids) && count($lti_context_ids) > 0) {
             if (count($lti_context_ids) == 1) {
                 $this->log->debug("using context_id from only LTI session");
@@ -236,7 +246,7 @@ class ilLTIViewGUI
             $this->log->warning("could not find any valid context_id!");
             return null;
         }
-        $post_data = $_SESSION['lti_' . $context_id . '_post_data'];
+        $post_data = ilSession::get('lti_' . $context_id . '_post_data');
         if (!is_array($post_data)) {
             $this->log->warning("no session post_data: " . "lti_" . $context_id . "_post_data");
             return null;
@@ -290,7 +300,8 @@ class ilLTIViewGUI
      */
     public function exitLti() : void
     {
-        $this->dic->logger()->lti()->info("exitLTI");
+        $logger = ilLoggerFactory::getLogger('ltis');
+        $logger->info("exitLTI");
         $force_ilias_logout = false;
         $context_id = $this->getContextId();
         if ($context_id == 0) {
@@ -300,11 +311,12 @@ class ilLTIViewGUI
         $post_data = $this->getPostData();
         $return_url = ($post_data !== null) ? $post_data['launch_presentation_return_url'] : '';
         $this->removeContextFromSession((string) $context_id);
-       
-        if (isset($_SESSION['lti_' . $context_id . '_post_data'])) {
-            unset($_SESSION['lti_' . $context_id . '_post_data']);
-            $this->dic->logger()->lti()->debug('unset SESSION["' . 'lti_' . $context_id . '_post_data"]');
+
+        if (ilSession::has('lti_' . $context_id . '_post_data')) {
+            ilSession::clear('lti_' . $context_id . '_post_data');
+            $logger->debug('unset SESSION["' . 'lti_' . $context_id . '_post_data"]');
         }
+
         if (!isset($return_url) || $return_url === '') {
             $cc = $this->dic->globalScreen()->tool()->context()->current();
             $cc->addAdditionalData(LtiViewLayoutProvider::GS_EXIT_LTI, true);
@@ -332,12 +344,12 @@ class ilLTIViewGUI
         if ($force_ilias_logout) {
             $this->log->warning("forcing logout ilias session, maybe a broken LTI context");
         } else {
-            if (is_array($_SESSION['lti_context_ids']) && count($_SESSION['lti_context_ids']) > 0) {
+            if (is_array(ilSession::get('lti_context_ids')) && count(ilSession::get('lti_context_ids')) > 0) {
                 $this->log->debug("there is another valid consumer session: ilias session logout refused.");
                 return;
             }
         }
-        $this->dic->logger()->lti()->info("logout");
+        $this->log->info("logout");
         $DIC->user()->setAuthMode((string) ilAuthUtils::AUTH_LOCAL);
         //ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER); // needed?
         $auth = $GLOBALS['DIC']['ilAuthSession'];
@@ -345,7 +357,7 @@ class ilLTIViewGUI
 //        $auth->setExpired($auth::SESSION_AUTH_EXPIRED, ilAuthStatus::STATUS_UNDEFINED);
         $auth->setExpired(true);
         session_destroy();
-        $client_id = $_COOKIE["ilClientId"];
+//        $client_id = $_COOKIE["ilClientId"];
         ilUtil::setCookie("ilClientId", "");
         ilUtil::setCookie("PHPSESSID", "");
     }
@@ -364,10 +376,10 @@ class ilLTIViewGUI
         return $this->link_dir . $targetScript . $this->dic->ctrl()->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))), $cmd) . "&baseClass=illtiroutergui" . $lti_context_id_param;
     }
 
-    private function getSessionValue(String $sess_key) : String
+    private function getSessionValue(string $sess_key) : string
     {
-        if (isset($_SESSION[$sess_key]) && $_SESSION[$sess_key] != '') {
-            return $_SESSION[$sess_key];
+        if (ilSession::has($sess_key) && ilSession::get($sess_key) != '') {
+            return ilSession::get($sess_key);
         } else {
             return '';
         }
@@ -384,10 +396,10 @@ class ilLTIViewGUI
 
     private function removeContextFromSession(string $context_id) : void
     {
-        $lti_context_ids = $_SESSION['lti_context_ids'];
+        $lti_context_ids = ilSession::get('lti_context_ids');
         if (is_array($lti_context_ids) && in_array($context_id, $lti_context_ids)) {
             array_splice($lti_context_ids, array_search($context_id, $lti_context_ids), 1);
-            $_SESSION['lti_context_ids'] = $lti_context_ids;
+            ilSession::set('lti_context_ids', $lti_context_ids);
         }
     }
 
@@ -397,8 +409,9 @@ class ilLTIViewGUI
      */
     private function findEffectiveRefId(?string $url = null) : void
     {
+        global $DIC;
         if ($url === null) {
-            $query = $_GET;
+            $query = $_GET;//$DIC->http()->wrapper()->query();
         } else {
             parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
         }
@@ -406,9 +419,9 @@ class ilLTIViewGUI
             $this->effectiveRefId = (int) $query['ref_id'];
             return;
         }
-        if ($_SESSION['lti_init_target'] != "") {
-            $target_arr = explode('_', $_SESSION['lti_init_target']);
-            $_SESSION['lti_init_target'] = "";
+        if (ilSession::get('lti_init_target') != "") {
+            $target_arr = explode('_', ilSession::get('lti_init_target'));
+            ilSession::set('lti_init_target', "");
         } else {
             $target_arr = explode('_', (string) $query['target']);
         }

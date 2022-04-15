@@ -26,9 +26,9 @@ class ConsumerNonce
     /**
      * Date/time when the nonce value expires.
      *
-     * @var int $expires
+     * @var int|null $expires
      */
-    public $expires = null;
+    public int|null $expires = null;
 
     /**
          * Tool Consumer to which this nonce applies.

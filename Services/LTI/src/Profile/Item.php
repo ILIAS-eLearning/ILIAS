@@ -41,7 +41,7 @@ class Item
      *
      * @var string $url
      */
-    public $url = null;
+    public ?string $url = null;
     /**
      * Version of item.
      *

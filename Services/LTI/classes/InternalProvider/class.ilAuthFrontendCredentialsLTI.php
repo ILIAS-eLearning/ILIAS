@@ -35,10 +35,11 @@ class ilAuthFrontendCredentialsLTI extends ilAuthFrontendCredentials implements 
      */
     public function initFromRequest() : void
     {
-        $logger = ilLoggerFactory::getLogger('lti');
+        global $DIC;
+        $logger = ilLoggerFactory::getLogger('ltis');
         $logger->debug('New lti authentication request...');
         $logger->dump($_REQUEST, ilLogLevel::DEBUG);
         
-        $this->setUsername($_POST['user_id']);
+        $this->setUsername($DIC->http()->wrapper()->post()->retrieve('user_id', $DIC->refinery()->kindlyTo()->string()));
     }
 }

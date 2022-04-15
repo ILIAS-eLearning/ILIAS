@@ -140,9 +140,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     public function __construct(DataConnector $dataConnector)
     {
-        global $DIC;
-
-        $this->logger = $DIC->logger()->lti();
+        $this->logger = ilLoggerFactory::getLogger('ltis');
         parent::__construct($dataConnector);
     }
 
@@ -152,18 +150,19 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     private function checkForShare() : bool
     {
+        global $DIC;
         $ok = true;
         $doSaveResourceLink = true;
 
         $id = $this->resourceLink->primaryResourceLinkId;
-        $shareRequest = isset($_POST['custom_share_key']) && !empty($_POST['custom_share_key']);
+        $shareRequest = $DIC->http()->wrapper()->post()->has('custom_share_key') && !empty($DIC->http()->wrapper()->post()->retrieve('custom_share_key', $DIC->refinery()->kindlyTo()->string()));
         if ($shareRequest) {
             if (!$this->allowSharing) {
                 $ok = false;
                 $this->reason = 'Your sharing request has been refused because sharing is not being permitted.';
             } else {
                 // Check if this is a new share key
-                $shareKey = new ResourceLinkShareKey($this->resourceLink, $_POST['custom_share_key']);
+                $shareKey = new ResourceLinkShareKey($this->resourceLink, $DIC->http()->wrapper()->post()->retrieve('custom_share_key', $DIC->refinery()->kindlyTo()->string()));
                 if (!is_null($shareKey->resourceLinkId)) {
                     // Update resource link with sharing primary resource link details
                     $key = $shareKey->resourceLinkId;
@@ -208,7 +207,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         // Look up primary resource link
         if ($ok && !is_null($id)) {
             // $consumer = new ToolConsumer($key, $this->dataConnector);
-            $consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
+            $consumer = new ilLTIToolConsumer($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
             $ok = !is_null($consumer->created);
             if ($ok) {
                 $resourceLink = ResourceLink::fromConsumer($consumer, $id);
@@ -294,32 +293,40 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     private function authenticate() : bool
     {
+        global $DIC;
         // Get the consumer
         $doSaveConsumer = false;
         // Check all required launch parameters
-        $this->ok = isset($_POST['lti_message_type']) && array_key_exists(
-            $_POST['lti_message_type'],
+        $this->ok = $DIC->http()->wrapper()->post()->has('lti_message_type') && array_key_exists(
+            $DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()),
             self::$MESSAGE_TYPES
         );
         if (!$this->ok) {
             $this->reason = 'Invalid or missing lti_message_type parameter.';
         }
         if ($this->ok) {
-            $this->ok = isset($_POST['lti_version']) && in_array($_POST['lti_version'], self::$LTI_VERSIONS);
+            $this->ok = $DIC->http()->wrapper()->post()->has('lti_version') && in_array($DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string()), self::$LTI_VERSIONS);
             if (!$this->ok) {
                 $this->reason = 'Invalid or missing lti_version parameter.';
             }
         }
         if ($this->ok) {
-            if ($_POST['lti_message_type'] === 'basic-lti-launch-request') {
-                $this->ok = isset($_POST['resource_link_id']) && (strlen(trim($_POST['resource_link_id'])) > 0);
+            if ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'basic-lti-launch-request') {
+                $this->ok = $DIC->http()->wrapper()->post()->has('resource_link_id')
+                    && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('resource_link_id', $DIC->refinery()->kindlyTo()->string()))) > 0);
                 if (!$this->ok) {
                     $this->reason = 'Missing resource link ID.';
                 }
-            } elseif ($_POST['lti_message_type'] === 'ContentItemSelectionRequest') {
-                if (isset($_POST['accept_media_types']) && (strlen(trim($_POST['accept_media_types'])) > 0)) {
+            } elseif ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ContentItemSelectionRequest') {
+                if ($DIC->http()->wrapper()->post()->has('accept_media_types') && (strlen(trim(
+                    $DIC->http()->wrapper()->post()->retrieve('accept_media_types', $DIC->refinery()->kindlyTo()->string())
+                )) > 0)) {
                     $mediaTypes = array_filter(
-                        explode(',', str_replace(' ', '', $_POST['accept_media_types'])),
+                        explode(',', str_replace(
+                            ' ',
+                            '',
+                            $DIC->http()->wrapper()->post()->retrieve('accept_media_types', $DIC->refinery()->kindlyTo()->string())
+                        )),
                         'strlen'
                     );
                     $mediaTypes = array_unique($mediaTypes);
@@ -332,10 +339,11 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 } else {
                     $this->ok = false;
                 }
-                if ($this->ok && isset($_POST['accept_presentation_document_targets']) && (strlen(trim($_POST['accept_presentation_document_targets'])) > 0)) {
+                if ($this->ok && $DIC->http()->wrapper()->post()->has('accept_presentation_document_targets')
+                    && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('accept_presentation_document_targets', $DIC->refinery()->kindlyTo()->string()))) > 0)) {
                     $documentTargets = array_filter(explode(
                         ',',
-                        str_replace(' ', '', $_POST['accept_presentation_document_targets'])
+                        str_replace(' ', '', $DIC->http()->wrapper()->post()->retrieve('accept_presentation_document_targets', $DIC->refinery()->kindlyTo()->string()))
                     ), 'strlen');
                     $documentTargets = array_unique($documentTargets);
                     $this->ok = count($documentTargets) > 0;
@@ -360,16 +368,16 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $this->ok = false;
                 }
                 if ($this->ok) {
-                    $this->ok = isset($_POST['content_item_return_url']) && (strlen(trim($_POST['content_item_return_url'])) > 0);
+                    $this->ok = $DIC->http()->wrapper()->post()->has('content_item_return_url') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('content_item_return_url', $DIC->refinery()->kindlyTo()->string()))) > 0);
                     if (!$this->ok) {
                         $this->reason = 'Missing content_item_return_url parameter.';
                     }
                 }
-            } elseif ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest') {
-                $this->ok = ((isset($_POST['reg_key']) && (strlen(trim($_POST['reg_key'])) > 0)) &&
-                    (isset($_POST['reg_password']) && (strlen(trim($_POST['reg_password'])) > 0)) &&
-                    (isset($_POST['tc_profile_url']) && (strlen(trim($_POST['tc_profile_url'])) > 0)) &&
-                    (isset($_POST['launch_presentation_return_url']) && (strlen(trim($_POST['launch_presentation_return_url'])) > 0)));
+            } elseif ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) == 'ToolProxyRegistrationRequest') {
+                $this->ok = (($DIC->http()->wrapper()->post()->has('reg_key') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('reg_key', $DIC->refinery()->kindlyTo()->string()))) > 0)) &&
+                    ($DIC->http()->wrapper()->post()->has('reg_password') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('reg_password', $DIC->refinery()->kindlyTo()->string()))) > 0)) &&
+                    ($DIC->http()->wrapper()->post()->has('tc_profile_url') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('tc_profile_url', $DIC->refinery()->kindlyTo()->string()))) > 0)) &&
+                    ($DIC->http()->wrapper()->post()->has('launch_presentation_return_url') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('launch_presentation_return_url', $DIC->refinery()->kindlyTo()->string()))) > 0)));
                 if ($this->debugMode && !$this->ok) {
                     $this->reason = 'Missing message parameters.';
                 }
@@ -380,14 +388,14 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         $this->logger->debug('Checking consumer key...');
 
         // Check consumer key
-        if ($this->ok && ($_POST['lti_message_type'] != 'ToolProxyRegistrationRequest')) {
-            $this->ok = isset($_POST['oauth_consumer_key']);
+        if ($this->ok && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) != 'ToolProxyRegistrationRequest')) {
+            $this->ok = $DIC->http()->wrapper()->post()->has('oauth_consumer_key');
             if (!$this->ok) {
                 $this->reason = 'Missing consumer key.';
             }
             if ($this->ok) {
                 // $this->consumer = new ToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
-                $this->consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
+                $this->consumer = new ilLTIToolConsumer($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
                 $this->ok = !is_null($this->consumer->created);
                 if (!$this->ok) {
                     $this->reason = 'Invalid consumer key.';
@@ -440,13 +448,13 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->consumer->last_access = $now;
                 if ($this->consumer->protected) {
                     if (!is_null($this->consumer->consumerGuid)) {
-                        $this->ok = empty($_POST['tool_consumer_instance_guid']) ||
-                            ($this->consumer->consumerGuid === $_POST['tool_consumer_instance_guid']);
+                        $this->ok = empty($DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string())) ||
+                            ($this->consumer->consumerGuid === $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string()));
                         if (!$this->ok) {
                             $this->reason = 'Request is from an invalid tool consumer.';
                         }
                     } else {
-                        $this->ok = isset($_POST['tool_consumer_instance_guid']);
+                        $this->ok = $DIC->http()->wrapper()->post()->has('tool_consumer_instance_guid');
                         if (!$this->ok) {
                             $this->reason = 'A tool consumer GUID must be included in the launch request.';
                         }
@@ -472,45 +480,45 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             }
             // Validate other message parameter values
             if ($this->ok) {
-                if ($_POST['lti_message_type'] === 'ContentItemSelectionRequest') {
-                    if (isset($_POST['accept_unsigned'])) {
+                if ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ContentItemSelectionRequest') {
+                    if ($DIC->http()->wrapper()->post()->has('accept_unsigned')) {
                         $this->ok = $this->checkValue(
-                            $_POST['accept_unsigned'],
+                            $DIC->http()->wrapper()->post()->retrieve('accept_unsigned', $DIC->refinery()->kindlyTo()->string()),
                             array('true', 'false'),
                             'Invalid value for accept_unsigned parameter: %s.'
                         );
                     }
-                    if ($this->ok && isset($_POST['accept_multiple'])) {
+                    if ($this->ok && $DIC->http()->wrapper()->post()->has('accept_multiple')) {
                         $this->ok = $this->checkValue(
-                            $_POST['accept_multiple'],
+                            $DIC->http()->wrapper()->post()->retrieve('accept_multiple', $DIC->refinery()->kindlyTo()->string()),
                             array('true', 'false'),
                             'Invalid value for accept_multiple parameter: %s.'
                         );
                     }
-                    if ($this->ok && isset($_POST['accept_copy_advice'])) {
+                    if ($this->ok && $DIC->http()->wrapper()->post()->has('accept_copy_advice')) {
                         $this->ok = $this->checkValue(
-                            $_POST['accept_copy_advice'],
+                            $DIC->http()->wrapper()->post()->retrieve('accept_copy_advice', $DIC->refinery()->kindlyTo()->string()),
                             array('true', 'false'),
                             'Invalid value for accept_copy_advice parameter: %s.'
                         );
                     }
-                    if ($this->ok && isset($_POST['auto_create'])) {
+                    if ($this->ok && $DIC->http()->wrapper()->post()->has('auto_create')) {
                         $this->ok = $this->checkValue(
-                            $_POST['auto_create'],
+                            $DIC->http()->wrapper()->post()->retrieve('auto_create', $DIC->refinery()->kindlyTo()->string()),
                             array('true', 'false'),
                             'Invalid value for auto_create parameter: %s.'
                         );
                     }
-                    if ($this->ok && isset($_POST['can_confirm'])) {
+                    if ($this->ok && $DIC->http()->wrapper()->post()->has('can_confirm')) {
                         $this->ok = $this->checkValue(
-                            $_POST['can_confirm'],
+                            $DIC->http()->wrapper()->post()->retrieve('can_confirm', $DIC->refinery()->kindlyTo()->string()),
                             array('true', 'false'),
                             'Invalid value for can_confirm parameter: %s.'
                         );
                     }
-                } elseif (isset($_POST['launch_presentation_document_target'])) {
+                } elseif ($DIC->http()->wrapper()->post()->has('launch_presentation_document_target')) {
                     $this->ok = $this->checkValue(
-                        $_POST['launch_presentation_document_target'],
+                        $DIC->http()->wrapper()->post()->retrieve('launch_presentation_document_target', $DIC->refinery()->kindlyTo()->string()),
                         array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay'),
                         'Invalid value for launch_presentation_document_target parameter: %s.'
                     );
@@ -518,14 +526,14 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             }
         }
 
-        if ($this->ok && ($_POST['lti_message_type'] === 'ToolProxyRegistrationRequest')) {
-            $this->ok = $_POST['lti_version'] == self::LTI_VERSION2;
+        if ($this->ok && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ToolProxyRegistrationRequest')) {
+            $this->ok = $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string()) == self::LTI_VERSION2;
             if (!$this->ok) {
                 $this->reason = 'Invalid lti_version parameter';
             }
             if ($this->ok) {
                 $http = new HTTPMessage(
-                    $_POST['tc_profile_url'],
+                    $DIC->http()->wrapper()->post()->retrieve('tc_profile_url', $DIC->refinery()->kindlyTo()->string()),
                     'GET',
                     null,
                     'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json'
@@ -544,7 +552,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             // Check for required capabilities
             if ($this->ok) {
                 // $this->consumer = new ToolConsumer($_POST['reg_key'], $this->dataConnector);
-                $this->consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
+                $this->consumer = new ilLTIToolConsumer($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
                 $this->consumer->profile = $tcProfile;
                 $capabilities = $this->consumer->profile->capability_offered;
                 $missing = array();
@@ -588,10 +596,10 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             }
             if ($this->ok) {
-                if ($_POST['lti_message_type'] === 'ToolProxyRegistrationRequest') {
+                if ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ToolProxyRegistrationRequest') {
                     $this->consumer->profile = $tcProfile;
-                    $this->consumer->secret = $_POST['reg_password'];
-                    $this->consumer->ltiVersion = $_POST['lti_version'];
+                    $this->consumer->secret = $DIC->http()->wrapper()->post()->retrieve('reg_password', $DIC->refinery()->kindlyTo()->string());
+                    $this->consumer->ltiVersion = $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string());
                     $this->consumer->name = $tcProfile->product_instance->service_owner->service_owner_name->default_value;
                     $this->consumer->consumerName = $this->consumer->name;
                     $this->consumer->consumerVersion = "{$tcProfile->product_instance->product_info->product_family->code}-{$tcProfile->product_instance->product_info->product_version}";
@@ -601,9 +609,12 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $doSaveConsumer = true;
                 }
             }
-        } elseif ($this->ok && !empty($_POST['custom_tc_profile_url']) && empty($this->consumer->profile)) {
+        } elseif ($this->ok &&
+            $DIC->http()->wrapper()->post()->has('custom_tc_profile_url') &&
+            $DIC->http()->wrapper()->post()->retrieve('custom_tc_profile_url', $DIC->refinery()->kindlyTo()->string()) != "" &&
+            empty($this->consumer->profile)) {
             $http = new HTTPMessage(
-                $_POST['custom_tc_profile_url'],
+                $DIC->http()->wrapper()->post()->retrieve('custom_tc_profile_url', $DIC->refinery()->kindlyTo()->string()),
                 'GET',
                 null,
                 'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json'
@@ -616,7 +627,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             }
         }
-        //ACHTUNG HIER TODO UWE
+        //ACHTUNG HIER EVTL. TODO
         // Validate message parameter constraints
         // if ($this->ok) {
         // $invalidParameters = array();
@@ -624,12 +635,12 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         // // if (empty($constraint['messages']) || in_array($_POST['lti_message_type'], $constraint['messages'])) {
         // // $ok = true;
         // // if ($constraint['required']) {
-        // // if (!isset($_POST[$name]) || (strlen(trim($_POST[$name])) <= 0)) {
+        // // if (!$DIC->http()->wrapper()->post()->has($name) || (strlen(trim($_POST[$name])) <= 0)) {
         // // $invalidParameters[] = "{$name} (missing)";
         // // $ok = false;
         // // }
         // // }
-        // // if ($ok && !is_null($constraint['max_length']) && isset($_POST[$name])) {
+        // // if ($ok && !is_null($constraint['max_length']) && $DIC->http()->wrapper()->post()->has($name)) {
         // // if (strlen(trim($_POST[$name])) > $constraint['max_length']) {
         // // $invalidParameters[] = "{$name} (too long)";
         // // }
@@ -652,11 +663,11 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         if ($this->ok) {
 
 // Set the request context
-            if (isset($_POST['context_id'])) {
-                $this->context = Context::fromConsumer($this->consumer, trim($_POST['context_id']));
+            if ($DIC->http()->wrapper()->post()->has('context_id')) {
+                $this->context = Context::fromConsumer($this->consumer, trim($DIC->http()->wrapper()->post()->retrieve('context_id', $DIC->refinery()->kindlyTo()->string())));
                 $title = '';
-                if (isset($_POST['context_title'])) {
-                    $title = trim($_POST['context_title']);
+                if ($DIC->http()->wrapper()->post()->has('context_title')) {
+                    $title = trim($DIC->http()->wrapper()->post()->retrieve('context_title', $DIC->refinery()->kindlyTo()->string()));
                 }
                 if (empty($title)) {
                     $title = "Course {$this->context->getId()}";
@@ -665,22 +676,22 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             }
 
             // Set the request resource link
-            if (isset($_POST['resource_link_id'])) {
+            if ($DIC->http()->wrapper()->post()->has('resource_link_id')) {
                 $contentItemId = '';
-                if (isset($_POST['custom_content_item_id'])) {
-                    $contentItemId = $_POST['custom_content_item_id'];
+                if ($DIC->http()->wrapper()->post()->has('custom_content_item_id')) {
+                    $contentItemId = $DIC->http()->wrapper()->post()->retrieve('custom_content_item_id', $DIC->refinery()->kindlyTo()->string());
                 }
                 $this->resourceLink = ResourceLink::fromConsumer(
                     $this->consumer,
-                    trim($_POST['resource_link_id']),
+                    trim($DIC->http()->wrapper()->post()->retrieve('resource_link_id', $DIC->refinery()->kindlyTo()->string())),
                     $contentItemId
                 );
                 if (!empty($this->context)) {
                     $this->resourceLink->setContextId($this->context->getRecordId());
                 }
                 $title = '';
-                if (isset($_POST['resource_link_title'])) {
-                    $title = trim($_POST['resource_link_title']);
+                if ($DIC->http()->wrapper()->post()->has('resource_link_title')) {
+                    $title = trim($DIC->http()->wrapper()->post()->retrieve('resource_link_title', $DIC->refinery()->kindlyTo()->string()));
                 }
                 if (empty($title)) {
                     $title = "Resource {$this->resourceLink->getId()}";
@@ -707,29 +718,30 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
                 // Save LTI parameters
                 foreach (self::$LTI_CONSUMER_SETTING_NAMES as $name) {
-                    if (isset($_POST[$name])) {
-                        $this->consumer->setSetting($name, $_POST[$name]);
+                    if ($DIC->http()->wrapper()->post()->has($name)) {
+                        $this->consumer->setSetting($name, $DIC->http()->wrapper()->post()->retrieve($name, $DIC->refinery()->kindlyTo()->string()));
                     } else {
                         $this->consumer->setSetting($name);
                     }
                 }
                 if (!empty($this->context)) {
                     foreach (self::$LTI_CONTEXT_SETTING_NAMES as $name) {
-                        if (isset($_POST[$name])) {
-                            $this->context->setSetting($name, $_POST[$name]);
+                        if ($DIC->http()->wrapper()->post()->has($name)) {
+                            $this->context->setSetting($name, $DIC->http()->wrapper()->post()->retrieve($name, $DIC->refinery()->kindlyTo()->string()));
                         } else {
                             $this->context->setSetting($name);
                         }
                     }
                 }
                 foreach (self::$LTI_RESOURCE_LINK_SETTING_NAMES as $name) {
-                    if (isset($_POST[$name])) {
-                        $this->resourceLink->setSetting($name, $_POST[$name]);
+                    if ($DIC->http()->wrapper()->post()->has($name)) {
+                        $this->resourceLink->setSetting($name, $DIC->http()->wrapper()->post()->retrieve($name, $DIC->refinery()->kindlyTo()->string()));
                     } else {
                         $this->resourceLink->setSetting($name);
                     }
                 }
                 // Save other custom parameters
+
                 foreach ($_POST as $name => $value) {
                     if ((strpos($name, 'custom_') === 0) &&
                         !in_array(
@@ -747,77 +759,77 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
 
             // Set the user instance
             $userId = '';
-            if (isset($_POST['user_id'])) {
-                $userId = trim($_POST['user_id']);
+            if ($DIC->http()->wrapper()->post()->has('user_id')) {
+                $userId = trim($DIC->http()->wrapper()->post()->retrieve('user_id', $DIC->refinery()->kindlyTo()->string()));
             }
 
             $this->user = User::fromResourceLink($this->resourceLink, $userId);
 
             // Set the user name
-            $firstname = (isset($_POST['lis_person_name_given'])) ? $_POST['lis_person_name_given'] : '';
-            $lastname = (isset($_POST['lis_person_name_family'])) ? $_POST['lis_person_name_family'] : '';
-            $fullname = (isset($_POST['lis_person_name_full'])) ? $_POST['lis_person_name_full'] : '';
+            $firstname = ($DIC->http()->wrapper()->post()->has('lis_person_name_given')) ? $DIC->http()->wrapper()->post()->retrieve('lis_person_name_given', $DIC->refinery()->kindlyTo()->string()) : '';
+            $lastname = ($DIC->http()->wrapper()->post()->has('lis_person_name_family')) ? $DIC->http()->wrapper()->post()->retrieve('lis_person_name_family', $DIC->refinery()->kindlyTo()->string()) : '';
+            $fullname = ($DIC->http()->wrapper()->post()->has('lis_person_name_full')) ? $DIC->http()->wrapper()->post()->retrieve('lis_person_name_full', $DIC->refinery()->kindlyTo()->string()) : '';
             $this->user->setNames($firstname, $lastname, $fullname);
 
             // Set the user email
-            $email = (isset($_POST['lis_person_contact_email_primary'])) ? $_POST['lis_person_contact_email_primary'] : '';
+            $email = ($DIC->http()->wrapper()->post()->has('lis_person_contact_email_primary')) ? $DIC->http()->wrapper()->post()->retrieve('lis_person_contact_email_primary', $DIC->refinery()->kindlyTo()->string()) : '';
             $this->user->setEmail($email, $this->defaultEmail);
 
             // Set the user image URI
-            if (isset($_POST['user_image'])) {
-                $this->user->image = $_POST['user_image'];
+            if ($DIC->http()->wrapper()->post()->has('user_image')) {
+                $this->user->image = $DIC->http()->wrapper()->post()->retrieve('user_image', $DIC->refinery()->kindlyTo()->string());
             }
 
             // Set the user roles
-            if (isset($_POST['roles'])) {
-                $this->user->roles = self::parseRoles($_POST['roles']);
+            if ($DIC->http()->wrapper()->post()->has('roles')) {
+                $this->user->roles = self::parseRoles($this->user->roles = self::parseRoles($DIC->http()->wrapper()->post()->retrieve('roles', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->string()))));
             }
 
             // Initialise the consumer and check for changes
             $this->consumer->defaultEmail = $this->defaultEmail;
-            if ($this->consumer->ltiVersion !== $_POST['lti_version']) {
-                $this->consumer->ltiVersion = $_POST['lti_version'];
+            if ($this->consumer->ltiVersion !== $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string())) {
+                $this->consumer->ltiVersion = $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string());
                 $doSaveConsumer = true;
             }
-            if (isset($_POST['tool_consumer_instance_name'])) {
-                if ($this->consumer->consumerName !== $_POST['tool_consumer_instance_name']) {
-                    $this->consumer->consumerName = $_POST['tool_consumer_instance_name'];
+            if ($DIC->http()->wrapper()->post()->has('tool_consumer_instance_name')) {
+                if ($this->consumer->consumerName !== $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_name', $DIC->refinery()->kindlyTo()->string())) {
+                    $this->consumer->consumerName = $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_name', $DIC->refinery()->kindlyTo()->string());
                     $doSaveConsumer = true;
                 }
             }
-            if (isset($_POST['tool_consumer_info_product_family_code'])) {
-                $version = $_POST['tool_consumer_info_product_family_code'];
-                if (isset($_POST['tool_consumer_info_version'])) {
-                    $version .= "-{$_POST['tool_consumer_info_version']}";
+            if ($DIC->http()->wrapper()->post()->has('tool_consumer_info_product_family_code')) {
+                $version = $DIC->http()->wrapper()->post()->retrieve('tool_consumer_info_product_family_code', $DIC->refinery()->kindlyTo()->string());
+                if ($DIC->http()->wrapper()->post()->has('tool_consumer_info_version')) {
+                    $version .= "-{$DIC->http()->wrapper()->post()->retrieve('tool_consumer_info_version', $DIC->refinery()->kindlyTo()->string())}";
                 }
                 // do not delete any existing consumer version if none is passed
                 if ($this->consumer->consumerVersion !== $version) {
                     $this->consumer->consumerVersion = $version;
                     $doSaveConsumer = true;
                 }
-            } elseif (isset($_POST['ext_lms']) && ($this->consumer->consumerName !== $_POST['ext_lms'])) {
-                $this->consumer->consumerVersion = $_POST['ext_lms'];
+            } elseif ($DIC->http()->wrapper()->post()->has('ext_lms') && ($this->consumer->consumerName !== $DIC->http()->wrapper()->post()->retrieve('ext_lms', $DIC->refinery()->kindlyTo()->string()))) {
+                $this->consumer->consumerVersion = $DIC->http()->wrapper()->post()->retrieve('ext_lms', $DIC->refinery()->kindlyTo()->string());
                 $doSaveConsumer = true;
             }
-            if (isset($_POST['tool_consumer_instance_guid'])) {
+            if ($DIC->http()->wrapper()->post()->has('tool_consumer_instance_guid')) {
                 if (is_null($this->consumer->consumerGuid)) {
-                    $this->consumer->consumerGuid = $_POST['tool_consumer_instance_guid'];
+                    $this->consumer->consumerGuid = $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string());
                     $doSaveConsumer = true;
                 } elseif (!$this->consumer->protected) {
-                    $doSaveConsumer = ($this->consumer->consumerGuid !== $_POST['tool_consumer_instance_guid']);
+                    $doSaveConsumer = ($this->consumer->consumerGuid !== $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string()));
                     if ($doSaveConsumer) {
-                        $this->consumer->consumerGuid = $_POST['tool_consumer_instance_guid'];
+                        $this->consumer->consumerGuid = $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string());
                     }
                 }
             }
-            if (isset($_POST['launch_presentation_css_url'])) {
-                if ($this->consumer->cssPath !== $_POST['launch_presentation_css_url']) {
-                    $this->consumer->cssPath = $_POST['launch_presentation_css_url'];
+            if ($DIC->http()->wrapper()->post()->has('launch_presentation_css_url')) {
+                if ($this->consumer->cssPath !== $DIC->http()->wrapper()->post()->retrieve('launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string())) {
+                    $this->consumer->cssPath = $DIC->http()->wrapper()->post()->retrieve('launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string());
                     $doSaveConsumer = true;
                 }
-            } elseif (isset($_POST['ext_launch_presentation_css_url']) &&
-                ($this->consumer->cssPath !== $_POST['ext_launch_presentation_css_url'])) {
-                $this->consumer->cssPath = $_POST['ext_launch_presentation_css_url'];
+            } elseif ($DIC->http()->wrapper()->post()->has('ext_launch_presentation_css_url') &&
+                ($this->consumer->cssPath !== $DIC->http()->wrapper()->post()->retrieve('ext_launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string()))) {
+                $this->consumer->cssPath = $DIC->http()->wrapper()->post()->retrieve('ext_launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string());
                 $doSaveConsumer = true;
             } elseif (!empty($this->consumer->cssPath)) {
                 $this->consumer->cssPath = null;
@@ -830,7 +842,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             $this->consumer->save();
         }
         if ($this->ok && isset($this->context)) {
-            $this->context->save();//ACHTUNG TODO UWE
+            $this->context->save();//ACHTUNG EVTL. TODO
         }
 
 //        $this->logger->dump(get_class($this->context));
@@ -838,14 +850,15 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         if ($this->ok && isset($this->resourceLink)) {
 
 // Check if a share arrangement is in place for this resource link
-//            $this->ok = $this->checkForShare();//ACHTUNG TODO UWE
+//            $this->ok = $this->checkForShare();//ACHTUNG EVTL. TODO
             // Persist changes to resource link
             $this->resourceLink->save();
 
             // Save the user instance
-            if (isset($_POST['lis_result_sourcedid'])) {
-                if ($this->user->ltiResultSourcedId !== $_POST['lis_result_sourcedid']) {
-                    $this->user->ltiResultSourcedId = $_POST['lis_result_sourcedid'];
+            if ($DIC->http()->wrapper()->post()->has('lis_result_sourcedid')) {
+                if ($this->user->ltiResultSourcedId !== $DIC->http()->wrapper()->post()->retrieve('lis_result_sourcedid', $DIC->refinery()->kindlyTo()->string())
+                ) {
+                    $this->user->ltiResultSourcedId = $DIC->http()->wrapper()->post()->retrieve('lis_result_sourcedid', $DIC->refinery()->kindlyTo()->string());
                     $this->user->save();
                 }
             } elseif (!empty($this->user->ltiResultSourcedId)) {
@@ -882,17 +895,21 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     private function doCallback(?string $method = null) : void
     {
+        global $DIC;
         $callback = $method;
         if (is_null($callback)) {
-            $callback = self::$METHOD_NAMES[$_POST['lti_message_type']];
+            $callback = self::$METHOD_NAMES[$DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+];
         }
         if (method_exists($this, $callback)) {
             $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
         } elseif (is_null($method) && $this->ok) {
             $this->ok = false;
-            $this->reason = "Message type not supported: {$_POST['lti_message_type']}";
+            $this->reason = "Message type not supported: {$DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+}";
         }
-        if ($this->ok && ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest')) {
+        if ($this->ok && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+ == 'ToolProxyRegistrationRequest')) {
             $this->consumer->save();
         }
     }
@@ -904,6 +921,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     private function result() : void
     {
+        global $DIC;
         $ok = false;
         if (!$this->ok) {
             $this->onError();
@@ -926,12 +944,12 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                             $errorUrl .= '&lti_errorlog=' . urlencode("Debug error: $this->reason");
                         }
                     }
-                    if (!is_null($this->consumer) && isset($_POST['lti_message_type']) && ($_POST['lti_message_type'] === 'ContentItemSelectionRequest')) {
+                    if (!is_null($this->consumer) && $DIC->http()->wrapper()->post()->has('lti_message_type') && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ContentItemSelectionRequest')) {
                         $formParams = array();
-                        if (isset($_POST['data'])) {
-                            $formParams['data'] = $_POST['data'];
+                        if ($DIC->http()->wrapper()->post()->has('data')) {
+                            $formParams['data'] = $DIC->http()->wrapper()->post()->retrieve('data', $DIC->refinery()->kindlyTo()->string());
                         }
-                        $version = (isset($_POST['lti_version'])) ? $_POST['lti_version'] : self::LTI_VERSION1;
+                        $version = ($DIC->http()->wrapper()->post()->has('lti_version')) ? $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string()) : self::LTI_VERSION1;
                         $formParams = $this->consumer->signParameters(
                             $errorUrl,
                             'ContentItemSelection',
@@ -943,7 +961,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     } else {
                         header("Location: {$errorUrl}");
                     }
-                    exit; //ACHTUNG HIER PROBLEM UK
+                    exit; //ACHTUNG HIER EVTL. PROBLEM
                 } else {
                     if (!is_null($this->errorOutput)) {
                         echo $this->errorOutput;
