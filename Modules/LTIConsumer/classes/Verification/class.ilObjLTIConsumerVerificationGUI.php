@@ -167,6 +167,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
             "wsp_id",
             $id[0]
         );
+        $ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
     /**
