@@ -43,7 +43,7 @@ class ilSearchAutoComplete
             $i++;
         }
 
-        return ilJsonUtil::encode($result);
+        return json_encode($result, JSON_THROW_ON_ERROR);
     }
     
     
@@ -114,7 +114,7 @@ class ilSearchAutoComplete
             $i++;
         }
 
-        return ilJsonUtil::encode($result);
+        return json_encode($result, JSON_THROW_ON_ERROR);
     }
 
     public static function checkObjectPermission(int $a_obj_id) : bool

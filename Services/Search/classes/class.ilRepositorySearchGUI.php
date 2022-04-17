@@ -320,7 +320,7 @@ class ilRepositorySearchGUI
     {
         // hide anonymout request
         if ($this->user->getId() == ANONYMOUS_USER_ID) {
-            return ilJsonUtil::encode(new stdClass());
+            return json_encode(new stdClass(), JSON_THROW_ON_ERROR);
         }
         if (!$this->http->wrapper()->query()->has('autoCompleteField')) {
             $a_fields = [

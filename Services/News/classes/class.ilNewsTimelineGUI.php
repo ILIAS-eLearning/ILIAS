@@ -189,7 +189,7 @@ class ilNewsTimelineGUI
             );
         }
 
-        $this->tpl->addOnLoadCode("il.News.setItems(" . ilJsonUtil::encode($js_items) . ");");
+        $this->tpl->addOnLoadCode("il.News.setItems(" . json_encode($js_items, JSON_THROW_ON_ERROR) . ");");
         $this->tpl->addOnLoadCode("il.News.setAjaxUrl('" . $this->ctrl->getLinkTarget($this, "", "", true) . "');");
 
         if (count($news_data) > 0) {
@@ -267,7 +267,7 @@ class ilNewsTimelineGUI
         $obj->data = $js_items;
         $obj->html = $timeline->render(true);
 
-        echo ilJsonUtil::encode($obj);
+        echo json_encode($obj, JSON_THROW_ON_ERROR);
         exit;
     }
 

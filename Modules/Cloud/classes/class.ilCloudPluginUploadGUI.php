@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-require_once("./Services/JSON/classes/class.ilJsonUtil.php");
 
 /**
  * Class ilCloudPluginUploadGUI
@@ -48,7 +47,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         $options->dropArea = "#ilFileUploadDropArea_1";
         $options->fileList = "#ilFileUploadList_1";
         $options->fileSelectButton = "#ilFileUploadFileSelect_1";
-        echo "<script language='javascript' type='text/javascript'>var fileUpload1 = new ilFileUpload(1, " . ilJsonUtil::encode($options) . ");</script>";
+        echo "<script language='javascript' type='text/javascript'>var fileUpload1 = new ilFileUpload(1, " . json_encode($options, JSON_THROW_ON_ERROR) . ");</script>";
 
         $_SESSION["cld_folder_id"] = $_POST["folder_id"];
 
@@ -116,7 +115,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         // send response object (don't use 'application/json' as IE wants to download it!)
         header('Vary: Accept');
         header('Content-type: text/plain');
-        echo ilJsonUtil::encode($response);
+        echo json_encode($response, JSON_THROW_ON_ERROR);
         exit;
     }
 

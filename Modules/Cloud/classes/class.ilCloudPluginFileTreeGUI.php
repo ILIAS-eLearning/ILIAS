@@ -230,7 +230,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         $options->dropArea = ".ilFileDropTarget";
         $options->fileList = "#ilFileUploadList_1";
         $options->fileSelectButton = "#ilFileUploadFileSelect_1";
-        echo "<script language='javascript' type='text/javascript'>var fileUpload1 = new ilFileUpload(1, " . ilJsonUtil::encode($options)
+        echo "<script language='javascript' type='text/javascript'>var fileUpload1 = new ilFileUpload(1, " . json_encode($options, JSON_THROW_ON_ERROR)
             . ");</script>";
     }
 

@@ -473,8 +473,7 @@ class ilLanguage
 
         foreach ($a_map as $k => $v) {
             if ($v != "") {
-                include_once "./Services/JSON/classes/class.ilJsonUtil.php";
-                $a_tpl->addOnloadCode("il.Language.setLangVar('" . $k . "', " . ilJsonUtil::encode($v) . ");");
+                $a_tpl->addOnloadCode("il.Language.setLangVar('" . $k . "', " . json_encode($v, JSON_THROW_ON_ERROR) . ");");
             }
         }
     }

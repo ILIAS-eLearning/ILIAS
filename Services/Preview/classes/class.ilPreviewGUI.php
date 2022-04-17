@@ -199,7 +199,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
             // send response object (don't use 'application/json' as IE wants to download it!)
             header('Vary: Accept');
             header('Content-type: text/plain');
-            echo ilJsonUtil::encode($response);
+            echo json_encode($response, JSON_THROW_ON_ERROR);
 
             // no further processing!
             exit;

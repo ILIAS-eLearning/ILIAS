@@ -57,7 +57,7 @@ class ilRoleAutoComplete
             return self::getListByObject($a_str);
         }
 
-        return ilJsonUtil::encode($result);
+        return json_encode($result, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -73,7 +73,7 @@ class ilRoleAutoComplete
         $result = array();
 
         if (strpos($a_str, '@') !== 0) {
-            return ilJsonUtil::encode($result);
+            return json_encode($result, JSON_THROW_ON_ERROR);
         }
 
         $a_str = substr($a_str, 1);
@@ -95,6 +95,6 @@ class ilRoleAutoComplete
                 ++$counter;
             }
         }
-        return ilJsonUtil::encode($result);
+        return json_encode($result, JSON_THROW_ON_ERROR);
     }
 }

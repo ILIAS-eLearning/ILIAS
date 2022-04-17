@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/Object/classes/class.ilObject2GUI.php");
-require_once("./Services/JSON/classes/class.ilJsonUtil.php");
 require_once("class.ilCloudPluginFileTreeGUI.php");
 require_once("class.ilCloudFileTree.php");
 require_once("class.ilCloudConnector.php");
@@ -462,7 +461,7 @@ class ilObjCloudGUI extends ilObject2GUI
         }
 
         header('Content-type: application/json');
-        echo ilJsonUtil::encode($response);
+        echo json_encode($response, JSON_THROW_ON_ERROR);
         exit;
     }
 
