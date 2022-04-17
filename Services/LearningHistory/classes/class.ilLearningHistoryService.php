@@ -103,10 +103,6 @@ class ilLearningHistoryService
             $user_id = $this->user()->getId();
         }
 
-        foreach ($this->provider()->getAllProviders(true, $user_id) as $p) {
-            return true;
-        }
-
-        return false;
+        return count($this->provider()->getAllProviders(true, $user_id)) > 0;
     }
 }
