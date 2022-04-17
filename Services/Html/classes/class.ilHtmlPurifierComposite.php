@@ -32,8 +32,7 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
      */
     public function addPurifier(ilHtmlPurifierInterface $purifier) : bool
     {
-        $key = array_search($purifier, $this->purifiers, true);
-        if (false === $key) {
+        if (false === in_array($purifier, $this->purifiers, true)) {
             $this->purifiers[] = $purifier;
             return true;
         }
