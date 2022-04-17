@@ -35,8 +35,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         $this->tab_handling->initTabs(
             ilObjAdministrativeNotificationGUI::TAB_MAIN,
             ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS,
-            true,
-            self::class
+            true
         );
         switch ($cmd) {
             case self::CMD_ADD:
@@ -74,9 +73,8 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
             $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
             $this->toolbar->addButtonInstance($button);
         }
-        
-        $notMessageTableGUI = new ilADNNotificationTableGUI($this, self::CMD_DEFAULT);
-        return $notMessageTableGUI->getHTML();
+
+        return (new ilADNNotificationTableGUI($this, self::CMD_DEFAULT))->getHTML();
     }
     
     protected function add() : string
@@ -112,7 +110,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     protected function edit() : string
     {
         $notification = $this->getNotificationFromRequest();
-        $this->ctrl->setParameter($this, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
+        $this->ctrl->setParameter($this, ilADNAbstractGUI::IDENTIFIER, $notification->getId());
         
         $form = new ilADNNotificationUIFormGUI($notification, $this->ctrl->getLinkTarget($this, self::CMD_UPDATE));
         $form->fillForm();

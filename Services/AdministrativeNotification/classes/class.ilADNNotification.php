@@ -7,7 +7,7 @@
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
  *****************************************************************************/
-/** @noinspection ALL */
+/** noinspection ALL */
 
 /**
  * Class ilADNNotification
@@ -16,21 +16,20 @@
  */
 class ilADNNotification extends ActiveRecord
 {
-    
-    const POS_TOP = 1;
-    const POS_RIGHT = 2;
-    const POST_LEFT = 3;
-    const POS_BOTTOM = 4;
-    const DATE_FORMAT = 'd.m.Y';
-    const TIME_FORMAT = 'H:i';
-    const DATE_TIME_FORMAT = 'd.m.Y H:i';
-    const TYPE_INFO = 1;
-    const TYPE_WARNING = 2;
-    const TYPE_ERROR = 3;
-    const TABLE_NAME = 'il_adn_notifications';
-    const LINK_TYPE_NONE = 0;
-    const LINK_TYPE_REF_ID = 1;
-    const LINK_TYPE_URL = 2;
+    public const POS_TOP = 1;
+    public const POS_RIGHT = 2;
+    public const POST_LEFT = 3;
+    public const POS_BOTTOM = 4;
+    public const DATE_FORMAT = 'd.m.Y';
+    public const TIME_FORMAT = 'H:i';
+    public const DATE_TIME_FORMAT = 'd.m.Y H:i';
+    public const TYPE_INFO = 1;
+    public const TYPE_WARNING = 2;
+    public const TYPE_ERROR = 3;
+    public const TABLE_NAME = 'il_adn_notifications';
+    public const LINK_TYPE_NONE = 0;
+    public const LINK_TYPE_REF_ID = 1;
+    public const LINK_TYPE_URL = 2;
     protected static array $allowed_user_ids = array(0, 13, 6);
     
     /**
@@ -79,18 +78,22 @@ class ilADNNotification extends ActiveRecord
             return '';
         }
         if (date(self::DATE_FORMAT, $this->getEventStart()) == date(self::DATE_FORMAT, $this->getEventEnd())) {
-            return date(self::DATE_FORMAT, $this->getEventEnd()) . ', ' . date(self::TIME_FORMAT,
-                    $this->getEventStart()) . " - "
+            return date(self::DATE_FORMAT, $this->getEventEnd()) . ', ' . date(
+                self::TIME_FORMAT,
+                $this->getEventStart()
+            ) . " - "
                 . date(self::TIME_FORMAT, $this->getEventEnd());
         } else {
-            return date(self::DATE_TIME_FORMAT, $this->getEventStart()) . ' - ' . date(self::DATE_TIME_FORMAT,
-                    $this->getEventEnd());
+            return date(self::DATE_TIME_FORMAT, $this->getEventStart()) . ' - ' . date(
+                self::DATE_TIME_FORMAT,
+                $this->getEventEnd()
+            );
         }
     }
     
     public function isUserAllowedToDismiss(ilObjUser $ilUser) : bool
     {
-        return ($this->getDismissable() and $ilUser->getId() != 0 and $ilUser->getId() != ANONYMOUS_USER_ID);
+        return ($this->getDismissable() and $ilUser->getId() !== 0 and $ilUser->getId() !== ANONYMOUS_USER_ID);
     }
     
     public function getActiveType() : int
@@ -98,35 +101,34 @@ class ilADNNotification extends ActiveRecord
         if ($this->isPermanent()) {
             return $this->getType();
         }
-        if ($this->hasEventStarted() and !$this->hasEventEnded()) {
+        if ($this->hasEventStarted() && !$this->hasEventEnded()) {
             return $this->getTypeDuringEvent();
         }
-        if ($this->hasDisplayStarted() and !$this->hasDisplayEnded()) {
+        if ($this->hasDisplayStarted() && !$this->hasDisplayEnded()) {
             return $this->getType();
         }
     }
     
 
-    protected function isVisible():bool
+    protected function isVisible() : bool
     {
         if ($this->isPermanent()) {
             return true;
         }
-        $hasEventStarted   = $this->hasEventStarted();
+        $hasEventStarted = $this->hasEventStarted();
         $hasDisplayStarted = $this->hasDisplayStarted();
-        $hasEventEnded     = !$this->hasEventEnded();
-        $hasDisplayEnded   = !$this->hasDisplayEnded();
+        $hasEventEnded = !$this->hasEventEnded();
+        $hasDisplayEnded = !$this->hasDisplayEnded();
         
         return ($hasEventStarted or $hasDisplayStarted) and ($hasEventEnded or $hasDisplayEnded);
     }
     
-    public function isVisibleForUser(ilObjUser $ilObjUser):bool
+    public function isVisibleForUser(ilObjUser $ilObjUser) : bool
     {
         if ($ilObjUser->getId() == 0 && $this->isInterruptive()) {
             return false;
         }
         if (!$this->isVisible()) {
-            
             return false;
         }
         if ($this->hasUserDismissed($ilObjUser)) {
@@ -151,8 +153,10 @@ class ilADNNotification extends ActiveRecord
             return true;
         }
         
-        return $DIC->rbac()->review()->isAssignedToAtLeastOneGivenRole($ilObjUser->getId(),
-            $this->getLimitedToRoleIds());
+        return $DIC->rbac()->review()->isAssignedToAtLeastOneGivenRole(
+            $ilObjUser->getId(),
+            $this->getLimitedToRoleIds()
+        );
     }
     
     /**
@@ -364,10 +368,10 @@ class ilADNNotification extends ActiveRecord
                     $allowed_users[] = (int) $user_id;
                 }
                 
-                return json_encode(array_unique($allowed_users));
+                return json_encode(array_unique($allowed_users), JSON_THROW_ON_ERROR);
                 break;
             case 'limited_to_role_ids':
-                return json_encode($this->{$field_name});
+                return json_encode($this->{$field_name}, JSON_THROW_ON_ERROR);
                 break;
         }
     }
@@ -387,7 +391,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getBody() : string
     {
-        return (string) $this->body;
+        return $this->body;
     }
     
     public function setDisplayEnd(DateTimeImmutable $display_end) : void
@@ -447,7 +451,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getTitle() : string
     {
-        return (string) $this->title;
+        return $this->title;
     }
     
     public function setType(int $type) : void
@@ -457,7 +461,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getType() : int
     {
-        return (int) $this->type;
+        return $this->type;
     }
     
     public function setTypeDuringEvent(int $type_during_event) : void
@@ -467,7 +471,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getTypeDuringEvent() : int
     {
-        return (int) $this->type_during_event;
+        return $this->type_during_event;
     }
     
     public function setDismissable(bool $dismissable) : void
@@ -477,7 +481,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getDismissable() : bool
     {
-        return (bool) $this->dismissable;
+        return $this->dismissable;
     }
     
     protected function hasEventStarted() : bool
@@ -507,7 +511,7 @@ class ilADNNotification extends ActiveRecord
     
     public function isPermanent() : bool
     {
-        return (bool) $this->permanent;
+        return $this->permanent;
     }
     
     public function isDuringEvent() : bool
@@ -552,7 +556,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getLimitedToRoleIds() : array
     {
-        return (array) $this->limited_to_role_ids;
+        return $this->limited_to_role_ids;
     }
     
     public function setLimitedToRoleIds(array $limited_to_role_ids) : void
@@ -562,12 +566,11 @@ class ilADNNotification extends ActiveRecord
     
     public function isLimitToRoles() : bool
     {
-        return (bool) $this->limit_to_roles;
+        return $this->limit_to_roles;
     }
     
     public function setLimitToRoles(bool $limit_to_roles) : void
     {
         $this->limit_to_roles = $limit_to_roles;
     }
-    
 }

@@ -16,7 +16,6 @@
  */
 class ilADNTabHandling
 {
-    
     private int $ref_id;
     
     private ilRbacSystem $rbacsystem;
@@ -38,12 +37,12 @@ class ilADNTabHandling
         global $DIC;
         
         $this->ref_id = $ref_id;
-        $this->tabs   = $DIC['ilTabs'];
-        $this->lng    = $DIC->language();
+        $this->tabs = $DIC['ilTabs'];
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('adn');
-        $this->ctrl       = $DIC['ilCtrl'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->help       = $DIC->help();
+        $this->help = $DIC->help();
     }
     
     public function initTabs(string $tab, string $subtab = null, bool $backtab = false) : void

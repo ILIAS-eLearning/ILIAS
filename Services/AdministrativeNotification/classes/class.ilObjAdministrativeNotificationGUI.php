@@ -18,8 +18,8 @@
  */
 class ilObjAdministrativeNotificationGUI extends ilObject2GUI
 {
-    const TAB_PERMISSIONS = 'perm_settings';
-    const TAB_MAIN = 'main';
+    public const TAB_PERMISSIONS = 'perm_settings';
+    public const TAB_MAIN = 'main';
     
     private ilADNTabHandling $tab_handling;
     private ilObjAdministrativeNotificationAccess $admin_notification_access;
@@ -38,7 +38,7 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
         parent::__construct($this->ref_id);
 
         $this->lng->loadLanguageModule('adn');
-        $this->tab_handling   = new ilADNTabHandling($this->ref_id);
+        $this->tab_handling = new ilADNTabHandling($this->ref_id);
         $this->admin_notification_access = new ilObjAdministrativeNotificationAccess();
         
         $this->assignObject();
