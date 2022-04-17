@@ -1,39 +1,28 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class class.ilRegistrationAccessLimitation
  * @author  Sascha Hofmann <saschahofmann@gmx.de>
- * @version $Id$
- * @ingroup ServicesRegistration
  */
 class ilRegistrationRoleAccessLimitations
 {
     public const IL_REG_ACCESS_LIMITATION_MISSING_MODE = 1;
     public const IL_REG_ACCESS_LIMITATION_OUT_OF_DATE = 2;
 
-    private array $access_limitations = array();
-    public array $access_limits = array();
+    private array $access_limitations = [];
+    public array $access_limits = [];
 
     protected ilDBInterface $db;
 
@@ -42,11 +31,10 @@ class ilRegistrationRoleAccessLimitations
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->__read();
+        $this->read();
     }
 
-    // Private
-    public function __read() : bool
+    private function read() : void
     {
         $query = "SELECT * FROM reg_access_limit ";
         $res = $this->db->query($query);
@@ -59,7 +47,6 @@ class ilRegistrationRoleAccessLimitations
             $this->access_limitations[$row->role_id]['relative_m'] = (int) $row->limit_relative_m;
             $this->access_limitations[$row->role_id]['mode'] = (string) $row->limit_mode;
         }
-        return true;
     }
 
     public function save() : bool
@@ -93,11 +80,11 @@ class ilRegistrationRoleAccessLimitations
                 return self::IL_REG_ACCESS_LIMITATION_MISSING_MODE;
             }
 
-            if ($data['mode'] == 'absolute' and $data['absolute'] < time()) {
+            if ($data['mode'] == 'absolute' && $data['absolute'] < time()) {
                 return self::IL_REG_ACCESS_LIMITATION_OUT_OF_DATE;
             }
 
-            if ($data['mode'] == 'relative' and ($data['relative_d'] < 1 and $data['relative_m'] < 1)) {
+            if ($data['mode'] == 'relative' && ($data['relative_d'] < 1 && $data['relative_m'] < 1)) {
                 return self::IL_REG_ACCESS_LIMITATION_OUT_OF_DATE;
             }
         }
