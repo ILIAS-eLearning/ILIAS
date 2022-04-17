@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/JSON/classes/class.ilJsonUtil.php");
 require_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
 
 /**
@@ -32,7 +31,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
             $response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
         }
         header('Content-type: application/json');
-        echo ilJsonUtil::encode($response);
+        echo json_encode($response, JSON_THROW_ON_ERROR);
         exit;
     }
 
@@ -85,7 +84,10 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         } catch (Exception $e) {
             $response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
         }
-        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . ilJsonUtil::encode($response) . ");</script>";
+        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . json_encode(
+            $response,
+            JSON_THROW_ON_ERROR
+        ) . ");</script>";
         exit;
     }
 
@@ -94,7 +96,10 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $response = new stdClass();
         $response->status = "cancel";
 
-        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . ilJsonUtil::encode($response) . ");</script>";
+        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . json_encode(
+            $response,
+            JSON_THROW_ON_ERROR
+        ) . ");</script>";
         exit;
     }
 }

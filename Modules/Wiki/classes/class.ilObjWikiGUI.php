@@ -1800,7 +1800,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $r->progressBar = $pb->render();
         $r->status = $p["status"];
         $this->log->debug("status: " . $r->status);
-        echo(ilJsonUtil::encode($r));
+        echo(json_encode($r, JSON_THROW_ON_ERROR));
         exit;
     }
 

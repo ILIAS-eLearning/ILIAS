@@ -150,13 +150,12 @@ class ilFileUploadGUI
         }
         
         // inject load script
-        include_once("./Services/JSON/classes/class.ilJsonUtil.php");
         
         $onLoadCode = "";
         if ($this->use_form) {
-            $onLoadCode = "var fileUpload$id = new ilFileUpload($id, " . ilJsonUtil::encode($options) . ");";
+            $onLoadCode = "var fileUpload$id = new ilFileUpload($id, " . json_encode($options, JSON_THROW_ON_ERROR) . ");";
         } else {
-            $onLoadCode = "il.FileUpload.add(\"$id\", " . ilJsonUtil::encode($options) . ", " . ($this->current_obj ? "true" : "false") . ");";
+            $onLoadCode = "il.FileUpload.add(\"$id\", " . json_encode($options, JSON_THROW_ON_ERROR) . ", " . ($this->current_obj ? "true" : "false") . ");";
         }
         
         $tpl->addOnLoadCode($onLoadCode);

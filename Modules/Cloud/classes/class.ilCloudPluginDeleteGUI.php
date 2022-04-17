@@ -60,7 +60,7 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
             $response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
         }
         header('Content-type: application/json');
-        echo ilJsonUtil::encode($response);
+        echo json_encode($response, JSON_THROW_ON_ERROR);
         exit;
     }
 
@@ -117,7 +117,7 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
                 $response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
             }
         }
-        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterDeleteItem(" . ilJsonUtil::encode($response)
+        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterDeleteItem(" . json_encode($response, JSON_THROW_ON_ERROR)
             . ");</script>";
         exit;
     }
@@ -127,7 +127,7 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
         $response = new stdClass();
         $response->status = "cancel";
 
-        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterDeleteItem(" . ilJsonUtil::encode($response)
+        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterDeleteItem(" . json_encode($response, JSON_THROW_ON_ERROR)
             . ");</script>";
         exit;
     }

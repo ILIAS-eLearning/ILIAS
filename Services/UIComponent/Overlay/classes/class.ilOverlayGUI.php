@@ -132,9 +132,9 @@ class ilOverlayGUI
         $cfg["auto_hide"] = $this->auto_hide;
         $cfg["close_el"] = $this->close_el;
 
-        //var_dump(ilJsonUtil::encode($cfg));
+        //var_dump(json_encode($cfg, JSON_THROW_ON_ERROR));
         return 'il.Overlay.add("' . $this->overlay_el_id . '", ' .
-            ilJsonUtil::encode($cfg) . '); ';
+            json_encode($cfg, JSON_THROW_ON_ERROR) . '); ';
     }
 
     public function add() : void

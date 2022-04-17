@@ -657,7 +657,7 @@ class ilAccountRegistrationGUI
 
         $result = ilPublicUserProfileGUI::getAutocompleteResult($field_id, $term);
         if (sizeof($result)) {
-            echo ilJsonUtil::encode($result);
+            echo json_encode($result, JSON_THROW_ON_ERROR);
         }
 
         exit();

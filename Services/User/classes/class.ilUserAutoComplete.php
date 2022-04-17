@@ -274,7 +274,7 @@ class ilUserAutoComplete
         
         $this->logger->dump($result_json, ilLogLevel::DEBUG);
         
-        return ilJsonUtil::encode($result_json);
+        return json_encode($result_json, JSON_THROW_ON_ERROR);
     }
 
     protected function getSelectPart() : string
