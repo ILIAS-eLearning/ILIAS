@@ -2842,6 +2842,21 @@
 			</xsl:if>
 		</xsl:when>
 
+		<xsl:when test = "$type = 'video/vimeo'">
+			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
+			<!-- see #bug12622 -->
+			<video style="max-width: 100%;" class="ilPageVideo" preload="auto">
+				<xsl:if test="$width != ''">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>
+				<!-- see #bug22632 -->
+				<xsl:attribute name="src"><xsl:value-of select="$data"/>?controls=0</xsl:attribute>
+			</video>
+		</xsl:when>
+
 		<!-- svg -->
 		<xsl:when test="substring($type, 1, 9) = 'image/svg'">
 			<embed>

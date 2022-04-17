@@ -16783,3 +16783,23 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+mcst#:#mcst_download_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
+mcst#:#mcst_download_all#:#Alle herunterladen
+mcst#:#mcst_img_gallery#:#Bildergalerie
+mcst#:#mcst_podcast#:#Podcast
+mcst#:#mcst_watched#:#angesehen
+mcst#:#mcst_video_completion_threshold#:#"Bearbeitet"-Schwellenwert
+mcst#:#mcst_video_completion_threshold_info#:#Ab diesem Fortschritt wird ein Video als "angesehen" gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat.
+mcst#:#mcst_prev_items#:#Vorherige Videos anzeigen
+mcst#:#mcst_next_items#:#Weitere Videos anzeigen
+mcst#:#mcst_autoplay#:#Autoplay
+mcst#:#mcst_video_cast#:#Videoliste
+mcst#:#mcst_no_autoplay#:#Kein Autoplay
+mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
+mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
+mcst#:#mcst_show_description#:#Beschreibung anzeigen
+mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
+mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
+mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
+mcst#:#mcst_audio_files#:#Audiodateien

@@ -2192,6 +2192,16 @@ s     */
         $this->buildDom();
         $this->log->debug("Handle repository links...");
 
+        // pc classes hook, @todo: move rest of function to this hook, too
+        $defs = ilCOPagePCDef::getPCDefinitions();
+        foreach ($defs as $def) {
+            ilCOPagePCDef::requirePCClassByName($def["name"]);
+            if (method_exists($def["pc_class"], 'afterRepositoryCopy')) {
+                call_user_func($def["pc_class"] . '::afterRepositoryCopy', $this, $a_mapping, $a_source_ref_id);
+            }
+        }
+
+
         // resolve normal internal links
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";

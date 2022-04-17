@@ -53,4 +53,13 @@ class CreationGUIRequest
     {
         return $this->intArray("id");
     }
+
+    public function getUploadHash() : string
+    {
+        $hash = $this->str("mep_hash");
+        if ($hash === "") {
+            $hash = $this->str("ilfilehash");
+        }
+        return $hash;
+    }
 }

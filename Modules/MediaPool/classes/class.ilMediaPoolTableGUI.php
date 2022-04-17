@@ -179,6 +179,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
             $this->getMode() === self::IL_MEP_EDIT) {
             $this->addMultiCommand("copyToClipboard", $lng->txt("cont_copy_to_clipboard"));
+            $this->addMultiCommand("move", $lng->txt("move"));
             $this->addMultiCommand("confirmRemove", $lng->txt("remove"));
         }
 
@@ -464,9 +465,17 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     $mob = new ilObjMediaObject($a_set["foreign_id"]);
                     $med = $mob->getMediaItem("Standard");
                     $target = "";
+
+                    // thumbnail picture
                     if ($med) {
                         $target = $med->getThumbnailTarget();
                     }
+
+                    // video preview
+                    if ($target === "") {
+                        $target = $mob->getVideoPreviewPic();
+                    }
+
                     if ($target !== "") {
                         $this->tpl->setVariable("IMG", ilUtil::img(ilWACSignedPath::signFile($target)));
                     } else {

@@ -592,6 +592,15 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $lng->txt("mep_bulk_upload"),
                 $ilCtrl->getLinkTarget($this, "bulkUpload")
             );
+
+            $move_ids = ilSession::get("mep_move_ids");
+            if (is_array($move_ids) && count($move_ids) > 0) {
+                $ilToolbar->addSeparator();
+                $ilToolbar->addButton(
+                    $lng->txt("paste"),
+                    $ilCtrl->getLinkTarget($this, "paste")
+                );
+            }
         }
 
         $mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->getMediaPool(), "mepitem_id");
@@ -1951,6 +1960,16 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                         $media_item->setLocationType("LocalFile");
                         $media_item->setUploadHash($this->mep_request->getUploadHash());
                         $mob->update();
+
+                        $item_ids[] = $mob->getId();
+
+                        $mob = new ilObjMediaObject($mob->getId());
+                        $mob->generatePreviewPic(320, 240);
+
+                        // duration
+                        $med_item = $mob->getMediaItem("Standard");
+                        $med_item->determineDuration();
+                        $med_item->update();
                     }
                 } catch (Exception $e) {
                     $log->debug("Got exception: " . $e->getMessage());
@@ -2043,7 +2062,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ctrl = $this->ctrl;
         
         $this->checkPermission("write");
-
         $media_items = ilMediaItem::getMediaItemsForUploadHash(
             $this->mep_request->getUploadHash()
         );
@@ -2062,5 +2080,63 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         }
         $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ctrl->redirect($this, "listMedia");
+    }
+
+    protected function move() : void
+    {
+        ilSession::set("mep_move_ids", $this->mep_request->getItemIds());
+        $this->ctrl->redirect($this, "listMedia");
+    }
+
+    protected function paste() : void
+    {
+        /** @var ilTree $target_tree */
+        $target_tree = $this->object->getTree();
+
+        // sanity check
+        $move_ids = ilSession::get("mep_move_ids");
+        if (is_array($move_ids)) {
+            foreach ($move_ids as $id) {
+                $pool_ids = ilMediaPoolItem::getPoolForItemId($id);
+
+                $parent_id = $this->mep_request->getItemId();
+                if (ilMediaPoolItem::lookupType($parent_id) !== "fold") {
+                    $parent_id = $target_tree->readRootId();
+                }
+
+                $subnodes = [];
+                foreach ($pool_ids as $pool_id) {
+                    $pool = new ilObjMediaPool($pool_id, false);
+                    $source_tree = $pool->getTree();
+
+                    // if source tree == target tree, check if target is within source tree
+                    $subnodes = $source_tree->getSubtree($source_tree->getNodeData($id));
+                    if ($pool_id == $target_tree->getTreeId()) {
+                        // check, if target is within subtree
+                        foreach ($subnodes as $subnode) {
+                            if ($subnode["child"] == $parent_id) {
+                                $this->main_tpl->setOnScreenMessage(
+                                    'failure',
+                                    $this->lng->txt("mep_target_in_source_not_allowed"),
+                                    true
+                                );
+
+                                $this->ctrl->redirect($this, "listMedia");
+                            }
+                        }
+                    }
+                    $source_tree->deleteTree($source_tree->getNodeData($id));
+                }
+
+                $target_tree->insertNode($id, $parent_id);
+                foreach ($subnodes as $node) {
+                    if ($node["child"] != $id) {
+                        $target_tree->insertNode($node["child"], $node["parent"]);
+                    }
+                }
+            }
+        }
+        ilSession::clear("mep_move_ids");
+        $this->ctrl->redirect($this, "listMedia");
     }
 }

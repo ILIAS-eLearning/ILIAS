@@ -9,16 +9,17 @@
 		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
 	<!-- END preview -->
-	<!-- preload none is currently not working in IE: https://www.longtailvideo.com/html5 (April 2012) -->
-	<!-- info on video preload attribute: https://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
-	<div id="player_{PLAYER_NR}_vtwrap" {STYLE} class="{WRAP_CLASS}">
-		<div>
-			<video src="{FILE}" id="player_{PLAYER_NR}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}"></video>
-			<div style="padding-top: 10px; font-size: 80%; color: #808080;">
+	<!-- preload none is currently not working in IE: http://www.longtailvideo.com/html5 (April 2012) -->
+	<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
+	<div id="player_{PLAYER_NR}_vtwrap" class="il-vt-wrap {CLASS}">
+		<div >
+				<!-- BEGIN source --><!-- END source -->
+			<video id="player_{PLAYER_NR}" src="{FILE}" xwidth="{DISPLAY_WIDTH}" xheight="{DISPLAY_HEIGHT}" style="max-width: 100%;" class="{CLASS}" poster="{POSTER}" preload="none"></video>
+			<!--<div style="padding-top: 10px; font-size: 80%; color: #808080;">
 				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
 				<p>{TITLE}</p>
 				<div>{DESCRIPTION}</div>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </div>
@@ -34,13 +35,14 @@
 		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
 	<!-- END ytpreview -->
-	<div id="player_{PLAYER_NR}_vtwrap" class="{CLASS}">
-		<iframe id="player_{PLAYER_NR}" frameborder="0" allowfullscreen="1" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" src="https://www.youtube.com/embed/{PV}">
-		</iframe>
-		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
-			<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
+	<div id="player_{PLAYER_NR}_vtwrap" class="il-vt-wrap {CLASS}">
+		<div>
+		<video id="player_{PLAYER_NR}" xwidth="{DISPLAY_WIDTH}" xheight="{DISPLAY_HEIGHT}" src="{SRC}" style="max-width: 100%;" class="{CLASS}" poster="{POSTER}" preload="none"></video>
+		<!-- <div style="padding-top: 10px; font-size: 80%; color: #808080;">
+			<a href="#" onclick="il.MediaObjects.processCloseIcon(event); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
 			<p>{TITLE}</p>
 			<div>{DESCRIPTION}</div>
+		</div> -->
 		</div>
 	</div>
 </div>

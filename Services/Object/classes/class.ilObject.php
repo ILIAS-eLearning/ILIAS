@@ -563,7 +563,7 @@ class ilObject
     {
         $values = [
             "title" => ["text", $this->getTitle()],
-            "description" => ["text", $this->getDescription()],
+            "description" => ["text", ilStr::subStr($this->getDescription(), 0, 128)],
             "last_update" => ["date", $this->db->now()],
             "import_id" => ["text", $this->getImportId()],
             "offline" => ["integer", $this->supportsOfflineHandling() ? $this->getOfflineStatus() : null]
@@ -2010,8 +2010,8 @@ class ilObject
 
         $sql =
             "SELECT obj_id FROM object_data" . PHP_EOL
-            ."WHERE type = 'typ'" . PHP_EOL
-            ."AND title = " . $ilDB->quote($type, 'text') . PHP_EOL
+            . "WHERE type = 'typ'" . PHP_EOL
+            . "AND title = " . $ilDB->quote($type, 'text') . PHP_EOL
         ;
 
         $res = $ilDB->query($sql);

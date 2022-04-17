@@ -3728,7 +3728,7 @@ common#:#context#:#Context
 common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the background image. On this screen you only define the popups. Their content can be edited on the editing screen of the page.
 common#:#cont_iim_create_info#:#Please upload the background picture for the interactive image.
 common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the background image when the mouse hovers over them. After uploading the images, you can select them in the ‘Triggers’ tab.
-common#:#continue#:#continue
+common#:#continue#:#Continue
 common#:#continue_work#:#Continue
 common#:#contra#:#Contra
 common#:#copy_all#:#Copy all
@@ -16753,3 +16753,23 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+mcst#:#mcst_download_started_bg#:#Download of files has started. Please check your background tasks in the top right corner.
+mcst#:#mcst_download_all#:#Download All
+mcst#:#mcst_img_gallery#:#Image Gallery
+mcst#:#mcst_podcast#:#Podcast
+mcst#:#mcst_watched#:#watched
+mcst#:#mcst_video_completion_threshold#:#Video Completion Threshold
+mcst#:#mcst_video_completion_threshold_info#:#Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point.
+mcst#:#mcst_prev_items#:#Previous Items
+mcst#:#mcst_next_items#:#Next Items
+mcst#:#mcst_autoplay#:#Autoplay
+mcst#:#mcst_video_cast#:#Videocast
+mcst#:#mcst_no_autoplay#:#No Autoplay
+mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
+mcst#:#mcst_nr_videos#:#Number of Initial Videos
+mcst#:#mcst_show_description#:#Show Description
+mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
+mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress
+mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.
+mcst#:#mcst_audio_files#:#Audio Files

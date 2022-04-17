@@ -1023,6 +1023,11 @@ class ilObjUser extends ilObject
         return $this->prefs[$a_keyword] ?? null;
     }
 
+    public function existsPref(string $a_keyword) : bool
+    {
+        return (array_key_exists($a_keyword, $this->prefs));
+    }
+
     public static function _lookupPref(
         int $a_usr_id,
         string $a_keyword

@@ -37,6 +37,7 @@ class ilMediaCastSettings
     private array $purposeSuffixes = array();
     private array $mimeTypes = array();
     protected ilSetting $storage;
+    protected int $video_threshold = 0;
 
     private function __construct()
     {
@@ -69,7 +70,7 @@ class ilMediaCastSettings
     
     public function setDefaultAccess(string $value) : void
     {
-        $this->defaultAccess = $value == "users" ? "users" : "public";
+        $this->defaultAccess = $value === "users" ? "users" : "public";
     }
     
     public function getMimeTypes() : array
@@ -82,12 +83,23 @@ class ilMediaCastSettings
         $this->mimeTypes = $mimeTypes;
     }
 
+    public function setVideoCompletionThreshold(int $a_val) : void
+    {
+        $this->video_threshold = $a_val;
+    }
+
+    public function getVideoCompletionThreshold() : int
+    {
+        return $this->video_threshold;
+    }
+
     public function save() : void
     {
         foreach ($this->purposeSuffixes as $purpose => $filetypes) {
             $this->storage->set($purpose . "_types", implode(",", $filetypes));
         }
         $this->storage->set("defaultaccess", $this->defaultAccess);
+        $this->storage->set("video_threshold", $this->video_threshold);
         $this->storage->set("mimetypes", implode(",", $this->getMimeTypes()));
     }
 
@@ -103,6 +115,7 @@ class ilMediaCastSettings
             }
         }
         $this->setDefaultAccess((string) $this->storage->get("defaultaccess"));
+        $this->setVideoCompletionThreshold((int) $this->storage->get("video_threshold"));
         if ($this->storage->get("mimetypes")) {
             $mt = explode(",", $this->storage->get("mimetypes"));
             $mt = array_filter($mt, function ($c) {
