@@ -87,10 +87,10 @@ class ilObjNotificationSettingsGUI
         $opt_0->addSubItem($chb_2);
         $form->addItem($radio_grp);
 
-        if ($this->settings->getMode() == ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
+        if ($this->settings->getMode() === ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
             $radio_grp->setValue('1');
         }
-        if ($this->settings->getMode() == ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
+        if ($this->settings->getMode() === ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
             $radio_grp->setValue('1');
             $chb_2->setChecked(true);
         }
@@ -109,7 +109,7 @@ class ilObjNotificationSettingsGUI
         $form = $this->initForm();
         if ($form->checkInput()) {
             $this->settings->setMode(ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION);
-            if ($form->getInput('notification_type') == "1") {
+            if ($form->getInput('notification_type') === "1") {
                 if ((int) $form->getInput('no_opt_out')) {
                     $this->settings->setMode(ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT);
                 } else {

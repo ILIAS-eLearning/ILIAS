@@ -22,7 +22,7 @@ require_once 'libs/composer/vendor/autoload.php';
  */
 class ilServicesNotificationSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : \ilServicesNotificationSuite
     {
         $suite = new self();
 
