@@ -48,7 +48,7 @@ class ilBlogExporter extends ilXmlExporter
                 $pg_ids[] = "blp:" . $p;
             }
         }
-        if (sizeof($pg_ids)) {
+        if (count($pg_ids)) {
             $res[] = array(
                 "component" => "Services/COPage",
                 "entity" => "pg",
@@ -64,7 +64,7 @@ class ilBlogExporter extends ilXmlExporter
                 $style_ids[] = $style_id;
             }
         }
-        if (sizeof($style_ids)) {
+        if (count($style_ids)) {
             $res[] = array(
                 "component" => "Services/Style",
                 "entity" => "sty",

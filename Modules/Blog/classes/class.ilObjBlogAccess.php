@@ -17,7 +17,7 @@
  * Class ilObjBlogAccess
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
+class ilObjBlogAccess extends ilObjectAccess
 {
     protected ilObjUser $user;
     protected ilAccessHandler $access;
@@ -49,11 +49,11 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         
         $t_arr = explode("_", $target);
         
-        if (substr($target, -3) == "wsp") {
+        if (substr($target, -3) === "wsp") {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
         
-        if ($t_arr[0] != "blog" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "blog" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
@@ -69,8 +69,8 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         $ilUser = $this->user;
         $ilAccess = $this->access;
-        
-        if (preg_match("/\\/blog_([\\d]*)\\//uism", $ilWACPath->getPath(), $results)) {
+        //TODO-PHP8-REVIEW Please check if a path like /blog_/ would be valid delivery target
+        if (preg_match("/\\/blog_([\\d]*)\\//uim", $ilWACPath->getPath(), $results)) {
             $obj_id = $results[1];
             
             // personal workspace

@@ -23,7 +23,7 @@ class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
     {
         $n = $this->getNewsItem();
         $add = "";
-        if ($n->getContextSubObjType() == "blp"
+        if ($n->getContextSubObjType() === "blp"
             && $n->getContextSubObjId() > 0) {
             $add = "_" . $n->getContextSubObjId();
         }
