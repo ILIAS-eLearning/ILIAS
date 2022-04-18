@@ -31,12 +31,12 @@ class ilWACSignedPath
 {
     use HttpServiceAware;
 
-    const WAC_TOKEN_ID = 'il_wac_token';
-    const WAC_TIMESTAMP_ID = 'il_wac_ts';
-    const WAC_TTL_ID = 'il_wac_ttl';
-    const TS_SUFFIX = 'ts';
-    const TTL_SUFFIX = 'ttl';
-    const MAX_LIFETIME = 600;
+    public const WAC_TOKEN_ID = 'il_wac_token';
+    public const WAC_TIMESTAMP_ID = 'il_wac_ts';
+    public const WAC_TTL_ID = 'il_wac_ttl';
+    public const TS_SUFFIX = 'ts';
+    public const TTL_SUFFIX = 'ttl';
+    public const MAX_LIFETIME = 600;
 
     protected ?ilWACPath $path_object = null;
     protected ?ilWACToken $token_instance = null;
@@ -80,7 +80,7 @@ class ilWACSignedPath
                 . $this->getTokenInstance()->getToken();
         }
 
-        $path = $path . '&' . self::WAC_TTL_ID . '=' . $this->getTokenInstance()->getTTL();
+        $path .= '&' . self::WAC_TTL_ID . '=' . $this->getTokenInstance()->getTTL();
 
         return $path . '&' . self::WAC_TIMESTAMP_ID . '='
             . $this->getTokenInstance()->getTimestamp();

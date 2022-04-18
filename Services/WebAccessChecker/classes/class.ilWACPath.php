@@ -21,12 +21,12 @@
  */
 class ilWACPath
 {
-    const DIR_DATA = "data";
-    const DIR_SEC = "sec";
+    public const DIR_DATA = "data";
+    public const DIR_SEC = "sec";
     /**
      * Copy this without to regex101.com and test with some URL of files
      */
-    const REGEX = "(?<prefix>.*?)(?<path>(?<path_without_query>(?<secure_path_id>(?<module_path>\/data\/(?<client>[\w\-\.]*)\/(?<sec>sec\/|)(?<module_type>.*?)\/(?<module_identifier>.*\/|)))(?<appendix>[^\?\n]*)).*)";
+    public const REGEX = "(?<prefix>.*?)(?<path>(?<path_without_query>(?<secure_path_id>(?<module_path>\/data\/(?<client>[\w\-\.]*)\/(?<sec>sec\/|)(?<module_type>.*?)\/(?<module_identifier>.*\/|)))(?<appendix>[^\?\n]*)).*)";
     /**
      * @var string[]
      */
@@ -117,7 +117,7 @@ class ilWACPath
             $module_path = ('.' . (!isset($result['module_path']) || is_null($result['module_path']) ? '' : $result['module_path']));
         }
 
-        $this->setModulePath("$module_path");
+        $this->setModulePath($module_path);
         $this->setInSecFolder(isset($result['sec']) && $result['sec'] === 'sec/');
         $this->setPathWithoutQuery(
             '.' . (!isset($result['path_without_query']) || is_null($result['path_without_query']) ? '' : $result['path_without_query'])

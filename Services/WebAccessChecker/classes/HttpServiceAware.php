@@ -35,7 +35,7 @@ use ILIAS\HTTP\Services;
  */
 trait HttpServiceAware
 {
-    private static $http;
+    private static Services $http;
 
 
     /**
@@ -47,7 +47,7 @@ trait HttpServiceAware
      * @return Services  The current http global state of ILIAS.
      * @since 5.3
      */
-    protected static function http()
+    protected static function http() : Services //TODO-PHP8-REVIEW Please check if this trait is still need or if its usage can be replaced by using $DIC
     {
         if (self::$http === null) {
             self::$http = $GLOBALS['DIC']['http'];

@@ -25,6 +25,6 @@ namespace ILIAS\WebAccessChecker;
  */
 interface PathType
 {
-    const FILE = 1;
-    const FOLDER = 2;
+    public const FILE = 1;
+    public const FOLDER = 2;
 }
