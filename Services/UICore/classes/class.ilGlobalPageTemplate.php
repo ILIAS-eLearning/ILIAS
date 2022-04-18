@@ -81,7 +81,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         GlobalPageHandler::initPage($this);
 
         $sessionReminder = new ilSessionReminderGUI(
-            ilSessionReminder::createInstanceWithCurrentUserSession(),
+            ilSessionReminder::byLoggedInUser(),
             $this,
             $this->lng
         );
