@@ -1,6 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
@@ -37,15 +52,12 @@ interface Factory
      *      Rival 1: >
      *          A wrapper dropzone can hold other ILIAS UI components instead of
      *          a message.
+     *      Rival 2: >
+     *          A file-input can be used instead of this component if other values
+     *          have to be submitted at the same time.
      * rules:
      *   usage:
      *     1: Standard dropzones MUST contain a message.
-     *     2: >
-     *        The upload button MUST be disabled if there are no files
-     *        to be uploaded. Only true if the dropzone is NOT used in
-     *        a form containing other form elements.
-     *     3: >
-     *        Standard dropzones MAY be used in forms.
      *   accessibility:
      *     1: >
      *        Standard dropzones MUST offer the possibility to select files
@@ -96,9 +108,6 @@ interface Factory
      *     2: Wrapper dropzones MUST contain one or more ILIAS UI components.
      *     3: Wrapper dropzones MUST NOT contain any other file dropzones.
      *     4: Wrapper dropzones MUST NOT be used in modals.
-     *     5: >
-     *        The upload button in the modal MUST be disabled if there are no files
-     *        to be uploaded.
      * ---
      * @param UploadHandler         $upload_handler for async file upload
      * @param string                $post_url       for submitting the file data

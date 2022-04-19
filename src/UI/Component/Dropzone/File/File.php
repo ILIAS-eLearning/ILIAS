@@ -1,19 +1,32 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
+use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\FileUpload;
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Droppable;
-use ILIAS\Refinery\Transformation;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface File extends FileUpload, Component, Droppable
+interface File extends FileUpload, Form, Droppable
 {
     /**
      * Get a dropzone like this, but showing a custom title in the appearing modal.
@@ -24,21 +37,4 @@ interface File extends FileUpload, Component, Droppable
      * Get the custom title if set.
      */
     public function getTitle() : string;
-
-    /**
-     * Get a dropzone like this with a server request.
-     */
-    public function withRequest(ServerRequestInterface $request) : File;
-
-    /**
-     * Apply a transformation to the data of the dropzone's form.
-     */
-    public function withAdditionalTransformation(Transformation $transformation) : File;
-
-    /**
-     * Get the data from the dropzone's form if all inputs were OK, otherwise
-     * null will be returned.
-     * @return mixed|null
-     */
-    public function getData();
 }

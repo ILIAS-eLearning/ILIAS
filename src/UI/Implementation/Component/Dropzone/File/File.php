@@ -1,10 +1,25 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Input\Container\Form\Standard as FormInterface;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\Input\Field\FileUploadHelper;
 use ILIAS\UI\Component\Dropzone\File\File as FileInterface;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
@@ -16,7 +31,6 @@ use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Component\Signal;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Transformation;
-use LogicException;
 use ilLanguage;
 
 /**
@@ -24,15 +38,15 @@ use ilLanguage;
  */
 abstract class File implements FileInterface
 {
-    public const JAVASCRIPT_EVENT = 'drop';
-    public const FILE_INPUT_KEY = 'files';
+    protected const FILE_INPUT_KEY = 'files';
+    protected const JAVASCRIPT_EVENT = 'drop';
 
     use FileUploadHelper;
     use JavaScriptBindable;
     use ComponentHelper;
     use Triggerer;
 
-    protected ?FormInterface $form = null;
+    protected ?Form $form = null;
     protected ?Input $metadata_input;
     protected InputFactory $input_factory;
     protected ilLanguage $language;
@@ -53,6 +67,10 @@ abstract class File implements FileInterface
         $this->metadata_input = $metadata_input;
     }
 
+    // ==========================================
+    // BEGIN IMPLEMENTATION OF FileInterface
+    // ==========================================
+
     public function withTitle(string $title) : self
     {
         $clone = clone $this;
@@ -65,60 +83,6 @@ abstract class File implements FileInterface
         return $this->title;
     }
 
-    public function getForm() : FormInterface
-    {
-        if (null !== $this->form) {
-            return $this->form;
-        }
-
-        $file_input = $this->input_factory
-            ->field()->file(
-                $this->upload_handler,
-                '',
-                null,
-                $this->metadata_input
-            )
-            ->withMaxFiles($this->getMaxFiles())
-            ->withMaxFileSize($this->getMaxFileSize())
-            ->withAcceptedMimeTypes($this->getAcceptedMimeTypes());
-
-        return $this->input_factory->container()->form()->standard(
-            $this->post_url,
-            [
-                self::FILE_INPUT_KEY => $file_input,
-            ]
-        );
-    }
-
-    public function withRequest(ServerRequestInterface $request) : self
-    {
-        $clone = clone $this;
-        $clone->form = (null === $clone->form) ?
-            $clone->getForm()->withRequest($request) :
-            $clone->form->withRequest($request);
-
-        return $clone;
-    }
-
-    public function withAdditionalTransformation(Transformation $transformation) : self
-    {
-        $clone = clone $this;
-        $clone->form = (null === $clone->form) ?
-            $clone->getForm()->withAdditionalTransformation($transformation) :
-            $clone->form->withAdditionalTransformation($transformation);
-
-        return $clone;
-    }
-
-    public function getData()
-    {
-        if (null === $this->form) {
-            throw new LogicException(static::class . " ::withRequest must be called first.");
-        }
-
-        return $this->form->getData();
-    }
-
     public function withOnDrop(Signal $signal) : self
     {
         return $this->withTriggeredSignal($signal, self::JAVASCRIPT_EVENT);
@@ -128,4 +92,81 @@ abstract class File implements FileInterface
     {
         return $this->appendTriggeredSignal($signal, self::JAVASCRIPT_EVENT);
     }
+
+    // ==========================================
+    // END IMPLEMENTATION OF FileInterface
+    // ==========================================
+
+    // ==========================================
+    // BEGIN IMPLEMENTATION OF Form
+    // ==========================================
+
+    /**
+     * Returns either the previous instance of the dropzone's form or creates
+     * a new one with the current information for the file-input.
+     */
+    public function getForm() : Form
+    {
+        return $this->form ?? $this->input_factory->container()->form()->standard(
+                $this->post_url,
+                [
+                    self::FILE_INPUT_KEY => $this->input_factory->field()->file(
+                            $this->upload_handler,
+                            '',
+                            null,
+                            $this->metadata_input
+                        )
+                        ->withMaxFiles($this->getMaxFiles())
+                        ->withMaxFileSize($this->getMaxFileSize())
+                        ->withAcceptedMimeTypes($this->getAcceptedMimeTypes())
+                    ,
+                ]
+            );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getInputs() : array
+    {
+        return $this->getForm()->getInputs();
+    }
+
+    public function withRequest(ServerRequestInterface $request) : self
+    {
+        $clone = clone $this;
+        $clone->form = $clone->getForm()->withRequest($request);
+
+        return $clone;
+    }
+
+    public function withAdditionalTransformation(Transformation $trafo) : self
+    {
+        $clone = clone $this;
+        $clone->form = $clone->getForm()->withAdditionalTransformation($trafo);
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getData()
+    {
+        $data = $this->getForm()->getData();
+        if (null !== $data) {
+            return $data[self::FILE_INPUT_KEY] ?? null;
+        }
+
+        return null;
+    }
+
+    public function getError() : ?string
+    {
+        return $this->getForm()->getError();
+    }
+
+    // ==========================================
+    // END IMPLEMENTATION OF Form
+    // ==========================================
 }

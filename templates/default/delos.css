@@ -7264,76 +7264,39 @@ button.list-group-item-danger.active:focus {
 .row-eq-height > div {
   display: flex;
 }
-.il-upload-file-item.row [class*="col-"].col-no-padding {
-  padding-left: 0;
-  padding-right: 0;
-}
-.il-upload-file-item.standard {
-  background: white;
-  border: 1px solid #757575;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  margin-bottom: 4px;
-}
-.il-upload-file-item.standard .file-info {
-  padding: 3px 8px;
-  line-height: 1.42857143;
-  border-radius: 0;
-  font-size: 12px;
-  border: 1px solid transparent;
-  color: #161616;
-  display: inline-block;
-}
-.il-upload-file-item.standard .remove button {
-  margin: 2px 7px 0 0;
-}
-.il-dropzone.row [class*="col-"].col-no-padding {
-  padding-left: 0;
-  padding-right: 0;
-}
-.il-dropzone.standard {
-  background: white;
+.ui-dropzone {
   border: 1px dashed #757575;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  margin-bottom: 4px;
-}
-.il-dropzone.standard .dz-message {
-  padding: 3px 8px;
-  line-height: 1.42857143;
-  border-radius: 0;
-  font-size: 12px;
-  border: 1px solid transparent;
-  color: #757575;
+  background: white;
   display: inline-block;
+  margin-bottom: 5px;
+  padding: 3px;
+  width: 100%;
 }
-.il-dropzone.wrapper {
-  padding: 1px;
+.ui-dropzone-wrapper {
+  background: none;
+  border: none;
 }
-.il-dropzone.darkened-highlight {
-  z-index: 1100;
-  position: relative;
+.ui-dropzone.highlight {
   border: 1px dashed #757575;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
   border-radius: 0px;
   background: #FFFFD6;
+  padding: calc(3px - 1px);
 }
-.il-dropzone.default-highlight {
-  border: 1px dashed #757575;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  background: #FFFFD6;
-}
-.il-dropzone.drag-hover {
+.ui-dropzone.highlight-current {
   border: 1px dashed #5b5b5b;
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
   background-color: #FFF9BC;
+  padding: calc(3px - 1px);
+}
+.ui-dropzone-message {
+  font-size: 14px;
+  margin-bottom: 3px;
+  float: right;
+}
+.ui-dropzone-container button {
+  font-size: 14px;
+}
+.ui-dropzone .form-group {
+  width: 100%;
 }
 .btn {
   font-size: 12px;

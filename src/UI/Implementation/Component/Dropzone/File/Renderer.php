@@ -1,6 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
@@ -19,19 +34,16 @@ use LogicException;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    protected RenderInterface $default_renderer;
-
     public function render(Component $component, RenderInterface $default_renderer) : string
     {
         $this->checkComponent($component);
-        $this->default_renderer = $default_renderer;
 
         switch (true) {
             case ($component instanceof \ILIAS\UI\Component\Dropzone\File\Wrapper):
-                return $this->renderWrapper($component);
+                return $this->renderWrapper($component, $default_renderer);
 
             case ($component instanceof \ILIAS\UI\Component\Dropzone\File\Standard):
-                return $this->renderStandard($component);
+                return $this->renderStandard($component, $default_renderer);
 
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
@@ -44,7 +56,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register("./src/UI/templates/js/Dropzone/File/dropzone.js");
     }
 
-    protected function renderWrapper(Wrapper $dropzone) : string
+    protected function renderWrapper(Wrapper $dropzone, RenderInterface $default_renderer) : string
     {
         $modal = $this->getUIFactory()->modal()->roundtrip(
             $dropzone->getTitle(),
@@ -52,8 +64,8 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $template = $this->getTemplate("tpl.dropzone.html", true, true);
-        $template->setVariable('MODAL', $this->default_renderer->render($modal));
-        $template->setVariable('CONTENT', $this->default_renderer->render($dropzone->getContent()));
+        $template->setVariable('MODAL', $default_renderer->render($modal));
+        $template->setVariable('CONTENT', $default_renderer->render($dropzone->getContent()));
         $template->setVariable('WRAPPER_CLASS', 'ui-dropzone-wrapper');
 
         $dropzone = $this->initClientsideDropzone($dropzone);
@@ -64,7 +76,7 @@ class Renderer extends AbstractComponentRenderer
         return $template->get();
     }
 
-    protected function renderStandard(Standard $dropzone) : string
+    protected function renderStandard(Standard $dropzone, RenderInterface $default_renderer) : string
     {
         $modal = $this->getUIFactory()->modal()->roundtrip(
             $dropzone->getTitle(),
@@ -72,7 +84,7 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $template = $this->getTemplate("tpl.dropzone.html", true, true);
-        $template->setVariable('MODAL', $this->default_renderer->render($modal));
+        $template->setVariable('MODAL', $default_renderer->render($modal));
         $template->setVariable('MESSAGE', $dropzone->getMessage());
 
         $upload_button = $dropzone->getUploadButton();
@@ -83,7 +95,7 @@ class Renderer extends AbstractComponentRenderer
                 $modal->getShowSignal()
             );
 
-            $template->setVariable('BUTTON', $this->default_renderer->render($upload_button));
+            $template->setVariable('BUTTON', $default_renderer->render($upload_button));
         }
 
         $dropzone = $this->initClientsideDropzone($dropzone);
@@ -97,8 +109,8 @@ class Renderer extends AbstractComponentRenderer
     protected function initClientsideDropzone(FileInterface $dropzone) : FileInterface
     {
         return $dropzone->withAdditionalOnLoadCode(static function ($id) {
-            // the file-input id would be nice as DI too, but I don't see
-            // how it could be retrieved here without being hacky.
+            // the file-input JS-ID would be nice here too, but I don't see
+            // how it could be retrieved without being hacky.
             return "
                 $(document).ready(function() {
                     il.UI.Dropzone.init('$id');
