@@ -13265,7 +13265,6 @@ select.form-control {
   margin-left: -20px;
   margin-top: 7px;
   min-width: 13px;
-  vertical-align: top;
 }
 @media only screen and (max-width: 768px) {
   .radio input[type="radio"],
@@ -13274,6 +13273,10 @@ select.form-control {
   .checkbox-inline input[type="checkbox"] {
     min-width: 16px;
   }
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"] {
+  vertical-align: top;
 }
 [dir="rtl"] .form-horizontal .control-label {
   text-align: left;
