@@ -31,7 +31,7 @@ class ilRecommendedContentDBRepository
 {
     protected ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db = null)
+    public function __construct(ilDBInterface $db = null)
     {
         global $DIC;
 
@@ -178,7 +178,7 @@ class ilRecommendedContentDBRepository
     /**
      * Get recommendations of roles
      *
-     * @param $role_ids int[] role ids
+     * @param int[] $role_ids
      * @return int[] ref ids of recommendations
      */
     public function getRecommendationsOfRoles(array $role_ids) : array
@@ -189,7 +189,8 @@ class ilRecommendedContentDBRepository
             "SELECT DISTINCT ref_id FROM rep_rec_content_role " .
             " WHERE " . $db->in("role_id", $role_ids, false, "integer")
         );
-        return array_column($db->fetchAll($set), "ref_id");
+
+        return array_map('intval', array_column($db->fetchAll($set), "ref_id"));
     }
     
     /**
@@ -206,7 +207,8 @@ class ilRecommendedContentDBRepository
             ["integer", "integer"],
             [$user_id, false]
         );
-        return array_column($db->fetchAll($set), "ref_id");
+
+        return array_map('intval', array_column($db->fetchAll($set), "ref_id"));
     }
 
     /**
@@ -223,9 +225,9 @@ class ilRecommendedContentDBRepository
             ["integer", "integer"],
             [$user_id, true]
         );
-        return array_column($db->fetchAll($set), "ref_id");
-    }
 
+        return array_map('intval', array_column($db->fetchAll($set), "ref_id"));
+    }
 
     /**
      * Open recommendations of user (by role or object, without declined ones)
@@ -244,8 +246,8 @@ class ilRecommendedContentDBRepository
 
         // filter declined recommendations
         $declined_recommendations = $this->getDeclinedUserObjectRecommendations($user_id);
-        return array_filter($recommendations, function ($i) use ($declined_recommendations) {
-            return !in_array($i, $declined_recommendations);
+        return array_filter($recommendations, static function (int $i) use ($declined_recommendations) : bool {
+            return !in_array($i, $declined_recommendations, true);
         });
     }
 }

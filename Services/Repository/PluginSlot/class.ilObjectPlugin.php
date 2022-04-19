@@ -21,7 +21,7 @@
 abstract class ilObjectPlugin extends ilObject2
 {
     protected ilPlugin $plugin;
-    protected static array $plugin_by_type = [];
+    protected static array $plugin_by_type = [];// TODO PHP8-REVIEW This seems to be unused
     protected ilComponentFactory $component_factory;
 
     public function __construct(int $a_ref_id = 0)
@@ -44,8 +44,7 @@ abstract class ilObjectPlugin extends ilObject2
         $component_factory = $DIC["component.factory"];
         try {
             return $component_factory->getPlugin($type);
-        }
-        catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             ilLoggerFactory::getLogger("obj")->log("There was an error while instantiating repo plugin obj of type: $type. Error: $e");
         }
         return null;
@@ -101,6 +100,6 @@ abstract class ilObjectPlugin extends ilObject2
         $pl = self::getPluginObjectByType($pluginId);
         $pl->loadLanguageModule();
 
-        return $lng->exists($pl->getPrefix() . "_" . $langVar);
+        return $lng->exists($pl->getPrefix() . "_" . $langVar);// TODO PHP8-REVIEW According to SCA the method `getPrefix` does not exists for all possible types of `$pl`
     }
 }

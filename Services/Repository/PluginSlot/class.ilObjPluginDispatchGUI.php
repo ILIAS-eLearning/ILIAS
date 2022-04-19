@@ -48,7 +48,7 @@ class ilObjPluginDispatchGUI
         $next_class = $ilCtrl->getNextClass();
         $cmd_class = $ilCtrl->getCmdClass();
 
-        if ($cmd_class != "ilobjplugindispatchgui" && $cmd_class != "") {
+        if ($cmd_class !== "ilobjplugindispatchgui" && $cmd_class !== "" && $cmd_class !== null) {
             $class_path = $ilCtrl->lookupClassPath($next_class);
             include_once($class_path);
             $class_name = $ilCtrl->getClassForClasspath($class_path);
@@ -76,7 +76,7 @@ class ilObjPluginDispatchGUI
         $ilCtrl = $this->ctrl;
         
         $type = ilObject::_lookupType($this->request->getRefId(), true);
-        if ($type != "") {
+        if ($type !== "") {
             $plugin = ilObjectPlugin::getPluginObjectByType($type);
             if ($plugin) {
                 $gui_cn = "ilObj" . $plugin->getPluginName() . "GUI";

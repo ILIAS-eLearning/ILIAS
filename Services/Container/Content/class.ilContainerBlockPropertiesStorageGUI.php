@@ -49,7 +49,7 @@ class ilContainerBlockPropertiesStorageGUI
         $ilCtrl = $this->ctrl;
 
         $cmd = $ilCtrl->getCmd();
-        if (in_array($cmd, array("store"))) {
+        if (in_array($cmd, ["store"], true)) {
             $this->$cmd();
         }
     }

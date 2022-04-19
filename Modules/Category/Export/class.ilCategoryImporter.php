@@ -37,30 +37,29 @@ class ilCategoryImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ) : void {
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-            $refs = ilObject::_getAllReferences($new_id);
+            $refs = ilObject::_getAllReferences((int) $new_id);
             $this->category = ilObjectFactory::getInstanceByRefId(end($refs), false);
         }
         // Mapping for containers without subitems
         elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', 0)) {
-            $this->category = ilObjectFactory::getInstanceByRefId($new_id, false);
+            $this->category = ilObjectFactory::getInstanceByRefId((int) $new_id, false);
         } elseif (!$this->category instanceof ilObjCategory) {
             $this->category = new ilObjCategory();
             $this->category->create();
         }
-
 
         try {
             $parser = new ilCategoryXmlParser($a_xml, 0);
             $parser->setCategory($this->category);
             $parser->setMode(ilCategoryXmlParser::MODE_UPDATE);
             $parser->startParsing();
-            $a_mapping->addMapping('Modules/Category', 'cat', $a_id, $this->category->getId());
+            $a_mapping->addMapping('Modules/Category', 'cat', $a_id, (string) $this->category->getId());
         } catch (ilSaxParserException | Exception $e) {
             $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }
 
         foreach ($a_mapping->getMappingsOfEntity('Services/Container', 'objs') as $old => $new) {
-            $type = ilObject::_lookupType($new);
+            $type = ilObject::_lookupType((int) $new);
             
             // see ilGlossaryImporter::importXmlRepresentation()
             // see ilTaxonomyDataSet::importRecord()
@@ -87,7 +86,7 @@ class ilCategoryImporter extends ilXmlImporter
     ) : void {
         $maps = $a_mapping->getMappingsOfEntity("Modules/Category", "cat");
         foreach ($maps as $old => $new) {
-            if ($old != "new_id" && (int) $old > 0) {
+            if ($old !== "new_id" && (int) $old > 0) {
                 // get all new taxonomys of this object
                 $new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
                 $tax_ids = explode(":", $new_tax_ids);

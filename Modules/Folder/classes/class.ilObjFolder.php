@@ -42,9 +42,9 @@ class ilObjFolder extends ilContainer
         $this->folder_tree = $a_tree;
     }
     
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());
@@ -54,7 +54,7 @@ class ilObjFolder extends ilContainer
         return $new_obj;
     }
 
-    public function putInTree(int $a_parent_ref) : void
+    public function putInTree(int $parent_ref_id) : void
     {
         $tree = $this->tree;
         
@@ -64,18 +64,18 @@ class ilObjFolder extends ilContainer
 
         if ($this->withReferences()) {
             // put reference id into tree
-            $this->folder_tree->insertNode($this->getRefId(), $a_parent_ref);
+            $this->folder_tree->insertNode($this->getRefId(), $parent_ref_id);
         } else {
             // put object id into tree
-            $this->folder_tree->insertNode($this->getId(), $a_parent_ref);
+            $this->folder_tree->insertNode($this->getId(), $parent_ref_id);
         }
     }
     
-    public function cloneDependencies(int $a_target_id, int $a_copy_id) : bool
+    public function cloneDependencies(int $target_id, int $copy_id) : bool
     {
-        parent::cloneDependencies($a_target_id, $a_copy_id);
+        parent::cloneDependencies($target_id, $copy_id);
 
-        ilObjectActivation::cloneDependencies($this->getRefId(), $a_target_id, $a_copy_id);
+        ilObjectActivation::cloneDependencies($this->getRefId(), $target_id, $copy_id);
         
         return true;
     }
@@ -94,9 +94,9 @@ class ilObjFolder extends ilContainer
         }
         if ($container_ref_id) {
             $view_mode = ilObjCourseAccess::_lookupViewMode(ilObject::_lookupObjId($container_ref_id));
-            if ($view_mode == ilContainer::VIEW_SESSIONS ||
-                $view_mode == ilContainer::VIEW_BY_TYPE ||
-                $view_mode == ilContainer::VIEW_SIMPLE) {
+            if ($view_mode === ilContainer::VIEW_SESSIONS ||
+                $view_mode === ilContainer::VIEW_BY_TYPE ||
+                $view_mode === ilContainer::VIEW_SIMPLE) {
                 $view = $view_mode;
             }
         }

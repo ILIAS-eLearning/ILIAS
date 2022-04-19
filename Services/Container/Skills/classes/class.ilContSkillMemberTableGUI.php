@@ -33,7 +33,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
     protected ilContainerSkills $container_skills;
     protected UIServices $ui;
 
-    public function __construct($a_parent_obj, string $a_parent_cmd, ilContainerSkills $a_cont_skills)
+    public function __construct($a_parent_obj, string $a_parent_cmd, ilContainerSkills $a_cont_skills)// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
     {
         global $DIC;
 
@@ -77,12 +77,12 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $members = [];
         foreach ($p->getMembers() as $m) {
             $name = ilObjUser::_lookupName($m);
-            $members[] = array(
+            $members[] = [
                 "id" => $m,
                 "name" => $name["lastname"] . ", " . $name["firstname"],
                 "login" => $name["login"],
                 "skills" => []
-            );
+            ];
         }
         return $members;
     }

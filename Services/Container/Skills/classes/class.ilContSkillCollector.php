@@ -72,12 +72,12 @@ class ilContSkillCollector
         $p_skills = [];
 
         foreach ($this->getProfileSkills() as $ps) {
-            $p_skills[$ps["base_skill_id"] . "-" . $ps["tref_id"]] = array(
+            $p_skills[$ps["base_skill_id"] . "-" . $ps["tref_id"]] = [
                 "base_skill_id" => $ps["base_skill_id"],
                 "tref_id" => $ps["tref_id"],
                 "title" => $ps["title"],
                 "profile" => $ps["profile"]
-            );
+            ];
         }
 
         $this->pres_skills = array_merge($s_skills, $p_skills);
@@ -87,12 +87,12 @@ class ilContSkillCollector
 
     protected function getSingleSkills() : array
     {
-        $s_skills = array_map(function ($v) {
-            return array(
+        $s_skills = array_map(static function (array $v) : array {
+            return [
                 "base_skill_id" => $v["skill_id"],
                 "tref_id" => $v["tref_id"],
                 "title" => ilBasicSkill::_lookupTitle($v["skill_id"], $v["tref_id"])
-            );
+            ];
         }, $this->container_skills->getSkills());
 
         return $s_skills;
@@ -107,12 +107,12 @@ class ilContSkillCollector
                 $profile = new ilSkillProfile($gp["profile_id"]);
                 $sklvs = $profile->getSkillLevels();
                 foreach ($sklvs as $s) {
-                    $p_skills[] = array(
+                    $p_skills[] = [
                         "base_skill_id" => $s["base_skill_id"],
                         "tref_id" => $s["tref_id"],
                         "title" => ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]),
                         "profile" => $profile->getTitle()
-                    );
+                    ];
                 }
             }
         }
@@ -123,12 +123,12 @@ class ilContSkillCollector
                 $profile = new ilSkillProfile($lp["profile_id"]);
                 $sklvs = $profile->getSkillLevels();
                 foreach ($sklvs as $s) {
-                    $p_skills[] = array(
+                    $p_skills[] = [
                         "base_skill_id" => $s["base_skill_id"],
                         "tref_id" => $s["tref_id"],
                         "title" => ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]),
                         "profile" => $profile->getTitle()
-                    );
+                    ];
                 }
             }
         }

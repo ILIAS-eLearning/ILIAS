@@ -33,10 +33,10 @@ class ilObjCategoryAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands() :array
+    public static function _getCommands() : array
     {
-        $commands = array();
-        $commands[] = array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true);
+        $commands = [];
+        $commands[] = ["permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true];
 
 
         // BEGIN WebDAV
@@ -45,8 +45,8 @@ class ilObjCategoryAccess extends ilObjectAccess
             $commands[] = $webdav_obj->retrieveWebDAVCommandArrayForActionMenu();
         }
         // END WebDAV
-        $commands[] = array("permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content");
-        $commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "settings");
+        $commands[] = ["permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content"];
+        $commands[] = ["permission" => "write", "cmd" => "edit", "lang_var" => "settings"];
         
         return $commands;
     }
@@ -62,12 +62,12 @@ class ilObjCategoryAccess extends ilObjectAccess
         
         $t_arr = explode("_", $target);
 
-        if ($t_arr[0] != "cat" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "cat" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", (int) $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", (int) $t_arr[1])) {
             return true;
         }
         return false;

@@ -64,12 +64,11 @@ class ilContainerSelectionExplorer extends ilExplorer
     public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         $ilAccess = $this->access;
-        
-        if ($this->getTargetType() == $a_type) {
-            if ($ilAccess->checkAccess('visible', '', $a_ref_id)) {
-                return true;
-            }
+
+        if ($this->getTargetType() === $a_type && $ilAccess->checkAccess('visible', '', $a_ref_id)) {
+            return true;
         }
+
         return false;
     }
 
@@ -84,12 +83,12 @@ class ilContainerSelectionExplorer extends ilExplorer
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
+        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");// TODO PHP8-REVIEW Why is this overwritten? Are you sure this is correct?
 
         $tpl->setCurrentBlock("text");
         $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
         $tpl->parseCurrentBlock();
 
-        $this->output[] = $tpl->get();
+        $this->output[] = $tpl->get();// TODO PHP8-REVIEW `$this->output` is a string, so this operator (`[]`) is not supported
     }
 }

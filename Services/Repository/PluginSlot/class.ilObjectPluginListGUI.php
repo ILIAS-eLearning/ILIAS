@@ -23,6 +23,7 @@
 abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
     protected ilComponentFactory $component_factory;
+    protected ?ilObjectPlugin $plugin;
 
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
@@ -35,8 +36,6 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
     }
-
-    protected ?ilObjectPlugin $plugin;
 
     final public function init() : void
     {
@@ -77,7 +76,6 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     {
         return $this->plugin->txt($a_str);
     }
-    
 
     public function getCommandFrame(string $cmd) : string
     {

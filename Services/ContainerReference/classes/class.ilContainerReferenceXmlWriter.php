@@ -54,7 +54,7 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
 
     public function export(bool $a_with_header = true) : void
     {
-        if ($this->getMode() == self::MODE_EXPORT) {
+        if ($this->getMode() === self::MODE_EXPORT) {
             if ($a_with_header) {
                 $this->buildHeader();
             }
@@ -81,21 +81,21 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
     
     protected function buildTarget() : void
     {
-        $this->xmlElement('Target', array('id' => $this->getReference()->getTargetId()));
+        $this->xmlElement('Target', ['id' => $this->getReference()->getTargetId()]);
     }
     
     protected function buildTitle() : void
     {
         $title = '';
-        if ($this->getReference()->getTitleType() == ilContainerReference::TITLE_TYPE_CUSTOM) {
+        if ($this->getReference()->getTitleType() === ilContainerReference::TITLE_TYPE_CUSTOM) {
             $title = $this->getReference()->getTitle();
         }
         
         $this->xmlElement(
             'Title',
-            array(
+            [
                     'type' => $this->getReference()->getTitleType()
-                ),
+            ],
             $title
         );
     }

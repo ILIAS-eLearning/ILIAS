@@ -105,9 +105,9 @@ class ilRecommendedContentManager
         // filter out favourites
         $favourites = $this->fav_manager->getFavouritesOfUser($user_id);
         $favourites_ref_ids = array_column($favourites, "ref_id");
-
-        return array_filter($recommendations, function ($i) use ($favourites_ref_ids) {
-            return !in_array($i, $favourites_ref_ids);
+        
+        return array_filter($recommendations, static function (int $i) use ($favourites_ref_ids) : bool {
+            return !in_array($i, $favourites_ref_ids, true);
         });
     }
 

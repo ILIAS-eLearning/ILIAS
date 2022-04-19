@@ -21,19 +21,12 @@
  */
 class ilCategoryReferenceImporter extends ilContainerReferenceImporter
 {
-        
-    /**
-     * Get reference type
-     */
     protected function getType() : string
     {
         return 'catr';
     }
     
-    /**
-     * Init xml parser
-     */
-    protected function initParser($a_xml) : ilContainerReferenceXmlParser
+    protected function initParser(string $a_xml) : ilContainerReferenceXmlParser
     {
         return new ilCategoryReferenceXmlParser($a_xml);
     }

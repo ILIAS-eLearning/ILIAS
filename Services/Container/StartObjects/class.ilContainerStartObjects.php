@@ -41,7 +41,7 @@ class ilContainerStartObjects
         $this->setRefId($a_object_ref_id);
         $this->setObjId($a_object_id);
 
-        $this->__read();
+        $this->read();
     }
     
     protected function setObjId(int $a_id) : void
@@ -66,15 +66,15 @@ class ilContainerStartObjects
     
     public function getStartObjects() : array
     {
-        return $this->start_objs ?: array();
+        return $this->start_objs ?: [];
     }
         
-    protected function __read() : void
+    protected function read() : void
     {
         $tree = $this->tree;
         $ilDB = $this->db;
 
-        $this->start_objs = array();
+        $this->start_objs = [];
 
         $query = "SELECT * FROM crs_start" .
             " WHERE crs_id = " . $ilDB->quote($this->getObjId(), 'integer') .
@@ -146,7 +146,7 @@ class ilContainerStartObjects
         return false;
     }
 
-    public function __deleteAll() : void
+    public function __deleteAll() : void// TODO PHP8-REVIEW This method is called anywhere and can be removed iMO
     {
         $ilDB = $this->db;
         
@@ -254,7 +254,7 @@ class ilContainerStartObjects
         $mappings = $cwo->getMappings();
         foreach ($this->getStartObjects() as $data) {
             $item_ref_id = $data['item_ref_id'];
-            if (isset($mappings[$item_ref_id]) and $mappings[$item_ref_id]) {
+            if (isset($mappings[$item_ref_id]) && $mappings[$item_ref_id]) {
                 $ilLog->write(__METHOD__ . ': Clone start object nr. ' . $item_ref_id);
                 $start->add($mappings[$item_ref_id]);
             } else {
@@ -276,9 +276,7 @@ class ilContainerStartObjects
             'WHERE crs_id = ' . $ilDB->quote($a_container_id, 'integer') . ' ' .
             'AND item_ref_id = ' . $ilDB->quote($a_item_ref_id, 'integer');
         $res = $ilDB->query($query);
-        if ($res->numRows() >= 1) {
-            return true;
-        }
-        return false;
+
+        return $res->numRows() >= 1;
     }
 }

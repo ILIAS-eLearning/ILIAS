@@ -29,7 +29,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
     protected ilFavouritesManager $fav_manager;
     
     public function __construct(
-        object $a_parent_obj,
+        object $a_parent_obj,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
         string $a_parent_cmd,
         ilContainerStartObjects $a_start_objects,
         bool $a_enable_desktop = true
@@ -79,7 +79,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $lm_continue = new ilCourseLMHistory($this->start_object->getRefId(), $ilUser->getId());
         $continue_data = $lm_continue->getLMHistory();
 
-        $items = array();
+        $items = [];
         $counter = 0;
         foreach ($this->start_object->getStartObjects() as $start) {
             $obj_id = $ilObjDataCache->lookupObjId((int) $start['item_ref_id']);
@@ -98,7 +98,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             }
             
             // add/remove desktop
-            $actions = array();
+            $actions = [];
             if ($this->enable_desktop) {
                 // add to desktop link
                 if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id)) {
@@ -119,7 +119,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             }
             
             $default_params = null;
-            if ($type == "tst") {
+            if ($type === "tst") {
                 $default_params["crs_show_result"] = $ref_id;
             }
             /* continue is currently inactive
@@ -131,13 +131,14 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             }
             */
 
-            if ($accomplished == 'accomplished') {
+            if ($accomplished === 'accomplished') {
                 $icon = ilUtil::getImagePath("icon_ok.svg");
             } else {
                 $icon = ilUtil::getImagePath("icon_not_ok.svg");
             }
             
-            $items[] = array("nr" => ++$counter,
+            $items[] = [
+                "nr" => ++$counter,
                 "obj_id" => $obj_id,
                 "ref_id" => $ref_id,
                 "type" => $type,
@@ -146,7 +147,8 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                 "description" => $ilObjDataCache->lookupDescription($obj_id),
                 "status" => $this->lng->txt('crs_objective_' . $accomplished),
                 "status_img" => $icon,
-                "actions" => $actions);
+                "actions" => $actions
+            ];
         }
         
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
@@ -156,7 +158,6 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $preloader->preload();
         unset($preloader);
 
-        reset($items);
         $this->setData($items);
     }
         
@@ -182,7 +183,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             $item_list_gui = $this->item_list_guis[$a_type];
         }
         
-        $item_list_gui->setDefaultCommandParameters(array());
+        $item_list_gui->setDefaultCommandParameters([]);
         
         return $item_list_gui;
     }

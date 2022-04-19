@@ -28,6 +28,8 @@ use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\DI\Container;
 use ILIAS\Repository\StandardGUIRequest;
 use ilStr;
+use ilPDSelectedItemsBlockViewSettings;
+use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * Repository related main menu items
@@ -78,7 +80,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         // Tree-View
         $title = $this->dic->language()->txt("mm_rep_tree_view");
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
 
         \ilRepositoryExplorerGUI::init();
         $ref_id = $this->request->getRefId();
@@ -87,7 +89,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
             ->withVisibilityCallable($access_helper->isRepositoryVisible())
-            ->withContentWrapper(function () use ($ref_id) {
+            ->withContentWrapper(function () use ($ref_id) : Legacy {
                 return $this->dic->ui()->factory()->legacy($this->renderRepoTree($ref_id));
             })
             ->withSupportsAsynchronousLoading($asynch)
@@ -96,7 +98,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent($top)
             ->withPosition(20);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_lstv.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_lstv.svg"), $title);
 
         $p = $this;
         $entries[] = $this->mainmenu
@@ -107,17 +109,17 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(30)
             ->withSymbol($icon)
             ->withParent($top)
-            ->withContentWrapper(function () use ($p) {
+            ->withContentWrapper(function () use ($p) : Legacy {
                 return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
             });
 
         $title = $this->dic->language()->txt("mm_favorites");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
         $entries[] = $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
                        ->withSupportsAsynchronousLoading(true)
                        ->withTitle($title)
                        ->withSymbol($icon)
-                       ->withContentWrapper(function () use ($f) {
+                       ->withContentWrapper(function () use ($f) : Legacy {
                            $fav_list = new \ilFavouritesListGUI();
 
                            return $f->legacy($fav_list->render());
@@ -125,7 +127,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                        ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                        ->withPosition(10)
                        ->withAvailableCallable(
-                           function () use ($dic) {
+                           function () use ($dic) : bool {
                                return (bool) $dic->settings()->get('rep_favourites', "0");
                            }
                        )
@@ -135,7 +137,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                                    return true;
                                    $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
 
-                                   return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
+                                   return $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
                                }
                            ))
                        );
@@ -148,7 +150,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
-        $title = function () use ($dic) : string {
+        $title = static function () use ($dic) : string {
             try {
                 $nd = $dic['tree']->getNodeData(ROOT_FOLDER_ID);
                 $title = ($nd["title"] === "ILIAS" ? $dic->language()->txt("repository") : $nd["title"]);
@@ -160,7 +162,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             return $title . " - " . $dic->language()->txt("rep_main_page");
         };
 
-        $action = function () : string {
+        $action = static function () : string {
             try {
                 $static_link = ilLink::_getStaticLink(1, 'root', true);
             } catch (InvalidArgumentException $e) {
@@ -193,8 +195,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 break;
             }
 
-            if (!isset($nav_item["ref_id"]) || $this->request->getRefId() == 0
-                || ($nav_item["ref_id"] != $this->request->getRefId() || !$first)
+            if (!isset($nav_item["ref_id"]) || $this->request->getRefId() === 0
+                || ((int) $nav_item["ref_id"] !== $this->request->getRefId() || !$first)
             ) {            // do not list current item
                 $ititle = ilStr::shortenTextExtended(strip_tags($nav_item["title"]), 50, true); // #11023
                 $obj_id = ilObject::_lookupObjectId($nav_item["ref_id"]);
@@ -232,7 +234,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         global $DIC;
         $tree = $DIC->repositoryTree();
-        if ($this->request->getBaseClass() == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
+        if ($ref_id <= 0 || $this->request->getBaseClass() === "ilAdministrationGUI" || !$tree->isInTree($ref_id)) {
             $ref_id = $tree->readRootId();
         }
         $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);

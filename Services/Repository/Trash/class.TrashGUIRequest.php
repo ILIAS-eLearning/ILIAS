@@ -38,10 +38,10 @@ class TrashGUIRequest
             return $trash_ids;
         }
         $trash_ids = $this->str("trash_ids");
-        if ($trash_ids == "") {
+        if ($trash_ids === "") {
             return [];
-        } else {
-            return explode(",", $trash_ids);
         }
+
+        return explode(",", $trash_ids);
     }
 }

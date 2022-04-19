@@ -26,25 +26,24 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
 
         $log = $DIC->logger()->root();
 
-        include_once './Services/Export/classes/class.ilExportOptions.php';
         $eo = ilExportOptions::getInstance();
 
         $obj_id = end($a_ids);
 
         $log->debug(__METHOD__ . ': ' . $obj_id);
         if ($eo->getOption(ilExportOptions::KEY_ROOT) != $obj_id) {
-            return array();
+            return [];
         }
         if (count(ilExportOptions::getInstance()->getSubitemsForExport()) > 1) {
-            return array(
-                array(
+            return [
+                [
                     'component' => 'Services/Container',
                     'entity' => 'struct',
                     'ids' => $a_ids
-                )
-            );
+                ]
+            ];
         }
-        return array();
+        return [];
     }
     
     abstract protected function initWriter(ilContainerReference $ref) : ilContainerReferenceXmlWriter;
@@ -55,7 +54,7 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
 
         $log = $DIC->logger()->root();
 
-        $refs = ilObject::_getAllReferences($a_id);
+        $refs = ilObject::_getAllReferences((int) $a_id);
         $ref_ref_id = end($refs);
         $ref = ilObjectFactory::getInstanceByRefId($ref_ref_id, false);
 
@@ -74,14 +73,15 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {
-        return array(
-            "4.3.0" => array(
+        return [
+            "4.3.0" => [
                 "namespace" => "https://www.ilias.de/Modules/CategoryReference/catr/4_3",
                 "xsd_file" => "ilias_catr_4_3.xsd",
                 "uses_dataset" => false,
                 "min" => "4.3.0",
-                "max" => "")
-        );
+                "max" => ""
+            ]
+        ];
     }
 
     public function init() : void

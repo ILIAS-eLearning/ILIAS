@@ -80,7 +80,7 @@ class ilContSkillPresentationGUI
                 break;
             
             default:
-                if ($cmd == "show") {
+                if ($cmd === "show") {
                     $this->$cmd();
                 }
         }
