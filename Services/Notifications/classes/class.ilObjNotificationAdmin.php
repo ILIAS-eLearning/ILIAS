@@ -17,9 +17,6 @@
  *
  *****************************************************************************/
 
-use Exception;
-use ilObject;
-
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
  */
