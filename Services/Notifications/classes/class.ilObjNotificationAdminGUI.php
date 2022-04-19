@@ -17,12 +17,8 @@
  *
  *****************************************************************************/
 
-use ilCtrlException;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use ilObjectGUI;
-use ilPermissionGUI;
-use ilSetting;
 
 /**
  * @author Ingmar Szmais <iszmais@databay.de>

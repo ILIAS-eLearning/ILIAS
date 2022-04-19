@@ -17,10 +17,6 @@
  *
  *****************************************************************************/
 
-use ilCheckboxInputGUI;
-use ilCtrl;
-use ilCtrlBaseClassInterface;
-use ilGlobalTemplateInterface;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Notifications\ilNotificationDatabaseHandler;
@@ -28,13 +24,6 @@ use ILIAS\Notifications\ilNotificationHandler;
 use ILIAS\Notifications\ilNotificationOSDHandler;
 use ILIAS\Notifications\ilNotificationOSDRepository;
 use ILIAS\Notifications\ilNotificationSettingsTable;
-use ilLanguage;
-use ilLocatorGUI;
-use ilObjUser;
-use ilPropertyFormGUI;
-use ilSession;
-use ilSetting;
-use stdClass;
 
 /**
  * @author Ingmar Szmais <iszmais@databay.de>

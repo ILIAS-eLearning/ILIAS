@@ -17,8 +17,6 @@
  *
  *****************************************************************************/
 
-use ilObjectAccess;
-
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
  */
