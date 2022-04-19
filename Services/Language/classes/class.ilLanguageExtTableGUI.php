@@ -89,7 +89,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("MODULE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["module"]));
         $this->tpl->setVariable("TOPIC", ilLegacyFormElementsUtil::prepareFormOutput($a_set["topic"]));
-
+        
         $this->tpl->setVariable("DEFAULT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default"] ?? ""));
         $this->tpl->setVariable("COMMENT", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default_comment"] ?? ""));
     }
