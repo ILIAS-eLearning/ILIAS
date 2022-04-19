@@ -39,7 +39,6 @@ class ilSessionReminderGUI
         }
 
         iljQueryUtil::initjQuery($this->page);
-        ilYuiUtil::initCookie();
 
         $this->page->addJavaScript('./Services/Authentication/js/session_reminder.js');
 
