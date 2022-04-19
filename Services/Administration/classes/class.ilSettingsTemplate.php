@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Settings template application class
@@ -113,7 +117,7 @@ class ilSettingsTemplate
                 if (is_array($a_value)) {
                     $a_value = serialize($a_value);
                 } else {
-                    $a_value = unserialize($a_value);
+                    $a_value = unserialize($a_value);//PHP8Review: Use the options parameter to specificy the serialized classes for security
                 }
             }
         }
@@ -372,7 +376,7 @@ class ilSettingsTemplate
     
     public static function translate(string $a_title_desc) : string
     {
-        if (substr($a_title_desc, 0, 3) == 'il_') {
+        if (substr($a_title_desc, 0, 3) === 'il_') {
             return $GLOBALS['lng']->txt($a_title_desc);
         }
         return $a_title_desc;

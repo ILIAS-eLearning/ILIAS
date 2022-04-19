@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * ILIAS Setting Class
@@ -95,7 +99,7 @@ class ilSetting implements \ILIAS\Administration\Setting
         string $a_keyword,
         ?string $a_default_value = null
     ) : ?string {
-        if ($a_keyword == "ilias_version") {
+        if ($a_keyword === "ilias_version") {
             return ILIAS_VERSION;
         }
         if (isset($this->setting[$a_keyword])) {
@@ -154,7 +158,7 @@ class ilSetting implements \ILIAS\Administration\Setting
             self::$value_type = self::_getValueType();
         }
 
-        if (self::$value_type == 'text' and strlen($a_val) >= 4000) {
+        if (self::$value_type === 'text' and strlen($a_val) >= 4000) {
             global $DIC;
             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('setting_value_truncated'), true);
             $a_val = substr($a_val, 0, 4000);
@@ -178,7 +182,7 @@ class ilSetting implements \ILIAS\Administration\Setting
         if ($a_val != "1") {
             $ilDB->query("UPDATE sahs_lm SET debug = 'n'");
         }
-        ilSetting::set($a_key, $a_val);
+        $this->set($a_key, $a_val);
     }
     
     public static function _lookupValue(
@@ -204,7 +208,7 @@ class ilSetting implements \ILIAS\Administration\Setting
         $analyzer = new ilDBAnalyzer();
         $info = $analyzer->getFieldInformation('settings');
 
-        if ($info['value']['type'] == 'clob') {
+        if ($info['value']['type'] === 'clob') {
             return 'clob';
         } else {
             return 'text';
@@ -228,7 +232,7 @@ class ilSetting implements \ILIAS\Administration\Setting
 
         if ($a_new_type == $old_type) {
             return false;
-        } elseif ($a_new_type == 'clob') {
+        } elseif ($a_new_type === 'clob') {
             $ilDB->addTableColumn(
                 'settings',
                 'value2',
@@ -242,7 +246,7 @@ class ilSetting implements \ILIAS\Administration\Setting
             $ilDB->renameTableColumn('settings', 'value2', 'value');
 
             return true;
-        } elseif ($a_new_type == 'text') {
+        } elseif ($a_new_type === 'text') {
             $ilDB->addTableColumn(
                 'settings',
                 'value2',

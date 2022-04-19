@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilObjExternalToolsSettingsGUI
@@ -119,7 +123,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $form->addItem($types);
 
         // map data server property
-        if ($type == "openlayers") {
+        if ($type === "openlayers") {
             $tile = new ilTextInputGUI($lng->txt("maps_tile_server"), "tile");
             $tile->setValue(ilMapUtil::getStdTileServers());
             $tile->setInfo(sprintf($lng->txt("maps_custom_tile_server_info"), ilMapUtil::DEFAULT_TILE));
@@ -165,7 +169,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
         $form = $this->getMapsForm();
         if ($form->checkInput()) {
-            if ($form->getInput("type") == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
+            if ($form->getInput("type") === 'openlayers' && 'openlayers' === ilMapUtil::getType()) {
                 ilMapUtil::setStdTileServers($form->getInput("title"));
                 ilMapUtil::setStdGeolocationServer(
                     $form->getInput("geolocation")
@@ -185,10 +189,10 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     }
     
     // init sub tabs
-    public function __initSubTabs(string $a_cmd) : void
+    public function __initSubTabs(string $a_cmd) : void//PHP8Review: Its recommended not to use self defined __ prefixes. Since this affects multiple space i just leave a recommendation to change that here
     {
-        $maps = $a_cmd == 'editMaps';
-        $mathjax = $a_cmd == 'editMathJax';
+        $maps = $a_cmd === 'editMaps';
+        $mathjax = $a_cmd === 'editMathJax';
 
         $this->tabs_gui->addSubTabTarget(
             "maps_extt_maps",
@@ -239,7 +243,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
             default:
                 $this->tabs_gui->setTabActive('settings');
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editMaps";
                 }
                 $cmd .= "Object";
