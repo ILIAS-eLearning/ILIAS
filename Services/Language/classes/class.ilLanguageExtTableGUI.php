@@ -78,7 +78,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
                 "COM_NAME",
                 ilLegacyFormElementsUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment")
             );
-            $this->tpl->setVariable("COM_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["comment"]));
+            $this->tpl->setVariable("COM_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["comment"] ?? ""));
             $this->tpl->parseCurrentBlock();
         }
 
@@ -91,7 +91,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TOPIC", ilLegacyFormElementsUtil::prepareFormOutput($a_set["topic"]));
 
         $this->tpl->setVariable("DEFAULT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default"]));
-        $this->tpl->setVariable("COMMENT", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default_comment"]));
+        $this->tpl->setVariable("COMMENT", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default_comment"] ?? ""));
     }
 
     /**
@@ -107,7 +107,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             // pattern
             include_once "./Services/Form/classes/class.ilTextInputGUI.php";
             $ti = new ilTextInputGUI($lng->txt("search"), "pattern");
-            $ti->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
+            //$ti->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $ti->setMaxLength(64);
             $ti->setSize(20);
             $this->addFilterItem($ti);
@@ -123,7 +123,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
             include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
             $si = new ilSelectInputGUI(ucfirst($lng->txt("module")), "module");
-            $si->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
+            //$si->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $si->setOptions($options);
             $this->addFilterItem($si);
             $si->readFromSession();
@@ -134,7 +134,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             // identifier
             include_once "./Services/Form/classes/class.ilTextInputGUI.php";
             $ti = new ilTextInputGUI(ucfirst($lng->txt("identifier")), "identifier");
-            $ti->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
+            //$ti->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $ti->setMaxLength(200);
             $ti->setSize(20);
             $this->addFilterItem($ti);
@@ -158,7 +158,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
             include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
             $si = new ilSelectInputGUI($lng->txt("filter"), "mode");
-            $si->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
+            //$si->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $si->setOptions($options);
             $this->addFilterItem($si);
             $si->readFromSession();
@@ -176,7 +176,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
         $si = new ilSelectInputGUI($lng->txt("language_compare"), "compare");
-        $si->setParent($this->parent_obj);
+        //$si->setParent($this->parent_obj);
         $si->setOptions($options);
         $this->addFilterItem($si);
         $si->readFromSession();
