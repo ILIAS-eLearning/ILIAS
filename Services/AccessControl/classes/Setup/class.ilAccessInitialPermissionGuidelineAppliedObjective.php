@@ -159,10 +159,11 @@ class ilAccessInitialPermissionGuidelineAppliedObjective implements Setup\Object
 
         $learning_progress_permissions = [];
         if ($this->has_learning_progress) {
-            $learning_progress_permissions = array_filter(
-                ilRbacReview::_getOperationIdsByName("read_learning_progress"),
+            $learning_progress_permissions = array_filter([
+                ilRbacReview::_getCustomRBACOperationId("read_learning_progress"),
                 ilRbacReview::_getCustomRBACOperationId("edit_learning_progress")
-            );
+
+            ]);
         }
 
         foreach ($this->initial_permission_definition as $role_type => $roles) {
