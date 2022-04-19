@@ -1,25 +1,16 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilRegistrationSettingsGUI
@@ -204,13 +195,13 @@ class ilRegistrationSettingsGUI
         $option = new ilRadioOption($this->lng->txt('reg_fixed'), (string) ilRegistrationSettings::IL_REG_ROLES_FIXED);
         $list = new ilCustomInputGUI($this->lng->txt('reg_available_roles'));
         $edit = $this->ctrl->getLinkTarget($this, 'editRoles');
-        $list->setHtml($this->__parseRoleList($this->__prepareRoleList(), $edit));
+        $list->setHtml($this->parseRoleList($this->prepareRoleList(), $edit));
         $option->addSubItem($list);
         $roles->addOption($option);
         $option = new ilRadioOption($this->lng->txt('reg_email'), (string) ilRegistrationSettings::IL_REG_ROLES_EMAIL);
         $list = new ilCustomInputGUI($this->lng->txt('reg_available_roles'));
         $edit = $this->ctrl->getLinkTarget($this, 'editEmailAssignments');
-        $list->setHtml($this->__parseRoleList($this->__prepareAutomaticRoleList(), $edit));
+        $list->setHtml($this->parseRoleList($this->prepareAutomaticRoleList(), $edit));
         $option->addSubItem($list);
         $roles->addOption($option);
         $roles->setInfo($this->lng->txt('registration_codes_override_global_info'));
@@ -220,7 +211,7 @@ class ilRegistrationSettingsGUI
         $limit->setValue('1');
         $list = new ilCustomInputGUI($this->lng->txt('reg_available_roles'));
         $edit = $this->ctrl->getLinkTarget($this, 'editRoleAccessLimitations');
-        $list->setHtml($this->__parseRoleList($this->__prepareAccessLimitationRoleList(), $edit));
+        $list->setHtml($this->parseRoleList($this->prepareAccessLimitationRoleList(), $edit));
         $list->setInfo($this->lng->txt('registration_codes_override_global_info'));
         $limit->addSubItem($list);
         $form_gui->addItem($limit);
@@ -235,7 +226,7 @@ class ilRegistrationSettingsGUI
         return $form_gui;
     }
 
-    public function initFormValues(ilPropertyFormGUI $formGUI)
+    public function initFormValues(ilPropertyFormGUI $formGUI) : void
     {
         $role_type = ilRegistrationSettings::IL_REG_ROLE_UNDEFINED;
         if ($this->registration_settings->roleSelectionEnabled()) {
@@ -267,7 +258,7 @@ class ilRegistrationSettingsGUI
         $formGUI->setValuesByArray($values);
     }
 
-    public function view()
+    public function view() : void
     {
         $this->checkAccess('visible,read');
         $this->setSubTabs();
@@ -293,7 +284,7 @@ class ilRegistrationSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function save()
+    public function save() : bool
     {
         $this->checkAccess('write');
 
@@ -318,7 +309,7 @@ class ilRegistrationSettingsGUI
         $this->registration_settings->setAllowCodes($allow_codes);
 
         $hash_life_time = $form->getInput('reg_hash_life_time');
-        if (!preg_match('/^([0]|([1-9][0-9]*))([\.,][0-9][0-9]*)?$/', (string) $hash_life_time)) {
+        if (!preg_match('/^([0]|([1-9][0-9]*))([\.,][0-9]+)?$/', (string) $hash_life_time)) {
             $this->registration_settings->setRegistrationHashLifetime(ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE);
         } else {
             $this->registration_settings->setRegistrationHashLifetime(max(
@@ -357,7 +348,7 @@ class ilRegistrationSettingsGUI
         $roles = new \ilCheckboxGroupInputGUI($this->lng->txt('reg_available_roles'), 'roles');
         $allowed_roles = array();
         foreach ($this->rbacreview->getGlobalRoles() as $role) {
-            if ($role == SYSTEM_ROLE_ID or $role == ANONYMOUS_ROLE_ID) {
+            if ($role == SYSTEM_ROLE_ID || $role == ANONYMOUS_ROLE_ID) {
                 continue;
             }
             $role_option = new \ilCheckboxOption(ilObjRole::_lookupTitle($role));
@@ -377,7 +368,7 @@ class ilRegistrationSettingsGUI
         return $role_form;
     }
 
-    public function editRoles(?ilPropertyFormGUI $form = null)
+    public function editRoles(?ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('write');
         $this->tabs->clearTargets();
@@ -416,7 +407,7 @@ class ilRegistrationSettingsGUI
         return true;
     }
 
-    public function editEmailAssignments(ilPropertyFormGUI $form = null)
+    public function editEmailAssignments(ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('write');
         $this->tabs->clearTargets();
@@ -425,8 +416,8 @@ class ilRegistrationSettingsGUI
             $this->ctrl->getLinkTarget($this, "view")
         );
 
-        $this->__initRoleAssignments();
-        $form = (empty($form)) ? $this->initEmailAssignmentForm() : $form;
+        $this->initRoleAssignments();
+        $form = $form ?? $this->initEmailAssignmentForm();
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -483,8 +474,8 @@ class ilRegistrationSettingsGUI
             $this->lng->txt("registration_settings"),
             $this->ctrl->getLinkTarget($this, "view")
         );
-        $this->__initRoleAccessLimitations();
-        $form = $this->initRoleAccessForm();
+        $this->initRoleAccessLimitations();
+        $form = $this->initRoleAccessForm(); //TODO-PHP8-REVIEW this variable gets overwritten in any case.
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -533,7 +524,7 @@ class ilRegistrationSettingsGUI
     public function saveAssignment() : bool
     {
         $this->checkAccess('write');
-        $this->__initRoleAssignments();
+        $this->initRoleAssignments();
         $form = $this->initEmailAssignmentForm();
         if (!$form->checkInput()) {
             $form->setValuesByPost();
@@ -570,7 +561,7 @@ class ilRegistrationSettingsGUI
     public function saveRoleAccessLimitations() : bool
     {
         $this->checkAccess('write');
-        $this->__initRoleAccessLimitations();
+        $this->initRoleAccessLimitations();
 
         $form = $this->initRoleAccessForm();
         if (!$form->checkInput()) {
@@ -606,14 +597,14 @@ class ilRegistrationSettingsGUI
         return true;
     }
 
-    public function __parseRoleList($roles, $url) : string
+    public function parseRoleList($roles, $url) : string //TODO-PHP8-REVIEW add type
     {
         $tpl = new ilTemplate('tpl.registration_roles.html', true, true, 'Services/Registration');
 
         $tpl->setVariable("EDIT", $this->lng->txt("edit"));
         $tpl->setVariable("LINK_EDIT", $url);
 
-        if (is_array($roles) && sizeof($roles)) {
+        if (is_array($roles) && count($roles)) {
             foreach ($roles as $role) {
                 $tpl->setCurrentBlock("list_item");
                 $tpl->setVariable("LIST_ITEM_ITEM", $role);
@@ -625,7 +616,7 @@ class ilRegistrationSettingsGUI
         return $tpl->get();
     }
 
-    public function __prepareRoleList() : array
+    public function prepareRoleList() : array
     {
         $all = array();
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
@@ -634,25 +625,25 @@ class ilRegistrationSettingsGUI
         return $all;
     }
 
-    public function __prepareAutomaticRoleList() : array
+    public function prepareAutomaticRoleList() : array
     {
-        $this->__initRoleAssignments();
+        $this->initRoleAssignments();
         $all = array();
         foreach ($this->assignments_obj->getAssignments() as $assignment) {
-            if (strlen($assignment['domain']) and $assignment['role']) {
+            if ($assignment['domain'] !== '' && $assignment['role']) {
                 $all[] = $assignment['domain'] . ' -> ' . ilObjRole::_lookupTitle($assignment['role']);
             }
         }
 
-        if (strlen((string) $this->assignments_obj->getDefaultRole())) {
+        if ((string) $this->assignments_obj->getDefaultRole() !== '') {
             $all[] = $this->lng->txt('reg_default') . ' -> ' . ilObjRole::_lookupTitle($this->assignments_obj->getDefaultRole());
         }
         return $all;
     }
 
-    public function __prepareAccessLimitationRoleList() : array
+    public function prepareAccessLimitationRoleList() : array
     {
-        $this->__initRoleAccessLimitations();
+        $this->initRoleAccessLimitations();
         $all = array();
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
             switch ($this->access_limitations_obj->getMode((int) $role['id'])) {
@@ -681,7 +672,7 @@ class ilRegistrationSettingsGUI
 
                     if ($months) {
                         $txt_access_value .= $months . " ";
-                        $txt_access_value .= ($months == 1) ? $this->lng->txt('month') : $this->lng->txt('months');
+                        $txt_access_value .= ($months === 1) ? $this->lng->txt('month') : $this->lng->txt('months');
 
                         if ($days) {
                             $txt_access_value .= " " . $this->lng->txt('and') . " ";
@@ -690,7 +681,7 @@ class ilRegistrationSettingsGUI
 
                     if ($days) {
                         $txt_access_value .= $days . " ";
-                        $txt_access_value .= ($days == 1) ? $this->lng->txt('day') : $this->lng->txt('days');
+                        $txt_access_value .= ($days === 1) ? $this->lng->txt('day') : $this->lng->txt('days');
                     }
                     break;
 
@@ -705,14 +696,14 @@ class ilRegistrationSettingsGUI
         return $all;
     }
 
-    public function __initRoleAssignments() : void
+    public function initRoleAssignments() : void
     {
         if (!$this->assignments_obj instanceof ilRegistrationRoleAssignments) {
             $this->assignments_obj = new ilRegistrationRoleAssignments();
         }
     }
 
-    public function __initRoleAccessLimitations() : void
+    public function initRoleAccessLimitations() : void
     {
         if (!$this->access_limitations_obj instanceof ilRegistrationRoleAccessLimitations) {
             $this->access_limitations_obj = new ilRegistrationRoleAccessLimitations();
@@ -867,7 +858,7 @@ class ilRegistrationSettingsGUI
                         }
                     }
                 }
-                if (sizeof($role_ids)) {
+                if (count($role_ids)) {
                     $local = $role_ids;
                 }
             }
@@ -945,7 +936,7 @@ class ilRegistrationSettingsGUI
         $this->ctrl->redirect($this, "listCodes");
     }
 
-    public function deleteConfirmation()
+    public function deleteConfirmation() : void
     {
         $this->checkAccess("write");
 
@@ -1010,7 +1001,7 @@ class ilRegistrationSettingsGUI
             $utab->filter["alimit"]
         );
 
-        if (sizeof($codes)) {
+        if (count($codes)) {
             ilUtil::deliverData(
                 implode("\r\n", $codes),
                 "ilias_registration_codes_" . date("d-m-Y") . ".txt",
