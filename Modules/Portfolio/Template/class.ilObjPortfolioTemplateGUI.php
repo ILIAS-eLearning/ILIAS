@@ -251,7 +251,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $ilUser = $this->user;
         
         $all = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
-        if (sizeof($all)) {
+        if (count($all)) {
             $opts = array("" => $this->lng->txt("please_select"));
             foreach ($all as $item) {
                 $opts[$item["id"]] = $item["title"];
@@ -265,18 +265,18 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         return $form;
     }
     
-    protected function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $new_object) : void
     {
         if ($this->port_request->getPortfolioId() > 0) {
             $source = new ilObjPortfolio($this->port_request->getPortfolioId(), false);
 
             /** @var ilObjPortfolioBase $obj */
-            $obj = $a_new_object;
+            $obj = $new_object;
             ilObjPortfolio::clonePagesAndSettings($source, $obj);
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("prtt_portfolio_created"), true);
-        $this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
+        $this->ctrl->setParameter($this, "prt_id", $new_object->getId());
         $this->ctrl->redirect($this, "view");
     }
         
@@ -293,7 +293,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         
         // additional info only with multiple references
         $act_obj_info = $act_ref_info = "";
-        if (sizeof(ilObject::_getAllReferences($this->object->getId())) > 1) {
+        if (count(ilObject::_getAllReferences($this->object->getId())) > 1) {
             $act_obj_info = ' ' . $this->lng->txt('rep_activation_online_object_info');
             $act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
         }
@@ -353,30 +353,30 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         parent::getEditFormCustomValues($a_values);
     }
     
-    protected function updateCustom(ilPropertyFormGUI $a_form) : void
+    protected function updateCustom(ilPropertyFormGUI $form) : void
     {
         $obj_service = $this->object_service;
 
-        $this->object->setOnline($a_form->getInput("online"));
+        $this->object->setOnline($form->getInput("online"));
         
         // activation
-        $period = $a_form->getItemByPostVar("access_period");
+        $period = $form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
             $this->object->setActivationLimited(true);
-            $this->object->setActivationVisibility($a_form->getInput("access_visiblity"));
+            $this->object->setActivationVisibility($form->getInput("access_visiblity"));
             $this->object->setActivationStartDate($period->getStart()->get(IL_CAL_UNIX));
             $this->object->setActivationEndDate($period->getEnd()->get(IL_CAL_UNIX));
         } else {
             $this->object->setActivationLimited(false);
         }
 
-        parent::updateCustom($a_form);
+        parent::updateCustom($form);
 
-        $obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
-            $a_form,
+            $form,
             array(
                 ilObjectServiceSettingsGUI::CUSTOM_METADATA
             )
@@ -450,7 +450,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
     /**
      * Init blog template page form
      */
-    public function initBlogForm() : ilPropertyFormGUI
+    protected function initBlogForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));

@@ -75,7 +75,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         // declaration of authorship
         if ($this->declaration_of_authorship &&
-            $this->declaration_of_authorship->getForUser($this->user) != "") {
+            $this->declaration_of_authorship->getForUser($this->user) !== "") {
             $cb = new \ilCheckboxInputGUI($this->lng->txt("prtf_decl_authorship"), "decl_author");
             $cb->setInfo($this->declaration_of_authorship->getForUser($this->user));
             $form->addItem($cb);
@@ -252,7 +252,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             } else {
                 $pages2 = \ilBlogPosting::getAllPostings($page["title"]);
                 foreach ($pages2 as $p2) {
-                    if ($this->port_request->getPrintSelectedType() == "selection" &&
+                    if ($this->port_request->getPrintSelectedType() === "selection" &&
                         (!in_array("b" . $p2["id"], $this->port_request->getObjIds()))) {
                         continue;
                     }

@@ -94,7 +94,7 @@ class ilPortfolioExerciseGUI
                 $info[] = $part;
             }
         }
-        if (sizeof($info) && !$as_array) {
+        if (count($info) && !$as_array) {
             return implode("<br />", $info);
         }
 
@@ -201,26 +201,24 @@ class ilPortfolioExerciseGUI
         }
 
         $ass_files = $ass->getFiles();
-        if (!$as_array) {
-            if (count($ass_files) > 0) {
-                if ($tooltip) {
-                    $tooltip .= "<br /><br />";
-                }
-
-                $items = [];
-
-                foreach ($ass_files as $file) {
-                    $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
-                    $ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", urlencode($file["name"]));
-                    $dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcAssFile");
-                    $ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", "");
-                    $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");
-
-                    $items[] = $ui->renderer()->render($ui->factory()->button()->shy($file["name"], $dl_link));
-                }
-                $list = $ui->factory()->listing()->unordered($items);
-                $tooltip .= $ui->renderer()->render($list);
+        if (!$as_array && count($ass_files) > 0) {
+            if ($tooltip) {
+                $tooltip .= "<br /><br />";
             }
+
+            $items = [];
+
+            foreach ($ass_files as $file) {
+                $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
+                $ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", urlencode($file["name"]));
+                $dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcAssFile");
+                $ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", "");
+                $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");
+
+                $items[] = $ui->renderer()->render($ui->factory()->button()->shy($file["name"], $dl_link));
+            }
+            $list = $ui->factory()->listing()->unordered($items);
+            $tooltip .= $ui->renderer()->render($list);
         }
         
         if ($tooltip) {
@@ -350,11 +348,11 @@ class ilPortfolioExerciseGUI
             $ass_id = $exercise["ass_id"];
             $buttons[$ass_id] = [];
             $submit_button = $this->getSubmitButton($ass_id);
-            if ($submit_button != null) {
+            if ($submit_button) {
                 $buttons[$ass_id][] = $submit_button;
             }
             $download_button = $this->getDownloadSubmissionButton($ass_id);
-            if ($download_button != null) {
+            if ($download_button) {
                 $buttons[$ass_id][] = $download_button;
             }
         }

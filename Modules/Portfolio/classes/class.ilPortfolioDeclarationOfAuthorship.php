@@ -59,7 +59,7 @@ class ilPortfolioDeclarationOfAuthorship
         $lng = $this->lng;
 
         $decl = $this->getForLanguage($user->getLanguage());
-        if ($decl == "") {
+        if ($decl === "") {
             $decl = $this->getForLanguage($lng->getDefaultLanguage());
         }
         return $decl;

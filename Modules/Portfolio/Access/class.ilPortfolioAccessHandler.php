@@ -76,7 +76,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         $ilSetting = $this->settings;
 
         // #20310
-        if (!$ilSetting->get("enable_global_profiles") && $ilUser->getId() == ANONYMOUS_USER_ID) {
+        if (!$ilSetting->get("enable_global_profiles") && $ilUser->getId() === ANONYMOUS_USER_ID) {
             return false;
         }
 
@@ -93,7 +93,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         }
         
         // portfolio owner has all rights
-        if ($pf->getOwner() == $a_user_id) {
+        if ($pf->getOwner() === $a_user_id) {
             return true;
         }
         
@@ -103,7 +103,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         }
 
         // other users can only read
-        if ($a_permission == "read" || $a_permission == "visible") {
+        if ($a_permission === "read" || $a_permission === "visible") {
             // get all objects with explicit permission
             $objects = self::_getPermissions($a_node_id);
             if ($objects) {
@@ -115,14 +115,14 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                                 
                         case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
                             // check against input kept in session
-                            if (self::getSharedNodePassword($a_node_id) == self::getSharedSessionPassword($a_node_id) ||
-                                $a_permission == "visible") {
+                            if (self::getSharedNodePassword($a_node_id) === self::getSharedSessionPassword($a_node_id) ||
+                                $a_permission === "visible") {
                                 return true;
                             }
                             break;
                     
                         case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
-                            if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+                            if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
                                 return true;
                             }
                             break;
@@ -191,7 +191,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         $ilUser = $this->user;
 
         // current owner must not be added
-        if ($a_object_id == $ilUser->getId()) {
+        if ($a_object_id === $ilUser->getId()) {
             return;
         }
 
@@ -336,7 +336,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         $ilUser = $this->user;
         $ilDB = $this->db;
         
-        $obj_ids = $this->getPossibleSharedTargets();
+        $obj_ids = self::getPossibleSharedTargets();
         
         $user_ids = array();
         $set = $ilDB->query("SELECT DISTINCT(obj.owner), u.lastname, u.firstname, u.title" .
@@ -363,7 +363,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     ) : array {
         $ilDB = $this->db;
         
-        $obj_ids = $this->getPossibleSharedTargets();
+        $obj_ids = self::getPossibleSharedTargets();
         
         $res = array();
         $set = $ilDB->query("SELECT obj.obj_id, obj.owner" .
@@ -385,7 +385,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     ) : array {
         $ilDB = $this->db;
         
-        $obj_ids = $this->getPossibleSharedTargets();
+        $obj_ids = self::getPossibleSharedTargets();
         
         $res = array();
         
@@ -413,7 +413,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         $obj_ids = [];
 
         if (!$a_filter["acl_type"]) {
-            $obj_ids = $this->getPossibleSharedTargets();
+            $obj_ids = self::getPossibleSharedTargets();
         } else {
             switch ($a_filter["acl_type"]) {
                 case "all":
@@ -467,7 +467,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             while ($row = $ilDB->fetchAssoc($set)) {
                 $usr_ids[] = $row["usr_id"];
             }
-            if (!sizeof($usr_ids)) {
+            if (!count($usr_ids)) {
                 return [];
             }
             $sql .= " AND " . $ilDB->in("obj.owner", $usr_ids, "", "integer");
@@ -482,7 +482,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         if ($a_filter["crsgrp"]) {
             $part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
             $part = $part->getParticipants();
-            if (!sizeof($part)) {
+            if (!count($part)) {
                 return [];
             }
             $sql .= " AND " . $ilDB->in("obj.owner", $part, "", "integer");
@@ -550,7 +550,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         $ilUser = $this->user;
         
         // #12845
-        if (ilObjPortfolio::getDefaultPortfolio($ilUser->getId()) == $a_node_id) {
+        if (ilObjPortfolio::getDefaultPortfolio($ilUser->getId()) === $a_node_id) {
             $has_registered = $this->hasRegisteredPermission($a_node_id);
             $has_global = $this->hasGlobalPermission($a_node_id);
             
@@ -566,7 +566,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                 if ($has_global) {
                     $new_pref = "g";
                 }
-                if ($ilUser->getPref("public_profile") != $new_pref) {
+                if ($ilUser->getPref("public_profile") !== $new_pref) {
                     $ilUser->setPref("public_profile", $new_pref);
                     $ilUser->writePrefs();
                 }
@@ -583,11 +583,11 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     ) : bool {
         $ilUser = $this->user;
         $ilAccess = $this->access;
-                
-        if (preg_match("/\\/prtf_([\\d]*)\\//uism", $ilWACPath->getPath(), $results)) {
+        //TODO-PHP8-REVIEW check if prtf_ would be a valid match I would propose using [\\d]+
+        if (preg_match("/\\/prtf_([\\d]*)\\//uim", $ilWACPath->getPath(), $results)) {
             // portfolio (custom)
             $obj_id = $results[1];
-            if (ilObject::_lookupType($obj_id) == "prtf") {
+            if (ilObject::_lookupType($obj_id) === "prtf") {
                 if ($this->checkAccessOfUser($ilUser->getId(), "read", "view", $obj_id, "prtf")) {
                     return true;
                 }

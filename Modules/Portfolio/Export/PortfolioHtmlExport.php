@@ -48,7 +48,7 @@ class PortfolioHtmlExport
 
         $this->portfolio_gui = $portfolio_gui;
         /** @var \ilObjPortfolio $portfolio */
-        $portfolio = $portfolio_gui->object;
+        $portfolio = $portfolio_gui->getObject();
         $this->portfolio = $portfolio;
 
 
@@ -238,6 +238,7 @@ class PortfolioHtmlExport
 
                     $blog_gui = new \ilObjBlogGUI((int) $page["title"], \ilObject2GUI::WORKSPACE_OBJECT_ID);
                     $blog_export = new BlogHtmlExport($blog_gui, $this->export_dir, $this->sub_dir, false);
+                    //TODO-PHP8-REVIEW Please fix parameter used as callback
                     $blog_export->exportHTMLPages($link_template, $tpl_callback, $this->co_page_html_export, "prtf_" . $page["id"] . ".html");
                 } else {
                     $tpl = $this->getInitialisedTemplate();
@@ -246,14 +247,12 @@ class PortfolioHtmlExport
                     $this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
                 }
 
-                if (!$has_index) {
-                    if (is_file($this->target_dir . "/prtf_" . $page["id"] . ".html")) {	// #20144
-                        copy(
-                            $this->target_dir . "/prtf_" . $page["id"] . ".html",
-                            $this->target_dir . "/index.html"
-                        );
-                        $has_index = true;
-                    }
+                if (!$has_index && is_file($this->target_dir . "/prtf_" . $page["id"] . ".html")) {	// #20144
+                    copy(
+                        $this->target_dir . "/prtf_" . $page["id"] . ".html",
+                        $this->target_dir . "/index.html"
+                    );
+                    $has_index = true;
                 }
             }
         }

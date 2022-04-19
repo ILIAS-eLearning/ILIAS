@@ -49,9 +49,6 @@ class ilPortfolioRoleAssignmentTableGUI extends ilTable2GUI
         $this->addMultiCommand("confirmAssignmentDeletion", $this->lng->txt("prtf_delete_assignment"));
     }
 
-    /**
-     * @return array[]
-     */
     protected function getItems() : array
     {
         return $this->manager->getAllAssignmentData();

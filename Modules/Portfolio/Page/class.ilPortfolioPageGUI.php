@@ -126,9 +126,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 
             case "ilcalendarmonthgui":
                 // booking action
-                if ($cmd && $cmd != "preview") {
+                if ($cmd && $cmd !== "preview") {
                     $categories = ilCalendarCategories::_getInstance();
-                    if ($categories->getMode() == 0) {
+                    if ($categories->getMode() === 0) {
                         $chuid = $this->port_request->getConsultationHourUserId();
                         if ($chuid > 0) {
                             $categories->setCHUserId($chuid);
@@ -137,7 +137,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                     }
 
                     $req_seed = $this->port_request->getCalendarSeed();
-                    if ($req_seed != "") {
+                    if ($req_seed !== "") {
                         $seed = new ilDate($req_seed, IL_CAL_DATE);
                     } else {
                         $seed = new ilDate(time(), IL_CAL_UNIX);
@@ -146,38 +146,31 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                     $month_gui = new ilCalendarMonthGUI($seed);
                     return $ilCtrl->forwardCommand($month_gui);
                 }
+
                 // calendar month navigation
-                else {
-                    $ilCtrl->setParameter($this, "cmd", "preview");
-                    return self::EMBEDDED_NO_OUTPUT;
-                }
-            
-                // no break
+                $ilCtrl->setParameter($this, "cmd", "preview");
+                return self::EMBEDDED_NO_OUTPUT;
             default:
                 $this->setPresentationTitle($this->getPageObject()->getTitle());
                 return parent::executeCommand();
         }
     }
-    
+
     public function showPage() : string
     {
         $ilUser = $this->user;
-        
+
         if (!$this->getPageObject()) {
             return "";
         }
-        
-        switch ($this->getPageObject()->getType()) {
-            case ilPortfolioPage::TYPE_BLOG:
-                return $this->renderBlog($ilUser->getId(), (int) $this->getPageObject()->getTitle());
-                
-            default:
-                $this->setTemplateOutput(false);
-                // $this->setPresentationTitle($this->getPageObject()->getTitle());
-                $output = parent::showPage();
 
-                return $output;
+        if ($this->getPageObject()->getType() === ilPortfolioPage::TYPE_BLOG) {
+            return $this->renderBlog($ilUser->getId(), (int) $this->getPageObject()->getTitle());
         }
+
+        $this->setTemplateOutput(false);
+        // $this->setPresentationTitle($this->getPageObject()->getTitle());
+        return parent::showPage();
     }
 
     public function getTabs(string $a_activate = "") : void
@@ -186,7 +179,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             parent::getTabs($a_activate);
         }
     }
-    
+
     /**
      * Set embedded mode: will suppress tabs
      */
@@ -194,7 +187,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     {
         $this->embedded = $a_value;
     }
-    
+
     /**
      * Set Additonal Information.
      */
@@ -210,12 +203,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     {
         return $this->additional;
     }
-    
+
     public function getJsOnloadCode() : array
     {
         return $this->js_onload_code;
     }
-    
+
     public function postOutputProcessing(string $a_output) : string
     {
         $parts = array(
@@ -230,12 +223,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             "MyCourses" => array("0-9", "a-z*"),  // user, sort
             "MyCoursesTeaser" => array("0-9", "a-z*")  // user, sort
             );
-            
+
         foreach ($parts as $type => $def) {
             // #15732 - allow optional parts
             $def_parts = array();
             foreach ($def as $part) {
-                $is_opt = (substr($part, -1) == "*");
+                $is_opt = (substr($part, -1) === "*");
                 if (!$is_opt) {
                     $def_parts[] = "#";
                     $end_marker = "+";
@@ -247,7 +240,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 $def_parts[] = "([" . $part . "]" . $end_marker . ")";
             }
             $def = implode("", $def_parts);
-            
+
             if (preg_match_all(
                 "/" . $this->pl_start . $type . $def . $this->pl_end . "/",
                 $a_output,
@@ -278,7 +271,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                                 $subs
                             );
                             break;
-                        
+
                         default:
                             $snippet = $this->{"render" . $type}(
                                 $blocks[1][$idx],
@@ -287,7 +280,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                             );
                             break;
                     }
-                
+
                     $snippet = $this->renderPageElement($type, $snippet);
                     $a_output = str_replace($block, $snippet, $a_output);
                 }
@@ -298,14 +291,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
         return $a_output;
     }
-    
+
     protected function renderPageElement(
         string $a_type,
         string $a_html
     ) : string {
         return trim($a_html);
     }
-    
+
     protected function renderTeaser(
         string $a_type,
         string $a_title,
@@ -316,28 +309,28 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $options = '<div class="il_Footer">' . $this->lng->txt("prtf_page_element_teaser_settings") .
                 ": " . $a_options . '</div>';
         }
-        
+
         return '<div style="margin:5px" class="ilBox"><h3>' . $a_title . '</h3>' .
             '<div class="il_Description_no_margin">' . $this->lng->txt("prtf_page_element_teaser_" . $a_type) . '</div>' .
             $options . '</div>';
     }
-    
+
     protected function renderProfile(
         int $a_user_id,
         string $a_type,
         array $a_fields = null
     ) : string {
         $ilCtrl = $this->ctrl;
-        
+
         $user_id = $this->getPageContentUserId($a_user_id);
 
         $pub_profile = new ilPublicUserProfileGUI($user_id);
-        $pub_profile->setEmbedded(true, ($this->getOutputMode() == "offline"));
-        
+        $pub_profile->setEmbedded(true, ($this->getOutputMode() === "offline"));
+
         // full circle: additional was set in the original public user profile call
         $pub_profile->setAdditional($this->getAdditional());
 
-        if ($a_type == "manual" && sizeof($a_fields)) {
+        if ($a_type === "manual" && count($a_fields)) {
             $prefs = array();
             foreach ($a_fields as $field) {
                 $field = trim($field);
@@ -349,11 +342,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $pub_profile->setCustomPrefs($prefs);
         }
 
-        if ($this->getOutputMode() != "offline") {
+        if ($this->getOutputMode() !== "offline") {
             return $ilCtrl->getHTML($pub_profile);
-        } else {
-            return $pub_profile->getEmbeddable();
         }
+
+        return $pub_profile->getEmbeddable();
     }
 
     /**
@@ -381,12 +374,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $userCertificateRepository = new ilUserCertificateRepository();
 
             return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
-        } elseif ($a_type === 'crta' && $outputMode === 'print') {
+        }
+
+        if ($a_type === 'crta' && $outputMode === 'print') {
             $userCertificateRepository = new ilUserCertificateRepository();
             $url = $this->getPagePermaLink();
 
             return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
-        } elseif ($a_type === 'crta') {
+        }
+
+        if ($a_type === 'crta') {
             $this->ctrl->setParameter($this, "dlid", $a_id);
             $url = $this->ctrl->getLinkTarget($this, "dl" . $a_type);
             $this->ctrl->setParameter($this, "dlid", "");
@@ -403,9 +400,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $class = "ilObj" . $objDefinition->getClassName($a_type) . "GUI";
         $verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 
-        if ($outputMode == "print") {
+        if ($outputMode === "print") {
             $url = $this->getPagePermaLink();
-        } elseif ($outputMode != "offline") {
+        } elseif ($outputMode !== "offline") {
             // direct download link
             $this->ctrl->setParameter($this, "dlid", $a_id);
             $url = $this->ctrl->getLinkTarget($this, "dl" . $a_type);
@@ -416,10 +413,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
             $this->export_material["files"][] = $file;
         }
-        
+
         return $verification->render(true, $url);
     }
-    
+
     protected function dltstv() : void
     {
         $id = $this->port_request->getVerificationId();
@@ -428,7 +425,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }
-    
+
     protected function dlexcv() : void
     {
         $id = $this->port_request->getVerificationId();
@@ -437,7 +434,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }
-    
+
     protected function dlcrsv() : void
     {
         $id = $this->port_request->getVerificationId();
@@ -489,44 +486,44 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         array $a_posting_ids = null
     ) : string {
         $ilCtrl = $this->ctrl;
-                
+
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
-        
+
         // full blog (separate tab/page)
         if (!$a_posting_ids) {
-            if (ilObject::_lookupType($a_blog_id) != "blog") {
+            if (ilObject::_lookupType($a_blog_id) !== "blog") {
                 return "";
             }
             $blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
             $blog->disableNotes(!$this->enable_comments);
             $blog->setContentStyleSheet();
-            
-            if ($this->getOutputMode() != "offline") {
+
+            if ($this->getOutputMode() !== "offline") {
                 return $ilCtrl->getHTML($blog);
             }
         }
         // embedded postings
         else {
             $html = array();
-            
+
             $html[] = ilObjBlog::_lookupTitle($a_blog_id);
-            
+
             foreach ($a_posting_ids as $post) {
                 $page = new ilBlogPostingGUI(0, null, $post);
-                if ($this->getOutputMode() != "offline") {
+                if ($this->getOutputMode() !== "offline") {
                     $page->setOutputMode(ilPageObjectGUI::PREVIEW);
                 } else {
                     $page->setOutputMode("offline");
                 }
                 $html[] = $page->showPage();
             }
-            
+
             return implode("\n", $html);
         }
         return "";
     }
-    
+
     protected function renderBlogTeaser(
         int $a_user_id,
         int $a_blog_id,
@@ -534,7 +531,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     ) : string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
-        
+
         $postings = "";
         if ($a_posting_ids) {
             $postings = array("<ul>");
@@ -546,41 +543,39 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $postings[] = "</ul>";
             $postings = implode("\n", $postings);
         }
-        
+
         return $this->renderTeaser("blog", $this->lng->txt("obj_blog") . ' "' .
             ilObject::_lookupTitle($a_blog_id) . '"', $postings);
     }
-    
+
     protected function renderSkills(
         int $a_user_id,
         int $a_skills_id
     ) : string {
-        if ($this->getOutputMode() == "preview") {
+        if ($this->getOutputMode() === "preview") {
             return $this->renderSkillsTeaser($a_user_id, $a_skills_id);
         }
-        
+
         $user_id = $this->getPageContentUserId($a_user_id);
-    
+
         $gui = new ilPersonalSkillsGUI();
-        if ($this->getOutputMode() == "offline") {
+        if ($this->getOutputMode() === "offline") {
             $gui->setOfflineMode("./files/");
         }
-        $html = $gui->getSkillHTML($a_skills_id, $user_id);
-                    
-        return $html;
+        return $gui->getSkillHTML($a_skills_id, $user_id);
     }
-    
+
     protected function renderSkillsTeaser(
         int $a_user_id,
         int $a_skills_id
     ) : string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
-        
+
         return $this->renderTeaser("skills", $this->lng->txt("skills") . ' "' .
             ilSkillTreeNode::_lookupTitle($a_skills_id) . '"');
     }
-    
+
     protected function renderConsultationHoursTeaser(
         int $a_user_id,
         string $a_mode,
@@ -588,20 +583,20 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     ) : string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
-        
-        if ($a_mode == "auto") {
+
+        if ($a_mode === "auto") {
             $mode = $this->lng->txt("cont_cach_mode_automatic");
             $groups = null;
         } else {
             $mode = $this->lng->txt("cont_cach_mode_manual");
-            
+
             $groups = array();
             foreach ($a_group_ids as $grp_id) {
                 $groups[] = ilConsultationHourGroups::lookupTitle($grp_id);
             }
             $groups = " (" . implode(", ", $groups) . ")";
         }
-        
+
         $this->lng->loadLanguageModule("dateplaner");
         return $this->renderTeaser(
             "consultation_hours",
@@ -609,68 +604,69 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $mode . $groups
         );
     }
-    
+
     protected function renderConsultationHours(
         int $a_user_id,
         string $a_mode,
         array $a_group_ids
     ) : string {
         $ilUser = $this->user;
-        
-        if ($this->getOutputMode() == "preview") {
+
+        if ($this->getOutputMode() === "preview") {
             return $this->renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids);
         }
-        
-        if ($this->getOutputMode() == "offline") {
+
+        if ($this->getOutputMode() === "offline") {
             return "";
         }
 
-        if ($this->getOutputMode() == "print") {
+        if ($this->getOutputMode() === "print") {
             return "";
         }
 
         $user_id = $this->getPageContentUserId($a_user_id);
-        
+
         // only if not owner
-        if ($ilUser->getId() != $user_id) {
+        if ($ilUser->getId() !== $user_id) {
             //$_GET["bkid"] = $user_id;
             throw new ilException('Setting $_GET["bkid"] not supported.');
         }
-        
-        if ($a_mode != "manual") {
+
+        if ($a_mode !== "manual") {
             $a_group_ids = null;
         }
-        
+
         ilCalendarCategories::_getInstance()->setCHUserId($user_id);
+        //TODO-PHP8-REVIEW calling initialize with null in not allowed
         ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
 
         $seed = $this->port_request->getCalendarSeed();
-        if ($seed == "") {
+        if ($seed === "") {
             $seed = new ilDate(time(), IL_CAL_UNIX);
         } else {
             $seed = new ilDate($seed, IL_CAL_DATE);
         }
-        
+
         $month_gui = new ilCalendarMonthGUI($seed);
         $month_gui->setConsulationHoursUserId($user_id);
-        
+
         // custom schedule filter: handle booking group ids
         $filter = new ilCalendarScheduleFilterBookings($user_id, $a_group_ids);
         $month_gui->addScheduleFilter($filter);
-        
+
         $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css', 'Services/Calendar'));
-        
+
         $this->lng->loadLanguageModule("dateplaner");
         return '<h3>' . $this->lng->txt("app_consultation_hours") . '</h3>' .
             $this->ctrl->getHTML($month_gui);
     }
-    
+
     protected function isMyCoursesActive() : bool
     {
         $prfa_set = new ilSetting("prfa");
         return (bool) $prfa_set->get("mycrs", true);
     }
-    
+
     protected function renderMyCoursesTeaser(
         int $a_user_id,
         $a_default_sorting
@@ -681,13 +677,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $title = $this->isMyCoursesActive()
             ? "my_courses"
             : "my_courses_inactive";
-                
+
         return $this->renderTeaser(
             $title,
             $this->lng->txt("prtf_page_element_my_courses_title")
         );
     }
-    
+
     protected function renderMyCourses(
         int $a_user_id,
         string $a_default_sorting
@@ -695,19 +691,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $ilAccess = $this->access;
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
-        
-        if ($this->getOutputMode() == "preview") {
+
+        if ($this->getOutputMode() === "preview") {
             return $this->renderMyCoursesTeaser($a_user_id, $a_default_sorting);
         }
-        
+
         if (!$this->isMyCoursesActive()) {
             return "";
         }
-        
+
         $img_path = null;
 
         $user_id = $this->getPageContentUserId($a_user_id);
-        
+
         // sorting pref
         $req_sorting = $this->port_request->getCourseSorting();
         if (in_array($req_sorting, array("alpha", "loc"))) {
@@ -717,29 +713,30 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         if (!$sorting) {
             $sorting = $a_default_sorting;
         }
-        
-        $data = $this->getCoursesOfUser($user_id, ($sorting == "loc"));
-        if (sizeof($data)) {
-            if ($sorting != "loc") {
+
+        $data = $this->getCoursesOfUser($user_id, ($sorting === "loc"));
+        if (count($data)) {
+            if ($sorting !== "loc") {
                 $data = ilArrayUtil::sortArray($data, "title", "ASC");
             } else {
                 $data = ilArrayUtil::sortArray($data, "path_sort", "ASC");
             }
-            
+
             $tpl = new ilTemplate("tpl.pc_my_courses.html", true, true, "Modules/Portfolio");
             $tpl->setVariable("TITLE", $this->lng->txt("prtf_page_element_my_courses_title"));
             $tpl->setVariable("INFO", $this->lng->txt("prtf_page_element_my_courses_info")); // #14464
-        
+
             $this->lng->loadLanguageModule("trac");
             $this->lng->loadLanguageModule("crs");
-            
+
             // sorting
-            if ($this->getOutputMode() != "print") {
+            if ($this->getOutputMode() !== "print") {
                 $options = array(
                     "alpha" => $this->lng->txt("cont_mycourses_sortorder_alphabetical"),
                     "loc" => $this->lng->txt("cont_mycourses_sortorder_location")
                 );
-                $tpl->setVariable("SORT_SELECT",
+                $tpl->setVariable(
+                    "SORT_SELECT",
                     ilLegacyFormElementsUtil::formSelect(
                         $sorting,
                         "srt",
@@ -757,14 +754,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $old_path = null;
     
             foreach ($data as $course) {
-                if ($sorting == "loc") {
-                    if ($course["path"] != $old_path) {
-                        $tpl->setCurrentBlock("path_bl");
-                        $tpl->setVariable("PATH", $course["path"]);
-                        $tpl->parseCurrentBlock();
-                        
-                        $old_path = $course["path"];
-                    }
+                if (($sorting === "loc") && $course["path"] != $old_path) {
+                    $tpl->setCurrentBlock("path_bl");
+                    $tpl->setVariable("PATH", $course["path"]);
+                    $tpl->parseCurrentBlock();
+
+                    $old_path = $course["path"];
                 }
                 
                 if (isset($course["lp_status"])) {
@@ -782,7 +777,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 }
                 
                 $do_links = false;
-                if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+                if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
                     $do_links = $ilAccess->checkAccessOfUser($ilUser->getId(), "read", "", $course["ref_id"], "crs") ||
                         ($ilAccess->checkAccessOfUser($ilUser->getId(), "visible", "", $course["ref_id"], "crs") &&
                         $ilAccess->checkAccessOfUser($ilUser->getId(), "join", "", $course["ref_id"], "crs"));
@@ -800,7 +795,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                             // #15510
                             $url .= "#objtv_acc_" . $objtv["id"];
 
-                            if ($this->getOutputMode() != "print") {
+                            if ($this->getOutputMode() !== "print") {
                                 $tpl->touchBlock("objective_dnone");
                             }
                             
@@ -940,7 +935,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                                 $path[] = $item["title"];
                             }
                             // top level comes first
-                            if (sizeof($path) == 2) {
+                            if (count($path) === 2) {
                                 $path[0] = 0;
                             } else {
                                 $path[0] = 1;
@@ -948,7 +943,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                             $references[$ref_id]["path_sort"] = implode("__", $path);
                             array_shift($path);
                             array_pop($path);
-                            if (!sizeof($path)) {
+                            if (!count($path)) {
                                 array_unshift($path, $repo_title);
                             }
                             $references[$ref_id]["path"] = implode(" &rsaquo; ", $path);
@@ -962,11 +957,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         
         // get lp data for valid courses
         
-        if (sizeof($lp_obj_refs)) {
+        if (count($lp_obj_refs)) {
             // listing the objectives should NOT depend on any LP status / setting
             foreach ($lp_obj_refs as $obj_id => $ref_id) {
                 // only if set in DB (default mode is not relevant
-                if (ilObjCourse::_lookupViewMode($obj_id) == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
+                if (ilObjCourse::_lookupViewMode($obj_id) === ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
                     $references[$ref_id]["objectives"] = $this->parseObjectives($obj_id, $a_user_id);
                 }
             }
@@ -1085,7 +1080,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         if (is_int($start)) {
             $end = strpos($a_html, "}}}}}", $start);
         }
-        $i = 1;
         while ($end > 0) {
             $param = substr($a_html, $start + 17, $end - $start - 17);
             $param = explode("#", $param);
@@ -1110,8 +1104,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             }
 
             // only if not owner
-            if ($ilUser->getId() == ilObjPortfolio::_lookupOwner($this->portfolio_id)
-                && $this->getOutputMode() == "presentation") {
+            if ($ilUser->getId() === ilObjPortfolio::_lookupOwner($this->portfolio_id)
+                && $this->getOutputMode() === "presentation") {
                 switch ($param[2]) {
                     case "Text":
                         $ilCtrl->setParameterByClass("ilportfoliopagegui", "prt_id", $this->port_request->getPortfolioId());
@@ -1148,7 +1142,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 $html .
                 substr($a_html, $end + 5);
             $a_html = $h2;
-            $i++;
 
             $start = strpos($a_html, "{{{{{PlaceHolder#", $start + 5);
             $end = 0;
@@ -1177,8 +1170,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     public function getPagePermaLink() : string
     {
         $pid = ilPortfolioPage::findPortfolioForPage($this->getId());
-        $href = ilLink::_getStaticLink($pid, "prtf", true, "_" . $this->getId());
-        return $href;
+        return ilLink::_getStaticLink($pid, "prtf", true, "_" . $this->getId());
     }
 
     private function createPersistentCertificateUrl(
