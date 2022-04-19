@@ -50,13 +50,16 @@ class ilAdvancedMDSettingsGUI
     protected int $ref_id;
     protected ?int $obj_id;
     protected ?string $obj_type = null;
-    protected ?string $sub_type = null;
+    /**
+     * @var string|string[]|null
+     */
+    protected $sub_type = null;
 
     /**
      * Constructor
      * @access public
      */
-    public function __construct(int $a_context, int $a_ref_id, ?string $a_obj_type = null, ?string $a_sub_type = null)
+    public function __construct(int $a_context, int $a_ref_id, ?string $a_obj_type = null, $a_sub_type = null)
     {
         global $DIC;
 
@@ -201,11 +204,14 @@ class ilAdvancedMDSettingsGUI
         return $this->permissions;
     }
 
+    /**
+     * @param string|string[]|null $sub_type
+     */
     protected function initContextParameters(
         int $context,
         int $ref_id,
         ?string $obj_type,
-        ?string $sub_type
+        $sub_type
     ) : void {
         if ($context === self::CONTEXT_ADMINISTRATION) {
             $this->ref_id = $ref_id;
@@ -1125,7 +1131,7 @@ class ilAdvancedMDSettingsGUI
             $parser = new ilAdvancedMDRecordParser($import_files->getImportFileByCreationDate($create_time));
 
             // local import?
-            if ($this->context == self::CONTEXT_OBJECT) {
+            if ($this->context === self::CONTEXT_OBJECT) {
                 $parser->setContext($this->obj_id, $this->obj_type, $this->sub_type);
             }
 
@@ -1305,8 +1311,9 @@ class ilAdvancedMDSettingsGUI
         $this->initLanguage($record_id);
         $this->ctrl->saveParameter($this, 'ftype');
 
-        $field_definition = ilAdvancedMDFieldDefinition::getInstance(null,
-                                                                     $ftype
+        $field_definition = ilAdvancedMDFieldDefinition::getInstance(
+            null,
+            $ftype
         );
         $field_definition->setRecordId($record_id);
         $form = $this->initFieldForm($field_definition);

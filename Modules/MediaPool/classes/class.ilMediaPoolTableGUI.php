@@ -82,13 +82,13 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->parent_tpl = $a_parent_tpl;
         if ($a_all_objects) {
             $this->setId("mepall");
-            if (is_object($a_parent_obj->object)) {
-                $this->setId("mepall" . $a_parent_obj->object->getId());
+            if (is_object($a_parent_obj->getObject())) {
+                $this->setId("mepall" . $a_parent_obj->getObject()->getId());
             }
         } else {
             $this->setId("mepfold");
-            if (is_object($a_parent_obj->object)) {
-                $this->setId("mepfold" . $a_parent_obj->object->getId());
+            if (is_object($a_parent_obj->getObject())) {
+                $this->setId("mepfold" . $a_parent_obj->getObject()->getId());
             }
         }
 
@@ -100,7 +100,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->media_pool = $a_media_pool;
         $this->tree = ilObjMediaPool::_getPoolTree($this->media_pool->getId());
         $this->folder_par = $a_folder_par;
-        $this->pool_repo  = new MediaPoolRepository();
+        $this->pool_repo = new MediaPoolRepository();
         
         if ($this->all_objects) {
             $this->setExternalSorting(true);

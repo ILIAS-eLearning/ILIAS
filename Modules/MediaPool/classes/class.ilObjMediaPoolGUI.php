@@ -34,7 +34,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 {
     protected ilPropertyFormGUI $form;
     protected string $mode;
-    protected int $mep_item_id;
+    protected int $mep_item_id = 0;
     protected StandardGUIRequest $mep_request;
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
@@ -50,6 +50,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     ) {
         global $DIC;
 
+        $this->mep_request = $DIC->mediaPool()
+                                 ->internal()
+                                 ->gui()
+                                 ->standardRequest();
+        $this->mep_item_id = $this->mep_request->getItemId();
+
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->tabs = $DIC->tabs();
@@ -62,12 +68,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         $this->mep_log = ilLoggerFactory::getLogger("mep");
 
-        $this->mep_request = $DIC->mediaPool()
-            ->internal()
-            ->gui()
-            ->standardRequest();
 
-        $this->mep_item_id = $this->mep_request->getItemId();
         $this->mode = ($this->mep_request->getMode() !== "")
             ? $this->mep_request->getMode()
             : "listMedia";
@@ -86,10 +87,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     protected function afterConstructor() : void
     {
         $lng = $this->lng;
-
         if ($this->mep_item_id == 0 && !$this->getCreationMode()) {
             $tree = $this->object->getTree();
-            $this->mep_item_id = $tree->getRootId();
+            $this->mep_item_id = $tree->readRootId();
         }
 
         $lng->loadLanguageModule("mep");
@@ -1073,7 +1073,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     {
         $ilLocator = $this->locator;
         $ilAccess = $this->access;
-        
         if (!$this->getCreationMode() && $this->ctrl->getCmd() !== "explorer") {
             $tree = $this->object->getTree();
             $obj_id = $this->mep_item_id;
