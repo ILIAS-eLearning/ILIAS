@@ -76,7 +76,7 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
         return new class() implements C\Input\Field\UploadHandler {
             public function getFileIdentifierParameterName() : string
             {
-                return '';
+                return 'fid';
             }
 
             public function getUploadURL() : string

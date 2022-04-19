@@ -38,7 +38,7 @@ use ilLanguage;
  */
 abstract class File implements FileInterface
 {
-    protected const FILE_INPUT_KEY = 'files';
+    public const FILE_INPUT_KEY = 'files';
     protected const JAVASCRIPT_EVENT = 'drop';
 
     use FileUploadHelper;
