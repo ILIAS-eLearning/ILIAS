@@ -21,8 +21,6 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilMailSearchObjectsTableGUI extends ilTable2GUI
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
     protected ilObjUser $user;
     protected ilRbacSystem $rbacsystem;
     protected object $parentObject;
@@ -79,24 +77,28 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
         $this->ctrl->setParameter($a_parent_obj, 'view', $mode['view']);
 
+        $http = $DIC['http'];
+        $refinery = $DIC->refinery();
+
+
         if (
-            $this->http->wrapper()->query()->has('ref') &&
-            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string()) !== ''
+            $http->wrapper()->query()->has('ref') &&
+            $http->wrapper()->query()->retrieve('ref', $refinery->kindlyTo()->string()) !== ''
         ) {
             $this->ctrl->setParameter(
                 $a_parent_obj,
                 'ref',
-                $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string())
+                $http->wrapper()->query()->retrieve('ref', $refinery->kindlyTo()->string())
             );
         }
 
-        if ($this->http->wrapper()->post()->has($mode['checkbox'])) {
-            $ids = $this->http->wrapper()->post()->retrieve(
+        if ($http->wrapper()->post()->has($mode['checkbox'])) {
+            $ids = $http->wrapper()->post()->retrieve(
                 $mode['checkbox'],
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->in()->series([
-                        $this->refinery->kindlyTo()->int(),
-                        $this->refinery->kindlyTo()->string()
+                $refinery->kindlyTo()->listOf(
+                    $refinery->in()->series([
+                        $refinery->kindlyTo()->int(),
+                        $refinery->kindlyTo()->string()
                     ])
                 )
             );
@@ -135,8 +137,8 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->addMultiCommand('showMembers', $this->lng->txt('mail_list_members'));
 
         if (
-            $this->http->wrapper()->query()->has('ref') &&
-            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->to()->string()) === 'mail'
+            $http->wrapper()->query()->has('ref') &&
+            $http->wrapper()->query()->retrieve('ref', $refinery->to()->string()) === 'mail'
         ) {
             $this->addCommandButton('cancel', $this->lng->txt('cancel'));
         }

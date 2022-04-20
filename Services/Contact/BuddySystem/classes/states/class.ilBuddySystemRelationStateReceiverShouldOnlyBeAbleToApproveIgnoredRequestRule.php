@@ -37,10 +37,6 @@ class ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestR
 
     public function __invoke(ilBuddySystemRelationState $state) : bool
     {
-        if ($state instanceof ilBuddySystemLinkedRelationState) {
-            return true;
-        }
-
-        return false;
+        return $state instanceof ilBuddySystemLinkedRelationState;
     }
 }
