@@ -367,11 +367,14 @@ class ilLOUserResults
         return $res;
     }
 
+    /**
+     * @return ?int | int[]
+     */
     public static function getSummarizedObjectiveStatusForLP(
         int $a_obj_id,
         array $a_objective_ids,
         int $a_user_id = 0
-    ) : array {
+    ) {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -441,8 +444,7 @@ class ilLOUserResults
         }
 
         if ($a_user_id) {
-            // might return null!
-            return $res[$a_user_id];
+            return isset($res[$a_user_id]) ? (int) $res[$a_user_id] : null;
         } else {
             return $res;
         }

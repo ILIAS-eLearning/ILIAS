@@ -1160,7 +1160,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             $object = ilObjectFactory::getInstanceByRefId($ref_id);
 
-            if (!$this->objDefinition->allowLink($object->getType())) {
+            if (!$this->obj_definition->allowLink($object->getType())) {
                 $no_link[] = $object->getType();
             }
         }
