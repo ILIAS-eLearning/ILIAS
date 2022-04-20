@@ -275,7 +275,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
                     unset($this->permanent_parameters[$class_name][$index]);
 
                     // reindex the array values.
-                    $permanent_parameters =& $this->permanent_parameters[$class_name];
+                    $permanent_parameters = &$this->permanent_parameters[$class_name];
                     $permanent_parameters = array_values($permanent_parameters);
                 }
             }

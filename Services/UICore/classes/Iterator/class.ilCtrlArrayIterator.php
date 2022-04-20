@@ -62,7 +62,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     public function valid() : bool
     {
         $value = current($this->data);
-        $key   = key($this->data);
+        $key = key($this->data);
 
         if (null === $key) {
             return false;

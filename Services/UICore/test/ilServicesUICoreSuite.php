@@ -14,14 +14,6 @@ class ilServicesUICoreSuite extends TestSuite
      */
     public static function suite() : self
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(__DIR__);
-            chdir('../../../');
-        }
-
         $suite = new self();
 
         require_once __DIR__ . '/Iterator/ilCtrlIteratorSuite.php';
