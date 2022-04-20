@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use ILIAS\Administration\AdminGUIRequest;
 
@@ -103,7 +107,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
 
         $this->admin_mode = $this->request->getAdminMode();
-        if ($this->admin_mode != ilObjectGUI::ADMIN_MODE_REPOSITORY) {
+        if ($this->admin_mode !== ilObjectGUI::ADMIN_MODE_REPOSITORY) {
             $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
         }
     
@@ -154,15 +158,15 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
 
         // set next_class directly for page translations
         // (no cmdNode is given in translation link)
-        if ($this->ctrl->getCmdClass() == "ilobjlanguageextgui") {
+        if ($this->ctrl->getCmdClass() === "ilobjlanguageextgui") {
             $next_class = "ilobjlanguageextgui";
         } else {
             $next_class = $this->ctrl->getNextClass($this);
         }
 
         if ((
-            $next_class == "iladministrationgui" || $next_class == ""
-        ) && ($this->ctrl->getCmd() == "return")) {
+            $next_class === "iladministrationgui" || $next_class == ""
+        ) && ($this->ctrl->getCmd() === "return")) {
             // get GUI of current object
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);
@@ -178,7 +182,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             default:
             
                 // forward all other classes to gui commands
-                if ($next_class != "" && $next_class != "iladministrationgui") {
+                if ($next_class != "" && $next_class !== "iladministrationgui") {
                     // check db update
                     $dbupdate = new ilDBUpdate($ilDB);
                     if (!$dbupdate->getDBVersionStatus()) {
@@ -193,8 +197,8 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                     }
                     // get gui class instance
                     $class_name = $this->ctrl->getClassForClasspath($class_path);
-                    if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
-                        || $next_class == "ilobjroletemplategui")) {
+                    if (($next_class === "ilobjrolegui" || $next_class === "ilobjusergui"
+                        || $next_class === "ilobjroletemplategui")) {
                         if ($this->requested_obj_id > 0) {
                             $this->gui_obj = new $class_name(null, $this->requested_obj_id, false, false);
                             $this->gui_obj->setCreationMode(false);
@@ -249,11 +253,11 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
      */
     public function forward() : void
     {
-        if ($this->admin_mode != "repository") {	// settings
+        if ($this->admin_mode !== "repository") {	// settings
             if ($this->request->getRefId() == USER_FOLDER_ID) {
                 $this->ctrl->setParameter($this, "ref_id", USER_FOLDER_ID);
                 $this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-                if (ilObject::_lookupType($this->request->getJumpToUserId()) == "usr") {
+                if (ilObject::_lookupType($this->request->getJumpToUserId()) === "usr") {
                     $this->ctrl->setParameterByClass(
                         "ilobjuserfoldergui",
                         "jmpToUser",
@@ -302,7 +306,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
 
-        if ($this->admin_mode != "repository") {
+        if ($this->admin_mode !== "repository") {
             return;
         }
 

@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Settings template application class
@@ -99,7 +103,7 @@ class ilSettingsTemplate
 
     /**
      * Set setting
-     * @param mixed $a_value
+     * @param array|string $a_value//PHP8Review: You may specificy the array further
      */
     public function setSetting(
         string $a_setting,
@@ -109,11 +113,11 @@ class ilSettingsTemplate
         if ($this->getConfig()) {
             $settings = $this->getConfig()->getSettings();
 
-            if ($settings[$a_setting]['type'] == ilSettingsTemplateConfig::CHECKBOX) {
+            if ($settings[$a_setting]['type'] === ilSettingsTemplateConfig::CHECKBOX) {
                 if (is_array($a_value)) {
                     $a_value = serialize($a_value);
                 } else {
-                    $a_value = unserialize($a_value);
+                    $a_value = unserialize($a_value);//PHP8Review: Use the options parameter to specificy the serialized classes for security
                 }
             }
         }
@@ -340,14 +344,10 @@ class ilSettingsTemplate
         return $settings_template;
     }
 
-    /**
-     * Lookup property
-     * @return	mixed	property value
-     */
     protected static function lookupProperty(
         int $a_id,
         string $a_prop
-    ) {
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -372,8 +372,8 @@ class ilSettingsTemplate
     
     public static function translate(string $a_title_desc) : string
     {
-        if (substr($a_title_desc, 0, 3) == 'il_') {
-            return $GLOBALS['lng']->txt($a_title_desc);
+        if (str_starts_with($a_title_desc, 'il_')) {
+            return $GLOBALS['lng']->txt($a_title_desc);//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here
         }
         return $a_title_desc;
     }
