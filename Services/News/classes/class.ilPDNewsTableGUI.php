@@ -254,8 +254,9 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $obj_type . "_" . $a_set["ref_id"] . $add;
 
         // lm page hack, not nice
-        if (in_array($obj_type, ["dbk", "lm"], true) && $a_set["context_sub_obj_type"] === "pg"
-            && $a_set["context_sub_obj_id"] > 0) {
+        if ($a_set["context_sub_obj_type"] === "pg" &&
+            $a_set["context_sub_obj_id"] > 0 &&
+            in_array($obj_type, ["dbk", "lm"], true)) {
             $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
                 "pg_" . $a_set["context_sub_obj_id"] . "_" . $a_set["ref_id"];
         }

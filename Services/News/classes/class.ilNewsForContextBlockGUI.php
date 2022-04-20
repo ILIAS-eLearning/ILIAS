@@ -88,13 +88,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         if ($this->getDynamic() && !$this->cache_hit) {
             $this->dynamic = true;
             $data = [];
+        } elseif (!empty(self::$st_data)) {
+            $data = self::$st_data;
         } else {
-            if (!empty(self::$st_data)) {
-                $data = self::$st_data;
-            } else {
-                $data = $this->getNewsData();
-                self::$st_data = $data;
-            }
+            $data = $this->getNewsData();
+            self::$st_data = $data;
         }
 
         $this->setTitle($lng->txt("news_internal_news"));
@@ -270,7 +268,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $ilCtrl->setParameter($this, "add_mode", "");
         }
 
-        if ($this->getProperty("settings") == true) {
+        if ($this->getProperty("settings")) {
             $ref_id = $this->std_request->getRefId();
             $obj_def = $DIC["objDefinition"];
             $obj_id = ilObject::_lookupObjectId($ref_id);
@@ -280,7 +278,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
             $ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
 
-            if (in_array($obj_class, ilNewsForContextBlockGUI::OBJECTS_WITH_NEWS_SUBTAB)) {
+            if (in_array($obj_class, self::OBJECTS_WITH_NEWS_SUBTAB)) {
                 $this->addBlockCommand(
                     $ilCtrl->getLinkTargetByClass(["ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"], "show"),
                     $lng->txt("settings")
@@ -320,7 +318,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         }
 
         $en = "";
-        if ($ilUser->getPref("il_feed_js") === "n") {
+        if ($ilUser->getPref("il_feed_js") === "n") {// TODO PHP8-REVIEW This block can be removed
             //			$en = getJSEnabler();
         }
 
@@ -484,7 +482,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
 
         // get current item in data set
-        $previous = $next = "";
+        $previous = "";
         reset($this->data);
         $c = current($this->data);
         $curr_cnt = 1;
@@ -718,8 +716,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $obj_type . "_" . $item["ref_id"] . $add;
 
                 // lm page hack, not nice
-                if (in_array($obj_type, ["lm"]) && $item["context_sub_obj_type"] === "pg"
-                    && $item["context_sub_obj_id"] > 0) {
+                if (
+                    $item["context_sub_obj_type"] === "pg" &&
+                    $item["context_sub_obj_id"] > 0 &&
+                    in_array($obj_type, ["lm"], true)) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
                         "pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"];
                 }
@@ -861,10 +861,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         if ($ilCtrl->isAsynch()) {
             echo $this->getHTML();
-            exit;
-        } else {
-            $ilCtrl->returnToParent($this);
+            exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
         }
+
+        $ilCtrl->returnToParent($this);
     }
     
     public function hideNotifications() : void
@@ -887,7 +887,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         if ($ilCtrl->isAsynch()) {
             echo $this->getHTML();
-            exit;
+            exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
         }
 
         $ilCtrl->returnToParent($this);
@@ -1337,7 +1337,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         ilSession::set("il_feed_js", "y");
         $ilUser->writePref("il_feed_js", "y");
         echo $this->getHTML();
-        exit;
+        exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
     }
 
     //

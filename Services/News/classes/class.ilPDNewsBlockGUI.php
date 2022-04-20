@@ -56,12 +56,12 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         $this->acache = new ilNewsCache();
         $cres = unserialize($this->acache->getEntry($this->user->getId() . ":0"), ["allowed_classes" => false]);
         $this->cache_hit = false;
-        if ($this->acache->getLastAccessStatus() == "hit" && is_array($cres)) {
+        if (is_array($cres) && $this->acache->getLastAccessStatus() === "hit") {
             self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
             $this->cache_hit = true;
         }
 
-        if ($this->getDynamic() && !$this->cache_hit) {
+        if (!$this->cache_hit && $this->getDynamic()) {
             $this->dynamic = true;
             $data = [];
         } else {
@@ -189,7 +189,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         }
 
         $en = "";
-        if ($ilUser->getPref("il_feed_js") == "n") {
+        if ($ilUser->getPref("il_feed_js") === "n") {
             $en = $this->getJSEnabler();
         }
 

@@ -29,13 +29,13 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     protected int $news_item_ref_id;
     protected int $ref_id;
     protected ilCtrl $ctrl;
-    protected \ilLikeGUI $like_gui;
+    protected ilLikeGUI $like_gui;
     protected StandardGUIRequest $std_request;
 
     protected function __construct(
         ilNewsItem $a_news_item,
         int $a_news_ref_id,
-        \ilLikeGUI $a_like_gui
+        ilLikeGUI $a_like_gui
     ) {
         global $DIC;
 
@@ -57,7 +57,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     public static function getInstance(
         ilNewsItem $a_news_item,
         int $a_news_ref_id,
-        \ilLikeGUI $a_like_gui
+        ilLikeGUI $a_like_gui
     ) : self {
         return new self($a_news_item, $a_news_ref_id, $a_like_gui);
     }
@@ -298,7 +298,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         if ($i->getMobId() > 0) {
             $mob = new ilObjMediaObject($i->getMobId());
             $med = $mob->getMediaItem("Standard");
-            if (strcasecmp("Reference", $med->getLocationType()) == 0) {
+            if (strcasecmp("Reference", $med->getLocationType()) === 0) {
                 $media_path = $med->getLocation();
             } else {
                 $media_path = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();

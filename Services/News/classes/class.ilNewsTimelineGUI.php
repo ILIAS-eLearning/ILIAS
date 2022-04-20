@@ -267,16 +267,16 @@ class ilNewsTimelineGUI
         $obj->data = $js_items;
         $obj->html = $timeline->render(true);
 
-        echo json_encode($obj, JSON_THROW_ON_ERROR);
+        echo json_encode($obj, JSON_THROW_ON_ERROR);// TODO PHP8-REVIEW This could be refactored by using the HTTP service
         exit;
     }
 
     protected function updateNewsItem() : void
     {
-        if ($this->std_request->getNewsAction() == "save") {
+        if ($this->std_request->getNewsAction() === "save") {
             $this->save();
         }
-        if ($this->std_request->getNewsAction() == "update") {
+        if ($this->std_request->getNewsAction() === "update") {
             $this->update();
         }
     }
@@ -344,7 +344,7 @@ class ilNewsTimelineGUI
 
             // delete old media object
             if ($media["name"] != "" || $this->std_request->getDeleteMedia() > 0) {
-                if ($news_item->getMobId() > 0 && ilObject::_lookupType($news_item->getMobId()) == "mob") {
+                if ($news_item->getMobId() > 0 && ilObject::_lookupType($news_item->getMobId()) === "mob") {
                     $old_mob_id = $news_item->getMobId();
                 }
                 $news_item->setMobId(0);
@@ -378,10 +378,10 @@ class ilNewsTimelineGUI
     public function remove() : void
     {
         $news_item = new ilNewsItem($this->std_request->getNewsId());
-        if ($this->user->getId() == $news_item->getUserId() || $this->getUserEditAll()) {
+        if ($this->getUserEditAll() || $this->user->getId() === $news_item->getUserId()) {
             $news_item->delete();
         }
-        exit;
+        exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
     }
 
     protected function getEditModal($form = null) : string

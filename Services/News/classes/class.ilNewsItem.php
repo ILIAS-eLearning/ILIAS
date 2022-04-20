@@ -13,15 +13,15 @@
  * https://github.com/ILIAS-eLearning
  */
 
-define("NEWS_NOTICE", 0);
-define("NEWS_MESSAGE", 1);
-define("NEWS_WARNING", 2);
+const NEWS_NOTICE = 0;
+const NEWS_MESSAGE = 1;
+const NEWS_WARNING = 2;
 
-define("NEWS_TEXT", "text");
-define("NEWS_HTML", "html");
-define("NEWS_AUDIO", "audio");
-define("NEWS_USERS", "users");
-define("NEWS_PUBLIC", "public");
+const NEWS_TEXT = "text";
+const NEWS_HTML = "html";
+const NEWS_AUDIO = "audio";
+const NEWS_USERS = "users";
+const NEWS_PUBLIC = "public";
 
 /**
  * A news item can be created by different sources. E.g. when
@@ -67,7 +67,7 @@ class ilNewsItem
     private static bool $privFeedId = false;
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_id = 0)
     {
@@ -547,7 +547,7 @@ class ilNewsItem
                     continue;
                 }
             }
-            if (self::getPrivateFeedId() != false) {
+            if (self::getPrivateFeedId() > 0) {
                 global $DIC;
 
                 $rbacsystem = $DIC->rbac()->system();
@@ -1048,7 +1048,7 @@ class ilNewsItem
             ? " creation_date ASC, id ASC "
             : " creation_date DESC, id DESC ";
 
-        if ($a_for_rss_use && self::getPrivateFeedId() == false) {
+        if ($a_for_rss_use && self::getPrivateFeedId() === 0) {
             $query = "SELECT * " .
                 "FROM il_news_item " .
                 " WHERE " .
@@ -1056,7 +1056,7 @@ class ilNewsItem
                     " AND context_obj_type = " . $ilDB->quote($this->getContextObjType(), "text") .
                     $and .
                     " ORDER BY " . $ordering;
-        } elseif (self::getPrivateFeedId() != false) {
+        } elseif (self::getPrivateFeedId() > 0) {
             $query = "SELECT il_news_item.* " .
                 ", il_news_read.user_id user_read " .
                 "FROM il_news_item LEFT JOIN il_news_read " .
@@ -1086,8 +1086,8 @@ class ilNewsItem
             if ($a_limit > 0 && count($result) >= $a_limit) {
                 continue;
             }
-            if (!$a_for_rss_use || (self::getPrivateFeedId() != false) || ($rec["visibility"] == NEWS_PUBLIC ||
-                ($rec["priority"] == 0 &&
+            if (!$a_for_rss_use || (self::getPrivateFeedId() > 0) || ($rec["visibility"] === NEWS_PUBLIC ||
+                ((int) $rec["priority"] === 0 &&
                 ilBlockSetting::_lookup(
                     "news",
                     "public_notifications",
@@ -1216,14 +1216,14 @@ class ilNewsItem
             $type[$cont["obj_id"]] = $cont["obj_type"];
         }
         
-        if ($a_for_rss_use && self::getPrivateFeedId() == false) {
+        if ($a_for_rss_use && self::getPrivateFeedId() === 0) {
             $query = "SELECT * " .
                 "FROM il_news_item " .
                 " WHERE " .
                     $ilDB->in("context_obj_id", $ids, false, "integer") . " " .
                     $and .
                     " ORDER BY creation_date DESC ";
-        } elseif (self::getPrivateFeedId() != false) {
+        } elseif (self::getPrivateFeedId() > 0) {
             $query = "SELECT il_news_item.* " .
                 ", il_news_read.user_id as user_read " .
                 "FROM il_news_item LEFT JOIN il_news_read " .
@@ -1254,13 +1254,13 @@ class ilNewsItem
         $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($type[$rec["context_obj_id"]] == $rec["context_obj_type"]) {
-                if (!$a_for_rss_use || self::getPrivateFeedId() != false || ($rec["visibility"] == NEWS_PUBLIC ||
-                    ($rec["priority"] == 0 &&
+                if (!$a_for_rss_use || self::getPrivateFeedId() > 0 || ($rec["visibility"] === NEWS_PUBLIC ||
+                    ((int) $rec["priority"] === 0 &&
                     ilBlockSetting::_lookup(
                         "news",
                         "public_notifications",
                         0,
-                        $rec["context_obj_id"]
+                        (int) $rec["context_obj_id"]
                     )))) {
                     $result[$rec["id"]] = $rec;
                 }
@@ -1408,7 +1408,7 @@ class ilNewsItem
         $ilDB->manipulate($query);
         
         // delete mob after news, to have a "mob usage" of 0
-        if ($mob > 0 and ilObject::_exists($mob)) {
+        if ($mob > 0 && ilObject::_exists($mob)) {
             $mob = new ilObjMediaObject($mob);
             $mob->delete();
         }
@@ -1613,43 +1613,44 @@ class ilNewsItem
             if ($a_context_obj_type === "frm") {
                 if ($cnt > 1) {
                     return sprintf($lng->txt("news_x_postings"), $cnt);
-                } else {
-                    return $lng->txt("news_1_postings");
                 }
-            } else {	// files
-                $up_cnt = $cr_cnt = 0;
-                foreach ($a_aggregation as $item) {
-                    if ($item["title"] === "file_updated") {
-                        $up_cnt++;
-                    } else {
-                        $cr_cnt++;
-                    }
-                }
-                $sep = "";
-                if ($cr_cnt == 1) {
-                    $tit = $lng->txt("news_1_file_created");
-                    $sep = "<br />";
-                } elseif ($cr_cnt > 1) {
-                    $tit = sprintf($lng->txt("news_x_files_created"), $cr_cnt);
-                    $sep = "<br />";
-                }
-                if ($up_cnt == 1) {
-                    $tit .= $sep . $lng->txt("news_1_file_updated");
-                } elseif ($up_cnt > 1) {
-                    $tit .= $sep . sprintf($lng->txt("news_x_files_updated"), $up_cnt);
-                }
-                return $tit;
-            }
-        } else {
-            if ($a_content_is_lang_var) {
-                if ($obj_definition->isPlugin($a_context_obj_type)) {
-                    return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_title);
-                }
-                return $lng->txt($a_title);
+
+                return $lng->txt("news_1_postings");
             }
 
-            return $a_title;
+            // files
+            $up_cnt = $cr_cnt = 0;
+            foreach ($a_aggregation as $item) {
+                if ($item["title"] === "file_updated") {
+                    $up_cnt++;
+                } else {
+                    $cr_cnt++;
+                }
+            }
+            $sep = "";
+            if ($cr_cnt === 1) {
+                $tit = $lng->txt("news_1_file_created");
+                $sep = "<br />";
+            } elseif ($cr_cnt > 1) {
+                $tit = sprintf($lng->txt("news_x_files_created"), $cr_cnt);
+                $sep = "<br />";
+            }
+            if ($up_cnt === 1) {
+                $tit .= $sep . $lng->txt("news_1_file_updated");
+            } elseif ($up_cnt > 1) {
+                $tit .= $sep . sprintf($lng->txt("news_x_files_updated"), $up_cnt);
+            }
+            return $tit;
         }
+
+        if ($a_content_is_lang_var) {
+            if ($obj_definition->isPlugin($a_context_obj_type)) {
+                return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_title);
+            }
+            return $lng->txt($a_title);
+        }
+
+        return $a_title;
     }
 
     /**
@@ -1798,7 +1799,7 @@ class ilNewsItem
     {
         $news_set = new ilSetting("news");
         $per = $news_set->get("pd_period");
-        if ($per == 0) {
+        if ((int) $per === 0) {
             $per = 30;
         }
         
@@ -1840,7 +1841,7 @@ class ilNewsItem
     {
         $news_set = new ilSetting("news");
         $rss_period = $news_set->get("rss_period");
-        if ($rss_period == 0) {		// default to two weeks
+        if ((int) $rss_period === 0) {		// default to two weeks
             $rss_period = 14;
         }
         return $rss_period;

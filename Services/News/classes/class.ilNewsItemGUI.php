@@ -44,7 +44,7 @@ class ilNewsItemGUI
     protected int $requested_news_item_id;
     protected string $add_mode;
     protected StandardGUIRequest $std_request;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
@@ -263,7 +263,7 @@ class ilNewsItemGUI
     }
 
     // FORM NewsItem: Get current values for NewsItem form.
-    public function getValuesNewsItem(\ilPropertyFormGUI $a_form) : void
+    public function getValuesNewsItem(ilPropertyFormGUI $a_form) : void
     {
         $values = [];
 
@@ -340,7 +340,7 @@ class ilNewsItemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->add_mode == "block") {
+        if ($this->add_mode === "block") {
             $ilCtrl->returnToParent($this);
         } else {
             $ilCtrl->redirect($this, "editNews");
@@ -370,7 +370,7 @@ class ilNewsItemGUI
             // delete old media object
             $media_delete = $this->std_request->getDeleteMedia();
             if ($media["name"] != "" || $media_delete != "") {
-                if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) == "mob") {
+                if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) === "mob") {
                     $old_mob_id = $this->news_item->getMobId();
                 }
                 $this->news_item->setMobId(0);
@@ -415,7 +415,7 @@ class ilNewsItemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->add_mode == "block") {
+        if ($this->add_mode === "block") {
             $ilCtrl->returnToParent($this);
         } else {
             return $this->editNews();
@@ -595,7 +595,7 @@ class ilNewsItemGUI
 
     public static function isRteActivated() : bool
     {
-        if (ilObjAdvancedEditing::_getRichTextEditor() == "") {
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "") {
             return false;
         }
         return true;

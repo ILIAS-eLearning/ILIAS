@@ -51,7 +51,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if ($cmd === null || $cmd === '' || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
