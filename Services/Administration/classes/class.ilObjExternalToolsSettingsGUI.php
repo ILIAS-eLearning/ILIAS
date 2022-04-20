@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -85,21 +85,15 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     }
 
 
-    /**
-     * Configure maps settings
-     */
     public function editMapsObject() : void
     {
         $tpl = $this->tpl;
 
-        $this->__initSubTabs("editMaps");
+        $this->initSubTabs("editMaps");
         $form = $this->getMapsForm();
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Configure maps settings
-     */
     public function getMapsForm() : ilPropertyFormGUI
     {
         $ilAccess = $this->access;
@@ -192,7 +186,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     }
     
     // init sub tabs
-    public function __initSubTabs(string $a_cmd) : void//PHP8Review: Its recommended not to use self defined __ prefixes. Since this affects multiple space i just leave a recommendation to change that here
+    public function initSubTabs(string $a_cmd) : void
     {
         $maps = $a_cmd === 'editMaps';
         $mathjax = $a_cmd === 'editMathJax';
@@ -229,7 +223,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
             case 'ilmathjaxsettingsgui':
                 $this->tabs_gui->setTabActive('settings');
-                $this->__initSubTabs("editMathJax");
+                $this->initSubTabs("editMathJax");
                 $this->ctrl->forwardCommand(new ilMathJaxSettingsGUI());
                 break;
 

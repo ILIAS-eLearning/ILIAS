@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -85,7 +85,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->withAction($action)
                         ->withSymbol($icon)
                         ->withVisibilityCallable(function () use ($ref_id) {
-                            return $this->dic->rbac()->system()->checkAccess('visible,read', $ref_id);
+                            return $this->dic->rbac()->system()->checkAccess('visible,read', (int) $ref_id);
                         });
                 }
 
@@ -185,7 +185,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         $items = array();
         foreach ($new_objects as $c) {
             // check visibility
-            if ($c["type"] !== "adm" && $tree->getParentId($c["ref_id"]) === ROOT_FOLDER_ID
+            if ($c["type"] !== "adm" && $tree->getParentId((int) $c["ref_id"]) === ROOT_FOLDER_ID
                 && $admin_request->getAdminMode() !== "repository"
             ) {
                 continue;

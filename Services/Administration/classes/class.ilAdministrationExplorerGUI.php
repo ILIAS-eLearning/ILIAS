@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -82,7 +82,10 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    public function getNodeContent($a_node) : string//PHP8Review: missing typehint (array)
+    /**
+     * @param object|array $a_node node array or object
+     */
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
         
@@ -95,14 +98,20 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 
         return $title;
     }
-    
-    public function getNodeIcon($a_node) : string//PHP8Review: missing typehint (array)
+
+    /**
+     * @param object|array $a_node node array or object
+     */
+    public function getNodeIcon($a_node) : string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    public function getNodeIconAlt($a_node) : string//PHP8Review: missing typehint (array)
+    /**
+     * @param object|array $a_node node array or object
+     */
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -117,14 +126,20 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         
         return parent::getNodeIconAlt($a_node);
     }
-    
-    public function isNodeHighlighted($a_node) : bool//PHP8Review: missing typehint (array)
+
+    /**
+     * @param object|array $a_node node array or object
+     */
+    public function isNodeHighlighted($a_node) : bool
     {
         return $a_node["child"] == $this->cur_ref_id ||
             ($this->cur_ref_id === 0 && $a_node["child"] == $this->getNodeId($this->getRootNode()));
     }
-    
-    public function getNodeHref($a_node) : string//PHP8Review: missing typehint (array)
+
+    /**
+     * @param object|array $a_node node array or object
+     */
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
@@ -138,7 +153,10 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         return $link;
     }
 
-    public function isNodeVisible($a_node) : bool//PHP8Review: missing typehint (array)
+    /**
+     * @param object|array $a_node node array or object
+     */
+    public function isNodeVisible($a_node) : bool
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -148,12 +166,16 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         }
         return $visible;
     }
-    
-    public function sortChilds(array $a_childs, $a_parent_node_id) : array//PHP8Review: missing typehint (int)
+
+    /**
+     * Sort childs
+     * @param int|string $a_parent_node_id parent id
+     */
+    public function sortChilds(array $a_childs, $a_parent_node_id) : array
     {
         $objDefinition = $this->obj_definition;
 
-        $parent_obj_id = ilObject::_lookupObjId($a_parent_node_id);
+        $parent_obj_id = ilObject::_lookupObjId((int) $a_parent_node_id);
         
         if ($parent_obj_id > 0) {
             $parent_type = ilObject::_lookupType($parent_obj_id);
@@ -196,18 +218,24 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
-    public function getChildsOfNode($a_parent_node_id) : array//PHP8Review: missing typehint (array)
+    /**
+     * @param int|string $a_parent_node_id parent id
+     */
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $rbacsystem = $this->rbacsystem;
         
-        if (!$rbacsystem->checkAccess("read", $a_parent_node_id)) {
+        if (!$rbacsystem->checkAccess("read", (int) $a_parent_node_id)) {
             return array();
         }
 
         return parent::getChildsOfNode($a_parent_node_id);
     }
-    
-    public function isNodeClickable($a_node) : bool//PHP8Review: missing typehint (array)
+
+    /**
+     * @param object|array $a_node node array or object
+     */
+    public function isNodeClickable($a_node) : bool
     {
         return $this->rbacsystem->checkAccess('read', $a_node["child"]);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -83,7 +83,7 @@ class ilAdministrationSettingsFormHandler
 
     protected static function getRefId(string $a_obj_type) : int
     {
-        if (!is_array(self::$OBJ_MAP)) {
+        if (!isset(self::$OBJ_MAP)) {
             self::initObjectMap();
         }
         return self::$OBJ_MAP[$a_obj_type] ?? 0;

@@ -17,7 +17,7 @@ class ilObjectGUI
 {
     const ADMIN_MODE_NONE = "";
     const ADMIN_MODE_SETTINGS = "settings";
-    const ADMIN_MODE_REPOSITORY = "respository";
+    const ADMIN_MODE_REPOSITORY = "repository";
     const UPLOAD_TYPE_LOCAL = 1;
     const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
     const CFORM_NEW = 1;

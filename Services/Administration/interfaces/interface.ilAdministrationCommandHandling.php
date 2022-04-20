@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,58 +35,28 @@ interface ilAdministrationCommandHandling
      */
     public function cancelDelete() : void;
     
-    /**
-     * Perform Delete
-     */
     public function performDelete() : void;
     
-    /**
-     * Cut object
-     */
     public function cut() : void;
     
-    /**
-     * Target selection link
-     */
     public function showLinkIntoMultipleObjectsTree() : void;
     
-    /**
-     * Target selection cut
-     */
     public function showMoveIntoObjectTree() : void;
     
-    /**
-     * Perform paste into multiple objects
-     */
     public function performPasteIntoMultipleObjects() : void;
     
-    /**
-     * Paste
-     */
     public function paste() : void;
-    
+
     /**
      * clear clipboard
      */
     public function clear() : void;
     
-    /**
-     * Enable administration panel
-     */
     public function enableAdministrationPanel() : void;
     
-    /**
-     * Disable administration panel
-     */
     public function disableAdministrationPanel() : void;
     
-    /**
-     * Cancel move/link
-     */
     public function cancelMoveLinkObject() : void;
 
-    /**
-     * cancel action but keep objects in clipboard
-     */
     public function keepObjectsInClipboardObject() : void;
 }

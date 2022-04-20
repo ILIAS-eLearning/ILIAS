@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -181,7 +181,6 @@ class ilAdministrationCommandGUI
         $objDefinition = $this->obj_definition;
 
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
-//        $_GET['ref_id'] = (int) $_GET['item_ref_id'];
 
         $obj_id = ilObject::_lookupObjId($this->request->getItemRefId());
         $type = ilObject::_lookupType($obj_id);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -60,9 +60,6 @@ class ilSettingsTemplateGUI
         );
     }
 
-    /**
-     * Execute command
-     */
     public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
@@ -210,7 +207,7 @@ class ilSettingsTemplateGUI
                                         case ilSettingsTemplateConfig::CHECKBOX:
                                                 $chbs = new ilCheckboxGroupInputGUI($lng->txt("adm_value"), "value_" . $s["id"]);
                                                 foreach ($s['options'] as $key => $value) {
-                                                    $chbs->addOption($c = new ilCheckboxInputGUI($value, $key));//PHP8Review: Miss matching parameter
+                                                    $chbs->addOption($c = new ilCheckboxInputGUI($value, $key));
                                                     $c->setValue($key);
                                                 }
                                                 $cb->addSubItem($chbs);
@@ -241,9 +238,6 @@ class ilSettingsTemplateGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-     * Get current values for settings template from
-     */
     public function getSettingsTemplateValues() : void
     {
         $values = array();
@@ -265,7 +259,7 @@ class ilSettingsTemplateGUI
 
                 if ($s['type'] === ilSettingsTemplateConfig::CHECKBOX) {
                     if (!is_array($set[$s["id"]]["value"])) {
-                        $ar = unserialize($set[$s["id"]]["value"]);//PHP8Review: Use the options parameter to specificy the serialized classes for security
+                        $ar = unserialize($set[$s["id"]]["value"], ['allowed_classes' => false]);
                     } else {
                         $ar = $set[$s["id"]]["value"];
                     }
@@ -280,9 +274,6 @@ class ilSettingsTemplateGUI
         $this->form->setValuesByArray($values);
     }
 
-    /**
-     * Save settings template form
-     */
     public function saveSettingsTemplate() : void
     {
         $tpl = $this->tpl;
@@ -305,9 +296,6 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Update settings template
-     */
     public function updateSettingsTemplate() : void
     {
         $lng = $this->lng;
@@ -327,9 +315,6 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Set values from form
-     */
     public function setValuesFromForm(ilSettingsTemplate $a_set_templ) : void
     {
         // perform update
@@ -357,9 +342,6 @@ class ilSettingsTemplateGUI
         }
     }
 
-    /**
-     * Confirm settings template deletion
-     */
     public function confirmSettingsTemplateDeletion() : void
     {
         $ilCtrl = $this->ctrl;

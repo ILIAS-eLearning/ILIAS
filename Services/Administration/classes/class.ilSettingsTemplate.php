@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -103,7 +103,7 @@ class ilSettingsTemplate
 
     /**
      * Set setting
-     * @param array|string $a_value//PHP8Review: You may specificy the array further
+     * @param array|string $a_value
      */
     public function setSetting(
         string $a_setting,
@@ -117,7 +117,7 @@ class ilSettingsTemplate
                 if (is_array($a_value)) {
                     $a_value = serialize($a_value);
                 } else {
-                    $a_value = unserialize($a_value);//PHP8Review: Use the options parameter to specificy the serialized classes for security
+                    $a_value = unserialize($a_value, ['allowed_classes' => false]);
                 }
             }
         }
@@ -372,8 +372,10 @@ class ilSettingsTemplate
     
     public static function translate(string $a_title_desc) : string
     {
+        global $DIC;
+
         if (str_starts_with($a_title_desc, 'il_')) {
-            return $GLOBALS['lng']->txt($a_title_desc);//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here
+            return $DIC->language()->txt($a_title_desc);
         }
         return $a_title_desc;
     }

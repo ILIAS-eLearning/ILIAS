@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -249,6 +249,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
 
     /**
      * Forward to class/command
+     * @throws ilCtrlException
      * @throws ilPermissionException
      */
     public function forward() : void

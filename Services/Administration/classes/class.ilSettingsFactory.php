@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -36,6 +36,7 @@ class ilSettingsFactory
      */
     public function settingsFor(string $a_module = "common") : ilSetting
     {
+        // @todo: this function contains some open review issues which might be addressed by rklees.
         $tmp_dic = $GLOBALS["DIC"] ?? null;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here or even better to integrate it into the classes attributes
         try {
             // ilSetting pulls the database once in the constructor, we force it to

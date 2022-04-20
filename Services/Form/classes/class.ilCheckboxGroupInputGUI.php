@@ -47,8 +47,11 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
     {
         return $this->use_values_as_keys;
     }
-    
-    public function addOption(ilCheckboxOption $a_option) : void
+
+    /**
+     * @param ilCheckboxOption|ilCheckboxInputGUI $a_option
+     */
+    public function addOption($a_option) : void
     {
         $this->options[] = $a_option;
     }
