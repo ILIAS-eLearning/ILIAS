@@ -125,23 +125,23 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
                 $this->tpl->setCurrentBlock('description');
                 $this->tpl->setVariable(
                     "DESCRIPTION",
-                    ilLegacyFormElementsUtil::prepareFormOutput($a_set['description'])
+                    ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['description'])
                 );
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'author') == 0) {
                 $this->tpl->setCurrentBlock('author');
-                $this->tpl->setVariable("AUTHOR", ilLegacyFormElementsUtil::prepareFormOutput($a_set['author']));
+                $this->tpl->setVariable("AUTHOR", ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['author']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'ttype') == 0) {
                 $this->tpl->setCurrentBlock('ttype');
-                $this->tpl->setVariable("TYPE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['ttype']));
+                $this->tpl->setVariable("TYPE", ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['ttype']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'points') == 0) {
                 $this->tpl->setCurrentBlock('points');
-                $this->tpl->setVariable("POINTS", ilLegacyFormElementsUtil::prepareFormOutput($a_set['points']));
+                $this->tpl->setVariable("POINTS", ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['points']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'created') == 0) {

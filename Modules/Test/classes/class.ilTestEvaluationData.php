@@ -288,7 +288,7 @@ class ilTestEvaluationData
             foreach ($this->participants as $active_id => $participant) {
                 $remove = false;
                 if (array_key_exists('name', $this->arrFilter)) {
-                    if (!(strpos(strtolower($participant->getName()), strtolower($this->arrFilter['name'])) !== false)) {
+                    if (!(strpos(strtolower($participant->getName()), strtolower((string) $this->arrFilter['name'])) !== false)) {
                         $remove = true;
                     }
                 }
