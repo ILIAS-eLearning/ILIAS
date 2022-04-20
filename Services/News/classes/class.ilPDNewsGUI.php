@@ -91,8 +91,8 @@ class ilPDNewsGUI
         $obj_ids = [];
         $pd_items = $this->fav_manager->getFavouritesOfUser($ilUser->getId());
         foreach ($pd_items as $item) {
-            $ref_ids[] = $item["ref_id"];
-            $obj_ids[] = $item["obj_id"];
+            $ref_ids[] = (int) $item["ref_id"];
+            $obj_ids[] = (int) $item["obj_id"];
         }
         
         $sel_ref_id = ($this->std_request->getNewsRefId() > 0)
@@ -114,7 +114,7 @@ class ilPDNewsGUI
             $title = ilObject::_lookupTitle($obj_id);
             
             $conts[$ref_id] = $title;
-            if ($sel_ref_id == $ref_id) {
+            if ((int) $sel_ref_id === $ref_id) {
                 $sel_has_news = true;
             }
         }
@@ -140,7 +140,7 @@ class ilPDNewsGUI
         
         
         if ($sel_ref_id > 0) {
-            $obj_id = ilObject::_lookupObjId($sel_ref_id);
+            $obj_id = ilObject::_lookupObjId((int) $sel_ref_id);
             $obj_type = ilObject::_lookupType($obj_id);
             $nitem->setContextObjId($obj_id);
             $nitem->setContextObjType($obj_type);

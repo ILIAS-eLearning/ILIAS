@@ -164,16 +164,16 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(function ($a) {
-            return $a["context_obj_id"];
+        $obj_ids = array_unique(array_map(static function (array $a) : int {
+            return (int) $a["context_obj_id"];
         }, $news_data));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
         $js_items = [];
         foreach ($news_data as $d) {
-            $news_item = new ilNewsItem($d["id"]);
-            $item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"], $like_gui);
+            $news_item = new ilNewsItem((int) $d["id"]);
+            $item = ilNewsTimelineItemGUI::getInstance($news_item, (int) $d["ref_id"], $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
             $timeline->addItem($item);
             $js_items[$d["id"]] = [
@@ -238,16 +238,16 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(static function ($a) {
-            return $a["context_obj_id"];
+        $obj_ids = array_unique(array_map(static function ($a) : int {
+            return (int) $a["context_obj_id"];
         }, $news_data));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
         $js_items = [];
         foreach ($news_data as $d) {
-            $news_item = new ilNewsItem($d["id"]);
-            $item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"], $like_gui);
+            $news_item = new ilNewsItem((int) $d["id"]);
+            $item = ilNewsTimelineItemGUI::getInstance($news_item, (int) $d["ref_id"], $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
             $timeline->addItem($item);
             $js_items[$d["id"]] = [
@@ -357,7 +357,7 @@ class ilNewsTimelineGUI
 
             $obj_id = ilObject::_lookupObjectId($this->ref_id);
 
-            if ($news_item->getContextObjId() == $obj_id) {
+            if ($news_item->getContextObjId() === $obj_id) {
                 $news_item->setUpdateUserId($this->user->getId());
                 $news_item->update();
 

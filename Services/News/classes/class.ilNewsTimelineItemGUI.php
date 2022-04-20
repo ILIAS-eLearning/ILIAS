@@ -161,9 +161,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $list = new ilAdvancedSelectionListGUI();
         $list->setListTitle("");
         $list->setId("news_tl_act_" . $i->getId());
-        //$list->setSelectionHeaderClass("small");
-        //$list->setItemLinkClass("xsmall");
-        //$list->setLinksMode("il_ContainerItemCommand2");
         $list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $list->setUseImages(false);
 
@@ -284,7 +281,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         );
         $note_gui->setDefaultCommand("getWidget");
 
-        //ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
         $html .= $this->ctrl->getHTML($note_gui);
 
         $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $this->std_request->getNewsId());

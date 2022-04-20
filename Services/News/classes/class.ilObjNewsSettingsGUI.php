@@ -122,7 +122,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $cb_prop->setValue("1");
         $cb_prop->setInfo($lng->txt("news_enable_internal_news_info"));
-        $cb_prop->setChecked($enable_internal_news);
+        $cb_prop->setChecked((bool) $enable_internal_news);
         $form->addItem($cb_prop);
 
         // Default Visibility
@@ -144,7 +144,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $nr_sel->setInfo($lng->txt("news_nr_of_items_info"));
         $nr_sel->setOptions($nr_opts);
-        $nr_sel->setValue($news_set->get("max_items"));
+        $nr_sel->setValue((string) $news_set->get("max_items"));
         $form->addItem($nr_sel);
 
         // Access Cache
@@ -155,7 +155,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $min_sel->setInfo($lng->txt("news_cache_info"));
         $min_sel->setOptions($min_opts);
-        $min_sel->setValue($news_set->get("acc_cache_mins"));
+        $min_sel->setValue((string) $news_set->get("acc_cache_mins"));
         $form->addItem($min_sel);
         
         // PD News Period
@@ -170,7 +170,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $per_sel->setInfo($lng->txt("news_pd_period_info"));
         $per_sel->setOptions($per_opts);
-        $per_sel->setValue(ilNewsItem::_lookupDefaultPDPeriod());
+        $per_sel->setValue((string) ilNewsItem::_lookupDefaultPDPeriod());
         $form->addItem($per_sel);
 
         // Allow user to choose lower values
@@ -180,7 +180,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $sp_prop->setValue("1");
         $sp_prop->setInfo($lng->txt("news_allow_shorter_periods_info"));
-        $sp_prop->setChecked($allow_shorter_periods);
+        $sp_prop->setChecked((bool) $allow_shorter_periods);
         $form->addItem($sp_prop);
 
         // Allow user to choose higher values
@@ -190,7 +190,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $lp_prop->setValue("1");
         $lp_prop->setInfo($lng->txt("news_allow_longer_periods_info"));
-        $lp_prop->setChecked($allow_longer_periods);
+        $lp_prop->setChecked((bool) $allow_longer_periods);
         $form->addItem($lp_prop);
 
         // Enable rss for internal news
@@ -200,7 +200,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $cb_prop->setValue("1");
         $cb_prop->setInfo($lng->txt("news_enable_internal_rss_info"));
-        $cb_prop->setChecked($enable_internal_rss);
+        $cb_prop->setChecked((bool) $enable_internal_rss);
 
         // RSS News Period
         $rssp_opts = [
@@ -247,7 +247,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         );
         $cb_prop->setValue("1");
         $cb_prop->setInfo($lng->txt("news_enable_private_feed_info"));
-        $cb_prop->setChecked($enable_private_feed);
+        $cb_prop->setChecked((bool) $enable_private_feed);
         $form->addItem($cb_prop);
 
         if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
@@ -267,7 +267,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $ilCtrl->redirect($this, "view");
         }
-        
+
         // empty news cache
         $this->acache = new ilNewsCache();
         $this->acache->deleteAllEntries();
@@ -290,10 +290,10 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             $news_set->set("rss_period", $form->getInput("news_rss_period"));
             $news_set->set("rss_title_format", $form->getInput("rss_title_format"));
 
-            if ($form->getInput("enable_internal_rss") != 0) {
+            if ($form->getInput("enable_internal_rss")) {
                 $news_set->set("enable_private_feed", $form->getInput("enable_private_feed"));
             } else {
-                $news_set->set("enable_private_feed", 0);
+                $news_set->set("enable_private_feed", '0');
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);

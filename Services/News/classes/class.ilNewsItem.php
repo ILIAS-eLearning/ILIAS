@@ -64,7 +64,7 @@ class ilNewsItem
     protected int $content_is_lang_var = 0;
     protected int $mob_id = 0;
     protected string $playtime = "";
-    private static bool $privFeedId = false;
+    private static bool $privFeedId = false;// TODO PHP8-REVIEW Maybe this should be an int (have a look at the assignments at the bottom of this class)?
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
     private ilGlobalTemplateInterface $main_tpl;
@@ -248,12 +248,12 @@ class ilNewsItem
     public function setContentIsLangVar(
         bool $a_content_is_lang_var = false
     ) : void {
-        $this->content_is_lang_var = $a_content_is_lang_var;
+        $this->content_is_lang_var = (int) $a_content_is_lang_var;// TODO PHP8-REVIEW Maybe the better approch is to make the variable of type bool, please decide
     }
 
     public function getContentIsLangVar() : bool
     {
-        return $this->content_is_lang_var;
+        return (bool) $this->content_is_lang_var;// TODO PHP8-REVIEW Maybe the better approch is to make the variable of type bool, please decide
     }
 
     public function setMobId(int $a_mob_id) : void
@@ -354,17 +354,17 @@ class ilNewsItem
         $this->setContentType($rec["content_type"]);
         $this->setCreationDate($rec["creation_date"]);
         $this->setUpdateDate($rec["update_date"]);
-        $this->setUserId($rec["user_id"]);
-        $this->setUpdateUserId($rec["update_user_id"]);
+        $this->setUserId((int) $rec["user_id"]);
+        $this->setUpdateUserId((int) $rec["update_user_id"]);
         $this->setVisibility($rec["visibility"]);
         $this->setContentLong((string) $rec["content_long"]);
-        $this->setPriority($rec["priority"]);
-        $this->setContentIsLangVar($rec["content_is_lang_var"]);
-        $this->setContentTextIsLangVar((int) $rec["content_text_is_lang_var"]);
+        $this->setPriority((int) $rec["priority"]);
+        $this->setContentIsLangVar((bool) $rec["content_is_lang_var"]);
+        $this->setContentTextIsLangVar((bool) $rec["content_text_is_lang_var"]);
         $this->setMobId((int) $rec["mob_id"]);
         $this->setPlaytime((string) $rec["playtime"]);
-        $this->setMobPlayCounter($rec["mob_cnt_play"]);
-        $this->setMobDownloadCounter($rec["mob_cnt_download"]);
+        $this->setMobPlayCounter((int) $rec["mob_cnt_play"]);
+        $this->setMobDownloadCounter((int) $rec["mob_cnt_download"]);
         $this->setContentHtml((bool) $rec["content_html"]);
     }
 
@@ -436,7 +436,7 @@ class ilNewsItem
                 $ilDB->setLimit($rec["cnt"] - $max_items, 0);
                 $del_set = $ilDB->query($query);
                 while ($del_item = $ilDB->fetchAssoc($del_set)) {
-                    $del_news = new ilNewsItem($del_item["id"]);
+                    $del_news = new ilNewsItem((int) $del_item["id"]);
                     $del_news->delete();
                 }
             }
@@ -516,7 +516,7 @@ class ilNewsItem
             $pd_items = $fav_rep->getFavouritesOfUser($a_user_id);
             foreach ($pd_items as $item) {
                 if (!in_array($item["ref_id"], $ref_ids)) {
-                    $ref_ids[] = $item["ref_id"];
+                    $ref_ids[] = (int) $item["ref_id"];
                 }
             }
             
@@ -615,12 +615,12 @@ class ilNewsItem
             if (!ilContainer::_lookupContainerSetting(
                 $obj_id,
                 'cont_use_news',
-                true
+                '1'
             ) || (
                 !ilContainer::_lookupContainerSetting(
                     $obj_id,
                     'cont_show_news',
-                    true
+                    '1'
                 ) && !ilContainer::_lookupContainerSetting(
                     $obj_id,
                     'news_timeline'
@@ -743,8 +743,8 @@ class ilNewsItem
         $obj_ids = [];
         $ref_id = [];
         foreach ($nodes as $node) {
-            $ref_ids[] = $node["child"];
-            $obj_ids[] = $node["obj_id"];
+            $ref_ids[] = (int) $node["child"];
+            $obj_ids[] = (int) $node["obj_id"];
         }
 
         $ilObjDataCache->preloadReferenceCache($ref_ids);
@@ -766,13 +766,13 @@ class ilNewsItem
             
             if (!$a_only_public) {
                 if (!$a_user_id) {
-                    $acc = $ilAccess->checkAccess("read", "", $node["child"]);
+                    $acc = $ilAccess->checkAccess("read", "", (int) $node["child"]);
                 } else {
                     $acc = $ilAccess->checkAccessOfUser(
                         $a_user_id,
                         "read",
                         "",
-                        $node["child"]
+                        (int) $node["child"]
                     );
                 }
                 if (!$acc) {
@@ -875,7 +875,7 @@ class ilNewsItem
         foreach ($news as $k => $v) {
             // aggregate file related news
             if ($v["context_obj_type"] === "file") {
-                if ($first_file == "") {
+                if ($first_file === "") {
                     $first_file = $k;
                 } else {
                     $to_del[] = $k;
@@ -943,7 +943,7 @@ class ilNewsItem
                 continue;
             }
 
-            if (!$a_only_public && !$ilAccess->checkAccess("read", "", $node["child"])) {
+            if (!$a_only_public && !$ilAccess->checkAccess("read", "", (int) $node["child"])) {
                 continue;
             }
             $ref_id[$node["obj_id"]] = $node["child"];
@@ -1030,7 +1030,7 @@ class ilNewsItem
             $and = " AND creation_date >= " . $ilDB->quote($limit_ts, "timestamp") . " ";
         }
         
-        if ($a_starting_date != "") {
+        if ($a_starting_date !== "") {
             $and .= " AND creation_date > " . $ilDB->quote($a_starting_date, "timestamp") . " ";
         }
 
@@ -1092,7 +1092,7 @@ class ilNewsItem
                     "news",
                     "public_notifications",
                     0,
-                    $rec["context_obj_id"]
+                    (int) $rec["context_obj_id"]
                 )))) {
                 $result[$rec["id"]] = $rec;
             }
@@ -1103,7 +1103,7 @@ class ilNewsItem
         // this is not very performant, but I do not have a better
         // idea. The keep_rss_min setting is currently (Jul 2012) only set
         // by mediacasts
-        if ($a_time_period != "" && $a_for_rss_use) {
+        if ($a_time_period && $a_for_rss_use) {
             $keep_rss_min = ilBlockSetting::_lookup(
                 "news",
                 "keep_rss_min",
@@ -1117,7 +1117,7 @@ class ilNewsItem
                     $a_starting_date,
                     $a_no_auto_generated,
                     $a_oldest_first,
-                    $keep_rss_min
+                    (int) $keep_rss_min
                 );
             }
         }
@@ -1145,6 +1145,7 @@ class ilNewsItem
 
     /**
      * @deprecated will move to ilNewsData
+     * @return int[]
      */
     public function checkNewsExistsForObjects(
         array $objects,
@@ -1163,7 +1164,7 @@ class ilNewsItem
             " AND creation_date >= " . $ilDB->quote($limit_ts, "timestamp"));
         while ($rec = $ilDB->fetchAssoc($query)) {
             if ($objects[$rec["context_obj_id"]]["type"] == $rec["context_obj_type"]) {
-                $all[] = $rec["id"];
+                $all[] = (int) $rec["id"];
             }
         }
 
@@ -1192,7 +1193,7 @@ class ilNewsItem
             $and = " AND creation_date >= " . $ilDB->quote($limit_ts, "timestamp") . " ";
         }
             
-        if ($a_starting_date != "") {
+        if ($a_starting_date !== "") {
             $and .= " AND creation_date > " . $ilDB->quote($a_starting_date, "timestamp") . " ";
         }
 
@@ -1292,14 +1293,6 @@ class ilNewsItem
             ],
             []
         );
-        
-        /*
-        $ilDB->manipulate("DELETE FROM il_news_read WHERE ".
-            "user_id = ".$ilDB->quote($a_user_id, "integer").
-            " AND news_id = ".$ilDB->quote($a_news_id, "integer"));
-        $ilDB->manipulate("INSERT INTO il_news_read (user_id, news_id) VALUES (".
-            $ilDB->quote($a_user_id, "integer").",".
-            $ilDB->quote($a_news_id, "integer").")");*/
 
         $ilAppEventHandler->raise(
             "Services/News",
@@ -1366,7 +1359,7 @@ class ilNewsItem
             $path = $tree->getPathFull($a_ref_id);
             
             foreach ($path as $key => $row) {
-                if (!in_array($row["type"], ["root", "cat", "crs", "fold", "grp"])) {
+                if (!in_array($row["type"], ["root", "cat", "crs", "fold", "grp"], true)) {
                     continue;
                 }
 
@@ -1374,7 +1367,7 @@ class ilNewsItem
                     "news",
                     "default_visibility",
                     0,
-                    $row["obj_id"]
+                    (int) $row["obj_id"]
                 );
                     
                 if ($visibility != "") {
@@ -1417,6 +1410,7 @@ class ilNewsItem
     /**
      * Get all news of a context
      * @deprecated will move to ilNewsData
+     * @return ilNewsItem[]
      */
     public static function getNewsOfContext(
         int $a_context_obj_id,
@@ -1429,7 +1423,7 @@ class ilNewsItem
         $ilDB = $DIC->database();
         $and = "";
         
-        if ($a_context_obj_id == 0 || $a_context_obj_type == "") {
+        if ($a_context_obj_id === 0 || $a_context_obj_type === "") {
             return [];
         }
 
@@ -1439,7 +1433,7 @@ class ilNewsItem
         }
         
         // get news records
-        $query = "SELECT * FROM il_news_item" .
+        $query = "SELECT id FROM il_news_item" .
             " WHERE context_obj_id = " . $ilDB->quote($a_context_obj_id, "integer") .
             " AND context_obj_type = " . $ilDB->quote($a_context_obj_type, "text") .
             $and;
@@ -1448,7 +1442,7 @@ class ilNewsItem
 
         $news_arr = [];
         while ($news = $ilDB->fetchAssoc($news_set)) {
-            $news_arr[] = new ilNewsItem($news["id"]);
+            $news_arr[] = new ilNewsItem((int) $news["id"]);
         }
         return $news_arr;
     }
@@ -1487,7 +1481,7 @@ class ilNewsItem
             $ilDB->quote($a_news_id, "integer");
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
-        return $rec["title"];
+        return $rec["title"] ?? '';
     }
 
     /**
@@ -1505,7 +1499,7 @@ class ilNewsItem
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
-        return $rec["visibility"];
+        return $rec["visibility"] ?? NEWS_USERS;
     }
 
     /**
@@ -1522,7 +1516,7 @@ class ilNewsItem
             $ilDB->quote($a_news_id, "integer");
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
-        return $rec["mob_id"] ?? 0;
+        return (int) ($rec["mob_id"] ?? 0);
     }
 
     /**
@@ -1546,7 +1540,7 @@ class ilNewsItem
             $and = " AND creation_date >= " . $ilDB->quote($limit_ts, "timestamp") . " ";
         }
 
-        if ($a_starting_date != "") {
+        if ($a_starting_date !== "") {
             $and .= " AND creation_date >= " . $ilDB->quote($a_starting_date, "timestamp");
         }
 
@@ -1693,7 +1687,7 @@ class ilNewsItem
         $ilDB = $DIC->database();
         
         // Determine how many rows should be deleted
-        $query = "SELECT * " .
+        $query = "SELECT id " .
             "FROM il_news_item " .
             "WHERE " .
                 "context_obj_id = " . $ilDB->quote($a_context_obj_id, "integer") .
@@ -1704,7 +1698,7 @@ class ilNewsItem
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
         
-        return (int) $rec["id"];
+        return (int) ($rec["id"] ?? 0);
     }
 
     /**
@@ -1758,7 +1752,7 @@ class ilNewsItem
 
         $ilDB = $DIC->database();
         
-        $query = "SELECT * " .
+        $query = "SELECT id " .
             "FROM il_news_item " .
             "WHERE " .
                 " mob_id = " . $ilDB->quote($a_mob_id, "integer");
@@ -1782,7 +1776,7 @@ class ilNewsItem
 
         $ilDB = $DIC->database();
         
-        $query = "SELECT * " .
+        $query = "SELECT context_obj_id " .
             "FROM il_news_item " .
             "WHERE " .
                 " id = " . $ilDB->quote($a_news_id, "integer");

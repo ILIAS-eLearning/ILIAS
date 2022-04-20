@@ -22,14 +22,14 @@ use ILIAS\News\StandardGUIRequest;
 class ilPDNewsTableGUI extends ilTable2GUI
 {
     protected string $selected_context;
-    protected array $contexts;
+    protected array $contexts;// TODO PHP8-REVIEW Maybe you can specify the shape of the array
     protected ilObjUser $user;
     protected StandardGUIRequest $std_request;
 
     public function __construct(
-        object $a_parent_obj,
+        object $a_parent_obj,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
         string $a_parent_cmd,
-        array $a_contexts,
+        array $a_contexts,// TODO PHP8-REVIEW Maybe you can specify the shape of the array
         string $a_selected_context
     ) {
         global $DIC;
@@ -103,7 +103,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
 
         $si = new ilSelectInputGUI($this->lng->txt("news_time_period"), "news_per");
         $si->setOptions($options);
-        $si->setValue($per);
+        $si->setValue((string) $per);
         $this->addFilterItem($si);
         
         // related to...
@@ -122,7 +122,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
         // context
-        $obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
+        $obj_id = ilObject::_lookupObjId((int) $a_set["ref_id"]);
         $obj_type = ilObject::_lookupType($obj_id);
         $obj_title = ilObject::_lookupTitle($obj_id);
             
@@ -130,10 +130,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
         if ($a_set["user_id"] > 0) {
             $this->tpl->setCurrentBlock("user_info");
             if ($obj_type === "frm") {
-                if (ilForumProperties::_isAnonymized($a_set["context_obj_id"])) {
+                if (ilForumProperties::_isAnonymized((int) $a_set["context_obj_id"])) {
                     if ($a_set["context_sub_obj_type"] === "pos" &&
                         $a_set["context_sub_obj_id"] > 0) {
-                        $post = new ilForumPost($a_set["context_sub_obj_id"]);
+                        $post = new ilForumPost((int) $a_set["context_sub_obj_id"]);
                         if (is_string($post->getUserAlias()) && $post->getUserAlias() !== '') {
                             $this->tpl->setVariable("VAL_AUTHOR", ilUtil::stripSlashes($post->getUserAlias()));
                         } else {
@@ -142,24 +142,24 @@ class ilPDNewsTableGUI extends ilTable2GUI
                     } else {
                         $this->tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
                     }
-                } elseif (ilObject::_exists($a_set["user_id"])) {
-                    $user_obj = new ilObjUser($a_set["user_id"]);
+                } elseif (ilObject::_exists((int) $a_set["user_id"])) {
+                    $user_obj = new ilObjUser((int) $a_set["user_id"]);
                     $this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
                 }
-            } elseif (ilObject::_exists($a_set["user_id"])) {
-                $this->tpl->setVariable("VAL_AUTHOR", ilObjUser::_lookupLogin($a_set["user_id"]));
+            } elseif (ilObject::_exists((int) $a_set["user_id"])) {
+                $this->tpl->setVariable("VAL_AUTHOR", ilObjUser::_lookupLogin((int) $a_set["user_id"]));
             }
             $this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
             $this->tpl->parseCurrentBlock();
         }
         
         // media player
-        if ($a_set["content_type"] == NEWS_AUDIO &&
-            $a_set["mob_id"] > 0 && ilObject::_exists($a_set["mob_id"])) {
-            $mob = new ilObjMediaObject($a_set["mob_id"]);
+        if ($a_set["content_type"] === NEWS_AUDIO &&
+            $a_set["mob_id"] > 0 && ilObject::_exists((int) $a_set["mob_id"])) {
+            $mob = new ilObjMediaObject((int) $a_set["mob_id"]);
             $med = $mob->getMediaItem("Standard");
             $mpl = new ilMediaPlayerGUI();
-            $mpl->setFile(ilObjMediaObject::_getDirectory($a_set["mob_id"]) . "/" .
+            $mpl->setFile(ilObjMediaObject::_getDirectory((int) $a_set["mob_id"]) . "/" .
                 $med->getLocation());
             $this->tpl->setCurrentBlock("player");
             $this->tpl->setVariable(
@@ -173,8 +173,8 @@ class ilPDNewsTableGUI extends ilTable2GUI
         if ($enable_internal_rss) {
             $this->tpl->setCurrentBlock("access");
             $this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
-            if ($a_set["visibility"] == NEWS_PUBLIC ||
-                ($a_set["priority"] == 0 &&
+            if ($a_set["visibility"] === NEWS_PUBLIC ||
+                ((int) $a_set["priority"] === 0 &&
                 ilBlockSetting::_lookup(
                     "news",
                     "public_notifications",
@@ -194,7 +194,11 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $this->tpl->setVariable(
                 "VAL_CONTENT",
                 nl2br($this->makeClickable(
-                    ilNewsItem::determineNewsContent($a_set["context_obj_type"], $a_set["content"], $a_set["content_text_is_lang_var"])
+                    ilNewsItem::determineNewsContent(
+                        $a_set["context_obj_type"],
+                        $a_set["content"],
+                        (bool) $a_set["content_text_is_lang_var"]
+                    )
                 ))
             );
             $this->tpl->parseCurrentBlock();
@@ -219,7 +223,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         if ($obj_type === "frm" && $a_set["context_sub_obj_type"] === "pos"
             && $a_set["context_sub_obj_id"] > 0) {
             $pos = $a_set["context_sub_obj_id"];
-            $thread = ilObjForumAccess::_getThreadForPosting($pos);
+            $thread = ilObjForumAccess::_getThreadForPosting((int) $pos);
             if ($thread > 0) {
                 $add = "_" . $thread . "_" . $pos;
             }
@@ -243,7 +247,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         // wiki hack, not nice
         if ($obj_type === "wiki" && $a_set["context_sub_obj_type"] === "wpg"
             && $a_set["context_sub_obj_id"] > 0) {
-            $wptitle = ilWikiPage::lookupTitle($a_set["context_sub_obj_id"]);
+            $wptitle = ilWikiPage::lookupTitle((int) $a_set["context_sub_obj_id"]);
             if ($wptitle != "") {
                 $add = "_" . ilWikiUtil::makeUrlTitle($wptitle);
             }

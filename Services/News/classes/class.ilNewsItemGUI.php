@@ -101,7 +101,7 @@ class ilNewsItemGUI
     {
         // check, if news item id belongs to context
         if (isset($this->news_item) && $this->news_item->getId() > 0
-            && ilNewsItem::_lookupContextObjId($this->news_item->getId()) != $this->getContextObjId()) {
+            && ilNewsItem::_lookupContextObjId($this->news_item->getId()) !== $this->getContextObjId()) {
             throw new ilException("News ID does not match object context.");
         }
 
@@ -216,7 +216,7 @@ class ilNewsItemGUI
         $text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content"), "news_content");
         $text_area->setInfo("");
         $text_area->setRequired(false);
-        $text_area->setRows("4");
+        $text_area->setRows(4);
         $form->addItem($text_area);
 
         // Property Visibility
@@ -297,9 +297,6 @@ class ilNewsItemGUI
             $this->news_item->setContent($form->getInput("news_content"));
             $this->news_item->setVisibility($form->getInput("news_visibility"));
 
-            //			$data = $form->getInput('media');
-            //			var_dump($data);
-
             $media = $_FILES["media"];
             if ($media["name"] != "") {
                 $mob = ilObjMediaObject::_saveTempFileAsMediaObject($media["name"], $media["tmp_name"], true);
@@ -311,11 +308,8 @@ class ilNewsItemGUI
             if (self::isRteActivated()) {
                 $this->news_item->setContentHtml(true);
             }
-            //$this->news_item->setContentLong($form->getInput("news_content_long"));
 
             // changed
-            //$this->news_item->setContextObjId($this->ctrl->getContextObjId());
-            //$this->news_item->setContextObjType($this->ctrl->getContextObjType());
             $this->news_item->setContextObjId($this->getContextObjId());
             $this->news_item->setContextObjType($this->getContextObjType());
             $this->news_item->setContextSubObjId($this->getContextSubObjId());
@@ -458,7 +452,7 @@ class ilNewsItemGUI
         }
 
         // check whether at least one item is selected
-        if (count($this->std_request->getNewsIds()) == 0) {
+        if (count($this->std_request->getNewsIds()) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
             return $this->editNews();
         }
@@ -502,16 +496,12 @@ class ilNewsItemGUI
 
         $block_gui = new ilNewsForContextBlockGUI();
 
-        //$block_gui->setParentClass("ilinfoscreengui");
-        //$block_gui->setParentCmd("showSummary");
         $block_gui->setEnableEdit($this->getEnableEdit());
 
 
         $news_item = new ilNewsItem();
 
         // changed
-        //$news_item->setContextObjId($this->ctrl->getContextObjId());
-        //$news_item->setContextObjType($this->ctrl->getContextObjType());
         $news_item->setContextObjId($this->getContextObjId());
         $news_item->setContextObjType($this->getContextObjType());
         $news_item->setContextSubObjId($this->getContextSubObjId());

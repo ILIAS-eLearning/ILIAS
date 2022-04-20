@@ -29,8 +29,7 @@ class ilNewsCache extends ilCache
 
         $this->settings = $DIC->settings();
         $news_set = new ilSetting("news");
-        $news_set->get("acc_cache_mins");
-        
+
         parent::__construct("ServicesNews", "News", true);
         $this->setExpiresAfter($news_set->get("acc_cache_mins") * 60);
         if ((int) $news_set->get("acc_cache_mins") === 0) {
