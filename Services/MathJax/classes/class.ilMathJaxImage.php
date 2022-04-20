@@ -73,7 +73,7 @@ class ilMathJaxImage
      */
     protected function di() : Container
     {
-        global $DIC;
+        global $DIC; //TODO-PHP8-REVIEW please move the usage of global $DIC to the constructor and init alle required attributes there.
         return $DIC;
     }
 
@@ -143,10 +143,10 @@ class ilMathJaxImage
         }
 
         $type = array("K", "M", "G", "T", "P", "E", "Z", "Y");
-        $size = $size / 1000;
+        $size /= 1000;
         $counter = 0;
         while ($size >= 1000) {
-            $size = $size / 1000;
+            $size /= 1000;
             $counter++;
         }
 

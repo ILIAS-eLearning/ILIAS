@@ -42,7 +42,7 @@ class ilMathJaxFactory
     public function template() : ilGlobalTemplateInterface
     {
         /** @var Container $DIC */
-        global $DIC;
+        global $DIC; //TODO-PHP8-REVIEW please move the usage of global $DIC to the constructor and init alle required attributes there.
         return $DIC->ui()->mainTemplate();
     }
 }
