@@ -69,29 +69,30 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $lng->loadLanguageModule("news");
         $ilHelp->addHelpSection("news_block");
         
-        $this->setBlockId($ilCtrl->getContextObjId());
+        $this->setBlockId((string) $ilCtrl->getContextObjId());
         $this->setLimit(5);
         $this->setEnableNumInfo(true);
         
-        $this->dynamic = false;
-        $this->acache = new ilNewsCache();
-        $cres = unserialize($this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()));
-        $this->cache_hit = false;
+        $this->dynamic = false;// TODO PHP8-REVIEW Property declared dynamically
+        $this->acache = new ilNewsCache();// TODO PHP8-REVIEW Property declared dynamically
+        $cres = unserialize(
+            $this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()),
+            ["allowed_classes" => false]
+        );
+        $this->cache_hit = false;// TODO PHP8-REVIEW Property declared dynamically
 
-        if ($this->acache->getLastAccessStatus() == "hit" && is_array($cres)) {
+        if ($this->acache->getLastAccessStatus() === "hit" && is_array($cres)) {
             self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
             $this->cache_hit = true;
         }
         if ($this->getDynamic() && !$this->cache_hit) {
             $this->dynamic = true;
-            $data = array();
+            $data = [];
+        } elseif (!empty(self::$st_data)) {
+            $data = self::$st_data;
         } else {
-            if (!empty(self::$st_data)) {
-                $data = self::$st_data;
-            } else {
-                $data = $this->getNewsData();
-                self::$st_data = $data;
-            }
+            $data = $this->getNewsData();
+            self::$st_data = $data;
         }
 
         $this->setTitle($lng->txt("news_internal_news"));
@@ -123,7 +124,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         // workaround, better: reduce constructor and introduce
         //$prevent_aggregation = $this->getProperty("prevent_aggregation");
         $prevent_aggregation = true;
-        if ($ilCtrl->getContextObjType() != "frm") {
+        if ($ilCtrl->getContextObjType() !== "frm") {
             $forum_grouping = true;
         } else {
             $forum_grouping = false;
@@ -165,7 +166,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $ilCtrl = $DIC->ctrl();
         
-        if ($ilCtrl->getCmdClass() == "ilnewsitemgui") {
+        if ($ilCtrl->getCmdClass() === "ilnewsitemgui") {
             return IL_SCREEN_FULL;
         }
         
@@ -228,7 +229,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $this->getBlockType(),
             "hide_news_block",
             0,
-            $this->block_id
+            (int) $this->block_id
         );
 
         if ($this->getProperty("title") != "") {
@@ -239,17 +240,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $this->getBlockType(),
             "public_feed",
             0,
-            $this->block_id
+            (int) $this->block_id
         );
-        if ($public_feed) {
-            if ($enable_internal_rss) {
-                // @todo: rss icon HTML: ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS)
-                $this->addBlockCommand(
-                    ILIAS_HTTP_PATH . "/feed.php?client_id=" . rawurlencode(CLIENT_ID) . "&" .
-                        "ref_id=" . $this->std_request->getRefId(),
-                    $lng->txt("news_feed_url")
-                );
-            }
+        if ($public_feed && $enable_internal_rss) {
+            // @todo: rss icon HTML: ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS)
+            $this->addBlockCommand(
+                ILIAS_HTTP_PATH . "/feed.php?client_id=" . rawurlencode(CLIENT_ID) . "&" .
+                    "ref_id=" . $this->std_request->getRefId(),
+                $lng->txt("news_feed_url")
+            );
         }
 
         // add edit commands
@@ -267,7 +266,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $ilCtrl->setParameter($this, "add_mode", "");
         }
 
-        if ($this->getProperty("settings") == true) {
+        if ($this->getProperty("settings")) {
             $ref_id = $this->std_request->getRefId();
             $obj_def = $DIC["objDefinition"];
             $obj_id = ilObject::_lookupObjectId($ref_id);
@@ -277,9 +276,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
             $ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
 
-            if (in_array($obj_class, ilNewsForContextBlockGUI::OBJECTS_WITH_NEWS_SUBTAB)) {
+            if (in_array($obj_class, self::OBJECTS_WITH_NEWS_SUBTAB)) {
                 $this->addBlockCommand(
-                    $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"), "show"),
+                    $ilCtrl->getLinkTargetByClass(["ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"], "show"),
                     $lng->txt("settings")
                 );
             } else {
@@ -297,27 +296,28 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $this->getBlockType(),
                 "hide_news_block",
                 0,
-                $this->block_id
+                (int) $this->block_id
             )) {
             return "";
         }
 
         // do not display empty news blocks for users
         // who do not have write permission
-        if (count($this->getData()) == 0 && !$this->getEnableEdit() &&
-            $this->getRepositoryMode() && !$this->dynamic
-            && (!$news_set->get("enable_rss_for_internal") ||
+        if (!$this->dynamic && !$this->getEnableEdit() && $this->getRepositoryMode() && count($this->getData()) === 0 &&
+            (
+                !$news_set->get("enable_rss_for_internal") ||
                 !ilBlockSetting::_lookup(
                     $this->getBlockType(),
                     "public_feed",
                     0,
-                    $this->block_id
-                ))) {
+                    (int) $this->block_id
+                )
+            )) {
             return "";
         }
 
         $en = "";
-        if ($ilUser->getPref("il_feed_js") == "n") {
+        if ($ilUser->getPref("il_feed_js") === "n") {// TODO PHP8-REVIEW This block can be removed
             //			$en = getJSEnabler();
         }
 
@@ -335,16 +335,16 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $this->getBlockType(),
             "view",
             $ilUser->getId(),
-            $this->block_id
+            (int) $this->block_id
         );
 
         // check whether notices and messages exist
         $got_notices = $got_messages = false;
         foreach ($this->data as $row) {
-            if ($row["priority"] == 0) {
+            if ((int) $row["priority"] === 0) {
                 $got_notices = true;
             }
-            if ($row["priority"] == 1) {
+            if ((int) $row["priority"] === 1) {
                 $got_messages = true;
             }
         }
@@ -414,7 +414,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $context_ref = $news["ref_id"];
             }
             
-            $lang_type = in_array($type, array("sahs", "lm", "htlm"))
+            $lang_type = in_array($type, ["sahs", "lm", "htlm"])
                 ? "lres"
                 : "obj_" . $type;
 
@@ -481,28 +481,28 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $tpl = new ilTemplate("tpl.show_news.html", true, true, "Services/News");
 
         // get current item in data set
-        $previous = $next = "";
+        $previous = "";
         reset($this->data);
         $c = current($this->data);
         $curr_cnt = 1;
 
-        while ($c["id"] > 0 &&
-             $c["id"] != $this->std_request->getNewsId()) {
+        while ($c["id"] > 0 && (int) $c["id"] !== $this->std_request->getNewsId()) {
             $previous = $c;
             $c = next($this->data);
             $curr_cnt++;
         }
 
         if (!is_array($c) && is_object($news) && $news->getId() > 0
-            && ilNewsItem::_lookupContextObjId($news->getId()) != $ilCtrl->getContextObjId()) {
+            && ilNewsItem::_lookupContextObjId($news->getId()) !== $ilCtrl->getContextObjId()) {
             throw new ilException("News ID does not match object context.");
         }
 
 
         // collect news items to show
-        $news_list = array();
+        $news_list = [];
         if (isset($c["aggregation"]) && is_array($c["aggregation"])) {	// we have an aggregation
-            $news_list[] = array("ref_id" => $c["agg_ref_id"],
+            $news_list[] = [
+                "ref_id" => $c["agg_ref_id"],
                 "agg_ref_id" => $c["agg_ref_id"],
                 "aggregation" => $c["aggregation"],
                 "user_id" => "",
@@ -516,7 +516,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "content_is_lang_var" => false,
                 "loc_context" => $this->std_request->getNewsContext(),
                 "context_obj_type" => $news->getContextObjType(),
-                "title" => "");
+                "title" => ""
+            ];
 
             foreach ($c["aggregation"] as $c_item) {
                 ilNewsItem::_setRead($ilUser->getId(), $c_item["id"]);
@@ -525,7 +526,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $news_list[] = $c_item;
             }
         } else {								// no aggregation, simple news item
-            $news_list[] = array(
+            $news_list[] = [
                 "id" => $news->getId(),
                 "ref_id" => $this->std_request->getNewsContext(),
                 "user_id" => $news->getUserId(),
@@ -543,14 +544,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "content_is_lang_var" => $news->getContentIsLangVar(),
                 "content_text_is_lang_var" => $news->getContentTextIsLangVar(),
                 "loc_context" => $this->std_request->getNewsContext(),
-                "title" => $news->getTitle());
+                "title" => $news->getTitle()
+            ];
             ilNewsItem::_setRead($ilUser->getId(), $this->std_request->getNewsId());
         }
 
         $row_css = "";
         $cache_deleted = false;
         foreach ($news_list as $item) {
-            $row_css = ($row_css != "tblrow1")
+            $row_css = ($row_css !== "tblrow1")
                     ? "tblrow1"
                     : "tblrow2";
 
@@ -589,14 +591,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             // media player
             $ui_renderer = $this->ui->renderer();
             $ui_factory = $this->ui->factory();
-            $this->ui->factory();
-            if ($item["mob_id"] > 0 && ilObject::_exists($item["mob_id"])) {
-                $media_path = $this->getMediaPath($item["mob_id"]);
+
+            if ($item["mob_id"] > 0 && ilObject::_exists((int) $item["mob_id"])) {
+                $media_path = $this->getMediaPath((int) $item["mob_id"]);
                 $mime = ilObjMediaObject::getMimeType($media_path);
-                if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+                if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
                     $title = basename($media_path);
                     $html = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
-                } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
+                } elseif (in_array($mime, ["audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"])) {
                     $mp = new ilMediaPlayerGUI();
                     $mp->setFile($media_path);
                     $mp->setDisplayHeight(200);
@@ -620,8 +622,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $obj_id = ilObject::_lookupObjId($item["ref_id"]);
                 $tpl->setCurrentBlock("access");
                 $tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
-                if ($item["visibility"] == NEWS_PUBLIC ||
-                    ($item["priority"] == 0 &&
+                if ($item["visibility"] === NEWS_PUBLIC ||
+                    ((int) $item["priority"] === 0 &&
                     ilBlockSetting::_lookup(
                         "news",
                         "public_notifications",
@@ -674,7 +676,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $obj_title = ilObject::_lookupTitle($obj_id);
                 
                 // file hack, not nice
-                if ($obj_type == "file") {
+                if ($obj_type === "file") {
                     $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $item["ref_id"]);
                     $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
                     $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
@@ -690,7 +692,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 
                 // forum hack, not nice
                 $add = "";
-                if ($obj_type == "frm" && $item["context_sub_obj_type"] == "pos"
+                if ($obj_type === "frm" && $item["context_sub_obj_type"] === "pos"
                     && $item["context_sub_obj_id"] > 0) {
                     $pos = $item["context_sub_obj_id"];
                     $thread = ilObjForumAccess::_getThreadForPosting($pos);
@@ -700,7 +702,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
 
                 // wiki hack, not nice
-                if ($obj_type == "wiki" && $item["context_sub_obj_type"] == "wpg"
+                if ($obj_type === "wiki" && $item["context_sub_obj_type"] === "wpg"
                     && $item["context_sub_obj_id"] > 0) {
                     $wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
                     if ($wptitle != "") {
@@ -712,14 +714,16 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $obj_type . "_" . $item["ref_id"] . $add;
 
                 // lm page hack, not nice
-                if (in_array($obj_type, array("lm")) && $item["context_sub_obj_type"] == "pg"
-                    && $item["context_sub_obj_id"] > 0) {
+                if (
+                    $item["context_sub_obj_type"] === "pg" &&
+                    $item["context_sub_obj_id"] > 0 &&
+                    in_array($obj_type, ["lm"], true)) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
                         "pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"];
                 }
                 
                 // blog posting hack, not nice
-                if ($obj_type == "blog" && $item["context_sub_obj_type"] == "blp"
+                if ($obj_type === "blog" && $item["context_sub_obj_type"] === "blp"
                     && $item["context_sub_obj_id"] > 0) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
                         "blog_" . $item["ref_id"] . "_" . $item["context_sub_obj_id"];
@@ -815,7 +819,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         if ($mob_id > 0) {
             $mob = new ilObjMediaObject($mob_id);
             $med = $mob->getMediaItem("Standard");
-            if (strcasecmp("Reference", $med->getLocationType()) == 0) {
+            if (strcasecmp("Reference", $med->getLocationType()) === 0) {
                 $media_path = $med->getLocation();
             } else {
                 $media_path = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
@@ -845,7 +849,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             "view",
             "",
             $ilUser->getId(),
-            $this->block_id
+            (int) $this->block_id
         );
 
         // reload data
@@ -855,10 +859,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         if ($ilCtrl->isAsynch()) {
             echo $this->getHTML();
-            exit;
-        } else {
-            $ilCtrl->returnToParent($this);
+            exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
         }
+
+        $ilCtrl->returnToParent($this);
     }
     
     public function hideNotifications() : void
@@ -871,7 +875,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             "view",
             "hide_notifications",
             $ilUser->getId(),
-            $this->block_id
+            (int) $this->block_id
         );
 
         // reload data
@@ -881,10 +885,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         if ($ilCtrl->isAsynch()) {
             echo $this->getHTML();
-            exit;
-        } else {
-            $ilCtrl->returnToParent($this);
+            exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
         }
+
+        $ilCtrl->returnToParent($this);
     }
     
     /**
@@ -914,34 +918,34 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $this->getBlockType(),
             "public_notifications",
             0,
-            $this->block_id
+            (int) $this->block_id
         );
         $public_feed = ilBlockSetting::_lookup(
             $this->getBlockType(),
             "public_feed",
             0,
-            $this->block_id
+            (int) $this->block_id
         );
         $hide_block = ilBlockSetting::_lookup(
             $this->getBlockType(),
             "hide_news_block",
             0,
-            $this->block_id
+            (int) $this->block_id
         );
         $hide_news_per_date = ilBlockSetting::_lookup(
             $this->getBlockType(),
             "hide_news_per_date",
             0,
-            $this->block_id
+            (int) $this->block_id
         );
         $hide_news_date = ilBlockSetting::_lookup(
             $this->getBlockType(),
             "hide_news_date",
             0,
-            $this->block_id
+            (int) $this->block_id
         );
 
-        if ($hide_news_date != "") {
+        if (is_string($hide_news_date) && $hide_news_date !== '') {
             $hide_news_date = explode(" ", $hide_news_date);
         }
 
@@ -955,7 +959,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "hide_news_block"
             );
             $ch->setInfo($lng->txt("news_hide_news_block_info"));
-            $ch->setChecked($hide_block);
+            $ch->setChecked((bool) $hide_block);
             $this->settings_form->addItem($ch);
             
             $hnpd = new ilCheckboxInputGUI(
@@ -963,33 +967,29 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "hide_news_per_date"
             );
             $hnpd->setInfo($lng->txt("news_hide_news_per_date_info"));
-            $hnpd->setChecked($hide_news_per_date);
+            $hnpd->setChecked((bool) $hide_news_per_date);
             
             $dt_prop = new ilDateTimeInputGUI(
                 $lng->txt("news_hide_news_date"),
                 "hide_news_date"
             );
             $dt_prop->setRequired(true);
-            if ($hide_news_date != "") {
+            if (is_array($hide_news_date) && count($hide_news_date) === 2) {
                 $dt_prop->setDate(new ilDateTime($hide_news_date[0] . ' ' . $hide_news_date[1], IL_CAL_DATETIME));
             }
-            #$dt_prop->setDate($hide_news_date[0]);
-            #$dt_prop->setTime($hide_news_date[1]);
             $dt_prop->setShowTime(true);
-            //$dt_prop->setInfo($lng->txt("news_hide_news_date_info"));
             $hnpd->addSubItem($dt_prop);
                 
             $this->settings_form->addItem($hnpd);
         }
 
         // default visibility
-        if ($this->getProperty("default_visibility_option") &&
-            $enable_internal_rss) {
+        if ($enable_internal_rss && $this->getProperty("default_visibility_option")) {
             $default_visibility = ilBlockSetting::_lookup(
                 $this->getBlockType(),
                 "default_visibility",
                 0,
-                $this->block_id
+                (int) $this->block_id
             );
             if ($default_visibility == "") {
                 $default_visibility =
@@ -1009,14 +1009,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         }
 
         // public notifications
-        if ($this->getProperty("public_notifications_option") &&
-            $enable_internal_rss) {
+        if ($enable_internal_rss && $this->getProperty("public_notifications_option")) {
             $ch = new ilCheckboxInputGUI(
                 $lng->txt("news_notifications_public"),
                 "notifications_public"
             );
             $ch->setInfo($lng->txt("news_notifications_public_info"));
-            $ch->setChecked($public);
+            $ch->setChecked((bool) $public);
             $this->settings_form->addItem($ch);
         }
 
@@ -1027,18 +1026,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "notifications_public_feed"
             );
             $ch->setInfo($lng->txt("news_public_feed_info"));
-            $ch->setChecked($public_feed);
+            $ch->setChecked((bool) $public_feed);
             $this->settings_form->addItem($ch);
         }
 
-        
-        //$this->settings_form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
-        //	"1", $public_feed, $lng->txt("news_public_feed_info"));
-        //if ($this->getProperty("public_notifications_option"))
-        //{
-        //	$this->settings_form->addCheckboxProperty($lng->txt("news_notifications_public"), "notifications_public",
-        //		"1", $public, $lng->txt("news_notifications_public_info"));
-        //}
         $this->settings_form->addCommandButton("saveSettings", $lng->txt("save"));
         $this->settings_form->addCommandButton("cancelSettings", $lng->txt("cancel"));
         $this->settings_form->setFormAction($ilCtrl->getFormAction($this));
@@ -1062,7 +1053,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
-        //$public_notification = ilBlockSetting::_lookup(self::$block_type, "public_notifications",0, $block_id);
         $public_feed = ilBlockSetting::_lookup(
             self::$block_type,
             "public_feed",
@@ -1130,21 +1120,21 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     "public_notifications",
                     $form->getInput("notifications_public"),
                     0,
-                    $this->block_id
+                    (int) $this->block_id
                 );
                 ilBlockSetting::_write(
                     $this->getBlockType(),
                     "public_feed",
                     $form->getInput("notifications_public_feed"),
                     0,
-                    $this->block_id
+                    (int) $this->block_id
                 );
                 ilBlockSetting::_write(
                     $this->getBlockType(),
                     "default_visibility",
                     $form->getInput("default_visibility"),
                     0,
-                    $this->block_id
+                    (int) $this->block_id
                 );
             }
             
@@ -1154,26 +1144,26 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     "hide_news_block",
                     $form->getInput("hide_news_block"),
                     0,
-                    $this->block_id
+                    (int) $this->block_id
                 );
                 ilBlockSetting::_write(
                     $this->getBlockType(),
                     "hide_news_per_date",
                     $form->getInput("hide_news_per_date"),
                     0,
-                    $this->block_id
+                    (int) $this->block_id
                 );
 
                 // hide date
                 $hd = $this->settings_form->getItemByPostVar("hide_news_date");
                 $hide_date = $hd->getDate();
-                if ($form->getInput("hide_news_per_date") && $hide_date != null) {
+                if ($hide_date instanceof ilDateTime && $form->getInput("hide_news_per_date")) {
                     ilBlockSetting::_write(
                         $this->getBlockType(),
                         "hide_news_date",
                         $hide_date->get(IL_CAL_DATETIME),
                         0,
-                        $this->block_id
+                        (int) $this->block_id
                     );
                 } else {
                     ilBlockSetting::_write(
@@ -1181,7 +1171,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                         "hide_news_date",
                         "",
                         0,
-                        $this->block_id
+                        (int) $this->block_id
                     );
                 }
             }
@@ -1202,7 +1192,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $lng = $this->lng;
         $ilUser = $this->user;
         
-        $title = ilObject::_lookupTitle($this->block_id);
+        $title = ilObject::_lookupTitle((int) $this->block_id);
         
         $tpl = new ilTemplate("tpl.show_feed_url.html", true, true, "Services/News");
         $tpl->setVariable(
@@ -1241,19 +1231,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             return false;
         }
 
-        if ($ilCtrl->getCmd() == "hideNotifications" ||
-            $ilCtrl->getCmd() == "showNotifications") {
+        if ($ilCtrl->getCmd() === "hideNotifications" ||
+            $ilCtrl->getCmd() === "showNotifications") {
             return false;
         }
         
-        if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS") {
+        if ($ilCtrl->getCmdClass() !== "ilcolumngui" && $ilCtrl->getCmd() !== "enableJS") {
             $sess_feed_js = "";
             if (ilSession::get("il_feed_js") != "") {
                 $sess_feed_js = ilSession::get("il_feed_js");
             }
             
-            if ($sess_feed_js != "n" &&
-                ($ilUser->getPref("il_feed_js") != "n" || $sess_feed_js == "y")) {
+            if ($sess_feed_js !== "n" &&
+                ($ilUser->getPref("il_feed_js") !== "n" || $sess_feed_js === "y")) {
                 // do not get feed dynamically, if cache hit is given.
                 //				if (!$this->feed->checkCacheHit())
                 //				{
@@ -1308,7 +1298,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $rel_tpl->setVariable("BLOCK_ID", "block_" . $this->getBlockType() . "_" . $this->getBlockId());
         $rel_tpl->setVariable(
             "TARGET",
-            $ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "enableJS", true, "", false)
+            $ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "enableJS", true, "", false)// TODO PHP8-REVIEW I am not 100% sure here, but the passed types do not match the defined paraemters
         );
             
         return $rel_tpl->get();
@@ -1331,15 +1321,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         ilSession::set("il_feed_js", "y");
         $ilUser->writePref("il_feed_js", "y");
         echo $this->getHTML();
-        exit;
+        exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
     }
 
     //
     // New rendering
     //
 
-    protected $new_rendering = true;
-
+    protected $new_rendering = true;// TODO PHP8-REVIEW I suggest to move this to the top of the class
 
     protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
@@ -1348,10 +1337,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $props = [
             $this->lng->txt("date") => $info["creation_date"]
         ];
-
-
-        // @todo: fix this
-        // $info["user_read"]
 
         $factory = $this->ui->factory();
         $item = $factory->item()->standard($factory->link()->standard($info["news_title"], $info["url"]))

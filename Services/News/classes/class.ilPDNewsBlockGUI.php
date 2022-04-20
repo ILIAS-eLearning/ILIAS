@@ -54,16 +54,16 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         );
 
         $this->acache = new ilNewsCache();
-        $cres = unserialize($this->acache->getEntry($this->user->getId() . ":0"));
+        $cres = unserialize($this->acache->getEntry($this->user->getId() . ":0"), ["allowed_classes" => false]);
         $this->cache_hit = false;
-        if ($this->acache->getLastAccessStatus() == "hit" && is_array($cres)) {
+        if (is_array($cres) && $this->acache->getLastAccessStatus() === "hit") {
             self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
             $this->cache_hit = true;
         }
 
-        if ($this->getDynamic() && !$this->cache_hit) {
+        if (!$this->cache_hit && $this->getDynamic()) {
             $this->dynamic = true;
-            $data = array();
+            $data = [];
         } else {
             // do not ask two times for the data (e.g. if user displays a
             // single item on the personal desktop and the news block is
@@ -112,11 +112,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
     public function getBlockType() : string
     {
         return self::$block_type;
-    }
-
-    protected function isRepositoryObject() : bool
-    {
-        return false;
     }
 
     public static function getScreenMode() : string
@@ -194,7 +189,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         }
 
         $en = "";
-        if ($ilUser->getPref("il_feed_js") == "n") {
+        if ($ilUser->getPref("il_feed_js") === "n") {
             $en = $this->getJSEnabler();
         }
 
@@ -216,7 +211,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             $tpl->setVariable("TXT_PRIV_TITLE", $lng->txt("news_get_priv_feed_title"));
             
             // #14365
-            if ($ilUser->_getFeedPass($GLOBALS['DIC']['ilUser']->getId())) {
+            if (ilObjUser::_getFeedPass($GLOBALS['DIC']['ilUser']->getId())) {
                 $tpl->setVariable("TXT_PRIV_INFO", $lng->txt("news_get_priv_feed_info"));
                 $tpl->setVariable("TXT_PRIV_FEED_URL", $lng->txt("news_feed_url"));
                 $tpl->setVariable(
@@ -258,11 +253,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         return $content_block->getHTML();
     }
 
-    public function showNews() : string
-    {
-        return parent::showNews();
-    }
-
     public function editSettings(ilPropertyFormGUI $a_private_form = null) : string
     {
         $ilUser = $this->user;
@@ -285,7 +275,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
             $form->setTableWidth("100%");
 
-            $per_opts = array(
+            $per_opts = [
                 2 => "2 " . $lng->txt("days"),
                 3 => "3 " . $lng->txt("days"),
                 5 => "5 " . $lng->txt("days"),
@@ -295,9 +285,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 60 => "2 " . $lng->txt("months"),
                 120 => "4 " . $lng->txt("months"),
                 180 => "6 " . $lng->txt("months"),
-                366 => "1 " . $lng->txt("year"));
+                366 => "1 " . $lng->txt("year")
+            ];
 
-            $unset = array();
+            $unset = [];
             foreach ($per_opts as $k => $opt) {
                 if (!$allow_shorter_periods && ($k < $default_per)) {
                     $unset[$k] = $k;
@@ -314,18 +305,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 $lng->txt("news_pd_period"),
                 "news_pd_period"
             );
-            //$per_sel->setInfo($lng->txt("news_pd_period_info"));
             $per_sel->setOptions($per_opts);
-            $per_sel->setValue($per);
+            $per_sel->setValue((string) $per);
             $form->addItem($per_sel);
         
-            //$form->addCheckboxProperty($lng->txt("news_public_feed"), "notifications_public_feed",
-            //	"1", $public_feed, $lng->txt("news_public_feed_info"));
-            //if ($this->getProperty("public_notifications_option"))
-            //{
-            //	$form->addCheckboxProperty($lng->txt("news_notifications_public"), "notifications_public",
-            //		"1", $public, $lng->txt("news_notifications_public_info"));
-            //}
             $form->addCommandButton("saveSettings", $lng->txt("save"));
             $form->addCommandButton("cancelSettings", $lng->txt("cancel"));
             
@@ -336,7 +319,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             if (!$a_private_form) {
                 $a_private_form = $this->initPrivateSettingsForm();
             }
-            $returnForm .= ($returnForm == "")
+            $returnForm .= ($returnForm === "")
                 ? $a_private_form->getHTML()
                 : "<br>" . $a_private_form->getHTML();
         }
@@ -357,7 +340,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         $feed_form->setTableWidth("100%");
 
         $enable_private_feed = new ilCheckboxInputGUI($lng->txt("news_enable_private_feed"), "enable_private_feed");
-        $enable_private_feed->setChecked($ilUser->_getFeedPass($ilUser->getId()));
+        $enable_private_feed->setChecked((bool) ilObjUser::_getFeedPass($ilUser->getId()));
         $feed_form->addItem($enable_private_feed);
 
         $passwd = new ilPasswordInputGUI($lng->txt("password"), "desired_password");
@@ -371,13 +354,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         return $feed_form;
     }
 
-    public function cancelSettings() : void
-    {
-        $ilCtrl = $this->ctrl;
-        
-        $ilCtrl->returnToParent($this);
-    }
-    
     public function saveSettings() : string
     {
         $ilCtrl = $this->ctrl;
@@ -390,7 +366,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             "news_pd_period",
             $this->std_request->getDashboardPeriod(),
             $ilUser->getId(),
-            $this->block_id
+            (int) $this->block_id// TODO PHP8-REVIEW Not sure about this cast, but an int is exptected and a string is passed
         );
         
         $cache = new ilNewsCache();
@@ -410,7 +386,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         if ($form->checkInput()) {
             // Deactivate private Feed - just delete the password
             if (!$form->getInput("enable_private_feed")) {
-                $ilUser->_setFeedPass($ilUser->getId(), "");
+                ilObjUser::_setFeedPass($ilUser->getId(), "");
                 $this->main_tpl->setOnScreenMessage('success', $lng->txt("priv_feed_disabled"), true);
                 // $ilCtrl->returnToParent($this);
                 $ilCtrl->redirect($this, "showFeedUrl");
@@ -420,7 +396,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                     $form->getItemByPostVar("desired_password")->setAlert($lng->txt("passwd_equals_ilpasswd"));
                     $this->main_tpl->setOnScreenMessage('failure', $lng->txt("form_input_not_valid"));
                 } else {
-                    $ilUser->_setFeedPass($ilUser->getId(), $passwd);
+                    ilObjUser::_setFeedPass($ilUser->getId(), $passwd);
                     $this->main_tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
                     $ilCtrl->redirect($this, "showFeedUrl");
                 }
