@@ -31,6 +31,12 @@ interface Standard extends Page, JavaScriptBindable
 
     public function withResponsiveLogo(Image $logo) : Standard;
 
+    /**
+     * @param string $path relative path to the favicon being shown in the browsers tab
+     * @return Standard
+     */
+    public function withFaviconPath(string $path) : Standard;
+
     public function hasMetabar() : bool;
 
     public function hasMainbar() : bool;
@@ -50,6 +56,8 @@ interface Standard extends Page, JavaScriptBindable
     public function getLogo() : ?Image;
 
     public function getResponsiveLogo() : ?Image;
+
+    public function getFaviconPath() : ?string;
 
     public function getOverlay() : ?Container;
 

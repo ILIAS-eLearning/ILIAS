@@ -46,6 +46,7 @@ class StandardPageBuilder implements PageBuilder
         $bread_crumbs = $parts->getBreadCrumbs();
         $header_image = $parts->getLogo();
         $responsive_header_image = $parts->getResponsiveLogo();
+        $favicon_path = $parts->getFaviconPath();
         $footer = $parts->getFooter();
         $title = $parts->getTitle();
         $short_title = $parts->getShortTitle();
@@ -58,6 +59,7 @@ class StandardPageBuilder implements PageBuilder
             $bread_crumbs,
             $header_image,
             $responsive_header_image,
+            $favicon_path,
             $this->ui->factory()->toast()->container(),
             $footer,
             $title,

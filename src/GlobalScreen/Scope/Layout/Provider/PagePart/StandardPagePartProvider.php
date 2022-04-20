@@ -195,6 +195,14 @@ class StandardPagePartProvider implements PagePartProvider
                         ->withAction($this->getStartingPointAsUrl());
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getFaviconPath() : string
+    {
+        return ilUtil::getImagePath("favicon.ico");
+    }
+
     protected function getStartingPointAsUrl() : string
     {
         $std_logo_link = ilUserUtil::getStartingPointAsUrl();

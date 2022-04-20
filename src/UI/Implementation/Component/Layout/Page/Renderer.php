@@ -38,6 +38,8 @@ class Renderer extends AbstractComponentRenderer
     ) : string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
+        $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
+
         if ($component->hasOverlay()) {
             $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
         }
