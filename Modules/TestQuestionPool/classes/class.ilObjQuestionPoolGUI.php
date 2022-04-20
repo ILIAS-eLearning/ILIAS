@@ -177,6 +177,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 break;
                 
             case "ilassquestionpagegui":
+                if($cmd == 'finishEditing') {
+                    $this->ctrl->redirectByClass('ilassquestionpreviewgui','show');
+                    break;
+                }
                 include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $this->tpl->setCurrentBlock("ContentStyle");
                 $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
@@ -400,6 +404,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                     }
                 }
                 $q_gui->setQuestionTabs();
+
                 global $DIC;
                 $ilHelp = $DIC['ilHelp'];
                 $ilHelp->setScreenIdComponent("qpl");
@@ -1327,9 +1332,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     */
     public function &editQuestionForTestObject()
     {
+        global $DIC;
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = &assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
-        $this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
+        $p_gui = new ilAssQuestionPreviewGUI($this->ctrl,$this->tabs_gui,$this->tpl,$this->lng,$DIC->database(),$DIC->user());
+        $this->ctrl->redirectByClass(get_class($p_gui), "show");
     }
 
     protected function initImportForm($a_new_type)

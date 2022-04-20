@@ -1952,36 +1952,7 @@ abstract class assQuestionGUI
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    $force_active
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            $force_active = false;
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                $this->getEditQuestionTabCommands(),
-                $classname,
-                "",
-                $force_active
-            );
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -2105,14 +2076,14 @@ abstract class assQuestionGUI
         $tabs->addTarget('tst_question_hints_tab', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
     }
     
-    protected function addTab_QuestionPreview(ilTabsGUI $tabsGUI)
+    protected function addTab_Question(ilTabsGUI $tabsGUI)
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
 
         $tabsGUI->addTarget(
-            ilAssQuestionPreviewGUI::TAB_ID_QUESTION_PREVIEW,
+            ilAssQuestionPreviewGUI::TAB_ID_QUESTION,
             $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW),
-            array(),
+            'editQuestion',
             array('ilAssQuestionPreviewGUI')
         );
     }
