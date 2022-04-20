@@ -378,28 +378,28 @@ class ilNewsItem
 
         // insert new record into db
         $this->setId($ilDB->nextId("il_news_item"));
-        $ilDB->insert("il_news_item", array(
-            "id" => array("integer", $this->getId()),
-            "title" => array("text", $this->getTitle()),
-            "content" => array("clob", $this->getContent()),
-            "content_html" => array("integer", (int) $this->getContentHtml()),
-            "context_obj_id" => array("integer", $this->getContextObjId()),
-            "context_obj_type" => array("text", $this->getContextObjType()),
-            "context_sub_obj_id" => array("integer", $this->getContextSubObjId()),
-            "context_sub_obj_type" => array("text", $this->getContextSubObjType()),
-            "content_type" => array("text", $this->getContentType()),
-            "creation_date" => array("timestamp", ilUtil::now()),
-            "update_date" => array("timestamp", ilUtil::now()),
-            "user_id" => array("integer", $this->getUserId()),
-            "update_user_id" => array("integer", $this->getUpdateUserId()),
-            "visibility" => array("text", $this->getVisibility()),
-            "content_long" => array("clob", $this->getContentLong()),
-            "priority" => array("integer", $this->getPriority()),
-            "content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
-            "content_text_is_lang_var" => array("integer", (int) $this->getContentTextIsLangVar()),
-            "mob_id" => array("integer", $this->getMobId()),
-            "playtime" => array("text", $this->getPlaytime())
-        ));
+        $ilDB->insert("il_news_item", [
+            "id" => ["integer", $this->getId()],
+            "title" => ["text", $this->getTitle()],
+            "content" => ["clob", $this->getContent()],
+            "content_html" => ["integer", (int) $this->getContentHtml()],
+            "context_obj_id" => ["integer", $this->getContextObjId()],
+            "context_obj_type" => ["text", $this->getContextObjType()],
+            "context_sub_obj_id" => ["integer", $this->getContextSubObjId()],
+            "context_sub_obj_type" => ["text", $this->getContextSubObjType()],
+            "content_type" => ["text", $this->getContentType()],
+            "creation_date" => ["timestamp", ilUtil::now()],
+            "update_date" => ["timestamp", ilUtil::now()],
+            "user_id" => ["integer", $this->getUserId()],
+            "update_user_id" => ["integer", $this->getUpdateUserId()],
+            "visibility" => ["text", $this->getVisibility()],
+            "content_long" => ["clob", $this->getContentLong()],
+            "priority" => ["integer", $this->getPriority()],
+            "content_is_lang_var" => ["integer", $this->getContentIsLangVar()],
+            "content_text_is_lang_var" => ["integer", (int) $this->getContentTextIsLangVar()],
+            "mob_id" => ["integer", $this->getMobId()],
+            "playtime" => ["text", $this->getPlaytime()]
+        ]);
 
         
         $news_set = new ilSetting("news");
@@ -453,37 +453,37 @@ class ilNewsItem
     {
         $ilDB = $this->db;
 
-        $fields = array(
-            "title" => array("text", $this->getTitle()),
-            "content" => array("clob", $this->getContent()),
-            "content_html" => array("integer", (int) $this->getContentHtml()),
-            "context_obj_id" => array("integer", $this->getContextObjId()),
-            "context_obj_type" => array("text", $this->getContextObjType()),
-            "context_sub_obj_id" => array("integer", $this->getContextSubObjId()),
-            "context_sub_obj_type" => array("text", $this->getContextSubObjType()),
-            "content_type" => array("text", $this->getContentType()),
-            "user_id" => array("integer", $this->getUserId()),
-            "update_user_id" => array("integer", $this->getUpdateUserId()),
-            "visibility" => array("text", $this->getVisibility()),
-            "content_long" => array("clob", $this->getContentLong()),
-            "priority" => array("integer", $this->getPriority()),
-            "content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
-            "content_text_is_lang_var" => array("integer", (int) $this->getContentTextIsLangVar()),
-            "mob_id" => array("integer", $this->getMobId()),
-            "mob_cnt_play" => array("integer", $this->getMobPlayCounter()),
-            "mob_cnt_download" => array("integer", $this->getMobDownloadCounter()),
-            "playtime" => array("text", $this->getPlaytime())
-        );
+        $fields = [
+            "title" => ["text", $this->getTitle()],
+            "content" => ["clob", $this->getContent()],
+            "content_html" => ["integer", (int) $this->getContentHtml()],
+            "context_obj_id" => ["integer", $this->getContextObjId()],
+            "context_obj_type" => ["text", $this->getContextObjType()],
+            "context_sub_obj_id" => ["integer", $this->getContextSubObjId()],
+            "context_sub_obj_type" => ["text", $this->getContextSubObjType()],
+            "content_type" => ["text", $this->getContentType()],
+            "user_id" => ["integer", $this->getUserId()],
+            "update_user_id" => ["integer", $this->getUpdateUserId()],
+            "visibility" => ["text", $this->getVisibility()],
+            "content_long" => ["clob", $this->getContentLong()],
+            "priority" => ["integer", $this->getPriority()],
+            "content_is_lang_var" => ["integer", $this->getContentIsLangVar()],
+            "content_text_is_lang_var" => ["integer", (int) $this->getContentTextIsLangVar()],
+            "mob_id" => ["integer", $this->getMobId()],
+            "mob_cnt_play" => ["integer", $this->getMobPlayCounter()],
+            "mob_cnt_download" => ["integer", $this->getMobDownloadCounter()],
+            "playtime" => ["text", $this->getPlaytime()]
+        ];
 
         $now = ilUtil::now();
         if ($a_as_new) {
-            $fields["creation_date"] = array("timestamp", $now);
+            $fields["creation_date"] = ["timestamp", $now];
         }
-        $fields["update_date"] = array("timestamp", $now);
+        $fields["update_date"] = ["timestamp", $now];
 
-        $ilDB->update("il_news_item", $fields, array(
-            "id" => array("integer", $this->getId())
-        ));
+        $ilDB->update("il_news_item", $fields, [
+            "id" => ["integer", $this->getId()]
+        ]);
     }
 
 
@@ -511,7 +511,7 @@ class ilNewsItem
         // this is currently not used
         $ref_ids = [];
         
-        if (ilObjUser::_lookupPref($a_user_id, "pd_items_news") != "n") {
+        if (ilObjUser::_lookupPref($a_user_id, "pd_items_news") !== "n") {
             // get all items of the personal desktop
             $pd_items = $fav_rep->getFavouritesOfUser($a_user_id);
             foreach ($pd_items as $item) {
@@ -536,7 +536,7 @@ class ilNewsItem
             }
         }
         
-        $data = array();
+        $data = [];
 
         foreach ($ref_ids as $ref_id) {
             if (!$a_only_public) {
@@ -547,11 +547,11 @@ class ilNewsItem
                     continue;
                 }
             }
-            if (ilNewsItem::getPrivateFeedId() != false) {
+            if (self::getPrivateFeedId() != false) {
                 global $DIC;
 
                 $rbacsystem = $DIC->rbac()->system();
-                $acc = $rbacsystem->checkAccessOfUser(ilNewsItem::getPrivateFeedId(), "read", $ref_id);
+                $acc = $rbacsystem->checkAccessOfUser(self::getPrivateFeedId(), "read", $ref_id);
             
                 if (!$acc) {
                     continue;
@@ -577,7 +577,7 @@ class ilNewsItem
                 $a_cnt[$ref_id] = count($news);
             }
 
-            $data = ilNewsItem::mergeNews($data, $news);
+            $data = self::mergeNews($data, $news);
         }
 
         $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
@@ -603,14 +603,14 @@ class ilNewsItem
         bool $a_ignore_date_filter = false,
         int $a_user_id = null,
         int $a_limit = 0,
-        array $a_excluded = array()
+        array $a_excluded = []
     ) : array {
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
 
         // get starting date
         $starting_date = "";
-        if ($obj_type == "grp" || $obj_type == "crs") {
+        if ($obj_type === "grp" || $obj_type === "crs") {
             // see #31471, #30687, and ilMembershipNotification
             if (!ilContainer::_lookupContainerSetting(
                 $obj_id,
@@ -645,7 +645,7 @@ class ilNewsItem
             }
         }
 
-        if ($obj_type == "cat" && !$a_stopnesting) {
+        if ($obj_type === "cat" && !$a_stopnesting) {
             $news = $this->getAggregatedChildNewsData(
                 $a_ref_id,
                 $a_only_public,
@@ -654,7 +654,7 @@ class ilNewsItem
                 $starting_date,
                 $a_no_auto_generated
             );
-        } elseif (($obj_type == "grp" || $obj_type == "crs") &&
+        } elseif (($obj_type === "grp" || $obj_type === "crs") &&
             !$a_stopnesting) {
             $news = $this->getAggregatedNewsData(
                 $a_ref_id,
@@ -677,7 +677,7 @@ class ilNewsItem
                 $starting_date,
                 $a_no_auto_generated
             );
-            $unset = array();
+            $unset = [];
             foreach ($news as $k => $v) {
                 if (!$a_only_public || $v["visibility"] == NEWS_PUBLIC ||
                     ($v["priority"] == 0 &&
@@ -719,14 +719,14 @@ class ilNewsItem
         bool $a_no_auto_generated = false,
         int $a_user_id = null,
         int $a_limit = 0,
-        array $a_exclude = array()
+        array $a_exclude = []
     ) : array {
         $tree = $this->tree;
         $ilAccess = $this->access;
         $ilObjDataCache = $this->obj_data_cache;
         
         // get news of parent object
-        $data = array();
+        $data = [];
         
         // get subtree
         $cur_node = $tree->getNodeData($a_ref_id);
@@ -735,7 +735,7 @@ class ilNewsItem
         if ($cur_node) {
             $nodes = $tree->getSubTree($cur_node, true);
         } else {
-            $nodes = array();
+            $nodes = [];
         }
         
         // preload object data cache
@@ -753,11 +753,11 @@ class ilNewsItem
         }
         
         // no check, for which of the objects any news are available
-        $news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date);
+        $news_obj_ids = self::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date);
         //$news_obj_ids = $obj_ids;
         
         // get news for all subtree nodes
-        $contexts = array();
+        $contexts = [];
         foreach ($nodes as $node) {
             // only go on, if news are available
             if (!in_array($node["obj_id"], $news_obj_ids)) {
@@ -781,8 +781,10 @@ class ilNewsItem
             }
             
             $ref_id[$node["obj_id"]] = $node["child"];
-            $contexts[] = array("obj_id" => $node["obj_id"],
-                "obj_type" => $node["type"]);
+            $contexts[] = [
+                "obj_id" => $node["obj_id"],
+                "obj_type" => $node["type"]
+            ];
         }
         
         // sort and return
@@ -797,12 +799,12 @@ class ilNewsItem
             $a_exclude
         );
                 
-        $to_del = array();
+        $to_del = [];
         foreach ($news as $k => $v) {
             $news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
         }
         
-        $data = ilNewsItem::mergeNews($data, $news);
+        $data = self::mergeNews($data, $news);
         $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
         
         if (!$a_prevent_aggregation) {
@@ -819,8 +821,8 @@ class ilNewsItem
         array $news,
         bool $a_group_posting_sequence = false
     ) : array {
-        $to_del = array();
-        $forums = array();
+        $to_del = [];
+        $forums = [];
         $last_aggregation_forum = 0;
         
         // aggregate
@@ -830,7 +832,7 @@ class ilNewsItem
                 $forums[$last_aggregation_forum] = "";
             }
 
-            if ($v["context_obj_type"] == "frm") {
+            if ($v["context_obj_type"] === "frm") {
                 if ($forums[$v["context_obj_id"]] == "") {
                     // $forums[forum_id] = news_id;
                     $forums[$v["context_obj_id"]] = $k;
@@ -869,10 +871,10 @@ class ilNewsItem
         int $a_ref_id
     ) : array {
         $first_file = "";
-        $to_del = array();
+        $to_del = [];
         foreach ($news as $k => $v) {
             // aggregate file related news
-            if ($v["context_obj_type"] == "file") {
+            if ($v["context_obj_type"] === "file") {
                 if ($first_file == "") {
                     $first_file = $k;
                 } else {
@@ -926,15 +928,15 @@ class ilNewsItem
         $nodes = $tree->getChilds($a_ref_id);
         
         // no check, for which of the objects any news are available
-        $obj_ids = array();
+        $obj_ids = [];
         foreach ($nodes as $node) {
             $obj_ids[] = $node["obj_id"];
         }
-        $news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date);
+        $news_obj_ids = self::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date);
         //$news_obj_ids = $obj_ids;
 
         // get news for all subtree nodes
-        $contexts = array();
+        $contexts = [];
         foreach ($nodes as $node) {
             // only go on, if news are available
             if (!in_array($node["obj_id"], $news_obj_ids)) {
@@ -945,8 +947,10 @@ class ilNewsItem
                 continue;
             }
             $ref_id[$node["obj_id"]] = $node["child"];
-            $contexts[] = array("obj_id" => $node["obj_id"],
-                "obj_type" => $node["type"]);
+            $contexts[] = [
+                "obj_id" => $node["obj_id"],
+                "obj_type" => $node["type"]
+            ];
         }
         
         $news = $this->queryNewsForMultipleContexts(
@@ -959,7 +963,7 @@ class ilNewsItem
         foreach ($news as $k => $v) {
             $news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
         }
-        $data = ilNewsItem::mergeNews($data, $news);
+        $data = self::mergeNews($data, $news);
         
         // sort and return
         $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
@@ -1044,7 +1048,7 @@ class ilNewsItem
             ? " creation_date ASC, id ASC "
             : " creation_date DESC, id DESC ";
 
-        if ($a_for_rss_use && ilNewsItem::getPrivateFeedId() == false) {
+        if ($a_for_rss_use && self::getPrivateFeedId() == false) {
             $query = "SELECT * " .
                 "FROM il_news_item " .
                 " WHERE " .
@@ -1052,12 +1056,12 @@ class ilNewsItem
                     " AND context_obj_type = " . $ilDB->quote($this->getContextObjType(), "text") .
                     $and .
                     " ORDER BY " . $ordering;
-        } elseif (ilNewsItem::getPrivateFeedId() != false) {
+        } elseif (self::getPrivateFeedId() != false) {
             $query = "SELECT il_news_item.* " .
                 ", il_news_read.user_id user_read " .
                 "FROM il_news_item LEFT JOIN il_news_read " .
                 "ON il_news_item.id = il_news_read.news_id AND " .
-                " il_news_read.user_id = " . $ilDB->quote(ilNewsItem::getPrivateFeedId(), "integer") .
+                " il_news_read.user_id = " . $ilDB->quote(self::getPrivateFeedId(), "integer") .
                 " WHERE " .
                     "context_obj_id = " . $ilDB->quote($this->getContextObjId(), "integer") .
                     " AND context_obj_type = " . $ilDB->quote($this->getContextObjType(), "text") .
@@ -1077,12 +1081,12 @@ class ilNewsItem
         }
         //echo $query;
         $set = $ilDB->query($query);
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($a_limit > 0 && count($result) >= $a_limit) {
                 continue;
             }
-            if (!$a_for_rss_use || (ilNewsItem::getPrivateFeedId() != false) || ($rec["visibility"] == NEWS_PUBLIC ||
+            if (!$a_for_rss_use || (self::getPrivateFeedId() != false) || ($rec["visibility"] == NEWS_PUBLIC ||
                 ($rec["priority"] == 0 &&
                 ilBlockSetting::_lookup(
                     "news",
@@ -1130,7 +1134,7 @@ class ilNewsItem
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $news = array();
+        $news = [];
         $set = $ilDB->query("SELECT * FROM il_news_item " .
             " WHERE " . $ilDB->in("id", $a_news_ids, false, "integer"));
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -1148,7 +1152,7 @@ class ilNewsItem
     ) : array {
         $ilDB = $this->db;
         
-        $all = array();
+        $all = [];
 
         $limit_ts = self::handleTimePeriod($a_time_period);
 
@@ -1177,7 +1181,7 @@ class ilNewsItem
         bool $a_no_auto_generated = false,
         int $a_user_id = null,
         int $a_limit = 0,
-        array $a_exclude = array()
+        array $a_exclude = []
     ) : array {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -1204,27 +1208,27 @@ class ilNewsItem
             $and .= " AND " . $ilDB->in("id", $a_exclude, true, "integer") . " ";
         }
 
-        $ids = array();
-        $type = array();
+        $ids = [];
+        $type = [];
 
         foreach ($a_contexts as $cont) {
             $ids[] = $cont["obj_id"];
             $type[$cont["obj_id"]] = $cont["obj_type"];
         }
         
-        if ($a_for_rss_use && ilNewsItem::getPrivateFeedId() == false) {
+        if ($a_for_rss_use && self::getPrivateFeedId() == false) {
             $query = "SELECT * " .
                 "FROM il_news_item " .
                 " WHERE " .
                     $ilDB->in("context_obj_id", $ids, false, "integer") . " " .
                     $and .
                     " ORDER BY creation_date DESC ";
-        } elseif (ilNewsItem::getPrivateFeedId() != false) {
+        } elseif (self::getPrivateFeedId() != false) {
             $query = "SELECT il_news_item.* " .
                 ", il_news_read.user_id as user_read " .
                 "FROM il_news_item LEFT JOIN il_news_read " .
                 "ON il_news_item.id = il_news_read.news_id AND " .
-                " il_news_read.user_id = " . $ilDB->quote(ilNewsItem::getPrivateFeedId(), "integer") .
+                " il_news_read.user_id = " . $ilDB->quote(self::getPrivateFeedId(), "integer") .
                 " WHERE " .
                     $ilDB->in("context_obj_id", $ids, false, "integer") . " " .
                     $and .
@@ -1247,10 +1251,10 @@ class ilNewsItem
         }
 
         $set = $ilDB->query($query);
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($type[$rec["context_obj_id"]] == $rec["context_obj_type"]) {
-                if (!$a_for_rss_use || ilNewsItem::getPrivateFeedId() != false || ($rec["visibility"] == NEWS_PUBLIC ||
+                if (!$a_for_rss_use || self::getPrivateFeedId() != false || ($rec["visibility"] == NEWS_PUBLIC ||
                     ($rec["priority"] == 0 &&
                     ilBlockSetting::_lookup(
                         "news",
@@ -1282,11 +1286,11 @@ class ilNewsItem
         
         $ilDB->replace(
             "il_news_read",
-            array(
-                "user_id" => array("integer", $a_user_id),
-                "news_id" => array("integer", $a_news_id)
-                ),
-            array()
+            [
+                "user_id" => ["integer", $a_user_id],
+                "news_id" => ["integer", $a_news_id]
+            ],
+            []
         );
         
         /*
@@ -1300,7 +1304,7 @@ class ilNewsItem
         $ilAppEventHandler->raise(
             "Services/News",
             "readNews",
-            array("user_id" => $a_user_id, "news_ids" => array($a_news_id))
+            ["user_id" => $a_user_id, "news_ids" => [$a_news_id]]
         );
     }
     
@@ -1324,7 +1328,7 @@ class ilNewsItem
         $ilAppEventHandler->raise(
             "Services/News",
             "unreadNews",
-            array("user_id" => $a_user_id, "news_ids" => array($a_news_id))
+            ["user_id" => $a_user_id, "news_ids" => [$a_news_id]]
         );
     }
     
@@ -1362,7 +1366,7 @@ class ilNewsItem
             $path = $tree->getPathFull($a_ref_id);
             
             foreach ($path as $key => $row) {
-                if (!in_array($row["type"], array("root", "cat","crs", "fold", "grp"))) {
+                if (!in_array($row["type"], ["root", "cat", "crs", "fold", "grp"])) {
                     continue;
                 }
 
@@ -1551,7 +1555,7 @@ class ilNewsItem
         //" WHERE context_obj_id IN (".implode(ilUtil::quoteArray($a_obj_ids),",").")".$and;
 
         $set = $ilDB->query($query);
-        $objs = array();
+        $objs = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $objs[] = $rec["obj_id"];
         }
@@ -1606,7 +1610,7 @@ class ilNewsItem
             $cnt = count($a_aggregation);
             
             // forums
-            if ($a_context_obj_type == "frm") {
+            if ($a_context_obj_type === "frm") {
                 if ($cnt > 1) {
                     return sprintf($lng->txt("news_x_postings"), $cnt);
                 } else {
@@ -1615,7 +1619,7 @@ class ilNewsItem
             } else {	// files
                 $up_cnt = $cr_cnt = 0;
                 foreach ($a_aggregation as $item) {
-                    if ($item["title"] == "file_updated") {
+                    if ($item["title"] === "file_updated") {
                         $up_cnt++;
                     } else {
                         $cr_cnt++;
@@ -1642,9 +1646,9 @@ class ilNewsItem
                     return ilObjectPlugin::lookupTxtById($a_context_obj_type, $a_title);
                 }
                 return $lng->txt($a_title);
-            } else {
-                return $a_title;
             }
+
+            return $a_title;
         }
     }
 
@@ -1668,9 +1672,9 @@ class ilNewsItem
             }
             $lng->loadLanguageModule($a_context_obj_type);
             return $lng->txt($a_content);
-        } else {
-            return $a_content;
         }
+
+        return $a_content;
     }
 
     /**
@@ -1734,7 +1738,7 @@ class ilNewsItem
         $id = (int) $rec["id"];
         if ($a_only_today) {
             $now = ilUtil::now();
-            if (substr($now, 0, 10) != substr($rec["update_date"], 0, 10)) {
+            if (strpos($rec["update_date"], substr($now, 0, 10)) !== 0) {
                 $id = 0;
             }
         }
@@ -1758,10 +1762,10 @@ class ilNewsItem
             "WHERE " .
                 " mob_id = " . $ilDB->quote($a_mob_id, "integer");
                 
-        $usages = array();
+        $usages = [];
         $set = $ilDB->query($query);
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $usages[$rec["id"]] = array("type" => "news", "id" => $rec["id"]);
+            $usages[$rec["id"]] = ["type" => "news", "id" => $rec["id"]];
         }
         
         return $usages;
@@ -1809,7 +1813,7 @@ class ilNewsItem
         $news_set = new ilSetting("news");
         $allow_shorter_periods = $news_set->get("allow_shorter_periods");
         $allow_longer_periods = $news_set->get("allow_longer_periods");
-        $default_per = ilNewsItem::_lookupDefaultPDPeriod();
+        $default_per = self::_lookupDefaultPDPeriod();
         
         $per = ilBlockSetting::_lookup(
             "pdnews",
@@ -1847,7 +1851,7 @@ class ilNewsItem
      */
     public static function setPrivateFeedId(int $a_userId) : void
     {
-        ilNewsItem::$privFeedId = $a_userId;
+        self::$privFeedId = $a_userId;
     }
 
     /**
@@ -1855,7 +1859,7 @@ class ilNewsItem
      */
     public static function getPrivateFeedId() : int
     {
-        return ilNewsItem::$privFeedId;
+        return self::$privFeedId;
     }
     
     /**
@@ -1876,7 +1880,7 @@ class ilNewsItem
         }
         
         $m_item = $mob->getMediaItem($a_purpose);
-        if ($m_item->getLocationType() != "Reference") {
+        if ($m_item->getLocationType() !== "Reference") {
             $file = $mob_dir . "/" . $m_item->getLocation();
             if (file_exists($file) && is_file($file)) {
                 if ($a_increase_download_cnt) {
@@ -1884,17 +1888,17 @@ class ilNewsItem
                 }
                 ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
-            } else {
-                $this->main_tpl->setOnScreenMessage('failure', "File not found!", true);
-                return false;
             }
-        } else {
-            if ($a_increase_download_cnt) {
-                $this->increaseDownloadCounter();
-            }
-            ilUtil::redirect($m_item->getLocation());
+
+            $this->main_tpl->setOnScreenMessage('failure', "File not found!", true);
+            return false;
         }
-        return false;
+
+        if ($a_increase_download_cnt) {
+            $this->increaseDownloadCounter();
+        }
+
+        ilUtil::redirect($m_item->getLocation());
     }
     
     /**
@@ -1948,12 +1952,12 @@ class ilNewsItem
         $news_ids = array_keys($data);
         $set = $ilDB->query("SELECT id FROM il_news_item " .
             " WHERE " . $ilDB->in("id", $news_ids, false, "integer"));
-        $existing_ids = array();
+        $existing_ids = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $existing_ids[] = $rec["id"];
+            $existing_ids[] = (int) $rec["id"];
         }
         //var_dump($existing_ids);
-        $existing_news = array();
+        $existing_news = [];
         foreach ($data as $k => $v) {
             if (in_array($k, $existing_ids)) {
                 $existing_news[$k] = $v;

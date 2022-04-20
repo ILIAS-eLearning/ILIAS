@@ -98,7 +98,7 @@ class ilNewsTimelineGUI
             case "illikegui":
                 $i = new ilNewsItem($this->news_id);
                 $likef = new ilLikeFactoryGUI();
-                $like_gui = $likef->widget(array($i->getContextObjId()));
+                $like_gui = $likef->widget([$i->getContextObjId()]);
                 $ctrl->saveParameter($this, "news_id");
                 $like_gui->setObject(
                     $i->getContextObjId(),
@@ -127,7 +127,7 @@ class ilNewsTimelineGUI
                 break;
 
             default:
-                if (in_array($cmd, array("show", "save", "update", "loadMore", "remove", "updateNewsItem"))) {
+                if (in_array($cmd, ["show", "save", "update", "loadMore", "remove", "updateNewsItem"])) {
                     $this->$cmd();
                 }
         }
@@ -170,13 +170,13 @@ class ilNewsTimelineGUI
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
-        $js_items = array();
+        $js_items = [];
         foreach ($news_data as $d) {
             $news_item = new ilNewsItem($d["id"]);
             $item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"], $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
             $timeline->addItem($item);
-            $js_items[$d["id"]] = array(
+            $js_items[$d["id"]] = [
                 "id" => $d["id"],
                 "user_id" => $d["user_id"],
                 "title" => $d["title"],
@@ -186,7 +186,7 @@ class ilNewsTimelineGUI
                 "visibility" => $d["visibility"],
                 "content_type" => $d["content_type"],
                 "mob_id" => $d["mob_id"]
-            );
+            ];
         }
 
         $this->tpl->addOnLoadCode("il.News.setItems(" . json_encode($js_items, JSON_THROW_ON_ERROR) . ");");
@@ -238,19 +238,19 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(function ($a) {
+        $obj_ids = array_unique(array_map(static function ($a) {
             return $a["context_obj_id"];
         }, $news_data));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
-        $js_items = array();
+        $js_items = [];
         foreach ($news_data as $d) {
             $news_item = new ilNewsItem($d["id"]);
             $item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"], $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
             $timeline->addItem($item);
-            $js_items[$d["id"]] = array(
+            $js_items[$d["id"]] = [
                 "id" => $d["id"],
                 "user_id" => $d["user_id"],
                 "title" => $d["title"],
@@ -260,7 +260,7 @@ class ilNewsTimelineGUI
                 "visibility" => $d["visibility"],
                 "content_type" => $d["content_type"],
                 "mob_id" => $d["mob_id"]
-            );
+            ];
         }
 
         $obj = new stdClass();

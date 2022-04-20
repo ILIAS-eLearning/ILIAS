@@ -68,7 +68,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "news_edit_news_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
-                array("editSettings", "view")
+                ["editSettings", "view"]
             );
         }
 
@@ -76,7 +76,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
-                array(),
+                [],
                 'ilpermissiongui'
             );
         }
@@ -137,7 +137,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $form->addItem($radio_group);
 
         // Number of news items per object
-        $nr_opts = array(50 => 50, 100 => 100, 200 => 200);
+        $nr_opts = [50 => 50, 100 => 100, 200 => 200];
         $nr_sel = new ilSelectInputGUI(
             $lng->txt("news_nr_of_items"),
             "news_max_items"
@@ -148,7 +148,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $form->addItem($nr_sel);
 
         // Access Cache
-        $min_opts = array(0 => 0, 1 => 1, 2 => 2, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 60 => 60);
+        $min_opts = [0 => 0, 1 => 1, 2 => 2, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 60 => 60];
         $min_sel = new ilSelectInputGUI(
             $lng->txt("news_cache"),
             "news_acc_cache_mins"
@@ -159,10 +159,11 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $form->addItem($min_sel);
         
         // PD News Period
-        $per_opts = array(
+        $per_opts = [
             7 => "1 " . $lng->txt("week"),
             30 => "1 " . $lng->txt("month"),
-            366 => "1 " . $lng->txt("year"));
+            366 => "1 " . $lng->txt("year")
+        ];
         $per_sel = new ilSelectInputGUI(
             $lng->txt("news_pd_period"),
             "news_pd_period"
@@ -202,7 +203,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $cb_prop->setChecked($enable_internal_rss);
 
         // RSS News Period
-        $rssp_opts = array(
+        $rssp_opts = [
             2 => "2 " . $lng->txt("days"),
             3 => "3 " . $lng->txt("days"),
             5 => "5 " . $lng->txt("days"),
@@ -213,7 +214,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             120 => "4 " . $lng->txt("months"),
             180 => "6 " . $lng->txt("months"),
             365 => "1 " . $lng->txt("year")
-        );
+        ];
         $rssp_sel = new ilSelectInputGUI(
             $lng->txt("news_rss_period"),
             "news_rss_period"
@@ -228,10 +229,10 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $form->addItem($sh);
 
         // title format for rss entries
-        $options = array(
+        $options = [
             "" => $lng->txt("news_rss_title_format_obj_news"),
             "news_obj" => $lng->txt("news_rss_title_format_news_obj"),
-        );
+        ];
         $si = new ilSelectInputGUI($lng->txt("news_rss_title_format"), "rss_title_format");
         $si->setOptions($options);
         $si->setValue($rss_title_format);

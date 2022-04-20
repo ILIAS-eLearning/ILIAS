@@ -73,18 +73,21 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->setLimit(5);
         $this->setEnableNumInfo(true);
         
-        $this->dynamic = false;
-        $this->acache = new ilNewsCache();
-        $cres = unserialize($this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()));
-        $this->cache_hit = false;
+        $this->dynamic = false;// TODO PHP8-REVIEW Property declared dynamically
+        $this->acache = new ilNewsCache();// TODO PHP8-REVIEW Property declared dynamically
+        $cres = unserialize(
+            $this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()),
+            ["allowed_classes" => false]
+        );
+        $this->cache_hit = false;// TODO PHP8-REVIEW Property declared dynamically
 
-        if ($this->acache->getLastAccessStatus() == "hit" && is_array($cres)) {
+        if ($this->acache->getLastAccessStatus() === "hit" && is_array($cres)) {
             self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
             $this->cache_hit = true;
         }
         if ($this->getDynamic() && !$this->cache_hit) {
             $this->dynamic = true;
-            $data = array();
+            $data = [];
         } else {
             if (!empty(self::$st_data)) {
                 $data = self::$st_data;
@@ -123,7 +126,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         // workaround, better: reduce constructor and introduce
         //$prevent_aggregation = $this->getProperty("prevent_aggregation");
         $prevent_aggregation = true;
-        if ($ilCtrl->getContextObjType() != "frm") {
+        if ($ilCtrl->getContextObjType() !== "frm") {
             $forum_grouping = true;
         } else {
             $forum_grouping = false;
@@ -165,7 +168,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $ilCtrl = $DIC->ctrl();
         
-        if ($ilCtrl->getCmdClass() == "ilnewsitemgui") {
+        if ($ilCtrl->getCmdClass() === "ilnewsitemgui") {
             return IL_SCREEN_FULL;
         }
         
@@ -279,7 +282,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
             if (in_array($obj_class, ilNewsForContextBlockGUI::OBJECTS_WITH_NEWS_SUBTAB)) {
                 $this->addBlockCommand(
-                    $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"), "show"),
+                    $ilCtrl->getLinkTargetByClass(["ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"], "show"),
                     $lng->txt("settings")
                 );
             } else {
@@ -317,7 +320,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         }
 
         $en = "";
-        if ($ilUser->getPref("il_feed_js") == "n") {
+        if ($ilUser->getPref("il_feed_js") === "n") {
             //			$en = getJSEnabler();
         }
 
@@ -414,7 +417,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $context_ref = $news["ref_id"];
             }
             
-            $lang_type = in_array($type, array("sahs", "lm", "htlm"))
+            $lang_type = in_array($type, ["sahs", "lm", "htlm"])
                 ? "lres"
                 : "obj_" . $type;
 
@@ -494,15 +497,16 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         }
 
         if (!is_array($c) && is_object($news) && $news->getId() > 0
-            && ilNewsItem::_lookupContextObjId($news->getId()) != $ilCtrl->getContextObjId()) {
+            && ilNewsItem::_lookupContextObjId($news->getId()) !== $ilCtrl->getContextObjId()) {
             throw new ilException("News ID does not match object context.");
         }
 
 
         // collect news items to show
-        $news_list = array();
+        $news_list = [];
         if (isset($c["aggregation"]) && is_array($c["aggregation"])) {	// we have an aggregation
-            $news_list[] = array("ref_id" => $c["agg_ref_id"],
+            $news_list[] = [
+                "ref_id" => $c["agg_ref_id"],
                 "agg_ref_id" => $c["agg_ref_id"],
                 "aggregation" => $c["aggregation"],
                 "user_id" => "",
@@ -516,7 +520,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "content_is_lang_var" => false,
                 "loc_context" => $this->std_request->getNewsContext(),
                 "context_obj_type" => $news->getContextObjType(),
-                "title" => "");
+                "title" => ""
+            ];
 
             foreach ($c["aggregation"] as $c_item) {
                 ilNewsItem::_setRead($ilUser->getId(), $c_item["id"]);
@@ -525,7 +530,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $news_list[] = $c_item;
             }
         } else {								// no aggregation, simple news item
-            $news_list[] = array(
+            $news_list[] = [
                 "id" => $news->getId(),
                 "ref_id" => $this->std_request->getNewsContext(),
                 "user_id" => $news->getUserId(),
@@ -543,14 +548,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "content_is_lang_var" => $news->getContentIsLangVar(),
                 "content_text_is_lang_var" => $news->getContentTextIsLangVar(),
                 "loc_context" => $this->std_request->getNewsContext(),
-                "title" => $news->getTitle());
+                "title" => $news->getTitle()
+            ];
             ilNewsItem::_setRead($ilUser->getId(), $this->std_request->getNewsId());
         }
 
         $row_css = "";
         $cache_deleted = false;
         foreach ($news_list as $item) {
-            $row_css = ($row_css != "tblrow1")
+            $row_css = ($row_css !== "tblrow1")
                     ? "tblrow1"
                     : "tblrow2";
 
@@ -589,14 +595,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             // media player
             $ui_renderer = $this->ui->renderer();
             $ui_factory = $this->ui->factory();
-            $this->ui->factory();
-            if ($item["mob_id"] > 0 && ilObject::_exists($item["mob_id"])) {
-                $media_path = $this->getMediaPath($item["mob_id"]);
+
+            if ($item["mob_id"] > 0 && ilObject::_exists((int) $item["mob_id"])) {
+                $media_path = $this->getMediaPath((int) $item["mob_id"]);
                 $mime = ilObjMediaObject::getMimeType($media_path);
-                if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+                if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
                     $title = basename($media_path);
                     $html = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
-                } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
+                } elseif (in_array($mime, ["audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"])) {
                     $mp = new ilMediaPlayerGUI();
                     $mp->setFile($media_path);
                     $mp->setDisplayHeight(200);
@@ -674,7 +680,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $obj_title = ilObject::_lookupTitle($obj_id);
                 
                 // file hack, not nice
-                if ($obj_type == "file") {
+                if ($obj_type === "file") {
                     $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $item["ref_id"]);
                     $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
                     $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
@@ -690,7 +696,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 
                 // forum hack, not nice
                 $add = "";
-                if ($obj_type == "frm" && $item["context_sub_obj_type"] == "pos"
+                if ($obj_type === "frm" && $item["context_sub_obj_type"] === "pos"
                     && $item["context_sub_obj_id"] > 0) {
                     $pos = $item["context_sub_obj_id"];
                     $thread = ilObjForumAccess::_getThreadForPosting($pos);
@@ -700,7 +706,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
 
                 // wiki hack, not nice
-                if ($obj_type == "wiki" && $item["context_sub_obj_type"] == "wpg"
+                if ($obj_type === "wiki" && $item["context_sub_obj_type"] === "wpg"
                     && $item["context_sub_obj_id"] > 0) {
                     $wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
                     if ($wptitle != "") {
@@ -712,14 +718,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $obj_type . "_" . $item["ref_id"] . $add;
 
                 // lm page hack, not nice
-                if (in_array($obj_type, array("lm")) && $item["context_sub_obj_type"] == "pg"
+                if (in_array($obj_type, ["lm"]) && $item["context_sub_obj_type"] === "pg"
                     && $item["context_sub_obj_id"] > 0) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
                         "pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"];
                 }
                 
                 // blog posting hack, not nice
-                if ($obj_type == "blog" && $item["context_sub_obj_type"] == "blp"
+                if ($obj_type === "blog" && $item["context_sub_obj_type"] === "blp"
                     && $item["context_sub_obj_id"] > 0) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
                         "blog_" . $item["ref_id"] . "_" . $item["context_sub_obj_id"];
@@ -882,9 +888,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         if ($ilCtrl->isAsynch()) {
             echo $this->getHTML();
             exit;
-        } else {
-            $ilCtrl->returnToParent($this);
         }
+
+        $ilCtrl->returnToParent($this);
     }
     
     /**
@@ -1241,19 +1247,19 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             return false;
         }
 
-        if ($ilCtrl->getCmd() == "hideNotifications" ||
-            $ilCtrl->getCmd() == "showNotifications") {
+        if ($ilCtrl->getCmd() === "hideNotifications" ||
+            $ilCtrl->getCmd() === "showNotifications") {
             return false;
         }
         
-        if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS") {
+        if ($ilCtrl->getCmdClass() !== "ilcolumngui" && $ilCtrl->getCmd() !== "enableJS") {
             $sess_feed_js = "";
             if (ilSession::get("il_feed_js") != "") {
                 $sess_feed_js = ilSession::get("il_feed_js");
             }
             
-            if ($sess_feed_js != "n" &&
-                ($ilUser->getPref("il_feed_js") != "n" || $sess_feed_js == "y")) {
+            if ($sess_feed_js !== "n" &&
+                ($ilUser->getPref("il_feed_js") !== "n" || $sess_feed_js === "y")) {
                 // do not get feed dynamically, if cache hit is given.
                 //				if (!$this->feed->checkCacheHit())
                 //				{

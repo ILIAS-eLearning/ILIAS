@@ -39,7 +39,7 @@ class ilRSSButtonGUI
     ) : string {
         $tpl = new ilTemplate("tpl.rss_icon.html", true, true, "Services/News");
 
-        if ($a_href != "") {
+        if ($a_href !== "") {
             $tpl->setCurrentBlock("a_start");
             $tpl->setVariable("HREF", $a_href);
             $tpl->parseCurrentBlock();

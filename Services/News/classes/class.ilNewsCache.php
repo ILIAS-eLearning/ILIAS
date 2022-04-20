@@ -33,14 +33,14 @@ class ilNewsCache extends ilCache
         
         parent::__construct("ServicesNews", "News", true);
         $this->setExpiresAfter($news_set->get("acc_cache_mins") * 60);
-        if ((int) $news_set->get("acc_cache_mins") == 0) {
+        if ((int) $news_set->get("acc_cache_mins") === 0) {
             self::$disabled = true;
         }
     }
     
     public function isDisabled() : bool
     {
-        return self::$disabled or parent::isDisabled();
+        return self::$disabled || parent::isDisabled();
     }
     
     protected function readEntry(string $a_id) : bool

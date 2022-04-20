@@ -75,7 +75,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $allow_longer_periods = $news_set->get("allow_longer_periods");
         $default_per = ilNewsItem::_lookupDefaultPDPeriod();
 
-        $options = array(
+        $options = [
             2 => sprintf($lng->txt("news_period_x_days"), 2),
             3 => sprintf($lng->txt("news_period_x_days"), 3),
             5 => sprintf($lng->txt("news_period_x_days"), 5),
@@ -85,9 +85,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
             60 => sprintf($lng->txt("news_period_x_months"), 2),
             120 => sprintf($lng->txt("news_period_x_months"), 4),
             180 => sprintf($lng->txt("news_period_x_months"), 6),
-            366 => $lng->txt("news_period_1_year"));
+            366 => $lng->txt("news_period_1_year")
+        ];
             
-        $unset = array();
+        $unset = [];
         foreach ($options as $k => $opt) {
             if (!$allow_shorter_periods && ($k < $default_per)) {
                 $unset[$k] = $k;
@@ -128,12 +129,12 @@ class ilPDNewsTableGUI extends ilTable2GUI
         // user
         if ($a_set["user_id"] > 0) {
             $this->tpl->setCurrentBlock("user_info");
-            if ($obj_type == "frm") {
+            if ($obj_type === "frm") {
                 if (ilForumProperties::_isAnonymized($a_set["context_obj_id"])) {
-                    if ($a_set["context_sub_obj_type"] == "pos" &&
+                    if ($a_set["context_sub_obj_type"] === "pos" &&
                         $a_set["context_sub_obj_id"] > 0) {
                         $post = new ilForumPost($a_set["context_sub_obj_id"]);
-                        if ($post->getUserAlias() != "") {
+                        if (is_string($post->getUserAlias()) && $post->getUserAlias() !== '') {
                             $this->tpl->setVariable("VAL_AUTHOR", ilUtil::stripSlashes($post->getUserAlias()));
                         } else {
                             $this->tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
@@ -141,16 +142,12 @@ class ilPDNewsTableGUI extends ilTable2GUI
                     } else {
                         $this->tpl->setVariable("VAL_AUTHOR", $lng->txt("forums_anonymous"));
                     }
-                } else {
-                    if (ilObject::_exists($a_set["user_id"])) {
-                        $user_obj = new ilObjUser($a_set["user_id"]);
-                        $this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
-                    }
+                } elseif (ilObject::_exists($a_set["user_id"])) {
+                    $user_obj = new ilObjUser($a_set["user_id"]);
+                    $this->tpl->setVariable("VAL_AUTHOR", $user_obj->getLogin());
                 }
-            } else {
-                if (ilObject::_exists($a_set["user_id"])) {
-                    $this->tpl->setVariable("VAL_AUTHOR", ilObjUser::_lookupLogin($a_set["user_id"]));
-                }
+            } elseif (ilObject::_exists($a_set["user_id"])) {
+                $this->tpl->setVariable("VAL_AUTHOR", ilObjUser::_lookupLogin($a_set["user_id"]));
             }
             $this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
             $this->tpl->parseCurrentBlock();
@@ -219,7 +216,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
 
         // forum hack, not nice
         $add = "";
-        if ($obj_type == "frm" && $a_set["context_sub_obj_type"] == "pos"
+        if ($obj_type === "frm" && $a_set["context_sub_obj_type"] === "pos"
             && $a_set["context_sub_obj_id"] > 0) {
             $pos = $a_set["context_sub_obj_id"];
             $thread = ilObjForumAccess::_getThreadForPosting($pos);
@@ -229,7 +226,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         }
 
         // file hack, not nice
-        if ($obj_type == "file") {
+        if ($obj_type === "file") {
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_set["ref_id"]);
             $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
@@ -244,7 +241,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         }
 
         // wiki hack, not nice
-        if ($obj_type == "wiki" && $a_set["context_sub_obj_type"] == "wpg"
+        if ($obj_type === "wiki" && $a_set["context_sub_obj_type"] === "wpg"
             && $a_set["context_sub_obj_id"] > 0) {
             $wptitle = ilWikiPage::lookupTitle($a_set["context_sub_obj_id"]);
             if ($wptitle != "") {
@@ -257,7 +254,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $obj_type . "_" . $a_set["ref_id"] . $add;
 
         // lm page hack, not nice
-        if (in_array($obj_type, array("dbk", "lm")) && $a_set["context_sub_obj_type"] == "pg"
+        if (in_array($obj_type, ["dbk", "lm"], true) && $a_set["context_sub_obj_type"] === "pg"
             && $a_set["context_sub_obj_id"] > 0) {
             $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
                 "pg_" . $a_set["context_sub_obj_id"] . "_" . $a_set["ref_id"];

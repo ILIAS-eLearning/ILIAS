@@ -74,7 +74,7 @@ class ilNewsItemGUI
             $this->news_item = new ilNewsItem($this->requested_news_item_id);
         }
 
-        $this->ctrl->saveParameter($this, array("news_item_id"));
+        $this->ctrl->saveParameter($this, ["news_item_id"]);
 
         // Init EnableEdit.
         $this->setEnableEdit(false);
@@ -232,14 +232,14 @@ class ilNewsItemGUI
 
         // media
         $media = new ilFileInputGUI($lng->txt('news_media'), 'media');
-        $media->setSuffixes(array("jpeg", "jpg", "png", "gif", "mp4", "mp3"));
+        $media->setSuffixes(["jpeg", "jpg", "png", "gif", "mp4", "mp3"]);
         $media->setRequired(false);
         $media->setALlowDeletion(true);
         $media->setValue(" ");
         $form->addItem($media);
         
         // save and cancel commands
-        if (in_array($a_mode, array(self::FORM_CREATE, self::FORM_RE_CREATE))) {
+        if (in_array($a_mode, [self::FORM_CREATE, self::FORM_RE_CREATE])) {
             $form->addCommandButton("saveNewsItem", $lng->txt("save"), "news_btn_create");
             $form->addCommandButton("cancelSaveNewsItem", $lng->txt("cancel"), "news_btn_cancel_create");
         } else {
@@ -265,7 +265,7 @@ class ilNewsItemGUI
     // FORM NewsItem: Get current values for NewsItem form.
     public function getValuesNewsItem(\ilPropertyFormGUI $a_form) : void
     {
-        $values = array();
+        $values = [];
 
         $values["news_title"] = $this->news_item->getTitle();
         $values["news_content"] = $this->news_item->getContent() . $this->news_item->getContentLong();
@@ -538,7 +538,7 @@ class ilNewsItemGUI
         $news_item->setContextSubObjType($this->getContextSubObjType());
 
         $perm_ref_id = 0;
-        if (in_array($this->getContextObjType(), array("cat", "grp", "crs", "root"))) {
+        if (in_array($this->getContextObjType(), ["cat", "grp", "crs", "root"])) {
             $data = $news_item->getNewsForRefId(
                 $this->requested_ref_id,
                 false,

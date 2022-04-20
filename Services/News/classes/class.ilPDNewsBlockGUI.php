@@ -54,7 +54,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         );
 
         $this->acache = new ilNewsCache();
-        $cres = unserialize($this->acache->getEntry($this->user->getId() . ":0"));
+        $cres = unserialize($this->acache->getEntry($this->user->getId() . ":0"), ["allowed_classes" => false]);
         $this->cache_hit = false;
         if ($this->acache->getLastAccessStatus() == "hit" && is_array($cres)) {
             self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
@@ -63,7 +63,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
         if ($this->getDynamic() && !$this->cache_hit) {
             $this->dynamic = true;
-            $data = array();
+            $data = [];
         } else {
             // do not ask two times for the data (e.g. if user displays a
             // single item on the personal desktop and the news block is
@@ -112,11 +112,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
     public function getBlockType() : string
     {
         return self::$block_type;
-    }
-
-    protected function isRepositoryObject() : bool
-    {
-        return false;
     }
 
     public static function getScreenMode() : string
@@ -258,11 +253,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         return $content_block->getHTML();
     }
 
-    public function showNews() : string
-    {
-        return parent::showNews();
-    }
-
     public function editSettings(ilPropertyFormGUI $a_private_form = null) : string
     {
         $ilUser = $this->user;
@@ -285,7 +275,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
             $form->setTableWidth("100%");
 
-            $per_opts = array(
+            $per_opts = [
                 2 => "2 " . $lng->txt("days"),
                 3 => "3 " . $lng->txt("days"),
                 5 => "5 " . $lng->txt("days"),
@@ -295,9 +285,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 60 => "2 " . $lng->txt("months"),
                 120 => "4 " . $lng->txt("months"),
                 180 => "6 " . $lng->txt("months"),
-                366 => "1 " . $lng->txt("year"));
+                366 => "1 " . $lng->txt("year")
+            ];
 
-            $unset = array();
+            $unset = [];
             foreach ($per_opts as $k => $opt) {
                 if (!$allow_shorter_periods && ($k < $default_per)) {
                     $unset[$k] = $k;
@@ -371,13 +362,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         return $feed_form;
     }
 
-    public function cancelSettings() : void
-    {
-        $ilCtrl = $this->ctrl;
-        
-        $ilCtrl->returnToParent($this);
-    }
-    
     public function saveSettings() : string
     {
         $ilCtrl = $this->ctrl;

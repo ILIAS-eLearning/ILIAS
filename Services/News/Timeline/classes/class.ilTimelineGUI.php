@@ -20,7 +20,8 @@
  */
 class ilTimelineGUI
 {
-    protected array $items = array();
+    /** @var ilTimelineItemInt[] */
+    protected array $items = [];
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
 
@@ -61,7 +62,7 @@ class ilTimelineGUI
             }
 
             $dt = $i->getDateTime();
-            if (is_null($next) || $dt->get(IL_CAL_FKT_DATE, "Y-m-d") != $next->getDateTime()->get(IL_CAL_FKT_DATE, "Y-m-d")) {
+            if (is_null($next) || $dt->get(IL_CAL_FKT_DATE, "Y-m-d") !== $next->getDateTime()->get(IL_CAL_FKT_DATE, "Y-m-d")) {
                 $t->setCurrentBlock("badge");
                 $t->setVariable("DAY", $dt->get(IL_CAL_FKT_DATE, "d"));
                 $t->setVariable("MONTH", $this->lng->txt("month_" . $dt->get(IL_CAL_FKT_DATE, "m") . "_short"));

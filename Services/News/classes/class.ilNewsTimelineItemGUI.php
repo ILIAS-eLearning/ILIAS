@@ -106,11 +106,11 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $obj_id = $i->getContextObjId();
 
         // edited?
-        if ($i->getCreationDate() != $i->getUpdateDate()) {
+        if ($i->getCreationDate() !== $i->getUpdateDate()) {
             $tpl->setCurrentBlock("edited");
             $update_date = new ilDateTime($i->getUpdateDate(), IL_CAL_DATETIME);
             $tpl->setVariable("TXT_EDITED", $this->lng->txt("cont_news_edited"));
-            if ($i->getUpdateUserId() > 0 && ($i->getUpdateUserId() != $i->getUserId())) {
+            if ($i->getUpdateUserId() > 0 && ($i->getUpdateUserId() !== $i->getUserId())) {
                 $tpl->setVariable("TXT_USR_EDITED", ilUserUtil::getNamePresentation(
                     $i->getUpdateUserId(),
                     false,
@@ -123,7 +123,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         }
 
         // context object link
-        if ($this->news_item_ref_id > 0 && $this->ref_id != $this->news_item_ref_id) {
+        if ($this->news_item_ref_id > 0 && $this->ref_id !== $this->news_item_ref_id) {
             $tpl->setCurrentBlock("object");
             $tpl->setVariable("OBJ_TITLE", ilObject::_lookupTitle($obj_id));
             $tpl->setVariable("OBJ_IMG", ilObject::_getIcon($obj_id));
@@ -167,7 +167,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $list->setUseImages(false);
 
-        if ($i->getPriority() == 1 && ($i->getUserId() == $this->user->getId() || $this->getUserEditAll())) {
+        if ($i->getPriority() === 1 && ($i->getUserId() === $this->user->getId() || $this->getUserEditAll())) {
             $list->addItem(
                 $this->lng->txt("edit"),
                 "",
@@ -209,7 +209,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $ui_factory = $DIC->ui()->factory();
         $ui_renderer = $DIC->ui()->renderer();
 
-        if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+        if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
             $item_id = "il-news-modal-img-" . $i->getId();
             $title = basename($media_path);
             $image = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
@@ -219,7 +219,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $img_tpl->setVariable("IMAGE", $image);
 
             $html = $img_tpl->get();
-        } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
+        } elseif (in_array($mime, ["audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"])) {
             $mp = new ilMediaPlayerGUI();
             $mp->setFile($media_path);
             $html = $mp->getMediaPlayerHtml();
@@ -242,7 +242,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
         $modal_html = "";
 
-        if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+        if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
             $title = basename($media_path);
             $item_id = "il-news-modal-img-" . $i->getId();
             $image = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
