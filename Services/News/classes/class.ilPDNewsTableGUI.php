@@ -22,14 +22,17 @@ use ILIAS\News\StandardGUIRequest;
 class ilPDNewsTableGUI extends ilTable2GUI
 {
     protected string $selected_context;
-    protected array $contexts;// TODO PHP8-REVIEW Maybe you can specify the shape of the array
+    /**
+     * @var array<string,string>
+     */
+    protected array $contexts;
     protected ilObjUser $user;
     protected StandardGUIRequest $std_request;
 
     public function __construct(
-        object $a_parent_obj,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
+        ilPDNewsGUI $a_parent_obj,
         string $a_parent_cmd,
-        array $a_contexts,// TODO PHP8-REVIEW Maybe you can specify the shape of the array
+        array $a_contexts,
         string $a_selected_context
     ) {
         global $DIC;

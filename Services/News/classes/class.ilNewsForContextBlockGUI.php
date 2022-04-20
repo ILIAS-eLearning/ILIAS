@@ -28,7 +28,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
      * object type names with settings->news settings subtab
      */
     public const OBJECTS_WITH_NEWS_SUBTAB = ["category", "course", "group", "forum"];
+    protected bool $cache_hit = false;
+    protected bool $dynamic = false;
+    protected ilNewsCache $acache;
     protected bool $show_view_selection;
+    protected $new_rendering = true;
+
     /**
      * @var false|mixed|string|null
      */
@@ -73,13 +78,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->setLimit(5);
         $this->setEnableNumInfo(true);
         
-        $this->dynamic = false;// TODO PHP8-REVIEW Property declared dynamically
-        $this->acache = new ilNewsCache();// TODO PHP8-REVIEW Property declared dynamically
+        $this->dynamic = false;
+        $this->acache = new ilNewsCache();
         $cres = unserialize(
             $this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()),
             ["allowed_classes" => false]
         );
-        $this->cache_hit = false;// TODO PHP8-REVIEW Property declared dynamically
+        $this->cache_hit = false;
 
         if ($this->acache->getLastAccessStatus() === "hit" && is_array($cres)) {
             self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
@@ -317,9 +322,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         }
 
         $en = "";
-        if ($ilUser->getPref("il_feed_js") === "n") {// TODO PHP8-REVIEW This block can be removed
-            //			$en = getJSEnabler();
-        }
 
         return parent::getHTML() . $en;
     }
@@ -858,13 +860,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->handleView();
 
         if ($ilCtrl->isAsynch()) {
-            echo $this->getHTML();
-            exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
+            $this->send($this->getHTML());
         }
 
         $ilCtrl->returnToParent($this);
     }
-    
+
     public function hideNotifications() : void
     {
         $ilCtrl = $this->ctrl;
@@ -884,8 +885,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->handleView();
 
         if ($ilCtrl->isAsynch()) {
-            echo $this->getHTML();
-            exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
+            $this->send($this->getHTML());
         }
 
         $ilCtrl->returnToParent($this);
@@ -1298,7 +1298,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $rel_tpl->setVariable("BLOCK_ID", "block_" . $this->getBlockType() . "_" . $this->getBlockId());
         $rel_tpl->setVariable(
             "TARGET",
-            $ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "enableJS", true, "", false)// TODO PHP8-REVIEW I am not 100% sure here, but the passed types do not match the defined paraemters
+            $ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "enableJS", "", true, false)
         );
             
         return $rel_tpl->get();
@@ -1320,15 +1320,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $ilUser = $this->user;
         ilSession::set("il_feed_js", "y");
         $ilUser->writePref("il_feed_js", "y");
-        echo $this->getHTML();
-        exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
+        $this->send($this->getHTML());
     }
 
     //
     // New rendering
     //
 
-    protected $new_rendering = true;// TODO PHP8-REVIEW I suggest to move this to the top of the class
+
 
     protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {

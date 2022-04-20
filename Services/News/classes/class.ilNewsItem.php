@@ -61,10 +61,10 @@ class ilNewsItem
     protected string $visibility = "users";
     protected string $content_long = "";
     protected int $priority = 1;
-    protected int $content_is_lang_var = 0;
+    protected bool $content_is_lang_var = false;
     protected int $mob_id = 0;
     protected string $playtime = "";
-    private static bool $privFeedId = false;// TODO PHP8-REVIEW Maybe this should be an int (have a look at the assignments at the bottom of this class)?
+    private static int $privFeedId = 0;
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
     private ilGlobalTemplateInterface $main_tpl;
@@ -248,12 +248,12 @@ class ilNewsItem
     public function setContentIsLangVar(
         bool $a_content_is_lang_var = false
     ) : void {
-        $this->content_is_lang_var = (int) $a_content_is_lang_var;// TODO PHP8-REVIEW Maybe the better approch is to make the variable of type bool, please decide
+        $this->content_is_lang_var = $a_content_is_lang_var;
     }
 
     public function getContentIsLangVar() : bool
     {
-        return (bool) $this->content_is_lang_var;// TODO PHP8-REVIEW Maybe the better approch is to make the variable of type bool, please decide
+        return $this->content_is_lang_var;
     }
 
     public function setMobId(int $a_mob_id) : void

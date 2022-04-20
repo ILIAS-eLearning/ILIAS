@@ -366,7 +366,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             "news_pd_period",
             $this->std_request->getDashboardPeriod(),
             $ilUser->getId(),
-            (int) $this->block_id// TODO PHP8-REVIEW Not sure about this cast, but an int is exptected and a string is passed
+            (int) $this->block_id
         );
         
         $cache = new ilNewsCache();

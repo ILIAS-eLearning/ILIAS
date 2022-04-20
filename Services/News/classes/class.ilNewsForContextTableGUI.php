@@ -24,7 +24,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
 
     public function __construct(
-        object $a_parent_obj,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
+        ilNewsItemGUI $a_parent_obj,
         string $a_parent_cmd = "",
         int $a_perm_ref_id = 0
     ) {

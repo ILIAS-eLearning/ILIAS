@@ -14,6 +14,8 @@
  */
 
 use ILIAS\News\StandardGUIRequest;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 
 /**
  * Timeline for news
@@ -23,6 +25,7 @@ use ILIAS\News\StandardGUIRequest;
  */
 class ilNewsTimelineGUI
 {
+    protected \ILIAS\HTTP\Services $http;
     protected int $news_id;
     protected bool $include_auto_entries;
     protected ilCtrl $ctrl;
@@ -50,6 +53,7 @@ class ilNewsTimelineGUI
         $this->user = $DIC->user();
         $this->include_auto_entries = $a_include_auto_entries;
         $this->access = $DIC->access();
+        $this->http = $DIC->http();
 
         $this->std_request = new StandardGUIRequest(
             $DIC->http(),
@@ -267,8 +271,19 @@ class ilNewsTimelineGUI
         $obj->data = $js_items;
         $obj->html = $timeline->render(true);
 
-        echo json_encode($obj, JSON_THROW_ON_ERROR);// TODO PHP8-REVIEW This could be refactored by using the HTTP service
-        exit;
+        $this->send(json_encode($obj, JSON_THROW_ON_ERROR));
+    }
+
+    /**
+     * @throws ResponseSendingException
+     */
+    protected function send(string $output) : void
+    {
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     protected function updateNewsItem() : void
@@ -381,7 +396,7 @@ class ilNewsTimelineGUI
         if ($this->getUserEditAll() || $this->user->getId() === $news_item->getUserId()) {
             $news_item->delete();
         }
-        exit;// TODO PHP8-REVIEW This could be refactored by using the HTTP service
+        $this->send("");
     }
 
     protected function getEditModal($form = null) : string
