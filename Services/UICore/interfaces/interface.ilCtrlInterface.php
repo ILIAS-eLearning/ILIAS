@@ -364,7 +364,7 @@ interface ilCtrlInterface
     /**
      * Returns the descending stacktrace of ilCtrl calls that have been made.
      *
-     * @return array<int, string>
+     * @return array<int, array<string, string>>
      */
     public function getCallHistory() : array;
 

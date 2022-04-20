@@ -309,7 +309,11 @@ class PageContentGUI
             $resp = $gui_class->getHTML(
                 "",
                 "template_show",
-                array("tpl_id" => $this->tplIdentifier ?? "", "tpl_obj" => $this, "html" => $html)// @TODO PHP8 Review: Missing property.
+                [
+                    "tpl_id" => '',
+                    "tpl_obj" => $this,
+                    "html" => $html
+                ]
             );
 
             if (\ilUIHookPluginGUI::KEEP !== $resp["mode"]) {

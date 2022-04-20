@@ -112,8 +112,13 @@ class PageContentProvider extends AbstractModificationProvider
             $text = "powered by ILIAS (v{$ilias_version})";
 
             // Imprint
-            $baseClass = (string) ($_REQUEST["baseClass"] ?? '');// @TODO: PHP8 Review: Direct access to $_REQUEST.
-            if ($baseClass !== "ilImprintGUI" && \ilImprint::isActive()) {
+            $base_class = ($this->dic->http()->wrapper()->query()->has(\ilCtrlInterface::PARAM_BASE_CLASS)) ?
+                $this->dic->http()->wrapper()->query()->retrieve(
+                    \ilCtrlInterface::PARAM_BASE_CLASS,
+                    $this->dic->refinery()->kindlyTo()->string()
+                ) : null;
+
+            if ($base_class !== \ilImprintGUI::class && \ilImprint::isActive()) {
                 $imprint_title = $this->dic->language()->txt("imprint");
                 $imprint_url = \ilLink::_getStaticLink(0, "impr");
                 $links[] = $f->link()->standard($imprint_title, $imprint_url);
