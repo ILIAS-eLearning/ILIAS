@@ -20,7 +20,10 @@
  */
 class ilContainerByTypeContentGUI extends ilContainerContentGUI
 {
-    protected bool $force_details;
+    /**
+     * @var null|array|int
+     */
+    protected $force_details = null;
     protected int $block_limit;
     protected ?ilContainerUserFilter $container_user_filter;
     
@@ -46,7 +49,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         if ($this->item_manager->getExpanded($a_item_id) !== null) {
             return $this->item_manager->getExpanded($a_item_id);
         }
-        if ($a_item_id == $this->force_details) {// TODO PHP8-REVIEW int vs. bool?
+        if ($a_item_id == $this->force_details) {
             return self::DETAILS_ALL;
         }
 

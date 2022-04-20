@@ -12,7 +12,7 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
     /**
      * @inheritdoc
      */
-    public function isContainerConditionController($a_container_ref_id) : bool
+    public function isContainerConditionController(int $a_container_ref_id) : bool
     {
         return true;
     }
@@ -20,7 +20,7 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
     /**
      * @inheritdoc
      */
-    public function getConditionSetForRepositoryObject($a_container_child_ref_id) : ilConditionSet
+    public function getConditionSetForRepositoryObject(int $a_container_child_ref_id) : ilConditionSet
     {
         $f = $this->getConditionsFactory();
         $conditions = [];

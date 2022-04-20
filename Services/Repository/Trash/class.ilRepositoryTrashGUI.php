@@ -36,7 +36,7 @@ class ilRepositoryTrashGUI
     protected string $parent_cmd;
 
     public function __construct(
-        object $a_parent_gui,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
+        ilObjectGUI $a_parent_gui,
         string $a_parent_cmd = ""
     ) {
         /** @var \ILIAS\DI\Container $DIC */

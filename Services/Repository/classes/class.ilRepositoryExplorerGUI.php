@@ -37,8 +37,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
     protected int $cur_ref_id = 0;
     protected int $top_node_id;
 
+    /**
+     * @param ilRepositoryExplorerGUI|string $a_parent_obj
+     */
     public function __construct(
-        $a_parent_obj,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments. If different types are allowed, use the PHPDoc comments.
+        $a_parent_obj,
         string $a_parent_cmd
     ) {
         /** @var \ILIAS\DI\Container $DIC */

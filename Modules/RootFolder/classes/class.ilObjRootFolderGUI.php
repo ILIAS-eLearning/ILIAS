@@ -347,7 +347,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public static function _goto($a_target) : void// TODO PHP8-REVIEW Missing type hint, but this might be an issue of the `goto.php` to be discussed with all code maintainers
+    public static function _goto(string $a_target) : void
     {
         ilObjectGUI::_gotoRepositoryRoot(true);
     }

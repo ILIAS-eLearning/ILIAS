@@ -29,7 +29,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
     protected ilFavouritesManager $fav_manager;
     
     public function __construct(
-        object $a_parent_obj,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
+        ilContainerStartObjectsContentGUI $a_parent_obj,
         string $a_parent_cmd,
         ilContainerStartObjects $a_start_objects,
         bool $a_enable_desktop = true

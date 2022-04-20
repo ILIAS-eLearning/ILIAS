@@ -47,7 +47,7 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW This property is dynamically declared
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->help = $DIC["ilHelp"];
         $this->error = $DIC["ilErr"];
         $this->tpl = $DIC["tpl"];
@@ -487,7 +487,7 @@ class ilObjFolderGUI extends ilContainerGUI
     /**
     * goto target group
     */
-    public static function _goto($a_target) : void// TODO PHP8-REVIEW Missing type hint, but this might be an issue of the `goto.php` to be discussed with all code maintainers
+    public static function _goto($a_target) : void
     {
         global $DIC;
 

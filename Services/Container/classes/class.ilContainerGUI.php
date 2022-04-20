@@ -29,6 +29,9 @@ use ILIAS\Container\Content\ViewManager;
  */
 class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
     protected ilTabsGUI $tabs;
     protected ilErrorHandling $error;
     protected ilObjectDefinition $obj_definition;
@@ -74,7 +77,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->error = $DIC["ilErr"];
         $this->obj_definition = $DIC["objDefinition"];
         $this->rbacadmin = $DIC->rbac()->admin();
-        $this->rbacreview = $DIC->rbac()->review();// TODO PHP8-REVIEW Property dynamically declared
+        $this->rbacreview = $DIC->rbac()->review();
         $this->log = $DIC["ilLog"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->toolbar = $DIC->toolbar();
@@ -85,7 +88,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $rbacsystem = $DIC->rbac()->system();
         $lng = $DIC->language();
 
-        $this->rbacsystem = $rbacsystem;// TODO PHP8-REVIEW Property dynamically declared
+        $this->rbacsystem = $rbacsystem;
 
         $lng->loadLanguageModule("cntr");
         $lng->loadLanguageModule('cont');
@@ -115,7 +118,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->container_filter_service = new ilContainerFilterService();
         $this->initFilter();
         $cs = $DIC->contentStyle();
-        $this->content_style_gui = $cs->gui();// TODO PHP8-REVIEW Property dynamically declared
+        $this->content_style_gui = $cs->gui();
         $this->content_style_domain = $cs->domain();
     }
 
@@ -574,20 +577,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_no_downloadable_objects'), true);
             }
         }
-    }
-
-    public function __showTimingsButton($tpl) : bool// TODO PHP8-REVIEW This method is called anywhere and can be removed IMO
-    {
-        $tree = $this->tree;
-
-        if (!$tree->checkForParentType($this->object->getRefId(), 'crs')) {
-            return false;
-        }
-        $tpl->setCurrentBlock("custom_button");
-        $tpl->setVariable("ADMIN_MODE_LINK", $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'editTimings'));
-        $tpl->setVariable("TXT_ADMIN_MODE", $this->lng->txt('timings_edit'));
-        $tpl->parseCurrentBlock();
-        return true;
     }
 
     public function showPermanentLink() : void
@@ -1972,9 +1961,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // clone the source node
         $srcObj = ilObjectFactory::getInstanceByRefId($srcRef);
-        error_log(__METHOD__ . ' cloning srcRef=' . $srcRef . ' dstRef=' . $dstRef . '...');// TODO PHP8-REVIEW We should use the logger from the $DIC instead
         $newRef = $srcObj->cloneObject($dstRef)->getRefId();
-        error_log(__METHOD__ . ' ...cloning... newRef=' . $newRef . '...');// TODO PHP8-REVIEW We should use the logger from the $DIC instead
 
         // We must immediately apply a new name to the object, to
         // prevent confusion of WebDAV clients about having two objects with identical
@@ -1999,7 +1986,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $mapping[$rolf[0]["ref_id"]] = $child["ref_id"];
             }
         }
-        error_log(__METHOD__ . ' ...cloned srcRef=' . $srcRef . ' dstRef=' . $dstRef . ' newRef=' . $newRef);// TODO PHP8-REVIEW We should use the logger from the $DIC instead
         return $newRef;
     }
     // END PATCH WebDAV: Support a copy command in the repository

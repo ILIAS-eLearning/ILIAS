@@ -229,10 +229,6 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
                 $sort = ilContainerSorting::_getInstance($parent_obj_id);
                 $group = $sort->sortItems($group);
 
-                // need extra session sorting here
-                if ($t === "sess") {// TODO PHP8-REVIEW This empty block should be removed
-                }
-
                 foreach ($group[$t] as $k => $item) {
                     $childs[] = $item;
                 }
@@ -256,10 +252,6 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     public function isNodeClickable($a_node) : bool
     {
         $ilAccess = $this->access;
-
-        if ($this->select_postvar !== "") {// TODO PHP8-REVIEW This empty block should be removed
-            // return false; #14354
-        }
 
         if (!$ilAccess->hasUserRBACorAnyPositionAccess("read", $a_node["child"])) {
             return false;

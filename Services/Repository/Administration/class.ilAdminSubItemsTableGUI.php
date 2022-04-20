@@ -31,7 +31,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
     protected ClipboardManager $clipboard;
 
     public function __construct(
-        object $a_parent_obj,// TODO PHP8-REVIEW Maybe it is worth to add the specific GUI class or a list of classes via PHPDoc comments
+        ilObjectGUI $a_parent_obj,
         string $a_parent_cmd,
         int $a_ref_id,
         bool $editable = false

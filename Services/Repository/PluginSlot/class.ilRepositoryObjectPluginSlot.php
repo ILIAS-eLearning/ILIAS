@@ -69,8 +69,8 @@ class ilRepositoryObjectPluginSlot
         }
 
         $slot = $component_repository->getPluginSlotById("robj");
-        if ($slot->hasPluginName($pname)) {// TODO PHP8-REVIEW `$pname` is undefined, maybe `$a_type` must be used instead
-            $plugin = $slot->getPluginByName($pname);// TODO PHP8-REVIEW `$pname` is undefined, maybe `$a_type` must be used instead
+        if ($slot->hasPluginName($a_type)) {
+            $plugin = $slot->getPluginByName($a_type);
             if (!$a_active_status || $plugin->isActive()) {
                 if ($plugin->supportsLearningProgress()) {
                     return true;

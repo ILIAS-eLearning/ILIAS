@@ -187,10 +187,7 @@ abstract class ilContainerContentGUI
             $column_gui::getScreenMode() === IL_SCREEN_SIDE) {
             $html = $ilCtrl->forwardCommand($column_gui);
         } else {
-            $render_content = ($ilCtrl->getNextClass() == "" &&
-                in_array($ilCtrl->getCmd(), ["view", "render"]));
-            $render_content = false;// TODO PHP8-REVIEW Variable is immediatly overwritten
-            if (!$ilCtrl->isAsynch() || $render_content) {
+            if (!$ilCtrl->isAsynch()) {
                 $html = "";
                 
                 // user interface plugin slot + default rendering
@@ -353,13 +350,6 @@ abstract class ilContainerContentGUI
             );
         }
 
-        // show administration command buttons (or not)
-        if (!$this->getContainerGUI()->isActiveAdministrationPanel()) {// TODO PHP8-REVIEW This block should be removed IMO
-            //			$item_list_gui->enableDelete(false);
-//			$item_list_gui->enableLink(false);
-//			$item_list_gui->enableCut(false);
-        }
-        
         // activate common social commands
         $item_list_gui->enableComments(true);
         $item_list_gui->enableNotes(true);

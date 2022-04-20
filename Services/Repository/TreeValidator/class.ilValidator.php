@@ -1672,13 +1672,14 @@ class ilValidator
                    "<br/>Called from: " . basename($call_loc["file"]) . " , line " . $call_loc["line"] .
                    "<br/>Passed parameters: [" . $num_args . "] " . $arg_str . "<br/>";
         printf($err_msg);
-        
+
+        /*
         if ($error->getUserInfo()) {
             printf("<br/>Parameter details:");
             echo "<pre>";
             var_dump($call_loc["args"]);// TODO PHP8-REVIEW This should be removed and the ilLogger should be used instead
             echo "</pre>";
-        }
+        }*/
         
         if ($error->getCode() == FATAL) {
             exit();

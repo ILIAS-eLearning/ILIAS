@@ -248,7 +248,7 @@ class ilContainerNewsSettingsGUI
 
     public function getCronNotifications() : bool
     {
-        return $this->getCronNotifications();// TODO PHP8-REVIEW Infinite recursion
+        return $this->has_cron_notifications;
     }
 
     public function setHideByDate(bool $a_value) : void

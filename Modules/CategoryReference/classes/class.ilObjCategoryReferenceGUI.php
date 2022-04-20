@@ -37,7 +37,7 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI implements ilCtr
         parent::__construct($a_data, $a_id, true, false);
     }
 
-    public static function _goto($a_target) : void// TODO PHP8-REVIEW Missing type hint, but this might be an issue of the `goto.php` to be discussed with all code maintainers
+    public static function _goto(string $a_target) : void
     {
         $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
         ilObjCategoryGUI::_goto($target_ref_id);

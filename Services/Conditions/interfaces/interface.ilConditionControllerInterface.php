@@ -12,10 +12,10 @@ interface ilConditionControllerInterface
     /**
      * Returns true, if the a container controls the conditions of its childrens
      */
-    public function isContainerConditionController($a_container_ref_id) : bool;
+    public function isContainerConditionController(int $a_container_ref_id) : bool;
 
     /**
      * Returns condition set for a repository object which is children under a container that controls the conditions
      */
-    public function getConditionSetForRepositoryObject($a_container_child_ref_id) : ilConditionSet;
+    public function getConditionSetForRepositoryObject(int $a_container_child_ref_id) : ilConditionSet;
 }

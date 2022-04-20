@@ -34,7 +34,7 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands($a_ref_id = null) : array// TODO PHP8-REVIEW There is no parameter defined in the base class / Furthermore the type is missing here
+    public static function _getCommands(int $a_ref_id = null) : array
     {
         global $DIC;
 

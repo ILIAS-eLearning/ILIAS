@@ -158,7 +158,10 @@ class ilRepositoryExplorer extends ilExplorer
         $rbacsystem = $this->rbacsystem;
         $ilDB = $this->db;
 
-        if (!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id, $a_obj_id)) {// TODO PHP8-REVIEW `$a_obj_id` is not defined
+        $obj_id = ilObject::_lookupObjId($a_ref_id);
+        if (!ilConditionHandler::_checkAllConditionsOfTarget(
+            $a_ref_id,
+            $obj_id)) {
             return false;
         }
 
@@ -168,7 +171,7 @@ class ilRepositoryExplorer extends ilExplorer
                     return false;
                 }
 
-                $query = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s", $a_obj_id);
+                $query = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s", $obj_id);
                 $res = $ilDB->query($query);
                 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                     return (bool) $row->complete;
@@ -180,7 +183,7 @@ class ilRepositoryExplorer extends ilExplorer
                     return false;
                 }
 
-                $query = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s", $a_obj_id);
+                $query = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s", $obj_id);
                 $res = $ilDB->query($query);
                 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                     return (bool) $row->complete;
@@ -241,17 +244,20 @@ class ilRepositoryExplorer extends ilExplorer
         }
     }
 
-    public function showChilds($a_parent_id, $a_obj_id = 0) : bool// TODO PHP8-REVIEW The signature (of this class and the derivatives) differs from the signature of the parent method
+    /**
+     * @param int|string $a_parent_id
+     */
+    public function showChilds($a_parent_id, int $a_obj_id = 0) : bool
     {
         $rbacsystem = $this->rbacsystem;
 
         if ($a_parent_id == 0) {
             return true;
         }
-        if (!ilConditionHandler::_checkAllConditionsOfTarget($a_parent_id, $a_obj_id)) {
+        if (!ilConditionHandler::_checkAllConditionsOfTarget((int) $a_parent_id, $a_obj_id)) {
             return false;
         }
-        if ($rbacsystem->checkAccess("read", $a_parent_id)) {
+        if ($rbacsystem->checkAccess("read", (int) $a_parent_id)) {
             return true;
         }
 
@@ -367,10 +373,6 @@ class ilRepositoryExplorer extends ilExplorer
                 // do we have to sort this group??
                 $sort = ilContainerSorting::_getInstance($a_parent_obj_id);
                 $group = $sort->sortItems($group);
-                
-                // need extra session sorting here
-                if ($t === "sess") {// TODO PHP8-REVIEW This empty block should be removed
-                }
                 
                 foreach ($group[$t] as $k => $item) {
                     $nodes[] = $item;

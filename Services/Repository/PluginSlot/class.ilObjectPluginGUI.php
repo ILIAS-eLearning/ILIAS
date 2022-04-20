@@ -21,6 +21,7 @@ use ILIAS\Repository\PluginSlot\PluginSlotGUIRequest;
  */
 abstract class ilObjectPluginGUI extends ilObject2GUI
 {
+    protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
     protected ilPlugin $plugin;
@@ -50,6 +51,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $this->locator = $DIC["ilLocator"];
         $this->user = $DIC->user();
         $this->component_factory = $DIC["component.factory"];
+        $this->component_repository = $DIC["component.repository"];
         parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
         $this->plugin = $this->getPlugin();
     }
@@ -166,7 +168,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                     $ilCtrl->setCmdClass("ilinfoscreengui");
                     $this->infoScreen();
                 } else {
-                    $this->performCommand($cmd);// TODO PHP8-REVIEW This method does not exists, it should be made abstract or implemented with an empty body
+                    $this->performCommand($cmd);
                 }
                 break;
         }
@@ -354,7 +356,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     abstract public function getStandardCmd() : string;
 
-    //	abstract function performCommand();
+    abstract public function performCommand(string $cmd) : void;
 
     public function addInilPluginAdminfoTab() : void
     {
@@ -436,7 +438,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * Goto redirection
      */
-    public static function _goto($a_target) : void// TODO PHP8-REVIEW Missing type hint, but this might be an issue of the `goto.php` to be discussed with all code maintainers
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -468,7 +470,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     protected function supportsExport() : bool
     {
-        $component_repository = $this->component_repository;// TODO PHP8-REVIEW This property does not exist
+        $component_repository = $this->component_repository;
 
         return $component_repository->getPluginSlotById("robj")->getPluginByName($this->getPlugin()->getPluginName())->supportsExport();
     }

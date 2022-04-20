@@ -146,15 +146,6 @@ class ilContainerStartObjects
         return false;
     }
 
-    public function __deleteAll() : void// TODO PHP8-REVIEW This method is called anywhere and can be removed iMO
-    {
-        $ilDB = $this->db;
-        
-        $query = "DELETE FROM crs_start" .
-            " WHERE crs_id = " . $ilDB->quote($this->getObjId(), 'integer');
-        $ilDB->manipulate($query);
-    }
-        
     public function setObjectPos(
         int $a_start_id,
         int $a_pos

@@ -28,7 +28,7 @@ class ilTrashTableGUI extends ilTable2GUI
     private array $current_filter = [];
 
     public function __construct(
-        object $a_parent_obj,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
+        object $a_parent_obj,
         string $a_parent_cmd,
         int $ref_id
     ) {
@@ -90,12 +90,8 @@ class ilTrashTableGUI extends ilTable2GUI
     {
         $this->setDefaultFilterVisiblity(true);
 
-        $type = new ilMultiSelectInputGUI(
-            $this->lng->txt('type'),
-            'type'
-        );
 
-        $type = $this->addFilterItemByMetaType(// TODO PHP8-REVIEW `$type` is overwritten here
+        $type = $this->addFilterItemByMetaType(
             'type',
             ilTable2GUI::FILTER_SELECT,
             false,

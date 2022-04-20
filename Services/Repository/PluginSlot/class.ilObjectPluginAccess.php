@@ -36,7 +36,7 @@ class ilObjectPluginAccess extends ilObjectAccess
     *
     * this method is called by ilConditionHandler
     */
-    public function _checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id = 0)// TODO PHP8-REVIEW Missing type hints and return type declarations
+    public function _checkCondition(int $a_obj_id, string $a_operator, $a_value, int $a_usr_id = 0) : bool
     {
         return true;
     }

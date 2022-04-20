@@ -46,10 +46,9 @@ class ilObjCategoryGUI extends ilContainerGUI
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Property dynamically declared
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->nav_history = $DIC["ilNavigationHistory"];
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
@@ -62,15 +61,11 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->settings = $DIC->settings();
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
-        $this->rbacreview = $DIC->rbac()->review();// TODO PHP8-REVIEW Property dynamically declared
+        $this->rbacreview = $DIC->rbac()->review();
         $this->rbacadmin = $DIC->rbac()->admin();
-        //global $ilCtrl;
 
-        // CONTROL OPTIONS
-        //$this->ctrl =& $ilCtrl;
-        //$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
-        $GLOBALS['lng']->loadLanguageModule('cat');
-        $GLOBALS['lng']->loadLanguageModule('obj');
+        $this->lng->loadLanguageModule('cat');
+        $this->lng->loadLanguageModule('obj');
 
         $this->type = "cat";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -987,7 +982,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
         foreach ($this->cat_request->getUserIds() as $user_id) {
             if (!in_array($user_id, ilLocalUser::_getAllUserIds($this->object->getRefId()), true)) {
-                die('user id not valid');// TODO PHP8-REVIEW Throw an exception instead and log the issue
+                throw new ilException('user id not valid');
             }
             if (!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false)) {
                 continue;
@@ -1178,7 +1173,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         return true;
     }
     
-    public static function _goto($a_target) : void// TODO PHP8-REVIEW Missing type hint, but this might be an issue of the `goto.php` to be discussed with all code maintainers
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();

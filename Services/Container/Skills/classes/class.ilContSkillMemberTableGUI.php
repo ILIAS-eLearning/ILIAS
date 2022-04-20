@@ -26,14 +26,10 @@ use ILIAS\DI\UIServices;
  */
 class ilContSkillMemberTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    protected $tpl;
     protected ilContainerSkills $container_skills;
     protected UIServices $ui;
 
-    public function __construct($a_parent_obj, string $a_parent_cmd, ilContainerSkills $a_cont_skills)// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
+    public function __construct(ilContSkillAdminGUI $a_parent_obj, string $a_parent_cmd, ilContainerSkills $a_cont_skills)
     {
         global $DIC;
 

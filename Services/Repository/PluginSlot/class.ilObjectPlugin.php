@@ -21,7 +21,6 @@
 abstract class ilObjectPlugin extends ilObject2
 {
     protected ilPlugin $plugin;
-    protected static array $plugin_by_type = [];// TODO PHP8-REVIEW This seems to be unused
     protected ilComponentFactory $component_factory;
 
     public function __construct(int $a_ref_id = 0)
@@ -100,6 +99,6 @@ abstract class ilObjectPlugin extends ilObject2
         $pl = self::getPluginObjectByType($pluginId);
         $pl->loadLanguageModule();
 
-        return $lng->exists($pl->getPrefix() . "_" . $langVar);// TODO PHP8-REVIEW According to SCA the method `getPrefix` does not exists for all possible types of `$pl`
+        return $lng->exists($pl->getPrefix() . "_" . $langVar);
     }
 }

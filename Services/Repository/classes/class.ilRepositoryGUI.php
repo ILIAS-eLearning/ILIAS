@@ -114,8 +114,6 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
             $this->tree->getRootId()
         );
 
-        // #10033
-        $_GET = ["baseClass" => "ilRepositoryGUI"];// TODO PHP8-REVIEW The request is/shoul be immutable, please fix this
         $ctrl->redirectByClass(self::class, "");
     }
 

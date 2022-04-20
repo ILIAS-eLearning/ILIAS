@@ -24,10 +24,7 @@
  */
 class ilContainerStartObjectsPageGUI extends ilPageObjectGUI
 {
-    /**
-    * Constructor
-    */
-    public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")// TODO PHP8-REVIEW Type hints are missing
+    public function __construct(int $a_id = 0, int $a_old_nr = 0, string $a_lang = "")
     {
         parent::__construct("cstr", $a_id, $a_old_nr, false, $a_lang);
     }

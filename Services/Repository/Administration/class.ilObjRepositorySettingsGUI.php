@@ -23,6 +23,7 @@ use ILIAS\Repository\Administration\AdministrationGUIRequest;
  */
 class ilObjRepositorySettingsGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected AdministrationGUIRequest $admin_gui_request;
     protected ilErrorHandling $error;
     protected ilSetting $folder_settings;
@@ -33,12 +34,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
-        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Property is declared dynamically
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();
         $this->folder_settings = new ilSetting('fold');
         $this->ctrl = $DIC->ctrl();
@@ -491,7 +491,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->customIcons($form);
     }
     
-    protected function setModuleSubTabs($a_active) : void// TODO PHP8-REVIEW Type hint is missing
+    protected function setModuleSubTabs(string $a_active) : void
     {
         $this->tabs_gui->activateTab('modules');
         
@@ -552,7 +552,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             // enable creation?
             $ilSetting->set(
                 "obj_dis_creation_" . $obj_type,
-                (string) ((int) (!($item_enablings[$obj_type] ?? false)))// TODO PHP8-REVIEW The resolved type of `$item_enablings` is `int` / I guess you want an `'1'` or `'0'` here as a result
+                (string) ((int) (!($item_enablings[$obj_type] ?? false)))
             );
         }
         
@@ -599,7 +599,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($grp_table->getHTML());
     }
     
-    protected function initNewItemGroupForm($a_grp_id = false) : ilPropertyFormGUI// TODO PHP8-REVIEW Type hint is missing
+    protected function initNewItemGroupForm(bool $a_grp_id = false) : ilPropertyFormGUI
     {
         $this->setModuleSubTabs("new_item_groups");
         
@@ -800,7 +800,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
     
-    public function addToExternalSettingsForm($a_form_id) : ?array// TODO PHP8-REVIEW Type hint is missing
+    public function addToExternalSettingsForm(int $a_form_id) : ?array
     {
         $ilSetting = $this->settings;
         
