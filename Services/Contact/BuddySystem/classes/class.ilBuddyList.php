@@ -252,22 +252,18 @@ class ilBuddyList
      */
     public function link(ilBuddySystemRelation $relation) : self
     {
-        try {
-            if ($relation->isLinked()) {
-                throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_linked');
-            }
-
-            if ($this->getOwnerId() === $relation->getUsrId()) {
-                throw new ilBuddySystemException('You can only accept a request when you are not the initiator');
-            }
-
-            $relation->link();
-
-            $this->getRepository()->save($relation);
-            $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
-        } catch (ilBuddySystemRelationStateException $e) {
-            throw $e;
+        if ($relation->isLinked()) {
+            throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_linked');
         }
+
+        if ($this->getOwnerId() === $relation->getUsrId()) {
+            throw new ilBuddySystemException('You can only accept a request when you are not the initiator');
+        }
+
+        $relation->link();
+
+        $this->getRepository()->save($relation);
+        $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
 
         return $this;
     }

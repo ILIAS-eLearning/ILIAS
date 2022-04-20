@@ -37,10 +37,6 @@ class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRule ext
 
     public function __invoke(ilBuddySystemRelationState $state) : bool
     {
-        if ($state instanceof ilBuddySystemUnlinkedRelationState) {
-            return true;
-        }
-
-        return false;
+        return $state instanceof ilBuddySystemUnlinkedRelationState;
     }
 }

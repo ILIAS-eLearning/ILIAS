@@ -112,7 +112,7 @@ class ilBuddySystemNotification
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
             $notification->setIconPath('templates/default/images/icon_usr.svg');
-            $notification->setHandlerParam('mail.sender', ANONYMOUS_USER_ID);
+            $notification->setHandlerParam('mail.sender', (string) ANONYMOUS_USER_ID);
             $notification->notifyByUsers([$user->getId()]);
         }
     }
@@ -121,8 +121,7 @@ class ilBuddySystemNotification
     {
         $portfolioId = ilObjPortfolio::getDefaultPortfolio($this->sender->getId());
         if (is_numeric($portfolioId) && $portfolioId > 0) {
-            $accessHandler = new ilPortfolioAccessHandler();
-            return $accessHandler->checkAccessOfUser($recipientUsrId, 'read', '', $portfolioId);
+            return (new ilPortfolioAccessHandler())->checkAccessOfUser($recipientUsrId, 'read', '', $portfolioId);
         }
 
         return (
