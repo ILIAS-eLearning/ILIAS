@@ -27,7 +27,7 @@ class ilContainerXmlParser
     private ?ilImportMapping $mapping = null;
     private string $xml = '';
     private int $root_id = 0;
-    public static array $style_map = array();
+    public static array $style_map = [];
 
     public function __construct(
         ilImportMapping $mapping,
@@ -52,7 +52,7 @@ class ilContainerXmlParser
         $sxml = simplexml_load_string($this->xml);
         $this->root_id = $a_root_id;
         foreach ($sxml->Item as $item) {
-            $this->initItem($item, (int) $this->mapping->getTargetId());
+            $this->initItem($item, $this->mapping->getTargetId());
         }
     }
     
@@ -79,7 +79,7 @@ class ilContainerXmlParser
             $new_ref = $this->mapping->getMapping('Services/Container', 'refs', 0);
             
             // see below and ilContainerImporter::finalProcessing()
-            $this->mapping->addMapping('Services/Container', 'objs', $obj_id, ilObject::_lookupObjId($new_ref));
+            $this->mapping->addMapping('Services/Container', 'objs', $obj_id, ilObject::_lookupObjId((int) $new_ref));
         }
         
         if (!$new_ref) {
@@ -184,12 +184,12 @@ class ilContainerXmlParser
         // A mapping for this object already exists => create reference
         $new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', $obj_id);
         if ($new_obj_id) {
-            $obj = ilObjectFactory::getInstanceByObjId($new_obj_id, false);
+            $obj = ilObjectFactory::getInstanceByObjId((int) $new_obj_id, false);
             if ($obj instanceof  ilObject) {
                 $obj->createReference();
                 $obj->putInTree($parent_node);
                 $obj->setPermissions($parent_node);
-                $this->mapping->addMapping('Services/Container', 'refs', $ref_id, $obj->getRefId());
+                $this->mapping->addMapping('Services/Container', 'refs', (string) $ref_id, (string) $obj->getRefId());
                 return $obj->getRefId();
             }
         }
@@ -210,8 +210,8 @@ class ilContainerXmlParser
         $new->putInTree($parent_node);
         $new->setPermissions($parent_node);
         
-        $this->mapping->addMapping('Services/Container', 'objs', $obj_id, $new->getId());
-        $this->mapping->addMapping('Services/Container', 'refs', $ref_id, $new->getRefId());
+        $this->mapping->addMapping('Services/Container', 'objs', (string) $obj_id, (string) $new->getId());
+        $this->mapping->addMapping('Services/Container', 'refs', (string) $ref_id, (string) $new->getRefId());
         
         return $new->getRefId();
     }

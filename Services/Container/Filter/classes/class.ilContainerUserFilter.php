@@ -25,7 +25,7 @@ class ilContainerUserFilter
 {
     protected ?array $data;
 
-    public function __construct($data)
+    public function __construct(?array $data)
     {
         $this->data = $data;
     }
@@ -40,7 +40,7 @@ class ilContainerUserFilter
         $empty = true;
         if (is_array($this->data)) {
             foreach ($this->data as $d) {
-                if (trim($d) != "") {
+                if (trim($d) !== "") {
                     $empty = false;
                 }
             }

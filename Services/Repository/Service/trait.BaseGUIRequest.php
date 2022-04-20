@@ -45,7 +45,7 @@ trait BaseGUIRequest
         Refinery\Factory $refinery,
         ?array $passed_query_params = null,
         ?array $passed_post_data = null
-    ) {
+    ) : void {
         $this->http = $http;
         $this->refinery = $refinery;
         $this->passed_post_data = $passed_post_data;
@@ -53,9 +53,9 @@ trait BaseGUIRequest
     }
 
     // get integer parameter kindly
-    protected function int($key) : int
+    protected function int(string $key) : int
     {
-        if ($this->str($key) == "") {
+        if ($this->str($key) === "") {
             return 0;
         }
         $t = $this->refinery->kindlyTo()->int();
@@ -63,7 +63,7 @@ trait BaseGUIRequest
     }
 
     // get integer array kindly
-    protected function intArray($key) : array
+    protected function intArray(string $key) : array
     {
         if (!$this->isArray($key)) {
             return [];
@@ -73,7 +73,7 @@ trait BaseGUIRequest
                 // keep keys(!), transform all values to int
                 return array_column(
                     array_map(
-                        function ($k, $v) {
+                        static function ($k, $v) : array {
                             return [$k, (int) $v];
                         },
                         array_keys($arr),
@@ -88,14 +88,14 @@ trait BaseGUIRequest
     }
 
     // get string parameter kindly
-    protected function str($key) : string
+    protected function str(string $key) : string
     {
         $t = $this->refinery->kindlyTo()->string();
         return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
     }
 
     // get string array kindly
-    protected function strArray($key) : array
+    protected function strArray(string $key) : array
     {
         if (!$this->isArray($key)) {
             return [];
@@ -105,7 +105,7 @@ trait BaseGUIRequest
                 // keep keys(!), transform all values to string
                 return array_column(
                     array_map(
-                        function ($k, $v) {
+                        static function ($k, $v) : array {
                             if (is_array($v)) {
                                 $v = "";
                             }
@@ -123,7 +123,7 @@ trait BaseGUIRequest
     }
 
     // get string array kindly
-    protected function arrayArray($key) : array
+    protected function arrayArray(string $key) : array
     {
         if (!$this->isArray($key)) {
             return [];
@@ -133,7 +133,7 @@ trait BaseGUIRequest
                 // keep keys(!), transform all values to string
                 return array_column(
                     array_map(
-                        function ($k, $v) {
+                        static function ($k, $v) : array {
                             return [$k, (array) $v];
                         },
                         array_keys($arr),
@@ -176,7 +176,7 @@ trait BaseGUIRequest
     /**
      * @return mixed|null
      */
-    protected function raw($key)
+    protected function raw(string $key)
     {
         $no_transform = $this->refinery->custom()->transformation(function ($v) {
             return $v;

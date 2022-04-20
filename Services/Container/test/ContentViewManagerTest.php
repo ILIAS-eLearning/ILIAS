@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ContentViewManagerTest extends TestCase
 {
-    //protected $backupGlobals = false;
     protected \ILIAS\Container\Content\ViewManager $manager;
 
     protected function setUp() : void
@@ -26,7 +25,7 @@ class ContentViewManagerTest extends TestCase
     /**
      * Test admin view
      */
-    public function testAdminView()
+    public function testAdminView() : void
     {
         $manager = $this->manager;
 
@@ -45,7 +44,7 @@ class ContentViewManagerTest extends TestCase
     /**
      * Test content view
      */
-    public function testContentView()
+    public function testContentView() : void
     {
         $manager = $this->manager;
 

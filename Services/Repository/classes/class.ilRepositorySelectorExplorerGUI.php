@@ -41,7 +41,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     protected int $cur_ref_id;
 
     /**
-     * @param object|array $a_parent_obj parent gui class or class array
+     * @param object|string[] $a_parent_obj parent gui class or class array
      * @param object|string $a_selection_gui gui class that should be called for the selection command
      */
     public function __construct(
@@ -82,16 +82,16 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         $this->setOrderField("title");
 
         // per default: all object types, except item groups
-        $white = array();
+        $white = [];
         foreach ($objDefinition->getSubObjectsRecursively("root") as $rtype) {
-            if ($rtype["name"] != "itgr" && !$objDefinition->isSideBlock($rtype["name"])) {
+            if ($rtype["name"] !== "itgr" && !$objDefinition->isSideBlock($rtype["name"])) {
                 $white[] = $rtype["name"];
             }
         }
         $this->setTypeWhiteList($white);
 
         // always open the path to the current ref id
-        $this->setPathOpen((int) $this->tree->readRootId());
+        $this->setPathOpen($this->tree->readRootId());
         if ($this->cur_ref_id > 0) {
             $this->setPathOpen($this->cur_ref_id);
         }
@@ -118,10 +118,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         }
 
         $title = $a_node["title"];
-        if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
-            if ($title == "ILIAS") {
-                $title = $lng->txt("repository");
-            }
+        if ($title === "ILIAS" && (int) $a_node["child"] === (int) $this->getNodeId($this->getRootNode())) {
+            $title = $lng->txt("repository");
         }
 
         return $title;
@@ -139,7 +137,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $title = $a_node["title"];
-            if ($title == "ILIAS") {
+            if ($title === "ILIAS") {
                 $title = $lng->txt("repository");
             }
             return $lng->txt("icon") . " " . $title;
@@ -152,14 +150,14 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     public function isNodeHighlighted($a_node) : bool
     {
         if ($this->getHighlightedNode()) {
-            if ($this->getHighlightedNode() == $a_node["child"]) {
+            if ((int) $this->getHighlightedNode() === (int) $a_node["child"]) {
                 return true;
             }
             return false;
         }
 
-        if ($a_node["child"] == $this->cur_ref_id ||
-            ($this->cur_ref_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
+        if ((int) $a_node["child"] === $this->cur_ref_id ||
+            ($this->cur_ref_id === 0 && (int) $a_node["child"] === (int) $this->getNodeId($this->getRootNode()))) {
             return true;
         }
         return false;
@@ -169,7 +167,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->select_postvar == "") {
+        if ($this->select_postvar === "") {
             $ilCtrl->setParameterByClass($this->selection_gui, $this->selection_par, $a_node["child"]);
             $link = $ilCtrl->getLinkTargetByClass($this->selection_gui, $this->selection_cmd);
             $ilCtrl->setParameterByClass($this->selection_gui, $this->selection_par, "");
@@ -201,14 +199,14 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             $parent_type = ilObject::_lookupType($parent_obj_id);
         } else {
             $parent_type = "dummy";
-            $this->type_grps["dummy"] = array("root" => "dummy");
+            $this->type_grps["dummy"] = ["root" => "dummy"];
         }
 
         if (empty($this->type_grps[$parent_type])) {
             $this->type_grps[$parent_type] =
-                $objDefinition->getGroupedRepositoryObjectTypes($parent_type);
+                $objDefinition::getGroupedRepositoryObjectTypes($parent_type);
         }
-        $group = array();
+        $group = [];
 
         foreach ($a_childs as $child) {
             $g = $objDefinition->getGroupOfObj($child["type"]);
@@ -220,11 +218,11 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 
         // #14587 - $objDefinition->getGroupedRepositoryObjectTypes does NOT include side blocks!
         $wl = $this->getTypeWhiteList();
-        if (is_array($wl) && in_array("poll", $wl)) {
-            $this->type_grps[$parent_type]["poll"] = array();
+        if (is_array($wl) && in_array("poll", $wl, true)) {
+            $this->type_grps[$parent_type]["poll"] = [];
         }
 
-        $childs = array();
+        $childs = [];
         foreach ($this->type_grps[$parent_type] as $t => $g) {
             if (isset($group[$t])) {
                 // do we have to sort this group??
@@ -232,7 +230,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
                 $group = $sort->sortItems($group);
 
                 // need extra session sorting here
-                if ($t == "sess") {
+                if ($t === "sess") {// TODO PHP8-REVIEW This empty block should be removed
                 }
 
                 foreach ($group[$t] as $k => $item) {
@@ -249,7 +247,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         $ilAccess = $this->access;
 
         if (!$ilAccess->checkAccess("read", "", $a_parent_node_id)) {
-            return array();
+            return [];
         }
 
         return parent::getChildsOfNode($a_parent_node_id);
@@ -259,7 +257,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     {
         $ilAccess = $this->access;
 
-        if ($this->select_postvar != "") {
+        if ($this->select_postvar !== "") {// TODO PHP8-REVIEW This empty block should be removed
             // return false; #14354
         }
 
@@ -268,7 +266,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         }
 
         if (is_array($this->getClickableTypes()) && count($this->getClickableTypes()) > 0) {
-            return in_array($a_node["type"], $this->getClickableTypes());
+            return in_array($a_node["type"], $this->getClickableTypes(), true);
         }
 
         return true;
@@ -307,7 +305,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     protected function isNodeSelectable($a_node) : bool
     {
         if (count($this->getSelectableTypes())) {
-            return in_array($a_node['type'], $this->getSelectableTypes());
+            return in_array($a_node['type'], $this->getSelectableTypes(), true);
         }
         return true;
     }

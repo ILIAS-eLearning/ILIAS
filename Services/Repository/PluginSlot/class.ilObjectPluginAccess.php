@@ -31,17 +31,12 @@ class ilObjectPluginAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
-    {
-        return true;
-    }
-
     /**
     * check condition
     *
     * this method is called by ilConditionHandler
     */
-    public function _checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id = 0)
+    public function _checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id = 0)// TODO PHP8-REVIEW Missing type hints and return type declarations
     {
         return true;
     }
@@ -57,7 +52,7 @@ class ilObjectPluginAccess extends ilObjectAccess
         
         $t_arr = explode("_", $target);
 
-        if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", (int) $t_arr[1])) {
             return true;
         }
         return false;
@@ -66,6 +61,6 @@ class ilObjectPluginAccess extends ilObjectAccess
     // this is called by permission -> check permissions of user screen
     public static function _getCommands() : array
     {
-        return array();
+        return [];
     }
 }

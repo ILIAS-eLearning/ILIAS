@@ -30,7 +30,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
         ilRecommendedContentRoleConfigGUI $a_parent_obj,
         string $a_parent_cmd,
         int $role_id,
-        \ilRecommendedContentManager $manager
+        ilRecommendedContentManager $manager
     ) {
         global $DIC;
 

@@ -20,18 +20,18 @@
  */
 class ilCategoryConditionController implements ilConditionControllerInterface
 {
-    public function isContainerConditionController($a_container_ref_id) : bool
+    public function isContainerConditionController($a_container_ref_id) : bool// TODO PHP8-REVIEW Missing type hint, depends on review of `Condisitions`, please contact your colleague
     {
         return false;
     }
 
-    public function getConditionSetForRepositoryObject($a_container_child_ref_id) : ilConditionSet
+    public function getConditionSetForRepositoryObject($a_container_child_ref_id) : ilConditionSet// TODO PHP8-REVIEW Missing type hint, depends on review of `Condisitions`, please contact your colleague
     {
         global $DIC;
 
         $f = $DIC->conditions()->factory();
 
-        $conditions = array();
+        $conditions = [];
         /*if ($a_container_child_ref_id == 72) {
             //			$conditions[] = $f->condition($f->repositoryTrigger(73), $f->operator()->passed());
         }*/

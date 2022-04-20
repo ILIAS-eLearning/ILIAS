@@ -38,7 +38,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
-        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacsystem = $DIC->rbac()->system();// TODO PHP8-REVIEW Property is declared dynamically
         $this->settings = $DIC->settings();
         $this->folder_settings = new ilSetting('fold');
         $this->ctrl = $DIC->ctrl();
@@ -153,10 +153,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $form->addItem($si);*/
 
         //
-        $options = array(
+        $options = [
             "" => $this->lng->txt("adm_rep_tree_only_container"),
             "tree" => $this->lng->txt("adm_all_resource_types")
-            );
+        ];
 
         // repository tree
         $radg = new ilRadioGroupInputGUI($this->lng->txt("adm_rep_tree_presentation"), "tree_pres");
@@ -273,7 +273,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $dl_prop = new ilCheckboxInputGUI($this->lng->txt("enable_download_folder"), "enable_download_folder");
         $dl_prop->setValue('1');
         // default value should reflect previous behaviour (-> 0)
-        $dl_prop->setChecked($this->folder_settings->get("enable_download_folder", 0) == 1);
+        $dl_prop->setChecked((int) $this->folder_settings->get("enable_download_folder", '0') === 1);
         $dl_prop->setInfo($this->lng->txt('enable_download_folder_info'));
         $form->addItem($dl_prop);
 
@@ -281,7 +281,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $dl_prop = new ilCheckboxInputGUI($this->lng->txt("enable_multi_download"), "enable_multi_download");
         $dl_prop->setValue('1');
         // default value should reflect previous behaviour (-> 0)
-        $dl_prop->setChecked($this->folder_settings->get("enable_multi_download", 0) == 1);
+        $dl_prop->setChecked((int) $this->folder_settings->get("enable_multi_download", '1') === 1);
         $dl_prop->setInfo($this->lng->txt('enable_multi_download_info'));
         $form->addItem($dl_prop);
 
@@ -419,11 +419,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
             $this->folder_settings->set(
                 "enable_download_folder",
-                $form->getInput("enable_download_folder") == 1
+                (int) $form->getInput("enable_download_folder") === 1
             );
             $this->folder_settings->set(
                 "enable_multi_download",
-                $form->getInput("enable_multi_download") == 1
+                (int) $form->getInput("enable_multi_download") === 1
             );
             if ($form->getInput('change_event_tracking')) {
                 ilChangeEvent::_activate();
@@ -491,7 +491,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->customIcons($form);
     }
     
-    protected function setModuleSubTabs($a_active) : void
+    protected function setModuleSubTabs($a_active) : void// TODO PHP8-REVIEW Type hint is missing
     {
         $this->tabs_gui->activateTab('modules');
         
@@ -533,18 +533,17 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $item_groups = $this->admin_gui_request->getNewItemGroups();
         $item_positions = $this->admin_gui_request->getNewItemPositions();
 
-        if (count($item_groups) == 0 ||
-            count($item_positions) == 0 ||
+        if (count($item_groups) === 0 || count($item_positions) === 0 ||
             !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $ilCtrl->redirect($this, "listModules");
         }
         
-        $grp_pos_map = array(0 => 9999);
+        $grp_pos_map = [0 => 9999];
         foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
             $grp_pos_map[$item["id"]] = $item["pos"];
         }
         
-        $type_pos_map = array();
+        $type_pos_map = [];
         $item_enablings = $this->admin_gui_request->getNewItemEnablings();
         foreach ($item_positions as $obj_type => $pos) {
             $grp_id = ($item_groups[$obj_type] ?? 0);
@@ -553,7 +552,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             // enable creation?
             $ilSetting->set(
                 "obj_dis_creation_" . $obj_type,
-                !($item_enablings[$obj_type] ?? false)
+                (string) ((int) (!($item_enablings[$obj_type] ?? false)))// TODO PHP8-REVIEW The resolved type of `$item_enablings` is `int` / I guess you want an `'1'` or `'0'` here as a result
             );
         }
         
@@ -600,7 +599,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($grp_table->getHTML());
     }
     
-    protected function initNewItemGroupForm($a_grp_id = false) : ilPropertyFormGUI
+    protected function initNewItemGroupForm($a_grp_id = false) : ilPropertyFormGUI// TODO PHP8-REVIEW Type hint is missing
     {
         $this->setModuleSubTabs("new_item_groups");
         
@@ -616,7 +615,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $form->addItem($title);
         
         foreach ($this->lng->getInstalledLanguages() as $lang_id) {
-            if ($lang_id != $def_lng) {
+            if ($lang_id !== $def_lng) {
                 $title = new ilTextInputGUI($this->lng->txt("translation"), "title_" . $lang_id);
                 $title->setInfo($this->lng->txt("meta_l_" . $lang_id));
                 $form->addItem($title);
@@ -662,7 +661,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     {
         $form = $this->initNewItemGroupForm();
         if ($form->checkInput()) {
-            $titles = array();
+            $titles = [];
             foreach ($this->lng->getInstalledLanguages() as $lang_id) {
                 $titles[$lang_id] = $form->getInput("title_" . $lang_id);
             }
@@ -703,7 +702,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         
         $form = $this->initNewItemGroupForm($grp_id);
         if ($form->checkInput()) {
-            $titles = array();
+            $titles = [];
             foreach ($this->lng->getInstalledLanguages() as $lang_id) {
                 $titles[$lang_id] = $form->getInput("title_" . $lang_id);
             }
@@ -734,7 +733,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         if (count($group_order) > 0) {
             ilObjRepositorySettings::updateNewItemGroupOrder($group_order);
                                     
-            $grp_pos_map = array();
+            $grp_pos_map = [];
             foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
                 $grp_pos_map[$item["id"]] = str_pad($item["pos"], 4, "0", STR_PAD_LEFT);
             }
@@ -745,7 +744,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 if ($grp_id) {
                     foreach ($subitems as $obj_type) {
                         $old_pos = $ilSetting->get("obj_add_new_pos_" . $obj_type);
-                        if (strlen($old_pos) == 8) {
+                        if (strlen($old_pos) === 8) {
                             $new_pos = $grp_pos_map[$grp_id] . substr($old_pos, 4);
                             $ilSetting->set("obj_add_new_pos_" . $obj_type, $new_pos);
                         }
@@ -761,7 +760,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected function confirmDeleteNewItemGroup() : void
     {
         $group_ids = $this->admin_gui_request->getNewItemGroupIds();
-        if (count($group_ids) == 0) {
+        if (count($group_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
             $this->listNewItemGroups();
             return;
@@ -788,7 +787,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected function deleteNewItemGroup() : void
     {
         $group_ids = $this->admin_gui_request->getNewItemGroupIds();
-        if (count($group_ids) == 0) {
+        if (count($group_ids) === 0) {
             $this->listNewItemGroups();
             return;
         }
@@ -801,26 +800,28 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
     
-    public function addToExternalSettingsForm($a_form_id) : ?array
+    public function addToExternalSettingsForm($a_form_id) : ?array// TODO PHP8-REVIEW Type hint is missing
     {
         $ilSetting = $this->settings;
         
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_LP:
                 
-                $fields = array('trac_show_repository_views' => array(ilChangeEvent::_isActive(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+                $fields = ['trac_show_repository_views' => [ilChangeEvent::_isActive(), ilAdministrationSettingsFormHandler::VALUE_BOOL]];
                                                 
-                return array(array("view", $fields));
+                return [["view", $fields]];
                 
                 
             case ilAdministrationSettingsFormHandler::FORM_TAGGING:
                 
-                $fields = array(
-                    'adm_show_comments_tagging_in_lists' => array($ilSetting->get('comments_tagging_in_lists'), ilAdministrationSettingsFormHandler::VALUE_BOOL,
-                        array('adm_show_comments_tagging_in_lists_tags' => array($ilSetting->get('comments_tagging_in_lists_tags'), ilAdministrationSettingsFormHandler::VALUE_BOOL))
-                ));
+                $fields = [
+                    'adm_show_comments_tagging_in_lists' => [
+                        $ilSetting->get('comments_tagging_in_lists'), ilAdministrationSettingsFormHandler::VALUE_BOOL,
+                        ['adm_show_comments_tagging_in_lists_tags' => [$ilSetting->get('comments_tagging_in_lists_tags'), ilAdministrationSettingsFormHandler::VALUE_BOOL]]
+                    ]
+                ];
                 
-                return array(array("view", $fields));
+                return [["view", $fields]];
         }
         return null;
     }

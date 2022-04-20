@@ -58,7 +58,7 @@ class ilContainerFilterAdminGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("show", "selectFields", "saveFields"))) {
+                if (in_array($cmd, ["show", "selectFields", "saveFields"])) {
                     $this->$cmd();
                 }
         }
@@ -114,7 +114,7 @@ class ilContainerFilterAdminGUI
         $service = $this->container_filter_service;
 
 
-        $fields[] = array();
+        $fields[] = [];
 
 
         // current filter set
@@ -165,7 +165,7 @@ class ilContainerFilterAdminGUI
         $ctrl = $this->ctrl;
 
         $fields = [];
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
 

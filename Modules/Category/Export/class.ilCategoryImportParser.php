@@ -67,11 +67,6 @@ class ilCategoryImportParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function startParsing() : void
-    {
-        parent::startParsing();
-    }
-
     // generate a tag with given name and attributes
     public function buildTag(
         string $type,
@@ -80,7 +75,7 @@ class ilCategoryImportParser extends ilSaxParser
     ) : string {
         $tag = "<";
 
-        if ($type == "end") {
+        if ($type === "end") {
             $tag .= "/";
         }
 
@@ -97,7 +92,13 @@ class ilCategoryImportParser extends ilSaxParser
         return $tag;
     }
 
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array  $a_attribs
+     * @return void
+     */
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case "Category":
@@ -119,19 +120,22 @@ class ilCategoryImportParser extends ilSaxParser
         }
     }
 
-
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
             case "Category":
-                unset($this->category);
-                unset($this->parent[$this->parent_cnt - 1]);
+                unset($this->category, $this->parent[$this->parent_cnt - 1]);
                 $this->parent_cnt--;
                 break;
 
             case "CategorySpec":
                 $is_def = 0;
-                if ($this->cur_spec_lang == $this->default_language) {
+                if ($this->cur_spec_lang === $this->default_language) {
                     $this->category->setTitle($this->cur_title);
                     $this->category->setDescription($this->cur_description);
                     $this->category->update();
@@ -157,14 +161,18 @@ class ilCategoryImportParser extends ilSaxParser
         $this->cdata = "";
     }
 
-    public function handlerCharacterData($a_xml_parser, $a_data) : void
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_data
+     * @return void
+     */
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         // i don't know why this is necessary, but
         // the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
         // in character data, but we don't want that, because it's the
         // way we mask user html in our content, so we convert back...
-        $a_data = str_replace("<", "&lt;", $a_data);
-        $a_data = str_replace(">", "&gt;", $a_data);
+        $a_data = str_replace(["<", ">"], ["&lt;", "&gt;"], $a_data);
 
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
         $a_data = preg_replace("/\n/", "", $a_data);

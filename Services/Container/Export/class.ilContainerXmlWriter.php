@@ -58,7 +58,7 @@ class ilContainerXmlWriter extends ilXmlWriter
         // because of the co-page-stuff (incl. styles) we also need to process the container itself
         if ($a_ref_id != $this->source) {
             $mode = $this->exp_options->getOptionByRefId($a_ref_id, ilExportOptions::KEY_ITEM_MODE);
-            if ($mode == null or $mode == ilExportOptions::EXPORT_OMIT) {
+            if ($mode == null || $mode == ilExportOptions::EXPORT_OMIT) {
                 return;
             }
         }
@@ -100,31 +100,31 @@ class ilContainerXmlWriter extends ilXmlWriter
         
         $this->xmlStartTag(
             'Timing',
-            array(
+            [
                 'Type' => $item['timing_type'],
                 'Visible' => $item['visible'],
                 'Changeable' => $item['changeable'],
-                )
+            ]
         );
         if ($item['timing_start']) {
             $tmp_date = new ilDateTime($item['timing_start'], IL_CAL_UNIX);
-            $this->xmlElement('Start', array(), $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
+            $this->xmlElement('Start', [], $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
         }
         if ($item['timing_end']) {
             $tmp_date = new ilDateTime($item['timing_end'], IL_CAL_UNIX);
-            $this->xmlElement('End', array(), $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
+            $this->xmlElement('End', [], $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
         }
         if ($item['suggestion_start']) {
             $tmp_date = new ilDateTime($item['suggestion_start'], IL_CAL_UNIX);
-            $this->xmlElement('SuggestionStart', array(), $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
+            $this->xmlElement('SuggestionStart', [], $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
         }
         if ($item['suggestion_end']) {
             $tmp_date = new ilDateTime($item['suggestion_end'], IL_CAL_UNIX);
-            $this->xmlElement('SuggestionEnd', array(), $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
+            $this->xmlElement('SuggestionEnd', [], $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
         }
         if ($item['earliest_start'] ?? false) {
             $tmp_date = new ilDateTime($item['earliest_start'], IL_CAL_UNIX);
-            $this->xmlElement('EarliestStart', array(), $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
+            $this->xmlElement('EarliestStart', [], $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
         }
 
         $this->xmlEndTag('Timing');

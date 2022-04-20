@@ -19,11 +19,6 @@
  */
 class ilContainerReferenceAccess extends ilObjectAccess
 {
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
-    {
-        return true;
-    }
-    
     /**
      * Check if target is accessible and not deleted
      */
@@ -41,7 +36,7 @@ class ilContainerReferenceAccess extends ilObjectAccess
         $res = $ilDB->query($query);
         $target_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $target_id = $row->target_obj_id;
+            $target_id = (int) $row->target_obj_id;
         }
         $target_ref_ids = ilObject::_getAllReferences($target_id);
         $target_ref_id = current($target_ref_ids);

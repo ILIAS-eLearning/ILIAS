@@ -16,7 +16,7 @@
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilContainerAccess implements \ilWACCheckingClass
+class ilContainerAccess implements ilWACCheckingClass
 {
     public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
@@ -24,7 +24,7 @@ class ilContainerAccess implements \ilWACCheckingClass
 
         $access = $DIC->access();
 
-        preg_match("/\\/obj_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
+        preg_match("/\\/obj_([\\d]*)\\//uim", $ilWACPath->getPath(), $results);
         foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
             if ($access->checkAccess('visible', '', $ref_id) || $access->checkAccess('read', '', $ref_id)) {
                 return true;

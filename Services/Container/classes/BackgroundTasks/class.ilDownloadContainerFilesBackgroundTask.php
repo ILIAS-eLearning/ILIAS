@@ -63,7 +63,7 @@ class ilDownloadContainerFilesBackgroundTask
         //TODO: fix ilUtil zip stuff
         // Error If name starts "-"
         // error massage from ilUtil->execQuoted = ["","zip error: Invalid command arguments (short option 'a' not supported)"]
-        if (substr($this->bucket_title, 0, 1) === "-") {
+        if ($this->bucket_title[0] === "-") {
             $this->bucket_title = ltrim($this->bucket_title, "-");
         }
 

@@ -20,7 +20,7 @@
  */
 class ilContainerFilterFieldData
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
 
     public function __construct()
     {
@@ -37,8 +37,8 @@ class ilContainerFilterFieldData
         $set = $db->queryF(
             "SELECT * FROM cont_filter_field " .
             " WHERE ref_id = %s ",
-            array("integer"),
-            array($ref_id)
+            ["integer"],
+            [$ref_id]
         );
         while ($rec = $db->fetchAssoc($set)) {
             if ($rec["record_set_id"] > 0 && !ilAdvancedMDFieldDefinition::exists($rec["field_id"])) {
@@ -50,7 +50,7 @@ class ilContainerFilterFieldData
         }
         $filter = ilArrayUtil::sortArray($filter, "sort", "asc", true);
 
-        $filter = array_map(function ($i) {
+        $filter = array_map(static function (array $i) : ilContainerFilterField {
             return $i["field"];
         }, $filter);
 
@@ -64,16 +64,16 @@ class ilContainerFilterFieldData
         $db->manipulateF(
             "DELETE FROM cont_filter_field WHERE " .
             " ref_id = %s",
-            array("integer"),
-            array($ref_id)
+            ["integer"],
+            [$ref_id]
         );
 
         foreach ($set->getFields() as $f) {
-            $db->insert("cont_filter_field", array(
-                "ref_id" => array("integer", $ref_id),
-                "record_set_id" => array("integer", $f->getRecordSetId()),
-                "field_id" => array("integer", $f->getFieldId())
-            ));
+            $db->insert("cont_filter_field", [
+                "ref_id" => ["integer", $ref_id],
+                "record_set_id" => ["integer", $f->getRecordSetId()],
+                "field_id" => ["integer", $f->getFieldId()]
+            ]);
         }
     }
 }

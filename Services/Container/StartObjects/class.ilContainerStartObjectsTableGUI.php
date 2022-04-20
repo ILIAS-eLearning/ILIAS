@@ -22,7 +22,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
     protected ilContainerStartObjects $start_obj; // [ilContainerStartObjects]
     
     public function __construct(
-        object $a_parent_obj,
+        object $a_parent_obj,// TODO PHP8-REVIEW Maybe you can use the class of the consuming GUI or (if there are several) add a list of valid types by using PHPDoc comments
         string $a_parent_cmd,
         ilContainerStartObjects $a_start_objects
     ) {
@@ -41,7 +41,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         
         $this->addColumn('', '', 1);
         
-        if ($a_parent_cmd == 'listStructure') {
+        if ($a_parent_cmd === 'listStructure') {
             $this->addColumn($this->lng->txt('cntr_ordering'), 'pos', '5%');
         }
         
@@ -50,7 +50,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('description'), 'description');
         
         // add
-        if ($a_parent_cmd != 'listStructure') {
+        if ($a_parent_cmd !== 'listStructure') {
             $this->setTitle($this->lng->txt('crs_select_starter'));
             $this->addMultiCommand('addStarter', $this->lng->txt('crs_add_starter'));
             $this->addCommandButton('listStructure', $this->lng->txt('cancel'));
@@ -71,10 +71,10 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setSelectAllCheckbox('starter');
                             
-        $data = array();
+        $data = [];
         
         // add
-        if ($a_parent_cmd != 'listStructure') {
+        if ($a_parent_cmd !== 'listStructure') {
             $data = $this->getPossibleObjects();
         }
         // list
@@ -87,7 +87,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
     
     protected function getPossibleObjects() : array
     {
-        $data = array();
+        $data = [];
         foreach ($this->start_obj->getPossibleStarters() as $item_ref_id) {
             $tmp_obj = ilObjectFactory::getInstanceByRefId($item_ref_id);
 
@@ -96,7 +96,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
             $data[$item_ref_id]['type'] = $this->lng->txt('obj_' . $tmp_obj->getType());
             $data[$item_ref_id]['icon'] = ilObject::_getIcon($tmp_obj->getId(), 'tiny');
 
-            if (strlen($tmp_obj->getDescription())) {
+            if ($tmp_obj->getDescription() !== '') {
                 $data[$item_ref_id]['description'] = $tmp_obj->getDescription();
             }
         }
@@ -106,7 +106,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
     
     protected function getStartObjects() : array
     {
-        $data = array();
+        $data = [];
         $counter = 0;
         foreach ($this->start_obj->getStartObjects() as $start_id => $item) {
             $tmp_obj = ilObjectFactory::getInstanceByRefId($item['item_ref_id']);
@@ -119,7 +119,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
             $counter += 10;
             $data[$item['item_ref_id']]['pos'] = $counter;
 
-            if (strlen($tmp_obj->getDescription())) {
+            if ($tmp_obj->getDescription() !== '') {
                 $data[$item['item_ref_id']]['description'] = $tmp_obj->getDescription();
             }
         }
@@ -129,7 +129,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        if ($this->getParentCmd() == 'listStructure') {
+        if ($this->getParentCmd() === 'listStructure') {
             $this->tpl->setCurrentBlock('pos_bl');
             $this->tpl->setVariable("POS_ID", $a_set["id"]);
             $this->tpl->setVariable("POS", $a_set["pos"]);

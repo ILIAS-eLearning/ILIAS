@@ -21,13 +21,10 @@
 class ilFolderXmlParser extends ilSaxParser
 {
     protected ilErrorHandling $error;
-    private ?ilObject $folder = null;
+    private ilObject $folder;
     protected string $cdata = "";
 
-    /**
-     * Constructor
-     */
-    public function __construct($folder, $xml)
+    public function __construct(ilObject $folder, string $xml)
     {
         global $DIC;
 
@@ -43,7 +40,7 @@ class ilFolderXmlParser extends ilSaxParser
         $this->folder = $folder;
     }
 
-    public function getFolder() : ?\ilObject
+    public function getFolder() : ilObject
     {
         return $this->folder;
     }
@@ -64,8 +61,10 @@ class ilFolderXmlParser extends ilSaxParser
     }
 
     /**
-     * handler for begin of element
-     * @param	resource	$a_xml_parser		xml parser
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array  $a_attribs
+     * @return void
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
@@ -84,7 +83,9 @@ class ilFolderXmlParser extends ilSaxParser
     }
 
     /**
-     * @param	resource	$a_xml_parser		xml parser
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
      */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
@@ -110,14 +111,14 @@ class ilFolderXmlParser extends ilSaxParser
         $this->cdata = '';
     }
 
-
-
     /**
-     * @param	resource	$a_xml_parser		xml parser
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_data
+     * @return void
      */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
-        if ($a_data != "\n") {
+        if ($a_data !== "\n") {
             // Replace multiple tabs with one space
             $a_data = preg_replace("/\t+/", " ", $a_data);
             $this->cdata .= $a_data;

@@ -41,7 +41,7 @@ class ilRepositoryAppEventListener implements ilAppEventListener
                     case "beforeDeletion":
 
 
-                        if ($a_parameter["object"]->getType() == "usr") {
+                        if ($a_parameter["object"]->getType() === "usr") {
 
                             // remove recommended content
                             $rec_manager = new ilRecommendedContentManager();
@@ -52,7 +52,7 @@ class ilRepositoryAppEventListener implements ilAppEventListener
                             $rec_manager->removeFavouritesOfUser((int) $a_parameter["object"]->getId());
                         }
 
-                        if ($a_parameter["object"]->getType() == "role") {
+                        if ($a_parameter["object"]->getType() === "role") {
 
                             // remove recommended content
                             $rec_manager = new ilRecommendedContentManager();

@@ -69,7 +69,7 @@ class ClipboardSessionRepository
 
     public function hasEntries() : bool
     {
-        return (count($this->getRefIds()) > 0 && $this->getCmd() != "");
+        return (count($this->getRefIds()) > 0 && $this->getCmd() !== "");
     }
 
     public function clear() : void
