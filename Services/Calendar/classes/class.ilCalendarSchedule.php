@@ -80,7 +80,7 @@ class ilCalendarSchedule
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->weekstart = $this->user_settings->getWeekStart();
         if ($this->user->getTimeZone()) {
-            $this->timezone = (string) $this->user->getTimeZone();
+            $this->timezone = $this->user->getTimeZone();
         }
         $this->initPeriod($seed);
 

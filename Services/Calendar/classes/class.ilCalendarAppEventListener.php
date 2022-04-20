@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php /** @noinspection ALL */
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -76,10 +77,8 @@ class ilCalendarAppEventListener implements ilAppEventListener
             case 'Services/Booking':
                 switch ($a_event) {
                     case 'create':
-                        break;
-                    case 'update':
-                        break;
                     case 'delete':
+                    case 'update':
                         break;
                 }
                 break;

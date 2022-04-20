@@ -28,7 +28,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
         if ($this->user->getTimeZone()) {
-            $this->timezone = (string) $this->user->getTimeZone();
+            $this->timezone = $this->user->getTimeZone();
         }
     }
 

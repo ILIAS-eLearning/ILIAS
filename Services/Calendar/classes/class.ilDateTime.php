@@ -2,20 +2,20 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define('IL_CAL_DATETIME', 1);
-define('IL_CAL_DATE', 2);
-define('IL_CAL_UNIX', 3);
-define('IL_CAL_FKT_DATE', 4);
-define('IL_CAL_FKT_GETDATE', 5);
-define('IL_CAL_TIMESTAMP', 6);
-define('IL_CAL_ISO_8601', 7);
+const IL_CAL_DATETIME = 1;
+const IL_CAL_DATE = 2;
+const IL_CAL_UNIX = 3;
+const IL_CAL_FKT_DATE = 4;
+const IL_CAL_FKT_GETDATE = 5;
+const IL_CAL_TIMESTAMP = 6;
+const IL_CAL_ISO_8601 = 7;
 
-define('IL_CAL_YEAR', 'year');
-define('IL_CAL_MONTH', 'month');
-define('IL_CAL_WEEK', 'week');
-define('IL_CAL_DAY', 'day');
-define('IL_CAL_HOUR', 'hour');
-define('IL_CAL_SECOND', 'second');
+const IL_CAL_YEAR = 'year';
+const IL_CAL_MONTH = 'month';
+const IL_CAL_WEEK = 'week';
+const IL_CAL_DAY = 'day';
+const IL_CAL_HOUR = 'hour';
+const IL_CAL_SECOND = 'second';
 
 /**
  * @classDescription Date and time handling
@@ -448,8 +448,12 @@ class ilDateTime
                 break;
 
             case IL_CAL_ISO_8601:
+                /**
+                 * False "DateTime::ATOM was removed 7.2 warning" is a false positve
+                 */
+                /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
                 $this->dt_obj = DateTime::createFromFormat(
-                    DateTime::ISO8601,
+                    DateTime::ATOM,
                     $a_date,
                     new DateTimeZone($this->getTimeZoneIdentifier())
                 );
@@ -461,10 +465,6 @@ class ilDateTime
 
     /**
      * get formatted date
-     * @access public
-     * @param int format type
-     * @param string format string
-     * @param string a specific timezone
      * @return string|int|array|null
      */
     public function get(int $a_format, string $a_format_str = '', string $a_tz = '')

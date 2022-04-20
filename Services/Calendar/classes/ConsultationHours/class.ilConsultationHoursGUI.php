@@ -1084,7 +1084,7 @@ class ilConsultationHoursGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 
         $bookings_available = array();
-        foreach ((array) $apps as $entry_id) {
+        foreach ($apps as $entry_id) {
             $entry = new ilCalendarEntry($entry_id);
             $confirm->addItem(
                 'apps[]',

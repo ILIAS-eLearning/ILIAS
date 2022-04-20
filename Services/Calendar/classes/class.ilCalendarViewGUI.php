@@ -236,7 +236,7 @@ class ilCalendarViewGUI
 
         //item => array containing ilcalendary object, dstart of the event , dend etc.
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == (int) $this->initInitialDateFromQuery()) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateFromQuery()) {
                 $dates = $this->getDatesForItem($item);
                 // content of modal
                 $next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);

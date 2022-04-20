@@ -28,11 +28,11 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         global $DIC;
 
         parent::initialize($a_calendar_presentation_type);
-        $this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
+        $this->seed_info = (array) $this->seed->get(IL_CAL_FKT_GETDATE);
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
         if ($this->user->getTimeZone()) {
-            $this->timezone = (string) $this->user->getTimeZone();
+            $this->timezone = $this->user->getTimeZone();
         }
     }
 

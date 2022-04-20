@@ -1,9 +1,9 @@
 <?php
     exit;
 
-    define('ZONEINFO', '/usr/share/zoneinfo');
-    define('TZ_CONVERT', 'tz_convert');
-    define('READLINK', 'readlink');
+const ZONEINFO = '/usr/share/zoneinfo';
+const TZ_CONVERT = 'tz_convert';
+const READLINK = 'readlink';
 
     chdir('../../..');
     

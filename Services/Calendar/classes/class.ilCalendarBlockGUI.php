@@ -16,6 +16,8 @@ use ILIAS\HTTP\Services as HttpServices;
  */
 class ilCalendarBlockGUI extends ilBlockGUI
 {
+    protected array $cal_footer = [];
+    protected ?ilCalendarSchedule $scheduler = null;
     protected RefineryFactory $refinery;
     protected HttpServices $http;
     protected int $mode = ilCalendarCategories::MODE_UNDEFINED;
@@ -770,7 +772,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         // @todo: this needs optimization
         $events = $this->getEvents();
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == (int) $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateQuery()) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateQuery()) {
                 $dates = $this->getDatesForItem($item);
 
                 // content of modal

@@ -147,12 +147,11 @@ class ilCalendarAppointmentGUI
                 if ($a_as_milestone) {
                     $this->form->setTitle($this->lng->txt('cal_new_ms'));
                     $this->form->addCommandButton('saveMilestone', $this->lng->txt('cal_add_milestone'));
-                    $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
                 } else {
                     $this->form->setTitle($this->lng->txt('cal_new_app'));
                     $this->form->addCommandButton('save', $this->lng->txt('cal_add_appointment'));
-                    $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
                 }
+                $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
                 break;
 
             case 'edit':
@@ -205,9 +204,16 @@ class ilCalendarAppointmentGUI
         }
         // calendar selection
         $calendar = new ilSelectInputGUI($this->lng->txt('cal_category_selection'), 'calendar');
-        if ($_POST['category']) {
-            $calendar->setValue((int) $_POST['calendar']);
-            $selected_calendar = (int) $_POST['calendar'];
+
+        $selected_calendar = 0;
+        if ($this->http->wrapper()->post()->has('calendar')) {
+            $selected_calendar = $this->http->wrapper()->post()->retrieve(
+                'calendar',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($selected_calendar > 0) {
+            $calendar->setValue($selected_calendar);
         } elseif ($category_id) {
             $calendar->setValue((int) $category_id);
             $selected_calendar = (int) $category_id;
@@ -390,13 +396,13 @@ class ilCalendarAppointmentGUI
 
     protected function save(bool $a_as_milestone = false) : void
     {
-        $this->load('create', $a_as_milestone);
+        $form = $this->load('create', $a_as_milestone);
 
         if ($this->app->validate() and $this->notification->validate()) {
-            if (!(int) $_POST['calendar']) {
+            if ((int) $form->getInput('calendar') === 0) {
                 $cat_id = $this->createDefaultCalendar();
             } else {
-                $cat_id = (int) $_POST['calendar'];
+                $cat_id = (int) $form->getInput('calendar');
             }
 
             $this->app->save();
@@ -409,7 +415,10 @@ class ilCalendarAppointmentGUI
             $ass->addAssignment($cat_id);
 
             // Send notifications
-            if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and $_POST['not']) {
+            if (
+                ilCalendarSettings::_getInstance()->isNotificationEnabled() &&
+                (int) $form->getInput('not')
+            ) {
                 $this->distributeNotifications($cat_id, $this->app->getEntryId(), true);
             }
             if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
@@ -535,7 +544,16 @@ class ilCalendarAppointmentGUI
      */
     public function saveMilestoneResponsibleUsers() : void
     {
-        $this->app->writeResponsibleUsers($_POST["user_id"]);
+        $user_ids = [];
+        if ($this->http->wrapper()->post()->has('user_id')) {
+            $user_ids = $this->http->wrapper()->post()->retrieve(
+                'user_id',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        $this->app->writeResponsibleUsers($user_ids);
         $this->ctrl->returnToParent($this);
     }
 
@@ -714,13 +732,13 @@ class ilCalendarAppointmentGUI
     {
         $single_editing = (bool) $this->getRecurrenceExclusionFromQuery();
 
-        $this->load('edit', $this->app->isMilestone());
+        $form = $this->load('edit', $this->app->isMilestone());
 
         if ($this->app->validate() and $this->notification->validate()) {
-            if (!(int) $_POST['calendar']) {
+            if (!(int) $form->getInput('calendar')) {
                 $cat_id = $this->createDefaultCalendar();
             } else {
-                $cat_id = (int) $_POST['calendar'];
+                $cat_id = (int) $form->getInput('calendar');
             }
 
             if ($single_editing) {
@@ -747,7 +765,11 @@ class ilCalendarAppointmentGUI
             $ass->addAssignment($cat_id);
 
             // Send notifications
-            if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and $_POST['not']) {
+            $notification = (bool) $form->getInput('not');
+            if (
+                ilCalendarSettings::_getInstance()->isNotificationEnabled() &&
+                $notification
+            ) {
                 $this->distributeNotifications($cat_id, $this->app->getEntryId(), false);
             }
             if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
@@ -916,29 +938,26 @@ class ilCalendarAppointmentGUI
         }
     }
 
-    protected function load($a_mode, $a_as_milestone = false) : void
+    protected function load($a_mode, $a_as_milestone = false) : ilPropertyFormGUI
     {
         // needed for date handling
-        $this->initForm($a_mode, $a_as_milestone);
+        $form = $this->initForm($a_mode, $a_as_milestone);
         $this->form->checkInput();
 
         if ($a_as_milestone) {
             $this->app->setMilestone(true);
-            $this->app->setCompletion(ilUtil::stripSlashes($_POST['completion']));
+            $this->app->setCompletion((int) $form->getInput('completion'));
         }
 
-        $this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
-        $this->app->setLocation(ilUtil::stripSlashes($_POST['location']));
-        $this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
-        $this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
-        $this->app->enableNotification((bool) $_POST['not']);
+        $this->app->setTitle($form->getInput('title'));
+        $this->app->setLocation($form->getInput('location'));
+        $this->app->setDescription($form->getInput('description'));
+        $this->app->enableNotification((bool) $form->getInput('not'));
 
         if ($a_as_milestone) {    // milestones are always fullday events
             $start = $this->form->getItemByPostVar('event_start');
             $start = $start->getDate();
-
             $this->app->setFullday(true);
-
             // for milestones is end date = start date
             $this->app->setStart($start);
             $this->app->setEnd($start);
@@ -952,15 +971,15 @@ class ilCalendarAppointmentGUI
             $this->app->setEnd($end);
         }
 
-        $this->loadNotificationRecipients();
-        $this->loadRecurrenceSettings($a_as_milestone = false);
+        $this->loadNotificationRecipients($form);
+        $this->loadRecurrenceSettings($form, $a_as_milestone = false);
+        return $form;
     }
 
-    protected function loadNotificationRecipients() : void
+    protected function loadNotificationRecipients(ilPropertyFormGUI $form) : void
     {
         $this->notification->setRecipients(array());
-
-        foreach ((array) $_POST['notu'] as $rcp) {
+        foreach ($form->getInput('notu') as $rcp) {
             $rcp = trim(ilUtil::stripSlashes($rcp));
             $usr_id = (int) ilObjUser::_loginExists($rcp);
 
@@ -983,9 +1002,10 @@ class ilCalendarAppointmentGUI
         }
     }
 
-    protected function loadRecurrenceSettings($a_as_milestone = false) : void
+    protected function loadRecurrenceSettings(ilPropertyFormGUI $form, bool $a_as_milestone = false) : void
     {
-        $this->rec->reset();
+        $this->rec = $form->getItemByPostVar('frequence')->getRecurrence();
+
 
         switch ($_POST['frequence']) {
             case ilCalendarRecurrence::FREQ_DAILY:
@@ -1080,9 +1100,9 @@ class ilCalendarAppointmentGUI
 
     protected function saveRecurrenceSettings() : void
     {
-        switch ($_POST['frequence']) {
-            case 'NONE':
+        switch ($this->rec->getFrequenceType()) {
             case '':
+            case ilCalendarRecurrence::FREQ_NONE:
                 // No recurrence => delete if there is an recurrence rule
                 if ($this->rec->getRecurrenceId()) {
                     $this->rec->delete();
@@ -1168,8 +1188,14 @@ class ilCalendarAppointmentGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-
-        $reg = new ilCalendarRegistration((int) $_POST['app_id']);
+        $app_id = 0;
+        if ($this->http->wrapper()->post()->has('app_id')) {
+            $app_id = $this->http->wrapper()->post()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $reg = new ilCalendarRegistration($app_id);
         $reg->register(
             $this->user->getId(),
             new ilDateTime($dstart, IL_CAL_UNIX),
@@ -1236,9 +1262,14 @@ class ilCalendarAppointmentGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-
-
-        $reg = new ilCalendarRegistration((int) $_POST['app_id']);
+        $app_id = 0;
+        if ($this->http->wrapper()->post()->has('app_id')) {
+            $app_id = $this->http->wrapper()->post()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $reg = new ilCalendarRegistration($app_id);
         $reg->unregister(
             $this->user->getId(),
             new ilDateTime((int) $dstart, IL_CAL_UNIX),
@@ -1359,10 +1390,14 @@ class ilCalendarAppointmentGUI
      */
     public function cancelConfirmed() : void
     {
-        $entry = (int) $_POST['app_id'];
-
-        $entry = new ilCalendarEntry($entry);
-
+        $app_id = 0;
+        if ($this->http->wrapper()->post()->has('app_id')) {
+            $app_id = $this->http->wrapper()->post()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $entry = new ilCalendarEntry($app_id);
         $category = $this->calendarEntryToCategory($entry);
         if ($category->getType() == ilCalendarCategory::TYPE_CH) {
             // find cloned calendar entry in user calendar

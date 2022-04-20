@@ -49,7 +49,7 @@ class ilCalendarRecurrenceCalculator
         $this->event = $entry;
         $this->recurrence = $rec;
 
-        $this->duration = $entry->getEnd()->get(IL_CAL_UNIX) - $entry->getStart()->get(IL_CAL_UNIX);
+        $this->duration = (int) $entry->getEnd()->get(IL_CAL_UNIX) - (int) $entry->getStart()->get(IL_CAL_UNIX);
     }
 
     /**
