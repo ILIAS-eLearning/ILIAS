@@ -28,6 +28,7 @@ use ILIAS\Administration\AdminGUIRequest;
 class ilObjRecoveryFolderGUI extends ilContainerGUI
 {
     protected AdminGUIRequest $admin_request;
+    public ilRbacSystem $rbacsystem;
 
     public function __construct(
         $a_data,

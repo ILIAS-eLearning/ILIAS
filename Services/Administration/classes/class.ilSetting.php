@@ -102,11 +102,7 @@ class ilSetting implements \ILIAS\Administration\Setting
         if ($a_keyword === "ilias_version") {
             return ILIAS_VERSION;
         }
-        if (isset($this->setting[$a_keyword])) {
-            return $this->setting[$a_keyword];
-        } else {
-            return $a_default_value;
-        }
+        return $this->setting[$a_keyword] ?? $a_default_value;
     }
     
     public function deleteAll() : void
@@ -158,7 +154,7 @@ class ilSetting implements \ILIAS\Administration\Setting
             self::$value_type = self::_getValueType();
         }
 
-        if (self::$value_type === 'text' and strlen($a_val) >= 4000) {
+        if (self::$value_type === 'text' && strlen($a_val) >= 4000) {
             global $DIC;
             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('setting_value_truncated'), true);
             $a_val = substr($a_val, 0, 4000);
@@ -179,7 +175,7 @@ class ilSetting implements \ILIAS\Administration\Setting
     public function setScormDebug(string $a_key, string $a_val) : void
     {
         $ilDB = $this->db;
-        if ($a_val != "1") {
+        if ($a_val !== "1") {
             $ilDB->query("UPDATE sahs_lm SET debug = 'n'");
         }
         $this->set($a_key, $a_val);
@@ -230,9 +226,10 @@ class ilSetting implements \ILIAS\Administration\Setting
 
         $old_type = self::_getValueType();
 
-        if ($a_new_type == $old_type) {
+        if ($a_new_type === $old_type) {
             return false;
-        } elseif ($a_new_type === 'clob') {
+        }
+        if ($a_new_type === 'clob') {
             $ilDB->addTableColumn(
                 'settings',
                 'value2',
@@ -246,7 +243,8 @@ class ilSetting implements \ILIAS\Administration\Setting
             $ilDB->renameTableColumn('settings', 'value2', 'value');
 
             return true;
-        } elseif ($a_new_type === 'text') {
+        }
+        if ($a_new_type === 'text') {
             $ilDB->addTableColumn(
                 'settings',
                 'value2',
@@ -261,9 +259,8 @@ class ilSetting implements \ILIAS\Administration\Setting
             $ilDB->renameTableColumn('settings', 'value2', 'value');
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
 

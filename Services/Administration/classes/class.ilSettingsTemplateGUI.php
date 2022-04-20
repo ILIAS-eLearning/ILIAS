@@ -263,7 +263,7 @@ class ilSettingsTemplateGUI
             if (isset($set[$s["id"]])) {
                 $values["set_" . $s["id"]] = true;
 
-                if ($s['type'] == ilSettingsTemplateConfig::CHECKBOX) {
+                if ($s['type'] === ilSettingsTemplateConfig::CHECKBOX) {
                     if (!is_array($set[$s["id"]]["value"])) {
                         $ar = unserialize($set[$s["id"]]["value"]);//PHP8Review: Use the options parameter to specificy the serialized classes for security
                     } else {
@@ -308,7 +308,7 @@ class ilSettingsTemplateGUI
     /**
      * Update settings template
      */
-    public function updateSettingsTemplate()
+    public function updateSettingsTemplate() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -366,7 +366,7 @@ class ilSettingsTemplateGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        if (count($this->request->getTemplateIds()) == 0) {
+        if (count($this->request->getTemplateIds()) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSettingsTemplates");
         } else {

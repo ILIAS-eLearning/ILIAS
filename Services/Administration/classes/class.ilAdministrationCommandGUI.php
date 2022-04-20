@@ -74,7 +74,7 @@ class ilAdministrationCommandGUI
 
         $to_delete = $this->request->getSelectedIds();
 
-        if (count($to_delete) == 0) {
+        if (count($to_delete) === 0) {
             $ilErr->raiseError($this->lng->txt('no_checkbox'), $ilErr->MESSAGE);
         }
 

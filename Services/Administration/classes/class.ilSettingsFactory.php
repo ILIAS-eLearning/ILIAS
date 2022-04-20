@@ -36,14 +36,14 @@ class ilSettingsFactory
      */
     public function settingsFor(string $a_module = "common") : ilSetting
     {
-        $tmp_dic = $GLOBALS["DIC"] ?? null;
+        $tmp_dic = $GLOBALS["DIC"] ?? null;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here or even better to integrate it into the classes attributes
         try {
             // ilSetting pulls the database once in the constructor, we force it to
             // use ours.
             $DIC = new ILIAS\DI\Container();
             $DIC["ilDB"] = $this->db;
             $DIC["ilBench"] = null;
-            $GLOBALS["DIC"] = $DIC;
+            $GLOBALS["DIC"] = $DIC;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here
 
             // Always load from db, as caching could be implemented as a
             // decorator to this.
@@ -58,7 +58,7 @@ class ilSettingsFactory
                 $settings->get("dummy", "dummy")
             );
         } finally {
-            $GLOBALS["DIC"] = $tmp_dic;
+            $GLOBALS["DIC"] = $tmp_dic;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here
         }
 
         return $settings;

@@ -93,7 +93,7 @@ class AdminGUIRequest
     public function getSelectedIds() : array
     {
         $ids = $this->intArray("id");
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             if ($this->getItemRefId() > 0) {
                 return [$this->getItemRefId()];
             }

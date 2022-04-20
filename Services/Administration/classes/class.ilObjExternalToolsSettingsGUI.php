@@ -25,6 +25,9 @@
  */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
+    public ilRbacSystem $rbacsystem;
+    public ilRbacReview $rbacreview;
+
     public function __construct(
         $a_data,
         int $a_id,
@@ -178,7 +181,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
                 ilMapUtil::setApiKey($form->getInput("api_key"));
             }
 
-            ilMapUtil::setActivated($form->getInput("enable") == "1");
+            ilMapUtil::setActivated($form->getInput("enable") === "1");
             ilMapUtil::setType($form->getInput("type"));
             $location = $form->getInput("std_location");
             ilMapUtil::setStdLatitude($location["latitude"]);

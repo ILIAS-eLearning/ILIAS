@@ -121,7 +121,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
     public function isNodeHighlighted($a_node) : bool//PHP8Review: missing typehint (array)
     {
         return $a_node["child"] == $this->cur_ref_id ||
-            ($this->cur_ref_id == 0 && $a_node["child"] == $this->getNodeId($this->getRootNode()));
+            ($this->cur_ref_id === 0 && $a_node["child"] == $this->getNodeId($this->getRootNode()));
     }
     
     public function getNodeHref($a_node) : string//PHP8Review: missing typehint (array)
@@ -170,7 +170,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         
         foreach ($a_childs as $child) {
             $g = $objDefinition->getGroupOfObj($child["type"]);
-            if ($g == "") {
+            if ($g === null || $g === "") {
                 $g = $child["type"];
             }
             $group[$g][] = $child;

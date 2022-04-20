@@ -103,7 +103,7 @@ class ilSettingsTemplate
 
     /**
      * Set setting
-     * @param mixed $a_value
+     * @param array|string $a_value//PHP8Review: You may specificy the array further
      */
     public function setSetting(
         string $a_setting,
@@ -113,7 +113,7 @@ class ilSettingsTemplate
         if ($this->getConfig()) {
             $settings = $this->getConfig()->getSettings();
 
-            if ($settings[$a_setting]['type'] == ilSettingsTemplateConfig::CHECKBOX) {
+            if ($settings[$a_setting]['type'] === ilSettingsTemplateConfig::CHECKBOX) {
                 if (is_array($a_value)) {
                     $a_value = serialize($a_value);
                 } else {
@@ -344,14 +344,10 @@ class ilSettingsTemplate
         return $settings_template;
     }
 
-    /**
-     * Lookup property
-     * @return	mixed	property value
-     */
     protected static function lookupProperty(
         int $a_id,
         string $a_prop
-    ) {
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -376,8 +372,8 @@ class ilSettingsTemplate
     
     public static function translate(string $a_title_desc) : string
     {
-        if (substr($a_title_desc, 0, 3) === 'il_') {
-            return $GLOBALS['lng']->txt($a_title_desc);
+        if (str_starts_with($a_title_desc, 'il_')) {
+            return $GLOBALS['lng']->txt($a_title_desc);//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here
         }
         return $a_title_desc;
     }

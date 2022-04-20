@@ -107,7 +107,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
 
         $this->admin_mode = $this->request->getAdminMode();
-        if ($this->admin_mode != ilObjectGUI::ADMIN_MODE_REPOSITORY) {
+        if ($this->admin_mode !== ilObjectGUI::ADMIN_MODE_REPOSITORY) {
             $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
         }
     

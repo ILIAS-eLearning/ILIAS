@@ -62,7 +62,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 // Entries
                 $links = [];
                 foreach ($group_items as $group_item) {
-                    if ($group_item == "---") {
+                    if ($group_item === "---") {
                         continue;
                     }
 
@@ -185,7 +185,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         $items = array();
         foreach ($new_objects as $c) {
             // check visibility
-            if ($tree->getParentId($c["ref_id"]) == ROOT_FOLDER_ID && $c["type"] !== "adm"
+            if ($c["type"] !== "adm" && $tree->getParentId($c["ref_id"]) === ROOT_FOLDER_ID
                 && $admin_request->getAdminMode() !== "repository"
             ) {
                 continue;
@@ -233,12 +233,12 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             $groups[$group] = array();
             $entries_since_last_sep = false;
             foreach ($entries as $e) {
-                if ($e == "---" || (isset($titems[$e]["type"]) && $titems[$e]["type"] != "")) {
-                    if ($e == "---" && $entries_since_last_sep) {
+                if ($e === "---" || (isset($titems[$e]["type"]) && $titems[$e]["type"] != "")) {
+                    if ($e === "---" && $entries_since_last_sep) {
                         $groups[$group][] = $e;
                         $entries_since_last_sep = false;
                     } else {
-                        if ($e != "---") {
+                        if ($e !== "---") {
                             $groups[$group][] = $e;
                             $entries_since_last_sep = true;
                         }
