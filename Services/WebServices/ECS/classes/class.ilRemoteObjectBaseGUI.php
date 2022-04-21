@@ -56,9 +56,20 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
+            case strtolower(ilECSUserConsentModalGUI::class):
+                $consent_gui = new ilECSUserConsentModalGUI(
+                    $this->user->getId(),
+                    $this->ref_id,
+                    $this->getObject()->getMID(),
+                    $this->getObject()
+                );
+                $this->ctrl->setReturn($this, 'call');
+                $this->ctrl->forwardCommand($consent_gui);
+                break;
+
             default:
                 if (!$cmd || $cmd === 'view') {
-                    $cmd = "editSettings";
+                    $cmd = "infoScreen";
                 }
                 $cmd .= "Object";
                 $this->logger->info("cmd before call:" . print_r($cmd, true));
@@ -152,13 +163,24 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     public function infoScreen() : void
     {
         if (!$this->access->checkAccess("visible", "", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+            $this->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE
+            );
         }
-        
+
+        $this->ctrl->setReturn($this,'call');
+        $consent_gui = new ilECSUserConsentModalGUI(
+            $this->user->getId(),
+            $this->ref_id,
+            $this->getObject()->getMID(),
+            $this->getObject(),
+            $this
+        );
+        $consent_gui->addLinkToToolbar($this->toolbar);
+
         $this->tabs_gui->activateTab('info');
 
         $info = new ilInfoScreenGUI($this);
-    
         if ($this->user->getId() === ANONYMOUS_USER_ID ||
             $this->object->isLocalObject()) {
             $info->addButton(
@@ -173,7 +195,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
                 'target="_blank"'
             );
         }
-        
+
         $info->addSection($this->lng->txt('ecs_general_info'));
         $info->addProperty($this->lng->txt('title'), $this->object->getTitle());
         if ($this->object->getOrganization()) {
