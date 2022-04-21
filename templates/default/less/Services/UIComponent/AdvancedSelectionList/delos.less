@@ -59,3 +59,80 @@ div[id^="ilAdvSelListTable_"] {
 	display: none;
 	position: absolute;
 }
+
+//mantis #0017724, 17884, #17943
+#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+#ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
+#mm_adm_tr + span + ul.dropdown-menu > li > div.row,
+#mm_adm_tr + ul.dropdown-menu > li > div.row {
+	@media only screen and (min-width: @screen-lg-min) {
+		.row{
+			width: auto;
+		}
+		ul{
+			min-width: 250px;
+		}
+	}
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		width: 100% !important;
+		margin: 0;
+	}
+}
+#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row
+{
+	@media only screen and (max-width: @screen-md-min){
+		min-width: 260px;
+	}
+	@media only screen and (min-width: @screen-md-min) and (max-width: @screen-lg-min){
+		min-width: 520px;
+	}
+	@media only screen and (min-width: @screen-lg-min) {
+		min-width: 780px;
+	}
+}
+#ilAdvSelListAnchorText_asl + ul.dropdown-menu {
+	@media only screen and (max-width: @screen-sm-min) {
+		position: absolute;
+		background-color: @il-main-bg;
+	}
+}
+
+div.ilNewObjectSelector {
+	display: block;
+	text-align: right;
+	margin-bottom: 8px;
+	padding: 0;
+	width: 100%;
+	> .btn-group.open {
+		display: inline-block;
+		width: 100%;
+		#ilAdvSelListAnchorText_asl {
+			float: right;
+		}
+		#ilAdvSelListAnchorText_asl + .dropdown-menu {
+			top: 30px;
+			right: 0;
+			left: auto;
+			.dropdown-header{
+				margin-right:1px;
+			}
+
+
+
+		}
+	}
+}
+
+[dir="rtl"] div.ilNewObjectSelector {
+	> .btn-group {
+		#ilAdvSelListAnchorText_asl {
+			float: left;
+		}
+	}
+}
+
+#il-add-new-item-gl {
+	h2, a {
+		white-space: break-spaces;
+	}
+}
