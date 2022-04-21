@@ -71,7 +71,7 @@ class ilMailMemberSearchDataProvider
         $preloadedRoleIds = [];
         foreach ($participants as $user_id) {
             $user = ilObjectFactory::getInstanceByObjId($user_id, false);
-            if (!$user instanceof ilObjUser) {
+            if (!($user instanceof ilObjUser)) {
                 continue;
             }
 
