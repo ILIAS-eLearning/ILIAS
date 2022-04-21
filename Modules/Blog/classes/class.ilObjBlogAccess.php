@@ -69,13 +69,15 @@ class ilObjBlogAccess extends ilObjectAccess
     {
         $ilUser = $this->user;
         $ilAccess = $this->access;
-        //TODO-PHP8-REVIEW Please check if a path like /blog_/ would be valid delivery target
         if (preg_match("/\\/blog_([\\d]*)\\//uim", $ilWACPath->getPath(), $results)) {
             $obj_id = $results[1];
+            if ($obj_id == "") {
+                return false;
+            }
             
             // personal workspace
             $tree = new ilWorkspaceTree(0);
-            $node_id = $tree->lookupNodeId($obj_id);
+            $node_id = $tree->lookupNodeId((int) $obj_id);
             if ($node_id) {
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
@@ -84,9 +86,9 @@ class ilObjBlogAccess extends ilObjectAccess
             }
             // repository (RBAC)
             else {
-                $ref_ids = ilObject::_getAllReferences($obj_id);
+                $ref_ids = ilObject::_getAllReferences((int) $obj_id);
                 foreach ($ref_ids as $ref_id) {
-                    if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "blog", $obj_id)) {
+                    if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "blog", (int) $obj_id)) {
                         return true;
                     }
                 }

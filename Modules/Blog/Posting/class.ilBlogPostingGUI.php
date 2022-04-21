@@ -584,11 +584,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     }
 
     /**
-     * Diplay the form
+     * Diplay the keywords form
      */
-    public function editKeywords(
-        ilPropertyFormGUI $a_form = null
-    ) : void {
+    public function editKeywords() : void
+    {
         global $DIC;
 
         $renderer = $DIC->ui()->renderer();
@@ -605,11 +604,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         
         $ilTabs->activateTab("pg");
         
-        if (!$a_form) {
-            $a_form = $this->initKeywordsForm();
-        }
-        //TODO-PHP8-REVIEW Please check if the renderer can be called with an instance of ilPropertyFromGUI or if it never called that way
-        $tpl->setContent($renderer->render($a_form));
+        $tpl->setContent($renderer->render($this->initKeywordsForm()));
     }
 
     /**
@@ -620,7 +615,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         global $DIC;
 
         $ui_factory = $DIC->ui()->factory();
-        //$ilUser = $this->user;
 
         $md_section = $this->getBlogPosting()->getMDSection();
 
@@ -631,7 +625,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $keywords[] = $md_key->getKeyword();
             }
         }
-                                        
+
         // other keywords in blog
         $other = array();
         foreach (array_keys(ilBlogPosting::getAllPostings($this->getBlogPosting()->getBlogId())) as $posting_id) {

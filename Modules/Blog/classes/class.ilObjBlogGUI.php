@@ -1950,8 +1950,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         if ($single_posting) {	// single posting view
             $latest_posting = $this->getLatestPosting($a_items);
-            //TODO-PHP8-REVIEW This will always compare int to str. Please fix check and use === for comparision
-            if ($latest_posting != "" && $this->blpg != $latest_posting) {
+            if ($latest_posting > 0 && $this->blpg !== $latest_posting) {
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $latest_posting);
                 $mb = $f->button()->standard(
                     $lng->txt("blog_latest_posting"),
@@ -1962,8 +1961,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
 
             $prev_posting = $this->getPreviousPosting($a_items);
-            //TODO-PHP8-REVIEW This will always compare int to str. Please fix check and use === for comparision
-            if ($prev_posting != "") {
+            if ($prev_posting > 0) {
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $prev_posting);
                 $pb = $f->button()->standard(
                     $lng->txt("previous"),
@@ -1974,8 +1972,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
 
             $next_posting = $this->getNextPosting($a_items);
-            //TODO-PHP8-REVIEW This will always compare int to str. Please fix check and use === for comparision
-            if ($next_posting != "") {
+            if ($next_posting > 0) {
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $next_posting);
                 $nb = $f->button()->standard(
                     $lng->txt("next"),
@@ -2058,17 +2055,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return $found;
     }
 
-    //TODO-PHP8-REVIEW Please fix documentation
-    /**
-     * Get next month
-     */
     public function getPreviousMonth(
         array $a_items
     ) : string {
         reset($a_items);
         $found = "";
         foreach ($a_items as $month => $items) {
-            //TODO-PHP8-REVIEW Please check if comparing strings with < will work as expected
             if ($month < $this->month && $found === "") {
                 $found = $month;
             }
@@ -2076,9 +2068,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return $found;
     }
 
-    //TODO-PHP8-REVIEW Please fix documentation
     /**
-     * Get next month
+     * @param array $a_items item array
      */
     public function getLatestMonth(
         array $a_items
@@ -2124,11 +2115,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $prev_blpg = 0;
         foreach ($a_items as $month => $items) {
             foreach ($items as $item) {
-                //TODO-PHP8-REVIEW Please fix comparision between string and int and use ===
-                if ($found && $prev_blpg == "") {
+                if ($found && $prev_blpg === 0) {
                     $prev_blpg = (int) $item["id"];
                 }
-                if ($item["id"] == $this->blpg) {
+                if ((int) $item["id"] === $this->blpg) {
                     $found = true;
                 }
             }
@@ -2388,7 +2378,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         if (!$this->obj_id) {
             return null;
         }
-        //TODO-PHP8-REVIEW Please check if this variable should be overwritten, as it is passed in as parameter
         $sub_type = $sub_id = null;
         if ($this->blpg > 0) {
             $sub_type = "blp";
@@ -2885,11 +2874,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     public function getPrintView() : \ILIAS\Export\PrintProcessGUI
     {
-        //TODO-PHP8-REVIEW Please fix method call to correct number of parameters
-        $style_sheet_id = ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->object->getStyleSheetId(),
-            "blog"
-        );
+        $style_sheet_id = $this->content_style_domain->getEffectiveStyleId();
 
         /** @var ilObjBlog $blog */
         $blog = $this->object;

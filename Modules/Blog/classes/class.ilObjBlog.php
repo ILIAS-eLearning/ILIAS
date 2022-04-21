@@ -600,7 +600,7 @@ class ilObjBlog extends ilObject2
     /**
      * Deliver blog as rss feed
      */
-    public static function deliverRSS(int $a_wsp_id) : void
+    public static function deliverRSS(string $a_wsp_id) : void
     {
         global $DIC;
 
@@ -612,14 +612,13 @@ class ilObjBlog extends ilObject2
         }
         
         // #10827
-        //TODO-PHP8-REVIEW the following codeblock will never be executed with $a_wsp_id being typed as int
         if (substr($a_wsp_id, -4) !== "_cll") {
             $wsp_id = new ilWorkspaceTree(0);
-            $obj_id = $wsp_id->lookupObjectId($a_wsp_id);
+            $obj_id = $wsp_id->lookupObjectId((int) $a_wsp_id);
             $is_wsp = "_wsp";
         } else {
             $a_wsp_id = substr($a_wsp_id, 0, -4);
-            $obj_id = ilObject::_lookupObjId($a_wsp_id);
+            $obj_id = ilObject::_lookupObjId((int) $a_wsp_id);
             $is_wsp = null;
         }
         if (!$obj_id) {

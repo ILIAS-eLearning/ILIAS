@@ -1165,7 +1165,7 @@ class ilTree
 
         // TODO: Handle this switch by module.xml definitions
         if (isset($data['type']) && ($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr' or $data['type'] === 'prgr')) {
-            $data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);
+            $data['title'] = ilContainerReference::_lookupTitle((int) $data['obj_id']);
         }
         return $data;
     }
