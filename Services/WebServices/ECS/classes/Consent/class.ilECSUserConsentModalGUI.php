@@ -132,6 +132,19 @@ class ilECSUserConsentModalGUI
     }
 
 
+    public function getTitleLink()  : string
+    {
+        if (
+            $this->usr_id === ANONYMOUS_USER_ID ||
+            $this->isLocalObject() ||
+            $this->consents->hasConsented($this->mid)
+        ) {
+            return '';
+        }
+        $components = $this->getConsentModalComponents(self::TRGIGGER_BUTTON_TYPE_SHY);
+        return $this->ui_renderer->render($components);
+    }
+
     public function addLinkToToolbar(ilToolbarGUI $toolbar)
     {
         if (
@@ -148,17 +161,6 @@ class ilECSUserConsentModalGUI
         }
     }
 
-    public function getTitleLink()
-    {
-        if (
-            $this->usr_id === ANONYMOUS_USER_ID ||
-            $this->isLocalObject()
-        ) {
-            return '';
-        }
-        $components = $this->getConsentModalComponents(self::TRGIGGER_BUTTON_TYPE_SHY);
-        return $this->ui_renderer->render($components);
-    }
 
     protected function addRemoteLinkToToolbar(ilToolbarGUI $toolbar)
     {
@@ -228,11 +230,11 @@ class ilECSUserConsentModalGUI
         $consented = (bool) ($this->request->getParsedBody()['consent'] ?? 0);
         if ($consented) {
             $this->consents->add($this->mid);
-            $this->ctrl->setParameterByClass(ilObjRemoteCategoryGUI::class, 'ref_id', $this->ref_id);
+            $this->ctrl->setParameterByClass($this->getGUIClassName(), 'ref_id', $this->ref_id);
             $this->ctrl->redirectToURL($this->ctrl->getLinkTargetByClass(
                 [
                     ilRepositoryGUI::class,
-                    ilObjRemoteCategoryGUI::class
+                    $this->getGUIClassName()
                 ],
                 'call'
             ));
@@ -280,5 +282,12 @@ class ilECSUserConsentModalGUI
         $submit->setValue('submit');
         $form->addItem($submit);
         return $form;
+    }
+
+    protected function getGUIClassName() : string
+    {
+        $classname = $this->objDefinition->getClassName($this->type);
+        return 'ilObj' . $classname . 'GUI';
+
     }
 }

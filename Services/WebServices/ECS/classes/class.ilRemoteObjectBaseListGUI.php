@@ -44,14 +44,20 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
 
     public function insertTitle() : void
     {
+
         $this->ctrl->setReturnByClass(
-            //ilObjRemoteCategoryGUI::class,
             $this->getGUIClassname(),
             'call'
         );
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
             $this->ref_id);
+
+        $shy_modal = $consent_gui->getTitleLink();
+        if (!strlen($shy_modal)) {
+            parent::insertTitle();
+            return;
+        }
 
         $this->tpl->setCurrentBlock("item_title");
         $this->tpl->setVariable("TXT_TITLE", $consent_gui->getTitleLink());
