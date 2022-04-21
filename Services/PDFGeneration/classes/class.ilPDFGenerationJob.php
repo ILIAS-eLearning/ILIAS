@@ -1,22 +1,27 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilPDFGenerationJob
 {
-    private array $pages;
-    private string $filename;
-    private string $output_mode;
+    /** @var string[] */
+    private array $pages = [];
+    private ?string $filename;
+    private ?string $output_mode;
 
     public function setFilename(string $filename) : self
     {
@@ -29,18 +34,25 @@ class ilPDFGenerationJob
         return $this->filename;
     }
 
+    /**
+     * @param string[] $pages
+     * @return $this
+     */
     public function setPages(array $pages) : self
     {
         $this->pages = $pages;
         return $this;
     }
 
+    /**
+     * @return string[]
+     */
     public function getPages() : array
     {
         return $this->pages;
     }
 
-    public function addPage(array $page) : self
+    public function addPage(string $page) : self
     {
         $this->pages[] = $page;
         return $this;
@@ -48,7 +60,7 @@ class ilPDFGenerationJob
 
     public function flushPages() : self
     {
-        $this->pages = array();
+        $this->pages = [];
         return $this;
     }
 

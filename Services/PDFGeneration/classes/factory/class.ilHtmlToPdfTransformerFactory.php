@@ -1,22 +1,26 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilHtmlToPdfTransformerFactory
 {
-    const PDF_OUTPUT_DOWNLOAD = 'D';
-    const PDF_OUTPUT_INLINE = 'I';
-    const PDF_OUTPUT_FILE = 'F';
+    private const PDF_OUTPUT_DOWNLOAD = 'D';
+    private const PDF_OUTPUT_INLINE = 'I';
+    private const PDF_OUTPUT_FILE = 'F';
 
     protected ilLanguage $lng;
 
@@ -47,7 +51,7 @@ class ilHtmlToPdfTransformerFactory
         $renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
         $config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $map['selected']);
 
-        if (basename($output) == $output) {
+        if (basename($output) === $output) {
             $output = $this->generateTempPath($output);
         }
         
@@ -56,7 +60,6 @@ class ilHtmlToPdfTransformerFactory
         $job->addPage($src);
         $job->setOutputMode($delivery_type);
 
-        /** @var ilPDFRenderer $renderer */
         $renderer->generatePDF($service, $purpose, $config, $job);
         return $this->deliverPDF($output, $delivery_type);
     }
@@ -73,8 +76,10 @@ class ilHtmlToPdfTransformerFactory
             }
             return $file;
         }
+
         return false;
     }
+
     protected function createOneFileFromArray(array $src) : string
     {
         $tmp_file = dirname(reset($src)) . '/complete_pages_overview.html';
