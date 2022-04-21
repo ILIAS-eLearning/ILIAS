@@ -37,11 +37,11 @@ class ilMathJaxServer
      */
     public function call(array $options) : string
     {
-        if (extension_loaded('cURL')) {
+        if (extension_loaded('cURL')) { //TODO-PHP8-REVIEW the curl extension is required by the compose file. There should be no need for callbystreamcontext
             return $this->callByCurl($options);
-        } else {
-            return $this->callByStreamContext($options);
         }
+
+        return $this->callByStreamContext($options);
     }
 
     /**
@@ -54,20 +54,19 @@ class ilMathJaxServer
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($options));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($options, JSON_THROW_ON_ERROR));
         curl_setopt($curl, CURLOPT_TIMEOUT, $this->config->getServerTimeout());
 
         $response = (string) curl_exec($curl);
-        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $status = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
         curl_close($curl);
 
-        if ($status != 200) {
+        if ($status !== "200") {
             $lines = explode("\n", $response);
             if (isset($lines[1])) {
                 throw new ilMathJaxException($lines[1]);
-            } else {
-                throw new ilMathJaxException('curl server call failed');
             }
+            throw new ilMathJaxException('curl server call failed');
         }
         return $response;
     }
@@ -81,7 +80,7 @@ class ilMathJaxServer
             array(
                 'http' => array(
                     'method' => 'POST',
-                    'content' => json_encode($options),
+                    'content' => json_encode($options, JSON_THROW_ON_ERROR),
                     'header' => "Content-Type: application/json\r\n",
                     'timeout' => $this->config->getServerTimeout(),
                     'ignore_errors' => true

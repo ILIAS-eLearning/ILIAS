@@ -1,31 +1,36 @@
-<?php
-use PHPUnit\Framework\TestSuite;
+<?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use PHPUnit\Framework\TestSuite;
+
 /**
- * Class ilPDFGenerationSuite
+ * Class ilServicesPDFGenerationSuite
  * @package ilPdfGenerator
  */
 class ilServicesPDFGenerationSuite extends TestSuite
 {
-    public static function suite() : \ilServicesPDFGenerationSuite
+    public static function suite() : self
     {
         $suite = new self();
-        require_once 'Services/PDFGeneration/test/ilPdfGeneratorConstantsTest.php';
+
+        require_once __DIR__ . '/ilPdfGeneratorConstantsTest.php';
         $suite->addTestSuite('ilPdfGeneratorConstantsTest');
-        require_once 'Services/PDFGeneration/test/ilWkhtmlToPdfConfigTest.php';
+        require_once __DIR__ . '/ilWkhtmlToPdfConfigTest.php';
         $suite->addTestSuite('ilWkhtmlToPdfConfigTest');
 
         return $suite;
