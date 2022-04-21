@@ -60,10 +60,14 @@ class ilECSUserConsents
     protected function read() : void
     {
         $query = 'SELECT * FROM ecs_user_consent ' .
-            'WHERE usr_id = ' . $this->db->quote($this->getUserId(), ilDBConstants::T_INTEGER);
+            'WHERE usr_id = ' . $this->db->quote(
+                $this->getUserId(), ilDBConstants::T_INTEGER
+            );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->consents[(int) $row->mid] = new ilECSUserConsent((int) $row->usr_id, (int) $row->mid);
+            $this->consents[(int) $row->mid] = new ilECSUserConsent(
+                (int) $row->usr_id, (int) $row->mid
+            );
         }
     }
 }
