@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Cron for booking manager notification
@@ -107,7 +111,7 @@ class ilBookCronNotification extends ilCronJob
         foreach (ilObjBookingPool::getPoolsWithReminders() as $p) {
             // determine reservations from max(next day $last_to_ts) up to "rmd_day" days + 1
             // per pool id
-            $next_day_ts = mktime(0, 0, 0, date('n'), date('j') + 1);
+            $next_day_ts = mktime(0, 0, 0, date('n'), (int) date('j') + 1);
             $log->debug("next day ts: " . $next_day_ts);
             $last_reminder_to_ts = $p["last_remind_ts"];
             // for debug purposes
@@ -115,7 +119,7 @@ class ilBookCronNotification extends ilCronJob
             $log->debug("last_reminder ts: " . $last_reminder_to_ts);
             $from_ts = max($next_day_ts, $last_reminder_to_ts);
             $log->debug("from ts: " . $from_ts);
-            $to_ts = mktime(0, 0, 0, date('n'), date('j') + $p["reminder_day"] + 1);
+            $to_ts = mktime(0, 0, 0, date('n'), (int) date('j') + $p["reminder_day"] + 1);
             $res = [];
 
             // overwrite from to current time, see #26216, this ensures

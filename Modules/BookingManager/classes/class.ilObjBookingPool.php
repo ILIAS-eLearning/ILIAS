@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilObjBookingPool
@@ -148,7 +152,6 @@ class ilObjBookingPool extends ilObject
     /**
      * @param int $a_obj_id pool id
      * @param int $a_ts timestamp
-     * @return void
      */
     public static function writeLastReminderTimestamp(
         int $a_obj_id,
@@ -189,7 +192,7 @@ class ilObjBookingPool extends ilObject
             $objects[] = $row['booking_object_id'];
         }
 
-        if (sizeof($objects)) {
+        if (count($objects)) {
             $ilDB->manipulate('DELETE FROM booking_reservation' .
                     ' WHERE ' . $ilDB->in('object_id', $objects, '', 'integer'));
         }
@@ -200,43 +203,46 @@ class ilObjBookingPool extends ilObject
         return true;
     }
     
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
-        //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        if ($new_obj !== null) {
+            //copy online status if object is not the root copy object
+            $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
-        if (!$cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOffline($this->isOffline());
-        }
-
-        $new_obj->setScheduleType($this->getScheduleType());
-        $new_obj->setPublicLog($this->hasPublicLog());
-        $new_obj->setOverallLimit($this->getOverallLimit());
-        $new_obj->setReminderStatus($this->getReminderStatus());
-        $new_obj->setReminderDay($this->getReminderDay());
-        $new_obj->setPreferenceNumber($this->getPreferenceNumber());
-        $new_obj->setPreferenceDeadline($this->getPreferenceDeadline());
-
-        $smap = null;
-        if ($this->getScheduleType() == self::TYPE_FIX_SCHEDULE) {
-            // schedules
-            foreach (ilBookingSchedule::getList($this->getId()) as $item) {
-                $schedule = new ilBookingSchedule($item["booking_schedule_id"]);
-                $smap[$item["booking_schedule_id"]] = $schedule->doClone($new_obj->getId());
+            if (!$cp_options->isRootNode($this->getRefId())) {
+                $new_obj->setOffline($this->isOffline());
             }
+
+            $new_obj->setScheduleType($this->getScheduleType());
+            $new_obj->setPublicLog($this->hasPublicLog());
+            $new_obj->setOverallLimit($this->getOverallLimit());
+            $new_obj->setReminderStatus($this->getReminderStatus());
+            $new_obj->setReminderDay($this->getReminderDay());
+            $new_obj->setPreferenceNumber($this->getPreferenceNumber());
+            $new_obj->setPreferenceDeadline($this->getPreferenceDeadline());
+
+            $smap = null;
+            if ($this->getScheduleType() === self::TYPE_FIX_SCHEDULE) {
+                // schedules
+                foreach (ilBookingSchedule::getList($this->getId()) as $item) {
+                    $schedule = new ilBookingSchedule($item["booking_schedule_id"]);
+                    $smap[$item["booking_schedule_id"]] = $schedule->doClone($new_obj->getId());
+                }
+            }
+
+            // objects
+            foreach (ilBookingObject::getList($this->getId()) as $item) {
+                $bobj = new ilBookingObject($item["booking_object_id"]);
+                $bobj->doClone($new_obj->getId(), $smap);
+            }
+
+            $new_obj->update();
+
+            return $new_obj;
         }
-        
-        // objects
-        foreach (ilBookingObject::getList($this->getId()) as $item) {
-            $bobj = new ilBookingObject($item["booking_object_id"]);
-            $bobj->doClone($new_obj->getId(), $smap);
-        }
-        
-        $new_obj->update();
-        
-        return $new_obj;
+        return null;
     }
     
     public function setOffline(
@@ -330,7 +336,7 @@ class ilObjBookingPool extends ilObject
             " FROM booking_settings" .
             " WHERE booking_pool_id = " . $ilDB->quote($a_obj_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        return !(bool) $row["pool_offline"];
+        return !$row["pool_offline"];
     }
     
     /**
@@ -374,8 +380,9 @@ class ilObjBookingPool extends ilObject
 
         foreach ($recs as $record_obj) {
             foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_obj->getRecordId()) as $def) {
-                $fields[$def->getFieldId()] = array(
-                    "id" => $def->getFieldId(),
+                $field_id = $def->getFieldId();
+                $fields[$field_id] = array(
+                    "id" => $field_id,
                     "title" => $def->getTitle(),
                     "type" => $def->getType()
                 );

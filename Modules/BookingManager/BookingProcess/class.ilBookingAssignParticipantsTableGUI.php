@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * List participant / booking pool  assignment.
@@ -58,7 +62,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 
         $this->addColumn("", "", 1);
         $this->addColumn($this->lng->txt("name"), "name");
-        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+        if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $this->addColumn($this->lng->txt("book_bobj"));
         }
         $this->addColumn($this->lng->txt("action"));
@@ -72,14 +76,14 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 
 
         $this->addHiddenInput('object_id', $a_booking_obj_id);
-        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+        if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $this->setSelectAllCheckbox('mass');
             $this->addMultiCommand("bookMultipleParticipants", $this->lng->txt("assign"));
         }
         $this->getItems();
 
 
-        if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE) {
+        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE) {
             $main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt("book_objects_available"),
                 ilBookingReservation::numAvailableFromObjectNoSchedule($a_booking_obj_id)
@@ -89,18 +93,18 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 
     public function getItems() : void
     {
-        if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $data = ilBookingParticipant::getList($this->pool_id, []);
         } else {
             $data = ilBookingParticipant::getAssignableParticipants($this->bp_object_id);
         }
-        $this->setMaxCount(sizeof($data));
+        $this->setMaxCount(count($data));
         $this->setData($data);
     }
 
     protected function fillRow(array $a_set) : void
     {
-        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+        if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $this->tpl->setCurrentBlock("multi");
             $this->tpl->setVariable("MULTI_ID", $a_set['user_id']);
             $this->tpl->parseCurrentBlock();
@@ -109,7 +113,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_NAME", $a_set['name']);
         $this->tpl->setCurrentBlock('object_titles');
 
-        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+        if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             foreach ($a_set['object_title'] as $obj_title) {
                 $this->tpl->setCurrentBlock("object_title");
                 $this->tpl->setVariable("TXT_OBJECT", $obj_title);
