@@ -60,27 +60,6 @@ class ilObjRemoteCategoryListGUI extends ilRemoteObjectBaseListGUI
         $this->commands = ilObjRemoteCategoryAccess::_getCommands();
     }
 
-    public function insertTitle()
-    {
-        global $DIC;
-
-        $ctrl = $DIC->ctrl();
-
-        $ctrl->setReturnByClass(
-            ilObjRemoteCategoryGUI::class,
-            'call'
-        );
-        $consent_gui = new ilECSUserConsentModalGUI(
-            $DIC->user()->getId(),
-            420,
-            1,
-            ilObjectFactory::getInstanceByRefId(420));
-
-        $this->tpl->setCurrentBlock("item_title");
-        $this->tpl->setVariable("TXT_TITLE", $consent_gui->getTitleLink());
-        $this->tpl->parseCurrentBlock();
-    }
-
 
     /**
      * get properties (offline)
