@@ -118,9 +118,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
             default:
                 if ($posting) {
-                    if ($ilCtrl->getCmd() == "deactivatePageToList") {
+                    if ($ilCtrl->getCmd() === "deactivatePageToList") {
                         $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_draft_info"), true);
-                    } elseif ($ilCtrl->getCmd() == "activatePageToList") {
+                    } elseif ($ilCtrl->getCmd() === "activatePageToList") {
                         $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_new_posting_info"), true);
                     }
                     $this->setPresentationTitle($posting->getTitle());
@@ -155,7 +155,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     protected function checkAccess(string $a_cmd) : bool
     {
-        if ($a_cmd == "contribute") {
+        if ($a_cmd === "contribute") {
             return $this->may_contribute;
         }
         return $this->access_handler->checkAccess($a_cmd, "", $this->node_id);
@@ -206,7 +206,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         }
 
         // permanent link
-        if ($a_mode != "embedded") {
+        if ($a_mode !== "embedded") {
             $append = ($this->blpg > 0)
                 ? "_" . $this->blpg
                 : "";
@@ -248,7 +248,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->setTemplateOutput(false);
 
         if (!$this->getAbstractOnly()) {
-            if ($a_title != "") {
+            if ($a_title !== "") {
                 $this->setPresentationTitle($a_title);
             } else {
                 $this->setPresentationTitle($this->getBlogPosting()->getTitle());
@@ -279,7 +279,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         string $a_output
     ) : string {
         // #8626/#9370
-        if (($this->getOutputMode() == "preview" || $this->getOutputMode() == "offline")
+        if (($this->getOutputMode() === "preview" || $this->getOutputMode() === "offline")
             && !$this->getAbstractOnly() && $this->add_date) {
             $author = "";
             if (!$this->isInWorkspace()) {
@@ -584,11 +584,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     }
 
     /**
-     * Diplay the form
+     * Diplay the keywords form
      */
-    public function editKeywords(
-        ilPropertyFormGUI $a_form = null
-    ) : void {
+    public function editKeywords() : void
+    {
         global $DIC;
 
         $renderer = $DIC->ui()->renderer();
@@ -605,11 +604,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         
         $ilTabs->activateTab("pg");
         
-        if (!$a_form) {
-            $a_form = $this->initKeywordsForm();
-        }
-
-        $tpl->setContent($renderer->render($a_form));
+        $tpl->setContent($renderer->render($this->initKeywordsForm()));
     }
 
     /**
@@ -620,18 +615,17 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         global $DIC;
 
         $ui_factory = $DIC->ui()->factory();
-        //$ilUser = $this->user;
 
         $md_section = $this->getBlogPosting()->getMDSection();
 
         $keywords = array();
         foreach ($ids = $md_section->getKeywordIds() as $id) {
             $md_key = $md_section->getKeyword($id);
-            if (trim($md_key->getKeyword()) != "") {
+            if (trim($md_key->getKeyword()) !== "") {
                 $keywords[] = $md_key->getKeyword();
             }
         }
-                                        
+
         // other keywords in blog
         $other = array();
         foreach (array_keys(ilBlogPosting::getAllPostings($this->getBlogPosting()->getBlogId())) as $posting_id) {
@@ -665,9 +659,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         if ($this->node_id) {
             if ($this->isInWorkspace()) {
                 return $this->access_handler->getTree()->lookupObjectId($this->node_id);
-            } else {
-                return ilObject::_lookupObjId($this->node_id);
             }
+
+            return ilObject::_lookupObjId($this->node_id);
         }
         return 0;
     }
@@ -679,7 +673,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $request = $DIC->http()->request();
         $form = $this->initKeywordsForm();
 
-        if ($request->getMethod() == "POST"
+        if ($request->getMethod() === "POST"
             && $request->getQueryParams()['tags'] == 'tags_processing') {
             $form = $form->withRequest($request);
             $result = $form->getData();
@@ -752,7 +746,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             foreach ($mob_ids as $mob_id) {
                 $mob_obj = new ilObjMediaObject($mob_id);
                 $mob_item = $mob_obj->getMediaItem("Standard");
-                if (stristr($mob_item->getFormat(), "image")) {
+                if (stripos($mob_item->getFormat(), "image") !== false) {
                     $mob_size = $mob_item->getOriginalSize();
                     if ($mob_size["width"] >= $a_width ||
                         $mob_size["height"] >= $a_height) {
@@ -770,7 +764,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                         );
 
 
-                        $location = $mob_item->getLocationType() == "Reference"
+                        $location = $mob_item->getLocationType() === "Reference"
                             ? $mob_item->getLocation()
                             : $mob_dir . "/" . $mob_item->getLocation();
                         
