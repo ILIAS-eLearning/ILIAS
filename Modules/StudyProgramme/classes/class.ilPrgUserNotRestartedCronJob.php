@@ -7,7 +7,7 @@
  */
 class ilPrgUserNotRestartedCronJob extends ilCronJob
 {
-    const ID = 'prg_user_not_restarted';
+    private const ID = 'prg_user_not_restarted';
 
     /**
      * @var mixed
@@ -68,7 +68,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         $programmes_to_send = $this->getSettingsRepository()
             ->getProgrammeIdsWithMailsForExpiringValidity();
 
-        if (count($programmes_to_send) == 0) {
+        if (count($programmes_to_send) === 0) {
             return $result;
         }
 
@@ -83,7 +83,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         $progresses = $this->getProgressRepository()
             ->getAboutToExpire($programmes_and_due);
         
-        if (count($progresses) == 0) {
+        if (count($progresses) === 0) {
             return $result;
         }
 

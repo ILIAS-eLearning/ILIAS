@@ -79,7 +79,7 @@ class ilStudyProgrammeDashboardViewGUI
             $progress = $this->getProgressRepository()->getRootProgressOf($assignment);
 
             $current_prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-            list($minimum_percents, $current_percents) = $this->calculatePercent(
+            [$minimum_percents, $current_percents] = $this->calculatePercent(
                 $current_prg,
                 $progress->getCurrentAmountOfPoints()
             );
@@ -108,7 +108,7 @@ class ilStudyProgrammeDashboardViewGUI
             $items[] = $this->buildItem($current_prg, $properties);
         }
 
-        if (count($items) == 0) {
+        if (count($items) === 0) {
             return "";
         }
 
@@ -220,7 +220,7 @@ class ilStudyProgrammeDashboardViewGUI
      */
     protected function isReadable(ilStudyProgrammeAssignment $assignment) : bool
     {
-        if ($this->getVisibleOnPDMode() == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
+        if ($this->getVisibleOnPDMode() === ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
         }
 

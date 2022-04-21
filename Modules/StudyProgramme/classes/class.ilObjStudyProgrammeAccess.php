@@ -12,28 +12,16 @@
 class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHandling
 {
     /**
-    * Checks whether a user may invoke a command or not
-    * (this method is called by ilAccessHandler::checkAccess)
-    *
-    * Please do not check any preconditions handled by
-    * ilConditionHandler here. Also don't do any RBAC checks.
-    *
-    * @param	string		$cmd			command (not permission!)
-    * @param	string		$permission	permission
-    * @param	int			$ref_id		reference id
-    * @param	int			$obj_id		object id
-    * @param	int			$user_id		user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
-    */
-    public function _checkAccess($cmd, $permission, $ref_id, $obj_id, $user_id = "") : bool
+     * @ineritDoc
+     */
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
-        if ($user_id == "") {
+        if ($user_id === 0 || $user_id === null) {
             global $DIC;
             $user_id = $DIC->user()->getId();
         }
 
-        if ($permission == "delete") {
+        if ($permission === "delete") {
             $prg = ilObjStudyProgramme::getInstanceByRefId($ref_id);
             if ($prg->hasRelevantProgresses()) {
                 return false;
@@ -68,19 +56,16 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        $t_arr = explode('_', $a_target);
-        if ($t_arr[0] != 'prg' || ((int) $t_arr[1]) <= 0) {
+        $ilAccess = $DIC->access();
+        $t_arr = explode('_', $target);
+        if ($t_arr[0] !== 'prg' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        if ($ilAccess->checkAccess('read', '', $t_arr[1])) {
-            return true;
-        }
 
-        return false;
+        return $ilAccess->checkAccess('read', '', (int) $t_arr[1]);
     }
 
     /**
@@ -100,12 +85,12 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
      * @param int    $a_usr_id
      * @return boolean
      */
-    public static function checkCondition(int $a_trigger_obj_id,
+    public static function checkCondition(
+        int $a_trigger_obj_id,
         string $a_operator,
         string $a_value,
         int $a_usr_id
-    ) : bool
-    {
+    ) : bool {
         if ($a_operator === ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED) {
             $valid_progress = array(
                 ilStudyProgrammeProgress::STATUS_COMPLETED,

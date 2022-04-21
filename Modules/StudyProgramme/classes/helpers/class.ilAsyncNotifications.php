@@ -33,7 +33,7 @@ class ilAsyncNotifications
     {
         $this->js_init = false;
         $this->js_path = "./Modules/StudyProgramme/templates/js/";
-        $this->content_container_id = ($content_container_id != null)? $content_container_id : "ilContentContainer";
+        $this->content_container_id = $content_container_id ?? "ilContentContainer";
     }
 
     /**
@@ -59,10 +59,9 @@ class ilAsyncNotifications
                 "$('#" .
                 $this->content_container_id .
                 "').study_programme_notifications(" .
-                json_encode($this->js_config) .
+                json_encode($this->js_config, JSON_THROW_ON_ERROR) .
                 ");"
-            )
-            ;
+            );
 
             $this->js_init = true;
         }
@@ -124,7 +123,7 @@ class ilAsyncNotifications
      * @param mixed $key
      * @param mixed $value
      */
-    public function addJsConfig($key, $value)
+    public function addJsConfig($key, $value) : void
     {
         $this->js_config[$key] = $value;
     }

@@ -96,9 +96,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
                 $list_item->setVisibleOnPDMode($this->visible_on_pd_mode);
                 $content .= $list_item->getHTML();
             } catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
-                $this->logger->alert("$e");
+                $this->logger->alert((string) $e);
             } catch (ilStudyProgrammeTreeException $e) {
-                $this->logger->alert("$e");
+                $this->logger->alert((string) $e);
             }
         }
         return $content;
@@ -128,7 +128,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
     
     protected function userHasVisibleStudyProgrammes() : bool
     {
-        if (count($this->users_assignments) == 0) {
+        if (count($this->users_assignments) === 0) {
             return false;
         }
         foreach ($this->users_assignments as $assignment) {
@@ -141,7 +141,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
 
     protected function userHasReadableStudyProgrammes() : bool
     {
-        if (count($this->users_assignments) == 0) {
+        if (count($this->users_assignments) === 0) {
             return false;
         }
         foreach ($this->users_assignments as $assignment) {
@@ -170,7 +170,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
 
     protected function isReadable(ilStudyProgrammeAssignment $assignment) : bool
     {
-        if ($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
+        if ($this->visible_on_pd_mode === ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
         }
 
@@ -181,9 +181,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
     {
         $cmd = $this->request_wrapper->retrieve("cmd", $this->refinery->kindlyTo()->string());
         $expand = $this->request_wrapper->retrieve("expand", $this->refinery->kindlyTo()->bool());
-        $jump_to_selected_list = $cmd == "jumpToSelectedItems";
-        $is_ilDashboardGUI = $this->ctrl->getCmdClass() == "ildashboardgui";
-        $is_cmd_show = $this->ctrl->getCmd() == "show";
+        $jump_to_selected_list = $cmd === "jumpToSelectedItems";
+        $is_ilDashboardGUI = $this->ctrl->getCmdClass() === "ildashboardgui";
+        $is_cmd_show = $this->ctrl->getCmd() === "show";
 
         return ($jump_to_selected_list || ($is_ilDashboardGUI && $is_cmd_show)) && !$expand;
     }

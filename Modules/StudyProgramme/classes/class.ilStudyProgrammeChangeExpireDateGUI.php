@@ -9,9 +9,9 @@ use ILIAS\UI\Renderer;
 
 class ilStudyProgrammeChangeExpireDateGUI
 {
-    const CMD_SHOW_EXPIRE_DATE_CONFIG = "showExpireDateConfig";
-    const CMD_CHANGE_EXPIRE_DATE = "changeExpireDate";
-    const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
+    private const CMD_SHOW_EXPIRE_DATE_CONFIG = "showExpireDateConfig";
+    private const CMD_CHANGE_EXPIRE_DATE = "changeExpireDate";
+    private const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

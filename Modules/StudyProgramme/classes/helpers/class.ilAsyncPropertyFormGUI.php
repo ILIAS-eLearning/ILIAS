@@ -63,7 +63,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
         global $DIC;
         $tpl = $DIC['tpl'];
 
-        $js_path = (isset($js_base_path))? $js_base_path : self::$js_path;
+        $js_path = $js_base_path ?? self::$js_path;
 
         $tpl->addJavaScript($js_path . 'ilAsyncPropertyFormGUI.js');
 
@@ -107,7 +107,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
         foreach ($this->getItems() as $item) {
             // We call method exists as there are items in the form (ilFormSectionHeaderGUI)
             // that do not have alerts. (#16956)
-            if (method_exists($item, "getAlert") && $item->getAlert() != "") {
+            if (method_exists($item, "getAlert") && $item->getAlert() !== "") {
                 $errors[] = array('key' => $item->getFieldId(), 'message' => $item->getAlert());
             }
         }
@@ -221,7 +221,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
         return self::$js_path;
     }
 
-    public function setJsPath(string $js_path)
+    public function setJsPath(string $js_path) : void
     {
         self::$js_path = $js_path;
     }

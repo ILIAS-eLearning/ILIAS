@@ -102,7 +102,7 @@ class ilObjStudyProgrammeTreeGUI
 
         $this->getToolbar();
 
-        if ($cmd == "") {
+        if ($cmd === "" || $cmd === null) {
             $cmd = "view";
         }
 
@@ -167,7 +167,7 @@ class ilObjStudyProgrammeTreeGUI
             $tree = $this->http_wrapper->post()->retrieve("tree", $this->refinery->kindlyTo()->string());
         }
         $treeAsJson = ilUtil::stripSlashes($tree);
-        $treeData = json_decode($treeAsJson);
+        $treeData = json_decode($treeAsJson, false, 512, JSON_THROW_ON_ERROR);
 
         if (!is_array($treeData) || [] === $treeData) {
             throw new ilStudyProgrammeTreeException("There is no tree data to save!");
@@ -303,9 +303,9 @@ class ilObjStudyProgrammeTreeGUI
 
         if ($convert_to_string) {
             return $create_leaf_form->getOutput();
-        } else {
-            return $create_leaf_form;
         }
+
+        return $create_leaf_form;
     }
 
     /**
@@ -337,7 +337,7 @@ class ilObjStudyProgrammeTreeGUI
         }
         $this->checkAccessOrFail('create', $parent_id);
 
-        $parent = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_id);
+        $parent = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_id);// TODO PHP8-REVIEW `$parent_id` is NULL, an `int` is expected
         $accordion = new ilAccordionGUI();
 
         $added_slides = 0;
@@ -363,7 +363,7 @@ class ilObjStudyProgrammeTreeGUI
                 $added_slides++;
             }
 
-            if ($added_slides == 1) {
+            if ($added_slides === 1) {
                 $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
             }
 
@@ -466,14 +466,14 @@ class ilObjStudyProgrammeTreeGUI
 
                 //check if you are not deleting a parent element of the current element
                 $children_of_node = ilObjStudyProgramme::getAllChildren($obj->getRefId());
-                $get_ref_ids = function ($obj) {
+                $get_ref_ids = static function (ilObjStudyProgramme $obj) : int {
                     return $obj->getRefId();
                 };
 
                 $children_ref_ids = array_map($get_ref_ids, $children_of_node);
                 $not_parent_of_current = (!in_array($current_node, $children_ref_ids));
 
-                $not_root = ($obj->getRoot() != null);
+                $not_root = ($obj->getRoot() != null);// TODO PHP8-REVIEW This is always true
             }
 
             if (
@@ -583,7 +583,7 @@ class ilObjStudyProgrammeTreeGUI
      *
      * @throws ilException
      */
-    protected function checkAccessOrFail(string $permission, int $ref_id = null)
+    protected function checkAccessOrFail(string $permission, int $ref_id = null) : void
     {
         if (!$this->checkAccess($permission, $ref_id)) {
             throw new ilException("You have no permission for " . $permission . " Object with ref_id " . $ref_id . "!");

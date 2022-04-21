@@ -23,7 +23,7 @@ trait ProgressRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getFirstByPrgId(int $prg_id)
+    public function getFirstByPrgId(int $prg_id) : void
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -110,7 +110,8 @@ trait SettingsRepoMockNIFT
 
 class ProgressRepoMock implements ilStudyProgrammeProgressRepository
 {
-    public $progresses = [];
+    /** @var array<int, ilStudyProgrammeProgress> */
+    public array $progresses = [];
 
     use ProgressRepoMockNIFT;
 
@@ -143,7 +144,8 @@ class ProgressRepoMock implements ilStudyProgrammeProgressRepository
 
 class AssignmentRepoMock implements ilStudyProgrammeAssignmentRepository
 {
-    public $assignments = [];
+    /** @var array<int, ilStudyProgrammeAssignment> */
+    public array $assignments = [];
 
     use AssignmentRepoMockNIFT;
 
@@ -159,7 +161,8 @@ class AssignmentRepoMock implements ilStudyProgrammeAssignmentRepository
 
 class SettingsRepoMock implements ilStudyProgrammeSettingsRepository
 {
-    public $settings = [];
+    /** @var array<int, ilStudyProgrammeSettings> */
+    public array $settings = [];
 
     use SettingsRepoMockNIFT;
 
@@ -188,10 +191,10 @@ class PrgMock extends ilObjStudyProgramme
 
     public function __construct(
         int $id,
-        $env
+        $env// TODO PHP8-REVIEW Missing type hint (or PHPDoc)
     ) {
         $this->id = $id;
-        $this->env = $env;
+        $this->env = $env;// TODO PHP8-REVIEW Property declared dynamically
         $this->events = new class() extends ilStudyProgrammeEvents {
             public function __construct()
             {
@@ -202,13 +205,13 @@ class PrgMock extends ilObjStudyProgramme
         };
     }
     
-    public function throwIfNotInTree() : void
+    protected function throwIfNotInTree() : void
     {
     }
 
     public function update() : bool
     {
-        return $this->updateSettings();
+        return $this->updateSettings();// TODO PHP8-REVIEW Required parameter missing
     }
     protected function getLoggedInUserId() : int
     {
@@ -272,23 +275,20 @@ class PrgMock extends ilObjStudyProgramme
     
     public function hasChildren(bool $include_references = false) : bool
     {
-        if ($this->id < 12) {
-            return true;
-        }
-        return false;
+        return $this->id < 12;
     }
 }
 
 class ProgrammeEventsMock extends ilStudyProgrammeEvents
 {
-    public $raised;
+    public array $raised;// TODO PHP8-REVIEW Maybe the shape of the array can be expressed by PHPDoc comments
     
     public function __construct()
     {
         $this->raised = [];
     }
 
-    public function raise($event, $parameter) : void
+    public function raise($event, $parameter) : void// TODO PHP8-REVIEW The type hints are missing
     {
         $this->raised[] = [$event, $parameter];
     }

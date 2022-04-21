@@ -11,8 +11,8 @@ use Pimple\Container;
  */
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
-    const ID = 'prg_restart_assignments_temporal_progress';
-    const ACTING_USR_ID = -1;
+    private const ID = 'prg_restart_assignments_temporal_progress';
+    private const ACTING_USR_ID = -1;
 
     protected ilStudyProgrammeAssignmentDBRepository $user_assignments_db;
     protected ilLogger $log;
@@ -72,7 +72,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $programmes_to_reassign = $this->getSettingsRepository()
             ->getProgrammeIdsWithReassignmentForExpiringValidity();
 
-        if (count($programmes_to_reassign) == 0) {
+        if (count($programmes_to_reassign) === 0) {
             return $result;
         }
 
@@ -89,7 +89,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $progresses = $this->getProgressRepository()
             ->getAboutToExpire($programmes_and_due, false);
 
-        if (count($progresses) == 0) {
+        if (count($progresses) === 0) {
             return $result;
         }
     
@@ -98,7 +98,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         foreach ($progresses as $progress) {
             $ass = $assignment_repo->get($progress->getAssignmentId());
             if ($ass->getRestartedAssignmentId() < 0) {
-                if ($ass->getRootId() != $progress->getNodeId()) {
+                if ($ass->getRootId() !== $progress->getNodeId()) {
                     $this->log(
                         sprintf(
                             'PRG, RestartAssignments: progress %s is not root of assignment %s. skipping.',

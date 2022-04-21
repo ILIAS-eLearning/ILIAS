@@ -41,7 +41,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
     /**
      * no social commands needed in program.
      */
-    public function insertCommonSocialCommands($a_header_actions = false) : void
+    public function insertCommonSocialCommands($header_actions = false) : void
     {
     }
 

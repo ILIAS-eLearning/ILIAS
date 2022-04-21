@@ -8,7 +8,7 @@
  */
 class ilPrgUpdateProgressCronJob extends ilCronJob
 {
-    const ID = 'prg_update_progress';
+    private const ID = 'prg_update_progress';
 
     protected Pimple\Container $dic;
     protected ilLanguage $lng;

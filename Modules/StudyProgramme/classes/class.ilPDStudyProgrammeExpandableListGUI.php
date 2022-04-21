@@ -11,16 +11,11 @@ class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGU
 {
     const BLOCK_TYPE = "prgexpandablelist";
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     protected function shouldShowThisList() : bool
     {
         $cmd = $this->request_wrapper->retrieve("cmd", $this->refinery->kindlyTo()->string());
         $expand = $this->request_wrapper->retrieve("expand", $this->refinery->kindlyTo()->bool());
-        return $cmd == "jumpToSelectedItems" && $expand;
+        return $cmd === "jumpToSelectedItems" && $expand;
     }
 
     protected function new_ilStudyProgrammeAssignmentListGUI(

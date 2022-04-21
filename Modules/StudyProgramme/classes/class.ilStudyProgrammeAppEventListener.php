@@ -18,7 +18,7 @@ class ilStudyProgrammeAppEventListener
     /**
      * @throws ilException
      */
-    public static function handleEvent(string $component, string $event, array $parameter)
+    public static function handleEvent(string $component, string $event, array $parameter) : void
     {
         switch ($component) {
             case "Services/User":
@@ -158,7 +158,7 @@ class ilStudyProgrammeAppEventListener
 
     private static function onServiceTrackingUpdateStatus(array $parameter) : void
     {
-        if ($parameter["status"] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+        if ((int) $parameter["status"] !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             return;
         }
 
@@ -173,13 +173,13 @@ class ilStudyProgrammeAppEventListener
         $node_type = ilObject::_lookupType($node_ref_id, true);
         $parent_type = ilObject::_lookupType($parent_ref_id, true);
 
-        if ($node_type == "crsr" && $parent_type == "prg") {
+        if ($node_type === "crsr" && $parent_type === "prg") {
             self::adjustProgrammeLPMode($parent_ref_id);
         }
-        if (in_array($node_type, ["prg", "prgr"]) && $parent_type == "prg") {
+        if ($parent_type === "prg" && in_array($node_type, ["prg", "prgr"])) {
             self::addMissingProgresses($parent_ref_id);
         }
-        if ($node_type == "crs" && $parent_type == "cat") {
+        if ($node_type === "crs" && $parent_type === "cat") {
             self::addCrsToProgrammes($node_ref_id, $parent_ref_id);
         }
     }
@@ -196,9 +196,9 @@ class ilStudyProgrammeAppEventListener
 
         if (!in_array($node_type, ["crsr","crs"])
             || (
-                ($new_parent_type != "prg" && $old_parent_type != "prg")
+                ($new_parent_type !== "prg" && $old_parent_type !== "prg")
                 &&
-                $old_parent_type != "cat"
+                $old_parent_type !== "cat"
             )
         ) {
             return;
@@ -211,9 +211,9 @@ class ilStudyProgrammeAppEventListener
             }
         }
 
-        if ($new_parent_type == "prg") {
+        if ($new_parent_type === "prg") {
             self::adjustProgrammeLPMode($new_parent_ref_id);
-        } elseif ($old_parent_type == "prg") {
+        } elseif ($old_parent_type === "prg") {
             self::adjustProgrammeLPMode($old_parent_ref_id);
         }
     }

@@ -30,7 +30,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilModulesStudyProgrammeSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new ilModulesStudyProgrammeSuite();
 

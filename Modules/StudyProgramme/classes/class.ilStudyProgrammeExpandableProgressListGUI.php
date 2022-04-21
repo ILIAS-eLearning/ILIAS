@@ -80,7 +80,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
             $tpl->setVariable("ACCORDION_HIDE_CONTENT", "ilAccHideContent");
         }
         $tpl->setVariable("ACCORDION_CONTENT", $content);
-        $this->tpl->addOnloadCode("il.Accordion.add(" . json_encode($this->getAccordionOptions()) . ");");
+        $this->tpl->addOnloadCode("il.Accordion.add(" . json_encode($this->getAccordionOptions(), JSON_THROW_ON_ERROR) . ");");
         $tpl->parseCurrentBlock();
     }
 
@@ -90,9 +90,9 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 
         if (!$programme->hasLPChildren()) {
             return $this->getAccordionContentProgressesHTML();
-        } else {
-            return $this->getAccordionContentCoursesHTML();
         }
+
+        return $this->getAccordionContentCoursesHTML();
     }
 
     protected function getAccordionContentProgressesHTML() : string
@@ -118,7 +118,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
             $prg = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
 
             $can_read = $this->access->checkAccess("read", "", $prg->getRefId(), "prg", $prg->getId());
-            if ($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ && !$can_read) {
+            if ($this->visible_on_pd_mode === ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ && !$can_read) {
                 return false;
             }
 
@@ -140,13 +140,13 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $crs = array();
         $prg = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
         foreach ($prg->getLPChildren() as $il_obj_crs_ref) {
-            if (ilObject::_exists($il_obj_crs_ref, true) &&
+            if (ilObject::_exists($il_obj_crs_ref, true) && // TODO PHP8-REVIEW The resolved type of `$il_obj_crs_ref` is `ilStudyProgrammeLeaf`, an `int` is required for both method invocations
                 is_null(ilObject::_lookupDeletedDate($il_obj_crs_ref))
             ) {
                 continue;
             }
 
-            $course = ilObjectFactory::getInstanceByRefId($il_obj_crs_ref->getTargetRefId());
+            $course = ilObjectFactory::getInstanceByRefId($il_obj_crs_ref->getTargetRefId());// TODO PHP8-REVIEW The resolved type of `$il_obj_crs_ref` is `ilStudyProgrammeLeaf`, method `getTargetRefId` does not exists
             $preloader->addItem($course->getId(), $course->getType(), $course->getRefId());
             $crs[] = $course;
         }
@@ -231,7 +231,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
     protected function showMyProgress() : bool
     {
         $prg_progress_id = $this->request_wrapper->retrieve("prg_progress_id", $this->refinery->kindlyTo()->int());
-        return  $prg_progress_id == $this->progress->getId();
+        return  $prg_progress_id === $this->progress->getId();
     }
 
     /**

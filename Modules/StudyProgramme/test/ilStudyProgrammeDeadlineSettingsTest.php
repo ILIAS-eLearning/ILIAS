@@ -2,14 +2,16 @@
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
+use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeDeadlineSettingsTest extends TestCase
 {
-    const VALID_DEADLINE_PERIOD_1 = 11;
-    const VALID_DEADLINE_PERIOD_2 = 22;
-    const INVALID_DEADLINE_PERIOD = -1;
-    const VALID_DEADLINE_DATE = '2019-02-14';
+    private const VALID_DEADLINE_PERIOD_1 = 11;
+    private const VALID_DEADLINE_PERIOD_2 = 22;
+    private const INVALID_DEADLINE_PERIOD = -1;
+    private const VALID_DEADLINE_DATE = '2019-02-14';
 
     public function testSuccessfulCreate() : void
     {
@@ -110,7 +112,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
 
         $switchable_group = $field->getInputs()['prg_deadline'];
         $this->assertInstanceOf(
-            'ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup',
+            SwitchableGroup::class,
             $switchable_group
         );
 
@@ -121,7 +123,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         $inputs = $switchable_group->getInputs();
         foreach ($inputs as $input) {
             $this->assertInstanceOf(
-                'ILIAS\UI\Implementation\Component\Input\Field\Group',
+                Group::class,
                 $input
             );
         }

@@ -61,6 +61,6 @@ class ilObjStudyProgrammeCache
 
     public function test_isEmpty() : bool
     {
-        return count($this->instances) == 0;
+        return count($this->instances) === 0;
     }
 }

@@ -6,13 +6,13 @@ use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCase
 {
-    const VALID_QUALIFICATION_PERIOD_1 = 1;
-    const VALID_QUALIFICATION_PERIOD_2 = 2;
-    const INVALID_QUALIFICATION_PERIOD = -1;
-    const VALID_QUALIFICATION_DATE = '2019-02-14';
-    const VALID_RESTART_PERIOD_1 = 1;
-    const VALID_RESTART_PERIOD_2 = 2;
-    const INVALID_RESTART_PERIOD = -1;
+    private const VALID_QUALIFICATION_PERIOD_1 = 1;
+    private const VALID_QUALIFICATION_PERIOD_2 = 2;
+    private const INVALID_QUALIFICATION_PERIOD = -1;
+    private const VALID_QUALIFICATION_DATE = '2019-02-14';
+    private const VALID_RESTART_PERIOD_1 = 1;
+    private const VALID_RESTART_PERIOD_2 = 2;
+    private const INVALID_RESTART_PERIOD = -1;
 
     public function testSuccessfulCreate() : void
     {

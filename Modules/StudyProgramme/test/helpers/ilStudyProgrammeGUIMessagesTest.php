@@ -31,7 +31,7 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
     /**
      * @depends testMessageFactory
      */
-    public function testCollectionDefaults(ilPRGMessageCollection $collection)
+    public function testCollectionDefaults(ilPRGMessageCollection $collection) : void
     {
         $this->assertEquals($this->topic, $collection->getDescription());
 
@@ -47,7 +47,7 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
     /**
      * @depends testMessageFactory
      */
-    public function testAddMessages(ilPRGMessageCollection $collection)
+    public function testAddMessages(ilPRGMessageCollection $collection) : void
     {
         $ok_message = 'looks good';
         $ok_id = 'some good record';
@@ -68,7 +68,7 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
     /**
      * @depends testMessageFactory
      */
-    public function testAddErrorMessages(ilPRGMessageCollection $collection)
+    public function testAddErrorMessages(ilPRGMessageCollection $collection) : void
     {
         $message = 'looks bad';
         $id = 'some record';

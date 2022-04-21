@@ -11,15 +11,15 @@
  */
 class ilStudyProgrammeAssignment
 {
-    const NO_RESTARTED_ASSIGNMENT = -1;
+    public const NO_RESTARTED_ASSIGNMENT = -1;
 
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-    const DATE_FORMAT = 'Y-m-d';
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'Y-m-d';
 
-    const AUTO_ASSIGNED_BY_ROLE = -1;
-    const AUTO_ASSIGNED_BY_ORGU = -2;
-    const AUTO_ASSIGNED_BY_COURSE = -3;
-    const AUTO_ASSIGNED_BY_GROUP = -4;
+    public const AUTO_ASSIGNED_BY_ROLE = -1;
+    public const AUTO_ASSIGNED_BY_ORGU = -2;
+    public const AUTO_ASSIGNED_BY_COURSE = -3;
+    public const AUTO_ASSIGNED_BY_GROUP = -4;
 
     protected int $id;
     protected int $usr_id;

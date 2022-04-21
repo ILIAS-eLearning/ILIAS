@@ -9,9 +9,9 @@ use ILIAS\UI\Renderer;
 
 class ilStudyProgrammeChangeDeadlineGUI
 {
-    const CMD_SHOW_DEADLINE_CONFIG = "showDeadlineConfig";
-    const CMD_CHANGE_DEADLINE = "changeDeadline";
-    const PROP_DEADLINE = "deadline";
+    private const CMD_SHOW_DEADLINE_CONFIG = "showDeadlineConfig";
+    private const CMD_CHANGE_DEADLINE = "changeDeadline";
+    private const PROP_DEADLINE = "deadline";
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

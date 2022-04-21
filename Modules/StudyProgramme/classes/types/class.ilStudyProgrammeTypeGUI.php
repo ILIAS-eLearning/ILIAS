@@ -258,7 +258,7 @@ class ilStudyProgrammeTypeGUI
     {
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
-                ilStudyProgrammeTypeGUI::class,
+                __CLASS__,
                 'create'
             ),
             $this->lng->txt('prg_type_add')
@@ -274,7 +274,7 @@ class ilStudyProgrammeTypeGUI
 
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
-                ilStudyProgrammeTypeGUI::class,
+                __CLASS__,
                 'update'
             ),
             $this->lng->txt('prg_type_edit'),
@@ -288,7 +288,7 @@ class ilStudyProgrammeTypeGUI
     {
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
-                ilStudyProgrammeTypeGUI::class,
+                __CLASS__,
                 'create'
             ),
             $this->lng->txt('prg_type_add')
@@ -312,7 +312,7 @@ class ilStudyProgrammeTypeGUI
         $type = $this->type_repository->getType($type_id);
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
-                ilStudyProgrammeTypeGUI::class,
+                __CLASS__,
                 'update'
             ),
             $this->lng->txt('prg_type_edit'),

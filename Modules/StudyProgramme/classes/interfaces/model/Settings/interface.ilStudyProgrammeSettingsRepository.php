@@ -35,6 +35,7 @@ interface ilStudyProgrammeSettingsRepository
 
     /**
      * Load SP settings by assigned type.
+     * @return ilStudyProgrammeSettings[]
      */
     public function loadByType(int $type_id) : array;
 

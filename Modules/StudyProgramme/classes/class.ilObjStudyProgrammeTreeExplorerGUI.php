@@ -141,10 +141,10 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $node_title_classes = array($this->class_configuration['node']['node_title']);
         if ($node_config['is_study_programme']) {
             if ($node_config['is_current_node']) {
-                array_push($node_title_classes, $this->class_configuration['node']['node_current']);
+                $node_title_classes[] = $this->class_configuration['node']['node_current'];
             }
         } else {
-            array_push($node_title_classes, $this->class_configuration['lp_object']);
+            $node_title_classes[] = $this->class_configuration['lp_object'];
         }
 
         return $node_title_classes;
@@ -279,7 +279,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
     public function getRootNode() : ilObjStudyProgramme
     {
         $node = ilObjStudyProgramme::getInstanceByRefId($this->tree_root_id);
-        if ($node->getRoot() != null) {
+        if ($node->getRoot() != null) {// TODO PHP8-REVIEW This is always true
             return $node->getRoot();
         }
         return $node;
@@ -310,7 +310,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        if ($ilCtrl->getCmd() == "performPaste") {
+        if ($ilCtrl->getCmd() === "performPaste") {
             $ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "target_node", $node->getRefId());
         }
 
@@ -347,15 +347,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function isNodeClickable($a_node) : bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getNodeId($a_node)
+    public function getNodeId($a_node)// TODO PHP8-REVIEW The parent method does not define a type, but a type could be use here, e.g. `?int`
     {
         if (!is_null($a_node)) {
             return $a_node->getRefId();
@@ -371,7 +363,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $tpl->setCurrentBlock("list_item_start");
 
         if (
-            $this->getAjax() && $this->nodeHasVisibleChilds($a_node) ||
+            $this->getAjax() && $this->nodeHasVisibleChilds($a_node) || // TODO PHP8-REVIEW Maybe the evaluted result (operations priority) differs from the expection, I suggtes to use ()
             ($a_node instanceof ilObjStudyProgramme && $a_node->getParent() === null)
         ) {
             $tpl->touchBlock("li_closed");
@@ -396,7 +388,10 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $this->tpl->addCss($this->css_study_programme_path);
 
         $this->tpl->addOnLoadCode(
-            '$("#' . $this->getContainerId() . '").study_programme_tree(' . json_encode($this->js_conf) . ');'
+            '$("#' . $this->getContainerId() . '").study_programme_tree(' . json_encode(
+                $this->js_conf,
+                JSON_THROW_ON_ERROR
+            ) . ');'
         );
 
         return parent::getHTML();
@@ -409,7 +404,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      *
      * @param mixed $node_id
      */
-    public function closeCertainNode($node_id)
+    public function closeCertainNode($node_id) : void
     {
         if (in_array($node_id, $this->open_nodes)) {
             $k = array_search($node_id, $this->open_nodes);
@@ -424,7 +419,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      *
      * @param mixed $node_id
      */
-    public function openCertainNode($node_id)
+    public function openCertainNode($node_id) : void
     {
         $id = $this->getNodeIdForDomNodeId($node_id);
         if (!in_array($id, $this->open_nodes)) {

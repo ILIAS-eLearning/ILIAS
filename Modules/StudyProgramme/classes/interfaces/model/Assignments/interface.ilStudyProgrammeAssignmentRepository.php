@@ -16,11 +16,13 @@ interface ilStudyProgrammeAssignmentRepository
 
     /**
      * Get all assignments of a user.
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getByUsrId(int $usr_id) : array;
 
     /**
      * Get all assignments to a prg.
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getByPrgId(int $prg_id) : array;
 
@@ -33,6 +35,7 @@ interface ilStudyProgrammeAssignmentRepository
 
     /**
      * Get all assignments due to restart and not restrted yet.
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getDueToManuelRestart(int $days_before_end) : array;
 

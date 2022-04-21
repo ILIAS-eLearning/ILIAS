@@ -39,7 +39,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        list($ams, $title, $usr, $actions) = $a_set;
+        [$ams, $title, $usr, $actions] = $a_set;
 
         $id = $ams->getSourceType() . '-' . $ams->getSourceId();
         $status = $ams->isEnabled()  ? $this->lng->txt('active') : $this->lng->txt('inactive');

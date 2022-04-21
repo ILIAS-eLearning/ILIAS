@@ -24,7 +24,7 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
     {
         $title = $programme->getTitle();
         if (!$this->progress->isRelevant()
-            || $programme->getStatus() == ilStudyProgrammeSettings::STATUS_OUTDATED
+            || $programme->getStatus() === ilStudyProgrammeSettings::STATUS_OUTDATED
         ) {
             return "<s>" . $title . "</s>";
         }
@@ -46,9 +46,9 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
                 "'>" .
                 $points
             ;
-        } else {
-            return $points;
         }
+
+        return $points;
     }
     
     protected function configureItemGUI(ilStudyProgrammeCourseListGUI $item_gui) : void

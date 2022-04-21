@@ -5,7 +5,7 @@
 
 class ilStudyProgrammeEvents
 {
-    const COMPONENT = "Modules/StudyProgramme";
+    private const COMPONENT = "Modules/StudyProgramme";
 
     public ilAppEventHandler $app_event_handler;
     protected ilStudyProgrammeAssignmentRepository $assignment_repo;

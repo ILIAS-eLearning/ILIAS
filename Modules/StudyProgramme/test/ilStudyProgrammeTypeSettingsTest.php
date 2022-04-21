@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeTypeSettingsTest extends TestCase
 {
-    const VALID_TYPE_1 = 11;
-    const VALID_TYPE_2 = 22;
+    private const VALID_TYPE_1 = 11;
+    private const VALID_TYPE_2 = 22;
 
     public function testSuccessCreate() : void
     {

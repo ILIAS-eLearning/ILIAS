@@ -23,12 +23,12 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  */
 class ilObjStudyProgrammeGUI extends ilContainerGUI
 {
-    const TAB_VIEW_CONTENT = "view_content";
-    const SUBTAB_VIEW_TREE = "view_tree";
-    const TAB_INFO = "info_short";
-    const TAB_SETTINGS = "settings";
-    const TAB_MEMBERS = "members";
-    const TAB_METADATA = "edit_advanced_settings";
+    private const TAB_VIEW_CONTENT = "view_content";
+    private const SUBTAB_VIEW_TREE = "view_tree";
+    private const TAB_INFO = "info_short";
+    private const TAB_SETTINGS = "settings";
+    private const TAB_MEMBERS = "members";
+    private const TAB_METADATA = "edit_advanced_settings";
 
     protected ilLocatorGUI $ilLocator;
     protected ilComponentLogger $ilLog;
@@ -94,7 +94,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
-        if ($cmd == "") {
+        if ($cmd == "" || $cmd === null) {
             $cmd = "view";
         }
 
@@ -301,10 +301,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     /**
      * Sets the sorting of the container correctly. If it's an async call, a json string is returned.
      */
-    protected function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $new_object) : void
     {
         // set default sort to manual
-        $settings = new ilContainerSortingSettings($a_new_object->getId());
+        $settings = new ilContainerSortingSettings($new_object->getId());
         $settings->setSortMode(ilContainer::SORT_MANUAL);
         $settings->setSortDirection(ilContainer::SORT_DIRECTION_ASC);
         $settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
@@ -321,7 +321,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("object_added"), true);
 
-        $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+        $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         $this->ctrl->redirectToURL($this->getReturnLocation(
             "save",
             $this->ctrl->getLinkTarget($this, "edit", "", false, false)
@@ -411,9 +411,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     /**
      * Overwritten from ilObjectGUI since copy and import are not implemented.
      */
-    protected function initCreationForms($a_new_type) : array
+    protected function initCreationForms($new_type) : array
     {
-        return array(self::CFORM_NEW => $this->initCreateForm($a_new_type));
+        return array(self::CFORM_NEW => $this->initCreateForm($new_type));
     }
 
     /**
@@ -594,29 +594,29 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     protected function getLinkTarget(string $cmd) : string
     {
-        if ($cmd == "info_short") {
+        if ($cmd === "info_short") {
             return $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
         }
-        if ($cmd == "settings") {
+        if ($cmd === "settings") {
             return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammesettingsgui", "view");
         }
-        if ($cmd == "auto_content") {
+        if ($cmd === "auto_content") {
             return $this->ctrl->getLinkTargetByClass("ilObjStudyProgrammeAutoCategoriesGUI", "view");
         }
 
-        if ($cmd == self::SUBTAB_VIEW_TREE) {
+        if ($cmd === self::SUBTAB_VIEW_TREE) {
             return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammetreegui", "view");
         }
-        if ($cmd == "members") {
+        if ($cmd === "members") {
             return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammemembersgui", "view");
         }
-        if ($cmd == "memberships") {
+        if ($cmd === "memberships") {
             return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammeautomembershipsgui", "view");
         }
-        if ($cmd == "subtypes") {
+        if ($cmd === "subtypes") {
             return $this->ctrl->getLinkTargetByClass("ilstudyprogrammetypegui", "listTypes");
         }
-        if ($cmd == "commonSettings") {
+        if ($cmd === "commonSettings") {
             return $this->ctrl->getLinkTargetByClass(
                 [
                     "ilobjstudyprogrammesettingsgui",
@@ -669,7 +669,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilobjstudyprogrammegui"), "view");
     }
 
-    public function addToNavigationHistory()
+    public function addToNavigationHistory() : void
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -685,7 +685,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         $lg = parent::initHeaderAction($sub_type, $sub_id);
         $validator = new ilCertificateDownloadValidator();
-        if (true === $validator->isCertificateDownloadable($this->user->getId(), $this->object->getId()) && $lg) {
+        if ($lg && true === $validator->isCertificateDownloadable($this->user->getId(), $this->object->getId())) {
             $cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
             $this->lng->loadLanguageModule("certificate");
             $lg->addCustomCommand($cert_url, "download_certificate");

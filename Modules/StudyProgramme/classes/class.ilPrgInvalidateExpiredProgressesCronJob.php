@@ -12,7 +12,7 @@
  */
  class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
  {
-     const ID = 'prg_invalidate_expired_progresses';
+     private const ID = 'prg_invalidate_expired_progresses';
 
      protected ilStudyProgrammeProgressRepository $user_progress_db;
      protected ilLogger $log;

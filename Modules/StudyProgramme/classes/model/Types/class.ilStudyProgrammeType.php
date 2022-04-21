@@ -13,10 +13,10 @@ class ilStudyProgrammeType
     /**
      * Folder in ILIAS webdir to store the icons
      */
-    const WEB_DATA_FOLDER = 'prg_data';
+    private const WEB_DATA_FOLDER = 'prg_data';
 
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-    const DATE_FORMAT = 'Y-m-d';
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'Y-m-d';
 
     protected string $default_lang = '';
     protected int $owner;
@@ -215,7 +215,7 @@ class ilStudyProgrammeType
             $this->webdir->delete($this->getIconPath(true));
         }
 
-        $stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($file_data["tmp_name"], "r"));
+        $stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($file_data["tmp_name"], 'rb'));
         $this->webdir->writeStream($this->getIconPath(true), $stream);
 
         return true;
@@ -262,16 +262,16 @@ class ilStudyProgrammeType
             }
 
             return $translation;
-        } else {
-            // If no lang code was given and there was no translation found, return string in default language
-            if (!$lang_code) {
-                $trans_obj = $this->loadTranslation($this->getDefaultLang());
-
-                return $trans_obj[$member];
-            }
-
-            return null;
         }
+
+        // If no lang code was given and there was no translation found, return string in default language
+        if (!$lang_code) {
+            $trans_obj = $this->loadTranslation($this->getDefaultLang());
+
+            return $trans_obj[$member];
+        }
+
+        return null;
     }
 
     protected function loadTranslation(string $lang_code) : ?array
@@ -334,12 +334,10 @@ class ilStudyProgrammeType
         /** @var ilStudyProgrammeTypeHookPlugin $plugin */
         foreach ($this->getActivePlugins() as $plugin) {
             $allowed = true;
-            if ($member == 'title') {
+            if ($member === 'title') {
                 $allowed = $plugin->allowSetTitle($this->getId(), $lang_code, $value);
-            } else {
-                if ($member == 'description') {
-                    $allowed = $plugin->allowSetDescription($this->getId(), $lang_code, $value);
-                }
+            } elseif ($member === 'description') {
+                $allowed = $plugin->allowSetDescription($this->getId(), $lang_code, $value);
             }
             if (!$allowed) {
                 $disallowed[] = $plugin;
@@ -410,7 +408,7 @@ class ilStudyProgrammeType
      */
     public function setIcon(string $icon) : void
     {
-        if ($icon and !preg_match('/\.(svg)$/', $icon)) {
+        if ($icon && !preg_match('/\.(svg)$/', $icon)) {
             throw new ilStudyProgrammeTypeException('Icon must be set with file extension svg');
         }
         $this->icon = $icon;
@@ -446,7 +444,7 @@ class ilStudyProgrammeType
         return $this->default_lang;
     }
 
-    public function setCreateDate(DateTime $create_date)
+    public function setCreateDate(DateTime $create_date) : void
     {
         $this->create_date = $create_date;
     }

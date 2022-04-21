@@ -45,7 +45,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($this->type_gui);
                 break;
             default:
-                if (!$cmd || $cmd == "view") {
+                if (!$cmd || $cmd === "view") {
                     $cmd = "editSettings";
                 }
                 $this->$cmd();
@@ -91,7 +91,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $this->checkPermission("write");
 

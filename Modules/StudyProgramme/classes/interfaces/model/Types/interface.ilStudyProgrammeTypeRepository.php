@@ -57,6 +57,7 @@ interface ilStudyProgrammeTypeRepository
 
     /**
      * Get all persisted type-objects.
+     * @return ilStudyProgrammeType[]
      */
     public function getAllTypes() : array;
 
@@ -68,31 +69,76 @@ interface ilStudyProgrammeTypeRepository
 
     /**
      * Get an assicative array of all persisted types id => title
+     * @return array<int, string>
      */
     public function getAllTypesArray() : array;
 
+    /**
+     * @param int $type_id
+     * @param bool $only_active
+     * @return ilAdvancedMDRecord[]
+     */
     public function getAssignedAMDRecordsByType(int $type_id, bool $only_active = false) : array;
+
+    /**
+     * @param int $type_id
+     * @param bool $only_active
+     * @return int[]
+     */
     public function getAssignedAMDRecordIdsByType(int $type_id, bool $only_active = false) : array;
 
+    /**
+     * @return ilAdvancedMDRecord[]
+     */
     public function getAllAMDRecords() : array;
+
+    /**
+     * @return int[]
+     */
     public function getAllAMDRecordIds() : array;
+
+    /**
+     * @param int $type_id
+     * @param int $record_id
+     * @return ilStudyProgrammeAdvancedMetadataRecord[]
+     */
     public function getAMDRecordsByTypeIdAndRecordId(int $type_id, int $record_id) : array;
+
+    /**
+     * @param int $type_id
+     * @param bool $only_active
+     * @return ilStudyProgrammeAdvancedMetadataRecord[]
+     */
     public function getAMDRecordsByTypeId(int $type_id, bool $only_active = false) : array;
 
     public function getTranslationsArrayByTypeIdAndLangCode(int $type_id, string $lang_code) : array;
 
     /**
      * Get all prg-settings objects by corresponding type-id
+     * @return ilStudyProgrammeSettings[]
      */
     public function getStudyProgrammesByTypeId(int $type_id) : array;
     /**
      * Get all prg-settings ids by corresponding type-id
+     * @return int[]
      */
     public function getStudyProgrammeIdsByTypeId(int $type_id) : array;
 
+    /**
+     * @return ilStudyProgrammeAdvancedMetadataRecord[]
+     */
     public function getAvailableAdvancedMDRecords() : array;
+
+    /**
+     * @return int[]
+     */
     public function getAvailableAdvancedMDRecordIds() : array;
 
+    /**
+     * @param int $type_id
+     * @param string $lang_code
+     * @return array<string, string>
+     */
     public function getTranslationsByTypeAndLang(int $type_id, string $lang_code) : array;
     public function getTranslationByTypeIdMemberLang(
         int $type_id,

@@ -7,10 +7,10 @@ class ilStudyProgrammeLP extends ilObjectLP
     protected ?ilObjStudyProgramme $prg = null;
 
     /**
-     * @param bool $a_lp_active
+     * @param bool $lp_active
      * @return int[]
      */
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $lp_active) : array
     {
         return [ilLPObjSettings::LP_MODE_DEACTIVATED];
     }
@@ -32,10 +32,10 @@ class ilStudyProgrammeLP extends ilObjectLP
     }
 
     /**
-     * @param bool $a_search
+     * @param bool $search
      * @return array
      */
-    public function getMembers(bool $a_search = true) : array
+    public function getMembers(bool $search = true) : array
     {
         if ($this->prg === null) {
             $this->prg = new ilObjStudyProgramme($this->obj_id, false);

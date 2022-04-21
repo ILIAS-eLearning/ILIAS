@@ -2,26 +2,26 @@
 
 class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
 {
-    const TYPE_TABLE = 'prg_type';
+    private const TYPE_TABLE = 'prg_type';
 
-    const FIELD_ID = 'id';
-    const FIELD_DEFAULT_LANG = 'default_lang';
-    const FIELD_OWNER = 'owner';
-    const FIELD_CREATE_DATE = 'create_date';
-    const FIELD_LAST_UPDATE = 'last_update';
-    const FIELD_ICON = 'icon';
+    private const FIELD_ID = 'id';
+    private const FIELD_DEFAULT_LANG = 'default_lang';
+    private const FIELD_OWNER = 'owner';
+    private const FIELD_CREATE_DATE = 'create_date';
+    private const FIELD_LAST_UPDATE = 'last_update';
+    private const FIELD_ICON = 'icon';
 
-    const TYPE_TRANSLATION_TABLE = 'prg_translations';
+    private const TYPE_TRANSLATION_TABLE = 'prg_translations';
 
-    const FIELD_PRG_TYPE_ID = 'prg_type_id';
-    const FIELD_LANG = 'lang';
-    const FIELD_MEMBER = 'member';
-    const FIELD_VALUE = 'value';
+    private const FIELD_PRG_TYPE_ID = 'prg_type_id';
+    private const FIELD_LANG = 'lang';
+    private const FIELD_MEMBER = 'member';
+    private const FIELD_VALUE = 'value';
 
-    const AMD_TABLE = 'prg_type_adv_md_rec';
+    private const AMD_TABLE = 'prg_type_adv_md_rec';
 
-    const FIELD_TYPE_ID = 'type_id';
-    const FIELD_REC_ID = 'rec_id';
+    private const FIELD_TYPE_ID = 'type_id';
+    private const FIELD_REC_ID = 'rec_id';
 
     protected ?array $active_plugins = null;
     protected array $amd_records_assigned = [];
@@ -128,7 +128,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $this->createAMDByRow($row);
     }
 
-    protected function insertRowAMDDB(array $row)
+    protected function insertRowAMDDB(array $row) : void
     {
         $this->db->insert(
             self::AMD_TABLE,
@@ -165,7 +165,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $this->createTypeTranslationByRow($row);
     }
 
-    protected function insertRowTypeTranslationDB(array $row)
+    protected function insertRowTypeTranslationDB(array $row) : void
     {
         $this->db->insert(
             self::TYPE_TRANSLATION_TABLE,
@@ -320,17 +320,17 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
 
     protected function getActivePlugins() : Iterator
     {
-        return $this->component_factory->getActivePluginsInSlot('prgtypehk');;
+        return $this->component_factory->getActivePluginsInSlot('prgtypehk');
     }
 
-    protected function deleteAllTranslationsByTypeId(int $type_id)
+    protected function deleteAllTranslationsByTypeId(int $type_id) : void
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::TYPE_TRANSLATION_TABLE .
             ' WHERE ' . self::FIELD_PRG_TYPE_ID . ' = ' . $this->db->quote($type_id, 'integer')
         );
     }
-    protected function deleteAMDRecordsByTypeId(int $type_id)
+    protected function deleteAMDRecordsByTypeId(int $type_id) : void
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::AMD_TABLE .
@@ -434,6 +434,9 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $return;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getAssignedAMDRecordsByType(int $type_id, bool $only_active = false) : array
     {
         $active = ($only_active) ? 1 : 0; // Cache key
@@ -561,8 +564,8 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
      */
     public function getStudyProgrammeIdsByTypeId(int $type_id) : array
     {
-        return  array_map(
-            function ($settings) {
+        return array_map(
+            static function (ilStudyProgrammeSettings $settings) : int {
                 return $settings->getObjId();
             },
             $this->settings_repo->loadByType($type_id)

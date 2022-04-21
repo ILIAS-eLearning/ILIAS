@@ -7,13 +7,13 @@
  */
 class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAutoMembershipsRepository
 {
-    const TABLE = 'prg_auto_membership';
-    const FIELD_PRG_OBJ_ID = 'prg_obj_id';
-    const FIELD_SOURCE_TYPE = 'source_type';
-    const FIELD_SOURCE_ID = 'source_id';
-    const FIELD_ENABLED = 'enabled';
-    const FIELD_EDITOR_ID = 'last_usr_id';
-    const FIELD_LAST_EDITED = 'last_edited';
+    private const TABLE = 'prg_auto_membership';
+    private const FIELD_PRG_OBJ_ID = 'prg_obj_id';
+    private const FIELD_SOURCE_TYPE = 'source_type';
+    private const FIELD_SOURCE_ID = 'source_id';
+    private const FIELD_ENABLED = 'enabled';
+    private const FIELD_EDITOR_ID = 'last_usr_id';
+    private const FIELD_LAST_EDITED = 'last_edited';
 
     protected ilDBInterface $db;
     protected int$current_usr_id;

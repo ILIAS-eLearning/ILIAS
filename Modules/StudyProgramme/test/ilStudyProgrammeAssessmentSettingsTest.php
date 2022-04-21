@@ -2,16 +2,19 @@
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Implementation\Component\Input\Field\Section;
+use ILIAS\UI\Implementation\Component\Input\Field\Numeric;
+use ILIAS\UI\Implementation\Component\Input\Field\Select;
 use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeAssessmentSettingsTest extends TestCase
 {
-    const VALID_POINTS_1 = 22;
-    const VALID_POINTS_2 = 44;
-    const INVALID_POINTS = -11;
-    const VALID_STATUS_1 = 20;
-    const VALID_STATUS_2 = 30;
-    const INVALID_STATUS = -1;
+    private const VALID_POINTS_1 = 22;
+    private const VALID_POINTS_2 = 44;
+    private const INVALID_POINTS = -11;
+    private const VALID_STATUS_1 = 20;
+    private const VALID_STATUS_2 = 30;
+    private const INVALID_STATUS = -1;
 
     public function testSuccessfulCreate() : void
     {
@@ -141,19 +144,19 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'ILIAS\UI\Implementation\Component\Input\Field\Section',
+            Section::class,
             $field
         );
 
         $inputs = $field->getInputs();
 
         $this->assertInstanceOf(
-            'ILIAS\UI\Implementation\Component\Input\Field\Numeric',
+            Numeric::class,
             $inputs['points']
         );
 
         $this->assertInstanceOf(
-            'ILIAS\UI\Implementation\Component\Input\Field\Select',
+            Select::class,
             $inputs['status']
         );
     }

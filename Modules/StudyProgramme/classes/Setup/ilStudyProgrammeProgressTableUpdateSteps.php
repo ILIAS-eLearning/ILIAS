@@ -2,7 +2,7 @@
 
 class ilStudyProgrammeProgressTableUpdateSteps implements ilDatabaseUpdateSteps
 {
-    const TABLE_NAME = 'prg_usr_progress';
+    private const TABLE_NAME = 'prg_usr_progress';
 
     protected ilDBInterface $db;
     

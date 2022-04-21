@@ -7,9 +7,9 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeAssessmentSettings
 {
-    const STATUS_DRAFT = 10;
-    const STATUS_ACTIVE = 20;
-    const STATUS_OUTDATED = 30;
+    public const STATUS_DRAFT = 10;
+    public const STATUS_ACTIVE = 20;
+    public const STATUS_OUTDATED = 30;
 
     public static array $STATUS = [
         self::STATUS_DRAFT,

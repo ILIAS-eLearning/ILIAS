@@ -34,7 +34,7 @@ class ilStudyProgrammeTypeSettings
     ) : Field\Input {
         $select = $input
             ->select($lng->txt('type'), $sp_types, $lng->txt('prg_type_byline'))
-            ->withValue($this->getTypeId() == 0 ? "" : $this->getTypeId())
+            ->withValue($this->getTypeId() === 0 ? "" : $this->getTypeId())
             ->withAdditionalTransformation($refinery->custom()->transformation(function ($v) {
                 if ($v == "") {
                     return 0;

@@ -101,7 +101,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                     $lng->txt('validity_qualification_period_desc')
                 )
                 ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
-                ->withValue($this->getQualificationPeriod() !== null ? $this->getQualificationPeriod() : null)
+                ->withValue($this->getQualificationPeriod())
             ],
             $lng->txt('validity_qualification_period')
         );
@@ -125,7 +125,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                     $lng->txt('restart_period_desc')
                 )
                 ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
-                ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null)
+                ->withValue($this->getRestartPeriod())
             ],
             $lng->txt('restart_period')
         );

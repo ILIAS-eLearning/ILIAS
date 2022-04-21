@@ -5,24 +5,24 @@
 
 class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRepository
 {
-    const TABLE = 'prg_settings';
+    private const TABLE = 'prg_settings';
 
-    const FIELD_OBJ_ID = 'obj_id';
-    const FIELD_SUBTYPE_ID = 'subtype_id';
-    const FIELD_STATUS = 'status';
-    const FIELD_LP_MODE = 'lp_mode';
-    const FIELD_POINTS = 'points';
-    const FIELD_LAST_CHANGED = 'last_change';
-    const FIELD_DEADLINE_PERIOD = 'deadline_period';
-    const FIELD_DEADLINE_DATE = 'deadline_date';
-    const FIELD_VALIDITY_QUALIFICATION_DATE = 'vq_date';
-    const FIELD_VALIDITY_QUALIFICATION_PERIOD = 'vq_period';
-    const FIELD_VQ_RESTART_PERIOD = 'vq_restart_period';
-    const FIELD_RM_NOT_RESTARTED_BY_USER_DAY = 'rm_nr_by_usr_days';
-    const FIELD_PROC_ENDS_NOT_SUCCESSFUL = 'proc_end_no_success';
-    const FIELD_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
-    const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
-    const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
+    private const FIELD_OBJ_ID = 'obj_id';
+    private const FIELD_SUBTYPE_ID = 'subtype_id';
+    private const FIELD_STATUS = 'status';
+    private const FIELD_LP_MODE = 'lp_mode';
+    private const FIELD_POINTS = 'points';
+    private const FIELD_LAST_CHANGED = 'last_change';
+    private const FIELD_DEADLINE_PERIOD = 'deadline_period';
+    private const FIELD_DEADLINE_DATE = 'deadline_date';
+    private const FIELD_VALIDITY_QUALIFICATION_DATE = 'vq_date';
+    private const FIELD_VALIDITY_QUALIFICATION_PERIOD = 'vq_period';
+    private const FIELD_VQ_RESTART_PERIOD = 'vq_restart_period';
+    private const FIELD_RM_NOT_RESTARTED_BY_USER_DAY = 'rm_nr_by_usr_days';
+    private const FIELD_PROC_ENDS_NOT_SUCCESSFUL = 'proc_end_no_success';
+    private const FIELD_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
+    private const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
+    private const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
 
     protected static array $cache = [];
     protected ilDBInterface $db;
@@ -310,7 +310,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             ;
         } else {
             $deadline_period = (int) $row[self::FIELD_DEADLINE_PERIOD];
-            if ($deadline_period == -1) {
+            if ($deadline_period === -1) {// TODO PHP8-REVIEW No magic numbers
                 $deadline_period = null;
             }
             $deadline = $deadline->withDeadlinePeriod($deadline_period);
@@ -327,13 +327,13 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             );
         } else {
             $qualification_period = (int) $row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD];
-            if ($qualification_period == -1) {
+            if ($qualification_period === -1) {// TODO PHP8-REVIEW No magic numbers
                 $qualification_period = null;
             }
             $vqs = $vqs->withQualificationPeriod($qualification_period);
         }
         $restart_period = (int) $row[self::FIELD_VQ_RESTART_PERIOD];
-        if ($restart_period == -1) {
+        if ($restart_period === -1) {// TODO PHP8-REVIEW No magic numbers
             $restart_period = null;
         }
         $vqs = $vqs->withRestartPeriod($restart_period);

@@ -2,8 +2,8 @@
 
 class ilStudyProgrammeCommonSettingsGUI
 {
-    const CMD_EDIT = 'editSettings';
-    const CMD_SAVE = 'saveSettings';
+    private const CMD_EDIT = 'editSettings';
+    private const CMD_SAVE = 'saveSettings';
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;

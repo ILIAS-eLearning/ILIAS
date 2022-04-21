@@ -15,6 +15,6 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
 
     public function getStatusObjective(Metrics\Storage $storage) : Objective
     {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeProgressTableUpdateSteps());
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeProgressTableUpdateSteps());
     }
 }

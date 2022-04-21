@@ -4,23 +4,23 @@ use OrgUnit\PublicApi\OrgUnitUserService;
 
 class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 {
-    const ID = 'prg_context_manual';
+    public const ID = 'prg_context_manual';
 
-    const TITLE = "prg_title";
-    const DESCRIPTION = "prg_description";
-    const TYPE = "prg_type";
-    const LINK = "prg_link";
-    const ORG_UNIT = "prg_orgus";
-    const STATUS = "prg_status";
-    const COMPLETION_DATE = "prg_completion_date";
-    const COMPLETED_BY = "prg_completion_by";
-    const POINTS_REQUIRED = "prg_points_required";
-    const POINTS_CURRENT = "prg_points_current";
-    const DEADLINE = "prg_deadline";
-    const EXPIRE_DATE = "prg_expiry_date";
-    const VALIDITY = "prg_validity";
+    private const TITLE = "prg_title";
+    private const DESCRIPTION = "prg_description";
+    private const TYPE = "prg_type";
+    private const LINK = "prg_link";
+    private const ORG_UNIT = "prg_orgus";
+    private const STATUS = "prg_status";
+    private const COMPLETION_DATE = "prg_completion_date";
+    private const COMPLETED_BY = "prg_completion_by";
+    private const POINTS_REQUIRED = "prg_points_required";
+    private const POINTS_CURRENT = "prg_points_current";
+    private const DEADLINE = "prg_deadline";
+    private const EXPIRE_DATE = "prg_expiry_date";
+    private const VALIDITY = "prg_validity";
 
-    const DATE_FORMAT = 'd-m-Y H:i:s';
+    private const DATE_FORMAT = 'd-m-Y H:i:s';
 
     protected ilLanguage $lng;
 
@@ -201,16 +201,14 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $id = $progress->getCompletionBy();
                 if (!is_null($id) && ilObject::_exists($id)) {
                     $obj = ilObjectFactory::getInstanceByObjId($id);
-                    if ($obj->getType() == 'usr') {
+                    if ($obj->getType() === 'usr') {
                         $string = ilObjUser::_lookupLogin($id);
-                    } else {
-                        if ($ref_id = ilContainerReference::_lookupTargetRefId($id)) {
-                            if (
-                                ilObject::_exists($ref_id, true) &&
-                                is_null(ilObject::_lookupDeletedDate($ref_id))
-                            ) {
-                                $string = ilContainerReference::_lookupTitle($id);
-                            }
+                    } elseif ($ref_id = ilContainerReference::_lookupTargetRefId($id)) {
+                        if (
+                            ilObject::_exists($ref_id, true) &&
+                            is_null(ilObject::_lookupDeletedDate($ref_id))
+                        ) {
+                            $string = ilContainerReference::_lookupTitle($id);
                         }
                     }
                 }
@@ -249,15 +247,15 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     {
         $progress = $obj->getProgressesOf($user_id);
 
-        $successfully_progress = array_filter($progress, function (ilStudyProgrammeProgress $a) {
+        $successfully_progress = array_filter($progress, static function (ilStudyProgrammeProgress $a) : bool {
             return $a->isSuccessful() || $a->isSuccessfulExpired() || $a->isAccredited();
         });
 
-        if (count($successfully_progress) == 0) {
+        if (count($successfully_progress) === 0) {
             return $progress[0];
         }
 
-        usort($successfully_progress, function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b) {
+        usort($successfully_progress, static function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b) : int {
             if ($a->getCompletionDate() > $b->getCompletionDate()) {
                 return -1;
             } elseif ($a->getCompletionDate() < $b->getCompletionDate()) {
@@ -272,19 +270,19 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 
     protected function statusToRepr(int $status, string $lang) : string
     {
-        if ($status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+        if ($status === ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
             return $this->lng->txtlng('prg', 'prg_status_in_progress', $lang);
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+        if ($status === ilStudyProgrammeProgress::STATUS_COMPLETED) {
             return $this->lng->txtlng('prg', 'prg_status_completed', $lang);
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+        if ($status === ilStudyProgrammeProgress::STATUS_ACCREDITED) {
             return $this->lng->txtlng('prg', 'prg_status_accredited', $lang);
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
+        if ($status === ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
             return $this->lng->txtlng('prg', 'prg_status_not_relevant', $lang);
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_FAILED) {
+        if ($status === ilStudyProgrammeProgress::STATUS_FAILED) {
             return $this->lng->txtlng('prg', 'prg_status_failed', $lang);
         }
             

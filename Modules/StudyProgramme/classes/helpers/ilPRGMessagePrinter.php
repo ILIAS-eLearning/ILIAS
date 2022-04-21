@@ -38,7 +38,7 @@ class ilPRGMessagePrinter
         if ($msg->hasErrors()) {
             $errmsg = [];
             foreach ($msg->getErrors() as $err) {
-                list($message, $rec_indentifier) = $err;
+                [$message, $rec_indentifier] = $err;
                 $errmsg[] = sprintf('<li>%s (%s)</li>', $rec_indentifier, $this->lng->txt($message));
             }
 

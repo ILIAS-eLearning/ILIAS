@@ -5,7 +5,7 @@
 
 class ilPrgUserRiskyToFailCronJob extends ilCronJob
 {
-    const ID = 'prg_user_risky_to_fail';
+    private const ID = 'prg_user_risky_to_fail';
 
     /**
      * @var mixed
@@ -66,7 +66,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         $programmes_to_send = $this->getSettingsRepository()
             ->getProgrammeIdsWithRiskyToFailSettings();
 
-        if (count($programmes_to_send) == 0) {
+        if (count($programmes_to_send) === 0) {
             return $result;
         }
 
@@ -81,7 +81,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         $progresses = $this->getProgressRepository()
             ->getRiskyToFail($programmes_and_due);
         
-        if (count($progresses) == 0) {
+        if (count($progresses) === 0) {
             return $result;
         }
 

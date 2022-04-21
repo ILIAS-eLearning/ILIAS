@@ -7,12 +7,12 @@
 */
 class ilStudyProgrammeAutoMembershipSource
 {
-    const TYPE_ROLE = 'role';
-    const TYPE_GROUP = 'grp';
-    const TYPE_COURSE = 'crs';
-    const TYPE_ORGU = 'orgu';
+    public const TYPE_ROLE = 'role';
+    public const TYPE_GROUP = 'grp';
+    public const TYPE_COURSE = 'crs';
+    public const TYPE_ORGU = 'orgu';
 
-    const SOURCE_MAPPING = [
+    public const SOURCE_MAPPING = [
         self::TYPE_ROLE => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_ROLE,
         self::TYPE_GROUP => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_GROUP,
         self::TYPE_COURSE => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_COURSE,

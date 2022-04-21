@@ -22,16 +22,16 @@ class ilStudyProgrammeProgress
     // progress.
     
     // User needs to be successful in the node, but currently isn't.
-    const STATUS_IN_PROGRESS = 1;
+    public const STATUS_IN_PROGRESS = 1;
     // User has completed the node successfully according to the program nodes mode.
-    const STATUS_COMPLETED = 2;
+    public const STATUS_COMPLETED = 2;
     // User was marked as successful in the node without actually having
     // successfully completed the program node according to his mode.
-    const STATUS_ACCREDITED = 3;
+    public const STATUS_ACCREDITED = 3;
     // The user does not need to be successful in this node.
-    const STATUS_NOT_RELEVANT = 4;
+    public const STATUS_NOT_RELEVANT = 4;
     // The user does not need to be successful in this node.
-    const STATUS_FAILED = 5;
+    public const STATUS_FAILED = 5;
 
     public static array $STATUS = [
         self::STATUS_IN_PROGRESS,
@@ -41,9 +41,9 @@ class ilStudyProgrammeProgress
         self::STATUS_FAILED
     ];
 
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-    const DATE_FORMAT = 'Y-m-d';
-    const DATE_FORMAT_ENDOFDAY = 'Y-m-d 23:59:59';
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'Y-m-d';
+    public const DATE_FORMAT_ENDOFDAY = 'Y-m-d 23:59:59';
 
     /**
      * The id of this progress.
@@ -278,7 +278,7 @@ class ilStudyProgrammeProgress
     public function isTransitionAllowedTo(int $new_status) : bool
     {
         return is_null($this->status) ||
-            $this->status == $new_status ||
+            $this->status === $new_status ||
             in_array($new_status, self::getAllowedTargetStatusFor($this->status));
     }
 
@@ -456,22 +456,22 @@ class ilStudyProgrammeProgress
 
     public function isRelevant() : bool
     {
-        return $this->getStatus() != self::STATUS_NOT_RELEVANT;
+        return $this->getStatus() !== self::STATUS_NOT_RELEVANT;
     }
 
     public function isFailed() : bool
     {
-        return $this->getStatus() == self::STATUS_FAILED;
+        return $this->getStatus() === self::STATUS_FAILED;
     }
     
     public function isAccredited() : bool
     {
-        return $this->getStatus() == self::STATUS_ACCREDITED;
+        return $this->getStatus() === self::STATUS_ACCREDITED;
     }
 
     public function isInProgress() : bool
     {
-        return $this->getStatus() == self::STATUS_IN_PROGRESS;
+        return $this->getStatus() === self::STATUS_IN_PROGRESS;
     }
     
     public function invalidate() : ilStudyProgrammeProgress

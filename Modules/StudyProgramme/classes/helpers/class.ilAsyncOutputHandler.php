@@ -9,8 +9,8 @@
  */
 class ilAsyncOutputHandler
 {
-    const OUTPUT_MODAL = "output_modal";
-    const OUTPUT_EMPTY = "output_empty";
+    private const OUTPUT_MODAL = "output_modal";
+    private const OUTPUT_EMPTY = "output_empty";
 
     /**
      * @var mixed|null
@@ -38,7 +38,7 @@ class ilAsyncOutputHandler
      */
     public function terminate(string $type = self::OUTPUT_MODAL) : void
     {
-        if ($type == self::OUTPUT_MODAL) {
+        if ($type === self::OUTPUT_MODAL) {
             $tpl = new ilTemplate('tpl.modal_content.html', false, false, 'Modules/StudyProgramme');
             $tpl->setVariable('HEADING', $this->getHeading());
             $tpl->setVariable('BODY', $this->getContent());
@@ -54,8 +54,10 @@ class ilAsyncOutputHandler
 
             echo $tpl->get();
             exit();
-        } elseif ($type == self::OUTPUT_EMPTY) {
-            echo $this->getContent();
+        }
+
+        if ($type === self::OUTPUT_EMPTY) {
+            echo $this->getContent();// TODO PHP8-REVIEW I sugges to use the HTTP service instead of echo/exit
             exit();
         }
     }
@@ -70,7 +72,7 @@ class ilAsyncOutputHandler
 
         $data['cmd'] = $ilCtrl->getCmd();
 
-        return json_encode($data);
+        return json_encode($data, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -87,17 +89,15 @@ class ilAsyncOutputHandler
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
 
-        $content = ($ilCtrl->isAsynch() && $async_content != null)? $async_content : $normal_content;
+        $content = ($ilCtrl->isAsynch() && $async_content !== null)? $async_content : $normal_content;
 
         if ($ilCtrl->isAsynch()) {
-            echo $content;
+            echo $content;// TODO PHP8-REVIEW I sugges to use the HTTP service instead of echo/exit
             exit();
+        } elseif ($apply_to_tpl) {
+            $tpl->setContent($content);
         } else {
-            if ($apply_to_tpl) {
-                $tpl->setContent($content);
-            } else {
-                return $content;
-            }
+            return $content;
         }
     }
 

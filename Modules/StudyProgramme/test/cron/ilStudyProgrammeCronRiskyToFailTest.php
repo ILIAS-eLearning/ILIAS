@@ -90,7 +90,7 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
         $this->job->run();
     }
 
-    public function testRiskyToFail()
+    public function testRiskyToFail() : void
     {
         $this->settings_repo
             ->expects($this->once())

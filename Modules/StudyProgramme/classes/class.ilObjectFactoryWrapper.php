@@ -19,15 +19,12 @@ class ilObjectFactoryWrapper
     public static function singleton() : ilObjectFactoryWrapper
     {
         if (self::$instance === null) {
-            self::$instance = new ilObjectFactoryWrapper();
+            self::$instance = new self();
         }
         return self::$instance;
     }
 
-    /**
-     * @return bool|ilObject
-     */
-    public function getInstanceByRefId(int $ref_id, bool $stop_on_error = true)
+    public function getInstanceByRefId(int $ref_id, bool $stop_on_error = true) : ?ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id, $stop_on_error);
     }

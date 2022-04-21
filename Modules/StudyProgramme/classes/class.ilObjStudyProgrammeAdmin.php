@@ -10,9 +10,9 @@
  */
 class ilObjStudyProgrammeAdmin extends ilObject2
 {
-    const SETTING_VISIBLE_ON_PD = "prgs_visible_on_personal_desktop";
-    const SETTING_VISIBLE_ON_PD_ALLWAYS = "allways";
-    const SETTING_VISIBLE_ON_PD_READ = "read";
+    public const SETTING_VISIBLE_ON_PD = "prgs_visible_on_personal_desktop";
+    public const SETTING_VISIBLE_ON_PD_ALLWAYS = "allways";
+    public const SETTING_VISIBLE_ON_PD_READ = "read";
 
     public function __construct(int $id = 0, bool $call_by_reference = true)
     {

@@ -8,8 +8,6 @@
 */
 class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
 {
-    protected array $callback = [];
-
     public function addUser() : void
     {
         global $DIC;

@@ -39,7 +39,7 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        list($ac, $title, $usr, $actions) = $a_set;
+        [$ac, $title, $usr, $actions] = $a_set;
 
         $this->tpl->setVariable("ID", $ac->getCategoryRefId());
         $this->tpl->setVariable("TITLE", $title);

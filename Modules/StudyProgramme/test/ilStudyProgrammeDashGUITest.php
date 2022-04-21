@@ -67,7 +67,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
         $this->prg->method('getAllPrgChildren')
             ->willReturn([]);
 
-        list($minimum_percents, $current_percents)
+        [$minimum_percents, $current_percents]
             = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
 
         $this->assertEquals(0, $minimum_percents);
@@ -82,7 +82,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
         $this->prg->method('hasLPChildren')
             ->willReturn(true);
 
-        list($minimum_percents, $current_percents)
+        [$minimum_percents, $current_percents]
             = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
 
         $this->assertEquals(100, $minimum_percents);
@@ -120,7 +120,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
 
         $this->prg->method('getPoints')->willReturn(60);
 
-        list($minimum_percents, $current_percents)
+        [$minimum_percents, $current_percents]
             = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
 
         $this->assertEquals(37.5, $minimum_percents); //37.5 = (160 max points /  60 root-prg points) * 100
