@@ -110,7 +110,7 @@ class ilObjRepositorySettings extends ilObject
                 if (strlen($old_pos) === 8) {
                     $new_pos = "9999" . substr($old_pos, 4);
                     $ilSetting->set("obj_add_new_pos_" . $obj_type, $new_pos);
-                    $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, 0);
+                    $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, '0');
                 }
             }
         }
@@ -268,7 +268,7 @@ class ilObjRepositorySettings extends ilObject
 
                 foreach ($items as $idx => $item) {
                     $res["items"][$item] = $grp_id;
-                    $res["sort"][$item] = str_pad($pos, 4, "0", STR_PAD_LEFT) .
+                    $res["sort"][$item] = str_pad((string) $pos, 4, "0", STR_PAD_LEFT) .
                         str_pad($idx + 1, 4, "0", STR_PAD_LEFT);
                 }
             } else {

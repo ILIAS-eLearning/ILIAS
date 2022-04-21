@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -134,12 +134,12 @@ class ilCategoryImportParser extends ilSaxParser
                 break;
 
             case "CategorySpec":
-                $is_def = 0;
+                $is_def = '0';
                 if ($this->cur_spec_lang === $this->default_language) {
                     $this->category->setTitle($this->cur_title);
                     $this->category->setDescription($this->cur_description);
                     $this->category->update();
-                    $is_def = 1;
+                    $is_def = '1';
                 }
                 $this->category->addTranslation(
                     $this->cur_title,

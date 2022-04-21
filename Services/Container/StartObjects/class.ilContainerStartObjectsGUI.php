@@ -205,7 +205,7 @@ class ilContainerStartObjectsGUI
             $title = ilObject::_lookupTitle($obj_id);
             $icon = ilObject::_getIcon($obj_id, "tiny");
             $alt = $this->lng->txt('obj_' . ilObject::_lookupType($obj_id));
-            $cgui->addItem("starter[]", $starter_id, $title, $icon, $alt);
+            $cgui->addItem("starter[]", (string) $starter_id, $title, $icon, $alt);
         }
 
         $this->tpl->setContent($cgui->getHTML());

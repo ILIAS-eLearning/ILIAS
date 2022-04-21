@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -140,7 +140,7 @@ class ilCategoryXmlParser extends ilSaxParser
                     (string) $this->current_translation['title'],
                     (string) $this->current_translation['description'],
                     (string) $this->current_translation['lang'],
-                    (int) $this->current_translation['default']
+                    (string) ((int) $this->current_translation['default'])
                 );
                 break;
 

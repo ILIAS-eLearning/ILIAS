@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -71,10 +71,10 @@ class ilObjCategoryGUI extends ilContainerGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         
         if (is_object($this->object)) {
-            $this->info_screen_enabled = ilContainer::_lookupContainerSetting(
+            $this->info_screen_enabled = (bool) ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-                true
+                '1'
             );
         }
         $this->cat_request = $DIC
@@ -328,7 +328,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         if (ilContainer::_lookupContainerSetting(
             $this->object->getId(),
             ilObjectServiceSettingsGUI::TAXONOMIES,
-            false
+            '0'
         )) {
             $md_gui->enableTaxonomyDefinition(true);
             $tax = $md_gui->getTaxonomyObjGUI();
@@ -384,7 +384,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                                 ilContainer::_writeContainerSetting(
                                     $this->object->getId(),
                                     $prefix . $tax_id,
-                                    1
+                                    '1'
                                 );
                             }
                         }
@@ -452,7 +452,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             if (ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 ilObjectServiceSettingsGUI::TAXONOMIES,
-                false
+                '0'
             )) {
                 $mdgui->enableTaxonomyDefinition(true);
             }
@@ -590,8 +590,8 @@ class ilObjCategoryGUI extends ilContainerGUI
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
             
             if ($enable_internal_rss) {
-                $info->setBlockProperty("news", "settings", true);
-                $info->setBlockProperty("news", "public_notifications_option", true);
+                $info->setBlockProperty("news", "settings", '1');
+                $info->setBlockProperty("news", "public_notifications_option", '1');
             }
         }
         
@@ -683,7 +683,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $news_active = ilContainer::_lookupContainerSetting(
             $this->object->getId(),
             ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-            true
+            '1'
         );
 
         if ($news_active) {
@@ -847,7 +847,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 
                 // block limit
                 if ((int) $form->getInput("block_limit") > 0) {
-                    ilContainer::_writeContainerSetting($this->object->getId(), "block_limit", (int) $form->getInput("block_limit"));
+                    ilContainer::_writeContainerSetting(
+                        $this->object->getId(),
+                        "block_limit",
+                        (string) ((int) $form->getInput("block_limit"))
+                    );
                 } else {
                     ilContainer::_deleteContainerSettings($this->object->getId(), "block_limit");
                 }
@@ -1013,7 +1017,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             
             $confirm->addItem(
                 'user_ids[]',
-                $user,
+                (string) $user,
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']'
             );
         }
@@ -1053,7 +1057,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             
             $disabled = false;
             $f_result[$counter]['checkbox'] = ilLegacyFormElementsUtil::formCheckbox(
-                in_array((int) $role['obj_id'], $ass_roles, true) ? 1 : 0,
+                in_array((int) $role['obj_id'], $ass_roles, true),
                 'role_ids[]',
                 $role['obj_id'],
                 $disabled
@@ -1181,14 +1185,14 @@ class ilObjCategoryGUI extends ilContainerGUI
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
-        if ($ilAccess->checkAccess("read", "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target);
-        } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+        if ($ilAccess->checkAccess("read", "", (int) $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode((int) $a_target);
+        } elseif ($ilAccess->checkAccess("visible", "", (int) $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode((int) $a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ilObject::_lookupTitle(ilObject::_lookupObjId((int) $a_target))
             ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }

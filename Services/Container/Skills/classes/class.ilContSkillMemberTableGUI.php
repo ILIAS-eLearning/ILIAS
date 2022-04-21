@@ -60,7 +60,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_member_skill_row.html", "Services/Container/Skills");
 
-        if (ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", 0)) {
+        if (ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", '0')) {
             $this->addMultiCommand("publishAssignments", $this->lng->txt("cont_publish_assignment"));
         }
         $this->addMultiCommand("deassignCompetencesConfirm", $this->lng->txt("cont_deassign_competence"));
@@ -116,7 +116,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 
         $items = [];
         $b = $ui->factory()->button();
-        if (!$mskills->getPublished() || (!ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", 0))) {
+        if (!$mskills->getPublished() || (!ilContainer::_lookupContainerSetting($this->container_skills->getId(), "cont_skill_publish", '0'))) {
             $items[] = $b->shy($lng->txt("cont_assign_competence"), $ctrl->getLinkTarget($this->parent_obj, "assignCompetences"));
         }
         if (!$mskills->getPublished()) {

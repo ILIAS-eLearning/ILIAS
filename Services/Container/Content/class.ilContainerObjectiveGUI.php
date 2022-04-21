@@ -125,12 +125,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 !$this->loc_settings->isInitialTestStart() &&
                 !ilObjTestAccess::checkCondition($tst_obj_id, ilConditionHandler::OPERATOR_FINISHED, '', $ilUser->getId())
             ) {
-                $this->output_html .= $this->renderTest($this->loc_settings->getInitialTest(), null, true);
+                $this->output_html .= $this->renderTest($this->loc_settings->getInitialTest(), 0, true);
             } elseif (
                 $this->loc_settings->getQualifiedTest() &&
                 $this->loc_settings->isGeneralQualifiedTestVisible()
             ) {
-                $this->output_html .= $this->renderTest($this->loc_settings->getQualifiedTest(), null, false);
+                $this->output_html .= $this->renderTest($this->loc_settings->getQualifiedTest(), 0, false);
             }
             
             $this->showMaterials(self::MATERIALS_OTHER, false, !$is_order);
@@ -710,7 +710,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     );
                     
                     // #13381 - use materials order
-                    $sort_key = str_pad($chapter['position'], 5, 0, STR_PAD_LEFT) . "_" . strtolower($title) . "_" . $chapter['lm_ass_id'];
+                    $sort_key = str_pad($chapter['position'], 5, '0', STR_PAD_LEFT) . "_" . strtolower($title) . "_" . $chapter['lm_ass_id'];
                     $sort_content[$sort_key] = $sub_item_html;
                 }
             }
@@ -733,7 +733,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 );
                                 
                 // #13381 - use materials order
-                $sort_key = str_pad($sort_map[$lm_ass_id], 5, 0, STR_PAD_LEFT) . "_" . strtolower($item['title']) . "_" . $lm_ass_id;
+                $sort_key = str_pad($sort_map[$lm_ass_id], 5, '0', STR_PAD_LEFT) . "_" . strtolower($item['title']) . "_" . $lm_ass_id;
                 $sort_content[$sort_key] = $sub_item_html;
             }
         }
@@ -747,7 +747,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         if ($is_order) {
             $this->objective_list_gui->setPositionInputField(
                 "[lobj][" . $a_objective_id . "][0]",
-                $objective->__getPosition() * 10
+                (string) ($objective->__getPosition() * 10)
             );
         }
             
@@ -1343,7 +1343,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $a_text,
             $ilCtrl->getLinkTarget($this->getContainerGUI(), $a_cmd),
             $a_target,
-            "",
+            null,
             '',
             $a_id
         );
