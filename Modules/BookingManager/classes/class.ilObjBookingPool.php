@@ -29,14 +29,14 @@ class ilObjBookingPool extends ilObject
     public const TYPE_NO_SCHEDULE_PREFERENCES = 3;
 
     protected bool $offline = true;
-    protected bool $public_log;
-    protected int $schedule_type;
-    protected ?int $overall_limit;
-    protected ?int $reservation_period;
+    protected bool $public_log = false;
+    protected int $schedule_type = 0;
+    protected ?int $overall_limit = null;
+    protected ?int $reservation_period = null;
     protected int $reminder_status = 0;
     protected int $reminder_day = 1;
-    protected int $pref_deadline;
-    protected int $preference_nr;
+    protected int $pref_deadline = 0;
+    protected int $preference_nr = 0;
 
 
     public function __construct(

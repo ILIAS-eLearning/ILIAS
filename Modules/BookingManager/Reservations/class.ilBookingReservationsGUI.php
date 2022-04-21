@@ -504,7 +504,7 @@ class ilBookingReservationsGUI
                         $ids[] = $aggr_ids;
                     } else {
                         $aggr_ids = array_slice($aggr_ids, 0, $max);
-                        $ids = array_merge($ids, $aggr_ids);//PHP8Review: This may cause performance issues inside of a foreach
+                        $ids = array_merge($ids, $aggr_ids);
                     }
                 }
             }

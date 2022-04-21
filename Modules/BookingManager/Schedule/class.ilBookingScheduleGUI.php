@@ -26,7 +26,7 @@
 class ilBookingScheduleGUI
 {
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilTabsGUI $tabs;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -41,14 +41,14 @@ class ilBookingScheduleGUI
     ) {
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->help = $DIC["ilHelp"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
-        $this->ref_id = $a_parent_obj->ref_id;//PHP8Review: protected parent call
+        $this->ref_id = $a_parent_obj->getRefId();
         $this->book_request = $DIC->bookingManager()
                                   ->internal()
                                   ->gui()

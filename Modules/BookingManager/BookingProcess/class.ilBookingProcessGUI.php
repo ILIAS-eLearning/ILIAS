@@ -346,7 +346,7 @@ class ilBookingProcessGUI
         array $hours,
         ilBookingSchedule $schedule,
         array $object_ids,
-        string $seed,
+        ilDate $seed,
         array &$dates
     ) : bool {
         $ilUser = $this->user;
@@ -365,7 +365,7 @@ class ilBookingProcessGUI
 
         $has_open_slot = false;
         /** @var ilDateTime $date */
-        foreach (ilCalendarUtil::_buildWeekDayList($seed, $week_start)->get() as $date) {//PHP8Review: Wrong Parameter type of seed
+        foreach (ilCalendarUtil::_buildWeekDayList($seed, $week_start)->get() as $date) {
             $date_info = $date->get(IL_CAL_FKT_GETDATE, '', 'UTC');
 
             #24045 and #24936

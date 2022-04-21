@@ -35,8 +35,11 @@ class ilBookingParticipant
     ) {
         global $DIC;
 
-        if (!ilObjUser::_exists($a_user_id) || !ilObjBookingPool::_exists($a_booking_pool_id)) {
-            return;//PHP8Review: This show throw an error instead of silently returning an uncomplete particiaption. Espacially since those are mostly immutable.
+        if (!ilObjUser::_exists($a_user_id)) {
+            throw new ilException("User $a_user_id does not exist.");
+        }
+        if (!ilObjBookingPool::_exists($a_booking_pool_id)) {
+            throw new ilException("Booking Pool $a_booking_pool_id does not exist.");
         }
 
         $this->lng = $DIC->language();

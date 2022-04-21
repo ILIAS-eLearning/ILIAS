@@ -32,7 +32,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected bool $has_schedule;
     protected bool $may_edit;
     protected bool $may_assign;
-    protected ?int $overall_limit;
+    protected ?int $overall_limit = null;
     protected array $reservations = array();
     protected int $current_bookings;
     protected array $advmd;
@@ -47,7 +47,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         int $a_ref_id,
         int $a_pool_id,
         bool $a_pool_has_schedule,
-        int $a_pool_overall_limit,
+        ?int $a_pool_overall_limit,
         bool $active_management = true
     ) {
         global $DIC;
