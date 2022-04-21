@@ -120,7 +120,9 @@ class ilAssQuestionPreviewGUI
                     }
 
                     if (!$_GET['test_express_mode'] && !$GLOBALS['___test_express_mode']) {
-                        $this->tabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
+                        $this->tabs->setBackTarget($this->lng->txt("backtocallingtest"),
+                            "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
+                        //BACK FROM Question Page to Test
                     } else {
                         $link = ilTestExpressPage::getReturnToPageLink();
                         $this->tabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
@@ -129,13 +131,18 @@ class ilAssQuestionPreviewGUI
                     $ref_id = (int) $_GET['calling_consumer'];
                     $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
                     if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                        $this->tabs->setBackTarget($consumer->getQuestionEditingFormBackTargetLabel(), $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
+                        $this->tabs->setBackTarget($consumer->getQuestionEditingFormBackTargetLabel(),
+                            $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
                     } else {
                         require_once 'Services/Link/classes/class.ilLink.php';
                         $this->tabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
                     }
+                //} elseif (true) {
+                    // We're in the underworld and want to go back to the question page
+
                 } else {
                     $this->tabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
+                    //BACK FROM Question Page to Pool
                 }
             }
         }
