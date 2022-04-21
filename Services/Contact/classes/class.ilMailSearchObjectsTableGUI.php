@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
-
 class ilMailSearchObjectsTableGUI extends ilTable2GUI
 {
     protected ilObjUser $user;
