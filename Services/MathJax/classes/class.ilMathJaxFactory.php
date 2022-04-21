@@ -20,8 +20,11 @@ use ILIAS\DI\Container;
  */
 class ilMathJaxFactory
 {
-    protected $template;
+    protected ilGlobalTemplateInterface $template;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         global $DIC;

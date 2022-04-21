@@ -29,7 +29,7 @@ class ilMathJaxImage
      * Webspace filesystem where the cached images are stored
      * @var \ILIAS\Filesystem\Filesystem
      */
-    protected $fs;
+    protected \ILIAS\Filesystem\Filesystem $fs;
 
     /**
      * @var string Relative path from the ilias web directory
