@@ -758,10 +758,10 @@ class ilObjStyleSheet extends ilObject
             if (!$a_exclude_default_style || $default_style != $sty["id"]) {
                 // check scope
                 if ($a_scope > 0 && $sty["category"] > 0) {
-                    if ($tree->isInTree($sty["category"]) &&
+                    if ($tree->isInTree((int) $sty["category"]) &&
                         $tree->isInTree($a_scope)) {
                         $path = $tree->getPathId($a_scope);
-                        if (!in_array($sty["category"], $path)) {
+                        if (!in_array((int) $sty["category"], $path)) {
                             continue;
                         }
                     }
