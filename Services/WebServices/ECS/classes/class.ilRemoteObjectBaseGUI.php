@@ -59,9 +59,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
             case strtolower(ilECSUserConsentModalGUI::class):
                 $consent_gui = new ilECSUserConsentModalGUI(
                     $this->user->getId(),
-                    $this->ref_id,
-                    $this->getObject()->getMID(),
-                    $this->getObject()
+                    $this->ref_id
                 );
                 $this->ctrl->setReturn($this, 'call');
                 $this->ctrl->forwardCommand($consent_gui);
@@ -171,9 +169,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
         $this->ctrl->setReturn($this,'call');
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
-            $this->getRefId(),
-            $this->getObject()->getMID(),
-            $this->getObject(),
+            $this->ref_id,
             $this
         );
         $consent_gui->addLinkToToolbar($this->toolbar);

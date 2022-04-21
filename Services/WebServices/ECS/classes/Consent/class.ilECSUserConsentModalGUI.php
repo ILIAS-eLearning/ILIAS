@@ -26,12 +26,11 @@ class ilECSUserConsentModalGUI
      */
     private $usr_id = 0;
     private $ref_id = 0;
+    private $obj_id = 0;
     private $mid = 0;
 
-    /**
-     * @var ilRemoteObjectBase|null
-     */
-    private $remote_object = null;
+    private $type = '';
+
 
     /**
      * @var ilRemoteObjectBaseGUI
@@ -68,15 +67,20 @@ class ilECSUserConsentModalGUI
      */
     protected  $ctrl;
 
+    /**
+     * @var ilObjectDefinition
+     */
+    protected $objDefinition;
 
-    public function __construct(int $a_usr_id, int $a_ref_id, int $a_mid, ilRemoteObjectBase $remote = null, ilRemoteObjectBaseGUI $remote_gui = null)
+
+    public function __construct(int $a_usr_id, int $a_ref_id, ilRemoteObjectBaseGUI $remote_gui = null)
     {
         global $DIC;
 
         $this->usr_id = $a_usr_id;
         $this->ref_id = $a_ref_id;
-        $this->mid  = $a_mid;
-        $this->remote_object = $remote;
+        $this->obj_id = ilObject::_lookupObjId($this->ref_id);
+        $this->type = ilObject::_lookupType($this->obj_id);
         $this->remote_gui = $remote_gui;
         $this->consents = ilECSUserConsents::getInstanceByUserId($this->usr_id);
 
@@ -86,6 +90,9 @@ class ilECSUserConsentModalGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ecs');
         $this->ctrl = $DIC->ctrl();
+        $this->objDefinition = $DIC['objDefinition'];
+
+        $this->initMid();
     }
 
     public function executeCommand()
@@ -102,12 +109,34 @@ class ilECSUserConsentModalGUI
         }
     }
 
+    protected function initMid() : void
+    {
+        $classname = $this->objDefinition->getClassName($this->type);
+        $object_classname = 'ilObj' . $classname;
+        $this->mid = (int) $object_classname::_lookupMid($this->obj_id);
+    }
+
+    protected function lookupOrganization() : string
+    {
+        $classname = $this->objDefinition->getClassName($this->type);
+        $object_classname = 'ilObj' . $classname;
+        return $object_classname::_lookupOrganization($this->obj_id);
+    }
+    
+    protected function isLocalObject() 
+    {
+        return !ilECSExport::_isRemote(
+            ilECSImport::lookupServerId($this->obj_id),
+            ilECSImport::_lookupEContentId($this->obj_id)
+        );
+    }
+
 
     public function addLinkToToolbar(ilToolbarGUI $toolbar)
     {
         if (
             $this->usr_id === ANONYMOUS_USER_ID ||
-            $this->remote_object->isLocalObject()
+            $this->isLocalObject()
         ) {
             return;
         }
@@ -123,7 +152,7 @@ class ilECSUserConsentModalGUI
     {
         if (
             $this->usr_id === ANONYMOUS_USER_ID ||
-            $this->remote_object->isLocalObject()
+            $this->isLocalObject()
         ) {
             return '';
         }
@@ -231,7 +260,7 @@ class ilECSUserConsentModalGUI
             $this->lng->txt('ecs_form_target_platform'),
             'organisation'
         );
-        $target->setValue($this->remote_object->getOrganization());
+        $target->setValue($this->lookupOrganization());
         $form->addItem($target);
 
         $consent = new ilCheckboxInputGUI($this->lng->txt('ecs_form_consent'), 'consent');
