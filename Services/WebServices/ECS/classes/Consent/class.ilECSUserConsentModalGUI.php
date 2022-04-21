@@ -265,6 +265,17 @@ class ilECSUserConsentModalGUI
         $target->setValue($this->lookupOrganization());
         $form->addItem($target);
 
+        // provider
+        $organisation = $this->getOrganisation();
+        if ($organisation instanceof ilECSOrganisation) {
+            $provider = new ilNonEditableValueGUI(
+                $this->lng->txt('organization'),
+                'provider'
+            );
+            $provider->setValue($organisation->getName());
+            $form->addItem($provider);
+        }
+
         $consent = new ilCheckboxInputGUI($this->lng->txt('ecs_form_consent'), 'consent');
         $consent->setValue("1");
         $consent->setChecked($this->consents->hasConsented($this->mid));
@@ -282,6 +293,20 @@ class ilECSUserConsentModalGUI
         $submit->setValue('submit');
         $form->addItem($submit);
         return $form;
+    }
+
+    protected function getOrganisation() : ?ilECSOrganisation
+    {
+        $server_id = ilECSImport::lookupServerId($this->obj_id);
+        $community_reader = ilECSCommunityReader::getInstanceByServerId($server_id);
+        try {
+            $part = $community_reader->getParticipantByMID($this->mid);
+            if ($part instanceof ilECSParticipant) {
+                return $part->getOrganisation();
+            }
+        } catch (ilECSConnectorException $e) {
+            ;
+        }
     }
 
     protected function getGUIClassName() : string
