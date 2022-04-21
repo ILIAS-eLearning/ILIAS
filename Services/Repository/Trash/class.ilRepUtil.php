@@ -518,7 +518,7 @@ class ilRepUtil
         
         $ref_ids_in_tree = $tree->getSubTree($tree->getNodeData(ROOT_FOLDER_ID), false, [$a_type]);
         if ($ref_ids_in_tree) {
-            self::deleteObjects(null, $ref_ids_in_tree);
+            self::deleteObjects(0, $ref_ids_in_tree);
         }
         
         if ($ilSetting->get('enable_trash')) {

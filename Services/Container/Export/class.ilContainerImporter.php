@@ -117,7 +117,7 @@ class ilContainerImporter extends ilXmlImporter
                 continue;
             }
             $new_ref_id = $mapping->getMapping('Services/Container', 'refs', $ref_id);
-            $obj = ilObjectFactory::getInstanceByRefId($new_ref_id, false);
+            $obj = ilObjectFactory::getInstanceByRefId((int) $new_ref_id, false);
             if (!$obj instanceof ilObject) {
                 $this->cont_log->warning('Cannot create instance for ref_id: ' . $new_ref_id);
                 continue;

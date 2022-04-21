@@ -60,7 +60,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setSelectAllCheckbox("id[]");
         
-        $this->addColumn("", "", "1", 1);
+        $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("type"), "", "1");
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("last_change"), "last_update", "25%");

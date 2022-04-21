@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -61,7 +61,7 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
             $this->initReference(end($refs));
         }
         // Mapping for containers without subitems
-        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', 0)) {
+        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', '0')) {
             $this->initReference((int) $new_id);
         } elseif (!$this->getReference() instanceof ilContainerReference) {
             $this->initReference();

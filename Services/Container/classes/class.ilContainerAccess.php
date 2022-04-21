@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +25,7 @@ class ilContainerAccess implements ilWACCheckingClass
         $access = $DIC->access();
 
         preg_match("/\\/obj_([\\d]*)\\//uim", $ilWACPath->getPath(), $results);
-        foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
+        foreach (ilObject2::_getAllReferences((int) $results[1]) as $ref_id) {
             if ($access->checkAccess('visible', '', $ref_id) || $access->checkAccess('read', '', $ref_id)) {
                 return true;
             }

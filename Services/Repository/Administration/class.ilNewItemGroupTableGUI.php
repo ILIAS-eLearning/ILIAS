@@ -45,7 +45,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("rep_new_item_groups"));
 
         if ($this->has_write) {
-            $this->addColumn("", "", 1);
+            $this->addColumn("", "", '1');
         }
         $this->addColumn($lng->txt("cmps_add_new_rank"), "");
         $this->addColumn($lng->txt("title"), "");

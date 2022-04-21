@@ -82,9 +82,9 @@ class ilContainerStartObjects
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($tree->isInTree($row->item_ref_id)) {
-                $this->start_objs[$row->crs_start_id]['item_ref_id'] = $row->item_ref_id;
+                $this->start_objs[$row->crs_start_id]['item_ref_id'] = (int) $row->item_ref_id;
             } else {
-                $this->delete($row->item_ref_id);
+                $this->delete((int) $row->item_ref_id);
             }
         }
     }

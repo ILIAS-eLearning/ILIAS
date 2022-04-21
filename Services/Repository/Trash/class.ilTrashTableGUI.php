@@ -54,7 +54,7 @@ class ilTrashTableGUI extends ilTable2GUI
             ilObject::_lookupTitle(ilObject::_lookupObjId($this->ref_id)) . '" '
         );
 
-        $this->addColumn('', '', 1, 1);
+        $this->addColumn('', '', '1', true);
         $this->addColumn($this->lng->txt('type'), 'type');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('rep_trash_table_col_deleted_by'), 'deleted_by');

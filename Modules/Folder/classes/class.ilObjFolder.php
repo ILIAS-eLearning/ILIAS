@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +20,7 @@
  */
 class ilObjFolder extends ilContainer
 {
-    public ilTree $folder_tree;
+    public ?ilTree $folder_tree = null;
     
     public function __construct(
         int $a_id = 0,

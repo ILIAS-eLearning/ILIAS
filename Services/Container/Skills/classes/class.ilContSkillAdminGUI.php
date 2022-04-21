@@ -228,7 +228,7 @@ class ilContSkillAdminGUI
         $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->requested_usr_id);
         $mem_skills->saveLevelForSkills($levels);
 
-        if (!ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", 0)) {
+        if (!ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", '0')) {
             $mem_skills->publish($this->container->getRefId());
         }
 
@@ -571,7 +571,7 @@ class ilContSkillAdminGUI
             $cgui->setHeaderText($lng->txt("cont_skill_really_remove_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("remove"), "removeSingleGlobalProfile");
-            $cgui->addItem("", $profile_id, ilSkillProfile::lookupTitle($profile_id));
+            $cgui->addItem("", (string) $profile_id, ilSkillProfile::lookupTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -662,7 +662,7 @@ class ilContSkillAdminGUI
             $cgui->setHeaderText($lng->txt("cont_skill_really_delete_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("delete"), "deleteSingleLocalProfile");
-            $cgui->addItem("", $profile_id, ilSkillProfile::lookupTitle($profile_id));
+            $cgui->addItem("", (string) $profile_id, ilSkillProfile::lookupTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -708,12 +708,12 @@ class ilContSkillAdminGUI
 
         // publish
         $radg = new ilRadioGroupInputGUI($lng->txt("cont_skill_publish"), "cont_skill_publish");
-        $op1 = new ilRadioOption($lng->txt("cont_skill_publish_auto"), 0, $lng->txt("cont_skill_publish_auto_info"));
+        $op1 = new ilRadioOption($lng->txt("cont_skill_publish_auto"), '0', $lng->txt("cont_skill_publish_auto_info"));
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("cont_skill_publish_manual"), 1, $lng->txt("cont_skill_publish_manual_info"));
+        $op2 = new ilRadioOption($lng->txt("cont_skill_publish_manual"), '1', $lng->txt("cont_skill_publish_manual_info"));
         $radg->addOption($op2);
         $form->addItem($radg);
-        $radg->setValue(ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", 0));
+        $radg->setValue(ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", '0'));
 
         $form->addCommandButton("saveSettings", $lng->txt("save"));
 
