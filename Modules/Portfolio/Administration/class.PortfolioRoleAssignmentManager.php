@@ -87,7 +87,7 @@ class PortfolioRoleAssignmentManager
         $template_ref_ids = $this->getTemplatesForRoles($role_ids);
         // create portfolios
         foreach ($template_ref_ids as $template_ref_id) {
-            if (\ilObject::_lookupType($template_ref_id, true) == "prtt") {
+            if (\ilObject::_lookupType($template_ref_id, true) === "prtt") {
                 $source = new \ilObjPortfolioTemplate($template_ref_id, true);
                 // create portfolio
                 $target = new \ilObjPortfolio();
@@ -95,7 +95,7 @@ class PortfolioRoleAssignmentManager
                 $target->setOwner($user_id);
                 $target->create();
                 $target_id = $target->getId();
-                $source->clonePagesAndSettings($source, $target, null, true);
+                \ilObjPortfolioTemplate::clonePagesAndSettings($source, $target, null, true);
             }
         }
     }

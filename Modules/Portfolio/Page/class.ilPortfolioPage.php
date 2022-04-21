@@ -66,7 +66,7 @@ class ilPortfolioPage extends ilPageObject
         $lng = $this->lng;
 
         // because of migration of extended user profiles
-        if ($this->title == "###-") {
+        if ($this->title === "###-") {
             return $lng->txt("profile");
         }
 
@@ -277,7 +277,7 @@ class ilPortfolioPage extends ilPageObject
 
         $pid = self::findPortfolioForPage($a_target);
         $type = ilObject::_lookupType($pid);
-        if ($type == "prtt") {
+        if ($type === "prtt") {
             $ctrl = $DIC->ctrl();
             $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $a_target);
             $href = $ctrl->getLinkTargetByClass(array(
@@ -312,10 +312,10 @@ class ilPortfolioPage extends ilPageObject
             // 1. Outgoing links from the copied page.
             //
             //$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
-            if ($a_target_obj->getType() == "prtf") {
+            if ($a_target_obj->getType() === "prtf") {
                 $tpg = new ilPortfolioPage($copied_id);
             }
-            if ($a_target_obj->getType() == "prtt") {
+            if ($a_target_obj->getType() === "prtt") {
                 $tpg = new ilPortfolioTemplatePage($copied_id);
             }
             $tpg->buildDom();
@@ -325,7 +325,7 @@ class ilPortfolioPage extends ilPageObject
             foreach ($il as $l) {
                 $targets[] = array(
                     "type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
-                    "id" => (int) ilInternalLink::_extractObjIdOfTarget($l["Target"]),
+                    "id" => ilInternalLink::_extractObjIdOfTarget($l["Target"]),
                     "inst" => (int) ilInternalLink::_extractInstOfTarget($l["Target"])
                 );
             }
@@ -372,7 +372,7 @@ class ilPortfolioPage extends ilPageObject
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {
+        for ($i = 0, $iMax = count($res->nodeset); $i < $iMax; $i++) {
             $target = $res->nodeset[$i]->get_attribute("Target");
             $type = $res->nodeset[$i]->get_attribute("Type");
             $obj_id = ilInternalLink::_extractObjIdOfTarget($target);

@@ -43,7 +43,7 @@ class StandardGUIRequest
     public function getPortfolioId() : int
     {
         $prt_id = $this->int("prt_id");
-        if ($prt_id == 0) {
+        if ($prt_id === 0) {
             $prt_id = $this->int("prtf");
         }
         return $prt_id;
@@ -52,10 +52,8 @@ class StandardGUIRequest
     public function getPortfolioIds() : array
     {
         $ids = $this->intArray("prtfs");
-        if (count($ids) == 0) {
-            if ($this->int("prtf") > 0) {
-                $ids = [$this->int("prtf")];
-            }
+        if ((count($ids) === 0) && $this->int("prtf") > 0) {
+            $ids = [$this->int("prtf")];
         }
         return $ids;
     }
@@ -83,6 +81,7 @@ class StandardGUIRequest
     public function getExcAssId() : int
     {
         $ass_id = $this->int("ass");
+        //TODO-PHP8-REVIEW Please fix comparison not to compare str with int
         if ($ass_id == "") {
             $ass_id = $this->int("ass_id");
         }
@@ -113,10 +112,8 @@ class StandardGUIRequest
     public function getPortfolioPageIds() : array
     {
         $pages = $this->intArray("prtf_pages");
-        if (count($pages) == 0) {
-            if ($this->int("prtf_page") > 0) {
-                $pages = [$this->int("prtf_page")];
-            }
+        if ((count($pages) === 0) && $this->int("prtf_page") > 0) {
+            $pages = [$this->int("prtf_page")];
         }
         return $pages;
     }
@@ -208,14 +205,12 @@ class StandardGUIRequest
 
     public function getPortfolioTemplateId() : int
     {
-        $prt_id = $this->int("prtt_pre");
-        return $prt_id;
+        return $this->int("prtt_pre");
     }
 
     public function getPortfolioTemplate() : int
     {
-        $prt_id = $this->int("prtt");
-        return $prt_id;
+        return $this->int("prtt");
     }
 
     public function getExerciseRefId() : int

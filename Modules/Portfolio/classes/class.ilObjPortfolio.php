@@ -21,7 +21,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 {
     protected bool $default;
 
-    public function initType()
+    protected function initType()
     {
         $this->type = "prtf";
     }
