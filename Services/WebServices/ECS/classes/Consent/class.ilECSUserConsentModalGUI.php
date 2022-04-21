@@ -3,7 +3,8 @@
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use Psr\Http\Message\RequestInterface as RequestInterface;
-use ILIAS\UI\Implementation\Component\Card\Card as Card;
+use ILIAS\UI\Component\Card\RepositoryObject;
+
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -189,7 +190,7 @@ class ilECSUserConsentModalGUI
         }
     }
 
-    public function addConsentModalToCard(Card $card)
+    public function addConsentModalToCard(\ILIAS\UI\Implementation\Component\Card\RepositoryObject $card)
     {
         global $DIC;
 
