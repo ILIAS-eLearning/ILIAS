@@ -37,18 +37,6 @@ class ilMathJaxServer
      */
     public function call(array $options) : string
     {
-        if (extension_loaded('cURL')) { //TODO-PHP8-REVIEW the curl extension is required by the compose file. There should be no need for callbystreamcontext
-            return $this->callByCurl($options);
-        }
-
-        return $this->callByStreamContext($options);
-    }
-
-    /**
-     * Call the mathjax server by curl
-     */
-    protected function callByCurl(array $options) : string
-    {
         $curl = curl_init($this->config->getServerAddress());
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -61,38 +49,13 @@ class ilMathJaxServer
         $status = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
         curl_close($curl);
 
-        if ($status !== "200") {
+        if ($status !== 200) {
             $lines = explode("\n", $response);
             if (isset($lines[1])) {
                 throw new ilMathJaxException($lines[1]);
             }
             throw new ilMathJaxException('curl server call failed');
         }
-        return $response;
-    }
-
-    /**
-     * Call the mathjax server by stream context
-     */
-    protected function callByStreamContext(array $options) : string
-    {
-        $context = stream_context_create(
-            array(
-                'http' => array(
-                    'method' => 'POST',
-                    'content' => json_encode($options, JSON_THROW_ON_ERROR),
-                    'header' => "Content-Type: application/json\r\n",
-                    'timeout' => $this->config->getServerTimeout(),
-                    'ignore_errors' => true
-                )
-            )
-        );
-
-        $response = file_get_contents($this->config->getServerAddress(), false, $context);
-        if (empty($response)) {
-            throw new ilMathJaxException('stream server call failed');
-        }
-
         return $response;
     }
 }
