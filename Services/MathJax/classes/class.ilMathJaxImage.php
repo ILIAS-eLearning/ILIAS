@@ -26,6 +26,12 @@ class ilMathJaxImage
     private const TYPE_SVG = 'svg';
 
     /**
+     * Webspace filesystem where the cached images are stored
+     * @var \ILIAS\Filesystem\Filesystem
+     */
+    protected \ILIAS\Filesystem\Filesystem $fs;
+
+    /**
      * @var string Relative path from the ilias web directory
      */
     protected string $basepath = '/temp/tex';
@@ -52,6 +58,9 @@ class ilMathJaxImage
      */
     public function __construct(string $a_tex, string $a_type, int $a_dpi)
     {
+        global $DIC;
+
+        $this->fs = $DIC->filesystem()->web();
         $this->tex = $a_tex;
 
         switch ($a_type) {
@@ -66,23 +75,6 @@ class ilMathJaxImage
         }
 
         $this->salt = '#' . $a_dpi;
-    }
-
-    /**
-     * Get the ILIAS DI container
-     */
-    protected function di() : Container
-    {
-        global $DIC; //TODO-PHP8-REVIEW please move the usage of global $DIC to the constructor and init alle required attributes there.
-        return $DIC;
-    }
-
-    /**
-     * Get the webspace file system
-     */
-    protected function fs() : \ILIAS\Filesystem\Filesystem
-    {
-        return $this->di()->filesystem()->web();
     }
 
     /**
@@ -110,7 +102,7 @@ class ilMathJaxImage
      */
     public function exists() : bool
     {
-        return $this->fs()->has($this->filepath());
+        return $this->fs->has($this->filepath());
     }
 
     /**
@@ -118,7 +110,7 @@ class ilMathJaxImage
      */
     public function read() : string
     {
-        return $this->fs()->read($this->filepath());
+        return $this->fs->read($this->filepath());
     }
 
     /**
@@ -127,7 +119,7 @@ class ilMathJaxImage
      */
     public function write(string $a_content) : void
     {
-        $this->fs()->put($this->filepath(), $a_content);
+        $this->fs->put($this->filepath(), $a_content);
     }
 
     /**
@@ -136,9 +128,9 @@ class ilMathJaxImage
     public function getCacheSize() : string
     {
         $size = 0;
-        if ($this->fs()->hasDir($this->basepath)) {
-            foreach ($this->fs()->finder()->in([$this->basepath])->files() as $meta) {
-                $size += $this->fs()->getSize($meta->getPath(), 1)->inBytes();
+        if ($this->fs->hasDir($this->basepath)) {
+            foreach ($this->fs->finder()->in([$this->basepath])->files() as $meta) {
+                $size += $this->fs->getSize($meta->getPath(), 1)->inBytes();
             }
         }
 
@@ -158,6 +150,6 @@ class ilMathJaxImage
      */
     public function clearCache() : void
     {
-        $this->fs()->deleteDir($this->basepath);
+        $this->fs->deleteDir($this->basepath);
     }
 }

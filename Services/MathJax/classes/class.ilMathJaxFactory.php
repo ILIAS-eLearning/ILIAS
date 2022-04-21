@@ -20,6 +20,17 @@ use ILIAS\DI\Container;
  */
 class ilMathJaxFactory
 {
+    protected ilGlobalTemplateInterface $template;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
+        $this->template = $DIC->ui()->mainTemplate();
+    }
+
     /**
      * Create an ilMathJaxServer object
      */
@@ -41,8 +52,6 @@ class ilMathJaxFactory
      */
     public function template() : ilGlobalTemplateInterface
     {
-        /** @var Container $DIC */
-        global $DIC; //TODO-PHP8-REVIEW please move the usage of global $DIC to the constructor and init alle required attributes there.
-        return $DIC->ui()->mainTemplate();
+        return $this->template;
     }
 }
