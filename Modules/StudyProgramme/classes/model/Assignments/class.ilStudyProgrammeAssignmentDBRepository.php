@@ -1,18 +1,34 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignmentRepository
 {
-    const TABLE = 'prg_usr_assignments';
+    public const TABLE = 'prg_usr_assignments';
 
-    const FIELD_ID = 'id';
+    private const FIELD_ID = 'id';
 
-    const FIELD_USR_ID = 'usr_id';
-    const FIELD_ROOT_PRG_ID = 'root_prg_id';
-    const FIELD_LAST_CHANGE = 'last_change';
-    const FIELD_LAST_CHANGE_BY = 'last_change_by';
-    const FIELD_RESTART_DATE = 'restart_date';
-    const FIELD_RESTARTED_ASSIGNMENT_ID = 'restarted_assignment_id';
-    const FIELD_RESTART_MAIL = 'restart_mail_send';
+    private const FIELD_USR_ID = 'usr_id';
+    private const FIELD_ROOT_PRG_ID = 'root_prg_id';
+    private const FIELD_LAST_CHANGE = 'last_change';
+    private const FIELD_LAST_CHANGE_BY = 'last_change_by';
+    private const FIELD_RESTART_DATE = 'restart_date';
+    private const FIELD_RESTARTED_ASSIGNMENT_ID = 'restarted_assignment_id';
+    private const FIELD_RESTART_MAIL = 'restart_mail_send';
 
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -30,11 +46,11 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      */
     public function createFor(int $prg_id, int $usr_id, int $assigning_usr_id) : ilStudyProgrammeAssignment
     {
-        if (ilObject::_lookupType($usr_id) != "usr") {
+        if (ilObject::_lookupType($usr_id) !== "usr") {
             throw new ilException("ilStudyProgrammeAssignment::createFor: '$usr_id' "
                 . "is no id of a user.");
         }
-        if (ilObject::_lookupType($prg_id) != "prg") {
+        if (ilObject::_lookupType($prg_id) !== "prg") {
             throw new ilException("ilStudyProgrammeAssignment::createFor: '$prg_id' "
                 . "is no id of a prg.");
         }
@@ -92,6 +108,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
 
     /**
      * @throws ilException
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getByUsrIdAndPrgId(int $usr_id, int $prg_id) : array
     {
@@ -264,6 +281,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
 
     /**
      * @throws ilException
+     * @return array<int, ilStudyProgrammeAssignment[]>
      */
     public function getDashboardInstancesforUser(int $usr_id) : array
     {
@@ -285,12 +303,12 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         $res = $db->query($q);
         $prg = 0;
         while ($row = $db->fetchAssoc($res)) {
-            if ($prg == 0) {
-                $prg = $row['root_prg_id'];
+            if ($prg === 0) {
+                $prg = (int) $row['root_prg_id'];
             }
-            if ($prg != $row['root_prg_id']) {
+            if ($prg !== (int) $row['root_prg_id']) {
                 $ret[$prg] = $assignments;
-                $prg = $row['root_prg_id'];
+                $prg = (int) $row['root_prg_id'];
                 $assignments = [];
             }
             $assignments[(int) $row['id']] = $this->assignmentByRow($row);
@@ -398,6 +416,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         $this->db->manipulate($query);
     }
 
+    /** @return string[] */
     public function getTableAndFieldOfAssignmentIds() : array
     {
         return  [self::TABLE, self::FIELD_ID];
@@ -420,6 +439,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         return $assignment;
     }
 
+    /** @return ilStudyProgrammeAssignment[] */
     public function getInstancesOfUser(int $user_id) : array
     {
         $assignments = $this->getByUsrId($user_id);

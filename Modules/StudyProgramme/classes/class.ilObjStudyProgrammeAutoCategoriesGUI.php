@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Dropdown\Standard;
 use ILIAS\UI\Component\Signal;
@@ -18,16 +34,16 @@ use ILIAS\UI\Component\Modal\RoundTrip;
  */
 class ilObjStudyProgrammeAutoCategoriesGUI
 {
-    const F_CATEGORY_REF = 'f_cr';
-    const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';
-    const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
+    private const F_CATEGORY_REF = 'f_cr';
+    private const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';
+    public const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
 
-    const CMD_VIEW = 'view';
-    const CMD_SAVE = 'save';
-    const CMD_GET_ASYNC_MODAL = 'getAsyncModalOutput';
-    const CMD_DELETE = 'delete';
-    const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
-    const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
+    private const CMD_VIEW = 'view';
+    private const CMD_SAVE = 'save';
+    private const CMD_GET_ASYNC_MODAL = 'getAsyncModalOutput';
+    private const CMD_DELETE = 'delete';
+    private const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
+    private const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
 
     public ilGlobalTemplateInterface $tpl;
     public ilCtrl $ctrl;
@@ -125,7 +141,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             if (ilObject::_lookupType($ref_id, true) !== 'cat' || $this->tree->isDeleted($ref_id)) {
                 continue;
             }
-            list($title, $link) = $this->getItemPath($ref_id);
+            [$title, $link] = $this->getItemPath($ref_id);
             $usr = $this->getUserRepresentation($ac->getLastEditorId());
             $modal = $this->getModal($ref_id);
             $collected_modals[] = $modal;
@@ -142,7 +158,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
                 $title
             ];
         }
-        usort($data, function ($a, $b) {
+        usort($data, static function (array $a, array $b) : int {
             return strnatcmp($a[4], $b[4]);
         });
 
@@ -313,10 +329,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     {
         $form = new ilPropertyFormGUI();
 
-        if (is_null($current_ref_id)) {
-            $current_ref_id = "";
-        }
-        $form->setId(uniqid((string) $current_ref_id));
+        $form->setId(uniqid((string) $current_ref_id, true));
 
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
         $cat = new ilRepositorySelector2InputGUI(
@@ -326,7 +339,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         );
         $cat->getExplorerGUI()->setSelectableTypes(["cat"]);
         $cat->getExplorerGUI()->setTypeWhiteList(["root", "cat"]);
-        if ($current_ref_id != "") {
+        if ($current_ref_id !== null) {
             $cat->getExplorerGUI()->setPathOpen($current_ref_id);
             $cat->setValue($current_ref_id);
         }
@@ -335,7 +348,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $form->addItem($cat);
 
         $hi = new ilHiddenInputGUI(self::F_CATEGORY_ORIGINAL_REF);
-        $hi->setValue($current_ref_id);
+        $hi->setValue($current_ref_id ?? "");
         $form->addItem($hi);
 
         return $form;
@@ -395,7 +408,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $url = ilLink::_getStaticLink($cat_ref_id, 'cat');
 
         $hops = array_map(
-            function ($c) {
+            static function (array $c) : string {
                 return ilObject::_lookupTitle($c["obj_id"]);
             },
             $this->tree->getPathFull($cat_ref_id)

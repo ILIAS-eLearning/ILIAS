@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 //NIFT: NotImplementedForTesting
 trait ProgressRepoMockNIFT
 {
@@ -23,7 +39,7 @@ trait ProgressRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getFirstByPrgId(int $prg_id)
+    public function getFirstByPrgId(int $prg_id) : void
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -110,7 +126,8 @@ trait SettingsRepoMockNIFT
 
 class ProgressRepoMock implements ilStudyProgrammeProgressRepository
 {
-    public $progresses = [];
+    /** @var array<int, ilStudyProgrammeProgress> */
+    public array $progresses = [];
 
     use ProgressRepoMockNIFT;
 
@@ -143,7 +160,8 @@ class ProgressRepoMock implements ilStudyProgrammeProgressRepository
 
 class AssignmentRepoMock implements ilStudyProgrammeAssignmentRepository
 {
-    public $assignments = [];
+    /** @var array<int, ilStudyProgrammeAssignment> */
+    public array $assignments = [];
 
     use AssignmentRepoMockNIFT;
 
@@ -159,7 +177,8 @@ class AssignmentRepoMock implements ilStudyProgrammeAssignmentRepository
 
 class SettingsRepoMock implements ilStudyProgrammeSettingsRepository
 {
-    public $settings = [];
+    /** @var array<int, ilStudyProgrammeSettings> */
+    public array $settings = [];
 
     use SettingsRepoMockNIFT;
 
@@ -184,14 +203,23 @@ class SettingsMock extends ilStudyProgrammeSettings
 
 class PrgMock extends ilObjStudyProgramme
 {
+    protected ProgressRepoMock $progress_repo;
+    protected AssignmentRepoMock $assignment_repo;
+    protected SettingsRepoMock $settings_repo;
     public array $mock_tree;
 
     public function __construct(
         int $id,
-        $env
+        ProgressRepoMock $progress_repo,
+        AssignmentRepoMock $assignment_repo,
+        SettingsRepoMock $settings_repo,
+        array &$mock_tree
     ) {
         $this->id = $id;
-        $this->env = $env;
+        $this->progress_repo = $progress_repo;
+        $this->assignment_repo = $assignment_repo;
+        $this->settings_repo = $settings_repo;
+        $this->mock_tree = &$mock_tree;
         $this->events = new class() extends ilStudyProgrammeEvents {
             public function __construct()
             {
@@ -202,13 +230,13 @@ class PrgMock extends ilObjStudyProgramme
         };
     }
     
-    public function throwIfNotInTree() : void
+    protected function throwIfNotInTree() : void
     {
     }
 
     public function update() : bool
     {
-        return $this->updateSettings();
+        return $this->updateSettings();// TODO PHP8-REVIEW Required parameter missing
     }
     protected function getLoggedInUserId() : int
     {
@@ -222,15 +250,15 @@ class PrgMock extends ilObjStudyProgramme
 
     protected function getProgressRepository() : ilStudyProgrammeProgressRepository
     {
-        return $this->env->progress_repo;
+        return $this->progress_repo;
     }
     protected function getAssignmentRepository() : ilStudyProgrammeAssignmentRepository
     {
-        return $this->env->assignment_repo;
+        return $this->assignment_repo;
     }
     protected function getSettingsRepository() : ilStudyProgrammeSettingsRepository
     {
-        return $this->env->settings_repo;
+        return $this->settings_repo;
     }
 
     protected function refreshLPStatus(int $usr_id, int $node_obj_id = null) : void
@@ -239,7 +267,7 @@ class PrgMock extends ilObjStudyProgramme
 
     public function getParentProgress(ilStudyProgrammeProgress $progress) : ?ilStudyProgrammeProgress
     {
-        $parent_id = $this->env->mock_tree[$progress->getNodeId()]['parent'];
+        $parent_id = $this->mock_tree[$progress->getNodeId()]['parent'];
         if (is_null($parent_id)) {
             return null;
         }
@@ -249,7 +277,7 @@ class PrgMock extends ilObjStudyProgramme
     public function getChildrenProgress($progress) : array
     {
         $progresses = [];
-        foreach ($this->env->mock_tree[$progress->getNodeId()]['children'] as $child_id) {
+        foreach ($this->mock_tree[$progress->getNodeId()]['children'] as $child_id) {
             $progresses[] = $this->getProgressRepository()->get($child_id);
         }
         return $progresses;
@@ -264,31 +292,28 @@ class PrgMock extends ilObjStudyProgramme
     {
         return $this->applyProgressDeadline($progress);
     }
+    
+    public function hasChildren(bool $include_references = false) : bool
+    {
+        return $this->id < 12;
+    }
 
     protected function getPrgInstanceByObjId(int $obj_id) : ilObjStudyProgramme
     {
         return $this->mock_tree[$obj_id]['prg'];
     }
-    
-    public function hasChildren(bool $include_references = false) : bool
-    {
-        if ($this->id < 12) {
-            return true;
-        }
-        return false;
-    }
 }
 
 class ProgrammeEventsMock extends ilStudyProgrammeEvents
 {
-    public $raised;
+    public array $raised;// TODO PHP8-REVIEW Maybe the shape of the array can be expressed by PHPDoc comments
     
     public function __construct()
     {
         $this->raised = [];
     }
 
-    public function raise($event, $parameter) : void
+    public function raise($event, $parameter) : void// TODO PHP8-REVIEW The type hints are missing
     {
         $this->raised[] = [$event, $parameter];
     }

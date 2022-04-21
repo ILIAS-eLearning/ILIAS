@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2020 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Factory;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFieldFactory;
@@ -13,21 +26,21 @@ use ILIAS\UI\Renderer;
  */
 class ilObjStudyProgrammeSettingsGUI
 {
-    const TAB_SETTINGS = 'settings';
-    const TAB_COMMON_SETTINGS = 'commonSettings';
+    private const TAB_SETTINGS = 'settings';
+    private const TAB_COMMON_SETTINGS = 'commonSettings';
 
-    const PROP_TITLE = "title";
-    const PROP_DESC = "desc";
-    const PROP_DEADLINE = "deadline";
-    const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
+    public const PROP_TITLE = "title";
+    public const PROP_DESC = "desc";
+    public const PROP_DEADLINE = "deadline";
+    public const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
 
-    const OPT_NO_DEADLINE = 'opt_no_deadline';
-    const OPT_DEADLINE_PERIOD = "opt_deadline_period";
-    const OPT_DEADLINE_DATE = "opt_deadline_date";
+    public const OPT_NO_DEADLINE = 'opt_no_deadline';
+    public const OPT_DEADLINE_PERIOD = "opt_deadline_period";
+    public const OPT_DEADLINE_DATE = "opt_deadline_date";
 
-    const OPT_NO_VALIDITY_OF_QUALIFICATION = 'opt_no_validity_qualification';
-    const OPT_VALIDITY_OF_QUALIFICATION_PERIOD = "opt_validity_qualification_period";
-    const OPT_VALIDITY_OF_QUALIFICATION_DATE = "opt_validity_qualification_date";
+    public const OPT_NO_VALIDITY_OF_QUALIFICATION = 'opt_no_validity_qualification';
+    public const OPT_VALIDITY_OF_QUALIFICATION_PERIOD = "opt_validity_qualification_period";
+    public const OPT_VALIDITY_OF_QUALIFICATION_DATE = "opt_validity_qualification_date";
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
@@ -94,7 +107,7 @@ class ilObjStudyProgrammeSettingsGUI
                 break;
             default:
                 $cmd = $this->ctrl->getCmd();
-                if ($cmd == "") {
+                if ($cmd === "" || $cmd === null) {
                     $cmd = "view";
                 }
                 switch ($cmd) {
@@ -115,10 +128,7 @@ class ilObjStudyProgrammeSettingsGUI
             $this->tpl->setContent($content);
         } else {
             $output_handler = new ilAsyncOutputHandler();
-            $heading = $this->lng->txt("prg_async_" . $this->ctrl->getCmd());
-            if (isset($this->tmp_heading)) {
-                $heading = $this->tmp_heading;
-            }
+            $heading = $this->tmp_heading ?? $this->lng->txt("prg_async_" . $this->ctrl->getCmd());
             $output_handler->setHeading($heading);
             $output_handler->setContent($content);
             $output_handler->terminate();
@@ -161,9 +171,9 @@ class ilObjStudyProgrammeSettingsGUI
                     "message" => $this->lng->txt("msg_obj_modified"))
                 );
                 return ilAsyncOutputHandler::handleAsyncOutput($this->renderer->render($form), $response, false);
-            } else {
-                $this->ctrl->redirect($this);
             }
+
+            $this->ctrl->redirect($this);
         } else {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("msg_form_save_error"));
 
@@ -174,9 +184,9 @@ class ilObjStudyProgrammeSettingsGUI
                     "errors" => $form->getError())
                 );
                 return ilAsyncOutputHandler::handleAsyncOutput($this->renderer->render($form), $response, false);
-            } else {
-                return $this->renderer->render($form);
             }
+
+            return $this->renderer->render($form);
         }
     }
 

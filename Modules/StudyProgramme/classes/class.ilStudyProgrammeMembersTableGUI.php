@@ -1,12 +1,26 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data;
 
 class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 {
-    const COLUMNS = [
+    private const COLUMNS = [
         //column, langvar, optional, if_lp_children, if_no_lp_children
         ['name', 'name', false, true, true],
         ['login', 'login', false, true, true],
@@ -27,9 +41,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         [null, 'action', false, true, true]
     ];
 
-    const OPTION_ALL = -1;
-    const VALIDITY_OPTION_VALID = 1;
-    const VALIDITY_OPTION_INVALID = 3;
+    private const OPTION_ALL = -1;
+    private const VALIDITY_OPTION_VALID = 1;
+    private const VALIDITY_OPTION_INVALID = 3;
 
     protected int $prg_obj_id;
     protected int $prg_ref_id;
@@ -92,7 +106,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $selected = $this->getSelectedColumns();
         foreach (self::COLUMNS as $column) {
-            list($col, $lng_var, $optional, $lp, $no_lp) = $column;
+            [$col, $lng_var, $optional, $lp, $no_lp] = $column;
 
             $show_by_lp = ($this->prg_has_lp_children && $lp) || (!$this->prg_has_lp_children && $no_lp);
             $show_optional = !$optional || ($optional && array_key_exists($col, $selected));
@@ -119,7 +133,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         );
 
         $progress_ids = array_map(
-            function ($row) {
+            static function (array $row) : int {
                 return (int) $row['prgrs_id'];
             },
             $members_list
@@ -139,7 +153,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     }
 
 
-    const ORDER_MAPPING = [
+    private const ORDER_MAPPING = [
         'prg_status' => 'status',
         'prg_custom_plan' => 'custom_plan',
         'prg_belongs_to' => 'belongs_to',
@@ -151,17 +165,17 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
     protected function postOrder(array $list, Data\Order $order) : array
     {
-        list($aspect, $direction) = $order->join('', function ($i, $k, $v) {
-            return  [$k, $v];
+        [$aspect, $direction] = $order->join('', function ($i, $k, $v) {
+            return [$k, $v];
         });
         
         if (array_key_exists($aspect, self::ORDER_MAPPING)) {
             $aspect = self::ORDER_MAPPING[$aspect];
         }
         
-        usort($list, function ($a, $b) use ($aspect) {
+        usort($list, static function (array $a, array $b) use ($aspect) : int {
             if (is_numeric($a[$aspect])) {
-                return $a[$aspect] > $b[$aspect];
+                return $a[$aspect] <=> $b[$aspect];
             }
             return strcmp($a[$aspect], $b[$aspect]);
         });
@@ -454,7 +468,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $sql .= $this->getOrguValidUsersFilter();
 
         if ($limit !== null) {
-            $this->db->setLimit($limit, $offset !== null ? $offset : 0);
+            $this->db->setLimit($limit, $offset ?? 0);
         }
 
         $res = $this->db->query($sql);
@@ -476,10 +490,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $rec['points_required'] = number_format($progress->getAmountOfPoints());
             $rec['points_current'] = number_format($progress->getCurrentAmountOfPoints());
 
-            if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+            if ((int) $rec["status"] === ilStudyProgrammeProgress::STATUS_COMPLETED) {
                 //If the status completed is set by crs reference
                 //use crs title
-                if ($rec["completion_by_type"] == "crsr") {
+                if ($rec["completion_by_type"] === "crsr") {
                     $completion_id = $rec["completion_by_id"];
                     $obj_id = ilContainerReference::_lookupTargetId($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
@@ -499,7 +513,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $links = [];
                     $successful_children = $prg->getIdsOfSuccessfulChildren((int) $rec["assignment_id"]);
                     foreach ($successful_children as $entry) {
-                        list($obj_id, $ref_id) = $entry;
+                        [$obj_id, $ref_id] = $entry;
                         $links[] = $this->getCompletionLink($obj_id, $ref_id);
                     }
                     $rec["completion_by"] = implode(", ", $links);
@@ -512,7 +526,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         $rec["completion_by"] = $title["title"];
                     }
                 }
-            } elseif ($rec["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+            } elseif ((int) $rec["status"] === ilStudyProgrammeProgress::STATUS_ACCREDITED) {
                 $rec["completion_by"] = $rec["accredited_by"];
             }
 
@@ -612,7 +626,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         $cols = [];
         foreach (self::COLUMNS as $column) {
-            list($col, $lng_var, $optional, , ) = $column;
+            [$col, $lng_var, $optional, ,] = $column;
             if ($optional) {
                 $cols[$col] = ["txt" => $this->lng->txt($lng_var)];
             }
@@ -677,15 +691,15 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     ) : array {
         $actions = array();
 
-        if ($node_id == $root_prg_id) {
+        if ($node_id === $root_prg_id) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER;
         }
 
-        if ($status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+        if ($status === ilStudyProgrammeProgress::STATUS_ACCREDITED) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_ACCREDITED;
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+        if ($status === ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED;
         }
 
@@ -755,7 +769,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         $buf = [''];
 
-        if (strlen($filter['name']) > 0) {
+        if (isset($filter['name']) && is_string($filter['name']) && $filter['name'] !== '') {
             $name = substr($this->db->quote($filter['name'], "text"), 1, -1);
             $name_filter =
                 'AND (' . PHP_EOL
