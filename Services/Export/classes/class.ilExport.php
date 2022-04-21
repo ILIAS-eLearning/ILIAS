@@ -22,7 +22,7 @@ class ilExport
     /**
      * @todo currently used in ilLeanringModuleExporter
      */
-    public string $export_run_dir;
+    public string $export_run_dir = '';
 
     protected ilLogger $log;
 
@@ -215,8 +215,7 @@ class ilExport
             $dir = ilExport::_getExportDirectory($a_obj_id, $type, $a_obj_type);
 
             // quit if import dir not available
-            if (@is_dir($dir) or
-                is_writeable($dir)) {
+            if (!is_dir($dir) || !is_writable($dir)) {
                 continue;
             }
 
@@ -225,9 +224,9 @@ class ilExport
 
             // get files and save the in the array
             while ($entry = $h_dir->read()) {
-                if ($entry != "." and
-                    $entry != ".." and
-                    substr($entry, -4) == ".zip" and
+                if ($entry !== "." &&
+                    $entry !== ".." &&
+                    substr($entry, -4) === ".zip" &&
                     preg_match("/^[0-9]{10}_{2}[0-9]+_{2}(" . $a_obj_type . "_)*[0-9]+\.zip\$/", $entry)) {
                     $ts = substr($entry, 0, strpos($entry, "__"));
                     $file[$entry . $type] = [
@@ -583,7 +582,7 @@ class ilExport
             );
             $export_writer->xmlStartTag('exp:ExportItem', array("Id" => $id));
             //$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $id);
-            $xml = $exp->getXmlRepresentation($a_entity, $sv["schema_version"], $id);
+            $xml = $exp->getXmlRepresentation($a_entity, $sv["schema_version"], (string) $id);
             $export_writer->appendXML($xml);
             $export_writer->xmlEndTag('exp:ExportItem');
             $dir_cnt++;
