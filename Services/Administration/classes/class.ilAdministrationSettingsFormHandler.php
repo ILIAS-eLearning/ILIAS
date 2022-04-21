@@ -183,11 +183,15 @@ class ilAdministrationSettingsFormHandler
             self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
         }
     }
-    
+
+    /**
+     * @param mixed $a_field_value
+     * @return mixed
+     */
     protected static function parseFieldValue(
         ?string $a_field_type,
-        string &$a_field_value
-    ) : bool {
+        &$a_field_value
+    ) {
         global $DIC;
 
         $lng = $DIC->language();
