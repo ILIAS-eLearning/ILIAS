@@ -35,7 +35,7 @@ class ilPortfolioDataSet extends ilDataSet
     
     protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "https://www.ilias.de/xml/Modules/Portfolio/" . $a_entity; //TODO-PHP8-REVIEW do we want to change the xmlnamespace?
+        return "https://www.ilias.de/xml/Modules/Portfolio/" . $a_entity;
     }
     
     protected function getTypes(string $a_entity, string $a_version) : array

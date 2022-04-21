@@ -163,8 +163,10 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->doReadCustom($row);
     }
 
-    //TODO-PHP8-REVIEW Please add some doc that those methods are to be overwritten by subclasses or declare them abstract
-    protected function doReadCustom(array $a_row)
+    /**
+     * May be overwritten by derived classes
+     */
+    protected function doReadCustom(array $a_row) : void
     {
     }
 
@@ -200,8 +202,10 @@ abstract class ilObjPortfolioBase extends ilObject2
         );
     }
 
-    //TODO-PHP8-REVIEW Please add some doc that those methods are to be overwritten by subclasses or declare them abstract
-    protected function doUpdateCustom(array &$a_fields)
+    /**
+     * May be overwritte by derived classes
+     */
+    protected function doUpdateCustom(array &$a_fields) : void
     {
     }
 

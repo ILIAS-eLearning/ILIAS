@@ -637,8 +637,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
 
         ilCalendarCategories::_getInstance()->setCHUserId($user_id);
-        //TODO-PHP8-REVIEW calling initialize with null in not allowed
-        ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
+        ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, 0, true);
 
         $seed = $this->port_request->getCalendarSeed();
         if ($seed === "") {

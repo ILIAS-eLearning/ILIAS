@@ -583,8 +583,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     ) : bool {
         $ilUser = $this->user;
         $ilAccess = $this->access;
-        //TODO-PHP8-REVIEW check if prtf_ would be a valid match I would propose using [\\d]+
-        if (preg_match("/\\/prtf_([\\d]*)\\//uim", $ilWACPath->getPath(), $results)) {
+        if (preg_match("/\\/prtf_([\\d]+)\\//uim", $ilWACPath->getPath(), $results)) {
             // portfolio (custom)
             $obj_id = $results[1];
             if (ilObject::_lookupType($obj_id) === "prtf") {

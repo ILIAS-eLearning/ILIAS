@@ -45,7 +45,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
     // CRUD
     //
             
-    protected function doReadCustom(array $a_row)
+    protected function doReadCustom(array $a_row) : void
     {
         $this->setDefault((bool) $a_row["is_default"]);
     }
@@ -60,7 +60,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         parent::doUpdate();
     }
 
-    protected function doUpdateCustom(array &$a_fields)
+    protected function doUpdateCustom(array &$a_fields) : void
     {
         $a_fields["is_default"] = array("integer", $this->isDefault());
     }

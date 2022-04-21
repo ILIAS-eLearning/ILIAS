@@ -81,8 +81,7 @@ class StandardGUIRequest
     public function getExcAssId() : int
     {
         $ass_id = $this->int("ass");
-        //TODO-PHP8-REVIEW Please fix comparison not to compare str with int
-        if ($ass_id == "") {
+        if ($ass_id === 0) {
             $ass_id = $this->int("ass_id");
         }
         return $ass_id;

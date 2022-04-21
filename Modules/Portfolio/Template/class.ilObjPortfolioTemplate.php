@@ -157,12 +157,12 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
     
     public function getActivationStartDate() : ?int
     {
-        return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : null; //TODO-PHP8-REVIEW Please fix checking int values with strlen
+        return ($this->activation_starting_time > 0) ? $this->activation_starting_time : null;
     }
 
     public function getActivationEndDate() : ?int
     {
-        return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : null; //TODO-PHP8-REVIEW Please fix checking int values with strlen
+        return ($this->activation_ending_time > 0) ? $this->activation_ending_time : null;
     }
     
     //

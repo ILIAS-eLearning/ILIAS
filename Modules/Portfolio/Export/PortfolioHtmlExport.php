@@ -226,7 +226,9 @@ class PortfolioHtmlExport
         }
 
         // for sub-pages, e.g. blog postings
-        $tpl_callback = [$this, "getInitialisedTemplate"];
+        $tpl_callback = function (array $js_files = []) : \ilGlobalPageTemplate {
+            return $this->getInitialisedTemplate($js_files);
+        };
 
         $has_index = false;
         foreach ($pages as $page) {
@@ -238,7 +240,6 @@ class PortfolioHtmlExport
 
                     $blog_gui = new \ilObjBlogGUI((int) $page["title"], \ilObject2GUI::WORKSPACE_OBJECT_ID);
                     $blog_export = new BlogHtmlExport($blog_gui, $this->export_dir, $this->sub_dir, false);
-                    //TODO-PHP8-REVIEW Please fix parameter used as callback
                     $blog_export->exportHTMLPages($link_template, $tpl_callback, $this->co_page_html_export, "prtf_" . $page["id"] . ".html");
                 } else {
                     $tpl = $this->getInitialisedTemplate();
