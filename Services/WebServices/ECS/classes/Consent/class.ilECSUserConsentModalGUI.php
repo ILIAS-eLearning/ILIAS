@@ -206,7 +206,7 @@ class ilECSUserConsentModalGUI
         $agree = $this->ui_factory->button()
                                   ->primary('Agree and Proceed', '#')
                                   ->withOnLoadCode(function ($id) use ($form_id) {
-                                      return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
+                                      return "$('#$id').click(function() { $('#$form_id').submit(); return false; });";
                                   });
 
         $submitted = (string) ($this->request->getParsedBody()['cmd'] ?? '');
@@ -324,8 +324,9 @@ class ilECSUserConsentModalGUI
             if ($part instanceof ilECSParticipant) {
                 return $part->getOrganisation();
             }
+            return null;
         } catch (ilECSConnectorException $e) {
-            ;
+            return null;
         }
     }
 
