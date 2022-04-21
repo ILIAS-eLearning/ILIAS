@@ -190,7 +190,7 @@ class ilBlogPosting extends ilPageObject
         parent::read();
     }
         
-    public function checkApproval()
+    public function checkApproval() : void
     {
         if (!$this->getActive() && $this->isApproved()) {
             $this->approved = false;
@@ -222,7 +222,7 @@ class ilBlogPosting extends ilPageObject
     /**
      * Unpublish
      */
-    public function unpublish()
+    public function unpublish() : void
     {
         $this->setApproved(false);
         $this->setActive(false);
@@ -398,10 +398,7 @@ class ilBlogPosting extends ilPageObject
         $snippet = ilBlogPostingGUI::getSnippet($this->getId(), true);
         
         // making things more readable
-        $snippet = str_replace('<br/>', "\n", $snippet);
-        $snippet = str_replace('<br />', "\n", $snippet);
-        $snippet = str_replace('</p>', "\n", $snippet);
-        $snippet = str_replace('</div>', "\n", $snippet);
+        $snippet = str_replace(array('<br/>', '<br />', '</p>', '</div>'), "\n", $snippet);
     
         return trim(strip_tags($snippet));
     }
@@ -508,7 +505,7 @@ class ilBlogPosting extends ilPageObject
         foreach (self::getPageContributors($this->getParentType(), $this->getId()) as $user) {
             $contributors[] = $user["user_id"];
         }
-        if (sizeof($contributors) > 1 || !in_array($this->getAuthor(), $contributors)) {
+        if (count($contributors) > 1 || !in_array($this->getAuthor(), $contributors)) {
             // original author should come first?
             $authors = array(ilUserUtil::getNamePresentation($this->getAuthor()));
             foreach ($contributors as $user_id) {
