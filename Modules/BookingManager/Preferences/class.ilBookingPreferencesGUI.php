@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
 
@@ -55,7 +59,7 @@ class ilBookingPreferencesGUI
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
-        if ($cmd == "render") {
+        if ($cmd === "render") {
             $cmd = "show";
         }
         switch ($next_class) {
@@ -76,12 +80,9 @@ class ilBookingPreferencesGUI
             $this->listBookingResults();
         }
     }
-    
-    /**
-     * List preference options
-     */
+
     protected function listPreferenceOptions(
-        ?Form\Standard $form = null
+        Form\Standard $form = null
     ) : void {
         $ui = $this->ui;
         if (count(ilBookingObject::getList($this->pool->getId())) > 0) {
@@ -110,7 +111,7 @@ class ilBookingPreferencesGUI
         $fields = [];
         foreach (ilBookingObject::getList($this->pool->getId()) as $book_obj) {
             $checked = is_array($preferences[$this->user->getId()]) &&
-                in_array($book_obj["booking_object_id"], $preferences[$this->user->getId()]);
+                in_array($book_obj["booking_object_id"], $preferences[$this->user->getId()], true);
 
             $fields["cb_" . $book_obj["booking_object_id"]] =
                 $f->input()->field()->checkbox($book_obj["title"], $book_obj["description"])->withValue($checked);
@@ -137,7 +138,7 @@ class ilBookingPreferencesGUI
         $ctrl = $this->ctrl;
         $repo = $this->repo;
 
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
 
@@ -169,7 +170,7 @@ class ilBookingPreferencesGUI
                 $repo->savePreferencesOfUser($this->pool->getId(), $this->user->getId(), $preferences);
                 $part = new ilBookingParticipant($this->user->getId(), $this->pool->getId());
 
-                $titles = implode(", ", array_map(function ($id) {
+                $titles = implode(", ", array_map(static function ($id) {
                     return ilBookingObject::lookupTitle($id);
                 }, $obj_ids));
 
@@ -185,10 +186,12 @@ class ilBookingPreferencesGUI
     {
         $lng = $this->lng;
         $info = $lng->txt("book_preference_info");
-        $info = str_replace("%1", $this->pool->getPreferenceNumber(), $info);
-        $info = str_replace("%2", ilDatePresentation::formatDate(
-            new ilDateTime($this->pool->getPreferenceDeadline(), IL_CAL_UNIX)
-        ), $info);
+        $info = str_replace(["%1", "%2"], [
+            $this->pool->getPreferenceNumber(),
+            ilDatePresentation::formatDate(
+                new ilDateTime($this->pool->getPreferenceDeadline(), IL_CAL_UNIX)
+            )
+        ], $info);
         $this->main_tpl->setOnScreenMessage('info', $info);
     }
 
@@ -251,17 +254,18 @@ class ilBookingPreferencesGUI
             foreach ($preferences as $user_id => $obj_ids) {
                 $booking_str = "<br>" . $lng->txt("book_log") . ": -";
                 if (isset($bookings[$user_id])) {
-                    $booking_str = "<br>" . $lng->txt("book_log") . ": " . implode(", ", array_map(function ($obj_id) {
-                        $book_obj = new ilBookingObject($obj_id);
-                        return $book_obj->getTitle();
-                    }, $bookings[$user_id]));
+                    $booking_str = "<br>" . $lng->txt("book_log") . ": " . implode(", ", array_map(
+                        static function ($obj_id) {
+                            return (new ilBookingObject($obj_id))->getTitle();
+                        },
+                        $bookings[$user_id]
+                    ));
                 }
 
                 $info_gui->addProperty(
                     ilUserUtil::getNamePresentation($user_id, false, false, "", true),
-                    $lng->txt("book_preferences") . ": " . implode(", ", array_map(function ($obj_id) {
-                        $book_obj = new ilBookingObject($obj_id);
-                        return $book_obj->getTitle();
+                    $lng->txt("book_preferences") . ": " . implode(", ", array_map(static function ($obj_id) {
+                        return (new ilBookingObject($obj_id))->getTitle();
                     }, $obj_ids)) . $booking_str
                 );
             }

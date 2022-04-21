@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Booking preferences repo
@@ -48,7 +52,7 @@ class ilBookingPreferencesDBRepository
         );
         $preferences = [];
         while ($rec = $db->fetchAssoc($set)) {
-            if (!isset($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]])) {
+            if (!isset($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]], true)) {
                 $preferences[$rec["user_id"]][] = $rec["book_obj_id"];
             }
         }
@@ -73,7 +77,7 @@ class ilBookingPreferencesDBRepository
         );
         $preferences = [];
         while ($rec = $db->fetchAssoc($set)) {
-            if (!isset($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]])) {
+            if (!isset($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]], true)) {
                 $preferences[$rec["user_id"]][] = $rec["book_obj_id"];
             }
         }
@@ -128,7 +132,7 @@ class ilBookingPreferencesDBRepository
         );
 
         foreach ($preferences->getPreferences() as $user_id => $obj_ids) {
-            if (is_array($obj_ids) && $user_id == $a_user_id) {
+            if (is_array($obj_ids) && $user_id === $a_user_id) {
                 foreach ($obj_ids as $obj_id) {
                     $db->insert("booking_preferences", array(
                         "book_pool_id" => array("integer", $a_pool_id),

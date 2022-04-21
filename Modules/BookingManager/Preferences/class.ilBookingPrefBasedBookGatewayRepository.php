@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Manages the booking storage of the preference based calculated bookings
@@ -78,10 +82,7 @@ class ilBookingPrefBasedBookGatewayRepository
         );
         $rec = $db->fetchAssoc($set);
 
-        if ($rec["pref_booking_hash"] == $hash) {
-            return true;
-        }
-        return false;
+        return $rec["pref_booking_hash"] === $hash;
     }
 
     /**
@@ -98,7 +99,7 @@ class ilBookingPrefBasedBookGatewayRepository
             foreach ($bookings as $user_id => $obj_ids) {
                 foreach ($obj_ids as $obj_id) {
                     if (ilBookingReservation::isObjectAvailableNoSchedule($obj_id) &&
-                        count(ilBookingReservation::getObjectReservationForUser($obj_id, $user_id)) == 0) { // #18304
+                        count(ilBookingReservation::getObjectReservationForUser($obj_id, $user_id)) === 0) { // #18304
                         $reservation = new ilBookingReservation();
                         $reservation->setObjectId($obj_id);
                         $reservation->setUserId($user_id);

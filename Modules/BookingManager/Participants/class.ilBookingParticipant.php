@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * @author Jesús López <lopez@leifos.com>
@@ -32,7 +36,7 @@ class ilBookingParticipant
         global $DIC;
 
         if (!ilObjUser::_exists($a_user_id) || !ilObjBookingPool::_exists($a_booking_pool_id)) {
-            return null;
+            return;//PHP8Review: This show throw an error instead of silently returning an uncomplete particiaption. Espacially since those are mostly immutable.
         }
 
         $this->lng = $DIC->language();
@@ -61,9 +65,8 @@ class ilBookingParticipant
         $row = $this->db->fetchAssoc($set);
         if (empty($row)) {
             return null;
-        } else {
-            return (int) $row['participant_id'];
         }
+        return (int) $row['participant_id'];
     }
 
     protected function save() : void
@@ -107,7 +110,7 @@ class ilBookingParticipant
             //check if the user reached the limit of booking in this booking pool.
             $total_reservations = ilBookingReservation::isBookingPoolLimitReachedByUser($member_id, $pool_id);
 
-            if ($overall_limit == 0 || ($overall_limit > 0 && $total_reservations < $overall_limit)) {
+            if ($overall_limit === 0 || ($overall_limit > 0 && $total_reservations < $overall_limit)) {
                 $user_name = ilObjUser::_lookupName($member_id);
                 $name = $user_name['lastname'] . ", " . $user_name['firstname'];
                 $index = $a_bp_object_id . "_" . $member_id;
@@ -118,7 +121,7 @@ class ilBookingParticipant
                         "object_title" => array($booking_object->getTitle()),
                         "name" => $name
                     );
-                } elseif (!in_array($booking_object->getTitle(), $res[$index]['object_title'])) {
+                } elseif (!in_array($booking_object->getTitle(), $res[$index]['object_title'], true)) {
                     $res[$index]['object_title'][] = $booking_object->getTitle();
                 }
             }
@@ -130,7 +133,7 @@ class ilBookingParticipant
     public static function getList(
         int $a_booking_pool,
         array $a_filter = null,
-        ?int $a_object_id = null
+        int $a_object_id = null
     ) : array {
         global $DIC;
 
@@ -177,17 +180,14 @@ class ilBookingParticipant
                     "name" => $name
                 );
 
-                if ($status != ilBookingReservation::STATUS_CANCELLED && $row['title'] != "") {
+                if ($status != ilBookingReservation::STATUS_CANCELLED && $row['title'] !== "") {
                     $res[$index]['object_title'] = array($row['title']);
                     $res[$index]['obj_count'] = 1;
                     $res[$index]['object_ids'][] = $row['object_id'];
                 }
-            } elseif ($row['title'] != "" && (!in_array(
-                $row['title'],
-                $res[$index]['object_title']
-            ) && $status != ilBookingReservation::STATUS_CANCELLED)) {
+            } elseif ($row['title'] !== "" && (!in_array($row['title'], $res[$index]['object_title'], true) && $status != ilBookingReservation::STATUS_CANCELLED)) {
                 $res[$index]['object_title'][] = $row['title'];
-                $res[$index]['obj_count'] = $res[$index]['obj_count'] + 1;
+                $res[$index]['obj_count'] += 1;
                 $res[$index]['object_ids'][] = $row['object_id'];
             }
             $res[$index]['user_id'] = $row['user_id'];
@@ -201,7 +201,6 @@ class ilBookingParticipant
 
     /**
      * Get all participants for a booking pool
-     * @param int $a_booking_pool_id
      * @return int[]
      */
     public static function getBookingPoolParticipants(
@@ -223,8 +222,7 @@ class ilBookingParticipant
 
     /**
      * Get user data from db for an specific pool id.
-     * @param int $a_pool_id
-     * @return array
+     * @return string[]
      */
     public static function getUserFilter(
         int $a_pool_id
@@ -233,7 +231,7 @@ class ilBookingParticipant
 
         $ilDB = $DIC->database();
 
-        $res = array();
+        $res = [];
 
         $sql = "SELECT ud.usr_id,ud.lastname,ud.firstname,ud.login" .
             " FROM usr_data ud " .
@@ -258,10 +256,6 @@ class ilBookingParticipant
         int $a_booking_object_id,
         int $a_participant_id
     ) : bool {
-        if (count(ilBookingReservation::getObjectReservationForUser($a_booking_object_id, $a_participant_id)) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return count(ilBookingReservation::getObjectReservationForUser($a_booking_object_id, $a_participant_id)) > 0;
     }
 }

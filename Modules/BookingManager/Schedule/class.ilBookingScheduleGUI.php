@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilBookingScheduleGUI
@@ -44,7 +48,7 @@ class ilBookingScheduleGUI
         $this->access = $DIC->access();
         $this->help = $DIC["ilHelp"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
-        $this->ref_id = $a_parent_obj->ref_id;
+        $this->ref_id = $a_parent_obj->ref_id;//PHP8Review: protected parent call
         $this->book_request = $DIC->bookingManager()
                                   ->internal()
                                   ->gui()
@@ -82,8 +86,8 @@ class ilBookingScheduleGUI
         $bar = "";
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             // if we have schedules but no objects - show info
-            if (sizeof($table->getData())) {
-                if (!sizeof(ilBookingObject::getList(ilObject::_lookupObjId($this->ref_id)))) {
+            if (count($table->getData())) {
+                if (!count(ilBookingObject::getList(ilObject::_lookupObjId($this->ref_id)))) {
                     $this->tpl->setOnScreenMessage('info', $lng->txt("book_type_warning"));
                 }
             }
@@ -184,7 +188,7 @@ class ilBookingScheduleGUI
         $deadline_slot = new ilRadioOption($lng->txt("book_deadline_slot_end"), "slot_end");
         $deadline_opts->addOption($deadline_slot);
         
-        if ($a_mode == "edit") {
+        if ($a_mode === "edit") {
             $schedule = new ilBookingSchedule($id);
         }
         
@@ -203,7 +207,7 @@ class ilBookingScheduleGUI
         $to->setShowTime(true);
         $form_gui->addItem($to);
     
-        if ($a_mode == "edit") {
+        if ($a_mode === "edit") {
             $form_gui->setTitle($lng->txt("book_edit_schedule"));
 
             $item = new ilHiddenInputGUI('schedule_id');
@@ -215,7 +219,7 @@ class ilBookingScheduleGUI
             $from->setDate($schedule->getAvailabilityFrom());
             $to->setDate($schedule->getAvailabilityTo());
             
-            if ($schedule->getDeadline() == 0) {
+            if ($schedule->getDeadline() === 0) {
                 $deadline_opts->setValue("slot_start");
             } elseif ($schedule->getDeadline() > 0) {
                 $deadline->setValue($schedule->getDeadline());
@@ -289,10 +293,12 @@ class ilBookingScheduleGUI
         if ($days) {
             $days_fields = [];
             $days_group = $form->getItemByPostVar("days");
-            foreach ($days_group->getOptions() as $option) {
-                $days_fields[$option->getValue()] = $option;
+            if ($days_group) {
+                foreach ($days_group->getOptions() as $option) {
+                    $days_fields[$option->getValue()] = $option;
+                }
             }
-            
+
             foreach ($days as $day) {
                 $slot = $form->getInput($day . "_slot");
                 $subs = $days_fields[$day]->getSubItems();
@@ -319,11 +325,15 @@ class ilBookingScheduleGUI
         $schedule->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
         
         $from = $form->getItemByPostVar("from");
-        $schedule->setAvailabilityFrom($from->getDate());
-        
+        if ($from !== null) {
+            $schedule->setAvailabilityFrom($from->getDate());
+        }
+
         $to = $form->getItemByPostVar("to");
-        $schedule->setAvailabilityTo($to->getDate());
-        
+        if ($to !== null) {
+            $schedule->setAvailabilityTo($to->getDate());
+        }
+
         switch ($form->getInput("deadline_opts")) {
             case "slot_start":
                 $schedule->setDeadline(0);
