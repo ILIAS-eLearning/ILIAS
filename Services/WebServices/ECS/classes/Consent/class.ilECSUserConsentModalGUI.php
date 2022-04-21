@@ -3,6 +3,7 @@
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use Psr\Http\Message\RequestInterface as RequestInterface;
+use ILIAS\UI\Implementation\Component\Card\Card as Card;
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -17,8 +18,9 @@ class ilECSUserConsentModalGUI
     public const CMD_RENDER_MODAL = 'renderConsentModal';
     public const CMD_SAVE_CONSENT = 'saveConsent';
 
-    protected const TRGIGGER_BUTTON_TYPE_SHY = 1;
-    protected const TRGIGGER_BUTTON_TYPE_STANDARD = 2;
+    protected const TRGIGGER_TYPE_SHY = 1;
+    protected const TRGIGGER_TYPE_STANDARD = 2;
+    protected const TRIGGER_TYPE_CARD = 3;
 
 
     /**
@@ -95,6 +97,11 @@ class ilECSUserConsentModalGUI
         $this->initMid();
     }
 
+    public function hasConsented() : bool
+    {
+        return $this->consents->hasConsented($this->mid);
+    }
+
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd(self::CMD_RENDER_MODAL);
@@ -141,7 +148,7 @@ class ilECSUserConsentModalGUI
         ) {
             return '';
         }
-        $components = $this->getConsentModalComponents(self::TRGIGGER_BUTTON_TYPE_SHY);
+        $components = $this->getConsentModalComponents(self::TRGIGGER_TYPE_SHY);
         return $this->ui_renderer->render($components);
     }
 
@@ -182,7 +189,29 @@ class ilECSUserConsentModalGUI
         }
     }
 
-    protected function getConsentModalComponents(int $a_trigger_button_type = self::TRGIGGER_BUTTON_TYPE_STANDARD)
+    public function addConsentModalToCard(Card $card)
+    {
+        global $DIC;
+
+        $components = $this->getConsentModalComponents(self::TRIGGER_TYPE_CARD);
+        foreach ($components as $component) {
+            if ($component === null) {
+                continue;
+            }
+            $DIC->toolbar()->addComponent($component);
+
+            $image = $card->getImage();
+            $image = $image->withOnClick($component->getShowSignal());
+            $card = $card
+                ->withImage($image)
+                ->withTitleAction($component->getShowSignal());
+
+
+        }
+        return $card;
+    }
+
+    protected function getConsentModalComponents(int $a_trigger_type = self::TRGIGGER_TYPE_STANDARD) : array
     {
         $form = $this->initConsentForm();
         $form_id = 'form_' . $form->getId();
@@ -211,12 +240,12 @@ class ilECSUserConsentModalGUI
         }
 
         $button = null;
-        if ($a_trigger_button_type === self::TRGIGGER_BUTTON_TYPE_STANDARD) {
+        if ($a_trigger_type === self::TRGIGGER_TYPE_STANDARD) {
             $button = $this->ui_factory->button()->standard(
                 $this->lng->txt(ilObject::_lookupType(ilObject::_lookupObjId($this->ref_id)) . '_call'),
                 '#')->withOnClick($modal->getShowSignal()
             );
-        } elseif ($a_trigger_button_type === self::TRGIGGER_BUTTON_TYPE_SHY) {
+        } elseif ($a_trigger_type === self::TRGIGGER_TYPE_SHY) {
             $button = $this->ui_factory->button()->shy(
                 ilObject::_lookupTitle(ilObject::_lookupObjId($this->ref_id)),
                 '#')->withOnClick($modal->getShowSignal()

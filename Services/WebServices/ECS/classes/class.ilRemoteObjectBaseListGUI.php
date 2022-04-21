@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+use ILIAS\UI\Component\Card\RepositoryObject;
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -44,7 +46,6 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
 
     public function insertTitle() : void
     {
-
         $this->ctrl->setReturnByClass(
             $this->getGUIClassname(),
             'call'
@@ -64,6 +65,45 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         $this->tpl->parseCurrentBlock();
     }
 
+    public function getAsCard(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title,
+        string $description
+    ) : ?RepositoryObject {
+
+        $consent_gui = new ilECSUserConsentModalGUI(
+            $this->user->getId(),
+            $ref_id);
+        if ($consent_gui->hasConsented()) {
+            return parent::getAsCard($ref_id, $obj_id, $type, $title, $description);
+        }
+
+        $this->ctrl->setReturnByClass(
+            $this->getGUIClassname(),
+            'call'
+        );
+        $card = parent::getAsCard($ref_id, $obj_id, $type, $title, $description);
+        if ($card instanceof RepositoryObject) {
+            return $consent_gui->addConsentModalToCard($card);
+        }
+        return null;
+    }
+
+    public function createDefaultCommand(array $command) : array
+    {
+        $consent_gui = new ilECSUserConsentModalGUI(
+            $this->user->getId(),
+            $this->ref_id);
+        $command = parent::createDefaultCommand($command);
+        if ($consent_gui->hasConsented()) {
+            return $command;
+        }
+        $command['link'] = '';
+        $command['frame'] = '';
+        return $command;
+    }
 
     protected function getGUIClassname() : string
     {
