@@ -942,7 +942,7 @@ ilias.questions.showFeedback = function(a_id) {
 	const el = document.getElementById('feedback' + a_id);
 	if (el) {
 		el.style.display = '';
-		if (typeof MathJax != "undefined") {
+		if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
 			MathJax.Hub.Queue(["Typeset",MathJax.Hub, el]);
 		}
 	}
