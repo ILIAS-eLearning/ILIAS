@@ -284,7 +284,7 @@ il.Util = {
 	 */
 	print: function () {
 		if (typeof(window.print) != 'undefined') {
-			if (typeof MathJax !== 'undefined') {
+			if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
 				MathJax.Hub.Queue(
 					["Delay",MathJax.Callback,700],
 					window.print

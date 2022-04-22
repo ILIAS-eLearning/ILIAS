@@ -37,8 +37,8 @@
 
 										$this.data("modal", modal);
 
-										if (typeof MathJax != "undefined") {
-											MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+										if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
+                                            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 										}
 
 										modal.show();
