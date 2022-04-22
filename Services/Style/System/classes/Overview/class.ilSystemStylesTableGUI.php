@@ -171,7 +171,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
             $categories = [];
 
             foreach ($assignments as $assignment) {
-                $category_title = ilObject::_lookupTitle(ilObject::_lookupObjId($assignment['ref_id']));
+                $category_title = ilObject::_lookupTitle(ilObject::_lookupObjId((int)$assignment['ref_id']));
                 if ($category_title) {
                     $categories[] = $category_title;
                 }
