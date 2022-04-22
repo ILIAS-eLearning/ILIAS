@@ -1,27 +1,44 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Object/classes/class.ilObject2GUI.php");
-require_once("class.ilCloudPluginFileTreeGUI.php");
-require_once("class.ilCloudFileTree.php");
-require_once("class.ilCloudConnector.php");
+include_once("./Services/Object/classes/class.ilObject2GUI.php");
+include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+include_once("class.ilCloudPluginFileTreeGUI.php");
+include_once("class.ilCloudFileTree.php");
+include_once("class.ilCloudConnector.php");
 
 /**
  * Class ilObjCloudGUI
+ *
  * @author       Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @author  Martin Studer martin@fluxlabs.ch
+ *
  * @ilCtrl_Calls ilObjCloudGUI: ilPermissionGUI, ilNoteGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginUploadGUI, ilCloudPluginCreateFolderGUI, ilCloudPluginSettingsGUI,
- * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginDeleteGUI, ilCloudPluginActionListGUI, ilCloudPluginItemCreationListGUI,
+ * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginUploadGUI, ilCloudPluginCreateFolderGUI, ilCloudPluginSettingsGUI
+ * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginDeleteGUI, ilCloudPluginActionListGUI, ilCloudPluginItemCreationListGUI
  * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginFileTreeGUI, ilCloudPluginInitGUI, ilCloudPluginHeaderActionGUI, ilCloudPluginInfoScreenGUI
+ *
  * @extends      ilObject2GUI
  */
 class ilObjCloudGUI extends ilObject2GUI
 {
-    protected ilCloudPluginService $plugin_service;
 
-    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
+    /**
+     *  ilCloudPluginService
+     */
+    protected $plugin_service;
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+
+
+    /**
+     * @param int $a_id
+     * @param int $a_id_type
+     * @param int $a_parent_node_id
+     */
+    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -30,12 +47,21 @@ class ilObjCloudGUI extends ilObject2GUI
         $lng->loadLanguageModule("cld");
     }
 
-    final public function getType() : string
+
+    /**
+     * Get type.
+     */
+    final public function getType()
     {
         return "cld";
     }
 
-    public function executeCommand() : void
+
+    /**
+     * @return bool
+     * @throws ilCloudException
+     */
+    public function executeCommand()
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -49,8 +75,8 @@ class ilObjCloudGUI extends ilObject2GUI
         try {
             ilCloudConnector::getActiveServices();
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("cld_no_service_active"), true);
-            $this->redirectToRefId($this->parent_id);
+            ilUtil::sendFailure($lng->txt("cld_no_service_active"), true);
+            ilObjectGUI::redirectToRefId($this->parent_id);
         }
 
         if ($this->object != null) {
@@ -59,20 +85,19 @@ class ilObjCloudGUI extends ilObject2GUI
             try {
                 ilCloudConnector::checkServiceActive($this->object->getServiceName());
             } catch (Exception $e) {
-                $this->tpl->setOnScreenMessage('failure', $lng->txt("cld_plugin_not_active"), true);
-                $this->redirectToRefId($this->parent_id);
+                ilUtil::sendFailure($lng->txt("cld_plugin_not_active"), true);
+                ilObjectGUI::redirectToRefId($this->parent_id);
             }
 
             if ($this->object->getAuthComplete() == false && !$_GET["authMode"]) {
                 if ($this->checkPermissionBool("write")) {
                     $this->serviceAuth($this->object);
                 } else {
-                    $this->tpl->setOnScreenMessage('failure', $lng->txt("cld_auth_failed"), true);
-                    $this->redirectToRefId($this->parent_id);
+                    ilUtil::sendFailure($lng->txt("cld_auth_failed"), true);
+                    ilObjectGUI::redirectToRefId($this->parent_id);
                 }
             }
-            $this->plugin_service = ilCloudConnector::getServiceClass($this->object->getServiceName(),
-                $this->object->getId(), false);
+            $this->plugin_service = ilCloudConnector::getServiceClass($this->object->getServiceName(), $this->object->getId(), false);
         }
 
         $next_class = $ilCtrl->getNextClass($this);
@@ -101,14 +126,14 @@ class ilObjCloudGUI extends ilObject2GUI
                 $this->infoScreenForward();
                 break;
             case "ilcommonactiondispatchergui":
-                require_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
             case "ilpermissiongui":
                 $this->prepareOutput();
                 $ilTabs->activateTab("id_permissions");
-                require_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -147,8 +172,7 @@ class ilObjCloudGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($item_creation_gui);
                 break;
             case "ilcloudpluginfiletreegui":
-                $file_tree_gui = ilCloudConnector::getFileTreeGUIClass($this->plugin_service,
-                    ilCloudFileTree::getFileTreeFromSession());
+                $file_tree_gui = ilCloudConnector::getFileTreeGUIClass($this->plugin_service, ilCloudFileTree::getFileTreeFromSession());
                 $this->ctrl->forwardCommand($file_tree_gui);
                 break;
             case "ilcloudpluginheaderactiongui":
@@ -160,16 +184,29 @@ class ilObjCloudGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($init_gui);
                 break;
             default:
-                parent::executeCommand();
+                return parent::executeCommand();
         }
+
+        return true;
     }
 
-    public function getStandardCmd(): string
+
+    /**
+     * Get standard command
+     */
+    public function getStandardCmd()
     {
         return "render";
     }
 
-    public static function _goto(string $a_target): void
+
+    /**
+     * _goto
+     * Deep link
+     *
+     * @param string $a_target
+     */
+    public static function _goto($a_target)
     {
         $content = explode("_", $a_target);
 
@@ -187,15 +224,18 @@ class ilObjCloudGUI extends ilObject2GUI
             $_POST["path"] = urldecode(implode('_', $content));
         }
 
+
         include("ilias.php");
     }
 
-    public function infoScreen(): bool
+
+    public function infoScreen()
     {
         return false;
     }
 
-    public function setTabs() : void
+
+    public function setTabs()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -206,36 +246,43 @@ class ilObjCloudGUI extends ilObject2GUI
         // tab for the "show content" command
         if ($ilAccess->checkAccess("read", "", $this->object->getRefId())) {
             $ilTabs->addTab("content", $lng->txt("content"), $ilCtrl->getLinkTarget($this, "render"));
-            $ilTabs->addTab("id_info", $lng->txt("info_short"),
-                $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+            $ilTabs->addTab("id_info", $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class, "showSummary"));
         }
 
         // a "properties" tab
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $ilTabs->addTab("settings", $lng->txt("settings"),
-                $ilCtrl->getLinkTargetByClass("ilcloudpluginsettingsgui", "editSettings"));
+            $ilTabs->addTab("settings", $lng->txt("settings"), $ilCtrl->getLinkTargetByClass(ilCloudPluginSettingsGUI::class, "editSettings"));
         }
 
         // edit permissions
         if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId())) {
-            $ilTabs->addTab("id_permissions", $lng->txt("perm_settings"),
-                $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
+            $ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"));
         }
     }
-    public function getCtrl(): ilCtrl
+
+
+    /**
+     * @return \ilCtrl
+     */
+    public function getCtrl()
     {
         return $this->ctrl;
     }
 
-    public function setCtrl(ilCtrl $ctrl)
+
+    /**
+     * @param \ilCtrl $ctrl
+     */
+    public function setCtrl(\ilCtrl $ctrl)
     {
         $this->ctrl = $ctrl;
     }
 
+
     /**
      * show information screen
      */
-    public function infoScreenForward(): void
+    public function infoScreenForward()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -252,26 +299,44 @@ class ilObjCloudGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function initCreationForms(string $new_type) : array
+
+    /**
+     * Init creation froms
+     *
+     * this will create the default creation forms: new, import, clone
+     *
+     * @param string $a_new_type
+     *
+     * @return    array
+     */
+    protected function initCreationForms($a_new_type)
     {
         $forms = array(
-            self::CFORM_NEW => $this->initCreateForm($new_type),
+            self::CFORM_NEW => $this->initCreateForm($a_new_type),
         );
 
         return $forms;
     }
 
-    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
+
+    /**
+     * Init object creation form
+     *
+     * @param string $a_new_type
+     *
+     * @return    ilPropertyFormGUI
+     */
+    protected function initCreateForm($a_new_type)
     {
         global $DIC;
         $lng = $DIC['lng'];
 
-        require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $this->ctrl->setParameter($this, 'new_type', 'cld');
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $form->setTitle($this->lng->txt($new_type . "_new"));
+        $form->setTitle($this->lng->txt($a_new_type . "_new"));
 
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -308,43 +373,48 @@ class ilObjCloudGUI extends ilObject2GUI
 
         $form = $this->initDidacticTemplate($form);
 
-        $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
+        $form->addCommandButton("save", $this->lng->txt($a_new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
         return $form;
     }
 
-    protected function afterSave(ilObject $new_object) : void
+
+    /**
+     * @param \ilObject $a_new_object
+     */
+    protected function afterSave(ilObject $a_new_object)
     {
-        assert($new_object instanceof ilObjCloud);
+        assert($a_new_object instanceof ilObjCloud);
         /**
-         * @var $new_object ilObjCloud
+         * @var $a_new_object ilObjCloud
          */
         try {
-            $this->ctrl->setParameter($this, 'ref_id', $this->tree->getParentId($new_object->getRefId()));
+            $this->ctrl->setParameter($this, 'ref_id', $this->tree->getParentId($a_new_object->getRefId()));
             $form = $this->initCreateForm("cld");
-            $this->ctrl->setParameter($this, 'ref_id', $new_object->getRefId());
+            $this->ctrl->setParameter($this, 'ref_id', $a_new_object->getRefId());
 
             if ($form->checkInput()) {
-                $new_object->setServiceName($form->getInput("service"));
-                $new_object->setRootFolder("/");
-                $new_object->setOnline(false);
-                $new_object->setAuthComplete(false);
-                $this->plugin_service = new ilCloudPluginService($new_object->getServiceName(), $new_object->getId());
+                $a_new_object->setServiceName($form->getInput("service"));
+                $a_new_object->setRootFolder("/");
+                $a_new_object->setOnline(false);
+                $a_new_object->setAuthComplete(false);
+                $this->plugin_service = new ilCloudPluginService($a_new_object->getServiceName(), $a_new_object->getId());
                 $init_gui = ilCloudConnector::getCreationGUIClass($this->plugin_service);
                 if ($init_gui) {
-                    $init_gui->afterSavePluginCreation($new_object, $form);
+                    $init_gui->afterSavePluginCreation($a_new_object, $form);
                 }
-                $new_object->update();
+                $a_new_object->update();
                 $this->ctrl->setParameter($this, 'new_type', '');
-                $this->serviceAuth($new_object);
+                $this->serviceAuth($a_new_object);
             }
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            ilUtil::sendFailure($e->getMessage(), true);
             $form->setValuesByPost();
             $this->tpl->setContent($form->getHTML());
         }
     }
+
 
     /**
      * @param $object
@@ -357,12 +427,13 @@ class ilObjCloudGUI extends ilObject2GUI
             $service = ilCloudConnector::getServiceClass($object->getServiceName(), $object->getId());
             $service->authService($ilCtrl->getLinkTarget($this, "afterServiceAuth") . "&authMode=true");
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            ilUtil::sendFailure($e->getMessage(), true);
             ilObjectGUI::redirectToRefId($this->parent_id);
         }
     }
 
-    protected function afterServiceAuth(): void
+
+    protected function afterServiceAuth()
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -373,24 +444,26 @@ class ilObjCloudGUI extends ilObject2GUI
                 $this->object->setRootId("root", true);
                 $this->object->setAuthComplete(true);
                 $this->object->update();
-                $this->tpl->setOnScreenMessage('success', $lng->txt("cld_object_added"), true);
+                ilUtil::sendSuccess($lng->txt("cld_object_added"), true);
                 $ilCtrl->redirectByClass("ilCloudPluginSettingsGUI", "editSettings");
             } else {
+                include_once("./Services/Repository/classes/class.ilRepUtil.php");
                 ilRepUtil::deleteObjects($this->object->getRefId(), $this->object->getRefId());
 
-                $this->tpl->setOnScreenMessage('failure', $lng->txt("cld_auth_failed_no_object_created"), true);
+                ilUtil::sendFailure($lng->txt("cld_auth_failed_no_object_created"), true);
                 ilObjectGUI::redirectToRefId($this->parent_id);
             }
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            ilUtil::sendFailure($e->getMessage(), true);
             ilObjectGUI::redirectToRefId($this->parent_id);
         }
     }
 
+
     /**
      * Add header action menu
      */
-    protected function addHeaderAction() : void
+    protected function addHeaderAction()
     {
         $lg = $this->initHeaderAction();
         if ($lg) {
@@ -400,10 +473,11 @@ class ilObjCloudGUI extends ilObject2GUI
         }
     }
 
+
     /**
      * addLocatorItems
      */
-    protected function addLocatorItems() : void
+    protected function addLocatorItems()
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -413,7 +487,8 @@ class ilObjCloudGUI extends ilObject2GUI
         }
     }
 
-    public function render(): void
+
+    public function render()
     {
         $init_gui = ilCloudConnector::getInitGUIClass($this->plugin_service);
         $init_gui->initGUI(
@@ -428,7 +503,8 @@ class ilObjCloudGUI extends ilObject2GUI
         );
     }
 
-    public function asyncGetBlock(): void
+
+    public function asyncGetBlock()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -461,11 +537,12 @@ class ilObjCloudGUI extends ilObject2GUI
         }
 
         header('Content-type: application/json');
-        echo json_encode($response, JSON_THROW_ON_ERROR);
+        echo ilJsonUtil::encode($response);
         exit;
     }
 
-    public function getFile(): void
+
+    public function getFile()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -475,17 +552,17 @@ class ilObjCloudGUI extends ilObject2GUI
                 $file_tree->downloadFromService($_GET['id']);
             } catch (Exception $e) {
                 $ilTabs->activateTab("content");
-                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
+                ilUtil::sendFailure($e->getMessage());
             }
         }
     }
 
-    public function asyncGetActionListContent(): void
+
+    public function asyncGetActionListContent()
     {
         $action_list = ilCloudConnector::getActionListGUIClass($this->plugin_service);
         $file_tree = ilCloudFileTree::getFileTreeFromSession();
 
-        $action_list->asyncGetContent($this->checkPermissionBool("delete_files"),
-            $this->checkPermissionBool("delete_folders"), $file_tree->getNodeFromId($_GET["node_id"]));
+        return $action_list->asyncGetContent($this->checkPermissionBool("delete_files"), $this->checkPermissionBool("delete_folders"), $file_tree->getNodeFromId($_GET["node_id"]));
     }
 }
