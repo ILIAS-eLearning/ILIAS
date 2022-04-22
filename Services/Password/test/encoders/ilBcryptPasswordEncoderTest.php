@@ -80,7 +80,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, string[]>
      */
     public function costsProvider() : array
     {

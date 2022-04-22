@@ -33,7 +33,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
     private const WRONG_PASSWORD = 'wrong_password';
 
     /**
-     * @return array<string, string>
+     * @return array<string, string[]>
      */
     public function costsProvider() : array
     {
