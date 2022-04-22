@@ -2335,10 +2335,10 @@ blog#:#blog_abstract_shorten#:#Nur Anfang des Beitrags zeigen
 blog#:#blog_add#:#Blog anlegen
 blog#:#blog_add_contributor#:#Mitwirkende hinzufügen
 blog#:#blog_add_posting#:#Beitrag hinzufügen
-blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration der Persönlichen Ressourcen aktiviert werden.
-blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration der Persönlichen Ressourcen deaktiviert werden.
+blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration der „Persönlichen Ressourcen“ aktiviert werden.
+blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration der „Persönlichen Ressourcen“ deaktiviert werden.
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
-blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blog-Einträgen verwenden. Dies kann zu Sicherheitsproblemen führen.
+blog#:#blog_allow_html_info#:#Es kann HTML oder Javascript in Blog-Einträgen verwendet werden. Dies kann zu Sicherheitsproblemen führen.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_approve#:#Beitrag freischalten
 blog#:#blog_author#:#Beiträge von
 blog#:#blog_authors#:#Beitragende Personen###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -2353,7 +2353,7 @@ blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da Sie di
 blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Personen ihre Rolle entziehen?###Modified as part of gender mainstreaming activities for ILIAS 8
-blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' können auch Benutzer mit einer der folgenden Rollen Einträge hinzufügen: %s
+blog#:#blog_contribute_other_roles#:#Zusätzlich zu den Mitwirkenden können auch Personen mit der Rolle %s Beiträge in diesem Blog verfassen. Sie werden nicht in der Tabelle aufgeführt, denn sie erhalten das entsprechende Recht durch ein übergeordnetes Objekt.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_contributors#:#Mitwirkende
 blog#:#blog_copy#:#Blog kopieren
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
@@ -2370,8 +2370,8 @@ blog#:#blog_enable_approval_info#:#Alle Beiträge müssen durch einen Benutzer m
 blog#:#blog_enable_approval#:#Neue Beiträge freischalten
 blog#:#blog_enable_keywords_info#:#Beiträge können mit Schlagwörtern versehen werden, um im Seitenblock Beiträge zu filtern.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_enable_keywords#:#Schlagwörter
-blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit allen Autorennamen eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieses Autoren an.
-blog#:#blog_enable_nav_authors#:#Nach Autoren filtern
+blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit den Namen aller Mitwirkenden eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieser Person an.###Modified as part of gender mainstreaming activities for ILIAS 8
+blog#:#blog_enable_nav_authors#:#Nach Mitwirkenden filtern###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Benutzerrechten.
 blog#:#blog_enable_rss#:#RSS aktivieren
@@ -2399,14 +2399,14 @@ blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in de
 blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl angezeigter Monate
 blog#:#blog_nav_mode_month_list_num_month_info#:#Monate werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit Links zu allen Beiträgen
-blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktuellster Monate werden im Seitenblock Links zu allen Beiträge angezeigt.
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktueller Monate werden im Seitenblock Links zu allen Beiträge angezeigt.
 blog#:#blog_nav_mode_month_single#:#Alle Monate per Dropdown
 blog#:#blog_nav_mode_month_single_info#:#Im Seitenblock bietet ein Dropdown alle Monate zur Auswahl an. Für den gewählten Monat werden alle Beiträge aufgelistet.
 blog#:#blog_nav_sortorder#:#Reihenfolge der Seitenblöcke
 blog#:#blog_needs_approval#:#Beitrag ist noch nicht freigeschaltet
 blog#:#blog_new#:#Neues Blog anlegen
 blog#:#blog_new_posting_info#:#Der Beitrag wurde veröffentlicht. Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
-blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
+blog#:#blog_news_posting_authors#:#Mitwirkende: %s###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
@@ -4262,8 +4262,8 @@ common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests ler
 common#:#il_astpl_loc_initial#:#Einstiegstest
 common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für Qualifizierende Tests lernzielorientierter Kurse
 common#:#il_astpl_loc_qualified#:#Qualifizierender Test
-common#:#il_blog_contributor#:#Blog-Autor
-common#:#il_blog_editor#:#Blog-Redakteur
+common#:#il_blog_contributor#:#Blog-Autorenschaft###Modified as part of gender mainstreaming activities for ILIAS 8
+common#:#il_blog_editor#:#Blog-Redaktion###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_chat_moderator#:#Chatmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_crs_admin#:#Kursadministrator
 common#:#il_crs_member#:#Kursmitglied
@@ -12626,7 +12626,7 @@ prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Por
 prtf#:#prtf_allow_my_courses_info#:#Ermöglicht eine Liste der aktuellen Kursmitgliedschaften in ein Portfolio aufzunehmen.
 prtf#:#prtf_allow_my_courses#:#Seitenelement "Meine Kurse"
 prtf#:#prtf_all_pages#:#Gesamtes Portfolio
-prtf#:#prtf_author#:#Autor
+prtf#:#prtf_author#:#Erstellt von###Modified as part of gender mainstreaming activities for ILIAS 8
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_blog_page_created#:#Blog wurde hinzugefügt.
@@ -12827,10 +12827,10 @@ ps#:#show_privacy#:#Datenschutz
 ps#:#show_security#:#Sicherheit
 pwassist#:#password_assistance#:#Passwort-Unterstützung
 pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert.  Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
-pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die E-Mail eingegeben wurde. Wählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können. Falls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
-pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein. Der Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
+pwassist#:#pwassist_enter_email#:#Geben Sie hier Ihre E-Mail-Adresse ein. ILIAS sendet eine Liste aller zugehörigen Anmeldenamen an diese Adresse und informiert darin über die Passwortunterstützung. Falls Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.###Modified as part of gender mainstreaming activities for ILIAS 8
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Anmeldenamen und die dazugehörige E-Mail-Adresse ein. ILIAS sendet an diese Adresse eine Anleitung, um ein neues Passwort festzulegen. Falls Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.###Modified as part of gender mainstreaming activities for ILIAS 8
+pwassist#:#pwassist_enter_username_and_new_password#:#Tragen Sie den Anmeldenamen ein, und vergeben Sie ein neues Passwort.###Modified as part of gender mainstreaming activities for ILIAS 8
+pwassist#:#pwassist_login_not_match#:#Der eingegebene Anmeldename stimmt nicht überein mit dem Anmeldenamen, für den Sie die Passwort-Unterstützung angefordert hatten. Bitte geben Sie den korrekten Anmeldenamen ein.###Modified as part of gender mainstreaming activities for ILIAS 8
 pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort ein für Ihr Benutzerkonto %1$s <br><br>Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s <br><br>Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Passwort-Unterstützung versehentlich benutzt: Löschen Sie diese Mail.<br><br>• Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.<br><br>Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:<br><br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.<br><br>Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt. Weitere Anweisungen finden Sie in dieser Mail.
@@ -16555,7 +16555,7 @@ wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
 wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" wurde bearbeitet: %2$s
-wiki#:#wiki_commented_by#:#Autor
+wiki#:#wiki_commented_by#:#Von###Modified as part of gender mainstreaming activities for ILIAS 8
 wiki#:#wiki_contributor#:#Mitwirkende/r
 wiki#:#wiki_contributors#:#Mitwirkende
 wiki#:#wiki_copy#:#Wiki kopieren
