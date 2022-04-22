@@ -137,10 +137,11 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     
     protected function initLrsType() : \ilCmiXapiLrsType
     {
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (isset($_POST['lrs_type_id']) && (int) $_POST['lrs_type_id']) {
             return new ilCmiXapiLrsType((int) $_POST['lrs_type_id']);
         }
-        
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (isset($_GET['lrs_type_id']) && (int) $_GET['lrs_type_id']) {
             return new ilCmiXapiLrsType((int) $_GET['lrs_type_id']);
         }

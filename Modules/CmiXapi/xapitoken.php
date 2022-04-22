@@ -14,7 +14,7 @@ chdir("../../");
  * If there are issues on page reload it might be useful to set $tokenRestriction = false .
  */
 $tokenRestriction = true;
-
+// TODO PHP8 Review: Remove/Replace SuperGlobals
 $origParam = $_GET['param'];
 
 if (!isset($origParam) || !strlen($origParam)) {
@@ -32,8 +32,9 @@ try {
         0,
         ilCmiXapiAuthToken::OPENSSL_IV
     ), true);
-
+    // TODO PHP8 Review: Remove/Replace SuperGlobals
     $_COOKIE[session_name()] = $param[session_name()];
+    // TODO PHP8 Review: Remove/Replace SuperGlobals
     $_COOKIE['ilClientId'] = $param['ilClientId'];
     $objId = $param['obj_id'];
     $refId = $param['ref_id'];
