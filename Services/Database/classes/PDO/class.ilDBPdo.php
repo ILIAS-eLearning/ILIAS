@@ -649,6 +649,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return true;
     }
 
+    /**
+     * Drop fulltext index
+     */
     public function dropFulltextIndex(string $a_table, string $a_name) : bool
     {
         $i_name = $this->constraintName($a_table, $a_name) . "_idx";
@@ -673,12 +676,12 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
 
     public function getIndexName(string $index_name_base) : string
     {
-        return sprintf(ilDBPdoFieldDefinition::INDEX_FORMAT, preg_replace('/[^a-z\d_\$]/i', '_', $index_name_base));
+        return sprintf(ilDBPdoFieldDefinition::INDEX_FORMAT, preg_replace('/[^a-z0-9_\$]/i', '_', $index_name_base));
     }
 
     public function getSequenceName(string $table_name) : string
     {
-        return sprintf(ilDBPdoFieldDefinition::SEQUENCE_FORMAT, preg_replace('/[^a-z\d_\$.]/i', '_', $table_name));
+        return sprintf(ilDBPdoFieldDefinition::SEQUENCE_FORMAT, preg_replace('/[^a-z0-9_\$.]/i', '_', $table_name));
     }
 
     /**
@@ -715,6 +718,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         global $DIC;
         $ilDB = $DIC->database();
 
+        /**
+         * @var $ilDB ilDBPdo
+         */
         $fd = $ilDB->getFieldDefinition();
         if ($fd !== null) {
             return $fd->getReservedMysql();
