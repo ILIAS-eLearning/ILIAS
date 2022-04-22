@@ -706,8 +706,9 @@ class ilAdvancedMDSettingsGUI
 
             if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES]) {
                 $obj_types = array();
-                if (is_array($_POST['obj_types'][$record_obj->getRecordId()])) {
-                    foreach ($_POST['obj_types'][$record_obj->getRecordId()] as $type => $status) {
+                $post_object_types = (array) ($this->http->request()->getParsedBody()['obj_types'] ?? []);
+                if (is_array($post_object_types[$record_obj->getRecordId()])) {
+                    foreach ($post_object_types[$record_obj->getRecordId()] as $type => $status) {
                         if ($status) {
                             $type = explode(":", $type);
                             $obj_types[] = array(
