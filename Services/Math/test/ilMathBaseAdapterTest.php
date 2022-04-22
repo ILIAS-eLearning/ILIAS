@@ -52,7 +52,8 @@ abstract class ilMathBaseAdapterTest extends TestCase
     {
         $differ = new Differ(new UnifiedDiffOutputBuilder("\n--- Expected\n+++ Actual\n"));
 
-        $this->assertEquals($actual, $expected, $differ->diff($actual, $expected));
+        /** @noinspection PhpUnitTestsInspection */
+        $this->assertTrue($actual == $expected, $differ->diff($actual, $expected));
     }
 
     /**
