@@ -63,7 +63,7 @@ class ilMimeMail
 
     public static function setDefaultTransport(?ilMailMimeTransport $transport) : void
     {
-        if ($transport !== null && !($transport instanceof ilMailMimeTransport)) {
+        if (!($transport instanceof ilMailMimeTransport)) {
             throw new InvalidArgumentException(sprintf(
                 "The passed argument must be null or of type 'ilMailMimeTransport', %s given!",
                 gettype($transport)

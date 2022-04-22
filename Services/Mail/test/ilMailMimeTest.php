@@ -165,7 +165,7 @@ class ilMailMimeTest extends ilMailBaseTest
         ])->getMock();
 
         $factory = new ilMailMimeTransportFactory($settings, $eventHandler);
-        $this->assertInstanceOf(ilMailMimeTransportSendMail::class, $factory->getTransport());
+        $this->assertInstanceOf(ilMailMimeTransportSendmail::class, $factory->getTransport());
     }
 
     /**

@@ -806,7 +806,7 @@ class ilMailFormGUI
                         $options[$template->getTplId()] = $template->getTitle();
 
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
-                            $template_chb->setValue($template->getTplId());
+                            $template_chb->setValue((string) $template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
                             $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature(
                                 $mailData['m_message']
@@ -814,7 +814,7 @@ class ilMailFormGUI
                         }
                     }
                     if (isset($mailData['template_id'])) {
-                        $template_chb->setValue((int) $mailData['template_id']);
+                        $template_chb->setValue((string) ((int) $mailData['template_id']));
                     }
                     asort($options);
 

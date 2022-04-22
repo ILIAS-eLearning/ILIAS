@@ -464,10 +464,10 @@ class ilFileDataMail extends ilFileData
         );
 
         if (count($umf_parts) === 2) {
-            $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
+            $umf = (float) $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
         if (count($pms_parts) === 2) {
-            $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
+            $pms = (float) $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
 
         // use the smaller one as limit
@@ -476,9 +476,8 @@ class ilFileDataMail extends ilFileData
         if (!$max_filesize) {
             $max_filesize = max($umf, $pms);
         }
-        // Copy of ilFileInputGUI: end
 
-        $this->mail_max_upload_file_size = $max_filesize;
+        $this->mail_max_upload_file_size = (int) $max_filesize;
     }
 
     public function onUserDelete() : void

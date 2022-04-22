@@ -35,7 +35,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     }
 
     /**
-     * @return array<string, array<int, string|false>>
+     * @return array<string, array<int, string|null>>
      */
     public function subjectPrefixesProvider() : array
     {

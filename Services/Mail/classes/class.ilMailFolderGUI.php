@@ -81,7 +81,6 @@ class ilMailFolderGUI
 
     protected function parseCommand(string $originalCommand) : string
     {
-        $matches = [];
         if (preg_match('/^([a-zA-Z0-9]+?)_(\d+?)$/', $originalCommand, $matches) && 3 === count($matches)) {
             $originalCommand = $matches[1];
         }
@@ -91,7 +90,6 @@ class ilMailFolderGUI
 
     protected function parseFolderIdFromCommand(string $command) : int
     {
-        $matches = [];
         if (
             preg_match('/^([a-zA-Z0-9]+?)_(\d+?)$/', $command, $matches) &&
             3 === count($matches) && is_numeric($matches[2])
@@ -615,10 +613,10 @@ class ilMailFolderGUI
         $this->ctrl->clearParameters($this);
         $form->setTitle($this->lng->txt('mail_mails_of'));
 
-        /** @var ilObjUser $sender */
+        /** @var ilObjUser|null $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
         $replyBtn = null;
-        if ($sender && $sender->getId() && !$sender->isAnonymous()) {
+        if ($sender instanceof ilObjUser && $sender->getId() !== 0 && !$sender->isAnonymous()) {
             $replyBtn = ilLinkButton::getInstance();
             $replyBtn->setCaption('reply');
             $this->ctrl->setParameterByClass(
@@ -849,13 +847,13 @@ class ilMailFolderGUI
         }
         $mailData = $this->umail->getMail($mailId);
 
-        /** @var ilObjUser $sender */
+        /** @var ilObjUser|null $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
 
         $tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));
-        if ($sender && $sender->getId() && !$sender->isAnonymous()) {
+        if ($sender instanceof ilObjUser && $sender->getId() !== 0 && !$sender->isAnonymous()) {
             $tplprint->setVariable('FROM', $sender->getPublicName());
-        } elseif (!$sender || !$sender->getId()) {
+        } elseif (null === $sender || 0 === $sender->getId()) {
             $tplprint->setVariable(
                 'FROM',
                 $mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'

@@ -23,7 +23,7 @@
 class ilMailCronOrphanedMailsNotificationCollector
 {
     /**
-     * @var array ilMailCronOrphanedMailsNotificationCollectionObj[]
+     * @var array<int, ilMailCronOrphanedMailsNotificationCollectionObj>
      */
     protected array $collection = [];
     protected ilDBInterface $db;
@@ -81,36 +81,39 @@ class ilMailCronOrphanedMailsNotificationCollector
             'integer'
         ) . " ORDER BY m.user_id, folder_id, mail_id";
 
+        /** @var null|ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj */
         $collection_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
         while ($row = $this->db->fetchAssoc($res)) {
-            if (is_object($collection_obj) && !$this->existsCollectionObjForUserId((int) $row['user_id'])) {
+            if (
+                $collection_obj instanceof ilMailCronOrphanedMailsNotificationCollectionObj &&
+                !$this->existsCollectionObjForUserId((int) $row['user_id'])
+            ) {
                 $this->addCollectionObject($collection_obj);
             }
 
-            if (!is_object($collection_obj)) {
+            if (!($collection_obj instanceof ilMailCronOrphanedMailsNotificationCollectionObj)) {
                 $collection_obj = new ilMailCronOrphanedMailsNotificationCollectionObj((int) $row['user_id']);
             }
 
-            if (is_object($collection_obj)) {
-                if (!($folder_obj = $collection_obj->getFolderObjectById((int) $row['folder_id']))) {
-                    $folder_obj = new ilMailCronOrphanedMailsFolderObject((int) $row['folder_id']);
-                    $folder_obj->setFolderTitle($row['title']);
-                    $collection_obj->addFolderObject($folder_obj);
-                }
-
-                $orphaned_mail_obj = new ilMailCronOrphanedMailsFolderMailObject(
-                    (int) $row['mail_id'],
-                    $row['m_subject']
-                );
-                $folder_obj->addMailObject($orphaned_mail_obj);
+            $folder_obj = $collection_obj->getFolderObjectById((int) $row['folder_id']);
+            if (!($folder_obj instanceof ilMailCronOrphanedMailsFolderObject)) {
+                $folder_obj = new ilMailCronOrphanedMailsFolderObject((int) $row['folder_id']);
+                $folder_obj->setFolderTitle($row['title']);
+                $collection_obj->addFolderObject($folder_obj);
             }
+
+            $orphaned_mail_obj = new ilMailCronOrphanedMailsFolderMailObject(
+                (int) $row['mail_id'],
+                $row['m_subject']
+            );
+            $folder_obj->addMailObject($orphaned_mail_obj);
         }
 
-        if (is_object($collection_obj)) {
+        if ($collection_obj instanceof ilMailCronOrphanedMailsNotificationCollectionObj) {
             $this->addCollectionObject($collection_obj);
-            unset($collection_obj);
+            $collection_obj = null;
         }
     }
 
@@ -129,7 +132,7 @@ class ilMailCronOrphanedMailsNotificationCollector
     }
 
     /**
-     * @return ilMailCronOrphanedMailsNotificationCollectionObj[]
+     * @return array<int, ilMailCronOrphanedMailsNotificationCollectionObj>
      */
     public function getCollection() : array
     {

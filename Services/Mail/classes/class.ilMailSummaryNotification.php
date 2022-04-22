@@ -68,7 +68,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
         foreach ($users as $user_id => $mail_data) {
             $this->initLanguage($user_id);
-            $user_lang = $this->getLanguage() ?: $this->lng;
+            $user_lang = $this->getLanguage();
 
             $this->initMail();
 

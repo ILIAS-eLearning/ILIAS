@@ -112,8 +112,8 @@ class ilAccountMail
     }
 
     /**
-     * @param string[]
-     * @return string[]
+     * @param array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string} $mailData
+     * @return array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string}
      */
     private function ensureValidMailDataShape(array $mailData) : array
     {
@@ -130,7 +130,7 @@ class ilAccountMail
     }
 
     /**
-     * @return string[]
+     * @return array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string}
      */
     private function readAccountMail(string $a_lang) : array
     {
@@ -143,6 +143,11 @@ class ilAccountMail
         return $this->amail[$a_lang];
     }
 
+    /**
+     * @param array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string} $mailData
+     * @return void
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
     private function addAttachments(array $mailData) : void
     {
         if (isset($mailData['att_file']) && $this->shouldAttachConfiguredFiles()) {
@@ -333,8 +338,8 @@ class ilAccountMail
         ) {
             $target = $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string());
             $tarr = explode('_', $target);
-            if ($this->repositoryTree->isInTree($tarr[1])) {
-                $obj_id = ilObject::_lookupObjId($tarr[1]);
+            if ($this->repositoryTree->isInTree((int) $tarr[1])) {
+                $obj_id = ilObject::_lookupObjId((int) $tarr[1]);
                 $type = ilObject::_lookupType($obj_id);
                 if ($type === $tarr[0]) {
                     $a_string = str_replace(

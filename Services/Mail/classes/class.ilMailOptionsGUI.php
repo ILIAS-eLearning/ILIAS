@@ -68,10 +68,8 @@ class ilMailOptionsGUI
             }
             if (strtolower(ilPersonalSettingsGUI::class) === strtolower($referrer)) {
                 $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
-                return;
             }
             $this->ctrl->redirectByClass(ilMailGUI::class);
-            return;
         }
 
         $nextClass = $this->ctrl->getNextClass($this);
