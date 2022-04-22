@@ -43,7 +43,6 @@ class ilCmiXapiRegistrationGUI
     
     /**
      * ilCmiXapiRegistrationGUI constructor.
-     * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
@@ -56,7 +55,6 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     public function executeCommand() : void
@@ -71,7 +69,6 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function cancelCmd() : void
@@ -83,7 +80,6 @@ class ilCmiXapiRegistrationGUI
 
     /**
      * @param ilPropertyFormGUI|null $form
-     * @return void
      */
     protected function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
@@ -97,7 +93,6 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function saveFormCmd() : void
@@ -119,7 +114,6 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return ilPropertyFormGUI
      * @throws ilCtrlException
      */
     protected function buildForm() : \ilPropertyFormGUI
@@ -149,18 +143,11 @@ class ilCmiXapiRegistrationGUI
         return $form;
     }
 
-    /**
-     * @return int
-     */
     protected function hasRegistration() : int
     {
         return strlen($this->cmixUser->getUsrIdent());
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @return void
-     */
     protected function saveRegistration(ilPropertyFormGUI $form) : void
     {
         $this->cmixUser->setUsrIdent($form->getInput('user_ident'));

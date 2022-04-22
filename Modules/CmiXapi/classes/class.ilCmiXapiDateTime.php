@@ -30,9 +30,6 @@ class ilCmiXapiDateTime extends ilDateTime
 
     const RFC3336_EXTENDED_FIXED_USING_u_INSTEAD_OF_v = 'Y-m-d\TH:i:s.uP';
 
-    /**
-     * @return string
-     */
     public function toXapiTimestamp() : string
     {
         $phpDateTime = new DateTime();
@@ -42,8 +39,6 @@ class ilCmiXapiDateTime extends ilDateTime
     }
 
     /**
-     * @param string $xapiTimestamp
-     * @return ilCmiXapiDateTime
      * @throws ilDateTimeException
      */
     public static function fromXapiTimestamp(string $xapiTimestamp) : \ilCmiXapiDateTime
@@ -59,8 +54,6 @@ class ilCmiXapiDateTime extends ilDateTime
     }
 
     /**
-     * @param ilDateTime $dateTime
-     * @return ilCmiXapiDateTime
      * @throws ilDateTimeException
      */
     public static function fromIliasDateTime(ilDateTime $dateTime) : \ilCmiXapiDateTime
@@ -68,10 +61,6 @@ class ilCmiXapiDateTime extends ilDateTime
         return new self($dateTime->get(IL_CAL_UNIX), IL_CAL_UNIX);
     }
 
-    /**
-     * @param DateInterval $d
-     * @return string
-     */
     public static function dateIntervalToISO860Duration(\DateInterval $d) : string
     {
         $duration = 'P';

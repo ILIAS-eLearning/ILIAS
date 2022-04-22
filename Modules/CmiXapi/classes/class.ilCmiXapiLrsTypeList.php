@@ -98,7 +98,7 @@ class ilCmiXapiLrsTypeList
      */
     public static function getTypesStruct() : array
     {
-        $a_s = array(
+        return array(
             'type_name' => array('type' => 'text', 'maxlength' => 32)
             ,
             'title' => array('type' => 'text', 'maxlength' => 255)
@@ -127,7 +127,6 @@ class ilCmiXapiLrsTypeList
             ,
             'remarks' => array('type' => 'text', 'maxlength' => 4000)
         );
-        return $a_s;
     }
 
     public static function getCountTypesForCreate() : int

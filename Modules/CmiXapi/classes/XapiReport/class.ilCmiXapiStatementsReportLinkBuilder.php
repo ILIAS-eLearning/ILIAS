@@ -24,9 +24,6 @@
  */
 class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBuilder
 {
-    /**
-     * @return array
-     */
     protected function buildPipeline() : array
     {
         $pipeline = array();
@@ -64,7 +61,7 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
             array('$skip' => (int) $this->filter->getOffset())
         );
         
-        if ($this->filter->getLimit()) {
+        if ($this->filter->getLimit() !== 0) {
             $stage[] = array('$limit' => (int) $this->filter->getLimit());
         }
         return $stage;
@@ -87,11 +84,11 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
         if ($this->filter->getStartDate() || $this->filter->getEndDate()) {
             $stage['statement.timestamp'] = array();
             
-            if ($this->filter->getStartDate()) {
+            if ($this->filter->getStartDate() !== null) {
                 $stage['statement.timestamp']['$gt'] = $this->filter->getStartDate()->toXapiTimestamp();
             }
             
-            if ($this->filter->getEndDate()) {
+            if ($this->filter->getEndDate() !== null) {
                 $stage['statement.timestamp']['$lt'] = $this->filter->getEndDate()->toXapiTimestamp();
             }
         }

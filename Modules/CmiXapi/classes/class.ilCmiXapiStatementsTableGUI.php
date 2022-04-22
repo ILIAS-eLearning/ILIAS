@@ -35,9 +35,6 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     protected array $filter = [];
     
     /**
-     * @param object|null $a_parent_obj
-     * @param string      $a_parent_cmd
-     * @param bool        $isMultiActorReport
      * @throws ilCtrlException
      */
     public function __construct(?object $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport)
@@ -162,8 +159,6 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param RoundTrip $rawDataModal
-     * @param array     $data
      * @return \ILIAS\UI\Component\Dropdown\Dropdown
      */
     // TODO PHP8 Review: Missing Return type Declaration
@@ -172,37 +167,28 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $f = $DIC->ui()->factory();
         
-        $actions = $f->dropdown()->standard([
+        return $f->dropdown()->standard([
             $f->button()->shy(
                 $DIC->language()->txt('tbl_action_raw_data'),
                 '#'
             )->withOnClick($rawDataModal->getShowSignal())
         ])->withLabel($DIC->language()->txt('actions'));
-        
-        return $actions;
     }
 
     /**
      * @param $data
-     * @return RoundTrip
      */
     protected function getRawDataModal($data) : RoundTrip
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $f = $DIC->ui()->factory();
         
-        $modal = $f->modal()->roundtrip(
+        return $f->modal()->roundtrip(
             'Raw Statement',
             $f->legacy('<pre>' . $data['statement'] . '</pre>')
         )->withCancelButtonLabel('close');
-        
-        return $modal;
     }
 
-    /**
-     * @param ilCmiXapiUser $cmixUser
-     * @return string
-     */
     protected function getUsername(ilCmiXapiUser $cmixUser) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

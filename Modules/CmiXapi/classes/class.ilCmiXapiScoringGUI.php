@@ -48,9 +48,6 @@ class ilCmiXapiScoringGUI
     private \ilGlobalTemplateInterface $main_tpl;
 
 
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
@@ -143,14 +140,10 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    /**
-     * @param bool $scopeUserRank
-     * @return array
-     */
     private function getTableDataRange(bool $scopeUserRank = false) : array
     {
         if (false === $scopeUserRank) {
-            return array_slice($this->tableData, 0, (int) $this->object->getHighscoreTopNum());
+            return array_slice($this->tableData, 0, $this->object->getHighscoreTopNum());
         } else {
             $offset = $this->userRank - 2 < 0 ? 0 : $this->userRank - 2;
             $length = 5;
@@ -182,20 +175,15 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    /**
-     * @param string $tableId
-     * @return ilCmiXapiScoringTableGUI
-     */
     protected function buildTableGUI(string $tableId) : ilCmiXapiScoringTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();
-        $table = new ilCmiXapiScoringTableGUI(
+        return new ilCmiXapiScoringTableGUI(
             $this,
             'show',
             $isMultiActorReport,
             $tableId,
             $this->access->hasOutcomesAccess()
         );
-        return $table;
     }
 }

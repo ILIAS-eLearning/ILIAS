@@ -65,18 +65,12 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Init the object creation from import
-     * @param string          $a_entity
-     * @param string          $a_id
-     * @param string          $a_xml
-     * @param ilImportMapping $a_mapping
-     * @return void
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
-        global $DIC; /** @var \ILIAS\DI\Container $DIC */
-//        $this->_entity = $a_entity;
+        global $DIC; //        $this->_entity = $a_entity;
         $this->_import_objId = (int) $a_id;
 //        $this->_import_dirname = $a_xml;
         $this->_mapping = $a_mapping;
@@ -101,8 +95,6 @@ class ilCmiXapiImporter extends ilXmlImporter
     private function prepareSingleObject() : self
     {
         global $DIC;
-        /** @var \ILIAS\DI\Container $DIC */
-
         // create new cmix object
         $this->_cmixObj = new ilObjCmiXapi();
         // set type of questionpool object
@@ -152,10 +144,10 @@ class ilCmiXapiImporter extends ilXmlImporter
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
 
-        if (true === (bool) $DIC->filesystem()->temp()->has($this->_relImportDir . '/content.zip')) {
+        if (true === $DIC->filesystem()->temp()->has($this->_relImportDir . '/content.zip')) {
 //            $this->_hasContent = true;
             $this->_relWebDir = $this->_relWebDir . $this->_cmixObj->getId();
-            if (false === (bool) $DIC->filesystem()->web()->has($this->_relWebDir)) {
+            if (false === $DIC->filesystem()->web()->has($this->_relWebDir)) {
                 $DIC->filesystem()->web()->createDir($this->_relWebDir);
                 $DIC->filesystem()->web()->put($this->_relWebDir . '/content.zip', $DIC->filesystem()->temp()->read($this->_relImportDir . '/content.zip'));
                 $webDataDir = ilFileUtils::getWebspaceDir();
@@ -306,7 +298,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     public function __destruct()
     {
-        if (true === $this->_isSingleImport) {
+        if ($this->_isSingleImport) {
             $this->deleteImportDirectiry();
         }
     }

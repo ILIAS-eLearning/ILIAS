@@ -34,10 +34,6 @@ class ilObjCmiXapiVerificationAccess extends ilObjectAccess
         return $commands;
     }
 
-    /**
-     * @param string $a_target
-     * @return bool
-     */
     public static function _checkGoto(string $a_target) : bool
     {
         global $ilAccess;
@@ -49,10 +45,6 @@ class ilObjCmiXapiVerificationAccess extends ilObjectAccess
         if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
             return ilSharedResourceGUI::hasAccess((int) $t_arr[1]);
         }
-        
-        if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
-            return true;
-        }
-        return false;
+        return (bool) $ilAccess->checkAccess("read", "", $t_arr[1]);
     }
 }

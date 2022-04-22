@@ -102,8 +102,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     
     protected function buildLrsTypesTableGUI() : \ilCmiXapiLrsTypesTableGUI
     {
-        $table = new ilCmiXapiLrsTypesTableGUI($this, self::CMD_SHOW_LRS_TYPES_LIST);
-        return $table;
+        return new ilCmiXapiLrsTypesTableGUI($this, self::CMD_SHOW_LRS_TYPES_LIST);
     }
     
     protected function buildLrsTypesToolbarGUI() : \ilToolbarGUI

@@ -49,21 +49,12 @@
         
         const TERMINATED_VERB = "http://adlnet.gov/expapi/verbs/terminated";
 
-        /**
-         * @param string    $client
-         * @param string    $token
-         * @param bool|null $plugin
-         */
         public function __construct(string $client, string $token, ?bool $plugin = false)
         {
             $this->client = $client;
             $this->token = $token;
             $this->plugin = $plugin;
-            if ($this->plugin) {
-                $this->table_prefix = "xxcf";
-            } else {
-                $this->table_prefix = "cmix";
-            }
+            $this->table_prefix = $this->plugin ? "xxcf" : "cmix";
             preg_match(self::PARTS_REG, $GLOBALS['DIC']->http()->request()->getUri(), $this->cmdParts);
             $this->method = strtolower($GLOBALS['DIC']->http()->request()->getMethod());
         }

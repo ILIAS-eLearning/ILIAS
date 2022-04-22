@@ -31,7 +31,6 @@ class ilCmiXapiAccess
     
     /**
      * ilCmiXapiAccess constructor.
-     * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
@@ -67,12 +66,7 @@ class ilCmiXapiAccess
             $this->object->getType(),
             $this->object->getId()
         );
-        
-        if ($editPermsAccess) {
-            return true;
-        }
-        
-        return false;
+        return (bool) $editPermsAccess;
     }
     
     public function hasOutcomesAccess() : bool
@@ -86,11 +80,7 @@ class ilCmiXapiAccess
             $this->object->getType(),
             $this->object->getId()
         );
-        
-        if ($outcomesAccess) {
-            return true;
-        }
-        return false;
+        return (bool) $outcomesAccess;
     }
     
     public function hasStatementsAccess() : bool
@@ -111,10 +101,6 @@ class ilCmiXapiAccess
         return $this->hasOutcomesAccess();
     }
 
-    /**
-     * @param ilObjCmiXapi $object
-     * @return ilCmiXapiAccess
-     */
     public static function getInstance(ilObjCmiXapi $object) : \ilCmiXapiAccess
     {
         return new self($object);

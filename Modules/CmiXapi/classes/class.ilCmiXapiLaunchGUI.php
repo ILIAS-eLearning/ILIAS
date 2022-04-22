@@ -41,9 +41,6 @@ class ilCmiXapiLaunchGUI
      */
     protected bool $plugin = false;
     
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         $this->object = $object;
@@ -98,7 +95,6 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-     * @param string $token
      * @return array<string, mixed>
      */
     protected function getLaunchParameters(string $token) : array
@@ -142,7 +138,6 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-     * @return string
      * @throws ilCmiXapiException
      */
     protected function getAuthTokenFetchLink() : string
@@ -152,13 +147,11 @@ class ilCmiXapiLaunchGUI
         ]);
         
         $param = $this->buildAuthTokenFetchParam();
-        $link = iLUtil::appendUrlParameterString($link, "param={$param}");
         
-        return $link;
+        return iLUtil::appendUrlParameterString($link, "param={$param}");
     }
 
     /**
-     * @return string
      * @throws ilCmiXapiException
      */
     protected function buildAuthTokenFetchParam() : string
@@ -171,20 +164,15 @@ class ilCmiXapiLaunchGUI
         ];
         
         $encryptionKey = ilCmiXapiAuthToken::getWacSalt();
-        
-        $param = urlencode(base64_encode(openssl_encrypt(
+        return urlencode(base64_encode(openssl_encrypt(
             json_encode($params),
             ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD,
             $encryptionKey,
             0,
             ilCmiXapiAuthToken::OPENSSL_IV
         )));
-        return $param;
     }
 
-    /**
-     * @return string
-     */
     protected function getValidToken() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -198,14 +186,9 @@ class ilCmiXapiLaunchGUI
         return $token;
     }
 
-    /**
-     * @return void
-     */
     protected function initCmixUser() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $doLpUpdate = false;
+        global $DIC;
 
         // if (!ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId())) {
         // $doLpUpdate = true;
@@ -236,18 +219,16 @@ class ilCmiXapiLaunchGUI
         global $DIC;
         $language = $DIC->user()->getLanguage();
         $audio = "on";
-        $prefs = [
+        return [
             "languagePreference" => "{$language}",
             "audioPreference" => "{$audio}"
         ];
-        return $prefs;
     }
 
     /**
      * Prelaunch
      * post cmi5LearnerPreference (agent profile)
      * post LMS.LaunchData
-     * @param string $token
      * @return array<string, mixed>
      * @throws ilCmiXapiException
      * @throws ilDateTimeException

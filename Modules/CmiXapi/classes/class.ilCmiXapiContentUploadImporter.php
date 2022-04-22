@@ -64,7 +64,6 @@ class ilCmiXapiContentUploadImporter
     
     /**
      * ilCmiXapiContentUploadImporter constructor.
-     * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
@@ -94,7 +93,6 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param string $serverFile
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCmiXapiInvalidUploadContentException
      */
@@ -108,7 +106,6 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param string $serverFile
      * @throws ilCmiXapiInvalidUploadContentException
      */
     protected function handleFile(string $serverFile) : void
@@ -134,7 +131,6 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param ilFormPropertyGUI $uploadInput
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCmiXapiInvalidUploadContentException
@@ -156,8 +152,6 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param string|null $uploadFilePath
-     * @return FileUploadResult
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws ilCmiXapiInvalidUploadContentException
      */
@@ -194,7 +188,6 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param FileUploadResult $uploadResult
      * @throws ilCmiXapiInvalidUploadContentException
      */
     protected function handleUpload(FileUploadResult $uploadResult) : void
@@ -218,7 +211,6 @@ class ilCmiXapiContentUploadImporter
     }
 
     /**
-     * @param string $xmlFilePath
      * @throws ilCmiXapiInvalidUploadContentException
      */
     protected function handleXmlFile(string $xmlFilePath) : void
@@ -248,8 +240,6 @@ class ilCmiXapiContentUploadImporter
     }
 
     /**
-     * @param string $xmlFileName
-     * @param string $xmlFilePath
      * @throws ilCmiXapiInvalidUploadContentException
      */
     protected function handleXmlFileFromUpload(string $xmlFileName, string $xmlFilePath) : void
@@ -278,9 +268,7 @@ class ilCmiXapiContentUploadImporter
     }
 
     /**
-     * @param DOMDocument $dom
      * @param             $xsdFilePath
-     * @return void
      * @throws ilCmiXapiInvalidUploadContentException
      */
     protected function validateXmlFile(DOMDocument $dom, $xsdFilePath) : void
@@ -290,10 +278,6 @@ class ilCmiXapiContentUploadImporter
         }
     }
 
-    /**
-     * @param string $uploadFilePath
-     * @return void
-     */
     protected function handleZipContentUpload(string $uploadFilePath) : void
     {
         $targetPath = $this->getAbsoluteObjectDirectory();
@@ -303,9 +287,6 @@ class ilCmiXapiContentUploadImporter
         $zar->close();
     }
 
-    /**
-     * @return string
-     */
     protected function getAbsoluteObjectDirectory() : string
     {
         $dirs = [
@@ -317,34 +298,21 @@ class ilCmiXapiContentUploadImporter
         return implode(DIRECTORY_SEPARATOR, $dirs);
     }
 
-    /**
-     * @return string
-     */
     public function getWebDataDirRelativeObjectDirectory() : string
     {
         return self::RELATIVE_CONTENT_DIRECTORY_NAMEBASE . $this->object->getId();
     }
     
-    /**
-     * @param FileUploadResult $uploadResult
-     * @return string
-     */
     protected function fetchFileExtension(FileUploadResult $uploadResult) : string
     {
         return pathinfo($uploadResult->getName(), PATHINFO_EXTENSION);
     }
 
-    /**
-     * @return bool
-     */
     protected function hasStoredContentXml() : bool
     {
         return $this->getStoredContentXml() !== '';
     }
 
-    /**
-     * @return string
-     */
     protected function getStoredContentXml() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -360,10 +328,6 @@ class ilCmiXapiContentUploadImporter
         return '';
     }
 
-    /**
-     * @param string $xsdFileName
-     * @return string
-     */
     protected function getXsdFilePath(string $xsdFileName) : string
     {
         return ILIAS_ABSOLUTE_PATH . DIRECTORY_SEPARATOR . self::RELATIVE_XSD_DIRECTORY . DIRECTORY_SEPARATOR . $xsdFileName;
@@ -474,7 +438,6 @@ class ilCmiXapiContentUploadImporter
     {
         global $DIC;
         $objId = $this->object->getId();
-        $activityId = "https://ilias.de/cmi5/activityid/" . (new \Ramsey\Uuid\UuidFactory())->uuid3(ilCmiXapiUser::getIliasUuid(), $objId . '-' . $publisherId);
-        return $activityId;
+        return "https://ilias.de/cmi5/activityid/" . (new \Ramsey\Uuid\UuidFactory())->uuid3(ilCmiXapiUser::getIliasUuid(), $objId . '-' . $publisherId);
     }
 }

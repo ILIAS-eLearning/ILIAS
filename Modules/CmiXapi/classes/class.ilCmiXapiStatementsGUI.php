@@ -35,9 +35,6 @@ class ilCmiXapiStatementsGUI
     protected ilCmiXapiAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
@@ -177,10 +174,6 @@ class ilCmiXapiStatementsGUI
         exit();
     }
 
-    /**
-     * @param ilCmiXapiStatementsTableGUI $table
-     * @param ilCmiXapiStatementsReportFilter $filter
-     */
     protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter) : void
     {
         global $DIC;
@@ -217,9 +210,6 @@ class ilCmiXapiStatementsGUI
         $table->setMaxCount($statementsReport->getMaxCount());
     }
 
-    /**
-     * @return ilCmiXapiStatementsTableGUI
-     */
     protected function buildTableGUI() : ilCmiXapiStatementsTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();

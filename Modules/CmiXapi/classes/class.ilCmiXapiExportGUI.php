@@ -24,10 +24,6 @@
  */
 class ilCmiXapiExportGUI extends ilExportGUI
 {
-    /**
-     * @param ilObjCmiXapiGUI   $a_parent_gui
-     * @param ilObjCmiXapi|null $a_main_obj
-     */
     public function __construct(ilObjCmiXapiGUI $a_parent_gui, ?ilObjCmiXapi $a_main_obj = null)
     {
         if (null === $a_main_obj) {

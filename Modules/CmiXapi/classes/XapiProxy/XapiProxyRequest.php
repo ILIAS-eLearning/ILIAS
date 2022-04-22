@@ -23,7 +23,6 @@ use ILIAS\DI\Container;
  *****************************************************************************/
 class XapiProxyRequest
 {
-    
     private Container $dic;
     // TODO PHP8 Review: Missing Type-Declarations
     private $xapiproxy;

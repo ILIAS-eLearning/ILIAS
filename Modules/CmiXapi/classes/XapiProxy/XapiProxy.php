@@ -162,10 +162,11 @@
                 $this->log()->debug($this->msg("json is array of statements"));
                 $ret = array();
                 $up = array();
-                for ($i = 0; $i < count($obj); $i++) {
-                    array_push($ret, $obj[$i]->id); // push every statementid for fakePostResponse
-                    $isSubStatement = $this->isSubStatementCheck($obj[$i]);
-                    $verb = $obj[$i]->verb->id;
+                foreach ($obj as $i => $singleObj) {
+                    $ret[] = $singleObj->id;
+                    // push every statementid for fakePostResponse
+                    $isSubStatement = $this->isSubStatementCheck($singleObj);
+                    $verb = $singleObj->verb->id;
                     if ($this->blockSubStatements && $isSubStatement) {
                         $this->log()->debug($this->msg("sub-statement is NOT allowed - " . $verb));
                     } else {
@@ -175,7 +176,7 @@
                         }
                     }
                 }
-                if (count($up) === 0) { // nothing allowed
+                if ($up === []) { // nothing allowed
                     $this->log()->debug($this->msg("no allowed statements in array - fake response..."));
                     $this->xapiProxyResponse->fakeResponseBlocked("");
 //                    $this->xapiProxyResponse->fakeResponseBlocked($ret);

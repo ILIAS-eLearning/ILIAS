@@ -147,17 +147,7 @@ class ilCmiXapiDataSet extends ilDataSet
         ?array $a_ids = null
     ) : array {
         return [];
-    } // EOf function readData
-
-    /**
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @param array  $a_ids
-     * @param string $a_field
-     * @param bool   $a_omit_header
-     * @param bool   $a_omit_types
-     * @return string
-     */
+    }
     public function getCmiXapiXmlRepresentation(
         string $a_entity,
         string $a_schema_version,
@@ -319,11 +309,6 @@ class ilCmiXapiDataSet extends ilDataSet
         return $types;
     }
 
-    /**
-         * @param string $a_entity
-         * @param string $a_version
-         * @param array  $a_ids
-         */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         global $DIC;
@@ -367,10 +352,6 @@ class ilCmiXapiDataSet extends ilDataSet
         //var_dump($this->data); exit;
     }
 
-    /**
-     * @param int $id
-     * @return string
-     */
     public function buildMetaData(int $id) : string
     {
         $md2xml = new ilMD2XML($id, $id, "cmix");
@@ -391,8 +372,6 @@ class ilCmiXapiDataSet extends ilDataSet
 
     /**
      * @param mixed $a_entity
-     * @param bool  $a_omit_header
-     * @return string
      */
     private function buildProperties($a_entity, bool $a_omit_header = false) : string
     {
@@ -419,13 +398,6 @@ class ilCmiXapiDataSet extends ilDataSet
         return $writer->xmlDumpMem(true);
     }
 
-    /**
-     * @param string          $a_entity
-     * @param array           $a_types
-     * @param array           $a_rec
-     * @param ilImportMapping $a_mapping
-     * @param string          $a_schema_version
-     */
     public function importRecord(
         string $a_entity,
         array $a_types,
@@ -457,7 +429,6 @@ class ilCmiXapiDataSet extends ilDataSet
 
     /**
      * Get supported versions
-     * @return array
      */
     public function getSupportedVersions() : array
     {
@@ -466,9 +437,6 @@ class ilCmiXapiDataSet extends ilDataSet
 
     /**
      * Get xml namespace
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @return string
      */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {

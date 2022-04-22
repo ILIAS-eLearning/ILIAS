@@ -206,18 +206,11 @@ class ilCmiXapiLrsType
         return false;
     }
 
-    /**
-     * @param int|null $a_time_to_delete
-     * @return void
-     */
     public function setTimeToDelete(?int $a_time_to_delete) : void
     {
         $this->time_to_delete = $a_time_to_delete;
     }
 
-    /**
-     * @return int|null
-     */
     public function getTimeToDelete() : ?int
     {
         return $this->time_to_delete;
@@ -273,225 +266,141 @@ class ilCmiXapiLrsType
         return $this->privacy_name;
     }
 
-    /**
-     * @return bool
-     */
     public function getOnlyMoveon() : bool
     {
         return $this->only_moveon;
     }
 
-    /**
-     * @param bool $only_moveon
-     */
     public function setOnlyMoveon(bool $only_moveon) : void
     {
         $this->only_moveon = $only_moveon;
     }
 
-    /**
-     * @return bool
-     */
     public function getAchieved() : bool
     {
         return $this->achieved;
     }
 
-    /**
-     * @param bool $achieved
-     */
     public function setAchieved(bool $achieved) : void
     {
         $this->achieved = $achieved;
     }
 
-    /**
-     * @return bool
-     */
     public function getAnswered() : bool
     {
         return $this->answered;
     }
 
-    /**
-     * @param bool $answered
-     */
     public function setAnswered(bool $answered) : void
     {
         $this->answered = $answered;
     }
 
-    /**
-     * @return bool
-     */
     public function getCompleted() : bool
     {
         return $this->completed;
     }
 
-    /**
-     * @param bool $completed
-     */
     public function setCompleted(bool $completed) : void
     {
         $this->completed = $completed;
     }
 
-    /**
-     * @return bool
-     */
     public function getFailed() : bool
     {
         return $this->failed;
     }
 
-    /**
-     * @param bool $failed
-     */
     public function setFailed(bool $failed) : void
     {
         $this->failed = $failed;
     }
 
-    /**
-     * @return bool
-     */
     public function getInitialized() : bool
     {
         return $this->initialized;
     }
 
-    /**
-     * @param bool $initialized
-     */
     public function setInitialized(bool $initialized) : void
     {
         $this->initialized = $initialized;
     }
 
-    /**
-     * @return bool
-     */
     public function getPassed() : bool
     {
         return $this->passed;
     }
 
-    /**
-     * @param bool $passed
-     */
     public function setPassed(bool $passed) : void
     {
         $this->passed = $passed;
     }
 
-    /**
-     * @return bool
-     */
     public function getProgressed() : bool
     {
         return $this->progressed;
     }
 
-    /**
-     * @param bool $progressed
-     */
     public function setProgressed(bool $progressed) : void
     {
         $this->progressed = $progressed;
     }
 
-    /**
-     * @return bool
-     */
     public function getSatisfied() : bool
     {
         return $this->satisfied;
     }
 
-    /**
-     * @param bool $satisfied
-     */
     public function setSatisfied(bool $satisfied) : void
     {
         $this->satisfied = $satisfied;
     }
 
-    /**
-     * @return bool
-     */
     public function getTerminated() : bool
     {
         return $this->terminated;
     }
 
-    /**
-     * @param bool $terminated
-     */
     public function setTerminated(bool $terminated) : void
     {
         $this->terminated = $terminated;
     }
 
-    /**
-     * @return bool
-     */
     public function getHideData() : bool
     {
         return $this->hide_data;
     }
 
-    /**
-     * @param bool $hide_data
-     */
     public function setHideData(bool $hide_data) : void
     {
         $this->hide_data = $hide_data;
     }
 
-    /**
-     * @return bool
-     */
     public function getTimestamp() : bool
     {
         return $this->timestamp;
     }
 
-    /**
-     * @param bool $timestamp
-     */
     public function setTimestamp(bool $timestamp) : void
     {
         $this->timestamp = $timestamp;
     }
 
-    /**
-     * @return bool
-     */
     public function getDuration() : bool
     {
         return $this->duration;
     }
 
-    /**
-     * @param bool $duration
-     */
     public function setDuration(bool $duration) : void
     {
         $this->duration = $duration;
     }
 
-    /**
-     * @return bool
-     */
     public function getNoSubstatements() : bool
     {
         return $this->no_substatements;
     }
 
-    /**
-     * @param bool $no_substatements
-     */
     public function setNoSubstatements(bool $no_substatements) : void
     {
         $this->no_substatements = $no_substatements;
@@ -551,17 +460,11 @@ class ilCmiXapiLrsType
         return $this->remarks;
     }
     
-    /**
-     * @return bool
-     */
     public function isBypassProxyEnabled() : bool
     {
         return $this->bypassProxyEnabled;
     }
     
-    /**
-     * @param bool $bypassProxyEnabled
-     */
     public function setBypassProxyEnabled(bool $bypassProxyEnabled) : void
     {
         $this->bypassProxyEnabled = $bypassProxyEnabled;

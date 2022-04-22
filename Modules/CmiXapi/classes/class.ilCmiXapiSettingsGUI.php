@@ -637,7 +637,7 @@ class ilCmiXapiSettingsGUI
 
         $validator = new ilCertificateDownloadValidator();
 
-        if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
+        if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), $this->object->getId())) {
             $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
         }
@@ -654,6 +654,6 @@ class ilCmiXapiSettingsGUI
             $DIC->language()->txt('error_creating_certificate_pdf')
         );
 
-        $pdfAction->downloadPdf((int) $DIC->user()->getId(), (int) $this->object->getId());
+        $pdfAction->downloadPdf((int) $DIC->user()->getId(), $this->object->getId());
     }
 }

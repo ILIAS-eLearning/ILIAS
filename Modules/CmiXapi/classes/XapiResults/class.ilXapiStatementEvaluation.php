@@ -54,8 +54,6 @@ class ilXapiStatementEvaluation
 
     /**
      * ilXapiStatementEvaluation constructor.
-     * @param ilLogger $log
-     * @param ilObject $object
      */
     public function __construct(ilLogger $log, ilObject $object)
     {

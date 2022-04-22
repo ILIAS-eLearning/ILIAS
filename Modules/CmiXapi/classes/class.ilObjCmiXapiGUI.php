@@ -271,7 +271,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
 
         $validator = new ilCertificateDownloadValidator();
-        if ($validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
+        if ($validator->isCertificateDownloadable((int) $DIC->user()->getId(), $this->object->getId())) {
             $certLink = $DIC->ctrl()->getLinkTargetByClass(
                 [ilObjCmiXapiGUI::class, ilCmiXapiSettingsGUI::class],
                 ilCmiXapiSettingsGUI::CMD_DELIVER_CERTIFICATE

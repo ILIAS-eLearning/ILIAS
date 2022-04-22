@@ -45,8 +45,6 @@ class ilCmiXapiHighscoreReport
 
     /**
      * ilCmiXapiHighscoreReport constructor.
-     * @param string $responseBody
-     * @param int    $objId
      */
     public function __construct(string $responseBody, int $objId)
     {
@@ -173,9 +171,8 @@ class ilCmiXapiHighscoreReport
 
         $hours = (string) floor($totalDuration / 3600);
         $hours = strlen($hours) < 2 ? "0" . $hours : $hours;
-        $totalDuration = $hours . ":" . date('i:s', $totalDuration);
 
-        return $totalDuration;
+        return $hours . ":" . date('i:s', $totalDuration);
     }
 
     private function formatRawTimestamp(string $rawTimestamp) : string

@@ -64,19 +64,11 @@ class ilCmiXapiVerbList
         'http://adlnet.gov/expapi/verbs/voided'
     ];
 
-    /**
-     * @param string $verb
-     * @return bool
-     */
     public function isValidVerb(string $verb) : bool
     {
         return in_array($verb, $this->verbs);
     }
 
-    /**
-     * @param string $verb
-     * @return string
-     */
     public function getVerbUri(string $verb) : string
     {
         return 'http://adlnet.gov/expapi/verbs/' . $verb;
@@ -126,11 +118,6 @@ class ilCmiXapiVerbList
         return $options;
     }
 
-    /**
-     * @param ilLanguage $lng
-     * @param string     $verb
-     * @return string
-     */
     public static function getVerbTranslation(ilLanguage $lng, string $verb) : string
     {
         $verbMatch = preg_match('/\/([^\/]+)$/', $verb, $matches);

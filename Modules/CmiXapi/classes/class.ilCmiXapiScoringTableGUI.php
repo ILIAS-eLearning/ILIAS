@@ -38,11 +38,6 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
 
     /**
      * ilCmiXapiScoringTableGUI constructor.
-     * @param ilCmiXapiScoringGUI $a_parent_obj
-     * @param string              $a_parent_cmd
-     * @param bool                $isMultiActorReport
-     * @param string              $tableId
-     * @param bool                $hasOutcomeAccess
      */
     public function __construct(ilCmiXapiScoringGUI $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport, string $tableId, bool $hasOutcomeAccess)
     {
@@ -60,7 +55,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
 
         if ($tableId === 'highscore') {
             $this->setTitle(
-                sprintf($DIC->language()->txt('toplist_top_n_results'), (int) $this->_parent->object->getHighscoreTopNum())
+                sprintf($DIC->language()->txt('toplist_top_n_results'), $this->_parent->object->getHighscoreTopNum())
             );
         } else {
             $this->setTitle($DIC->language()->txt('toplist_your_result'));
@@ -98,7 +93,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         }
 
         $this->setEnableNumInfo(false);
-        $this->setLimit((int) $this->_parent->object->getHighscoreTopNum());
+        $this->setLimit($this->_parent->object->getHighscoreTopNum());
     }
 
     protected function fillRow(array $a_set) : void
@@ -134,7 +129,6 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $data
      * @return mixed|string
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException

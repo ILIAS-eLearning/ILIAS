@@ -75,97 +75,61 @@ class ilCmiXapiAuthToken
      */
     protected ?string $returned_for_cmi5_session;
 
-    /**
-     * @return int
-     */
     public function getRefId() : int
     {
         return $this->ref_id;
     }
     
-    /**
-     * @param int $ref_id
-     */
     public function setRefId(int $ref_id) : void
     {
         $this->ref_id = $ref_id;
     }
     
-    /**
-     * @return int
-     */
     public function getObjId() : int
     {
         return $this->obj_id;
     }
     
-    /**
-     * @param int $obj_id
-     */
     public function setObjId(int $obj_id) : void
     {
         $this->obj_id = $obj_id;
     }
     
-    /**
-     * @return int
-     */
     public function getUsrId() : int
     {
         return $this->usr_id;
     }
     
-    /**
-     * @param int $usr_id
-     */
     public function setUsrId(int $usr_id) : void
     {
         $this->usr_id = $usr_id;
     }
     
-    /**
-     * @return string
-     */
     public function getToken() : string
     {
         return $this->token;
     }
     
-    /**
-     * @param string $token
-     */
     public function setToken(string $token) : void
     {
         $this->token = $token;
     }
     
-    /**
-     * @return string
-     */
     public function getValidUntil() : string
     {
         return $this->valid_until;
     }
     
-    /**
-     * @param string $valid_until
-     */
     public function setValidUntil(string $valid_until) : void
     {
         $this->valid_until = $valid_until;
     }
     
-    /**
-     * @return int
-     */
     public function getLrsTypeId() : int
     {
         return $this->lrs_type_id;
     }
     
-    /**
-     * @param int $lrs_type_id
-     */
     public function setLrsTypeId(int $lrs_type_id) : void
     {
         $this->lrs_type_id = $lrs_type_id;
@@ -343,8 +307,6 @@ class ilCmiXapiAuthToken
     }
 
     /**
-     * @param string $token
-     * @return ilCmiXapiAuthToken
      * @throws ilCmiXapiException
      */
     public static function getInstanceByToken(string $token) : \ilCmiXapiAuthToken
@@ -377,10 +339,6 @@ class ilCmiXapiAuthToken
     }
 
     /**
-     * @param int  $objId
-     * @param int  $usrId
-     * @param bool $checkValid
-     * @return ilCmiXapiAuthToken
      * @throws ilCmiXapiException
      */
     public static function getInstanceByObjIdAndUsrId(int $objId, int $usrId, bool $checkValid = true) : \ilCmiXapiAuthToken
@@ -417,11 +375,6 @@ class ilCmiXapiAuthToken
     }
 
     /**
-     * @param int  $objId
-     * @param int  $refId
-     * @param int  $usrId
-     * @param bool $checkValid
-     * @return ilCmiXapiAuthToken
      * @throws ilCmiXapiException
      */
     public static function getInstanceByObjIdAndRefIdAndUsrId(int $objId, int $refId, int $usrId, bool $checkValid = true) : \ilCmiXapiAuthToken
@@ -464,10 +417,6 @@ class ilCmiXapiAuthToken
 //                    $ilDB->manipulate("UPDATE " . self::DB_TABLE_NAME . " SET cmi5_session = " . $ilDB->quote($cmi5_session, 'text') . " WHERE token = " . $ilDB->quote($token, 'text'));
 //                }
     /**
-     * @param int      $usrId
-     * @param int      $objId
-     * @param int|null $refId
-     * @return string
      * @throws ilCmiXapiException
      */
     public static function getCmi5SessionByUsrIdAndObjIdAndRefId(int $usrId, int $objId, ?int $refId = null) : string
@@ -491,7 +440,6 @@ class ilCmiXapiAuthToken
     }
 
     /**
-     * @return string
      * @throws ilCmiXapiException
      */
     public static function getWacSalt() : string

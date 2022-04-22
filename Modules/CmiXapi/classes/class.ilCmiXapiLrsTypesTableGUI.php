@@ -60,10 +60,6 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $this->getActionsList($a_set)->getHTML());
     }
 
-    /**
-     * @param string $availability
-     * @return string
-     */
     protected function getAvailabilityLabel(string $availability) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -72,8 +68,6 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $data
-     * @return ilAdvancedSelectionListGUI
      * @throws ilCtrlException
      */
     protected function getActionsList(array $data) : \ilAdvancedSelectionListGUI

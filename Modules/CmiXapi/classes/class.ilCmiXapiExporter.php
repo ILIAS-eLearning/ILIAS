@@ -62,7 +62,6 @@ class ilCmiXapiExporter extends ilXmlExporter
     }
 
     /**
-     * @param string $a_entity
      * @return array<string, array<string, string|bool>>
      */
     public function getValidSchemaVersions(string $a_entity) : array

@@ -31,8 +31,6 @@ class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
     
     /**
      * ilCmiXapiStatementsReportRequest constructor.
-     * @param string $basicAuth
-     * @param ilCmiXapiStatementsReportLinkBuilder $linkBuilder
      */
     public function __construct(string $basicAuth, ilCmiXapiStatementsReportLinkBuilder $linkBuilder)
     {
@@ -45,10 +43,8 @@ class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
      */
     public function queryReport(int $objId) : \ilCmiXapiStatementsReport
     {
-        $reportResponse = (string) $this->sendRequest($this->linkBuilder->getUrl());
+        $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
         
-        $report = new ilCmiXapiStatementsReport($reportResponse, $objId);
-        
-        return $report;
+        return new ilCmiXapiStatementsReport($reportResponse, $objId);
     }
 }

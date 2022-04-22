@@ -172,7 +172,7 @@ class ilXapiResultsCronjob extends ilCronJob
         
         $start = $end = null;
         
-        if ($this->getLastRunTS()) {
+        if ($this->getLastRunTS() !== 0) {
             $filter->setStartDate(new ilCmiXapiDateTime($this->getLastRunTS(), IL_CAL_UNIX));
             $start = $filter->getStartDate()->get(IL_CAL_DATETIME);
         }
@@ -185,16 +185,11 @@ class ilXapiResultsCronjob extends ilCronJob
         return $filter;
     }
     
-    /**
-     * @return array
-     */
     protected function getObjectsToBeReported() : array
     {
-        $objects = array_unique(array_merge(
+        return array_unique(array_merge(
             ilCmiXapiUser::getCmixObjectsHavingUsersMissingProxySuccess(),
             ilObjCmiXapi::getObjectsHavingBypassProxyEnabledAndRegisteredUsers()
         ));
-        
-        return $objects;
     }
 }

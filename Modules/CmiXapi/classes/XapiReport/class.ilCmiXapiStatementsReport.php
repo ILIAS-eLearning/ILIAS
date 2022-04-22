@@ -69,7 +69,7 @@ class ilCmiXapiStatementsReport
         
         $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
         
-        if (count($responseBody)) {
+        if (count($responseBody) > 0) {
             $this->response = current($responseBody);
             $this->statements = $this->response['statements'];
             $this->maxCount = $this->response['maxcount'];
@@ -109,7 +109,7 @@ class ilCmiXapiStatementsReport
     {
         $data = [];
         
-        foreach ($this->statements as $index => $statement) {
+        foreach ($this->statements as $statement) {
             $data[] = [
                 'date' => $this->fetchDate($statement),
                 'actor' => $this->fetchActor($statement),
@@ -125,7 +125,6 @@ class ilCmiXapiStatementsReport
     }
 
     /**
-     * @param array $statement
      * @return mixed
      */
     protected function fetchDate(array $statement)
@@ -176,8 +175,6 @@ class ilCmiXapiStatementsReport
 
     /**
      *  with multiple language keys like [de-DE] [en-US]
-     * @param array  $obj
-     * @param string $userLanguage
      * @return array<string, mixed>
      */
     public static function getLanguageEntry(array $obj, string $userLanguage) : array

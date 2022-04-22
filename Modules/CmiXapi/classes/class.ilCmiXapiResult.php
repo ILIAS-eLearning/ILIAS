@@ -80,113 +80,71 @@ class ilCmiXapiResult
         $this->lastUpdate = '';
     }
     
-    /**
-     * @return int
-     */
     public function getId() : int
     {
         return $this->id;
     }
     
-    /**
-     * @param int $id
-     */
     public function setId(int $id) : void
     {
         $this->id = $id;
     }
     
-    /**
-     * @return int
-     */
     public function getObjId() : int
     {
         return $this->objId;
     }
     
-    /**
-     * @param int $objId
-     */
     public function setObjId(int $objId) : void
     {
         $this->objId = $objId;
     }
     
-    /**
-     * @return int
-     */
     public function getUsrId() : int
     {
         return $this->usrId;
     }
     
-    /**
-     * @param int $usrId
-     */
     public function setUsrId(int $usrId) : void
     {
         $this->usrId = $usrId;
     }
     
-    /**
-     * @return int
-     */
     public function getVersion() : int
     {
         return $this->version;
     }
     
-    /**
-     * @param int $version
-     */
     public function setVersion(int $version) : void
     {
         $this->version = $version;
     }
     
-    /**
-     * @return float
-     */
     public function getScore() : float
     {
         return $this->score;
     }
     
-    /**
-     * @param float $score
-     */
     public function setScore(float $score) : void
     {
         $this->score = $score;
     }
     
-    /**
-     * @return string
-     */
     public function getStatus() : string
     {
         return $this->status;
     }
     
-    /**
-     * @param string $status
-     */
     public function setStatus(string $status) : void
     {
         $this->status = $status;
     }
     
-    /**
-     * @return string
-     */
     public function getLastUpdate() : string
     {
         return $this->lastUpdate;
     }
     
-    /**
-     * @param string $lastUpdate
-     */
     public function setLastUpdate(string $lastUpdate) : void
     {
         $this->lastUpdate = $lastUpdate;
@@ -234,10 +192,6 @@ class ilCmiXapiResult
         ));
     }
 
-    /**
-     * @param array $row
-     * @return void
-     */
     protected function assignFromDbRow(array $row) : void
     {
         $this->setId($row['id']);
@@ -250,9 +204,6 @@ class ilCmiXapiResult
     }
 
     /**
-     * @param int $objId
-     * @param int $usrId
-     * @return ilCmiXapiResult
      * @throws ilCmiXapiException
      */
     public static function getInstanceByObjIdAndUsrId(int $objId, int $usrId) : \ilCmiXapiResult
@@ -278,16 +229,12 @@ class ilCmiXapiResult
         );
     }
 
-    /**
-     * @return ilCmiXapiResult
-     */
     public static function getEmptyInstance() : \ilCmiXapiResult
     {
         return new self();
     }
 
     /**
-     * @param int $objId
      * @return ilCmiXapiResult[]
      */
     public static function getResultsForObject(int $objId) : array
