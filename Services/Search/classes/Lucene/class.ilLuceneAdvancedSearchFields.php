@@ -113,11 +113,18 @@ class ilLuceneAdvancedSearchFields
             
         // Append all advanced meta data fields
         foreach (ilAdvancedMDRecord::_getRecords() as $record) {
+            if ($record->getParentObject() > 0) {
+                if (!ilObject::_hasUntrashedReference($record->getParentObject())) {
+                    continue;
+                }
+            }
+
             foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $def) {
                 $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record->getRecordId());
                 $fields['adv_' . $def->getFieldId()] = $field_translations->getTitleForLanguage($def->getFieldId(), $lng->getLangKey());
             }
         }
+
         return $fields;
     }
     

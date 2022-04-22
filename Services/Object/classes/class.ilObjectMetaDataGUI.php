@@ -19,7 +19,8 @@ class ilObjectMetaDataGUI
     protected ?ilLogger $logger = null;
 
     protected bool $in_workspace;
-    protected ?string $sub_type;
+    /** @var string|string[]|null */
+    protected $sub_type;
     protected ?int $sub_id;
     /**
      * @var bool false, e.g. for portfolios
@@ -51,9 +52,12 @@ class ilObjectMetaDataGUI
      */
     protected ?array $record_filter = null;
 
+    /**
+     * @param string|string[]|null   $sub_type string array only for settings, in this case no sub id must be passed
+     */
     public function __construct(
         ilObject $object = null,
-        string $sub_type = null,
+        $sub_type = null,
         int $sub_id = null,
         bool $in_repository = true
     ) {
@@ -256,7 +260,12 @@ class ilObjectMetaDataGUI
             list(, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
 
             if ($item["obj_type"] == $adv_type) {
-                return ((!$item["sub_type"] && $adv_subtype == "-") || ($item["sub_type"] == $adv_subtype));
+                if ((!$item["sub_type"] && $adv_subtype == "-") ||
+                    ($item["sub_type"] == $adv_subtype) ||
+                    (is_array($adv_subtype) && in_array($item["sub_type"], $adv_subtype))
+                ) {
+                    return true;
+                }
             }
         }
         return false;
@@ -268,7 +277,7 @@ class ilObjectMetaDataGUI
         if ($type == $this->sub_type) {
             $type = $this->obj_type . ":" . $type;
         }
-        
+
         return (
             ($this->obj_id || !$this->obj_type) &&
             in_array($type, [
@@ -294,7 +303,8 @@ class ilObjectMetaDataGUI
                 "iass",
                 'exc',
                 'lti',
-                'cmix'
+                'cmix',
+                'mep:mpg'
             ])
         );
     }
@@ -328,6 +338,10 @@ class ilObjectMetaDataGUI
     
     protected function canEdit() : bool
     {
+        if (is_array($this->sub_type)) {        // only settings
+            return false;
+        }
+
         if ($this->hasActiveRecords()) {
             if ($this->sub_type == "-" || $this->sub_id) {
                 return true;

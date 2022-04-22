@@ -9,14 +9,16 @@
 class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 {
     protected ilAdvancedMDPermissionHelper $permissions;
+    protected string $in_object_type_context = "";  // repo object type, if settings are not global
 
     public function __construct(
         $a_parent_obj,
         $a_parent_cmd,
         ilAdvancedMDPermissionHelper $a_permissions,
-        $a_in_object_context = false
+        $a_in_object_type_context = ""
     ) {
         $this->permissions = $a_permissions;
+        $this->in_object_type_context = $a_in_object_type_context;
 
         $this->setId('adv_md_records_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -49,13 +51,24 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
     {
         // assigned object types
         $disabled = !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES];
-        $options = array(
-            0 => $this->lng->txt("meta_obj_type_inactive"),
-            1 => $this->lng->txt("meta_obj_type_mandatory"),
-            2 => $this->lng->txt("meta_obj_type_optional")
-        );
 
-        $do_select = (!$a_set["readonly"] && !$a_set["local"]);
+        if ($this->in_object_type_context === "") {
+            // options for global administration
+            $options = array(
+                0 => $this->lng->txt("meta_obj_type_inactive"),
+                1 => $this->lng->txt("meta_obj_type_mandatory"),
+                2 => $this->lng->txt("meta_obj_type_optional")
+            );
+        } else {
+            // options for local administration
+            $options = array(
+                0 => $this->lng->txt("meta_obj_type_inactive"),
+                1 => $this->lng->txt("meta_obj_type_active")
+            );
+        }
+
+        $do_select = true;
+
         foreach (ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $obj_type) {
             $value = 0;
 
@@ -69,16 +82,26 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             foreach ($a_set['obj_types'] as $t) {
                 if ($obj_type["obj_type"] == $t["obj_type"] &&
                     $obj_type["sub_type"] == $t["sub_type"]) {
-                    if ($t["context"] &&
-                        !$a_set["local"]) {
-                        $obj_type["text"] = '<span class="il_ItemAlertProperty">' . $obj_type["text"] . '</span>';
-                    }
 
                     $value = $t["optional"]
                         ? 2
                         : 1;
+
+                    // globally optional, locally selected global records
+                    if (!$a_set["local"] && $a_set["readonly"]) {
+                        $value = (isset($a_set["local_selected"][$obj_type["obj_type"]]) &&
+                            in_array($obj_type["sub_type"], $a_set["local_selected"][$obj_type["obj_type"]]))
+                            ? 1
+                            : 0;
+                    }
+
                     break;
                 }
+            }
+
+            // do only list context types that match the current object type
+            if ($this->in_object_type_context !== "" && $this->in_object_type_context !== $obj_type["obj_type"]) {
+                continue;
             }
 
             if (!$do_select && !$value) {
@@ -172,7 +195,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIVE_CHECKED', $a_set['active'] ? ' checked="checked" ' : '');
         $this->tpl->setVariable('ACTIVE_ID', $a_set['id']);
 
-        if (($a_set["readonly"] && !$a_set["optional"]) ||
+        if (($a_set["readonly"]) ||
             !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION]) {
             $this->tpl->setVariable('ACTIVE_DISABLED', 'disabled="disabled"');
         }
