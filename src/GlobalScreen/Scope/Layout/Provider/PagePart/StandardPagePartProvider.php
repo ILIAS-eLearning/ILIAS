@@ -138,6 +138,11 @@ class StandardPagePartProvider implements PagePartProvider
             }
         }
 
+        //We now only after applying all filters if there are really items for presentation
+        if(count($main_bar->getEntries()) == 0 && count($main_bar->getToolEntries()) == 0) {
+            return null;
+        }
+
         return $main_bar;
     }
 
