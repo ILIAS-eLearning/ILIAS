@@ -1,9 +1,6 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\Setup;
-
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -14,20 +11,63 @@ use ILIAS\Setup;
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
-/**
- * @author Ingmar Szmais <iszmais@databay.de>
- */
-class ilNotificationUpdateAgent extends Setup\Agent\NullAgent
+use ILIAS\Setup;
+use ILIAS\Refinery;
+use ILIAS\Setup\Environment;
+
+class ilNotificationUpdateAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
+    public function hasConfig() : bool
+    {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation() : Refinery\Transformation
+    {
+        throw new LogicException('Agent has no config.');
+    }
+
+    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
+
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(
-            new ilNotificationUpdateSteps()
-        );
+        return new class(new ilNotificationUpdateSteps()) extends ilDatabaseUpdateStepsExecutedObjective {
+            public function getPreconditions(Environment $environment) : array
+            {
+                $preconditions = parent::getPreconditions($environment);
+                
+                $preconditions[] = new ilTreeAdminNodeAddedObjective(
+                    'nota',
+                    'Notification Service Administration Object'
+                );
+
+                return $preconditions;
+            }
+        };
+    }
+
+    public function getBuildArtifactObjective() : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
+
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
+
+    public function getMigrations() : array
+    {
+        return [];
     }
 }
