@@ -25,6 +25,10 @@ class ilForumNotificationCache
     /** @var array<string, mixed> */
     private array $storage = [];
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     public function fetch(string $id)
     {
         if (false === $this->exists($id)) {
@@ -34,6 +38,11 @@ class ilForumNotificationCache
         return $this->storage[$id];
     }
 
+    /**
+     * @param string $key
+     * @param mixed $data
+     * @return void
+     */
     public function store(string $key, $data) : void
     {
         $this->storage[$key] = $data;

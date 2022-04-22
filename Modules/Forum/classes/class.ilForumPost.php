@@ -602,7 +602,7 @@ class ilForumPost
         $this->setLft((int) $row['lft']);
         $this->setRgt((int) $row['rgt']);
         $this->setDepth((int) $row['depth']);
-        $this->setIsRead((bool) (isset($row['post_read']) && (int) $row['post_read'] ?? 1));
+        $this->setIsRead(isset($row['post_read']) && (int) $row['post_read']);
         $this->setDisplayUserId((int) $row['pos_display_user_id']);
         $this->setPosAuthorId((int) $row['pos_author_id']);
         $this->setIsAuthorModerator((bool) $row['is_author_moderator']);

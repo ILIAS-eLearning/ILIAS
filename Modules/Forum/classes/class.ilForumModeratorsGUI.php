@@ -187,10 +187,9 @@ class ilForumModeratorsGUI
         $result = [];
         $i = 0;
         foreach ($entries as $usr_id) {
-            /** @var $user ilObjUser */
+            /** @var ilObjUser $user */
             $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
-            // Bugfix/Fallback for #25640
-            if (!$user) {
+            if (!($user instanceof ilObjUser)) {
                 $this->oForumModerators->detachModeratorRole($usr_id);
                 continue;
             }

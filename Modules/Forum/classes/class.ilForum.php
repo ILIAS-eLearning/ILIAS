@@ -256,6 +256,7 @@ class ilForum
             [$lastPost, $objNewPost->getForumId()]
         );
 
+        /** @var ilObjForum $forum_obj */
         $forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
         $forum_obj->markPostRead($objNewPost->getPosAuthorId(), $objNewPost->getThreadId(), $objNewPost->getId());
 

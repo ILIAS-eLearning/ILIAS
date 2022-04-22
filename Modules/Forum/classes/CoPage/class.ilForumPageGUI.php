@@ -65,7 +65,7 @@ class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
 
                 if ($links->length > 0) {
                     foreach ($links as $link) {
-                        /** @var $link DOMNode */
+                        /** @var DOMNode $link */
                         $link->attributes->getNamedItem('LinkTarget')->nodeValue = '_blank';
                     }
                 }

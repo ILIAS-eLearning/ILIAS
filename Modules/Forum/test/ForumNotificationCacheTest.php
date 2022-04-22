@@ -51,7 +51,7 @@ class ForumNotificationCacheTest extends TestCase
     }
 
     /**
-     * @param $nonScalarValue
+     * @param mixed $nonScalarValue
      * @dataProvider nonScalarValuesProvider
      */
     public function testExceptionIsRaisedWhenKeyShouldBeBuiltWithNonScalarValues($nonScalarValue) : void
@@ -74,7 +74,7 @@ class ForumNotificationCacheTest extends TestCase
     }
 
     /**
-     * @param $scalarValue
+     * @param scalar $scalarValue
      * @dataProvider scalarValuesAndNullProvider
      */
     public function testCacheKeyCouldBeGeneratedByArray($scalarValue) : void

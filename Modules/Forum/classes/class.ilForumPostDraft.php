@@ -24,7 +24,7 @@ class ilForumPostDraft
 {
     public const MEDIAOBJECT_TYPE = 'frm~d:html';
 
-    /** @var self[] */
+    /** @var array<int, array{draft_ids: array<int, self>}|array<int, array<int, self>>> */
     private static array $instances = [];
     private static array $forum_statistics_cache = [];
     private static array $drafts_settings_cache = [];

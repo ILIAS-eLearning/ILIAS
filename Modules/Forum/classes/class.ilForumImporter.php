@@ -1,5 +1,4 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,6 +43,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
             $newObj->create();
         }
 
+        /** @var ilObjForum $newObj */
         $parser = new ilForumXMLParser($newObj, $a_xml, $a_mapping);
         $parser->setImportDirectory($this->getImportDirectory());
         $parser->setImportInstallId($this->getInstallId());
@@ -53,7 +53,7 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
         $a_mapping->addMapping('Modules/Forum', 'frm', $a_id, (string) $newObj->getId());
     }
 
-    public function finalProcessing($a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         parent::finalProcessing($a_mapping);
 
@@ -68,8 +68,8 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
         foreach ($styleMapping as $newForumId => $oldStyleId) {
             $newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
             if ($newForumId > 0 && $newStyleId > 0) {
-                $frm = ilObjectFactory::getInstanceByObjId($newForumId, false);
-                if (!$frm || !($frm instanceof ilObjForum)) {
+                $frm = ilObjectFactory::getInstanceByObjId((int) $newForumId, false);
+                if (!($frm instanceof ilObjForum)) {
                     continue;
                 }
                 $this->content_style_domain

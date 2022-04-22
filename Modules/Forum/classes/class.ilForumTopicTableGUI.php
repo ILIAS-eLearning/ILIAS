@@ -356,7 +356,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $thread_ids = [];
         $user_ids = [];
         foreach ($data['items'] as $thread) {
-            /** @var $thread ilForumTopic */
+            /** @var ilForumTopic $thread */
             $thread_ids[] = $thread->getId();
             if ($thread->getDisplayUserId() > 0) {
                 $user_ids[$thread->getDisplayUserId()] = $thread->getDisplayUserId();
