@@ -475,11 +475,11 @@ class ilCertificateGUI
                             $this->fileUpload->process();
                         }
 
-                        /** @var UploadResult $result */
                         $uploadResults = $this->fileUpload->getResults();
                         $pending_card_file = $form->getInput('certificate_card_thumbnail_image');
                         $cardThumbnailFileName = 'card_thumbnail_image_' . $nextVersion . '.svg';
                         if (isset($uploadResults[$temporaryFileName])) {
+                            /** @var UploadResult $result */
                             $result = $uploadResults[$temporaryFileName];
                             if ($result->isOK()) {
                                 $this->fileUpload->moveOneFileTo(

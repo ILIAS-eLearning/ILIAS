@@ -32,7 +32,7 @@ class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
         $this->objectHelper = $objectHelper;
     }
 
-    public function delete($templateId, $objectId) : void
+    public function delete(int $templateId, int $objectId) : void
     {
         $this->deleteAction->delete($templateId, $objectId);
     }

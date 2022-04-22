@@ -272,7 +272,7 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
 
         $certificates = $this->fetchCertificateTemplatesByObjId($objId);
 
-        /** @var ilCertificateTemplate $previousCertificate */
+        /** @var ilCertificateTemplate|null $previousCertificate */
         $previousCertificate = null;
         foreach ($certificates as $certificate) {
             if (null === $previousCertificate) {

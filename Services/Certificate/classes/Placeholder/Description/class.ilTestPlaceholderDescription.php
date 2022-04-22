@@ -104,7 +104,7 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array
     {
