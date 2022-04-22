@@ -32,7 +32,6 @@ class ilECSUserConsent
 
         $this->usr_id = $a_usr_id;
         $this->mid = $a_mid;
-
     }
 
     public function getUserId() : int
@@ -51,11 +50,10 @@ class ilECSUserConsent
             $query = 'INSERT INTO ecs_user_consent (usr_id, mid) ' .
                 'VALUES ( ' .
                 $this->db->quote(
-                    $this->getUserId(), ilDBConstants::T_INTEGER
+                    $this->getUserId(),
+                    ilDBConstants::T_INTEGER
                 ) . ', ' .
-                $this->db->quote(
-                    $this->getMid(), ilDBConstants::T_INTEGER
-                ) . ' ' .
+                $this->db->quote($this->getMid(), ilDBConstants::T_INTEGER) .
                 ')';
             $this->db->manipulate($query);
         } catch (ilDatabaseException $e) {
@@ -67,10 +65,12 @@ class ilECSUserConsent
     {
         $query = 'DELETE FROM ecs_user_consent ' .
             'WHERE usr_id = ' . $this->db->quote(
-                $this->getUserId(), ilDBConstants::T_INTEGER
+                $this->getUserId(),
+                ilDBConstants::T_INTEGER
             ) . ' ' .
             'AND mid = ' . $this->db->quote(
-                $this->getMid(), ilDBConstants::T_INTEGER
+                $this->getMid(),
+                ilDBConstants::T_INTEGER
             );
         $this->db->manipulate($query);
     }

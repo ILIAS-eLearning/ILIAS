@@ -46,6 +46,7 @@ class ilECSUserConsents
         foreach ($this->consents as $mid => $consent) {
             $consent->delete();
         }
+        $this->consents = [];
     }
 
     public function add(int $a_mid)
@@ -61,12 +62,14 @@ class ilECSUserConsents
     {
         $query = 'SELECT * FROM ecs_user_consent ' .
             'WHERE usr_id = ' . $this->db->quote(
-                $this->getUserId(), ilDBConstants::T_INTEGER
+                $this->getUserId(),
+                ilDBConstants::T_INTEGER
             );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->consents[(int) $row->mid] = new ilECSUserConsent(
-                (int) $row->usr_id, (int) $row->mid
+                (int) $row->usr_id,
+                (int) $row->mid
             );
         }
     }
