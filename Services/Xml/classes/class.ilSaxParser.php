@@ -128,7 +128,7 @@ abstract class ilSaxParser
     }
 
     /**
-     * @param $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      * @return void
      */
     abstract public function setHandlers($a_xml_parser) : void;
