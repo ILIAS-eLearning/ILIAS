@@ -790,6 +790,19 @@ class ilAdvancedMDRecord
     }
 
     /**
+     * Delete repository object record selection
+     */
+    public static function deleteObjRecSelection(int $a_obj_id) : void
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE " .
+            " obj_id = " . $ilDB->quote($a_obj_id, "integer"));
+    }
+
+    /**
      * Get repository object record selection
      * @param int   $a_obj_id  object id if repository object
      * @param array $a_records array of record ids that are selected (in use) by the object

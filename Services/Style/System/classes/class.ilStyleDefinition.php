@@ -285,8 +285,8 @@ class ilStyleDefinition
                     }
 
                     // check whether any ref id assigns a new style
-                    if ($DIC->isDependencyAvailable('repositoryTree') && $ref_id && $DIC->repositoryTree()->isInTree($ref_id)) {
-                        $path = $DIC->repositoryTree()->getPathId($ref_id);
+                    if ($DIC->isDependencyAvailable('repositoryTree') && $ref_id && $DIC->repositoryTree()->isInTree((int)$ref_id)) {
+                        $path = $DIC->repositoryTree()->getPathId((int)$ref_id);
                         for ($i = count($path) - 1; $i >= 0; $i--) {
                             if (isset($ref_ass[$path[$i]])) {
                                 self::$current_style = $ref_ass[$path[$i]];

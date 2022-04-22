@@ -264,7 +264,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if (is_object($this->form)) {
             return $this->form;
         }
-        
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performAdvMDSearch'));
         $this->form->setTitle($this->lng->txt('adv_md_search_title'));
@@ -373,7 +372,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->form->setTitle($this->lng->txt('search_advanced'));
         $this->form->addCommandButton('performSearch', $this->lng->txt('search'));
         $this->form->addCommandButton('reset', $this->lng->txt('reset'));
-        
         foreach ($this->fields->getActiveSections() as $definition) {
             if ($definition['name'] != 'default') {
                 $section = new ilFormSectionHeaderGUI();
@@ -852,6 +850,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             case 'mep':
                 $this->filter[] = 'mep';
+                $this->filter[] = 'mob';
+                $this->filter[] = 'mpg';
                 break;
                     
             case 'crs':
@@ -884,7 +884,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $this->filter[] = 'sahs';
                 $this->filter[] = 'htlm';
                 $this->filter[] = 'file';
+                $this->filter[] = 'mob';
+                $this->filter[] = 'mpg';
         }
+
         return true;
     }
 

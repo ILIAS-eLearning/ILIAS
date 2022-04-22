@@ -11016,6 +11016,7 @@ mep#:#mep_master_language_only_no_media#:#Basissprache für Übersetzung - ohne 
 mep#:#mep_media_files#:#Mediendateien
 mep#:#mep_media_subtitles#:#Untertitel
 mep#:#mep_mob#:#Medienobjekt
+mep#:#mep_mpg#:#Inhaltsbaustein
 mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
 mep#:#mep_new_folder#:#Neuer Ordner
 mep#:#mep_page_properties#:#Eigenschaften des Bausteins
@@ -11621,6 +11622,7 @@ meta#:#meta_no_relation#:#Keine Metadaten für den Bereich 'Beziehungen' vorhand
 meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden.
 meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden.
 meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
+meta#:#meta_obj_type_active#:#Datensatz anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
 meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
