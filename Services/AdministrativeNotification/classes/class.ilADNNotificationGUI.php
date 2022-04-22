@@ -1,15 +1,21 @@
 <?php
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilADNNotificationGUI
  * @ilCtrl_IsCalledBy ilADNNotificationGUI: ilObjAdministrativeNotificationGUI
@@ -35,8 +41,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         $this->tab_handling->initTabs(
             ilObjAdministrativeNotificationGUI::TAB_MAIN,
             ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS,
-            true,
-            self::class
+            true
         );
         switch ($cmd) {
             case self::CMD_ADD:
@@ -74,9 +79,8 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
             $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
             $this->toolbar->addButtonInstance($button);
         }
-        
-        $notMessageTableGUI = new ilADNNotificationTableGUI($this, self::CMD_DEFAULT);
-        return $notMessageTableGUI->getHTML();
+
+        return (new ilADNNotificationTableGUI($this, self::CMD_DEFAULT))->getHTML();
     }
     
     protected function add() : string
@@ -85,7 +89,6 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
             new ilADNNotification(),
             $this->ctrl->getLinkTarget($this, self::CMD_CREATE)
         );
-        $form->fillForm();
         return $form->getHTML();
     }
     
@@ -112,10 +115,9 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     protected function edit() : string
     {
         $notification = $this->getNotificationFromRequest();
-        $this->ctrl->setParameter($this, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
+        $this->ctrl->setParameter($this, ilADNAbstractGUI::IDENTIFIER, $notification->getId());
         
         $form = new ilADNNotificationUIFormGUI($notification, $this->ctrl->getLinkTarget($this, self::CMD_UPDATE));
-        $form->fillForm();
         return $form->getHTML();
     }
     

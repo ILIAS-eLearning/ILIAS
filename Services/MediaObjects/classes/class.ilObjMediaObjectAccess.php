@@ -32,7 +32,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
         $this->access = $DIC->access();
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         preg_match("/.\\/data\\/.*\\/mm_([0-9]*)\\/.*/ui", $ilWACPath->getPath(), $matches);
         $obj_id = $matches[1];

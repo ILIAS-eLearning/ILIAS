@@ -4,7 +4,6 @@
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use ILIAS\HTTP\Services;
-use ILIAS\WebAccessChecker\HttpServiceAware;
 use ILIAS\WebAccessChecker\PathType;
 use ILIAS\HTTP\GlobalHttpState;
 
@@ -29,14 +28,12 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilWACSignedPath
 {
-    use HttpServiceAware;
-
-    const WAC_TOKEN_ID = 'il_wac_token';
-    const WAC_TIMESTAMP_ID = 'il_wac_ts';
-    const WAC_TTL_ID = 'il_wac_ttl';
-    const TS_SUFFIX = 'ts';
-    const TTL_SUFFIX = 'ttl';
-    const MAX_LIFETIME = 600;
+    public const WAC_TOKEN_ID = 'il_wac_token';
+    public const WAC_TIMESTAMP_ID = 'il_wac_ts';
+    public const WAC_TTL_ID = 'il_wac_ttl';
+    public const TS_SUFFIX = 'ts';
+    public const TTL_SUFFIX = 'ttl';
+    public const MAX_LIFETIME = 600;
 
     protected ?ilWACPath $path_object = null;
     protected ?ilWACToken $token_instance = null;
@@ -80,7 +77,7 @@ class ilWACSignedPath
                 . $this->getTokenInstance()->getToken();
         }
 
-        $path = $path . '&' . self::WAC_TTL_ID . '=' . $this->getTokenInstance()->getTTL();
+        $path .= '&' . self::WAC_TTL_ID . '=' . $this->getTokenInstance()->getTTL();
 
         return $path . '&' . self::WAC_TIMESTAMP_ID . '='
             . $this->getTokenInstance()->getTimestamp();
@@ -214,6 +211,7 @@ class ilWACSignedPath
      */
     public static function signFile(string $path_to_file) : string
     {
+        global $DIC;
         if ($path_to_file === '' || $path_to_file === '0') {
             return '';
         }
@@ -221,7 +219,7 @@ class ilWACSignedPath
         if ($ilWACPath->getClient() === '' || $ilWACPath->getClient() === '0') {
             return $path_to_file;
         }
-        $obj = new self($ilWACPath, self::http(), new CookieFactoryImpl());
+        $obj = new self($ilWACPath, $DIC->http(), new CookieFactoryImpl());
         $obj->setType(PathType::FILE);
         $obj->buildAndSetTokenInstance(time(), self::getTokenMaxLifetimeInSeconds());
 
@@ -230,7 +228,8 @@ class ilWACSignedPath
 
     public static function signFolderOfStartFile(string $start_file_path) : void
     {
-        $obj = new self(new ilWACPath($start_file_path), self::http(), new CookieFactoryImpl());
+        global $DIC;
+        $obj = new self(new ilWACPath($start_file_path), $DIC->http(), new CookieFactoryImpl());
         $obj->setType(PathType::FOLDER);
         $obj->buildAndSetTokenInstance(time(), self::getCookieMaxLifetimeInSeconds());
         $obj->saveFolderToken();

@@ -44,10 +44,11 @@ class ilObjectAccess implements ilWACCheckingClass
      *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
+     * @return array{permission?:string, cmd?:string, lang_var?:string, default?:bool}[]
      */
     public static function _getCommands() : array
     {
-        return [[]];
+        return [];
     }
     
     /**

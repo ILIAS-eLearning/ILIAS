@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -12,13 +13,20 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * Class ilWACCheckingClass
- *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
- */
-interface ilWACCheckingClass
+
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
+class ilServicesAdministrativeNotificationSuite extends TestSuite
 {
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool;
+    public static function suite() : self
+    {
+        $suite = new self();
+        
+        require_once("./Services/AdministrativeNotification/test/ilServicesAdministrativeNotificationTest.php");
+        $suite->addTestSuite("ilServicesAdministrativeNotificationTest");
+        
+        return $suite;
+    }
 }

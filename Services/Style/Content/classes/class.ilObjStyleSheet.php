@@ -3276,7 +3276,7 @@ class ilObjStyleSheet extends ilObject
         );
         $rec = $ilDB->fetchAssoc($set);
         
-        return $rec["value"];
+        return $rec["value"] ?? '';
     }
     
     /**
