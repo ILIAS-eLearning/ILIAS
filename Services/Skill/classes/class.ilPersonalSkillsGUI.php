@@ -514,7 +514,13 @@ class ilPersonalSkillsGUI
 
 
             // skill level description
-            $panel_comps[] = $this->ui_fac->legacy($this->getSkillLevelDescription($skill));
+            $skl_lvl_desc = $this->getSkillLevelDescription($skill);
+            if (!empty($skl_lvl_desc)) {
+                $acc = new ilAccordionGUI();
+                $acc->setBehaviour(ilAccordionGUI::ALL_CLOSED);
+                $acc->addItem($lng->txt('skmg_skill_levels'), $skl_lvl_desc);
+                $panel_comps[] = $this->ui_fac->legacy($acc->getHTML());
+            }
 
 
             if ($this->getProfileId() > 0) {
