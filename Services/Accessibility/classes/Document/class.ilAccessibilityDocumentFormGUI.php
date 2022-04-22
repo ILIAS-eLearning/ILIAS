@@ -22,14 +22,6 @@ use ILIAS\FileUpload\Location;
 /**
  * Class ilAccessibilityDocumentFormGUI
  */
-//TODO PHP8-REVIEW: check undefined methods
-//Method 'getId' is undefined
-//Method 'getTitle' is undefined
-//Method 'setText' is undefined
-//Method 'setTitle' is undefined
-//Method 'setLastModifiedUsrId' is undefined
-//Method 'setOwnerUsrId' is undefined
-//Method 'setSorting' is undefined
 class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
 {
     protected ilAccessibilityDocument $document;
@@ -41,8 +33,7 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
     protected string $cancelCommand;
     protected bool $isEditable = false;
     protected string $translatedError = '';
-    //TODO PHP8-Review: Missing property's type declaration
-    protected $translatedInfo = '';
+    protected string $translatedInfo = '';
     protected ilHtmlPurifierInterface $documentPurifier;
 
     public function __construct(

@@ -19,12 +19,6 @@ use ILIAS\UI\Renderer;
 /**
  * Class ilAccessibilityDocumentTableGUI
  */
-//TODO PHP8-REVIEW: check undefined methods
-//Method 'getTitle' is undefined
-//Method 'getCreationTs' is undefined
-//Method 'getModificationTs' is undefined
-//Method 'getText' is undefined
-//Method 'getId' is undefined
 class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
 {
     protected ILIAS\UI\Factory $uiFactory;

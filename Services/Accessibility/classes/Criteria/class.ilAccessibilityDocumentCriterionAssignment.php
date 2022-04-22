@@ -16,9 +16,6 @@
 /**
  * Class ilAccessibilityDocumentCriterionAssignment
  */
-//TODO PHP8-REVIEW: check undefined methods
-//Method 'setAssignedTs' is undefined
-//Method 'setModificationTs' is undefined
 class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements ilAccessibilityEvaluableCriterion, ilAccessibilityEquatable
 {
     public const TABLE_NAME = 'acc_criterion_to_doc';
@@ -97,7 +94,6 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
 
     public function create() : void
     {
-        //TODO PHP8-REVIEW: check undefined method 'setAssignedTs'
         $this->setAssignedTs(time());
 
         parent::create();
@@ -105,7 +101,6 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
 
     public function update()
     {
-        //TODO PHP8-REVIEW: check undefined method 'setModificationTs'
         $this->setModificationTs(time());
 
         parent::update();
