@@ -456,7 +456,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $chatSettings = new ilSetting('chatroom');
         if (!$chatSettings->get('chat_enabled', '0')) {
             $this->ilCtrl->redirect($this->gui, 'settings-general');
-            exit;
         }
 
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
