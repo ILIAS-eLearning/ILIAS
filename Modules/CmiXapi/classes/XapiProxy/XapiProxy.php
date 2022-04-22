@@ -34,21 +34,25 @@
             return $this->token;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function client()
         {
             return $this->client;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function lrsType()
         {
             return $this->lrsType;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function replacedValues()
         {
             return $this->replacedValues;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function specificAllowedStatements()
         {
             return $this->specificAllowedStatements;
@@ -58,12 +62,13 @@
         {
             return $this->blockSubStatements;
         }
-
+        // TODO PHP8 Review: Missing Return type Declaration
         public function cmdParts()
         {
             return $this->cmdParts;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function method()
         {
             return $this->method;
@@ -99,21 +104,25 @@
             return $this->fallbackLrsSecret;
         }
 
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function setXapiProxyRequest($xapiProxyRequest) : void
         {
             $this->xapiProxyRequest = $xapiProxyRequest;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function getXapiProxyRequest()
         {
             return $this->xapiProxyRequest;
         }
 
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function setXapiProxyResponse($xapiProxyResponse) : void
         {
             $this->xapiProxyResponse = $xapiProxyResponse;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function getXapiProxyResponse()
         {
             return $this->xapiProxyResponse;
@@ -274,6 +283,8 @@
 //            }
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         private function isSubStatementCheck($obj)
         {
             if (

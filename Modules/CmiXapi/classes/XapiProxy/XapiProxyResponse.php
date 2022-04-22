@@ -174,6 +174,8 @@
             echo $response->getBody();
         }
 
+        // TODO PHP8 Review: Missing Parameter Type Declaration
+        // TODO PHP8 Review: Missing Return type Declaration
         private function msg($msg)
         {
             return $this->xapiproxy->msg($msg);

@@ -68,6 +68,8 @@ class ilCmiXapiLaunchGUI
         $DIC->ctrl()->redirectToURL($launchLink);
     }
     
+    // TODO PHP8 Review: Missing Return type Declaration
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     protected function buildLaunchLink($token)
     {
         $launchLink = "";
@@ -348,6 +350,7 @@ class ilCmiXapiLaunchGUI
         
         // abandonedStatement
         if ($abandoned) {
+            // TODO PHP8 Review: Variable XY $duration probably undefined
             $abandonedStatement = $this->object->getAbandonedStatement($oldSession, $duration, $this->cmixUser);
             $abandonedStatementParams = [];
             $abandonedStatementParams['statementId'] = $abandonedStatement['id'];

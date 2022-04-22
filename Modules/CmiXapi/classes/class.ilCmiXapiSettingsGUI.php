@@ -42,9 +42,6 @@ class ilCmiXapiSettingsGUI
     protected ilObjCmiXapi $object;
     private \ilGlobalTemplateInterface $main_tpl;
     
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
@@ -227,13 +224,14 @@ class ilCmiXapiSettingsGUI
             $launchMode->addOption($optReview);
             $form->addItem($launchMode);
         }
-            
+        
         $lpDeterioration = new ilCheckboxInputGUI($DIC->language()->txt('conf_keep_lp'), 'avoid_lp_deterioration');
         $lpDeterioration->setInfo($DIC->language()->txt('conf_keep_lp_info'));
         if ($this->object->isKeepLpStatusEnabled()) {
             $lpDeterioration->setChecked(true);
         }
         if (!$this->object->isSourceTypeExternal()) {
+            // TODO PHP8 Review: Variable $optNormal is probably undefined
             $optNormal->addSubItem($lpDeterioration);
         } else {
             $form->addItem($lpDeterioration);
@@ -245,6 +243,7 @@ class ilCmiXapiSettingsGUI
             if ($this->object->isSwitchToReviewEnabled()) {
                 $switchMode->setChecked(true);
             }
+            // TODO PHP8 Review: Variable $optNormal is probably undefined
             $optNormal->addSubItem($switchMode);
             
             $masteryScore = new ilNumberInputGUI($DIC->language()->txt('conf_mastery_score'), 'mastery_score');

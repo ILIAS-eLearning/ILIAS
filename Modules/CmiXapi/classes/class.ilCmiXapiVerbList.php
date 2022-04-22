@@ -34,7 +34,7 @@ class ilCmiXapiVerbList
     /**
      * @var array
      */
-    protected $verbs = array(
+    protected array $verbs = [
         'http://adlnet.gov/expapi/verbs/abandoned',
         'http://adlnet.gov/expapi/verbs/answered',
         'http://adlnet.gov/expapi/verbs/asked',
@@ -62,7 +62,7 @@ class ilCmiXapiVerbList
         'http://adlnet.gov/expapi/verbs/suspended',
         'http://adlnet.gov/expapi/verbs/terminated',
         'http://adlnet.gov/expapi/verbs/voided'
-    );
+    ];
 
     /**
      * @param string $verb

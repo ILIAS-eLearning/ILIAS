@@ -49,15 +49,12 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     const DEFAULT_CMD = self::CMD_INFO_SCREEN;
 
     const NEW_OBJ_TITLE = "";
+    
+    protected ?ilObject $object;
+    
+    private ilCmiXapiAccess $cmixAccess;
 
-    public ?ilObject $object;
-
-    /**
-     * @var ilCmiXapiAccess
-     */
-    public $cmixAccess;
-
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -77,11 +74,9 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $a_new_type
-     * @return ilPropertyFormGUI
      * @throws ilCtrlException
      */
-    protected function initCreateForm($a_new_type) : \ilPropertyFormGUI
+    protected function initCreateForm(string $a_new_type) : \ilPropertyFormGUI
     {
         global $DIC;
         $form = new ilPropertyFormGUI();

@@ -13,6 +13,7 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ilXapiStatementEvaluation
  *
@@ -229,6 +230,8 @@ class ilXapiStatementEvaluation
         return $xapiStatement->result->score->scaled;
     }
     
+    // TODO PHP8 Review: Missing Return type Declaration
+    // TODO PHP8 Review: `object` is a very general declaration for $xapiStatement, sould it be more precise?
     protected function getProgressedScore(object $xapiStatement)
     {
         if (!isset($xapiStatement->result)) {
@@ -277,7 +280,7 @@ class ilXapiStatementEvaluation
         
         return true;
     }
-    
+    // TODO PHP8 Review: Missing Return type Declaration
     protected function isLpModeInterestedInResultStatus(string $resultStatus, ?bool $deactivated = true)
     {
         if ($this->lpMode == ilLPObjSettings::LP_MODE_DEACTIVATED) {

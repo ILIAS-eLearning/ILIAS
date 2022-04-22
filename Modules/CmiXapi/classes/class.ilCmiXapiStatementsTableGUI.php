@@ -32,7 +32,8 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
      * @var bool
      */
     protected bool $isMultiActorReport;
-
+    protected array $filter = [];
+    
     /**
      * @param object|null $a_parent_obj
      * @param string      $a_parent_cmd
@@ -165,6 +166,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
      * @param array     $data
      * @return \ILIAS\UI\Component\Dropdown\Dropdown
      */
+    // TODO PHP8 Review: Missing Return type Declaration
     protected function getActionsList(RoundTrip $rawDataModal, array $data)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

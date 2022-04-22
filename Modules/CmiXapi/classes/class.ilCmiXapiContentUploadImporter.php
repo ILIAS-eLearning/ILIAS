@@ -45,14 +45,14 @@ class ilCmiXapiContentUploadImporter
     /**
      * @var string[]
      */
-    protected static $CONTENT_XML_FILENAMES = [
+    protected static array $CONTENT_XML_FILENAMES = [
         self::CMI5_XML, self::TINCAN_XML
     ];
     
     /**
      * @var string[]
      */
-    protected static $CONTENT_XSD_FILENAMES = [
+    protected static array $CONTENT_XSD_FILENAMES = [
         self::CMI5_XML => self::CMI5_XSD,
         self::TINCAN_XML => self::TINCAN_XSD
     ];
@@ -425,6 +425,7 @@ class ilCmiXapiContentUploadImporter
         
         $lpSettings = new ilLPObjSettings($this->object->getId());
         $mode = ilLPObjSettings::LP_MODE_DEACTIVATED;
+        // TODO PHP8 Review: Variable $moveOn is probably undefined
         switch ($moveOn) {
             case ilCmiXapiLP::MOVEON_COMPLETED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED;

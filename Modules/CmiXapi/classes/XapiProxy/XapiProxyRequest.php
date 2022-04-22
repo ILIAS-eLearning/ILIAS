@@ -7,6 +7,7 @@ use GuzzleHttp\Promise;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
+use ILIAS\DI\Container;
 
 //use GuzzleHttp\Exception\ConnectException;
 //use GuzzleHttp\Exception\RequestException;
@@ -22,11 +23,15 @@ use GuzzleHttp\Psr7\Uri;
  *****************************************************************************/
 class XapiProxyRequest
 {
-    private $dic;
+    
+    private Container $dic;
+    // TODO PHP8 Review: Missing Type-Declarations
     private $xapiproxy;
-//    private $request;
-    private $xapiProxyResponse;
 
+    // TODO PHP8 Review: Missing Type-Declarations
+    private $xapiProxyResponse;
+    
+    // TODO PHP8 Review: Missing Type-Declarations
     public function __construct($xapiproxy)
     {
         $this->dic = $GLOBALS['DIC'];

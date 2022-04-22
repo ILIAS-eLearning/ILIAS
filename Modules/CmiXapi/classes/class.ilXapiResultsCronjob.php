@@ -26,20 +26,11 @@ class ilXapiResultsCronjob extends ilCronJob
 {
     const LAST_RUN_TS_SETTING_NAME = 'cron_xapi_res_eval_last_run';
     
-    /**
-     * @var int
-     */
-    protected $thisRunTS;
+    protected int $thisRunTS;
     
-    /**
-     * @var int
-     */
-    protected $lastRunTS;
+    protected int $lastRunTS;
     
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected ilLogger $log;
     
     public function __construct()
     {

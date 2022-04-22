@@ -75,7 +75,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
 //                return $this->create();
             }
-            
+            // TODO PHP8 Review: Variable $newObj is probably undefined
             if ($newObj) {
                 $parent_id = $this->node_id;
                 $this->node_id = null;
@@ -135,6 +135,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
                 }
                 return '<div><a href="' . $a_url . '">' . $caption . '</a></div>';
             } else {
+                // TODO PHP8 Review: Variable $message is probably undefined
                 return '<div>' . $caption . ' (' . $message . ')</div>';
             }
         }
