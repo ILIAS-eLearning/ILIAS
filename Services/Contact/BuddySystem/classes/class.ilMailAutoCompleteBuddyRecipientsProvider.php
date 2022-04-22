@@ -51,10 +51,6 @@ class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserPr
             'AND pubemail.keyword = ' . $this->db->quote('public_email', 'text'),
         ]);
 
-        if ($joins) {
-            return 'usr_data ' . implode(' ', $joins);
-        }
-
-        return 'usr_data ';
+        return 'usr_data ' . implode(' ', $joins);
     }
 }

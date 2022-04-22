@@ -118,7 +118,7 @@ class ilMailingLists
     }
 
 
-    public function getCurrentMailingList() : ilMailingList
+    public function getCurrentMailingList() : ?ilMailingList
     {
         return $this->ml;
     }
