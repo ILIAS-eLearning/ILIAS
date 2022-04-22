@@ -153,9 +153,9 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
             try {
                 $this->fileUpload->process();
 
-                /** @var UploadResult $uploadResult */
+                /** @var UploadResult|null $uploadResult */
                 $uploadResult = array_values($this->fileUpload->getResults())[0];
-                if (!$uploadResult) {
+                if (!($uploadResult instanceof UploadResult)) {
                     $this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
                     throw new ilException($this->lng->txt('form_input_not_valid'));
                 }
