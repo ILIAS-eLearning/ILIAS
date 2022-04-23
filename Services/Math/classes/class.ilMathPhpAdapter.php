@@ -125,9 +125,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
         }
 
-        $res = $this->normalize($left_operand) % $this->normalize($right_operand);
-
-        return $res;
+        return $this->normalize($left_operand) % $this->normalize($right_operand);
     }
 
     /**
@@ -166,10 +164,12 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
 
         if ($left_operand == $right_operand) {
             return 0;
-        } elseif ($left_operand > $right_operand) {
-            return 1;
-        } else {
-            return -1;
         }
+
+        if ($left_operand > $right_operand) {
+            return 1;
+        }
+
+        return -1;
     }
 }
