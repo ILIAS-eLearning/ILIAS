@@ -191,14 +191,14 @@ class ilFileDataForumDrafts extends ilFileData
     }
 
     /**
-     * @param string md5 encrypted filename
+     * @param string $hashedFilename
      * @return array{path: string, filename: string, clean_filename: string}|null
      */
-    public function getFileDataByMD5Filename(string $a_md5_filename) : ?array
+    public function getFileDataByMD5Filename(string $hashedFilename) : ?array
     {
         $files = ilFileUtils::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilename) {
                 return [
                     'path' => $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry'],
                     'filename' => $file['entry'],
@@ -211,15 +211,15 @@ class ilFileDataForumDrafts extends ilFileData
     }
 
     /**
-     * @param string|string[] $a_md5_filename
+     * @param string|string[] $hashedFilenameOrFilenames
      * @return bool
      */
-    public function unlinkFilesByMD5Filenames($a_md5_filename) : bool
+    public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames) : bool
     {
         $files = ilFileUtils::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
-        if (is_array($a_md5_filename)) {
+        if (is_array($hashedFilenameOrFilenames)) {
             foreach ($files as $file) {
-                if ($file['type'] === 'file' && in_array(md5($file['entry']), $a_md5_filename, true)) {
+                if ($file['type'] === 'file' && in_array(md5($file['entry']), $hashedFilenameOrFilenames, true)) {
                     unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
                 }
             }
@@ -228,7 +228,7 @@ class ilFileDataForumDrafts extends ilFileData
         }
 
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilenameOrFilenames) {
                 return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
             }
         }

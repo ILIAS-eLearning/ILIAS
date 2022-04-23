@@ -167,7 +167,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      * the placeholder values will be identical to the description
      * @param int $userId
      * @param int $objId
-     * @return mixed
+     * @return array
      * @throws ilDateTimeException
      * @throws ilException
      */

@@ -421,7 +421,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->notificationCache->fetch($cacheKey);
     }
 
-    private function createRecipientArray(ilPDOStatement $statement) : array
+    private function createRecipientArray(ilDBStatement $statement) : array
     {
         $refIds = $this->getRefIdsByObjId($this->getObjId());
 

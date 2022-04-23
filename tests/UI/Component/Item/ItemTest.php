@@ -8,6 +8,8 @@ require_once(__DIR__ . "/../../Base.php");
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
 use ILIAS\Data;
+use ILIAS\UI\Implementation\Component\Symbol\Avatar\Letter;
+use ILIAS\UI\Implementation\Component\Symbol\Avatar\Picture;
 
 /**
  * Test items
@@ -108,6 +110,28 @@ class ItemTest extends ILIAS_UI_TestBase
         $c = $f->standard("title")->withLeadIcon($icon);
 
         $this->assertEquals($icon, $c->getLead());
+    }
+
+    public function test_with_lead_letter_avatar() : void
+    {
+        $f = $this->getFactory();
+
+        $avatar = new Letter('il');
+
+        $c = $f->standard("title")->withLeadAvatar($avatar);
+
+        $this->assertEquals($avatar, $c->getLead());
+    }
+
+    public function test_with_lead_picture_avatar() : void
+    {
+        $f = $this->getFactory();
+
+        $avatar = new Picture('./templates/default/images/no_photo_xsmall.jpg', 'demo.user');
+
+        $c = $f->standard("title")->withLeadAvatar($avatar);
+
+        $this->assertEquals($avatar, $c->getLead());
     }
 
     public function test_with_lead_text() : void
@@ -256,6 +280,69 @@ EOT;
             <div class="il-item-title">title</div>
 		</div>
 	</div>
+</div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function test_render_lead_letter_avatar() : void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $avatar = new Letter('il');
+
+        $c = $f->standard("title")->withLeadAvatar($avatar);
+
+        $html = $r->render($c);
+
+        $expected = <<<EOT
+<div class="il-item il-std-item ">
+    <div class="media">
+        <div class="media-left">
+            <span class="il-avatar il-avatar-letter il-avatar-size-large il-avatar-letter-color-11" aria-label="user_avatar" role="img">
+                <span class="abbreviation">il</span>
+            </span>
+        </div>
+        <div class="media-body">
+            <div class="il-item-title">title</div>
+        </div>
+    </div>
+</div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function test_render_lead_picture_avatar() : void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $avatar = new Picture('./templates/default/images/no_photo_xsmall.jpg', 'demo.user');
+
+        $c = $f->standard("title")->withLeadAvatar($avatar);
+
+        $html = $r->render($c);
+        $expected = <<<EOT
+<div class="il-item il-std-item ">
+    <div class="media">
+        <div class="media-left">
+            <span class="il-avatar il-avatar-picture il-avatar-size-large">
+                <img src="./templates/default/images/no_photo_xsmall.jpg" alt="user_avatar"/>
+            </span>
+        </div>
+        <div class="media-body">
+            <div class="il-item-title">title</div>
+        </div>
+    </div>
 </div>
 EOT;
 

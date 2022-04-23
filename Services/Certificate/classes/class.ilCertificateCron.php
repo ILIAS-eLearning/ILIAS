@@ -230,7 +230,7 @@ class ilCertificateCron extends ilCronJob
 
         $this->logger->debug('Entry found will start of processing the entry');
 
-        /** @var $entry ilCertificateQueueEntry */
+        /** @var ilCertificateQueueEntry $entry */
         $class = $entry->getAdapterClass();
         $this->logger->debug('Adapter class to be executed "' . $class . '"');
 

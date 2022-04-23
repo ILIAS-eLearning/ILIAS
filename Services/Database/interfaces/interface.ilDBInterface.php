@@ -138,7 +138,7 @@ interface ilDBInterface
      */
     public function useSlave(bool $bool) : bool;
 
-    public function setLimit(int $limit, int $offset) : void;
+    public function setLimit(int $limit, int $offset = 0) : void;
 
     /**
      * Generate a like subquery.

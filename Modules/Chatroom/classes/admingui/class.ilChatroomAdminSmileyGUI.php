@@ -418,7 +418,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
             $this->upload->process();
 
-            /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+            /** @var \ILIAS\FileUpload\DTO\UploadResult|null $result */
             $result = array_values($this->upload->getResults())[0];
             if ($result && $result->isOK()) {
                 $this->upload->moveOneFileTo(
@@ -555,7 +555,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
             $this->upload->process();
 
-            /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+            /** @var \ILIAS\FileUpload\DTO\UploadResult|null $result */
             $result = array_values($this->upload->getResults())[0];
             if ($result && $result->isOK()) {
                 $this->upload->moveOneFileTo(

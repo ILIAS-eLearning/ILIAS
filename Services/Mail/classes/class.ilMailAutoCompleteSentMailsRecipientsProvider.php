@@ -25,7 +25,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     protected array $users_stack = [];
     
     /**
-     * @return array{login: string, firstname: string, lastname:string}
+     * @return array{login?: string, firstname?: string, lastname?: string}
      */
     public function current() : array
     {

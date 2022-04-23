@@ -85,16 +85,16 @@ class ilPDMailGUI
 
         $tpl->setVariable('TXT_FROM', $this->lng->txt('from'));
 
-        /** @var ilObjUser $sender */
+        /** @var ilObjUser|null $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mail_data['sender_id'], false);
-        if ($sender && $sender->getId() !== ANONYMOUS_USER_ID) {
+        if ($sender instanceof ilObjUser && $sender->getId() !== 0 && $sender->getId() !== ANONYMOUS_USER_ID) {
             $tpl->setCurrentBlock('pers_image');
             $tpl->setVariable('IMG_SENDER', $sender->getPersonalPicturePath('xsmall'));
             $tpl->setVariable('ALT_SENDER', htmlspecialchars($sender->getPublicName()));
             $tpl->parseCurrentBlock();
 
             $tpl->setVariable('PUBLIC_NAME', $sender->getPublicName());
-        } elseif (!$sender) {
+        } elseif (null === $sender) {
             $tpl->setVariable(
                 'PUBLIC_NAME',
                 $mail_data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'

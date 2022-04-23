@@ -149,7 +149,7 @@ class ilPortfolioRoleAssignmentGUI
         $main_tpl = $this->main_tpl;
 
         $template_ids = $this->port_request->getRoleTemplateIds();
-        if (count($template_ids) == 0) {
+        if (count($template_ids) === 0) {
             $this->main_tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listAssignments");
         } else {

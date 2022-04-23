@@ -43,7 +43,7 @@ class PageReadingTimeTest extends TestCase
     }
 
     /**
-     * @param $mixedType
+     * @param mixed $mixedType
      * @dataProvider mixedReadingTypesProvider
      */
     public function testPageReadingTimeValueThrowsExceptionWhenConstructedWithInvalidTypes($mixedType) : void

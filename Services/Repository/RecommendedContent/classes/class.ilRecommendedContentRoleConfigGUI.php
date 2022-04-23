@@ -117,7 +117,7 @@ class ilRecommendedContentRoleConfigGUI
         foreach ($this->requested_item_ref_ids as $item_ref_id) {
             $confirmation_gui->addItem(
                 "item_ref_id[]",
-                $item_ref_id,
+                (string) $item_ref_id,
                 ilObject::_lookupTitle(ilObject::_lookupObjectId($item_ref_id))
             );
         }

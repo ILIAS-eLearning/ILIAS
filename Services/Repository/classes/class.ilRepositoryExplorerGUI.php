@@ -256,7 +256,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         $objDefinition = $this->obj_definition;
         $ilAccess = $this->access;
 
-        $parent_obj_id = ilObject::_lookupObjId($a_parent_node_id);
+        $parent_obj_id = ilObject::_lookupObjId((int) $a_parent_node_id);
         if ($parent_obj_id > 0) {
             $parent_type = ilObject::_lookupType($parent_obj_id);
         } else {

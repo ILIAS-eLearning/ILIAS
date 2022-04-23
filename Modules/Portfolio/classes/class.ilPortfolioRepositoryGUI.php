@@ -92,7 +92,7 @@ class ilPortfolioRepositoryGUI
 
                 $gui = new ilObjPortfolioGUI($this->port_request->getPortfolioId());
 
-                if ($cmd != "preview") {
+                if ($cmd !== "preview") {
                     $this->setLocator();
 
                     $exercise_back_ref_id = $this->port_request->getExcBackRefId();
@@ -325,7 +325,7 @@ class ilPortfolioRepositoryGUI
         $lng = $this->lng;
 
         $prt_id = $this->port_request->getPortfolioId();
-        if (ilObjPortfolio::_lookupOwner($prt_id) == $this->user_id) {
+        if (ilObjPortfolio::_lookupOwner($prt_id) === $this->user_id) {
             $portfolio = new ilObjPortfolio($prt_id, false);
             $portfolio->setOnline(true);
             $portfolio->update();
@@ -341,7 +341,7 @@ class ilPortfolioRepositoryGUI
         $lng = $this->lng;
 
         $prt_id = $this->port_request->getPortfolioId();
-        if (ilObjPortfolio::_lookupOwner($prt_id) == $this->user_id) {
+        if (ilObjPortfolio::_lookupOwner($prt_id) === $this->user_id) {
             $portfolio = new ilObjPortfolio($prt_id, false);
             $portfolio->setOnline(false);
             $portfolio->update();
@@ -360,19 +360,17 @@ class ilPortfolioRepositoryGUI
         $titles = $this->port_request->getTitles();
         $online = $this->port_request->getOnline();
         foreach ($titles as $id => $title) {
-            if (trim($title)) {
-                if ($this->checkAccess("write", $id)) {
-                    $portfolio = new ilObjPortfolio($id, false);
-                    $portfolio->setTitle(ilUtil::stripSlashes($title));
+            if (trim($title) && $this->checkAccess("write", $id)) {
+                $portfolio = new ilObjPortfolio($id, false);
+                $portfolio->setTitle(ilUtil::stripSlashes($title));
 
-                    if (in_array($id, $online)) {
-                        $portfolio->setOnline(true);
-                    } else {
-                        $portfolio->setOnline(false);
-                    }
-
-                    $portfolio->update();
+                if (in_array($id, $online)) {
+                    $portfolio->setOnline(true);
+                } else {
+                    $portfolio->setOnline(false);
                 }
+
+                $portfolio->update();
             }
         }
         
@@ -388,7 +386,7 @@ class ilPortfolioRepositoryGUI
 
         $prtfs = $this->port_request->getPortfolioIds();
 
-        if (count($prtfs) == 0) {
+        if (count($prtfs) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "show");
         } else {
@@ -415,7 +413,7 @@ class ilPortfolioRepositoryGUI
         foreach ($port_ids as $id) {
             if ($this->checkAccess("write", $id)) {
                 $portfolio = new ilObjPortfolio($id, false);
-                if ($portfolio->getOwner() == $this->user_id) {
+                if ($portfolio->getOwner() === $this->user_id) {
                     $this->access_handler->removePermission($id);
                     $portfolio->delete();
                 }
@@ -494,7 +492,7 @@ class ilPortfolioRepositoryGUI
         $ilCtrl->redirect($this, "show");
     }
     
-    protected function setDefaultGlobal()
+    protected function setDefaultGlobal() : void
     {
         $ilCtrl = $this->ctrl;
         

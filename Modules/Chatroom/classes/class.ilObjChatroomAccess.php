@@ -71,7 +71,8 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
             self::$chat_enabled = (bool) $chatSetting->get('chat_enabled', '0');
         }
 
-        if ($DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
+        $hasWriteAccess = $DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+        if ($hasWriteAccess) {
             return true;
         }
 
@@ -80,7 +81,6 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
                 $visible = null;
 
                 $active = self::isActivated($a_ref_id, $a_obj_id, $visible);
-                $hasWriteAccess = $DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
 
                 if (!$active) {
                     $DIC->access()->addInfoItem(
@@ -89,17 +89,12 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
                     );
                 }
 
-                if (!$hasWriteAccess && !$active && !$visible) {
+                if ($active === false && $visible === false) {
                     return false;
                 }
                 break;
 
             case 'read':
-                $hasWriteAccess = $DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
-                if ($hasWriteAccess) {
-                    return true;
-                }
-
                 $active = self::isActivated($a_ref_id, $a_obj_id);
                 if (!$active) {
                     $DIC->access()->addInfoItem(

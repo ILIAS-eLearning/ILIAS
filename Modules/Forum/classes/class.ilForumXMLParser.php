@@ -88,10 +88,16 @@ class ilForumXMLParser extends ilSaxParser
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, [$this, 'handlerBeginTag'], [$this, 'handlerEndTag']);
+        xml_set_character_data_handler($a_xml_parser, [$this, 'handlerCharacterData']);
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array  $a_attribs
+     * @return void
+     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
@@ -124,6 +130,11 @@ class ilForumXMLParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         $this->cdata = trim($this->cdata);
@@ -743,8 +754,8 @@ class ilForumXMLParser extends ilSaxParser
 
     /**
      * handler for character data
-     * @param resource $a_xml_parser xml parser
-     * @param string   $a_data       character data
+     * @param XMLParser|resource $a_xml_parser xml parser
+     * @param string $a_data character data
      */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {

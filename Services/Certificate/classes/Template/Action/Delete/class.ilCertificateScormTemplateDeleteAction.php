@@ -34,13 +34,7 @@ class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteActio
         $this->setting = $setting;
     }
 
-    /**
-     * @param $templateId
-     * @param $objectId
-     * @return void
-     * @throws ilDatabaseException
-     */
-    public function delete($templateId, $objectId) : void
+    public function delete(int $templateId, int $objectId) : void
     {
         $this->deleteAction->delete($templateId, $objectId);
 

@@ -138,9 +138,7 @@ class ilLearningHistoryGUI
         ?array $classes = null,
         ?string $a_mode = null
     ) : string {
-        $ctrl = $this->ctrl;
-
-        return $ctrl->getHTML($this, ["from" => $from, "to" => $to, "classes" => $classes, "mode" => $a_mode]);
+        return $this->ctrl->getHTML($this, ["from" => $from, "to" => $to, "classes" => $classes, "mode" => $a_mode]);
     }
 
     /**

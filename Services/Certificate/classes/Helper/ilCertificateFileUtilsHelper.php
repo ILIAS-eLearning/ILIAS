@@ -21,12 +21,7 @@
  */
 class ilCertificateFileUtilsHelper
 {
-    /**
-     * @param $targetFilename
-     * @return string
-     * @throws ilFileUtilsException
-     */
-    public function getValidFilename($targetFilename) : string
+    public function getValidFilename(string $targetFilename) : string
     {
         return ilFileUtils::getValidFilename($targetFilename);
     }

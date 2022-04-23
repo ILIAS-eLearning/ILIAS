@@ -88,7 +88,7 @@ class ilContainerFilterAdvMDAdapter
     public function getAdvType(int $filter_id) : string
     {
         $field = ilAdvancedMDFieldDefinition::getInstance($filter_id);
-        return $field->getType();
+        return (string) $field->getType();
     }
 
     public function getOptions(int $filter_id) : array

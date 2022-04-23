@@ -112,7 +112,7 @@ class ilMailMemberSearchDataProvider
     }
 
     /**
-     * @param string[]
+     * @param string[] $roleTitles
      * @return string[]
      */
     private function sortRoles(array $roleTitles) : array

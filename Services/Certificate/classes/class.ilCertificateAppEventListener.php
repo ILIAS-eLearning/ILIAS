@@ -130,7 +130,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
     {
         global $DIC;
 
-        $listener = new static(
+        $listener = new self(
             $DIC->database(),
             $DIC['ilObjDataCache'],
             $DIC->logger()->cert()
@@ -150,10 +150,10 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $settings = new ilSetting('certificate');
 
         if ($status === ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-            $objectId = $this->parameters['obj_id'] ?? 0;
-            $userId = $this->parameters['usr_id'] ?? 0;
+            $objectId = (int) ($this->parameters['obj_id'] ?? 0);
+            $userId = (int) ($this->parameters['usr_id'] ?? 0);
 
-            $type = $this->objectDataCache->lookupType((int) $objectId);
+            $type = $this->objectDataCache->lookupType($objectId);
 
             $this->logger->info(sprintf(
                 "Certificate evaluation triggered, received 'completed' learning progress for: usr_id: %s/obj_id: %s/type: %s",
@@ -294,19 +294,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
         ));
     }
 
-    /**
-     * @param                       $type
-     * @param                       $objectId
-     * @param int                   $userId
-     * @param ilCertificateTemplate $template
-     * @param ilSetting             $settings
-     * @throws ilDatabaseException
-     * @throws ilException
-     * @throws ilInvalidCertificateException
-     */
     private function processEntry(
-        $type,
-        $objectId,
+        string $type,
+        int $objectId,
         int $userId,
         ilCertificateTemplate $template,
         ilSetting $settings

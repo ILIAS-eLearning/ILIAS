@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -113,7 +113,8 @@ class ilContainerReferenceXmlParser extends ilSaxParser
             $this->logger->debug('Cannot find object mapping for target_id: ' . $attribute_target);
             return 0;
         }
-        return $obj_mapping_id;
+
+        return (int) $obj_mapping_id;
     }
 
     /**

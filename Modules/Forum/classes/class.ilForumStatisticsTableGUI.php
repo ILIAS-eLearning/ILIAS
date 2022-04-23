@@ -66,7 +66,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return array<int, array{field: string, txt: string, sortable: bool}>
+     * @return array<int, array{field: string, txt: string, sortable?: bool}>
      */
     protected function getColumnDefinition() : array
     {

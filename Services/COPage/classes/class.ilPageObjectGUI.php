@@ -120,6 +120,11 @@ class ilPageObjectGUI
     protected string $header = "";
     protected string $int_link_return = "";
     protected bool $enabled_href = true;
+    // $adv_ref_id - $adv_type - $adv_subtype:
+    // Object, that defines the adv md records being used.
+    protected ?int $adv_ref_id = null;
+    protected ?string $adv_type = null;
+    protected ?string $adv_subtype = null;
 
     protected ilComponentFactory $component_factory;
 
@@ -219,7 +224,32 @@ class ilPageObjectGUI
     public function afterConstructor() : void
     {
     }
-    
+
+    /**
+     * Set object, that defines the adv md records being used. Default is $this->object, but the
+     * context may set another object (e.g. media pool for media objects)
+     */
+    public function setAdvMdRecordObject(
+        int $a_adv_ref_id,
+        string $a_adv_type,
+        string $a_adv_subtype = "-") : void
+    {
+        $this->adv_ref_id = $a_adv_ref_id;
+        $this->adv_type = $a_adv_type;
+        $this->adv_subtype = $a_adv_subtype;
+    }
+
+    /**
+     * Get adv md record type
+     */
+    public function getAdvMdRecordObject() : ?array
+    {
+        if ($this->adv_type === null) {
+            return null;
+        }
+        return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
+    }
+
     /**
      * Init page object
      */
@@ -783,6 +813,10 @@ class ilPageObjectGUI
                         $this->meta_data_observer_func,
                         "General"
                     );
+                }
+                // set adv metadata record dobject
+                if ($this->adv_type != "") {
+                    $md_gui->setAdvMdRecordObject($this->adv_ref_id, $this->adv_type, $this->adv_subtype);
                 }
                 $this->ctrl->forwardCommand($md_gui);
                 break;

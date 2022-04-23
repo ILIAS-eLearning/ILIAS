@@ -103,11 +103,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 			ON pubemail.usr_id = usr_data.usr_id
 			AND pubemail.keyword = ' . $this->db->quote('public_email', 'text');
 
-        if ($joins) {
-            return 'usr_data ' . implode(' ', $joins);
-        }
-
-        return 'usr_data ';
+        return 'usr_data ' . implode(' ', $joins);
     }
 
     protected function getWherePart(string $search_query) : string

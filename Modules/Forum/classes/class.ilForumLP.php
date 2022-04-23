@@ -37,7 +37,8 @@ class ilForumLP extends ilObjectLP
             $num_postings->setSize(4);
             $num_postings->setRequired(true);
             if (is_int(ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings())) {
-                $num_postings->setValue(ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings());
+                $requiredNumberOfPostings = ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings();
+                $num_postings->setValue((string) $requiredNumberOfPostings);
             }
             $modeElement->addSubItem($num_postings);
         }

@@ -73,7 +73,7 @@ class ilContainerNewsSettingsGUI
 
         if ($this->setting->get('block_activated_news')) {
             $news = new ilCheckboxInputGUI($this->lng->txt('news_news_block'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
-            $news->setValue(1);
+            $news->setValue('1');
             if ($this->has_block_forced) {
                 $news->setChecked(true);
                 $news->setDisabled(true);
@@ -141,7 +141,7 @@ class ilContainerNewsSettingsGUI
                 "hide_news_per_date"
             );
             $hnpd->setInfo($this->lng->txt("news_hide_news_per_date_info"));
-            $hnpd->setChecked($hide_news_per_date);
+            $hnpd->setChecked((bool) $hide_news_per_date);
 
             $dt_prop = new ilDateTimeInputGUI($this->lng->txt("news_hide_news_date"), "hide_news_date");
             $dt_prop->setRequired(true);
@@ -166,7 +166,7 @@ class ilContainerNewsSettingsGUI
                 "public_notifications"
             );
             $ch->setInfo($this->lng->txt("news_notifications_public_info"));
-            $ch->setChecked($public);
+            $ch->setChecked((bool) $public);
             $form->addItem($ch);
         }
 

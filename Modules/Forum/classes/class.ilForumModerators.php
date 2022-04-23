@@ -91,7 +91,7 @@ class ilForumModerators
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($roles as $role) {
             if (strpos($role['title'], 'il_frm_moderator') !== false) {
-                $assigned_users = array_map('intval', $this->rbac->review()->assignedUsers((int) $role['rol_id']));
+                $assigned_users = $this->rbac->review()->assignedUsers((int) $role['rol_id']);
                 break;
             }
         }

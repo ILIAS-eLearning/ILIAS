@@ -31,7 +31,12 @@ class ilMailbox
     protected ilTree $mtree;
     protected int $usrId;
     /** @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string} */
-    protected array $actions = [];
+    protected array $actions = [
+        'moveMails' => '',
+        'markMailsRead' => '',
+        'markMailsUnread' => '',
+        'deleteMails' => '',
+    ];
     /** @var array{b_inbox: string, c_trash: string, d_drafts: string, e_sent: string, z_local : string} */
     protected array $defaultFolders = [
         'b_inbox' => 'inbox',

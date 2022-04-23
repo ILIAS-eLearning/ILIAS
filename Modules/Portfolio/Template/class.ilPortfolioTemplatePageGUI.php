@@ -39,9 +39,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
             return $ilUser->getId();
         }
         // author
-        else {
-            return $a_user_id;
-        }
+        return $a_user_id;
     }
     
     public function showPage() : string

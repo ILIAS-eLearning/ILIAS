@@ -14,6 +14,7 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -108,7 +109,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
                 $tpl->parseCurrentBlock();
             }
-            if ($lead instanceof Icon) {
+            if ($lead instanceof Icon || $lead instanceof Avatar) {
                 $tpl->setCurrentBlock("lead_icon");
                 $tpl->setVariable("LEAD_ICON", $default_renderer->render($lead));
                 $tpl->parseCurrentBlock();

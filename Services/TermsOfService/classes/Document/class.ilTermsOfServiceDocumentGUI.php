@@ -160,7 +160,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
     protected function getResetMessageBoxHtml() : string
     {
-        if ($this->tos->getLastResetDate() && ((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
+        if (((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
             $status = ilDatePresentation::useRelativeDates();
             ilDatePresentation::setUseRelativeDates(false);
             $resetText = sprintf(

@@ -105,7 +105,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 
         if ($this->getContainerObject()->getType() === 'crs') {
             if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
-                $this->force_details = $session;
+                $this->force_details = (int) $session;
             } elseif ($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId())) {
                 $this->force_details = $session;
             }

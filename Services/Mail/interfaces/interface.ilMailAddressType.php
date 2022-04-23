@@ -30,7 +30,7 @@ interface ilMailAddressType
 
     /**
      * Validates the parsed recipients and set errors accordingly.
-     * @param $senderId int The id of the acting ILIAS user, can be used for permission checks etc.
+     * @param int $senderId The id of the acting ILIAS user, can be used for permission checks etc.
      * @see ilMailAddressType::getErrors
      */
     public function validate(int $senderId) : bool;

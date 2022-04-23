@@ -170,7 +170,7 @@ class ilForumAuthorInformation
                     $this->getAuthor()->getId()
                 );
             }
-        } elseif ($this->display_id > 0 && $this->alias !== '' && !$this->doesAuthorAccountExists()) {
+        } elseif ($this->display_id > 0 && $this->alias !== '' && $this->doesAuthorAccountExists() === false) {
             // The author did use a pseudonym and the account does not exist anymore (deleted, lost on import etc.)
             $this->author_short_name = $this->author_name = $translationLanguage->txt('deleted');
             $this->is_deleted = true;

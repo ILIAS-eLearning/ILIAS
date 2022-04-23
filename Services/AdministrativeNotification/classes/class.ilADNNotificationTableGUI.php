@@ -1,19 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\DI\Container;
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\Modal\InterruptiveItem;
 use ILIAS\UI\Component\Modal\Interruptive;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
 
 /**
  * Class ilADNNotificationTableGUI
@@ -33,20 +39,19 @@ class ilADNNotificationTableGUI extends ilTable2GUI
     
     /**
      * ilADNNotificationTableGUI constructor.
-     * @param ilADNNotificationGUI $a_parent_obj
      * @param                      $a_parent_cmd
      */
-    public function __construct(ilADNNotificationGUI $a_parent_obj, $a_parent_cmd)
+    public function __construct(ilADNNotificationGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
         /**
          * @var $DIC Container
          */
-        $this->ctrl         = $DIC->ctrl();
-        $this->lng          = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->data_factory = new Factory();
-        $this->ui           = $DIC->ui();
-        $this->access       = new ilObjAdministrativeNotificationAccess();
+        $this->ui = $DIC->ui();
+        $this->access = new ilObjAdministrativeNotificationAccess();
         
         $this->setId('msg_msg_table');
         $this->setRowTemplate('Services/AdministrativeNotification/templates/default/tpl.row.html');
@@ -98,7 +103,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         // Actions
         if ($this->access->hasUserPermissionTo('write')) {
             $items = [];
-            $this->ctrl->setParameter($this->parent_obj, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
+            $this->ctrl->setParameter($this->parent_obj, ilADNAbstractGUI::IDENTIFIER, $notification->getId());
             
             $items[] = $this->ui->factory()->button()->shy(
                 $this->lng->txt('btn_' . ilADNNotificationGUI::CMD_EDIT),
@@ -106,14 +111,14 @@ class ilADNNotificationTableGUI extends ilTable2GUI
             );
             
             // Modals and actions
-            $ditem          = $this->ui->factory()->modal()->interruptiveItem((string) $notification->getId(), $notification->getTitle());
-            $delete_modal   = $this->modal($ditem, ilADNNotificationGUI::CMD_DELETE);
-            $items[]        = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_DELETE), "")
+            $ditem = $this->ui->factory()->modal()->interruptiveItem((string) $notification->getId(), $notification->getTitle());
+            $delete_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_DELETE);
+            $items[] = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_DELETE), "")
                                        ->withOnClick($delete_modal->getShowSignal());
             $this->modals[] = $delete_modal;
             
-            $reset_modal    = $this->modal($ditem, ilADNNotificationGUI::CMD_RESET);
-            $items[]        = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_RESET), "")
+            $reset_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_RESET);
+            $items[] = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_RESET), "")
                                        ->withOnClick($reset_modal->getShowSignal());
             $this->modals[] = $reset_modal;
             
@@ -128,7 +133,8 @@ class ilADNNotificationTableGUI extends ilTable2GUI
     protected function modal(InterruptiveItem $i, string $cmd) : Interruptive
     {
         $action = $this->ctrl->getLinkTargetByClass(ilADNNotificationGUI::class, $cmd);
-        $modal  = $this->ui->factory()->modal()
+        
+        return $this->ui->factory()->modal()
                            ->interruptive(
                                $this->lng->txt('btn_' . $cmd),
                                $this->lng->txt('btn_' . $cmd . '_confirm'),
@@ -136,8 +142,6 @@ class ilADNNotificationTableGUI extends ilTable2GUI
                            )
                            ->withAffectedItems([$i])
                            ->withActionButtonLabel($cmd);
-        
-        return $modal;
     }
     
     public function getHTML() : string

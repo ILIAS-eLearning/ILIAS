@@ -217,12 +217,12 @@ class ilMailMemberSearchGUI
     }
 
     
-    protected function sendMailToSelectedUsers() : bool
+    protected function sendMailToSelectedUsers() : void
     {
         if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || 0 === count($this->httpRequest->getParsedBody()['user_ids'])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
-            return false;
+            return;
         }
 
         $rcps = [];
@@ -233,7 +233,7 @@ class ilMailMemberSearchGUI
         if (!count(array_filter($rcps))) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
-            return false;
+            return;
         }
 
         ilMailFormCall::setRecipients($rcps);
@@ -248,8 +248,6 @@ class ilMailMemberSearchGUI
             ],
             $this->generateContextArray()
         ));
-
-        return true;
     }
 
     protected function showSearchForm() : void
@@ -261,13 +259,13 @@ class ilMailMemberSearchGUI
     }
 
     
-    protected function getObjParticipants() : ilParticipants
+    protected function getObjParticipants() : ?ilParticipants
     {
         return $this->objParticipants;
     }
 
     /**
-     * @param $objParticipants ilParticipants
+     * @param ilParticipants $objParticipants
      */
     public function setObjParticipants(ilParticipants $objParticipants) : void
     {
@@ -294,7 +292,7 @@ class ilMailMemberSearchGUI
     }
 
     /**
-     * @return array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[]
+     * @return array{role_id: int, mailbox: string, form_option_title: string, default_checked?: bool}[]
      */
     private function getMailRoles() : array
     {
@@ -314,10 +312,10 @@ class ilMailMemberSearchGUI
         foreach ($mail_roles as $role) {
             $chk_role = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
 
-            if (array_key_exists('default_checked', $role) && $role['default_checked']) {
+            if (isset($role['default_checked']) && $role['default_checked'] === true) {
                 $chk_role->setChecked(true);
             }
-            $chk_role->setValue($role['role_id']);
+            $chk_role->setValue((string) $role['role_id']);
             $chk_role->setInfo($role['mailbox']);
             $radio_roles->addSubItem($chk_role);
         }

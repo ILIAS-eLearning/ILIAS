@@ -10990,6 +10990,7 @@ mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_media_files#:#Media Files
 mep#:#mep_media_subtitles#:#Media Subtitles
 mep#:#mep_mob#:#Media Object
+mep#:#mep_mpg#:#Content Snippet
 mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
 mep#:#mep_page_properties#:#Page Properties
@@ -11594,7 +11595,8 @@ meta#:#meta_no#:#No
 meta#:#meta_no_relation#:#No metadata available for the Relation section.
 meta#:#meta_no_rights#:#No metadata available for the Rights section.
 meta#:#meta_no_technical#:#No metadata available for the Technical section.
-meta#:#meta_obj_type_inactive#:#Dataset not Used
+meta#:#meta_obj_type_active#:#Dataset offered
+meta#:#meta_obj_type_inactive#:#Dataset not offered
 meta#:#meta_obj_type_mandatory#:#Dataset always offered
 meta#:#meta_obj_type_optional#:#Dataset needs activation
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester

@@ -33,7 +33,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
     ) {
         global $DIC;
 
-        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbac_system = $DIC->rbac()->system();
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
         $this->ctrl = $DIC->ctrl();
@@ -69,7 +69,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
@@ -156,12 +156,12 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 
     protected function hasWritePermission() : bool
     {
-        return $this->rbacsystem->checkAccess("write", $this->object->getRefId());
+        return $this->rbac_system->checkAccess("write", $this->object->getRefId());
     }
 
     protected function hasReadPermission() : bool
     {
-        return $this->rbacsystem->checkAccess("read", $this->object->getRefId());
+        return $this->rbac_system->checkAccess("read", $this->object->getRefId());
     }
 
     protected function initFormSettings() : ilPropertyFormGUI
@@ -235,13 +235,14 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
     public function addToExternalSettingsForm(int $a_form_id) : array
     {
         $ilSetting = $this->settings;
-        
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_WSP:
-                                
-                $fields = array('pd_enable_prtf' => array($ilSetting->get('user_portfolios'), ilAdministrationSettingsFormHandler::VALUE_BOOL));
-                
-                return array(array("editSettings", $fields));
+
+        if ($a_form_id === ilAdministrationSettingsFormHandler::FORM_WSP) {
+            $fields = array('pd_enable_prtf' => array($ilSetting->get('user_portfolios'),
+                                                      ilAdministrationSettingsFormHandler::VALUE_BOOL
+            )
+            );
+
+            return array(array("editSettings", $fields));
         }
         return [];
     }
@@ -296,7 +297,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
 
         if ($this->hasWritePermission()) {
-            if ($request->getMethod() == "POST") {
+            if ($request->getMethod() === "POST") {
                 $form = $form->withRequest($request);
                 $data = $form->getData();
                 if (is_array($data["sec"])) {

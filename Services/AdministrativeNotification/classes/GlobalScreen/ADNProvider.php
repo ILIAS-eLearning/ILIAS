@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\AdministrativeNotification\GlobalScreen;
 
 use ilADNNotification;
@@ -13,23 +27,10 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use Closure;
 use ILIAS\DI\Container;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ADNProvider
  */
-class ADNProvider extends AbstractNotificationProvider implements NotificationProvider
+class ADNProvider extends AbstractNotificationProvider
 {
     protected \ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures $access;
 
@@ -54,7 +55,7 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
     {
         $adns = [];
 
-        $i = fn(string $id): IdentificationInterface => $this->if->identifier($id);
+        $i = fn (string $id) : IdentificationInterface => $this->if->identifier($id);
         /**
          * @var $item ilADNNotification
          * @var $adn  AdministrativeNotification
@@ -63,23 +64,25 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
             $adn = $this->notification_factory->administrative($i((string) $item->getId()))->withTitle($item->getTitle())->withSummary($item->getBody());
             $adn = $this->handleDenotation($item, $adn);
 
-            $is_visible = static fn(): bool => true;
+            $is_visible = static fn () : bool => true;
 
             // is limited to roles
             if ($item->isLimitToRoles()) {
-                $is_visible = $this->combineClosure($is_visible, fn() => $this->dic->rbac()->review()->isAssignedToAtLeastOneGivenRole($this->dic->user()->getId(),
-                    $item->getLimitedToRoleIds()));
+                $is_visible = $this->combineClosure($is_visible, fn () => $this->dic->rbac()->review()->isAssignedToAtLeastOneGivenRole(
+                    $this->dic->user()->getId(),
+                    $item->getLimitedToRoleIds()
+                ));
             }
 
             // is dismissale
             if ($item->getDismissable() && $this->access->isUserLoggedIn()()) {
-                $adn = $adn->withClosedCallable(function () use ($item) {
+                $adn = $adn->withClosedCallable(function () use ($item) : void {
                     $item->dismiss($this->dic->user());
                 });
-                $is_visible = $this->combineClosure($is_visible, fn(): bool => !\ilADNDismiss::hasDimissed($this->dic->user(), $item));
+                $is_visible = $this->combineClosure($is_visible, fn () : bool => !\ilADNDismiss::hasDimissed($this->dic->user(), $item));
             }
 
-            $is_visible = $this->combineClosure($is_visible, fn(): bool => $item->isVisibleForUser($this->dic->user()));
+            $is_visible = $this->combineClosure($is_visible, fn () : bool => $item->isVisibleForUser($this->dic->user()));
 
             $adns[] = $adn->withVisibilityCallable($is_visible);
         }
@@ -112,10 +115,9 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
     private function combineClosure(Closure $closure, ?Closure $additional = null) : Closure
     {
         if ($additional instanceof Closure) {
-            return static fn(): bool => $additional() && $closure();
+            return static fn () : bool => $additional() && $closure();
         }
 
         return $closure;
     }
-
 }

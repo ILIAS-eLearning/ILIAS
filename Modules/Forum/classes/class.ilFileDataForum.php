@@ -222,14 +222,14 @@ class ilFileDataForum extends ilFileData
     }
 
     /**
-     * @param string md5 encrypted filename
+     * @param string $hashedFilename
      * @return array{path: string, filename: string, clean_filename: string}|null
      */
-    public function getFileDataByMD5Filename(string $a_md5_filename) : ?array
+    public function getFileDataByMD5Filename(string $hashedFilename) : ?array
     {
         $files = ilFileUtils::getDir($this->forum_path);
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilename) {
                 return [
                     'path' => $this->forum_path . '/' . $file['entry'],
                     'filename' => $file['entry'],
@@ -242,15 +242,15 @@ class ilFileDataForum extends ilFileData
     }
 
     /**
-     * @param string|string[] md5 encrypted filename or array of multiple md5 encrypted files
+     * @param string|string[] $hashedFilenameOrFilenames
      * @return bool
      */
-    public function unlinkFilesByMD5Filenames($a_md5_filename) : bool
+    public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames) : bool
     {
         $files = ilFileUtils::getDir($this->forum_path);
-        if (is_array($a_md5_filename)) {
+        if (is_array($hashedFilenameOrFilenames)) {
             foreach ($files as $file) {
-                if ($file['type'] === 'file' && in_array(md5($file['entry']), $a_md5_filename, true)) {
+                if ($file['type'] === 'file' && in_array(md5($file['entry']), $hashedFilenameOrFilenames, true)) {
                     unlink($this->forum_path . '/' . $file['entry']);
                 }
             }
@@ -259,7 +259,7 @@ class ilFileDataForum extends ilFileData
         }
 
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilenameOrFilenames) {
                 return unlink($this->forum_path . '/' . $file['entry']);
             }
         }

@@ -39,13 +39,13 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', '1');
         
         if ($a_parent_cmd === 'listStructure') {
             $this->addColumn($this->lng->txt('cntr_ordering'), 'pos', '5%');
         }
         
-        $this->addColumn($this->lng->txt('type'), 'type', 1);
+        $this->addColumn($this->lng->txt('type'), 'type', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('description'), 'description');
         

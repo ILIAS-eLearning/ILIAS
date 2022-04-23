@@ -176,7 +176,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         // limit tree in courses and groups
         $cb = new ilCheckboxInputGUI($this->lng->txt("adm_rep_tree_limit_grp_crs"), "rep_tree_limit_grp_crs");
-        $cb->setChecked($ilSetting->get("rep_tree_limit_grp_crs"));
+        $cb->setChecked((bool) $ilSetting->get("rep_tree_limit_grp_crs"));
         $cb->setInfo($this->lng->txt("adm_rep_tree_limit_grp_crs_info"));
         $op2->addSubItem($cb);
 
@@ -200,19 +200,19 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         // breadcrumbs start with courses
         $cb = new ilCheckboxInputGUI($this->lng->txt("rep_breadcr_crs"), "rep_breadcr_crs");
-        $cb->setChecked((int) $ilSetting->get("rep_breadcr_crs"));
+        $cb->setChecked((bool) $ilSetting->get("rep_breadcr_crs"));
         $form->addItem($cb);
 
         $radg = new ilRadioGroupInputGUI($this->lng->txt("rep_breadcr_crs"), "rep_breadcr_crs_overwrite");
-        $radg->setValue((int) $ilSetting->get("rep_breadcr_crs_overwrite"));
+        $radg->setValue((string) ((int) $ilSetting->get("rep_breadcr_crs_overwrite")));
 
-        $op0 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite"), 1);
+        $op0 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite"), '1');
         $cb0 = new ilCheckboxInputGUI($this->lng->txt("rep_default"), "rep_breadcr_crs_default");
-        $cb0->setChecked((int) $ilSetting->get("rep_breadcr_crs_default"));
+        $cb0->setChecked((bool) $ilSetting->get("rep_breadcr_crs_default"));
         $op0->addSubItem($cb0);
         $radg->addOption($op0);
 
-        $op1 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite_not"), 0);
+        $op1 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite_not"), '0');
         $radg->addOption($op1);
 
 
@@ -245,18 +245,18 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         // export limitations
         $limiter = new ilExportLimitation();
         $exp_limit = new ilRadioGroupInputGUI($this->lng->txt("rep_export_limitation"), "rep_export_limitation");
-        $exp_limit->setValue($limiter->getLimitationMode());
+        $exp_limit->setValue((string) $limiter->getLimitationMode());
         $exp_limit->setInfo($this->lng->txt("rep_export_limitation_info"));
 
         $op_disabled = new ilRadioOption(
             $this->lng->txt("rep_export_limitation_disabled"),
-            ilExportLimitation::SET_EXPORT_DISABLED
+            (string) ilExportLimitation::SET_EXPORT_DISABLED
         );
         $exp_limit->addOption($op_disabled);
 
         $op_limited = new ilRadioOption(
             $this->lng->txt("rep_export_limitation_limited"),
-            ilExportLimitation::SET_EXPORT_LIMITED
+            (string) ilExportLimitation::SET_EXPORT_LIMITED
         );
         $exp_limit->addOption($op_limited);
 
@@ -300,7 +300,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             
         $sdesc = new ilCheckboxInputGUI($this->lng->txt("adm_rep_shorten_description"), "rep_shorten_description");
         $sdesc->setInfo($this->lng->txt("adm_rep_shorten_description_info"));
-        $sdesc->setChecked($ilSetting->get("rep_shorten_description"));
+        $sdesc->setChecked((bool) $ilSetting->get("rep_shorten_description"));
         $form->addItem($sdesc);
         
         $sdesclen = new ilNumberInputGUI($this->lng->txt("adm_rep_shorten_description_length"), "rep_shorten_description_length");
@@ -311,18 +311,18 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         // load action commands asynchronously
         $cb = new ilCheckboxInputGUI($this->lng->txt("adm_item_cmd_asynch"), "item_cmd_asynch");
         $cb->setInfo($this->lng->txt("adm_item_cmd_asynch_info"));
-        $cb->setChecked($ilSetting->get("item_cmd_asynch"));
+        $cb->setChecked((bool) $ilSetting->get("item_cmd_asynch"));
         $form->addItem($cb);
         
         // notes/comments/tagging
         $pl = new ilCheckboxInputGUI($this->lng->txt('adm_show_comments_tagging_in_lists'), 'comments_tagging_in_lists');
-        $pl->setValue(1);
-        $pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
+        $pl->setValue('1');
+        $pl->setChecked((bool) $ilSetting->get('comments_tagging_in_lists'));
         $form->addItem($pl);
         
         $pltags = new ilCheckboxInputGUI($this->lng->txt('adm_show_comments_tagging_in_lists_tags'), 'comments_tagging_in_lists_tags');
-        $pltags->setValue(1);
-        $pltags->setChecked($ilSetting->get('comments_tagging_in_lists_tags'));
+        $pltags->setValue('1');
+        $pltags->setChecked((bool) $ilSetting->get('comments_tagging_in_lists_tags'));
         $pl->addSubItem($pltags);
                 
         if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
@@ -379,15 +379,15 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
             $ilSetting->set(
                 "rep_breadcr_crs_overwrite",
-                (int) $form->getInput("rep_breadcr_crs_overwrite")
+                (string) ((int) $form->getInput("rep_breadcr_crs_overwrite"))
             );
             $ilSetting->set(
                 "rep_breadcr_crs",
-                (int) $form->getInput("rep_breadcr_crs")
+                (string) ((int) $form->getInput("rep_breadcr_crs"))
             );
             $ilSetting->set(
                 "rep_breadcr_crs_default",
-                (int) $form->getInput("rep_breadcr_crs_default")
+                (string) ((int) $form->getInput("rep_breadcr_crs_default"))
             );
             $ilSetting->set(
                 "rep_shorten_description",
@@ -395,15 +395,15 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
             $ilSetting->set(
                 "rep_shorten_description_length",
-                (int) $form->getInput('rep_shorten_description_length')
+                (string) ((int) $form->getInput('rep_shorten_description_length'))
             );
             $ilSetting->set(
                 'item_cmd_asynch',
-                (int) $form->getInput('item_cmd_asynch')
+                (string) ((int) $form->getInput('item_cmd_asynch'))
             );
             $ilSetting->set(
                 'comments_tagging_in_lists',
-                (int) $form->getInput('comments_tagging_in_lists')
+                (string) ((int) $form->getInput('comments_tagging_in_lists'))
             );
             $ilSetting->set(
                 'comments_tagging_in_lists_tags',
@@ -415,15 +415,15 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 $form->getInput('rep_tree_limit_number') > 0)
                 ? (int) $form->getInput('rep_tree_limit_number')
                 : 0;
-            $ilSetting->set('rep_tree_limit_number', $limit_number);
+            $ilSetting->set('rep_tree_limit_number', (string) $limit_number);
 
             $this->folder_settings->set(
                 "enable_download_folder",
-                (int) $form->getInput("enable_download_folder") === 1
+                (string) ((int) $form->getInput("enable_download_folder") === 1)
             );
             $this->folder_settings->set(
                 "enable_multi_download",
-                (int) $form->getInput("enable_multi_download") === 1
+                (string) ((int) $form->getInput("enable_multi_download") === 1)
             );
             if ($form->getInput('change_event_tracking')) {
                 ilChangeEvent::_activate();
@@ -461,7 +461,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 
         $cb = new ilCheckboxInputGUI($this->lng->txt("enable_custom_icons"), "custom_icons");
         $cb->setInfo($this->lng->txt("enable_custom_icons_info"));
-        $cb->setChecked($ilSetting->get("custom_icons"));
+        $cb->setChecked((bool) $ilSetting->get("custom_icons"));
         $form->addItem($cb);
 
         if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
@@ -482,7 +482,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
         $form = $this->initCustomIconsForm();
         if ($form->checkInput()) {
-            $ilSetting->set("custom_icons", (int) $form->getInput("custom_icons"));
+            $ilSetting->set("custom_icons", (string) ((int) $form->getInput("custom_icons")));
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "customIcons");
         }
@@ -563,7 +563,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $pos = 0;
             foreach (array_keys($obj_types) as $obj_type) {
                 $pos += 10;
-                $type_pos = $grp_pos . str_pad($pos, 4, "0", STR_PAD_LEFT);
+                $type_pos = $grp_pos . str_pad((string) $pos, 4, "0", STR_PAD_LEFT);
                 $ilSetting->set("obj_add_new_pos_" . $obj_type, $type_pos);
                 $ilSetting->set("obj_add_new_pos_grp_" . $obj_type, $grp_id);
             }
@@ -599,7 +599,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($grp_table->getHTML());
     }
     
-    protected function initNewItemGroupForm(bool $a_grp_id = false) : ilPropertyFormGUI
+    protected function initNewItemGroupForm(int $a_grp_id = 0) : ilPropertyFormGUI
     {
         $this->setModuleSubTabs("new_item_groups");
         
@@ -778,7 +778,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $groups = ilObjRepositorySettings::getNewItemGroups();
 
         foreach ($group_ids as $grp_id) {
-            $cgui->addItem("grp_ids[]", $grp_id, $groups[$grp_id]["title"]);
+            $cgui->addItem("grp_ids[]", (string) $grp_id, $groups[$grp_id]["title"]);
         }
         
         $this->tpl->setContent($cgui->getHTML());

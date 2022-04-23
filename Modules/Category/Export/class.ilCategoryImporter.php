@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +41,7 @@ class ilCategoryImporter extends ilXmlImporter
             $this->category = ilObjectFactory::getInstanceByRefId(end($refs), false);
         }
         // Mapping for containers without subitems
-        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', 0)) {
+        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', '0')) {
             $this->category = ilObjectFactory::getInstanceByRefId((int) $new_id, false);
         } elseif (!$this->category instanceof ilObjCategory) {
             $this->category = new ilObjCategory();

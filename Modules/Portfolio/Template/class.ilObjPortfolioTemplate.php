@@ -23,7 +23,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
     protected int $activation_starting_time;
     protected int $activation_ending_time;
     
-    public function initType() : void
+    protected function initType() : void
     {
         $this->type = "prtt";
     }
@@ -157,12 +157,12 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
     
     public function getActivationStartDate() : ?int
     {
-        return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : null;
+        return ($this->activation_starting_time > 0) ? $this->activation_starting_time : null;
     }
 
     public function getActivationEndDate() : ?int
     {
-        return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : null;
+        return ($this->activation_ending_time > 0) ? $this->activation_ending_time : null;
     }
     
     //

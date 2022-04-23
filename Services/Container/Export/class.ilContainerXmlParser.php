@@ -50,7 +50,7 @@ class ilContainerXmlParser
     public function parse(string $a_root_id) : void
     {
         $sxml = simplexml_load_string($this->xml);
-        $this->root_id = $a_root_id;
+        $this->root_id = (int) $a_root_id;
         foreach ($sxml->Item as $item) {
             $this->initItem($item, $this->mapping->getTargetId());
         }
@@ -76,14 +76,14 @@ class ilContainerXmlParser
         ) {
             // if container without subitems a dummy container has already been created
             // see ilImportContainer::createDummy()
-            $new_ref = $this->mapping->getMapping('Services/Container', 'refs', 0);
+            $new_ref = $this->mapping->getMapping('Services/Container', 'refs', '0');
             
             // see below and ilContainerImporter::finalProcessing()
-            $this->mapping->addMapping('Services/Container', 'objs', $obj_id, ilObject::_lookupObjId((int) $new_ref));
+            $this->mapping->addMapping('Services/Container', 'objs', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
         }
         
         if (!$new_ref) {
-            $new_ref = $this->createObject($ref_id, $obj_id, $type, $title, $a_parent_node);
+            $new_ref = $this->createObject((int) $ref_id, (int) $obj_id, $type, $title, $a_parent_node);
         }
         if (!$new_ref) {
             // e.g inactive plugin
@@ -107,7 +107,7 @@ class ilContainerXmlParser
         }
         
         // pages
-        if ($ilSetting->get('enable_cat_page_edit', false)) {
+        if ($ilSetting->get('enable_cat_page_edit', '0')) {
             if ($item['Page'] == "1") {
                 $this->mapping->addMapping('Services/COPage', 'pg', 'cont:' . $obj_id, 'cont:' . $new_obj_id);
                 $this->cont_log->debug("add pg cont mapping, old: " . $obj_id . ", new: " . $new_obj_id . ", Page: -" . $item['Page'] . "-");
@@ -130,7 +130,7 @@ class ilContainerXmlParser
         $changeable = (string) $timing['Changeable'];
         
         $crs_item = new ilObjectActivation();
-        $crs_item->setTimingType($type);
+        $crs_item->setTimingType((int) $type);
         $crs_item->toggleVisible((bool) $visible);
         $crs_item->toggleChangeable((bool) $changeable);
         
@@ -182,7 +182,7 @@ class ilContainerXmlParser
         $objDefinition = $this->obj_definition;
 
         // A mapping for this object already exists => create reference
-        $new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', $obj_id);
+        $new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', (string) $obj_id);
         if ($new_obj_id) {
             $obj = ilObjectFactory::getInstanceByObjId((int) $new_obj_id, false);
             if ($obj instanceof  ilObject) {

@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * List booking participants
@@ -74,26 +78,28 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
             $this->objects[$item["booking_object_id"]] = $item["title"];
         }
         $item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions([
-            "" => $this->lng->txt('book_all'),
-            -1 => $this->lng->txt('book_no_objects')
-            ] + $this->objects);
-        $this->filter["object"] = $item->getValue();
-
-        $title = $this->addFilterItemByMetaType(
-            "title",
-            ilTable2GUI::FILTER_TEXT,
-            false,
-            $this->lng->txt("object") . " " . $this->lng->txt("title") . "/" . $this->lng->txt("description")
-        );
-        $this->filter["title"] = $title->getValue();
-
-        //user
-        $options = array("" => $this->lng->txt('book_all')) +
-            ilBookingParticipant::getUserFilter($this->pool_id);
-        $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions($options);
-        $this->filter["user_id"] = $item->getValue();
+        if ($item !== null) {
+            $item->setOptions([
+                    "" => $this->lng->txt('book_all'),
+                    -1 => $this->lng->txt('book_no_objects')
+                ] + $this->objects);
+            $this->filter["object"] = $item->getValue();
+            $title = $this->addFilterItemByMetaType(
+                "title",
+                ilTable2GUI::FILTER_TEXT,
+                false,
+                $this->lng->txt("object") . " " . $this->lng->txt("title") . "/" . $this->lng->txt("description")
+            );
+            if ($title !== null) {
+                $this->filter["title"] = $title->getValue();
+            }
+            //user
+            $options = array("" => $this->lng->txt('book_all')) +
+                ilBookingParticipant::getUserFilter($this->pool_id);
+            $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
+            $item->setOptions($options);
+            $this->filter["user_id"] = $item->getValue();
+        }
     }
 
     /**
@@ -124,14 +130,14 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
             $data = ilBookingParticipant::getList($this->pool_id, $filter, $filter["object"]);
         } elseif ($filter["object"] == -1) {
             $data = ilBookingParticipant::getList($this->pool_id, $filter);
-            $data = array_filter($data, function ($item) {
+            $data = array_filter($data, static function ($item) {
                 return $item["obj_count"] == 0;
             });
         } else {
             $data = ilBookingParticipant::getList($this->pool_id, $filter);
         }
 
-        $this->setMaxCount(sizeof($data));
+        $this->setMaxCount(count($data));
         $this->setData($data);
     }
 
@@ -160,7 +166,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
         }
 
         $bp = new ilObjBookingPool($this->pool_id, false);
-        if ($bp->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE && $a_set['obj_count'] == 1) {
+        if ($a_set['obj_count'] == 1 && $bp->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE) {
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', $a_set['user_id']);
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', $a_set['object_ids'][0]);
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', ilBookingParticipantGUI::PARTICIPANT_VIEW);
@@ -173,7 +179,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', '');
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', '');
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', '');
-        } elseif ($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE || $a_set['obj_count'] > 1) {
+        } elseif ($a_set['obj_count'] > 1 || $bp->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $ctrl->setParameterByClass('ilbookingreservationsgui', 'user_id', $a_set['user_id']);
             $actions[] = array(
                 'text' => $lng->txt("book_deassign"),

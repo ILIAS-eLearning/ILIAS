@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
 
@@ -90,11 +94,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $this->lng->loadLanguageModule("dateplaner");
             
             $this->addColumn($this->lng->txt("date"), "date");
-            if (in_array("week", $selected)) {
+            if (in_array("week", $selected, true)) {
                 $this->addColumn($this->lng->txt("wk_short"), "week");
                 unset($cols["week"]);
             }
-            if (in_array("weekday", $selected)) {
+            if (in_array("weekday", $selected, true)) {
                 $this->addColumn($this->lng->txt("cal_weekday"), "weekday");
                 unset($cols["weekday"]);
             }
@@ -156,7 +160,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
                 
 
-        if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+        if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
             $this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
             $this->setSelectAllCheckbox('mrsv');
         }
@@ -206,7 +210,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             if ($this->access->checkAccess("manage_members", "", $parent["ref_id"])) {
                 $ef = ilExportFieldsInfo::_getInstanceByType($parent["type"]);
                 foreach ($ef->getSelectableFieldsInfo(ilObject::_lookupObjectId($parent["ref_id"])) as $k => $v) {
-                    if ($k != "login") {
+                    if ($k !== "login") {
                         $cols[$k] = $v;
                     }
                 }
@@ -261,116 +265,119 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $this->objects[$item["booking_object_id"]] = $item["title"];
         }
         $item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions(array("" => $this->lng->txt('book_all')) + $this->objects);
-        $this->filter["object"] = $item->getValue();
-        
-        $title = $this->addFilterItemByMetaType(
-            "title",
-            ilTable2GUI::FILTER_TEXT,
-            false,
-            $this->lng->txt("object") . " " . $this->lng->txt("title") . "/" . $this->lng->txt("description")
-        );
-        $this->filter["title"] = $title->getValue();
-
-        if ($this->has_schedule) {
-            // default period: from:today [ to:(today + n days) ]
-            if (!$this->table_repo->hasFromToFilter($this->getId())) {
-                $from = new ilDateTime(date("Y-m-d"), IL_CAL_DATE); // today
-                $to = null;
-                
-                // add period end from pool settings?
-                $bpool = new ilObjBookingPool($this->pool_id, false);
-                $period = $bpool->getReservationFilterPeriod();
-                if ($period !== null) {
-                    $to = clone $from;
-                    if ($period) {
-                        $to->increment(ilDateTime::DAY, $period);
-                    }
-                    $to = serialize($to);
-                }
-
-                $this->table_repo->setFromToFilter(
-                    $this->getId(),
-                    serialize(array(
-                        "from" => serialize($from),
-                        "to" => $to
-                    ))
-                );
+        if ($item !== null) {
+            $item->setOptions(array("" => $this->lng->txt('book_all')) + $this->objects);
+            $this->filter["object"] = $item->getValue();
+            $title = $this->addFilterItemByMetaType(
+                "title",
+                ilTable2GUI::FILTER_TEXT,
+                false,
+                $this->lng->txt("object") . " " . $this->lng->txt("title") . "/" . $this->lng->txt("description")
+            );
+            if ($title !== null) {
+                $this->filter["title"] = $title->getValue();
             }
-            $item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
-            $this->filter["fromto"] = $item->getDate();
-            
-            // only needed for full log
-            if ($this->show_all) {
-                // see ilObjBookingPoolGUI::buildDatesBySchedule()
-                $map = array_flip(array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'));
-                
-                $options = array("" => $this->lng->txt('book_all'));
-                
-                // schedule to slot
-                foreach (ilBookingSchedule::getList($this->pool_id) as $def) {
-                    $schedule = new ilBookingSchedule($def["booking_schedule_id"]);
-                    foreach ($schedule->getDefinition() as $day => $slots) {
-                        $day_caption = ilCalendarUtil::_numericDayToString((int) $map[$day], false);
-                    
-                        foreach ($slots as $slot) {
-                            $idx = $map[$day] . "_" . $slot;
-                            $options[$idx] = $day_caption . ", " . $slot;
+
+            if ($this->has_schedule) {
+                // default period: from:today [ to:(today + n days) ]
+                if (!$this->table_repo->hasFromToFilter($this->getId())) {
+                    $from = new ilDateTime(date("Y-m-d"), IL_CAL_DATE); // today
+                    $to = null;
+
+                    // add period end from pool settings?
+                    $bpool = new ilObjBookingPool($this->pool_id, false);
+                    $period = $bpool->getReservationFilterPeriod();
+                    if ($period !== null) {
+                        $to = clone $from;
+                        if ($period) {
+                            $to->increment(ilDateTime::DAY, $period);
+                        }
+                        $to = serialize($to);
+                    }
+
+                    $this->table_repo->setFromToFilter(
+                        $this->getId(),
+                        serialize(array(
+                            "from" => serialize($from),
+                            "to" => $to
+                        ))
+                    );
+                }
+                $item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
+                $this->filter["fromto"] = $item->getDate();
+
+                // only needed for full log
+                if ($this->show_all) {
+                    // see ilObjBookingPoolGUI::buildDatesBySchedule()
+                    $map = array_flip(array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'));
+
+                    $options = array("" => $this->lng->txt('book_all'));
+
+                    // schedule to slot
+                    foreach (ilBookingSchedule::getList($this->pool_id) as $def) {
+                        $schedule = new ilBookingSchedule($def["booking_schedule_id"]);
+                        foreach ($schedule->getDefinition() as $day => $slots) {
+                            $day_caption = ilCalendarUtil::_numericDayToString((int) $map[$day], false);
+
+                            foreach ($slots as $slot) {
+                                $idx = $map[$day] . "_" . $slot;
+                                $options[$idx] = $day_caption . ", " . $slot;
+                            }
                         }
                     }
+
+                    ksort($options);
+
+                    $item = $this->addFilterItemByMetaType("book_schedule_slot", ilTable2GUI::FILTER_SELECT);
+                    $item->setOptions($options);
+                    $this->filter["slot"] = $item->getValue();
                 }
-                
-                ksort($options);
-                
-                $item = $this->addFilterItemByMetaType("book_schedule_slot", ilTable2GUI::FILTER_SELECT);
-                $item->setOptions($options);
-                $this->filter["slot"] = $item->getValue();
             }
-        }
-        
-        $item = new ilCheckboxInputGUI($this->lng->txt("book_filter_past_reservations"), "past");
-        $this->addFilterItem($item);
-        $item->readFromSession();
 
-        // if period starts in the past we have to include past reservations
-        // :TODO: to be discussed
-        if (is_object($this->filter["fromto"]["from"]) &&
-            $this->filter["fromto"]["from"]->get(IL_CAL_DATE) < date("Y-m-d")) {
-            $item->setChecked(true);
-        }
+            $item = new ilCheckboxInputGUI($this->lng->txt("book_filter_past_reservations"), "past");
+            $this->addFilterItem($item);
+            $item->readFromSession();
 
-        $this->filter["past"] = $item->getChecked();
-        
-        // status
-        $valid_status = array(-ilBookingReservation::STATUS_CANCELLED,
-            ilBookingReservation::STATUS_CANCELLED);
-        if (!$this->has_schedule) {
-            $options = array("" => $this->lng->txt('book_all'));
-        } else {
-            $options = array();
-        }
-        foreach ($valid_status as $loop) {
-            if ($loop > 0) {
-                $options[$loop] = $this->lng->txt('book_reservation_status_' . $loop);
+            // if period starts in the past we have to include past reservations
+            // :TODO: to be discussed
+            if (is_object($this->filter["fromto"]["from"]) &&
+                $this->filter["fromto"]["from"]->get(IL_CAL_DATE) < date("Y-m-d")) {
+                $item->setChecked(true);
+            }
+
+            $this->filter["past"] = $item->getChecked();
+
+            // status
+            $valid_status = array(-ilBookingReservation::STATUS_CANCELLED,
+                ilBookingReservation::STATUS_CANCELLED);
+            if (!$this->has_schedule) {
+                $options = array("" => $this->lng->txt('book_all'));
             } else {
-                $options[$loop] = $this->lng->txt('book_not') . ' ' . $this->lng->txt('book_reservation_status_' . -$loop);
+                $options = array();
             }
-        }
-        $item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions($options);
-        $this->filter["status"] = $item->getValue();
-                            
-        // only needed for full log
-        if ($this->show_all) {
-            $options = array("" => $this->lng->txt('book_all')) +
-                ilBookingReservation::getUserFilter(array_keys($this->objects));
-            $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
+            foreach ($valid_status as $loop) {
+                if ($loop > 0) {
+                    $options[$loop] = $this->lng->txt('book_reservation_status_' . $loop);
+                } else {
+                    $options[$loop] = $this->lng->txt('book_not') . ' ' . $this->lng->txt('book_reservation_status_' . -$loop);
+                }
+            }
+            $item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT);
             $item->setOptions($options);
-            if (is_array($a_filter_pre) && isset($a_filter_pre["user_id"])) {
-                $item->setValue($a_filter_pre["user_id"]);
-                $this->filter["user_id"] = $a_filter_pre["user_id"];
-            } else {
-                $this->filter["user_id"] = $item->getValue();
+            $this->filter["status"] = $item->getValue();
+
+            // only needed for full log
+            if ($this->show_all) {
+                $options = array("" => $this->lng->txt('book_all')) +
+                    ilBookingReservation::getUserFilter(array_keys($this->objects));
+                $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
+                $item->setOptions($options);
+                if (is_array($a_filter_pre) && isset($a_filter_pre["user_id"])) {
+                    $item->setValue($a_filter_pre["user_id"]);
+                    $this->filter["user_id"] = $a_filter_pre["user_id"];
+                } else {
+                    $this->filter["user_id"] = $item->getValue();
+                }
             }
         }
     }
@@ -429,7 +436,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     
     /**
      * Gather data and build rows
-     * @param	array	$filter
      */
     public function getItems(array $filter) : void
     {
@@ -481,14 +487,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         if (count($this->getSelectedUserColumns()) > 0) {
             // get additional user data
-            $user_ids = array_unique(array_map(function ($d) {
+            $user_ids = array_unique(array_map(static function ($d) {
                 return $d['user_id'];
             }, $data));
 
             $user_columns = [];
             $odf_ids = [];
             foreach ($this->getSelectedUserColumns() as $field) {
-                if (substr($field, 0, 3) == 'odf') {
+                if (strpos($field, 'odf') === 0) {
                     $odf_ids[] = substr($field, 4);
                 } else {
                     $user_columns[] = $field;
@@ -525,7 +531,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $parent_obj_id = ilObject::_lookupObjectId($parent['ref_id']);
                 $parent_obj_type = ilObject::_lookupType($parent_obj_id);
 
-                $confirmation_required = ($parent_obj_type == 'crs')
+                $confirmation_required = ($parent_obj_type === 'crs')
                     ? ilPrivacySettings::getInstance()->courseConfirmationRequired()
                     : ilPrivacySettings::getInstance()->groupConfirmationRequired();
                 if ($confirmation_required) {
@@ -535,9 +541,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
                 $usr_data = [];
                 foreach ($odf_data as $usr_id => $fields) {
-                    if (in_array($usr_id, $user_ids)) {
+                    if (in_array($usr_id, $user_ids, true)) {
                         foreach ($fields as $field_id => $value) {
-                            if (in_array($field_id, $odf_ids)) {
+                            if (in_array($field_id, $odf_ids, true)) {
                                 $usr_data[$usr_id]['odf_' . $field_id] = $value;
                             }
                         }
@@ -615,10 +621,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         if ($this->has_schedule) {
             $this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
-            if (in_array("week", $selected)) {
+            if (in_array("week", $selected, true)) {
                 $this->tpl->setVariable("VALUE_WEEK", $a_set["week"]);
             }
-            if (in_array("weekday", $selected)) {
+            if (in_array("weekday", $selected, true)) {
                 $this->tpl->setVariable("VALUE_WEEKDAY", ilCalendarUtil::_numericDayToString((int) $a_set["weekday"], false));
             }
             $this->tpl->setVariable("VALUE_SLOT", $a_set["slot"]);
@@ -636,13 +642,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];
                 
-                if (!in_array("advmd" . $advmd_id, $selected)) {
+                if (!in_array("advmd" . $advmd_id, $selected, true)) {
                     continue;
                 }
                                 
                 $val = " ";
-                if (isset($a_set["md_" . $advmd_id . "_presentation"])) {
-                    $pb = $a_set["md_" . $advmd_id . "_presentation"]->getList();
+                $key = "md_" . $advmd_id . "_presentation";
+                if (isset($a_set[$key])) {
+                    $pb = $a_set[$key]->getList();
                     if ($pb) {
                         $val = $pb;
                     }
@@ -689,8 +696,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $add_cols = [];
         $cols = $this->getSelectableColumns();
 
-        unset($cols["week"]);
-        unset($cols["weekday"]);
+        unset($cols["week"], $cols["weekday"]);
 
         // non-user columns
         $user_cols = $this->getSelectableUserColumns();
@@ -761,11 +767,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
         foreach ($this->getAdditionalExportCols() as $colid => $txt) {
-            if (substr($colid, 0, 5) == "advmd") {
-                $advmd_id = (int) substr($colid, 5);
+            if (str_starts_with($colid, "advmd")) {
                 $val = " ";
-                if (isset($a_set["md_" . $advmd_id . "_presentation"])) {
-                    $pb = $a_set["md_" . $advmd_id . "_presentation"]->getList();
+                $key = "md_" . (int) substr($colid, 5) . "_presentation";
+                if (isset($a_set[$key])) {
+                    $pb = $a_set[$key]->getList();
                     if ($pb) {
                         $val = $pb;
                     }
@@ -818,11 +824,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
         foreach ($this->getAdditionalExportCols() as $colid => $txt) {
-            if (substr($colid, 0, 5) == "advmd") {
-                $advmd_id = (int) substr($colid, 5);
+            if (str_starts_with($colid, "advmd")) {
                 $val = " ";
-                if (isset($a_set["md_" . $advmd_id . "_presentation"])) {
-                    $pb = $a_set["md_" . $advmd_id . "_presentation"]->getList();
+                $key = "md_" . (int) substr($colid, 5) . "_presentation";
+                if (isset($a_set[$key])) {
+                    $pb = $a_set[$key]->getList();
                     if ($pb) {
                         $val = $pb;
                     }

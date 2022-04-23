@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * A bookable ressource
@@ -31,7 +35,7 @@ class ilBookingObject
     protected string $post_file;
 
     public function __construct(
-        ?int $a_id = null
+        int $a_id = null
     ) {
         global $DIC;
 
@@ -108,7 +112,7 @@ class ilBookingObject
     public function getFileFullPath() : string
     {
         if ($this->id && $this->info_file) {
-            $path = $this->initStorage($this->id, "file");
+            $path = self::initStorage($this->id, "file");
             return $path . $this->info_file;
         }
         return "";
@@ -125,7 +129,7 @@ class ilBookingObject
         
         $this->deleteFile();
     
-        $path = $this->initStorage($this->id, "file");
+        $path = self::initStorage($this->id, "file");
         $original = $a_upload["name"];
         if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
             chmod($path . $original, 0770);
@@ -171,7 +175,7 @@ class ilBookingObject
     public function getPostFileFullPath() : string
     {
         if ($this->id && $this->post_file) {
-            $path = $this->initStorage($this->id, "post");
+            $path = self::initStorage($this->id, "post");
             return $path . $this->post_file;
         }
         return "";
@@ -188,7 +192,7 @@ class ilBookingObject
         
         $this->deletePostFile();
     
-        $path = $this->initStorage($this->id, "post");
+        $path = self::initStorage($this->id, "post");
         $original = $a_upload["name"];
 
         if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
@@ -238,8 +242,8 @@ class ilBookingObject
         if ($a_subdir) {
             $path .= $a_subdir . "/";
             
-            if (!is_dir($path)) {
-                mkdir($path);
+            if (!is_dir($path) && !mkdir($path)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
             }
         }
                 
@@ -265,7 +269,10 @@ class ilBookingObject
             $this->setPostFile((string) $row['post_file']);
         }
     }
-    
+
+    /**
+     * @return string[][]
+     */
     protected function getDBFields() : array
     {
         return array(
@@ -426,7 +433,7 @@ class ilBookingObject
     
     public function doClone(
         int $a_pool_id,
-        ?array $a_schedule_map = null
+        array $a_schedule_map = null
     ) : void {
         $new_obj = new self();
         $new_obj->setPoolId($a_pool_id);
@@ -447,8 +454,8 @@ class ilBookingObject
         $new_obj->save();
                 
         // files
-        $source = $this->initStorage($this->getId());
-        $target = $new_obj->initStorage($new_obj->getId());
+        $source = self::initStorage($this->getId());
+        $target = $new_obj::initStorage($new_obj->getId());
         ilFileUtils::rCopy($source, $target);
     }
 

@@ -17,7 +17,7 @@
  * Abstract learning history provider
  * @author Alexander Killing <killing@leifos.de>
  */
-abstract class ilAbstractLearningHistoryProvider
+abstract class ilAbstractLearningHistoryProvider //TODO-PHP8-REVIEW please add the methods that need to be overwritten
 {
     protected int $user_id;         // User id. This is the user the history will be retrieved for.
     protected ilLearningHistoryFactory $factory;

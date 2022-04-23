@@ -106,15 +106,19 @@ class ilMailOptionsGUITest extends ilMailBaseTest
      */
     public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToPersonalSettings() : void
     {
+        $this->expectException(ilCtrlException::class);
+
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
-        $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
+        $ctrl = $this->createMock(ilCtrlInterface::class);
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
         $form = $this->getMockBuilder(ilMailOptionsFormGUI::class)->disableOriginalConstructor()->getMock();
 
         $settings->method('get')->with('show_mail_settings')->willReturn('0');
         $ctrl->method('getCmd')->willReturn('showOptions');
 
-        $ctrl->expects($this->once())->method('redirectByClass')->with(ilPersonalSettingsGUI::class);
+        $ctrl->expects($this->once())->method('redirectByClass')->with(ilPersonalSettingsGUI::class)->willThrowException(
+            new ilCtrlException('Script terminated')
+        );
 
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
         $request->method('getQueryParams')->willReturn([

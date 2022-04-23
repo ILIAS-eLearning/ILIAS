@@ -34,7 +34,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     private \ILIAS\Refinery\Factory $refinery;
     private ilForumNotification $forumNotificationObj;
-    private ilPropertyFormGUI $form;
     private ?ilPropertyFormGUI $notificationSettingsForm = null;
     public int $ref_id;
     private ilObjectService $obj_service;
@@ -86,7 +85,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
                     default:
                         $this->ctrl->redirect($this->parent_obj);
-                        break;
                 }
         }
     }
@@ -283,7 +281,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $a_values['file_upload_allowed'] = $this->parent_obj->objProperties->getFileUploadAllowed();
 
         $object = $this->parent_obj->getObject();
-        $a_values['activation_online'] = !($object->getOfflineStatus() === null) && !$object->getOfflineStatus();
+        $a_values['activation_online'] = $object->getOfflineStatus() === false;
     }
 
     public function updateCustomValues(ilPropertyFormGUI $a_form) : void
@@ -490,7 +488,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $hidden_value = json_decode($hidden_value, null, 512, JSON_THROW_ON_ERROR);
+        $hidden_value = json_decode($hidden_value, false, 512, JSON_THROW_ON_ERROR);
         $interested_events = 0;
 
         $interested_events += (int) $notify_modified;
@@ -674,9 +672,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        /** @var $oParticipants ilParticipants */
-        $oParticipants = null;
-
         $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getObject()->getRefId(), 'grp');
         if ($grp_ref_id > 0) {
             $parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
@@ -689,7 +684,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
     }
 
-    private function updateUserNotifications($update_all_users = false) : void
+    private function updateUserNotifications(bool $update_all_users = false) : void
     {
         $oParticipants = $this->getParticipants();
 

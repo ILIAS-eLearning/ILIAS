@@ -153,13 +153,13 @@ class ilContactGUI
                 if (in_array(strtolower($this->ctrl->getCmdClass()), $galleryCmdClasses, true)) {
                     $view_selection = new ilSelectInputGUI('', 'contacts_view');
                     $view_selection->setOptions([
-                        self::CONTACTS_VIEW_TABLE => $this->lng->txt('buddy_view_table'),
-                        self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
+                        (string) self::CONTACTS_VIEW_TABLE => $this->lng->txt('buddy_view_table'),
+                        (string) self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
                     ]);
                     $view_selection->setValue(
                         strtolower($this->ctrl->getCmdClass()) === strtolower(ilUsersGalleryGUI::class)
-                            ? self::CONTACTS_VIEW_GALLERY
-                            : self::CONTACTS_VIEW_TABLE
+                            ? (string) self::CONTACTS_VIEW_GALLERY
+                            : (string) self::CONTACTS_VIEW_TABLE
                     );
                     $this->toolbar->addInputItem($view_selection);
 
@@ -259,11 +259,10 @@ class ilContactGUI
             switch ($this->http->wrapper()->post()->retrieve('contacts_view', $this->refinery->kindlyTo()->int())) {
                 case self::CONTACTS_VIEW_GALLERY:
                     $this->ctrl->redirectByClass(ilUsersGalleryGUI::class);
-                    break;
 
+                    // no break
                 case self::CONTACTS_VIEW_TABLE:
                     $this->ctrl->redirect($this);
-                    break;
             }
         }
 

@@ -27,7 +27,7 @@
  */
 class ilXmlWriter
 {
-    private string $xmlStr = "";
+    private string $xmlStr;
     
     private string $version;
     

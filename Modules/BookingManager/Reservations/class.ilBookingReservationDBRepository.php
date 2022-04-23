@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Repo class for reservations
@@ -39,6 +43,7 @@ class ilBookingReservationDBRepository
 
     /**
      * Get reservation data for id
+     * @return string[]
      */
     public function getForId(int $id) : array
     {
@@ -121,9 +126,7 @@ class ilBookingReservationDBRepository
      */
     public function getNewGroupId() : int
     {
-        $ilDB = $this->db;
-
-        return $ilDB->nextId('booking_reservation_group');
+        return $this->db->nextId('booking_reservation_group');
     }
 
 
@@ -322,7 +325,7 @@ class ilBookingReservationDBRepository
         if (!is_array($this->preloaded_by_context_list)) {
             throw new ilBookingReservationException("Repo not initilialized.");
         }
-        return array_filter($this->preloaded_by_context_list, function ($row) use ($context_obj_id) {
+        return array_filter($this->preloaded_by_context_list, static function ($row) use ($context_obj_id) {
             return ($row["context_obj_id"] == $context_obj_id);
         });
     }

@@ -88,8 +88,14 @@ class ilMailingListsGUI
 
     public function confirmDelete() : bool
     {
-        $ml_ids = isset($this->httpRequest->getQueryParams()['ml_id']) ? [(int) $this->httpRequest->getQueryParams()['ml_id']] : [(int) $this->httpRequest->getParsedBody()['ml_id']];
-        if (!$ml_ids) {
+        $ml_ids = [];
+        if (isset($this->httpRequest->getQueryParams()['ml_id'])) {
+            $ml_ids = array_filter([(int) $this->httpRequest->getQueryParams()['ml_id']]);
+        } else {
+            $ml_ids = array_filter([(int) ($this->httpRequest->getParsedBody()['ml_id'] ?? 0)]);
+        }
+
+        if ($ml_ids === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
             return true;
@@ -313,8 +319,6 @@ class ilMailingListsGUI
 
                 $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
                 $this->ctrl->redirect($this, 'showMembersList');
-
-                exit;
             }
         }
 
@@ -533,9 +537,7 @@ class ilMailingListsGUI
             false
         );
         foreach ($relations as $relation) {
-            /**
-             * @var $relation ilBuddySystemRelation
-             */
+            /** @var ilBuddySystemRelation $relation */
             $options[$relation->getBuddyUsrId()] = $names[$relation->getBuddyUsrId()];
         }
 

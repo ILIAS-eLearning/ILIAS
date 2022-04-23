@@ -161,7 +161,8 @@ class ilRepositoryExplorer extends ilExplorer
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         if (!ilConditionHandler::_checkAllConditionsOfTarget(
             $a_ref_id,
-            $obj_id)) {
+            $obj_id
+        )) {
             return false;
         }
 

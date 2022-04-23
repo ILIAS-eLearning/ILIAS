@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -12,20 +13,20 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-abstract class ilAbstractHtmlToPdfTransformer implements ilHtmlToPdfTransformer
+
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
+class ilServicesAdministrativeNotificationSuite extends TestSuite
 {
-    public function getPdfTempName() : string
+    public static function suite() : self
     {
-        return $this->getTempFileName('pdf');
-    }
-
-    public function getHtmlTempName() : string
-    {
-        return $this->getTempFileName('html');
-    }
-
-    protected function getTempFileName(string $file_type) : string
-    {
-        return ilFileUtils::ilTempnam() . '.' . $file_type;
+        $suite = new self();
+        
+        require_once("./Services/AdministrativeNotification/test/ilServicesAdministrativeNotificationTest.php");
+        $suite->addTestSuite("ilServicesAdministrativeNotificationTest");
+        
+        return $suite;
     }
 }

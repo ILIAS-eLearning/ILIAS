@@ -218,7 +218,7 @@ class ilChatroomSmilies
     /**
      * Updates smiley in DB by keyword and id from given array
      * ($data["smiley_keywords"], $data["smiley_id"])
-     * @param array{smiley_id: int, smiley_keywords: string, smiley_path: string, smiley_fullpath: string} $data
+     * @param array{smiley_id: int, smiley_keywords: string, smiley_path?: string, smiley_fullpath?: string} $data
      */
     public static function _updateSmiley(array $data) : void
     {
@@ -233,7 +233,7 @@ class ilChatroomSmilies
             [$data['smiley_keywords'], $data['smiley_id']]
         );
 
-        if ($data["smiley_path"]) {
+        if (isset($data["smiley_path"])) {
             $sm = self::_getSmiley($data["smiley_id"]);
             unlink($sm["smiley_fullpath"]);
             $ilDB->manipulateF(

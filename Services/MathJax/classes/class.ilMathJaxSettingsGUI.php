@@ -86,7 +86,10 @@ class ilMathJaxSettingsGUI
 
         // needed for the optional groups
         $checkbox_transformation = $this->refinery->custom()->transformation(static function ($v) {
-            return (is_array($v) ? $v : (is_bool($v) ? $v : ($v === 'checked')));
+            if (is_array($v) || is_bool($v)) {
+                return $v;
+            }
+            return ($v === 'checked');
         });
 
         // client-side rendering settings
@@ -189,7 +192,7 @@ class ilMathJaxSettingsGUI
             $this->lng->txt('mathjax_enable_server_info') . ' ' .
             $this->renderLink('mathjax_server_installation', './Services/MathJax/docs/install-server.md')
         )->withAdditionalTransformation($checkbox_transformation);
-        ;
+
 
         // build the settings form
         // uncheck optional groups, if not enabled, see https://mantis.ilias.de/view.php?id=26476
@@ -200,7 +203,7 @@ class ilMathJaxSettingsGUI
         ]);
 
         // apply posted inputs if form is saved
-        if ($this->request->getMethod() == "POST") {
+        if ($this->request->getMethod() === "POST") {
             $form = $form->withRequest($this->request);
             $data = $form->getData();
         }

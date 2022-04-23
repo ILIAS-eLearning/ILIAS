@@ -168,7 +168,6 @@ class ilUserCertificateGUI
 
         if (!$this->certificateSettings->get('active', '0')) {
             $this->ctrl->redirect($this);
-            return;
         }
 
         $provider = new ilUserCertificateTableProvider(

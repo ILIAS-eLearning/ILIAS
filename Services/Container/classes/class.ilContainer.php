@@ -793,7 +793,7 @@ class ilContainer extends ilObject
             $this->getTitle(),
             $this->getDescription(),
             $lng->getDefaultLanguage(),
-            true
+            '1'
         );
 
         if (($this->getStyleSheetId()) > 0) {
@@ -868,9 +868,9 @@ class ilContainer extends ilObject
         $this->setNewsBlockActivated((bool) self::_lookupContainerSetting(
             $this->getId(),
             ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-            $this->setting->get('block_activated_news', true)
+            $this->setting->get('block_activated_news', '1')
         ));
-        $this->setUseNews((bool) self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, true));
+        $this->setUseNews((bool) self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, '1'));
     }
 
 
@@ -894,7 +894,7 @@ class ilContainer extends ilObject
                 foreach ($objects as $key => $object) {
                     $objects[$key]["description"] = ilStr::shortenTextExtended(
                         $object["description"],
-                        $short_desc_max_length,
+                        (int) $short_desc_max_length,
                         true
                     );
                 }
@@ -915,7 +915,7 @@ class ilContainer extends ilObject
                         if ($short_desc && $short_desc_max_length) {
                             $long_desc[$object["obj_id"]] = ilStr::shortenTextExtended(
                                 $long_desc[$object["obj_id"]],
-                                $short_desc_max_length,
+                                (int) $short_desc_max_length,
                                 true
                             );
                         }
@@ -994,7 +994,7 @@ class ilContainer extends ilObject
             $a_title = "NO TITLE";
         }
 
-        $this->obj_trans->addLanguage($a_lang, $a_title, $a_desc, $a_lang_default, true);
+        $this->obj_trans->addLanguage($a_lang, $a_title, $a_desc, (bool) $a_lang_default, true);
         $this->obj_trans->save();
     }
 
@@ -1016,7 +1016,7 @@ class ilContainer extends ilObject
             return $objects;
         }
 
-        if ($container_user_filter->isEmpty() && !self::_lookupContainerSetting($this->getId(), "filter_show_empty", false)) {
+        if ($container_user_filter->isEmpty() && !self::_lookupContainerSetting($this->getId(), "filter_show_empty", '0')) {
             return [];
         }
 
@@ -1074,7 +1074,7 @@ class ilContainer extends ilObject
                                 $result_obj_ids[] = $rec["obj_id"];
                             }
                             $obj_ids = array_intersect($obj_ids, $result_obj_ids);
-                            $obj_ids = $this->legacyOnlineFilter($obj_ids, $objects, $val);
+                            $obj_ids = $this->legacyOnlineFilter($obj_ids, $objects, (int) $val);
                         }
                     } elseif ((int) $field_id === ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT) {
                         $result = null;

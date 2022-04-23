@@ -142,7 +142,7 @@ class ilModulesTableGUI extends ilTable2GUI
                 $org_pos = $pos_group_map[0] . str_pad($org_pos, 4, "0", STR_PAD_LEFT);
             }
             
-            $pos_grp_id = $ilSetting->get("obj_add_new_pos_grp_" . $obj_type, 0);
+            $pos_grp_id = $ilSetting->get("obj_add_new_pos_grp_" . $obj_type, '0');
 
             $group = null;
             if ($item["grp"] != "") {
@@ -157,7 +157,7 @@ class ilModulesTableGUI extends ilTable2GUI
                 "subdir" => $item["subdir"],
                 "pos" => (int) substr($org_pos, 4),
                 "pos_group" => $pos_grp_id,
-                "creation" => !$ilSetting->get("obj_dis_creation_" . $obj_type, false),
+                "creation" => !$ilSetting->get("obj_dis_creation_" . $obj_type, '0'),
                 "group_id" => $item["grp"],
                 "group" => $group,
                 "sort_key" => (int) $org_pos
