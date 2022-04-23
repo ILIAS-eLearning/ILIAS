@@ -2,11 +2,11 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 ## Integrated Services
 
-- The Exercise Module component employs the following services, please consult the respective privacy.mds
+- The Exercise component employs the following services, please consult the respective privacy.mds
     - The **Learning Progress** service manages data on access time specifically last time, number of accesses and the progress status specifically in progress, completed for each user accessing the object.
     - The **Metadata** service contains two branches: LOM and custom metdata. The LOM offers storing person dates like author. Custom metadata do contain user-created metadata sets which may contain personal data, which must be individually checked in the global administration.)
     - The **Object** service stores the account which created the
@@ -14,19 +14,24 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
       object.
     - The **Permission** service stores which users / user roles have what kind
       of access to the object.
-    - The **Info Screen** service reveals owner and creation data.
+    - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
     - Dedicated assignment types allow to submit exported ILIAS objects as zip files. These objects are **Portfolios**, **Blogs**, **Wikis**.
     - Evaluation statements and notifications can be sent using the **Mail** service.
 
 ## Configuration
 
-- **Global**
+**Global**
+
   - The exercise module does not provide any global configuration.
-- **Exercise**
+
+**Exercise**
+
   - **Publish Submissions after Deadline**: This setting controls, if submissions are revealed to other learners.
   - **E-Mail Notification on Submissions**: This settings controls, if notification e-mails (including account and timestamp information) are being sent to tutors.
   - **Evaluation by Tutor**: This sections configures how evaluation information is sent to the learner.
-- **Assignment**
+
+**Assignment**
+
   - **Peer-Feedback**: This settings controls whether learner can rate/evaluate submission of other learners. The setting **Personalized Peer-Feedback** controls if full names are presented to the peers.
 
 ## Data being stored

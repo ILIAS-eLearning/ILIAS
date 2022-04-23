@@ -2,7 +2,7 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 
 ## General Information
@@ -11,6 +11,8 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 - Reasoning on the configuration (activation) of the feature must be done on the institutional level and should be compliant with your terms of use.
 
 ## Configuration
+
+**Global**
 
 - **Notes** can be activated in the administration under "Personal Workspace" > "Notes".
 - **Comments** can be activated in the administration under "Communication" > "Comments".
