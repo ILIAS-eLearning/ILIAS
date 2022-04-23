@@ -18,10 +18,7 @@
 
 class ilMath
 {
-    /**
-     * @var ilMathAdapter
-     */
-    protected static $default_adapter = null;
+    protected static ?ilMathAdapter $default_adapter = null;
 
     /**
      * @param int|float $left_operand
@@ -30,9 +27,7 @@ class ilMath
      */
     public static function _add($left_operand, $right_operand, int $scale = 50)
     {
-        $adapter = static::getDefaultAdapter();
-
-        return $adapter->add($left_operand, $right_operand, $scale);
+        return static::getDefaultAdapter()->add($left_operand, $right_operand, $scale);
     }
 
     /**
@@ -43,9 +38,7 @@ class ilMath
      */
     public static function _div($left_operand, $right_operand, int $scale = 50)
     {
-        $adapter = static::getDefaultAdapter();
-
-        return $adapter->div($left_operand, $right_operand, $scale);
+        return static::getDefaultAdapter()->div($left_operand, $right_operand, $scale);
     }
 
     /**
@@ -55,9 +48,7 @@ class ilMath
      */
     public static function _mod($operand, $modulu) : int
     {
-        $adapter = static::getDefaultAdapter();
-
-        return $adapter->mod($operand, $modulu);
+        return static::getDefaultAdapter()->mod($operand, $modulu);
     }
 
     /**
@@ -67,9 +58,7 @@ class ilMath
      */
     public static function _mul($left_operand, $right_operand, int $scale = 50)
     {
-        $adapter = static::getDefaultAdapter();
-
-        return $adapter->mul($left_operand, $right_operand, $scale);
+        return static::getDefaultAdapter()->mul($left_operand, $right_operand, $scale);
     }
 
     /**
@@ -79,9 +68,7 @@ class ilMath
      */
     public static function _pow($left_operand, $right_operand, int $scale = 50)
     {
-        $adapter = static::getDefaultAdapter();
-
-        return $adapter->pow($left_operand, $right_operand, $scale);
+        return static::getDefaultAdapter()->pow($left_operand, $right_operand, $scale);
     }
 
     /**
@@ -90,9 +77,7 @@ class ilMath
      */
     public static function _sqrt($operand, int $scale = 50)
     {
-        $adapter = static::getDefaultAdapter();
-
-        return $adapter->sqrt($operand, $scale);
+        return static::getDefaultAdapter()->sqrt($operand, $scale);
     }
 
     /**
@@ -102,9 +87,7 @@ class ilMath
      */
     public static function _sub($left_operand, $right_operand, int $scale = 50)
     {
-        $adapter = static::getDefaultAdapter();
-
-        return $adapter->sub($left_operand, $right_operand, $scale);
+        return static::getDefaultAdapter()->sub($left_operand, $right_operand, $scale);
     }
 
     /**
@@ -115,21 +98,21 @@ class ilMath
     {
         $gcd = self::getGreatestCommonDivisor(abs($numerator), abs($denominator));
 
-        return $gcd == 1 ? true : false;
+        return $gcd == 1;
     }
 
     /**
      * @param int|float  $a
      * @param int|float  $b
-     * @return mixed
+     * @return int|float
      */
     public static function getGreatestCommonDivisor($a, $b)
     {
         if ($b > 0) {
             return self::getGreatestCommonDivisor($b, $a % $b);
-        } else {
-            return $a;
         }
+
+        return $a;
     }
 
     public static function setDefaultAdapter(ilMathAdapter $adapter) : void

@@ -99,7 +99,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
             return bcpow($left_operand_dec, $right_operand_dec, $scale);
         }
 
-        return $this->applyScale(pow($left_operand, $right_operand), $scale);
+        return $this->applyScale($left_operand ** $right_operand, $scale);
     }
 
     /**

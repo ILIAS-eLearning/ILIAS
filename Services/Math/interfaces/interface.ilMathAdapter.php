@@ -113,7 +113,6 @@ interface ilMathAdapter
 
     /**
      * @param mixed $value
-     * @return string
      */
     public function round($value, int $precision = 0) : string;
 }

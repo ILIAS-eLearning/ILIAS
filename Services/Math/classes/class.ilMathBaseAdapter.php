@@ -50,7 +50,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
         return $left_operand;
     }
 
-    public function round($value, int $precision = 0) : string
+    public function round($value, int $precision = 0) : string //TODO-PHP8-REVIEW add typing
     {
         return number_format($value, $precision, '.', '');
     }
@@ -78,15 +78,15 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
             return null;
         }
 
-        $number = str_replace(' ', '', (string) $number);
+        $number = str_replace(' ', '', (string) $number); //TODO-PHP8-REVIEW Can't we use trim here. Is there a need to replace spaces inside a number?
         $number = $this->exp2dec($number);
         $locale_info = localeconv();
 
-        if ($locale_info['decimal_point'] != '.') {
+        if ($locale_info['decimal_point'] !== '.') {
             $append = '';
             $number_of_decimals = (int) ini_get('precision') - (int) floor(log10(abs($number)));
             if (0 > $number_of_decimals) {
-                $number *= pow(10, $number_of_decimals);
+                $number *= 10 ** $number_of_decimals;
                 $append = str_repeat('0', -$number_of_decimals);
                 $number_of_decimals = 0;
             }
@@ -97,7 +97,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
         return $number;
     }
 
-    protected function exp2dec($float_str) : string
+    protected function exp2dec($float_str) : string //TODO-PHP8-REVIEW add typing
     {
         // make sure its a standard php float string (i.e. change 0.2e+2 to 20)
         // php will automatically format floats decimally if they are within a certain range
@@ -106,7 +106,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
         $float_str = str_replace(",", ".", $float_str); // convert ',' to '.' (float casting was locale sensitive)
 
         // if there is an E in the float string
-        if (($pos = strpos(strtolower($float_str), 'e')) !== false) {
+        if (($pos = stripos($float_str, 'e')) !== false) {
             // get either side of the E, e.g. 1.6E+6 => exp E+6, num 1.6
             $exp = substr($float_str, $pos + 1);
             $num = substr($float_str, 0, $pos);
@@ -152,14 +152,12 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
             if ($exp_sign === '+') {
                 return $num_sign . $num . $zeros;
             }
+
             // if negative exponent, return like 0.0000016
-            else {
-                return $num_sign . '0.' . $zeros . $num;
-            }
+            return $num_sign . '0.' . $zeros . $num;
         }
+
         // otherwise, assume already in decimal notation and return
-        else {
-            return $original;
-        }
+        return $original;
     }
 }
