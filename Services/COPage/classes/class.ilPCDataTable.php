@@ -107,7 +107,7 @@ class ilPCDataTable extends ilPCTable
                             $error
                         );
 
-                        $par_node = $this->getCellNode($i, $j);
+                        $par_node = $this->getCellNode($i, $j, true);
                         //echo "<br>=".htmlentities($this->dom->dump_node($par_node))."=";
                         //echo "<br>-$i-$j-$cell-";
                         // remove all childs
