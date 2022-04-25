@@ -90,7 +90,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
 
-                $cp = new ilObjectCopyGUI($this);// @TODO: PHP8 Review: Invalid argument.
+                $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
             
@@ -807,10 +807,12 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             );
         }
 
-        if (isset($_POST['cmd']['performSearch'])) {// @TODO: PHP8 Review: Direct access to $_POST.
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+
+        if (isset($post_cmd['performSearch'])) {
             $this->options = $query;
             ilSession::set('search_adv', $this->options);
-        } elseif (isset($_POST['cmd']['performAdvMDSearch'])) {// @TODO: PHP8 Review: Direct access to $_POST.
+        } elseif (isset($post_cmd['performAdvMDSearch'])) {
             $this->options = (array) $this->http->request()->getParsedBody();
             ilSession::set('search_adv_md', $this->options);
         } else {
@@ -930,8 +932,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if ($page_number) {
             $this->search_cache->setResultPageNumber($page_number);
         }
-        if ($_POST['cmd']['performSearch']) {// @TODO: PHP8 Review: Direct access to $_POST.
-            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']['lomContent']));// @TODO: PHP8 Review: Direct access to $_POST.
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+        $post_query = (array) ($this->http->request()->getParsedBody()['query'] ?? []);
+        if ($post_cmd['performSearch']) {
+            $this->search_cache->setQuery($post_query['lomContent'] ?? '');
             $this->search_cache->save();
         }
     }

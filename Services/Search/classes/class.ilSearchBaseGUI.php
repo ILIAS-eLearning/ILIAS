@@ -353,7 +353,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
      */
     protected function addPager($result, string $a_session_key) : bool
     {
-        $max_page = max( ilSession::get($a_session_key), $this->search_cache->getResultPageNumber());
+        $max_page = max(ilSession::get($a_session_key), $this->search_cache->getResultPageNumber());
         ilSession::set($a_session_key, $max_page);
 
         if ($max_page == 1 and
@@ -399,8 +399,14 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     
     public function autoComplete() : void
     {
-        $q = $_REQUEST["term"];// @TODO: PHP8 Review: Direct access to $_REQUEST.
-        $list = ilSearchAutoComplete::getList($q);
+        $query = '';
+        if ($this->http->wrapper()->post()->has('term')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $list = ilSearchAutoComplete::getList($query);
         echo $list;
         exit;
     }

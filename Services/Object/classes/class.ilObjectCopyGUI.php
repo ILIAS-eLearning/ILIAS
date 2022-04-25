@@ -46,7 +46,7 @@ class ilObjectCopyGUI
     protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
-    protected ?ilObjectGUI $parent_obj = null;
+    protected ?object $parent_obj = null;
     protected ClipboardManager $clipboard;
 
     protected int $mode = 0;
@@ -57,7 +57,7 @@ class ilObjectCopyGUI
     protected array $targets_copy_id = [];
     protected ilPropertyFormGUI $form;
 
-    public function __construct(ilObjectGUI $parent_gui)
+    public function __construct(object $parent_gui)
     {
         global $DIC;
 

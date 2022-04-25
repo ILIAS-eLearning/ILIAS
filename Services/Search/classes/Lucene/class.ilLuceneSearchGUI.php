@@ -85,7 +85,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 
             case 'ilobjectcopygui':
                 $this->ctrl->setReturn($this, '');
-                $cp = new ilObjectCopyGUI($this);// @TODO: PHP8 Review: Invalid argument.
+                $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
 
@@ -352,15 +352,28 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_DEFAULT);
         $page_number = $this->initPageNumberFromQuery();
+
+        $item_filter_enabled = false;
+        if ($this->http->wrapper()->post()->has('item_filter_enabled')) {
+            $item_filter_enabled = $this->http->wrapper()->post()->retrieve(
+                'item_filter_enabled',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
+        $post_filter_type = (array) ($this->http->request()->getParsedBody()['filter_type'] ?? []);
         if ($page_number) {
             $this->search_cache->setResultPageNumber($page_number);
         }
-        if (isset($_POST['term'])) {// @TODO: PHP8 Review: Direct access to $_POST.
-            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));// @TODO: PHP8 Review: Direct access to $_POST.
-            if ($_POST['item_filter_enabled']) {// @TODO: PHP8 Review: Direct access to $_POST.
+        if ($this->http->wrapper()->post()->has('term')) {
+            $term = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+            $this->search_cache->setQuery($term);
+            if ($item_filter_enabled) {
                 $filtered = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data) {
-                    if ($_POST['filter_type'][$type]) {// @TODO: PHP8 Review: Direct access to $_POST.
+                    if ($post_filter_type[$type]) {
                         $filtered[$type] = 1;
                     }
                 }
@@ -369,20 +382,21 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
                 // Mime filter
                 $mime = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data) {
-                    if ($_POST['filter_type'][$type]) {// @TODO: PHP8 Review: Direct access to $_POST.
+                    if ($post_filter_type[$type]) {
                         $mime[$type] = 1;
                     }
                 }
                 $this->search_cache->setMimeFilter($mime);
             }
             $this->search_cache->setCreationFilter($this->loadCreationFilter());
-            if (!$_POST['item_filter_enabled']) {// @TODO: PHP8 Review: Direct access to $_POST.
+            if (!$item_filter_enabled) {
                 // @todo: keep item filter settings
                 $this->search_cache->setItemFilter(array());
                 $this->search_cache->setMimeFilter(array());
             }
-            if (!$_POST['screation']) {// @TODO: PHP8 Review: Direct access to $_POST.
-                $this->search_cache->setCreationFilter(array());
+            $post_screation = (array) ($this->http->request()->getParsedBody()['screation'] ?? []);
+            if (!count($post_screation)) {
+                $this->search_cache->setCreationFilter([]);
             }
         }
     }

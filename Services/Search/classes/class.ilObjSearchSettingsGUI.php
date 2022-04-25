@@ -304,7 +304,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     protected function initFormLuceneSettings() : ilPropertyFormGUI
     {
-        $this->settings = ilSearchSettings::getInstance();// @TODO: PHP8 Review: Wrong type. Instance of ilSettings expected.
+        $search_settings = ilSearchSettings::getInstance();
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'cancel'));
 
@@ -318,11 +318,11 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         // Item filter
         $if = new ilCheckboxInputGUI($this->lng->txt('search_mime_filter_form'), 'mime_enabled');
         $if->setValue('1');
-        $if->setChecked($this->settings->isLuceneMimeFilterEnabled());
+        $if->setChecked($search_settings->isLuceneMimeFilterEnabled());
         $if->setInfo($this->lng->txt('search_mime_filter_form_info'));
         $form->addItem($if);
 
-        $mimes = $this->settings->getLuceneMimeFilter();
+        $mimes = $search_settings->getLuceneMimeFilter();
         foreach (ilSearchSettings::getLuceneMimeFilterDefinitions() as $mime => $def) {
             $ch = new ilCheckboxInputGUI($this->lng->txt($def['trans']), 'mime[' . $mime . ']');
             if (isset($mimes[$mime]) and $mimes[$mime]) {
@@ -335,7 +335,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $prefix = new ilCheckboxInputGUI($this->lng->txt('lucene_prefix_wildcard'), 'prefix');
         $prefix->setValue('1');
         $prefix->setInfo($this->lng->txt('lucene_prefix_wildcard_info'));
-        $prefix->setChecked($this->settings->isPrefixWildcardQueryEnabled());
+        $prefix->setChecked($search_settings->isPrefixWildcardQueryEnabled());
         $form->addItem($prefix);
 
 
@@ -346,7 +346,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $numFrag->setMinValue(1);
         $numFrag->setMaxValue(10);
         $numFrag->setInfo($this->lng->txt('lucene_num_frag_info'));
-        $numFrag->setValue((string) $this->settings->getFragmentCount());
+        $numFrag->setValue((string) $search_settings->getFragmentCount());
         $form->addItem($numFrag);
 
         $sizeFrag = new ilNumberInputGUI($this->lng->txt('lucene_size_fragments'), 'fragmentSize');
@@ -356,7 +356,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $sizeFrag->setMinValue(10);
         $sizeFrag->setMaxValue(1000);
         $sizeFrag->setInfo($this->lng->txt('lucene_size_frag_info'));
-        $sizeFrag->setValue((string) $this->settings->getFragmentSize());
+        $sizeFrag->setValue((string) $search_settings->getFragmentSize());
         $form->addItem($sizeFrag);
 
         $maxSub = new ilNumberInputGUI($this->lng->txt('lucene_max_sub'), 'maxSubitems');
@@ -366,28 +366,28 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $maxSub->setMinValue(1);
         $maxSub->setMaxValue(10);
         $maxSub->setInfo($this->lng->txt('lucene_max_sub_info'));
-        $maxSub->setValue((string) $this->settings->getMaxSubitems());
+        $maxSub->setValue((string) $search_settings->getMaxSubitems());
         $form->addItem($maxSub);
 
         $relevance = new ilCheckboxInputGUI($this->lng->txt('lucene_relevance'), 'relevance');
         $relevance->setOptionTitle($this->lng->txt('lucene_show_relevance'));
         $relevance->setInfo($this->lng->txt('lucene_show_relevance_info'));
         $relevance->setValue('1');
-        $relevance->setChecked($this->settings->isRelevanceVisible());
+        $relevance->setChecked($search_settings->isRelevanceVisible());
         $form->addItem($relevance);
 
         // begin-patch mime_filter
         $subrel = new ilCheckboxInputGUI('', 'subrelevance');
         $subrel->setOptionTitle($this->lng->txt('lucene_show_sub_relevance'));
         $subrel->setValue('1');
-        $subrel->setChecked($this->settings->isSubRelevanceVisible());
+        $subrel->setChecked($search_settings->isSubRelevanceVisible());
         $relevance->addSubItem($subrel);
         // end-patch mime_filter
 
         $last_index = new ilDateTimeInputGUI($this->lng->txt('lucene_last_index_time'), 'last_index');
         $last_index->setRequired(true);
         $last_index->setShowTime(true);
-        $last_index->setDate($this->settings->getLastIndexTime());
+        $last_index->setDate($search_settings->getLastIndexTime());
         $last_index->setInfo($this->lng->txt('lucene_last_index_time_info'));
         $form->addItem($last_index);
 
