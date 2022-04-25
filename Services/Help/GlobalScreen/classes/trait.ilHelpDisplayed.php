@@ -37,7 +37,7 @@ trait ilHelpDisplayed
                 return $show = false;
             }
 
-            if (defined("OH_REF_ID") && OH_REF_ID > 0) {
+            if (defined("OH_REF_ID") && (int) OH_REF_ID > 0) {
                 return $show = true;
             } else {
                 $module = (int) $settings->get("help_module");

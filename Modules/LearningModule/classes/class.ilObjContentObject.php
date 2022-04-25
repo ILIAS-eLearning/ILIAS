@@ -2220,10 +2220,10 @@ class ilObjContentObject extends ilObject
         int $a_id,
         bool $a_as_obj_id = false
     ) : bool {
-        if (!$a_as_obj_id && $a_id > 0 && $a_id == OH_REF_ID) {
+        if (!$a_as_obj_id && $a_id > 0 && $a_id === (int) OH_REF_ID) {
             return true;
         }
-        if ($a_as_obj_id && $a_id > 0 && $a_id == ilObject::_lookupObjId(OH_REF_ID)) {
+        if ($a_as_obj_id && $a_id > 0 && $a_id === ilObject::_lookupObjId((int) OH_REF_ID)) {
             return true;
         }
         return false;
