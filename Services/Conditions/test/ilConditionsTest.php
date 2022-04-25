@@ -36,7 +36,7 @@ class ilConditionsTest extends TestCase
         $condition = new ilCondition(new ilConditionTrigger(1, 2, 'drei'), 'invalid');
         $obligatory_condition = $condition->withObligatory(true);
         $this->assertTrue($obligatory_condition->getObligatory());
-        $this->assertNull($condition->getObligatory());
+        $this->assertFalse($condition->getObligatory());
     }
 
     /**
