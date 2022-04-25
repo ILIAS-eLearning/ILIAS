@@ -104,9 +104,11 @@ class ilTree
     protected array $in_tree_cache = [];
     protected array $translation_cache = [];
     protected array $parent_type_cache = [];
-    protected $is_saved_cache = [];
+    protected array $is_saved_cache = [];
 
     private ?ilTreeImplementation $tree_impl = null;
+
+    private array $path_id_cache = [];
 
     /**
      * @throws InvalidArgumentException
@@ -342,7 +344,7 @@ class ilTree
     /**
      * set column containing primary key in object table
      */
-    public function setObjectTablePK($a_column_name) : void
+    public function setObjectTablePK(string $a_column_name) : void
     {
         $this->obj_pk = $a_column_name;
     }
@@ -350,7 +352,7 @@ class ilTree
     /**
      * set column containing primary key in tree table
      */
-    public function setTreeTablePK($a_column_name) : void
+    public function setTreeTablePK(string $a_column_name) : void
     {
         $this->tree_pk = $a_column_name;
     }
@@ -639,7 +641,7 @@ class ilTree
     ) : void {
         // CHECK node_id and parent_id > 0 if in main tree
         if ($this->__isMainTree()) {
-            if ($a_node_id <= 1 or $a_parent_id <= 0) {
+            if ($a_node_id <= 1 || $a_parent_id <= 0) {
                 $message = sprintf(
                     'Invalid parameters! $a_node_id: %s $a_parent_id: %s',
                     $a_node_id,
@@ -689,10 +691,10 @@ class ilTree
         $depth = 0;
         $filtered = [];
         foreach ($this->getSubTree($node) as $subnode) {
-            if ($depth and $subnode['depth'] > $depth) {
+            if ($depth && $subnode['depth'] > $depth) {
                 continue;
             }
-            if (!$first and in_array($subnode['type'], $a_filter)) {
+            if (!$first && in_array($subnode['type'], $a_filter)) {
                 $depth = $subnode['depth'];
                 $first = false;
                 continue;
@@ -1113,7 +1115,7 @@ class ilTree
         }
 
         if ($translation_type == "sys") {
-            if ($data["type"] == "rolf" and $data["obj_id"] != ROLE_FOLDER_ID) {
+            if ($data["type"] == "rolf" && $data["obj_id"] != ROLE_FOLDER_ID) {
                 $data["description"] = (string) $lng->txt("obj_" . $data["type"] . "_local_desc") . $data["title"] . $data["desc"];
                 $data["desc"] = $lng->txt("obj_" . $data["type"] . "_local_desc") . $data["title"] . $data["desc"];
                 $data["title"] = $lng->txt("obj_" . $data["type"] . "_local");
@@ -1164,7 +1166,7 @@ class ilTree
         }
 
         // TODO: Handle this switch by module.xml definitions
-        if (isset($data['type']) && ($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr' or $data['type'] === 'prgr')) {
+        if (isset($data['type']) && ($data['type'] == 'crsr' || $data['type'] == 'catr' || $data['type'] == 'grpr' || $data['type'] === 'prgr')) {
             $data['title'] = ilContainerReference::_lookupTitle((int) $data['obj_id']);
         }
         return $data;
@@ -1760,7 +1762,7 @@ class ilTree
      * renumber left/right values and close the gaps in numbers
      * (recursive)
      */
-    public function __renumber(int $node_id = 1, int $i = 1) : int
+    private function __renumber(int $node_id = 1, int $i = 1) : int
     {
         if ($this->isRepositoryTree()) {
             $query = 'UPDATE ' . $this->table_tree . ' SET lft = %s WHERE child = %s';
@@ -1887,7 +1889,7 @@ class ilTree
         $db = $DIC->database();
 
         if ($a_db_table === 'tree') {
-            if ($a_tree == 1 and $a_child == ROOT_FOLDER_ID) {
+            if ($a_tree == 1 && $a_child == ROOT_FOLDER_ID) {
                 $message = sprintf(
                     'Tried to delete root node! $a_tree: %s $a_child: %s',
                     $a_tree,
@@ -2095,6 +2097,9 @@ class ilTree
 
     /**
      * get all node ids in the subtree under specified node id, filter by object ids
+     *
+     * @param int[] $a_obj_ids
+     * @param string[] $a_fields
      */
     public function getSubTreeFilteredByObjIds(int $a_node_id, array $a_obj_ids, array $a_fields = []) : array
     {
@@ -2169,9 +2174,6 @@ class ilTree
      */
     public function isRepositoryTree() : bool
     {
-        if ($this->table_tree == 'tree') {
-            return true;
-        }
-        return false;
+        return $this->table_tree == 'tree';
     }
 } // END class.tree

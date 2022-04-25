@@ -103,13 +103,6 @@ class ilTreeTrashQueries
 
     /**
      * Get trashed nodes
-     * @param int    $ref_id
-     * @param array  $filter
-     * @param int    $max_entries
-     * @param string $order_field
-     * @param string $order_direction
-     * @param int    $limit
-     * @param int    $offset
      * @return ilTreeTrashItem[]
      * @throws \ilDatabaseException
      */
@@ -124,12 +117,12 @@ class ilTreeTrashQueries
     ) : array {
         $subtreequery = $this->tree->getTrashSubTreeQuery($ref_id, ['child']);
 
-        $select = 'select ref_id, obd.obj_id, type, title, description, deleted, deleted_by ';
-        $select_count = 'select count(ref_id) max_entries ';
+        $select = 'SELECT ref_id, obd.obj_id, type, title, description, deleted, deleted_by ';
+        $select_count = 'SELECT COUNT(ref_id) max_entries ';
 
-        $from = 'from object_data obd ' .
-            'join object_reference obr on obd.obj_id = obr.obj_id ' .
-            'where ref_id in (' .
+        $from = 'FROM object_data obd ' .
+            'JOIN object_reference obr ON obd.obj_id = obr.obj_id ' .
+            'WHERE ref_id IN (' .
             $subtreequery . ' ' .
             ') ';
 
@@ -176,11 +169,13 @@ class ilTreeTrashQueries
      */
     public function getTrashedNodesForContainerUsingRecursion(int $ref_id) : void
     {
-        $query = 'with recursive trash (child,tree) as ' .
-            '( select child, tree from tree where child = ' . $this->db->quote($ref_id,
-                \ilDBConstants::T_INTEGER) . ' ' .
-            'union select tc.child,tc.tree from tree tc join tree tp on tp.child = tc.parent ) ' .
-            'select * from trash where tree < 1 ';
+        $query = 'WITH RECURSIVE trash (child,tree) AS ' .
+            '( SELECT child, tree FROM tree WHERE child = ' . $this->db->quote(
+                $ref_id,
+                \ilDBConstants::T_INTEGER
+            ) . ' ' .
+            'UNION SELECT tc.child,tc.tree FROM tree tc JOIN tree tp ON tp.child = tc.parent ) ' .
+            'SELECT * FROM trash WHERE tree < 1 ';
 
         $trash_ids = [];
         try {
@@ -195,7 +190,7 @@ class ilTreeTrashQueries
     }
 
     /**
-     * @param array $filter
+     * @param array{type?: string, title?: string, deleted?: array{from?: \ilDate, to?: \ilDate}} $filter
      * @return string
      */
     protected function appendTrashNodeForContainerQueryFilter(array $filter) : string
@@ -203,36 +198,40 @@ class ilTreeTrashQueries
         $query = '';
         if (isset($filter['type'])) {
             $query .= 'and ' . $this->db->like(
-                    'type',
-                    \ilDBConstants::T_TEXT,
-                    $filter['type'] . '%'
-                ) . ' ';
+                'type',
+                \ilDBConstants::T_TEXT,
+                $filter['type'] . '%'
+            ) . ' ';
         }
         if (isset($filter['title'])) {
             $query .= 'and ' . $this->db->like(
-                    'title',
-                    \ilDBConstants::T_TEXT,
-                    '%' . $filter['title'] . '%'
-                ) . ' ';
+                'title',
+                \ilDBConstants::T_TEXT,
+                '%' . $filter['title'] . '%'
+            ) . ' ';
         }
         if (
             $filter['deleted']['from'] instanceof \ilDate &&
             $filter['deleted']['to'] instanceof \ilDate) {
-            $query .= ('and deleted between ' .
-                $this->db->quote($filter['deleted']['from']->get(\IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' and ' .
+            $query .= ('AND deleted BETWEEN ' .
+                $this->db->quote($filter['deleted']['from']->get(\IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' AND ' .
                 $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' ');
         } elseif ($filter['deleted']['from'] instanceof \ilDate) {
-            $query .= 'and deleted >= ' . $this->db->quote($filter['deleted']['from']->get(IL_CAL_DATE),
-                    \ilDBConstants::T_TEXT) . ' ';
+            $query .= 'AND deleted >= ' . $this->db->quote(
+                $filter['deleted']['from']->get(IL_CAL_DATE),
+                \ilDBConstants::T_TEXT
+            ) . ' ';
         } elseif ($filter['deleted']['to'] instanceof \ilDate) {
-            $query .= 'and deleted <= ' . $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE),
-                    \ilDBConstants::T_TEXT) . ' ';
+            $query .= 'AND deleted <= ' . $this->db->quote(
+                $filter['deleted']['to']->get(IL_CAL_DATE),
+                \ilDBConstants::T_TEXT
+            ) . ' ';
         }
 
         if (isset($filter['deleted_by'])) {
             $usr_id = \ilObjUser::_lookupId($filter['deleted_by']);
             if ($usr_id > 0) {
-                $query .= 'and deleted_by = ' . $this->db->quote($usr_id, \ilDBConstants::T_INTEGER) . ' ';
+                $query .= 'AND deleted_by = ' . $this->db->quote($usr_id, \ilDBConstants::T_INTEGER) . ' ';
             }
         }
 

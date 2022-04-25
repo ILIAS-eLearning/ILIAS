@@ -41,9 +41,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
     /**
      * Get tree object
-     * @return ilTree $tree
      */
-    public function getTree()
+    public function getTree() : \ilTree
     {
         return $this->tree;
     }
@@ -92,7 +91,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         }
         $path_a = substr($a_node_a['path'], 0, strrpos($a_node_a['path'], '.'));
         $path_b = substr($a_node_b['path'], 0, strrpos($a_node_b['path'], '.'));
-        if ($a_node_a['path'] and (strcmp($path_a, $path_b) === 0)) {
+        if ($a_node_a['path'] && $path_a === $path_b) {
             return ilTree::RELATION_SIBLING;
         }
         return ilTree::RELATION_NONE;
@@ -120,7 +119,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         }
 
         $join = '';
-        if ($type_str or $a_force_join_reference) {
+        if ($type_str || $a_force_join_reference) {
             $join = $this->getTree()->buildJoin();
         }
 
@@ -157,7 +156,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         array $a_node,
         array $a_types = [],
         bool $a_force_join_reference = true,
-        array $a_fields = array()
+        array $a_fields = []
     ) : string {
         $type_str = '';
         if (count($a_types)) {
@@ -172,7 +171,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         }
 
         $join = '';
-        if ($type_str or $a_force_join_reference) {
+        if ($type_str || $a_force_join_reference) {
             $join = $this->getTree()->buildJoin();
         }
 
@@ -230,7 +229,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function insertNode(int $a_node_id, int $a_parent_id, int $a_pos) : void
     {
-        $insert_node_callable = function (ilDBInterface $ilDB) use ($a_node_id, $a_parent_id, $a_pos) {
+        $insert_node_callable = function (ilDBInterface $ilDB) use ($a_node_id, $a_parent_id, $a_pos) : void {
             // get path and depth of parent
             $this->db->setLimit(1, 0);
 
@@ -289,7 +288,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function deleteTree(int $a_node_id) : void
     {
-        $delete_tree_callable = function (ilDBInterface $ilDB) use ($a_node_id) {
+        $delete_tree_callable = function (ilDBInterface $ilDB) use ($a_node_id) : void {
             $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
                 'WHERE ' . $this->getTree()->getTreeTable() . '.child = %s ' .
                 'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ';
@@ -325,7 +324,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function moveToTrash(int $a_node_id) : void
     {
-        $move_to_trash_callable = function (ilDBInterface $ilDB) use ($a_node_id) {
+        $move_to_trash_callable = function (ilDBInterface $ilDB) use ($a_node_id) : void {
             $node = $this->getTree()->getNodeTreeData($a_node_id);
 
             // Set the nodes deleted (negative tree id)
@@ -360,7 +359,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void
     {
-        $move_tree_callable = function (ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position) {
+        $move_tree_callable = function (ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position) : void {
             // Receive node infos for source and target
             $this->db->setLimit(2, 0);
 
@@ -449,7 +448,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         }
     }
 
-    public static function createFromParentReleation()
+    public static function createFromParentReleation() : void
     {
         global $DIC;
 
@@ -457,10 +456,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $r = $db->queryF('SELECT DISTINCT * FROM tree WHERE parent = %s', array('integer'), array(0));
 
         while ($row = $db->fetchAssoc($r)) {
-            $success = self::createMaterializedPath(0, '');
-
-            if ($success !== true) {
-            }
+            self::createMaterializedPath(0, '');
         }
     }
 
@@ -551,7 +547,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $nodes[$row['child']]['path'] = (string) $row['path'];
         }
 
-        $depth_first_compare = static function ($a, $b) {
+        $depth_first_compare = static function (array $a, array $b) : int {
             $a_exploded = explode('.', $a['path']);
             $b_exploded = explode('.', $b['path']);
 

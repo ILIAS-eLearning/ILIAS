@@ -32,14 +32,12 @@ use PHPUnit\Framework\TestCase;
  */
 class ilTreeTest //extends TestCase
 {
-    protected $backupGlobals = false;
-
     protected function setUp() : void
     {
         //        //ilUnitUtil::performInitialisation();
     }
 
-    public function testGetChild()
+    public function testGetChild() : void
     {
         $tree = new ilTree(ROOT_FOLDER_ID);
         $childs = $tree->getChilds(14); // Chat settings (contains public chat)
@@ -52,7 +50,7 @@ class ilTreeTest //extends TestCase
      * @group IL_Init
      * @static
      */
-    public function testGetChildsByType()
+    public function testGetChildsByType() : void
     {
         $tree = new ilTree(ROOT_FOLDER_ID);
         $childs = $tree->getChildsByType(9, 'cals'); // only calendar settings
@@ -65,7 +63,7 @@ class ilTreeTest //extends TestCase
      * @group IL_Init
      * @static
      */
-    public function testGetChildsByTypeFilter()
+    public function testGetChildsByTypeFilter() : void
     {
         $tree = new ilTree(ROOT_FOLDER_ID);
         $childs = $tree->getChildsByTypeFilter(9, array('cals', 'rolf')); // only calendar settings and role folder
@@ -78,7 +76,7 @@ class ilTreeTest //extends TestCase
      * @group IL_Init
      * @static
      */
-    public function testGetSubTree()
+    public function testGetSubTree() : void
     {
         $tree = new ilTree(ROOT_FOLDER_ID);
 
@@ -91,18 +89,18 @@ class ilTreeTest //extends TestCase
     /**
      * get path ids using nested set
      * @group IL_Init
-     * @param
-     * @return
      */
-    public function testGetPathIdsUsingNestedSet()
+    public function testGetPathIdsUsingNestedSet() : void
     {
         // This test leads to a fatal error, as getPathIdsUsingNestedSets is
         // not defined on ilTree.
         $this->assertTrue(false, "Testcase leads to fatal error.");
 
         $tree = new ilTree(ROOT_FOLDER_ID);
-        $ids = $tree->getPathIdsUsingNestedSets(24,
-            9); // Administration -> Public Chat => should return 9,14,24 (chat server settings)
+        $ids = $tree->getPathIdsUsingNestedSets(
+            24,
+            9
+        ); // Administration -> Public Chat => should return 9,14,24 (chat server settings)
 
         $this->assertEquals($ids, array(9, 14, 24));
 
@@ -115,10 +113,8 @@ class ilTreeTest //extends TestCase
     /**
      * get path ids (adjacenca and nested set)
      * @group IL_Init
-     * @param
-     * @return
      */
-    public function testGetPathIds()
+    public function testGetPathIds() : void
     {
         // This test leads to a fatal error, as getPathIdsUsingNestedSets and
         // getPathIdsUsingAdjacencyMap are not defined on ilTree.
@@ -133,10 +129,8 @@ class ilTreeTest //extends TestCase
 
     /**
      * @group IL_Init
-     * @param
-     * @return
      */
-    public function testGetNodePath()
+    public function testGetNodePath() : void
     {
         $tree = new ilTree(ROOT_FOLDER_ID);
         $res = $tree->getNodePath(1, 29);
@@ -145,10 +139,8 @@ class ilTreeTest //extends TestCase
     /**
      * get path ids (adjacenca and nested set)
      * @group IL_Init
-     * @param
-     * @return
      */
-    public function testMaxDepth()
+    public function testMaxDepth() : void
     {
         $tree = new ilTree(ROOT_FOLDER_ID);
         $tree->getMaximumDepth();
@@ -157,10 +149,8 @@ class ilTreeTest //extends TestCase
     /**
      * get path ids (adjacenca and nested set)
      * @group IL_Init
-     * @param
-     * @return
      */
-    public function testAllOthers()
+    public function testAllOthers() : void
     {
         $tree = new ilTree(ROOT_FOLDER_ID);
         $d = $tree->getDepth(24);

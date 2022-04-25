@@ -6,9 +6,9 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesTreeSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
-        $suite = new ilServicesTreeSuite();
+        $suite = new self();
 
         include_once("./Services/Tree/test/ilTreeTest.php");
         $suite->addTestSuite("ilTreeTest");
