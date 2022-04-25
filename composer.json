@@ -68,7 +68,8 @@
 		"simplesamlphp/simplesamlphp": "^1.19.4",
 		"seld/jsonlint": "^1.8",
 		"ext-xml": "*",
-		"jasig/phpcas": "^1.4"
+		"jasig/phpcas": "^1.4",
+		"doctrine/annotations": "^1.13"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
