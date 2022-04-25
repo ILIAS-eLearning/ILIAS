@@ -56,7 +56,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
                 " ORDER BY n.creation_date DESC ");
             while ($rec = $ilDB->fetchAssoc($set)) {
                 if (($t = ilSkillTemplateReference::_lookupTemplateId($rec["obj_id"])) > 0) {
-                    $template_ids[$t] = $rec["obj_id"];
+                    $template_ids[$t] = (int) $rec["obj_id"];
                 }
             }
         } else {
@@ -86,7 +86,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
             }
 
             foreach ($matching_trefs as $t) {
-                $results[] = array("skill_id" => $rec["obj_id"],
+                $results[] = array("skill_id" => (int) $rec["obj_id"],
                                    "tref_id" => $t,
                                    "creation_date" => $rec["creation_date"]
                 );
@@ -110,7 +110,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
             " ORDER BY l.creation_date DESC ");
         $results = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $results[] = array("level_id" => $rec["id"], "creation_date" => $rec["creation_date"]);
+            $results[] = array("level_id" => (int) $rec["id"], "creation_date" => $rec["creation_date"]);
         }
         return $results;
     }

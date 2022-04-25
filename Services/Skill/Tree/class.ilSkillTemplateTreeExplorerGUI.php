@@ -28,7 +28,13 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 {
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_skill_node_id = 0;
+    /**
+     * @var array<int, int>
+     */
     protected array $parent = [];
+    /**
+     * @var array<int, bool>
+     */
     protected array $draft = [];
 
     /**

@@ -102,7 +102,8 @@ interface ilBasicSkillUserLevelRepository
         int $a_tref_id = 0,
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
-        float $a_next_level_fulfilment = 0.0
+        float $a_next_level_fulfilment = 0.0,
+        string $trigger_user_id = ""
     ) : void;
 
     /**

@@ -53,7 +53,7 @@ class ilTestPersonalSkillsGUI
 
         $gui->setProfileId($this->getSelectedSkillProfile());
 
-        $html = $gui->getGapAnalysisHTML($this->getUsrId(), $this->getAvailableSkills());
+        $html = $gui->getGapAnalysisHTML((int) $this->getUsrId(), $this->getAvailableSkills());
 
         return $html;
     }

@@ -36,11 +36,27 @@ class ilPersonalSkillsGUI
     public const LIST_PROFILES = "";
 
     protected string $offline_mode = "";
+
+    /**
+     * @var array<int, array<int, int>>
+     */
     protected array $actual_levels = [];
+
+    /**
+     * @var array<int, array<int, int>>
+     */
     protected array $gap_self_eval_levels = [];
     protected bool $history_view = false;
+
+    /**
+     * @var int[]
+     */
     protected array $trigger_objects_filter = [];
     protected string $intro_text = "";
+
+    /**
+     * @var string[]
+     */
     protected array $hidden_skills = [];
     protected string $mode = "";
     protected string $gap_mode = "";
@@ -63,10 +79,26 @@ class ilPersonalSkillsGUI
     protected ResourceStorage $storage;
 
     protected int $obj_id = 0;
+
+    /**
+     * @var array<string, array{base_skill_id: int, tref_id: int, title: int}>
+     */
     protected array $obj_skills = [];
     protected int $profile_id = 0;
+
+    /**
+     * @var array{base_skill_id: int, tref_id: int, level_id: int, order_nr: int}[]
+     */
     protected array $profile_levels = [];
+
+    /**
+     * @var array{id: int, title: string, description: string, image_id: string}[]
+     */
     protected array $user_profiles = [];
+
+    /**
+     * @var array<int, array{profile_id: int, role_id: int, title: string}|{profile_id: int}>
+     */
     protected array $cont_profiles = [];
     protected bool $use_materials = false;
     protected ilSkillManagementSettings $skmg_settings;
@@ -78,13 +110,25 @@ class ilPersonalSkillsGUI
     protected int $requested_node_id = 0;
     protected int $requested_profile_id = 0;
     protected int $requested_skill_id = 0;
+
+    /**
+     * @var int[]
+     */
     protected array $requested_skill_ids = [];
     protected int $requested_basic_skill_id = 0;
     protected int $requested_tref_id = 0;
     protected int $requested_level_id = 0;
     protected int $requested_self_eval_level_id = 0;
     protected int $requested_wsp_id = 0;
+
+    /**
+     * @var int[]
+     */
     protected array $requested_wsp_ids = [];
+
+    /**
+     * @var string[]
+     */
     protected array $trigger_user_filter = [];
 
     public function __construct()
@@ -161,7 +205,7 @@ class ilPersonalSkillsGUI
     }
     
     /**
-     * @param array $a_val self evaluation values key1: base_skill_id, key2: tref_id: value: level id
+     * @param array<int, array<int, int>> $a_val self evaluation values key1: base_skill_id, key2: tref_id: value: level id
      */
     public function setGapAnalysisSelfEvalLevels(array $a_val) : void
     {
@@ -207,17 +251,17 @@ class ilPersonalSkillsGUI
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getTriggerUserFilter()
+    public function getTriggerUserFilter() : array
     {
         return $this->trigger_user_filter;
     }
 
     /**
-     * @param array $trigger_user_filter
+     * @param string[] $trigger_user_filter
      */
-    public function setTriggerUserFilter($trigger_user_filter)
+    public function setTriggerUserFilter(array $trigger_user_filter) : void
     {
         $this->trigger_user_filter = $trigger_user_filter;
     }
@@ -263,12 +307,18 @@ class ilPersonalSkillsGUI
         return $this->obj_id;
     }
 
+    /**
+     * @return array<string, array{base_skill_id: int, tref_id: int, title: int}>
+     */
     public function getObjectSkills() : array
     {
         return $this->obj_skills;
     }
 
-    public function setObjectSkills(int $a_obj_id, ?array $a_skills = null) : void
+    /**
+     * @param array<string, array{base_skill_id: int, tref_id: int, title: int}> $a_skills
+     */
+    public function setObjectSkills(int $a_obj_id, array $a_skills) : void
     {
         $this->obj_id = $a_obj_id;
         $this->obj_skills = $a_skills;
@@ -902,7 +952,7 @@ class ilPersonalSkillsGUI
                     $this->requested_tref_id,
                     $this->requested_basic_skill_id,
                     $this->requested_level_id,
-                    (int) $w
+                    $w
                 );
             }
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
@@ -1124,7 +1174,7 @@ class ilPersonalSkillsGUI
         $this->mode = "gap";
     }
 
-    public function getGapAnalysisHTML($a_user_id = 0, array $a_skills = null) : string
+    public function getGapAnalysisHTML(int $a_user_id = 0, array $a_skills = null) : string
     {
         $ilUser = $this->user;
         $lng = $this->lng;

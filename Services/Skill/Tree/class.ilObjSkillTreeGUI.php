@@ -53,7 +53,15 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected int $requested_templates_tree = 0;
     protected string $requested_skexpand = "";
     protected int $requested_tmpmode = 0;
+
+    /**
+     * @var string[]
+     */
     protected array $requested_titles = [];
+
+    /**
+     * @var int[]
+     */
     protected array $requested_node_ids = [];
 
     /**
@@ -769,7 +777,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     // Tree
     //
 
-    public function showTree($a_templates, $a_gui = "", $a_gui_cmd = "") : void
+    public function showTree(bool $a_templates, $a_gui = "", $a_gui_cmd = "") : void
     {
         $ilUser = $this->user;
         $tpl = $this->tpl;

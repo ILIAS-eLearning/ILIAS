@@ -35,6 +35,19 @@ class ilSkillTreeNode
     protected string $import_id = "";
     protected string $creation_date = "";
     protected int $status = 0;
+
+    /**
+     * @var array{
+     *   type: string,
+     *   title: string,
+     *   description: string,
+     *   order_nr: int,
+     *   self_eval: bool,
+     *   status: int,
+     *   import_id: string,
+     *   creation_date: string
+     * }
+     */
     protected array $data_record = [];
 
     public const STATUS_PUBLISH = 0;
@@ -181,11 +194,14 @@ class ilSkillTreeNode
             $obj_set = $ilDB->query($query);
             $this->data_record = $ilDB->fetchAssoc($obj_set);
         }
+        $this->data_record["order_nr"] = (int) $this->data_record["order_nr"];
+        $this->data_record["self_eval"] = (bool) $this->data_record["self_eval"];
+        $this->data_record["status"] = (int) $this->data_record["status"];
         $this->setType($this->data_record["type"]);
         $this->setTitle($this->data_record["title"]);
         $this->setDescription($this->data_record["description"] ?? "");
         $this->setOrderNr($this->data_record["order_nr"]);
-        $this->setSelfEvaluation((bool) $this->data_record["self_eval"]);
+        $this->setSelfEvaluation($this->data_record["self_eval"]);
         $this->setStatus($this->data_record["status"]);
         $this->setImportId($this->data_record["import_id"] ?? "");
         $this->setCreationDate($this->data_record["creation_date"] ?? "");
@@ -199,7 +215,7 @@ class ilSkillTreeNode
         $this->data_record = $a_record;
     }
 
-    protected static function _lookup(int $a_obj_id, string $a_field)
+    protected static function _lookup(int $a_obj_id, string $a_field) : ?string
     {
         global $DIC;
 
@@ -210,7 +226,7 @@ class ilSkillTreeNode
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return $obj_rec[$a_field];
+        return isset($obj_rec[$a_field]) ? (string) $obj_rec[$a_field] : null;
     }
 
     public static function _lookupTitle(int $a_obj_id, int $a_tref_id = 0) : string
@@ -355,10 +371,7 @@ class ilSkillTreeNode
         $ilDB->manipulate($query);
     }
 
-    /**
-    * Delete Node
-    */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -373,11 +386,9 @@ class ilSkillTreeNode
     public static function uniqueTypesCheck(array $a_items) : bool
     {
         $types = [];
-        if (is_array($a_items)) {
-            foreach ($a_items as $item) {
-                $type = ilSkillTreeNode::_lookupType($item);
-                $types[$type] = $type;
-            }
+        foreach ($a_items as $item) {
+            $type = ilSkillTreeNode::_lookupType($item);
+            $types[$type] = $type;
         }
 
         if (count($types) > 1) {
@@ -386,6 +397,9 @@ class ilSkillTreeNode
         return true;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public static function getAllSelfEvaluationNodes() : array
     {
         global $DIC;
@@ -398,11 +412,15 @@ class ilSkillTreeNode
         );
         $nodes = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec["obj_id"] = (int) $rec["obj_id"];
             $nodes[$rec["obj_id"]] = $rec["title"];
         }
         return $nodes;
     }
 
+    /**
+     * @return array{obj_id: int, order_nr: int, status: int, self_eval: bool, title: string, type: string, create_date: string, description: string}[]
+     */
     public static function getSelectableSkills() : array
     {
         global $DIC;
@@ -416,6 +434,10 @@ class ilSkillTreeNode
         
         $sel_skills = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['obj_id'] = (int) $rec['obj_id'];
+            $rec['order_nr'] = (int) $rec['order_nr'];
+            $rec['status'] = (int) $rec['status'];
+            $rec['self_eval'] = (bool) $rec['self_eval'];
             $sel_skills[] = $rec;
         }
         
