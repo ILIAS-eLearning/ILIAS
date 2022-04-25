@@ -87,20 +87,18 @@ class ilCalendarCopyDefinition extends AbstractValue
      */
     public function getHash() : string
     {
-        return md5($this->serialize());
+        return md5(serialize($this));
     }
 
     /**
      * @inheritDoc
      */
-    public function serialize()
+    public function __serialize() : array
     {
-        return serialize(
-            [
-                "copy_definition" => $this->getCopyDefinitions(),
-                "temp_dir" => $this->getTempDir()
-            ]
-        );
+        return [
+            "copy_definition" => $this->getCopyDefinitions(),
+            "temp_dir" => $this->getTempDir()
+        ];
     }
 
     /**
@@ -114,11 +112,23 @@ class ilCalendarCopyDefinition extends AbstractValue
     /**
      * @inheritDoc
      */
-    public function unserialize($serialized)
+    public function __unserialize(array $data) : void
     {
-        $elements = unserialize($serialized);
+        $this->setCopyDefinitions($data["copy_definition"]);
+        $this->setTempDir($data['temp_dir']);
+    }
 
-        $this->setCopyDefinitions($elements["copy_definition"]);
-        $this->setTempDir($elements['temp_dir']);
+    public function serialize() : string
+    {
+        return serialize($this);
+    }
+
+    public function unserialize($data) : void
+    {
+        /** @var self $unserialized */
+        $unserialized = unserialize($data);
+
+        $this->setCopyDefinitions($unserialized->copy_definitions);
+        $this->setTempDir($unserialized->temp_dir);
     }
 }

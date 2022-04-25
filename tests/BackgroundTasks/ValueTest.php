@@ -13,7 +13,6 @@ require_once("libs/composer/vendor/autoload.php");
 /**
  * Class BackgroundTaskTest
  *
- * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
@@ -26,9 +25,9 @@ class ValueTest extends TestCase
     {
         $integer = new IntegerValue();
         $integer->setValue(3);
-        $integer2 = new IntegerValue(3);
+        $integer2 = new IntegerValue();
         $integer2->setValue(3);
-        $integer3 = new IntegerValue(4);
+        $integer3 = new IntegerValue();
         $integer3->setValue(4);
 
         $this->assertEquals($integer->getValue(), 3);

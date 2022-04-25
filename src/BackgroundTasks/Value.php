@@ -26,7 +26,7 @@ use ILIAS\BackgroundTasks\Types\Type;
  * The Value as a defined format of data passed between two tasks. IO MUST be serialisable
  * since it will bes stored in the database or somewhere else
  */
-interface Value extends \Serializable
+interface Value extends Serializable
 {
     
     /**

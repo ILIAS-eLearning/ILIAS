@@ -117,30 +117,31 @@ class ListValue extends AbstractValue
         
         return $types;
     }
-    
-    /**
-     * String representation of object
-     * @link  http://php.net/manual/en/serializable.serialize.php
-     * @return string the string representation of the object or null
-     * @since 5.1.0
-     */
-    public function serialize()
+
+    public function serialize() : string
     {
-        return serialize($this->list);
+        return serialize($this);
+    }
+
+    public function unserialize($data) : void
+    {
+        /** @var self $unserialized */
+        $unserialized = unserialize($data);
+
+        $this->list = $unserialized->list;
+        $this->type = $unserialized->type;
+    }
+
+    public function __serialize() : array
+    {
+        return [
+            'list' => $this->list
+        ];
     }
     
-    /**
-     * Constructs the object
-     * @link  http://php.net/manual/en/serializable.unserialize.php
-     * @param string $serialized <p>
-     *                           The string representation of the object.
-     *                           </p>
-     * @return void
-     * @since 5.1.0
-     */
-    public function unserialize($serialized)
+    public function __unserialize(array $data) : void
     {
-        $this->list = unserialize($serialized);
+        $this->list = $data['list'];
         $this->type = $this->deriveType($this->list);
     }
     

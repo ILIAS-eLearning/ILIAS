@@ -128,21 +128,19 @@ class ilWorkspaceCopyDefinition extends AbstractValue
 
     public function getHash() : string
     {
-        return md5($this->serialize());
+        return md5(serialize($this));
     }
 
-    public function serialize() : string
+    public function __serialize() : array
     {
-        return serialize(
-            [
-                "copy_definition" => $this->getCopyDefinitions(),
-                "temp_dir" => $this->getTempDir(),
-                "object_wsp_ids" => implode(",", $this->getObjectWspIds()),
-                "num_files" => $this->getNumFiles(),
-                "sum_file_sizes" => $this->getSumFileSizes(),
-                "adheres_to_limit" => $this->getAdheresToLimit()
-            ]
-        );
+        return [
+            "copy_definition" => $this->getCopyDefinitions(),
+            "temp_dir" => $this->getTempDir(),
+            "object_wsp_ids" => implode(",", $this->getObjectWspIds()),
+            "num_files" => $this->getNumFiles(),
+            "sum_file_sizes" => $this->getSumFileSizes(),
+            "adheres_to_limit" => $this->getAdheresToLimit()
+        ];
     }
 
     /**
@@ -154,19 +152,31 @@ class ilWorkspaceCopyDefinition extends AbstractValue
         $this->copy_definitions = $value;
     }
 
-    /**
-     * Unserialize definitions
-     * @param string $data
-     */
-    public function unserialize($data)
+    public function __unserialize(array $data) : void
     {
-        $elements = unserialize($data);
+        $this->setCopyDefinitions($data["copy_definition"]);
+        $this->setTempDir($data['temp_dir']);
+        $this->setObjectWspIds(explode(",", $data["object_wsp_ids"]));
+        $this->setNumFiles($data["num_files"]);
+        $this->setSumFileSizes($data["sum_file_sizes"]);
+        $this->setAdheresToLimit($data["adheres_to_limit"]);
+    }
 
-        $this->setCopyDefinitions($elements["copy_definition"]);
-        $this->setTempDir($elements['temp_dir']);
-        $this->setObjectWspIds(explode(",", $elements["object_wsp_ids"]));
-        $this->setNumFiles($elements["num_files"]);
-        $this->setSumFileSizes($elements["sum_file_sizes"]);
-        $this->setAdheresToLimit($elements["adheres_to_limit"]);
+    public function serialize() : string
+    {
+        return serialize($this);
+    }
+
+    public function unserialize($data) : void
+    {
+        /** @var self $unserialized */
+        $unserialized = unserialize($data);
+
+        $this->setCopyDefinitions($unserialized->copy_definitions);
+        $this->setTempDir($unserialized->temp_dir);
+        $this->setObjectWspIds($unserialized->object_wsp_ids);
+        $this->setNumFiles($unserialized->num_files);
+        $this->setSumFileSizes($unserialized->sum_file_sizes);
+        $this->setAdheresToLimit($unserialized->adheres_to_limit);
     }
 }
