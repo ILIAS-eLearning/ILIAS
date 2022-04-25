@@ -970,8 +970,8 @@ class ilSurveyEditorGUI
         if ($a_block_id) {
             $questionblock = ilObjSurvey::_getQuestionblock($a_block_id);
             $title->setValue($questionblock["title"]);
-            $toggle_blocktitle->setChecked($questionblock["show_blocktitle"]);
-            $toggle_questiontitle->setChecked($questionblock["show_questiontext"]);
+            $toggle_blocktitle->setChecked((bool) $questionblock["show_blocktitle"]);
+            $toggle_questiontitle->setChecked((bool) $questionblock["show_questiontext"]);
         } else {
             $toggle_blocktitle->setChecked(true);
             $toggle_questiontitle->setChecked(true);
@@ -979,7 +979,7 @@ class ilSurveyEditorGUI
 
         $compress_view = new ilCheckboxInputGUI($this->lng->txt("svy_compress_view"), "compress_view");
         $compress_view->setInfo($this->lng->txt("svy_compress_view_info"));
-        $compress_view->setChecked($questionblock["compress_view"]);
+        $compress_view->setChecked((bool) $questionblock["compress_view"]);
         $form->addItem($compress_view);
 
         $form->addCommandButton("saveDefineQuestionblock", $this->lng->txt("save"));

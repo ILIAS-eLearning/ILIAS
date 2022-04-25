@@ -120,7 +120,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             "page_history"
         );
         $cb_prop->setInfo($lng->txt("cont_enable_page_history_info"));
-        $cb_prop->setChecked($lm_set->get("page_history", 1));
+        $cb_prop->setChecked((bool) $lm_set->get("page_history", '1'));
         $form->addItem($cb_prop);
         
         // Time scheduled page activation
@@ -129,7 +129,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             "time_scheduled_page_activation"
         );
         $cb_prop->setInfo($lng->txt("cont_enable_time_scheduled_page_activation_info"));
-        $cb_prop->setChecked($lm_set->get("time_scheduled_page_activation"));
+        $cb_prop->setChecked((bool) $lm_set->get("time_scheduled_page_activation"));
         $form->addItem($cb_prop);
 
         // lm starting point
@@ -149,7 +149,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             "replace_mob_feature"
         );
         $cb_prop->setInfo($lng->txt("cont_replace_mob_feature_info"));
-        $cb_prop->setChecked($lm_set->get("replace_mob_feature"));
+        $cb_prop->setChecked((bool) $lm_set->get("replace_mob_feature"));
         $form->addItem($cb_prop);
 
         // Activate HTML export IDs
@@ -158,13 +158,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             "html_export_ids"
         );
         $cb_prop->setInfo($lng->txt("cont_html_export_ids_info"));
-        $cb_prop->setChecked($lm_set->get("html_export_ids"));
+        $cb_prop->setChecked((bool) $lm_set->get("html_export_ids"));
         $form->addItem($cb_prop);
 
         // scormDebugger activation
         $cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_global_activate"), "scormdebug_global_activate");
         $cb_prop->setInfo($lng->txt("scormdebug_global_activate_info"));
-        $cb_prop->setChecked($lm_set->get("scormdebug_global_activate"));
+        $cb_prop->setChecked((bool) $lm_set->get("scormdebug_global_activate"));
         $form->addItem($cb_prop);
 
         // scorm2004 disableRTECaching
@@ -173,7 +173,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             "scormdebug_disable_cache"
         );
         $cb_prop->setInfo($lng->txt("scormdebug_disable_cache_info"));
-        $cb_prop->setChecked($lm_set->get("scormdebug_disable_cache"));
+        $cb_prop->setChecked((bool) $lm_set->get("scormdebug_disable_cache"));
         $form->addItem($cb_prop);
 
         // scorm2004 without session
@@ -182,13 +182,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             "scorm_without_session"
         );
         $cb_prop->setInfo($lng->txt("scorm_without_session_info"));
-        $cb_prop->setChecked($lm_set->get("scorm_without_session"));
+        $cb_prop->setChecked((bool) $lm_set->get("scorm_without_session"));
         $form->addItem($cb_prop);
         
         $privacy = ilPrivacySettings::getInstance();
         $check = new ilCheckboxInputGui($lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
         $check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
-        $check->setChecked($privacy->enabledSahsProtocolData());
+        $check->setChecked((bool) $privacy->enabledSahsProtocolData());
         $form->addItem($check);
 
         // show and export protocol data with name
@@ -200,7 +200,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         // scorm auto-setting for learning progress
         $cb_prop = new ilCheckboxInputGUI($lng->txt("scorm_lp_auto_activate"), "scorm_lp_auto_activate");
         $cb_prop->setInfo($lng->txt("scorm_lp_auto_activate_info"));
-        $cb_prop->setChecked($lm_set->get("scorm_lp_auto_activate"));
+        $cb_prop->setChecked((bool) $lm_set->get("scorm_lp_auto_activate"));
         $form->addItem($cb_prop);
 
         // command buttons

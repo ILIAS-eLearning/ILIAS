@@ -184,7 +184,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $prtf_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_prtf'), 'prtf');
         $prtf_prop->setValue('1');
         $prtf_prop->setInfo($lng->txt('user_portfolios_desc'));
-        $prtf_prop->setChecked(($ilSetting->get('user_portfolios') ? '1' : '0'));
+        $prtf_prop->setChecked((bool) $ilSetting->get('user_portfolios'));
         $form->addItem($prtf_prop);
 
         $prfa_set = new ilSetting("prfa");

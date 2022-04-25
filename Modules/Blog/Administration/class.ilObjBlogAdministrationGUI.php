@@ -161,7 +161,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         $banner->addSubItem($height);
         
         $blga_set = new ilSetting("blga");
-        $banner->setChecked($blga_set->get("banner", false));
+        $banner->setChecked((bool) $blga_set->get("banner", '0'));
         if ($blga_set->get("banner")) {
             $width->setValue($blga_set->get("banner_width"));
             $height->setValue($blga_set->get("banner_height"));
