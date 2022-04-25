@@ -354,4 +354,50 @@ class ilPCFileList extends ilPageContent
         }
         return $file_ids;
     }
+
+    public static function deleteHistoryLowerEqualThan(
+        string $parent_type,
+        int $page_id,
+        string $lang,
+        int $delete_lower_than_nr
+    ) : void {
+        $file_ids = self::_deleteHistoryUsagesLowerEqualThan(
+            $parent_type,
+            $page_id,
+            $delete_lower_than_nr,
+            $lang
+        );
+
+        foreach ($file_ids as $file_id) {
+            $file = new ilObjFile($file_id, false);
+            $usages = $file->getUsages();
+            if (count($usages) == 0) {
+                $file->delete();
+            }
+        }
+    }
+
+    protected static function _deleteHistoryUsagesLowerEqualThan(
+        string $parent_type,
+        int $a_id,
+        int $a_usage_hist_nr,
+        string $a_lang = "-") : array
+    {
+        global $DIC;
+
+        $hist_repo = $DIC->copage()->internal()->repo()->history();
+
+        $file_ids = [];
+        foreach ($hist_repo->getHistoryNumbersOlderEqualThanNr(
+            $a_usage_hist_nr,
+            $parent_type,
+            $a_id,
+            $a_lang) as $old_nr) {
+            foreach (ilObjFile::_getFilesOfObject($parent_type . ":pg", $a_id, $old_nr, $a_lang) as $file_id) {
+                $file_ids[$file_id] = $file_id;
+            }
+            ilObjFile::_deleteAllUsages($parent_type . ":pg", $a_id, $old_nr, $a_lang);
+        }
+        return $file_ids;
+    }
 }

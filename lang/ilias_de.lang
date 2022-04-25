@@ -16805,3 +16805,11 @@ mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht
 mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
 mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
 mcst#:#mcst_audio_files#:#Audiodateien
+copg#:#copg_cron_days#:#Einträge älter als x löschen
+copg#:#copg_cron_days_info#:#Löscht Einträge aus dem Verlauf, die älter als der angegebene Zeitraum sind.
+copg#:#copg_cron_keep_entries#:#Mindestanzahl Einträge
+copg#:#copg_cron_keep_entries_info#:#Diese Anzahl an Einträgen wird im Verlauf behalten, auch wenn diese älter als der angegebene Zeitraum sind.
+copg#:#copg_days#:#Tage
+copg#:#copg_entries#:#Einträge
+copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
+copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.

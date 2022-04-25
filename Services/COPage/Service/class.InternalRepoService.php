@@ -15,6 +15,9 @@
 
 namespace ILIAS\COPage;
 
+use ILIAS\COPage\History\HistoryDBRepository;
+use ILIAS\COPage\Usage\UsageDBRepository;
+
 /**
  * Repository internal repo service
  * @author Alexander Killing <killing@leifos.de>
@@ -47,4 +50,15 @@ class InternalRepoService
             $this->db
         );
     }
+
+    public function history() : HistoryDBRepository
+    {
+        return new HistoryDBRepository($this->db);
+    }
+
+    public function usage() : UsageDBRepository
+    {
+        return new UsageDBRepository($this->db);
+    }
+
 }

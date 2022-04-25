@@ -16775,3 +16775,11 @@ mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at th
 mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress
 mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.
 mcst#:#mcst_audio_files#:#Audio Files
+copg#:#copg_cron_days#:#Delete pages older than
+copg#:#copg_cron_days_info#:#Page history entries older than this period will be deleted.
+copg#:#copg_cron_keep_entries#:#Keep Minimum
+copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.
+copg#:#copg_days#:#Days
+copg#:#copg_entries#:#Entries
+copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
+copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.

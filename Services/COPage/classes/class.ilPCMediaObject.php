@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\MediaObjects\Usage\UsageDBRepository;
+
 /**
  * Class ilPCMediaObject
  * Media content object (see ILIAS DTD)
@@ -20,6 +22,7 @@
  */
 class ilPCMediaObject extends ilPageContent
 {
+    protected UsageDBRepository $mob_usage_repo;
     protected php4DOMElement $mal_node;
     protected ilObjUser $user;
     protected php4DOMElement $mob_node;
@@ -37,6 +40,10 @@ class ilPCMediaObject extends ilPageContent
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
         $this->global_tpl = $DIC['tpl'];
+        $this->mob_usage_repo = $DIC->mediaObjects()
+            ->internal()
+            ->repo()
+            ->usage();
     }
 
     public function readMediaObject(int $a_mob_id = 0) : void
@@ -530,5 +537,45 @@ class ilPCMediaObject extends ilPageContent
             }
         }
         return false;
+    }
+
+    public static function deleteHistoryLowerEqualThan(
+        string $parent_type,
+        int $page_id,
+        string $lang,
+        int $delete_lower_than_nr
+    ) : void {
+        global $DIC;
+
+        $mob_usage_repo = $DIC->mediaObjects()
+            ->internal()
+            ->repo()
+            ->usage();
+
+        $log = ilLoggerFactory::getLogger("copg");
+
+        $mob_ids = $mob_usage_repo->getHistoryUsagesLowerEqualThan(
+            $parent_type . ":pg",
+            $page_id,
+            $delete_lower_than_nr,
+            $lang
+        );
+
+        $mob_usage_repo->deleteHistoryUsagesLowerEqualThan(
+            $parent_type . ":pg",
+            $page_id,
+            $delete_lower_than_nr,
+            $lang
+        );
+
+        foreach ($mob_ids as $mob_id) {
+            $usages = ilObjMediaObject::lookupUsages($mob_id, true);
+            $log->debug("...check deletion of mob $mob_id. Usages: ".count($usages));
+            if (count($usages) == 0) {
+                $mob = new ilObjMediaObject($mob_id);
+                $log->debug("Deleting Mob ID: " . $mob_id);
+                $mob->delete();
+            }
+        }
     }
 }

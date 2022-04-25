@@ -149,4 +149,28 @@ class ilPCSkills extends ilPageContent
 
         return $skl_ids;
     }
+
+    public static function deleteHistoryLowerEqualThan(
+        string $parent_type,
+        int $page_id,
+        string $lang,
+        int $delete_lower_than_nr
+    ) : void {
+        global $DIC;
+
+        $usage_repo = $DIC->copage()
+                              ->internal()
+                              ->repo()
+                              ->usage();
+
+        $usage_repo->deleteHistoryUsagesLowerEqualThan(
+            "skmg",
+            $parent_type . ":pg",
+            $page_id,
+            $delete_lower_than_nr,
+            $lang
+        );
+
+    }
+
 }
