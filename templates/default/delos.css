@@ -1101,7 +1101,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #161616;
-  background-color: #f0f0f0;
+  background-color: white;
 }
 input,
 button,
@@ -1161,7 +1161,7 @@ img {
 .img-thumbnail {
   padding: 4px;
   line-height: 1.42857143;
-  background-color: #f0f0f0;
+  background-color: white;
   border: 1px solid #ddd;
   border-radius: 0px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -2484,7 +2484,7 @@ th {
   border-top: 2px solid #ddd;
 }
 .table .table {
-  background-color: #f0f0f0;
+  background-color: white;
 }
 .table-condensed > thead > tr > th,
 .table-condensed > tbody > tr > th,
@@ -4234,7 +4234,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:focus {
   color: #555555;
   cursor: default;
-  background-color: #f0f0f0;
+  background-color: white;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
 }
@@ -4279,7 +4279,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs.nav-justified > .active > a,
   .nav-tabs.nav-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #f0f0f0;
+    border-bottom-color: white;
   }
 }
 .nav-pills > li {
@@ -4347,7 +4347,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs-justified > .active > a:focus {
-    border-bottom-color: #f0f0f0;
+    border-bottom-color: white;
   }
 }
 .tab-content > .tab-pane {
@@ -5180,7 +5180,7 @@ a.badge:focus {
   padding: 4px;
   margin-bottom: 20px;
   line-height: 1.42857143;
-  background-color: #f0f0f0;
+  background-color: white;
   border: 1px solid #ddd;
   border-radius: 0px;
   -webkit-transition: border 0.2s ease-in-out;
@@ -8243,7 +8243,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding-top: 0;
 }
 .il-standard-form .il-dependant-group {
-  background-color: #f9f9f9;
+  background-color: #f0f0f0;
   padding: 4px 0;
 }
 .il-standard-form .il-dependant-group .form-group {
@@ -9250,7 +9250,7 @@ footer {
 }
 @media only screen and (max-width: 768px) {
   .il-layout-page {
-    background: #f0f0f0;
+    background: white;
     display: block;
     overflow: initial;
     width: 100%;
@@ -10115,7 +10115,7 @@ footer {
   display: none;
 }
 .il-mainbar-tools-entries-bg {
-  background: #f0f0f0;
+  background: #f9f9f9;
   display: flex;
   height: 80px;
   width: 100%;
@@ -12800,7 +12800,7 @@ div#bot_center_area {
   height: 300px;
   position: fixed;
   padding: 5px;
-  background-color: #f0f0f0;
+  background-color: white;
   border-top: 3px solid #dddddd;
   -webkit-overflow-scrolling: touch;
   /* Bug 11209 */
@@ -13297,11 +13297,12 @@ input[type="file"].form-control {
   background-color: white;
 }
 .ilSubForm {
-  background-color: #f9f9f9;
+  background-color: #f0f0f0;
   padding: 3px 0;
   margin-bottom: 10px;
 }
 .ilSubForm .form-group {
+  background-color: #f0f0f0;
   margin: 0;
 }
 @media (max-width: 768px) {
@@ -16148,7 +16149,7 @@ td.chatroom {
   white-space: nowrap;
 }
 .ilChatroomUser .dropdown-menu {
-  background-color: #f0f0f0;
+  background-color: #f9f9f9;
   padding: 10px 0;
   font-size: 12px;
 }
@@ -17984,7 +17985,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   padding-right: 5px;
   width: 278px;
   height: 377px;
-  background-color: #f0f0f0;
+  background-color: white;
 }
 #onscreenchat-container .chat-window-wrapper:last-child {
   padding-left: 0;
@@ -18794,7 +18795,7 @@ span.ilProfileBadge .modal .img-responsive {
   text-align: center;
 }
 .ilPCLearnHist {
-  background-color: #f0f0f0;
+  background-color: white;
   padding: 3px 8px;
 }
 /* ilPreview classes */

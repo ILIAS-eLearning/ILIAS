@@ -36,7 +36,7 @@ with the il- variable set here.
 //** Title area of various components such as Panels. Used as e.g. in containers as bg. Used to be @il-secondary-bg
 @il-main-dark-bg: #f9f9f9;
 //** Background of everything in the Content Area, which is the area bellow the Meta Bar and Breadcrumbs next to the Main Bar. Used to be @body-bg
-@il-content-bg: #f0f0f0;
+@il-main-darker-bg: #f0f0f0;
 
 //** Currently used for several highlighting effects, such as hovering
 @il-highlight-bg: lighten(@il-main-color, 50%);
@@ -204,7 +204,7 @@ with the il- variable set here.
 @il-mainbar-btn-label-size: .9rem;
 @il-mainbar-bulky-label-margin-top: 5px;
 @il-mainbar-tools-btn-bg: @il-warning-color;
-@il-mainbar-tools-bg: @il-content-bg;
+@il-mainbar-tools-bg: @il-main-dark-bg;
 @il-mainbar-tools-item-gap: 3px;
 
 //** tools
@@ -395,7 +395,7 @@ with the il- variable set here.
 //** Textsize color used in the form headers the section headers byline (description)
 @il-standard-form-header-byline-font-size: @il-font-size-small;
 //** Background color used for dependant groups (sub forms) in standard forms
-@il-standard-form-dependant-group-bg: @il-main-dark-bg;
+@il-standard-form-dependant-group-bg: @il-main-darker-bg;
 
 //** Minimal size of non-empty buttons inside forms
 @il-button-min-width-forms: 60px;
@@ -597,8 +597,8 @@ with the il- variable set here.
 @il-item-padding: @padding-large-horizontal;
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
-@il-item-border-bottom: 2px solid @il-content-bg;
-@il-item-border-bottom-small: 1px solid @il-content-bg;
+@il-item-border-bottom: 2px solid @il-main-darker-bg;
+@il-item-border-bottom-small: 1px solid @il-main-darker-bg;
 @il-item-gap-base: 6px;
 @il-item-gap-large: 10px;
 @il-item-gap-small: 5px;
