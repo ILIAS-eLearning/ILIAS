@@ -482,7 +482,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $r = $db->queryF('SELECT child FROM tree WHERE parent = %s', array('integer'), array($parent));
 
         while ($row = $db->fetchAssoc($r)) {
-            self::createMaterializedPath((int) $row['child'], (string) ($parentPath . $row['child'] . '.'));
+            self::createMaterializedPath(
+                (int) $row['child'],
+                $parentPath . $row['child'] . '.'
+            );
         }
         return true;
     }
@@ -565,7 +568,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
         uasort($nodes, $depth_first_compare);
 
-        return (array) $nodes;
+        return $nodes;
     }
 
     /**

@@ -98,7 +98,7 @@ class ilTreeTrashQueries
     public function getNumberOfTrashedNodesForTrashedContainer(int $ref_id) : int
     {
         $res = $this->db->query($this->tree->getTrashSubTreeQuery($ref_id, ['child']));
-        return (int) $res->numRows();
+        return $res->numRows();
     }
 
     /**

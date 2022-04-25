@@ -651,7 +651,7 @@ class ilNestedSetTree implements ilTreeImplementation
                 } else {
                     $qJoin .= ' JOIN ' . $this->getTree()->getTreeTable() . ' t' . $i . ' ON ' .
                         't' . $i . '.child=t' . ($i - 1) . '.parent AND ' .
-                        't' . $i . '.' . $this->getTree()->getTreePk() . ' = ' . (int) $this->getTree()->getTreeId();
+                        't' . $i . '.' . $this->getTree()->getTreePk() . ' = ' . $this->getTree()->getTreeId();
                 }
             }
 
@@ -942,7 +942,7 @@ class ilNestedSetTree implements ilTreeImplementation
             $nodes[(int) $row->child]['child'] = (int) $row->child;
             $nodes[(int) $row->child]['type'] = (string) $row->type;
         }
-        return (array) $nodes;
+        return $nodes;
     }
 
     /**

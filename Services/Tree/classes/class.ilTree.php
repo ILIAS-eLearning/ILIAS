@@ -662,7 +662,7 @@ class ilTree
 
         // reset deletion date
         if ($a_reset_deletion_date) {
-            ilObject::_resetDeletedDate((int) $a_node_id);
+            ilObject::_resetDeletedDate($a_node_id);
         }
         if (isset($this->eventHandler) && ($this->eventHandler instanceof ilAppEventHandler) && $this->__isMainTree()) {
             $this->eventHandler->raise(
@@ -1090,7 +1090,7 @@ class ilTree
             $a_tree_pk === null ? $this->tree_id : $a_tree_pk
         ));
         $row = $this->db->fetchAssoc($res);
-        $row[$this->tree_pk] = (int) $this->tree_id;
+        $row[$this->tree_pk] = $this->tree_id;
 
         return $this->fetchNodeData($row);
     }
@@ -1366,7 +1366,7 @@ class ilTree
         }
 
         if ($a_set_deleted) {
-            ilObject::setDeletedDates($subnodes, (int) $a_deleted_by);
+            ilObject::setDeletedDates($subnodes, $a_deleted_by);
         }
         // netsted set <=> mp
         $this->getTreeImplementation()->moveToTrash($a_node_id);
