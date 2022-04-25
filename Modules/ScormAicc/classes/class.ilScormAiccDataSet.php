@@ -1,58 +1,92 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\DI\Container;
+
 include_once("./Services/DataSet/classes/class.ilDataSet.php");
 
 class ilScormAiccDataSet extends ilDataSet
 {
+
+    /**
+     * @var Container $DIC
+     */
+    private $dic;
+
+    /**
+     * @var string
+     */
+    private $db_table = "sahs_lm";
+
+    /**
+     * @var array
+     */
+    public $data = [];
+
+    /**
+     * @var array
+     */
+    private $_archive = [];
+
+    /**
+     * @var array
+     */
+    private $element_db_mapping = [];
+
+    /**
+     * @var string[][]
+     */
+    public  $properties = [
+        //"OfflineZipCreated" => "datetime",
+        "Id" => ["db_col" => "id", "db_type" => "integer"],
+        //"EntryPage" => "integer",
+        "APIAdapterName" => ["db_col" => "api_adapter", "db_type" => "text"],
+        "APIFunctionsPrefix" => ["db_col" => "api_func_prefix", "db_type" => "text"],
+        "AssignedGlossary" => ["db_col" => "glossary", "db_type" => "integer"],
+        "AutoContinue" => ["db_col" => "auto_continue", "db_type" => "text"],
+        "AutoReviewChar" => ["db_col" => "auto_review", "db_type" => "text"],
+        "AutoSuspend" => ["db_col" => "auto_suspend", "db_type" => "text"],
+        "Auto_last_visited" => ["db_col" => "auto_last_visited", "db_type" => "text"],
+        "Check_values" => ["db_col" => "check_values", "db_type" => "text"],
+        "Comments" => ["db_col" => "comments", "db_type" => "text"],
+        "CreditMode" => ["db_col" => "credit", "db_type" => "text"],
+        "Debug" => ["db_col" => "debug", "db_type" => "text"],
+        "DebugPw" => ["db_col" => "debugpw", "db_type" => "text"],
+        "DefaultLessonMode" => ["db_col" => "default_lesson_mode", "db_type" => "text"],
+        "Editable" => ["db_col" => "editable", "db_type" => "integer"],
+        "Fourth_edition" => ["db_col" => "fourth_edition", "db_type" => "text"],
+        "Height" => ["db_col" => "height", "db_type" => "integer"],
+        "HideNavig" => ["db_col" => "hide_navig", "db_type" => "text"],
+        "Ie_force_render" => ["db_col" => "ie_force_render", "db_type" => "text"],
+        "Interactions" => ["db_col" => "interactions", "db_type" => "text"],
+        "Localization" => ["db_col" => "localization", "db_type" => "text"],
+        "MasteryScore" => ["db_col" => "mastery_score", "db_type" => "integer"],
+        "MaxAttempt" => ["db_col" => "max_attempt", "db_type" => "integer"],
+        "ModuleVersion" => ["db_col" => "module_version", "db_type" => "integer"],
+        "NoMenu" => ["db_col" => "no_menu", "db_type" => "text"],
+        "Objectives" => ["db_col" => "objectives", "db_type" => "text"],
+        "OfflineMode" => ["db_col" => "offline_mode", "db_type" => "text"],
+        "OpenMode" => ["db_col" => "open_mode", "db_type" => "integer"],
+        "Sequencing" => ["db_col" => "sequencing", "db_type" => "text"],
+        "SequencingExpertMode" => ["db_col" => "seq_exp_mode", "db_type" => "integer"],
+        "Session" => ["db_col" => "unlimited_session", "db_type" => "text"],
+        "StyleSheetId" => ["db_col" => "stylesheet", "db_type" => "integer"],
+        "SubType" => ["db_col" => "c_type", "db_type" => "text"],
+        "Time_from_lms" => ["db_col" => "time_from_lms", "db_type" => "text"],
+        "Tries" => ["db_col" => "question_tries", "db_type" => "integer"],
+        "Width" => ["db_col" => "width", "db_type" => "integer"],
+        "IdSetting" => ["db_col" => "id_setting", "db_type" => "integer"],
+        "NameSetting" => ["db_col" => "name_setting", "db_type" => "integer"]
+    ];
+
     public function __construct()
     {
-        $this->db_table = "sahs_lm";
-        $this->properties = [
-            //"OfflineZipCreated" => "datetime",
-            "Id" => ["db_col" => "id", "db_type" => "integer"],
-            //"EntryPage" => "integer",
-            "APIAdapterName" => ["db_col" => "api_adapter", "db_type" => "text"],
-            "APIFunctionsPrefix" => ["db_col" => "api_func_prefix", "db_type" => "text"],
-            "AssignedGlossary" => ["db_col" => "glossary", "db_type" => "integer"],
-            "AutoContinue" => ["db_col" => "auto_continue", "db_type" => "text"],
-            "AutoReviewChar" => ["db_col" => "auto_review", "db_type" => "text"],
-            "AutoSuspend" => ["db_col" => "auto_suspend", "db_type" => "text"],
-            "Auto_last_visited" => ["db_col" => "auto_last_visited", "db_type" => "text"],
-            "Check_values" => ["db_col" => "check_values", "db_type" => "text"],
-            "Comments" => ["db_col" => "comments", "db_type" => "text"],
-            "CreditMode" => ["db_col" => "credit", "db_type" => "text"],
-            "Debug" => ["db_col" => "debug", "db_type" => "text"],
-            "DebugPw" => ["db_col" => "debugpw", "db_type" => "text"],
-            "DefaultLessonMode" => ["db_col" => "default_lesson_mode", "db_type" => "text"],
-            "Editable" => ["db_col" => "editable", "db_type" => "integer"],
-            "Fourth_edition" => ["db_col" => "fourth_edition", "db_type" => "text"],
-            "Height" => ["db_col" => "height", "db_type" => "integer"],
-            "HideNavig" => ["db_col" => "hide_navig", "db_type" => "text"],
-            "Ie_force_render" => ["db_col" => "ie_force_render", "db_type" => "text"],
-            "Interactions" => ["db_col" => "interactions", "db_type" => "text"],
-            "Localization" => ["db_col" => "localization", "db_type" => "text"],
-            "MasteryScore" => ["db_col" => "mastery_score", "db_type" => "integer"],
-            "MaxAttempt" => ["db_col" => "max_attempt", "db_type" => "integer"],
-            "ModuleVersion" => ["db_col" => "module_version", "db_type" => "integer"],
-            "NoMenu" => ["db_col" => "no_menu", "db_type" => "text"],
-            "Objectives" => ["db_col" => "objectives", "db_type" => "text"],
-            "OfflineMode" => ["db_col" => "offline_mode", "db_type" => "text"],
-            "OpenMode" => ["db_col" => "open_mode", "db_type" => "integer"],
-            "Sequencing" => ["db_col" => "sequencing", "db_type" => "text"],
-            "SequencingExpertMode" => ["db_col" => "seq_exp_mode", "db_type" => "integer"],
-            "Session" => ["db_col" => "unlimited_session", "db_type" => "text"],
-            "StyleSheetId" => ["db_col" => "stylesheet", "db_type" => "integer"],
-            "SubType" => ["db_col" => "c_type", "db_type" => "text"],
-            "Time_from_lms" => ["db_col" => "time_from_lms", "db_type" => "text"],
-            "Tries" => ["db_col" => "question_tries", "db_type" => "integer"],
-            "Width" => ["db_col" => "width", "db_type" => "integer"],
-            "IdSetting" => ["db_col" => "id_setting", "db_type" => "integer"],
-            "NameSetting" => ["db_col" => "name_setting", "db_type" => "integer"]
-        ];
+        global $DIC; /** @var Container $DIC */
+        $this->dic = $DIC;
+        parent::__construct();
 
-        $this->element_db_mapping = [];
         foreach ($this->properties as $key => $value) {
-            $this->element_db_mapping [$value["db_col"]] = $key;
+            $this->element_db_mapping[$value["db_col"]] = $key;
         }
     }
 
@@ -95,7 +129,7 @@ class ilScormAiccDataSet extends ilDataSet
      * $data contains imported module properties from xml file
      * @return
      */
-    public function writeData($a_entity, $a_version, $a_id, $data)
+    public function writeData($a_entity, $a_version, $a_id, $data = [])
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -115,9 +149,7 @@ class ilScormAiccDataSet extends ilDataSet
                 }
                 //end fix
                 if (isset($data[$key])) {
-                    if (count($data[$key]) > 0) {
-                        $columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
-                    }
+                    $columns [$value["db_col"]] = [$value["db_type"], $data[$key]];
                 }
             }
             if (count($columns) > 0) {
@@ -133,9 +165,7 @@ class ilScormAiccDataSet extends ilDataSet
             ];
             foreach ($od_properties as $key => $value) {
                 if (isset($data[$key])) {
-                    if (count($data[$key]) > 0) {
-                        $od_columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
-                    }
+                    $od_columns [$value["db_col"]] = [$value["db_type"], $data[$key]];
                 }
 
                 if (count($od_columns) > 0) {
@@ -170,120 +200,111 @@ class ilScormAiccDataSet extends ilDataSet
      * @param string $a_field
      * @param bool $a_omit_header
      * @param bool $a_omit_types
-     * @return string
+     * @return string|void
      */
-    public function getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
+    public function getExtendedXmlRepresentation($a_entity, $a_schema_version, int $a_ids, string $a_field = "", bool $a_omit_header = false, bool $a_omit_types = false)
     {
-        $GLOBALS['DIC']["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
+        global $DIC; /** @var Container $DIC */
+
+        $GLOBALS["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
         $this->dircnt = 1;
 
-        $this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");
+        $this->readData($a_entity, $a_schema_version, $a_ids);
         $id = $this->data["id"];
 
-        require_once("./Services/Export/classes/class.ilExport.php");
-        $exportDir = ilExport::_getExportDirectory($id);
+        // requirements
+        require_once( dirname(__DIR__,3) . "/Services/Export/classes/class.ilExport.php");
+        require_once(dirname(__DIR__,3) . "/Services/Xml/classes/class.ilXmlWriter.php");
 
-        // step 1: check target release and supported versions
-        // step 2: init writer
-        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $writer = new ilXmlWriter();
-        if (!$a_omit_header) {
-            $writer->xmlHeader();
-        }
 
-        $atts = array("InstallationId" => IL_INST_ID,
-            "InstallationUrl" => ILIAS_HTTP_PATH, "TopEntity" => $a_entity);
-
-        $writer->appendXML("\n");
-        $writer->xmlStartTag($this->getDSPrefixString() . 'DataSet', $atts);
-        $writer->appendXML("\n");
-
-        foreach ($this->data as $key => $value) {
-            $writer->xmlElement($this->getElementNameByDbColumn($key), null, $value, true, true);
-            $writer->appendXML("\n");
-        }
-
-        $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
-        $baseFileName = "sahs_" . $id;
-        $scormBasePath = $exportDir . "/" . $baseFileName;
-        if (!file_exists($exportDir)) {
-            mkdir($exportDir, 0755, true);
-        }
-
-        ilUtil::zip($lmDir, $scormBasePath, true);
-        $scormFilePath = $scormBasePath . ".zip";
-
-        $writer->xmlEndTag($this->getDSPrefixString() . "DataSet");
-        $writer->appendXML("\n");
-
-        $xml = $writer->xmlDumpMem(false);
-        $baseExportName = time() . "__" . IL_INST_ID . "__" . $baseFileName;
-        $xmlFilePath = $exportDir . "/" . $baseExportName . ".xml";
-
-        if (!file_exists($xmlFilePath)) {
-            $xmlFile = fopen($xmlFilePath, "w");
-            fwrite($xmlFile, $xml);
-            fclose($xmlFile);
-        }
-
-        //create metadata
-        $metaData = $this->buildMetaData($id);
-
-        $metaDataFilePath = $exportDir . "/" . $baseExportName . "_metadata.xml";
-        if (!file_exists($metaDataFilePath)) {
-            $metaDataFile = fopen($metaDataFilePath, "w");
-            fwrite($metaDataFile, $metaData);
-            fclose($metaDataFile);
-        }
-
-        //create manifest file
-        $manWriter = new ilXmlWriter();
-        $manWriter->xmlHeader();
-        $manWriter->appendXML("\n<content>\n");
-
-        $files = [
-            "scormFile" => "content.zip",
-            "properties" => "properties.xml",
-            "metadata" => "metadata.xml"
+        // prepare archive skeleton
+        $objTypeAndId = "sahs_" . $id;
+        $this->_archive['directories'] = [
+            "exportDir" => ilExport::_getExportDirectory($id)
+            ,"tempDir" => ilExport::_getExportDirectory($id) . "/temp"
+            ,"archiveDir" => time() . "__" . IL_INST_ID . "__" . $objTypeAndId
+            ,"moduleDir" => $objTypeAndId
         ];
-        foreach ($files as $key => $value) {
-            $manWriter->xmlElement($key, null, $value, true, true);
-            $manWriter->appendXML("\n");
+
+        $this->_archive['files'] = [
+            "properties" => "properties.xml",
+            "metadata" => "metadata.xml",
+            "manifest" => 'manifest.xml',
+            'scormFile' => "content.zip"
+        ];
+
+        // Prepare temp storage on the local filesystem
+        if (!file_exists($this->_archive['directories']['exportDir'])) {
+            mkdir($this->_archive['directories']['exportDir'], 0755, true);
+            //$DIC->filesystem()->storage()->createDir($this->_archive['directories']['tempDir']);
+        }
+        if (!file_exists($this->_archive['directories']['tempDir'])) {
+            mkdir($this->_archive['directories']['tempDir'], 0755, true);
         }
 
-        $manWriter->appendXML("</content>\n");
-        $manifest = $manWriter->xmlDumpMem(false);
+        // build metadata xml file
+        file_put_contents(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
+            $this->buildMetaData($id)
+        );
 
-        $manifestFilePath = $exportDir . "/" . $baseExportName . "_manifest.xml";
-        if (!file_exists($manifestFilePath)) {
-            $manifestFile = fopen($manifestFilePath, "w");
-            fwrite($manifestFile, $manifest);
-            fclose($manifestFile);
+        // build manifest xml file
+        file_put_contents(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
+            $this->buildManifest()
+        );
+
+        // build content zip file
+        if (isset($this->_archive['files']['scormFile'])) {
+            $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
+            ilUtil::zip($lmDir, $this->_archive['directories']['tempDir'] . "/" . substr($this->_archive['files']['scormFile'], 0, -4), true);
         }
 
-        usleep(2000000);
-        $zArchive = new zipArchive();
-        $fileName = $exportDir . "/" . $baseExportName . ".zip";
+        // build property xml file
+        file_put_contents(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
+            $this->buildProperties($a_entity, $a_omit_header)
+        );
 
+        // zip tempDir and append to export folder
+        $fileName = $this->_archive['directories']['exportDir'] . "/" . $this->_archive['directories']['archiveDir'] . ".zip";
+        $zArchive = new ZipArchive();
         if ($zArchive->open($fileName, ZipArchive::CREATE) !== true) {
             exit("cannot open <$fileName>\n");
         }
-
-        //creating final zip file
-        $zArchive->addFile($xmlFilePath, $baseExportName . '/properties.xml');
-        $zArchive->addFile($scormFilePath, $baseExportName . '/content.zip');
-        $zArchive->addFile($manifestFilePath, $baseExportName . '/' . "manifest.xml");
-        $zArchive->addFile($metaDataFilePath, $baseExportName . '/' . "metadata.xml");
+        $zArchive->addFile(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
+            $this->_archive['directories']['archiveDir'] . '/properties.xml'
+        );
+        $zArchive->addFile(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
+            $this->_archive['directories']['archiveDir'] . '/' . "manifest.xml"
+        );
+        $zArchive->addFile(
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
+            $this->_archive['directories']['archiveDir'] . '/' . "metadata.xml"
+        );
+        if (isset($this->_archive['files']['scormFile'])) {
+            $zArchive->addFile(
+                $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['scormFile'],
+                $this->_archive['directories']['archiveDir'] . '/content.zip'
+            );
+        }
         $zArchive->close();
-        //delete temporary files
-        unlink($xmlFilePath);
-        unlink($scormFilePath);
-        unlink($manifestFilePath);
-        unlink($metaDataFilePath);
+
+        // unlink tempDir and its content
+        unlink($this->_archive['directories']['tempDir'] . "/metadata.xml");
+        unlink($this->_archive['directories']['tempDir'] . "/manifest.xml");
+        unlink($this->_archive['directories']['tempDir'] . "/properties.xml");
+        if (isset($this->_archive['files']['scormFile']) && file_exists($this->_archive['directories']['tempDir'] . "/content.zip")) {
+            unlink($this->_archive['directories']['tempDir'] . "/content.zip");
+        }
 
         return $fileName;
     }
+
+
 
     public function buildMetaData($id)
     {
@@ -334,5 +355,51 @@ class ilScormAiccDataSet extends ilDataSet
     public function getSupportedVersions()
     {
         return ["5.1.0"];
+    }
+
+    /**
+     * @return string
+     */
+    private function buildManifest() : string
+    {
+        $manWriter = new ilXmlWriter();
+        $manWriter->xmlHeader();
+        foreach ($this->_archive['files'] as $key => $value) {
+            $manWriter->xmlElement($key, null, $value, true, true);
+        }
+
+        return $manWriter->xmlDumpMem(true);
+    }
+
+    /**
+     * @param $a_entity
+     * @param bool $a_omit_header
+     * @return string
+     */
+    private function buildProperties($a_entity, $a_omit_header = false)
+    {
+        $writer = new ilXmlWriter();
+
+        if (!$a_omit_header) {
+            $writer->xmlHeader();
+        }
+
+        $writer->appendXML("\n");
+        $writer->xmlStartTag('DataSet', array(
+            "InstallationId" => IL_INST_ID,
+            "InstallationUrl" => ILIAS_HTTP_PATH,
+            "TopEntity" => $a_entity
+        ));
+
+        $writer->appendXML("\n");
+
+        foreach ($this->data as $key => $value) {
+            $writer->xmlElement($this->getElementNameByDbColumn($key), null, $value, true, true);
+			$writer->appendXML("\n");
+        }
+
+        $writer->xmlEndTag("DataSet");
+
+        return $writer->xmlDumpMem(false);
     }
 }
