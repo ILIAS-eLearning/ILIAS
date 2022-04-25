@@ -559,26 +559,6 @@ export default class ParagraphUI {
       $('#il_EditPage').replaceWith(o.responseText);
       this.reInitUI();
       il.IntLink.refresh();
-      if (o.argument.osd_text && o.argument.osd_text != "") {
-        OSDNotifier = OSDNotifications({
-          initialNotifications: [{
-            notification_osd_id: 123,
-            valid_until: 0,
-            visible_for: 3,
-            data: {
-              title: "",
-              link: false,
-              iconPath: false,
-              shortDescription: o.argument.osd_text,
-              handlerParams: {
-                osd: {
-                  closable: false
-                }
-              }
-            }
-          }]
-        });
-      }
     }
   }
 
