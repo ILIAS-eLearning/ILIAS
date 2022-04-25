@@ -46,10 +46,16 @@ abstract class File implements FileInterface
     use ComponentHelper;
     use Triggerer;
 
-    protected ?Form $form = null;
-    protected ?Input $metadata_input;
+    /**
+     * @var Transformation[]
+     */
+    protected array $operations = [];
+
+    protected ?ServerRequestInterface $request = null;
     protected InputFactory $input_factory;
+    protected ?Input $metadata_input;
     protected ilLanguage $language;
+    protected ?string $error = null;
     protected string $title = '';
     protected string $post_url;
 
@@ -101,27 +107,21 @@ abstract class File implements FileInterface
     // BEGIN IMPLEMENTATION OF Form
     // ==========================================
 
-    /**
-     * Returns either the previous instance of the dropzone's form or creates
-     * a new one with the current information for the file-input.
-     */
     public function getForm() : Form
     {
-        return $this->form ?? $this->input_factory->container()->form()->standard(
+        $form = $this->input_factory
+            ->container()
+            ->form()
+            ->standard(
                 $this->post_url,
-                [
-                    self::FILE_INPUT_KEY => $this->input_factory->field()->file(
-                            $this->upload_handler,
-                            '',
-                            null,
-                            $this->metadata_input
-                        )
-                        ->withMaxFiles($this->getMaxFiles())
-                        ->withMaxFileSize($this->getMaxFileSize())
-                        ->withAcceptedMimeTypes($this->getAcceptedMimeTypes())
-                    ,
-                ]
+                $this->getInputs()
             );
+
+        foreach ($this->operations as $trafo) {
+            $form = $form->withAdditionalTransformation($trafo);
+        }
+
+        return $form;
     }
 
     /**
@@ -129,13 +129,24 @@ abstract class File implements FileInterface
      */
     public function getInputs() : array
     {
-        return $this->getForm()->getInputs();
+        return [
+            self::FILE_INPUT_KEY => $this->input_factory
+                ->field()->file(
+                    $this->upload_handler,
+                    '',
+                    null,
+                    $this->metadata_input
+                )->withMaxFiles($this->getMaxFiles())
+                 ->withMaxFileSize($this->getMaxFileSize())
+                 ->withAcceptedMimeTypes($this->getAcceptedMimeTypes())
+            ,
+        ];
     }
 
     public function withRequest(ServerRequestInterface $request) : self
     {
         $clone = clone $this;
-        $clone->form = $clone->getForm()->withRequest($request);
+        $clone->request = $request;
 
         return $clone;
     }
@@ -143,7 +154,7 @@ abstract class File implements FileInterface
     public function withAdditionalTransformation(Transformation $trafo) : self
     {
         $clone = clone $this;
-        $clone->form = $clone->getForm()->withAdditionalTransformation($trafo);
+        $clone->operations[] = $trafo;
 
         return $clone;
     }
@@ -153,7 +164,13 @@ abstract class File implements FileInterface
      */
     public function getData()
     {
-        $data = $this->getForm()->getData();
+        if (null === $this->request) {
+            throw new \LogicException("Cannot retrieve data without calling withRequest() first.");
+        }
+
+        $form = $this->getForm()->withRequest($this->request);
+        $data = $form->getData();
+
         if (null !== $data) {
             return $data[self::FILE_INPUT_KEY] ?? null;
         }
@@ -163,7 +180,15 @@ abstract class File implements FileInterface
 
     public function getError() : ?string
     {
-        return $this->getForm()->getError();
+        if (null === $this->request) {
+            return null;
+        }
+
+        // we need to call getData() in order to set the error on $form.
+        $form = $this->getForm()->withRequest($this->request);
+        $data = $form->getData();
+
+        return $form->getError();
     }
 
     // ==========================================

@@ -62,13 +62,7 @@ class FileTest extends FileTestBase
 
     public function testFormGenerationWithMetadataFields() : void
     {
-        $dropzone_form = (new class(
-            $this->getInputFactory(),
-            $this->getLanguage(),
-            $this->getUploadHandlerMock(),
-            self::FILE_DROPZONE_POST_URL,
-            $this->getFieldFactory()->text('test_input_1')
-        ) extends File {
+        $dropzone_form = (new class($this->getInputFactory(), $this->getLanguage(), $this->getUploadHandlerMock(), self::FILE_DROPZONE_POST_URL, $this->getFieldFactory()->text('test_input_1')) extends File {
         })->getForm();
 
         $this->assertEquals(self::FILE_DROPZONE_POST_URL, $dropzone_form->getPostURL());
