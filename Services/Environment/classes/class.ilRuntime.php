@@ -23,6 +23,8 @@
  */
 final class ilRuntime
 {
+    // Only for review purpose. Close this PR after reading.
+
     private static ?self $instance = null;
 
     /**
