@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +41,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 {
     protected bool $enable_editing;
 
-    public function __construct(ilObjectGUI $a_parent_obj, string $a_parent_cmd, bool $a_enable_editing = false)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, bool $a_enable_editing = false)
     {
         $this->enable_editing = $a_enable_editing;
 

@@ -312,13 +312,13 @@ class ilConditionHandlerGUI
             $this->getTargetType()
         ))
         ) {
-            $form = $this->showObligatoryForm($optional_conditions, $list_mode);
+            $form = $this->showObligatoryForm($list_mode);
             if ($form instanceof ilPropertyFormGUI) {
                 $this->tpl->setVariable('TABLE_SETTINGS', $form->getHTML());
             }
         }
 
-        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode === self::LIST_MODE_ALL);//PHP8Review: wrong parameter type
+        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode === self::LIST_MODE_ALL);
         $table->setConditions(
             ilConditionHandler::_getPersistedConditionsOfTarget(
                 $this->getTargetRefId(),
@@ -418,19 +418,13 @@ class ilConditionHandlerGUI
         $this->ctrl->redirect($this, 'listConditions');
     }
 
-    protected function showObligatoryForm(array $opt = array(), string $list_mode = self::LIST_MODE_ALL) : ?ilPropertyFormGUI
-    {
+    protected function showObligatoryForm(
+        string $list_mode = self::LIST_MODE_ALL
+    ) : ?ilPropertyFormGUI {
         if (!$this->objectDefinition->isRBACObject($this->getTargetType())) {
             return null;
         }
 
-        if (!$opt) {//PHP8Review: This seems pretty obsoletesince its local and never use again
-            $opt = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
-                $this->getTargetRefId(),
-                $this->getTargetId(),
-                $this->getTargetType()
-            );
-        }
         $all = ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(), $this->getTargetId());
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'listConditions'));
@@ -523,7 +517,7 @@ class ilConditionHandlerGUI
         }
 
         $condition_handler->setOperator((string) $form->getInput('operator'));
-        $condition_handler->setObligatory((string) $form->getInput('obligatory'));//PHP8Review: wrong parameter type
+        $condition_handler->setObligatory((bool) $form->getInput('obligatory'));
         $condition_handler->setTargetRefId($this->getTargetRefId());
         $condition_handler->setValue('');
         switch ($this->getTargetType()) {
@@ -699,7 +693,7 @@ class ilConditionHandlerGUI
         $this->ctrl->redirect($this, 'listConditions');
     }
 
-    public function __getConditionsOfTarget() : array//PHP8Review: Its recommended not to use self defined __ prefixes.
+    public function getConditionsOfTarget() : array
     {
         $cond = [];
         foreach (ilConditionHandler::_getPersistedConditionsOfTarget(

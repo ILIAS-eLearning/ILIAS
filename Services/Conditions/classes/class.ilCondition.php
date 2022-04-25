@@ -27,7 +27,7 @@ class ilCondition
     protected ilConditionTrigger $trigger;
     protected string $operator;
     protected ?string $value;
-    protected ?bool $obligatory = null;//PHP8Review: an optional flag seems very suspicious. In most cases this can be replaced with default false.
+    protected bool $obligatory = false;
     protected int $id;
 
     public function __construct(ilConditionTrigger $trigger, string $operator, ?string $value = null)
@@ -59,7 +59,7 @@ class ilCondition
         return $clone;
     }
 
-    public function getObligatory() : ?bool
+    public function getObligatory() : bool
     {
         return $this->obligatory;
     }

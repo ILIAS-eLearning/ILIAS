@@ -96,6 +96,7 @@ class ilConditionHandler
     protected ilLanguage $lng;
     protected ilObjectDefinition $objDefinition;
     protected ilTree $tree;
+    protected ilLogger $logger;
 
     protected string $error_message = '';
 
@@ -122,6 +123,7 @@ class ilConditionHandler
         $this->lng = $DIC->language();
         $this->objDefinition = $DIC['objDefinition'];
         $this->tree = $DIC->repositoryTree();
+        $this->logger = $DIC->logger()->ac();
         $this->validation = true;
     }
 
@@ -382,15 +384,17 @@ class ilConditionHandler
             }
         }
         foreach ($this->objDefinition->getPlugins() as $p_type => $p_info) {
-            if (include_once $p_info['location'] . '/class.ilObj' . $p_info['class_name'] . 'Access.php') {//PHP8Review: This seems obsolete with an autoloader
+            try {
                 $name = 'ilObj' . $p_info['class_name'] . 'Access';
                 $reflection = new ReflectionClass($name);
                 if ($reflection->implementsInterface('ilConditionHandling')) {
                     $trigger_types[] = $p_type;
                 }
+            } catch (ReflectionException $e) {
+                $this->logger->warning('Cannot create instance for ' . $name);
+                $this->logger->warning($e->getMessage());
             }
         }
-
         $active_triggers = array();
         foreach ($trigger_types as $type) {
             if (count($this->getOperatorsByTriggerType($type))) {
