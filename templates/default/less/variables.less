@@ -260,9 +260,11 @@ with the il- variable set here.
 //** controls background color of the footer.
 @il-footer-bg-color: @il-main-bg;
 //** controls the color of the text in the footer.
-@il-footer-color: white;
+@il-footer-color: @il-text-color;
 //** controls the padding of the footer.
-@il-footer-padding: 20px 0 15px 5px;
+@il-footer-padding: 10px 0 10px 5px;
+//** controls the height of the footer.
+@il-footer-height: 45px;
 
 //== Buttons
 //
@@ -387,7 +389,7 @@ with the il- variable set here.
 //** Textcolor used in the forms header, the sections header and the footer
 @il-standard-form-header-color: @il-text-color;
 //** Background color used in the forms header, the sections header and the footer
-@il-standard-form-header-bg: @il-content-bg;
+@il-standard-form-header-bg: @il-main-bg;
 //** Textsize color used in the forms header and the sections header
 @il-standard-form-header-font-size: ceil((@il-font-size-base * 1.3));
 //** Textsize color used in the form headers the section headers byline (description)
@@ -474,7 +476,7 @@ with the il- variable set here.
 //
 //##
 @il-toolbar-margin: 15px; // Margin between toolbar items
-@il-toolbar-bg: @il-main-bg;
+@il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: 40px;
 @il-toolbar-border: 1px solid @il-main-border-color;
 
