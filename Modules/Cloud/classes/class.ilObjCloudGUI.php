@@ -33,21 +33,19 @@ class ilObjCloudGUI extends ilObject2GUI
      * @param int $a_id_type
      * @param int $a_parent_node_id
      */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $DIC['lng']->loadLanguageModule('cld');
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-        $lng->loadLanguageModule("cld");
     }
-
-
+/**
     public function executeCommand() : void
     {
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('abandoned'), true);
         ilObjectGUI::redirectToRefId($this->parent_id);
-    }
+    }**/
 
     public function getType() : string
     {

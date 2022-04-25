@@ -31,6 +31,15 @@ class ilObjCloudModuleUpdateAgent extends Setup\Agent\NullAgent
 
     public function getStatusObjective(Metrics\Storage $storage) : Objective
     {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilObjCloudModuleProgressTableUpdateSteps());
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilObjCloudModuleProgressTableUpdateSteps());
     }
+
+    /**
+     * @return ilObjCloudModuleMigration[]
+     */
+    public function getMigrations() : array
+    {
+        return [new ilObjCloudModuleMigration()];
+    }
+
 }

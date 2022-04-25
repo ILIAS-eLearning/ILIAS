@@ -20,26 +20,22 @@ class ilObjCloudListGUI extends ilObjectListGUI
     public function init() : void
     {
         // Create static links for default command (linked title) or not
+        $this->delete_enabled = true;
+
         $this->static_link_enabled = true;
-        $this->delete_enabled = false;
         $this->cut_enabled = false;
         $this->subscribe_enabled = false;
         $this->link_enabled = false;
         $this->copy_enabled = false;
         $this->progress_enabled = false;
-        $this->notice_properties_enabled = false;
         $this->info_screen_enabled = false;
+        $this->tags_enabled = false;
+        $this->comments_enabled = false;
+        $this->notes_enabled = false;
+        $this->timings_enabled = false;
+        $this->notice_properties_enabled = false;
         $this->type = 'cld';
         $this->gui_class_name = 'ilObjCloudGUI';
-    }
-
-    public function insertCommands(
-        bool $use_async = false,
-        bool $get_async_commands = false,
-        string $async_url = "",
-        bool $header_actions = false
-    ) : string {
-        return '';
     }
 
     public function getProperties() : array
@@ -47,7 +43,7 @@ class ilObjCloudListGUI extends ilObjectListGUI
         return [[
             'alert' => true,
             'property' => $this->lng->txt('status'),
-            'value' => $this->lng->txt('abandoned'),
+            'value' => $this->lng->txt('cld_abandoned'),
         ]];
     }
 }
