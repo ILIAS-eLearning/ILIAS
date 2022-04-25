@@ -1,6 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Table presentation of conditions
@@ -8,15 +23,9 @@
  */
 class ilConditionHandlerTableGUI extends ilTable2GUI
 {
-    protected $enable_editing;
+    protected bool $enable_editing;
 
-    /**
-     * Constructor
-     * @param ilObjectGUI $a_parent_obj
-     * @param string      $a_parent_cmd
-     * @param bool        $a_enable_editing
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_enable_editing = false)
+    public function __construct(ilObjectGUI $a_parent_obj, string $a_parent_cmd, bool $a_enable_editing = false)
     {
         $this->enable_editing = $a_enable_editing;
 
@@ -25,10 +34,6 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
         $this->initTable();
     }
 
-    /**
-     * Fill row template
-     * @param array $a_set
-     */
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('OBJ_SRC', $a_set['icon']);
@@ -60,11 +65,13 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'condition_id', $a_set['id']);
-        $this->tpl->setVariable(
-            'EDIT_LINK',
-            $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'edit')
-        );
+        if ($this->getParentObject() !== null) {
+            $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'condition_id', $a_set['id']);
+            $this->tpl->setVariable(
+                'EDIT_LINK',
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'edit')
+            );
+        }
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
     }
 
@@ -76,7 +83,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
     {
         $rows = [];
         foreach ($a_conditions as $condition) {
-            if ($condition['trigger_type'] == 'crsg') {
+            if ($condition['trigger_type'] === 'crsg') {
                 continue;
             }
             $row['id'] = $condition['condition_id'];
