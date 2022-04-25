@@ -35,7 +35,7 @@ class ilObjAccessibilitySettings extends ilObject
 
         $settings = $DIC->settings();
 
-        return (bool) $settings->get('acc_ctrl_cpt_status', true);
+        return (bool) $settings->get('acc_ctrl_cpt_status', '1');
     }
 
     public static function saveControlConceptStatus(bool $status) : void

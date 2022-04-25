@@ -940,7 +940,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
 
         if ($ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
-            $ilSetting->get("comments_del_tutor", 1)) {
+            $ilSetting->get("comments_del_tutor", '1')) {
             $notes_gui->enablePublicNotesDeletion(true);
         }
 

@@ -373,7 +373,7 @@ class LMHtmlExport
         );
 
         $mathJaxSetting = new \ilSetting("MathJax");
-        $use_mathjax = $mathJaxSetting->get("enable");
+        $use_mathjax = (bool) $mathJaxSetting->get("enable");
         if ($use_mathjax) {
             $scripts[] = array("source" => "",
                 "target" => $mathJaxSetting->get("path_to_mathjax"),

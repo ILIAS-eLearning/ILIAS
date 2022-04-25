@@ -742,7 +742,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $note_gui->enablePrivateNotes(false);
             
             $note_gui->enablePublicNotesDeletion(($this->user_id === $user_id) &&
-                $ilSetting->get("comments_del_tutor", 1));
+                $ilSetting->get("comments_del_tutor", '1'));
                         
             $next_class = $this->ctrl->getNextClass($this);
             if ($next_class === "ilnotegui") {
