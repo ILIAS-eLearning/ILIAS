@@ -4,8 +4,8 @@
 //Valid for all panels (if not overridden)
 .panel{
 	border: none;
-	-webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
+	-webkit-box-shadow: @il-panel-shadow;
+    box-shadow: @il-panel-shadow;
 
 	.panel-heading.ilHeader, .panel-heading.ilBlockHeader {
 		background-color: @il-main-dark-bg;
@@ -18,7 +18,7 @@
 		.box-shadow(none);
 		h2, h2.ilHeader {
 			margin: 0;
-			color: @panel-heading-color;
+			color: @il-panel-heading-color;
 			font-size: @font-size-h2;
 			line-height: @line-height-large;
 			font-weight: 600;
@@ -26,13 +26,13 @@
 
 		h3, h3.ilHeader {
 			margin: 0;
-			color: @panel-heading-color;
+			color: @il-panel-heading-color;
 			font-size: @font-size-h4;
 		}
 
 		h4, h4.ilBlockHeader {
 			margin: 0;
-			color: @panel-heading-color;
+			color: @il-panel-heading-color;
 			font-size: @font-size-h5;
 		}
 
@@ -102,8 +102,8 @@
 
 //Secondary Panel
 .panel-secondary{
-	-webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
+	-webkit-box-shadow: @il-panel-shadow;
+    box-shadow: @il-panel-shadow;
 	.panel-heading.ilHeader{
 		padding: @il-padding-large-vertical @il-padding-large-horizontal;
 		h4 {
@@ -148,7 +148,7 @@
 		display: block;
 		padding: @il-padding-large-vertical 0;
 		font-size: @font-size-base;
-		color: @panel-heading-color;
+		color: @il-panel-heading-color;
 		margin: 0;
 	}
 
@@ -192,7 +192,7 @@
 	margin-bottom: @il-standard-page-content-padding;
 
 	> h2 {
-		color: @panel-heading-color;
+		color: @il-panel-heading-color;
 		font-size: @font-size-h3;
 		font-weight: 600;
 		float: left;

@@ -6932,8 +6932,8 @@ button.list-group-item-danger.active:focus {
 }
 .panel {
   border: none;
-  -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
 }
 .panel .panel-heading.ilHeader,
 .panel .panel-heading.ilBlockHeader {
@@ -7023,8 +7023,8 @@ button.list-group-item-danger.active:focus {
   font-weight: 600;
 }
 .panel-secondary {
-  -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
 }
 .panel-secondary .panel-heading.ilHeader {
   padding: 6px 12px;
@@ -8777,6 +8777,10 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-table-data .header.cell {
   font-weight: bold;
 }
+.il-workflow.linear {
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
+}
 .il-workflow-header .il-workflow-title {
   background-color: #f9f9f9;
   color: #161616;
@@ -8784,10 +8788,11 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   font-weight: 300;
   margin-bottom: 30px;
   margin-top: 0;
+  padding: 6px 12px;
 }
 .il-workflow-container {
   list-style: none;
-  padding: 0;
+  padding: 0 6px;
 }
 .il-workflow-container .il-workflow-step:before {
   background-color: white;
@@ -13165,6 +13170,7 @@ form.form-inline {
 }
 .form-horizontal .form-group {
   margin: 0px;
+  padding: 3px 0;
   background-color: #f9f9f9;
 }
 .form-control,
@@ -16352,8 +16358,8 @@ div.il_ContainerListItem {
   width: 100%;
   clear: both;
   margin-bottom: 20px;
-  -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
 }
 div#cont_paste_explorer_tree ul.il_Explorer {
   margin: 0 0 0 24px;
@@ -16661,6 +16667,9 @@ div.ilCreationFormSection .form-horizontal {
 .ilObjListRow {
   border-bottom: 2px solid #f0f0f0;
   background-color: white;
+}
+.ilObjListRow:last-child {
+  border-bottom: none;
 }
 .table-striped {
   border-collapse: separate;
