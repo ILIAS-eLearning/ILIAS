@@ -314,12 +314,7 @@ abstract class ilPageConfig
 
     public function getPreventHTMLUnmasking() : bool
     {
-        $safe = true;
-        if ($this->adve_set->get("act_html_" . $this->page_obj_key)) {
-            $safe = false;
-        }
-        return $safe;
-        //return $this->preventhtmlunmasking;
+        return true;
     }
 
     public function setEnableSelfAssessment(
