@@ -2438,7 +2438,7 @@ common#:#account_expires_subject#:#Benutzerzugang
 common#:#account#:#Mein Konto
 rbac#:#accs_edit_permission#:#Rechteeinstellungen der Einstellungen Barrierefreiheit ändern
 rbac#:#accs_read#:#Einstellungen Barrierefreiheit in Administration können gelesen werden
-rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar  !! Recht wird nicht mehr genutzt !!
+rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar
 rbac#:#accs_write#:#Einstellungen Barrierefreiheit in Administration können bearbeiten werden
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
@@ -2466,7 +2466,7 @@ common#:#additional_info#:#Zusätzliche Informationen
 common#:#address#:#Adresse
 rbac#:#adm_edit_permission#:#Rechteeinstellungen für die Allgemeinen Einstellungen der Administration ändern
 rbac#:#adm_read#:#Allgemeine Einstellungen der Administration können gelesen werden
-rbac#:#adm_visible#:#Allgemeine Einstellungen sind sichtbar !! Recht wird nicht mehr genutzt !!
+rbac#:#adm_visible#:#Allgemeine Einstellungen sind sichtbar
 rbac#:#adm_write#:#Allgemeine Einstellungen in Administration können bearbeiten werden
 common#:#admin_force_noti#:#Benachrichtigung aktiv
 common#:#administrate_users#:#Lokale Benutzerverwaltung
