@@ -23,7 +23,7 @@ $query = "SELECT obj_id FROM object_data"
     . " AND title = " . $ilDB->quote($template, 'text');
 $result = $ilDB->query($query);
 $row = $ilDB->fetchAssoc($result);
-$rol_id = array_shift($row);
+$rol_id = (int) array_shift($row);
 
 $op_ids = [];
 $query = "SELECT ops_id FROM rbac_operations"
@@ -50,7 +50,7 @@ $query = "SELECT obj_id FROM object_data"
     . " AND title = " . $ilDB->quote($template, 'text');
 $result = $ilDB->query($query);
 $row = $ilDB->fetchAssoc($result);
-$rol_id = array_shift($row);
+$rol_id = (int) array_shift($row);
 
 ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', [$op_id], ROLE_FOLDER_ID);
 ?>
@@ -235,7 +235,7 @@ foreach ($tpl_perms as $template => $perms) {
         . " AND title = " . $ilDB->quote($template, 'text');
     $result = $ilDB->query($query);
     $row = $ilDB->fetchAssoc($result);
-    $rol_id = array_shift($row);
+    $rol_id = (int) array_shift($row);
 
     $op_ids = [];
     $query = "SELECT ops_id FROM rbac_operations"
@@ -620,14 +620,14 @@ $query = "SELECT obj_id FROM object_data"
     . " AND title = " . $ilDB->quote('il_lso_member', 'text');
 $result = $ilDB->query($query);
 $row = $ilDB->fetchAssoc($result);
-$rol_id_member = array_shift($row);
+$rol_id_member = (int) array_shift($row);
 
 $query = "SELECT obj_id FROM object_data"
     . " WHERE object_data.type = " . $ilDB->quote('rolt', 'text')
     . " AND title = " . $ilDB->quote('il_lso_admin', 'text');
 $result = $ilDB->query($query);
 $row = $ilDB->fetchAssoc($result);
-$rol_id_admin = array_shift($row);
+$rol_id_admin = (int) array_shift($row);
 
 $op_ids = [];
 $query = "SELECT operation, ops_id FROM rbac_operations";

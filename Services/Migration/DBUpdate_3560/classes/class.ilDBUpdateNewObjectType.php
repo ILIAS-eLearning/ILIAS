@@ -528,6 +528,53 @@ class ilDBUpdateNewObjectType
     }
 
     /**
+     * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRolePermissionSetObjective.php instead
+     */
+    public static function addRBACTemplate(
+        string $obj_type,
+        string $id,
+        string $description,
+        array $op_ids
+    ) : void {
+        global $ilDB;
+
+        $new_tpl_id = $ilDB->nextId('object_data');
+
+        $fields = [
+            "obj_id" => ["integer", $new_tpl_id],
+            "type" => ["text", "rolt"],
+            "title" => ["text", $id],
+            "description" => ["text", $description],
+            "owner" => ["integer", -1],
+            "create_date" => ["timestamp", $ilDB->now()],
+            "last_update" => ["timestamp", $ilDB->now()]
+        ];
+
+        $ilDB->insert("object_data", $fields);
+
+        $fields = [
+            "rol_id" => ["integer", $new_tpl_id],
+            "parent" => ["integer", 8],
+            "assign" => ["text", "n"],
+            "protected" => ["text", "n"]
+        ];
+
+        $ilDB->insert("rbac_fa", $fields);
+
+        if (count($op_ids) > 0) {
+            foreach ($op_ids as $op_id) {
+                $fields = [
+                    "rol_id" => ["integer", $new_tpl_id],
+                    "type" => ["text", $obj_type],
+                    "ops_id" => ["integer", $op_id],
+                    "parent" => ["integer", 8]
+                ];
+                $ilDB->insert("rbac_templates", $fields);
+            }
+        }
+    }
+
+    /**
      * @param int    $a_rol_id
      * @param string $a_type
      * @param array  $a_ops
