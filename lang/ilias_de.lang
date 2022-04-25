@@ -10033,7 +10033,7 @@ itgr#:#itgr_list_default#:#Standard
 itgr#:#itgr_list#:#Liste
 itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
 itgr#:#itgr_materials#:#Objekte
-itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
+itgr#:#itgr_show_title_info#:#Der Titel des Objekteblocks wird angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_tile#:#Kacheln
 itgr#:#itgr_tile_size#:#Kachelgröße
@@ -13227,7 +13227,7 @@ rbac#:#itgr_copy#:#Objekteblock kopieren
 rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben
 rbac#:#itgr_edit_permission#:#Rechteeinstellungen des Objekteblocks ändern
 rbac#:#itgr_read#:#Lesezugriff auf Objekteblock
-rbac#:#itgr_visible#:#Objektblock ist sichtbar
+rbac#:#itgr_visible#:#Objekteblock ist sichtbar
 rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#leave#:#Mitgliedschaft beenden
 rbac#:#lhts_edit_permissions#:#Rechteeinstellungen der Administration für Lernverlauf ändern
