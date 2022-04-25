@@ -34,8 +34,8 @@ class UsageDBRepository
         string $a_type,
         int $a_id,
         int $a_usage_hist_nr,
-        string $a_lang = "-") : array
-    {
+        string $a_lang = "-"
+    ) : array {
         $db = $this->db;
 
         $and_hist = " AND usage_hist_nr > 0 AND usage_hist_nr <= " . $db->quote($a_usage_hist_nr, "integer");
@@ -57,8 +57,8 @@ class UsageDBRepository
         string $a_type,
         int $a_id,
         int $a_usage_hist_nr,
-        string $a_lang = "-") : void
-    {
+        string $a_lang = "-"
+    ) : void {
         $db = $this->db;
 
         $and_hist = " AND usage_hist_nr > 0 AND usage_hist_nr <= " . $db->quote($a_usage_hist_nr, "integer");
@@ -69,5 +69,4 @@ class UsageDBRepository
             $and_hist;
         $db->manipulate($q);
     }
-
 }

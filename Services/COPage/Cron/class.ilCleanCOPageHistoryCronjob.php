@@ -164,6 +164,4 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         $settings = $this->settings;
         $settings->set("copg_cron_keep_entries", (string) $entries);
     }
-
-
 }

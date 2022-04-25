@@ -41,7 +41,8 @@ class HistoryDBRepository
         $hdate = new \ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATETIME);
         $hdate->increment(\ilDateTime::DAY, (-1 * $xdays));
 
-        $set = $db->queryF("SELECT MAX(nr) max_nr, parent_type, page_id, lang FROM page_history " .
+        $set = $db->queryF(
+            "SELECT MAX(nr) max_nr, parent_type, page_id, lang FROM page_history " .
             " WHERE nr > %s AND hdate < %s GROUP BY parent_type, page_id, lang ",
             ["integer", "timestamp"],
             [0, $hdate]
@@ -64,11 +65,12 @@ class HistoryDBRepository
         int $keep_entries,
         string $parent_type,
         int $page_id,
-        string $lang) : int
-    {
+        string $lang
+    ) : int {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT MAX(nr) mnr FROM page_history " .
+        $set = $db->queryF(
+            "SELECT MAX(nr) mnr FROM page_history " .
             " WHERE parent_type = %s AND page_id = %s AND lang = %s ",
             ["text", "integer", "text"],
             [$parent_type, $page_id, $lang]
@@ -89,8 +91,7 @@ class HistoryDBRepository
         string $parent_type,
         int $page_id,
         string $lang
-    ) : void
-    {
+    ) : void {
         $db = $this->db;
 
         // main entries in history
@@ -107,15 +108,14 @@ class HistoryDBRepository
         string $parent_type,
         int $page_id,
         string $lang
-    ) : \Iterator
-    {
+    ) : \Iterator {
         $db = $this->db;
 
         $set = $db->queryF(
             "SELECT old_nr FROM page_history " .
-            " WHERE parent_type = %s  ".
-            " AND page_id = %s  ".
-            " AND lang = %s  ".
+            " WHERE parent_type = %s  " .
+            " AND page_id = %s  " .
+            " AND lang = %s  " .
             " AND nr <= %s  ",
             ["text", "integer", "text", "integer"],
             [$parent_type, $page_id, $lang, $delete_lower_than_nr]
@@ -124,5 +124,4 @@ class HistoryDBRepository
             yield (int) $rec["old_nr"];
         }
     }
-
 }

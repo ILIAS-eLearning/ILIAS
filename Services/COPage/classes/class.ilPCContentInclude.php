@@ -300,6 +300,5 @@ class ilPCContentInclude extends ilPageContent
             $delete_lower_than_nr,
             $lang
         );
-
     }
 }

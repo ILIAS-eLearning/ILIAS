@@ -39,8 +39,8 @@ class HistoryManager
      * @param int $keep_entries entries that should be kept as minimum
      * @throws \ilDateTimeException
      */
-    public function deleteOldHistoryEntries(int $x_days, int $keep_entries) : bool {
-
+    public function deleteOldHistoryEntries(int $x_days, int $keep_entries) : bool
+    {
         $deleted = false;
 
         foreach ($this->history_repo->getMaxHistEntryPerPageOlderThanX($x_days) as $page) {
@@ -65,8 +65,7 @@ class HistoryManager
         string $parent_type,
         int $page_id,
         string $lang
-    ) : void
-    {
+    ) : void {
         $defs = \ilCOPagePCDef::getPCDefinitions();
         foreach ($defs as $def) {
             $cl = $def["pc_class"];
@@ -85,5 +84,4 @@ class HistoryManager
             $lang
         );
     }
-
 }

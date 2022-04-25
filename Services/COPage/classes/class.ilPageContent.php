@@ -374,5 +374,4 @@ abstract class ilPageContent
         int $delete_lower_than_nr
     ) : void {
     }
-
 }

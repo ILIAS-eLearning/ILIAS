@@ -570,7 +570,7 @@ class ilPCMediaObject extends ilPageContent
 
         foreach ($mob_ids as $mob_id) {
             $usages = ilObjMediaObject::lookupUsages($mob_id, true);
-            $log->debug("...check deletion of mob $mob_id. Usages: ".count($usages));
+            $log->debug("...check deletion of mob $mob_id. Usages: " . count($usages));
             if (count($usages) == 0) {
                 $mob = new ilObjMediaObject($mob_id);
                 $log->debug("Deleting Mob ID: " . $mob_id);

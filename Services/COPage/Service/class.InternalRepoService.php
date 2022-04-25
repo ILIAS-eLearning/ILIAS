@@ -60,5 +60,4 @@ class InternalRepoService
     {
         return new UsageDBRepository($this->db);
     }
-
 }

@@ -381,8 +381,8 @@ class ilPCFileList extends ilPageContent
         string $parent_type,
         int $a_id,
         int $a_usage_hist_nr,
-        string $a_lang = "-") : array
-    {
+        string $a_lang = "-"
+    ) : array {
         global $DIC;
 
         $hist_repo = $DIC->copage()->internal()->repo()->history();
@@ -392,7 +392,8 @@ class ilPCFileList extends ilPageContent
             $a_usage_hist_nr,
             $parent_type,
             $a_id,
-            $a_lang) as $old_nr) {
+            $a_lang
+        ) as $old_nr) {
             foreach (ilObjFile::_getFilesOfObject($parent_type . ":pg", $a_id, $old_nr, $a_lang) as $file_id) {
                 $file_ids[$file_id] = $file_id;
             }

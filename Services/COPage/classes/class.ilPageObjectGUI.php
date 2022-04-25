@@ -232,8 +232,8 @@ class ilPageObjectGUI
     public function setAdvMdRecordObject(
         int $a_adv_ref_id,
         string $a_adv_type,
-        string $a_adv_subtype = "-") : void
-    {
+        string $a_adv_subtype = "-"
+    ) : void {
         $this->adv_ref_id = $a_adv_ref_id;
         $this->adv_type = $a_adv_type;
         $this->adv_subtype = $a_adv_subtype;
