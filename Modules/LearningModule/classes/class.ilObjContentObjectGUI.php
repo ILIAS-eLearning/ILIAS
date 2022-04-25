@@ -21,6 +21,10 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Stefan Meyer <meyer@leifos.com>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjectContentStyleSettingsGUI, ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
  */
 class ilObjContentObjectGUI extends ilObjectGUI
 {
@@ -764,7 +768,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $no_download_file_available =
             " " . $lng->txt("cont_no_download_file_available") .
             " <a href='" . $ilCtrl->getLinkTargetByClass("ilexportgui", "") . "'>" . $lng->txt("change") . "</a>";
-        $types = array("xml", "html", "scorm");
+        $types = array("xml", "html");
         foreach ($types as $type) {
             if ($this->lm->getPublicExportFile($type) != "") {
                 if (is_file($this->lm->getExportDirectory($type) . "/" .
