@@ -86,7 +86,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
         $object_ref_ids = $definition->getObjectRefIds();
 
         // get global limit (max sum of individual file-sizes) from file settings
-        $size_limit = (int) $this->settings->get("bgtask_download_limit", 0);
+        $size_limit = (int) $this->settings->get("bgtask_download_limit", '0');
         $size_limit_bytes = $size_limit * 1024 * 1024;
         $this->logger->debug('Global limit (max sum of all file-sizes) in file-settings: ' . $size_limit_bytes . ' bytes');
         // get sum of individual file-sizes
