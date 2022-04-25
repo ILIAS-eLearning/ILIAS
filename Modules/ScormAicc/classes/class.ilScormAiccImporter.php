@@ -60,14 +60,22 @@ class ilScormAiccImporter extends ilXmlImporter
                 if (isset($manifest)) {
                     $propertiesFile = $a_import_dirname . "/properties.xml";
                     $xml = file_get_contents($propertiesFile);
+
                     if (isset($xml)) {
                         $xmlRoot = simplexml_load_string($xml);
+
                         foreach ($this->dataset->properties as $key => $value) {
                             $this->moduleProperties[$key] = $xmlRoot->$key;
                         }
                         $this->moduleProperties["Title"] = $xmlRoot->Title;
                         $this->moduleProperties["Description"] = $xmlRoot->Description;
-                        
+
+                        foreach ($this->moduleProperties as $key => $xmlRoot) {
+                            $xmlRootValue = $xmlRoot->__toString();
+                            $filteredValue = preg_replace('%\s%', '', $xmlRootValue);
+                            $this->moduleProperties[$key] = $filteredValue;
+                        }
+
                         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
                             $this->dataset->writeData("sahs", "5.1.0", $newObj->getId(), $this->moduleProperties);
 
@@ -87,7 +95,7 @@ class ilScormAiccImporter extends ilXmlImporter
                             $newId = $newObj->getRefId();
                             // $newObj->putInTree($newId);
                             // $newObj->setPermissions($newId);
-                            $subType = $this->moduleProperties["SubType"][0];
+                            $subType = $this->moduleProperties["SubType"];
                             if ($subType == "scorm") {
                                 include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
                                 $newObj = new ilObjSCORMLearningModule($newId);
