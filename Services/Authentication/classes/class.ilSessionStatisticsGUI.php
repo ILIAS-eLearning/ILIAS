@@ -463,7 +463,7 @@ class ilSessionStatisticsGUI
         return $left->get();
     }
     
-    protected function buildData($a_time_from, $a_time_to, $a_title) : array// TODO PHP8-REVIEW Type hints missing
+    protected function buildData(int $a_time_from, int $a_time_to, string $a_title) : array
     {
         // basic data - time related
         
@@ -498,7 +498,7 @@ class ilSessionStatisticsGUI
         return $data;
     }
     
-    protected function render($a_data, $a_scale, $a_measure = null) : string// TODO PHP8-REVIEW Type hints missing
+    protected function render(array $a_data, int $a_scale, string $a_measure = null) : string
     {
         $center = new ilTemplate("tpl.session_statistics_center.html", true, true, "Services/Authentication");
         
@@ -537,14 +537,8 @@ class ilSessionStatisticsGUI
             
     /**
      * Build chart for active sessions
-     *
-     * @param array $a_data
-     * @param string $a_title
-     * @param int $a_scale
-     * @param array $a_measure
-     * @return string
      */
-    protected function getChart($a_data, $a_title, $a_scale = self::SCALE_DAY, $a_measure = null) : string// TODO PHP8-REVIEW Type hints missing
+    protected function getChart(array $a_data, string $a_title, int $a_scale = self::SCALE_DAY, string $a_measure = null) : string
     {
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
         $chart->setSize(700, 500);
@@ -554,9 +548,9 @@ class ilSessionStatisticsGUI
         $chart->setLegend($legend);
 
         if (!$a_measure) {
-            $a_measure = array("min", "avg", "max");
-        } elseif (!is_array($a_measure)) {
-            $a_measure = array($a_measure);
+            $measures = ["min", "avg", "max"];
+        } else {
+            $measures = [$a_measure];
         }
 
         $colors_map = array("min" => "#00cc00",
@@ -564,14 +558,14 @@ class ilSessionStatisticsGUI
             "max" => "#cc00cc");
         
         $colors = $act_line = array();
-        foreach ($a_measure as $measure) {
+        foreach ($measures as $measure) {
             $act_line[$measure] = $chart->getDataInstance(ilChartGrid::DATA_LINES);
             $act_line[$measure]->setLineSteps(true);
             $act_line[$measure]->setLabel($this->lng->txt("trac_session_active_" . $measure));
             $colors[] = $colors_map[$measure];
         }
         
-        if ($a_scale != self::SCALE_PERIODIC_WEEK) {
+        if ($a_scale !== self::SCALE_PERIODIC_WEEK) {
             $max_line = $chart->getDataInstance(ilChartGrid::DATA_LINES);
             $max_line->setLabel($this->lng->txt("session_max_count"));
             $colors[] = "#cc0000";
@@ -586,7 +580,7 @@ class ilSessionStatisticsGUI
         foreach ($chart_data as $idx => $item) {
             $date = $item["slot_begin"];
             
-            if ($a_scale == self::SCALE_PERIODIC_WEEK || !($idx % ceil($scale))) {
+            if ($a_scale === self::SCALE_PERIODIC_WEEK || !($idx % ceil($scale))) {
                 switch ($a_scale) {
                     case self::SCALE_DAY:
                         $labels[$date] = date("H:i", $date);
@@ -627,12 +621,12 @@ class ilSessionStatisticsGUI
                 }
             }
             
-            foreach ($a_measure as $measure) {
+            foreach ($measures as $measure) {
                 $value = (int) $item["active_" . $measure];
                 $act_line[$measure]->addPoint($date, $value);
             }
             
-            if (isset($max_line) && $a_scale != self::SCALE_PERIODIC_WEEK) {
+            if (isset($max_line) && $a_scale !== self::SCALE_PERIODIC_WEEK) {
                 $max_line->addPoint($date, (int) $item["max_sessions"]);
             }
         }
@@ -640,7 +634,7 @@ class ilSessionStatisticsGUI
         foreach ($act_line as $line) {
             $chart->addData($line);
         }
-        if (isset($max_line) && $a_scale != self::SCALE_PERIODIC_WEEK) {
+        if (isset($max_line) && $a_scale !== self::SCALE_PERIODIC_WEEK) {
             $chart->addData($max_line);
         }
         
@@ -649,7 +643,7 @@ class ilSessionStatisticsGUI
         return $chart->getHTML();
     }
     
-    protected function adaptDataToScale($a_scale, array $a_data) : array// TODO PHP8-REVIEW Type hints missing
+    protected function adaptDataToScale(int $a_scale, array $a_data) : array
     {
         // can we use original data?
         switch ($a_scale) {
@@ -662,7 +656,7 @@ class ilSessionStatisticsGUI
                 return $a_data;
         }
         
-        $tmp = array();
+        $tmp = [];
         foreach ($a_data as $item) {
             $date_parts = getdate($item["slot_begin"]);
             
@@ -781,7 +775,7 @@ class ilSessionStatisticsGUI
         $first = array_keys(array_shift($first));
         foreach ($first as $column) {
             // split weekday and time slot again
-            if ($a_scale == self::SCALE_PERIODIC_WEEK && $column === "slot_begin") {
+            if ($a_scale === self::SCALE_PERIODIC_WEEK && $column === "slot_begin") {
                 $csv->addColumn("weekday");
                 $csv->addColumn("time");
             } else {
@@ -799,7 +793,7 @@ class ilSessionStatisticsGUI
                 switch ($column) {
                     case "slot_begin":
                         // split weekday and time slot again
-                        if ($a_scale == self::SCALE_PERIODIC_WEEK) {
+                        if ($a_scale === self::SCALE_PERIODIC_WEEK) {
                             $csv->addColumn(ilCalendarUtil::_numericDayToString((int) substr($value, 0, 1)));
                             $value = substr($value, 1, 2) . ":" . substr($value, 3, 2);
                             break;

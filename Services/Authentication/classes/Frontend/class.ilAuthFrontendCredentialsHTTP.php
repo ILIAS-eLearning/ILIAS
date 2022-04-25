@@ -20,7 +20,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials implements ilAuthCredentials
+class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials
 {
     /**
      * Init credentials from request

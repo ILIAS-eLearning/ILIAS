@@ -125,8 +125,11 @@ class ilAuthUtils
             }
         }
     }
-    
-    public static function _getAuthMode($a_auth_mode)// TODO PHP8-REVIEW Type hints missing
+
+    /**
+     * @return string|int
+     */
+    public static function _getAuthMode(string $a_auth_mode)
     {
         global $DIC;
 
@@ -295,7 +298,8 @@ class ilAuthUtils
         }
 
         foreach (ilSamlIdp::getActiveIdpList() as $idp) {
-            $modes['saml_' . $idp->getIdpId()] = self::AUTH_SAML . '_' . $idp->getIdpId();
+            $idpId = $idp->getIdpId();
+            $modes['saml_' . $idpId] = self::AUTH_SAML . '_' . $idpId;
         }
 
         // begin-path auth_plugin
@@ -345,7 +349,9 @@ class ilAuthUtils
                     $ret[$id] = self::_getAuthModeName($id);
                 }
                 continue;
-            } elseif ($mode === self::AUTH_SAML) {
+            }
+
+            if ($mode === self::AUTH_SAML) {
                 foreach (ilSamlIdp::getAllIdps() as $idp) {
                     $id = self::AUTH_SAML . '_' . $idp->getIdpId();
                     $ret[$id] = self::_getAuthModeName($id);
@@ -361,7 +367,7 @@ class ilAuthUtils
     * generate free login by starting with a default string and adding
     * postfix numbers
     */
-    public static function _generateLogin($a_login)// TODO PHP8-REVIEW Type hints missing / TODO PHP8-REVIEW Return types missing
+    public static function _generateLogin(string $a_login) : string
     {
         global $DIC;
 
@@ -536,13 +542,9 @@ class ilAuthUtils
     
     /**
      * Allow password modification
-     *
-     * @access public
-     * @static
-     *
-     * @param int auth_mode
+     * @param int|string auth_mode
      */
-    public static function _allowPasswordModificationByAuthMode($a_auth_mode) : ?bool// TODO PHP8-REVIEW Type hints missing or the the PhpDoc should be changed to appropriate
+    public static function _allowPasswordModificationByAuthMode($a_auth_mode) : bool
     {
         switch ((int) $a_auth_mode) {
             case self::AUTH_LDAP:
@@ -559,12 +561,9 @@ class ilAuthUtils
     /**
      * Check if chosen auth mode needs an external account entry
      *
-     * @access public
-     * @static
-     *
-     * @param int auth_mode
+     * @param string|int $a_auth_mode auth_mode
      */
-    public static function _needsExternalAccountByAuthMode($a_auth_mode) : ?bool// TODO PHP8-REVIEW Type hints missing or the the PhpDoc should be changed to appropriate
+    public static function _needsExternalAccountByAuthMode($a_auth_mode) : bool
     {
         switch ($a_auth_mode) {
             case self::AUTH_LOCAL:
@@ -590,10 +589,10 @@ class ilAuthUtils
     
     /**
      * Check if local password validation is enabled for a specific auth_mode
-     * @param int $a_authmode
+     * @param int|string $a_authmode
      * @return bool
      */
-    public static function isLocalPasswordEnabledForAuthMode($a_authmode) : bool// TODO PHP8-REVIEW Type hints missing or the the PhpDoc should be changed to int|string
+    public static function isLocalPasswordEnabledForAuthMode($a_authmode) : bool
     {
         global $DIC;
 
@@ -633,10 +632,10 @@ class ilAuthUtils
 
     /**
      * Check if password modification is enabled
-     * @param int $a_authmode
+     * @param int|string $a_authmode
      * @return bool
      */
-    public static function isPasswordModificationEnabled($a_authmode) : ?bool// TODO PHP8-REVIEW Type hints missing or the the PhpDoc should be changed to int|string
+    public static function isPasswordModificationEnabled($a_authmode) : bool
     {
         global $DIC;
 
@@ -679,10 +678,10 @@ class ilAuthUtils
     
     /**
      * Check if local password validation is supported
-     * @param object $a_authmode
+     * @param string|int $a_authmode
      * @return
      */
-    public static function supportsLocalPasswordValidation($a_authmode) : ?int// TODO PHP8-REVIEW Type hints missing, or an appropriate PhpDoc comment
+    public static function supportsLocalPasswordValidation($a_authmode) : int
     {
         //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {

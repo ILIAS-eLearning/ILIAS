@@ -63,9 +63,8 @@ abstract class ilAuthProvider implements ilAuthProviderInterface
     
     /**
      * Handle failed authentication
-     * @param string $a_reason
      */
-    protected function handleAuthenticationFail(ilAuthStatus $status, $a_reason) : bool// TODO PHP8-REVIEW Type hints missing
+    protected function handleAuthenticationFail(ilAuthStatus $status, string $a_reason) : bool
     {
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
         $status->setReason($a_reason);

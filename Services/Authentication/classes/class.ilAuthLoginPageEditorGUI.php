@@ -35,7 +35,7 @@ class ilAuthLoginPageEditorGUI
     private ilErrorHandling $ilErr;
     private ?ilPropertyFormGUI $form;
 
-    private int $ref_id = 0;
+    private int $ref_id;
     private ilAuthLoginPageEditorSettings $settings;
     private ?ilSetting $loginSettings = null;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
@@ -155,14 +155,13 @@ class ilAuthLoginPageEditorGUI
         }
         $html = $this->ctrl->forwardCommand($page_gui);
 
-        if ($html != "") {
+        if ($html !== "") {
             $this->tpl->setContent($html);
         }
     }
 
     /**
      * Show current activated editor
-     * @return void
      */
     protected function show() : void
     {
@@ -284,7 +283,6 @@ class ilAuthLoginPageEditorGUI
     /**
      * saves the login information data
      *
-     * @access protected
      * @author Michael Jansen
      */
     protected function saveLoginInfo() : void
@@ -351,7 +349,7 @@ class ilAuthLoginPageEditorGUI
 
         foreach ($this->setDefLangFirst($def_language, $languages) as $lang_key) {
             $add = "";
-            if ($lang_key == $def_language) {
+            if ($lang_key === $def_language) {
                 $add = " (" . $this->lng->txt("default") . ")";
             }
 
@@ -360,8 +358,9 @@ class ilAuthLoginPageEditorGUI
                 'login_message_' . $lang_key
             );
             $textarea->setRows(10);
-            if (isset($login_settings["login_message_" . $lang_key])) {
-                $textarea->setValue($login_settings["login_message_" . $lang_key]);
+            $msg_login_lang = "login_message_" . $lang_key;
+            if (isset($login_settings[$msg_login_lang])) {
+                $textarea->setValue($login_settings[$msg_login_lang]);
             }
             $textarea->setUseRte(true);
             $textarea->setRteTagSet("extended");
@@ -389,20 +388,17 @@ class ilAuthLoginPageEditorGUI
     }
 
     /**
-     *
      * returns an array of all installed languages, default language at the first position
-     *
      * @param string $a_def_language Default language of the current installation
      * @param array $a_languages Array of all installed languages
-     * @return array $languages Array of the installed languages, default language at first position
-     * @access public
+     * @return array $languages Array of the installed languages, default language at first position or
+     *         an empty array, if $a_a_def_language is empty
      * @author Michael Jansen
-     *
      */
-    protected function setDefLangFirst($a_def_language, $a_languages) : array// TODO PHP8-REVIEW Type hints missing
+    private function setDefLangFirst(string $a_def_language, array $a_languages) : array
     {
-        if (is_array($a_languages) && $a_def_language != "") {
-            $languages = array();
+        $languages = [];
+        if ($a_def_language !== "") {
             $languages[] = $a_def_language;
 
             foreach ($a_languages as $val) {
@@ -410,10 +406,8 @@ class ilAuthLoginPageEditorGUI
                     $languages[] = $val;
                 }
             }
-
-            return $languages;
         }
 
-        return array();
+        return $languages;
     }
 }

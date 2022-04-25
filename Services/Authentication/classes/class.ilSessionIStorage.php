@@ -37,7 +37,7 @@
 class ilSessionIStorage
 {
     private string $session_id = "";
-    private string $component_id = "";
+    private string $component_id;
     private static array $values = [];
     
     /**

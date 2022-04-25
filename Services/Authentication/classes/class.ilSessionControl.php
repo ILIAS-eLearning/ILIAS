@@ -361,7 +361,7 @@ class ilSessionControl
             array($ts, $ts, $max_idle, $min_idle)
         );
         
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             ilSession::_destroy($row->session_id, ilSession::SESSION_CLOSE_IDLE, $row->expires);
 
             self::debug(__METHOD__ . ' --> successfully deleted one min idle session');

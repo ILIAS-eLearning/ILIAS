@@ -322,7 +322,7 @@ class ilAuthFrontend
         // (last login date is set to current date in next step)
         if (
             $security_settings->isPasswordChangeOnFirstLoginEnabled() &&
-            $user->getLastLogin() == null
+            $user->getLastLogin() === ''
         ) {
             $user->resetLastPasswordChange();
         }
@@ -423,13 +423,8 @@ class ilAuthFrontend
     protected function checkSimultaneousLogins(ilObjUser $user) : bool
     {
         $this->logger->debug('Setting prevent simultaneous session is: ' . $this->settings->get('ps_prevent_simultaneous_logins'));
-        if (
-            $this->settings->get('ps_prevent_simultaneous_logins') &&
-            ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId())
-        ) {
-            return false;
-        }
-        return true;
+        return !($this->settings->get('ps_prevent_simultaneous_logins') &&
+            ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId()));
     }
 
     /**

@@ -19,7 +19,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilAuthProviderDatabase extends ilAuthProvider implements ilAuthProviderInterface
+class ilAuthProviderDatabase extends ilAuthProvider
 {
 
     

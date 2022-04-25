@@ -105,7 +105,7 @@ class ilSession
         $query = 'SELECT expires FROM usr_session WHERE session_id = ' .
             $ilDB->quote($a_session_id, 'text');
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (int) $row->expires;
         }
         return 0;
@@ -325,7 +325,7 @@ class ilSession
             "WHERE session_id = " . $ilDB->quote($a_session_id, "text");
         $res = $ilDB->query($query);
 
-        while ($row = $ilDB->fetchObject($res)) {
+        if ($row = $ilDB->fetchObject($res)) {
             self::_writeData($new_session, $row->data);
             return $new_session;
         }
@@ -353,10 +353,12 @@ class ilSession
         $ilSetting = $DIC['ilSetting'];
         if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_FIXED) {
             return time() + self::getIdleValue($fixedMode);
-        } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
+        }
+
+        if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
-            $max_idle = $ilSetting->get('session_max_idle') ?? ilSessionControl::DEFAULT_MAX_IDLE;
-            return time() + (int) $max_idle * 60;
+            $max_idle = (int) ($ilSetting->get('session_max_idle') ?? ilSessionControl::DEFAULT_MAX_IDLE);
+            return time() + $max_idle * 60;
         }
         return time() + ilSessionControl::DEFAULT_MAX_IDLE * 60;
     }
@@ -374,11 +376,13 @@ class ilSession
 
         $ilSetting = $DIC['ilSetting'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
-        
+
         if ($fixedMode || $ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_FIXED) {
             // fixed session
             return (int) $ilClientIniFile->readVariable('session', 'expire');
-        } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
+        }
+
+        if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
             return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
         }
