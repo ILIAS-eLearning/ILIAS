@@ -12880,7 +12880,7 @@ rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
 rbac#:#accs_edit_permission#:#Rechteeinstellungen der Einstellungen Barrierefreiheit ändern
 rbac#:#accs_read#:#Einstellungen Barrierefreiheit in Administration können gelesen werden
-rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar  !! Recht wird nicht mehr genutzt !!
+rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar
 rbac#:#accs_write#:#Einstellungen Barrierefreiheit in Administration können bearbeiten werden
 rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
 rbac#:#active_preconditions#:#Definierte Vorbedingungen
@@ -12890,7 +12890,7 @@ rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
 rbac#:#adm_edit_permission#:#Rechteeinstellungen für die Allgemeinen Einstellungen der Administration ändern
 rbac#:#adm_read#:#Allgemeine Einstellungen der Administration können gelesen werden
-rbac#:#adm_visible#:#Allgemeine Einstellungen sind sichtbar !! Recht wird nicht mehr genutzt !!
+rbac#:#adm_visible#:#Allgemeine Einstellungen sind sichtbar
 rbac#:#adm_write#:#Allgemeine Einstellungen in Administration können bearbeiten werden
 rbac#:#adn_edit_permission#:#Rechteeinstellungen für Administration der Ankündigungen ändern
 rbac#:#adn_read#:#Lesezugriff auf Administration für Ankündigungen
