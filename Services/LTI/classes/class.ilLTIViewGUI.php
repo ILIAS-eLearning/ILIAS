@@ -175,7 +175,9 @@ class ilLTIViewGUI
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $this->findEffectiveRefId($_SERVER['HTTP_REFERER']);
             } else { // only fallback and not reliable on multiple browser LTi contexts
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 if (isset($_SESSION['referer_ref_id'])) {
+                    // TODO PHP8 Review: Remove/Replace SuperGlobals
                     $this->effectiveRefId = $_SESSION['referer_ref_id'];
                 }
             }
@@ -357,7 +359,6 @@ class ilLTIViewGUI
 //        $auth->setExpired($auth::SESSION_AUTH_EXPIRED, ilAuthStatus::STATUS_UNDEFINED);
         $auth->setExpired(true);
         session_destroy();
-//        $client_id = $_COOKIE["ilClientId"];
         ilUtil::setCookie("ilClientId", "");
         ilUtil::setCookie("PHPSESSID", "");
     }
@@ -387,7 +388,9 @@ class ilLTIViewGUI
 
     private function getCookieValue(String $cookie_key) : String
     {
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (isset($_COOKIE[$cookie_key]) && $_COOKIE[$cookie_key] != '') {
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             return $_COOKIE[$cookie_key];
         } else {
             return '';
@@ -411,6 +414,7 @@ class ilLTIViewGUI
     {
         global $DIC;
         if ($url === null) {
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             $query = $_GET;//$DIC->http()->wrapper()->query();
         } else {
             parse_str((string) parse_url($url, PHP_URL_QUERY), $query);

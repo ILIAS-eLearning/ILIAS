@@ -35,7 +35,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->dataConnector = new ilLTIDataConnector();
         
         $GLOBALS['DIC']->language()->loadLanguageModule('lti');
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (isset($_REQUEST["cid"])) {
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             $this->consumer_id = (int) $_REQUEST["cid"];
         }
     }

@@ -394,7 +394,6 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->reason = 'Missing consumer key.';
             }
             if ($this->ok) {
-                // $this->consumer = new ToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
                 $this->consumer = new ilLTIToolConsumer($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
                 $this->ok = !is_null($this->consumer->created);
                 if (!$this->ok) {
@@ -627,33 +626,6 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             }
         }
-        //ACHTUNG HIER EVTL. TODO
-        // Validate message parameter constraints
-        // if ($this->ok) {
-        // $invalidParameters = array();
-        // foreach ($this->constraints as $name => $constraint) {
-        // // if (empty($constraint['messages']) || in_array($_POST['lti_message_type'], $constraint['messages'])) {
-        // // $ok = true;
-        // // if ($constraint['required']) {
-        // // if (!$DIC->http()->wrapper()->post()->has($name) || (strlen(trim($_POST[$name])) <= 0)) {
-        // // $invalidParameters[] = "{$name} (missing)";
-        // // $ok = false;
-        // // }
-        // // }
-        // // if ($ok && !is_null($constraint['max_length']) && $DIC->http()->wrapper()->post()->has($name)) {
-        // // if (strlen(trim($_POST[$name])) > $constraint['max_length']) {
-        // // $invalidParameters[] = "{$name} (too long)";
-        // // }
-        // // }
-        // // }
-        // }
-        // if (count($invalidParameters) > 0) {
-        // $this->ok = false;
-        // if (empty($this->reason)) {
-        // $this->reason = 'Invalid parameter(s): ' . implode(', ', $invalidParameters) . '.';
-        // }
-        // }
-        // }
 
         $this->logger->debug('Still ok: ' . ($this->ok ? '1' : '0'));
         if (!$this->ok) {
@@ -741,7 +713,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
                 // Save other custom parameters
-
+    
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 foreach ($_POST as $name => $value) {
                     if ((strpos($name, 'custom_') === 0) &&
                         !in_array(
