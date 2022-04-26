@@ -11,7 +11,7 @@ With the exception of "Survey" and "Test" objects, no personal data is stored au
 ## Data being stored
 
 - Text input in the LOM metadata sections "Lifecycle -> Contributor" and "Meta-Metadata -> Contributor"
-- Directly after object creation of suveys and tests the firstname and lastname is stored in the
+- Directly after object creation of surveys and tests the firstname and lastname is stored in the
   LOM-metadata section "Lifecycle"
   
 ## Data being presented
