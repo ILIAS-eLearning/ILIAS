@@ -477,13 +477,13 @@ return true;
 
                     // check if the value has a local change
                     if (isset($local_changes[$separated[0]])) {
-                        $local_value = $local_changes[$separated[0]][$separated[1]] ?? null;
+                        $local_value = $local_changes[$separated[0]][$separated[1]] ?? "";
                     } else {
-                        $local_value = null;
+                        $local_value = "";
                     }
 
                     if (empty($scope)) {
-                        if ($local_value !== "" && $local_value != $separated[2]) {
+                        if ($local_value !== "" && $local_value !== $separated[2]) {
                             // keep the locally changed value
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
                         } else {
