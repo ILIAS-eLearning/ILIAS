@@ -1006,69 +1006,90 @@ class ilCalendarAppointmentGUI
     {
         $this->rec = $form->getItemByPostVar('frequence')->getRecurrence();
 
-
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         switch ($_POST['frequence']) {
             case ilCalendarRecurrence::FREQ_DAILY:
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setFrequenceType($_POST['frequence']);
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setInterval((int) $_POST['count_DAILY']);
                 break;
 
             case ilCalendarRecurrence::FREQ_WEEKLY:
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setFrequenceType($_POST['frequence']);
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setInterval((int) $_POST['count_WEEKLY']);
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 if (is_array($_POST['byday_WEEKLY'])) {
+                    // TODO PHP8 Review: Remove/Replace SuperGlobals
                     $this->rec->setBYDAY(ilUtil::stripSlashes(implode(',', $_POST['byday_WEEKLY'])));
                 }
                 break;
 
             case ilCalendarRecurrence::FREQ_MONTHLY:
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setFrequenceType($_POST['frequence']);
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setInterval((int) $_POST['count_MONTHLY']);
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 switch ((int) $_POST['subtype_MONTHLY']) {
                     case 0:
                         // nothing to do;
                         break;
 
                     case 1:
+                        // TODO PHP8 Review: Remove/Replace SuperGlobals
                         switch ((int) $_POST['monthly_byday_day']) {
                             case 8:
                                 // Weekday
+                                // TODO PHP8 Review: Remove/Replace SuperGlobals
                                 $this->rec->setBYSETPOS((string) $_POST['monthly_byday_num']);
                                 $this->rec->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
 
                             case 9:
                                 // Day of month
+                                // TODO PHP8 Review: Remove/Replace SuperGlobals
                                 $this->rec->setBYMONTHDAY((string) $_POST['monthly_byday_num']);
                                 break;
 
                             default:
+                                // TODO PHP8 Review: Remove/Replace SuperGlobals
                                 $this->rec->setBYDAY((int) $_POST['monthly_byday_num'] . $_POST['monthly_byday_day']);
                                 break;
                         }
                         break;
 
                     case 2:
+                        // TODO PHP8 Review: Remove/Replace SuperGlobals
                         $this->rec->setBYMONTHDAY((string) $_POST['monthly_bymonthday']);
                         break;
                 }
                 break;
 
             case ilCalendarRecurrence::FREQ_YEARLY:
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setFrequenceType($_POST['frequence']);
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setInterval((int) $_POST['count_YEARLY']);
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 switch ((int) $_POST['subtype_YEARLY']) {
                     case 0:
                         // nothing to do;
                         break;
 
                     case 1:
+                        // TODO PHP8 Review: Remove/Replace SuperGlobals
                         $this->rec->setBYMONTH((string) $_POST['yearly_bymonth_byday']);
+                        // TODO PHP8 Review: Remove/Replace SuperGlobals
                         $this->rec->setBYDAY((int) $_POST['yearly_byday_num'] . $_POST['yearly_byday']);
                         break;
 
                     case 2:
+                        // TODO PHP8 Review: Remove/Replace SuperGlobals
                         $this->rec->setBYMONTH((string) $_POST['yearly_bymonth_by_monthday']);
+                        // TODO PHP8 Review: Remove/Replace SuperGlobals
                         $this->rec->setBYMONTHDAY((string) $_POST['yearly_bymonthday']);
                         break;
                 }
@@ -1076,6 +1097,7 @@ class ilCalendarAppointmentGUI
         }
 
         // UNTIL
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         switch ((int) $_POST['until_type']) {
             case 1:
                 $this->rec->setFrequenceUntilDate(null);
@@ -1084,6 +1106,7 @@ class ilCalendarAppointmentGUI
 
             case 2:
                 $this->rec->setFrequenceUntilDate(null);
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 $this->rec->setFrequenceUntilCount((int) $_POST['count']);
                 break;
 

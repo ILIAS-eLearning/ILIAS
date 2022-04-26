@@ -54,10 +54,13 @@ class ilCalendarRemoteAccessHandler
     {
         // before initialization: $_GET and $_COOKIE is required is unavoidable
         // in the moment.
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if ($_GET['client_id']) {
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             $_COOKIE['ilClientId'] = $_GET['client_id'];
         } else {
             $path_info_components = explode('/', $_SERVER['PATH_INFO']);
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             $_COOKIE['ilClientId'] = $path_info_components[1];
         }
     }
