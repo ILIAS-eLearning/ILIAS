@@ -28,7 +28,7 @@ use Doctrine\Common\Annotations\Annotation\Target;
  *
  * @Annotation
  * @NamedArgumentConstructor
- * @Target(Target::TARGET_CLASS)
+ * @Target("CLASS")
  * @Attributes({
  *      @Attribute("children", type = "array"),
  *      @Attribute("parents", type = "array"),

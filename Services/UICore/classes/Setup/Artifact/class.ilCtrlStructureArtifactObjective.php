@@ -2,6 +2,7 @@
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
 use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact;
@@ -37,8 +38,9 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
 
         return new ArrayArtifact(
             (new ilCtrlStructureReader(
-                new ilCtrlArrayIterator($class_map),
-                new ilCtrlStructureCidGenerator()
+                new ilCtrlStructureCidGenerator(),
+                new AnnotationReader(),
+                new ArrayIterator($class_map),
             ))->readStructure()
         );
     }

@@ -122,6 +122,10 @@ class ilCtrlStructureReader
                     ilCtrlStructureCalls::class
                 );
 
+                if (null === $annotation) {
+                    continue;
+                }
+
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CID] = $this->cid_generator->getCid();
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
@@ -133,6 +137,9 @@ class ilCtrlStructureReader
                 if (in_array(ilCtrlBaseClassInterface::class, $reflection->getInterfaceNames(), true)) {
                     $base_classes[] = $lower_class_name;
                 }
+            } catch (AnnotationException $e) {
+                echo $e->getMessage() . $e->getTraceAsString();
+                exit;
             } catch (ReflectionException $e) {
                 continue;
             }
