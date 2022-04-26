@@ -631,7 +631,7 @@ abstract class ilBlockGUI
     //
 
     // temporary flag
-    protected $new_rendering = false;
+    protected bool $new_rendering = false;
 
 
     /**
