@@ -4,6 +4,9 @@
 
 require_once __DIR__ . '/../../../../libs/composer/vendor/autoload.php';
 
+use Doctrine\Common\Annotations\AnnotationException;
+use Doctrine\Common\Annotations\AnnotationReader;
+
 /**
  * Class ilCtrlStructureReader is responsible for reading
  * ilCtrl's control structure.
@@ -20,19 +23,6 @@ class ilCtrlStructureReader
     public const REGEX_GUI_CLASS_NAME = '/^class\.([A-z0-9]*(GUI))\.php$/';
 
     /**
-     * @var string regex pattern that matches classes listed behind
-     *             an ilCtrl_Calls statement. '{CLASS_NAME}' has to
-     *             be replaced with an actual classname before used.
-     */
-    private const REGEX_PHPDOC_CALLS = '/(((?i)@ilctrl_calls)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
-
-    /**
-     * @var string regex pattern similar to the one above, except it's
-     *             used for ilCtrl_isCalledBy statements.
-     */
-    private const REGEX_PHPDOC_CALLED_BYS = '/(((?i)@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
-
-    /**
      * Holds an instance of the cid generator.
      *
      * @var ilCtrlStructureCidGenerator
@@ -40,11 +30,18 @@ class ilCtrlStructureReader
     private ilCtrlStructureCidGenerator $cid_generator;
 
     /**
+     * Holds an instance of Doctrine's annotation reader.
+     *
+     * @var AnnotationReader
+     */
+    private AnnotationReader $annotation_reader;
+
+    /**
      * Holds the structure-reader's iterator or datasource.
      *
-     * @var ilCtrlIteratorInterface
+     * @var ArrayIterator
      */
-    private ilCtrlIteratorInterface $iterator;
+    private ArrayIterator $iterator;
 
     /**
      * Holds whether the structure reader was already executed or not.
@@ -63,17 +60,22 @@ class ilCtrlStructureReader
     /**
      * ilCtrlStructureReader Constructor
      *
-     * @param ilCtrlIteratorInterface     $iterator
      * @param ilCtrlStructureCidGenerator $cid_generator
+     * @param AnnotationReader            $annotation_reader
+     * @param ArrayIterator               $iterator
      */
-    public function __construct(ilCtrlIteratorInterface $iterator, ilCtrlStructureCidGenerator $cid_generator)
-    {
+    public function __construct(
+        ilCtrlStructureCidGenerator $cid_generator,
+        AnnotationReader $annotation_reader,
+        ArrayIterator $iterator
+    ) {
         $this->ilias_path = rtrim(
             (defined('ILIAS_ABSOLUTE_PATH')) ?
                 ILIAS_ABSOLUTE_PATH : dirname(__FILE__, 5),
             '/'
         );
 
+        $this->annotation_reader = $annotation_reader;
         $this->cid_generator = $cid_generator;
         $this->iterator = $iterator;
     }
@@ -115,11 +117,16 @@ class ilCtrlStructureReader
                     new ReflectionClass($class_name)
                 ;
 
+                $annotation = $this->annotation_reader->getClassAnnotation(
+                    $reflection,
+                    ilCtrlStructureCalls::class
+                );
+
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CID] = $this->cid_generator->getCid();
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
-                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
-                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $this->getParents($reflection);
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $annotation->getChildren();
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $annotation->getParents();
 
                 // temporarily store base classes in order to filer the
                 // structure afterwards.
@@ -143,47 +150,6 @@ class ilCtrlStructureReader
     }
 
     /**
-     * Returns all classes referenced by an ilCtrl_Calls or
-     * ilCtrl_isCalledBy statement.
-     *
-     * @param ReflectionClass $reflection
-     * @param string          $regex
-     * @return array
-     */
-    private function getReferencedClassesByReflection(ReflectionClass $reflection, string $regex) : array
-    {
-        // abort if the class has no PHPDoc comment.
-        if (!$reflection->getDocComment()) {
-            return [];
-        }
-
-        // replace the classname placeholder with the
-        // actual one and execute the regex search.
-        $name = str_replace('\\', '\\\\', $reflection->getName());
-        $regex = str_replace('{CLASS_NAME}', $name, $regex);
-        preg_match_all($regex, $reflection->getDocComment(), $matches);
-
-        // the first array entry of $matches contains
-        // the list's of statements found.
-        if (empty($matches[0])) {
-            return [];
-        }
-
-        $referenced_classes = [];
-        foreach ($matches[0] as $class_list) {
-            // explode lists and strip all whitespaces.
-            foreach (explode(',', $class_list) as $class) {
-                $class_name = $this->stripWhitespaces($class);
-                if (!empty($class_name)) {
-                    $referenced_classes[] = strtolower($class_name);
-                }
-            }
-        }
-
-        return $referenced_classes;
-    }
-
-    /**
      * Returns a given path relative to the ILIAS absolute path.
      *
      * @param string $absolute_path
@@ -197,40 +163,6 @@ class ilCtrlStructureReader
         $absolute_path = realpath($absolute_path);
 
         return '.' . str_replace($this->ilias_path, '', $absolute_path);
-    }
-
-    /**
-     * Helper function that returns all children references.
-     *
-     * @param ReflectionClass $reflection
-     * @return array
-     */
-    private function getChildren(ReflectionClass $reflection) : array
-    {
-        return $this->getReferencedClassesByReflection($reflection, self::REGEX_PHPDOC_CALLS);
-    }
-
-    /**
-     * Helper function that returns all parent references.
-     *
-     * @param ReflectionClass $reflection
-     * @return array
-     */
-    private function getParents(ReflectionClass $reflection) : array
-    {
-        return $this->getReferencedClassesByReflection($reflection, self::REGEX_PHPDOC_CALLED_BYS);
-    }
-
-    /**
-     * Helper function that replaces all whitespace characters
-     * from the given string.
-     *
-     * @param string $string
-     * @return string
-     */
-    private function stripWhitespaces(string $string) : string
-    {
-        return (string) preg_replace('/\s+/', '', $string);
     }
 
     /**
