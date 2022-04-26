@@ -24,7 +24,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 {
     private const APPLY_FILTER_CMD = 'applyContactsTableFilter';
     private const RESET_FILTER_CMD = 'resetContactsTableFilter';
-    private const STATE_FILTER_ELM_ID = 'relation_state_type';
+    public const STATE_FILTER_ELM_ID = 'relation_state_type';
 
     protected ilGlobalTemplateInterface $containerTemplate;
     protected bool $hasAccessToMailSystem = false;
@@ -100,9 +100,14 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         );
 
         $options = [];
-        $state = ilBuddySystemRelationStateFactory::getInstance()->getStatesAsOptionArray();
-        foreach ($state as $key => $option) {
-            $options[$key] = $option;
+        $state_factory = ilBuddySystemRelationStateFactory::getInstance();
+        foreach ($state_factory->getValidStates() as $state) {
+            if ($state->isInitial()) {
+                continue;
+            }
+
+            $state_filter_mapper = $state_factory->getTableFilterStateMapper($state);
+            $options += $state_filter_mapper->optionsForState();
         }
         $relations_state_selection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
         $this->addFilterItem($relations_state_selection);
@@ -115,6 +120,25 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $this->filter['public_name'] = $public_name->getValue();
     }
 
+    /**
+     * @param string $filterKey
+     * @param mixed $value
+     * @return void
+     */
+    public function applyFilterValue(string $filterKey, $value) : void
+    {
+        foreach ([$this->getFilterItems(), $this->getFilterItems(true)] as $filterItems) {
+            foreach ($filterItems as $item) {
+                /** @var ilTableFilterItem|ilFormPropertyGUI $item */
+                if ($item->getPostVar() === $filterKey) {
+                    $item->setValueByArray([$filterKey => $value]);
+                    $item->writeToSession();
+                    break 2;
+                }
+            }
+        }
+    }
+
     public function populate() : void
     {
         $this->setExternalSorting(false);
@@ -124,9 +148,11 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $relations = ilBuddyList::getInstanceByGlobalUser()->getRelations();
 
-        $state_filter = (string) ($this->filter[self::STATE_FILTER_ELM_ID] ?? '');
-        $relations = $relations->filter(static function (ilBuddySystemRelation $relation) use ($state_filter) : bool {
-            return $state_filter === '' || strtolower(get_class($relation->getState())) === strtolower($state_filter);
+        $state_filter = (string) $this->filter[self::STATE_FILTER_ELM_ID];
+        $state_factory = ilBuddySystemRelationStateFactory::getInstance();
+        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory) {
+            $state_filter_mapper = $state_factory->getTableFilterStateMapper($relation->getState());
+            return $state_filter === '' || $state_filter_mapper->filterMatchesRelation($state_filter, $relation);
         });
 
         $public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
