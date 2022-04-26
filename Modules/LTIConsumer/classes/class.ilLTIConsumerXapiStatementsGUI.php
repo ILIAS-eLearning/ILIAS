@@ -172,7 +172,7 @@ class ilLTIConsumerXapiStatementsGUI
         $auto->setMoreLinkAvailable(true);
         
         //$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         $result = json_decode($auto->getList(ilUtil::stripSlashes($_REQUEST['term'])), true);
         
         echo json_encode($result);

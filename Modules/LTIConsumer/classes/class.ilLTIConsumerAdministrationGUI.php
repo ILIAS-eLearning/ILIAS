@@ -933,25 +933,6 @@ class ilLTIConsumerAdministrationGUI
         return $providers;
     }
     
-//    /**
-//     * @return string
-//     */
-//    protected function getContextRelatedRedirectionCommand()
-//    {
-//        if (isset($_GET[self::CONTEXT_PARAMETER])) {
-//            switch ($_GET[self::CONTEXT_PARAMETER]) {
-//                case self::CONTEXT_GLOBAL_PROVIDER:
-//
-//                    return self::CMD_SHOW_GLOBAL_PROVIDER;
-//
-//                case self::CONTEXT_USER_PROVIDER:
-//
-//                    return self::CMD_SHOW_USER_PROVIDER;
-//            }
-//        }
-//
-//        return '';
-//    }
     
     protected function showSettingsCmd(?ilPropertyFormGUI $form = null) : void
     {

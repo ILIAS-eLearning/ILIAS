@@ -223,7 +223,6 @@ class ilLTIConsumeProviderIcon
         }
         
         // ilImageFileInputGUI does NOT come with a set value that could be fetched with
-        // $fileInput->getValue(). Instead ilImageFileInputGUI provides upload info in $_POST.
         $fileData = $DIC->http()->wrapper()->post()->retrieve($fileInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
 
         if ($fileData['tmp_name']) {
