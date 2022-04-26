@@ -360,9 +360,12 @@ class ilLTIConsumerAdministrationGUI
     private function prepareProvider() : \ilLTIConsumeProvider
     {
         $provider = new ilLTIConsumeProvider();
+        // TODO PHP8 Review: Check/Resolve Type-Mismatch
         $provider->setTitle($this->getInput('title'));
+        // TODO PHP8 Review: Check/Resolve Type-Mismatch
         $provider->setDescription($this->getInput('description'));
         if (null !== $this->getInput('provider_url')) {
+            // TODO PHP8 Review: Check/Resolve Type-Mismatch
             $provider->setProviderUrl($this->getInput('provider_url'));
         }
         $provider->setIsGlobal(true);
@@ -370,6 +373,7 @@ class ilLTIConsumerAdministrationGUI
 
         // PROVIDER ICON
         $pId = $provider->getId();
+        // TODO PHP8 Review: Check/Resolve Type-Mismatch
         if (null !== $pIconFileName = $this->getIconXml($this->getInput('provider_icon'), (string) $pId)) {
             $provider->setProviderIconFilename($pIconFileName);
             $provider->update();
