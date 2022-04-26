@@ -388,7 +388,7 @@ class ilLTIConsumerAdministrationGUI
 
     /**
      * @param $key
-     * @return mixed
+     * @return mixed[]
      */
     private function getInput($key) : array
     {

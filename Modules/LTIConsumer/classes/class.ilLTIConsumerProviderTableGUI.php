@@ -727,6 +727,9 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return '';
     }
     
+    /**
+     * @return mixed[]
+     */
     protected function getActionItems(array $data) : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

@@ -41,7 +41,7 @@ class ilLTIConsumerResult
     /**
      * @var float|null
      */
-    public ?float $result;
+    public ?float $result = null;
 
     /**
      * Get a result by id

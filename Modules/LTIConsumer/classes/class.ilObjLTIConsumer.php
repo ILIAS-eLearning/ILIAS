@@ -29,9 +29,9 @@ class ilObjLTIConsumer extends ilObject2
      * repository object activation settings (handled by ilObject)
      */
     protected bool $activationLimited;
-    protected ?int $activationStartingTime;
-    protected ?int $activationEndingTime;
-    protected ?bool $activationVisibility;
+    protected ?int $activationStartingTime = null;
+    protected ?int $activationEndingTime = null;
+    protected ?bool $activationVisibility = null;
     
     protected int $providerId = 0;
     
@@ -91,7 +91,7 @@ class ilObjLTIConsumer extends ilObject2
         $this->type = "lti";
     }
     
-    public function isActivationLimited() : ?bool
+    public function isActivationLimited() : bool
     {
         return $this->activationLimited;
     }
