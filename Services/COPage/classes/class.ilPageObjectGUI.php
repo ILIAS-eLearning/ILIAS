@@ -2298,6 +2298,7 @@ class ilPageObjectGUI
     public function preview() : string
     {
         $this->setOutputMode(self::PREVIEW);
+        $this->tabs_gui->activateTab("cont_preview");
         return $this->showPage();
     }
 

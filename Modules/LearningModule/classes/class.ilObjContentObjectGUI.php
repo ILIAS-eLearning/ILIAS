@@ -28,6 +28,7 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  */
 class ilObjContentObjectGUI extends ilObjectGUI
 {
+    protected \ILIAS\LearningModule\ReadingTime\SettingsGUI $reading_time_gui;
     protected ilLMMenuEditor $lmme_obj;
     protected ilObjLearningModule $lm_obj;
     protected string $lang_switch_mode;
@@ -130,6 +131,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->requested_lmmovecopy = $req->getLMMoveCopy();
         $this->content_style_service = $DIC
             ->contentStyle();
+
+        $id = (isset($this->object))
+            ? $this->object->getId()
+            : 0;
+        $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
     }
 
     /**
@@ -515,6 +521,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $progr_icons->setInfo($this->lng->txt("cont_progress_icons_info"));
         $this->form->addItem($progr_icons);
 
+        $this->reading_time_gui->addSettingToForm($this->form);
+
         // self assessment
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('cont_self_assessment'));
@@ -636,7 +644,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $values["cont_show_info_tab"] = $this->object->isInfoEnabled();
 
-        $this->form->setValuesByArray($values);
+        $this->form->setValuesByArray($values, true);
     }
     
     /**
@@ -677,6 +685,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->lm->setRatingPages((bool) $form->getInput("rating_pages"));
             $this->lm->setDisableDefaultFeedback((int) $form->getInput("disable_def_feedback"));
             $this->lm->setProgressIcons((int) $form->getInput("progr_icons"));
+            $this->reading_time_gui->saveSettingFromForm($this->form);
 
             $add_info = "";
             $store_tries = $form->getInput("store_tries");

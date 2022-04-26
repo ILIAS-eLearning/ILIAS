@@ -26,6 +26,9 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
+    protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
+
     protected StandardGUIRequest $blog_request;
     protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;
@@ -111,6 +114,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             throw new ilException("Posting ID does not match blog.");
         }
 
+        $blog_id = 0;
         if ($this->object) {
             // gather postings by month
             $this->items = $this->buildPostingList($this->object->getId());
@@ -124,10 +128,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
 
             $ilCtrl->setParameter($this, "bmn", $this->month);
+            $blog_id = $this->object->getId();
         }
         
         $lng->loadLanguageModule("blog");
         $ilCtrl->saveParameter($this, "prvm");
+
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
         if (is_object($this->object)) {
@@ -137,6 +143,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
             }
         }
+
+        $this->reading_time_gui = new \ILIAS\Blog\ReadingTime\BlogSettingsGUI($blog_id);
+        $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
     }
 
     public function getType() : string
@@ -332,6 +341,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $img->setImage($file);
             }
         }
+
+        $this->reading_time_gui->addSettingToForm($a_form);
         
         /* #15000
         $bg_color = new ilColorPickerInputGUI($lng->txt("blog_background_color"), "bg_color");
@@ -410,6 +421,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $a_values["abssl"] = $this->object->getAbstractShortenLength() ?: ilObjBlog::ABSTRACT_DEFAULT_SHORTEN_LENGTH;
         $a_values["absiw"] = $this->object->getAbstractImageWidth() ?: ilObjBlog::ABSTRACT_DEFAULT_IMAGE_WIDTH;
         $a_values["absih"] = $this->object->getAbstractImageHeight() ?: ilObjBlog::ABSTRACT_DEFAULT_IMAGE_HEIGHT;
+        $a_values = $this->reading_time_gui->addValueToArray($a_values);
     }
 
     protected function updateCustom(ilPropertyFormGUI $form) : void
@@ -435,8 +447,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->object->setNavModeListMonthsWithPostings($form->getInput("nav_list_mon_with_post"));
         $this->object->setNavModeListMonths($form->getInput("nav_list_mon"));
         $this->object->setOverviewPostings($form->getInput("ov_list_post_num"));
+        $this->reading_time_gui->saveSettingFromForm($a_form);
 
         $order = (array) $form->getInput("order");
+
         foreach ($order as $idx => $value) {
             if ($value == $lng->txt("blog_navigation")) {
                 $order[$idx] = "navigation";
@@ -953,7 +967,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "createPosting"));
 
             $title = new ilTextInputGUI($lng->txt("title"), "title");
+            $title->setSize(30);
             $ilToolbar->addStickyItem($title, $lng->txt("title"));
+            $tpl->addOnLoadCode("
+                document.getElementById('title').setAttribute('data-blog-input', 'posting-title');
+                document.getElementById('title').setAttribute('placeholder', ' ');
+            ");
             
             $button = ilSubmitButton::getInstance();
             $button->setCaption("blog_add_posting");
@@ -1530,7 +1549,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
                 $wtpl->setCurrentBlock("permalink");
                 $wtpl->setVariable("URL_PERMALINK", $goto);
-                $wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
+                $wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_link"));
                 $wtpl->parseCurrentBlock();
             }
                         
@@ -1559,6 +1578,22 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $wtpl->setVariable("DRAFT_TEXT", $lng->txt("blog_draft_text"));
                 $wtpl->parseCurrentBlock();
                 $wtpl->setVariable("DRAFT_CLASS", " ilBlogListItemDraft");
+            }
+
+            // reading time
+            $reading_time = $this->reading_time_manager->getReadingTime(
+                $this->object->getId(),
+                $item["id"]
+            );
+            if (!is_null($reading_time)) {
+                $this->lng->loadLanguageModule("copg");
+                $wtpl->setCurrentBlock("reading_time");
+                $wtpl->setVariable(
+                    "READING_TIME",
+                    $this->lng->txt("copg_est_reading_time") . ": " .
+                    sprintf($this->lng->txt("copg_x_minutes"), $reading_time)
+                );
+                $wtpl->parseCurrentBlock();
             }
 
             $wtpl->setCurrentBlock("posting");
@@ -1900,6 +1935,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         $authors = array_unique($authors);
+
+        // filter out deleted users
+        $authors = array_filter($authors, function ($id) {
+            return ilObject::_lookupType($id) == "usr";
+        });
+
         if (count($authors) > 1) {
             $list = array();
             foreach ($authors as $user_id) {
@@ -1908,8 +1949,25 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
                     $ilCtrl->setParameter($this, "ath", "");
 
-                    $name = ilUserUtil::getNamePresentation($user_id, true);
-                    $idx = trim(strip_tags($name)) . "///" . $user_id;  // #10934
+                    $base_name = ilUserUtil::getNamePresentation($user_id);
+                    if (substr($base_name, 0, 1) == "[") {
+                        $name = ilUserUtil::getNamePresentation($user_id, true);
+                        $sort = $name;
+                    } else {
+                        $name = ilUserUtil::getNamePresentation(
+                            $user_id,
+                            true,
+                            false,
+                            "",
+                            false,
+                            true,
+                            false
+                        );
+                        $name_arr = ilObjUser::_lookupName($user_id);
+                        $sort = $name_arr["lastname"] . " " . $name_arr["firstname"];
+                    }
+
+                    $idx = trim(strip_tags($sort)) . "///" . $user_id;  // #10934
                     $list[$idx] = array($name, $url);
                 }
             }

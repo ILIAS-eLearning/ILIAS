@@ -24,6 +24,7 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected string $requested_url;
     protected string $requested_type;
     protected ilLMTracker $tracker;
@@ -168,6 +169,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $params
             );
         }
+        $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
     public function getUnsafeGetCommands() : array
@@ -1382,6 +1384,15 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         // show standard meta data section
         $info->addMetaDataSections($this->lm->getId(), 0, $this->lm->getType());
+
+        $this->lng->loadLanguageModule("copg");
+        $est_reading_time = $this->reading_time_manager->getReadingTime($this->lm->getId());
+        if (!is_null($est_reading_time)) {
+            $info->addProperty(
+                $this->lng->txt("copg_est_reading_time"),
+                sprintf($this->lng->txt("copg_x_minutes"), $est_reading_time)
+            );
+        }
 
         if ($this->offlineMode()) {
             $this->tpl->setContent($info->getHTML());

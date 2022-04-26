@@ -43,6 +43,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->lng->loadLanguageModule('content');
+        $this->lng->loadLanguageModule('lm');
     }
 
     public function executeCommand() : void
@@ -112,8 +113,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
-        $form->setTitle($lng->txt("cont_lrs_settings"));
-
+        $form->setTitle($lng->txt("cont_lrs_settings") . " - " . $lng->txt("obj_lm"));
+        
         // Page History
         $cb_prop = new ilCheckboxInputGUI(
             $lng->txt("cont_enable_page_history"),
@@ -122,7 +123,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $cb_prop->setInfo($lng->txt("cont_enable_page_history_info"));
         $cb_prop->setChecked((bool) $lm_set->get("page_history", '1'));
         $form->addItem($cb_prop);
-        
+
         // Time scheduled page activation
         $cb_prop = new ilCheckboxInputGUI(
             $lng->txt("cont_enable_time_scheduled_page_activation"),
@@ -160,6 +161,19 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $cb_prop->setInfo($lng->txt("cont_html_export_ids_info"));
         $cb_prop->setChecked((bool) $lm_set->get("html_export_ids"));
         $form->addItem($cb_prop);
+
+        // Activate replace media object function
+        $cb_prop = new ilCheckboxInputGUI(
+            $lng->txt("lm_est_reading_time"),
+            "lm_est_reading_time"
+        );
+        $cb_prop->setInfo($lng->txt("lm_est_reading_time_info"));
+        $cb_prop->setChecked((bool) $lm_set->get("est_reading_time"));
+        $form->addItem($cb_prop);
+
+        $sh = new ilFormSectionHeaderGUI();
+        $sh->setTitle($lng->txt("cont_lrs_settings") . " - " . $lng->txt("obj_sahs"));
+        $form->addItem($sh);
 
         // scormDebugger activation
         $cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_global_activate"), "scormdebug_global_activate");
@@ -261,6 +275,11 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
                 "scorm_lp_auto_activate",
                 $form->getInput("scorm_lp_auto_activate")
             );
+            $lm_set->set(
+                "est_reading_time",
+                $form->getInput("lm_est_reading_time")
+            );
+
 
             $privacy = ilPrivacySettings::getInstance();
             $privacy->enableSahsProtocolData((int) $form->getInput('enable_sahs_pd'));

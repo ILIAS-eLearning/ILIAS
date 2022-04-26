@@ -2350,7 +2350,7 @@ blog#:#blog_change_notification_reason#:#You are receiving this e-mail because y
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_comments#:#Comments
 blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
-blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
+blog#:#blog_contribute_other_roles#:#Additionally to Blog-Contributors users with the role %s can write postings. They are not listed in the table below, because they get the respective permission from an encompassing object.
 blog#:#blog_contributors#:#Blog-Contributors
 blog#:#blog_copy#:#Copy Blog
 blog#:#blog_download_submission#:#Download Submission
@@ -16739,3 +16739,10 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+lm#:#lm_est_reading_time#:#Estimated Reading Time
+lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
+blog#:#blog_est_reading_time#:#Estimated Reading Time
+blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.
+copg#:#copg_est_reading_time#:#Estimated Reading Time
+copg#:#copg_x_minutes#:#%s minute(s)
+blog#:#blog_link#:#Link

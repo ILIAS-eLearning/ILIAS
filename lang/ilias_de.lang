@@ -6230,7 +6230,7 @@ content#:#cont_ed_go#:#Ok
 content#:#cont_ed_grid_col_width_info#:#Spalten können mehrere 1/12-Einheiten einer Zeile in Abhängigkeit von der Bildschirmgröße belegen. Die genannten Geräte sind Beispiele. Letztendlich entscheidet die Bildschirmgröße das Verhalten. 12/12 entspricht einer Breite von 100%.
 content#:#cont_ed_grid_col_width#:#Spaltenbreite
 content#:#cont_ed_grid_col_widths#:#Spaltenbreiten
-content#:#cont_ed_insert_amdfrm#:#Erweiterte Metadaten einfügen
+content#:#cont_ed_insert_amdfrm#:#Formular einfügen
 content#:#cont_ed_insert_amdpl#:#Seitenliste einfügen
 content#:#cont_ed_insert_blog#:#Blog-Eintrag hinzufügen
 content#:#cont_ed_insert_cach#:#Sprechstunden einfügen
@@ -12631,7 +12631,7 @@ prtf#:#prtf_delete_assignment_sure#:#Wollen Sie wirklich die folgende(n) Zuordnu
 prtf#:#prtf_delete_assignment#:#Zuordnungen löschen
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
 prtf#:#prtf_edit_content#:#Inhalt bearbeiten
-prtf#:#prtf_edit_data#:#Daten bearbeiten
+prtf#:#prtf_edit_data#:#Felder ausfüllen
 prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
@@ -12706,7 +12706,7 @@ prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
 prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Porfolios verwendet wird.
 prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch außerhalb der Zugriffszeiten sichtbar.
-prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zumachen.
+prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zu machen.
 prtt#:#prtt_add#:#Portfoliovorlage anlegen
 prtt#:#prtt_copy#:#Portfoliovorlage kopieren
 prtt#:#prtt_edit#:#Portfoliovorlage bearbeiten
@@ -12715,7 +12715,7 @@ prtt#:#prtt_new#:#Neue Portfoliovorlage anlegen
 prtt#:#prtt_pfpg#:#Portfolioseite
 prtt#:#prtt_portfolio_created#:#Portfoliovorlage wurde hinzugefügt
 prtt#:#prtt_properties#:#Portfoliovorlagen-Eigenschaften
-prtt#:#prtt_select_datasets#:#Datensätze auswählen
+prtt#:#prtt_select_datasets#:#Formulare auswählen
 prtt#:#prtt_style#:#Portfoliovorlagen-Style
 ps#:#cdf_edited_by_self#:#durch den Benutzer
 ps#:#crs_ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
@@ -15502,7 +15502,7 @@ survey#:#survey_360_appraisees#:#Feedback-Nehmer
 survey#:#survey_360_edit_raters#:#Feedback-Geber verwalten
 survey#:#survey_360_list_title#:#360°-Modus
 survey#:#survey_360_mode#:#360°-Feedback
-survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
+survey#:#survey_360_mode_info#:#Mehrere Personen evaluieren sich gegenseitig, Rückmeldungen zu einem Feedback-Nehmer werden zu einem Zeitpunkt aggregiert ausgewertet.
 survey#:#survey_360_no_appraisees#:#Sie können momentan kein Feedback geben.
 survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
@@ -15790,8 +15790,8 @@ survey#:#svy_select_rater#:#Feedbackgeber auswählen
 survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Teilnehmer
 survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
 survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
-survey#:#svy_self_ev_info#:#Für Selbst-Evaluation verwenden
-survey#:#svy_self_ev_mode#:#Nur Selbst-Evaluation
+survey#:#svy_self_ev_info#:#Personen evaluieren sich selbst und schätzen sich ein.
+survey#:#svy_self_ev_mode#:#Selbst-Evaluation
 survey#:#svy_settings_section_access#:#Umfrage-Verwaltung: Zugriff
 survey#:#svy_settings_section_before_start#:#Informationen vor dem Umfragestart
 survey#:#svy_settings_section_finishing#:#Umfrage beenden
@@ -16769,3 +16769,10 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+copg#:#copg_est_reading_time#:#Geschätzte Lesezeit
+copg#:#copg_x_minutes#:#%s Minute(n)
+blog#:#blog_link#:#Link
+blog#:#blog_est_reading_time#:#Geschätzte Lesedauer
+blog#:#blog_est_reading_time_info#:#In Blogs im Magazin kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
+lm#:#lm_est_reading_time#:#Geschätzte Lesedauer
+lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden.

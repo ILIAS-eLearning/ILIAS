@@ -384,7 +384,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $type_page->addSubItem($tf);
 
         // page templates
-        $templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
+        $templates = ilPageLayout::activeLayouts(ilPageLayout::MODULE_PORTFOLIO);
         if ($templates) {
             $options = array(0 => $this->lng->txt("none"));
             foreach ($templates as $templ) {

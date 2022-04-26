@@ -443,7 +443,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         // save and cancel commands
         if ($a_mode === "create") {
-            $templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
+            $templates = ilPageLayout::activeLayouts(ilPageLayout::MODULE_PORTFOLIO);
             if ($templates) {
                 $use_template = new ilRadioGroupInputGUI($this->lng->txt("prtf_use_page_layout"), "tmpl");
                 $use_template->setRequired(true);
