@@ -293,6 +293,7 @@ if (!class_exists('OAuthSignatureMethod_RSA_SHA1')) {
             openssl_sign($base_string, $signature, $privatekeyid);
 
             // Release the key resource
+            // TODO PHP8 Review: openssl_free_key is deprecated
             openssl_free_key($privatekeyid);
 
             return base64_encode($signature);
@@ -315,6 +316,7 @@ if (!class_exists('OAuthSignatureMethod_RSA_SHA1')) {
             $ok = openssl_verify($base_string, $decoded_sig, $publickeyid);
 
             // Release the key resource
+            // TODO PHP8 Review: openssl_free_key is deprecated
             openssl_free_key($publickeyid);
 
             return $ok == 1;
@@ -479,6 +481,7 @@ if (!class_exists('OAuthRequest')) {
         /**
          * @return mixed|null
          */
+        // TODO PHP8 Review: Missing Return type Declaration
         public function get_parameter(string $name)
         {
             return isset($this->parameters[$name]) ? $this->parameters[$name] : null;
@@ -984,6 +987,8 @@ if (!class_exists('OAuthUtil')) {
          * @param mixed $input
          * @return string|array
          */
+        // TODO PHP8 Review: Missing Return type Declaration
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public static function urlencode_rfc3986($input)
         {
             if (is_array($input)) {
