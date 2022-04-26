@@ -58,7 +58,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     private string $bysetpos = '';
     private string $weekstart = '';
 
-    private $exclusion_dates = array();
+    private array $exclusion_dates = array();
 
     private string $timezone = 'Europe/Berlin';
 

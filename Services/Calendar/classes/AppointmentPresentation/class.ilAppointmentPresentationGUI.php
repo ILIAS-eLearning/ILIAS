@@ -32,9 +32,9 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     protected ?Item $list_item = null;
 
-    protected $info_items = [];
-    protected $list_properties = [];
-    protected $actions = [];
+    protected array $info_items = [];
+    protected array $list_properties = [];
+    protected array $actions = [];
 
     /**
      * @var int[] readable ref ids for an object id

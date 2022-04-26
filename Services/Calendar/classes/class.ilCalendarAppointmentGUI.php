@@ -1119,7 +1119,7 @@ class ilCalendarAppointmentGUI
         }
     }
 
-    protected function createDefaultCalendar()
+    protected function createDefaultCalendar() : int
     {
         $cat = new ilCalendarCategory();
         $cat->setColor(ilCalendarCategory::DEFAULT_COLOR);

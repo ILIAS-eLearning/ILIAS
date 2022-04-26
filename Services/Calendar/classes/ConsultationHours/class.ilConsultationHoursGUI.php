@@ -49,7 +49,7 @@ class ilConsultationHoursGUI
 
 
     private int $user_id;
-    private $search_assignment_to_appointments = false;
+    private bool $search_assignment_to_appointments = false;
     private ?ilBookingEntry $booking = null;
 
     private ?ilPropertyFormGUI $form = null;

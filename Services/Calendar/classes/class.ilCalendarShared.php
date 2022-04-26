@@ -170,7 +170,7 @@ class ilCalendarShared
         return $this->shared_users;
     }
 
-    public function getRoles()
+    public function getRoles() : array
     {
         return $this->shared_roles;
     }

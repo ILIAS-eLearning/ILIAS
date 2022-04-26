@@ -119,7 +119,7 @@ class ilTimeZone
     /**
      * Switch timezone to given timezone
      */
-    public function switchTZ()
+    public function switchTZ() : bool
     {
         try {
             self::_switchTimeZone($this->timezone);

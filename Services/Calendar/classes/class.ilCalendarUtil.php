@@ -555,8 +555,15 @@ class ilCalendarUtil
         global $DIC;
 
         $tpl = $DIC->ui()->mainTemplate();
-        foreach (self::getCodeForPicker($a_id, $a_add_time, $a_custom_config, $a_id2, $a_custom_config2, $a_toggle_id,
-            $a_subform_id) as $code) {
+        foreach (self::getCodeForPicker(
+            $a_id,
+            $a_add_time,
+            $a_custom_config,
+            $a_id2,
+            $a_custom_config2,
+            $a_toggle_id,
+            $a_subform_id
+        ) as $code) {
             $tpl->addOnLoadCode($code);
         }
     }
@@ -649,7 +656,7 @@ class ilCalendarUtil
      * @return array date, warnings, errors
      * @throws ilDateTimeException
      */
-    public static function parseDateString(string $a_date, bool $a_add_time = false, bool $a_use_generic_format = false)
+    public static function parseDateString(string $a_date, bool $a_add_time = false, bool $a_use_generic_format = false) : array
     {
         global $DIC;
 

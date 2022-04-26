@@ -221,15 +221,27 @@ class ilCalendarSchedule
                             case self::TYPE_DAY:
                             case self::TYPE_WEEK:
                                 // store date info (used for calculation of overlapping events)
-                                $tmp_date = new ilDateTime($this->schedule[$counter]['dstart'], IL_CAL_UNIX,
-                                    $this->timezone);
-                                $this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '',
-                                    $this->timezone);
+                                $tmp_date = new ilDateTime(
+                                    $this->schedule[$counter]['dstart'],
+                                    IL_CAL_UNIX,
+                                    $this->timezone
+                                );
+                                $this->schedule[$counter]['start_info'] = $tmp_date->get(
+                                    IL_CAL_FKT_GETDATE,
+                                    '',
+                                    $this->timezone
+                                );
 
-                                $tmp_date = new ilDateTime($this->schedule[$counter]['dend'], IL_CAL_UNIX,
-                                    $this->timezone);
-                                $this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '',
-                                    $this->timezone);
+                                $tmp_date = new ilDateTime(
+                                    $this->schedule[$counter]['dend'],
+                                    IL_CAL_UNIX,
+                                    $this->timezone
+                                );
+                                $this->schedule[$counter]['end_info'] = $tmp_date->get(
+                                    IL_CAL_FKT_GETDATE,
+                                    '',
+                                    $this->timezone
+                                );
                                 break;
 
                             default:
@@ -255,14 +267,23 @@ class ilCalendarSchedule
                         case self::TYPE_DAY:
                         case self::TYPE_WEEK:
                             // store date info (used for calculation of overlapping events)
-                            $tmp_date = new ilDateTime($this->schedule[$counter]['dstart'], IL_CAL_UNIX,
-                                $this->timezone);
-                            $this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '',
-                                $this->timezone);
+                            $tmp_date = new ilDateTime(
+                                $this->schedule[$counter]['dstart'],
+                                IL_CAL_UNIX,
+                                $this->timezone
+                            );
+                            $this->schedule[$counter]['start_info'] = $tmp_date->get(
+                                IL_CAL_FKT_GETDATE,
+                                '',
+                                $this->timezone
+                            );
 
                             $tmp_date = new ilDateTime($this->schedule[$counter]['dend'], IL_CAL_UNIX, $this->timezone);
-                            $this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '',
-                                $this->timezone);
+                            $this->schedule[$counter]['end_info'] = $tmp_date->get(
+                                IL_CAL_FKT_GETDATE,
+                                '',
+                                $this->timezone
+                            );
                             break;
 
                         default:
@@ -387,8 +408,10 @@ class ilCalendarSchedule
             " JOIN cal_cat_assignments ca ON (ca.cal_id = ce.cal_id)";
 
         if ($this->type != self::TYPE_INBOX) {
-            $query .= " WHERE ((starta <= " . $this->db->quote($this->end->get(IL_CAL_DATETIME, '', 'UTC'),
-                    'timestamp') .
+            $query .= " WHERE ((starta <= " . $this->db->quote(
+                $this->end->get(IL_CAL_DATETIME, '', 'UTC'),
+                'timestamp'
+            ) .
                 " AND enda >= " . $this->db->quote($this->start->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ")" .
                 " OR (starta <= " . $this->db->quote($this->end->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') .
                 " AND NOT rule_id IS NULL))";
@@ -487,8 +510,10 @@ class ilCalendarSchedule
                     $this->start->increment(IL_CAL_DAY, -$number_days_previous_month);
 
                     #21716
-                    $this->end = new ilDate($year_month . '-' . ilCalendarUtil::_getMaxDayOfMonth($year, $month),
-                        IL_CAL_DATE);
+                    $this->end = new ilDate(
+                        $year_month . '-' . ilCalendarUtil::_getMaxDayOfMonth($year, $month),
+                        IL_CAL_DATE
+                    );
 
                     $end_unix_time = $this->end->getUnixTime();
 
