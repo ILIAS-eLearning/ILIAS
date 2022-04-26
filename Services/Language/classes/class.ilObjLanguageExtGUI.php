@@ -27,6 +27,7 @@ require_once("Services/Language/classes/class.ilObjLanguageAccess.php");
 class ilObjLanguageExtGUI extends ilObjectGUI
 {
     private const ILIAS_LANGUAGE_MODULE = "Services/Language";
+    private string $langmode;
     protected HTTPServices $http;
     protected Refinery $refinery;
     /**
@@ -58,7 +59,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         // type and id of get the bound object
         $this->type = "lng";
-        if (!$this->id = (int) $_GET["obj_id"]) {
+        $obj_id_get = $DIC->http()->wrapper()->query()->retrieve("obj_id", $DIC->refinery()->kindlyTo()->int());
+        if (!$this->id = $obj_id_get) {
             $this->id = ilObjLanguageAccess::_lookupId($lng->getUserLanguage());
         }
 
@@ -66,10 +68,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         parent::__construct($a_data, $this->id, false, true);
 
         // initialize the array to store session variables for extended language maintenance
-        if (!is_array($_SESSION["lang_ext_maintenance"])) {
-            $_SESSION["lang_ext_maintenance"] = array();
+        if (!is_array($this->getSession())) {
+            ilSession::set("lang_ext_maintenance", array());
         }
-        $this->session = &$_SESSION["lang_ext_maintenance"];// Todo-PHP8-Review This property is not defined, here and in other methods in this class
+        // $this->session = &$_SESSION["lang_ext_maintenance"];// Todo-PHP8-Review This property is not defined, here and in other methods in this class
 
 
         // read the lang mode
@@ -171,9 +173,17 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             // get the selection of modules and topics from request or session
             $modules = ilObjLanguageAccess::_getSavedModules();
             $topics = ilObjLanguageAccess::_getSavedTopics();
-
+    
+            $reset_offset_get = false;
+            if ($DIC->http()->wrapper()->query()->has("reset_offset")) {
+                $reset_offset_get = $DIC->http()->wrapper()->query()->retrieve(
+                    "reset_offset",
+                    $DIC->refinery()->kindlyTo()->bool()
+                );
+            }
+    
             // first call for translation
-            if ($_GET["reset_offset"]) {
+            if ($reset_offset_get) {
                 $table_gui->resetOffset();
             }
 
@@ -439,7 +449,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ro = new ilRadioOption($this->lng->txt("language_mode_existing_delete"), "delete");
         $ro->setInfo($this->lng->txt("language_mode_existing_delete_info"));
         $rg->addOption($ro);
-        $rg->setValue($this->session["import"]["mode_existing"] ?: "keepall");
+        $rg->setValue($this->getSession()["import"]["mode_existing"] ?: "keepall");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -455,7 +465,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $post_mode_existing = $this->http->request()->getParsedBody()['mode_existing'] ?? "";
         // save form inputs for next display
-        $this->session["import"]["mode_existing"] = ilUtil::stripSlashes($post_mode_existing);
+        $tmp["import"]["mode_existing"] = ilUtil::stripSlashes($post_mode_existing);
+        ilSession::set("lang_ext_maintenance", $tmp);
 
         try {
             $upload = $DIC->upload();
@@ -521,7 +532,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $rg->addOption($ro);
         }
 
-        $rg->setValue($this->session["export"]["scope"] ?: "global");
+        $rg->setValue($this->getSession()["export"]["scope"] ?: "global");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -534,12 +545,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     {
         $post_scope = $this->http->request()->getParsedBody()['scope'] ?? "";
         // save the selected scope
-        $this->session["export"]["scope"] = ilUtil::stripSlashes($post_scope);
+        $tmp["export"]["scope"] = ilUtil::stripSlashes($post_scope);
+        ilSession::set("lang_ext_maintenance", $tmp);
 
         $filename = "ilias_" . $this->object->key . '_'
         . str_replace(".", "_", substr(ILIAS_VERSION, 0, strpos(ILIAS_VERSION, " ")))
         . "-" . date("Y-m-d")
-        . ".lang." . $this->session["export"]["scope"];
+        . ".lang." . $this->getSession()["export"]["scope"];
 
         $global_file_obj = $this->object->getGlobalLanguageFile();
         $local_file_obj = new ilLanguageFile($filename, $this->object->key, $post_scope);
@@ -613,7 +625,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ro = new ilRadioOption($this->lng->txt("language_save_dist"), "save_dist");
         $ro->setInfo(sprintf($this->lng->txt("language_save_dist_info"), $this->object->key));
         $rg->addOption($ro);
-        $rg->setValue($this->session["maintain"] ?? "");
+        $rg->setValue($this->getSession()["maintain"] ?? "");
         $form->addItem($rg);
 
         $this->tpl->setContent($form->getHTML());
@@ -623,7 +635,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     {
         $post_maintain = $this->http->request()->getParsedBody()['maintain'] ?? "";
         if (isset($post_maintain)) {
-            $this->session["maintain"] = ilUtil::stripSlashes($post_maintain);
+            $tmp["maintain"] = ilUtil::stripSlashes($post_maintain);
+            ilSession::set("lang_ext_maintenance", $tmp);
         }
 
         switch ($post_maintain) {
@@ -655,7 +668,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             case "clear":
                 $lang_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
                 if (is_file($lang_file) and is_readable($lang_file)) {
-                    $this->object->importLanguageFile($lang_file, "delete");
+                    $this->object->importLanguageFile($lang_file, "replace");
                     $this->object->setLocal(false);
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("language_cleared_local"), true);
                 } else {
@@ -924,7 +937,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         global $DIC;
         $tpl = $DIC["tpl"];
 
-        $id = trim($_GET["eid"]);
+        $id = trim($DIC->http()->wrapper()->query()->retrieve("eid", $DIC->refinery()->kindlyTo()->string()));
 
         if (!$a_form) {
             $a_form = $this->initAddNewEntryForm($id);
@@ -1036,5 +1049,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $renderer = $DIC->ui()->renderer();
 
         return $renderer->render($f->messageBox()->success($this->lng->txt("language_variables_saved")));
+    }
+    
+    private function getSession() : array
+    {
+        return ilSession::get("lang_ext_maintenance") ?? [];
     }
 } // END class.ilObjLanguageExtGUI

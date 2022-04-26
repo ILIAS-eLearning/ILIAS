@@ -142,8 +142,16 @@ class ilObjLanguageAccess
      */
     public static function _isPageTranslation() : bool
     {
-        $cmdClass = $_GET["cmdClass"] ?? "";
-        return (strtolower($cmdClass) === "ilobjlanguageextgui" && $_GET["view_mode"] === "translate");
+        global $DIC;
+        $cmdClass = $DIC->http()->wrapper()->query()->retrieve("cmdClass", $DIC->refinery()->kindlyTo()->string());
+        $view_mode_get = "";
+        if ($DIC->http()->wrapper()->query()->has("view_mode")) {
+            $view_mode_get = $DIC->http()->wrapper()->query()->retrieve(
+                "view_mode",
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+        return (strtolower($cmdClass) === "ilobjlanguageextgui" && $view_mode_get === "translate");
     }
 
     /**
@@ -156,8 +164,8 @@ class ilObjLanguageAccess
         $lng = $DIC->language();
 
         if (self::_checkTranslate() and !self::_isPageTranslation()) {
-            $_SESSION["lang_ext_maintenance"]["used_modules"] = array_keys($lng->getUsedModules());
-            $_SESSION["lang_ext_maintenance"]["used_topics"] = array_keys($lng->getUsedTopics());
+            ilSession::set("lang_ext_maintenance", array("used_modules" => array_keys($lng->getUsedModules())));
+            ilSession::set("lang_ext_maintenance", array("used_topics" => array_keys($lng->getUsedTopics())));
         }
     }
 
@@ -168,7 +176,7 @@ class ilObjLanguageAccess
      */
     public static function _getSavedModules() : array
     {
-        $saved = $_SESSION["lang_ext_maintenance"]["used_modules"];
+        $saved = ilSession::get("lang_ext_maintenance")["used_modules"];
         return is_array($saved) ? $saved : array();
     }
 
@@ -179,7 +187,7 @@ class ilObjLanguageAccess
      */
     public static function _getSavedTopics() : array
     {
-        $saved = $_SESSION["lang_ext_maintenance"]["used_topics"];
+        $saved = ilSession::get("lang_ext_maintenance")["used_topics"];
         return is_array($saved) ? $saved : array();
     }
 }
