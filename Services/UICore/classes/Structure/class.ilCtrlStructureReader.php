@@ -37,11 +37,11 @@ class ilCtrlStructureReader
     private AnnotationReader $annotation_reader;
 
     /**
-     * Holds the structure-reader's iterator or datasource.
+     * Holds the current composer class-map.
      *
-     * @var ArrayIterator
+     * @var array<string, string>
      */
-    private ArrayIterator $iterator;
+    private array $class_map;
 
     /**
      * Holds whether the structure reader was already executed or not.
@@ -62,12 +62,12 @@ class ilCtrlStructureReader
      *
      * @param ilCtrlStructureCidGenerator $cid_generator
      * @param AnnotationReader            $annotation_reader
-     * @param ArrayIterator               $iterator
+     * @param array<string, string>       $class_map
      */
     public function __construct(
         ilCtrlStructureCidGenerator $cid_generator,
         AnnotationReader $annotation_reader,
-        ArrayIterator $iterator
+        array $class_map
     ) {
         $this->ilias_path = rtrim(
             (defined('ILIAS_ABSOLUTE_PATH')) ?
@@ -77,7 +77,7 @@ class ilCtrlStructureReader
 
         $this->annotation_reader = $annotation_reader;
         $this->cid_generator = $cid_generator;
-        $this->iterator = $iterator;
+        $this->class_map = $class_map;
     }
 
     /**
@@ -98,7 +98,7 @@ class ilCtrlStructureReader
     public function readStructure() : array
     {
         $base_classes = $structure = [];
-        foreach ($this->iterator as $class_name => $path) {
+        foreach ($this->class_map as $class_name => $path) {
             // skip iteration if class doesn't meet ILIAS GUI class criteria.
             if (!$this->isGuiClass($path)) {
                 continue;
@@ -117,25 +117,21 @@ class ilCtrlStructureReader
                     new ReflectionClass($class_name)
                 ;
 
-                $annotation = $this->annotation_reader->getClassAnnotation(
-                    $reflection,
-                    ilCtrlStructureCalls::class
-                );
-
-                if (null === $annotation) {
-                    continue;
-                }
-
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CID] = $this->cid_generator->getCid();
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
-                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $annotation->getChildren();
-                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $annotation->getParents();
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $this->getParents($reflection);
 
                 // temporarily store base classes in order to filer the
                 // structure afterwards.
                 if (in_array(ilCtrlBaseClassInterface::class, $reflection->getInterfaceNames(), true)) {
                     $base_classes[] = $lower_class_name;
+                }
+            } catch (ParseError $e) {
+                if (false === strpos($e->getMessage(), "unexpected '|'")) {
+                    echo $e->getMessage() . $e->getTraceAsString();
+                    exit;
                 }
             } catch (AnnotationException $e) {
                 echo $e->getMessage() . $e->getTraceAsString();
@@ -170,6 +166,38 @@ class ilCtrlStructureReader
         $absolute_path = realpath($absolute_path);
 
         return '.' . str_replace($this->ilias_path, '', $absolute_path);
+    }
+
+    /**
+     * Helper function that returns all children references.
+     *
+     * @param ReflectionClass $reflection
+     * @return array
+     */
+    private function getChildren(ReflectionClass $reflection) : array
+    {
+        $annotation = $this->annotation_reader->getClassAnnotation(
+            $reflection,
+            ilCtrlStructureCalls::class
+        );
+
+        return ($annotation) ? array_map('strtolower', $annotation->getChildren()) : [];
+    }
+
+    /**
+     * Helper function that returns all parent references.
+     *
+     * @param ReflectionClass $reflection
+     * @return array
+     */
+    private function getParents(ReflectionClass $reflection) : array
+    {
+        $annotation = $this->annotation_reader->getClassAnnotation(
+            $reflection,
+            ilCtrlStructureCalls::class
+        );
+
+        return ($annotation) ? array_map('strtolower', $annotation->getParents()) : [];
     }
 
     /**

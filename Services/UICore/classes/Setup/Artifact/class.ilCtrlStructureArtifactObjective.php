@@ -36,11 +36,22 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
         $ilias_path = dirname(__FILE__, 6);
         $class_map = require $ilias_path . "/libs/composer/vendor/composer/autoload_classmap.php";
 
+        \Doctrine\Common\Annotations\AnnotationRegistry::loadAnnotationClass(ilCtrlStructureCalls::class);
+
+        $annotation_reader = new AnnotationReader();
+        $annotation_reader::addGlobalIgnoredName('description');
+        $annotation_reader::addGlobalIgnoredName('defgroup');
+        $annotation_reader::addGlobalIgnoredName('classDescription');
+        $annotation_reader::addGlobalIgnoredName('leifos');
+        $annotation_reader::addGlobalIgnoredName('inGroup');
+        $annotation_reader::addGlobalIgnoredName('inGroup');
+        $annotation_reader::addGlobalIgnoredName('Id');
+
         return new ArrayArtifact(
             (new ilCtrlStructureReader(
                 new ilCtrlStructureCidGenerator(),
-                new AnnotationReader(),
-                new ArrayIterator($class_map),
+                $annotation_reader,
+                $class_map,
             ))->readStructure()
         );
     }
