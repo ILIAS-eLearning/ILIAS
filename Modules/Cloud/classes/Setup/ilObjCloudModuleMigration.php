@@ -55,6 +55,7 @@ class ilObjCloudModuleMigration implements Migration
 
     public function prepare(Environment $environment) : void
     {
+        //This is necessary for using ilObjects delete function to remove existing objects
         ilContext::init(ilContext::CONTEXT_CRON);
         ilInitialisation::initILIAS();
         $this->db = $environment->getResource(Environment::RESOURCE_DATABASE);

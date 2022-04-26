@@ -24,7 +24,8 @@ class ilObjCloudModuleProgressTableUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db = $db;
     }
-    
+
+    //Remove the option to create new cloud modules in the repository
     public function step_1() : void
     {
         $query =

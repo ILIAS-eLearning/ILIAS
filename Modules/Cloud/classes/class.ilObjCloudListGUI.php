@@ -19,10 +19,10 @@ class ilObjCloudListGUI extends ilObjectListGUI
 {
     public function init() : void
     {
-        // Create static links for default command (linked title) or not
+        // Only delete remains possible
         $this->delete_enabled = true;
 
-        $this->static_link_enabled = true;
+        $this->static_link_enabled = false;
         $this->cut_enabled = false;
         $this->subscribe_enabled = false;
         $this->link_enabled = false;

@@ -40,12 +40,17 @@ class ilObjCloudGUI extends ilObject2GUI
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
     }
-/**
+
     public function executeCommand() : void
     {
+        //Only deleting items remains possible
+        if ($this->ctrl->getCmd() == "delete") {
+            $this->delete();
+            return;
+        }
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('abandoned'), true);
         ilObjectGUI::redirectToRefId($this->parent_id);
-    }**/
+    }
 
     public function getType() : string
     {

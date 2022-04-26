@@ -17,8 +17,20 @@
 
 class ilObjCloudAccess extends ilObjectAccess
 {
+    /**
+     * Checks whether a user may invoke a command or not
+     * (this method is called by ilAccessHandler::checkAccess)
+     *
+     * Please do not check any preconditions handled by
+     * ilConditionHandler here. Also don't do any RBAC checks.
+     */
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
+        global $DIC;
+
+        if (!$DIC->access()->checkAccessOfUser($user_id, "write", $cmd, $ref_id)) {
+            return false;
+        }
         return true;
     }
 }
