@@ -23,7 +23,11 @@ use ILIAS\Skill\Tree;
  * Skill template GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillTemplateGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjSkillManagementGUI", "ilObjSkillTreeGUI",
+ *		}
+ * )
  */
 class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 {

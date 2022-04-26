@@ -19,7 +19,11 @@ use ILIAS\COPage\Layout\AdministrationGUIRequest;
  * Administration for page layouts
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPageLayoutAdministrationGUI: ilPageLayoutGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageLayoutGUI",
+ *		}
+ * )
  */
 class ilPageLayoutAdministrationGUI
 {

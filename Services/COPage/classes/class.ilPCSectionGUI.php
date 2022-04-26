@@ -16,7 +16,11 @@
 /**
  * User Interface for Section Editing
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPCSectionGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilPCSectionGUI extends ilPageContentGUI
 {

@@ -12,7 +12,11 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 *
 * @ingroup ModulesTestQuestionPool
  *
- * @ilCtrl_Calls ilQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
 */
 
 class ilQuestionBrowserTableGUI extends ilTable2GUI

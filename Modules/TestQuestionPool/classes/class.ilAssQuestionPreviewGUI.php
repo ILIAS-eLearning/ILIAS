@@ -12,12 +12,12 @@ use ILIAS\Refinery\Transformation;
  *
  * @package     Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionPreviewToolbarGUI
- * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionRelatedNavigationBarGUI
- * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionHintRequestGUI
- * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssGenFeedbackPageGUI
- * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssSpecFeedbackPageGUI
- * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilNoteGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssQuestionPreviewToolbarGUI", "ilAssQuestionRelatedNavigationBarGUI", "ilAssQuestionHintRequestGUI",
+ *			"ilAssGenFeedbackPageGUI","ilAssSpecFeedbackPageGUI", "ilNoteGUI",
+ *		}
+ * )
  */
 class ilAssQuestionPreviewGUI
 {

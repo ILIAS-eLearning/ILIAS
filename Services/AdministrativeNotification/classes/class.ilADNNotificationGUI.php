@@ -18,8 +18,11 @@
  
 /**
  * Class ilADNNotificationGUI
- * @ilCtrl_IsCalledBy ilADNNotificationGUI: ilObjAdministrativeNotificationGUI
- * @ilCtrl_IsCalledBy ilADNNotificationGUI: ilObjAdministrativeNotificationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjAdministrativeNotificationGUI", "ilObjAdministrativeNotificationGUI",
+ *		}
+ * )
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilADNNotificationGUI extends ilADNAbstractGUI

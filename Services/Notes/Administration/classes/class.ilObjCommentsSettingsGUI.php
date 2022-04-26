@@ -16,8 +16,14 @@
 /**
  * Comments Settings.
  * @author Alex Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjCommentsSettingsGUI: ilPermissionGUI
- * @ilCtrl_isCalledBy ilObjCommentsSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjCommentsSettingsGUI extends ilObjectGUI
 {

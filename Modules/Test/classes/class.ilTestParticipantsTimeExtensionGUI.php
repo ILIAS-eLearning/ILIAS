@@ -10,7 +10,11 @@
  *
  * @package    Modules/Test
  *
- * @ilCtrl_Calls ilTestParticipantsTimeExtensionGUI: ilTimingOverviewTableGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTimingOverviewTableGUI",
+ *		}
+ * )
  */
 class ilTestParticipantsTimeExtensionGUI
 {

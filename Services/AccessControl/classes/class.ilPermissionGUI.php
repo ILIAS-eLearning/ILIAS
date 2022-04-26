@@ -22,7 +22,11 @@
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @version      $Id$
- * @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI, ilRepositorySearchGUI, ilObjectPermissionStatusGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjRoleGUI", "ilRepositorySearchGUI", "ilObjectPermissionStatusGUI",
+ *		}
+ * )
  * @ingroup      ServicesAccessControl
  */
 class ilPermissionGUI extends ilPermission2GUI

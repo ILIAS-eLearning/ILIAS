@@ -27,7 +27,11 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 /**
  * Administration, Side-Block presentation of calendar categories
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilCalendarCategoryGUI: ilCalendarAppointmentGUI, ilCalendarSelectionBlockGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCalendarAppointmentGUI", "ilCalendarSelectionBlockGUI",
+ *		}
+ * )
  * @ingroup      ServicesCalendar
  */
 class ilCalendarCategoryGUI

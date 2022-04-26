@@ -19,7 +19,11 @@
  * User Interface for inserting content templates
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_isCalledBy ilPCContentTemplateGUI: ilPageEditorGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilPageEditorGUI",
+ *		}
+ * )
  */
 class ilPCContentTemplateGUI extends ilPageContentGUI
 {

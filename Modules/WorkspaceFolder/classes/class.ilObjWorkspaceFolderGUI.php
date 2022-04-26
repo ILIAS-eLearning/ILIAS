@@ -22,7 +22,11 @@ use ILIAS\PersonalWorkspace\WorkspaceSessionRepository;
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  *
- * @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCommonActionDispatcherGUI", "ilObjectOwnershipManagementGUI",
+ *		}
+ * )
  */
 class ilObjWorkspaceFolderGUI extends ilObject2GUI
 {

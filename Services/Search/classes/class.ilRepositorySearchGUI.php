@@ -29,7 +29,11 @@
 * @author Stefan Meyer <meyer@leifos.com>
 *
 * @package ilias-search
-* @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
 *
 */
 

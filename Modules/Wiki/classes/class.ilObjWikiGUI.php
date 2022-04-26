@@ -20,14 +20,17 @@ use ILIAS\Wiki\Editing\EditingGUIRequest;
 /**
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
- * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilRepositoryGUI", "ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilWikiPageGUI", "ilPublicUserProfileGUI",
+ *			"ilObjectContentStyleSettingsGUI","ilExportGUI", "ilCommonActionDispatcherGUI", "ilRatingGUI",
+ *			"ilWikiPageTemplateGUI","ilWikiStatGUI", "ilObjectMetaDataGUI", "ilSettingsPermissionGUI",
+ *			"ilRepositoryObjectSearchGUI","ilObjectCopyGUI", "ilObjNotificationSettingsGUI",
+ *		}
+ * )
  */
 class ilObjWikiGUI extends ilObjectGUI
 {

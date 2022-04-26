@@ -8,18 +8,14 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 /**
  * Class ilObjStudyProgrammeGUI class
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilColumnGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoMembershipsGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilCommonActionDispatcherGUI", "ilColumnGUI",
+ *			"ilObjStudyProgrammeSettingsGUI","ilObjStudyProgrammeTreeGUI", "ilObjStudyProgrammeMembersGUI",
+ *			"ilObjStudyProgrammeAutoMembershipsGUI","ilObjectCopyGUI", "ilObjectTranslationGUI", "ilCertificateGUI",
+ *			"ilObjStudyProgrammeAutoCategoriesGUI",
+ *		}
+ * )
  */
 class ilObjStudyProgrammeGUI extends ilContainerGUI
 {

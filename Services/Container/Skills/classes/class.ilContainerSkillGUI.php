@@ -22,7 +22,11 @@
  *
  * @author Alex Killing <killing@leifos.de>
  * @ingroup ServicesContainer
- * @ilCtrl_Calls ilContainerSkillGUI: ilContSkillPresentationGUI, ilContSkillAdminGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilContSkillPresentationGUI", "ilContSkillAdminGUI",
+ *		}
+ * )
  */
 class ilContainerSkillGUI
 {

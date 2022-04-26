@@ -23,8 +23,14 @@ use ILIAS\UI\Renderer;
 /**
  * Class ilCronManagerGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilCronManagerGUI: ilPropertyFormGUI
- * @ilCtrl_isCalledBy ilCronManagerGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  * @ingroup ServicesCron
  */
 class ilCronManagerGUI

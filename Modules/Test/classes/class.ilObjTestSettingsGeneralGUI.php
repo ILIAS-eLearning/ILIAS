@@ -13,9 +13,11 @@ require_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilObjTestSettingsGeneralGUI: ilPropertyFormGUI
- * @ilCtrl_Calls ilObjTestSettingsGeneralGUI: ilConfirmationGUI
- * @ilCtrl_Calls ilObjTestSettingsGeneralGUI: ilTestSettingsChangeConfirmationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI", "ilConfirmationGUI", "ilTestSettingsChangeConfirmationGUI",
+ *		}
+ * )
  */
 class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 {

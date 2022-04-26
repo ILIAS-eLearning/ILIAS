@@ -19,10 +19,13 @@ use ILIAS\Blog\StandardGUIRequest;
 /**
  * Class ilObjBlogGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
- * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
- * @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjectContentStyleSettingsGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilBlogPostingGUI", "ilWorkspaceAccessGUI", "ilPortfolioPageGUI", "ilInfoScreenGUI", "ilNoteGUI",
+ *			"ilCommonActionDispatcherGUI","ilPermissionGUI", "ilObjectCopyGUI", "ilRepositorySearchGUI", "ilExportGUI",
+ *			"ilObjectContentStyleSettingsGUI","ilBlogExerciseGUI", "ilObjNotificationSettingsGUI",
+ *		}
+ * )
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {

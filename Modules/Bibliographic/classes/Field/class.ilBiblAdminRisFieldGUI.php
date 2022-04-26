@@ -21,7 +21,11 @@
  * @author       Benjamin Seglias   <bs@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilBiblAdminRisFieldGUI: ilBiblTranslationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilBiblTranslationGUI",
+ *		}
+ * )
  */
 class ilBiblAdminRisFieldGUI extends ilBiblAdminFieldGUI
 {

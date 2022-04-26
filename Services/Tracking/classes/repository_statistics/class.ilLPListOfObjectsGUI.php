@@ -5,7 +5,12 @@
 /**
  * Class ilObjUserTrackingGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI, ilTrMatrixTableGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilUserFilterGUI", "ilTrUserObjectsPropsTableGUI", "ilTrSummaryTableGUI", "ilTrObjectUsersPropsTableGUI",
+ *			"ilTrMatrixTableGUI",
+ *		}
+ * )
  * @package      ilias-tracking
  */
 class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI

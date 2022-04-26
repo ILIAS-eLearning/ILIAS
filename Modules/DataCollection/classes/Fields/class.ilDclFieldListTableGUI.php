@@ -10,7 +10,6 @@
  * @author       Oskar Truffer <ot@studer-raimann.ch>
  * @version      $Id:
  * @extends      ilTable2GUI
- * @ilCtrl_Calls ilDateTime
  */
 class ilDclFieldListTableGUI extends ilTable2GUI
 {

@@ -3,8 +3,11 @@
 
 /**
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentGUI
- * @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCalendarAppointmentGUI", "ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  * @ingroup      ServicesCalendar
  */
 class ilCalendarWeekGUI extends ilCalendarViewGUI

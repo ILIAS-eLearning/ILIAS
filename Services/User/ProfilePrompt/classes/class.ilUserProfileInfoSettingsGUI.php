@@ -16,7 +16,6 @@
 /**
  * User profile info settings UI class
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilUserProfileInfoSettingsGUI:
  */
 class ilUserProfileInfoSettingsGUI
 {

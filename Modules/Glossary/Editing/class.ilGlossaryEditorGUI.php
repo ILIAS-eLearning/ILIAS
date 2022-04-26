@@ -16,7 +16,11 @@
 /**
  * GUI class for Glossary Editor
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilGlossaryEditorGUI: ilObjGlossaryGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjGlossaryGUI",
+ *		}
+ * )
  */
 class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
 {

@@ -15,7 +15,6 @@
 
 /**
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @ilCtrl_Calls ilSurveyConstraintsGUI:
  */
 class ilSurveyConstraintsGUI
 {

@@ -11,8 +11,11 @@ require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilTestSkillEvaluationGUI: ilTestSkillEvaluationToolbarGUI
- * @ilCtrl_Calls ilTestSkillEvaluationGUI: ilTestPersonalSkillsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTestSkillEvaluationToolbarGUI", "ilTestPersonalSkillsGUI",
+ *		}
+ * )
  */
 class ilTestSkillEvaluationGUI
 {

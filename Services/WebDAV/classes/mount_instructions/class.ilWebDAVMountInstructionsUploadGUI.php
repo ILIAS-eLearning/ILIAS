@@ -23,7 +23,11 @@ use ILIAS\DI\UIServices;
  *****************************************************************************/
 /**
  * @author
- * @ilCtrl_isCalledBy ilWebDAVMountInstructionsUploadGUI:  ilObjWebDAVGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjWebDAVGUI",
+ *		}
+ * )
  */
 class ilWebDAVMountInstructionsUploadGUI
 {

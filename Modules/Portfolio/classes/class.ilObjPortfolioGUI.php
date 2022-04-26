@@ -18,9 +18,12 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 /**
  * Portfolio view gui class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilObjectContentStyleSettingsGUI, ilPortfolioExerciseGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPortfolioPageGUI", "ilPageObjectGUI", "ilWorkspaceAccessGUI", "ilNoteGUI", "ilObjectContentStyleSettingsGUI",
+ *			"ilPortfolioExerciseGUI",
+ *		}
+ * )
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {

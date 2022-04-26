@@ -19,8 +19,14 @@
 /**
  * Forum Administration Settings.
  * @author            Nadia Matuschek <nmatuschek@databay.de>
- * @ilCtrl_Calls      ilObjForumAdministrationGUI: ilPermissionGUI
- * @ilCtrl_IsCalledBy ilObjForumAdministrationGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @ingroup           ModulesForum
  */
 class ilObjForumAdministrationGUI extends ilObjectGUI

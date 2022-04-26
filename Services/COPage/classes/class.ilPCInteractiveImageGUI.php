@@ -17,7 +17,11 @@
  * User interface class for interactive images
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPCInteractiveImageGUI: ilPCIIMTriggerEditorGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPCIIMTriggerEditorGUI",
+ *		}
+ * )
  */
 class ilPCInteractiveImageGUI extends ilPageContentGUI
 {

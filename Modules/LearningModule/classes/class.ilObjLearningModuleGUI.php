@@ -15,10 +15,14 @@
 
 /**
 * @author Alexander Killing <killing@leifos.de>
-* @ilCtrl_Calls ilObjLearningModuleGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjectContentStyleSettingsGUI, ilObjectMetaDataGUI
-* @ilCtrl_Calls ilObjLearningModuleGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjLearningModuleGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ilObjectTranslationGUI
-* @ilCtrl_Calls ilObjLearningModuleGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLMPageObjectGUI", "ilStructureObjectGUI", "ilObjectContentStyleSettingsGUI", "ilObjectMetaDataGUI",
+ *			"ilLearningProgressGUI","ilPermissionGUI", "ilInfoScreenGUI", "ilObjectCopyGUI", "ilExportGUI",
+ *			"ilCommonActionDispatcherGUI","ilPageMultiLangGUI", "ilObjectTranslationGUI", "ilMobMultiSrtUploadGUI",
+ *			"ilLMImportGUI","ilLMEditShortTitlesGUI", "ilLTIProviderObjectSettingGUI",
+ *		}
+ * )
 */
 class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 {

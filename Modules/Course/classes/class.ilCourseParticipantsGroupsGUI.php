@@ -22,7 +22,6 @@ use ILIAS\Refinery\Factory;
 /**
  * Class ilCourseParticipantsGroupsGUI
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilCourseParticipantsGroupsGUI:
  */
 class ilCourseParticipantsGroupsGUI
 {

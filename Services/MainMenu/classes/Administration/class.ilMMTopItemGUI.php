@@ -6,8 +6,14 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**
  * Class ilMMTopItemGUI
- * @ilCtrl_IsCalledBy ilMMTopItemGUI: ilObjMainMenuGUI
- * @ilCtrl_Calls      ilMMTopItemGUI: ilMMItemTranslationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjMainMenuGUI",
+ *		},
+ *		children={
+ *			"ilMMItemTranslationGUI",
+ *		}
+ * )
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMTopItemGUI extends ilMMAbstractItemGUI

@@ -12,7 +12,11 @@ require_once 'Modules/Test/classes/class.ilTestSettingsGUI.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilObjTestSettingsScoringResultsGUI: ilPropertyFormGUI, ilConfirmationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI", "ilConfirmationGUI",
+ *		}
+ * )
  */
 class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 {

@@ -5,10 +5,15 @@
 /**
  * Calendar blocks, displayed on personal desktop
  * @author            Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_IsCalledBy ilPDCalendarBlockGUI: ilColumnGUI
- * @ilCtrl_Calls      ilPDCalendarBlockGUI: ilCalendarDayGUI, ilCalendarAppointmentGUI
- * @ilCtrl_Calls      ilPDCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
- * @ilCtrl_Calls      ilPDCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		},
+ *		children={
+ *			"ilCalendarDayGUI", "ilCalendarAppointmentGUI", "ilCalendarMonthGUI", "ilCalendarWeekGUI", "ilCalendarInboxGUI",
+ *			"ilConsultationHoursGUI","ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  * @ingroup           ServicesCalendar
  */
 class ilPDCalendarBlockGUI extends ilCalendarBlockGUI

@@ -6,8 +6,11 @@
  * Style settings GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilObjStyleSettingsGUI: ilPermissionGUI, ilSystemStyleMainGUI, ilContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjStyleSettingsGUI: ilPageLayoutAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilSystemStyleMainGUI", "ilContentStyleSettingsGUI", "ilPageLayoutAdministrationGUI",
+ *		}
+ * )
  */
 class ilObjStyleSettingsGUI extends ilObjectGUI
 {

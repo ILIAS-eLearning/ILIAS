@@ -25,8 +25,12 @@ use ILIAS\UI\Renderer;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilObjPollGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjPollGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilInfoScreenGUI", "ilNoteGUI", "ilCommonActionDispatcherGUI", "ilPermissionGUI", "ilObjectCopyGUI",
+ *			"ilExportGUI",
+ *		}
+ * )
  */
 class ilObjPollGUI extends ilObject2GUI
 {

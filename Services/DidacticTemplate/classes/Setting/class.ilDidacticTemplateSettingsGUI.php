@@ -12,8 +12,14 @@ use ILIAS\FileUpload\FileUpload;
  * Settings for a single didactic template
  * @author            Stefan Meyer <meyer@leifos.com>
  * @ingroup           ServicesDidacticTemplate
- * @ilCtrl_IsCalledBy ilDidacticTemplateSettingsGUI: ilObjRoleFolderGUI
- * @ilCtrl_Calls      ilDidacticTemplateSettingsGUI: ilMultilingualismGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjRoleFolderGUI",
+ *		},
+ *		children={
+ *			"ilMultilingualismGUI", "ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilDidacticTemplateSettingsGUI
 {

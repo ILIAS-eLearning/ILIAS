@@ -21,9 +21,14 @@
  * GUI class for chatroom objects.
  * @author            Jan Posselt <jposselt at databay.de>
  * @version           $Id$
- * @ilCtrl_Calls      ilObjChatroomAdminGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls      ilObjChatroomAdminGUI: ilExportGUI, ilObjChatroomGUI
- * @ilCtrl_IsCalledBy ilObjChatroomAdminGUI: ilRepositoryGUI, ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilRepositoryGUI", "ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilMDEditorGUI", "ilInfoScreenGUI", "ilPermissionGUI", "ilObjectCopyGUI", "ilExportGUI", "ilObjChatroomGUI",
+ *		}
+ * )
  * @ingroup           ModulesChatroom
  */
 class ilObjChatroomAdminGUI extends ilChatroomObjectGUI

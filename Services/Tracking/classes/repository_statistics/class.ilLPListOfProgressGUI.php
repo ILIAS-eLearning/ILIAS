@@ -4,7 +4,11 @@
 /**
  * Class ilLPListOfProgress
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilLPListOfProgressGUI: ilLPProgressTableGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLPProgressTableGUI",
+ *		}
+ * )
  * @package      ilias-tracking
  */
 class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI

@@ -17,7 +17,6 @@
  * Class ilLoginPageElementGUI
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilPCLoginPageElementGUI:
  */
 class ilPCLoginPageElementGUI extends ilPageContentGUI
 {

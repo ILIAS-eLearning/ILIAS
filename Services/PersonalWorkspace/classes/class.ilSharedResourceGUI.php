@@ -19,9 +19,12 @@ use ILIAS\PersonalWorkspace\StandardGUIRequest;
  * Workspace deep link handler GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilSharedResourceGUI: ilObjBlogGUI, ilObjFileGUI, ilObjTestVerificationGUI
- * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI, ilObjLinkResourceGUI
- * @ilCtrl_Calls ilSharedResourceGUI: ilObjPortfolioGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjBlogGUI", "ilObjFileGUI", "ilObjTestVerificationGUI", "ilObjExerciseVerificationGUI",
+ *			"ilObjLinkResourceGUI","ilObjPortfolioGUI",
+ *		}
+ * )
  */
 class ilSharedResourceGUI implements ilCtrlBaseClassInterface
 {

@@ -23,7 +23,11 @@ use ILIAS\Refinery\Factory;
  * Class ilObjRoleFolderGUI
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
- * @ilCtrl_Calls ilObjRoleFolderGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @ingroup      ServicesAccessControl
  */
 class ilObjRoleFolderGUI extends ilObjectGUI

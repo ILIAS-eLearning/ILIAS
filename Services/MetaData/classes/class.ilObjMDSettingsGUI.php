@@ -27,7 +27,11 @@ use ILIAS\HTTP\GlobalHttpState;
 /**
  * Meta Data Settings.
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilObjMDSettingsGUI: ilPermissionGUI, ilAdvancedMDSettingsGUI, ilMDCopyrightUsageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilAdvancedMDSettingsGUI", "ilMDCopyrightUsageGUI",
+ *		}
+ * )
  * @ingroup      ServicesMetaData
  */
 class ilObjMDSettingsGUI extends ilObjectGUI

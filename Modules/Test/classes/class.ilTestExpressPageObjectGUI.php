@@ -5,21 +5,19 @@ include_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php"
 include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 
 /**
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: assNumericGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: assTextSubsetGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: assSingleChoiceGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: assTextQuestionGUI, assFormulaQuestionGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilRatingGUI, ilPublicUserProfileGUI, ilAssQuestionPageGUI, ilNoteGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilObjQuestionPoolGUI
- * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
- * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assNumericGUI
- * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assTextSubsetGUI
- * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assSingleChoiceGUI
- * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assTextQuestionGUI, assFormulaQuestionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"assMultipleChoiceGUI", "assClozeTestGUI", "assMatchingQuestionGUI", "assOrderingQuestionGUI",
+ *			"assImagemapQuestionGUI","assNumericGUI", "assTextSubsetGUI", "assSingleChoiceGUI", "assTextQuestionGUI",
+ *			"assFormulaQuestionGUI",
+ *		},
+ *		children={
+ *			"assMultipleChoiceGUI", "assClozeTestGUI", "assMatchingQuestionGUI", "assOrderingQuestionGUI",
+ *			"assImagemapQuestionGUI","assNumericGUI", "assTextSubsetGUI", "assSingleChoiceGUI", "assTextQuestionGUI",
+ *			"assFormulaQuestionGUI","ilPageEditorGUI", "ilEditClipboardGUI", "ilMediaPoolTargetSelector", "ilRatingGUI",
+ *			"ilPublicUserProfileGUI","ilAssQuestionPageGUI", "ilNoteGUI", "ilObjQuestionPoolGUI",
+ *		}
+ * )
  */
 class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 {

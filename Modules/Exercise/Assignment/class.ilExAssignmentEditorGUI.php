@@ -23,7 +23,11 @@ use ILIAS\Exercise\Assignment\Mandatory;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilExAssignmentEditorGUI: ilExAssignmentFileSystemGUI, ilExPeerReviewGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilExAssignmentFileSystemGUI", "ilExPeerReviewGUI", "ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilExAssignmentEditorGUI
 {

@@ -21,10 +21,12 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilSCORM13PlayerGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilObjSCORMLearningModuleGUI, ilObjSCORM2004LearningModuleGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilSCORMPresentationGUI", "ilInfoScreenGUI", "ilSCORM13PlayerGUI", "ilLearningProgressGUI",
+ *			"ilObjSCORMLearningModuleGUI","ilObjSCORM2004LearningModuleGUI",
+ *		}
+ * )
 *
 * @ingroup ModulesScormAicc
 */

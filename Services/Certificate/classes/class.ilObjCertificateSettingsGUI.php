@@ -20,8 +20,14 @@
  * Certificate Settings.
  * @author            Helmut Schottmüller <ilias@aurealis.de>
  * @version           $Id$
- * @ilCtrl_Calls      ilObjCertificateSettingsGUI: ilPermissionGUI
- * @ilCtrl_IsCalledBy ilObjCertificateSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @ingroup           ServicesCertificate
  */
 class ilObjCertificateSettingsGUI extends ilObjectGUI

@@ -23,21 +23,20 @@ use ILIAS\Refinery\Factory;
  * Class ilObjCourseGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * $Id$
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilMailMemberSearchGUI, ilBadgeManagementGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI, ilBookingGatewayGUI, ilRepositoryTrashGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCourseRegistrationGUI", "ilCourseObjectivesGUI", "ilObjCourseGroupingGUI", "ilInfoScreenGUI",
+ *			"ilLearningProgressGUI","ilPermissionGUI", "ilRepositorySearchGUI", "ilConditionHandlerGUI",
+ *			"ilCourseContentGUI","ilPublicUserProfileGUI", "ilMemberExportGUI", "ilObjectCustomUserFieldsGUI",
+ *			"ilMemberAgreementGUI","ilSessionOverviewGUI", "ilColumnGUI", "ilContainerPageGUI", "ilObjectCopyGUI",
+ *			"ilObjectContentStyleSettingsGUI","ilCourseParticipantsGroupsGUI", "ilExportGUI", "ilCommonActionDispatcherGUI",
+ *			"ilDidacticTemplateGUI","ilCertificateGUI", "ilObjectServiceSettingsGUI", "ilContainerStartObjectsGUI",
+ *			"ilContainerStartObjectsPageGUI","ilMailMemberSearchGUI", "ilBadgeManagementGUI", "ilLOPageGUI",
+ *			"ilObjectMetaDataGUI","ilNewsTimelineGUI", "ilContainerNewsSettingsGUI", "ilCourseMembershipGUI",
+ *			"ilPropertyFormGUI","ilContainerSkillGUI", "ilCalendarPresentationGUI", "ilMemberExportSettingsGUI",
+ *			"ilLTIProviderObjectSettingGUI","ilObjectTranslationGUI", "ilBookingGatewayGUI", "ilRepositoryTrashGUI",
+ *		}
+ * )
  * @extends      ilContainerGUI
  */
 class ilObjCourseGUI extends ilContainerGUI

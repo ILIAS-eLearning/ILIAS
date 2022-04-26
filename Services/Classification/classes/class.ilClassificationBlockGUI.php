@@ -18,7 +18,11 @@ use ILIAS\Classification\StandardGUIRequest;
 /**
  * Classification block, displayed in different contexts, e.g. categories
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_IsCalledBy ilClassificationBlockGUI: ilColumnGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		}
+ * )
  */
 class ilClassificationBlockGUI extends ilBlockGUI
 {

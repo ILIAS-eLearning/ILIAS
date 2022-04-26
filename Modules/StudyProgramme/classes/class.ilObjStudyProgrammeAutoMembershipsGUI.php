@@ -14,7 +14,11 @@ use ILIAS\UI\Component\Link;
  *
  * @author: Nils Haagen  <nils.haagen@concepts-and-training.de>
  *
- * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilObjStudyProgrammeAutoMembershipsGUI
 {

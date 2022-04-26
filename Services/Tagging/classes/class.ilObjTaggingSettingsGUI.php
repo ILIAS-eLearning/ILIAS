@@ -22,8 +22,14 @@ declare(strict_types=1);
  * Media Cast Settings.
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjTaggingSettingsGUI: ilPermissionGUI
- * @ilCtrl_IsCalledBy ilObjTaggingSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjTaggingSettingsGUI extends ilObjectGUI
 {

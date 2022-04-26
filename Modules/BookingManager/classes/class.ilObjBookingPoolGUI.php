@@ -19,11 +19,16 @@
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI
- * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
- * @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectMetaDataGUI
- * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingParticipantGUI, ilBookingReservationsGUI, ilBookingPreferencesGUI
- * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilRepositoryGUI", "ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilBookingObjectGUI", "ilBookingScheduleGUI", "ilInfoScreenGUI", "ilPublicUserProfileGUI",
+ *			"ilCommonActionDispatcherGUI","ilObjectCopyGUI", "ilObjectMetaDataGUI", "ilBookingParticipantGUI",
+ *			"ilBookingReservationsGUI","ilBookingPreferencesGUI",
+ *		}
+ * )
  */
 class ilObjBookingPoolGUI extends ilObjectGUI
 {

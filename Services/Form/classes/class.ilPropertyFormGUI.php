@@ -20,7 +20,11 @@ use ILIAS\Refinery;
  * This class represents a property form user interface
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPropertyFormGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilPropertyFormGUI extends ilFormGUI
 {

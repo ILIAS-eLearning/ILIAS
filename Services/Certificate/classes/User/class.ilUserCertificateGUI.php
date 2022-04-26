@@ -24,7 +24,11 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @ingroup           ServicesCertificate
  * @author            Niels Theen <ntheen@databay.de>
- * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilAchievementsGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAchievementsGUI",
+ *		}
+ * )
  */
 class ilUserCertificateGUI
 {

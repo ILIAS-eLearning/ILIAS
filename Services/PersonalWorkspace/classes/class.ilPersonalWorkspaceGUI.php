@@ -21,13 +21,13 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjWorkspaceRootFolderGUI, ilObjWorkspaceFolderGUI
- * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjectCopyGUI, ilObjFileGUI, ilObjBlogGUI
- * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjTestVerificationGUI, ilObjExerciseVerificationGUI
- * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLinkResourceGUI, ilObjCourseVerificationGUI
- * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjSCORMVerificationGUI
- * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjCmiXapiVerificationGUI
- * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLTIConsumerVerificationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjWorkspaceRootFolderGUI", "ilObjWorkspaceFolderGUI", "ilObjectCopyGUI", "ilObjFileGUI", "ilObjBlogGUI",
+ *			"ilObjTestVerificationGUI","ilObjExerciseVerificationGUI", "ilObjLinkResourceGUI", "ilObjCourseVerificationGUI",
+ *			"ilObjSCORMVerificationGUI","ilObjCmiXapiVerificationGUI", "ilObjLTIConsumerVerificationGUI",
+ *		}
+ * )
  */
 class ilPersonalWorkspaceGUI
 {

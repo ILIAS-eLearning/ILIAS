@@ -8,9 +8,13 @@ use ILIAS\HTTP\Services as HttpServices;
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @version      $Id$
- * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
- * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI, ilCalendarSubscriptionGUI
- * @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI, ilCalendarBlockGUI, ilPDCalendarBlockGUI, ilPublicUserProfileGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCalendarMonthGUI", "ilCalendarUserSettingsGUI", "ilCalendarCategoryGUI", "ilCalendarWeekGUI",
+ *			"ilCalendarAppointmentGUI","ilCalendarDayGUI", "ilCalendarInboxGUI", "ilCalendarSubscriptionGUI",
+ *			"ilConsultationHoursGUI","ilCalendarBlockGUI", "ilPDCalendarBlockGUI", "ilPublicUserProfileGUI",
+ *		}
+ * )
  * @ingroup      ServicesCalendar
  */
 class ilCalendarPresentationGUI

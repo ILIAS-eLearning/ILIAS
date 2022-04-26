@@ -4,7 +4,11 @@
 /**
  * TableGUI class for learning progress
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilLPObjectStatisticsLPTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  * @ingroup      ServicesTracking
  */
 class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI

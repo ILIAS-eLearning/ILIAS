@@ -17,7 +17,11 @@
  * Class ilBadgeManagementGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilBadgeManagementGUI
 {

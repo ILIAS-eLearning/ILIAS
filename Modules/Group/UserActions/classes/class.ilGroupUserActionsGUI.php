@@ -8,7 +8,11 @@
  * @author Alex Killing <killing@leifos.de>
  * @ingroup ModulesGroup
  *
- * @ilCtrl_Calls ilGroupUserActionsGUI: ilGroupAddToGroupActionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilGroupAddToGroupActionGUI",
+ *		}
+ * )
  */
 class ilGroupUserActionsGUI
 {

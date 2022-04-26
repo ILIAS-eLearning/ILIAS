@@ -23,7 +23,6 @@
 
 /**
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilCalendarUserSettingsGUI:
  * @ingroup      ServicesCalendar
  */
 class ilCalendarUserSettingsGUI

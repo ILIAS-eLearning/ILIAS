@@ -24,7 +24,11 @@ use ILIAS\Skill\Tree;
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjSkillManagementGUI", "ilObjSkillTreeGUI",
+ *		}
+ * )
  */
 class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 {

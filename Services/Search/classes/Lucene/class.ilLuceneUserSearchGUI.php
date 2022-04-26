@@ -8,8 +8,14 @@
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @ilCtrl_Calls ilLuceneUserSearchGUI: ilPublicUserProfileGUI
- * @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchControllerGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilSearchControllerGUI",
+ *		},
+ *		children={
+ *			"ilPublicUserProfileGUI",
+ *		}
+ * )
  *
  * @ingroup ServicesSearch
  */

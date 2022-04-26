@@ -19,7 +19,6 @@ use ILIAS\Repository\PluginSlot\PluginSlotGUIRequest;
  * Dispatcher to all repository object plugins
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjPluginDispatchGUI:
  */
 class ilObjPluginDispatchGUI
 {

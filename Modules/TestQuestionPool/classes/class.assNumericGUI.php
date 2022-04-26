@@ -20,7 +20,11 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @version	$Id$
  *
  * @ingroup ModulesTestQuestionPool
- * @ilCtrl_Calls assNumericGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {

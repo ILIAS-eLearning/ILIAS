@@ -14,7 +14,11 @@
 
 /**
  * @author       Stefan Meyer <meyer@leifos.de>
- * @ilCtrl_Calls ilObjPrivacySecurityGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @ingroup      ServicesPrivacySecurity
  */
 class ilObjPrivacySecurityGUI extends ilObjectGUI

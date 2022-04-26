@@ -22,10 +22,12 @@
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilPermissionGUI, ilObjBibliographicAdminLibrariesGUI
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminFieldGUI
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblLibraryGUI
- * @ilCtrl_Calls ilObjBibliographicAdminGUI: ilBiblAdminRisFieldGUI, ilBiblAdminBibtexFieldGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilObjBibliographicAdminLibrariesGUI", "ilBiblAdminFieldGUI", "ilBiblLibraryGUI",
+ *			"ilBiblAdminRisFieldGUI","ilBiblAdminBibtexFieldGUI",
+ *		}
+ * )
  */
 class ilObjBibliographicAdminGUI extends ilObjectGUI
 {

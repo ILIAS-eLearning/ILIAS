@@ -16,7 +16,11 @@
 /**
  * GUI class for glossary term definition editor
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilTermDefinitionEditorGUI: ilGlossaryDefPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilGlossaryDefPageGUI",
+ *		}
+ * )
  */
 class ilTermDefinitionEditorGUI
 {

@@ -9,15 +9,13 @@ require_once 'Modules/Test/classes/class.ilTestOutputGUI.php';
  *
  * @package     Modules/Test
  *
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssGenFeedbackPageGUI
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssSpecFeedbackPageGUI
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssQuestionHintRequestGUI
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestSignatureGUI
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilAssQuestionPageGUI
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestSubmissionReviewGUI
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestPasswordProtectionGUI
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilTestAnswerOptionalQuestionsConfirmationGUI
- * @ilCtrl_Calls ilTestPlayerRandomQuestionSetGUI: ilConfirmationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssGenFeedbackPageGUI", "ilAssSpecFeedbackPageGUI", "ilAssQuestionHintRequestGUI", "ilTestSignatureGUI",
+ *			"ilAssQuestionPageGUI","ilTestSubmissionReviewGUI", "ilTestPasswordProtectionGUI",
+ *			"ilTestAnswerOptionalQuestionsConfirmationGUI","ilConfirmationGUI",
+ *		}
+ * )
  */
 class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 {

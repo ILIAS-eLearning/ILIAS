@@ -10,7 +10,11 @@ use ILIAS\Refinery\Factory;
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  * @author : Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @ilCtrl_IsCalledBy ilPDStudyProgrammeSimpleListGUI: ilColumnGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		}
+ * )
  */
 class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
 {

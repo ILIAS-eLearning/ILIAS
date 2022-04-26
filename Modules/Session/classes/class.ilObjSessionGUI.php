@@ -22,10 +22,13 @@
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
-* @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI, ilSessionMembershipGUI, ilObjectMetaDataGUI, ilPropertyFormGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilBookingGatewayGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilObjectCopyGUI", "ilExportGUI", "ilCommonActionDispatcherGUI",
+ *			"ilMembershipMailGUI","ilLearningProgressGUI", "ilSessionMembershipGUI", "ilObjectMetaDataGUI",
+ *			"ilPropertyFormGUI","ilBookingGatewayGUI",
+ *		}
+ * )
 *
 * @ingroup ModulesSession
 */

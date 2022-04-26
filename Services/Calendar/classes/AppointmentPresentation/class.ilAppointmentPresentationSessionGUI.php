@@ -2,7 +2,11 @@
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
- * @ilCtrl_IsCalledBy ilAppointmentPresentationSessionGUI: ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation

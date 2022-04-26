@@ -25,7 +25,12 @@ use ILIAS\Filesystem\Stream\Streams;
 /**
  * @author Jens Conze
  * @ingroup ServicesMail
- * @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailFolderGUI", "ilMailAttachmentGUI", "ilMailSearchGUI", "ilMailSearchCoursesGUI", "ilMailSearchGroupsGUI",
+ *			"ilMailingListsGUI",
+ *		}
+ * )
  */
 class ilMailFormGUI
 {

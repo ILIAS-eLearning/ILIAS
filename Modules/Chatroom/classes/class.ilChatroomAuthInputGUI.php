@@ -22,7 +22,11 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * Class ilChatroomAuthInputGUI
  * @author            Michael Jansen <mjansen@databay.de>
  * @author            Thomas Joußen <tjoussen@databay.de>
- * @ilCtrl_IsCalledBy ilChatroomAuthInputGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 {

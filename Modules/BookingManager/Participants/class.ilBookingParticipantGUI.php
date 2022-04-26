@@ -20,7 +20,11 @@
 /**
  * Class ilBookingParticipantGUI
  * @author Jesús López <lopez@leifos.com>
- * @ilCtrl_Calls ilBookingParticipantGUI: ilRepositorySearchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI",
+ *		}
+ * )
  */
 class ilBookingParticipantGUI
 {

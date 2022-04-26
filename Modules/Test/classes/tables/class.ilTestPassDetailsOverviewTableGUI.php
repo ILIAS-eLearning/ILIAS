@@ -10,7 +10,11 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  *
  * @package	Modules/Test
  *
- * @ilCtrl_Calls ilTestPassDetailsOverviewTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 {

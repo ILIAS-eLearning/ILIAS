@@ -12,8 +12,11 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.p
  *
  * @package		Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilAssQuestionHintRequestGUI: ilAssQuestionHintsTableGUI
- * @ilCtrl_Calls ilAssQuestionHintRequestGUI: ilConfirmationGUI, ilPropertyFormGUI, ilAssHintPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssQuestionHintsTableGUI", "ilConfirmationGUI", "ilPropertyFormGUI", "ilAssHintPageGUI",
+ *		}
+ * )
  */
 class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 {

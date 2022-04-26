@@ -15,7 +15,11 @@
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilObjCategoryReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
 {

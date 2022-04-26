@@ -7,7 +7,11 @@
  * @author            Martin Studer <ms@studer-raimann.ch>
  * Date: 4/07/13
  * Time: 1:09 PM
- * @ilCtrl_Calls      ilOrgUnitStaffGUI: ilRepositorySearchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI",
+ *		}
+ * )
  */
 class ilOrgUnitStaffGUI
 {

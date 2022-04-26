@@ -19,7 +19,11 @@ require_once  'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
  *
  * @version	$Id$
  * @ingroup ModulesTestQuestionPool
- * @ilCtrl_Calls assImagemapQuestionGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI", "ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {

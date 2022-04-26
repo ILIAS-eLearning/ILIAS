@@ -4,7 +4,11 @@
  * ilAppointmentPresentationMilestoneGUI class presents milestones information.
  * @author            Jesús López Reyes <lopez@leifos.com>
  * @version           $Id$
- * @ilCtrl_IsCalledBy ilAppointmentPresentationMilestoneGUI: ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation

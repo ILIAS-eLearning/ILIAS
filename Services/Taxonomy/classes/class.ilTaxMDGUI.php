@@ -8,7 +8,11 @@ use \Psr\Http\Message\RequestInterface;
  * Taxonomies selection for metadata helper GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilTaxMDGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilTaxMDGUI
 {

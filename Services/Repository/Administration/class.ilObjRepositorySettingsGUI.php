@@ -19,7 +19,11 @@ use ILIAS\Repository\Administration\AdministrationGUIRequest;
  * Repository settings.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjRepositorySettingsGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjRepositorySettingsGUI extends ilObjectGUI
 {

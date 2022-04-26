@@ -19,8 +19,14 @@
  * AdministrationMainBarProvider again.
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjWikiSettingsGUI: ilPermissionGUI
- * @ilCtrl_isCalledBy ilObjWikiSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjWikiSettingsGUI extends ilObject2GUI
 {

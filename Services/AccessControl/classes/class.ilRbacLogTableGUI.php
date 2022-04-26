@@ -18,7 +18,6 @@
 /**
  * Class ilRbacLogTableGUI
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilRbacLogTableGUI:
  * @ingroup      ServicesAccessControl
  */
 class ilRbacLogTableGUI extends ilTable2GUI

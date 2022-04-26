@@ -24,37 +24,31 @@ use ILIAS\Administration\AdminGUIRequest;
 *
 * @author Alex Killing <alex.killing@gmx.de>
 *
-* @ilCtrl_Calls ilAdministrationGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI, ilCourseObjectivesGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjSAHSLearningModuleGUI, ilObjChatroomGUI, ilObjForumGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjLearningModuleGUI, ilObjGlossaryGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjLinkResourceGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjRoleTemplateGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjRootFolderGUI, ilObjSessionGUI, ilObjPortfolioTemplateGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjSystemFolderGUI, ilObjRoleFolderGUI, ilObjAuthSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageFolderGUI, ilObjMailGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjObjectFolderGUI, ilObjRecoveryFolderGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjSearchSettingsGUI, ilObjStyleSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjAssessmentFolderGUI, ilObjExternalToolsSettingsGUI, ilObjUserTrackingGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI, ilObjNewsSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjMediaCastGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI, ilObjMDSettingsGUI, ilObjComponentSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCalendarSettingsGUI, ilObjSurveyAdministrationGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCategoryReferenceGUI, ilObjCourseReferenceGUI, ilObjRemoteCourseGUI, ilObjGroupReferenceGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjForumAdministrationGUI, ilObjBlogGUI, ilObjPollGUI, ilObjDataCollectionGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteCategoryGUI, ilObjRemoteWikiGUI, ilObjRemoteLearningModuleGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteGlossaryGUI, ilObjRemoteFileGUI, ilObjRemoteGroupGUI, ilObjECSSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCloudGUI, ilObjRepositorySettingsGUI, ilObjWebResourceAdministrationGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCourseAdministrationGUI, ilObjGroupAdministrationGUI, ilObjExerciseAdministrationGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjTaxonomyAdministrationGUI, ilObjLoggingSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjBibliographicAdminGUI, ilObjBibliographicGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeAdminGUI, ilObjStudyProgrammeGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI, ilMemberExportSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI, ilPropertyFormGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCmiXapiAdministrationGUI, ilObjCmiXapiGUI, ilObjLTIConsumerGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjLearningSequenceAdminGUI, ilObjContentPageAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjGroupGUI", "ilObjFolderGUI", "ilObjFileGUI", "ilObjCourseGUI", "ilCourseObjectivesGUI",
+ *			"ilObjSAHSLearningModuleGUI","ilObjChatroomGUI", "ilObjForumGUI", "ilObjLearningModuleGUI", "ilObjGlossaryGUI",
+ *			"ilObjQuestionPoolGUI","ilObjSurveyQuestionPoolGUI", "ilObjTestGUI", "ilObjSurveyGUI", "ilObjExerciseGUI",
+ *			"ilObjMediaPoolGUI","ilObjFileBasedLMGUI", "ilObjCategoryGUI", "ilObjUserGUI", "ilObjRoleGUI",
+ *			"ilObjUserFolderGUI","ilObjLinkResourceGUI", "ilObjRoleTemplateGUI", "ilObjRootFolderGUI", "ilObjSessionGUI",
+ *			"ilObjPortfolioTemplateGUI","ilObjSystemFolderGUI", "ilObjRoleFolderGUI", "ilObjAuthSettingsGUI",
+ *			"ilObjLanguageFolderGUI","ilObjMailGUI", "ilObjObjectFolderGUI", "ilObjRecoveryFolderGUI",
+ *			"ilObjSearchSettingsGUI","ilObjStyleSettingsGUI", "ilObjAssessmentFolderGUI", "ilObjExternalToolsSettingsGUI",
+ *			"ilObjUserTrackingGUI","ilObjAdvancedEditingGUI", "ilObjPrivacySecurityGUI", "ilObjNewsSettingsGUI",
+ *			"ilObjMediaCastGUI","ilObjLanguageExtGUI", "ilObjMDSettingsGUI", "ilObjComponentSettingsGUI",
+ *			"ilObjCalendarSettingsGUI","ilObjSurveyAdministrationGUI", "ilObjCategoryReferenceGUI",
+ *			"ilObjCourseReferenceGUI","ilObjRemoteCourseGUI", "ilObjGroupReferenceGUI", "ilObjForumAdministrationGUI",
+ *			"ilObjBlogGUI","ilObjPollGUI", "ilObjDataCollectionGUI", "ilObjRemoteCategoryGUI", "ilObjRemoteWikiGUI",
+ *			"ilObjRemoteLearningModuleGUI","ilObjRemoteGlossaryGUI", "ilObjRemoteFileGUI", "ilObjRemoteGroupGUI",
+ *			"ilObjECSSettingsGUI","ilObjCloudGUI", "ilObjRepositorySettingsGUI", "ilObjWebResourceAdministrationGUI",
+ *			"ilObjCourseAdministrationGUI","ilObjGroupAdministrationGUI", "ilObjExerciseAdministrationGUI",
+ *			"ilObjTaxonomyAdministrationGUI","ilObjLoggingSettingsGUI", "ilObjBibliographicAdminGUI",
+ *			"ilObjBibliographicGUI","ilObjStudyProgrammeAdminGUI", "ilObjStudyProgrammeGUI", "ilObjBadgeAdministrationGUI",
+ *			"ilMemberExportSettingsGUI","ilObjFileAccessSettingsGUI", "ilPermissionGUI", "ilObjRemoteTestGUI",
+ *			"ilPropertyFormGUI","ilObjCmiXapiAdministrationGUI", "ilObjCmiXapiGUI", "ilObjLTIConsumerGUI",
+ *			"ilObjLearningSequenceAdminGUI","ilObjContentPageAdministrationGUI",
+ *		}
+ * )
 */
 class ilAdministrationGUI implements ilCtrlBaseClassInterface
 {

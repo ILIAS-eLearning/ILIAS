@@ -7,7 +7,6 @@ use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDRecordGUI

@@ -18,7 +18,11 @@
 
 /**
 * @author Jens Conze
-* @ilCtrl_Calls ilMailSearchCoursesGUI: ilBuddySystemGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilBuddySystemGUI",
+ *		}
+ * )
 * @ingroup ServicesMail
 */
 class ilMailSearchCoursesGUI extends ilMailSearchObjectGUI

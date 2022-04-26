@@ -24,7 +24,6 @@ use ILIAS\Portfolio\Export\PortfolioHtmlExport;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilExSubmissionObjectGUI:
  */
 class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 {

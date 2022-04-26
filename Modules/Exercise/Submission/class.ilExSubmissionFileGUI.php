@@ -24,7 +24,6 @@ use ILIAS\DI\UIServices;
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilExSubmissionFileGUI:
  */
 class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 {

@@ -19,7 +19,11 @@
 /**
  * Class ilForumModeratorsGUI
  * @author       Nadia Matuschek <nmatuschek@databay.de>
- * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI",
+ *		}
+ * )
  * @ingroup      ModulesForum
  */
 class ilForumModeratorsGUI

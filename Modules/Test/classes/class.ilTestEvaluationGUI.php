@@ -21,9 +21,11 @@ require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
  *
  * @ingroup ModulesTest
  *
- * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDetailsOverviewTableGUI
- * @ilCtrl_Calls ilTestEvaluationGUI: ilTestResultsToolbarGUI
- * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDeletionConfirmationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTestPassDetailsOverviewTableGUI", "ilTestResultsToolbarGUI", "ilTestPassDeletionConfirmationGUI",
+ *		}
+ * )
  */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {

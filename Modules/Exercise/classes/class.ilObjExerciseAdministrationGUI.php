@@ -22,7 +22,11 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilObjExerciseAdministrationGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjExerciseAdministrationGUI extends ilObjectGUI
 {

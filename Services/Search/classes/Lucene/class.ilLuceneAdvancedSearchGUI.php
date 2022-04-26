@@ -27,10 +27,15 @@
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @ilCtrl_IsCalledBy ilLuceneAdvancedSearchGUI: ilSearchControllerGUI
-* @ilCtrl_Calls ilLuceneAdvancedSearchGUI: ilObjectGUI, ilContainerGUI
-* @ilCtrl_Calls ilLuceneAdvancedSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilLuceneAdvancedSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilSearchControllerGUI",
+ *		},
+ *		children={
+ *			"ilObjectGUI", "ilContainerGUI", "ilObjCategoryGUI", "ilObjCourseGUI", "ilObjFolderGUI", "ilObjGroupGUI",
+ *			"ilObjRootFolderGUI","ilObjectCopyGUI",
+ *		}
+ * )
 *
 * @ingroup ServicesSearch
 */

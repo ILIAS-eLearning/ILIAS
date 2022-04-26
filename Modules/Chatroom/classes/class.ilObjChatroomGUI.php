@@ -24,8 +24,12 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * GUI class for chatroom objects.
  * @author            Jan Posselt <jposselt at databay.de>
  * @version           $Id$
- * @ilCtrl_Calls      ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMDEditorGUI", "ilInfoScreenGUI", "ilPermissionGUI", "ilObjectCopyGUI", "ilExportGUI",
+ *			"ilCommonActionDispatcherGUI","ilPropertyFormGUI", "ilExportGUI",
+ *		}
+ * )
  * @ingroup           ModulesChatroom
  */
 class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInterface

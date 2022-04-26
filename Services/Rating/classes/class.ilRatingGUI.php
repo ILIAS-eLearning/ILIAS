@@ -20,7 +20,11 @@
  * Class ilRatingGUI. User interface class for rating.
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilRatingGUI: ilRatingCategoryGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRatingCategoryGUI",
+ *		}
+ * )
  */
 class ilRatingGUI
 {

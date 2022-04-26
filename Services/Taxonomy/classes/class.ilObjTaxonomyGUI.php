@@ -5,7 +5,11 @@
 /**
  * Taxonomy GUI class
  * @author       Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjTaxonomyGUI: ilObjTaxonomyGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjTaxonomyGUI",
+ *		}
+ * )
  */
 class ilObjTaxonomyGUI extends ilObject2GUI
 {

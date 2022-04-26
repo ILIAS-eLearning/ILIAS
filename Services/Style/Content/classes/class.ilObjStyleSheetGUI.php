@@ -20,7 +20,11 @@ use ILIAS\Style\Content;
  * Class ilObjStyleSheetGUI
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjStyleSheetGUI: ilExportGUI, ilStyleCharacteristicGUI, ilContentStyleImageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilExportGUI", "ilStyleCharacteristicGUI", "ilContentStyleImageGUI",
+ *		}
+ * )
  */
 class ilObjStyleSheetGUI extends ilObjectGUI
 {

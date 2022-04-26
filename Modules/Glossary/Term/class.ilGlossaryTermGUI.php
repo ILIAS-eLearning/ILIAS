@@ -16,8 +16,11 @@
 /**
  * GUI class for glossary terms
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI, ilPropertyFormGUI
- * @ilCtrl_Calls ilGlossaryTermGUI: ilObjectMetaDataGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTermDefinitionEditorGUI", "ilGlossaryDefPageGUI", "ilPropertyFormGUI", "ilObjectMetaDataGUI",
+ *		}
+ * )
  */
 class ilGlossaryTermGUI
 {

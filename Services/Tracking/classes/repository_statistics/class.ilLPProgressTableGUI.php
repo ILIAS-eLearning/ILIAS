@@ -4,7 +4,11 @@
 /**
  * TableGUI class for learning progress
  * @author       Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilLPProgressTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  * @ingroup      ServicesTracking
  */
 class ilLPProgressTableGUI extends ilLPTableBaseGUI

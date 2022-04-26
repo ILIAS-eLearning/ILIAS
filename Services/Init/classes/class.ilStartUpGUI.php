@@ -10,8 +10,12 @@ use ILIAS\HTTP\Services as HTTPServices;
  * StartUp GUI class. Handles Login and Registration.
  * @author       Alex Killing <alex.killing@gmx.de>
  * @version      $Id$
- * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
- * @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAccountRegistrationGUI", "ilPasswordAssistanceGUI", "ilLoginPageGUI", "ilDashboardGUI",
+ *			"ilMembershipOverviewGUI","ilDerivedTasksGUI", "ilAccessibilityControlConceptGUI",
+ *		}
+ * )
  * @ingroup      ServicesInit
  */
 class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface

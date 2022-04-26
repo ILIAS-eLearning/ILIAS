@@ -4,8 +4,14 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
  * Class ilMMTopItemGUI
- * @ilCtrl_IsCalledBy ilMMSubItemGUI: ilObjMainMenuGUI
- * @ilCtrl_Calls      ilMMSubItemGUI: ilMMItemTranslationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjMainMenuGUI",
+ *		},
+ *		children={
+ *			"ilMMItemTranslationGUI",
+ *		}
+ * )
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMSubItemGUI extends ilMMAbstractItemGUI

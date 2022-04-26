@@ -9,10 +9,12 @@ use ILIAS\Refinery\Factory;
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
- * @ilCtrl_Calls ilGroupMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI, ilRepositorySearchGUI
- * @ilCtrl_Calls ilGroupMembershipGUI: ilCourseParticipantsGroupsGUI, ilObjectCustomuserFieldsGUI
- * @ilCtrl_Calls ilGroupMembershipGUI: ilSessionOverviewGUI
- * @ilCtrl_Calls ilGroupMembershipGUI: ilMemberExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailMemberSearchGUI", "ilUsersGalleryGUI", "ilRepositorySearchGUI", "ilCourseParticipantsGroupsGUI",
+ *			"ilObjectCustomuserFieldsGUI","ilSessionOverviewGUI", "ilMemberExportGUI",
+ *		}
+ * )
  *
  */
 class ilGroupMembershipGUI extends ilMembershipGUI

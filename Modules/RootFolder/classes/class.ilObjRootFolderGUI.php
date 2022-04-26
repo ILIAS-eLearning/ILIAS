@@ -20,10 +20,12 @@ use ILIAS\RootFolder\StandardGUIRequest;
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI
- * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
- * @ilCtrl_Calls ilObjRootFolderGUI: ilRepositoryTrashGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilContainerPageGUI", "ilColumnGUI", "ilObjectCopyGUI", "ilObjectContentStyleSettingsGUI",
+ *			"ilCommonActionDispatcherGUI","ilObjectTranslationGUI", "ilRepositoryTrashGUI",
+ *		}
+ * )
  */
 class ilObjRootFolderGUI extends ilContainerGUI
 {

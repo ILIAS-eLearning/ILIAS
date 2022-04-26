@@ -2,8 +2,14 @@
 
 /**
  * Class ilObjMainMenuGUI
- * @ilCtrl_IsCalledBy ilObjMainMenuGUI: ilAdministrationGUI
- * @ilCtrl_Calls      ilObjMainMenuGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilObjMainMenuGUI extends ilObject2GUI

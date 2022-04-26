@@ -19,7 +19,11 @@
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Michael Jansen <mjansen@databay.de>
- * @ilCtrl_Calls ilObjMailGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjMailGUI extends ilObjectGUI
 {

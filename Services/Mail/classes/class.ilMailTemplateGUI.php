@@ -25,7 +25,11 @@ use ILIAS\Refinery\Factory as Refinery;
  * Class ilMailTemplateGUI
  * @author            Nadia Ahmad <nahmad@databay.de>
  * @author            Michael Jansen <mjansen@databay.de>
- * @ilCtrl_isCalledBy ilMailTemplateGUI: ilObjMailGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjMailGUI",
+ *		}
+ * )
  */
 class ilMailTemplateGUI
 {

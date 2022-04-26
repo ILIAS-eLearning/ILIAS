@@ -3,8 +3,11 @@
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentGUI
- * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCalendarAppointmentGUI", "ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  * @ingroup      ServicesCalendar
  */
 class ilCalendarMonthGUI extends ilCalendarViewGUI

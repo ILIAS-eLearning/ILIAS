@@ -16,8 +16,14 @@
 /**
  * @author       Lukas Zehnder <lz@studer-raimann.ch>
  *
- * @ilCtrl_IsCalledBy   ilObjWebDAVGUI: ilAdministrationGUI
- * @ilCtrl_Calls        ilObjWebDAVGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @package             webdav
  */
 class ilObjWebDAVGUI extends ilObjectGUI

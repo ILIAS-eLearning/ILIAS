@@ -14,7 +14,11 @@ use ILIAS\UI\Component\Modal\RoundTrip;
  *
  * @author: Nils Haagen <nils.haagen@concepts-and-training.de>
  *
- * @ilCtrl_Calls ilObjStudyProgrammeAutoCategoriesGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilObjStudyProgrammeAutoCategoriesGUI
 {

@@ -7,10 +7,12 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 /**
  * GUI class for learning sequence membership features.
  *
- * @ilCtrl_Calls ilLearningSequenceMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI, ilRepositorySearchGUI
- * @ilCtrl_Calls ilLearningSequenceMembershipGUI: ilCourseParticipantsGroupsGUI, ilObjectCustomuserFieldsGUI
- * @ilCtrl_Calls ilLearningSequenceMembershipGUI: ilSessionOverviewGUI
- * @ilCtrl_Calls ilLearningSequenceMembershipGUI: ilMemberExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailMemberSearchGUI", "ilUsersGalleryGUI", "ilRepositorySearchGUI", "ilCourseParticipantsGroupsGUI",
+ *			"ilObjectCustomuserFieldsGUI","ilSessionOverviewGUI", "ilMemberExportGUI",
+ *		}
+ * )
  *
  */
 class ilLearningSequenceMembershipGUI extends ilMembershipGUI

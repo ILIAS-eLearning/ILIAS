@@ -19,8 +19,11 @@ use ILIAS\InfoScreen\StandardGUIRequest;
  * Class ilInfoScreenGUI
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
- * @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilNoteGUI", "ilColumnGUI", "ilPublicUserProfileGUI", "ilCommonActionDispatcherGUI",
+ *		}
+ * )
  */
 class ilInfoScreenGUI
 {

@@ -30,8 +30,12 @@ use ILIAS\FileUpload\FileUpload;
 /**
  * Settings UI class for system styles. Acts as main router for the systems styles and handles permissions checks,
  * sets tabs and title as well as description of the content section.
- * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleOverviewGUI,ilSystemStyleSettingsGUI
- * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleLessGUI,ilSystemStyleIconsGUI,ilSystemStyleDocumentationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilSystemStyleOverviewGUI", "ilSystemStyleSettingsGUI", "ilSystemStyleLessGUI", "ilSystemStyleIconsGUI",
+ *			"ilSystemStyleDocumentationGUI",
+ *		}
+ * )
  */
 class ilSystemStyleMainGUI
 {

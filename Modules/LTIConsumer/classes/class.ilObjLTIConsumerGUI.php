@@ -18,16 +18,13 @@
  * @author       Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author       Björn Heyser <info@bjoernheyser.de>
  * @package      Modules/LTIConsumer
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilObjectMetaDataGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLearningProgressGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerSettingsGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerXapiStatementsGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerScoringGUI
- * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerEmbeddedContentGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjectCopyGUI", "ilCommonActionDispatcherGUI", "ilPermissionGUI", "ilObjectMetaDataGUI", "ilInfoScreenGUI",
+ *			"ilLearningProgressGUI","ilLTIConsumerSettingsGUI", "ilLTIConsumerXapiStatementsGUI", "ilLTIConsumerScoringGUI",
+ *			"ilLTIConsumerEmbeddedContentGUI",
+ *		}
+ * )
  */
 class ilObjLTIConsumerGUI extends ilObject2GUI
 {

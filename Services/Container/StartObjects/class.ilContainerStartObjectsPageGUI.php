@@ -18,9 +18,12 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMDEditorGUI", "ilPublicUserProfileGUI", "ilNoteGUI",
+ *			"ilPropertyFormGUI","ilInternalLinkGUI", "ilPageMultiLangGUI",
+ *		}
+ * )
  */
 class ilContainerStartObjectsPageGUI extends ilPageObjectGUI
 {

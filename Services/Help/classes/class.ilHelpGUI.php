@@ -19,7 +19,11 @@ use ILIAS\Help\StandardGUIRequest;
 /**
  * Help GUI class.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilHelpGUI: ilLMPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLMPageGUI",
+ *		}
+ * )
  */
 class ilHelpGUI implements ilCtrlBaseClassInterface
 {

@@ -19,7 +19,11 @@
 /**
  * Web Resource Administration Settings.
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjWebResourceAdministrationGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @ingroup      ModulesWebResource
  */
 class ilObjWebResourceAdministrationGUI extends ilObjectGUI

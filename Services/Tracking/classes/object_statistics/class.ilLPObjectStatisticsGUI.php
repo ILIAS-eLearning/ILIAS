@@ -6,7 +6,11 @@
  * Class ilObjectStatisticsGUI
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version      $Id: class.ilLPListOfObjectsGUI.php 27489 2011-01-19 16:58:09Z jluetzen $
- * @ilCtrl_Calls ilLPObjectStatisticsGUI: ilLPObjectStatisticsTableGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLPObjectStatisticsTableGUI",
+ *		}
+ * )
  * @package      ilias-tracking
  */
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI

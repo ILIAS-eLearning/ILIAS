@@ -24,7 +24,11 @@ use ILIAS\Skill\Access\SkillTreeAccess;
  * Container skills administration
  *
  * @author Alex Killing <killing@leifos.de>
- * @ilCtrl_Calls ilContSkillAdminGUI: ilSkillProfileGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilSkillProfileGUI",
+ *		}
+ * )
  */
 class ilContSkillAdminGUI
 {

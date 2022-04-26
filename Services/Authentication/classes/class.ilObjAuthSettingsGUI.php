@@ -17,9 +17,12 @@
 /**
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  *
- * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
- * @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilCASSettingsGUI
- * @ilCtrl_Calls ilObjAuthSettingsGUI: ilSamlSettingsGUI, ilOpenIdConnectSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilRegistrationSettingsGUI", "ilLDAPSettingsGUI", "ilRadiusSettingsGUI",
+ *			"ilAuthShibbolethSettingsGUI","ilCASSettingsGUI", "ilSamlSettingsGUI", "ilOpenIdConnectSettingsGUI",
+ *		}
+ * )
  */
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {

@@ -5,7 +5,6 @@
 /**
  * Class ilLPListOfSettingsGUI
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilLPListOfSettingsGUI:
  * @ingroup      ServicesTracking
  */
 class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI

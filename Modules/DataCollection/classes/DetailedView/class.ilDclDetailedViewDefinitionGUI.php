@@ -7,8 +7,12 @@
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMediaPoolTargetSelector", "ilPublicUserProfileGUI",
+ *			"ilPageObjectGUI",
+ *		}
+ * )
  */
 class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 {

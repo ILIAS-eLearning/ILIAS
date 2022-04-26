@@ -19,7 +19,11 @@ use ILIAS\Container\StandardGUIRequest;
  * Class ilContainerStartObjectsGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilContainerStartObjectsGUI: ilContainerStartObjectsPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilContainerStartObjectsPageGUI",
+ *		}
+ * )
  */
 class ilContainerStartObjectsGUI
 {

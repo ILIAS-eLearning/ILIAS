@@ -17,7 +17,6 @@
  * Survey per page view
  *
  * @author		Jörg Lützenkirchen <luetzenkirchen@leifos.com
- * @ilCtrl_Calls ilSurveyPageEditGUI:
  */
 class ilSurveyPageEditGUI
 {

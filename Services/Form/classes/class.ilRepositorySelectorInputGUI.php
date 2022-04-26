@@ -20,7 +20,11 @@
  * selector link is used.
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_IsCalledBy ilRepositorySelectorInputGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {

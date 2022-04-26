@@ -10,7 +10,11 @@ include_once 'Modules/Test/classes/class.ilTestService.php';
 * done to reduce the size of ilObjTestGUI to put command service functions
 * into classes that could be called by ilCtrl.
 *
-* @ilCtrl_IsCalledBy ilTestServiceGUI: ilObjTestGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjTestGUI",
+ *		}
+ * )
 *
 * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @author	Björn Heyser <bheyser@databay.de>

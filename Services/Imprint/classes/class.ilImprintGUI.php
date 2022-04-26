@@ -20,8 +20,12 @@ use ILIAS\Imprint\StandardGUIRequest;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilImprintGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMediaPoolTargetSelector", "ilPublicUserProfileGUI",
+ *			"ilPageObjectGUI",
+ *		}
+ * )
  */
 class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 {

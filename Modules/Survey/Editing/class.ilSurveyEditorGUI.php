@@ -20,9 +20,12 @@ use ILIAS\Survey\Editing\EditingGUIRequest;
  * Class ilSurveyEditorGUI
  *
  * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilSurveyEditorGUI: SurveyMultipleChoiceQuestionGUI, SurveyMetricQuestionGUI
- * @ilCtrl_Calls ilSurveyEditorGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
- * @ilCtrl_Calls ilSurveyEditorGUI: SurveyMatrixQuestionGUI, ilSurveyPageEditGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"SurveyMultipleChoiceQuestionGUI", "SurveyMetricQuestionGUI", "SurveySingleChoiceQuestionGUI",
+ *			"SurveyTextQuestionGUI","SurveyMatrixQuestionGUI", "ilSurveyPageEditGUI",
+ *		}
+ * )
  */
 class ilSurveyEditorGUI
 {

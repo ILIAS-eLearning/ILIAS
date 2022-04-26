@@ -5,7 +5,11 @@
  * GUI class for didactic template settings inside repository objects
  * @author            Stefan Meyer <meyer@leifos.com>
  * @ingroup           ServicesDidacticTemplate
- * @ilCtrl_IsCalledBy ilDidacticTemplateGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilDidacticTemplateGUI
 {

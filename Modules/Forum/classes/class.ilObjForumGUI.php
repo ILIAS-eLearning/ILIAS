@@ -23,11 +23,14 @@ use ILIAS\UI\Renderer;
  * Class ilObjForumGUI
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Nadia Matuschek <nmatuschek@databay.de>
- * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
- * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
- * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI, ilLearningProgressGUI, ilForumPageGUI
- * @ilCtrl_Calls ilObjForumGUI: ilObjectContentStyleSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilForumExportGUI", "ilInfoScreenGUI", "ilColumnGUI", "ilPublicUserProfileGUI",
+ *			"ilForumModeratorsGUI","ilRepositoryObjectSearchGUI", "ilObjectCopyGUI", "ilExportGUI",
+ *			"ilCommonActionDispatcherGUI","ilRatingGUI", "ilForumSettingsGUI", "ilContainerNewsSettingsGUI",
+ *			"ilLearningProgressGUI","ilForumPageGUI", "ilObjectContentStyleSettingsGUI",
+ *		}
+ * )
  * @ingroup      ModulesForum
  */
 class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants, ilCtrlSecurityInterface

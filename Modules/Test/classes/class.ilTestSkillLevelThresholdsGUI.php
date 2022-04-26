@@ -8,7 +8,11 @@
  *
  * @package     Modules/Test
  *
- * @ilCtrl_Calls ilTestSkillLevelThresholdsGUI: ilTestSkillLevelThresholdsTableGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTestSkillLevelThresholdsTableGUI",
+ *		}
+ * )
  */
 class ilTestSkillLevelThresholdsGUI
 {

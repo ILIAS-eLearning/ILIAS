@@ -5,7 +5,11 @@ use ILIAS\Refinery\Factory;
 
 /**
  * @author       Jesús López <lopez@leifos.com>
- * @ilCtrl_Calls ilMDCopyrightUsageGUI: ilPublicUserProfileGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPublicUserProfileGUI",
+ *		}
+ * )
  * @ingroup      ServicesMetaData
  */
 class ilMDCopyrightUsageGUI

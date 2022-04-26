@@ -18,10 +18,13 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectMetaDataGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPortfolioTemplatePageGUI", "ilPageObjectGUI", "ilNoteGUI", "ilObjectCopyGUI", "ilInfoScreenGUI",
+ *			"ilCommonActionDispatcherGUI","ilPermissionGUI", "ilExportGUI", "ilObjectContentStyleSettingsGUI",
+ *			"ilObjectMetaDataGUI",
+ *		}
+ * )
 .php
  */
 class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI

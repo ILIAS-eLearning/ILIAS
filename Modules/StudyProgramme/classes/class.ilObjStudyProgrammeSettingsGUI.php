@@ -8,7 +8,11 @@ use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFieldFactory;
 use ILIAS\UI\Renderer;
 
 /**
- * @ilCtrl_Calls ilObjStudyProgrammeSettingsGUI: ilStudyProgrammeCommonSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilStudyProgrammeCommonSettingsGUI",
+ *		}
+ * )
  *
  */
 class ilObjStudyProgrammeSettingsGUI

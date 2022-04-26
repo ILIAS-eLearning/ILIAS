@@ -18,7 +18,11 @@
 /**
  * Course Administration Settings
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjCourseAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI, ilUserActionadminGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilMemberExportSettingsGUI", "ilUserActionadminGUI",
+ *		}
+ * )
  * @ingroup      ModulesCourse
  */
 class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI

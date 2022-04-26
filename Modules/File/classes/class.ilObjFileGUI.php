@@ -22,9 +22,13 @@ use ILIAS\DI\Container;
  * @author       Sascha Hofmann <shofmann@databay.de>
  * @author       Stefan Born <stefan.born@phzh.ch>
  * @version      $Id$
- * @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjectMetaDataGUI", "ilInfoScreenGUI", "ilPermissionGUI", "ilObjectCopyGUI", "ilExportGUI",
+ *			"ilWorkspaceAccessGUI","ilPortfolioPageGUI", "ilCommonActionDispatcherGUI", "ilLearningProgressGUI",
+ *			"ilFileVersionsGUI",
+ *		}
+ * )
  * @ingroup      ModulesFile
  */
 class ilObjFileGUI extends ilObject2GUI

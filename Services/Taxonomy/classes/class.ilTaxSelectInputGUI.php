@@ -5,7 +5,11 @@
 /**
  * Select taxonomy nodes input GUI
  * @author            Alexander Killing <killing@leifos.de>
- * @ilCtrl_IsCalledBy ilTaxSelectInputGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
 {

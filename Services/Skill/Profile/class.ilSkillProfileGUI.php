@@ -29,7 +29,11 @@ use ILIAS\FileUpload\MimeType;
  * Skill profile GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilSkillProfileGUI: ilRepositorySearchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI",
+ *		}
+ * )
  */
 class ilSkillProfileGUI
 {

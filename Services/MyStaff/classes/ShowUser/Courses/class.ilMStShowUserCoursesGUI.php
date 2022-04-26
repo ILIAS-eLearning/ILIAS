@@ -7,8 +7,14 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  * Class ilMStShowUserCoursesGUI
  * @package           ILIAS\MyStaff\Courses\ShowUser
  * @author            Theodor Truffer <tt@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilMStShowUserCoursesGUI: ilMStShowUserGUI
- * @ilCtrl_Calls      ilMStShowUserCoursesGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilMStShowUserGUI",
+ *		},
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilMStShowUserCoursesGUI
 {

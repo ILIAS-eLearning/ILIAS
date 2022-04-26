@@ -9,8 +9,11 @@ require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
  *
  * @package     Modules/Test
  *
- * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilAssQuestionPageGUI
- * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilTestResultsToolbarGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssQuestionPageGUI", "ilTestResultsToolbarGUI",
+ *		}
+ * )
  */
 class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 {

@@ -18,7 +18,11 @@ use ILIAS\Survey\Participants;
 /**
  * Class ilSurveyParticipantsGUI
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @ilCtrl_Calls ilSurveyParticipantsGUI: ilRepositorySearchGUI, ilSurveyRaterGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI", "ilSurveyRaterGUI",
+ *		}
+ * )
  */
 class ilSurveyParticipantsGUI
 {

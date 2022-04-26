@@ -2,7 +2,11 @@
 
 /**
  * Class ilAdvancedMDRecordTranslationGUI
- * @ilCtrl_isCalledBy ilAdvancedMDRecordTranslationGUI: ilAdvancedMDSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdvancedMDSettingsGUI",
+ *		}
+ * )
  * @ingroup           ServicesAdvancedMetaData
  */
 class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI

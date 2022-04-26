@@ -16,10 +16,13 @@
 /**
  * GUI class for ilGlossary
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI, ilGlossaryForeignTermCollectorGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilGlossaryTermGUI", "ilMDEditorGUI", "ilPermissionGUI", "ilInfoScreenGUI", "ilCommonActionDispatcherGUI",
+ *			"ilObjectContentStyleSettingsGUI","ilObjTaxonomyGUI", "ilExportGUI", "ilObjectCopyGUI", "ilObjectMetaDataGUI",
+ *			"ilGlossaryForeignTermCollectorGUI",
+ *		}
+ * )
  */
 class ilObjGlossaryGUI extends ilObjectGUI
 {

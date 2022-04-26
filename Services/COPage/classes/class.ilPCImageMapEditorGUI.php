@@ -20,7 +20,11 @@ use ILIAS\COPage\PC\MapEditorSessionRepository;
  * User interface class for page content map editor
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPCImageMapEditorGUI: ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilInternalLinkGUI",
+ *		}
+ * )
  */
 class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 {

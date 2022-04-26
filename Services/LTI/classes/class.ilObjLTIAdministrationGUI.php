@@ -16,9 +16,14 @@
  * Class ilObjLTIAdministrationGUI
  * @author Jesús López <lopez@leifos.com>
  *
- * @ilCtrl_Calls      ilObjLTIAdministrationGUI: ilPermissionGUI
- * @ilCtrl_Calls      ilObjLTIAdministrationGUI: ilLTIConsumerAdministrationGUI
- * @ilCtrl_isCalledBy ilObjLTIAdministrationGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilLTIConsumerAdministrationGUI",
+ *		}
+ * )
  *
  * @ingroup ServicesLTI
  */

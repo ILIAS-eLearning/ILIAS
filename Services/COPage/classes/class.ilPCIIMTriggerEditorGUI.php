@@ -19,7 +19,11 @@ use ILIAS\COPage\PC\EditGUIRequest;
  * User interface class for page content map editor
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPCIIMTriggerEditorGUI: ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilInternalLinkGUI",
+ *		}
+ * )
  */
 class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 {

@@ -19,9 +19,12 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_Calls ilLoginPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilLoginPageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilLoginPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMDEditorGUI", "ilPublicUserProfileGUI", "ilNoteGUI",
+ *			"ilPropertyFormGUI","ilInternalLinkGUI",
+ *		}
+ * )
  */
 class ilLoginPageGUI extends ilPageObjectGUI
 {

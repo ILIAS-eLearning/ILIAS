@@ -20,7 +20,11 @@
 * @version $Id$
 *
 *
-* @ilCtrl_Calls ilECSSettingsGUI: ilECSMappingSettingsGUI, ilECSParticipantSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilECSMappingSettingsGUI", "ilECSParticipantSettingsGUI",
+ *		}
+ * )
 * @ingroup ServicesWebServicesECS
 */
 class ilECSSettingsGUI

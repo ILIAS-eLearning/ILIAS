@@ -27,7 +27,11 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
  * Basic skill GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilBasicSkillGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjSkillManagementGUI", "ilObjSkillTreeGUI",
+ *		}
+ * )
  */
 class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 {

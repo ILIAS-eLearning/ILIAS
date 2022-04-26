@@ -16,7 +16,6 @@
  * Class ilRegistrationSettingsGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @version      $Id$
- * @ilCtrl_Calls ilRegistrationSettingsGUI:
  * @ingroup      ServicesRegistration
  */
 class ilRegistrationSettingsGUI

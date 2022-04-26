@@ -20,8 +20,14 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * AMD Form Page UI
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_isCalledBy ilPCAMDFormGUI: ilPageEditorGUI
- * @ilCtrl_Calls ilPCAMDFormGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilPageEditorGUI",
+ *		},
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilPCAMDFormGUI extends ilPageContentGUI
 {

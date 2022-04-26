@@ -24,7 +24,11 @@ use ILIAS\HTTP\Services;
  *
  * @version      $Id$
  *
- * @ilCtrl_Calls ilObjFileAccessSettingsGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  *
  * @extends      ilObjectGUI
  */

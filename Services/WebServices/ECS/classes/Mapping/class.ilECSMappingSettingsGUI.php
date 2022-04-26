@@ -18,7 +18,11 @@
  * Class for ECS node and directory mapping settings
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_isCalledBy ilECSMappingSettingsGUI: ilECSSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilECSSettingsGUI",
+ *		}
+ * )
  */
 class ilECSMappingSettingsGUI
 {

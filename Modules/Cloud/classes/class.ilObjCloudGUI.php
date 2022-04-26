@@ -20,11 +20,18 @@ declare(strict_types=0);
 
 /**
  * Class ilObjCloudGUI
- *
- * @ilCtrl_Calls ilObjCloudGUI: ilPermissionGUI, ilNoteGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginUploadGUI, ilCloudPluginCreateFolderGUI, ilCloudPluginSettingsGUI
- * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginDeleteGUI, ilCloudPluginActionListGUI, ilCloudPluginItemCreationListGUI
- * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginFileTreeGUI, ilCloudPluginInitGUI, ilCloudPluginHeaderActionGUI, ilCloudPluginInfoScreenGUI
+ * @author       Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author       Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Martin Studer martin@fluxlabs.ch
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilNoteGUI", "ilInfoScreenGUI", "ilObjectCopyGUI", "ilCommonActionDispatcherGUI",
+ *			"ilCloudPluginUploadGUI","ilCloudPluginCreateFolderGUI", "ilCloudPluginSettingsGUI", "ilCloudPluginDeleteGUI",
+ *			"ilCloudPluginActionListGUI","ilCloudPluginItemCreationListGUI", "ilCloudPluginFileTreeGUI",
+ *			"ilCloudPluginInitGUI","ilCloudPluginHeaderActionGUI", "ilCloudPluginInfoScreenGUI",
+ *		}
+ * )
+ * @extends      ilObject2GUI
  */
 class ilObjCloudGUI extends ilObject2GUI
 {

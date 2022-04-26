@@ -17,10 +17,12 @@
  * Class ilLMPresentationGUI
  * GUI class for learning module presentation
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
- * @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilNoteGUI", "ilInfoScreenGUI", "ilLMPageGUI", "ilGlossaryDefPageGUI", "ilCommonActionDispatcherGUI",
+ *			"ilLearningProgressGUI","ilAssGenFeedbackPageGUI", "ilRatingGUI",
+ *		}
+ * )
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {

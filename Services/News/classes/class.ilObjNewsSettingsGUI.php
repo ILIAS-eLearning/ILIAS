@@ -17,7 +17,11 @@
  * News Settings.
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjNewsSettingsGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjNewsSettingsGUI extends ilObjectGUI
 {

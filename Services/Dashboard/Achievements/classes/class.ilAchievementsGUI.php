@@ -14,7 +14,11 @@
  */
 
 /**
- * @ilCtrl_Calls ilAchievementsGUI: ilLearningProgressGUI, ilPersonalSkillsGUI, ilBadgeProfileGUI, ilLearningHistoryGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLearningProgressGUI", "ilPersonalSkillsGUI", "ilBadgeProfileGUI", "ilLearningHistoryGUI",
+ *		}
+ * )
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilAchievementsGUI

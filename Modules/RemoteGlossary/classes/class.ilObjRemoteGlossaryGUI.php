@@ -21,8 +21,11 @@
 * @version $Id$
 *
 *
-* @ilCtrl_Calls ilObjRemoteGlossaryGUI: ilPermissionGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjRemoteGlossaryGUI: ilCommonActionDispatcherGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilCommonActionDispatcherGUI",
+ *		}
+ * )
 * @ingroup ModulesRemoteGlossary
 */
 

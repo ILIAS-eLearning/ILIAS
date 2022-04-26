@@ -17,7 +17,11 @@
  * Class ilObjWorkspaceRootFolderGUI
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilObjWorkspaceRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCommonActionDispatcherGUI", "ilObjectOwnershipManagementGUI",
+ *		}
+ * )
  */
 class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 {

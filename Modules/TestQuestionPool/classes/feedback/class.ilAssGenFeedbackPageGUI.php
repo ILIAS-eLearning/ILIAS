@@ -9,9 +9,12 @@ include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedback
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_Calls ilAssGenFeedbackPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilAssGenFeedbackPageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilAssGenFeedbackPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMDEditorGUI", "ilPublicUserProfileGUI", "ilNoteGUI",
+ *			"ilPropertyFormGUI","ilInternalLinkGUI",
+ *		}
+ * )
  *
  * @ingroup ModulesTestQuestionPool
  */

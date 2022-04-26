@@ -16,7 +16,6 @@
 /**
  * GUI class for object translation handling.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_IsCalledBy ilMultilingualismeGUI: ilDidacticTemplateSettingsGUI
  */
 class ilMultilingualismGUI
 {

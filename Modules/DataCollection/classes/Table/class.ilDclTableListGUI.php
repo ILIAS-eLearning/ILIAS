@@ -4,7 +4,11 @@
 /**
  * Class ilDclTableListGUI
  * @author       Theodor Truffer <tt@studer-raimann.ch>
- * @ilCtrl_Calls ilDclTableListGUI: ilDclFieldListGUI, ilDclFieldEditGUI, ilDclTableViewGUI, ilDclTableEditGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilDclFieldListGUI", "ilDclFieldEditGUI", "ilDclTableViewGUI", "ilDclTableEditGUI",
+ *		}
+ * )
  */
 class ilDclTableListGUI
 {

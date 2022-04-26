@@ -5,13 +5,13 @@
 use ILIAS\Data\Factory;
 
 /**
- * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeRepositorySearchGUI
- * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjStudyProgrammeIndividualPlanGUI
- * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjFileGUI
- * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeMailMemberSearchGUI
- * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeExpireDateGUI
- * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeDeadlineGUI
- * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilStudyProgrammeRepositorySearchGUI", "ilObjStudyProgrammeIndividualPlanGUI", "ilObjFileGUI",
+ *			"ilStudyProgrammeMailMemberSearchGUI","ilStudyProgrammeChangeExpireDateGUI", "ilStudyProgrammeChangeDeadlineGUI",
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilObjStudyProgrammeMembersGUI
 {

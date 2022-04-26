@@ -10,8 +10,11 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTab
  *
  * @package     Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI
- * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillUsagesTableGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssQuestionSkillAssignmentsGUI", "ilAssQuestionSkillUsagesTableGUI",
+ *		}
+ * )
  */
 class ilQuestionPoolSkillAdministrationGUI
 {

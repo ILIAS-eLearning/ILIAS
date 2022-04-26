@@ -21,7 +21,11 @@ use ILIAS\DI\Container;
 /**
  * GUI class for course verification
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjCourseVerificationGUI: ilWorkspaceAccessGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilWorkspaceAccessGUI",
+ *		}
+ * )
  */
 class ilObjCourseVerificationGUI extends ilObject2GUI
 {

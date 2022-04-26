@@ -18,8 +18,14 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
 /**
  * Notes Settings.
  * @author Alex Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjNotesSettingsGUI: ilPermissionGUI
- * @ilCtrl_isCalledBy ilObjNotesSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjNotesSettingsGUI extends ilObjectGUI
 {

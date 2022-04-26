@@ -11,7 +11,11 @@ require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilObjTestDynamicQuestionSetConfigGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilObjTestDynamicQuestionSetConfigGUI
 {

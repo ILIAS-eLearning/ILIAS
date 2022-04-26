@@ -16,7 +16,11 @@
 /**
  * Top level GUI class for media pools.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilMediaPoolPresentationGUI: ilObjMediaPoolGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjMediaPoolGUI",
+ *		}
+ * )
  */
 class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
 {

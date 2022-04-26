@@ -16,8 +16,14 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup ModulesTestQuestionPool
  *
- * @ilctrl_iscalledby assOrderingHorizontalGUI: ilObjQuestionPoolGUI
- * @ilCtrl_Calls assOrderingHorizontalGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjQuestionPoolGUI",
+ *		},
+ *		children={
+ *			"ilPropertyFormGUI", "ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {

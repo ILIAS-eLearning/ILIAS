@@ -1,7 +1,11 @@
 <?php declare(strict_types=1);
 
 /**
-* @ilCtrl_Calls ilObjStudyProgrammeReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilPropertyFormGUI",
+ *		}
+ * )
 */
 class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
 {

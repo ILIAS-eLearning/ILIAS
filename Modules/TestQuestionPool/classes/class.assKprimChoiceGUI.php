@@ -11,7 +11,11 @@ require_once 'Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAd
  *
  * @package     Modules/TestQuestionPool
  *
- * @ilCtrl_Calls assKprimChoiceGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI", "ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {

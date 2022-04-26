@@ -16,15 +16,15 @@
 /**
  * Dashboard UI
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI
- * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
- * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
- * @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
- * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
- * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPersonalProfileGUI", "ilObjUserGUI", "ilPDNotesGUI", "ilColumnGUI", "ilPDNewsGUI",
+ *			"ilCalendarPresentationGUI","ilMailSearchGUI", "ilContactGUI", "ilPersonalWorkspaceGUI", "ilPersonalSettingsGUI",
+ *			"ilPortfolioRepositoryGUI","ilObjChatroomGUI", "ilMyStaffGUI", "ilGroupUserActionsGUI", "ilAchievementsGUI",
+ *			"ilPDSelectedItemsBlockGUI","ilPDMembershipBlockGUI", "ilPDMailBlockGUI", "ilDashboardRecommendedContentGUI",
+ *			"ilStudyProgrammeDashboardViewGUI",
+ *		}
+ * )
  *
  */
 class ilDashboardGUI implements ilCtrlBaseClassInterface

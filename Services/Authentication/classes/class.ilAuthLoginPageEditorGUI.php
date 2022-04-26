@@ -20,8 +20,14 @@
  *
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesAuthentication
- * @ilCtrl_isCalledBy ilAuthLoginPageEditorGUI: ilObjAuthSettingsGUI
- * @ilCtrl_Calls ilAuthLoginPageEditorGUI: ilLoginPageGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjAuthSettingsGUI",
+ *		},
+ *		children={
+ *			"ilLoginPageGUI",
+ *		}
+ * )
  */
 class ilAuthLoginPageEditorGUI
 {

@@ -23,7 +23,11 @@
 
 /**
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI, ilCalendarAgendaListGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCalendarAppointmentGUI", "ilCalendarAgendaListGUI",
+ *		}
+ * )
  * @ingroup      ServicesCalendar
  */
 class ilCalendarInboxGUI extends ilCalendarViewGUI

@@ -25,19 +25,16 @@ use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Class ilObjContentPageGUI
- * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
- * @ilCtrl_isCalledBy ilObjContentPageGUI: ilAdministrationGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilPermissionGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilInfoScreenGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectCopyGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilExportGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilLearningProgressGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectCustomIconConfigurationGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectTranslationGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilRepositoryGUI", "ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilObjectCopyGUI", "ilExportGUI", "ilLearningProgressGUI",
+ *			"ilCommonActionDispatcherGUI","ilContentPagePageGUI", "ilObjectCustomIconConfigurationGUI",
+ *			"ilObjectContentStyleSettingsGUI","ilObjectTranslationGUI", "ilPageMultiLangGUI",
+ *		}
+ * )
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {

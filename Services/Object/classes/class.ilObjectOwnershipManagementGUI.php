@@ -7,7 +7,6 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilObjectOwnershipManagementGUI:
  */
 class ilObjectOwnershipManagementGUI
 {

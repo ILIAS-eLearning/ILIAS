@@ -18,10 +18,14 @@
 
 /**
  * @author            Michael Jansen <mjansen@databay.de>
- * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilPermissionGUI
- * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilTermsOfServiceDocumentGUI
- * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilTermsOfServiceAcceptanceHistoryGUI
- * @ilCtrl_isCalledBy ilObjTermsOfServiceGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilTermsOfServiceDocumentGUI", "ilTermsOfServiceAcceptanceHistoryGUI",
+ *		}
+ * )
  */
 class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceControllerEnabled
 {

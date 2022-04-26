@@ -19,7 +19,6 @@ use ILIAS\News\StandardGUIRequest;
  * News on PD
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPDNewsGUI:
  */
 class ilPDNewsGUI
 {

@@ -19,12 +19,13 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  * Class ilObjSurveyQuestionPoolGUI
  *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMultipleChoiceQuestionGUI, SurveyMetricQuestionGUI
- * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
- * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMatrixQuestionGUI
- * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilSurveyPhrasesGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilCommonActionDispatcherGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"SurveyMultipleChoiceQuestionGUI", "SurveyMetricQuestionGUI", "SurveySingleChoiceQuestionGUI",
+ *			"SurveyTextQuestionGUI","SurveyMatrixQuestionGUI", "ilSurveyPhrasesGUI", "ilInfoScreenGUI",
+ *			"ilObjectMetaDataGUI","ilPermissionGUI", "ilObjectCopyGUI", "ilCommonActionDispatcherGUI",
+ *		}
+ * )
  */
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {

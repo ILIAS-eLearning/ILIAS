@@ -8,7 +8,11 @@ use ILIAS\Refinery\Factory;
 /**
  * Handles tree tasks
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_isCalledBy ilSCTreeTasksGUI: ilObjSystemCheckGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjSystemCheckGUI",
+ *		}
+ * )
  */
 class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 {

@@ -21,7 +21,11 @@
  * Skill presentation for container (course/group)
  *
  * @author Alex Killing <killing@leifos.de>
- * @ilCtrl_Calls ilContSkillPresentationGUI: ilPersonalSkillsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPersonalSkillsGUI",
+ *		}
+ * )
  */
 class ilContSkillPresentationGUI
 {

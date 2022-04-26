@@ -17,8 +17,14 @@
  * Badge Administration Settings.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjBadgeAdministrationGUI: ilPermissionGUI, ilBadgeManagementGUI
- * @ilCtrl_IsCalledBy ilObjBadgeAdministrationGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilBadgeManagementGUI",
+ *		}
+ * )
  */
 class ilObjBadgeAdministrationGUI extends ilObjectGUI
 {

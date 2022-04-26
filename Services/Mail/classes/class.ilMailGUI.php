@@ -23,7 +23,12 @@ use ILIAS\Refinery\Factory as Refinery;
  * @author       Jens Conze
  * @defgroup     ServicesMail Services/Mail
  * @ingroup      ServicesMail
- * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailFolderGUI", "ilMailFormGUI", "ilContactGUI", "ilMailOptionsGUI", "ilMailAttachmentGUI", "ilMailSearchGUI",
+ *			"ilObjUserGUI",
+ *		}
+ * )
  */
 class ilMailGUI implements ilCtrlBaseClassInterface
 {

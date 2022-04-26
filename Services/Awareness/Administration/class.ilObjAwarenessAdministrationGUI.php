@@ -19,8 +19,14 @@
 /**
  * Awareness tool administration
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjAwarenessAdministrationGUI: ilPermissionGUI, ilUserActionAdminGUI
- * @ilCtrl_IsCalledBy ilObjAwarenessAdministrationGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilUserActionAdminGUI",
+ *		}
+ * )
  */
 class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 {

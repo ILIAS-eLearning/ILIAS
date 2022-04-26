@@ -19,11 +19,13 @@
 * @author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>
 * $Id$
 *
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilInfoScreenGUI
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilCertificateGUI
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMTrackingItemsPerScoFilterGUI, ilSCORMTrackingItemsPerUserFilterGUI, ilSCORMTrackingItemsTableGUI
-* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLTIProviderObjectSettingGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFileSystemGUI", "ilObjectMetaDataGUI", "ilPermissionGUI", "ilLearningProgressGUI", "ilInfoScreenGUI",
+ *			"ilCertificateGUI","ilSCORMTrackingItemsPerScoFilterGUI", "ilSCORMTrackingItemsPerUserFilterGUI",
+ *			"ilSCORMTrackingItemsTableGUI","ilLTIProviderObjectSettingGUI",
+ *		}
+ * )
 *
 * @ingroup ModulesScormAicc
 */

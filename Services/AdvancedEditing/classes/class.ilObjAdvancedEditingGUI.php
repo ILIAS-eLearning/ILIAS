@@ -19,7 +19,11 @@ use ILIAS\AdvancedEditing\StandardGUIRequest;
  * Class ilObjAdvancedEditingGUI
  *
  * @author Helmut Schottmüller <hschottm@gmx.de>
- * @ilCtrl_Calls ilObjAdvancedEditingGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjAdvancedEditingGUI extends ilObjectGUI
 {

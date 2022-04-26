@@ -22,7 +22,11 @@ use ILIAS\BookingManager;
 /**
  * This class is used for integration of the booking manager as a service
  * into other repository objects, e.g. courses.
- * @ilCtrl_Calls ilBookingGatewayGUI: ilPropertyFormGUI, ilBookingObjectServiceGUI, ilBookingReservationsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI", "ilBookingObjectServiceGUI", "ilBookingReservationsGUI",
+ *		}
+ * )
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilBookingGatewayGUI

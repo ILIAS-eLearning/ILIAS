@@ -20,8 +20,14 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 /**
  * Class ilObjFileServicesGUI
  * @author              Lukas Zehnder <lz@studer-raimann.ch>
- * @ilCtrl_IsCalledBy   ilObjFileServicesGUI: ilAdministrationGUI
- * @ilCtrl_Calls        ilObjFileServicesGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjFileServicesGUI extends ilObject2GUI
 {

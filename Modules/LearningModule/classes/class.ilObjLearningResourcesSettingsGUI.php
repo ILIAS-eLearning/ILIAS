@@ -18,8 +18,14 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilObjLearningResourcesSettingsGUI: ilPermissionGUI
- * @ilCtrl_IsCalledBy ilObjLearningResourcesSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 {

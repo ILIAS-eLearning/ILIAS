@@ -16,8 +16,14 @@
 /**
  * Media Objects/Pools Settings.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjMediaObjectsSettingsGUI: ilPermissionGUI
- * @ilCtrl_IsCalledBy ilObjMediaObjectsSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 {

@@ -17,7 +17,11 @@ use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager;
 use ILIAS\Portfolio\StandardGUIRequest;
 
 /**
- * @ilCtrl_Calls ilPortfolioRoleAssignmentGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilPortfolioRoleAssignmentGUI

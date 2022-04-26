@@ -17,7 +17,6 @@
  * Class ilUserStartingPointGUI
  *
  * @author Jesús López <lopez@leifos.com>
- * @ilCtrl_Calls ilUserStartingPointGUI:
  */
 class ilUserStartingPointGUI
 {

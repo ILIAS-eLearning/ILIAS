@@ -19,7 +19,11 @@ use ILIAS\MediaObjects\ImageMap\ImageMapGUIRequest;
 /**
  * User interface class for map editor
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilImageMapEditorGUI: ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilInternalLinkGUI",
+ *		}
+ * )
  */
 class ilImageMapEditorGUI
 {

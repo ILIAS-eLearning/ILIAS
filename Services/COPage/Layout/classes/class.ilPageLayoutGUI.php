@@ -19,8 +19,11 @@ use ILIAS\UI\Component\Input\Field\Radio;
  * Class ilPageLayoutGUI GUI class
  *
  * @author Hendrik Holtmann <holtmann@me.com>
- * @ilCtrl_Calls ilPageLayoutGUI: ilPageEditorGUI, ilEditClipboardGUI
- * @ilCtrl_Calls ilPageLayoutGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilPublicUserProfileGUI", "ilPageObjectGUI",
+ *		}
+ * )
  */
 class ilPageLayoutGUI extends ilPageObjectGUI
 {

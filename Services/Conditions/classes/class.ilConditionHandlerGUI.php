@@ -26,7 +26,6 @@ use ILIAS\HTTP\GlobalHttpState;
  * @version      $Id$
  * This class is aggregated in folders, groups which have a parent course object
  * Since it is something like an interface, all varirables, methods have there own name space (names start with cci) to avoid collisions
- * @ilCtrl_Calls ilConditionHandlerGUI:
  */
 class ilConditionHandlerGUI
 {

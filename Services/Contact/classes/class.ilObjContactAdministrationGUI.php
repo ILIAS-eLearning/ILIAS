@@ -21,8 +21,14 @@ use ILIAS\Notifications\ilNotificationDatabaseHandler;
 /**
  * Class ilObjContactAdministrationGUI
  * @author Michael Jansen <mjansen@databay.de>
- * @ilCtrl_Calls      ilObjContactAdministrationGUI: ilPermissionGUI
- * @ilCtrl_isCalledBy ilObjContactAdministrationGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjContactAdministrationGUI extends ilObject2GUI
 {

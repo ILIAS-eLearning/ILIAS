@@ -21,8 +21,12 @@ use ILIAS\MediaPool;
 /**
  * Class ilMediaPoolPage GUI class
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilMediaPoolPageGUI: ilPublicUserProfileGUI, ilObjectMetaDataGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMediaPoolTargetSelector", "ilPublicUserProfileGUI",
+ *			"ilObjectMetaDataGUI",
+ *		}
+ * )
  */
 class ilMediaPoolPageGUI extends ilPageObjectGUI
 {

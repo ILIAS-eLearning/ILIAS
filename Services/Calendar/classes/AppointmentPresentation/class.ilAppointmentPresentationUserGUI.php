@@ -4,7 +4,11 @@
  * ilAppointmentPresentationUserGUI class presents modal information for personal appointments.
  * @author            Jesús López Reyes <lopez@leifos.com>
  * @version           $Id$
- * @ilCtrl_IsCalledBy ilAppointmentPresentationUserGUI: ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation

@@ -21,7 +21,11 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilExPeerReviewGUI: ilFileSystemGUI, ilRatingGUI, ilExSubmissionTextGUI, ilInfoScreenGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFileSystemGUI", "ilRatingGUI", "ilExSubmissionTextGUI", "ilInfoScreenGUI",
+ *		}
+ * )
  */
 class ilExPeerReviewGUI
 {

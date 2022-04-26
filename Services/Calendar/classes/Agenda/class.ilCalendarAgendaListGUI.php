@@ -8,7 +8,11 @@ use ILIAS\UI\Component\Item\Item;
  * Calendar agenda list
  * @author       Alex Killing <killing@leifos.de>
  * @ingroup      ServicesCalendar
- * @ilCtrl_Calls ilCalendarAgendaListGUI: ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  */
 class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 {

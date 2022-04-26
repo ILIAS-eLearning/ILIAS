@@ -20,7 +20,11 @@
 /**
  * Service (e.g. being used in a course) UI wrapper for booking objects
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilBookingObjectServiceGUI: ilPropertyFormGUI, ilBookingProcessGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI", "ilBookingProcessGUI",
+ *		}
+ * )
  */
 class ilBookingObjectServiceGUI extends ilBookingObjectGUI
 {

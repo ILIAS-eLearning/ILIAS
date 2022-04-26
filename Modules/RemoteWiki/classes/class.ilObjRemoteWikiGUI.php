@@ -21,8 +21,11 @@
 * @version $Id$
 *
 *
-* @ilCtrl_Calls ilObjRemoteWikiGUI: ilPermissionGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjRemoteWikiGUI: ilCommonActionDispatcherGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilCommonActionDispatcherGUI",
+ *		}
+ * )
 * @ingroup ModulesRemoteWiki
 */
 

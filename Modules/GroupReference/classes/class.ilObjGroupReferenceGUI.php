@@ -5,7 +5,11 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
 /**
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilContainerReferenceGUI
- * @ilCtrl_Calls ilObjGroupReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilPropertyFormGUI",
+ *		}
+ * )
  * @ingroup ModulesGroupReference
  */
 class ilObjGroupReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface

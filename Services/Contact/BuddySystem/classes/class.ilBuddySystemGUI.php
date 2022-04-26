@@ -21,7 +21,11 @@ use ILIAS\HTTP\Services;
 /**
  * Class ilBuddySystemGUI
  * @author Michael Jansen <mjansen@databay.de>
- * @ilCtrl_isCalledBy ilBuddySystemGUI: ilUIPluginRouterGUI, ilPublicUserProfileGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilUIPluginRouterGUI", "ilPublicUserProfileGUI",
+ *		}
+ * )
  */
 class ilBuddySystemGUI
 {

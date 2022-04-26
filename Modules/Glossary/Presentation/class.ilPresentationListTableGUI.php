@@ -17,7 +17,11 @@
  * Term list table for presentation mode
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPresentationListTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilPresentationListTableGUI extends ilTable2GUI
 {

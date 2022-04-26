@@ -9,7 +9,11 @@
  * @author       Oskar Truffer <ot@studer-raimann.ch>
  * @version      $Id:
  * @ingroup      ModulesDataCollection
- * @ilCtrl_Calls ilDclTreePickInputGUI : ilDclRecordEditGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilDclRecordEditGUI",
+ *		}
+ * )
  */
 class ilDclTreePickInputGUI extends ilCustomInputGUI
 {

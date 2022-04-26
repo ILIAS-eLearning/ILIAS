@@ -10,9 +10,11 @@
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilTestFixedQuestionSetConfigGUI: ilTestExpressPageObjectGUI
- * @ilCtrl_Calls ilTestFixedQuestionSetConfigGUI: ilPageEditorGUI
- * @ilCtrl_Calls ilTestFixedQuestionSetConfigGUI: ilAssQuestionPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTestExpressPageObjectGUI", "ilPageEditorGUI", "ilAssQuestionPageGUI",
+ *		}
+ * )
  */
 class ilTestFixedQuestionSetConfigGUI
 {

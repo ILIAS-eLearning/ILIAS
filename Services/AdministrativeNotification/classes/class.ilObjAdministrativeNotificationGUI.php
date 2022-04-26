@@ -18,8 +18,14 @@
  
 /**
  * Class ilObjAdministrativeNotificationGUI
- * @ilCtrl_IsCalledBy ilObjAdministrativeNotificationGUI: ilAdministrationGUI
- * @ilCtrl_Calls      ilObjAdministrativeNotificationGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilObjAdministrativeNotificationGUI extends ilObject2GUI

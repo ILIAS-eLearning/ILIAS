@@ -18,9 +18,12 @@ use ILIAS\HTMLLearningModule\StandardGUIRequest;
 /**
  * User Interface class for file based learning modules (HTML)
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjFileBasedLMGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjFileBasedLMGUI: ilExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFileSystemGUI", "ilObjectMetaDataGUI", "ilPermissionGUI", "ilLearningProgressGUI", "ilInfoScreenGUI",
+ *			"ilCommonActionDispatcherGUI","ilExportGUI",
+ *		}
+ * )
  */
 class ilObjFileBasedLMGUI extends ilObjectGUI
 {

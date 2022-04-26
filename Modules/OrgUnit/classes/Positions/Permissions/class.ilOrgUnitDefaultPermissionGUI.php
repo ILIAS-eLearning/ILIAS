@@ -5,7 +5,11 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 /**
  * Class ilOrgUnitDefaultPermissionGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilOrgUnitDefaultPermissionGUI: ilOrgUnitPositionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilOrgUnitPositionGUI",
+ *		}
+ * )
  */
 class ilOrgUnitDefaultPermissionGUI extends BaseCommands
 {

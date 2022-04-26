@@ -11,15 +11,17 @@ use ILIAS\Refinery\Factory;
  * @author    Stefan Meyer <smeyer.ilias@gmx.de>
  * @author    Sascha Hofmann <saschahofmann@gmx.de>
  *
- * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilGroupRegistrationGUI", "ilPermissionGUI", "ilInfoScreenGUI", "ilLearningProgressGUI",
+ *			"ilPublicUserProfileGUI","ilObjCourseGroupingGUI", "ilObjectContentStyleSettingsGUI", "ilCourseContentGUI",
+ *			"ilColumnGUI","ilContainerPageGUI", "ilObjectCopyGUI", "ilObjectCustomUserFieldsGUI", "ilMemberAgreementGUI",
+ *			"ilExportGUI","ilMemberExportGUI", "ilCommonActionDispatcherGUI", "ilObjectServiceSettingsGUI",
+ *			"ilSessionOverviewGUI","ilGroupMembershipGUI", "ilBadgeManagementGUI", "ilMailMemberSearchGUI",
+ *			"ilNewsTimelineGUI","ilContainerNewsSettingsGUI", "ilContainerSkillGUI", "ilCalendarPresentationGUI",
+ *			"ilLTIProviderObjectSettingGUI","ilObjectMetaDataGUI", "ilObjectTranslationGUI", "ilPropertyFormGUI",
+ *		}
+ * )
  *
  *
  *

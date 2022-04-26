@@ -6,7 +6,11 @@ use ILIAS\MyStaff\ListUsers\ilMStListUsersTableGUI;
 /**
  * Class ilMStListUsersGUI
  * @author            Martin Studer <ms@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilMStListUsersGUI: ilMyStaffGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilMyStaffGUI",
+ *		}
+ * )
  */
 class ilMStListUsersGUI
 {

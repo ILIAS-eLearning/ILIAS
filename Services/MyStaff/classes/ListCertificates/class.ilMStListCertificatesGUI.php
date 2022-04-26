@@ -6,9 +6,14 @@ use ILIAS\MyStaff\ListCertificates\ilMStListCertificatesTableGUI;
 /**
  * Class ilMStListCertificatesGUI
  * @author            Martin Studer <ms@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilMStListCertificatesGUI: ilMyStaffGUI
- * @ilCtrl_Calls      ilMStListCertificatesGUI: ilFormPropertyDispatchGUI
- * @ilCtrl_Calls      ilMStListCertificatesGUI: ilUserCertificateApiGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilMyStaffGUI",
+ *		},
+ *		children={
+ *			"ilFormPropertyDispatchGUI", "ilUserCertificateApiGUI",
+ *		}
+ * )
  */
 class ilMStListCertificatesGUI
 {

@@ -16,7 +16,6 @@
  * TableGUI class for registration codes
  * @author       Alex Killing <alex.killing@gmx.de>
  * @version      $Id$
- * @ilCtrl_Calls ilRegistrationCodesTableGUI:
  * @ingroup      ServicesRegistration
  */
 class ilRegistrationCodesTableGUI extends ilTable2GUI

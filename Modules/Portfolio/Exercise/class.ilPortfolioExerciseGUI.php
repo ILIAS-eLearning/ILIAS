@@ -19,7 +19,6 @@ use ILIAS\Portfolio\StandardGUIRequest;
  * Class ilPortfolioExerciseGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilPortfolioExerciseGUI:
  */
 class ilPortfolioExerciseGUI
 {

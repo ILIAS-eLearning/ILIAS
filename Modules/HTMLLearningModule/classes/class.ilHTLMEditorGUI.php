@@ -18,7 +18,11 @@ use ILIAS\HTMLLearningModule\StandardGUIRequest;
 /**
  * GUI class for learning module editor
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilHTLMEditorGUI: ilObjFileBasedLMGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjFileBasedLMGUI",
+ *		}
+ * )
  */
 class ilHTLMEditorGUI implements ilCtrlBaseClassInterface
 {

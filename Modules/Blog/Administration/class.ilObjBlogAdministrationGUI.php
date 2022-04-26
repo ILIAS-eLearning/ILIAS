@@ -17,8 +17,14 @@
  * Blog Administration Settings.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjBlogAdministrationGUI: ilPermissionGUI
- * @ilCtrl_IsCalledBy ilObjBlogAdministrationGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjBlogAdministrationGUI extends ilObjectGUI
 {

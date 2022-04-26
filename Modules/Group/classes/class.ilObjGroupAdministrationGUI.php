@@ -8,7 +8,11 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
  *
- * @ilCtrl_Calls ilObjGroupAdministrationGUI: ilPermissionGUI, ilMemberExportSettingsGUI, ilUserActionadminGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilMemberExportSettingsGUI", "ilUserActionadminGUI",
+ *		}
+ * )
  *
  * @ingroup ModulesGroup
  */

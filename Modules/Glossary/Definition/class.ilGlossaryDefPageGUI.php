@@ -16,9 +16,12 @@
 /**
  * Glossary definition page GUI class
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
- * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilObjectMetaDataGUI", "ilPublicUserProfileGUI", "ilNoteGUI",
+ *			"ilPropertyFormGUI","ilInternalLinkGUI",
+ *		}
+ * )
  */
 class ilGlossaryDefPageGUI extends ilPageObjectGUI
 {

@@ -18,8 +18,14 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_IsCalledBy ilLinkInputGUI: ilFormPropertyDispatchGUI
- * @ilCtrl_Calls ilLinkInputGUI: ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilFormPropertyDispatchGUI",
+ *		},
+ *		children={
+ *			"ilInternalLinkGUI",
+ *		}
+ * )
  */
 class ilLinkInputGUI extends ilFormPropertyGUI
 {

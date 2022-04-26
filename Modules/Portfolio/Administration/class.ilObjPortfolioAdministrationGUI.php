@@ -17,8 +17,14 @@
  * Portfolio Administration Settings.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjPortfolioAdministrationGUI: ilPermissionGUI, ilPortfolioRoleAssignmentGUI
- * @ilCtrl_IsCalledBy ilObjPortfolioAdministrationGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilPortfolioRoleAssignmentGUI",
+ *		}
+ * )
  */
 class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 {

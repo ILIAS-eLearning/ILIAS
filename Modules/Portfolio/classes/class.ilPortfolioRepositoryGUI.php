@@ -19,7 +19,11 @@ use ILIAS\Portfolio\StandardGUIRequest;
  * Portfolio repository gui class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilPortfolioRepositoryGUI: ilObjPortfolioGUI, ilObjExerciseGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjPortfolioGUI", "ilObjExerciseGUI",
+ *		}
+ * )
  */
 class ilPortfolioRepositoryGUI
 {

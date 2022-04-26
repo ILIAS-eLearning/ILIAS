@@ -9,7 +9,6 @@ use ILIAS\Repository\Clipboard\ClipboardManager;
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @ilCtrl_Calls ilObjectCopyGUI:
  */
 class ilObjectCopyGUI
 {

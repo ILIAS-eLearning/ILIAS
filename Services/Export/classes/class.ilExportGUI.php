@@ -8,7 +8,6 @@ use ILIAS\HTTP\Services as Services;
 /**
  * Export User Interface Class
  * @author       Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilExportGUI:
  */
 class ilExportGUI
 {

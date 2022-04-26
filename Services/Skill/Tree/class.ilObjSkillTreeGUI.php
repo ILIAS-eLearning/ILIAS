@@ -28,7 +28,11 @@ use ILIAS\GlobalScreen\ScreenContext;
  * Skill tree gui class
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjSkillTreeGUI: ilPermissionGUI, ilSkillProfileGUI, ilExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilSkillProfileGUI", "ilExportGUI",
+ *		}
+ * )
  */
 class ilObjSkillTreeGUI extends ilObjectGUI
 {

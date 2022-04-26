@@ -23,10 +23,12 @@
 * GUI class for 'simple' search
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ilCtrl_Calls ilSearchGUI: ilPropertyFormGUI
-* @ilCtrl_Calls ilSearchGUI: ilObjectGUI, ilContainerGUI
-* @ilCtrl_Calls ilSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI", "ilObjectGUI", "ilContainerGUI", "ilObjCategoryGUI", "ilObjCourseGUI", "ilObjFolderGUI",
+ *			"ilObjGroupGUI","ilObjRootFolderGUI", "ilObjectCopyGUI",
+ *		}
+ * )
 *
 * @ingroup	ServicesSearch
 */

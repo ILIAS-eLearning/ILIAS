@@ -6,8 +6,14 @@ use ILIAS\MyStaff\ListCourses\ilMStListCoursesTableGUI;
 /**
  * Class ilMStListCoursesGUI
  * @author            Martin Studer <ms@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilMStListCoursesGUI: ilMyStaffGUI
- * @ilCtrl_Calls      ilMStListCoursesGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilMyStaffGUI",
+ *		},
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilMStListCoursesGUI
 {

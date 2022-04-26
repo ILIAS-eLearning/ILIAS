@@ -4,7 +4,11 @@
  * Class ilDclPropertyFormGUI
  * @author       Michael Herren <mh@studer-raimann.ch>
  * @version      1.0.0
- * @ilCtrl_Calls ilDclPropertyFormGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilDclPropertyFormGUI extends ilPropertyFormGUI
 {

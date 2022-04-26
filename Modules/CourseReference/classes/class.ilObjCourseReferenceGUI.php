@@ -26,8 +26,12 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @version      $Id$
- * @ilCtrl_Calls ilObjCourseReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
- * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI, ilLearningProgressGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilPropertyFormGUI", "ilCommonActionDispatcherGUI",
+ *			"ilLearningProgressGUI",
+ *		}
+ * )
  * @ingroup      ModulesCourseReference
  */
 class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface

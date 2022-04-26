@@ -8,8 +8,6 @@ require_once 'Modules/Test/classes/class.ilTestServiceGUI.php';
  *
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
- *
- * @ctrl_calls 	  ilTestSubmissionReviewGUI: ilAssQuestionPageGUI
  */
 class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 {

@@ -18,8 +18,11 @@ use ILIAS\Blog\StandardGUIRequest;
 /**
  * Class ilBlogPosting GUI class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI
- * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilRatingGUI", "ilPublicUserProfileGUI", "ilPageObjectGUI", "ilNoteGUI",
+ *		}
+ * )
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {

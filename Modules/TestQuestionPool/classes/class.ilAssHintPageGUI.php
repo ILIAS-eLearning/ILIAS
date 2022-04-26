@@ -9,9 +9,12 @@ include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPage.php");
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_Calls ilAssHintPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilAssHintPageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilAssHintPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMDEditorGUI", "ilPublicUserProfileGUI", "ilNoteGUI",
+ *			"ilPropertyFormGUI","ilInternalLinkGUI",
+ *		}
+ * )
  *
  * @ingroup ModulesTestQuestionPool
  * ilasshintpagegui

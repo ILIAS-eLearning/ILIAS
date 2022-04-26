@@ -24,7 +24,11 @@ use ILIAS\Refinery\Factory;
  * @author       Stefan Meyer <smeyer@ilias@gmx.de>
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @version      $Id$
- * @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI, ilExportGUI, ilRecommendedContentRoleConfigGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI", "ilExportGUI", "ilRecommendedContentRoleConfigGUI",
+ *		}
+ * )
  * @ingroup      ServicesAccessControl
  */
 class ilObjRoleGUI extends ilObjectGUI

@@ -26,7 +26,11 @@ use ILIAS\FileUpload\Handler\HandlerResult;
 /**
  * Class ilUIDemoFileUploadHandlerGUI
  *
- * @ilCtrl_isCalledBy ilUIDemoFileUploadHandlerGUI: ilUIPluginRouterGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilUIPluginRouterGUI",
+ *		}
+ * )
  */
 class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {

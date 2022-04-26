@@ -18,9 +18,14 @@ use ILIAS\ItemGroup\StandardGUIRequest;
 /**
  * User Interface class for item groups
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI
- * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilRepositoryGUI", "ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilCommonActionDispatcherGUI", "ilObjectCopyGUI", "ilObjectTranslationGUI",
+ *		}
+ * )
  */
 class ilObjItemGroupGUI extends ilObject2GUI
 {

@@ -10,7 +10,11 @@
  *
  * @package		Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilObjQuestionPoolSettingsGeneralGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilObjQuestionPoolSettingsGeneralGUI
 {

@@ -4,8 +4,11 @@
 /**
  * Class ilObjUserTrackingGUI
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI
- * @ilCtrl_Calls ilLearningProgressGUI: ilLPObjectStatisticsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLPListOfObjectsGUI", "ilLPListOfSettingsGUI", "ilLPListOfProgressGUI", "ilLPObjectStatisticsGUI",
+ *		}
+ * )
  */
 class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 {

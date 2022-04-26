@@ -7,8 +7,14 @@ use ILIAS\Refinery\Factory;
 
 /**
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls      ilObjSystemCheckGUI: ilPermissionGUI, ilObjectOwnershipManagementGUI, ilObjSystemFolderGUI, ilSCComponentTasksGUI
- * @ilCtrl_isCalledBy ilObjSystemCheckGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilObjectOwnershipManagementGUI", "ilObjSystemFolderGUI", "ilSCComponentTasksGUI",
+ *		}
+ * )
  */
 class ilObjSystemCheckGUI extends ilObjectGUI
 {

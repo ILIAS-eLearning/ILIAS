@@ -18,7 +18,6 @@ use ILIAS\Navigation\StandardGUIRequest;
 /**
  * User Interface Class for Navigation History
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilNavigationHistoryGUI:
  */
 class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
 {

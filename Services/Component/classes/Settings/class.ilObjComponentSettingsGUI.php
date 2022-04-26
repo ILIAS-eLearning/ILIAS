@@ -6,7 +6,11 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
 /**
- * @ilCtrl_Calls ilObjComponentSettingsGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjComponentSettingsGUI extends ilObjectGUI
 {

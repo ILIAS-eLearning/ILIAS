@@ -8,7 +8,11 @@ use ILIAS\HTTP\Services as HttpServices;
 /**
  * Class ilCalendarAppointmentPresentationGUI
  * @author       Jesús López <lopez@leifos.com>
- * @ilCtrl_Calls ilCalendarAppointmentPresentationGUI: ilInfoScreenGUI, ilCalendarAppointmentGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilInfoScreenGUI", "ilCalendarAppointmentGUI",
+ *		}
+ * )
  */
 class ilCalendarAppointmentPresentationGUI
 {

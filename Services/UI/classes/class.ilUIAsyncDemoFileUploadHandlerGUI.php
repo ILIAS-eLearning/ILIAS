@@ -18,7 +18,11 @@
  */
 
 /**
- * @ilCtrl_isCalledBy ilUIAsyncDemoFileUploadHandlerGUI: ilUIPluginRouterGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilUIPluginRouterGUI",
+ *		}
+ * )
  * @author            Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class ilUIAsyncDemoFileUploadHandlerGUI extends ilUIDemoFileUploadHandlerGUI

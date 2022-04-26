@@ -5,7 +5,11 @@
 /**
  * Global orgunit settings GUI
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_IsCalledBy ilOrgUnitGlobalSettingsGUI: ilObjOrgUnitGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjOrgUnitGUI",
+ *		}
+ * )
  */
 class ilOrgUnitGlobalSettingsGUI
 {

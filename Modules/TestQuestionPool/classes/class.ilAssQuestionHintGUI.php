@@ -12,7 +12,11 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintAbstractGU
  *
  * @package		Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilAssQuestionHintGUI: ilAssHintPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssHintPageGUI",
+ *		}
+ * )
  */
 class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 {

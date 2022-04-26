@@ -5,7 +5,11 @@
 /**
  * Taxonomy Administration Settings
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjTaxonomyAdministrationGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
 {

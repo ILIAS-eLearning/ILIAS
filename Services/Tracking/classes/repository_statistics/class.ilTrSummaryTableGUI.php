@@ -3,7 +3,11 @@
 
 /**
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilTrSummaryTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  * @ingroup      Services
  */
 class ilTrSummaryTableGUI extends ilLPTableBaseGUI

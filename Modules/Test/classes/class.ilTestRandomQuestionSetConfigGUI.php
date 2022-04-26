@@ -17,12 +17,13 @@ require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetGeneralConfigFormGUI
- * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI
- * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI
- * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetNonAvailablePoolsTableGUI
- * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilRepositorySelectorExplorerGUI
- * @ilCtrl_Calls ilTestRandomQuestionSetConfigGUI: ilTestRandomQuestionSetPoolDefinitionFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTestRandomQuestionSetGeneralConfigFormGUI", "ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI",
+ *			"ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI","ilTestRandomQuestionSetNonAvailablePoolsTableGUI",
+ *			"ilRepositorySelectorExplorerGUI","ilTestRandomQuestionSetPoolDefinitionFormGUI",
+ *		}
+ * )
  */
 class ilTestRandomQuestionSetConfigGUI
 {

@@ -20,7 +20,11 @@ use ILIAS\LTI\Screen\LtiViewLayoutProvider;
  * @author Stefan Schneider <schneider@hrz.uni-marburg.de
  * @version $id$
  * @ingroup ServicesLTI
- * @ilCtrl_IsCalledBy ilLTIViewGUI: ilLTIRouterGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilLTIRouterGUI",
+ *		}
+ * )
  *
  */
 class ilLTIViewGUI

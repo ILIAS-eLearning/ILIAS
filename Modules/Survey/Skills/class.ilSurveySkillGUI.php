@@ -16,7 +16,11 @@
 /**
  * Survey skill service GUI class
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilSurveySkillGUI: ilSurveySkillThresholdsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilSurveySkillThresholdsGUI",
+ *		}
+ * )
  */
 class ilSurveySkillGUI
 {

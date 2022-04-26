@@ -17,7 +17,11 @@
  * Select repository nodes
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_IsCalledBy ilRepositorySelector2InputGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 {

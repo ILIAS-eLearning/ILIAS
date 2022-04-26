@@ -23,7 +23,6 @@ use ILIAS\Refinery\Factory;
  * Class ilObjRoleTemplateGUI
  * @author       Stefan Meyer <meyer@leifos.com>
  * @version      $Id$
- * @ilCtrl_Calls ilObjRoleTemplateGUI:
  * @ingroup      ServicesAccessControl
  */
 class ilObjRoleTemplateGUI extends ilObjectGUI

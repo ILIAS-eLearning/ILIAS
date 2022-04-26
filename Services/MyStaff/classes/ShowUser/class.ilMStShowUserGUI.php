@@ -5,8 +5,14 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 /**
  * Class ilMStShowUserGUI
  * @author            Martin Studer <ms@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilMStShowUserGUI: ilMyStaffGUI
- * @ilCtrl_Calls      ilMStShowUserGUI: ilUserCertificateGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilMyStaffGUI",
+ *		},
+ *		children={
+ *			"ilUserCertificateGUI",
+ *		}
+ * )
  */
 class ilMStShowUserGUI
 {

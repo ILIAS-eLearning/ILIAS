@@ -6,7 +6,11 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsOrderingClipboard.php';
 
 /**
- * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssQuestionHintGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssQuestionHintGUI", "ilAssQuestionHintsTableGUI", "ilAssHintPageGUI", "ilToolbarGUI", "ilConfirmationGUI",
+ *		}
+ * )
  *
  * GUI class for hints management of assessment questions
  *
@@ -15,9 +19,6 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsOrderingC
  *
  * @package		Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssQuestionHintsTableGUI
- * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssHintPageGUI
- * @ilCtrl_Calls ilAssQuestionHintsGUI: ilToolbarGUI, ilConfirmationGUI
  */
 class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 {

@@ -23,9 +23,14 @@ use ILIAS\Refinery\Factory;
 /**
  * Class ilLOEditorGUI
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_isCalledBy ilLOEditorGUI: ilObjCourseGUI
- * @ilCtrl_Calls      ilLOEditorGUI: ilCourseObjectivesGUI, ilContainerStartObjectsGUI, ilConditionHandlerGUI
- * @ilCtrl_Calls      ilLOEditorGUI: ilLOPageGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjCourseGUI",
+ *		},
+ *		children={
+ *			"ilCourseObjectivesGUI", "ilContainerStartObjectsGUI", "ilConditionHandlerGUI", "ilLOPageGUI",
+ *		}
+ * )
  */
 class ilLOEditorGUI
 {

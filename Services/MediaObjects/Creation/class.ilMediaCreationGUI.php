@@ -22,7 +22,11 @@ use ILIAS\FileUpload\Location;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilMediaCreationGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilMediaCreationGUI
 {

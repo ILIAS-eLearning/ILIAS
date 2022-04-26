@@ -11,7 +11,11 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  *
  * @package	Modules/Test
  *
- * @ilCtrl_Calls ilTestDynamicQuestionSetStatisticTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
 {

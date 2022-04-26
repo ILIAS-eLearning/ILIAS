@@ -21,10 +21,14 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Stefan Meyer <meyer@leifos.com>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
- * @ilCtrl_Calls ilObjContentObjectGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjectContentStyleSettingsGUI, ilObjectMetaDataGUI
- * @ilCtrl_Calls ilObjContentObjectGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ilObjectTranslationGUI
- * @ilCtrl_Calls ilObjContentObjectGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLMPageObjectGUI", "ilStructureObjectGUI", "ilObjectContentStyleSettingsGUI", "ilObjectMetaDataGUI",
+ *			"ilLearningProgressGUI","ilPermissionGUI", "ilInfoScreenGUI", "ilObjectCopyGUI", "ilExportGUI",
+ *			"ilCommonActionDispatcherGUI","ilPageMultiLangGUI", "ilObjectTranslationGUI", "ilMobMultiSrtUploadGUI",
+ *			"ilLMImportGUI","ilLMEditShortTitlesGUI", "ilLTIProviderObjectSettingGUI",
+ *		}
+ * )
  */
 class ilObjContentObjectGUI extends ilObjectGUI
 {

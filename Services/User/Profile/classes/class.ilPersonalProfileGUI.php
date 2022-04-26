@@ -18,7 +18,11 @@ use Psr\Http\Message\RequestInterface;
 /**
  * GUI class for personal profile
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilUserPrivacySettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPublicUserProfileGUI", "ilUserPrivacySettingsGUI",
+ *		}
+ * )
  */
 class ilPersonalProfileGUI
 {

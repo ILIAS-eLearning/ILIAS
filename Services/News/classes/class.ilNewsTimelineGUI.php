@@ -21,7 +21,11 @@ use ILIAS\HTTP\Response\Sender\ResponseSendingException;
  * Timeline for news
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilNewsTimelineGUI: ilLikeGUI, ilNoteGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLikeGUI", "ilNoteGUI",
+ *		}
+ * )
  */
 class ilNewsTimelineGUI
 {

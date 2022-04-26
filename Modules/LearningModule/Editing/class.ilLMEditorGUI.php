@@ -18,7 +18,11 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
 /**
  * GUI class for learning module editor
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilLMEditorGUI: ilObjLearningModuleGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjLearningModuleGUI",
+ *		}
+ * )
  */
 class ilLMEditorGUI implements ilCtrlBaseClassInterface
 {

@@ -17,7 +17,11 @@
  * Class ilObjUserGUI
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
- * @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjectOwnershipManagementGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLearningProgressGUI", "ilObjectOwnershipManagementGUI",
+ *		}
+ * )
  */
 class ilObjUserGUI extends ilObjectGUI
 {

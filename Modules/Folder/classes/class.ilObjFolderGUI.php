@@ -20,12 +20,13 @@ use ILIAS\Folder\StandardGUIRequest;
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilObjFolderGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectTranslationGUI, ilRepositoryTrashGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilCourseContentGUI", "ilLearningProgressGUI", "ilInfoScreenGUI", "ilContainerPageGUI",
+ *			"ilColumnGUI","ilObjectCopyGUI", "ilObjectContentStyleSettingsGUI", "ilExportGUI", "ilCommonActionDispatcherGUI",
+ *			"ilDidacticTemplateGUI","ilBackgroundTaskHub", "ilObjectTranslationGUI", "ilRepositoryTrashGUI",
+ *		}
+ * )
  */
 class ilObjFolderGUI extends ilContainerGUI
 {

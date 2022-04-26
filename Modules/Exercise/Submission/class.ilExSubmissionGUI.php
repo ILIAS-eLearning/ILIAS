@@ -23,9 +23,12 @@ use ILIAS\Exercise\GUIRequest;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
- * @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTextGUI, ilExSubmissionObjectGUI
- * @ilCtrl_Calls ilExSubmissionGUI: ilExPeerReviewGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilExSubmissionTeamGUI", "ilExSubmissionFileGUI", "ilExSubmissionTextGUI", "ilExSubmissionObjectGUI",
+ *			"ilExPeerReviewGUI",
+ *		}
+ * )
  */
 class ilExSubmissionGUI
 {

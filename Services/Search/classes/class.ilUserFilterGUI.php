@@ -29,7 +29,6 @@ use ILIAS\Refinery\Factory;
 * Used for object and learning progress presentation
 *
 *
-* @ilCtrl_Calls ilUserFilterGUI:
 *
 *
 *

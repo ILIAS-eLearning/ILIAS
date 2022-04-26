@@ -10,8 +10,11 @@ require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilTestSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI
- * @ilCtrl_Calls ilTestSkillAdministrationGUI: ilTestSkillLevelThresholdsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssQuestionSkillAssignmentsGUI", "ilTestSkillLevelThresholdsGUI",
+ *		}
+ * )
  */
 class ilTestSkillAdministrationGUI
 {

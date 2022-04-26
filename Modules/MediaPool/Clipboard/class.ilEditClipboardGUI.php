@@ -17,7 +17,11 @@
  * Clipboard for editing
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilEditClipboardGUI: ilObjMediaObjectGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjMediaObjectGUI",
+ *		}
+ * )
  */
 class ilEditClipboardGUI
 {

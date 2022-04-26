@@ -7,11 +7,14 @@
 * @author		Alex Killing <alex.killing@gmx.de>
 * @version  $Id$
 *
-* @ilCtrl_Calls ilQuestionEditGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI, assKprimChoiceGUI
-* @ilCtrl_Calls ilQuestionEditGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
-* @ilCtrl_Calls ilQuestionEditGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, assTextQuestionGUI
-* @ilCtrl_Calls ilQuestionEditGUI: assErrorTextGUI, assOrderingHorizontalGUI, assTextSubsetGUI, assFormulaQuestionGUI
-* @ilCtrl_Calls ilQuestionEditGUI: assLongMenuGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"assMultipleChoiceGUI", "assClozeTestGUI", "assMatchingQuestionGUI", "assKprimChoiceGUI",
+ *			"assOrderingQuestionGUI","assImagemapQuestionGUI", "assNumericGUI", "assTextSubsetGUI", "assSingleChoiceGUI",
+ *			"assTextQuestionGUI","assErrorTextGUI", "assOrderingHorizontalGUI", "assTextSubsetGUI", "assFormulaQuestionGUI",
+ *			"assLongMenuGUI",
+ *		}
+ * )
 *
 * @ingroup ModulesTestQuestionPool
 */

@@ -20,17 +20,17 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Page Editor GUI class
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPageEditorGUI: ilPCParagraphGUI, ilPCTableGUI, ilPCTableDataGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCMediaObjectGUI, ilPCListGUI, ilPCListItemGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, ilPCTabGUI, IlPCPlaceHolderGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI, ilPCLoginPageElementGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
- * @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI, ilPageEditorServerAdapterGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPCParagraphGUI", "ilPCTableGUI", "ilPCTableDataGUI", "ilPCMediaObjectGUI", "ilPCListGUI", "ilPCListItemGUI",
+ *			"ilPCFileListGUI","ilPCFileItemGUI", "ilObjMediaObjectGUI", "ilPCSourceCodeGUI", "ilInternalLinkGUI",
+ *			"ilPCQuestionGUI","ilPCSectionGUI", "ilPCDataTableGUI", "ilPCResourcesGUI", "ilPCMapGUI", "ilPCPluggedGUI",
+ *			"ilPCTabsGUI","ilPCTabGUI", "IlPCPlaceHolderGUI", "ilPCContentIncludeGUI", "ilPCLoginPageElementGUI",
+ *			"ilPCInteractiveImageGUI","ilPCProfileGUI", "ilPCVerificationGUI", "ilPCBlogGUI", "ilPCQuestionOverviewGUI",
+ *			"ilPCSkillsGUI","ilPCConsultationHoursGUI", "ilPCMyCoursesGUI", "ilPCAMDPageListGUI", "ilPCGridGUI",
+ *			"ilPCGridCellGUI","ilPageEditorServerAdapterGUI",
+ *		}
+ * )
  */
 class ilPageEditorGUI
 {

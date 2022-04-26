@@ -23,7 +23,6 @@ use ILIAS\Refinery\Factory;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilMemberAgreementGUI:
  * @ingroup      ModulesCourse
  */
 class ilMemberAgreementGUI

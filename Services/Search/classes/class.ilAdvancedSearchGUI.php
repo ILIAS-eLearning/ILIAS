@@ -28,9 +28,12 @@
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjectGUI, ilContainerGUI
-* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjectGUI", "ilContainerGUI", "ilObjCategoryGUI", "ilObjCourseGUI", "ilObjFolderGUI", "ilObjGroupGUI",
+ *			"ilObjRootFolderGUI","ilObjectCopyGUI", "ilPropertyFormGUI",
+ *		}
+ * )
 *
 * @package ilias-search
 *

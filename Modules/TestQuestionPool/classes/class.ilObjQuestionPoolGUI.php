@@ -17,17 +17,17 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  *
  * @version		$Id$
  *
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, assFormulaQuestionGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPreviewGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assKprimChoiceGUI, assLongMenuGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolSkillAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssQuestionPageGUI", "ilQuestionBrowserTableGUI", "ilToolbarGUI", "assMultipleChoiceGUI", "assClozeTestGUI",
+ *			"assMatchingQuestionGUI","assOrderingQuestionGUI", "assImagemapQuestionGUI", "assNumericGUI", "assTextSubsetGUI",
+ *			"assSingleChoiceGUI","ilPropertyFormGUI", "assTextQuestionGUI", "ilObjectMetaDataGUI", "ilPermissionGUI",
+ *			"ilObjectCopyGUI","ilQuestionPoolExportGUI", "ilInfoScreenGUI", "ilObjTaxonomyGUI",
+ *			"ilCommonActionDispatcherGUI","ilAssQuestionHintsGUI", "ilAssQuestionFeedbackEditingGUI",
+ *			"ilLocalUnitConfigurationGUI","ilObjQuestionPoolSettingsGeneralGUI", "assFormulaQuestionGUI",
+ *			"ilAssQuestionPreviewGUI","assKprimChoiceGUI", "assLongMenuGUI", "ilQuestionPoolSkillAdministrationGUI",
+ *		}
+ * )
  *
  * @ingroup ModulesTestQuestionPool
  *

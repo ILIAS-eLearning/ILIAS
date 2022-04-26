@@ -19,18 +19,13 @@
  * @author       Björn Heyser <info@bjoernheyser.de>
  * @author       Stefan Schneider <info@eqsoft.de>
  * @package      Module/CmiXapi
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilObjectMetaDataGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilLearningProgressGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiRegistrationGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiLaunchGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiSettingsGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiStatementsGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiScoringGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjectCopyGUI", "ilCommonActionDispatcherGUI", "ilObjectMetaDataGUI", "ilPermissionGUI", "ilInfoScreenGUI",
+ *			"ilLearningProgressGUI","ilCmiXapiRegistrationGUI", "ilCmiXapiLaunchGUI", "ilCmiXapiSettingsGUI",
+ *			"ilCmiXapiStatementsGUI","ilCmiXapiScoringGUI", "ilCmiXapiExportGUI",
+ *		}
+ * )
  */
 class ilObjCmiXapiGUI extends ilObject2GUI
 {

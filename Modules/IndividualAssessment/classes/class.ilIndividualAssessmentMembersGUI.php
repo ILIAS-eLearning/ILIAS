@@ -11,8 +11,11 @@ use ILIAS\UI\Component\ViewControl;
  * outside of tests, SCORM courses e.t.c. the IndividualAssessment is used.
  * It carries a LPStatus, which is set Individually.
  *
- * @ilCtrl_Calls ilIndividualAssessmentMembersGUI: ilRepositorySearchGUI
- * @ilCtrl_Calls ilIndividualAssessmentMembersGUI: ilIndividualAssessmentMemberGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI", "ilIndividualAssessmentMemberGUI",
+ *		}
+ * )
  */
 class ilIndividualAssessmentMembersGUI
 {

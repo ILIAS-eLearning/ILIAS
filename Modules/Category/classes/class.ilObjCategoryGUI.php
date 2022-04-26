@@ -21,11 +21,14 @@ use ILIAS\Category\StandardGUIRequest;
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilObjUserGUI, ilObjUserFolderGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilContainerPageGUI", "ilObjUserGUI", "ilObjUserFolderGUI", "ilInfoScreenGUI",
+ *			"ilObjStyleSheetGUI","ilCommonActionDispatcherGUI", "ilObjectTranslationGUI", "ilObjectContentStyleSettingsGUI",
+ *			"ilColumnGUI","ilObjectCopyGUI", "ilUserTableGUI", "ilDidacticTemplateGUI", "ilExportGUI", "ilObjTaxonomyGUI",
+ *			"ilObjectMetaDataGUI","ilContainerNewsSettingsGUI", "ilContainerFilterAdminGUI", "ilRepositoryTrashGUI",
+ *		}
+ * )
  * @ingroup      ModulesCategory
  */
 class ilObjCategoryGUI extends ilContainerGUI

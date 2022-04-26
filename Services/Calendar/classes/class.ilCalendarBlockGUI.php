@@ -9,9 +9,15 @@ use ILIAS\HTTP\Services as HttpServices;
 /**
  * Calendar blocks, displayed in different contexts, e.g. groups and courses
  * @author            Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_IsCalledBy ilCalendarBlockGUI: ilColumnGUI
- * @ilCtrl_Calls      ilCalendarBlockGUI: ilCalendarAppointmentGUI, ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarDayGUI
- * @ilCtrl_Calls      ilCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		},
+ *		children={
+ *			"ilCalendarAppointmentGUI", "ilCalendarMonthGUI", "ilCalendarWeekGUI", "ilCalendarDayGUI",
+ *			"ilConsultationHoursGUI","ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  * @ingroup           ServicesCalendar
  */
 class ilCalendarBlockGUI extends ilBlockGUI

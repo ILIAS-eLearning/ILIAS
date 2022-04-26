@@ -9,30 +9,19 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
  * Class ilObjLearningSequenceGUI
- * @ilCtrl_isCalledBy ilObjLearningSequenceGUI: ilRepositoryGUI
- * @ilCtrl_isCalledBy ilObjLearningSequenceGUI: ilAdministrationGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilPermissionGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilInfoScreenGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilColumnGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjectCopyGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilExportGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceLPPollingGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilLearningSequenceMembershipGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilLearningProgressGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningModuleGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileBasedLMGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSAHSLearningModuleGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjContentPageGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjExerciseGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjIndividualAssessmentGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjTestGUI
- * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSurveyGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilRepositoryGUI", "ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilCommonActionDispatcherGUI", "ilColumnGUI", "ilObjectCopyGUI",
+ *			"ilExportGUI","ilObjLearningSequenceSettingsGUI", "ilObjLearningSequenceContentGUI",
+ *			"ilObjLearningSequenceLearnerGUI","ilObjLearningSequenceLPPollingGUI", "ilLearningSequenceMembershipGUI",
+ *			"ilLearningProgressGUI","ilObjLearningModuleGUI", "ilObjFileBasedLMGUI", "ilObjSAHSLearningModuleGUI",
+ *			"ilObjContentPageGUI","ilObjExerciseGUI", "ilObjFileGUI", "ilObjIndividualAssessmentGUI",
+ *			"ilIndividualAssessmentSettingsGUI","ilObjTestGUI", "ilObjSurveyGUI",
+ *		}
+ * )
  */
 class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {

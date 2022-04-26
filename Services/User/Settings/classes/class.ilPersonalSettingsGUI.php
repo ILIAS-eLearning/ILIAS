@@ -16,7 +16,11 @@
 /**
  * GUI class for personal profile
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailOptionsGUI",
+ *		}
+ * )
  */
 class ilPersonalSettingsGUI
 {

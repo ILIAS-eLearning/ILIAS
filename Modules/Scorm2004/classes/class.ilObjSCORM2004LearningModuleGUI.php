@@ -22,12 +22,15 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @author Hendrik Holtmann <holtmann@mac.com>
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  *
- * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
- * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI, ilSCORM2004ChapterGUI, ilSCORM2004SeqChapterGUI, ilSCORM2004PageNodeGUI, ilSCORM2004ScoGUI
- * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI, ilSCORM2004AssetGUI
- * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilSCORM2004TrackingItemsPerScoFilterGUI, ilSCORM2004TrackingItemsPerUserFilterGUI, ilSCORM2004TrackingItemsTableGUI
- * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLTIProviderObjectSettingGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFileSystemGUI", "ilObjectMetaDataGUI", "ilPermissionGUI", "ilLearningProgressGUI", "ilInfoScreenGUI",
+ *			"ilSCORM2004ChapterGUI","ilSCORM2004SeqChapterGUI", "ilSCORM2004PageNodeGUI", "ilSCORM2004ScoGUI",
+ *			"ilCertificateGUI","ilObjStyleSheetGUI", "ilNoteGUI", "ilSCORM2004AssetGUI", "ilCommonActionDispatcherGUI",
+ *			"ilSCORM2004TrackingItemsPerScoFilterGUI","ilSCORM2004TrackingItemsPerUserFilterGUI",
+ *			"ilSCORM2004TrackingItemsTableGUI","ilLTIProviderObjectSettingGUI",
+ *		}
+ * )
  */
 class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 {

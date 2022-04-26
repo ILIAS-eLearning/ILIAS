@@ -7,7 +7,11 @@
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @version      $Id:
- * @ilCtrl_Calls ilDclDetailedViewGUI: ilDclDetailedViewDefinitionGUI, ilEditClipboardGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilDclDetailedViewDefinitionGUI", "ilEditClipboardGUI",
+ *		}
+ * )
  */
 class ilDclDetailedViewGUI
 {

@@ -4,8 +4,14 @@
 /**
  * Didactic Template administration gui
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls      ilObjObjectTemplateAdministrationGUI: ilPermissionGUI, ilDidacticTemplateSettingsGUI
- * @ilCtrl_IsCalledBy ilObjObjectTemplateAdministrationGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilDidacticTemplateSettingsGUI",
+ *		}
+ * )
  * @ingroup           ServicesPortfolio
  */
 class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI

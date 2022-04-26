@@ -18,8 +18,12 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilCommonActionDispatcherGUI, ilExportGUI, ilObjectCopyGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFileSystemGUI", "ilObjectMetaDataGUI", "ilPermissionGUI", "ilInfoScreenGUI", "ilLearningProgressGUI",
+ *			"ilCommonActionDispatcherGUI","ilExportGUI", "ilObjectCopyGUI",
+ *		}
+ * )
 *
 * @ingroup ModulesScormAicc
 */

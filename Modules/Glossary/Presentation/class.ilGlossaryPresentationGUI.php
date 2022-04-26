@@ -17,7 +17,11 @@ use ILIAS\Glossary\Presentation;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilPresentationListTableGUI, ilGlossaryDefPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilNoteGUI", "ilInfoScreenGUI", "ilPresentationListTableGUI", "ilGlossaryDefPageGUI",
+ *		}
+ * )
  */
 class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 {

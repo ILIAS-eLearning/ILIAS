@@ -10,16 +10,13 @@
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Oskar Truffer <ot@studer-raimann.ch>
  * @author       Stefan Wanzenried <sw@studer-raimann.ch>
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTreePickInputGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDclRecordEditGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclDetailedViewGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableListGUI, ilObjFileGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilPropertyFormGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilInfoScreenGUI", "ilNoteGUI", "ilCommonActionDispatcherGUI", "ilPermissionGUI", "ilObjectCopyGUI",
+ *			"ilDclExportGUI","ilDclTreePickInputGUI", "ilDclRecordListGUI", "ilDclRecordEditGUI", "ilDclDetailedViewGUI",
+ *			"ilDclTableListGUI","ilObjFileGUI", "ilObjUserGUI", "ilRatingGUI", "ilPropertyFormGUI", "ilDclPropertyFormGUI",
+ *		}
+ * )
  * @extends      ilObject2GUI
  */
 class ilObjDataCollectionGUI extends ilObject2GUI

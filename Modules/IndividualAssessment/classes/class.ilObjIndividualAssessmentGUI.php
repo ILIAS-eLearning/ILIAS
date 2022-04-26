@@ -7,15 +7,13 @@
  * outside of tests, SCORM courses e.t.c. the IndividualAssessment is used.
  * It carries a LPStatus, which is set Individually.
  *
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilIndividualAssessmentSettingsGUI
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilIndividualAssessmentMembersGUI
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilLearningProgressGUI
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilExportGUI
- * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilObjectMetaDataGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilObjectCopyGUI", "ilCommonActionDispatcherGUI",
+ *			"ilIndividualAssessmentSettingsGUI","ilIndividualAssessmentMembersGUI", "ilLearningProgressGUI", "ilExportGUI",
+ *			"ilObjectMetaDataGUI",
+ *		}
+ * )
  */
 class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {

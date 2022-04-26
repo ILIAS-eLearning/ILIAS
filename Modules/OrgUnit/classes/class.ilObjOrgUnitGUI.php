@@ -8,20 +8,18 @@ use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
  * @author            : Oskar Truffer <ot@studer-raimann.ch>
  * @author            : Martin Studer <ms@studer-raimann.ch>
  * @author            : Stefan Wanzenried <sw@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjUserGUI, ilObjUserFolderGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilDidacticTemplateGUI, illearningprogressgui
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilTranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitStaffGUI, ilExtIdGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitUserAssignmentGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI", "ilObjPluginDispatchGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilPageObjectGUI", "ilObjUserGUI", "ilObjUserFolderGUI", "ilInfoScreenGUI",
+ *			"ilObjStyleSheetGUI","ilCommonActionDispatcherGUI", "ilColumnGUI", "ilObjectCopyGUI", "ilUserTableGUI",
+ *			"ilDidacticTemplateGUI","illearningprogressgui", "ilTranslationGUI", "ilLocalUserGUI", "ilOrgUnitExportGUI",
+ *			"ilOrgUnitStaffGUI","ilExtIdGUI", "ilOrgUnitSimpleImportGUI", "ilOrgUnitSimpleUserImportGUI", "ilOrgUnitTypeGUI",
+ *			"ilOrgUnitPositionGUI","ilOrgUnitUserAssignmentGUI", "ilOrgUnitTypeGUI", "ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilObjOrgUnitGUI extends ilContainerGUI
 {

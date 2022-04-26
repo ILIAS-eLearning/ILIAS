@@ -22,9 +22,12 @@
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
- * @ilCtrl_Calls ilSessionMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI, ilRepositorySearchGUI
- * @ilCtrl_Calls ilSessionMembershipGUI: ilSessionOverviewGUI
- * @ilCtrl_Calls ilSessionMembershipGUI: ilMemberExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailMemberSearchGUI", "ilUsersGalleryGUI", "ilRepositorySearchGUI", "ilSessionOverviewGUI",
+ *			"ilMemberExportGUI",
+ *		}
+ * )
  *
  */
 class ilSessionMembershipGUI extends ilMembershipGUI

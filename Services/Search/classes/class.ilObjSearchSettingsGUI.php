@@ -9,7 +9,11 @@ use ILIAS\Refinery\Factory;
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @ilCtrl_Calls ilObjSearchSettingsGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
 *
 * @extends ilObjectGUI
 * @package ilias-core

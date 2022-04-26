@@ -19,8 +19,12 @@ use ILIAS\PersonalWorkspace\StandardGUIRequest;
  * ACL access handler GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
- * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI, ilSingleUserShareGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailSearchCoursesGUI", "ilMailSearchGroupsGUI", "ilMailSearchGUI", "ilPublicUserProfileGUI",
+ *			"ilSingleUserShareGUI",
+ *		}
+ * )
  */
 class ilWorkspaceAccessGUI
 {

@@ -22,9 +22,12 @@ use ILIAS\UI\Component\Component;
 /**
  * Class ilObjLinkResourceGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilObjLinkResourceGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI, ilWorkspaceAccessGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjLinkResourceGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjectMetaDataGUI", "ilPermissionGUI", "ilInfoScreenGUI", "ilObjectCopyGUI", "ilExportGUI",
+ *			"ilWorkspaceAccessGUI","ilCommonActionDispatcherGUI", "ilPropertyFormGUI", "ilInternalLinkGUI",
+ *		}
+ * )
  * @ingroup      ModulesWebResource
  */
 class ilObjLinkResourceGUI extends ilObject2GUI

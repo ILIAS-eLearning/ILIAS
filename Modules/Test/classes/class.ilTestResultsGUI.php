@@ -10,12 +10,12 @@
  *
  * @package    Modules/Test
  *
- * @ilCtrl_Calls ilTestResultsGUI: ilParticipantsTestResultsGUI
- * @ilCtrl_Calls ilTestResultsGUI: ilMyTestResultsGUI
- * @ilCtrl_Calls ilTestResultsGUI: ilTestEvalObjectiveOrientedGUI
- * @ilCtrl_Calls ilTestResultsGUI: ilMyTestSolutionsGUI
- * @ilCtrl_Calls ilTestResultsGUI: ilTestToplistGUI
- * @ilCtrl_Calls ilTestResultsGUI: ilTestSkillEvaluationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilParticipantsTestResultsGUI", "ilMyTestResultsGUI", "ilTestEvalObjectiveOrientedGUI", "ilMyTestSolutionsGUI",
+ *			"ilTestToplistGUI","ilTestSkillEvaluationGUI",
+ *		}
+ * )
  */
 class ilTestResultsGUI
 {

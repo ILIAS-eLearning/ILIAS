@@ -19,8 +19,14 @@ use ILIAS\News\StandardGUIRequest;
  * BlockGUI class for block NewsForContext
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_IsCalledBy ilNewsForContextBlockGUI: ilColumnGUI
- * @ilCtrl_Calls ilNewsForContextBlockGUI: ilNewsItemGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		},
+ *		children={
+ *			"ilNewsItemGUI",
+ *		}
+ * )
  */
 class ilNewsForContextBlockGUI extends ilBlockGUI
 {

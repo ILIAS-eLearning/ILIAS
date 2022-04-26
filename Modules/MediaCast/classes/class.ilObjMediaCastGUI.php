@@ -21,10 +21,15 @@ use ILIAS\FileUpload\MimeType;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
- * @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI, ilMediaCreationGUI
- * @ilCtrl_Calls ilObjMediaCastGUI: ilLearningProgressGUI, ilObjectCopyGUI, McstImageGalleryGUI, McstPodcastGUI
- * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilRepositoryGUI", "ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilInfoScreenGUI", "ilExportGUI", "ilCommonActionDispatcherGUI", "ilMediaCreationGUI",
+ *			"ilLearningProgressGUI","ilObjectCopyGUI", "McstImageGalleryGUI", "McstPodcastGUI",
+ *		}
+ * )
  */
 class ilObjMediaCastGUI extends ilObjectGUI
 {

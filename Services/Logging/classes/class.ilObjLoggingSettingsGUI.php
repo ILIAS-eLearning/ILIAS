@@ -11,7 +11,11 @@ use ILIAS\HTTP\Services as Services;
 * @version $Id$
 *
 *
-* @ilCtrl_Calls ilObjLoggingSettingsGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
 */
 class ilObjLoggingSettingsGUI extends ilObjectGUI
 {

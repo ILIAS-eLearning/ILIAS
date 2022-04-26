@@ -11,7 +11,11 @@ use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilAdvancedMDSettingsGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  * @ingroup      ServicesAdvancedMetaData
  */
 class ilAdvancedMDSettingsGUI

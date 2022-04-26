@@ -21,8 +21,14 @@ use ILIAS\MediaCast\StandardGUIRequest;
 /**
  * Media Cast Settings.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjMediaCastSettingsGUI: ilPermissionGUI
- * @ilCtrl_IsCalledBy ilObjMediaCastSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjMediaCastSettingsGUI extends ilObjectGUI
 {

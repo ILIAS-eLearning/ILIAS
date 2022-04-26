@@ -21,7 +21,11 @@ use ILIAS\Style\Content\InternalGUIService;
 /**
  * Style settings of a repository object
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjectContentStyleSettingsGUI: ilObjStyleSheetGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjStyleSheetGUI",
+ *		}
+ * )
  */
 class ilObjectContentStyleSettingsGUI
 {

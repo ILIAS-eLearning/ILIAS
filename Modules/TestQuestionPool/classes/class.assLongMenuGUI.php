@@ -10,7 +10,11 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @package     Modules/TestQuestionPool
  *
- * @ilCtrl_Calls assLongMenuGUI: ilPropertyFormGUI, ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI", "ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {

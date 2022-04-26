@@ -8,7 +8,11 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
 *
-* @ilCtrl_Calls ilObjectMetaDataGUI: ilMDEditorGUI, ilAdvancedMDSettingsGUI, ilPropertyFormGUI, ilTaxMDGUI, ilObjTaxonomyGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMDEditorGUI", "ilAdvancedMDSettingsGUI", "ilPropertyFormGUI", "ilTaxMDGUI", "ilObjTaxonomyGUI",
+ *		}
+ * )
 */
 class ilObjectMetaDataGUI
 {

@@ -5,8 +5,11 @@
 /**
  * Presentation day view
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentGUI
- * @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentPresentationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCalendarAppointmentGUI", "ilCalendarAppointmentPresentationGUI",
+ *		}
+ * )
  * @ingroup      ServicesCalendar
  */
 class ilCalendarDayGUI extends ilCalendarViewGUI

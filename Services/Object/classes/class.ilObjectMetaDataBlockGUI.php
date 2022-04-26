@@ -6,7 +6,11 @@
  * Metadata block
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_IsCalledBy ilObjectMetaDataBlockGUI: ilColumnGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		}
+ * )
  */
 class ilObjectMetaDataBlockGUI extends ilBlockGUI
 {

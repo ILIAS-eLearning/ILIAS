@@ -21,7 +21,6 @@
  * Class ilBookingScheduleGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilBookingScheduleGUI:
  */
 class ilBookingScheduleGUI
 {

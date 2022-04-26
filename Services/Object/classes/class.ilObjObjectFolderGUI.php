@@ -6,7 +6,11 @@
  * Class ilObjObjectFolderGUI
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilObjObjectFolderGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjObjectFolderGUI extends ilObjectGUI
 {

@@ -16,8 +16,14 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScori
  *
  * @ingroup ModulesTestQuestionPool
  *
- * @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
- * @ilCtrl_Calls assFileUploadGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjQuestionPoolGUI",
+ *		},
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {

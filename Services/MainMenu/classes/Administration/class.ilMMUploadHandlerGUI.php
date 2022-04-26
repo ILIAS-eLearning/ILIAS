@@ -13,7 +13,11 @@ use ILIAS\ResourceStorage\Services;
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy ilMMUploadHandlerGUI: ilObjMainMenuGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjMainMenuGUI",
+ *		}
+ * )
  */
 class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {

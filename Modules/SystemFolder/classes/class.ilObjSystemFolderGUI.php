@@ -13,8 +13,11 @@ use ILIAS\Setup\CLI\StatusCommand;
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI, ilImprintGUI
- * @ilCtrl_Calls ilObjSystemFolderGUI: ilObjectOwnershipManagementGUI, ilCronManagerGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilImprintGUI", "ilObjectOwnershipManagementGUI", "ilCronManagerGUI",
+ *		}
+ * )
  */
 class ilObjSystemFolderGUI extends ilObjectGUI
 {

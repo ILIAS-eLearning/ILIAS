@@ -4,7 +4,11 @@
  * Class ilDclTableViewGUI
  * @author       Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup      ModulesDataCollection
- * @ilCtrl_Calls ilDclTableViewGUI: ilDclTableViewEditGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilDclTableViewEditGUI",
+ *		}
+ * )
  */
 class ilDclTableViewGUI
 {

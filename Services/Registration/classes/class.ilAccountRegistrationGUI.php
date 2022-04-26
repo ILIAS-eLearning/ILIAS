@@ -15,7 +15,6 @@
 /**
  * Class ilAccountRegistrationGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilAccountRegistrationGUI:
  */
 class ilAccountRegistrationGUI
 {

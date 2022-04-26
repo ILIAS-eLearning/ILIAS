@@ -16,7 +16,11 @@
 /**
  * Handles user interface for wikis
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilWikiHandlerGUI: ilObjWikiGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjWikiGUI",
+ *		}
+ * )
  */
 class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 {

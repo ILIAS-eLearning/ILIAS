@@ -9,7 +9,11 @@ use ILIAS\UI\Component\Item\Item;
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_IsCalledBy ilPDTasksBlockGUI: ilColumnGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		}
+ * )
  */
 class ilPDTasksBlockGUI extends ilBlockGUI
 {

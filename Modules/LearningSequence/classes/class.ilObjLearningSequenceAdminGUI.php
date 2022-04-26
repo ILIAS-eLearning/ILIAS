@@ -7,7 +7,11 @@ use ILIAS\UI\Renderer;
 /**
  * LearningSequence Administration Settings
  *
- * @ilCtrl_Calls ilObjLearningSequenceAdminGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjLearningSequenceAdminGUI extends ilObjectGUI
 {

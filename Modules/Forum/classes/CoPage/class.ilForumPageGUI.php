@@ -16,9 +16,12 @@
  *
  *********************************************************************/
 /**
- * @ilCtrl_Calls ilForumPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilForumPageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilForumPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMDEditorGUI", "ilPublicUserProfileGUI", "ilNoteGUI",
+ *			"ilPropertyFormGUI","ilInternalLinkGUI", "ilPageMultiLangGUI",
+ *		}
+ * )
  */
 class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
 {

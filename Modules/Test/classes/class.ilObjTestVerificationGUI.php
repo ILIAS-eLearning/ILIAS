@@ -7,7 +7,11 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Calls ilObjTestVerificationGUI: ilWorkspaceAccessGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilWorkspaceAccessGUI",
+ *		}
+ * )
  *
  * @ingroup ModulesTest
  */

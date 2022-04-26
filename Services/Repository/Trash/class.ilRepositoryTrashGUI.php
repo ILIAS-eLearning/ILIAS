@@ -19,7 +19,11 @@ use ILIAS\Repository\Trash\TrashGUIRequest;
  * Repository GUI Utilities
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilRepositoryTrashGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilRepositoryTrashGUI
 {

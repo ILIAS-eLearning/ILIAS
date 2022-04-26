@@ -20,7 +20,12 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id: class.ilSAHSPresentationGUI.php 11714 2006-07-30 17:15:55Z akill $
 *
-* @ilCtrl_Calls ilSAHSEditGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilObjSCORMLearningModuleGUI, ilInfoScreenGUI, ilObjSCORM2004LearningModuleGUI, ilExportGUI, ilObjSAHSLearningModuleGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFileSystemGUI", "ilObjectMetaDataGUI", "ilObjSCORMLearningModuleGUI", "ilInfoScreenGUI",
+ *			"ilObjSCORM2004LearningModuleGUI","ilExportGUI", "ilObjSAHSLearningModuleGUI", "ilLTIProviderObjectSettingGUI",
+ *		}
+ * )
 *
 * @ingroup ModulesScormAicc
 */

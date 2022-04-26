@@ -19,7 +19,11 @@ use ILIAS\UI\Component\Input\Container\Form;
  * User Interface for Learning Module Page Objects Editing
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilLMPageObjectGUI: ilLMPageGUI, ilAssGenFeedbackPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLMPageGUI", "ilAssGenFeedbackPageGUI",
+ *		}
+ * )
  */
 class ilLMPageObjectGUI extends ilLMObjectGUI
 {

@@ -25,7 +25,11 @@ use ILIAS\UI\Component\Component;
 use ILIAS\HTTP\GlobalHttpState;
 
 /**
- * @ilCtrl_Calls ilObjContentPageAdministrationGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjContentPageAdministrationGUI extends ilObjectGUI
 {

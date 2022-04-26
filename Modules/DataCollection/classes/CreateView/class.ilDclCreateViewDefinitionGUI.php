@@ -4,8 +4,12 @@
 /**
  * Class ilDclCreateViewDefinitionGUI
  * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMediaPoolTargetSelector", "ilPublicUserProfileGUI",
+ *			"ilPageObjectGUI",
+ *		}
+ * )
  */
 class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
 {

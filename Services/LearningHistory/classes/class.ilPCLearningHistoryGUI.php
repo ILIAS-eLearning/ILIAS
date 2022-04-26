@@ -16,7 +16,11 @@
 /**
  * GUI class for learning history page content
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_isCalledBy ilPCLearningHistoryGUI: ilPageEditorGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilPageEditorGUI",
+ *		}
+ * )
  */
 class ilPCLearningHistoryGUI extends ilPageContentGUI
 {

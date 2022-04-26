@@ -7,7 +7,11 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       dkloepfer
  * @author       Martin Studer <ms@studer-raimann.ch>
- * @ilCtrl_Calls ilOrgUnitUserAssignmentGUI: ilRepositorySearchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI",
+ *		}
+ * )
  */
 class ilOrgUnitUserAssignmentGUI extends BaseCommands
 {

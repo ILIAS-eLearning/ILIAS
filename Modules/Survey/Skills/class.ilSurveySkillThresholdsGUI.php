@@ -16,7 +16,6 @@
 /**
  * Survey skill thresholds GUI class
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilSurveySkillThresholdsGUI:
  */
 class ilSurveySkillThresholdsGUI
 {

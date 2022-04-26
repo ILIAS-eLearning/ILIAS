@@ -22,7 +22,6 @@ use ILIAS\Refinery\Factory;
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @version      $Id$
- * @ilCtrl_Calls ilObjectCustomUserFieldsGUI
  * @ingroup      ServicesMembership
  */
 class ilObjectCustomUserFieldsGUI

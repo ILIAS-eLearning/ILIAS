@@ -26,13 +26,15 @@ use ILIAS\DI\Container;
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilInfoScreenGUI, ilNoteGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilObjUserGUI, ilBiblEntryPresentationGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblEntryTableGUI
- * @ilCtrl_Calls      ilObjBibliographicGUI: ilBiblFieldFilterGUI
- * @ilCtrl_isCalledBy ilObjBibliographicGUI: ilRepositoryGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilRepositoryGUI",
+ *		},
+ *		children={
+ *			"ilInfoScreenGUI", "ilNoteGUI", "ilCommonActionDispatcherGUI", "ilPermissionGUI", "ilObjectCopyGUI",
+ *			"ilExportGUI","ilObjUserGUI", "ilBiblEntryPresentationGUI", "ilBiblEntryTableGUI", "ilBiblFieldFilterGUI",
+ *		}
+ * )
  */
 class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling
 {

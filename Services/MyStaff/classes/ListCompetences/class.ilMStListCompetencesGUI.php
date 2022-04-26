@@ -6,9 +6,14 @@ use ILIAS\DI\Container;
 /**
  * Class ilMStListCompetencesGUI
  * @author            Martin Studer <ms@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilMStListCompetencesGUI: ilMyStaffGUI
- * @ilCtrl_Calls      ilMStListCompetencesGUI: ilMStListCompetencesSkillsGUI
- * @ilCtrl_Calls      ilMStListCompetencesGUI: ilMStListCompetencesProfilesGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilMyStaffGUI",
+ *		},
+ *		children={
+ *			"ilMStListCompetencesSkillsGUI", "ilMStListCompetencesProfilesGUI",
+ *		}
+ * )
  */
 class ilMStListCompetencesGUI
 {

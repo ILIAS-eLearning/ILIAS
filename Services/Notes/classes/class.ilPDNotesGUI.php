@@ -16,7 +16,11 @@
 /**
  * Private Notes on PD
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilNoteGUI",
+ *		}
+ * )
  */
 class ilPDNotesGUI
 {

@@ -25,10 +25,13 @@ use ILIAS\MediaPool\StandardGUIRequest;
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI, ilMediaPoolImportGUI
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjMediaObjectGUI", "ilObjFolderGUI", "ilEditClipboardGUI", "ilPermissionGUI", "ilInfoScreenGUI",
+ *			"ilMediaPoolPageGUI","ilExportGUI", "ilFileSystemGUI", "ilCommonActionDispatcherGUI", "ilObjectCopyGUI",
+ *			"ilObjectTranslationGUI","ilMediaPoolImportGUI", "ilMobMultiSrtUploadGUI", "ilObjectMetaDataGUI",
+ *		}
+ * )
  */
 class ilObjMediaPoolGUI extends ilObject2GUI
 {

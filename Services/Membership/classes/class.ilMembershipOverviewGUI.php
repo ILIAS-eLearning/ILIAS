@@ -19,7 +19,11 @@
  
 /**
  * Membership overview
- * @ilCtrl_Calls ilMembershipOverviewGUI: ilPDMembershipBlockGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPDMembershipBlockGUI",
+ *		}
+ * )
  * @author       killing@leifos.de
  */
 class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface

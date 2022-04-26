@@ -18,7 +18,11 @@ use ILIAS\Style\Content\StandardGUIRequest;
 /**
  * Settings UI class for system styles
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilContentStyleSettingsGUI: ilObjStyleSheetGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjStyleSheetGUI",
+ *		}
+ * )
  */
 class ilContentStyleSettingsGUI
 {

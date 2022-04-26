@@ -16,7 +16,6 @@
 /**
 * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * @version $Id$
-* @ilCtrl_Calls ilSCORM13PlayerGUI:
 */
 class ilSCORM13PlayerGUI
 {

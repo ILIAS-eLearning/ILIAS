@@ -15,7 +15,11 @@
 
 /**
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjSurveyAdministrationGUI extends ilObjectGUI
 {

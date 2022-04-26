@@ -10,9 +10,11 @@
  *
  * @package    Modules/Test
  *
- * @ilCtrl_Calls ilTestParticipantsGUI: ilTestParticipantsTableGUI
- * @ilCtrl_Calls ilTestParticipantsGUI: ilRepositorySearchGUI
- * @ilCtrl_Calls ilTestParticipantsGUI: ilTestEvaluationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTestParticipantsTableGUI", "ilRepositorySearchGUI", "ilTestEvaluationGUI",
+ *		}
+ * )
  */
 class ilTestParticipantsGUI
 {

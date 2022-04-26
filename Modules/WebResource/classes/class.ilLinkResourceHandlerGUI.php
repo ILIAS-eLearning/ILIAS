@@ -23,7 +23,11 @@ use ILIAS\Refinery\Factory as Refinery;
  * Handles user interface for link resources.
  * @author       Alex Killing <alex.killing@gmx.de>
  * @version      $Id$
- * @ilCtrl_Calls ilLinkResourceHandlerGUI: ilObjLinkResourceGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjLinkResourceGUI",
+ *		}
+ * )
  * @ingroup      ModulesWebResource
  */
 class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface

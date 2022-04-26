@@ -8,7 +8,11 @@
  * @author    Stefan Meyer <meyer@leifos.com>
  * @version   $Id$
  *
- * @ilCtrl_Calls ilObjLanguageFolderGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  *
  * @extends ilObject
  */

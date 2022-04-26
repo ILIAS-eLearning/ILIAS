@@ -18,8 +18,14 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilObjPersonalWorkspaceSettingsGUI: ilPermissionGUI
- * @ilCtrl_isCalledBy ilObjPersonalWorkspaceSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
 {

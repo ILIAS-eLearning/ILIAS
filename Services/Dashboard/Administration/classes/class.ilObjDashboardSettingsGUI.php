@@ -17,8 +17,14 @@
  * Dashboard settings
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjDashboardSettingsGUI: ilPermissionGUI
- * @ilCtrl_isCalledBy ilObjDashboardSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
 {

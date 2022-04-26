@@ -19,10 +19,12 @@
 /**
  * Member-tab content
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilCourseMembershipGUI: ilMailMemberSearchGUI, ilUsersGalleryGUI, ilRepositorySearchGUI
- * @ilCtrl_Calls ilCourseMembershipGUI: ilCourseParticipantsGroupsGUI, ilObjectCustomuserFieldsGUI
- * @ilCtrl_Calls ilCourseMembershipGUI: ilSessionOverviewGUI
- * @ilCtrl_Calls ilCourseMembershipGUI: ilMemberExportGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailMemberSearchGUI", "ilUsersGalleryGUI", "ilRepositorySearchGUI", "ilCourseParticipantsGroupsGUI",
+ *			"ilObjectCustomuserFieldsGUI","ilSessionOverviewGUI", "ilMemberExportGUI",
+ *		}
+ * )
  */
 class ilCourseMembershipGUI extends ilMembershipGUI
 {

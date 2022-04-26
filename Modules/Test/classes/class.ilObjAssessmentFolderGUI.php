@@ -12,7 +12,11 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
 * @author Helmut Schottmüller <hschottm@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilSettingsTemplateGUI, ilGlobalUnitConfigurationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilSettingsTemplateGUI", "ilGlobalUnitConfigurationGUI",
+ *		}
+ * )
 *
 * @extends ilObjectGUI
 */

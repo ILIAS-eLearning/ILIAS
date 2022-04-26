@@ -23,8 +23,14 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
  *
- * @ilCtrl_IsCalledBy ilObjNotificationAdminGUI: ilAdministrationGUI
- * @ilCtrl_Calls      ilObjNotificationAdminGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjNotificationAdminGUI extends ilObjectGUI
 {

@@ -19,33 +19,25 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  *
  * @version		$Id$
  *
- * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestExpresspageObjectGUI, ilAssQuestionPageGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestDashboardGUI, ilTestResultsGUI
- * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI
- * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
- * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
- * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
- * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI, ilTestScoringByQuestionsGUI
- * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
- * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
- * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
- * @ilCtrl_Calls ilObjTestGUI: ilObjTestSettingsGeneralGUI, ilObjTestSettingsScoringResultsGUI
- * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestFixedQuestionSetConfigGUI, ilTestRandomQuestionSetConfigGUI, ilObjTestDynamicQuestionSetConfigGUI
- * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestCorrectionsGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
- * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjCourseGUI", "ilObjectMetaDataGUI", "ilCertificateGUI", "ilPermissionGUI",
+ *			"ilTestPlayerFixedQuestionSetGUI","ilTestPlayerRandomQuestionSetGUI", "ilTestPlayerDynamicQuestionSetGUI",
+ *			"ilTestExpresspageObjectGUI","ilAssQuestionPageGUI", "ilTestDashboardGUI", "ilTestResultsGUI",
+ *			"ilLearningProgressGUI","ilMarkSchemaGUI", "ilTestEvaluationGUI", "ilAssGenFeedbackPageGUI",
+ *			"ilAssSpecFeedbackPageGUI","ilInfoScreenGUI", "ilObjectCopyGUI", "ilTestScoringGUI", "ilRepositorySearchGUI",
+ *			"ilTestExportGUI","assMultipleChoiceGUI", "assClozeTestGUI", "assMatchingQuestionGUI", "assOrderingQuestionGUI",
+ *			"assImagemapQuestionGUI","assNumericGUI", "assErrorTextGUI", "ilTestScoringByQuestionsGUI", "assTextSubsetGUI",
+ *			"assOrderingHorizontalGUI","assSingleChoiceGUI", "assFileUploadGUI", "assTextQuestionGUI", "assKprimChoiceGUI",
+ *			"assLongMenuGUI","ilObjQuestionPoolGUI", "ilEditClipboardGUI", "ilObjTestSettingsGeneralGUI",
+ *			"ilObjTestSettingsScoringResultsGUI","ilCommonActionDispatcherGUI", "ilTestFixedQuestionSetConfigGUI",
+ *			"ilTestRandomQuestionSetConfigGUI","ilObjTestDynamicQuestionSetConfigGUI", "ilAssQuestionHintsGUI",
+ *			"ilAssQuestionFeedbackEditingGUI","ilLocalUnitConfigurationGUI", "assFormulaQuestionGUI",
+ *			"ilTestPassDetailsOverviewTableGUI","ilTestResultsToolbarGUI", "ilTestCorrectionsGUI",
+ *			"ilTestSettingsChangeConfirmationGUI","ilTestSkillAdministrationGUI", "ilAssQuestionPreviewGUI",
+ *			"ilTestQuestionBrowserTableGUI","ilTestInfoScreenToolbarGUI", "ilLTIProviderObjectSettingGUI",
+ *		}
+ * )
  *
  * @ingroup ModulesTest
  */

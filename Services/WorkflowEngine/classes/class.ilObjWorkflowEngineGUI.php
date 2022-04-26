@@ -18,8 +18,14 @@ require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
  *
  * @ingroup Services/WorkflowEngine
  *
- * @ilCtrl_IsCalledBy ilObjWorkflowEngineGUI: ilAdministrationGUI
- * @ilCtrl_Calls ilObjWorkflowEngineGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjWorkflowEngineGUI extends ilObjectGUI
 {

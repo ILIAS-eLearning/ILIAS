@@ -20,7 +20,6 @@
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @version      $Id$
  * @ingroup      ModulesCourse
- * @ilCtrl_Calls ilCourseRegistrationGUI:
  */
 class ilCourseRegistrationGUI extends ilRegistrationGUI
 {

@@ -19,7 +19,11 @@
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
- * @ilCtrl_Calls ilForumSettingsGUI: ilObjectContentStyleSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjectContentStyleSettingsGUI",
+ *		}
+ * )
  */
 class ilForumSettingsGUI implements ilForumObjectConstants
 {

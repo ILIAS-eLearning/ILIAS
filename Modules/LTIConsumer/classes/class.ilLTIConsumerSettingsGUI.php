@@ -21,8 +21,11 @@
  *
  * @package     Modules/LTIConsumer
  *
- * @ilCtrl_Calls ilLTIConsumerSettingsGUI: ilLTIConsumeProviderSettingsGUI
- * @ilCtrl_Calls ilLTIConsumerSettingsGUI: ilCertificateGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLTIConsumeProviderSettingsGUI", "ilCertificateGUI",
+ *		}
+ * )
  */
 class ilLTIConsumerSettingsGUI
 {

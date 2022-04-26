@@ -32,7 +32,11 @@ use Psr\Http\Message\RequestInterface;
  * Skill tree administration
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls SkillTreeAdminGUI: ilObjSkillTreeGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjSkillTreeGUI",
+ *		}
+ * )
  */
 class SkillTreeAdminGUI
 {

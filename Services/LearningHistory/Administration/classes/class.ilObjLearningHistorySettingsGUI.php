@@ -16,8 +16,14 @@
 /**
  * Learning History Settings.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjLearningHistorySettingsGUI: ilPermissionGUI
- * @ilCtrl_isCalledBy ilObjLearningHistorySettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjLearningHistorySettingsGUI extends ilObjectGUI
 {

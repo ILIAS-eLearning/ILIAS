@@ -23,9 +23,12 @@ use ILIAS\COPage\Page\EditGUIRequest;
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
- * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
- * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI, ilLearningHistoryGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilObjectMetaDataGUI", "ilPublicUserProfileGUI", "ilNoteGUI",
+ *			"ilNewsItemGUI","ilPropertyFormGUI", "ilInternalLinkGUI", "ilPageMultiLangGUI", "ilLearningHistoryGUI",
+ *		}
+ * )
  */
 class ilPageObjectGUI
 {

@@ -22,7 +22,6 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilExSubmissionTextGUI:
  */
 class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 {

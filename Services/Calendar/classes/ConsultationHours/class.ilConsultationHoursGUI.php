@@ -27,7 +27,6 @@ use ILIAS\HTTP\Services as HttpServices;
 /**
  * Consultation hours editor
  * @author      Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls: ilConsultationHoursGUI ilPublicUserProfileGUI, ilRepositorySearchGUI
  */
 class ilConsultationHoursGUI
 {

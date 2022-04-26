@@ -16,7 +16,11 @@
 /**
  * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPCMediaObjectGUI: ilObjMediaObjectGUI, ilPCImageMapEditorGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjMediaObjectGUI", "ilPCImageMapEditorGUI",
+ *		}
+ * )
  */
 class ilPCMediaObjectGUI extends ilPageContentGUI
 {

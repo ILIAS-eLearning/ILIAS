@@ -21,7 +21,11 @@
  * Class ilObjExternalToolsSettingsGUI
  *
  * @author Sascha Hofmann <saschahofmann@gmx.de>
- * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI, ilMathJaxSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilMathJaxSettingsGUI",
+ *		}
+ * )
  */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {

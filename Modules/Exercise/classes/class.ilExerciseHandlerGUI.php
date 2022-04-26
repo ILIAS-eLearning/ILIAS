@@ -19,7 +19,11 @@
 /**
  * Handles user interface for exercises
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilExerciseHandlerGUI: ilObjExerciseGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjExerciseGUI",
+ *		}
+ * )
  */
 class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
 {

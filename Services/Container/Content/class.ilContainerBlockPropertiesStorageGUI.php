@@ -21,7 +21,11 @@ use ILIAS\Container\Content\BlockSessionRepository;
  * Mainly used for item group expand/collapse
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilContainerBlockPropertiesStorageGUI: ilContainerBlockPropertiesStorageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilContainerBlockPropertiesStorageGUI",
+ *		}
+ * )
  */
 class ilContainerBlockPropertiesStorageGUI
 {

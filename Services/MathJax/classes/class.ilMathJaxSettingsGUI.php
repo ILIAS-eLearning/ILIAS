@@ -17,7 +17,6 @@
  * GUI for MathJax Settings
  * This GUI maintains the MathJax config stored in the ILIAS settings
  * Since ILIAS 8 these settings can also be written by the ILIAS setup
- * @ilCtrl_Calls ilMathJaxSettingsGUI:
  */
 class ilMathJaxSettingsGUI
 {

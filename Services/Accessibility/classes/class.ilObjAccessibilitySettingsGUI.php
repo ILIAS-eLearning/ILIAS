@@ -16,8 +16,14 @@
 /**
  * Accessibility Settings.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjAccessibilitySettingsGUI: ilPermissionGUI, ilAccessibilityDocumentGUI
- * @ilCtrl_IsCalledBy ilObjAccessibilitySettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI", "ilAccessibilityDocumentGUI",
+ *		}
+ * )
  */
 class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 {

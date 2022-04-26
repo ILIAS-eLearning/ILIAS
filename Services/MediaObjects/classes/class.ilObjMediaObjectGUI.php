@@ -19,7 +19,11 @@ use ILIAS\MediaObjects\SubTitles\SubtitlesGUIRequest;
  * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjMediaObjectGUI: ilObjectMetaDataGUI, ilImageMapEditorGUI, ilFileSystemGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjectMetaDataGUI", "ilImageMapEditorGUI", "ilFileSystemGUI",
+ *		}
+ * )
  */
 class ilObjMediaObjectGUI extends ilObjectGUI
 {

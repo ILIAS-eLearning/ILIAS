@@ -23,7 +23,11 @@
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls ilObjCalendarSettingsGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  * @ingroup      ServicesCalendar
  */
 class ilObjCalendarSettingsGUI extends ilObjectGUI

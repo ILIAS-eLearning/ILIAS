@@ -16,7 +16,11 @@
 /**
  * GUI class for scorm verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjSCORMVerificationGUI: ilWorkspaceAccessGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilWorkspaceAccessGUI",
+ *		}
+ * )
  */
 class ilObjSCORMVerificationGUI extends ilObject2GUI
 {

@@ -17,14 +17,13 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssGenFeedbackPageGUI
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssSpecFeedbackPageGUI
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionHintRequestGUI
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionPageGUI
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestDynamicQuestionSetStatisticTableGUI
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilToolbarGUI
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestSubmissionReviewGUI
- * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestPasswordProtectionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssGenFeedbackPageGUI", "ilAssSpecFeedbackPageGUI", "ilAssQuestionHintRequestGUI", "ilAssQuestionPageGUI",
+ *			"ilTestDynamicQuestionSetStatisticTableGUI","ilToolbarGUI", "ilTestSubmissionReviewGUI",
+ *			"ilTestPasswordProtectionGUI",
+ *		}
+ * )
  */
 class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 {

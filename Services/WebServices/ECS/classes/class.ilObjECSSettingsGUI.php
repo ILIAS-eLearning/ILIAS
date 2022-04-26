@@ -18,7 +18,11 @@
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @ilCtrl_Calls ilObjECSSettingsGUI: ilPermissionGUI, ilECSSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilECSSettingsGUI",
+ *		}
+ * )
 */
 class ilObjECSSettingsGUI extends ilObjectGUI
 {

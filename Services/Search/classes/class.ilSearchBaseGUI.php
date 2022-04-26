@@ -16,7 +16,11 @@ use ILIAS\Refinery\Factory;
 *
 * @package ilias-search
 *
-* @ilCtrl_IsCalledBy ilSearchBaseGUI: ilSearchControllerGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilSearchControllerGUI",
+ *		}
+ * )
 *
 *
 */

@@ -19,8 +19,14 @@ use ILIAS\Help\StandardGUIRequest;
  * Help settings gui class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilObjHelpSettingsGUI: ilPermissionGUI
- * @ilCtrl_isCalledBy ilObjHelpSettingsGUI: ilAdministrationGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilAdministrationGUI",
+ *		},
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjHelpSettingsGUI extends ilObject2GUI
 {

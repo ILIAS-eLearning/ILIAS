@@ -19,7 +19,11 @@ use ILIAS\UI\Component\Input\Container\Form;
  * User Interface for Structure Objects Editing
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerGUI, ilObjectMetaDataGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilConditionHandlerGUI", "ilObjectMetaDataGUI",
+ *		}
+ * )
  */
 class ilStructureObjectGUI extends ilLMObjectGUI
 {

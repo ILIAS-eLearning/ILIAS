@@ -18,7 +18,11 @@ use ILIAS\MediaCast\StandardGUIRequest;
 /**
  * Handles user interface for media casts
  * auth
- * @ilCtrl_Calls ilMediaCastHandlerGUI: ilObjMediaCastGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjMediaCastGUI",
+ *		}
+ * )
  */
 class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
 {

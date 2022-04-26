@@ -22,7 +22,11 @@
  *
  * @package     Module/CmiXapi
  *
- * @ilCtrl_Calls ilCmiXapiSettingsGUI: ilCertificateGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilCertificateGUI",
+ *		}
+ * )
  */
 class ilCmiXapiSettingsGUI
 {

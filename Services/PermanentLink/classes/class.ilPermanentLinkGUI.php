@@ -19,7 +19,11 @@
 /**
  * Class for permanent links
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilNoteGUI", "ilColumnGUI", "ilPublicUserProfileGUI",
+ *		}
+ * )
  */
 class ilPermanentLinkGUI
 {

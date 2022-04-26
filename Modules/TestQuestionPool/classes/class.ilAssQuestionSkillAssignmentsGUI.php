@@ -5,12 +5,12 @@
  * @author  Björn Heyser <bheyser@databay.de>
  * @package Modules/Test
  *
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentsTableGUI
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilSkillSelectorGUI
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilToolbarGUI
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentPropertyFormGUI
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionPageGUI
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilConfirmationGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssQuestionSkillAssignmentsTableGUI", "ilSkillSelectorGUI", "ilToolbarGUI",
+ *			"ilAssQuestionSkillAssignmentPropertyFormGUI","ilAssQuestionPageGUI", "ilConfirmationGUI",
+ *		}
+ * )
  */
 class ilAssQuestionSkillAssignmentsGUI
 {

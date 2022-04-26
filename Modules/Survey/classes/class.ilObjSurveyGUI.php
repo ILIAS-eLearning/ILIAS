@@ -20,14 +20,14 @@ use ILIAS\Survey\Participants;
  *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  *
- * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI, ilSurveyExecutionGUI
- * @ilCtrl_Calls ilObjSurveyGUI: ilObjectMetaDataGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjSurveyGUI: ilSurveySkillDeterminationGUI
- * @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI, ilSurveySkillGUI
- * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEditorGUI, ilSurveyConstraintsGUI
- * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI, ilLearningProgressGUI
- * @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilSurveyEvaluationGUI", "ilSurveyExecutionGUI", "ilObjectMetaDataGUI", "ilPermissionGUI", "ilInfoScreenGUI",
+ *			"ilObjectCopyGUI","ilSurveySkillDeterminationGUI", "ilCommonActionDispatcherGUI", "ilSurveySkillGUI",
+ *			"ilSurveyEditorGUI","ilSurveyConstraintsGUI", "ilSurveyParticipantsGUI", "ilLearningProgressGUI", "ilExportGUI",
+ *			"ilLTIProviderObjectSettingGUI",
+ *		}
+ * )
  */
 class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {

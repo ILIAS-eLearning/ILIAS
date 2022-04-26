@@ -16,7 +16,11 @@ use ILIAS\HTTP\GlobalHttpState;
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @package      ilias-core
  * @version      $Id$
- * @ilCtrl_Calls ilMDEditorGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilMDEditorGUI
 {

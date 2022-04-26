@@ -20,7 +20,11 @@
  * GUI class for exercise verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilObjExerciseVerificationGUI: ilWorkspaceAccessGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilWorkspaceAccessGUI",
+ *		}
+ * )
  */
 class ilObjExerciseVerificationGUI extends ilObject2GUI
 {

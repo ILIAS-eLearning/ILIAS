@@ -18,7 +18,11 @@
 /**
  * test result overview
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_isCalledBy ilLOMemberTestResultGUI: ilObjCourseGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilObjCourseGUI",
+ *		}
+ * )
  */
 class ilLOMemberTestResultGUI
 {

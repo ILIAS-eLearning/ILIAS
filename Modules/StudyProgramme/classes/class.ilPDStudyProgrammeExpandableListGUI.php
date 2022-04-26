@@ -5,7 +5,11 @@
 /**
  * Personal Desktop-Presentation for the Study Programme
  *
- * @ilCtrl_IsCalledBy ilPDStudyProgrammeExpandableListGUI: ilColumnGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		}
+ * )
  */
 class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGUI
 {

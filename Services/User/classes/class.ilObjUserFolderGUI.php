@@ -22,9 +22,12 @@ use ILIAS\Services\User\ChangedUserFieldAttribute;
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @author       Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI, ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ilUserProfileInfoSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilUserTableGUI", "ilAccountCodesGUI", "ilCustomUserFieldsGUI", "ilRepositorySearchGUI",
+ *			"ilUserStartingPointGUI","ilUserProfileInfoSettingsGUI",
+ *		}
+ * )
  */
 class ilObjUserFolderGUI extends ilObjectGUI
 {

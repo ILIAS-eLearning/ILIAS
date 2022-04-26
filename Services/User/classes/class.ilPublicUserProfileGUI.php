@@ -16,7 +16,11 @@
 /**
  * GUI class for public user profile presentation.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPublicUserProfileGUI: ilObjPortfolioGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjPortfolioGUI",
+ *		}
+ * )
  */
 class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 {

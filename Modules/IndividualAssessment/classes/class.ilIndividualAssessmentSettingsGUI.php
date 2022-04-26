@@ -10,7 +10,11 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @ilCtrl_Calls ilIndividualAssessmentSettingsGUI: ilIndividualAssessmentCommonSettingsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilIndividualAssessmentCommonSettingsGUI",
+ *		}
+ * )
  */
 class ilIndividualAssessmentSettingsGUI
 {

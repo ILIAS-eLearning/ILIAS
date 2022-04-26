@@ -20,7 +20,11 @@
  * Team wiki type gui implementations
  *
  * @author Alex Killing <killing@leifos.de>
- * @ilCtrl_isCalledBy ilExAssTypeWikiTeamGUI: ilExSubmissionGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilExSubmissionGUI",
+ *		}
+ * )
  */
 class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 {

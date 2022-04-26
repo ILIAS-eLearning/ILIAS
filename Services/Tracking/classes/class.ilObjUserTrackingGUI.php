@@ -6,8 +6,11 @@
  * @author       Alex Killing <alex.killing@gmx.de>
  * @extends      ilObjectGUI
  * @package      ilias-core
- * @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjUserTrackingGUI: ilLPObjectStatisticsGUI, ilSessionStatisticsGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilLearningProgressGUI", "ilPermissionGUI", "ilLPObjectStatisticsGUI", "ilSessionStatisticsGUI",
+ *		}
+ * )
  */
 class ilObjUserTrackingGUI extends ilObjectGUI
 {

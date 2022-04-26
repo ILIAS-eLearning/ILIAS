@@ -16,7 +16,11 @@
 /**
  * TableGUI class for user administration
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilUserTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilUserTableGUI extends ilTable2GUI
 {

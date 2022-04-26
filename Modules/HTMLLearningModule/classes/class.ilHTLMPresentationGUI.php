@@ -15,7 +15,11 @@
 
 /**
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilHTLMPresentationGUI: ilObjFileBasedLMGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilObjFileBasedLMGUI",
+ *		}
+ * )
  */
 class ilHTLMPresentationGUI implements ilCtrlBaseClassInterface
 {

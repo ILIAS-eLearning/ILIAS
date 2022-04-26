@@ -7,7 +7,11 @@
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @ilCtrl_Calls ilObjectActivationGUI: ilConditionHandlerGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilConditionHandlerGUI",
+ *		}
+ * )
  */
 class ilObjectActivationGUI
 {

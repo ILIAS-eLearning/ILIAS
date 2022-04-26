@@ -19,9 +19,12 @@
 /**
  * (Course) learning objective page GUI class
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilLOPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilLOPageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilLOPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMDEditorGUI", "ilPublicUserProfileGUI", "ilNoteGUI",
+ *			"ilPropertyFormGUI","ilInternalLinkGUI", "ilPageMultiLangGUI",
+ *		}
+ * )
  * @ingroup      ModulesCourse
  */
 class ilLOPageGUI extends ilPageObjectGUI

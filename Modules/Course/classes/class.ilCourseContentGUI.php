@@ -23,7 +23,11 @@ use ILIAS\Refinery\Factory;
  * Class ilCourseContentGUI
  * @author       Stefan Meyer <meyer@leifos.com>
  * @extends      ilObjectGUI
- * @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI, ilObjectCopyGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilColumnGUI", "ilObjectCopyGUI",
+ *		}
+ * )
  */
 class ilCourseContentGUI
 {

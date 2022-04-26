@@ -25,7 +25,11 @@ use ILIAS\Refinery\Factory;
  * BlockGUI class for polls.
  *
  * @author Jörg Lützenkirchen
- * @ilCtrl_IsCalledBy ilPollBlockGUI: ilColumnGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		}
+ * )
  */
 class ilPollBlockGUI extends ilBlockGUI
 {

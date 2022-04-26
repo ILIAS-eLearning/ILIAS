@@ -11,7 +11,11 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilTestRandomQuestionSetGeneralConfigFormGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  */
 class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 {

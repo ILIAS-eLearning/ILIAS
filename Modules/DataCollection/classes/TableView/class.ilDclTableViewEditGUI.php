@@ -4,9 +4,11 @@
  * Class ilDclTableViewEditGUI
  * @author       Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup      ModulesDataCollection
- * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclDetailedViewDefinitionGUI
- * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclCreateViewDefinitionGUI
- * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclEditViewDefinitionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilDclDetailedViewDefinitionGUI", "ilDclCreateViewDefinitionGUI", "ilDclEditViewDefinitionGUI",
+ *		}
+ * )
  */
 class ilDclTableViewEditGUI
 {

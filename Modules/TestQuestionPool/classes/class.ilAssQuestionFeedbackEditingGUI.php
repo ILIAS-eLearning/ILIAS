@@ -9,8 +9,11 @@
  *
  * @package		Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
- * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilAssGenFeedbackPageGUI", "ilAssSpecFeedbackPageGUI", "ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilAssQuestionFeedbackEditingGUI
 {

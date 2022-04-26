@@ -16,7 +16,6 @@
 /**
  * Survey skill determination GUI class
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilSurveySkillDeterminationGUI:
  */
 class ilSurveySkillDeterminationGUI
 {

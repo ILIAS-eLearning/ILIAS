@@ -14,8 +14,14 @@
  */
 
 /**
- * @ilCtrl_Calls ilUsersGalleryGUI: ilPublicUserProfileGUI
- * @ilCtrl_isCalledBy ilUsersGalleryGUI: ilCourseMembershipGUI, ilGroupMembershipGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilCourseMembershipGUI", "ilGroupMembershipGUI",
+ *		},
+ *		children={
+ *			"ilPublicUserProfileGUI",
+ *		}
+ * )
  */
 class ilUsersGalleryGUI
 {

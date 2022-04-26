@@ -12,8 +12,11 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
  *
  * @ingroup ModulesGroup
  *
- * @ilCtrl_Calls ilTestQuestionBrowserTableGUI: ilFormPropertyDispatchGUI
- * @ilCtrl_Calls ilTestQuestionBrowserTableGUI: ilTestQuestionBrowserTableGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI", "ilTestQuestionBrowserTableGUI",
+ *		}
+ * )
  */
 class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 {

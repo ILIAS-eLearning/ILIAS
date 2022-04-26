@@ -10,8 +10,11 @@
  *
  * @package    Modules/Test
  *
- * @ilCtrl_Calls ilMyTestSolutionsGUI: ilTestEvaluationGUI
- * @ilCtrl_Calls ilMyTestSolutionsGUI: ilAssQuestionPageGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilTestEvaluationGUI", "ilAssQuestionPageGUI",
+ *		}
+ * )
  */
 class ilMyTestSolutionsGUI
 {

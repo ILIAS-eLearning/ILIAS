@@ -23,11 +23,14 @@ use ILIAS\Exercise;
  * @author       Stefan Meyer <smeyer@databay.de>
  * @author       Alexander Killing <killing@leifos.de>
  * @author       Michael Jansen <mjansen@databay.de>
- * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilExportGUI
- * @ilCtrl_Calls ilObjExerciseGUI: ilCommonActionDispatcherGUI, ilCertificateGUI
- * @ilCtrl_Calls ilObjExerciseGUI: ilExAssignmentEditorGUI, ilExSubmissionGUI
- * @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI, ilExcCriteriaCatalogueGUI, ilObjectMetaDataGUI, ilPortfolioExerciseGUI, ilExcRandomAssignmentGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI", "ilLearningProgressGUI", "ilInfoScreenGUI", "ilObjectCopyGUI", "ilExportGUI",
+ *			"ilCommonActionDispatcherGUI","ilCertificateGUI", "ilExAssignmentEditorGUI", "ilExSubmissionGUI",
+ *			"ilExerciseManagementGUI","ilExcCriteriaCatalogueGUI", "ilObjectMetaDataGUI", "ilPortfolioExerciseGUI",
+ *			"ilExcRandomAssignmentGUI",
+ *		}
+ * )
  */
 class ilObjExerciseGUI extends ilObjectGUI
 {

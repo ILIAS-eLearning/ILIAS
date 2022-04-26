@@ -18,7 +18,6 @@ use ILIAS\Blog\StandardGUIRequest;
 /**
  * Class ilBlogExerciseGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilBlogExerciseGUI:
  */
 class ilBlogExerciseGUI
 {

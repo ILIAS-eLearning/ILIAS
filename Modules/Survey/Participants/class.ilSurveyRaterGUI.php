@@ -15,7 +15,11 @@
 
 /**
  * @author       Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilSurveyRaterGUI: ilRepositorySearchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI",
+ *		}
+ * )
  */
 class ilSurveyRaterGUI
 {

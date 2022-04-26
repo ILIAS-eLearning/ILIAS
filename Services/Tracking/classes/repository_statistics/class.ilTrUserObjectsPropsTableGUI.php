@@ -5,7 +5,11 @@
  * Build table list for objects of given user
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version      $Id$
- * @ilCtrl_Calls ilTrUserObjectsPropsTableGUI: ilFormPropertyDispatchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilFormPropertyDispatchGUI",
+ *		}
+ * )
  * @ingroup      ServicesTracking
  */
 class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI

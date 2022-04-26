@@ -18,7 +18,6 @@
  * classes.
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilFormPropertyDispatchGUI:
  */
 class ilFormPropertyDispatchGUI
 {

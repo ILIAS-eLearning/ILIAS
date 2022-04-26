@@ -22,7 +22,11 @@
  *
  * @package     Module/CmiXapi
  *
- * @ilCtrl_Calls ilObjCmiXapiAdministrationGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
 {

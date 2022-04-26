@@ -20,7 +20,11 @@
  * ("Permissions" -> "Permission of User")
  * @author       Sascha Hofmann <saschahofmann@gmx.de>
  * @version      $Id$
- * @ilCtrl_Calls ilObjectPermissionStatusGUI: ilRepositorySearchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilRepositorySearchGUI",
+ *		}
+ * )
  * @ingroup      ServicesAccessControl
  */
 class ilObjectPermissionStatusGUI

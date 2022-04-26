@@ -17,8 +17,11 @@ require_once("Services/Language/classes/class.ilObjLanguageAccess.php");
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id: class.ilObjLanguageExtGUI.php $
 *
-* @ilCtrl_Calls ilObjLanguageExtGUI:
-* @ilCtrl_IsCalledBy ilObjLanguageExtGUI: ilDashboardGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilDashboardGUI",
+ *		}
+ * )
 *
 * @ingroup ServicesLanguage
 */

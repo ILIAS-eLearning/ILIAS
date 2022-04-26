@@ -26,7 +26,6 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\FileUpload\FileUpload;
 
 /**
- * @ilCtrl_Calls ilSystemStyleIconsGUI:
  */
 class ilSystemStyleIconsGUI
 {

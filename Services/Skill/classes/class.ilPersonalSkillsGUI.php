@@ -28,7 +28,6 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  * Personal skills GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilPersonalSkillsGUI:
  */
 class ilPersonalSkillsGUI
 {

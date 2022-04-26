@@ -19,8 +19,13 @@ use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
  * Extension of ilPageObjectGUI for learning modules
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilLMPageGUI: ilPageEditorGUI, ilObjectMetaDataGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector, ilCommonActionDispatcherGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilLMPageGUI: ilNewsItemGUI, ilQuestionEditGUI, ilAssQuestionFeedbackEditingGUI, ilPageMultiLangGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilObjectMetaDataGUI", "ilEditClipboardGUI", "ilMediaPoolTargetSelector",
+ *			"ilCommonActionDispatcherGUI","ilPageObjectGUI", "ilNewsItemGUI", "ilQuestionEditGUI",
+ *			"ilAssQuestionFeedbackEditingGUI","ilPageMultiLangGUI", "ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilLMPageGUI extends ilPageObjectGUI
 {

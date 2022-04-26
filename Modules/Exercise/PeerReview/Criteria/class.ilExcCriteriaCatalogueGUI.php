@@ -22,7 +22,11 @@ use ILIAS\Exercise\GUIRequest;
  * Class ilExcCriteriaCatalogueGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilExcCriteriaCatalogueGUI: ilExcCriteriaGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilExcCriteriaGUI",
+ *		}
+ * )
  */
 class ilExcCriteriaCatalogueGUI
 {

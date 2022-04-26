@@ -16,7 +16,6 @@
 /**
  * Class ilCustomUserFieldsGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilCustomUserFieldsGUI:
  */
 class ilCustomUserFieldsGUI
 {

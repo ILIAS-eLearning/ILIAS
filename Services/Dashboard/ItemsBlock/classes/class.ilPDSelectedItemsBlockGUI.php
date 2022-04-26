@@ -18,8 +18,14 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_IsCalledBy ilPDSelectedItemsBlockGUI: ilColumnGUI
- * @ilCtrl_Calls ilPDSelectedItemsBlockGUI: ilCommonActionDispatcherGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilColumnGUI",
+ *		},
+ *		children={
+ *			"ilCommonActionDispatcherGUI",
+ *		}
+ * )
  */
 class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {

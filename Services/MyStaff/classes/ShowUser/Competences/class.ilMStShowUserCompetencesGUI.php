@@ -6,7 +6,11 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 /**
  * Class ilMStShowUserCompetencesGUI
  * @author            Theodor Truffer <tt@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilMStShowUserCompetencesGUI: ilMStShowUserGUI
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilMStShowUserGUI",
+ *		}
+ * )
  */
 class ilMStShowUserCompetencesGUI
 {

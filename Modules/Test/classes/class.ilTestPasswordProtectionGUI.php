@@ -8,7 +8,11 @@
  *
  * @package     Modules/Test
  *
- * @ilCtrl_Calls ilTestPasswordProtectionGUI: ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilTestPasswordProtectionGUI
 {

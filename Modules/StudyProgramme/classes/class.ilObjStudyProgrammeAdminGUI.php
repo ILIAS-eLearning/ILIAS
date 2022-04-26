@@ -6,8 +6,11 @@
  * StudyProgramme Administration Settings.
  * @author       Michael Herren <mh@studer-raimann.ch>
  * @author       Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeTypeGUI
- * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilStudyProgrammeTypeGUI", "ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 {

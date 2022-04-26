@@ -26,8 +26,11 @@ use ILIAS\Refinery\Factory;
 *
 * @package ilias-search
 *
-* @ilCtrl_Calls ilSearchControllerGUI: ilSearchGUI, ilAdvancedSearchGUI
-* @ilCtrl_Calls ilSearchControllerGUI: ilLuceneSearchGUI, ilLuceneAdvancedSearchGUI, ilLuceneUserSearchGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilSearchGUI", "ilAdvancedSearchGUI", "ilLuceneSearchGUI", "ilLuceneAdvancedSearchGUI", "ilLuceneUserSearchGUI",
+ *		}
+ * )
 *
 */
 

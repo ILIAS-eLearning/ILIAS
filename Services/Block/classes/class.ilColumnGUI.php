@@ -32,8 +32,11 @@ define("IL_SCREEN_FULL", "full");
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_IsCalledBy ilColumnGUI: ilCalendarGUI
- * @ilCtrl_Calls ilColumnGUI:
+ * @ilCtrlStructureCalls(
+ *		parents={
+ *			"ilCalendarGUI",
+ *		}
+ * )
  */
 class ilColumnGUI
 {

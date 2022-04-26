@@ -17,7 +17,11 @@
  * User Interface for Place Holder Management
  *
  * @author Hendrik Holtmann <holtmann@me.com>
- * @ilCtrl_Calls ilPCPlaceHolderGUI: ilPCMediaObjectGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPCMediaObjectGUI",
+ *		}
+ * )
  */
 class ilPCPlaceHolderGUI extends ilPageContentGUI
 {

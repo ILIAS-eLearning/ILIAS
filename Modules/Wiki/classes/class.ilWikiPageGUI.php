@@ -18,10 +18,13 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
- * @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
- * @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI, ilPropertyFormGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPageEditorGUI", "ilEditClipboardGUI", "ilMediaPoolTargetSelector", "ilPublicUserProfileGUI",
+ *			"ilPageObjectGUI","ilNoteGUI", "ilCommonActionDispatcherGUI", "ilRatingGUI", "ilWikiStatGUI",
+ *			"ilObjectMetaDataGUI","ilPropertyFormGUI",
+ *		}
+ * )
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {

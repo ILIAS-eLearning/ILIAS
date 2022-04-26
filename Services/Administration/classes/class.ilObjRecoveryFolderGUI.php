@@ -23,7 +23,11 @@ use ILIAS\Administration\AdminGUIRequest;
  * Class ilObjRecoveryFolderGUI
  *
  * @author Sascha Hofmann <shofmann@databay.de>
- * @ilCtrl_Calls ilObjRecoveryFolderGUI: ilPermissionGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilPermissionGUI",
+ *		}
+ * )
  */
 class ilObjRecoveryFolderGUI extends ilContainerGUI
 {

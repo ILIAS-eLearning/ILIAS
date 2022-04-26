@@ -19,8 +19,12 @@
 /**
 * @author Jens Conze
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
-* @ilCtrl_Calls ilContactGUI: ilMailFormGUI, ilUsersGalleryGUI, ilPublicUserProfileGUI
+ * @ilCtrlStructureCalls(
+ *		children={
+ *			"ilMailSearchCoursesGUI", "ilMailSearchGroupsGUI", "ilMailSearchLearningSequenceGUI", "ilMailingListsGUI",
+ *			"ilMailFormGUI","ilUsersGalleryGUI", "ilPublicUserProfileGUI",
+ *		}
+ * )
 */
 class ilContactGUI
 {
