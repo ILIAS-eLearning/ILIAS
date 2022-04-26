@@ -71,7 +71,7 @@ class ilSessionTest extends TestCase
         };
     }
 
-    public function testBasicSessionBehaviour() : void
+    public function tstBasicSessionBehaviour() : void
     {
         global $DIC;
 
