@@ -50,12 +50,12 @@ class ilGSProviderFactory implements ProviderFactory
      */
     public function __construct(Container $dic)
     {
-        $this->dic                        = $dic;
+        $this->dic = $dic;
         $this->main_menu_item_information = new ilMMItemInformation();
         /** @noRector */
-        $this->class_loader         = include "Services/GlobalScreen/artifacts/global_screen_providers.php";
+        $this->class_loader = include "Services/GlobalScreen/artifacts/global_screen_providers.php";
         $this->component_repository = $dic["component.repository"];
-        $this->component_factory    = $dic["component.factory"];
+        $this->component_factory = $dic["component.factory"];
     }
     
     private function initPlugins() : void
@@ -66,7 +66,7 @@ class ilGSProviderFactory implements ProviderFactory
                 if (!$plugin->isActive()) {
                     continue;
                 }
-                $pl                                  = $this->component_factory->getPlugin($plugin->getId());
+                $pl = $this->component_factory->getPlugin($plugin->getId());
                 $this->plugin_provider_collections[] = $pl->getGlobalScreenProviderCollection();
             }
         }
@@ -75,11 +75,11 @@ class ilGSProviderFactory implements ProviderFactory
     /**
      * @param array $providers
      */
-    protected function registerInternal(array $providers): void
+    protected function registerInternal(array $providers) : void
     {
         array_walk(
             $providers,
-            function (Provider $item): void {
+            function (Provider $item) : void {
                 $this->all_providers[get_class($item)] = $item;
             }
         );

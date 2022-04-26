@@ -46,7 +46,7 @@ class ilServicesPreviewTest extends TestCase
         $factory = new ilRendererFactory();
         $preview = new ilPreview(0, 'file');
     
-        $files_backup =  $_FILES;
+        $files_backup = $_FILES;
         
         $_FILES['file']['name'] = 'test.jpg';
         $this->assertInstanceOf(ilImageMagickRenderer::class, $factory->getRenderer($preview));

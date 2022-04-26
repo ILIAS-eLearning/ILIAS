@@ -35,5 +35,4 @@ class MetaDataTest extends TestCase
         $this->assertEquals($key, $first_item->getKey());
         $this->assertEquals($value, $first_item->getValue());
     }
-    
 }

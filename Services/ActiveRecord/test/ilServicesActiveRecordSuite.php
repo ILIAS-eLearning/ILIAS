@@ -15,6 +15,7 @@
  *****************************************************************************/
 
 use PHPUnit\Framework\TestSuite;
+
 /** @noRector */
 require_once 'libs/composer/vendor/autoload.php';
 

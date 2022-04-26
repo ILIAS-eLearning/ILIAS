@@ -61,5 +61,4 @@ class ilResourceStorageInfoGUI
             $info->addProperty($this->language->txt("stakeholders"), count($this->resource->getStakeholders()));
         }
     }
-
 }

@@ -96,8 +96,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
         $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildRerenderQuery();
 
         return $center->withAdditionalOnLoadCode(
-            function (string $id) use ($url) : string
-            {
+            function (string $id) use ($url) : string {
                 return "document.addEventListener('rerenderNotificationCenter', () => {
                     let xhr = new XMLHttpRequest();
                     xhr.open('GET', '$url');

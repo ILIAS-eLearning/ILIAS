@@ -139,7 +139,7 @@ class ilServicesMainMenuTest extends TestCase
         $standard_top_items = new StandardTopItemsProvider($this->dic_mock);
         $items = $standard_top_items->getStaticTopItems();
         $item_identifications = array_map(
-            fn(isItem $i) : IdentificationInterface => $i->getProviderIdentification(),
+            fn (isItem $i) : IdentificationInterface => $i->getProviderIdentification(),
             $items
         );
 

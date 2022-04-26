@@ -75,7 +75,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
                 $fd = $db->getFieldDefinition();
                 if ($fd !== null) {
                     $query = 'ADD ' . $fd->getDeclaration($field['type'], $field_name, $field);
-                }else {
+                } else {
                     $query = '';
                 }
                 $result = $db->manipulate("ALTER TABLE $name $query");
