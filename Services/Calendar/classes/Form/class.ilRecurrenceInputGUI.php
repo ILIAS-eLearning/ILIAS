@@ -285,7 +285,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $options[ilCalendarRecurrence::FREQ_YEARLY] = $this->lng->txt('cal_yearly');
         }
 
-        $tpl->setVariable('FREQUENCE',
+        $tpl->setVariable(
+            'FREQUENCE',
             ilLegacyFormElementsUtil::formSelect(
                 $this->recurrence->getFrequenceType(),
                 'frequence',

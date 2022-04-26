@@ -193,8 +193,8 @@ class ilCalendarExport
         $this->writer->addLine('DTSTAMP:' . $now->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC));
 
         $this->writer->addLine('UID:' . ilICalWriter::escapeText(
-                $app->getEntryId() . '_' . CLIENT_ID . '@' . ILIAS_HTTP_PATH
-            ));
+            $app->getEntryId() . '_' . CLIENT_ID . '@' . ILIAS_HTTP_PATH
+        ));
 
         $last_mod = $app->getLastUpdate()->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC);
         $this->writer->addLine('LAST-MODIFIED:' . $last_mod);

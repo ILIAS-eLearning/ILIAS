@@ -190,7 +190,7 @@ class ilCalendarUserSettings
     {
         $this->timezone = (string) $this->user->getTimeZone();
         $this->export_tz_type = (int) (
-        ($this->user->getPref('export_tz_type') !== false) ?
+            ($this->user->getPref('export_tz_type') !== false) ?
             $this->user->getPref('export_tz_type') :
             $this->export_tz_type
         );
