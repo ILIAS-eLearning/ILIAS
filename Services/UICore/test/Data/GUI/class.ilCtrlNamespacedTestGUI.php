@@ -7,7 +7,9 @@ namespace ILIAS\Tests\Ctrl;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  *
- * @ilCtrl_isCalledBy ILIAS\Tests\Ctrl\ilCtrlNamespacedTestGUI : ilCtrlBaseClass1TestGUI
+ * @ilCtrlStructureCalls(
+ *      parents={"ilCtrlBaseClass1TestGUI"}
+ * )
  */
 class ilCtrlNamespacedTestGUI
 {

@@ -33,7 +33,7 @@ class ilDBUpdate
     protected int $hotfix_file_version;
     protected ilSetting $custom_updates_setting;
     protected array $custom_updates_content;
-    protected Iterator $ctrl_structure_iterator;
+    protected array $ctrl_structure_iterator;
 
     public function __construct(ilDBInterface $a_db_handler, ilIniFile $client_ini = null)
     {
@@ -59,8 +59,7 @@ class ilDBUpdate
         $this->readLastUpdateFile();
         $this->readFileVersion();
 
-        $class_map = require ILIAS_ABSOLUTE_PATH . '/libs/composer/vendor/composer/autoload_classmap.php';
-        $this->ctrl_structure_iterator = new ilCtrlArrayIterator($class_map);
+        $this->ctrl_structure_iterator = require ILIAS_ABSOLUTE_PATH . '/libs/composer/vendor/composer/autoload_classmap.php';
     }
 
     /**
@@ -253,8 +252,9 @@ class ilDBUpdate
             $ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
         } else {
             $ilCtrlStructureReader = new ilCtrlStructureReader(
-                $this->ctrl_structure_iterator,
-                new ilCtrlStructureCidGenerator()
+                new ilCtrlStructureCidGenerator(),
+                new \Doctrine\Common\Annotations\AnnotationReader(),
+                $this->ctrl_structure_iterator
             );
             $DIC->offsetSet('ilCtrlStructureReader', $ilCtrlStructureReader);
         }

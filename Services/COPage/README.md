@@ -127,7 +127,9 @@ Provide a class derived from `ilPageContentGUI`.
 
 ```
 /**
- * @ilCtrl_isCalledBy ilPCBaseNameGUI: ilPageEditorGUI
+ * @ilCtrlStructureCalls(
+ *     parents={"ilPageEditorGUI"}
+ * )
  */
 class ilPCBaseNameGUI extends ilPageContentGUI
 {

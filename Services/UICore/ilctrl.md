@@ -81,7 +81,9 @@ To be able to provide its functionality `ilCtrl` needs some help of the GUI clas
  *
  * Identify subclasses that are called by the current class:
  *
- * @ilCtrl_Calls ilFooGUI: ilBarGUI (multiple classes can be separated by comma)
+ * @ilCtrlStructureCalls(
+ *      children={"ilBarGUI"} (multiple classes can be separated by comma)
+ * )
  */
 class ilFooGUI
 {
@@ -95,7 +97,9 @@ or
  *
  * Identify classes that call the current class:
  *
- * @ilCtrl_isCalledBy ilBarGUI: ilFooGUI (multiple classes can be separated by comma)
+ * @ilCtrlStructureCalls(
+ *      parents={"ilFooGUI"} (multiple classes can be separated by comma)
+ * )
  */
 class ilBarGUI
 {

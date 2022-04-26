@@ -7,7 +7,9 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * @ilCtrl_IsCalledBy ilValidTestPluginGUI: ilUIPluginRouterGUI
+ * @ilCtrlStructureCalls(
+ *      parents={"ilUIPluginRouterGUI"}
+ * )
  */
 class ilInvalidTestPluginGUI
 {

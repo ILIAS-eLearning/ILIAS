@@ -7,8 +7,10 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * @ilCtrl_IsCalledBy ilCtrlCommandClass1TestGUI: ilCtrlBaseClass1TestGUI, ilCtrlBaseClass2TestGUI
- * @ilCtrl_Calls      ilCtrlCommandClass1TestGUI: ilCtrlCommandClass2TestGUI
+ * @ilCtrlStructureCalls(
+ *      children={"ilCtrlCommandClass2TestGUI"},
+ *      parents={"ilCtrlBaseClass1TestGUI", "ilCtrlBaseClass2TestGUI"}
+ * )
  */
 class ilCtrlCommandClass1TestGUI implements ilCtrlSecurityInterface
 {

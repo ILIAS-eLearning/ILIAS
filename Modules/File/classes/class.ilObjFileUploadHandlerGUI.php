@@ -28,9 +28,11 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy ilObjFileUploadHandler : ilObjFileGUI
+ * @ilCtrlStructureCalls(
+ *     parents={"ilObjFileGUI"}
+ * )
  */
-class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
+class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     private \ILIAS\ResourceStorage\Services $storage;
     private ilObjFileStakeholder $stakeholder;

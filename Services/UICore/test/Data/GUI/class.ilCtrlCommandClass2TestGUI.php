@@ -7,7 +7,9 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * @ilCtrl_IsCalledBy ilCtrlCommandClass2TestGUI: ilCtrlCommandClass1TestGUI
+ * @ilCtrlStructureCalls(
+ *      parents={"ilCtrlCommandClass1TestGUI"}
+ * )
  */
 class ilCtrlCommandClass2TestGUI
 {

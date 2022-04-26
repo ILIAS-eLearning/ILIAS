@@ -7,7 +7,9 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilCtrlBaseClass2TestGUI: ilCtrlCommandClass1TestGUI
+ * @ilCtrlStructureCalls(
+ *      children={"ilCtrlCommandClass1TestGUI"}
+ * )
  */
 class ilCtrlBaseClass2TestGUI implements ilCtrlBaseClassInterface
 {

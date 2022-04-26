@@ -42,7 +42,9 @@ $tabs->addTab("booking", $lng->txt("..."),
 The same class needs to be integrated in your **executeCommand** control flow:
 
 ```
-* @ilCtrl_Calls ilYourClassGUI: ilBookingGatewayGUI
+* @ilCtrlStructureCalls(
+*       children={"ilBookingGatewayGUI"}
+* )
 ```
 
 ```

@@ -16,9 +16,6 @@ class ilServicesUICoreSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once __DIR__ . '/Iterator/ilCtrlIteratorSuite.php';
-        $suite->addTestSuite(ilCtrlIteratorSuite::class);
-
         require_once __DIR__ . '/Paths/ilCtrlPathSuite.php';
         $suite->addTestSuite(ilCtrlPathSuite::class);
 

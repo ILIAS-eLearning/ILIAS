@@ -25,7 +25,9 @@ The widget needs to be part of the `ilCtrl` control flow.
 
 ```
  ...
- * @ilCtrl_Calls ilYourClassGUI: ilLikeGUI
+ * @ilCtrlStructureCalls(
+ *    children={"ilLikeGUI"}
+ * )
  ...
  
 	function executeCommand()

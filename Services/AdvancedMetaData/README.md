@@ -20,7 +20,9 @@ commands to *ilObjectMetaDataGUI*.
 
 /*
  * ...
- * @ilCtrl_Calls ilObjGroupGUI:ilObjectMetaDataGUI
+ * @ilCtrlStructureCalls(
+ *      children={"ilObjectMetaDataGUI"}
+ * )
  * ...
  */
 class ilObjXXXGUI extends ilObject2GUI 

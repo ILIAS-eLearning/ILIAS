@@ -28,7 +28,9 @@ The service provides a class `ilRatingGUI` to output the rating widget.
 The consuming GUI class needs to forward to this class, too.
 ```
 ...
-    * @ilCtrl_Calls ilMyGUI: ilRatingGUI
+    * @ilCtrlStructureCalls(
+    *       children={"ilRatingGUI"}
+    * )
 ...
     public function executeCommand() : void
 ...

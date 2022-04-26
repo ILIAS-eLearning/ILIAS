@@ -23,7 +23,6 @@
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls
  * @ingroup ServicesTracking
  */
 class ilLPStatusManualByTutor extends ilLPStatus

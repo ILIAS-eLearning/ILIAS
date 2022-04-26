@@ -4,7 +4,6 @@
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
- * @ilCtrl_Calls
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDValues

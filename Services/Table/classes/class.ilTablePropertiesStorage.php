@@ -19,7 +19,6 @@
 /**
  * Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilTablePropertiesStorage: ilTablePropertiesStorage
  */
 class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
 {

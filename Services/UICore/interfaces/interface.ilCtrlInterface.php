@@ -469,8 +469,7 @@ interface ilCtrlInterface
      *
      * @deprecated Due to the change of storing data in an artifact, this method
      *             should no longer be used. If an error is thrown at this point,
-     *             it's probably solved by the correct @ilCtrl_Calls or
-     *             @ilCtrl_IsCalledBy statements.
+     *             it's probably solved by the correct @ilCtrlStructureCalls.
      *
      * @param object|string $a_parent
      * @param object|string $a_child

@@ -128,14 +128,6 @@ class ilCtrlStructureReader
                 if (in_array(ilCtrlBaseClassInterface::class, $reflection->getInterfaceNames(), true)) {
                     $base_classes[] = $lower_class_name;
                 }
-            } catch (ParseError $e) {
-                if (false === strpos($e->getMessage(), "unexpected '|'")) {
-                    echo $e->getMessage() . $e->getTraceAsString();
-                    exit;
-                }
-            } catch (AnnotationException $e) {
-                echo $e->getMessage() . $e->getTraceAsString();
-                exit;
             } catch (ReflectionException $e) {
                 continue;
             }

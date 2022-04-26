@@ -7,7 +7,9 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * @ilCtrl_IsCalledBy ilCtrlInvalidGuiClass: ilCtrlBaseClass1TestGUI
+ * @ilCtrlStructureCalls(
+ *      parents={"ilCtrlBaseClass1TestGUI"}
+ * )
  */
 class ilCtrlInvalidGuiClass
 {

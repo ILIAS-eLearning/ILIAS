@@ -24,7 +24,6 @@
 /**
  * Calculates an <code>ilDateList</code> for a given calendar entry and recurrence rule.
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ilCtrl_Calls
  * @ingroup ServicesCalendar
  */
 class ilCalendarRecurrenceCalculator
