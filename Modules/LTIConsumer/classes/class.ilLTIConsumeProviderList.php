@@ -124,105 +124,66 @@ class ilLTIConsumeProviderList implements Iterator
         $this->idsFilter = $idsFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getAvailabilityFilter() : string
     {
         return $this->availabilityFilter;
     }
     
-    /**
-     * @param string $availabilityFilter
-     */
     public function setAvailabilityFilter(string $availabilityFilter) : void
     {
         $this->availabilityFilter = $availabilityFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getScopeFilter() : string
     {
         return $this->scopeFilter;
     }
     
-    /**
-     * @param string $scopeFilter
-     */
     public function setScopeFilter(string $scopeFilter) : void
     {
         $this->scopeFilter = $scopeFilter;
     }
     
-    /**
-     * @return int
-     */
     public function getCreatorFilter() : int
     {
         return $this->creatorFilter;
     }
     
-    /**
-     * @param int $creatorFilter
-     */
     public function setCreatorFilter(int $creatorFilter) : void
     {
         $this->creatorFilter = $creatorFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getTitleFilter() : string
     {
         return $this->titleFilter;
     }
     
-    /**
-     * @param string $titleFilter
-     */
     public function setTitleFilter(string $titleFilter) : void
     {
         $this->titleFilter = $titleFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getCategoryFilter() : string
     {
         return $this->categoryFilter;
     }
     
-    /**
-     * @param string $categoryFilter
-     */
     public function setCategoryFilter(string $categoryFilter) : void
     {
         $this->categoryFilter = $categoryFilter;
     }
     
-    /**
-     * @return string
-     */
     public function getKeywordFilter() : string
     {
         return $this->keywordFilter;
     }
     
-    /**
-     * @param string $keywordFilter
-     */
     public function setKeywordFilter(string $keywordFilter) : void
     {
         $this->keywordFilter = $keywordFilter;
     }
     
-    /**
-     * @return bool|null
-     */
     public function getHasOutcomeFilter() : ?bool
     {
         return $this->hasOutcomeFilter;
@@ -233,9 +194,6 @@ class ilLTIConsumeProviderList implements Iterator
         $this->hasOutcomeFilter = $hasOutcomeFilter;
     }
     
-    /**
-     * @return bool|null
-     */
     public function getIsExternalFilter() : ?bool
     {
         return $this->isExternalFilter;
@@ -246,9 +204,6 @@ class ilLTIConsumeProviderList implements Iterator
         $this->isExternalFilter = $isExternalFilter;
     }
     
-    /**
-     * @return bool|null
-     */
     public function getIsProviderKeyCustomizableFilter() : ?bool
     {
         return $this->isProviderKeyCustomizableFilter;
@@ -259,17 +214,12 @@ class ilLTIConsumeProviderList implements Iterator
         $this->isProviderKeyCustomizableFilter = $isProviderKeyCustomizableFilter;
     }
 
-    /**
-     * @param ilLTIConsumeProvider $provider
-     */
     public function add(ilLTIConsumeProvider $provider) : void
     {
         $this->providers[] = $provider;
     }
 
     /**
-     * @param int $providerId
-     * @return ilLTIConsumeProvider
      * @throws ilException
      */
     public function getById(int $providerId) : ilLTIConsumeProvider
@@ -356,13 +306,11 @@ class ilLTIConsumeProviderList implements Iterator
     
     protected function buildQuery() : string
     {
-        $query = "
+        return "
 			SELECT *
 			FROM lti_ext_provider
 			WHERE {$this->getWhereExpression()}
 		";
-        
-        return $query;
     }
 
     public function load() : void
@@ -409,36 +357,21 @@ class ilLTIConsumeProviderList implements Iterator
         }
     }
     
-    /**
-     * @param int $providerId
-     * @return bool
-     */
     public function hasUsages(int $providerId) : bool
     {
         return $this->hasUntrashedUsages($providerId) || $this->hasTrashedUsages($providerId);
     }
     
-    /**
-     * @param int $providerId
-     * @return bool
-     */
     public function hasUntrashedUsages(int $providerId) : bool
     {
         return isset($this->usagesUntrashed[$providerId]) && $this->usagesUntrashed[$providerId];
     }
     
-    /**
-     * @param int $providerId
-     * @return bool
-     */
     public function hasTrashedUsages(int $providerId) : bool
     {
         return isset($this->usagesTrashed[$providerId]) && $this->usagesTrashed[$providerId];
     }
     
-    /**
-     * @return array
-     */
     public function getTableData() : array
     {
         $this->loadUsages();
@@ -487,7 +420,7 @@ class ilLTIConsumeProviderList implements Iterator
     {
         $tableData = [];
         $i = 0;
-        foreach ($this->getTableData() as $key => $tableRow) {
+        foreach ($this->getTableData() as $tableRow) {
             if (!(bool) $tableRow['usages_trashed'] && !(bool) $tableRow['usages_untrashed']) {
                 continue;
             }
@@ -553,9 +486,6 @@ class ilLTIConsumeProviderList implements Iterator
         return key($this->providers);
     }
 
-    /**
-     * @return bool
-     */
     public function valid() : bool
     {
         return key($this->providers) !== null;

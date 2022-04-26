@@ -47,8 +47,6 @@ class ilLTIConsumerSettingsGUI
 
     /**
      * ilLTIConsumerAccess constructor.
-     * @param ilObjLTIConsumer    $object
-     * @param ilLTIConsumerAccess $access
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {

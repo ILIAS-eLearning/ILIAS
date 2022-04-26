@@ -129,7 +129,6 @@ class ilLTIConsumeProvider
 
     /**
      * ilLTIConsumeProvider constructor.
-     * @param int|null $providerId
      * @throws IOException
      */
     public function __construct(?int $providerId = null)
@@ -142,8 +141,6 @@ class ilLTIConsumeProvider
 
     /**
      * Inits class static
-     * @param int|null $providerId
-     * @return ilLTIConsumeProvider
      * @throws IOException
      */
     public static function getInstance(?int $providerId = null) : ilLTIConsumeProvider
@@ -151,194 +148,121 @@ class ilLTIConsumeProvider
         return new self($providerId);
     }
     
-    /**
-     * @return int
-     */
     public function getId() : int
     {
         return $this->id;
     }
     
-    /**
-     * @param int $id
-     */
     public function setId(int $id) : void
     {
         $this->id = $id;
     }
     
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         return $this->title;
     }
     
-    /**
-     * @param string $title
-     */
     public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
     
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         return $this->description;
     }
     
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
     
-    /**
-     * @return int
-     */
     public function getAvailability() : int
     {
         return $this->availability;
     }
     
-    /**
-     * @param int $availability
-     */
     public function setAvailability(int $availability) : void
     {
         $this->availability = $availability;
     }
     
-    /**
-     * @return string
-     */
     public function getRemarks() : string
     {
         return $this->remarks;
     }
     
-    /**
-     * @param string $remarks
-     */
     public function setRemarks(string $remarks) : void
     {
         $this->remarks = $remarks;
     }
     
-    /**
-     * @return int
-     */
     public function getTimeToDelete() : int
     {
         return $this->time_to_delete;
     }
     
-    /**
-     * @param int $time_to_delete
-     */
     public function setTimeToDelete(int $time_to_delete) : void
     {
         $this->time_to_delete = $time_to_delete;
     }
     
-    /**
-     * @return int
-     */
     public function getLogLevel() : int
     {
         return $this->log_level;
     }
 
-    //todo
-    /**
-     * @param int $log_level
-     */
     public function setLogLevel(int $log_level) : void
     {
         $this->log_level = $log_level;
     }
     
-    /**
-     * @return string
-     */
     public function getProviderUrl() : string
     {
         return $this->provider_url;
     }
     
-    /**
-     * @param string $provider_url
-     */
     public function setProviderUrl(string $provider_url) : void
     {
         $this->provider_url = $provider_url;
     }
     
-    /**
-     * @return string
-     */
     public function getProviderKey() : string
     {
         return $this->provider_key;
     }
     
-    /**
-     * @param string $provider_key
-     */
     public function setProviderKey(string $provider_key) : void
     {
         $this->provider_key = $provider_key;
     }
     
-    /**
-     * @return string
-     */
     public function getProviderSecret() : string
     {
         return $this->provider_secret;
     }
     
-    /**
-     * @param string $provider_secret
-     */
     public function setProviderSecret(string $provider_secret) : void
     {
         $this->provider_secret = $provider_secret;
     }
     
-    /**
-     * @return bool
-     */
     public function isProviderKeyCustomizable() : bool
     {
         return $this->provider_key_customizable;
     }
     
-    /**
-     * @param bool $provider_key_customizable
-     */
     public function setProviderKeyCustomizable(bool $provider_key_customizable) : void
     {
         $this->provider_key_customizable = $provider_key_customizable;
     }
     
-    /**
-     * @return string
-     */
     public function getProviderIconFilename() : string
     {
         return $this->provider_icon_filename;
     }
     
-    /**
-     * @param string $provider_icon_filename
-     */
     public function setProviderIconFilename(string $provider_icon_filename) : void
     {
         $this->provider_icon_filename = $provider_icon_filename;
@@ -349,9 +273,6 @@ class ilLTIConsumeProvider
         return $this->providerIcon;
     }
     
-    /**
-     * @return bool
-     */
     public function hasProviderIcon() : bool
     {
         if (!($this->providerIcon instanceof ilLTIConsumeProviderIcon)) {
@@ -361,17 +282,11 @@ class ilLTIConsumeProvider
         return (bool) strlen($this->providerIcon->getFilename());
     }
     
-    /**
-     * @param ilLTIConsumeProviderIcon $providerIcon
-     */
     public function setProviderIcon(ilLTIConsumeProviderIcon $providerIcon) : void
     {
         $this->providerIcon = $providerIcon;
     }
     
-    /**
-     * @return bool
-     */
     public function hasProviderIconUploadInput() : bool
     {
         return $this->providerIconUploadInput instanceof ilImageFileInputGUI;
@@ -390,9 +305,6 @@ class ilLTIConsumeProvider
         $this->providerIconUploadInput = $providerIconUploadInput;
     }
     
-    /**
-     * @return array
-     */
     public static function getCategoriesSelectOptions() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -430,9 +342,6 @@ class ilLTIConsumeProvider
         return $categories;
     }
     
-    /**
-     * @return array
-     */
     public static function getValidCategories() : array
     {
         return [
@@ -444,339 +353,212 @@ class ilLTIConsumeProvider
         ];
     }
     
-    /**
-     * @param string $category
-     * @return bool
-     */
     public function isValidCategory(string $category) : bool
     {
         return in_array($category, self::getValidCategories());
     }
     
-    /**
-     * @return string
-     */
     public function getCategory() : string
     {
         return $this->category;
     }
     
-    /**
-     * @param string $category
-     */
     public function setCategory(string $category) : void
     {
         $this->category = $category;
     }
     
-    /**
-     * @return string
-     */
     public function getProviderXml() : string
     {
         return $this->provider_xml;
     }
     
-    /**
-     * @param string $provider_xml
-     */
     public function setProviderXml(string $provider_xml) : void
     {
         $this->provider_xml = $provider_xml;
     }
     
-    /**
-     * @return bool
-     */
     public function isExternalProvider() : bool
     {
         return $this->is_external_provider;
     }
     
-    /**
-     * @param bool $is_external_provider
-     */
     public function setIsExternalProvider(bool $is_external_provider) : void
     {
         $this->is_external_provider = $is_external_provider;
     }
     
-    /**
-     * @return string
-     */
     public function getLaunchMethod() : string
     {
         return $this->launch_method;
     }
     
-    /**
-     * @param string $launch_method
-     */
     public function setLaunchMethod(string $launch_method) : void
     {
         $this->launch_method = $launch_method;
     }
     
-    /**
-     * @return bool
-     */
     public function getHasOutcome() : bool
     {
         return $this->has_outcome;
     }
     
-    /**
-     * @param bool $has_outcome
-     */
     public function setHasOutcome(bool $has_outcome) : void
     {
         $this->has_outcome = $has_outcome;
     }
     
-    /**
-     * @return float
-     */
     public function getMasteryScore() : float
     {
         return $this->mastery_score;
     }
     
-    /**
-     * @param float $mastery_score
-     */
     public function setMasteryScore(float $mastery_score) : void
     {
         $this->mastery_score = $mastery_score;
     }
     
-    /**
-     * @return float
-     */
     public function getMasteryScorePercent() : float
     {
         return $this->mastery_score * 100;
     }
     
-    /**
-     * @param float $mastery_score_percent
-     */
     public function setMasteryScorePercent(float $mastery_score_percent) : void
     {
         $this->mastery_score = $mastery_score_percent / 100;
     }
 
-    /**
-     * @return bool
-     */
     public function isKeepLp() : bool
     {
         return $this->keep_lp;
     }
     
-    /**
-     * @param bool $keep_lp
-     */
     public function setKeepLp(bool $keep_lp) : void
     {
         $this->keep_lp = $keep_lp;
     }
     
 
-    /**
-     * @return int
-     */
     public function getPrivacyIdent() : int
     {
         return $this->privacy_ident;
     }
     
-    /**
-     * @param int $privacy_ident
-     */
     public function setPrivacyIdent(int $privacy_ident) : void
     {
         $this->privacy_ident = $privacy_ident;
     }
 
-    /**
-     * @return int
-     */
     public function getPrivacyName() : int
     {
         return $this->privacy_name;
     }
     
-    /**
-     * @param int $privacy_name
-     */
     public function setPrivacyName(int $privacy_name) : void
     {
         $this->privacy_name = $privacy_name;
     }
     
-    /**
-     * @return bool
-     */
     public function getIncludeUserPicture() : bool
     {
         return $this->include_user_picture;
     }
     
-    /**
-     * @param bool $include_user_picture
-     */
     public function setIncludeUserPicture(bool $include_user_picture) : void
     {
         $this->include_user_picture = $include_user_picture;
     }
 
-    /**
-     * @return string
-     */
     public function getPrivacyCommentDefault() : string
     {
         return $this->privacy_comment_default;
     }
     
-    /**
-     * @param string $privacy_comment_default
-     */
     public function setPrivacyCommentDefault(string $privacy_comment_default) : void
     {
         $this->privacy_comment_default = $privacy_comment_default;
     }
     
-    /**
-     * @return bool
-     */
     public function getAlwaysLearner() : bool
     {
         return $this->always_learner;
     }
     
-    /**
-     * @param bool $always_learner
-     */
     public function setAlwaysLearner(bool $always_learner) : void
     {
         $this->always_learner = $always_learner;
     }
     
-    /**
-     * @return bool
-     */
     public function getUseProviderId() : bool
     {
         return $this->use_provider_id;
     }
     
-    /**
-     * @param bool $use_provider_id
-     */
     public function setUseProviderId(bool $use_provider_id) : void
     {
         $this->use_provider_id = $use_provider_id;
     }
     
-    /**
-     * @return bool
-     */
     public function getUseXapi() : bool
     {
         return $this->use_xapi;
     }
     
-    /**
-     * @param bool $use_xapi
-     */
     public function setUseXapi(bool $use_xapi) : void
     {
         $this->use_xapi = $use_xapi;
     }
     
-    /**
-     * @return string
-     */
     public function getXapiLaunchUrl() : string
     {
         return $this->xapi_launch_url;
     }
     
-    /**
-     * @param string $xapi_launch_url
-     */
     public function setXapiLaunchUrl(string $xapi_launch_url) : void
     {
         $this->xapi_launch_url = $xapi_launch_url;
     }
     
-    /**
-     * @return string
-     */
     public function getXapiLaunchKey() : string
     {
         return $this->xapi_launch_key;
     }
     
-    /**
-     * @param string $xapi_launch_key
-     */
     public function setXapiLaunchKey(string $xapi_launch_key) : void
     {
         $this->xapi_launch_key = $xapi_launch_key;
     }
     
-    /**
-     * @return string
-     */
     public function getXapiLaunchSecret() : string
     {
         return $this->xapi_launch_secret;
     }
     
-    /**
-     * @param string $xapi_launch_secret
-     */
     public function setXapiLaunchSecret(string $xapi_launch_secret) : void
     {
         $this->xapi_launch_secret = $xapi_launch_secret;
     }
     
-    /**
-     * @return string
-     */
     public function getXapiActivityId() : string
     {
         return $this->xapi_activity_id;
     }
     
-    /**
-     * @param string $xapi_activity_id
-     */
     public function setXapiActivityId(string $xapi_activity_id) : void
     {
         $this->xapi_activity_id = $xapi_activity_id;
     }
     
-    /**
-     * @return string
-     */
     public function getCustomParams() : string
     {
         return $this->custom_params;
     }
     
-    /**
-     * @param string $custom_params
-     */
     public function setCustomParams(string $custom_params) : void
     {
         $this->custom_params = $custom_params;
     }
     
-    /**
-     * @return array
-     */
     public function getKeywordsArray() : array
     {
         $keywords = [];
@@ -788,72 +570,47 @@ class ilLTIConsumeProvider
         return $keywords;
     }
     
-    /**
-     * @return string
-     */
     public function getKeywords() : string
     {
         return $this->keywords;
     }
     
-    /**
-     * @param string $keywords
-     */
     public function setKeywords(string $keywords) : void
     {
         $this->keywords = $keywords;
     }
 
-    /**
-     * @return int
-     */
     public function getCreator() : int
     {
         return $this->creator;
     }
     
-    /**
-     * @param int $creator
-     */
     public function setCreator(int $creator) : void
     {
         $this->creator = $creator;
     }
     
-    /**
-     * @return int
-     */
     public function getAcceptedBy() : int
     {
         return $this->accepted_by;
     }
     
-    /**
-     * @param int $accepted_by
-     */
     public function setAcceptedBy(int $accepted_by) : void
     {
         $this->accepted_by = $accepted_by;
     }
     
-    /**
-     * @return bool
-     */
     public function isGlobal() : bool
     {
         return $this->is_global;
     }
     
-    /**
-     * @param bool $is_global
-     */
     public function setIsGlobal(bool $is_global) : void
     {
         $this->is_global = $is_global;
     }
 
     /**
-     * @param array $dbRow
      * @throws IOException
      */
     public function assignFromDbRow(array $dbRow) : void
@@ -963,9 +720,6 @@ class ilLTIConsumeProvider
         $DIC->database()->insert('lti_ext_provider', $this->getInsertUpdateFields());
     }
     
-    /**
-     * @return array
-     */
     protected function getInsertUpdateFields() : array
     {
         return array(

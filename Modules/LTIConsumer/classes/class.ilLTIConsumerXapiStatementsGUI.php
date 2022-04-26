@@ -35,9 +35,6 @@ class ilLTIConsumerXapiStatementsGUI
     protected ilLTIConsumerAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
     
-    /**
-     * @param ilObjLTIConsumer $object
-     */
     public function __construct(ilObjLTIConsumer $object)
     {
         global $DIC;
@@ -179,10 +176,6 @@ class ilLTIConsumerXapiStatementsGUI
         exit();
     }
     
-    /**
-     * @param ilCmiXapiStatementsTableGUI $table
-     * @param ilCmiXapiStatementsReportFilter $filter
-     */
     protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter) : void
     {
         $aggregateEndPointUrl = str_replace(
@@ -212,9 +205,6 @@ class ilLTIConsumerXapiStatementsGUI
         $table->setMaxCount($statementsReport->getMaxCount());
     }
     
-    /**
-     * @return ilCmiXapiStatementsTableGUI
-     */
     protected function buildTableGUI() : ilCmiXapiStatementsTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();

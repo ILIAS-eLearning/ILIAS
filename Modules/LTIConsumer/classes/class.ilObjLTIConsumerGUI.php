@@ -67,10 +67,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return 'lti';
     }
 
-    /**
-     * @param string $a_new_type
-     * @return array
-     */
     protected function initCreationForms(string $a_new_type) : array
     {
         global $DIC;
@@ -90,10 +86,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
-    /**
-     * @param string $a_new_type
-     * @return ilLTIConsumerProviderSelectionFormTableGUI
-     */
     protected function initCreateForm(string $a_new_type) : \ilLTIConsumerProviderSelectionFormTableGUI
     {
         global $DIC;
@@ -330,8 +322,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @param string|null $a_sub_type
-     * @param int|null    $a_sub_id
      * @return ilObjectListGUI
      * @throws ilCtrlException
      */
@@ -870,7 +860,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

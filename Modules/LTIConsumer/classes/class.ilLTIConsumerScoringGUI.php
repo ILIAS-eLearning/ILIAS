@@ -48,9 +48,6 @@ class ilLTIConsumerScoringGUI
     private \ilGlobalTemplateInterface $main_tpl;
 
 
-    /**
-     * @param ilObjLTIConsumer $object
-     */
     public function __construct(ilObjLTIConsumer $object)
     {
         global $DIC;
@@ -139,10 +136,6 @@ class ilLTIConsumerScoringGUI
         return $this;
     }
 
-    /**
-     * @param bool|null $scopeUserRank
-     * @return array
-     */
     private function getTableDataRange(?bool $scopeUserRank = false) : array
     {
         if (false === $scopeUserRank) {
@@ -185,21 +178,16 @@ class ilLTIConsumerScoringGUI
         return $this;
     }
 
-    /**
-     * @param string $tableId
-     * @return ilLTIConsumerScoringTableGUI
-     */
     protected function buildTableGUI(string $tableId) : ilLTIConsumerScoringTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();
-        $table = new ilLTIConsumerScoringTableGUI(
+        return new ilLTIConsumerScoringTableGUI(
             $this,
             'show',
             $isMultiActorReport,
             $tableId,
             $this->access->hasOutcomesAccess()
         );
-        return $table;
     }
 
     public function getObject() : \ilObjLTIConsumer

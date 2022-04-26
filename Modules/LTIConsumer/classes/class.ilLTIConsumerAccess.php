@@ -31,17 +31,12 @@ class ilLTIConsumerAccess
     
     /**
      * ilLTIConsumerAccess constructor.
-     * @param ilObjLTIConsumer $object
      */
     public function __construct(ilObjLTIConsumer $object)
     {
         $this->object = $object;
     }
 
-    /**
-     * @param string $permission
-     * @return bool
-     */
     protected function checkAccess(string $permission) : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -76,17 +71,11 @@ class ilLTIConsumerAccess
         return $this->checkAccess('edit_permission');
     }
     
-    /**
-     * @return bool
-     */
     public function hasLearningProgressAccess() : bool
     {
         return ilLearningProgressAccess::checkAccess($this->object->getRefId());
     }
     
-    /**
-     * @return bool
-     */
     public function hasStatementsAccess() : bool
     {
         if (!$this->object->getUseXapi()) {
@@ -100,9 +89,6 @@ class ilLTIConsumerAccess
         return $this->hasOutcomesAccess();
     }
     
-    /**
-     * @return bool
-     */
     public function hasHighscoreAccess() : bool
     {
 //        Todo -check
@@ -117,18 +103,11 @@ class ilLTIConsumerAccess
         return $this->hasOutcomesAccess();
     }
     
-    /**
-     * @param ilObjLTIConsumer $object
-     * @return ilLTIConsumerAccess
-     */
     public static function getInstance(ilObjLTIConsumer $object) : ilLTIConsumerAccess
     {
         return new self($object);
     }
     
-    /**
-     * @return bool
-     */
     public static function hasCustomProviderCreationAccess() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

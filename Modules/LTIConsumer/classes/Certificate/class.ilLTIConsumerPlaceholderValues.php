@@ -42,12 +42,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
 
     /**
      * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
      * @param ilCertificateTestObjectHelper|null $testObjectHelper
-     * @param ilCertificateUserObjectHelper|null $userObjectHelper
-     * @param ilCertificateLPStatusHelper|null $lpStatusHelper
-     * @param ilCertificateUtilHelper|null $utilHelper
      * @param ilDatePresentation|null $dateHelper
      */
     public function __construct(
@@ -97,9 +92,6 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
-     * @param int $userId
-     * @param int $objId
-     * @return array
      * @throws ilDateTimeException
      * @throws ilException
      */
@@ -117,9 +109,6 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
-     * @param int $userId
-     * @param int $objId
-     * @return array
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
@@ -151,21 +140,11 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    /**
-     * @param ilObjLTIConsumer $object
-     * @return string
-     */
     protected function getMasteryScore(ilObjLTIConsumer $object) : string
     {
-        $masteryScore = sprintf('%0.2f %%', $object->getMasteryScorePercent());
-        return $masteryScore;
+        return sprintf('%0.2f %%', $object->getMasteryScorePercent());
     }
 
-    /**
-     * @param ilObjLTIConsumer $object
-     * @param int              $userId
-     * @return string
-     */
     protected function getReachedScore(ilObjLTIConsumer $object, int $userId) : string
     {
         $userResult = ilLTIConsumerResult::getByKeys($object->getId(), $userId);

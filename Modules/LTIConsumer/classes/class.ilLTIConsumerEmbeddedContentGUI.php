@@ -36,16 +36,12 @@ class ilLTIConsumerEmbeddedContentGUI
      */
     protected ilCmiXapiUser $cmixUser;
     
-    /**
-     * @param ilObjLTIConsumer $object
-     */
     public function __construct(ilObjLTIConsumer $object)
     {
         $this->object = $object;
     }
 
     /**
-     * @return void
      * @throws ilLtiConsumerException
      */
     public function executeCommand() : void
@@ -62,7 +58,6 @@ class ilLTIConsumerEmbeddedContentGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      * @throws ilTemplateException
      */
@@ -81,7 +76,6 @@ class ilLTIConsumerEmbeddedContentGUI
     }
 
     /**
-     * @return void
      * @throws ilTemplateException
      */
     protected function showEmbedded() : void
@@ -111,9 +105,6 @@ class ilLTIConsumerEmbeddedContentGUI
         exit;
     }
     
-    /**
-     * @return array
-     */
     protected function getLaunchParameters() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

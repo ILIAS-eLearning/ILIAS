@@ -199,7 +199,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @param ilLTIConsumeProviderFormGUI|null $form
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCtrlException
      */
@@ -302,9 +301,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @param string $saveCommand
-     * @param string $cancelCommand
-     * @return ilPropertyFormGUI
      * @throws ilCtrlException
      */
     protected function buildProviderImportForm(string $saveCommand, string $cancelCommand) : \ilPropertyFormGUI
@@ -330,8 +326,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @param string $providerXml
-     * @return ilLTIConsumeProvider
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
@@ -359,7 +353,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return ilLTIConsumeProvider
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
@@ -399,9 +392,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @param string $url
-     * @param string $pId
-     * @return string|null
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
     private function getIconXml(string $url, string $pId) : ?string
@@ -484,8 +474,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @param ilLTIConsumeProviderFormGUI|null $form
-     * @return void
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCtrlException
      */
@@ -514,7 +502,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
@@ -544,7 +531,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function acceptProviderAsGlobalMultiCmd() : void
@@ -572,7 +558,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function acceptProviderAsGlobalCmd() : void
@@ -607,7 +592,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function resetProviderToUserScopeMultiCmd() : void
@@ -635,7 +619,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function resetProviderToUserScopeCmd() : void
@@ -668,7 +651,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function deleteGlobalProviderMultiCmd() : void
@@ -689,7 +671,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function deleteGlobalProviderCmd() : void
@@ -711,7 +692,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function deleteUserProviderMultiCmd() : void
@@ -732,7 +712,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function deleteUserProviderCmd() : void
@@ -775,9 +754,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @param array  $providers
-     * @param string $cancelCommand
-     * @return void
      * @throws ilCtrlException
      */
     protected function confirmDeleteProviders(array $providers, string $cancelCommand) : void
@@ -813,7 +789,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function performDeleteProvidersCmd() : void
@@ -833,11 +808,6 @@ class ilLTIConsumerAdministrationGUI
         $DIC->ctrl()->redirect($this, $DIC->http()->wrapper()->query()->retrieve(self::REDIRECTION_CMD_PARAMETER, $DIC->refinery()->kindlyTo()->string()));
     }
 
-    /**
-     * @param ilLTIConsumerAdministrationGUI $parentGui
-     * @param string      $parentCmd
-     * @return ilLTIConsumerProviderTableGUI
-     */
     protected function buildProviderTable(ilLTIConsumerAdministrationGUI $parentGui, string $parentCmd) : \ilLTIConsumerProviderTableGUI
     {
         $table = new ilLTIConsumerProviderTableGUI(
@@ -875,10 +845,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @param ilLTIConsumeProvider $provider
-     * @param string               $saveCmd
-     * @param string               $cancelCmd
-     * @return ilLTIConsumeProviderFormGUI
      * @throws ilCtrlException
      */
     protected function buildProviderForm(ilLTIConsumeProvider $provider, string $saveCmd, string $cancelCmd) : \ilLTIConsumeProviderFormGUI
@@ -893,7 +859,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return ilLTIConsumeProvider
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
     protected function fetchProvider() : \ilLTIConsumeProvider
@@ -968,7 +933,6 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @return ilPropertyFormGUI
      * @throws ilCtrlException
      */
     protected function buildSettingsForm() : \ilPropertyFormGUI
@@ -984,10 +948,6 @@ class ilLTIConsumerAdministrationGUI
         return $form;
     }
     
-    /**
-     * @param array $providerIds
-     * @return ilLTIConsumeProviderList
-     */
     protected function getProviderListForIds(array $providerIds) : ilLTIConsumeProviderList
     {
         $providerList = new ilLTIConsumeProviderList();

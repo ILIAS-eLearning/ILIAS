@@ -45,8 +45,6 @@ class ilLTIConsumerResult
 
     /**
      * Get a result by id
-     * @param int $a_id
-     * @return ilLTIConsumerResult|null
      */
     public static function getById(int $a_id) : ?ilLTIConsumerResult
     {
@@ -67,9 +65,6 @@ class ilLTIConsumerResult
 
     /**
      * Get a result by object and user key
-     * @param int       $a_obj_id
-     * @param int       $a_usr_id
-     * @param bool|null $a_create
      * @return ilLTIConsumerResult
      */
     public static function getByKeys(int $a_obj_id, int $a_usr_id, ?bool $a_create = false) : ?ilLTIConsumerResult

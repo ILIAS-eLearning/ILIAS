@@ -35,7 +35,6 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
     
     /**
      * ilLTIConsumeProviderFormGUI constructor.
-     * @param ilLTIConsumeProvider $provider
      */
     public function __construct(ilLTIConsumeProvider $provider)
     {
@@ -44,27 +43,16 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->provider = $provider;
     }
     
-    /**
-     * @return bool
-     */
     public function isAdminContext() : bool
     {
         return $this->adminContext;
     }
     
-    /**
-     * @param bool $adminContext
-     */
     public function setAdminContext(bool $adminContext) : void
     {
         $this->adminContext = $adminContext;
     }
 
-    /**
-     * @param string $formaction
-     * @param string $saveCmd
-     * @param string $cancelCmd
-     */
     public function initForm(string $formaction, string $saveCmd, string $cancelCmd) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
