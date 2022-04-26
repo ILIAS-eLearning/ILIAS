@@ -23,10 +23,7 @@
 abstract class ilMathBaseAdapter implements ilMathAdapter
 {
     /**
-     * This method adapts the behaviour of bcscale()
-     * @param mixed   $left_operand
-     * @param integer|null $scale
-     * @return mixed
+     * @inheritDoc
      */
     public function applyScale($left_operand, int $scale = null) : string
     {
@@ -50,16 +47,16 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
         return $left_operand;
     }
 
-    public function round($value, int $precision = 0) : string //TODO-PHP8-REVIEW add typing
+    /**
+     * @inheritDoc
+     */
+    public function round($value, int $precision = 0) : string
     {
         return number_format($value, $precision, '.', '');
     }
 
     /**
-     * @param int|float $left_operand
-     * @param int|float  $right_operand
-     * @param int|null $scale
-     * @return bool
+     * @inheritDoc
      */
     public function equals($left_operand, $right_operand, int $scale = null) : bool
     {
@@ -78,7 +75,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
             return null;
         }
 
-        $number = str_replace(' ', '', (string) $number); //TODO-PHP8-REVIEW Can't we use trim here. Is there a need to replace spaces inside a number?
+        $number = trim((string) $number);
         $number = $this->exp2dec($number);
         $locale_info = localeconv();
 
@@ -97,7 +94,11 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
         return $number;
     }
 
-    protected function exp2dec($float_str) : string //TODO-PHP8-REVIEW add typing
+    /**
+     * @param float|string|int $float_str
+     * @return string
+     */
+    protected function exp2dec($float_str) : string
     {
         // make sure its a standard php float string (i.e. change 0.2e+2 to 20)
         // php will automatically format floats decimally if they are within a certain range

@@ -105,6 +105,7 @@ interface ilMathAdapter
     public function equals($left_operand, $right_operand, int $scale = null) : bool;
 
     /**
+     * This method adapts the behaviour of bcscale()
      * @param mixed $left_operand
      * @param int|null $scale
      * @return mixed

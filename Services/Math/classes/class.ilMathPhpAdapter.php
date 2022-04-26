@@ -40,7 +40,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function add($left_operand, $right_operand, int $scale = null)
     {
@@ -50,7 +50,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function sub($left_operand, $right_operand, int $scale = null)
     {
@@ -60,7 +60,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function mul($left_operand, $right_operand, int $scale = null)
     {
@@ -86,7 +86,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function div($left_operand, $right_operand, int $scale = null)
     {
@@ -117,7 +117,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function mod($left_operand, $right_operand) : int
     {
@@ -129,7 +129,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function pow($left_operand, $right_operand, int $scale = null)
     {
@@ -139,7 +139,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function sqrt($operand, int $scale = null)
     {
@@ -149,7 +149,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function comp($left_operand, $right_operand, int $scale = null)
     {
