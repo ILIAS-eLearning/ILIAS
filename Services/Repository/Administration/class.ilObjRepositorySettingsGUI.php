@@ -160,7 +160,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         // repository tree
         $radg = new ilRadioGroupInputGUI($this->lng->txt("adm_rep_tree_presentation"), "tree_pres");
-        $radg->setValue($ilSetting->get("repository_tree_pres"));
+        $radg->setValue($ilSetting->get("repository_tree_pres") ?? "");
         $op1 = new ilRadioOption(
             $this->lng->txt("adm_rep_tree_only_cntr"),
             "",
