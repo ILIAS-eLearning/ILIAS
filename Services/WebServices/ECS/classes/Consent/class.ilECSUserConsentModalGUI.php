@@ -41,7 +41,7 @@ class ilECSUserConsentModalGUI
     private int $mid = 0;
 
     protected ?ilRemoteObjectBaseGUI $remote_gui = null;
-    protected ilRemoteObjectBase $remote;
+    protected ilRemoteObjectBase $remote_object;
     protected ilECSUserConsents $consents;
     protected ilECSImportManager $importManager;
     protected ilECSExportManager $exportManager;
@@ -76,9 +76,9 @@ class ilECSUserConsentModalGUI
         $this->ctrl = $DIC->ctrl();
         $this->objDefinition = $DIC['objDefinition'];
 
+        $this->remote_object = $this->initRemoteObject();
         $this->initMid();
-        $this->initRemoteObject();
-        $this->obj_id = $this->remote->getId();
+        $this->obj_id = $this->remote_object->getId();
     }
 
     public function hasConsented() : bool
@@ -88,17 +88,17 @@ class ilECSUserConsentModalGUI
 
     protected function initMid() : void
     {
-        $this->mid = $this->remote->getMID();
+        $this->mid = $this->remote_object->getMID();
     }
 
     protected function lookupOrganization() : string
     {
-        return $this->remote->getOrganization();
+        return $this->remote_object->getOrganization();
     }
 
     protected function isLocalObject() : bool
     {
-        return $this->remote->isLocalObject();
+        return $this->remote_object->isLocalObject();
     }
 
     public function getTitleLink() : string
@@ -124,7 +124,6 @@ class ilECSUserConsentModalGUI
         }
         if ($this->hasConsented()) {
             $this->addRemoteLinkToToolbar($toolbar);
-
         } else {
             $this->addConsentModalToToolbar($toolbar);
         }
@@ -135,7 +134,7 @@ class ilECSUserConsentModalGUI
         $button = $this->ui_factory
             ->button()
             ->standard(
-                $this->lng->txt($this->remote->getType() . '_call'),
+                $this->lng->txt($this->remote_object->getType() . '_call'),
                 $this->ctrl->getLinkTarget($this->remote_gui, 'call')
             );
         $toolbar->addComponent($button);
@@ -149,7 +148,8 @@ class ilECSUserConsentModalGUI
         }
     }
 
-    public function addConsentModalToCard(RepositoryObject $card
+    public function addConsentModalToCard(
+        RepositoryObject $card
     ) : RepositoryObject {
         $components = $this->getConsentModalComponents(self::TRIGGER_TYPE_CARD);
         foreach ($components as $component) {
@@ -208,14 +208,14 @@ class ilECSUserConsentModalGUI
         $button = null;
         if ($a_trigger_type === self::TRGIGGER_TYPE_STANDARD) {
             $button = $this->ui_factory->button()->standard(
-                $this->lng->txt($this->remote->getType() . '_call'),
+                $this->lng->txt($this->remote_object->getType() . '_call'),
                 '#'
             )->withOnClick(
                 $modal->getShowSignal()
             );
         } elseif ($a_trigger_type === self::TRGIGGER_TYPE_SHY) {
             $button = $this->ui_factory->button()->shy(
-                $this->remote->getTitle(),
+                $this->remote_object->getTitle(),
                 '#'
             )->withOnClick(
                 $modal->getShowSignal()
@@ -230,7 +230,9 @@ class ilECSUserConsentModalGUI
         if ($consented) {
             $this->consents->add($this->mid);
             $this->ctrl->setParameterByClass(
-                $this->getGUIClassName(), 'ref_id', $this->ref_id
+                $this->getGUIClassName(),
+                'ref_id',
+                $this->ref_id
             );
             $this->ctrl->redirectToURL(
                 $this->ctrl->getLinkTargetByClass(
@@ -257,7 +259,7 @@ class ilECSUserConsentModalGUI
             'title'
         );
         $title->setValue(
-            ilObject::_lookupTitle(ilObject::_lookupObjId($this->ref_id))
+            ilObject::_lookupTitle($this->obj_id)
         );
         $form->addItem($title);
 
@@ -280,7 +282,8 @@ class ilECSUserConsentModalGUI
         }
 
         $consent = new ilCheckboxInputGUI(
-            $this->lng->txt('ecs_form_consent'), 'consent'
+            $this->lng->txt('ecs_form_consent'),
+            'consent'
         );
         $consent->setValue("1");
         $consent->setChecked($this->consents->hasConsented($this->mid));

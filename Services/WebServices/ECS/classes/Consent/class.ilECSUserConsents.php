@@ -6,12 +6,18 @@
  */
 class ilECSUserConsents
 {
-    private static $instances = [];
+    /**
+     * @var array<int, self>
+     */
+    private static array $instances = [];
 
-    private $usr_id = 0;
-    private $consents = [];
+    private int $usr_id = 0;
+    /**
+     * @var array<int, ilECSUserConsent>
+     */
+    private array $consents = [];
 
-    protected $db;
+    protected ilDBInterface $db;
 
     protected function __construct(int $a_usr_id)
     {
@@ -19,8 +25,9 @@ class ilECSUserConsents
 
         $this->db = $DIC->database();
         $this->usr_id = $a_usr_id;
-
-        $this->read();
+        if ($a_usr_id > 0) {
+            $this->read();
+        }
     }
 
     public static function getInstanceByUserId(int $a_usr_id) : self
