@@ -169,19 +169,17 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     }
     
     /**
-     * @param $a_id
+     * @param int $a_id
      * @deprecated
      */
-    public static function _lookupFileSize($a_id) : int // FSX mus use storage in future
+    public static function _lookupFileSize(int $a_id) : int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
-        $q = "SELECT file_size FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
-        $r = $ilDB->query($q);
-        $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        
-        return $row->file_size;
+        try {
+            $obj = new ilObjFile($a_id);
+            return $obj->getFileSize();
+        } catch (Throwable $t) {
+            return 0;
+        }
     }
     
     /**
