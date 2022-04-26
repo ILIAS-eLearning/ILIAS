@@ -711,9 +711,8 @@ class ilAuthUtils
     
     /**
      * Get active enabled auth plugins
-     * @return ilAuthDefinition
      */
-    public static function getAuthPlugins() : \ilAuthDefinition
+    public static function getAuthPlugins() : \Iterator
     {
         return $GLOBALS['DIC']['component.factory']->getActivePluginsInSlot('authhk');
     }
