@@ -1040,7 +1040,7 @@ abstract class assQuestionGUI
                 } else {
                     ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
                 }
-                $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
+                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         }
     }
