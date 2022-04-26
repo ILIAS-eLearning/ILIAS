@@ -638,7 +638,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         
         $items = $this->getActionItems($data);
         
-        if (count($items)) {
+        if ($items !== []) {
             return $DIC->ui()->renderer()->render(
                 $DIC->ui()->factory()->dropdown()->standard($items)->withLabel(
                     $DIC->language()->txt('actions')

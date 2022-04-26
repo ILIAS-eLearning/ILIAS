@@ -150,7 +150,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         $userResult = ilLTIConsumerResult::getByKeys($object->getId(), $userId);
 
         $reachedScore = sprintf('%0.2f %%', 0);
-        if ($userResult) {
+        if ($userResult !== null) {
             $reachedScore = sprintf('%0.2f %%', $userResult->getResult() * 100);
         }
 

@@ -62,7 +62,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($saveCmd, $lng->txt('save'));
         $this->addCommandButton($cancelCmd, $lng->txt('cancel'));
         
-        if ($this->provider->getId()) {
+        if ($this->provider->getId() !== 0) {
             $this->setTitle($lng->txt('lti_form_provider_edit'));
         } else {
             $this->setTitle($lng->txt('lti_form_provider_create'));

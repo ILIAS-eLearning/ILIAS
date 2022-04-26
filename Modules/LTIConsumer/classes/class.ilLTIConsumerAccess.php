@@ -59,11 +59,7 @@ class ilLTIConsumerAccess
     
     public function hasOutcomesAccess() : bool
     {
-        if ($this->checkAccess('read_outcomes')) {
-            return true;
-        }
-        
-        return false;
+        return $this->checkAccess('read_outcomes');
     }
     
     public function hasEditPermissionsAccess() : bool

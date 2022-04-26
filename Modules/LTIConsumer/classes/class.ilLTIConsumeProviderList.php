@@ -297,7 +297,7 @@ class ilLTIConsumeProviderList implements Iterator
         }
 
         
-        if (!count($conditions)) {
+        if (count($conditions) === 0) {
             return '1 = 1';
         }
         

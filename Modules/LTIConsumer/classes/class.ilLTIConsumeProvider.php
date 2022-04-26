@@ -681,7 +681,7 @@ class ilLTIConsumeProvider
      */
     public function save() : void
     {
-        if ($this->getId()) {
+        if ($this->getId() !== 0) {
             if ($this->hasProviderIconUploadInput()) {
                 $this->getProviderIcon()->handleUploadInputSubission($this->getProviderIconUploadInput());
                 $this->setProviderIconFilename($this->getProviderIcon()->getFilename());

@@ -111,7 +111,7 @@ class ilLTIConsumerResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        if (!isset($this->usr_id) or !isset($this->obj_id)) {
+        if (!isset($this->usr_id) || !isset($this->obj_id)) {
             return false;
         }
         if (!isset($this->id)) {

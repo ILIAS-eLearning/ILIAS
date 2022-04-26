@@ -107,7 +107,7 @@ class ilLTIConsumeProviderIcon
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        if (!strlen($this->getFilename())) {
+        if ($this->getFilename() === '') {
             return false;
         }
         

@@ -169,7 +169,7 @@ class ilLTIConsumerSettingsGUI
             $form->initObject($this->object);
             $this->object->update();
             
-            if ($oldMasteryScore != $this->object->getMasteryScore()) {
+            if ($oldMasteryScore !== $this->object->getMasteryScore()) {
                 ilLPStatusWrapper::_refreshStatus($this->object->getId());
             }
             
