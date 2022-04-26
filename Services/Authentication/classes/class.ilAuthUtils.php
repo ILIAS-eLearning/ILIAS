@@ -486,7 +486,7 @@ class ilAuthUtils
             $options[$default]['checked'] = true;
         }
 
-        return $options ?: array();
+        return $options;
     }
 
     /**

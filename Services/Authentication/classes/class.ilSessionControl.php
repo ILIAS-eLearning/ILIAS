@@ -201,6 +201,7 @@ class ilSessionControl
         }
                 
         if (in_array($type, self::$session_types_controlled, true)) {
+            //TODO rework this, as it did return value of a void method call
             self::checkCurrentSessionIsAllowed($auth_session, $user_id);
             return true;
         }
@@ -286,8 +287,6 @@ class ilSessionControl
                         $auth->logout();
 
                         // Trigger reachedSessionPoolLimit Event
-                        global $DIC;
-
                         $ilAppEventHandler = $DIC['ilAppEventHandler'];
                         $ilAppEventHandler->raise(
                             'Services/Authentication',
@@ -330,7 +329,7 @@ class ilSessionControl
                     "AND " . $ilDB->in('type', $a_types, false, 'integer');
     
         $res = $ilDB->queryF($query, array('integer'), array($ts));
-        return $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num_sessions;
+        return (int) $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num_sessions;
     }
 
     /**

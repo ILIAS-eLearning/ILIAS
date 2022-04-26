@@ -427,6 +427,7 @@ class ilSessionStatistics
         if ($row["latest"]) {
             return $row["latest"];
         }
+        //TODO check if return null as timestamp causes issues
         return null;
     }
     
@@ -451,6 +452,7 @@ class ilSessionStatistics
         if ($row["dur"]) {
             return $row["dur"];
         }
+        //TODO check if return null as timestamp causes issues
         return null;
     }
     
@@ -512,6 +514,7 @@ class ilSessionStatistics
         if ($row["latest"]) {
             return $row["latest"];
         }
+        //TODO check if return null as timestamp causes issues
         return null;
     }
     

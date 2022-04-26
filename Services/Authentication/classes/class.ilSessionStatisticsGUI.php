@@ -99,17 +99,19 @@ class ilSessionStatisticsGUI
         
         // current mode
         if (!$_REQUEST["smd"]) {
-            $_REQUEST["smd"] = self::MODE_TODAY;
+            $mode = self::MODE_TODAY;
+        } else {
+            $mode = (int) $_REQUEST["smd"];
         }
-        $mode = (int) $_REQUEST["smd"];
         
         // current measure
         if (!$_REQUEST["smm"]) {
-            $_REQUEST["smm"] = "avg";
+            $measure = "avg";
+        } else {
+            $measure = $_REQUEST["smm"];
         }
-        $measure = (string) $_REQUEST["smm"];
-        
-                
+
+
         switch ($mode) {
             default:
             case self::MODE_TODAY:
@@ -206,16 +208,18 @@ class ilSessionStatisticsGUI
         
         // current mode
         if (!$_REQUEST["smd"]) {
-            $_REQUEST["smd"] = self::MODE_DAY;
+            $mode = self::MODE_DAY;
+        } else {
+            $mode = (int) $_REQUEST["smd"];
         }
-        $mode = (int) $_REQUEST["smd"];
         
         // current measure
         if (!$_REQUEST["smm"]) {
-            $_REQUEST["smm"] = "avg";
+            $measure = "avg";
+        } else {
+            $measure = $_REQUEST["smm"];
         }
-        $measure = (string) $_REQUEST["smm"];
-                                
+
         switch ($mode) {
             default:
             case self::MODE_DAY:
@@ -284,13 +288,14 @@ class ilSessionStatisticsGUI
         
         // current start
         $time_to = $this->importDate($_REQUEST["sst"]);
-        
+
         // current mode
         if (!$_REQUEST["smd"]) {
-            $_REQUEST["smd"] = self::MODE_WEEK;
+            $mode = self::MODE_WEEK;
+        } else {
+            $mode = (int) $_REQUEST["smd"];
         }
-        $mode = (int) $_REQUEST["smd"];
-        
+
         switch ($mode) {
             default:
             case self::MODE_WEEK:
@@ -608,12 +613,12 @@ class ilSessionStatisticsGUI
                         $date = $day_value + $hour * 60 * 60 + $min * 60;
                         
                         // 6-hour interval labels
-                        if (isset($old_hour) && $hour != $old_hour && $hour && $hour % 6 == 0) {
+                        if ((!isset($old_hour) || $hour != $old_hour) && $hour && $hour % 6 == 0) {
                             $labels[$date] = $hour;
                             $old_hour = $hour;
                         }
                         // day label
-                        if (isset($old_day) && $day != $old_day) {
+                        if (!isset($old_day) || $day != $old_day) {
                             $labels[$date] = ilCalendarUtil::_numericDayToString((int) $day, false);
                             $old_day = $day;
                         }

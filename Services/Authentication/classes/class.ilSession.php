@@ -329,6 +329,7 @@ class ilSession
             self::_writeData($new_session, $row->data);
             return $new_session;
         }
+        //TODO check if throwing an excpetion might be a better choice
         return "";
     }
     
@@ -350,6 +351,7 @@ class ilSession
             return time() + self::getIdleValue($fixedMode);
         }
 
+        /** @var ilSetting $ilSetting */
         $ilSetting = $DIC['ilSetting'];
         if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) === (string) self::SESSION_HANDLING_FIXED) {
             return time() + self::getIdleValue($fixedMode);
