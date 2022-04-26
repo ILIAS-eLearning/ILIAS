@@ -32,7 +32,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     protected bool $dynamic = false;
     protected ilNewsCache $acache;
     protected bool $show_view_selection;
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     /**
      * @var false|mixed|string|null

@@ -300,7 +300,7 @@ class ilCalendarRecurrenceCalculator
                 $this->timezone
             ) . ' has ' . $weeks_in_year . ' weeks');
             foreach ($this->recurrence->getBYWEEKNOList() as $week_no) {
-                $week_no = $week_no < 0 ? ($weeks_in_year + $week_no + 1) : $week_no;
+                $week_no = $week_no < 0 ? ((int) $weeks_in_year + $week_no + 1) : $week_no;
 
                 switch ($this->frequence_context) {
                     case ilCalendarRecurrence::FREQ_MONTHLY:
@@ -343,7 +343,7 @@ class ilCalendarRecurrenceCalculator
             ) . ' has ' . $num_days . ' days.');
 
             foreach ($this->recurrence->getBYYEARDAYList() as $day_no) {
-                $day_no = $day_no < 0 ? ($num_days + $day_no + 1) : $day_no;
+                $day_no = $day_no < 0 ? ((int) $num_days + $day_no + 1) : $day_no;
 
                 $day_diff = $day_no - $seed->get(IL_CAL_FKT_DATE, 'z', $this->timezone);
                 $new_day = $this->createDate($seed->get(IL_CAL_UNIX, '', $this->timezone));

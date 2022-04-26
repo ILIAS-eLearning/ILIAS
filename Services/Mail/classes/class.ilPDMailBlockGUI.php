@@ -260,7 +260,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     protected function getListItemForData(array $data) : ?Item
     {

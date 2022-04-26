@@ -35,12 +35,7 @@ class ilCalendarAppointmentGUI
     private ilLogger $logger;
     protected HTTPServices $http;
     protected RefineryFactory $refinery;
-
-
-    /**
-     * @var RequestInterface|ServerRequestInterface
-     */
-    protected $request;
+    protected RequestInterface $request;
 
     /**
      * @todo make appointment_id required and remove all GET request

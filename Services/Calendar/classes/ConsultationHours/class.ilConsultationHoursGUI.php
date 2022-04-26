@@ -151,13 +151,16 @@ class ilConsultationHoursGUI
         return [];
     }
 
+    /**
+     * @return string[]
+     */
     protected function initBookingUsersFromPost() : array
     {
         if ($this->http->wrapper()->post()->has('bookuser')) {
             return $this->http->wrapper()->post()->retrieve(
                 'bookuser',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
                 )
             );
         }
@@ -572,7 +575,7 @@ class ilConsultationHoursGUI
         foreach ($this->initBookingUsersFromPost() as $bookuser) {
             $ids = explode('_', $bookuser);
 
-            $entry = new ilCalendarEntry($ids[0]);
+            $entry = new ilCalendarEntry((int) $ids[0]);
             $confirm->addItem(
                 'bookuser[]',
                 $bookuser,
@@ -602,7 +605,7 @@ class ilConsultationHoursGUI
         foreach ($this->initBookingUsersFromPost() as $bookuser) {
             $ids = explode('_', $bookuser);
 
-            ilConsultationHourUtils::cancelBooking($ids[1], $ids[0], $a_send_notification);
+            ilConsultationHourUtils::cancelBooking((int) $ids[1], (int) $ids[0], $a_send_notification);
         }
         if ($a_send_notification) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_ch_canceled_bookings'), true);

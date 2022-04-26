@@ -18,7 +18,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
     public const PERIOD_HALF_YEAR = 4;
 
     protected int $period = self::PERIOD_WEEK;
-    protected ?string $period_end_day = null;
 
     public function __construct(ilDate $seed)
     {
@@ -29,9 +28,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->initEndPeriod();
     }
 
-    /**
-     * @todo _GET
-     */
     protected function initPeriod() : void
     {
         global $DIC;

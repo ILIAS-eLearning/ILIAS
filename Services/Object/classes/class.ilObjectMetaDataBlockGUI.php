@@ -91,7 +91,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
 
     /**
