@@ -1,6 +1,5 @@
 ## TestQuestionPool Privacy
-Insert caveat: *This documentation does not warrant completeness or correctness. 
-Please report any missing or wrong information using the ILIAS issue tracker.* 
+Disclaimer: This documentation does not warrant completeness or correctness. Please report any missing or wrong information using the <a href="https://mantis.ilias.de/">ILIAS issue tracker</a>. 
 
 ### Note:
 The module TestQuestionPool and the module Test are still tied together in most intricate ways. The primary 
