@@ -37,198 +37,107 @@ class ilObjCmiXapi extends ilObject2
     protected ?int $activationStartingTime = null;
     protected ?int $activationEndingTime = null;
     protected ?bool $activationVisibility = null;
-    
-    /**
-     * @var int
-     */
+
     protected int $lrsTypeId;
-    
-    /**
-     * @var ilCmiXapiLrsType
-     */
+ 
     protected ilCmiXapiLrsType $lrsType;
-    
-    /**
-     * @var string
-     */
+
     protected string $contentType;
     const CONT_TYPE_GENERIC = 'generic';
     const CONT_TYPE_CMI5 = 'cmi5';
-    
-    /**
-     * @var string
-     */
+ 
     protected string $sourceType;
     const SRC_TYPE_REMOTE = 'remoteSource';
     const SRC_TYPE_LOCAL = 'localSource';
     const SRC_TYPE_EXTERNAL = 'externalSource';
-    
-    /**
-     * @var string
-     */
+
     protected string $activityId;
-    
-    /**
-     * @var string
-     */
+
     protected string $publisherId;
 
-    /**
-     * @var string
-     */
     protected string $instructions;
     
-    /**
-     * @var string
-     */
     protected string $launchUrl;
 
-    /**
-     * @var string
-     */
     protected string $launchParameters;
     
-    /**
-     * @var string
-     */
     protected string $moveOn;
 
-    /**
-     * @var string
-     */
     protected string $entitlementKey;
 
-    /**
-     * @var bool
-     */
     protected bool $authFetchUrlEnabled = false;
-    
-    /**
-     * @var bool;
-     */
+
     protected bool $anonymousHomePage = false;
     const ANONYMOUS_HOMEPAGE = 'https://example.org';
 
-    /**
-     * @var string
-     */
     protected string $launchMethod;
     const LAUNCH_METHOD_OWN_WIN = 'ownWin';
     const LAUNCH_METHOD_NEW_WIN = 'newWin';
     const LAUNCH_METHOD_IFRAME = 'iframe';
-    
-    /**
-     * @var string
-     */
+
     protected string $launchMode;
     const LAUNCH_MODE_NORMAL = 'Normal';
     const LAUNCH_MODE_BROWSE = 'Browse';
     const LAUNCH_MODE_REVIEW = 'Review';
-    
-    /**
-     * @var bool
-     */
+
     protected bool $switchToReviewEnabled = false;
 
-    /**
-     * @var float
-     */
     protected float $masteryScore;
     const LMS_MASTERY_SCORE = 0.7;
 
-    /**
-     * @var bool
-     */
     protected bool $keepLpStatusEnabled = false;
-    
-    /**
-     * @var int
-     */
+
     protected int $userIdent;
     const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
     const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
     const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
     const PRIVACY_IDENT_REAL_EMAIL = 3;
     const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
-    
-    /**
-     * @var int
-     */
+
     protected int $userName;
     const PRIVACY_NAME_NONE = 0;
     const PRIVACY_NAME_FIRSTNAME = 1;
     const PRIVACY_NAME_LASTNAME = 2;
     const PRIVACY_NAME_FULLNAME = 3;
 
-    
-    /**
-     * @var string
-     */
     protected string $userPrivacyComment = "";
-    
-    /**
-     * @var bool
-     */
+
     protected bool $statementsReportEnabled = false;
-    
-    /**
-     * @var string
-     */
+
     protected string $xmlManifest = "";
-    
-    /**
-     * @var int
-     */
+
     protected int $version;
-    
-    /**
-     * @var bool
-     */
+ 
     protected bool $bypassProxyEnabled = false;
 
-    /** @var bool $only_moveon */
     protected bool $only_moveon = false;
 
-    /** @var bool $achieved */
     protected bool $achieved = true;
 
-    /** @var bool $answered */
     protected bool $answered = true;
 
-    /** @var bool $completed */
     protected bool $completed = true;
 
-    /** @var bool $failed */
     protected bool $failed = true;
 
-    /** @var bool $initialized */
     protected bool $initialized = true;
 
-    /** @var bool $passed */
     protected bool $passed = true;
 
-    /** @var bool $progressed */
     protected bool $progressed = true;
 
-    /** @var bool $satisfied */
     protected bool $satisfied = true;
 
-    /** @var bool $terminated */
     protected bool $terminated = true;
 
-    /** @var bool $hide_data */
     protected bool $hide_data = false;
 
-    /** @var bool $timestamp */
     protected bool $timestamp = false;
 
-    /** @var bool $duration */
     protected bool $duration = true;
 
-    /** @var bool $no_substatements */
     protected bool $no_substatements = false;
 
-    /** @var ilCmiXapiUser $currentCmixUser */
     protected ?ilCmiXapiUser $currentCmixUser = null;
 
     /**
@@ -237,7 +146,6 @@ class ilObjCmiXapi extends ilObject2
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         $this->lrsTypeId = 0;
-        //$this->lrsType = $lrsType;
         
         $this->contentType = self::CONT_TYPE_GENERIC;
         $this->sourceType = self::SRC_TYPE_REMOTE;
@@ -758,7 +666,7 @@ class ilObjCmiXapi extends ilObject2
     }
 
     //todo?
-    public function doRead() : void
+    protected function doRead() : void
     {
         $this->load();
     }
@@ -766,7 +674,7 @@ class ilObjCmiXapi extends ilObject2
     public function load() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s";
         $res = $DIC->database()->queryF($query, ['integer'], [$this->getId()]);
         
@@ -836,7 +744,7 @@ class ilObjCmiXapi extends ilObject2
     }
 
     //todo?
-    public function doUpdate() : void
+    protected function doUpdate() : void
     {
         $this->save();
     }
@@ -844,7 +752,7 @@ class ilObjCmiXapi extends ilObject2
     public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->database()->replace(self::DB_TABLE_NAME, [
             'obj_id' => ['integer', $this->getId()]
         ], [
@@ -938,26 +846,26 @@ class ilObjCmiXapi extends ilObject2
     public static function updatePrivacySettingsFromLrsType(ilCmiXapiLrsType $lrsType) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $tableName = self::DB_TABLE_NAME;
         
         $query = "
 			UPDATE {$tableName}
-			SET privacy_ident = %s, 
-                privacy_name = %s, 
-                only_moveon = %s, 
-                achieved = %s, 
-                answered = %s, 
-                completed = %s, 
-                failed = %s, 
-                initialized = %s, 
-                passed = %s, 
-                progressed = %s, 
-                satisfied = %s, 
-                c_terminated = %s, 
-                hide_data = %s, 
-                c_timestamp = %s, 
-                duration = %s, 
+			SET privacy_ident = %s,
+                privacy_name = %s,
+                only_moveon = %s,
+                achieved = %s,
+                answered = %s,
+                completed = %s,
+                failed = %s,
+                initialized = %s,
+                passed = %s,
+                progressed = %s,
+                satisfied = %s,
+                c_terminated = %s,
+                hide_data = %s,
+                c_timestamp = %s,
+                duration = %s,
                 no_substatements = %s
             WHERE lrs_type_id = %s
 		";
@@ -1006,7 +914,7 @@ class ilObjCmiXapi extends ilObject2
     public static function updateByPassProxyFromLrsType(ilCmiXapiLrsType $lrsType) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $tableName = self::DB_TABLE_NAME;
         
         $query = "
@@ -1028,7 +936,7 @@ class ilObjCmiXapi extends ilObject2
     public static function getObjectsHavingBypassProxyEnabledAndRegisteredUsers() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $query = "
 			SELECT DISTINCT s.obj_id FROM " . self::DB_TABLE_NAME . " s
 			INNER JOIN " . self::DB_USERS_TABLE_NAME . " u ON u.obj_id = s.obj_id
@@ -1050,46 +958,21 @@ class ilObjCmiXapi extends ilObject2
 
     /////////////////////////////////////////
     /// HIGHSCORE
-
-    /**
-     * @var bool
-     */
+    
     protected bool $_highscore_enabled = false;
-
-
-    /**
-     * @var int
-     */
+    
     protected int $anonymity = 0;
-
-    /**
-     * @var bool
-     */
+    
     protected bool $_highscore_achieved_ts = true;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_percentage = true;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_wtime = true;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_own_table = true;
 
-    /**
-     * @var bool
-     */
     protected bool $_highscore_top_table = true;
 
-    /**
-     * @var int
-     */
     protected int $_highscore_top_num = 10;
     
     const HIGHSCORE_SHOW_ALL_TABLES = 1;
@@ -1240,9 +1123,7 @@ class ilObjCmiXapi extends ilObject2
         }
     }
 
-    /**
-     * @param $mode int
-     */
+
     public function setHighscoreMode(int $mode) : void
     {
         switch ($mode) {
@@ -1271,6 +1152,7 @@ class ilObjCmiXapi extends ilObject2
      */
     public function getDataSetMapping() : array
     {
+        // TODO PHP8 Review: Check comparisation since getLrsTypeId() always return int
         if (null === ($lrsTypeId = $this->getLrsTypeId())) {
             $this->doRead();
         }
@@ -1333,11 +1215,10 @@ class ilObjCmiXapi extends ilObject2
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-//    protected function doCloneObject(ilObjCmiXapi $new_obj, int $a_target_id, ?int $a_copy_id = null, bool $a_omit_tree = false) : void
     protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $this->cloneMetaData($new_obj);
 
         $new_obj->setLrsTypeId($this->getLrsTypeId());
@@ -1400,7 +1281,7 @@ class ilObjCmiXapi extends ilObject2
     {
         global $DIC;
         $ilDB = $DIC->database();
-
+        // TODO PHP8 Review: Move Global Access to Constructor
         // delete file data entry
         $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
         $ilDB->manipulate($query);
@@ -1425,11 +1306,12 @@ class ilObjCmiXapi extends ilObject2
     }
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     public function getRegistrations() : array
     {
         global $DIC;
+        // TODO PHP8 Review: Move Global Access to Constructor
         $res = $DIC->database()->queryF(
             "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
             array('text'),
@@ -1470,7 +1352,6 @@ class ilObjCmiXapi extends ilObject2
     }
 
     /**
-     * @param ilCmiXapiUser $cmixUser
      * @throws ilCmiXapiException
      */
     public function getSessionId(?ilCmiXapiUser $cmixUser = null) : string
@@ -1879,6 +1760,7 @@ class ilObjCmiXapi extends ilObject2
     public static function iliasUrl() : string
     {
         //todo
+        // TODO PHP8 Review: Check this method, always return empty string
 //        $regex = '/^(https?:\/\/[^\/]+).*/';
 //        preg_match($regex, $GLOBALS['DIC']->http()->request()->getUri(), $request_parts);
 //        return $request_parts[1];
@@ -1888,6 +1770,7 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @return CliLog|ilLogger
      */
+    // TODO PHP8 Review: Missing Return type Declaration
     public static function log()
     {
         global $log;

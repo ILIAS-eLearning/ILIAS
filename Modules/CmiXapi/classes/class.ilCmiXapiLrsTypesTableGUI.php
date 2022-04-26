@@ -26,6 +26,7 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
 {
     const TABLE_ID = 'cmix_lrs_types_table';
     
+    // TODO PHP8 Review: object is a very general type, could this be specified?
     public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

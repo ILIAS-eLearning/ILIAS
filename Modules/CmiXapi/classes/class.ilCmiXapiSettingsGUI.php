@@ -52,7 +52,7 @@ class ilCmiXapiSettingsGUI
     public function initSubtabs() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->tabs()->addSubTab(
             self::SUBTAB_ID_SETTINGS,
             $DIC->language()->txt(self::SUBTAB_ID_SETTINGS),
@@ -73,7 +73,7 @@ class ilCmiXapiSettingsGUI
     public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $this->initSubtabs();
         
         switch ($DIC->ctrl()->getNextClass()) {
@@ -103,7 +103,7 @@ class ilCmiXapiSettingsGUI
     protected function saveCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $form = $this->buildForm();
         
         if ($form->checkInput()) {
@@ -119,7 +119,7 @@ class ilCmiXapiSettingsGUI
     protected function showCmd(ilPropertyFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
         
         $form = $this->buildForm();
@@ -130,6 +130,7 @@ class ilCmiXapiSettingsGUI
     protected function buildForm() : \ilPropertyFormGUI
     {
         global $DIC;
+        // TODO PHP8 Review: Move Global Access to Constructor
         $form = new ilPropertyFormGUI();
         $form->setFormAction($DIC->ctrl()->getFormAction($this));
         
@@ -634,7 +635,7 @@ class ilCmiXapiSettingsGUI
     protected function deliverCertificateCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
+        // TODO PHP8 Review: Move Global Access to Constructor
         $validator = new ilCertificateDownloadValidator();
 
         if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), $this->object->getId())) {

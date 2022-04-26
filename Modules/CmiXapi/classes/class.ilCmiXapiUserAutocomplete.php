@@ -24,9 +24,6 @@
  */
 class ilCmiXapiUserAutocomplete extends ilUserAutoComplete
 {
-    /**
-     * @var int
-     */
     protected int $objId;
     
     public function __construct(int $objId)
@@ -35,9 +32,6 @@ class ilCmiXapiUserAutocomplete extends ilUserAutoComplete
         $this->objId = $objId;
     }
     
-    /**
-     * {@inheritdoc}
-     */
     protected function getFromPart() : string
     {
         global $DIC;

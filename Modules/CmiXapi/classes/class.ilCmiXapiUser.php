@@ -32,29 +32,14 @@ class ilCmiXapiUser
 
     protected ?int $privacyIdent;
     
-    /**
-     * @var bool
-     */
     protected bool $proxySuccess;
     
-    /**
-     * @var bool
-     */
     protected bool $satisfied;
-
-    /**
-     * @var ilCmiXapiDateTime
-     */
+    
     protected ilCmiXapiDateTime $fetchUntil;
     
-    /**
-     * @var string
-     */
     protected string $usrIdent;
-
-    /**
-     * @var string
-     */
+    
     protected string $registration;
 
     
@@ -118,10 +103,7 @@ class ilCmiXapiUser
     {
         return $this->registration;
     }
-
-    /**
-     * @param string
-     */
+    
     public function setRegistration(string $registration) : void
     {
         $this->registration = $registration;
@@ -175,7 +157,7 @@ class ilCmiXapiUser
     public function load() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $res = $DIC->database()->queryF(
             "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s AND privacy_ident = %s",
             array('integer', 'integer', 'integer'),
@@ -202,7 +184,7 @@ class ilCmiXapiUser
     public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->database()->replace(
             self::DB_TABLE_NAME,
             array(
@@ -244,7 +226,7 @@ class ilCmiXapiUser
     public static function getInstanceByObjectIdAndUsrIdent(int $objId, string $usrIdent) : \ilCmiXapiUser
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $res = $DIC->database()->queryF(
             "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_ident = %s",
             array('integer', 'text'),
@@ -263,7 +245,7 @@ class ilCmiXapiUser
     public static function saveProxySuccess(int $objId, int $usrId, int $privacyIdent) : void //TODO
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->database()->update(
             self::DB_TABLE_NAME,
             array(

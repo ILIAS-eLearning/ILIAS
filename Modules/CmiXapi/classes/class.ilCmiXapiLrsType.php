@@ -71,57 +71,40 @@ class ilCmiXapiLrsType
     
     protected string $remarks = "";
     
-    /**
-     * @var bool
-     */
     protected bool $bypassProxyEnabled = false;
 
-    /** @var bool $only_moveon */
     protected bool $only_moveon = false;
 
-    /** @var bool $achieved */
     protected bool $achieved = true;
 
-    /** @var bool $answered */
     protected bool $answered = true;
 
-    /** @var bool $completed */
     protected bool $completed = true;
 
-    /** @var bool $failed */
     protected bool $failed = true;
 
-    /** @var bool $initialized */
     protected bool $initialized = true;
 
-    /** @var bool $passed */
     protected bool $passed = true;
 
-    /** @var bool $progressed */
     protected bool $progressed = true;
 
-    /** @var bool $satisfied */
     protected bool $satisfied = true;
 
-    /** @var bool $terminated */
     protected bool $terminated = true;
 
-    /** @var bool $hide_data */
     protected bool $hide_data = false;
 
-    /** @var bool $timestamp */
     protected bool $timestamp = false;
 
-    /** @var bool $duration */
     protected bool $duration = true;
 
-    /** @var bool $no_substatements */
     protected bool $no_substatements = false;
 
     /**
      * Constructor
      */
-    public function __construct($a_type_id = 0)
+    public function __construct(int $a_type_id = 0)
     {
         if ($a_type_id) {
             $this->type_id = $a_type_id;
@@ -129,65 +112,41 @@ class ilCmiXapiLrsType
         }
     }
     
-    /**
-     * @param int id
-     */
     public function setTypeId(int $a_type_id) : void
     {
         $this->type_id = $a_type_id;
     }
     
-    /**
-     * @return int id
-     */
     public function getTypeId() : int
     {
         return $this->type_id;
     }
     
-    /**
-     * @param string title
-     */
     public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
     
-    /**
-     * @return string title
-     */
     public function getTitle() : string
     {
         return $this->title;
     }
     
-    /**
-     * @param string description
-     */
     public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
     
-    /**
-     * @return string description
-     */
     public function getDescription() : string
     {
         return $this->description;
     }
     
-    /**
-     * @param integer availability
-     */
     public function setAvailability(int $a_availability) : void
     {
         $this->availability = $a_availability;
     }
     
-    /**
-     * @return integer availability
-     */
     public function getAvailability() : int
     {
         return $this->availability;
@@ -436,25 +395,16 @@ class ilCmiXapiLrsType
         return $this->external_lrs;
     }
     
-    /**
-     * @return string launch_type
-     */
     public function getLaunchType() : string
     {
         return $this->launch_type;
     }
     
-    /**
-     * @param string remarks
-     */
     public function setRemarks(string $a_remarks) : void
     {
         $this->remarks = $a_remarks;
     }
     
-    /**
-     * @return string remarks
-     */
     public function getRemarks() : string
     {
         return $this->remarks;
@@ -469,13 +419,11 @@ class ilCmiXapiLrsType
     {
         $this->bypassProxyEnabled = $bypassProxyEnabled;
     }
-
-    /**
-     * @access public
-     */
+    
     public function read() : bool
     {
         global $ilDB, $ilErr;
+        // TODO PHP8 Review: Move global access to constructor
         
         $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
         
@@ -527,23 +475,19 @@ class ilCmiXapiLrsType
         }
     }
     
-    /**
-     * @access public
-     */
+
     public function create() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move global access to constructor
         $this->setTypeId($DIC->database()->nextId(self::DB_TABLE_NAME));
         $this->update();
     }
-
-    /**
-     * @access public
-     */
+    
     public function update() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move global access to constructor
         $DIC->database()->replace(
             self::DB_TABLE_NAME,
             array(
@@ -583,14 +527,11 @@ class ilCmiXapiLrsType
         
         return true;
     }
-
-    /**
-     * @access public
-     */
+    
     public function delete() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
+        // TODO PHP8 Review: Move global access to constructor
         $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
         $DIC->database()->manipulateF($query, ['integer'], [$this->getTypeId()]);
         

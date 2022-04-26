@@ -30,10 +30,7 @@ class ilCmiXapiVerbList
     const SATISFIED = 'http://adlnet.gov/expapi/verbs/satisfied';
     const PROGRESSED = 'http://adlnet.gov/expapi/verbs/progressed';
     const EXPERIENCED = 'http://adlnet.gov/expapi/verbs/experienced';
-
-    /**
-     * @var array
-     */
+    
     protected array $verbs = [
         'http://adlnet.gov/expapi/verbs/abandoned',
         'http://adlnet.gov/expapi/verbs/answered',
@@ -73,30 +70,7 @@ class ilCmiXapiVerbList
     {
         return 'http://adlnet.gov/expapi/verbs/' . $verb;
     }
-
-//    /**
-//     * @param string[] $verbs
-//     * @return array<string, mixed>
-//     */
-//    public function getDynamicSelectOptions(array $verbs) : array
-//    {
-//        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-//
-//        $options = array(
-//            '' => $DIC->language()->txt('cmix_all_verbs')
-//        );
-//
-//        foreach ($verbs as $verb) {
-//            $verb = $verb['_id'];
-//            $options[urlencode($verb)] = self::getVerbTranslation(
-//                $DIC->language(),
-//                $verb
-//            );
-//        }
-//
-//        return $options;
-//    }
-
+    
     /**
      * @return array<string, mixed>
      */

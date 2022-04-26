@@ -24,9 +24,6 @@
  */
 class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
 {
-    /**
-     * @var ilCmiXapiStatementsReportLinkBuilder
-     */
     protected ilCmiXapiStatementsReportLinkBuilder $linkBuilder;
     
     /**
@@ -38,9 +35,6 @@ class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
         $this->linkBuilder = $linkBuilder;
     }
     
-    /**
-     * @return ilCmiXapiStatementsReport $report
-     */
     public function queryReport(int $objId) : \ilCmiXapiStatementsReport
     {
         $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());

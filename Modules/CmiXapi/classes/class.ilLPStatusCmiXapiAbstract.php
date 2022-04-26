@@ -46,11 +46,11 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     }
 
     /**
-     * @param     $object
      * @return bool|ilObjCmiXapi|ilObject|mixed|null
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
+    // TODO PHP8 Review: Missing Parameter Type Declaration $object
     protected function ensureObject(int $objId, $object = null)
     {
         if (!($object instanceof ilObjCmiXapi)) {
@@ -100,10 +100,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
             ilLPStatus::LP_STATUS_FAILED_NUM
         );
     }
-
-    /**
-     * @return array|int[]|mixed
-     */
+    
     private static function getUserIdsByLpStatusNum(int $objId, int $lpStatusNum) : array
     {
         $statusInfo = self::_getStatusInfo($objId);
@@ -187,6 +184,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         $cmixResult = $this->getCmixUserResult($a_obj_id, $a_usr_id);
+        // TODO PHP8 Review: Check return type, getScore() return float
         return 100 * $cmixResult->getScore();
     }
 

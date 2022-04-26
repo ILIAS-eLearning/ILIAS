@@ -26,25 +26,28 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
 {
     protected function buildPipeline() : array
     {
-        $pipeline = array();
+        $pipeline = [];
         
         $pipeline[] = $this->buildFilterStage();
 
         $pipeline[] = $this->buildOrderingStage();
         
-        $pipeline[] = array('$facet' => array(
-            'stage1' => array(
-                array('$group' => array('_id' => null, 'count' => array('$sum' => 1) ))
-            ),
+        $pipeline[] = ['$facet' => [
+            'stage1' => [
+                ['$group' => ['_id' => null, 'count' => ['$sum' => 1]]]
+            ],
             'stage2' => $this->buildLimitStage()
-        ));
+        ]
+        ];
         
-        $pipeline[] = array('$unwind' => '$stage1');
-        
-        $pipeline[] = array('$project' => array(
+        $pipeline[] = ['$unwind' => '$stage1'];
+    
+        $pipeline[] = [
+            '$project' => [
                 'maxcount' => '$stage1.count',
                 'statements' => '$stage2.statement'
-        ));
+            ]
+        ];
         
         $log = ilLoggerFactory::getLogger('cmix');
         //$log->debug("aggregation pipeline:\n" . json_encode($pipeline, JSON_PRETTY_PRINT));
@@ -213,6 +216,6 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
             $field => $this->filter->getOrderDirection() == 'desc' ? -1 : 1
         );
         
-        return array('$sort' => $orderingFields);
+        return ['$sort' => $orderingFields];
     }
 }

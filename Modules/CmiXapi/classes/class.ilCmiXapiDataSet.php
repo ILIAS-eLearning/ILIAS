@@ -20,8 +20,6 @@ class ilCmiXapiDataSet extends ilDataSet
 {
     private array $_data = [];
     private array $_archive = [];
-//    private $_dataSetMapping = null;
-//    private $_main_object_id = null;
     private array $_element_db_mapping = [];
     public array $_cmixSettingsProperties = [
         "LrsTypeId" => ["db_col" => "lrs_type_id", "db_type" => "integer"]

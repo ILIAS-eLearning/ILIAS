@@ -24,24 +24,14 @@
  */
 class ilCmiXapiHighscoreReport
 {
-    /**
-     * @var array
-     */
-    protected $response;
-
+    protected array $response = [];
     private array $tableData = [];
-
     private ?int $userRank = null;
-
+    protected int $objId;
     /**
      * @var ilCmiXapiUser[]
      */
-    protected array $cmixUsersByIdent;
-    
-    /**
-     * @var int
-     */
-    protected int $objId;
+    protected array $cmixUsersByIdent = [];
 
     /**
      * ilCmiXapiHighscoreReport constructor.
@@ -64,7 +54,7 @@ class ilCmiXapiHighscoreReport
 
     public function initTableData() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
         
         $rows = [];
         $obj = ilObjCmiXapi::getInstance($this->objId, false);

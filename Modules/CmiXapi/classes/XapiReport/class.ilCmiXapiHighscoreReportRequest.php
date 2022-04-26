@@ -36,7 +36,6 @@ class ilCmiXapiHighscoreReportRequest extends ilCmiXapiAbstractRequest
 
     /**
      * ilCmiXapiHighscoreReportRequest constructor.
-     * @param ilCmiXapiStatementsReportLinkBuilder $linkBuilder
      */
     public function __construct(string $basicAuth, ilCmiXapiHighscoreReportLinkBuilder $linkBuilder)
     {

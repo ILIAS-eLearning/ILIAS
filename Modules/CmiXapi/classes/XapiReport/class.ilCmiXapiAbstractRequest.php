@@ -25,10 +25,6 @@
 abstract class ilCmiXapiAbstractRequest
 {
     private string $basicAuth;
-    
-    /**
-     * @var boolean
-     */
     public static bool $plugin = false;
 
     /**

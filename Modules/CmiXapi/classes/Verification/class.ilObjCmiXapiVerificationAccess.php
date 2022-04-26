@@ -29,8 +29,13 @@ class ilObjCmiXapiVerificationAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = array();
-        $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
+        $commands = [];
+        $commands[] = [
+            "permission" => "read",
+            "cmd" => "view",
+            "lang_var" => "show",
+            "default" => true
+        ];
         return $commands;
     }
 

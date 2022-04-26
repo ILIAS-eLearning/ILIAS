@@ -13,7 +13,7 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-//use \ILIAS\UI\Component\Modal\RoundTrip;
+
 /**
  * Class ilCmiXapiScoringTableGUI
  *
@@ -26,10 +26,7 @@
 class ilCmiXapiScoringTableGUI extends ilTable2GUI
 {
     const TABLE_ID = 'cmix_scoring_table_';
-
-    /**
-     * @var bool
-     */
+    
     protected bool $isMultiActorReport;
 
     private \ilCmiXapiScoringGUI $_parent;
@@ -39,8 +36,13 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
     /**
      * ilCmiXapiScoringTableGUI constructor.
      */
-    public function __construct(ilCmiXapiScoringGUI $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport, string $tableId, bool $hasOutcomeAccess)
-    {
+    public function __construct(
+        ilCmiXapiScoringGUI $a_parent_obj,
+        string $a_parent_cmd,
+        bool $isMultiActorReport,
+        string $tableId,
+        bool $hasOutcomeAccess
+    ) {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $this->isMultiActorReport = $isMultiActorReport;
@@ -76,7 +78,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
     protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
+        // TODO PHP8 Review: Move Global Access to Constructor
         $this->addColumn($DIC->language()->txt('toplist_col_rank'));
         $this->addColumn($DIC->language()->txt('toplist_col_participant'));
 
@@ -99,7 +101,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
+        // TODO PHP8 Review: Move Global Access to Constructor
         $this->tpl->setVariable('SCORE_RANK', $a_set['rank']);
 
         $this->tpl->setCurrentBlock('personal');
@@ -136,7 +138,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
     protected function getUsername(array $data)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         if ($this->hasOutcomeAccess) {
             $user = ilObjectFactory::getInstanceByObjId($data['ilias_user_id'], false);
             

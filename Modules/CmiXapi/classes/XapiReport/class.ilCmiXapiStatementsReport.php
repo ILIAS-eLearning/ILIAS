@@ -24,19 +24,10 @@
  */
 class ilCmiXapiStatementsReport
 {
-    /**
-     * @var string
-     */
     protected string $response;
     
-    /**
-     * @var array
-     */
     protected array $statements;
     
-    /**
-     * @var int
-     */
     protected int $maxCount;
     
     /**
@@ -44,18 +35,12 @@ class ilCmiXapiStatementsReport
      */
     protected array $cmixUsersByIdent;
 
-    /**
-     * @var string
-     */
     protected string $userLanguage;
     /**
-    * @var ilObjCmiXapi::CONT_TYPE_GENERIC|CONT_TYPE_CMI5
+    * @var ilObjCmiXapi::CONT_TYPE_GENERIC|ilObjCmiXapi::CONT_TYPE_CMI5
     */
     protected string $contentType;
     
-    /**
-    * @var bool
-    */
     protected bool $isMixedContentType;
 
     public function __construct(string $responseBody, int $objId)

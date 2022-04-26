@@ -24,19 +24,10 @@
  */
 class ilXapiCompliantStatementsReportLinkBuilder
 {
-    /**
-     * @var ilObjCmiXapi
-     */
     protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilCmiXapiLrsType
-     */
     protected ilCmiXapiLrsType $lrsType;
-    
-    /**
-     * @var ilCmiXapiStatementsReportFilter
-     */
+
     protected ilCmiXapiStatementsReportFilter $filter;
     
     public function __construct(ilObjCmiXapi $object, ilCmiXapiStatementsReportFilter $filter)

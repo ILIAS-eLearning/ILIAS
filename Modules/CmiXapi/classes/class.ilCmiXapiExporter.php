@@ -51,10 +51,6 @@ class ilCmiXapiExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     * @param	string		entity
-     * @param	string		target release
-     * @param	string		id
-     * @return	string		xml string
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {

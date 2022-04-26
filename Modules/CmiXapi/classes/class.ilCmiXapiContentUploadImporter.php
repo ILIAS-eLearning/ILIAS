@@ -57,9 +57,6 @@ class ilCmiXapiContentUploadImporter
         self::TINCAN_XML => self::TINCAN_XSD
     ];
     
-    /**
-     * @var ilObjCmiXapi
-     */
     protected ilObjCmiXapi $object;
     
     /**
@@ -268,7 +265,6 @@ class ilCmiXapiContentUploadImporter
     }
 
     /**
-     * @param             $xsdFilePath
      * @throws ilCmiXapiInvalidUploadContentException
      */
     protected function validateXmlFile(DOMDocument $dom, $xsdFilePath) : void
@@ -315,6 +311,7 @@ class ilCmiXapiContentUploadImporter
 
     protected function getStoredContentXml() : string
     {
+        // TODO PHP8 Review: Move $DIC->filesystem()->web() to constructor
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         foreach (self::$CONTENT_XML_FILENAMES as $xmlFileName) {
@@ -335,7 +332,6 @@ class ilCmiXapiContentUploadImporter
     
     protected function initObjectFromCmi5Xml(DOMDocument $dom) : void
     {
-        global $DIC;
         $xPath = new DOMXPath($dom);
         
         $courseNode = $xPath->query("//*[local-name()='course']")->item(0);

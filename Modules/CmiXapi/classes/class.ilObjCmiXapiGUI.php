@@ -79,6 +79,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     protected function initCreateForm(string $a_new_type) : \ilPropertyFormGUI
     {
         global $DIC;
+        // TODO PHP8 Review: Move Global Access to Constructor
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -164,6 +165,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     protected function afterSave(ilObject $newObject) : void
     {
         global $DIC;
+        // TODO PHP8 Review: Move Global Access to Constructor
         /* @var \ILIAS\DI\Container $DIC */
 
         /* @var ilObjCmiXapi $newObject */

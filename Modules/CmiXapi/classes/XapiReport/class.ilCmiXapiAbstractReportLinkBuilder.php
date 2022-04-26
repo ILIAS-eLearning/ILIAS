@@ -24,19 +24,8 @@
  */
 abstract class ilCmiXapiAbstractReportLinkBuilder
 {
-    /**
-     * @var int
-     */
     protected int $objId;
-    
-    /**
-     * @var string
-     */
     protected string $aggregateEndPoint;
-
-    /**
-     * @var ilCmiXapiStatementsReportFilter
-     */
     protected ilCmiXapiStatementsReportFilter $filter;
 
     /**
@@ -54,14 +43,10 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
     
     public function getUrl() : string
     {
-        $url = $this->aggregateEndPoint;
-        return $this->appendRequestParameters($url);
+        return $this->appendRequestParameters($this->aggregateEndPoint);
     }
 
     //todo ilUtil
-    /**
-     * @param $url
-     */
     protected function appendRequestParameters(string $url) : string
     {
         return ilUtil::appendUrlParameterString($url, $this->buildPipelineParameter());

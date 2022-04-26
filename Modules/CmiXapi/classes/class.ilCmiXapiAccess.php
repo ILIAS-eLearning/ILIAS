@@ -24,17 +24,17 @@
  */
 class ilCmiXapiAccess
 {
-    /**
-     * @var ilObjCmiXapi
-     */
     protected ilObjCmiXapi $object;
+    protected ilAccessHandler $access;
     
     /**
      * ilCmiXapiAccess constructor.
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
         $this->object = $object;
+        $this->access = $DIC->access();
     }
     
     public function hasLearningProgressAccess() : bool
@@ -44,9 +44,7 @@ class ilCmiXapiAccess
     
     public function hasWriteAccess() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        return (bool) $DIC->access()->checkAccess(
+        return $this->access->checkAccess(
             'write',
             '',
             $this->object->getRefId(),
@@ -57,30 +55,24 @@ class ilCmiXapiAccess
     
     public function hasEditPermissionsAccess() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $editPermsAccess = $DIC->access()->checkAccess(
+        return $this->access->checkAccess(
             'edit_permission',
             '',
             $this->object->getRefId(),
             $this->object->getType(),
             $this->object->getId()
         );
-        return (bool) $editPermsAccess;
     }
     
     public function hasOutcomesAccess() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $outcomesAccess = $DIC->access()->checkAccess(
+        return $this->access->checkAccess(
             'read_outcomes',
             '',
             $this->object->getRefId(),
             $this->object->getType(),
             $this->object->getId()
         );
-        return (bool) $outcomesAccess;
     }
     
     public function hasStatementsAccess() : bool

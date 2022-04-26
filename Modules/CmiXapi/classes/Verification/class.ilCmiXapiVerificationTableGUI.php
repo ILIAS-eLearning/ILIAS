@@ -25,10 +25,8 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
 {
     /**
      * Constructor
-     *
-     * @param ilObject $a_parent_obj
      */
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd = "")
+    public function __construct(ilObjCmiXapiVerificationGUI $a_parent_obj, string $a_parent_cmd = "")
     {
         global $ilCtrl;
         

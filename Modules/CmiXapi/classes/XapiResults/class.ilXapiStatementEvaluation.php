@@ -26,28 +26,24 @@
 class ilXapiStatementEvaluation
 {
     /**
-     * @var array
      * http://adlnet.gov/expapi/verbs/satisfied: should never be sent by AU
      * https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#939-satisfied
      */
-    protected array $resultStatusByXapiVerbMap = array(
+    protected array $resultStatusByXapiVerbMap = [
         ilCmiXapiVerbList::COMPLETED => "completed",
         ilCmiXapiVerbList::PASSED => "passed",
         ilCmiXapiVerbList::FAILED => "failed",
         ilCmiXapiVerbList::SATISFIED => "passed"
-    );
+    ];
 
-    protected array $resultProgressByXapiVerbMap = array(
+    protected array $resultProgressByXapiVerbMap = [
         ilCmiXapiVerbList::PROGRESSED => "progressed",
         ilCmiXapiVerbList::EXPERIENCED => "experienced"
-    );
+    ];
     
     protected ilObject $object;
     
     //todo
-    /**
-     * @var ilLogger
-     */
     protected ilLogger $log;
 
     protected ?int $lpMode;

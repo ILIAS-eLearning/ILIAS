@@ -30,16 +30,9 @@ class ilCmiXapiScoringGUI
     const PART_FILTER_MANSCORING_DONE = 4;
     const PART_FILTER_MANSCORING_NONE = 5;
     //const PART_FILTER_MANSCORING_PENDING	= 6;
-
-
-    /**
-     * @var ilObjCmiXapi
-     */
+    
     public ilObjCmiXapi $object;
 
-    /**
-     * @var ilCmiXapiAccess
-     */
     protected ilCmiXapiAccess $access;
 
     private array $tableData;
@@ -63,7 +56,7 @@ class ilCmiXapiScoringGUI
     public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
+        // TODO PHP8 Review: Move Global Access to Constructor
         if (!$this->access->hasHighscoreAccess()) {
             throw new ilCmiXapiException('access denied!');
         }
@@ -94,7 +87,7 @@ class ilCmiXapiScoringGUI
     protected function showCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
+        // TODO PHP8 Review: Move Global Access to Constructor
         try {
             $this->initTableData()
                 ->initHighScoreTable()
@@ -112,10 +105,7 @@ class ilCmiXapiScoringGUI
 
         $DIC->ui()->mainTemplate()->setContent($this->tableHtml);
     }
-
-    /**
-     * @return $this
-     */
+    
     protected function initTableData() : self
     {
         $filter = new ilCmiXapiStatementsReportFilter();

@@ -26,19 +26,10 @@ class ilCmiXapiLaunchGUI
 {
     const XAPI_PROXY_ENDPOINT = 'Modules/CmiXapi/xapiproxy.php';
     
-    /**
-     * @var ilObjCmiXapi
-     */
     protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilCmiXapiUser
-     */
     protected ilCmiXapiUser $cmixUser;
 
-    /**
-     * @var bool
-     */
     protected bool $plugin = false;
     
     public function __construct(ilObjCmiXapi $object)
@@ -54,6 +45,7 @@ class ilCmiXapiLaunchGUI
     protected function launchCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move $DIC->ctrl() to constructor
         
         $this->initCmixUser();
         $token = $this->getValidToken();
@@ -189,10 +181,7 @@ class ilCmiXapiLaunchGUI
     protected function initCmixUser() : void
     {
         global $DIC;
-
-        // if (!ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId())) {
-        // $doLpUpdate = true;
-        // }
+        // TODO PHP8 Review: Move $DIC->user() to constructor
 
         $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
         $user_ident = $this->cmixUser->getUsrIdent();
@@ -206,9 +195,6 @@ class ilCmiXapiLaunchGUI
             $this->cmixUser->save();
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
         }
-        // if ($doLpUpdate) {
-            // ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
-        // }
     }
 
     /**
@@ -217,6 +203,7 @@ class ilCmiXapiLaunchGUI
     protected function getCmi5LearnerPreferences() : array
     {
         global $DIC;
+        // TODO PHP8 Review: Move $DIC->user() to constructor
         $language = $DIC->user()->getLanguage();
         $audio = "on";
         return [
@@ -236,6 +223,7 @@ class ilCmiXapiLaunchGUI
     protected function CMI5preLaunch(string $token) : array
     {
         global $DIC;
+        // TODO PHP8 Review: Move $DIC->yx() to constructor
         
         $lrsType = $this->object->getLrsType();
         $defaultLrs = $lrsType->getLrsEndpoint();
@@ -409,8 +397,10 @@ class ilCmiXapiLaunchGUI
     /**
      * @return CliLog|ilLogger
      */
+    // TODO PHP8 Review: Missing Return type Declaration
     private function log()
     {
+        // TODO PHP8 Review: Move global access to constructor
         global $log;
         if ($this->plugin) {
             return $log;
