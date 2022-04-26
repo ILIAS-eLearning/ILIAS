@@ -29,11 +29,13 @@
  */
 class ilMD extends ilMDBase
 {
-
+    public function read() : bool
+    {
+        return true;
+    }
+    
     public function getGeneral() : ?ilMDGeneral
     {
-
-
         if ($id = ilMDGeneral::_getId($this->getRBACId(), $this->getObjId())) {
             $gen = new ilMDGeneral();
             $gen->setMetaId($id);
@@ -45,8 +47,6 @@ class ilMD extends ilMDBase
 
     public function addGeneral() : ?ilMDGeneral
     {
-
-
         $gen = new ilMDGeneral($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $gen;

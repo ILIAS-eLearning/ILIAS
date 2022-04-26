@@ -27,7 +27,7 @@
  * @package ilias-core
  * @version $Id$
  */
-class ilMDBase
+abstract class ilMDBase
 {
     /**
      * object id (NOT ref_id!) of rbac object (e.g for page objects the obj_id
@@ -46,7 +46,7 @@ class ilMDBase
      */
     private string $obj_type;
 
-    private int $meta_id;
+    private ?int $meta_id = null;
     private int $parent_id;
     private string $parent_type;
 
@@ -54,19 +54,19 @@ class ilMDBase
      * export mode, if true, first Identifier will be
      * set to ILIAS/il_<INSTALL_ID>_<TYPE>_<ID>
      */
-    private $export_mode = false;
+    private bool $export_mode = false;
 
     protected ilLogger $log;
-
     protected ilDBInterface $db;
-
+    
     /**
      * constructor
-     * @param    $a_rbac_id           int        object id (NOT ref_id!) of rbac object (e.g for page objects
+     *
+     * @param int    $a_rbac_id       object id (NOT ref_id!) of rbac object (e.g for page objects
      *                                the obj_id of the content object; for media objects this
      *                                is set to 0, because their object id are not assigned to ref ids)
-     * @param    $a_obj_id            int        object id (e.g for structure objects the obj_id of the structure object)
-     * @param    $a_type              string    type of the object (e.g st,pg,crs ...)
+     * @param int    $a_obj_id        object id (e.g for structure objects the obj_id of the structure object)
+     * @param string $a_type          type of the object (e.g st,pg,crs ...)
      */
     public function __construct(
         int $a_rbac_id = 0,
@@ -87,6 +87,8 @@ class ilMDBase
         $this->obj_id   = $a_obj_id;
         $this->obj_type = $a_type;
     }
+    
+    abstract public function read() : bool;
 
     // SET/GET
     public function setRBACId(int $a_id) : void
@@ -128,7 +130,7 @@ class ilMDBase
         }
     }
 
-    public function getMetaId() : int
+    public function getMetaId() : ?int
     {
         return $this->meta_id;
     }
