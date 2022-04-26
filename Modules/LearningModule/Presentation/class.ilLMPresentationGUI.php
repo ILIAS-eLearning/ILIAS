@@ -80,7 +80,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected ilObjectTranslation $ot;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
-    protected \ILIAS\Style\Content\Service $cs;
+    protected ?\ILIAS\Style\Content\Service $cs = null;
 
     public function __construct(
         string $a_export_format = "",
@@ -122,6 +122,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->frames = array();
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "transl", "focus_id", "focus_return"));
+
+        $this->cs = $DIC->contentStyle();
 
         // note: using $DIC->http()->request()->getQueryParams() here will
         // fail, since the goto magic currently relies on setting $_GET
@@ -166,8 +168,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $params
             );
         }
-
-        $this->cs = $DIC->contentStyle();
     }
 
     public function getUnsafeGetCommands() : array
@@ -773,7 +773,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $page_id = $this->getCurrentPageId();
 
             // permanent link
-            $this->tpl->setPermanentLink("pg", "", $page_id . "_" . $this->lm->getRefId());
+            $this->tpl->setPermanentLink("pg", 0, $page_id . "_" . $this->lm->getRefId());
         }
 
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());
