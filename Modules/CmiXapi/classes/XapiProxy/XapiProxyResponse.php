@@ -119,7 +119,8 @@
             echo "HTTP/1.1 500 XapiProxy Error (Ask For Logs)";
             exit;
         }
-
+    
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function sendData($obj) : void
         {
             $this->xapiproxy->log()->debug($this->msg("senData: " . $obj));
@@ -132,7 +133,8 @@
             echo $obj;
             exit;
         }
-
+    
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function emit($response) : void
         {
             $this->xapiproxy->log()->debug($this->msg('emitting response'));

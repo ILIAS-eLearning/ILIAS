@@ -127,7 +127,7 @@
         {
             return $this->xapiProxyResponse;
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function processStatements($request, $body) : ?array
         {
             // everything is allowed
@@ -190,7 +190,8 @@
             }
             return null;
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
+        // TODO PHP8 Review: Missing Return type Declaration
         public function modifyBody($body)
         {
             $obj = json_decode($body, false);
@@ -223,7 +224,7 @@
             }
             return json_encode($obj);
         }
-        
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         private function handleStatementEvaluation($xapiStatement) : void
         {
             global $DIC;
@@ -249,7 +250,7 @@
                 }
             }
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         private function setValue(&$obj, $path, $value) : void
         {
             $path_components = explode('.', $path);
@@ -263,7 +264,7 @@
                 }
             }
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         private function setStatus($obj) : void
         {
 //            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {

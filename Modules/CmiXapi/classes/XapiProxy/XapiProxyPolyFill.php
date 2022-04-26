@@ -71,7 +71,7 @@
                 return \ilLoggerFactory::getLogger('cmix');
             }
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function msg($msg) : string
         {
             if ($this->plugin) {
@@ -148,6 +148,7 @@
         /**
          * @return \ilCmiXapiLrsType|void|null
          */
+        // TODO PHP8 Review: Missing Return type Declaration
         private function getLrsType()
         { // Core new > 6
             try {
