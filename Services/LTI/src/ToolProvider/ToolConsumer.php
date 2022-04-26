@@ -178,8 +178,8 @@ class ToolConsumer
         $this->consumerName = null;
         $this->consumerVersion = null;
         $this->consumerGuid = null;
-        $this->profile = null;
-        $this->toolProxy = null;
+        $this->profile = null; // TODO PHP8 Review: Undefined Property
+        $this->toolProxy = null; // TODO PHP8 Review: Undefined Property
         $this->settings = array();
         $this->protected = false;
         $this->enabled = false;
@@ -389,7 +389,7 @@ class ToolConsumer
      *
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function getToolSettings(bool $simple = true) : mixed
+    public function getToolSettings(bool $simple = true) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $url = $this->getSetting('custom_system_setting_url');
         $service = new Service\ToolSettings($this, $url, $simple);
@@ -467,7 +467,8 @@ class ToolConsumer
      *
      * @return array|string|null Array of signed message parameters or header string
      */
-    public static function addSignature(string $endpoint, $consumerKey, $consumerSecret, $data, string $method = 'POST', $type = null) : mixed
+    // TODO PHP8 Review: Missing Parameter Type Declaration
+    public static function addSignature(string $endpoint, $consumerKey, $consumerSecret, $data, string $method = 'POST', $type = null) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $params = array();
         if (is_array($data)) {
@@ -530,7 +531,7 @@ class ToolConsumer
          * @param mixed  $data     Array of parameters or body string
          * @return HTTPMessage HTTP object containing request and response details
          */
-    public function doServiceRequest(object $service, string $method, string $format, mixed $data) : \ILIAS\LTI\HTTPMessage
+    public function doServiceRequest(object $service, string $method, string $format, mixed $data) : \ILIAS\LTI\HTTPMessage // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $header = ToolConsumer::addSignature($service->endpoint, $this->getKey(), $this->secret, $data, $method, $format);
 

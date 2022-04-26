@@ -89,6 +89,7 @@ class DataConnector
      * @param object $db                Database connection object
      * @param string $dbTableNamePrefix Prefix for database table names (optional, default is none)
      */
+    // TODO PHP8 Review: Wrong Parameter Type Declaration: $db should be ilDBInterface?
     public function __construct(object $db, string $dbTableNamePrefix = '')
     {
         $this->db = $db;
@@ -168,8 +169,8 @@ class DataConnector
     public function loadToolProxy(ToolProxy $toolProxy) : bool
     {
         $now = time();
-        $toolProxy->created = $now;
-        $toolProxy->updated = $now;
+        $toolProxy->created = $now; // TODO PHP8 Review: Undefined Property
+        $toolProxy->updated = $now; // TODO PHP8 Review: Undefined Property
 
         return true;
     }
@@ -181,7 +182,7 @@ class DataConnector
      */
     public function saveToolProxy(ToolProxy $toolProxy) : bool
     {
-        $toolProxy->updated = time();
+        $toolProxy->updated = time(); // TODO PHP8 Review: Undefined Property
 
         return true;
     }
@@ -481,6 +482,7 @@ class DataConnector
             $type = 'DataConnector';
         }
         $type = "\\IMSGlobal\\LTI\\ToolProvider\\DataConnector\\{$type}";
+        // TODO PHP8 Review: I do npot understand what exactly happens here. Are there Database-Connections beside ilDBInterface? we should avoid that!
         $dataConnector = new $type($db, $dbTableNamePrefix);
 
         return $dataConnector;

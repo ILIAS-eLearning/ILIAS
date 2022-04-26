@@ -19,6 +19,7 @@ class Membership extends Service
      * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
      * @var ToolProvider\Context|ToolProvider\ResourceLink $source
      */
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
     private ToolProvider\Context|ToolProvider\ResourceLink $source;
 
     /**
@@ -26,6 +27,7 @@ class Membership extends Service
      * @param \ILIAS\LTI\ToolProvider\ResourceLink|\ILIAS\LTI\ToolProvider\Context $source   The object to which the memberships apply (ResourceLink or Context)
      * @param string                                                               $endpoint Service endpoint
      */
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     public function __construct($source, string $endpoint)
     {
         $consumer = $source->getConsumer();
@@ -39,6 +41,7 @@ class Membership extends Service
      * @param int         $limit Limit on the number of memberships to be returned (optional, default is all)
      * @return mixed The array of User objects if successful, otherwise false
      */
+    // TODO PHP8 Review: Wrong Return type Declaration, mixed is not supported!
     public function get(string $role = null, int $limit = 0) : mixed
     {
         $isLink = is_a($this->source, 'ILIAS\LTI\ToolProvider\ResourceLink');
@@ -103,12 +106,13 @@ class Membership extends Service
 
                 // Remove old user (if it exists)
                 if ($isLink) {
-                    unset($oldUsers[$user->getId(ToolProvider\ToolProvider::ID_SCOPE_RESOURCE)]);
+                    unset($oldUsers[$user->getId(ToolProvider\ToolProvider::ID_SCOPE_RESOURCE)]); // TODO PHP8 Review: Variable $oldUsers is probably undefined
                 }
             }
 
             // Delete any old users which were not in the latest list from the tool consumer
             if ($isLink) {
+                // TODO PHP8 Review: Variable $oldUsers is probably undefined
                 foreach ($oldUsers as $id => $user) {
                     $user->delete();
                 }

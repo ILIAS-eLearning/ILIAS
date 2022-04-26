@@ -151,6 +151,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
     private function checkForShare() : bool
     {
         global $DIC;
+        // TODO PHP8 Review: Move Global Access to Constructor
         $ok = true;
         $doSaveResourceLink = true;
 
@@ -186,7 +187,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
                 if ($ok) {
-                    $ok = !is_null($key);
+                    $ok = !is_null($key); // TODO PHP8 Review: Variable $key is probably undefined
                     if (!$ok) {
                         $this->reason = 'You have requested to share a resource link but none is available.';
                     } else {
@@ -293,6 +294,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     private function authenticate() : bool
     {
+        // TODO PHP8 Review: Move Global Access to Constructor
         global $DIC;
         // Get the consumer
         $doSaveConsumer = false;
@@ -408,7 +410,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $last = date('Y-m-d', $this->consumer->lastAccess);
                     $doSaveConsumer = $doSaveConsumer || ($last !== $today);
                 }
-                $this->consumer->last_access = $now;
+                $this->consumer->last_access = $now; // TODO PHP8 Review: Undefined Property
                 try {
                     $store = new OAuthDataStore($this);
                     $server = new \ILIAS\LTIOAuth\OAuthServer($store);
@@ -444,7 +446,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $last = date('Y-m-d', $this->consumer->lastAccess);
                     $doSaveConsumer = $doSaveConsumer || ($last !== $today);
                 }
-                $this->consumer->last_access = $now;
+                $this->consumer->last_access = $now; // TODO PHP8 Review: Undefined Property
                 if ($this->consumer->protected) {
                     if (!is_null($this->consumer->consumerGuid)) {
                         $this->ok = empty($DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string())) ||
@@ -552,7 +554,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             if ($this->ok) {
                 // $this->consumer = new ToolConsumer($_POST['reg_key'], $this->dataConnector);
                 $this->consumer = new ilLTIToolConsumer($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
-                $this->consumer->profile = $tcProfile;
+                // TODO PHP8 Review: Variable $tcProfile is probably undefined
+                $this->consumer->profile = $tcProfile; // TODO PHP8 Review: Undefined Property
                 $capabilities = $this->consumer->profile->capability_offered;
                 $missing = array();
                 foreach ($this->resourceHandlers as $resourceHandler) {
@@ -596,7 +599,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             }
             if ($this->ok) {
                 if ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ToolProxyRegistrationRequest') {
-                    $this->consumer->profile = $tcProfile;
+                    // TODO PHP8 Review: Variable $tcProfile is probably undefined
+                    $this->consumer->profile = $tcProfile; // TODO PHP8 Review: Undefined Property
                     $this->consumer->secret = $DIC->http()->wrapper()->post()->retrieve('reg_password', $DIC->refinery()->kindlyTo()->string());
                     $this->consumer->ltiVersion = $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string());
                     $this->consumer->name = $tcProfile->product_instance->service_owner->service_owner_name->default_value;
@@ -621,7 +625,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             if ($http->send()) {
                 $tcProfile = json_decode((string) $http->response);
                 if (!is_null($tcProfile)) {
-                    $this->consumer->profile = $tcProfile;
+                    $this->consumer->profile = $tcProfile; // TODO PHP8 Review: Undefined Property
                     $doSaveConsumer = true;
                 }
             }
@@ -868,6 +872,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     private function doCallback(?string $method = null) : void
     {
+        // TODO PHP8 Review: Move Global Access to Constructor
         global $DIC;
         $callback = $method;
         if (is_null($callback)) {
@@ -894,7 +899,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     private function result() : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         $ok = false;
         if (!$this->ok) {
             $this->onError();

@@ -74,6 +74,7 @@ class ilLTIViewGUI
      * for compatiblity with ilLTIRouterGUI
      * @return mixed
      */
+    // TODO PHP8 Review: Wrong Return type Declaration (mixed is not compatible with PHP 7.4)
     public static function getInstance() : mixed
     {
         global $DIC;
@@ -119,7 +120,7 @@ class ilLTIViewGUI
      */
     public function initGUI() : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor, additionally this doesnt seem to be used.
         $this->log->debug("initGUI");
         $baseclass = strtolower($DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string()));
         $cmdclass = strtolower($DIC->http()->wrapper()->query()->retrieve('cmdClass', $DIC->refinery()->kindlyTo()->string()));
@@ -133,7 +134,7 @@ class ilLTIViewGUI
     */
     protected function getContextId() : ?int
     {
-        global $ilLocator, $DIC;
+        global $ilLocator, $DIC; // TODO PHP8 Review: Move Global Access to Constructor
 
         // forced lti_context_id for example request command in exitLTI
         if ($DIC->http()->wrapper()->query()->has('lti_context_id') &&
@@ -342,7 +343,7 @@ class ilLTIViewGUI
      */
     public function logout(bool $force_ilias_logout = false) : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         if ($force_ilias_logout) {
             $this->log->warning("forcing logout ilias session, maybe a broken LTI context");
         } else {
@@ -412,7 +413,7 @@ class ilLTIViewGUI
      */
     private function findEffectiveRefId(?string $url = null) : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         if ($url === null) {
             // TODO PHP8 Review: Remove/Replace SuperGlobals
             $query = $_GET;//$DIC->http()->wrapper()->query();
