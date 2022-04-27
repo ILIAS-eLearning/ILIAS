@@ -237,27 +237,9 @@ with the il- variable set here.
 @il-metabar-small-glyph-size: 2rem;
 
 
-//== Header
+//== Header (Deprecated, use UI Layout Page Variables instead)
 //
-//## Variables to control the header (Top Navigation and Main menu) section of ILIAS.
-//** controls background color of the "topbar" (that gray thingy on top of the page in the standard).
-@il-top-bar-bg: @il-neutral-color;
-//** controls text color of the "topbar" (the title of the ILIAS Installation)
-@il-top-bar-color: white;
-//** controls height of the "topbar"
-@il-top-bar-height: 40px;
-//** controls colors and bg colors of the "topbar" buttons
-@il-top-bar-link-bg: lighten(@il-neutral-color, 20%);
-@il-top-bar-link-color: lighten(@il-neutral-color, 70%);
-@il-top-bar-link-hover-bg: lighten(@il-neutral-color, 42%);
-@il-top-bar-link-hover-color: white;
-//** controls colors and bg colors of the "topbar" dropdowns
-@il-top-bar-dropdown-bg: lighten(@il-neutral-color, 42%);
-@il-top-bar-dropdown-color: lighten(@il-neutral-color, 70%);
-@il-top-bar-dropdown-link-bg: transparent;
-@il-top-bar-dropdown-link-color: lighten(@il-neutral-color, 70%);
-@il-top-bar-dropdown-link-hover-bg: @il-highlight-bg;
-@il-top-bar-dropdown-link-hover-color: lighten(@il-neutral-color, 42%);
+//## Variables that used to control the header. Note: Note the variables here are mostly deprecated and removed with ILIAS 8. Use the Variables listed in Layout (UI Layout Page).
 //** controls the height of the "logo" (that [ILIAS] thingy on top the page in the standard).
 @il-logo-height: 50px;
 //** controls the width of the "logo" (that [ILIAS] thingy on top the page in the standard).
@@ -284,7 +266,26 @@ with the il- variable set here.
 //** controls the position of the left side of the main menu.
 @il-main-menu-left: 15px + @il-logo-width;
 @il-main-menu-margin: @il-main-menu-top 0 0 @il-main-menu-left;
-//** controls colors of the main menu.
+//** controls background color of the former "topbar". Still used in some places. For the Background of the Header, use il-main-header-bg Will be removed in ILIAS 8
+@il-top-bar-bg: @il-neutral-color;
+//** Formarly controled the text color in ILIAS 8. Will be removed with ILIAS 8.
+@il-top-bar-color: white;
+//** Formarly controled the text color in ILIAS 8. Will be removed with ILIAS 8.
+@il-top-bar-height: 40px;
+//** controls colors and bg colors of the "topbar" buttons
+@il-top-bar-link-bg: lighten(@il-neutral-color, 20%);
+@il-top-bar-link-color: lighten(@il-neutral-color, 70%);
+@il-top-bar-link-hover-bg: lighten(@il-neutral-color, 42%);
+@il-top-bar-link-hover-color: white;
+//** controls colors and bg colors of the "topbar" dropdowns
+@il-top-bar-dropdown-bg: lighten(@il-neutral-color, 42%);
+@il-top-bar-dropdown-color: lighten(@il-neutral-color, 70%);
+@il-top-bar-dropdown-link-bg: transparent;
+@il-top-bar-dropdown-link-color: lighten(@il-neutral-color, 70%);
+@il-top-bar-dropdown-link-hover-bg: @il-highlight-bg;
+@il-top-bar-dropdown-link-hover-color: lighten(@il-neutral-color, 42%);
+
+//** Variables that used to control the header. Note: Note the variables here are mostly deprecated and removed with ILIAS 8. Use the Variables listed in Layout (UI Layout Page).
 @il-main-menu-bg: @il-main-header-bg;
 @il-main-menu-link-color: #808080;
 @il-main-menu-link-hover-color: #808080;
