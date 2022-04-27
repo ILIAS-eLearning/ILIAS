@@ -66,7 +66,7 @@ class ilECSParticipantSetting
     private array $export_types = array();
     private array $import_types = array();
     private array $username_placeholders = [];
-    private $incoming_local_accounts = true;
+    private bool $incoming_local_accounts = true;
     private int $incoming_auth_type = self::INCOMING_AUTH_TYPE_INACTIVE;
     /**
      * @var string[]

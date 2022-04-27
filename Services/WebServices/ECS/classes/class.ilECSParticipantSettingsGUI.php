@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\UI\Factory as UiFactory;
 
@@ -32,6 +34,7 @@ class ilECSParticipantSettingsGUI
     protected ilTabsGUI $tabs;
     protected UiFactory $ui_factory;
     protected ilToolbarGUI $toolbar;
+    protected ilSetting $settings;
 
     public function __construct(int $a_server_id, int $a_mid)
     {
@@ -43,7 +46,8 @@ class ilECSParticipantSettingsGUI
         $this->tabs = $DIC->tabs();
         $this->ui_factory = $DIC->ui()->factory();
         $this->toolbar = $DIC->toolbar();
-        
+        $this->settings = $DIC->settings();
+
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
         
@@ -321,7 +325,7 @@ class ilECSParticipantSettingsGUI
     {
         $options = [];
         if ($this->isShibbolethActive()) {
-            $options['shibboleth'] = $this->getLang()->txt('auth_shib');
+            $options['shibboleth'] = $this->lng->txt('auth_shib');
         }
         foreach (ilLDAPServer::getServerIds() as $server_id) {
             $server = ilLDAPServer::getInstanceByServerId($server_id);
@@ -332,7 +336,7 @@ class ilECSParticipantSettingsGUI
 
     protected function isShibbolethActive() : bool
     {
-        return (bool) $this->global_settings->get('shib_active', '0');
+        return (bool) $this->settings->get('shib_active', '0');
     }
 
     /**

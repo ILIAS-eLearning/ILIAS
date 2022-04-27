@@ -31,6 +31,7 @@ class ilECSAppEventListener implements ilAppEventListener
     ) {
         $this->logger = $logger;
         $this->settings = $settings;
+        $this->rbac_admin = $rbac_admin;
     }
 
     /**

@@ -194,13 +194,10 @@ class ilAuthProviderECS extends ilAuthProvider
 
     protected function resumeCurrentSession() : bool
     {
-        global $DIC;
-
-        $auth_session = $DIC['ilAuthSession'];
-        $session_user_id = $auth_session->getUserId();
+        $session_user_id = $this->authSession->getUserId();
         if (!$session_user_id || $session_user_id == ANONYMOUS_USER_ID) {
             $this->getLogger()->debug('No valid session found');
-            $auth_session->setAuthenticated(false, ANONYMOUS_USER_ID);
+            $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
             return false;
         }
         $session_ext_account = ilObjUser::_lookupExternalAccount($session_user_id);
@@ -209,11 +206,11 @@ class ilAuthProviderECS extends ilAuthProvider
         $this->getLogger()->debug('Session external account: ' . $session_ext_account);
         if (!$session_ext_account || strcmp($user->getLogin(), $session_ext_account) !== 0) {
             $this->getLogger()->debug('No matching session found. Terminating current user session.');
-            $auth_session->setAuthenticated(false, ANONYMOUS_USER_ID);
+            $this->authSession->setAuthenticated(false, ANONYMOUS_USER_ID);
             return false;
         } else {
             // assign to ECS global role
-            $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $auth_session->getUserId());
+            $this->rbacAdmin->assignUser($this->getCurrentServer()->getGlobalRole(), $this->authSession->getUserId());
         }
         return true;
     }
