@@ -426,7 +426,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $q_gui->object->setObjId($this->object->getId());
                 if ($this->object->getType() == 'qpl') {
                     $q_gui->setTaxonomyIds($this->object->getTaxonomyIds());
-                    $this->object->addQuestionChangeListeners($q_gui->object);
                     if ($writeAccess) {
                         $q_gui->addHeaderAction();
                     }
@@ -847,7 +846,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
         $q_gui = assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
-        $this->object->addQuestionChangeListeners($q_gui->object);
         $q_gui->object->setObjId($this->object->getId());
         $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
         $q_gui->object->createNewQuestion();

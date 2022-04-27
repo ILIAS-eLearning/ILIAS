@@ -648,6 +648,8 @@ assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
+assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
+assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -1247,11 +1249,11 @@ assessment#:#test_jump_to#:#Jump to Question
 assessment#:#test_move_page#:#Move Question
 assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
-assessment#:#test_question_pool_usage_optional_info#:#The questions can be re-used in other tests.
-assessment#:#test_question_pool_usage_optional#:#Questions can be added optionally to a question pool
-assessment#:#test_question_pool_usage_tst_directly_info#:#The questions cannot be re-used in other tests.
-assessment#:#test_question_pool_usage_tst_directly#:#Questions are created directly in the test
-assessment#:#test_question_pool_usage#:#Use of Question Pools
+assessment#:#test_question_set_type_fixed_info#:#All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool.
+assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions
+assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools. 
+assessment#:#test_question_set_type_random#:#Use of a random set of questions
+assessment#:#test_question_set_type#:#Selection of Test Questions
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.

@@ -651,6 +651,8 @@ assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
+assessment#:#ctm_cannot_be_changed#:#Wiedervorlagetests können nicht mehr geändert werden.
+assessment#:#ctm_cannot_be_started#:#Wiedervorlagetests können nicht mehr gestartet werden.
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -1250,11 +1252,11 @@ assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
-assessment#:#test_question_pool_usage#:#Fragenpools verwenden
-assessment#:#test_question_pool_usage_optional#:#Fragen aus Fragenpool hinzufügen oder direkt im Test erstellen
-assessment#:#test_question_pool_usage_optional_info#:#Sie können sowohl bereits vorhandende Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
-assessment#:#test_question_pool_usage_tst_directly#:#Fragen nur im Test erstellen
-assessment#:#test_question_pool_usage_tst_directly_info#:#Sie erstellen alle Fragen direkt im Test, Sie können keine bereits vorhandenen Fragen aus Fragenpools hinzufügen. Neu erstellte Fragen aus diesem Test können Sie aber später einem Fragenpool abspeichern.
+assessment#:#test_question_set_type#:#Auswahl der Testfragen
+assessment#:#test_question_set_type_fixed#:#Fest definierte Fragenauswahl
+assessment#:#test_question_set_type_fixed_info#:#Alen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch nue erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
+assessment#:#test_question_set_type_random_info#:#jedem Teilnehmden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
+assessment#:#test_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#test_results#:#Bekanntgabe des Testergebnisses
 assessment#:#test_scoring#:#Bewertung des Tests
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.

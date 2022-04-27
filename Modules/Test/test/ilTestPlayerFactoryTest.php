@@ -51,9 +51,5 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
         $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
         $testObj = new ilTestPlayerFactory($objTest);
         $this->assertInstanceOf(ilTestPlayerRandomQuestionSetGUI::class, $testObj->getPlayerGUI());
-
-        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_DYNAMIC);
-        $testObj = new ilTestPlayerFactory($objTest);
-        $this->assertInstanceOf(ilTestPlayerDynamicQuestionSetGUI::class, $testObj->getPlayerGUI());
     }
 }
