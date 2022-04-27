@@ -8746,6 +8746,10 @@ ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
 ecs#:#ecs_communities#:#Teilnehmer
 ecs#:#ecs_confirm_delete_tree#:#Wollen Sie wirklich alle Zuweisungen zu diesem CMS-Baum löschen?
 ecs#:#ecs_connection_settings#:#Verbindungsdaten
+ecs#:#ecs_consent_modal_title#:#Benachrichtigung über die Übertragung von Benutzerdaten über ECS
+ecs#:#ecs_consent_required#:#Um auf den externen Inhalt zuzugreifen, ist es erforderlich, der Übermittlung Ihrer persönlichen Daten zuzustimmen.
+ecs#:#ecs_consent_reset_confirm_title_info#:#Möchten Sie wirklich alle Einwilligungen löschen? Alle Benutzer müssen erneut zustimmen, ihre persönlichen Profildaten zu teilen, bevor sie auf ECS-Inhalte zugreifen können.
+ecs#:#ecs_consent_reset_confirm_title#:#Zustimmungen zurücksetzen
 ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
 ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Nur notwendig, wenn ein ECS-Server unter 'Administration » ILIAS erweitern » ECS' aktiviert ist.
 ecs#:#ecs_crs_alloc#:#Kurszuordnungen
@@ -8765,6 +8769,7 @@ ecs#:#ecs_duration#:#Dauer
 ecs#:#ecs_econ_rcp#:#Benachrichtigungen über externe Kurse
 ecs#:#ecs_econ_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue externe Kurse per E-Mail benachrichtigt werden sollen.
 ecs#:#ecs_edit_category_mapping#:#Zuordnung bearbeiten
+ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Kursimport und Export zulassen
 ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
@@ -8799,6 +8804,10 @@ ecs#:#ecs_file_export#:#Dateifreigaben
 ecs#:#ecs_file_export_disabled#:#Nicht freigeben
 ecs#:#ecs_file_export_enabled#:#Freigeben
 ecs#:#ecs_file_export_obj_settings#:#Einstellungen für Dateifreigaben
+ecs#:#ecs_firstname#:#Vorname
+ecs#:#ecs_form_consent_option_title#:#Ich stimme zu, dass mit dem Fortfahren folgende meiner Daten übertragen und auf der oben genannten Plattform gespeichert werden:
+ecs#:#ecs_form_consent#:#Zustimmung
+ecs#:#ecs_form_target_platform#:#Zielplattform
 ecs#:#ecs_general_info#:#Allgemeine Informationen
 ecs#:#ecs_global_role_info#:#Bitte wählen Sie eine globale Rolle aus, der neue ECS-Benutzer zugeordnet werden.
 ecs#:#ecs_glo_export_disabled#:#Nicht freigeben
@@ -8817,14 +8826,17 @@ ecs#:#ecs_import#:#Externe Kurse
 ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_types#:#Importierbare Objekttypen
+ecs#:#ecs_institution#:#Institution
 ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus-Management" nur für maximal einen Teilnehmer auswählen.
 ecs#:#ecs_key_password#:#Schlüsselpasswort
+ecs#:#ecs_lastname#:#Nachname
 ecs#:#ecs_lm_export_disabled#:#Nicht freigeben
 ecs#:#ecs_lm_export_enabled#:#Freigeben
 ecs#:#ecs_lm_export#:#Lernmodulfreigaben
 ecs#:#ecs_lm_export_obj_settings#:#Einstellungen für Lernmodulfreigaben
 ecs#:#ecs_local_information#:#Weitere Informationen
 ecs#:#ecs_local_settings#:#Lokale Einstellungen
+ecs#:#ecs_login#:#Anmeldename
 ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
 ecs#:#ecs_mapping_exp_tbl#:#Zuordnung der Erweiterten Metadaten zu ECS-Daten
 ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurse
@@ -8902,6 +8914,7 @@ ecs#:#ecs_tst_export_enabled#:#Freigeben
 ecs#:#ecs_tst_export_obj_settings#:#Einstellungen für Testfreigaben
 ecs#:#ecs_tst_export#:#Testfreigaben
 ecs#:#ecs_unique_id#:#Teilnehmer-ID
+ecs#:#ecs_user_consents_deleted#:#Alle Zustimmungen wurden gelöscht.
 ecs#:#ecs_user_rcp#:#Benachrichtigungen über ECS-Benutzer
 ecs#:#ecs_user_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue ECS-Benutzer per E-Mail benachrichtigt werden sollen.
 ecs#:#ecs_wiki_export_disabled#:#Nicht freigeben
@@ -10905,10 +10918,14 @@ mathjax#:#mathjax_test_expression_info_client#:#Dieser Ausdruck wird mit dem Skr
 mathjax#:#mathjax_test_expression_info_server#:#Dieser Ausdruck wird auf dem Server in eine Grafik umgewandelt
 mathjax#:#mathjax_test_expression#:#Test-Ausdruck
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
+mcst#:#mcst_audio_files#:#Audiodateien
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio-Format
 mcst#:#mcst_audioportable_title#:#Zusätzliche Audio-Datei für portable Geräte
 mcst#:#mcst_automatic_detection#:#Automatisch
+mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
+mcst#:#mcst_autoplay#:#Autoplay
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
 mcst#:#mcst_clear_purpose_title#:#Löschen
 mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
 mcst#:#mcst_copy#:#Mediacast kopieren
@@ -10917,9 +10934,11 @@ mcst#:#mcst_default_visibility#:#Standardzugriff
 mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
 mcst#:#mcst_downloadable#:#Download-Link
 mcst#:#mcst_downloadable_info#:#Benutzer können Beiträge direkt herunterladen.
+mcst#:#mcst_download_all#:#Alle herunterladen
 mcst#:#mcst_download_audioportable#:#Audio-Datei herunterladen
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_download_standard#:#Download
+mcst#:#mcst_download_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
 mcst#:#mcst_download_videoalternative#:#Alternatives Format herunterladen
 mcst#:#mcst_download_videoportable#:#Video-Datei herunterladen
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
@@ -10929,6 +10948,7 @@ mcst#:#mcst_edit_settings#:#Einstellungen
 mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
 mcst#:#mcst_gallery#:#Kacheln
 mcst#:#mcst_image_extracted#:#Vorschaubild wurde erzeugt
+mcst#:#mcst_img_gallery#:#Bildergalerie
 mcst#:#mcst_import#:#Mediacast importieren
 mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
 mcst#:#mcst_incl_files_in_rss_info#:#Die Dateien der Mediacast-Beiträge werden als Anhang im Webfeed bereitgestellt.
@@ -10943,9 +10963,14 @@ mcst#:#mcst_mimetype_info#:#Wählen Sie einen MIME-Type aus, um das richtige Plu
 mcst#:#mcst_mimetype#:#MIME-Type
 mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von MIME-Types
 mcst#:#mcst_mimetypes#:#MIME-Types
+mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
+mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
+mcst#:#mcst_next_items#:#Weitere Videos anzeigen
+mcst#:#mcst_no_autoplay#:#Kein Autoplay
 mcst#:#mcst_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
+mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
 mcst#:#mcst_ordering_creation_date_asc#:#Nach Erstellungsdatum, ältester Beitrag oben
 mcst#:#mcst_ordering_creation_date_desc#:#Nach Erstellungsdatum, neuester Beitrag oben
 mcst#:#mcst_ordering_manual#:#Manuell
@@ -10954,18 +10979,24 @@ mcst#:#mcst_ordering_title#:#Alphabetisch nach Titel
 mcst#:#mcst_play#:#Abspielen
 mcst#:#mcst_play_cnt#:#Abgespielt
 mcst#:#mcst_play_time#:#Laufzeit
+mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
 mcst#:#mcst_preview_picture#:#Vorschaubild
+mcst#:#mcst_prev_items#:#Vorherige Videos anzeigen
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 mcst#:#mcst_save_order#:#Sortierung speichern
 mcst#:#mcst_second#:#Sekunde
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_settings#:#Einstellungen des Mediacasts
+mcst#:#mcst_show_description#:#Beschreibung anzeigen
 mcst#:#mcst_standard_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_standard_settings_title#:#Dateiendungen für das Standard Format
 mcst#:#mcst_standard_title#:#Standard-Mediendatei
 mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
 mcst#:#mcst_videoalternative_title#:#Alternatives Videoformat zur Nutzung im Browser
+mcst#:#mcst_video_cast#:#Videoliste
+mcst#:#mcst_video_completion_threshold#:#"Bearbeitet"-Schwellenwert
+mcst#:#mcst_video_completion_threshold_info#:#Ab diesem Fortschritt wird ein Video als "angesehen" gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat.
 mcst#:#mcst_videoportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_videoportable_settings_title#:#Dateiendungen für das Video-Format
 mcst#:#mcst_videoportable_title#:#Zusätzliche Video-Datei für portable Geräte
@@ -10973,6 +11004,7 @@ mcst#:#mcst_viewmode#:#Ansicht
 mcst#:#mcst_visibility_info#:#Öffentliche Objekte sind über RSS ohne jegliche Authentifizierung zugänglich.
 mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
 mcst#:#mcst_visibility_users#:#Öffentlich
+mcst#:#mcst_watched#:#angesehen
 mcst#:#mcst_webfeed#:#RSS-Webfeed
 membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
 membership#:#mem_force_notification#:#Benachrichtigung per Mail
@@ -11802,6 +11834,7 @@ mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_file#:#Datei
 mob#:#mob_general#:#Allgemein
 mob#:#mob_language#:#Sprache
+mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
@@ -16783,36 +16816,3 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-mcst#:#mcst_download_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
-mcst#:#mcst_download_all#:#Alle herunterladen
-mcst#:#mcst_img_gallery#:#Bildergalerie
-mcst#:#mcst_podcast#:#Podcast
-mcst#:#mcst_watched#:#angesehen
-mcst#:#mcst_video_completion_threshold#:#"Bearbeitet"-Schwellenwert
-mcst#:#mcst_video_completion_threshold_info#:#Ab diesem Fortschritt wird ein Video als "angesehen" gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat.
-mcst#:#mcst_prev_items#:#Vorherige Videos anzeigen
-mcst#:#mcst_next_items#:#Weitere Videos anzeigen
-mcst#:#mcst_autoplay#:#Autoplay
-mcst#:#mcst_video_cast#:#Videoliste
-mcst#:#mcst_no_autoplay#:#Kein Autoplay
-mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
-mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
-mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
-mcst#:#mcst_show_description#:#Beschreibung anzeigen
-mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
-mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
-mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
-mcst#:#mcst_audio_files#:#Audiodateien
-ecs#:#ecs_consent_modal_title#:#Benachrichtigung über die Übertragung von Benutzerdaten über ECS
-ecs#:#ecs_consent_required#:#Um auf den externen Inhalt zuzugreifen, ist es erforderlich, der Übermittlung Ihrer persönlichen Daten zuzustimmen.
-ecs#:#ecs_form_consent#:#Zustimmung
-ecs#:#ecs_form_consent_option_title#:#Ich stimme zu, dass mit dem Fortfahren folgende meiner Daten übertragen und auf der oben genannten Plattform gespeichert werden:
-ecs#:#ecs_form_target_platform#:#Zielplattform
-ecs#:#ecs_login#:#Anmeldename
-ecs#:#ecs_firstname#:#Vorname
-ecs#:#ecs_lastname#:#Nachname
-ecs#:#ecs_email#:#E-Mail
-ecs#:#ecs_institution#:#Institution
-ecs#:#ecs_consent_reset_confirm_title#:#Zustimmungen zurücksetzen
-ecs#:#ecs_consent_reset_confirm_title_info#:#Möchten Sie wirklich alle Einwilligungen löschen? Alle Benutzer müssen erneut zustimmen, ihre persönlichen Profildaten zu teilen, bevor sie auf ECS-Inhalte zugreifen können.
-ecs#:#ecs_user_consents_deleted#:#Alle Zustimmungen wurden gelöscht.
