@@ -16773,16 +16773,3 @@ mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at th
 mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress
 mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.
 mcst#:#mcst_audio_files#:#Audio Files
-ecs#:#ecs_consent_modal_title#:#Notification about Transfer of User Data via ECS
-ecs#:#ecs_consent_required#:#Um auf den externen Inhalt zuzugreifen, ist es erforderlich, der Übermittlung Ihrer persönlichen Daten zuzustimmen.
-ecs#:#ecs_form_consent#:#Consent
-ecs#:#ecs_form_consent_option_title#:#I agree, that with proceeding, the following items of my user data will be tranferred and stored on the above stated platform:
-ecs#:#ecs_form_target_platform#:#Target Platform
-ecs#:#ecs_login#:#Login
-ecs#:#ecs_firstname#:#Vorname
-ecs#:#ecs_lastname#:#Nachname
-ecs#:#ecs_email#:#E-Mail
-ecs#:#ecs_institution#:#Institution
-ecs#:#ecs_consent_reset_confirm_title#:#Reset User Consents
-ecs#:#ecs_consent_reset_confirm_title_info#:#Do you really want to delete all consents? All users must aggree again to share their personal profile data before they can access ECS content.
-ecs#:#ecs_user_consents_deleted#:#Deleted all user consents.

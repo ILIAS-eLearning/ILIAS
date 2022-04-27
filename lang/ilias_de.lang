@@ -16803,16 +16803,3 @@ mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht
 mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
 mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
 mcst#:#mcst_audio_files#:#Audiodateien
-ecs#:#ecs_consent_modal_title#:#Benachrichtigung über die Übertragung von Benutzerdaten über ECS
-ecs#:#ecs_consent_required#:#Um auf den externen Inhalt zuzugreifen, ist es erforderlich, der Übermittlung Ihrer persönlichen Daten zuzustimmen.
-ecs#:#ecs_form_consent#:#Zustimmung
-ecs#:#ecs_form_consent_option_title#:#Ich stimme zu, dass mit dem Fortfahren folgende meiner Daten übertragen und auf der oben genannten Plattform gespeichert werden:
-ecs#:#ecs_form_target_platform#:#Zielplattform
-ecs#:#ecs_login#:#Anmeldename
-ecs#:#ecs_firstname#:#Vorname
-ecs#:#ecs_lastname#:#Nachname
-ecs#:#ecs_email#:#E-Mail
-ecs#:#ecs_institution#:#Institution
-ecs#:#ecs_consent_reset_confirm_title#:#Zustimmungen zurücksetzen
-ecs#:#ecs_consent_reset_confirm_title_info#:#Möchten Sie wirklich alle Einwilligungen löschen? Alle Benutzer müssen erneut zustimmen, ihre persönlichen Profildaten zu teilen, bevor sie auf ECS-Inhalte zugreifen können.
-ecs#:#ecs_user_consents_deleted#:#Alle Zustimmungen wurden gelöscht.
