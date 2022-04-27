@@ -382,14 +382,13 @@ class ilCalendarUtil
     /**
      * get max day of month
      * 2008,2 => 29
-     * @access public
-     * @param int year
-     * @param int month
-     * @return
      */
     public static function _getMaxDayOfMonth(int $a_year, int $a_month) : int
     {
-        return cal_days_in_month(CAL_GREGORIAN, $a_month, $a_year);
+        if (function_exists('cal_days_in_month')) {
+            return cal_days_in_month(CAL_GREGORIAN, $a_month, $a_year);
+        }
+        return (int) date('t', mktime(0, 0, 0, $a_month, 1, $a_year));
     }
 
     /**
