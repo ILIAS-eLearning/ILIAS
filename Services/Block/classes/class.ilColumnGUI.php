@@ -432,14 +432,14 @@ class ilColumnGUI
                 $path = "./" . self::$locations[$gui_class] . "classes/" .
                     "class." . $block_class . ".php";
                 if (file_exists($path)) {
-                    $app_block = new $block_class($block["id"]);
+                    $app_block = new $block_class((int) $block["id"]);
                 } else {
                     // we only need generic block
-                    $app_block = new ilCustomBlock($block["id"]);
+                    $app_block = new ilCustomBlock((int) $block["id"]);
                 }
                 $block_gui->setBlock($app_block);
                 if (isset($block["ref_id"])) {
-                    $block_gui->setRefId($block["ref_id"]);
+                    $block_gui->setRefId((int) $block["ref_id"]);
                 }
             }
 
