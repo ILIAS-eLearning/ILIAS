@@ -46,19 +46,14 @@ class ilECSUserConsent
 
     public function save() : void
     {
-        try {
-            $query = 'INSERT INTO ecs_user_consent (usr_id, mid) ' .
-                'VALUES ( ' .
-                $this->db->quote(
-                    $this->getUserId(),
-                    ilDBConstants::T_INTEGER
-                ) . ', ' .
-                $this->db->quote($this->getMid(), ilDBConstants::T_INTEGER) .
-                ')';
-            $this->db->manipulate($query);
-        } catch (ilDatabaseException $e) {
-            // ignore duplicate entry
-        }
+        $this->db->replace(
+            'ecs_user_consent',
+            [
+                'usr_id' => [ilDBConstants::T_INTEGER, $this->getUserId()],
+                'mid' => [ilDBConstants::T_INTEGER, $this->getMid()]
+            ],
+            []
+        );
     }
 
     public function delete() : void
