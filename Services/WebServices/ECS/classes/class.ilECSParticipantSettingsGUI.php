@@ -135,7 +135,7 @@ class ilECSParticipantSettingsGUI
     {
         $consents = new ilECSParticipantConsents($this->getServerId(), $this->getMid());
         $consents->delete();
-        ilUtil::sendSuccess($this->lng->txt('ecs_user_consents_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_user_consents_deleted'), true);
         $this->ctrl->redirect($this, 'settings');
     }
     
@@ -152,12 +152,33 @@ class ilECSParticipantSettingsGUI
             $this->getParticipant()->setExportTypes($form->getInput('export_types'));
             $this->getParticipant()->enableImport((bool) $form->getInput('import'));
             $this->getParticipant()->setImportTypes($form->getInput('import_types'));
-            $this->getParticipant()->update();
-            
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this, 'settings');
-            //TODO check if we need return true
-            return;
+            $this->getParticipant()->enableIncomingLocalAccounts((bool) $form->getInput('incoming_local_accounts'));
+            $this->getParticipant()->setIncomingAuthType((int) $form->getInput('incoming_auth_type'));
+            $this->getParticipant()->setOutgoingAuthModes((array) $form->getInput('outgoing_auth_modes'));
+
+            // placeholders
+            $placeholders = [];
+            foreach ($this->parseAvailableAuthModes() as $authmode_name => $authmode_text) {
+                $placeholders[$authmode_name] = $form->getInput(
+                    'username_placeholder_' . $authmode_name
+                );
+            }
+            $this->getParticipant()->setOutgoingUsernamePlaceholders($placeholders);
+
+            // additional validation
+            $error_code = $this->getParticipant()->validate();
+            switch ($error_code) {
+                case ilECSParticipantSetting::ERR_MISSING_USERNAME_PLACEHOLDER:
+                    $form->getItemByPostVar('outgoing_auth_modes')->setAlert(
+                        $this->lng->txt('ecs_username_place_holder_err_mssing_placeholder')
+                    );
+                    break;
+                default:
+                    $this->getParticipant()->update();
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+                    $this->ctrl->redirect($this, 'settings');
+
+            }
         }
         $form->setValuesByPost();
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
@@ -191,7 +212,46 @@ class ilECSParticipantSettingsGUI
         $export->setValue("1");
         $export->setChecked($this->getParticipant()->isExportEnabled());
         $form->addItem($export);
-        
+
+        $auth_types = new ilCheckboxInputGUI(
+            $this->lng->txt('ecs_export_local_account'),
+            'incoming_local_accounts'
+        );
+        $auth_types->setInfo($this->lng->txt('ecs_export_local_account_info'));
+        $auth_types->setChecked($this->getParticipant()->areIncomingLocalAccountsSupported());
+        $export->addSubItem($auth_types);
+
+        // radio group with login page and (optional) shibboleth option
+        $external_auth_type = new ilRadioGroupInputGUI(
+            $this->lng->txt('ecs_export_auth_type'),
+            'incoming_auth_type'
+        );
+        $external_auth_type->setInfo($this->lng->txt('ecs_export_auth_type_info'));
+        $external_auth_type->setValue(
+            (string) $this->getParticipant()->getIncomingAuthType()
+        );
+        $external_auth_type->addOption(
+            new ilRadioOption(
+                $this->lng->txt('ecs_export_auth_type_ilias'),
+                (string) ilECSParticipantSetting::INCOMING_AUTH_TYPE_LOGIN_PAGE
+            )
+        );
+        if ($this->isShibbolethActive()) {
+            $external_auth_type->addOption(
+                new ilRadioOption(
+                    $this->lng->txt('ecs_export_auth_type_shib'),
+                    (string) ilECSParticipantSetting::INCOMING_AUTH_TYPE_SHIBBOLETH
+                )
+            );
+        }
+        $external_auth_type->addOption(
+            new ilRadioOption(
+                $this->lng->txt('ecs_export_auth_type_none'),
+                (string) ilECSParticipantSetting::INCOMING_AUTH_TYPE_INACTIVE
+            )
+        );
+        $export->addSubItem($external_auth_type);
+
         // Export types
         $obj_types = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_export_types'), 'export_types');
         $obj_types->setValue($this->getParticipant()->getExportTypes());
@@ -208,7 +268,40 @@ class ilECSParticipantSettingsGUI
         $import->setValue("1");
         $import->setChecked($this->getParticipant()->isImportEnabled());
         $form->addItem($import);
-        
+
+        // user credentials by auth mode
+        $user_credentials = new ilCheckboxGroupInputGUI(
+            $this->lng->txt('ecs_import_user_credentials_by_auth_mode'),
+            'outgoing_auth_modes'
+        );
+        $user_credentials->setInfo($this->lng->txt('ecs_import_user_credentials_by_auth_mode_info'));
+        $user_credentials->setValue($this->getParticipant()->getOutgoingAuthModes());
+        $import->addSubItem($user_credentials);
+        foreach ($this->parseAvailableAuthModes() as $option_name => $option_text) {
+            $option = new ilCheckboxOption(
+                $this->lng->txt('ecs_import_auth_mode') . ' ' . $option_text,
+                $option_name
+            );
+            $user_credentials->addOption($option);
+            $username_placeholder = new ilTextInputGUI(
+                $this->lng->txt('ecs_outgoing_user_credentials'),
+                'username_placeholder_' . $option_name
+            );
+            $username_placeholder->setRequired(false);
+            $username_placeholder->setInfo($this->lng->txt('ecs_outgoing_user_credentials_info'));
+            $username_placeholder->setValue(
+                $this->getParticipant()->getOutgoingUsernamePlaceholderByAuthMode(
+                    $option_name
+                )
+            );
+            $option->addSubItem($username_placeholder);
+        }
+        $option = new ilCheckboxOption(
+            $this->lng->txt('ecs_import_auth_type_default'),
+            'default'
+        );
+        $user_credentials->addOption($option);
+
         // Import types
         $imp_types = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_import_types'), 'import_types');
         $imp_types->setValue($this->getParticipant()->getImportTypes());
@@ -224,7 +317,24 @@ class ilECSParticipantSettingsGUI
         return $form;
     }
 
-    
+    protected function parseAvailableAuthModes($a_mode_incoming = true) : array
+    {
+        $options = [];
+        if ($this->isShibbolethActive()) {
+            $options['shibboleth'] = $this->getLang()->txt('auth_shib');
+        }
+        foreach (ilLDAPServer::getServerIds() as $server_id) {
+            $server = ilLDAPServer::getInstanceByServerId($server_id);
+            $options['ldap_' . $server->getServerId()] = $server->getName();
+        }
+        return $options;
+    }
+
+    protected function isShibbolethActive() : bool
+    {
+        return (bool) $this->global_settings->get('shib_active', '0');
+    }
+
     /**
      * Set tabs
      */

@@ -47,4 +47,68 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
             $this->db->addPrimaryKey('ecs_user_consent', ['usr_id', 'mid']);
         }
     }
+
+    public function step_2() : void
+    {
+        if (!$this->db->tableColumnExists('ecs_part_settings', 'username_placeholders')) {
+            $this->db->addTableColumn(
+                'ecs_part_settings',
+                'username_placeholders',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'notnull' => false,
+                    'length' => 500,
+                    'default' => null
+                ]
+            );
+        }
+    }
+
+    public function step_3() : void
+    {
+        if (!$this->db->tableColumnExists('ecs_part_settings', 'incoming_auth_type')) {
+            $this->db->addTableColumn(
+                'ecs_part_settings',
+                'incoming_auth_type',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'notnull' => true,
+                    'length' => 1,
+                    'default' => 0
+                ]
+            );
+        }
+    }
+
+    public function step_4() : void
+    {
+        if (!$this->db->tableColumnExists('ecs_part_settings', 'incoming_local_accounts')) {
+            $this->db->addTableColumn(
+                'ecs_part_settings',
+                'incoming_local_accounts',
+                [
+                    'type' => ilDBConstants::T_INTEGER,
+                    'notnull' => true,
+                    'length' => 1,
+                    'default' => 1
+                ]
+            );
+        }
+    }
+
+    public function step_5() : void
+    {
+        if (!$this->db->tableColumnExists('ecs_part_settings', 'outgoing_auth_mode')) {
+            $this->db->addTableColumn(
+                'ecs_part_settings',
+                'outgoing_auth_mode',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => ''
+                ]
+            );
+        }
+    }
 }
