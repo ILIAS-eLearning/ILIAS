@@ -16647,3 +16647,10 @@ rating#:#rating_open_dialog#:#Értékelő dialógus megnyitása
 tagging#:#tagging_no_obj_for_tag#:#Egy erőforrásnak sincs címkéjé: %s.
 rep#:#rep_favourites#:#Kedvencek
 rep#:#rep_favourites_info#:#Kedvencként jelölhet meg tartalkomtárban lévő elemeket. A kedvencek listája az irányítópult és a menü beállításaiban kapcsolaható be és konfigurálható.
+mail#:#mail_no_subject#:#No Subject available###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_linked_p#:#Linked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###27 04 2022 new variable
+ui#:#ui_tag_required#:#Please insert at least one tag.###27 04 2022 new variable

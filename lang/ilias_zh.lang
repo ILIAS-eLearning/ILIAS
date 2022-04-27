@@ -16634,3 +16634,10 @@ rating#:#rating_open_dialog#:#Open rating dialog###09 03 2022 new variable
 tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###09 03 2022 new variable
 rep#:#rep_favourites#:#Favourites###09 03 2022 new variable
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###09 03 2022 new variable
+mail#:#mail_no_subject#:#No Subject available###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_linked_p#:#Linked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###27 04 2022 new variable
+ui#:#ui_tag_required#:#Please insert at least one tag.###27 04 2022 new variable
