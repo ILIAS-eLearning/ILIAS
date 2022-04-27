@@ -8736,10 +8736,6 @@ ecs#:#ecs_cms_tree_synchronize#:#Synchronize Tree
 ecs#:#ecs_communities#:#Participants
 ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus management tree?
 ecs#:#ecs_connection_settings#:#Connection Settings
-ecs#:#ecs_consent_modal_title#:#Notification about Transfer of User Data via ECS
-ecs#:#ecs_consent_required#:#Um auf den externen Inhalt zuzugreifen, ist es erforderlich, der Übermittlung Ihrer persönlichen Daten zuzustimmen.
-ecs#:#ecs_consent_reset_confirm_title_info#:#Do you really want to delete all consents? All users must aggree again to share their personal profile data before they can access ECS content.
-ecs#:#ecs_consent_reset_confirm_title#:#Reset User Consents
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler
 ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.
 ecs#:#ecs_crs_alloc#:#Course Allocation
@@ -8759,7 +8755,6 @@ ecs#:#ecs_duration#:#Duration
 ecs#:#ecs_econ_rcp_info#:#Enter one or more login names of users (comma separated) that will be informed about new ECS content per e-mail.
 ecs#:#ecs_econ_rcp#:#Notification About New E-Content
 ecs#:#ecs_edit_category_mapping#:#Edit Assignment
-ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Allow Im/Export
 ecs#:#ecs_err_invalid_by_type#:#Please select a type when assigning by type.
@@ -8794,10 +8789,6 @@ ecs#:#ecs_file_export_disabled#:#Do not release this File
 ecs#:#ecs_file_export_enabled#:#Release this File
 ecs#:#ecs_file_export#:#File Releases
 ecs#:#ecs_file_export_obj_settings#:#File Release Settings
-ecs#:#ecs_firstname#:#Vorname
-ecs#:#ecs_form_consent#:#Consent
-ecs#:#ecs_form_consent_option_title#:#I agree, that with proceeding, the following items of my user data will be tranferred and stored on the above stated platform:
-ecs#:#ecs_form_target_platform#:#Target Platform
 ecs#:#ecs_general_info#:#General Information
 ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.
 ecs#:#ecs_glo_export_disabled#:#Do not release this Glossary
@@ -8816,17 +8807,14 @@ ecs#:#ecs_import_id#:#Import ID
 ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course Links will be created
 ecs#:#ecs_import#:#Imported Objects
 ecs#:#ecs_import_types#:#Importable Object Types
-ecs#:#ecs_institution#:#Institution
 ecs#:#ecs_invalid_import_type_cms#:#The import type ‘Campus Management’ can be chosen only once.
 ecs#:#ecs_key_password#:#Key Password
-ecs#:#ecs_lastname#:#Nachname
 ecs#:#ecs_lm_export_disabled#:#Do not release this Learning Module
 ecs#:#ecs_lm_export_enabled#:#Release this Learning Module
 ecs#:#ecs_lm_export#:#Learning Module Releases
 ecs#:#ecs_lm_export_obj_settings#:#Learning Module Release Settings
 ecs#:#ecs_local_information#:#Further Information
 ecs#:#ecs_local_settings#:#Local Settings
-ecs#:#ecs_login#:#Login
 ecs#:#ecs_mapping_crs#:#Mapping for Courses
 ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Custom Metadata to ECS-Data
 ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Courses
@@ -8904,7 +8892,6 @@ ecs#:#ecs_tst_export_enabled#:#Release this Test
 ecs#:#ecs_tst_export_obj_settings#:#Test Release Settings
 ecs#:#ecs_tst_export#:#Test Releases
 ecs#:#ecs_unique_id#:#Participant-ID
-ecs#:#ecs_user_consents_deleted#:#Deleted all user consents.
 ecs#:#ecs_user_rcp_info#:#Enter one or more login names of users (comma separated) that will be informed about new ECS users per e-mail.
 ecs#:#ecs_user_rcp#:#Notification About ECS Users
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
@@ -10892,14 +10879,10 @@ mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered
 mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 mathjax#:#mathjax_test_expression#:#Test Expression
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
-mcst#:#mcst_audio_files#:#Audio Files
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format
 mcst#:#mcst_audioportable_title#:#Additional Audio File for Portable Devices
 mcst#:#mcst_automatic_detection#:#Automatic Detection
-mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
-mcst#:#mcst_autoplay#:#Autoplay
-mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
 mcst#:#mcst_clear_purpose_title#:#Delete
 mcst#:#mcst_converted_file#:#File has been converted.
 mcst#:#mcst_copy#:#Copy Mediacast
@@ -10908,11 +10891,9 @@ mcst#:#mcst_default_visibility#:#Default Access
 mcst#:#mcst_det_playtime#:#Determine Play Time
 mcst#:#mcst_downloadable#:#Download Links
 mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading mediacast items are provided.
-mcst#:#mcst_download_all#:#Download All
 mcst#:#mcst_download_audioportable#:#Download Audio Portable
 mcst#:#mcst_download_cnt#:#Downloaded
 mcst#:#mcst_download_standard#:#Download
-mcst#:#mcst_download_started_bg#:#Download of files has started. Please check your background tasks in the top right corner.
 mcst#:#mcst_download_videoalternative#:#Download Alternative File
 mcst#:#mcst_download_videoportable#:#Download Video Portable
 mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
@@ -10922,7 +10903,6 @@ mcst#:#mcst_edit_settings#:#MediaCast Settings
 mcst#:#mcst_extract_preview_image#:#Extract Preview Image
 mcst#:#mcst_gallery#:#Tiles
 mcst#:#mcst_image_extracted#:#Image has been extracted.
-mcst#:#mcst_img_gallery#:#Image Gallery
 mcst#:#mcst_import#:#Import Mediacast
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachments in the RSS feed. Otherwise the feed just notifies subscribers about new items.
@@ -10937,14 +10917,9 @@ mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback
 mcst#:#mcst_mimetype#:#Mime Type
 mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types
 mcst#:#mcst_mimetypes#:#Mime Types
-mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress
-mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.
 mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
-mcst#:#mcst_next_items#:#Next Items
-mcst#:#mcst_no_autoplay#:#No Autoplay
 mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mcst#:#mcst_nr_items#:#Number of Items
-mcst#:#mcst_nr_videos#:#Number of Initial Videos
 mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date, Oldest Item on Top
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date Newest Item on Top
 mcst#:#mcst_ordering_manual#:#Manual
@@ -10953,24 +10928,18 @@ mcst#:#mcst_ordering_title#:#Titles in Alphabetical Order
 mcst#:#mcst_play_cnt#:#Played
 mcst#:#mcst_play#:#Play
 mcst#:#mcst_play_time#:#Play Time
-mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 mcst#:#mcst_preview_picture#:#Preview Picture
-mcst#:#mcst_prev_items#:#Previous Items
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
 mcst#:#mcst_save_order#:#Save Order
 mcst#:#mcst_second#:#Second
 mcst#:#mcst_set_playtime#:#Playtime has been set.
 mcst#:#mcst_settings#:#Mediacast Settings
-mcst#:#mcst_show_description#:#Show Description
 mcst#:#mcst_standard_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_standard_settings_title#:#File Extensions for Standard Format
 mcst#:#mcst_standard_title#:#Standard Media File
 mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.
 mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)
-mcst#:#mcst_video_cast#:#Videocast
-mcst#:#mcst_video_completion_threshold_info#:#Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point.
-mcst#:#mcst_video_completion_threshold#:#Video Completion Threshold
 mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format
 mcst#:#mcst_videoportable_title#:#Additional Video File for Portable Devices
@@ -10978,7 +10947,6 @@ mcst#:#mcst_viewmode#:#Presentation Mode
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_visibility_public#:#Public
 mcst#:#mcst_visibility_users#:#Logged in Users
-mcst#:#mcst_watched#:#watched
 mcst#:#mcst_webfeed#:#RSS Web Feed
 membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
@@ -11808,7 +11776,6 @@ mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
 mob#:#mob_file#:#File
 mob#:#mob_general#:#General
 mob#:#mob_language#:#Language
-mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
 mob#:#mob_multi_srt_files#:#SRT Files
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
@@ -16786,3 +16753,36 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+mcst#:#mcst_download_started_bg#:#Download of files has started. Please check your background tasks in the top right corner.
+mcst#:#mcst_download_all#:#Download All
+mcst#:#mcst_img_gallery#:#Image Gallery
+mcst#:#mcst_podcast#:#Podcast
+mcst#:#mcst_watched#:#watched
+mcst#:#mcst_video_completion_threshold#:#Video Completion Threshold
+mcst#:#mcst_video_completion_threshold_info#:#Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point.
+mcst#:#mcst_prev_items#:#Previous Items
+mcst#:#mcst_next_items#:#Next Items
+mcst#:#mcst_autoplay#:#Autoplay
+mcst#:#mcst_video_cast#:#Videocast
+mcst#:#mcst_no_autoplay#:#No Autoplay
+mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
+mcst#:#mcst_nr_videos#:#Number of Initial Videos
+mcst#:#mcst_show_description#:#Show Description
+mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
+mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress
+mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.
+mcst#:#mcst_audio_files#:#Audio Files
+ecs#:#ecs_consent_modal_title#:#Notification about Transfer of User Data via ECS
+ecs#:#ecs_consent_required#:#Um auf den externen Inhalt zuzugreifen, ist es erforderlich, der Übermittlung Ihrer persönlichen Daten zuzustimmen.
+ecs#:#ecs_form_consent#:#Consent
+ecs#:#ecs_form_consent_option_title#:#I agree, that with proceeding, the following items of my user data will be tranferred and stored on the above stated platform:
+ecs#:#ecs_form_target_platform#:#Target Platform
+ecs#:#ecs_login#:#Login
+ecs#:#ecs_firstname#:#Vorname
+ecs#:#ecs_lastname#:#Nachname
+ecs#:#ecs_email#:#E-Mail
+ecs#:#ecs_institution#:#Institution
+ecs#:#ecs_consent_reset_confirm_title#:#Reset User Consents
+ecs#:#ecs_consent_reset_confirm_title_info#:#Do you really want to delete all consents? All users must aggree again to share their personal profile data before they can access ECS content.
+ecs#:#ecs_user_consents_deleted#:#Deleted all user consents.
