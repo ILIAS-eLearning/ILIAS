@@ -1,8 +1,8 @@
--- MySQL dump 10.19  Distrib 10.3.31-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.19  Distrib 10.3.34-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.3.31-MariaDB-0+deb10u1
+-- Server version	10.3.34-MariaDB-0+deb10u1
 
 --
 -- Table structure for table `acc_access_key`
@@ -1143,7 +1143,8 @@ CREATE TABLE `booking_object` (
   `post_text` varchar(4000) DEFAULT NULL,
   `post_file` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`booking_object_id`),
-  KEY `i1_idx` (`pool_id`)
+  KEY `i1_idx` (`pool_id`),
+  KEY `i2_idx` (`schedule_id`)
 ) ;
 
 --
@@ -1199,7 +1200,8 @@ CREATE TABLE `booking_reservation` (
   KEY `i1_idx` (`user_id`),
   KEY `i2_idx` (`object_id`),
   KEY `i3_idx` (`date_from`),
-  KEY `i4_idx` (`date_to`)
+  KEY `i4_idx` (`date_to`),
+  KEY `i5_idx` (`context_obj_id`)
 ) ;
 
 --
@@ -1250,7 +1252,8 @@ CREATE TABLE `booking_schedule` (
   `auto_break` int(11) DEFAULT NULL,
   `av_from` int(11) DEFAULT NULL,
   `av_to` int(11) DEFAULT NULL,
-  PRIMARY KEY (`booking_schedule_id`)
+  PRIMARY KEY (`booking_schedule_id`),
+  KEY `i1_idx` (`pool_id`)
 ) ;
 
 --
@@ -5007,7 +5010,8 @@ CREATE TABLE `exc_ass_file_order` (
   `assignment_id` int(11) NOT NULL DEFAULT 0,
   `filename` varchar(150) NOT NULL,
   `order_nr` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`assignment_id`)
 ) ;
 
 --
@@ -5119,7 +5123,9 @@ CREATE TABLE `exc_assignment` (
   `deadline_mode` tinyint(4) DEFAULT 0,
   `relative_deadline` int(11) DEFAULT 0,
   `rel_deadline_last_subm` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`exc_id`),
+  KEY `i2_idx` (`deadline_mode`,`exc_id`)
 ) ;
 
 --
@@ -5326,7 +5332,8 @@ CREATE TABLE `exc_members` (
   `feedback` tinyint(4) NOT NULL DEFAULT 0,
   `status` char(9) DEFAULT 'notgraded',
   PRIMARY KEY (`obj_id`,`usr_id`),
-  KEY `ob_idx` (`obj_id`)
+  KEY `ob_idx` (`obj_id`),
+  KEY `i1_idx` (`usr_id`)
 ) ;
 
 --
@@ -7986,7 +7993,8 @@ CREATE TABLE `il_exc_team` (
   `id` int(11) NOT NULL DEFAULT 0,
   `ass_id` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`ass_id`,`user_id`)
+  PRIMARY KEY (`ass_id`,`user_id`),
+  KEY `i1_idx` (`id`)
 ) ;
 
 --
@@ -20400,7 +20408,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','73');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','81');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 INSERT INTO `settings` VALUES ('common','rep_favourites','1');
 
@@ -25011,4 +25019,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2022-03-09 15:22:08
+-- Dump completed on 2022-04-27 15:19:48
