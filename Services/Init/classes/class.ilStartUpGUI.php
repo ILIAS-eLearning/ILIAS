@@ -337,7 +337,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     }
 
     /**
-     * @todo has to be refactored.
+     * @todo needs rafactoring
      */
     protected function processCode() : ?bool
     {
@@ -404,6 +404,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $form->setValuesByPost();
         $this->showCodeForm($uname, $form);
+        return null;
     }
 
     /**
@@ -745,7 +746,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show login information
      */
-    protected function showLoginInformation(string $page_editor_html, $tpl) : string //ToDo PHP8: Type for $tpl missing.
+    protected function showLoginInformation(string $page_editor_html, ilGlobalTemplateInterface $tpl) : string
     {
         if (strlen($page_editor_html)) {
             // page editor active return
@@ -1114,17 +1115,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         self::printToGlobalTemplate($tpl);
     }
 
-    /**
-     * Migrate Account
-     * @return bool
-     */
-    protected function migrateAccount() : bool //Todo PHP8: All returns are conditional, but return is mandatory.
+    protected function migrateAccount() : void
     {
         if (!isset($this->httpRequest->getParsedBody()['account_migration'])) {
             $this->showAccountMigration(
                 $this->lng->txt('select_one')
             );
-            return false;
+            return;
         }
 
         if (
@@ -1140,14 +1137,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->showAccountMigration(
                 $this->lng->txt('err_wrong_login')
             );
-            return false;
+            return;
         }
 
         if ((int) $this->httpRequest->getParsedBody()['account_migration'] == self::ACCOUNT_MIGRATION_MIGRATE) {
-            return $this->doMigration();
+            $this->doMigration();
+            return;
         } elseif ((int) $this->httpRequest->getParsedBody()['account_migration'] == static::ACCOUNT_MIGRATION_NEW) {
-            return $this->doMigrationNewAccount();
+            $this->doMigrationNewAccount();
+            return;
         }
+        return;
     }
 
     protected function doMigrationNewAccount() : bool
@@ -1184,9 +1184,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return true;
     }
 
-    /**
-     * @return bool
-     */
     protected function doMigration() : bool
     {
         $username = '';
@@ -1533,7 +1530,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage();
     }
 
-    public static function _checkGoto($a_target)  //Todo PHP8: Return Type missing.
+    /**
+     * Return type depends on _checkGoto calls
+     * @return bool|mixed
+     */
+    public static function _checkGoto($a_target)
     {
         global $DIC;
         global $objDefinition, $ilUser;
@@ -1776,7 +1777,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * @param bool  $a_show_back
      * @param bool  $a_show_logout
      */
-    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false) //ToDo PHP8 Review: Return type missing
+    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false) : ilGlobalTemplateInterface
     {
         /**
          * @var $tpl       ilTemplate

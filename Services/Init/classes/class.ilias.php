@@ -13,6 +13,11 @@
 class ILIAS
 {
     public string $INI_FILE;
+
+    /**
+     * @var string
+     * @deprecated
+     */
     public string $client_id = '';
 
     /**
@@ -53,7 +58,7 @@ class ILIAS
      * setup ILIAS global object
      * @access    public
      */
-    public function __construct($a_client_id = 0) //ToDo PHP8: What do we need $a_client_id for if it is never used?
+    public function __construct()
     {
         global $DIC, $ilClientIniFile, $ilIliasIniFile, $ilDB;
 

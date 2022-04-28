@@ -54,7 +54,7 @@ class ilErrorHandling extends PEAR
     protected static bool $whoops_handlers_registered = false;
 
     /**
-     * @var ?error PEAR error obj
+     * @var ?PEAR_Error error obj
      */
     protected $error_obj = null;
 
@@ -72,7 +72,7 @@ class ilErrorHandling extends PEAR
         $this->WARNING = 2;
         $this->MESSAGE = 3;
 
-        $this->error_obj = false;
+        $this->error_obj = null;
 
         $this->initWhoopsHandlers();
 
@@ -118,15 +118,10 @@ class ilErrorHandling extends PEAR
 
         return $this->defaultHandler();
     }
-    
-    public function getLastError() // ToDo PHP8: Return type missing. You seem to have different declarations for possible error objects. I'm not sure which is the right one.
-    {
-        return $this->error_obj;
-    }
 
     /**
      * defines what has to happen in case of error
-     * @param error $a_error_obj PEAR Error object
+     * @param PEAR_Error $a_error_obj PEAR Error object
      */
     public function errorHandler($a_error_obj) : void
     {
@@ -431,7 +426,11 @@ class ilErrorHandling extends PEAR
         });
     }
 
-    public function handlePreWhoops($level, $message, $file, $line) : bool //Todo PHP8: Missing paramter types
+    /**
+     * parameter types according to PHP doc: set_error_handler
+     * @throws \Whoops\Exception\ErrorException
+     */
+    public function handlePreWhoops(int $level, string $message, string $file, int $line) : bool
     {
         global $ilLog;
 
