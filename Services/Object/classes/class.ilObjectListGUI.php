@@ -2899,6 +2899,12 @@ class ilObjectListGUI
             $this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
         }
 
+        // if file upload is enabled the content is wrapped by a UI dropzone.
+        $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id, $this->tpl->get());
+        if ($file_upload_dropzone->isUploadAllowed($this->type)) {
+            return $file_upload_dropzone->getDropzoneHtml();
+        }
+
         return $this->tpl->get();
     }
     
