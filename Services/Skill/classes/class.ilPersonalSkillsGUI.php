@@ -583,6 +583,24 @@ class ilPersonalSkillsGUI
 
 
             if ($this->getProfileId() > 0) {
+                // get all self eval entries and render them
+                $self_eval_entries = $this->getEntriesForSkill(
+                    $a_top_skill_id,
+                    $bs,
+                    $skill,
+                    $user,
+                    ilBasicSkill::EVAL_BY_SELF,
+                    $level_data
+                );
+                if (!empty($self_eval_entries)) {
+                    $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_SELF));
+                }
+                foreach ($self_eval_entries as $entry) {
+                    $panel_comps[] = $entry;
+                }
+
+                $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
+
                 if (!$this->skmg_settings->getHideProfileBeforeSelfEval() ||
                     ilBasicSkill::hasSelfEvaluated($user->getId(), $bs["id"], $bs["tref"])) {
                     if ($this->getFilter()->showTargetLevel()) {
@@ -595,25 +613,31 @@ class ilPersonalSkillsGUI
                 $panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]));
                 $panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
             } else {
-                // get date of self evaluation
-                $se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $a_top_skill_id, $bs["tref"], $bs["id"]);
-                $se_rendered = $se_date == "";
-                    
-                // get all object triggered entries and render them
-                foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), ilBasicSkill::EVAL_BY_ALL) as $level_entry) {
-                    if (count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter())) {
-                        continue;
+                if ($this->getProfileId() > 0) {
+                    // get all object triggered entries and render them
+                    $object_entries = $this->getEntriesForSkill(
+                        $a_top_skill_id,
+                        $bs,
+                        $skill,
+                        $user,
+                        ilBasicSkill::EVAL_BY_OTHERS,
+                        $level_data
+                    );
+                    foreach ($object_entries as $entry) {
+                        $panel_comps[] = $entry;
                     }
-                    if (count($this->getTriggerUserFilter()) && !in_array($level_entry['trigger_user_id'], $this->getTriggerUserFilter())) {
-                        continue;
-                    }
-
-                    // render the self evaluation at the correct position within the list of object triggered entries
-                    if ($se_date > $level_entry["status_date"] && !$se_rendered) {
-                        $se_rendered = true;
-                    }
-                    if ($this->getFilter()->isInRange($level_data, $level_entry)) {
-                        $panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+                } else {
+                    // get all skill entries and render them
+                    $all_entries = $this->getEntriesForSkill(
+                        $a_top_skill_id,
+                        $bs,
+                        $skill,
+                        $user,
+                        ilBasicSkill::EVAL_BY_ALL,
+                        $level_data
+                    );
+                    foreach ($all_entries as $entry) {
+                        $panel_comps[] = $entry;
                     }
                 }
             }
@@ -1667,6 +1691,55 @@ class ilPersonalSkillsGUI
         );
 
         ilDatePresentation::setUseRelativeDates(true);
+
+        return $tpl->get();
+    }
+
+    protected function getEntriesForSkill(
+        int $top_skill_id,
+        array $bs,
+        ilSkillTreeNode $skill,
+        ilObjUser $user,
+        int $eval_type,
+        array $level_data
+    ) : array {
+        // get date of self evaluation
+        $se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $top_skill_id, $bs["tref"], $bs["id"]);
+        $se_rendered = $se_date == "";
+
+        $entries = [];
+        foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type) as $level_entry) {
+            if (count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter())) {
+                continue;
+            }
+            if (count($this->getTriggerUserFilter()) && !in_array($level_entry['trigger_user_id'], $this->getTriggerUserFilter())) {
+                continue;
+            }
+
+            // render the self evaluation at the correct position within the list of object triggered entries
+            if ($se_date > $level_entry["status_date"] && !$se_rendered) {
+                $se_rendered = true;
+            }
+            if ($this->getFilter()->isInRange($level_data, $level_entry)) {
+                $entries[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+            }
+        }
+
+        return $entries;
+    }
+
+    protected function getSkillEntriesHeader(int $eval_type) : string
+    {
+        $tpl = new ilTemplate("tpl.skill_entries_header.html", true, true, "Services/Skill");
+
+        if ($eval_type == ilBasicSkill::EVAL_BY_SELF) {
+            $tpl->setVariable("HEADING", $this->lng->txt("skmg_self_evaluation"));
+            $tpl->setCurrentBlock("header_byline");
+            $tpl->setVariable("BYLINE", $this->lng->txt("skmg_self_evaluation_byline"));
+            $tpl->parseCurrentBlock();
+        } else {
+            $tpl->setVariable("HEADING", $this->lng->txt("skmg_skill_profile_comparison"));
+        }
 
         return $tpl->get();
     }

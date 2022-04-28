@@ -32,7 +32,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     public const ACHIEVED = 1;
     public const NOT_ACHIEVED = 0;
 
-    public const EVAL_BY_OTHERS_ = 0;
+    public const EVAL_BY_OTHERS = 0;
     public const EVAL_BY_SELF = 1;
     public const EVAL_BY_ALL = 2;
 

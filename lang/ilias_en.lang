@@ -16749,3 +16749,5 @@ blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can
 copg#:#copg_est_reading_time#:#Estimated Reading Time
 copg#:#copg_x_minutes#:#%s minute(s)
 blog#:#blog_link#:#Link
+skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
+skmg#:#skmg_skill_profile_comparison#:#Profile Comparison
