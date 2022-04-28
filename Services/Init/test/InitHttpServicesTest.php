@@ -19,7 +19,7 @@ class InitHttpServicesTest extends TestCase
         $this->dic = new \ILIAS\DI\Container();
     }
 
-    public function testUIFrameworkInitialization()
+    public function testUIFrameworkInitialization() : void
     {
         $this->assertFalse(isset($this->dic['http']));
         $this->assertFalse(isset($this->dic['http.response_sender_strategy']));
