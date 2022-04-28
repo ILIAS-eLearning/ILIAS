@@ -16,13 +16,17 @@
  *
  *********************************************************************/
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Class ilObjChatroomAccessTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
 class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 {
+    /** @var ilObjChatroomAccess&MockObject */
     protected ilObjChatroomAccess $access;
+    /** @var ilDBInterface&MockObject */
     protected ilDBInterface $db;
 
     public function testCommandDefitionFullfilsExpectations() : void
@@ -183,8 +187,9 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 
         $this->setGlobalVariable('ilUser', $user);
 
-        $this->db->method('fetchAssoc')->willReturn(
-            ['keyword' => 'chat_enabled', 'value' => false]
+        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            ['keyword' => 'chat_enabled', 'value' => '0'],
+            null
         );
 
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->onlyMethods(

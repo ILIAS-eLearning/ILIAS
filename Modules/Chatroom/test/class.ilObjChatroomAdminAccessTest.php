@@ -23,7 +23,7 @@
 class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
 {
     protected ilObjChatroomAdminAccess $adminAccess;
-
+    /** @var ilRbacSystem&\PHPUnit\Framework\MockObject\MockObject */
     protected ilRbacSystem $ilAccessMock;
 
     public function testCommandDefitionFullfilsExpectations() : void

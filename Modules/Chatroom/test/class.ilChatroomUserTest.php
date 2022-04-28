@@ -22,8 +22,8 @@
  */
 class ilChatroomUserTest extends ilChatroomAbstractTest
 {
+    /** @var ilObjUser&MockObject */
     protected ilObjUser $ilUserMock;
-
     protected ilChatroomUser $user;
 
     public function testGetUserIdIfNotAnonymous() : void

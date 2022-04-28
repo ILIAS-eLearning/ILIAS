@@ -36,13 +36,6 @@ class ilObjChatroomTest extends ilChatroomAbstractTest
         $this->assertSame(6, $userInfo->id);
     }
 
-    public function testPublicRoomRefIdCanBeRetrieved() : void
-    {
-        $this->createGlobalIlDBMock();
-
-        $this->assertSame(0, $this->object::_getPublicRefId());
-    }
-
     public function testPublicRoomObjIdCanBeRetrieved() : void
     {
         $db = $this->createGlobalIlDBMock();

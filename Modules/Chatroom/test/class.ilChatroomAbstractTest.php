@@ -25,19 +25,36 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilChatroomAbstractTest extends TestCase
 {
-    /** @var PHPUnit\Framework\MockObject\MockObject|ilChatroom */
+    /** @var PHPUnit\Framework\MockObject\MockObject&ilChatroom */
     protected $ilChatroomMock;
-
-    /** @var PHPUnit\Framework\MockObject\MockObject|ilChatroomUser */
+    /** @var PHPUnit\Framework\MockObject\MockObject&ilChatroomUser */
     protected $ilChatroomUserMock;
+
+    private ?Container $dic = null;
 
     protected function setUp() : void
     {
         global $DIC;
-        $GLOBALS['DIC'] = $DIC = new Container();
-        $DIC['tpl'] = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+
+        $this->setGlobalVariable(
+            'tpl',
+            $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()
+        );
         
         parent::setUp();
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     protected function createIlChatroomMock() : ilChatroom
