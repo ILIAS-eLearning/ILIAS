@@ -57,8 +57,9 @@ class ilLOXmlParser
 
     public function parse() : void
     {
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string(trim($this->xml));
+        libxml_use_internal_errors($use_internal_errors);
         if (!$root instanceof SimpleXMLElement) {
             $this->logger->debug('XML is: ' . $this->xml . $root);
             $this->logger->debug('Error parsing objective xml: ' . $this->parseXmlErrors());
@@ -74,8 +75,9 @@ class ilLOXmlParser
      */
     public function parseObjectDependencies() : void
     {
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string(trim($this->xml));
+        libxml_use_internal_errors($use_internal_errors);
         if (!$root instanceof SimpleXMLElement) {
             $this->logger->debug('XML is: ' . $this->xml . $root);
             $this->logger->debug('Error parsing objective xml: ' . $this->parseXmlErrors());

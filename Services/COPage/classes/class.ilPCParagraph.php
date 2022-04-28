@@ -668,9 +668,9 @@ class ilPCParagraph extends ilPageContent
 
     protected static function isValidTagContent(string $content) : bool
     {
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         $sxe = simplexml_load_string("<?xml version='1.0'?><dummy>" . $content . "</dummy>");
-        libxml_use_internal_errors(false);
+        libxml_use_internal_errors($use_internal_errors);
         return ($sxe !== false);
     }
 
