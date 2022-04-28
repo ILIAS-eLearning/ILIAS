@@ -91,8 +91,9 @@ class ilContainerImporter extends ilXmlImporter
 
     protected function handleOfflineStatus(string $xml, ilImportMapping $mapping) : void
     {
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string($xml);
+        libxml_use_internal_errors($use_internal_errors);
         if ($root === false) {
             $errors = '';
             foreach (libxml_get_errors() as $err) {
