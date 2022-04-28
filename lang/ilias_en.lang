@@ -16758,3 +16758,4 @@ wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
 trac#:#trac_reference_ids_column#:#Reference-Ids
 trac#:#trac_paths#:#Paths
+wiki#:#wiki_sec_protect_info#:#Protected sections can only be edited by users having "Edit Settings" permission.
