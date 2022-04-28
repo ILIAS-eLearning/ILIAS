@@ -21,7 +21,7 @@ namespace ILIAS\Chatroom\GlobalScreen;
 use ilDatePresentation;
 use ilDateTime;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-use ILIAS\Notifications\ilNotificationOSDRepository;
+use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\Notifications\ilNotificationOSDHandler;
 
@@ -39,15 +39,16 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
 
         $invitations = [];
         $latest_time = 0;
-        foreach ((new ilNotificationOSDHandler(ilNotificationOSDRepository::getInstance()))->getNotificationsForUser(
+        $repository = new ilNotificationOSDRepository($this->dic->database());
+        foreach ((new ilNotificationOSDHandler($repository))->getNotificationsForUser(
             $this->dic->user()->getId(),
             true,
             0,
             'chat_invitation'
         ) as $osd) {
             $invitations[] = $osd;
-            if ($latest_time < (int) $osd['time_added']) {
-                $latest_time = (int) $osd['time_added'];
+            if ($latest_time < $osd->getTimeAdded()) {
+                $latest_time = $osd->getTimeAdded();
             }
         }
 
@@ -63,23 +64,23 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
             $aggregatedItems = [];
             foreach ($invitations as $invitation) {
                 $link = '';
-                if (count($invitation['data']->links) === 1) {
+                if (count($invitation->getObject()->links) === 1) {
                     $link = $this->dic->ui()->renderer()->render(
                         $this->dic->ui()->factory()->link()->standard(
-                            $invitation['data']->shortDescription,
-                            $invitation['data']->links[0]->getUrl()
+                            $invitation->getObject()->shortDescription,
+                            $invitation->getObject()->links[0]->getUrl()
                         )
                     );
                 }
                 $aggregatedItems[] = $this->dic->ui()->factory()->item()->notification(
-                    $invitation['data']->title,
+                    $invitation->getObject()->title,
                     $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'chat_invitations')
                               ->withIsOutlined(true)
                 )
                 ->withDescription($link)
                 ->withProperties([
                     $this->dic->language()->txt('time') => ilDatePresentation::formatDate(
-                        new ilDateTime($invitation['time_added'], IL_CAL_UNIX)
+                        new ilDateTime($invitation->getTimeAdded(), IL_CAL_UNIX)
                     )
                 ]);
             }

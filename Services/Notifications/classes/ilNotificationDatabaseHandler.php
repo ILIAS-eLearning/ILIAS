@@ -114,15 +114,16 @@ class ilNotificationDatabaseHandler
      */
     private static function replaceFields(string $string, array $foundPlaceholders, array $params, string $startTag, string $endTage) : string
     {
+        $result = $string;
         foreach ($foundPlaceholders as $placeholder) {
             if (array_key_exists(strtoupper($placeholder), $params)) {
-                $string = str_ireplace($startTag . $placeholder . $endTage, $params[strtoupper($placeholder)], $string);
+                $result = str_ireplace($startTag . $placeholder . $endTage, $params[strtoupper($placeholder)], $result);
             }
             if (array_key_exists(strtolower($placeholder), $params)) {
-                $string = str_ireplace($startTag . $placeholder . $endTage, $params[strtolower($placeholder)], $string);
+                $result = str_ireplace($startTag . $placeholder . $endTage, $params[strtolower($placeholder)], $result);
             }
         }
-        return $string;
+        return $result;
     }
 
     public static function setUserConfig(int $userid, array $configArray) : void

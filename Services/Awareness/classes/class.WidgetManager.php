@@ -15,7 +15,7 @@
 
 namespace ILIAS\Awareness;
 
-use ILIAS\Notifications\ilNotificationOSDRepository;
+use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\ilNotificationOSDHandler;
@@ -113,8 +113,8 @@ class WidgetManager
 
         $handler = new ilNotificationOSDHandler();
         foreach ($handler->getNotificationsForUser($this->user_id) as $osd) {
-            if ($osd['type'] === 'who_is_online') {
-                $handler->removeNotification($osd['notification_osd_id']);
+            if ($osd->getType() === 'who_is_online') {
+                $handler->removeNotification($osd->getId());
             }
         }
 
