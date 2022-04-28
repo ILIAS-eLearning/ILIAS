@@ -43,7 +43,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
         // $this->setSelectAllCheckbox("item_id");
         $this->addMultiCommand(
-            "showTypesGraph", $this->lng->txt("trac_show_graph")
+            "showTypesGraph",
+            $this->lng->txt("trac_show_graph")
         );
         $this->setResetCommand("resetTypesFilter");
         $this->setFilterCommand("applyTypesFilter");
@@ -52,7 +53,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
             $this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd)
         );
         $this->setRowTemplate(
-            "tpl.lp_object_statistics_types_row.html", "Services/Tracking"
+            "tpl.lp_object_statistics_types_row.html",
+            "Services/Tracking"
         );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
@@ -100,16 +102,17 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
         // aggregation
         $si = new ilSelectInputGUI(
-            $this->lng->txt("trac_aggregation"), "aggregation"
+            $this->lng->txt("trac_aggregation"),
+            "aggregation"
         );
         $options = array();
         $options["max"] = $this->lng->txt(
-                "trac_object_stat_lp_max"
-            ) . " (" . $this->lng->txt("month") . ")";
+            "trac_object_stat_lp_max"
+        ) . " (" . $this->lng->txt("month") . ")";
         $options["avg"] = "&#216; (" . $this->lng->txt("month") . ")";
         $options["min"] = $this->lng->txt(
-                "trac_object_stat_lp_min"
-            ) . " (" . $this->lng->txt("month") . ")";
+            "trac_object_stat_lp_min"
+        ) . " (" . $this->lng->txt("month") . ")";
         $si->setOptions($options);
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -137,7 +140,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     public function getItems() : void
     {
         $res = ilTrQuery::getObjectTypeStatisticsPerMonth(
-            $this->filter["aggregation"], $this->filter["year"]
+            $this->filter["aggregation"],
+            $this->filter["year"]
         );
 
         $data = array();
@@ -152,7 +156,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
             // to enable sorting by title
             if ($this->objDefinition->isPluginTypeName($type)) {
                 $data[$type]["title"] = ilObjectPlugin::lookupTxtById(
-                    $type, "obj_" . $type
+                    $type,
+                    "obj_" . $type
                 );
                 $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
             } else {
@@ -180,13 +185,16 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 // to enable sorting by title
                 if ($this->objDefinition->isPluginTypeName($type)) {
                     $data[$type]["title"] = ilObjectPlugin::lookupTxtById(
-                        $type, "obj_" . $type
+                        $type,
+                        "obj_" . $type
                     );
                     $data[$type]["icon"] = ilObject::_getIcon(0, "tiny", $type);
                 } else {
                     $data[$type]["title"] = $this->lng->txt("objs_" . $type);
                     $data[$type]["icon"] = ilObject::_getIcon(
-                        null, "tiny", $type
+                        0,
+                        "tiny",
+                        $type
                     );
                 }
 
@@ -205,34 +213,38 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     {
         $this->tpl->setVariable("ICON_SRC", $a_set["icon"]);
         $this->tpl->setVariable(
-            "ICON_ALT", $this->lng->txt("objs_" . $a_set["type"])
+            "ICON_ALT",
+            $this->lng->txt("objs_" . $a_set["type"])
         );
         $this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
         $this->tpl->setVariable("OBJ_TYPE", $a_set["type"]);
 
         if ($this->preselected && in_array(
-                $a_set["type"], $this->preselected
-            )) {
+            $a_set["type"],
+            $this->preselected
+        )) {
             $this->tpl->setVariable("CHECKBOX_STATE", " checked=\"checked\"");
         }
 
         $this->tpl->setCurrentBlock("item");
         foreach (array_keys(
-                     $this->getMonthsYear($this->filter["year"])
-                 ) as $month) {
+            $this->getMonthsYear($this->filter["year"])
+        ) as $month) {
             $this->tpl->setVariable(
-                "VALUE_ITEM", $this->anonymizeValue(
-                (int) $a_set["month_" . $month]
-            )
+                "VALUE_ITEM",
+                $this->anonymizeValue(
+                    (int) $a_set["month_" . $month]
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->filter["year"] == date("Y")) {
             $this->tpl->setVariable(
-                "VALUE_ITEM", $this->anonymizeValue(
-                (int) $a_set["month_live"]
-            )
+                "VALUE_ITEM",
+                $this->anonymizeValue(
+                    (int) $a_set["month_live"]
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -253,8 +265,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
         $labels = [];
         foreach (array_values(
-                     $this->getMonthsYear($this->filter["year"], true)
-                 ) as $idx => $caption) {
+            $this->getMonthsYear($this->filter["year"], true)
+        ) as $idx => $caption) {
             $labels[$idx + 1] = $caption;
         }
         $chart->setTicks($labels, false, true);
@@ -265,10 +277,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 $series->setLabel($types[$type]);
 
                 foreach (array_keys(
-                             $this->getMonthsYear($this->filter["year"])
-                         ) as $idx => $month) {
+                    $this->getMonthsYear($this->filter["year"])
+                ) as $idx => $month) {
                     $series->addPoint(
-                        $idx + 1, (int) $object["month_" . $month]
+                        $idx + 1,
+                        (int) $object["month_" . $month]
                     );
                 }
 
@@ -292,8 +305,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
         $cnt = 1;
         foreach (array_keys(
-                     $this->getMonthsYear($this->filter["year"])
-                 ) as $month) {
+            $this->getMonthsYear($this->filter["year"])
+        ) as $month) {
             $value = $this->anonymizeValue((int) $a_set["month_" . $month]);
             $a_excel->setCell($a_row, $cnt++, $value);
         }
@@ -311,8 +324,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         $a_csv->addColumn($a_set["title"]);
 
         foreach (array_keys(
-                     $this->getMonthsYear($this->filter["year"])
-                 ) as $month) {
+            $this->getMonthsYear($this->filter["year"])
+        ) as $month) {
             $value = $this->anonymizeValue((int) $a_set["month_" . $month]);
             $a_csv->addColumn($value);
         }

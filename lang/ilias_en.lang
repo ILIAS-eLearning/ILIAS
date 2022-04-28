@@ -16751,3 +16751,5 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+trac#:#trac_reference_ids_column#:#Reference-Ids
+trac#:#trac_paths#:#Paths
