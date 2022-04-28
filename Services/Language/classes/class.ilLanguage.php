@@ -387,14 +387,14 @@ class ilLanguage
         if ($DIC->offsetExists("ilUser")) {
             $ilUser = $DIC->user();
         }
-        $is_get_lang_empty = !$DIC->http()->wrapper()->query()->has("lang");
-        if (!ilSession::get("lang") && $is_get_lang_empty && $ilUser instanceof ilObjUser &&
+    
+        $isset_get_lang = $DIC->http()->wrapper()->query()->has("lang");
+        if (!ilSession::get("lang") && !$isset_get_lang && $ilUser instanceof ilObjUser &&
             (!$ilUser->getId() || $ilUser->isAnonymous())) {
             $language_detection = new ilLanguageDetection();
             $language = $language_detection->detect();
 
             $ilUser->setPref("language", $language);
-            //$_GET["lang"] = $language;
         }
 
         $post_change_lang_to = [];
@@ -407,10 +407,6 @@ class ilLanguage
             );
         }
         
-        if (!empty($post_change_lang_to) && $post_change_lang_to != "") {
-            //$_GET["lang"] = ilUtil::stripSlashes($post_change_lang_to[0]);
-        }
-
         // prefer personal setting when coming from login screen
         // Added check for ilUser->getId > 0 because it is 0 when the language is changed and
         // the terms of service should be displayed
@@ -421,7 +417,6 @@ class ilLanguage
         }
 
         $get_lang = null;
-        $isset_get_lang = $DIC->http()->wrapper()->query()->has("lang");
         if ($isset_get_lang) {
             $get_lang = $DIC->http()->wrapper()->query()->retrieve(
                 "lang",
@@ -439,7 +434,6 @@ class ilLanguage
                 ilSession::set("lang", $langs[0]);
             }
         }
-        //$_GET["lang"] = ilSession::get("lang");
 
         return new self(ilSession::get("lang"));
     }
