@@ -14,7 +14,7 @@
  *
  *****************************************************************************/
 /**
- * Synchronization of user accounts used in auth container ldap, radius , cas,...
+ * Synchronization of user accounts used in auth container ldap, cas,...
  *
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesLDAP

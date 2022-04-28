@@ -57,19 +57,6 @@ class ilObjAuthSettings extends ilObject
         return true;
     }
 
-    public function checkAuthRADIUS() : bool
-    {
-        $settings = $this->ilias->getAllSettings();
-
-        if (!$settings["radius_server"] || !$settings["radius_shared_secret"] || !$settings["radius_port"]) {
-            return false;
-        }
-
-        $this->ilias->setSetting('radius_active', "1");
-
-        return true;
-    }
-
     public function checkAuthScript() : bool
     {
         $settings = $this->ilias->getAllSettings();

@@ -27,7 +27,6 @@ class ilAuthUtils
 
     public const AUTH_LOCAL = 1;
     public const AUTH_LDAP = 2;
-    public const AUTH_RADIUS = 3;
     public const AUTH_SCRIPT = 4;
     public const AUTH_SHIBBOLETH = 5;
     public const AUTH_CAS = 6;
@@ -55,8 +54,6 @@ class ilAuthUtils
     private const AUTH_SOAP_NO_ILIAS_USER = -100;
     //TODO this is not used anywhere, can it be removed
     private const AUTH_LDAP_NO_ILIAS_USER = -200;
-    //TODO found no more refs to this, check if can go away
-    //const AUTH_RADIUS_NO_ILIAS_USER = -300;
     
     // apache auhtentication failed...
     // maybe no (valid) certificate or
@@ -152,10 +149,6 @@ class ilAuthUtils
             case 'lti':
                 return ilAuthProviderLTI::getKeyByAuthMode($a_auth_mode);
                 
-            case "radius":
-                return self::AUTH_RADIUS;
-                break;
-                
             case "script":
                 return self::AUTH_SCRIPT;
                 break;
@@ -208,10 +201,6 @@ class ilAuthUtils
                 
             case self::AUTH_PROVIDER_LTI:
                 return ilAuthProviderLTI::getAuthModeByKey($a_auth_key);
-                
-            case self::AUTH_RADIUS:
-                return "radius";
-                break;
 
             case self::AUTH_CAS:
                 return "cas";
@@ -274,9 +263,6 @@ class ilAuthUtils
             $modes['oidc'] = self::AUTH_OPENID_CONNECT;
         }
 
-        if ($ilSetting->get("radius_active")) {
-            $modes['radius'] = self::AUTH_RADIUS;
-        }
         if ($ilSetting->get("shib_active")) {
             $modes['shibboleth'] = self::AUTH_SHIBBOLETH;
         }
@@ -326,7 +312,6 @@ class ilAuthUtils
             self::AUTH_SAML,
             self::AUTH_CAS,
             self::AUTH_SOAP,
-            self::AUTH_RADIUS,
             self::AUTH_ECS,
             self::AUTH_PROVIDER_LTI,
             self::AUTH_OPENID_CONNECT,
@@ -393,11 +378,6 @@ class ilAuthUtils
     
     public static function _hasMultipleAuthenticationMethods() : bool
     {
-        $rad_settings = ilRadiusSettings::_getInstance();
-        if ($rad_settings->isActive()) {
-            return true;
-        }
-
         if (count(ilLDAPServer::_getActiveServerList())) {
             return true;
         }
@@ -409,7 +389,7 @@ class ilAuthUtils
         if ($ilSetting->get('apache_active')) {
             return true;
         }
-        
+
         // begin-patch auth_plugin
         foreach (self::getAuthPlugins() as $pl) {
             foreach ($pl->getAuthIds() as $auth_id) {
@@ -419,8 +399,8 @@ class ilAuthUtils
             }
         }
         // end-patch auth_plugin
-        
-        
+
+
         return false;
     }
 
@@ -443,11 +423,6 @@ class ilAuthUtils
             $server = ilLDAPServer::getInstanceByServerId($sid);
             $options[self::AUTH_LDAP . '_' . $sid]['txt'] = $server->getName();
         }
-        
-        $rad_settings = ilRadiusSettings::_getInstance();
-        if ($rad_settings->isActive()) {
-            $options[self::AUTH_RADIUS]['txt'] = $rad_settings->getName();
-        }
 
         if ($ilSetting->get('apache_active')) {
             global $DIC;
@@ -460,8 +435,6 @@ class ilAuthUtils
 
         if ($ilSetting->get('auth_mode', (string) self::AUTH_LOCAL) === (string) self::AUTH_LDAP) {
             $default = self::AUTH_LDAP;
-        } elseif ($ilSetting->get('auth_mode', (string) self::AUTH_LOCAL) === (string) self::AUTH_RADIUS) {
-            $default = self::AUTH_RADIUS;
         } else {
             $default = self::AUTH_LOCAL;
         }
@@ -491,7 +464,7 @@ class ilAuthUtils
 
     /**
      * Check if an external account name is required.
-     * That's the case if Radius,LDAP, CAS or SOAP is active
+     * That's the case if LDAP, CAS or SOAP is active
      */
     public static function _isExternalAccountEnabled() : bool
     {
@@ -506,9 +479,6 @@ class ilAuthUtils
             return true;
         }
         if ($ilSetting->get("shib_active")) {
-            return true;
-        }
-        if ($ilSetting->get('radius_active')) {
             return true;
         }
         if (count(ilLDAPServer::_getActiveServerList())) {
@@ -548,7 +518,6 @@ class ilAuthUtils
     {
         switch ((int) $a_auth_mode) {
             case self::AUTH_LDAP:
-            case self::AUTH_RADIUS:
             case self::AUTH_ECS:
             case self::AUTH_PROVIDER_LTI:
             case self::AUTH_OPENID_CONNECT:
@@ -606,7 +575,6 @@ class ilAuthUtils
 
             // No local passwords for these auth modes
             case self::AUTH_LDAP:
-            case self::AUTH_RADIUS:
             case self::AUTH_ECS:
             case self::AUTH_SCRIPT:
             case self::AUTH_PROVIDER_LTI:
@@ -650,7 +618,6 @@ class ilAuthUtils
             // No local passwords for these auth modes and default
             default:
             case self::AUTH_LDAP:
-            case self::AUTH_RADIUS:
             case self::AUTH_ECS:
             case self::AUTH_SCRIPT:
             case self::AUTH_PROVIDER_LTI:
@@ -687,7 +654,6 @@ class ilAuthUtils
         switch ((int) $a_authmode) {
             case self::AUTH_LDAP:
             case self::AUTH_LOCAL:
-            case self::AUTH_RADIUS:
                 return self::LOCAL_PWV_FULL;
             
             case self::AUTH_SHIBBOLETH:

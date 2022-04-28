@@ -94,7 +94,6 @@ class ilCASSettingsGUI
     protected function initFormSettings() : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('auth');
-        $this->lng->loadLanguageModule('radius');
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -140,7 +139,6 @@ class ilCASSettingsGUI
         // 2: LDAP
         $sync = new ilRadioGroupInputGUI($this->lng->txt('auth_sync'), 'sync');
         $sync->setRequired(true);
-        #$sync->setInfo($this->lng->txt('auth_radius_sync_info'));
         $form->addItem($sync);
 
         // Disabled
@@ -149,7 +147,6 @@ class ilCASSettingsGUI
             (string) self::SYNC_DISABLED,
             ''
         );
-        #$dis->setInfo($this->lng->txt('auth_radius_sync_disabled_info'));
         $sync->addOption($dis);
 
         // CAS

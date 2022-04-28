@@ -24,7 +24,12 @@ class ilRadiusAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilRadiusDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            "Service/Radius Objectives",
+            false,
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilRadiusDBUpdateSteps()),
+            new \ilRadiusConfigRemovedObjective()
+        );
     }
 
     public function getStatusObjective(Metrics\Storage $storage) : Objective

@@ -167,9 +167,6 @@ class ilAuthModeDetermination
     {
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
 
-        $rad_settings = ilRadiusSettings::_getInstance();
-        $rad_active = $rad_settings->isActive();
-
         $soap_active = (bool) $this->commonSettings->get('soap_auth_active', "");
 
         // apache settings
@@ -198,11 +195,6 @@ class ilAuthModeDetermination
                         }
                         break;
 
-                    case ilAuthUtils::AUTH_RADIUS:
-                        if ($rad_active) {
-                            $this->position[] = $auth_mode;
-                        }
-                        break;
                     case ilAuthUtils::AUTH_SOAP:
                         if ($soap_active) {
                             $this->position[] = $auth_mode;
@@ -238,9 +230,6 @@ class ilAuthModeDetermination
             }
         }
         // end-patch ldap_multiple
-        if ($rad_active && !in_array(ilAuthUtils::AUTH_RADIUS, $this->position, true)) {
-            $this->position[] = ilAuthUtils::AUTH_RADIUS;
-        }
         if ($soap_active && !in_array(ilAuthUtils::AUTH_SOAP, $this->position, true)) {
             $this->position[] = ilAuthUtils::AUTH_SOAP;
         }

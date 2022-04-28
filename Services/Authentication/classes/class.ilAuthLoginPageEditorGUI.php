@@ -323,17 +323,13 @@ class ilAuthLoginPageEditorGUI
 
         $this->form->addCommandButton('saveLoginInfo', $this->lng->txt('save'));
 
-        $rad_settings = ilRadiusSettings::_getInstance();
-        if (($ldap_id = ilLDAPServer::_getFirstActiveServer()) || $rad_settings->isActive()) {
+        if ($ldap_id = ilLDAPServer::_getFirstActiveServer()) {
             $select = new ilSelectInputGUI($this->lng->txt('default_auth_mode'), 'default_auth_mode');
             $select->setValue($this->setting->get('default_auth_mode', (string) ilAuthUtils::AUTH_LOCAL));
             $select->setInfo($this->lng->txt('default_auth_mode_info'));
             $options[ilAuthUtils::AUTH_LOCAL] = $this->lng->txt('auth_local');
             if ($ldap_id) {
                 $options[ilAuthUtils::AUTH_LDAP] = $this->lng->txt('auth_ldap');
-            }
-            if ($rad_settings->isActive()) {
-                $options [ilAuthUtils::AUTH_RADIUS] = $this->lng->txt('auth_radius');
             }
             $select->setOptions($options);
             $this->form->addItem($select);

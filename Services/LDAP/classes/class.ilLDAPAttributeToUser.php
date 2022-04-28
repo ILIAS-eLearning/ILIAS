@@ -72,7 +72,6 @@ class ilLDAPAttributeToUser
 
     /**
      * Set auth mode for new users.
-     * E.g. radius for radius authenticated user with ldap data source
      * @param string $a_authmode
      */
     public function setNewUserAuthMode(string $a_authmode) : void

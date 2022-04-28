@@ -722,7 +722,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         global $tpl;
 
         // @todo move this to auth utils.
-        // login via ILIAS (this also includes radius and ldap)
+        // login via ILIAS (this also includes ldap)
         // If local authentication is enabled for shibboleth users, we
         // display the login form for ILIAS here.
         if (($this->setting->get("auth_mode") != ilAuthUtils::AUTH_SHIBBOLETH ||
