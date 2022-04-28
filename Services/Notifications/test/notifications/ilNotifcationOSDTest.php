@@ -33,6 +33,7 @@ class ilNotifcationOSDTest extends ilNotificationsBaseTest
     private function createDBFunctionCalls(int $insert = 0, int $queryF = 0, int $fetchAssoc = 0, int $manipulateF = 0) : void
     {
         $this->database = [];
+        $this->result = [];
         $this->db->expects(self::exactly($insert))->method('nextId')->willReturnCallback(function (string $table) : int {
             return count($this->database) + 1;
         });
@@ -60,6 +61,9 @@ class ilNotifcationOSDTest extends ilNotificationsBaseTest
                     }
                 }
             }
+            if (strpos($query, 'SELECT count(*) AS count') !== false) {
+                $this->result = [0 => ['count' => count($this->result)]];
+            }
             return $this->createMock(ilPDOStatement::class);
         });
         $this->db->expects(self::exactly($fetchAssoc))->method('fetchAssoc')->willReturnCallback(function (ilPDOStatement $rset) : ?array {
@@ -80,7 +84,7 @@ class ilNotifcationOSDTest extends ilNotificationsBaseTest
     {
         $this->db = $this->createMock(ilDBPdo::class);
         $this->handler = new \ILIAS\Notifications\ilNotificationOSDHandler(
-            new ILIAS\Notifications\ilNotificationOSDRepository($this->db)
+            new ILIAS\Notifications\Repository\ilNotificationOSDRepository($this->db)
         );
         $this->user = $this->createMock(ilObjUser::class);
         $this->user->method('getId')->willReturn(4);
@@ -123,7 +127,7 @@ class ilNotifcationOSDTest extends ilNotificationsBaseTest
         $notifications = $this->handler->getNotificationsForUser($this->user->getId());
 
         $this->assertCount(1, $notifications);
-        $this->assertTrue($this->handler->removeNotification($notifications[0]['notification_osd_id']));
+        $this->assertTrue($this->handler->removeNotification($notifications[0]->getId()));
         $this->assertCount(0, $this->handler->getNotificationsForUser($this->user->getId()));
     }
 
