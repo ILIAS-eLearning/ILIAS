@@ -49,6 +49,7 @@ final class RootFolderTest extends TestCase
         'studip_referrer.php',
         'unzip_test_file.zip',
         'webdav.php',
+        '.DS_Store'
     ];
     
     private const ALLOWED_ROOT_FOLDER_DIRS = [
