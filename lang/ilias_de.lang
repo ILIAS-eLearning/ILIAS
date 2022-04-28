@@ -16788,3 +16788,4 @@ wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
 trac#:#trac_reference_ids_column#:#Referenz-Ids
 trac#:#trac_paths#:#Pfade
+wiki#:#wiki_sec_protect_info#:#Geschützte Blöcke können nur von Benutzenden mit "Einstellungen bearbeiten" Recht editiert werden.

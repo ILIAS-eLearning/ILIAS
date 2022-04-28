@@ -78,7 +78,7 @@ class ilPasswordAssistanceGUI
         }
 
         if ($lang != '' && $this->lng->getLangKey() != $lang) {
-            $lng = new ilLanguage($lang);
+            $lng = new ilLanguage($lang); //ToDo PHP8: I don't think this is right. $lng is never used. I believe we can get rid of the whole if-statement
         }
         $this->lng->loadLanguageModule('pwassist');
 
@@ -89,7 +89,7 @@ class ilPasswordAssistanceGUI
             default:
                 if ($cmd != '' && method_exists($this, $cmd)) {
                     return $this->$cmd();
-                } elseif (!empty($key)) {
+                } elseif (!empty($key)) { //ToDo PHP8: This will never happen.
                     $this->showAssignPasswordForm();
                 } else {
                     $this->showAssistanceForm();
@@ -268,7 +268,6 @@ class ilPasswordAssistanceGUI
      * and contains the following URL parameters:
      * client_id
      * key
-     * @param $userObj ilObjUser
      */
     public function sendPasswordAssistanceMail(ilObjUser $userObj) : void
     {
@@ -282,7 +281,7 @@ class ilPasswordAssistanceGUI
             !is_array($pwassist_session) ||
             count($pwassist_session) == 0 ||
             $pwassist_session['expires'] < time() ||
-            true // comment by mjansen: wtf? :-)
+            true // comment by mjansen: wtf? :-) //ToDo PHP8: I agree with mjansen, please fix.
         ) {
             // Create a new session id
             // #9700 - this didn't do anything before?!
@@ -513,10 +512,7 @@ class ilPasswordAssistanceGUI
             }
         }
     }
-
-    /**
-     * @return ilPropertyFormGUI
-     */
+    
     protected function getUsernameAssistanceForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -540,7 +536,6 @@ class ilPasswordAssistanceGUI
      * email
      * When the user submits the form, then this script is invoked with the cmd
      * 'submitAssistanceForm'.
-     * @param ilPropertyFormGUI $form
      */
     public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null) : void
     {
@@ -615,8 +610,6 @@ class ilPasswordAssistanceGUI
      * and contains the following URL parameters:
      * client_id
      * key
-     * @param $email
-     * @param $logins
      */
     public function sendUsernameAssistanceMail(string $email, array $logins) : void
     {
@@ -674,6 +667,6 @@ class ilPasswordAssistanceGUI
 
     protected function fillPermanentLink(string $context) : void
     {
-        $this->tpl->setPermanentLink('usr', null, $context);
+        $this->tpl->setPermanentLink('usr', null, $context); //ToDo PHP8 Review: This does not work (anymore) as the second parameter can NOT be null.
     }
 }

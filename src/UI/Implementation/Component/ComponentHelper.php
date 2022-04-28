@@ -13,7 +13,7 @@ use Closure;
  */
 trait ComponentHelper
 {
-    private ?string $canonical_name = null;
+    protected ?string $canonical_name = null;
 
     /**
      * Default implementation uses the namespace of the component up to and excluding

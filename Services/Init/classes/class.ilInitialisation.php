@@ -55,7 +55,7 @@ class ilInitialisation
     /**
      * Remove unsafe characters from GET
      */
-    protected static function removeUnsafeCharacters()
+    protected static function removeUnsafeCharacters() : void
     {
         // Remove unsafe characters from GET parameters.
         // We do not need this characters in any case, so it is
@@ -707,20 +707,14 @@ class ilInitialisation
             );
         };
     }
-
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
+    
     protected static function initAvatar(\ILIAS\DI\Container $c) : void
     {
         $c["user.avatar.factory"] = function ($c) {
             return new \ilUserAvatarFactory($c);
         };
     }
-
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
+    
     protected static function initTermsOfService(\ILIAS\DI\Container $c) : void
     {
         $c['tos.criteria.type.factory'] = function (
@@ -880,7 +874,7 @@ class ilInitialisation
     {
         global $ilSetting;
 
-        if (trim($ilSetting->get("locale") != "")) {
+        if (trim($ilSetting->get("locale")) != "") {
             $larr = explode(",", trim($ilSetting->get("locale")));
             $ls = array();
             $first = $larr[0];
@@ -1064,10 +1058,9 @@ class ilInitialisation
 
     /**
      * Initialize global instance
-     * @param string
-     * @param string|object
-     * @param ?string
-     * @return void
+     * @param string $a_name
+     * @param string|object $a_class
+     * @param ?string $a_source_file
      */
     protected static function initGlobal($a_name, $a_class, $a_source_file = null) : void
     {
@@ -1099,7 +1092,7 @@ class ilInitialisation
         }
     }
 
-    protected static $already_initialized;
+    protected static bool $already_initialized;
 
     public static function reinitILIAS() : void
     {
@@ -1163,7 +1156,7 @@ class ilInitialisation
     /**
      * Init auth session.
      */
-    protected static function initSession()
+    protected static function initSession() : void
     {
         $GLOBALS["DIC"]["ilAuthSession"] = function ($c) {
             $auth_session = ilAuthSession::getInstance(
@@ -1595,14 +1588,18 @@ class ilInitialisation
      */
     protected static function getCurrentCmd() : string
     {
+        if (!isset($_REQUEST["cmd"])) {
+            return '';
+        }
+        
         $cmd = $_REQUEST["cmd"];
         if (is_array($cmd)) {
             $keys = array_keys($cmd);
 
             return array_shift($keys);
-        } else {
-            return $cmd;
         }
+        
+        return $cmd;
     }
 
     /**
