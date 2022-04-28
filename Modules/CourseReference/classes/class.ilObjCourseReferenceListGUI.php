@@ -33,9 +33,9 @@ include_once "./Modules/Course/classes/class.ilObjCourseListGUI.php";
 */
 class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 {
-    protected $reference_obj_id = null;
+    protected ?int $reference_obj_id = null;
     protected int $reference_ref_id;
-    protected $deleted = false;
+    protected bool $deleted = false;
     
     /**
      * Constructor

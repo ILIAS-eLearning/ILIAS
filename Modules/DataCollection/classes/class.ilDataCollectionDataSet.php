@@ -741,8 +741,8 @@ class ilDataCollectionDataSet extends ilDataSet
         switch ($a_entity) {
             case 'dcl':
                 foreach ($a_ids as $dcl_id) {
-                    if (ilObject::_lookupType($dcl_id) == 'dcl') {
-                        $obj = new ilObjDataCollection($dcl_id, false);
+                    if (ilObject::_lookupType($dcl_id) === 'dcl') {
+                        $obj = new ilObjDataCollection((int) $dcl_id, false);
                         $data = array(
                             'id' => $dcl_id,
                             'title' => $obj->getTitle(),

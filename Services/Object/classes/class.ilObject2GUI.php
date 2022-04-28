@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory;
@@ -65,7 +79,8 @@ abstract class ilObject2GUI extends ilObjectGUI
      * @var ilDummyAccessHandler|ilPortfolioAccessHandler|ilWorkspaceAccessHandler|mixed
      */
     protected $access_handler;
-
+    private ilObjectRequestRetriever $retriever;
+    
     public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
     {
         global $DIC;
@@ -85,6 +100,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
         $this->rbac_admin = $DIC->rbac()->admin();
         $this->rbac_system = $DIC->rbac()->system();
         $this->rbac_review = $DIC->rbac()->review();
@@ -323,10 +339,12 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::REPOSITORY_OBJECT_ID:
                 parent::deleteObject();
 
+                // no break
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
                 $this->deleteConfirmation();
 
+                // no break
             case self::OBJECT_ID:
             case self::PORTFOLIO_OBJECT_ID:
                 // :TODO: should this ever occur?
@@ -344,10 +362,12 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::REPOSITORY_OBJECT_ID:
                 parent::confirmedDeleteObject();
 
+                // no break
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
                 $this->deleteConfirmedObjects();
 
+                // no break
             case self::OBJECT_ID:
             case self::PORTFOLIO_OBJECT_ID:
                 // :TODO: should this ever occur?
@@ -500,10 +520,12 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::REPOSITORY_OBJECT_ID:
                 parent::viewObject();
 
+                // no break
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
                 $this->render();
 
+                // no break
             case self::OBJECT_ID:
             case self::PORTFOLIO_OBJECT_ID:
                 // :TODO: should this ever occur?  do nothing or edit() ?!
@@ -610,6 +632,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Init creation forms.
      * This will create the default creation forms: new, import, clone
+     * @return \ilPropertyFormGUI[]
      */
     protected function initCreationForms(string $new_type) : array
     {
@@ -638,10 +661,10 @@ abstract class ilObject2GUI extends ilObjectGUI
         if (!$parent_node_id) {
             $parent_node_id = $this->parent_id;
         }
-        
+    
         // add new object to custom parent container
-        if (isset($_REQUEST["crtptrefid"])) {
-            $parent_node_id = (int) $_REQUEST["crtptrefid"];
+        if ($this->retriever->has('crtptrefid')) {
+            $parent_node_id = $this->retriever->getMaybeInt('crtptrefid') ?? 0;
         }
 
         switch ($this->id_type) {
@@ -683,7 +706,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         // END ChangeEvent: Record save object.
         
         // use forced callback after object creation
-        self::handleAfterSaveCallback($obj, $_REQUEST["crtcb"] ?? null);
+        self::handleAfterSaveCallback($obj, $this->retriever->getMaybeInt('crtcb'));
     }
     
     /**

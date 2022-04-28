@@ -314,7 +314,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         throw new LogicException('cannot change action');
     }
     
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $this->createProperties(true);
         $this->notifyCreation($this->getId(), $this->getDescription());
@@ -343,40 +343,39 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->initImplementation();
     }
     
-    protected function doCloneObject($new_object, $a_target_id, $a_copy_id = 0)
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = 0) : void
     {
+        assert($new_obj instanceof ilObjFile);
         $identification = $this->manager->find($this->resource_id);
         if ($identification === null) {
             throw new RuntimeException('Cannot clone file since no corresponding resource identification was found');
         }
-        /** @var ilObjFile $new_object */
-        $this->cloneMetaData($new_object);
+        
+        $this->cloneMetaData($new_obj);
         // object created now copy other settings
-        $new_object->updateFileData();
+        $new_obj->updateFileData();
     
         // Copy Resource
-        $cloned_title = $new_object->getTitle();
+        $cloned_title = $new_obj->getTitle();
         $new_resource_identification = $this->manager->clone($identification);
         $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
-        $new_object->setResourceId($new_resource_identification->serialize());
-        $new_object->initImplementation();
-        $new_object->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
-        $new_object->setTitle($cloned_title); // see https://mantis.ilias.de/view.php?id=31375
-        $new_object->setPageCount($this->getPageCount());
-        $new_object->update();
+        $new_obj->setResourceId($new_resource_identification->serialize());
+        $new_obj->initImplementation();
+        $new_obj->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
+        $new_obj->setTitle($cloned_title); // see https://mantis.ilias.de/view.php?id=31375
+        $new_obj->setPageCount($this->getPageCount());
+        $new_obj->update();
         
         // copy all previews
-        ilPreview::copyPreviews($this->getId(), $new_object->getId());
+        ilPreview::copyPreviews($this->getId(), $new_obj->getId());
         
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());
-        $obj_settings->cloneSettings($new_object->getId());
+        $obj_settings->cloneSettings($new_obj->getId());
         unset($obj_settings);
-        
-        return $new_object;
     }
     
-    protected function doUpdate() : bool
+    protected function doUpdate() : void
     {
         global $DIC;
         
@@ -399,8 +398,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         
         $this->notifyUpdate($this->getId(), $this->getDescription());
         $this->initImplementation();
-        
-        return true;
     }
     
     protected function beforeUpdate() : bool

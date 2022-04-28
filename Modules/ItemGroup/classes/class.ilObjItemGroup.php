@@ -105,7 +105,7 @@ class ilObjItemGroup extends ilObject2
         $this->item_data_ar = new ilItemGroupAR($this->getId());
     }
 
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
         if ($this->getId()) {
             $this->item_data_ar->setId($this->getId());
@@ -127,8 +127,9 @@ class ilObjItemGroup extends ilObject2
         }
     }
     
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, bool $a_omit_tree = false) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
+        assert($new_obj instanceof ilObjItemGroup);
         $new_obj->setHideTitle($this->getHideTitle());
         $new_obj->setBehaviour($this->getBehaviour());
         $new_obj->setListPresentation($this->getListPresentation());

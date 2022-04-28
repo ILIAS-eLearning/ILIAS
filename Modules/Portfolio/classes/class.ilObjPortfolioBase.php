@@ -170,7 +170,7 @@ abstract class ilObjPortfolioBase extends ilObject2
     {
     }
 
-    protected function doCreate()
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
         
@@ -179,7 +179,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             $ilDB->quote(0, "integer") . ")");
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         $ilDB = $this->db;
         
@@ -209,7 +209,7 @@ abstract class ilObjPortfolioBase extends ilObject2
     {
     }
 
-    protected function doDelete()
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
         

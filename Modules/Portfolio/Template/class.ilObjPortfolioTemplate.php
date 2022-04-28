@@ -49,9 +49,9 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
         }
     }
     
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
-        parent::doCreate();
+        parent::doCreate($clone_mode);
         $this->updateActivation();
     }
     
@@ -72,8 +72,9 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
         }
     }
     
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
+        assert($new_obj instanceof ilObjPortfolioTemplate);
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 

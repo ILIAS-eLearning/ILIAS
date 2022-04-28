@@ -69,7 +69,7 @@ class ilObjBlog extends ilObject2
         $this->type = "blog";
     }
 
-    protected function doRead()
+    protected function doRead() : void
     {
         $ilDB = $this->db;
 
@@ -101,7 +101,7 @@ class ilObjBlog extends ilObject2
         $this->setNotesStatus(ilNote::commentsActivated($this->id, 0, "blog"));
     }
 
-    protected function doCreate()
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
         
@@ -128,7 +128,7 @@ class ilObjBlog extends ilObject2
         ilNote::activateComments($this->id, 0, "blog", true);
     }
     
-    protected function doDelete()
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
         
@@ -143,7 +143,7 @@ class ilObjBlog extends ilObject2
             " WHERE id = " . $ilDB->quote($this->id, "integer"));
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         $ilDB = $this->db;
     
@@ -174,8 +174,9 @@ class ilObjBlog extends ilObject2
         }
     }
 
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
+        assert($new_obj instanceof ilObjBlog);
         // banner?
         $img = $this->getImage();
         if ($img) {

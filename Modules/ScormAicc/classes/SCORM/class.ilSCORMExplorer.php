@@ -224,20 +224,14 @@ class ilSCORMExplorer extends ilExplorer
         return $tpl;
     }
 
-    /**
-     * can i click on the module name
-     *
-     * @param $a_type
-     * @param $a_ref_id
-     * @return bool
-     */
-    public function isClickable($a_type, $a_ref_id = 0) : bool
+    
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        if ($a_type != "sit") {
+        if ($type !== "sit") {
             return false;
         } else {
-            $sc_object = new ilSCORMItem($a_ref_id);
-            if ($sc_object->getIdentifierRef() != "") {
+            $sc_object = new ilSCORMItem($ref_id);
+            if ($sc_object->getIdentifierRef() !== "") {
                 return true;
             }
         }
@@ -271,7 +265,7 @@ class ilSCORMExplorer extends ilExplorer
         $scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
 
         //is scorm clickabke
-        $clickable = $this->isClickable($option["c_type"], $option["id"], $sc_object);
+        $clickable = $this->isClickable($option["c_type"], $option["id"]);
 
         if ($this->output_icons && $clickable) {
             $this->getOutputIcons($tpl, $option, $option["id"], $scormtype);

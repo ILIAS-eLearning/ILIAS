@@ -21,7 +21,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 {
     protected bool $default;
 
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = "prtf";
     }
@@ -50,7 +50,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         $this->setDefault((bool) $a_row["is_default"]);
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         // must be online to be default
         if (!$this->isOnline() && $this->isDefault()) {

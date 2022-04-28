@@ -17,7 +17,7 @@
 
 class ilObjCloud extends ilObject2
 {
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = 'cld';
     }

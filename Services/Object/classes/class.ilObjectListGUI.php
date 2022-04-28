@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Button\Button;
@@ -56,7 +70,7 @@ class ilObjectListGUI
     protected ilSetting $settings;
     protected UIServices $ui;
     protected ilRbacSystem $rbacsystem;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected string $mode;
     protected bool $path_enabled;
@@ -104,7 +118,7 @@ class ilObjectListGUI
     protected int $ref_id;
     protected int $sub_obj_id;
     protected ?string $sub_obj_type;
-    protected $substitutions = null;
+    protected ?ilAdvancedMDSubstitution $substitutions = null;
     protected bool $substitutions_enabled = false;
     protected bool $icons_enabled = false;
     protected bool $checkboxes_enabled = false;
@@ -122,6 +136,7 @@ class ilObjectListGUI
     protected bool $bold_title = false;
     protected int $details_level = self::DETAILS_ALL;
     protected int $reference_ref_id = 0;
+    protected ?int $reference_obj_id = null;
     protected bool $separate_commands = false;
     protected bool $search_fragment_enabled = false;
     protected ?string $additional_information = "";
@@ -148,10 +163,7 @@ class ilObjectListGUI
     protected array $default_command_params = [];
     protected array $header_icons = [];
     protected ?object $container_obj = null;
-    /**
-     * @var ilTemplate|ilGlobalTemplateInterface|mixed
-     */
-    protected $tpl;
+    protected ilTemplate $tpl;
     protected string $position_value;
     protected int $path_start_node;
     protected array $default_command = [];
@@ -164,7 +176,8 @@ class ilObjectListGUI
     protected string $position_field_index = "";
     protected string $title = "";
     protected string $description = "";
-
+    protected ilWorkspaceAccessHandler $ws_access;
+    
     public function __construct(int $context = self::CONTEXT_REPOSITORY)
     {
         /** @var ILIAS\DI\Container $DIC */
@@ -330,7 +343,7 @@ class ilObjectListGUI
     {
         return $this->icons_enabled;
     }
-        
+    
     public function enableCheckbox(bool $status) : void
     {
         $this->checkboxes_enabled = $status;
@@ -433,7 +446,7 @@ class ilObjectListGUI
         return $this->path_enabled;
     }
     
-    public function enableCommands(bool $status, bool $std_only = false)
+    public function enableCommands(bool $status, bool $std_only = false) : void
     {
         $this->commands_enabled = $status;
         $this->std_cmd_only = $std_only;
@@ -509,7 +522,7 @@ class ilObjectListGUI
     /**
      * set items detail links
      *
-     * @param array e.g. array(0 => array('desc' => 'Page: ','link' => 'ilias.php...','name' => 'Page XYZ')
+     * @param array $detail_links e.g. array(0 => array('desc' => 'Page: ','link' => 'ilias.php...','name' => 'Page XYZ')
      */
     public function setItemDetailLinks(array $detail_links, string $intro_txt = '') : void
     {
@@ -696,7 +709,7 @@ class ilObjectListGUI
         $this->obj_id = $obj_id;
         $this->setTitle($title);
         $this->setDescription($description);
-                
+        
         // checks, whether any admin commands are included in the output
         $this->adm_commands_included = false;
         $this->prevent_access_caching = false;
@@ -803,9 +816,6 @@ class ilObjectListGUI
     */
     public function getCommandFrame(string $cmd) : string
     {
-        if ($cmd == 'fileManagerLaunch') {
-            return '_blank';
-        }
         return "";
     }
 
@@ -860,7 +870,7 @@ class ilObjectListGUI
                 $webdav_dic = new ilWebDAVDIC();
                 $webdav_dic->initWithoutDIC();
                 $webdav_lock_backend = $webdav_dic->locksbackend();
-                if ($this->user->getId() != ANONYMOUS_USER_ID) {
+                if ($this->user->getId() !== ANONYMOUS_USER_ID) {
                     if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id)) {
                         $lock_user = new ilObjUser($lock->getIliasOwner());
 
@@ -1081,7 +1091,7 @@ class ilObjectListGUI
                 $this->tpl->setVariable("TARGET_TITLE_LINKED", $this->default_command["frame"]);
                 $this->tpl->parseCurrentBlock();
             }
-                
+            
             // workaround for repository frameset
             $this->default_command["link"] = $this->appendRepositoryFrameParameter($this->default_command["link"]);
 
@@ -1167,9 +1177,6 @@ class ilObjectListGUI
             }
             $fields_shown = false;
         }
-        if ($fields_shown) {
-            $this->tpl->touchBlock('newline_prop');
-        }
     }
 
     public function insertDescription() : void
@@ -1252,11 +1259,7 @@ class ilObjectListGUI
     */
     public function isMode(string $mode) : bool
     {
-        if ($mode == $this->mode) {
-            return true;
-        } else {
-            return false;
-        }
+        return $mode === $this->mode;
     }
 
     public function determineProperties() : array
@@ -1278,7 +1281,7 @@ class ilObjectListGUI
 
             // add no item access note in public section
             // for items that are visible but not readable
-            if ($this->user->getId() == ANONYMOUS_USER_ID) {
+            if ($this->user->getId() === ANONYMOUS_USER_ID) {
                 if (!$this->access->checkAccess("read", "", $this->ref_id, $this->type, $this->obj_id)) {
                     $props[] = [
                         "alert" => true,
@@ -1313,7 +1316,7 @@ class ilObjectListGUI
                 ) || (
                     isset(self::$tags[$note_obj_id]) && is_array(self::$tags[$note_obj_id])
                 )
-            ) && ($this->user->getId() != ANONYMOUS_USER_ID)
+            ) && ($this->user->getId() !== ANONYMOUS_USER_ID)
         ) {
             $nl = true;
             if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
@@ -1772,7 +1775,7 @@ class ilObjectListGUI
                     $this->insertCommand($cmd_copy, $this->lng->txt('wsp_copy_to_repository'));
                 }
             }
-                
+            
             $this->adm_commands_included = true;
         }
     }
@@ -2134,7 +2137,7 @@ class ilObjectListGUI
         // public area, category, no info tab
         // todo: make this faster and remove type specific implementation if possible
         if ($use_async && !$get_async_commands && !$header_actions) {
-            if ($this->user->getId() == ANONYMOUS_USER_ID && $this->checkInfoPageOnAsynchronousRendering()) {
+            if ($this->user->getId() === ANONYMOUS_USER_ID && $this->checkInfoPageOnAsynchronousRendering()) {
                 if (
                     !ilContainer::_lookupContainerSetting($this->obj_id, ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY)
                 ) {
@@ -2547,11 +2550,11 @@ class ilObjectListGUI
     /**
     * workaround: SAHS in new javavasript-created window or iframe
     */
-    public function modifySAHSlaunch(string $link, string $wtarget)
+    public function modifySAHSlaunch(string $link, string $wtarget) : string
     {
         global $DIC;
-
-        if (strstr($link, 'ilSAHSPresentationGUI')) {
+    
+        if (strstr($link, ilSAHSPresentationGUI::class)) {
             $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
             $om = $sahs_obj->getOpenMode();
             $width = $sahs_obj->getWidth();
@@ -2981,7 +2984,7 @@ class ilObjectListGUI
                     
                     $lng->loadLanguageModule("notes");
                 }
-                                
+                
                 $tags_set = new ilSetting("tags");
                 if ($tags_set->get("enable")) {
                     $all_users = (bool) $tags_set->get("enable_all_users");
@@ -2999,7 +3002,7 @@ class ilObjectListGUI
                     $lng->loadLanguageModule("tagging");
                 }
             }
-                                
+            
             $lng->loadLanguageModule("rating");
         }
         
@@ -3107,7 +3110,7 @@ class ilObjectListGUI
 
             // Dirty hack to remain the "onclick" action of action items
             if ($action_item['onclick'] != null && $action_item['onclick'] != '') {
-                $action = $action->withAdditionalOnLoadCode(function ($id) use ($action_item) {
+                $action = $action->withAdditionalOnLoadCode(function ($id) use ($action_item) : string {
                     return "$('#$id').click(function(){" . $action_item['onclick'] . ";});";
                 });
             }
@@ -3225,7 +3228,7 @@ class ilObjectListGUI
                     $ui->factory()->button()->shy($item["title"], $item["link"]);
             } else {
                 $actions[] =
-                    $ui->factory()->button()->shy($item["title"], "")->withAdditionalOnLoadCode(function ($id) use ($item) {
+                    $ui->factory()->button()->shy($item["title"], "")->withAdditionalOnLoadCode(function ($id) use ($item) : string {
                         return
                             "$('#$id').click(function(e) { " . $item["onclick"] . "});";
                     });
@@ -3266,7 +3269,7 @@ class ilObjectListGUI
                           ->responsive($path, '');
         if ($def_command['link'] != '') {    // #24256
             if ($def_command["frame"] != "" && ($modified_link == $def_command["link"])) {
-                $image = $image->withAdditionalOnLoadCode(function ($id) use ($def_command) {
+                $image = $image->withAdditionalOnLoadCode(function ($id) use ($def_command) : string {
                     return
                         "$('#$id').click(function(e) { window.open('" . str_replace(
                             "&amp;",
@@ -3278,7 +3281,7 @@ class ilObjectListGUI
                 $button =
                     $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use (
                         $def_command
-                    ) {
+                    ) : string {
                         return
                             "$('#$id').click(function(e) { window.open('" . str_replace(
                                 "&amp;",
