@@ -310,12 +310,23 @@ class ilCalendarAppointmentGUI
         }
 
         if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
-            $notu = new ilTextWizardInputGUI($this->lng->txt('cal_user_notification'), 'notu');
-            $notu->setInfo($this->lng->txt('cal_user_notification_info'));
-            $notu->setSize(20);
-            $notu->setMaxLength(64);
+            $ajax_url = $this->ctrl->getLinkTarget(
+                $this,
+                'doUserAutoComplete',
+                '',
+                true,
+                false
+            );
 
-            $values = array();
+            $notu = new ilTextInputGUI(
+                $this->lng->txt('cal_user_notification'),
+                'notu'
+            );
+            $notu->setMulti(true, true);
+            $notu->setInfo($this->lng->txt('cal_user_notification_info'));
+            $notu->setDataSource($ajax_url, ',');
+
+            $values = [];
             foreach ($this->notification->getRecipients() as $rcp) {
                 switch ($rcp['type']) {
                     case ilCalendarUserNotification::TYPE_USER:
@@ -327,11 +338,7 @@ class ilCalendarAppointmentGUI
                         break;
                 }
             }
-            if (count($values)) {
-                $notu->setValues($values);
-            } else {
-                $notu->setValues(array(''));
-            }
+            $notu->setValue($values);
             $this->form->addItem($notu);
         }
 
@@ -354,6 +361,51 @@ class ilCalendarAppointmentGUI
             $this->form->addItem($not);
         }
         return $this->form;
+    }
+
+
+    protected function doUserAutoComplete() : ?string
+    {
+        // hide anonymout request
+        if ($this->user->getId() == ANONYMOUS_USER_ID) {
+            return json_encode(new stdClass(), JSON_THROW_ON_ERROR);
+        }
+        if (!$this->http->wrapper()->query()->has('autoCompleteField')) {
+            $a_fields = [
+                'login',
+                'firstname',
+                'lastname',
+                'email'
+            ];
+            $result_field = 'login';
+        } else {
+            $auto_complete_field = $this->http->wrapper()->query()->retrieve(
+                'autoCompleteField',
+                $this->refinery->kindlyTo()->string()
+            );
+            $a_fields = [$auto_complete_field];
+            $result_field = $auto_complete_field;
+        }
+        $auto = new ilUserAutoComplete();
+        $auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
+
+        if ($this->http->wrapper()->query()->has('fetchall')) {
+            $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+        }
+
+        $auto->setMoreLinkAvailable(true);
+        $auto->setSearchFields($a_fields);
+        $auto->setResultField($result_field);
+        $auto->enableFieldSearchableCheck(true);
+        $query = '';
+        if ($this->http->wrapper()->post()->has('term')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        echo $auto->getList($query);
+        return null;
     }
 
     /**
@@ -974,14 +1026,17 @@ class ilCalendarAppointmentGUI
     protected function loadNotificationRecipients(ilPropertyFormGUI $form) : void
     {
         $this->notification->setRecipients(array());
+        $map = [];
         foreach ($form->getInput('notu') as $rcp) {
-            $rcp = trim(ilUtil::stripSlashes($rcp));
+            $rcp = trim($rcp);
             $usr_id = (int) ilObjUser::_loginExists($rcp);
-
-            if (strlen($rcp) == 0) {
+            if ($rcp === '') {
                 continue;
             }
-
+            if (in_array($rcp, $map)) {
+                continue;
+            }
+            $map[] = $rcp;
             if ($usr_id) {
                 $this->notification->addRecipient(
                     ilCalendarUserNotification::TYPE_USER,
@@ -1343,39 +1398,5 @@ class ilCalendarAppointmentGUI
         $assignment = new ilCalendarCategoryAssignments($entry->getEntryId());
         $assignment = $assignment->getFirstAssignment();
         return new ilCalendarCategory($assignment);
-    }
-
-    protected function doUserAutoComplete() : void
-    {
-        $autoCompleteField = '';
-        if ($this->http->wrapper()->query()->has('autoCompleteField')) {
-            $autoCompleteField = $this->http->wrapper()->query()->retrieve(
-                'autoCompleteField',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        if (!strlen($autoCompleteField)) {
-            $a_fields = array('login', 'firstname', 'lastname', 'email');
-        } else {
-            $a_fields = array($autoCompleteField);
-        }
-
-        $auto = new ilUserAutoComplete();
-        $auto->setSearchFields($a_fields);
-        $auto->enableFieldSearchableCheck(true);
-        $auto->setMoreLinkAvailable(true);
-
-        if ($this->http->wrapper()->query()->has('fetchall')) {
-            $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        }
-        $query = '';
-        if ($this->http->wrapper()->query()->has('query')) {
-            $query = $this->http->wrapper()->query()->retrieve(
-                'query',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        echo $auto->getList($query);
-        exit();
     }
 }
