@@ -30,15 +30,15 @@ class ilQTIMatimage
     public const EMBEDDED_BASE64 = 'base64';
 
     public ?string $imagetype = null;
-    public ?string $label = null;
+    public string $label = '';
     public ?string $height = null;
     public ?string $width = null;
-    public ?string $uri = null;
+    public string $uri = '';
     public ?string $embedded = null;
     public ?string $x0 = null;
     public ?string $y0 = null;
     public ?string $entityref = null;
-    public ?string $content = null;
+    public string $content = '';
 
     public function setImagetype(string $a_imagetype) : void
     {
@@ -55,7 +55,7 @@ class ilQTIMatimage
         $this->label = $a_label;
     }
 
-    public function getLabel() : ?string
+    public function getLabel() : string
     {
         return $this->label;
     }
@@ -95,7 +95,7 @@ class ilQTIMatimage
         $this->uri = $a_uri;
     }
 
-    public function getUri() : ?string
+    public function getUri() : string
     {
         return $this->uri;
     }
@@ -135,7 +135,7 @@ class ilQTIMatimage
         $this->content = $a_content;
     }
 
-    public function getContent() : ?string
+    public function getContent() : string
     {
         return $this->content;
     }

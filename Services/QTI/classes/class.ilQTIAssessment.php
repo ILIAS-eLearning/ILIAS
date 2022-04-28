@@ -28,11 +28,9 @@
 class ilQTIAssessment implements ilQTIPresentationMaterialAware
 {
     public ?string $ident = null;
-    public ?string $title = null;
+    public string $title = '';
     public ?string $xmllang = null;
-    public ?string $comment = null;
-    /** @var null|array{h: string, m: string, s: string} */
-    public ?array $duration = null;
+    public string $comment = '';
     /** @var array{label: string, entry: string}[] */
     public array $qtimetadata = [];
     /** @var ilQTIObjectives[] */
@@ -56,7 +54,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         $this->title = $a_title;
     }
 
-    public function getTitle() : ?string
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -66,28 +64,9 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         $this->comment = $a_comment;
     }
 
-    public function getComment() : ?string
+    public function getComment() : string
     {
         return $this->comment;
-    }
-
-    public function setDuration(string $a_duration) : void // TODO PHP8-REVIEW Check if this function is really used
-    {
-        if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
-            $this->duration = array(
-                "h" => $matches[4],
-                "m" => $matches[5],
-                "s" => $matches[6]
-            );
-        }
-    }
-
-    /**
-     * @return null|array{h: string, m: string, s: string}
-     */
-    public function getDuration() : ?array
-    {
-        return $this->duration;
     }
 
     public function setXmllang(string $a_xmllang) : void
@@ -108,12 +87,12 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
         $this->qtimetadata[] = $a_metadata;
     }
 
-    public function addObjectives(?ilQTIObjectives $a_objectives) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function addObjectives(ilQTIObjectives $a_objectives) : void
     {
         $this->objectives[] = $a_objectives;
     }
 
-    public function addAssessmentcontrol(?ilQTIAssessmentcontrol $a_assessmentcontrol) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function addAssessmentcontrol(ilQTIAssessmentcontrol $a_assessmentcontrol) : void
     {
         $this->assessmentcontrol[] = $a_assessmentcontrol;
     }

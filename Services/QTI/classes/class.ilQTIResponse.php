@@ -48,7 +48,7 @@ class ilQTIResponse
     /** @var int|string */
     public $response_type;
     public ?string $ident = null;
-    public ?string $rcardinality = null;
+    public string $rcardinality = '';
 
     /**
      * @var ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib|null
@@ -111,7 +111,7 @@ class ilQTIResponse
         }
     }
 
-    public function getRCardinality() : ?string
+    public function getRCardinality() : string
     {
         return $this->rcardinality;
     }

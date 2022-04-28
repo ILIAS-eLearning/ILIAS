@@ -133,7 +133,7 @@ class ilQTIParser extends ilSaxParser
     public ?ilQTISection $section = null;
 
     /**
-     * @var array<string, ['test' => mixed]> // TODO PHP8-REVIEW The phpdoc looks somehow broken
+     * @var array<string, {test: mixed}>
      */
     public array $import_mapping = [];
 
@@ -190,10 +190,6 @@ class ilQTIParser extends ilSaxParser
         parent::__construct($a_xml_file);
 
         $this->qpl_id = $a_qpl_id;
-        if (is_array($a_import_idents)) { // TODO PHP8-REVIEW This can not happen anymore because the variable is typed as string. How the line below should be handled?
-            $this->import_idents = &$a_import_idents;
-        }
-
         $this->lng = &$lng;
         $this->depth = new SplObjectStorage();
     }
@@ -213,17 +209,15 @@ class ilQTIParser extends ilSaxParser
         return $this->questionSetType;
     }
 
-    public function setQuestionSetType(?string $questionSetType) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function setQuestionSetType(string $questionSetType) : void
     {
         $this->questionSetType = $questionSetType;
     }
 
-    public function setTestObject(?ilObjTest &$a_tst_object) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function setTestObject(ilObjTest $a_tst_object) : void
     {
-        $this->tst_object = &$a_tst_object;
-        if (is_object($a_tst_object)) { // TODO PHP8-REVIEW If null is not allowed anymore, this check becomes propably needless
-            $this->tst_id = $this->tst_object->getId();
-        }
+        $this->tst_object = $a_tst_object;
+        $this->tst_id = $this->tst_object->getId();
     }
 
     /**
@@ -1172,7 +1166,7 @@ class ilQTIParser extends ilSaxParser
 
     /**
      * Get array of new created questions for import id.
-     * @return array<string, ['test' => mixed]> // TODO PHP8-REVIEW The phpdoc looks somehow broken
+     * @return array<string, {test: mixed}>
      */
     public function getImportMapping() : array
     {

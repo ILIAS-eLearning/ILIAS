@@ -31,21 +31,21 @@ class ilQTIMaterial
     public int $flow = 0;
 
     /**
-     * @var array{material: ilQTIMattext|ilQTIMatimage|ilQTIMatapplet|null, type: string}[]
+     * @var array{material: ilQTIMattext|ilQTIMatimage|ilQTIMatapplet, type: string}[]
      */
     public array $materials = [];
 
-    public function addMattext(?ilQTIMattext $a_mattext) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function addMattext(ilQTIMattext $a_mattext) : void
     {
         $this->materials[] = array("material" => $a_mattext, "type" => "mattext");
     }
 
-    public function addMatimage(?ilQTIMatimage $a_matimage) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function addMatimage(ilQTIMatimage $a_matimage) : void
     {
         $this->materials[] = array("material" => $a_matimage, "type" => "matimage");
     }
 
-    public function addMatapplet(?ilQTIMatapplet $a_matapplet) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function addMatapplet(ilQTIMatapplet $a_matapplet) : void
     {
         $this->materials[] = array("material" => $a_matapplet, "type" => "matapplet");
     }
@@ -56,7 +56,7 @@ class ilQTIMaterial
     }
 
     /**
-     * @return false|array{material: ilQTIMattext|ilQTIMatimage|ilQTIMatapplet|null, type: string}
+     * @return false|array{material: ilQTIMattext|ilQTIMatimage|ilQTIMatapplet, type: string}
      */
     public function getMaterial(int $a_index)
     {

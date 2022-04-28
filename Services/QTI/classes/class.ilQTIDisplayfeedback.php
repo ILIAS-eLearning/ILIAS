@@ -28,7 +28,7 @@
 class ilQTIDisplayfeedback
 {
     public ?string $feedbacktype = null;
-    public ?string $linkrefid = null;
+    public string $linkrefid = '';
     public ?string $content = null;
 
     public function setFeedbacktype(string $a_feedbacktype) : void
@@ -46,7 +46,7 @@ class ilQTIDisplayfeedback
         $this->linkrefid = $a_linkrefid;
     }
 
-    public function getLinkrefid() : ?string
+    public function getLinkrefid() : string
     {
         return $this->linkrefid;
     }

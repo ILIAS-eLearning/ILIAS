@@ -45,13 +45,13 @@ class ilQTIItem
     public const QT_TEXTSUBSET = "assTextSubset";
 
     public ?string $ident = null;
-    public ?string $title = null;
-    public ?string $maxattempts = null;
+    public string $title = '';
+    public string $maxattempts = '';
     public ?string $label = null;
     public ?string $xmllang = null;
-    public ?string $comment = null;
+    public string $comment = '';
     public ?string $ilias_version = null;
-    public ?string $author = null;
+    public string $author = '';
     public ?string $questiontype = null;
     /** @var null|array{h: string, m: string, s: string} */
     public ?array $duration = null;
@@ -90,7 +90,7 @@ class ilQTIItem
         $this->title = $a_title;
     }
 
-    public function getTitle() : ?string
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -107,14 +107,14 @@ class ilQTIItem
                     $this->questiontype = $matches[2];
                     return;
                 case "Author":
-                    $this->author = $matches[2];
+                    $this->author = $matches[2] ?? '';
                     return;
             }
         }
         $this->comment = $a_comment;
     }
 
-    public function getComment() : ?string
+    public function getComment() : string
     {
         return $this->comment;
     }
@@ -148,12 +148,12 @@ class ilQTIItem
         return $this->questiontext;
     }
     
-    public function addResprocessing(?ilQTIResprocessing $a_resprocessing) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function addResprocessing(ilQTIResprocessing $a_resprocessing) : void
     {
         $this->resprocessing[] = $a_resprocessing;
     }
     
-    public function addItemfeedback(?ilQTIItemfeedback $a_itemfeedback) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function addItemfeedback(ilQTIItemfeedback $a_itemfeedback) : void
     {
         $this->itemfeedback[] = $a_itemfeedback;
     }
@@ -163,7 +163,7 @@ class ilQTIItem
         $this->maxattempts = $a_maxattempts;
     }
     
-    public function getMaxattempts() : ?string
+    public function getMaxattempts() : string
     {
         return $this->maxattempts;
     }
@@ -265,7 +265,7 @@ class ilQTIItem
         $this->author = $a_author;
     }
 
-    public function getAuthor() : ?string
+    public function getAuthor() : string
     {
         return $this->author;
     }

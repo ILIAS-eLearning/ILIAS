@@ -46,7 +46,7 @@ class ilQTIResponseVar
     public const AREATYPE_RECTANGLE = "2";
     public const AREATYPE_BOUNDED = "3";
 
-    public ?string $vartype = null;
+    public string $vartype = '';
     public ?string $case = null;
     public ?string $respident = null;
     public ?string $index = null;

@@ -28,7 +28,7 @@
 class ilQTIOutcomes
 {
     public ?string $comment = null;
-    /** @var (null|ilQTIDecvar)[] */
+    /** @var (ilQTIDecvar)[] */
     public array $decvar = [];
 
     public function setComment(string $a_comment) : void
@@ -41,7 +41,7 @@ class ilQTIOutcomes
         return $this->comment;
     }
     
-    public function addDecvar(?ilQTIDecvar $a_decvar) : void // TODO PHP8-REVIEW Should null really be allowed here as possible/useful value?
+    public function addDecvar(ilQTIDecvar $a_decvar) : void
     {
         $this->decvar[] = $a_decvar;
     }
