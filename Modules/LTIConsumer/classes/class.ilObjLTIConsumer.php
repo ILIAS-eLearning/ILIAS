@@ -297,7 +297,7 @@ class ilObjLTIConsumer extends ilObject2
     }
 
 
-    public function doRead() : void
+    protected function doRead() : void
     {
         $this->load();
     }
@@ -337,7 +337,7 @@ class ilObjLTIConsumer extends ilObject2
         $this->loadRepositoryActivationSettings();
     }
     
-    public function doUpdate() : void
+    protected function doUpdate() : void
     {
         $this->save();
     }

@@ -88,10 +88,10 @@ class ilSurveySkillExplorer extends ilExplorer
     }
 
     public function isClickable(
-        string $a_type,
-        $a_ref_id = 0
+        string $type,
+        int $ref_id = 0
     ) : bool {
-        return $a_type === "skll";
+        return $type === "skll";
     }
     
     public function buildLinkTarget($a_node_id, string $a_type) : string

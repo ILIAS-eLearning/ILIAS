@@ -7,10 +7,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
     public function __construct()
     {
         global $DIC;
-
         parent::__construct();
-        $this->tpl = $DIC['tpl'];
-        $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule("prg");
     }
 

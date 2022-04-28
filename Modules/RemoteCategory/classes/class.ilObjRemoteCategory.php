@@ -27,7 +27,7 @@ class ilObjRemoteCategory extends ilRemoteObjectBase
 {
     const DB_TABLE_NAME = "rcat_settings";
 
-    public function initType()
+    public function initType() : void
     {
         $this->type = "rcat";
     }

@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * class ilObjectDataCache
  *
@@ -134,8 +148,8 @@ class ilObjectDataCache
     {
         $sql =
             "SELECT obj_id" . PHP_EOL
-            ."FROM object_reference" . PHP_EOL
-            ."WHERE ref_id = " . $this->db->quote($ref_id, 'integer') . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "WHERE ref_id = " . $this->db->quote($ref_id, 'integer') . PHP_EOL
         ;
         $result = $this->db->query($sql);
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
@@ -157,8 +171,8 @@ class ilObjectDataCache
 
         $sql =
             "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-            ."FROM object_data" . PHP_EOL
-            ."WHERE obj_id = " . $this->db->quote($obj_id, 'integer') . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($obj_id, 'integer') . PHP_EOL
         ;
         $res = $this->db->query($sql);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -174,10 +188,10 @@ class ilObjectDataCache
             if ($translation_type === "db" && !isset($this->trans_loaded[$obj_id])) {
                 $sql =
                     "SELECT title, description" . PHP_EOL
-                    ."FROM object_translation" . PHP_EOL
-                    ."WHERE obj_id = " . $this->db->quote($obj_id, 'integer') . PHP_EOL
-                    ."AND lang_code = " . $this->db->quote($user->getLanguage(), 'text') . PHP_EOL
-                    ."AND NOT lang_default = 1" . PHP_EOL
+                    . "FROM object_translation" . PHP_EOL
+                    . "WHERE obj_id = " . $this->db->quote($obj_id, 'integer') . PHP_EOL
+                    . "AND lang_code = " . $this->db->quote($user->getLanguage(), 'text') . PHP_EOL
+                    . "AND NOT lang_default = 1" . PHP_EOL
                 ;
                 $trans_res = $this->db->query($sql);
 
@@ -219,8 +233,8 @@ class ilObjectDataCache
 
         $sql =
             "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-            ."FROM object_data" . PHP_EOL
-            ."WHERE " . $this->db->in('obj_id', $obj_ids, false, 'integer') . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE " . $this->db->in('obj_id', $obj_ids, false, 'integer') . PHP_EOL
         ;
         $res = $this->db->query($sql);
         $db_trans = [];
@@ -267,10 +281,10 @@ class ilObjectDataCache
         if ($ids !== []) {
             $sql =
                 "SELECT obj_id, title, description" . PHP_EOL
-                ."FROM object_translation" . PHP_EOL
-                ."WHERE " . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
-                ."AND lang_code = " . $this->db->quote($lang, 'text') . PHP_EOL
-                ."AND NOT lang_default = 1" . PHP_EOL
+                . "FROM object_translation" . PHP_EOL
+                . "WHERE " . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
+                . "AND lang_code = " . $this->db->quote($lang, 'text') . PHP_EOL
+                . "AND NOT lang_default = 1" . PHP_EOL
             ;
             $result = $this->db->query($sql);
             while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -295,8 +309,8 @@ class ilObjectDataCache
 
         $sql =
             "SELECT ref_id, obj_id" . PHP_EOL
-            ."FROM object_reference" . PHP_EOL
-            ."WHERE " . $this->db->in('ref_id', $ref_ids, false, 'integer') . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "WHERE " . $this->db->in('ref_id', $ref_ids, false, 'integer') . PHP_EOL
         ;
         $res = $this->db->query($sql);
 

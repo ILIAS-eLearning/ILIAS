@@ -61,15 +61,9 @@ class ilContainerSelectionExplorer extends ilExplorer
         return $this->target_type;
     }
     
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        $ilAccess = $this->access;
-
-        if ($this->getTargetType() === $a_type && $ilAccess->checkAccess('visible', '', $a_ref_id)) {
-            return true;
-        }
-
-        return false;
+        return ($this->getTargetType() === $type && $this->access->checkAccess('visible', '', $ref_id));
     }
 
     public function isVisible($a_ref_id, string $a_type) : bool

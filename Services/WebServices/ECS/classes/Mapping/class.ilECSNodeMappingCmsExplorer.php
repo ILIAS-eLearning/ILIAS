@@ -61,7 +61,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     /**
      * no item is clickable
      */
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
         return false;
     }

@@ -153,22 +153,22 @@ class ilRepositoryExplorer extends ilExplorer
         return parent::getImage($a_name);
     }
 
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
         $rbacsystem = $this->rbacsystem;
         $ilDB = $this->db;
 
-        $obj_id = ilObject::_lookupObjId($a_ref_id);
+        $obj_id = ilObject::_lookupObjId($ref_id);
         if (!ilConditionHandler::_checkAllConditionsOfTarget(
-            $a_ref_id,
+            $ref_id,
             $obj_id
         )) {
             return false;
         }
 
-        switch ($a_type) {
+        switch ($type) {
             case 'tst':
-                if (!$rbacsystem->checkAccess("read", $a_ref_id)) {
+                if (!$rbacsystem->checkAccess("read", $ref_id)) {
                     return false;
                 }
 
@@ -180,7 +180,7 @@ class ilRepositoryExplorer extends ilExplorer
                 return false;
 
             case 'svy':
-                if (!$rbacsystem->checkAccess("read", $a_ref_id)) {
+                if (!$rbacsystem->checkAccess("read", $ref_id)) {
                     return false;
                 }
 
@@ -193,48 +193,48 @@ class ilRepositoryExplorer extends ilExplorer
 
             // media pools can only be edited
             case "mep":
-                if ($rbacsystem->checkAccess("read", $a_ref_id)) {
+                if ($rbacsystem->checkAccess("read", $ref_id)) {
                     return true;
                 }
                 return false;
             case 'grpr':
             case 'crsr':
             case 'catr':
-                return ilContainerReferenceAccess::_isAccessible($a_ref_id);
+                return ilContainerReferenceAccess::_isAccessible($ref_id);
             case 'prg':
-                    return $rbacsystem->checkAccess("visible", $a_ref_id);
+                    return $rbacsystem->checkAccess("visible", $ref_id);
 
                 
 
             // all other types are only clickable, if read permission is given
             default:
-                if ($rbacsystem->checkAccess("read", $a_ref_id)) {
+                if ($rbacsystem->checkAccess("read", $ref_id)) {
                     // check if lm is online
-                    if ($a_type === "lm") {
-                        $lm_obj = new ilObjLearningModule($a_ref_id);
-                        if (($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $a_ref_id))) {
+                    if ($type === "lm") {
+                        $lm_obj = new ilObjLearningModule($ref_id);
+                        if (($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $ref_id))) {
                             return false;
                         }
                     }
                     // check if fblm is online
-                    if ($a_type === "htlm") {
-                        $lm_obj = new ilObjFileBasedLM($a_ref_id);
-                        if (($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $a_ref_id))) {
+                    if ($type === "htlm") {
+                        $lm_obj = new ilObjFileBasedLM($ref_id);
+                        if (($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $ref_id))) {
                             return false;
                         }
                     }
                     // check if fblm is online
-                    if ($a_type === "sahs") {
-                        $lm_obj = new ilObjSAHSLearningModule($a_ref_id);
-                        if (($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $a_ref_id))) {
+                    if ($type === "sahs") {
+                        $lm_obj = new ilObjSAHSLearningModule($ref_id);
+                        if (($lm_obj->getOfflineStatus()) && (!$rbacsystem->checkAccess('write', $ref_id))) {
                             return false;
                         }
                     }
                     // check if glossary is online
-                    if ($a_type === "glo") {
-                        $obj_id = ilObject::_lookupObjectId($a_ref_id);
+                    if ($type === "glo") {
+                        $obj_id = ilObject::_lookupObjectId($ref_id);
                         if ((!ilObjGlossary::_lookupOnline($obj_id)) &&
-                            (!$rbacsystem->checkAccess('write', $a_ref_id))) {
+                            (!$rbacsystem->checkAccess('write', $ref_id))) {
                             return false;
                         }
                     }

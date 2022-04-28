@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class handles translation mode for an object.
  *
@@ -36,6 +50,9 @@ class ilObjectTranslation
     protected int $obj_id;
 
     protected string $master_lang = "";
+    /**
+     * @var ilObjectTranslationLanguage[]
+     */
     protected array $languages = [];
     protected bool $content_activated = false;
     protected string $fallback_language = "";
@@ -47,7 +64,7 @@ class ilObjectTranslation
 
         $this->setObjId($obj_id);
 
-        if ($this->getObjId() <= 0) {
+        if ($obj_id <= 0) {
             throw new ilObjectException("ilObjectTranslation: No object ID passed.");
         }
 
@@ -116,26 +133,26 @@ class ilObjectTranslation
         bool $default,
         bool $force = false
     ) : void {
-        if ($lang != "" && (!isset($this->languages[$lang]) || $force)) {
+        if ($lang !== "" && (!isset($this->languages[$lang]) || $force)) {
             if ($default) {
-                foreach ($this->languages as $k => $l) {
-                    $this->languages[$k]["lang_default"] = false;
+                foreach ($this->languages as $l) {
+                    $l->setDefault(false);
                 }
             }
-            $this->languages[$lang] = [
-                "lang_code" => $lang,
-                "lang_default" => $default,
-                "title" => $title,
-                "description" => $description
-            ];
+            $this->languages[$lang] = new ilObjectTranslationLanguage(
+                $lang,
+                $title,
+                $description,
+                $default
+            );
         }
     }
 
     public function getDefaultTitle() : string
     {
         foreach ($this->languages as $l) {
-            if ($l["lang_default"]) {
-                return $l["title"];
+            if ($l->isDefault()) {
+                return $l->getTitle();
             }
         }
         if (count($this->languages) == 0) {
@@ -146,9 +163,9 @@ class ilObjectTranslation
 
     public function setDefaultTitle(string $title) : void
     {
-        foreach ($this->languages as $k => $l) {
-            if ($l["lang_default"]) {
-                $this->languages[$k]["title"] = $title;
+        foreach ($this->languages as $l) {
+            if ($l->isDefault()) {
+                $l->setTitle($title);
             }
         }
     }
@@ -156,8 +173,8 @@ class ilObjectTranslation
     public function getDefaultDescription() : string
     {
         foreach ($this->languages as $l) {
-            if ($l["lang_default"]) {
-                return $l["description"];
+            if ($l->isDefault()) {
+                return $l->getDescription();
             }
         }
         if (count($this->languages) == 0) {
@@ -168,9 +185,9 @@ class ilObjectTranslation
 
     public function setDefaultDescription(string $description) : void
     {
-        foreach ($this->languages as $k => $l) {
-            if ($l["lang_default"]) {
-                $this->languages[$k]["description"] = $description;
+        foreach ($this->languages as $l) {
+            if ($l->isDefault()) {
+                $l->setDescription($description);
             }
         }
     }
@@ -178,8 +195,8 @@ class ilObjectTranslation
     public function getDefaultLanguage() : string
     {
         foreach ($this->languages as $l) {
-            if ($l["lang_default"]) {
-                return $l["lang_code"];
+            if ($l->isDefault()) {
+                return $l->getLanguageCode();
             }
         }
         return "";
@@ -265,25 +282,29 @@ class ilObjectTranslation
             $this->db->insert("obj_content_master_lng", $values);
             // ensure that an entry for the master language exists and is the default
             if (!isset($this->languages[$this->getMasterLanguage()])) {
-                $this->languages[$this->getMasterLanguage()] = array("title" => "",
-                    "description" => "", "lang_code" => $this->getMasterLanguage(), "lang_default" => 1);
+                $this->languages[$this->getMasterLanguage()] = new ilObjectTranslationLanguage(
+                    "",
+                    "",
+                    $this->getMasterLanguage(),
+                    true
+                );
             }
-            foreach ($this->languages as $l => $trans) {
-                if ($l == $this->getMasterLanguage()) {
-                    $this->languages[$l]["lang_default"] = 1;
+            foreach ($this->languages as $trans) {
+                if ($trans->getLanguageCode() === $this->getMasterLanguage()) {
+                    $trans->setDefault(true);
                 } else {
-                    $this->languages[$l]["lang_default"] = 0;
+                    $trans->setDefault(false);
                 }
             }
         }
 
-        foreach ($this->getLanguages() as $l => $trans) {
+        foreach ($this->getLanguages() as $trans) {
             $values = [
                 "obj_id" => ["integer", $this->getObjId()],
-                "title" => ["text", $trans["title"]],
-                "description" => ["text", $trans["description"]],
-                "lang_code" => ["text", $l],
-                "lang_default" => ["integer", $trans["lang_default"]],
+                "title" => ["text", $trans->getTitle()],
+                "description" => ["text", $trans->getDescription()],
+                "lang_code" => ["text", $trans->getLanguageCode()],
+                "lang_default" => ["integer", $trans->isDefault()],
             ];
             $this->db->insert("object_translation", $values);
         }

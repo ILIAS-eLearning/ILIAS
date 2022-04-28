@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * TableGUI class for title/description translations
  *
@@ -9,7 +23,6 @@
  */
 class ilObjectTranslation2TableGUI extends ilTable2GUI
 {
-
     protected ilAccessHandler $access;
 
     protected bool $incl_desc;
@@ -23,7 +36,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         ?object $parent_obj,
         string $parent_cmd,
         bool $incl_desc = true,
-        string$base_cmd = "HeaderTitle",
+        string $base_cmd = "HeaderTitle",
         string $master_lang = "",
         bool $fallback_mode = false,
         string $fallback_lang = ""

@@ -202,13 +202,6 @@ class ilObjMediaCast extends ilObject
         return $this->order;
     }
     
-    /**
-     * Gets the disk usage of the object in bytes.
-     */
-    public function getDiskUsage() : int
-    {
-        return ilObjMediaCastAccess::_lookupDiskUsage($this->id);
-    }
     
     public function create() : int
     {

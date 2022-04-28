@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -47,6 +61,7 @@ class ilObjectGUI
     protected Factory $refinery;
     protected ilFavouritesManager $favourites;
     protected ilObjectCustomIconFactory $custom_icon_factory;
+    private ilObjectRequestRetriever $retriever;
 
     protected ?ilObject $object = null;
     protected bool $creation_mode = false;
@@ -104,6 +119,7 @@ class ilObjectGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
         $this->favourites = new ilFavouritesManager();
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
 
@@ -135,9 +151,9 @@ class ilObjectGUI
 
         // TODO: refactor this with post_wrapper or request_wrapper
         // callback after creation
-        $this->requested_crtptrefid = (int) ($_REQUEST["crtptrefid"] ?? 0);
-        $this->requested_crtcb = (int) ($_REQUEST["crtcb"] ?? 0);
-        $this->requested_new_type = $_REQUEST["new_type"] ?? "";
+        $this->requested_crtptrefid = $this->retriever->getMaybeInt('crtptrefid', 0);
+        $this->requested_crtcb = $this->retriever->getMaybeInt("crtcb", 0);
+        $this->requested_new_type = $this->retriever->getMaybeString("new_type", "");
 
 
         if ($this->id != 0) {
@@ -214,7 +230,7 @@ class ilObjectGUI
     
     /**
     * if true, a creation screen is displayed
-    * the current $_GET[ref_id] don't belong
+    * the current [ref_id] don't belong
     * to the current class!
     * The mode is determined in ilRepositoryGUI
     */
@@ -766,7 +782,7 @@ class ilObjectGUI
                 $type->addOption($option);
             }
         }
-                            
+        
         return $form;
     }
     
@@ -1369,14 +1385,16 @@ class ilObjectGUI
     /**
     * @abstract	overwrite in derived GUI class of your object type
     */
-    protected function getTabs() : void {}
+    protected function getTabs() : void
+    {
+    }
 
     /**
     * redirects to (repository) view per ref id
     * usually to a container and usually used at
     * the end of a save/import method where the object gui
     * type (of the new object) doesn't match with the type
-    * of the current $_GET["ref_id"] value
+    * of the current ["ref_id"] value of the request
     */
     protected function redirectToRefId(int $ref_id, string $cmd = "") : void
     {
@@ -1514,7 +1532,6 @@ class ilObjectGUI
         }
 
         return $this->access->checkAccess($perm, $cmd, $ref_id);
-
     }
     
     /**

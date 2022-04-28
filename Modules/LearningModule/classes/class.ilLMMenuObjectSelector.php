@@ -76,13 +76,10 @@ class ilLMMenuObjectSelector extends ilExplorer
         }
         return "";
     }
-
-    /**
-     * @param int $a_ref_id
-     */
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        return in_array($a_type, $this->selectable_types) and $a_ref_id != $this->ref_id;
+        return in_array($type, $this->selectable_types) && $ref_id !== $this->ref_id;
     }
     
     /**

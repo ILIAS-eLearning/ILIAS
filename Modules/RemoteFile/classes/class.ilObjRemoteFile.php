@@ -30,7 +30,7 @@ class ilObjRemoteFile extends ilRemoteObjectBase
     protected $version;
     protected $version_tstamp;
 
-    public function initType()
+    public function initType() : void
     {
         $this->type = "rfil";
     }

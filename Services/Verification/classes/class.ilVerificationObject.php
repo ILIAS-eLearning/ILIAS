@@ -162,7 +162,7 @@ abstract class ilVerificationObject extends ilObject2
         return null;
     }
 
-    protected function doRead() : bool
+    protected function doRead() : void
     {
         $ilDB = $this->db;
 
@@ -178,19 +178,17 @@ abstract class ilVerificationObject extends ilObject2
                     );
                 }
             }
-            return true;
         }
-        return false;
     }
 
-    protected function doCreate() : bool
+    protected function doCreate(bool $clone_mode = false) : void
     {
-        return $this->saveProperties();
+        $this->saveProperties();
     }
 
-    protected function doUpdate() : bool
+    protected function doUpdate() : void
     {
-        return $this->saveProperties();
+        $this->saveProperties();
     }
     
     /**
@@ -223,7 +221,7 @@ abstract class ilVerificationObject extends ilObject2
         return false;
     }
 
-    protected function doDelete() : bool
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
 
@@ -236,9 +234,7 @@ abstract class ilVerificationObject extends ilObject2
             
             $ilDB->manipulate("DELETE FROM il_verification" .
                 " WHERE id = " . $ilDB->quote($this->id, "integer"));
-            return true;
         }
-        return false;
     }
     
     public static function initStorage(int $a_id, string $a_subdir = null) : string
@@ -255,7 +251,7 @@ abstract class ilVerificationObject extends ilObject2
                 mkdir($path);
             }
         }
-                
+        
         return $path;
     }
     
