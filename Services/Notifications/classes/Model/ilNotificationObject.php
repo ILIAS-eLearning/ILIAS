@@ -29,15 +29,15 @@ class ilNotificationObject
 {
     public ilNotificationConfig $baseNotification;
     public ilObjUser $user;
-    public string $title;
-    public string $shortDescription;
-    public string $longDescription;
+    public string $title = '';
+    public string $shortDescription = '';
+    public string $longDescription = '';
     /**
      * @var ilNotificationLink[]
      */
-    public array $links;
-    public string $iconPath;
-    public array $handlerParams;
+    public array $links = [];
+    public string $iconPath = '';
+    public array $handlerParams = [];
 
     public function __construct(ilNotificationConfig $baseNotification, ilObjUser $user)
     {
