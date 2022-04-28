@@ -23,10 +23,21 @@
 class ilTermsOfServiceDocumentsContainsHtmlValidator
 {
     private string $text;
+    private bool $xmlErrorState = false;
 
     public function __construct(string $text)
     {
         $this->text = $text;
+    }
+
+    private function beginXmlLogging() : void
+    {
+        $this->xmlErrorState = libxml_use_internal_errors(false);
+    }
+
+    private function endXmlLogging() : void
+    {
+        libxml_use_internal_errors($this->xmlErrorState);
     }
 
     public function isValid() : bool
@@ -36,6 +47,8 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
         }
 
         try {
+            $this->beginXmlLogging();
+
             $dom = new DOMDocument();
             if (!$dom->loadHTML($this->text)) {
                 return false;
@@ -59,6 +72,8 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
             return false;
         } catch (Throwable $e) {
             return false;
+        } finally {
+            $this->endXmlLogging();
         }
     }
 }
