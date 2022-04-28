@@ -7298,6 +7298,10 @@ button.list-group-item-danger.active:focus {
 .ui-dropzone .form-group {
   width: 100%;
 }
+.ui-dropzone .form-group input,
+.ui-dropzone .form-group textarea {
+  width: 100%;
+}
 .btn {
   font-size: 12px;
 }

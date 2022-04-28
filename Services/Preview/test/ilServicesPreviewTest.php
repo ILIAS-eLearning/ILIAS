@@ -43,6 +43,10 @@ class ilServicesPreviewTest extends TestCase
     /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
     public function testRendererFactory() : void
     {
+        // TODO eactivate Tests agian
+        $this->markTestSkipped('Currently the implementation cant be tested');
+        return;
+        
         $factory = new ilRendererFactory();
         $preview = new ilPreview(0, 'file');
     

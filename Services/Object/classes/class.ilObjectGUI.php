@@ -292,13 +292,14 @@ class ilObjectGUI
             }
         } else {
             $this->setTitleAndDescription();
+
+            // set tabs
             $this->setTabs();
 
-            // currently disabled due to refactoring
-            // file upload support
-//            if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType())) {
-//                $this->enableDragDropFileUpload();
-//            }
+            $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id);
+            if ($file_upload_dropzone->isUploadAllowed($this->object->getType())) {
+                $this->enableDragDropFileUpload();
+            }
         }
         
         return true;
@@ -457,7 +458,7 @@ class ilObjectGUI
         if ($this->checkPermissionBool("edit_permission")) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), "perm"),
                 "",
                 "ilpermissiongui"
             );
@@ -635,7 +636,7 @@ class ilObjectGUI
      * Get HTML for creation forms (accordion)
      * @param array<int, ilPropertyFormGUI> $forms
      */
-    final protected function getCreationFormsHTML(array $forms) : string
+    protected function getCreationFormsHTML(array $forms) : string
     {
         // #13168- sanity check
         foreach ($forms as $id => $form) {
@@ -1573,8 +1574,7 @@ class ilObjectGUI
      */
     protected function enableDragDropFileUpload() : void
     {
-        ilFileUploadGUI::initFileUpload();
-        $this->tpl->enableDragDropFileUpload($this->ref_id);
+        $this->tpl->setFileUploadRefId($this->ref_id);
     }
     
     /**

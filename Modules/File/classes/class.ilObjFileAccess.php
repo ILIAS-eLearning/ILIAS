@@ -101,6 +101,11 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         );
         $commands[] = array(
             "permission" => "write",
+            "cmd" => ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION,
+            "lang_var" => "unzip",
+        );
+        $commands[] = array(
+            "permission" => "write",
             "cmd" => "versions",
             "lang_var" => "versions",
         );

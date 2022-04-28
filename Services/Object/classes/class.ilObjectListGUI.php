@@ -1023,10 +1023,33 @@ class ilObjectListGUI
             $access = $this->checkCommandAccess($permission, $cmd, $this->ref_id, $this->type);
 
             if ($access) {
-                $cmd_link = $this->getCommandLink($command["cmd"]);
+                $access_granted = true;
+                if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
+                    global $DIC;
+                    $file_obj = new ilObjFile($this->ref_id);
+                    $file_rid = $DIC->resourceStorage()->manage()->find($file_obj->getResourceId());
+                    if (null !== $file_rid &&
+                        'application/zip' === $DIC->resourceStorage()
+                                                  ->manage()
+                                                  ->getCurrentRevision($file_rid)
+                                                  ->getInformation()
+                                                  ->getMimeType()
+                    ) {
+                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
+                        $cmd_link = $DIC->ctrl()->getLinkTargetByClass(
+                            ilRepositoryGUI::class,
+                            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
+                        );
+                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
+                    } else {
+                        $access_granted = false;
+                    }
+                } else {
+                    $cmd_link = $this->getCommandLink($command["cmd"]);
+                }
+
                 $cmd_frame = $this->getCommandFrame($command["cmd"]);
                 $cmd_image = $this->getCommandImage($command["cmd"]);
-                $access_granted = true;
             } else {
                 $info_object = $this->access->getInfo();
             }
@@ -2861,11 +2884,6 @@ class ilObjectListGUI
 
         // subitems
         $this->insertSubItems();
-        
-        // file upload
-        if ($this->isFileUploadAllowed()) {
-            $this->insertFileUpload();
-        }
 
         $this->resetCustomData();
 
@@ -3048,31 +3066,6 @@ class ilObjectListGUI
     public function enableTimings(bool $status) : void
     {
         $this->timings_enabled = $status;
-    }
-    
-    /**
-     * Gets a value indicating whether file uploads to this object are allowed or not.
-     *
-     * @return bool true, if file upload is allowed; otherwise, false.
-     */
-    public function isFileUploadAllowed() : bool
-    {
-        // check if file upload allowed
-        return ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->type);
-    }
-    
-    /**
-     * Inserts a file upload component
-     */
-    public function insertFileUpload() : void
-    {
-        ilFileUploadGUI::initFileUpload();
-
-        $upload = new ilFileUploadGUI($this->getUniqueItemId(true), $this->ref_id);
-        
-        $this->tpl->setCurrentBlock("fileupload");
-        $this->tpl->setVariable("FILE_UPLOAD", $upload->getHTML());
-        $this->tpl->parseCurrentBlock();
     }
 
     /**

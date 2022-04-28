@@ -43,7 +43,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->type = ilObjFile::OBJECT_TYPE;
         $this->gui_class_name = ilObjFileGUI::class;
 
-        // general commands array
         $this->commands = ilObjFileAccess::_getCommands();
     }
 
@@ -104,10 +103,15 @@ class ilObjFileListGUI extends ilObjectListGUI
         $props = parent::getProperties();
         
         // to do: implement extra smaller file info object
-        
+
+        global $DIC;
+        $file_obj = new ilObjFile($this->ref_id);
+        $file_rid = $DIC->resourceStorage()->manage()->find($file_obj->getResourceId());
+        $revision = (null !== $file_rid) ? $DIC->resourceStorage()->manage()->getCurrentRevision($file_rid) : null;
+
         // Display a warning if a file is not a hidden Unix file, and
         // the filename extension is missing
-        if (!preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title)) {
+        if (null === $revision && !preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title)) {
             $props[] = array(
                 "alert" => false,
                 "property" => $DIC->language()->txt("filename_interoperability"),
@@ -119,9 +123,14 @@ class ilObjFileListGUI extends ilObjectListGUI
         $props[] = array(
             "alert" => false,
             "property" => $DIC->language()->txt("type"),
-            "value" => ilObjFileAccess::_getFileExtension($this->title),
+            "value" => ilObjFileAccess::_getFileExtension(
+                (null !== $revision) ?
+                    $revision->getInformation()->getTitle() :
+                    $this->title
+            ),
             'propertyNameVisible' => false,
         );
+
         ilObjFileAccess::_preloadData([$this->obj_id], [$this->ref_id]);
         $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
         

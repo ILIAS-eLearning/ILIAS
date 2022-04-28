@@ -9387,6 +9387,7 @@ file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#versionname#:#Titel
 file#:#version_uploaded#:#Version hochgeladen am
+file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 fils#:#file_services#:#Datei-Services
 fils#:#file_services_description#:#Konfiguration der Datei-Service Einstellungen.
 fils#:#file_suffix_custom_expl_negative_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.

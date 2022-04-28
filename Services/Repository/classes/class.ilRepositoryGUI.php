@@ -188,6 +188,13 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         }
 
         switch ($next_class) {
+            // forward asynchronous file uploads to the upload handler.
+            // possible via dropzones in list guis or global template
+            // sections like title.
+            case strtolower(ilObjFileUploadHandlerGUI::class):
+                $this->ctrl->forwardCommand(new ilObjFileUploadHandlerGUI());
+                break;
+
             default:
                 // forward all other classes to gui commands
                 if ($next_class !== null && $next_class !== "" && $next_class !== "ilrepositorygui") {
