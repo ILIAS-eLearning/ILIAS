@@ -406,6 +406,26 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         );
     }
 
+    public function getNextLevelFulfilmentPerType(
+        int $a_tref_id,
+        string $a_type,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        if ($a_user_id == 0) {
+            $a_user_id = $this->user->getId();
+        }
+        $skill_id = $this->getId();
+
+        return $this->bsc_skl_usr_lvl_db_rep->getNextLevelFulfilmentPerType(
+            $skill_id,
+            $a_tref_id,
+            $a_type,
+            $a_user_id,
+            $a_self_eval
+        );
+    }
+
     public function getAllLevelEntriesOfUser(
         int $a_tref_id,
         int $a_user_id = 0,
@@ -459,6 +479,26 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         );
     }
 
+    public function getNextLevelFulfilmentPerObject(
+        int $a_tref_id,
+        int $a_object_id,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        if ($a_user_id == 0) {
+            $a_user_id = $this->user->getId();
+        }
+        $skill_id = $this->getId();
+
+        return $this->bsc_skl_usr_lvl_db_rep->getNextLevelFulfilmentPerObject(
+            $skill_id,
+            $a_tref_id,
+            $a_object_id,
+            $a_user_id,
+            $a_self_eval
+        );
+    }
+
     public function getMaxLevel(
         int $a_tref_id,
         int $a_user_id = 0,
@@ -471,6 +511,19 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $levels = $this->getLevelData();
 
         return $this->bsc_skl_usr_lvl_db_rep->getMaxLevel($skill_id, $levels, $a_tref_id, $a_user_id, $a_self_eval);
+    }
+
+    public function getNextLevelFulfilment(
+        int $a_tref_id,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        if ($a_user_id == 0) {
+            $a_user_id = $this->user->getId();
+        }
+        $skill_id = $this->getId();
+
+        return $this->bsc_skl_usr_lvl_db_rep->getNextLevelFulfilment($skill_id, $a_tref_id, $a_user_id, $a_self_eval);
     }
 
     public static function hasSelfEvaluated(
