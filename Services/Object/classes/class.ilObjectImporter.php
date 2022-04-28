@@ -23,6 +23,8 @@
  */
 class ilObjectImporter extends ilXmlImporter
 {
+    protected ?ilObjectDataSet $ds = null;
+    
     public function __construct()
     {
         parent::__construct();
