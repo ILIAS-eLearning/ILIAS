@@ -37,7 +37,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     * The GET param 'obj_id' is the language object id
     * The GET param 'ref_id' is the language folder (if present)
     *
-    * @param    mixed       data (ignored)
+    * @param    mixed       $a_data (ignored)
     * $a_id         id (ignored)
     * $a_call_by_reference     call-by-reference (ignored)
     */
@@ -59,7 +59,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         // type and id of get the bound object
         $this->type = "lng";
-        $obj_id_get = $DIC->http()->wrapper()->query()->retrieve("obj_id", $DIC->refinery()->kindlyTo()->int());
+        $obj_id_get = $this->http->wrapper()->query()->retrieve("obj_id", $this->refinery->kindlyTo()->int());
         if (!$this->id = $obj_id_get) {
             $this->id = ilObjLanguageAccess::_lookupId($lng->getUserLanguage());
         }
@@ -75,7 +75,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
 
         // read the lang mode
-        $this->langmode = $ilClientIniFile->readVariable("system", "LANGMODE");// Todo-PHP8-Review This property is not defined
+        $this->langmode = $ilClientIniFile->readVariable("system", "LANGMODE");
     }
 
     /**
@@ -175,10 +175,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $topics = ilObjLanguageAccess::_getSavedTopics();
     
             $reset_offset_get = false;
-            if ($DIC->http()->wrapper()->query()->has("reset_offset")) {
-                $reset_offset_get = $DIC->http()->wrapper()->query()->retrieve(
+            if ($this->http->wrapper()->query()->has("reset_offset")) {
+                $reset_offset_get = $this->http->wrapper()->query()->retrieve(
                     "reset_offset",
-                    $DIC->refinery()->kindlyTo()->bool()
+                    $this->refinery->kindlyTo()->bool()
                 );
             }
     

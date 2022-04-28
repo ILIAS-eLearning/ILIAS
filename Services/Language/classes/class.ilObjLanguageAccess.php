@@ -176,7 +176,11 @@ class ilObjLanguageAccess
      */
     public static function _getSavedModules() : array
     {
-        $saved = ilSession::get("lang_ext_maintenance")["used_modules"];
+        $saved = null;
+        $lang_ext_maintenance_from_session = ilSession::get("lang_ext_maintenance");
+        if (is_array($lang_ext_maintenance_from_session)) {
+            $saved = $lang_ext_maintenance_from_session["used_modules"];
+        }
         return is_array($saved) ? $saved : array();
     }
 
@@ -187,7 +191,11 @@ class ilObjLanguageAccess
      */
     public static function _getSavedTopics() : array
     {
-        $saved = ilSession::get("lang_ext_maintenance")["used_topics"];
+        $saved = null;
+        $lang_ext_maintenance_from_session = ilSession::get("lang_ext_maintenance");
+        if (is_array($lang_ext_maintenance_from_session)) {
+            $saved = $lang_ext_maintenance_from_session["used_topics"];
+        }
         return is_array($saved) ? $saved : array();
     }
 }

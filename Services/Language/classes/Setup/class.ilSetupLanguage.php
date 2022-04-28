@@ -52,6 +52,7 @@ class ilSetupLanguage extends ilLanguage
     public string $lang_key;
     public string $separator = "#:#";
     public string $comment_separator = "###";
+    protected $db;
 
     public function __construct(string $a_lang_key)
     {
@@ -185,8 +186,8 @@ class ilSetupLanguage extends ilLanguage
                 }
             }
         }
-return true;
-        return ($err_lang) ? $err_lang : true;
+
+        return ($err_lang) ?: true;
     }
 
 
