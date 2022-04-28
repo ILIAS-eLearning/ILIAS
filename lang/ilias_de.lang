@@ -14585,6 +14585,9 @@ skmg#:#skmg_enable_skmg#:#Kompetenzmanagement aktivieren
 skmg#:#skmg_eval_type_1#:#Fremdeinschätzung
 skmg#:#skmg_eval_type_2#:#Messung
 skmg#:#skmg_eval_type_3#:#Selbsteinschätzung
+skmg#:#skmg_eval_type_latest_1#:#Letzte Fremdeinschätzung
+skmg#:#skmg_eval_type_latest_2#:#Letzte Messung
+skmg#:#skmg_eval_type_latest_3#:#Letzte Selbsteinschätzung
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_form_presentation#:#Darstellung
 skmg#:#skmg_from_lower_to_higher_levels#:#Bitte geben Sie niedrigeren Kompetenzstufen auch niedrigere Ordnungsnummern. Je Zeile sollte die Kompetenz nach unten zunehmen.
@@ -14649,6 +14652,8 @@ skmg#:#skmg_self_evaluation_byline#:#Die Selbsteinschätzung wird bei der Erreic
 skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
 skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
+skmg#:#skmg_show_all#:#Alle anzeigen
+skmg#:#skmg_show_latest_entries#:#Letzte Einträge anzeigen
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 skmg#:#skmg_skill#:#Kompetenz
 skmg#:#skmg_skill_level#:#Kompetenzstufe
@@ -16781,3 +16786,5 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+trac#:#trac_reference_ids_column#:#Referenz-Ids
+trac#:#trac_paths#:#Pfade

@@ -15495,11 +15495,15 @@ th.ilSkillEntryHead {
   padding-bottom: 15px;
 }
 .ilSkillEntriesHeader {
-  padding: 10px 5px 5px 5px;
+  padding: 10px 5px 5px;
 }
 .ilSkillEntriesHeader > .ilSkillEntriesHeaderByline {
   font-size: 0.8em;
   color: #808080;
+}
+.ilSkillEntriesAllButton,
+.ilSkillEntriesOnlyLatestButton {
+  padding: 5px 5px 5px;
 }
 /* Modules/Poll */
 .ilPollDescription {
