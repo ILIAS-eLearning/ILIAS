@@ -118,7 +118,7 @@ class ilPersonalSkillsFilterGUI
         ilSession::set("skmg_pf_to", $t);
     }
 
-    public function isInRange(array $level_data, array $level_entry) : bool
+    public function isInRange(array $level_entry) : bool
     {
         // from
         if (ilSession::get("skmg_pf_from") != "") {

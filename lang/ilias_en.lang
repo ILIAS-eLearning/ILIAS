@@ -14557,6 +14557,9 @@ skmg#:#skmg_enable_skmg#:#Activate Competence Management
 skmg#:#skmg_eval_type_1#:#Appraisal
 skmg#:#skmg_eval_type_2#:#Measurement
 skmg#:#skmg_eval_type_3#:#Self-Evaluation
+skmg#:#skmg_eval_type_latest_1#:#Latest Appraisal
+skmg#:#skmg_eval_type_latest_2#:#Latest Measurement
+skmg#:#skmg_eval_type_latest_3#:#Latest Self-Evaluation
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_form_presentation#:#Presentation
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the competence levels from lower ones on top to higher ones at the bottom.
@@ -14621,6 +14624,8 @@ skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from t
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
 skmg#:#skmg_settings#:#Competence Management Settings
+skmg#:#skmg_show_all#:#Show All
+skmg#:#skmg_show_latest_entries#:#Show Latest Entries
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_in_use#:#This competence is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 skmg#:#skmg_skill_level#:#Competence Level

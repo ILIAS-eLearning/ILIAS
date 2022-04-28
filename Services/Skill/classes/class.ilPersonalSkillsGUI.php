@@ -488,6 +488,8 @@ class ilPersonalSkillsGUI
         bool $a_edit = false,
         int $a_tref_id = 0
     ) : string {
+        $main_tpl = $this->tpl;
+
         // user interface plugin slot + default rendering
         $uip = new ilUIHookProcessor(
             "Services/Skill",
@@ -500,6 +502,7 @@ class ilPersonalSkillsGUI
             $skill_html = $this->renderSkillHTML($a_top_skill_id, $a_user_id, $a_edit, $a_tref_id);
         }
         $skill_html = $uip->getHTML($skill_html);
+        $main_tpl->addJavaScript("./Services/Skill/js/SkillEntries.js");
 
         return $skill_html;
     }
@@ -581,10 +584,10 @@ class ilPersonalSkillsGUI
                 $panel_comps[] = $this->ui_fac->legacy($acc->getHTML());
             }
 
-
+            $prof_comp_head_rendered = false;
             if ($this->getProfileId() > 0) {
                 // get all self eval entries and render them
-                $self_eval_entries = $this->getEntriesForSkill(
+                $self_eval_entries_latest = $this->getLatestEntriesForSkillHTML(
                     $a_top_skill_id,
                     $bs,
                     $skill,
@@ -592,18 +595,26 @@ class ilPersonalSkillsGUI
                     ilBasicSkill::EVAL_BY_SELF,
                     $level_data
                 );
-                if (!empty($self_eval_entries)) {
+                $self_eval_entries_non_latest = $this->getNonLatestEntriesForSkillHTML(
+                    $a_top_skill_id,
+                    $bs,
+                    $skill,
+                    $user,
+                    ilBasicSkill::EVAL_BY_SELF,
+                    $level_data
+                );
+
+                if (!empty($self_eval_entries_latest)) {
                     $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_SELF));
                 }
-                foreach ($self_eval_entries as $entry) {
-                    $panel_comps[] = $entry;
-                }
-
-                $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
+                $panel_comps[] = $this->ui_fac->legacy($self_eval_entries_latest);
+                $panel_comps[] = $this->ui_fac->legacy($self_eval_entries_non_latest);
 
                 if (!$this->skmg_settings->getHideProfileBeforeSelfEval() ||
                     ilBasicSkill::hasSelfEvaluated($user->getId(), $bs["id"], $bs["tref"])) {
                     if ($this->getFilter()->showTargetLevel()) {
+                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
+                        $prof_comp_head_rendered = true;
                         $panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
                     }
                 }
@@ -614,8 +625,8 @@ class ilPersonalSkillsGUI
                 $panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
             } else {
                 if ($this->getProfileId() > 0) {
-                    // get all object triggered entries and render them
-                    $object_entries = $this->getEntriesForSkill(
+                    // get all non-self eval entries and render them
+                    $object_entries_latest = $this->getLatestEntriesForSkillHTML(
                         $a_top_skill_id,
                         $bs,
                         $skill,
@@ -623,12 +634,23 @@ class ilPersonalSkillsGUI
                         ilBasicSkill::EVAL_BY_OTHERS,
                         $level_data
                     );
-                    foreach ($object_entries as $entry) {
-                        $panel_comps[] = $entry;
+                    $object_entries_non_latest = $this->getNonLatestEntriesForSkillHTML(
+                        $a_top_skill_id,
+                        $bs,
+                        $skill,
+                        $user,
+                        ilBasicSkill::EVAL_BY_OTHERS,
+                        $level_data
+                    );
+
+                    if (!empty($object_entries_latest) && !$prof_comp_head_rendered) {
+                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
                     }
+                    $panel_comps[] = $this->ui_fac->legacy($object_entries_latest);
+                    $panel_comps[] = $this->ui_fac->legacy($object_entries_non_latest);
                 } else {
                     // get all skill entries and render them
-                    $all_entries = $this->getEntriesForSkill(
+                    $all_entries_latest = $this->getLatestEntriesForSkillHTML(
                         $a_top_skill_id,
                         $bs,
                         $skill,
@@ -636,9 +658,22 @@ class ilPersonalSkillsGUI
                         ilBasicSkill::EVAL_BY_ALL,
                         $level_data
                     );
-                    foreach ($all_entries as $entry) {
-                        $panel_comps[] = $entry;
+                    $all_entries_non_latest = $this->getNonLatestEntriesForSkillHTML(
+                        $a_top_skill_id,
+                        $bs,
+                        $skill,
+                        $user,
+                        ilBasicSkill::EVAL_BY_ALL,
+                        $level_data
+                    );
+
+                    if (!empty($all_entries_latest) && !$prof_comp_head_rendered) {
+                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
                     }
+
+                    $panel_comps[] = $this->ui_fac->legacy($all_entries_latest);
+
+                    $panel_comps[] = $this->ui_fac->legacy($all_entries_non_latest);
                 }
             }
 
@@ -1651,7 +1686,7 @@ class ilPersonalSkillsGUI
         return $this->ui_ren->render($scale_bar);
     }
 
-    public function getEvalItem(array $a_levels, array $a_level_entry) : string
+    public function getEvalItem(array $a_levels, array $a_level_entry, bool $is_latest = false) : string
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
@@ -1679,7 +1714,11 @@ class ilPersonalSkillsGUI
             $title = "<a href='" . ilLink::_getLink($a_level_entry["trigger_ref_id"]) . "'>" . $title . "</a>";
         }
 
-        $tpl->setVariable("TYPE", $lng->txt("skmg_eval_type_" . $type));
+        if ($is_latest) {
+            $tpl->setVariable("TYPE", $lng->txt("skmg_eval_type_latest_" . $type));
+        } else {
+            $tpl->setVariable("TYPE", $lng->txt("skmg_eval_type_" . $type));
+        }
         if ($type > 0) {
             $tpl->touchBlock("st" . $type);
             $tpl->touchBlock("stb" . $type);
@@ -1695,20 +1734,120 @@ class ilPersonalSkillsGUI
         return $tpl->get();
     }
 
-    protected function getEntriesForSkill(
+    protected function getLatestEntriesForSkillHTML(
         int $top_skill_id,
         array $bs,
         ilSkillTreeNode $skill,
         ilObjUser $user,
         int $eval_type,
         array $level_data
+    ) : string {
+        $lng = $this->lng;
+
+        $tpl = new ilTemplate("tpl.skill_entries_latest.html", true, true, "Services/Skill");
+
+        $user_entries = $skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type);
+        if ($eval_type == ilBasicSkill::EVAL_BY_SELF) {
+            $latest_entries = $this->getSelfEvalEntriesLatestOnly($user_entries);
+        } else {
+            $latest_entries = $this->getAllEntriesLatestOnly($user_entries);
+        }
+        if (!empty($latest_entries)) {
+            $latest_entries_filtered = $this->getFilteredEntriesForSkill(
+                $latest_entries,
+                $top_skill_id,
+                $bs,
+                $user
+            );
+
+            $latest_entries_filtered_html = "";
+            foreach ($latest_entries_filtered as $f_entry) {
+                $latest_entries_filtered_html .= $this->ui_ren->render(
+                    $this->ui_fac->legacy($this->getEvalItem($level_data, $f_entry, true))
+                );
+            }
+
+            if (!empty($latest_entries_filtered_html)) {
+                $tpl->setVariable("SKILL_ENTRIES", $latest_entries_filtered_html);
+
+                if (count($user_entries) != count($latest_entries)) {
+                    $tpl->setCurrentBlock("all_entries_button");
+                    $show_all_button = $this->ui_fac->button()->standard($lng->txt("skmg_show_all"), "#")
+                                                    ->withOnLoadCode(function ($id) {
+                                                        return "$('#$id').on('click', function() {SkillEntries.showNonLatest($id); return false;})";
+                                                    });
+                    $tpl->setVariable("BUTTON", $this->ui_ren->render($show_all_button));
+                    $tpl->parseCurrentBlock();
+                }
+
+                return $tpl->get();
+            }
+        }
+
+        return "";
+    }
+
+    protected function getNonLatestEntriesForSkillHTML(
+        int $top_skill_id,
+        array $bs,
+        ilSkillTreeNode $skill,
+        ilObjUser $user,
+        int $eval_type,
+        array $level_data
+    ) : string {
+        $lng = $this->lng;
+
+        $tpl = new ilTemplate("tpl.skill_entries_non_latest.html", true, true, "Services/Skill");
+
+        $user_entries = $skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type);
+        if ($eval_type == ilBasicSkill::EVAL_BY_SELF) {
+            $non_latest_entries = $this->getSelfEvalEntriesWithoutLatest($user_entries);
+        } else {
+            $non_latest_entries = $this->getAllEntriesWithoutLatest($user_entries);
+        }
+        if (!empty($non_latest_entries)) {
+            $non_latest_entries_filtered = $this->getFilteredEntriesForSkill(
+                $non_latest_entries,
+                $top_skill_id,
+                $bs,
+                $user
+            );
+
+            $non_latest_entries_filtered_html = "";
+            foreach ($non_latest_entries_filtered as $f_entry) {
+                $non_latest_entries_filtered_html .= $this->ui_ren->render(
+                    $this->ui_fac->legacy($this->getEvalItem($level_data, $f_entry, false))
+                );
+            }
+
+            if (!empty($non_latest_entries_filtered_html)) {
+                $tpl->setVariable("SKILL_ENTRIES", $non_latest_entries_filtered_html);
+
+                $show_latest_button = $this->ui_fac->button()->standard($lng->txt("skmg_show_latest_entries"), "#")
+                                                   ->withOnLoadCode(function ($id) {
+                                                       return "$('#$id').on('click', function() {SkillEntries.hideNonLatest($id); return false;})";
+                                                   });
+                $tpl->setVariable("BUTTON", $this->ui_ren->render($show_latest_button));
+
+                return $tpl->get();
+            }
+        }
+
+        return "";
+    }
+
+    protected function getFilteredEntriesForSkill(
+        array $entries,
+        int $top_skill_id,
+        array $bs,
+        ilObjUser $user
     ) : array {
         // get date of self evaluation
         $se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $top_skill_id, $bs["tref"], $bs["id"]);
         $se_rendered = $se_date == "";
 
-        $entries = [];
-        foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type) as $level_entry) {
+        $filtered_entries = [];
+        foreach ($entries as $level_entry) {
             if (count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter())) {
                 continue;
             }
@@ -1720,12 +1859,83 @@ class ilPersonalSkillsGUI
             if ($se_date > $level_entry["status_date"] && !$se_rendered) {
                 $se_rendered = true;
             }
-            if ($this->getFilter()->isInRange($level_data, $level_entry)) {
-                $entries[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
+            if ($this->getFilter()->isInRange($level_entry)) {
+                $filtered_entries[] = $level_entry;
             }
         }
 
-        return $entries;
+        return $filtered_entries;
+    }
+
+    protected function getSelfEvalEntriesLatestOnly(array $entries) : array
+    {
+        if (!empty($entries)) {
+            $last_entry[] = $entries[0];
+            return $last_entry;
+        }
+
+        return [];
+    }
+
+    protected function getSelfEvalEntriesWithoutLatest(array $entries) : array
+    {
+        if (count($entries) > 1) {
+            array_shift($entries);
+            return $entries;
+        }
+
+        return [];
+    }
+
+    protected function getAllEntriesLatestOnly(array $entries) : array
+    {
+        $first_self_added = false;
+        $first_measurement_added = false;
+        $first_appraisal_added = false;
+        $latest_entries = [];
+        foreach ($entries as $entry) {
+            if (!$first_self_added && $entry["self_eval"] == 1) {
+                $latest_entries[] = $entry;
+                $first_self_added = true;
+                continue;
+            }
+            if (!$first_measurement_added && $entry["trigger_obj_type"] == "tst") {
+                $latest_entries[] = $entry;
+                $first_measurement_added = true;
+                continue;
+            }
+            if (!$first_appraisal_added && $entry["self_eval"] != 1 && $entry["trigger_obj_type"] != "tst") {
+                $latest_entries[] = $entry;
+                $first_appraisal_added = true;
+            }
+        }
+
+        return $latest_entries;
+    }
+
+    protected function getAllEntriesWithoutLatest(array $entries) : array
+    {
+        $first_self_filtered = false;
+        $first_measurement_filtered = false;
+        $first_appraisal_filtered = false;
+        $non_latest_entries = [];
+        foreach ($entries as $entry) {
+            if (!$first_self_filtered && $entry["self_eval"] == 1) {
+                $first_self_filtered = true;
+                continue;
+            }
+            if (!$first_measurement_filtered && $entry["trigger_obj_type"] == "tst") {
+                $first_measurement_filtered = true;
+                continue;
+            }
+            if (!$first_appraisal_filtered && $entry["self_eval"] != 1 && $entry["trigger_obj_type"] != "tst") {
+                $first_appraisal_filtered = true;
+                continue;
+            }
+            $non_latest_entries[] = $entry;
+        }
+
+        return $non_latest_entries;
     }
 
     protected function getSkillEntriesHeader(int $eval_type) : string
