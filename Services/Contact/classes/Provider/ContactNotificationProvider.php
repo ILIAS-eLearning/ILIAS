@@ -45,6 +45,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
         $openRequests = \ilBuddyList::getInstanceByGlobalUser()
             ->getRequestRelationsForOwner()->filter(
                 function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp) : bool {
+                    return true;
                     $timeStamp = $relation->getTimestamp();
                     
                     if ($timeStamp > $latestRequestTimestamp) {
@@ -61,7 +62,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
 
         $contactRequestsCount = count($openRequests->getKeys());
         if ($contactRequestsCount === 0) {
-            return [];
+            //return [];
         }
 
         $factory = $this->globalScreen()->notifications()->factory();
@@ -75,7 +76,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
             ->link()
             ->standard(
                 $this->dic->language()->txt('nc_contact_requests_headline'),
-                $this->dic->ctrl()->getLinkTargetByClass([ilDashboardGUI::class, ilContactGUI::class, 'showContactRequests'])
+                $this->dic->ctrl()->getLinkTargetByClass([ilDashboardGUI::class, ilContactGUI::class], 'showContactRequests')
             );
         $description = sprintf(
             $this->dic->language()->txt(
