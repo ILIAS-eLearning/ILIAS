@@ -91,12 +91,12 @@ final class ilSamlIdpXmlMetadataParser
                 }
             }
 
+            $errors = $this->endLogging();
+
             if ($entityId) {
                 $this->result = $this->dataFactory->ok($entityId);
                 return;
             }
-
-            $errors = $this->endLogging();
 
             $error = new LibXMLError();
             $error->level = LIBXML_ERR_FATAL;
