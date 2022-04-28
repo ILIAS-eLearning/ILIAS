@@ -49,7 +49,9 @@ final class RootFolderTest extends TestCase
         'studip_referrer.php',
         'unzip_test_file.zip',
         'webdav.php',
-        '.DS_Store'
+        '.DS_Store',
+        '.buildpath',
+        '.project'
     ];
     
     private const ALLOWED_ROOT_FOLDER_DIRS = [
@@ -77,6 +79,7 @@ final class RootFolderTest extends TestCase
         'tests',
         'webservice',
         'xml',
+        '.settings'
     ];
 
     private function getAppRootFolderOrFail() : string
