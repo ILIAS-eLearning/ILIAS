@@ -11,8 +11,14 @@ class DataSetImportParserTest extends TestCase
 {
     protected ilPDSelectedItemsBlockViewSettings $view_settings;
 
+    protected function setUp() : void
+    {
+        $GLOBALS["DIC"] = new \ILIAS\DI\Container();
+    }
+
     protected function tearDown() : void
     {
+        unset($GLOBALS["DIC"]);
     }
 
     public function testInstanceAndParseValidXML() : void
