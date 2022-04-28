@@ -15,7 +15,7 @@ class InitUIFrameworkTest extends TestCase
     /**
      * Several dependencies need to be wired up before the UI Framework can be initialised.
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->dic = new \ILIAS\DI\Container();
 

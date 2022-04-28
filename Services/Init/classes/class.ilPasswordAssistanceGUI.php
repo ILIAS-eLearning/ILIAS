@@ -45,9 +45,6 @@ class ilPasswordAssistanceGUI
         return CLIENT_ID;
     }
 
-    /**
-     * @return mixed
-     */
     public function executeCommand()
     {
         // check hack attempts
@@ -76,12 +73,7 @@ class ilPasswordAssistanceGUI
                 $this->refinery->kindlyTo()->string()
             );
         }
-
-        if ($lang != '' && $this->lng->getLangKey() != $lang) {
-            $lng = new ilLanguage($lang); //ToDo PHP8: I don't think this is right. $lng is never used. I believe we can get rid of the whole if-statement
-        }
         $this->lng->loadLanguageModule('pwassist');
-
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -89,7 +81,7 @@ class ilPasswordAssistanceGUI
             default:
                 if ($cmd != '' && method_exists($this, $cmd)) {
                     return $this->$cmd();
-                } elseif (!empty($key)) { //ToDo PHP8: This will never happen.
+                } elseif (!empty($key)) { //ToDo PHP8: This will never happen. smeyer: why? $_GET['key'] != '' && $_GET['cmd'] = ''
                     $this->showAssignPasswordForm();
                 } else {
                     $this->showAssistanceForm();
@@ -275,26 +267,17 @@ class ilPasswordAssistanceGUI
 
         require_once 'include/inc.pwassist_session_handler.php';
 
-        // Check if we need to create a new session
-        $pwassist_session = db_pwassist_session_find($userObj->getId());
-        if (
-            !is_array($pwassist_session) ||
-            count($pwassist_session) == 0 ||
-            $pwassist_session['expires'] < time() ||
-            true // comment by mjansen: wtf? :-) //ToDo PHP8: I agree with mjansen, please fix.
-        ) {
-            // Create a new session id
-            // #9700 - this didn't do anything before?!
-            // db_set_save_handler();
-            session_start();
-            $pwassist_session['pwassist_id'] = db_pwassist_create_id();
-            session_destroy();
-            db_pwassist_session_write(
-                $pwassist_session['pwassist_id'],
-                3600,
-                $userObj->getId()
-            );
-        }
+        // Create a new session id
+        // #9700 - this didn't do anything before?!
+        // db_set_save_handler();
+        session_start();
+        $pwassist_session['pwassist_id'] = db_pwassist_create_id();
+        session_destroy();
+        db_pwassist_session_write(
+            $pwassist_session['pwassist_id'],
+            3600,
+            $userObj->getId()
+        );
 
         $pwassist_url = $this->buildUrl(
             'pwassist.php',
@@ -667,6 +650,6 @@ class ilPasswordAssistanceGUI
 
     protected function fillPermanentLink(string $context) : void
     {
-        $this->tpl->setPermanentLink('usr', null, $context); //ToDo PHP8 Review: This does not work (anymore) as the second parameter can NOT be null.
+        $this->tpl->setPermanentLink('usr', 0, $context);
     }
 }

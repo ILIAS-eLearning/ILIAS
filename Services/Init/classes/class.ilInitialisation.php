@@ -432,7 +432,7 @@ class ilInitialisation
             self::abortAndDie('Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.');
         }
         $in_unit_tests = defined('IL_PHPUNIT_TEST');
-        $context_supports_persitent_session = (bool) ilContext::supportsPersistentSessions();
+        $context_supports_persitent_session = ilContext::supportsPersistentSessions();
         $can_set_cookie = !$in_unit_tests && $context_supports_persitent_session;
         $has_request_client_id = $DIC->http()->wrapper()->query()->has('client_id');
         $has_cookie_client_id = $DIC->http()->cookieJar()->has('ilClientId');
@@ -517,7 +517,7 @@ class ilInitialisation
         define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
         define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
-        define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
+        define("ERROR_HANDLER", $error_handler ?: "PRETTY_PAGE");
 
         // this is for the online help installation, which sets OH_REF_ID to the
         // ref id of the online module
@@ -1201,7 +1201,12 @@ class ilInitialisation
             "ilErrorHandling",
             "./Services/Init/classes/class.ilErrorHandling.php"
         );
-        $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, 'errorHandler'));
+        PEAR::setErrorHandling(
+            PEAR_ERROR_CALLBACK,
+            [
+                $ilErr, 'errorHandler'
+            ]
+        );
 
         self::removeUnsafeCharacters();
 
@@ -1833,8 +1838,8 @@ class ilInitialisation
         $n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
         $sync = $ilIliasIniFile->readVariable("background_tasks", "concurrency");
 
-        $n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
-        $sync = $sync ? $sync : 'sync'; // The default value is sync.
+        $n_of_tasks = $n_of_tasks ?: 5;
+        $sync = $sync ?: 'sync'; // The default value is sync.
 
         $c["bt.task_factory"] = function ($c) {
             return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);
