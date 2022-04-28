@@ -76,6 +76,7 @@ final class ilXMLChecker
             $xml = new SimpleXMLElement($xmlString);
 
             $this->result = $this->dataFactory->ok($xmlString);
+            $this->endLogging();
         } catch (Exception $e) {
             $this->result = $this->dataFactory->error(implode(
                 "\n",
