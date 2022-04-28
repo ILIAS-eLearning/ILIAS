@@ -1,0 +1,64 @@
+{
+    "common" : {
+        "client_id" : "ltitrunk",
+        "master_password" : "homerr",
+        "server_timezone" : "Europe/Berlin",
+        "register_nic": false
+    },
+    "database" : {
+        "type" : "innodb",
+        "host" : "ltitrunkmysql",
+        "user" : "root",
+        "password" : "root",
+        "database" : "ltitrunk",
+        "create_database" : true
+    },
+    "chatroom" : {},
+    "filesystem" : {
+        "data_dir" : "/var/www/data"
+    },
+    "logging" : {
+        "enable": true,
+        "path_to_logfile": "/var/www/data/ilias.log",
+        "errorlog_dir": "/var/www/data/errors"
+    },
+    "http" : {
+        "path" : "https://ltitrunk.example.com"
+    },
+    "systemfolder": {
+        "client": {
+            "name": "ltitrunk",
+            "description": "-",
+            "institution": "internetlehrer"
+        },
+        "contact": {
+            "firstname": "ltitrunk",
+            "lastname": "ltitrunk",
+            "title": "",
+            "position": "",
+            "institution": "internetlehrer",
+            "street": "",
+            "zipcode": "",
+            "city": "",
+            "country": "Deutschland",
+            "phone": "n/a",
+            "email": "ltitrunk@ltitrunk.de"
+        }
+    },
+    "language": {
+        "default_language": "de",
+        "install_languages": [
+            "de",
+            "en"
+        ],
+        "install_local_languages": [
+            "de",
+            "en"
+        ]
+    },
+    "utilities" : {
+        "path_to_convert" : "/usr/bin/convert",
+        "path_to_zip" : "/usr/bin/zip",
+        "path_to_unzip" : "/usr/bin/unzip"
+    }
+}
