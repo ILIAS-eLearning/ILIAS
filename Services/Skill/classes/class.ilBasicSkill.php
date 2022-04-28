@@ -543,11 +543,10 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         return "Skill";
     }
 
-    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages) // return type?
+    public static function getUsageInfo(array $a_cskill_ids) : array
     {
-        ilSkillUsage::getUsageInfoGeneric(
+        return ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
-            $a_usages,
             ilSkillUsage::USER_ASSIGNED,
             "skl_user_skill_level",
             "user_id"

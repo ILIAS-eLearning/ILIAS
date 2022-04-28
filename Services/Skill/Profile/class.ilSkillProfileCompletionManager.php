@@ -43,6 +43,10 @@ class ilSkillProfileCompletionManager
         return $this->user_id;
     }
 
+    /**
+     * @param array{base_skill_id: int, tref_id: int, level_id: int} $a_skills
+     * @return array<int, array<int, int>>
+     */
     public function getActualMaxLevels(
         array $a_skills = null,
         string $a_gap_mode = "",
@@ -73,6 +77,7 @@ class ilSkillProfileCompletionManager
         int $a_gap_mode_obj_id = 0
     ) : array {
         // todo for coming feature
+        return [];
     }
 
     /**
@@ -121,6 +126,7 @@ class ilSkillProfileCompletionManager
 
     /**
      * Get all profiles of user which are fulfilled or non-fulfilled
+     * @return array<int, bool>
      */
     public function getAllProfileCompletionsForUser() : array
     {

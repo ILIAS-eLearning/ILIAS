@@ -40,6 +40,9 @@ class ilGlobalSkillTree extends ilSkillTree
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
     }
 
+    /**
+     * @return array{child: int, parent: int}
+     */
     public function getNodeData(int $a_node_id, ?int $a_tree_pk = null) : array
     {
         if ($a_node_id == 0) {
@@ -48,6 +51,9 @@ class ilGlobalSkillTree extends ilSkillTree
         return parent::getNodeData($a_node_id, $a_tree_pk);
     }
 
+    /**
+     * @return array{parent: int, depth: int, obj_id: int, child: int}
+     */
     public function getRootNode() : array
     {
         $root_node = [];
@@ -65,6 +71,9 @@ class ilGlobalSkillTree extends ilSkillTree
         return 0;
     }
 
+    /**
+     * @return array{child: int, parent: int}[]
+     */
     public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC") : array
     {
         if ($a_node_id == 0) {

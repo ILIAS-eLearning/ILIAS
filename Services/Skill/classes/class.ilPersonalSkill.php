@@ -24,6 +24,9 @@
  */
 class ilPersonalSkill implements ilSkillUsageInfo
 {
+    /**
+     * @return array<int, array{skill_node_id: int, title: string}>
+     */
     public static function getSelectedUserSkills(int $a_user_id) : array
     {
         global $DIC;
@@ -39,8 +42,10 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $pskills = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($repo->isInAnyTree($rec["skill_node_id"])) {
-                $pskills[$rec["skill_node_id"]] = array("skill_node_id" => $rec["skill_node_id"],
-                    "title" => ilSkillTreeNode::_lookupTitle($rec["skill_node_id"]));
+                $pskills[(int) $rec["skill_node_id"]] = array(
+                    "skill_node_id" => (int) $rec["skill_node_id"],
+                    "title" => ilSkillTreeNode::_lookupTitle($rec["skill_node_id"])
+                );
             }
         }
         return $pskills;
@@ -142,6 +147,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
     
     /**
      * Get assigned material (for a skill level and user)
+     * @return array{user_id: int, top_skill_id: int, skill_id: int, level_id: int, wsp_id: int, tref_id: int}[]
      */
     public static function getAssignedMaterial(int $a_user_id, int $a_tref_id, int $a_level) : array
     {
@@ -157,6 +163,12 @@ class ilPersonalSkill implements ilSkillUsageInfo
         );
         $mat = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['user_id'] = (int) $rec['user_id'];
+            $rec['top_skill_id'] = (int) $rec['top_skill_id'];
+            $rec['skill_id'] = (int) $rec['skill_id'];
+            $rec['level_id'] = (int) $rec['level_id'];
+            $rec['wsp_id'] = (int) $rec['wsp_id'];
+            $rec['tref_id'] = (int) $rec['tref_id'];
             $mat[] = $rec;
         }
         return $mat;
@@ -274,16 +286,20 @@ class ilPersonalSkill implements ilSkillUsageInfo
         return $bs->getLastUpdatePerObject($a_tref_id, 0, $a_user_id, 1);
     }
 
-    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages) : void
+    /**
+     * @param array{skill_id: int tref_id: int}[] $a_cskill_ids
+     *
+     * @return array<string, array<string, array{key: string}[]>>
+     */
+    public static function getUsageInfo(array $a_cskill_ids) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         // material
-        ilSkillUsage::getUsageInfoGeneric(
+        $a_usages = ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
-            $a_usages,
             ilSkillUsage::USER_MATERIAL,
             "skl_assigned_material",
             "user_id"
@@ -316,5 +332,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
                     array("key" => $rec["user_id"]);
             }
         }
+
+        return $a_usages;
     }
 }
