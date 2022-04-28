@@ -1092,7 +1092,7 @@ class ilInitialisation
         }
     }
 
-    protected static bool $already_initialized;
+    protected static bool $already_initialized = false;
 
     public static function reinitILIAS() : void
     {
