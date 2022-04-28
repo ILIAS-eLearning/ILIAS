@@ -2374,6 +2374,8 @@ blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clickin
 blog#:#blog_enable_notes#:#Public Comments
 blog#:#blog_enable_rss#:#Activate RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
+blog#:#blog_est_reading_time#:#Estimated Reading Time
+blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.
 blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of exercise "%s".
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
 blog#:#blog_finalize_blog#:#Finalize and Submit Blog
@@ -2386,6 +2388,7 @@ blog#:#blog_keywords#:#Keywords
 blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
 blog#:#blog_keywords_other#:#Other Keywords
 blog#:#blog_latest_posting#:#Latest Posting
+blog#:#blog_link#:#Link
 blog#:#blog_list_more#:#more
 blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.
 blog#:#blog_list_num_postings#:#Number of postings
@@ -2992,7 +2995,6 @@ classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
 classification#:#clsfct_content_title#:#Objects matching your selection
 classification#:#clsfct_selected_objects#:#Selected Objects
-common#:#cld_abandoned#:#The Cloud Object has been abandoned as of ILIAS 8. No data has been lost. Contact your System Administration for more information.
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -3629,6 +3631,7 @@ common#:#chta_write#:#Edit Chat Room Administration
 common#:#chtr_copy#:#Copy Chat Room
 common#:#chtr_import#:#Import Chat Room
 common#:#city#:#City, State
+common#:#cld_abandoned#:#The Cloud Object has been abandoned as of ILIAS 8. No data has been lost. Contact your System Administration for more information.
 common#:#cleaned_file#:#File has been cleaned.
 common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
@@ -4781,8 +4784,8 @@ common#:#obj_coms#:#Comments
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_copa#:#Content Page
 common#:#obj_cpad#:#Content Pages
-common#:#obj_cpad#_desc#:#Content Page Administration
 common#:#obj_cpad_desc#:#Content Page Administration
+common#:#obj_cpad#_desc#:#Content Page Administration
 common#:#obj_crs#:#Course
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crsr#:#Course Link
@@ -7159,6 +7162,7 @@ copg#:#copg_days#:#Days
 copg#:#copg_details#:#Details
 copg#:#copg_entries#:#Entries
 copg#:#copg_error#:#Error
+copg#:#copg_est_reading_time#:#Estimated Reading Time
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
 copg#:#copg_page_element_not_found#:#Page element not found.
@@ -7166,6 +7170,7 @@ copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
+copg#:#copg_x_minutes#:#%s minute(s)
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
 cpad#:#cpad_reading_time_status#:#Reading Time
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
@@ -9355,6 +9360,7 @@ file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contain
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#migrated#:#Status
+file#:#msg_unzip_success#:#Archive has been successfully unziped.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
@@ -9363,7 +9369,6 @@ file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#upload_info#:#File
 file#:#versionname#:#Title
 file#:#version_uploaded#:#Version uploaded
-file#:#msg_unzip_success#:#Archive has been successfully unziped.
 fils#:#file_services_description#:#Configuration of File Service Settings.
 fils#:#file_services#:#File Services
 fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.
@@ -10183,6 +10188,8 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module
+lm#:#lm_est_reading_time#:#Estimated Reading Time
+lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_save_titles#:#Titles saved.
 lng#:#language_detection#:#Language Detection
@@ -14610,6 +14617,7 @@ skmg#:#skmg_selected_skills#:#Selected Competences
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 skmg#:#skmg_select_skill_level_assign#:#Please select a competence.
 skmg#:#skmg_select_trigger#:#Select Trigger
+skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
 skmg#:#skmg_settings#:#Competence Management Settings
@@ -14625,6 +14633,7 @@ skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted 
 skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.
 skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
+skmg#:#skmg_skill_profile_comparison#:#Profile Comparison
 skmg#:#skmg_skill_profiles#:#Competence Profiles
 skmg#:#skmg_skills#:#Competences
 skmg#:#skmg_skill_template#:#Competence Template
@@ -16742,12 +16751,3 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
-lm#:#lm_est_reading_time#:#Estimated Reading Time
-lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
-blog#:#blog_est_reading_time#:#Estimated Reading Time
-blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.
-copg#:#copg_est_reading_time#:#Estimated Reading Time
-copg#:#copg_x_minutes#:#%s minute(s)
-blog#:#blog_link#:#Link
-skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison

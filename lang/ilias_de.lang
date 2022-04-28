@@ -2377,6 +2377,8 @@ blog#:#blog_enable_nav_authors#:#Nach Mitwirkenden filtern###Modified as part of
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Benutzerrechten.
 blog#:#blog_enable_rss#:#RSS aktivieren
+blog#:#blog_est_reading_time#:#Geschätzte Lesedauer
+blog#:#blog_est_reading_time_info#:#In Blogs im Magazin kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s
 blog#:#blog_finalize_blog#:#Blog abschließen und abgeben
@@ -2389,6 +2391,7 @@ blog#:#blog_keywords_other_info#:#Diese Schlagwörter sind für andere Blog-Eint
 blog#:#blog_keywords_other#:#Sonstige Schlagwörter
 blog#:#blog_keywords#:#Schlagwörter
 blog#:#blog_latest_posting#:#Neuester Beitrag
+blog#:#blog_link#:#Link
 blog#:#blog_list_more#:#mehr
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
 blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
@@ -2995,7 +2998,6 @@ classification#:#clsfct_block_title#:#Auswahl nach Themen
 classification#:#clsfct_content_no_match#:#Es wurden keine Objekte für die ausgewählten Kriterien gefunden.
 classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
 classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
-common#:#cld_abandoned#:#Das Cloud-Objekt steht mit ILIAS 8 leider nicht mehr im Kern zur Verfügung. Kontaktieren Sie ihre/n System Administrator/In. Es wurden keine Daten gelöscht.
 cmix#:#achieved_info#:#Erfolgreich ein gewünschtes Ziel, Niveau oder Ergebnis durch Anstrengung, Geschicklichkeit oder Mut herbeiführen oder erreichen.
 cmix#:#achieved_label#:#Statements mit dem Verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -3631,6 +3633,7 @@ common#:#chta_write#:#Chatraum-Administration bearbeiten
 common#:#chtr_copy#:#Chatraum kopieren
 common#:#chtr_import#:#Chatraum importieren
 common#:#city#:#Ort
+common#:#cld_abandoned#:#Das Cloud-Objekt steht mit ILIAS 8 leider nicht mehr im Kern zur Verfügung. Kontaktieren Sie ihre/n System Administrator/In. Es wurden keine Daten gelöscht.
 common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
 common#:#clear#:#Abbrechen
@@ -7165,6 +7168,7 @@ copg#:#copg_days#:#Tage
 copg#:#copg_details#:#Details
 copg#:#copg_entries#:#Einträge
 copg#:#copg_error#:#Problem
+copg#:#copg_est_reading_time#:#Geschätzte Lesezeit
 copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
 copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
@@ -7172,6 +7176,7 @@ copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
+copg#:#copg_x_minutes#:#%s Minute(n)
 cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
 cpad#:#cpad_reading_time_status#:#Lesezeit
 cptch#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
@@ -9379,6 +9384,7 @@ file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei en
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#migrated#:#Status
+file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
@@ -9387,7 +9393,6 @@ file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#versionname#:#Titel
 file#:#version_uploaded#:#Version hochgeladen am
-file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 fils#:#file_services#:#Datei-Services
 fils#:#file_services_description#:#Konfiguration der Datei-Service Einstellungen.
 fils#:#file_suffix_custom_expl_negative_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
@@ -10210,6 +10215,8 @@ link#:#link_wpages#:#Wikiseiten
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
+lm#:#lm_est_reading_time#:#Geschätzte Lesedauer
+lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
 lm#:#lm_page_type_lm#:#Lernmodulseite
 lm#:#lm_save_titles#:#Titel wurden gespeichert.
 lng#:#language_detection#:#Automatische Spracherkennung
@@ -14638,6 +14645,7 @@ skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
 skmg#:#skmg_select_skill#:#Klicken Sie auf eine Kompetenz, um diese Ihren persönlichen Kompetenzen hinzuzufügen.
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
 skmg#:#skmg_select_trigger#:#Auslöser auswählen
+skmg#:#skmg_self_evaluation_byline#:#Die Selbsteinschätzung wird bei der Erreichung Ihres Kompetenzziels nicht berücksichtigt. Sie dient zur Orientierung.
 skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
 skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
@@ -14653,6 +14661,7 @@ skmg#:#skmg_skill_needs_self_eval#:#Bitte führen Sie zunächst eine Selbsteinsc
 skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird das Kompetenzziel für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde.
 skmg#:#skmg_skill_no_needs_impr_info#:#Sie haben das Ziel für diese Kompetenz erfüllt.
 skmg#:#skmg_skill_no_needs_impr#:#Kompetenzziel erfüllt!
+skmg#:#skmg_skill_profile_comparison#:#Profilvergleich
 skmg#:#skmg_skill_profiles#:#Kompetenzprofile
 skmg#:#skmg_skills#:#Kompetenzen
 skmg#:#skmg_skill_templates#:#Vorlagen
@@ -16772,12 +16781,3 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-copg#:#copg_est_reading_time#:#Geschätzte Lesezeit
-copg#:#copg_x_minutes#:#%s Minute(n)
-blog#:#blog_link#:#Link
-blog#:#blog_est_reading_time#:#Geschätzte Lesedauer
-blog#:#blog_est_reading_time_info#:#In Blogs im Magazin kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
-lm#:#lm_est_reading_time#:#Geschätzte Lesedauer
-lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
-skmg#:#skmg_self_evaluation_byline#:#Die Selbsteinschätzung wird bei der Erreichung Ihres Kompetenzziels nicht berücksichtigt. Sie dient zur Orientierung.
-skmg#:#skmg_skill_profile_comparison#:#Profilvergleich
