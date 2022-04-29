@@ -36,7 +36,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             'ilAppEventHandler',
             $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods(['raise'])->getMock()
         );
-        $this->setGlobalVariable('ilDB', $this->getMockBuilder(ilDBInterface::class)->getMock());
+        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable(
             'lng',
             $this->getMockBuilder(ilLanguage::class)
@@ -151,7 +151,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->exactly(2))->method('queryF');
         $db->expects($this->exactly(2))->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
@@ -188,7 +188,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->once())->method('queryF');
         $db->expects($this->once())->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
@@ -222,7 +222,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->method('queryF');
         $db->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
@@ -262,7 +262,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->once())->method('queryF');
         $db->expects($this->once())->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
@@ -296,7 +296,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             $expectedRelation->getBuddyUsrId() => $expectedRelation
         ];
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->method('queryF');
         $db->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
@@ -356,7 +356,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $expectedRelation = $expectedRelation->withUsrId(self::BUDDY_LIST_OWNER_ID);
         $expectedRelation = $expectedRelation->withBuddyUsrId(-3);
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->once())->method('queryF');
         $db->expects($this->once())->method('fetchAssoc')->willReturn(null);
         $this->setGlobalVariable('ilDB', $db);
@@ -612,7 +612,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
         $this->setPriorRelationState($relation, $state);
 
-        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db = $this->createMock(ilDBInterface::class);
         $db->method('fetchAssoc')->willReturn([
             'login' => 'phpunit'
         ]);
