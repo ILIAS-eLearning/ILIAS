@@ -22,6 +22,8 @@ class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
 
     protected function setUp() : void
     {
+        parent::setUp();
+
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $lng->method('txt')->willReturnCallback(static function (string $keyword) : string {
             return $keyword;

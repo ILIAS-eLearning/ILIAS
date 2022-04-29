@@ -30,6 +30,8 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
     protected function setUp() : void
     {
+        parent::setUp();
+
         $this->setGlobalVariable(
             'ilAppEventHandler',
             $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods(['raise'])->getMock()
