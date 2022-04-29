@@ -61,6 +61,7 @@ class ilObjRemoteCategoryListGUI extends ilRemoteObjectBaseListGUI
     }
 
 
+
     /**
      * get properties (offline)
      *
