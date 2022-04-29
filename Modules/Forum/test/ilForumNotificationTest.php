@@ -22,20 +22,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ilForumNotificationTest extends TestCase
 {
-    /**
-     * @var MockObject|ilDBInterface
-     */
+    /** @var MockObject&ilDBInterface */
     private $database;
-
-    /**
-     * @var MockObject|ilObjUser
-     */
+    /** @var MockObject&ilObjUser */
     private $user;
-
-    /**
-     * @var MockObject|ilTree
-     */
+    /** @var MockObject&ilTree */
     private $tree;
+    private ?Container $dic = null;
 
     public function testConstruct() : void
     {
@@ -426,12 +419,23 @@ class ilForumNotificationTest extends TestCase
     {
         global $DIC;
 
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
         $DIC = new Container();
 
         $DIC['ilDB'] = ($this->database = $this->mock(ilDBInterface::class));
         $DIC['ilUser'] = ($this->user = $this->mock(ilObjUser::class));
         $DIC['ilObjDataCache'] = $this->mock(ilObjectDataCache::class);
         $DIC['tree'] = ($this->tree = $this->mock(ilTree::class));
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     private function mock(string $className) : MockObject
