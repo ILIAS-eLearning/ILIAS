@@ -66,7 +66,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
             $this->addCommandButton('saveSource', $title);
         }
         
-        $this->addCommandButton('cancel', $this->lng->txt('btn_back'));
+        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
     
     public function setSelectedReference(int $selected_reference) : void
