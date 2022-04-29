@@ -32,8 +32,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 
     public function __construct(ilObjMDSettingsGUI $a_parent_obj, string $a_parent_cmd = '', bool $a_has_write = false)
     {
-
-        $this->has_write = (bool) $a_has_write;
+        $this->has_write = $a_has_write;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -75,7 +74,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
-        if (strlen($a_set['description'])) {
+        if ($a_set['description'] !== '') {
             $this->tpl->setVariable('VAL_DESCRIPTION', $a_set['description']);
         }
         $this->tpl->setVariable('VAL_USAGE', $a_set['used']);
@@ -123,14 +122,14 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         $position = -10;
         $entry_arr = [];
         foreach ($entries as $entry) {
-            $tmp_arr['id']          = $entry->getEntryId();
-            $tmp_arr['title']       = $entry->getTitle();
+            $tmp_arr['id'] = $entry->getEntryId();
+            $tmp_arr['title'] = $entry->getTitle();
             $tmp_arr['description'] = $entry->getDescription();
-            $tmp_arr['used']        = $entry->getUsage();
-            $tmp_arr['preview']     = $entry->getCopyright();
-            $tmp_arr['default']     = $entry->getIsDefault();
-            $tmp_arr['status']      = $entry->getOutdated();
-            $tmp_arr['position']    = ($position += 10);
+            $tmp_arr['used'] = $entry->getUsage();
+            $tmp_arr['preview'] = $entry->getCopyright();
+            $tmp_arr['default'] = $entry->getIsDefault();
+            $tmp_arr['status'] = $entry->getOutdated();
+            $tmp_arr['position'] = ($position += 10);
 
             $entry_arr[] = $tmp_arr;
         }

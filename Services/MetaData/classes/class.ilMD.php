@@ -54,8 +54,6 @@ class ilMD extends ilMDBase
 
     public function getLifecycle() : ?ilMDLifecycle
     {
-
-
         if ($id = ilMDLifecycle::_getId($this->getRBACId(), $this->getObjId())) {
             $lif = new ilMDLifecycle();
             $lif->setMetaId($id);
@@ -67,8 +65,6 @@ class ilMD extends ilMDBase
 
     public function addLifecycle() : ilMDLifecycle
     {
-
-
         $lif = new ilMDLifecycle($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $lif;
@@ -76,8 +72,6 @@ class ilMD extends ilMDBase
 
     public function getMetaMetadata() : ?ilMDMetaMetadata
     {
-
-
         if ($id = ilMDMetaMetadata::_getId($this->getRBACId(), $this->getObjId())) {
             $met = new ilMDMetaMetadata();
             $met->setMetaId($id);
@@ -89,8 +83,6 @@ class ilMD extends ilMDBase
 
     public function addMetaMetadata() : ilMDMetaMetadata
     {
-
-
         $met = new ilMDMetaMetadata($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $met;
@@ -98,8 +90,6 @@ class ilMD extends ilMDBase
 
     public function getTechnical() : ?ilMDTechnical
     {
-
-
         if ($id = ilMDTechnical::_getId($this->getRBACId(), $this->getObjId())) {
             $tec = new ilMDTechnical();
             $tec->setMetaId($id);
@@ -111,8 +101,6 @@ class ilMD extends ilMDBase
 
     public function addTechnical() : ilMDTechnical
     {
-
-
         $tec = new ilMDTechnical($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $tec;
@@ -120,8 +108,6 @@ class ilMD extends ilMDBase
 
     public function getEducational() : ?ilMDEducational
     {
-
-
         if ($id = ilMDEducational::_getId($this->getRBACId(), $this->getObjId())) {
             $edu = new ilMDEducational();
             $edu->setMetaId($id);
@@ -133,8 +119,6 @@ class ilMD extends ilMDBase
 
     public function addEducational() : ilMDEducational
     {
-
-
         $edu = new ilMDEducational($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $edu;
@@ -142,8 +126,6 @@ class ilMD extends ilMDBase
 
     public function getRights() : ?ilMDRights
     {
-
-
         if ($id = ilMDRights::_getId($this->getRBACId(), $this->getObjId())) {
             $rig = new ilMDRights();
             $rig->setMetaId($id);
@@ -155,8 +137,6 @@ class ilMD extends ilMDBase
 
     public function addRights() : ilMDRights
     {
-
-
         $rig = new ilMDRights($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $rig;
@@ -167,15 +147,11 @@ class ilMD extends ilMDBase
      */
     public function getRelationIds() : array
     {
-
-
         return ilMDRelation::_getIds($this->getRBACId(), $this->getObjId());
     }
 
     public function getRelation(int $a_relation_id) : ?ilMDRelation
     {
-
-
         if (!$a_relation_id) {
             return null;
         }
@@ -188,8 +164,6 @@ class ilMD extends ilMDBase
 
     public function addRelation() : ilMDRelation
     {
-
-
         $rel = new ilMDRelation($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $rel;
@@ -200,8 +174,6 @@ class ilMD extends ilMDBase
      */
     public function getAnnotationIds() : array
     {
-
-
         return ilMDAnnotation::_getIds($this->getRBACId(), $this->getObjId());
     }
 
@@ -219,8 +191,6 @@ class ilMD extends ilMDBase
 
     public function addAnnotation() : ilMDAnnotation
     {
-
-
         $ann = new ilMDAnnotation($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $ann;
@@ -231,8 +201,6 @@ class ilMD extends ilMDBase
      */
     public function getClassificationIds() : array
     {
-
-
         return ilMDClassification::_getIds($this->getRBACId(), $this->getObjId());
     }
 
@@ -250,8 +218,6 @@ class ilMD extends ilMDBase
 
     public function addClassification() : ilMDClassification
     {
-
-
         $cla = new ilMDClassification($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $cla;
@@ -268,7 +234,11 @@ class ilMD extends ilMDBase
         } else {
             // Defaults
 
-            $gen = new ilMDGeneral($this->getRBACId(), $this->getObjId(), $this->getObjType());    // added type, alex, 31 Oct 2007
+            $gen = new ilMDGeneral(
+                $this->getRBACId(),
+                $this->getObjId(),
+                $this->getObjType()
+            ); // added type, alex, 31 Oct 2007
             $gen->setExportMode($this->getExportMode());
             $gen->toXML($writer);
         }
@@ -321,8 +291,6 @@ class ilMD extends ilMDBase
 
     public function cloneMD(int $a_rbac_id, int $a_obj_id, string $a_obj_type) : ilMD
     {
-
-
         // this method makes an xml export of the original meta data set
         // and uses this xml string to clone the object
         $md2xml = new ilMD2XML($this->getRBACId(), $this->getObjId(), $this->getObjType());
@@ -350,8 +318,7 @@ class ilMD extends ilMDBase
 
     public function deleteAll() : bool
     {
-
-        $tables = array(
+        $tables = [
             'il_meta_annotation',
             'il_meta_classification',
             'il_meta_contribute',
@@ -374,7 +341,7 @@ class ilMD extends ilMDBase
             'il_meta_taxon_path',
             'il_meta_technical',
             'il_meta_tar'
-        );
+        ];
 
         foreach ($tables as $table) {
             $query = "DELETE FROM " . $table . " " .

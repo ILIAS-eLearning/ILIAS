@@ -37,7 +37,7 @@ class ilMDLanguageItem
 
     public function getLanguageCode() : string
     {
-        $lang = ilMDLanguageItem::_getPossibleLanguageCodes();
+        $lang = self::_getPossibleLanguageCodes();
         if (in_array($this->language_code, $lang)) {
             return $this->language_code;
         }
@@ -204,7 +204,7 @@ class ilMDLanguageItem
         $lng->loadLanguageModule("meta");
 
         $langs = array();
-        foreach (ilMDLanguageItem::_getPossibleLanguageCodes() as $lngcode) {
+        foreach (self::_getPossibleLanguageCodes() as $lngcode) {
             $langs[$lngcode] = $lng->txt("meta_l_" . $lngcode);
         }
         asort($langs);

@@ -9,20 +9,18 @@
  */
 class ilMetaDataExporter extends ilXmlExporter
 {
-
     public function init() : void
     {
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-
-        $id    = explode(":", $a_id);
+        $id = explode(":", $a_id);
         $mdxml = new ilMD2XML($id[0], $id[1], $id[2]);
         $mdxml->setExportMode();
         $mdxml->startExport();
 
-        return $mdxml->getXml();
+        return $mdxml->getXML();
     }
 
     /**
@@ -36,9 +34,9 @@ class ilMetaDataExporter extends ilXmlExporter
         return array(
             "4.1.0" => array(
                 "namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
-                "xsd_file"  => "ilias_md_4_1.xsd",
-                "min"       => "4.1.0",
-                "max"       => ""
+                "xsd_file" => "ilias_md_4_1.xsd",
+                "min" => "4.1.0",
+                "max" => ""
             )
         );
     }

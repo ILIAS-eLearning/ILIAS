@@ -101,9 +101,7 @@ class ilMDLifecycle extends ilMDBase
 
     public function setVersionLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->version_language = $lng_obj;
-        }
+        $this->version_language = $lng_obj;
     }
 
     public function getVersionLanguage() : ilMDLanguageItem
@@ -130,21 +128,15 @@ class ilMDLifecycle extends ilMDBase
 
     public function update() : bool
     {
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_lifecycle',
-                $this->__getFields(),
-                array("meta_lifecycle_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_lifecycle',
+            $this->__getFields(),
+            array("meta_lifecycle_id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
     {
-
         // Delete 'contribute'
         foreach ($this->getContributeIds() as $id) {
             $con = $this->getContribute($id);
@@ -197,16 +189,12 @@ class ilMDLifecycle extends ilMDBase
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('Lifecycle', array(
-            'Status' => $this->getStatus()
-                ? $this->getStatus()
-                : 'Draft'
+            'Status' => $this->getStatus() ?: 'Draft'
         ));
         $writer->xmlElement(
             'Version',
             array(
-                'Language' => $this->getVersionLanguageCode()
-                    ? $this->getVersionLanguageCode()
-                    : 'en'
+                'Language' => $this->getVersionLanguageCode() ?: 'en'
             ),
             $this->getVersion()
         );
