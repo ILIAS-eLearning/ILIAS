@@ -6083,6 +6083,8 @@ mail#:#mail_email_usr_subject#:#Test E-Mail User Mail
 mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.
 mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
 mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.
+mail#:#mail_is_read#:#gelesen
+mail#:#mail_is_unread#:#ungelesen
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
